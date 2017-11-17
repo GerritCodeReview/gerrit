@@ -14,21 +14,24 @@
 (function(window, GrDiffGroup, GrDiffLine) {
   'use strict';
 
-  const HTML_ENTITY_PATTERN = /[&<>"'`\/]/g;
-  const HTML_ENTITY_MAP = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    '\'': '&#39;',
-    '/': '&#x2F;',
-    '`': '&#96;',
-  };
-
   // Prevent redefinition.
   if (window.GrDiffBuilder) { return; }
 
-  const REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
+  /**
+   * Matches either:
+   *  - One or more surrogate pairs (code points above 0xFFFF).
+   *  - One or more non-tab characters (code points below 0xFFFF, except 9).
+   *  - One or more tab characters (\t, code point 9).
+   *
+   * These three cases are treated differently by the column-positioning logic.
+   * Note that no attempt is currently made to handle other unicode grapheme
+   * segmentation rules, like combining marks, or other zero-width joiners (LRO,
+   * ZWSP, ZWNBSP, etc).
+   *
+   * As background: in JS, unicode code points above 0xFFFF occupy two chars
+   * of a JS string. To read more about this:
+   *    https://mathiasbynens.be/notes/javascript-unicode
+   */
 
   function GrDiffBuilder(diff, comments, prefs, projectName, outputEl, layers) {
     this._diff = diff;
@@ -41,20 +44,25 @@
 
     this.layers = layers || [];
 
+    if (!(prefs.tab_size > 0)) {
+      throw Error('Invalid tab size from preferences.');
+    }
+
+    if (!(prefs.line_length > 0)) {
+      throw Error('Invalid line length from preferences.');
+    }
+
+
     for (const layer of this.layers) {
       if (layer.addListener) {
         layer.addListener(this._handleLayerUpdate.bind(this));
       }
     }
+
+    this._brNode = this._createElement('span', 'br');
+    this._contentTextNode = this._createElement('div', 'contentText');
+    this._tdNode = this._createElement('td');
   }
-
-  GrDiffBuilder.LESS_THAN_CODE = '<'.charCodeAt(0);
-  GrDiffBuilder.GREATER_THAN_CODE = '>'.charCodeAt(0);
-  GrDiffBuilder.AMPERSAND_CODE = '&'.charCodeAt(0);
-  GrDiffBuilder.SEMICOLON_CODE = ';'.charCodeAt(0);
-
-  GrDiffBuilder.LINE_FEED_HTML =
-      '<span class="style-scope gr-diff br"></span>';
 
   GrDiffBuilder.GroupType = {
     ADDED: 'b',
@@ -214,10 +222,6 @@
         group => { return group.element; });
   };
 
-  GrDiffBuilder.prototype._commentIsAtLineNum = function(side, lineNum) {
-    return this._commentLocations[side][lineNum] === true;
-  };
-
   // TODO(wyatta): Move this completely into the processor.
   GrDiffBuilder.prototype._insertContextGroups = function(groups, lines,
       hiddenRange) {
@@ -245,7 +249,7 @@
       return null;
     }
 
-    const td = this._createElement('td');
+    const td = this._tdNode.cloneNode();
     const showPartialLinks =
         line.contextGroup.lines.length > PARTIAL_CONTEXT_AMOUNT;
 
@@ -350,8 +354,8 @@
     return threadGroupEl;
   };
 
-  GrDiffBuilder.prototype._commentThreadGroupForLine = function(line,
-      opt_side) {
+  GrDiffBuilder.prototype._commentThreadGroupForLine = function(
+      line, opt_side) {
     const comments =
         this._getCommentsForLine(this._comments, line, opt_side);
     if (!comments || comments.length === 0) {
@@ -361,7 +365,7 @@
     let patchNum = this._comments.meta.patchRange.patchNum;
     let isOnParent = comments[0].side === 'PARENT' || false;
     if (line.type === GrDiffLine.Type.REMOVE ||
-    opt_side === GrDiffBuilder.Side.LEFT) {
+        opt_side === GrDiffBuilder.Side.LEFT) {
       if (this._comments.meta.patchRange.basePatchNum === 'PARENT') {
         isOnParent = true;
       } else {
@@ -369,9 +373,7 @@
       }
     }
     const threadGroupEl = this.createCommentThreadGroup(
-        this._comments.meta.changeNum,
-        patchNum,
-        this._comments.meta.path,
+        this._comments.meta.changeNum, patchNum, this._comments.meta.path,
         isOnParent);
     threadGroupEl.comments = comments;
     if (opt_side) {
@@ -380,9 +382,9 @@
     return threadGroupEl;
   };
 
-  GrDiffBuilder.prototype._createLineEl = function(line, number, type,
-      opt_class) {
-    const td = this._createElement('td');
+  GrDiffBuilder.prototype._createLineEl = function(
+      line, number, type, opt_class) {
+    const td = this._tdNode.cloneNode();
     if (opt_class) {
       td.classList.add(opt_class);
     }
@@ -406,31 +408,19 @@
   };
 
   GrDiffBuilder.prototype._createTextEl = function(line, opt_side) {
-    const td = this._createElement('td');
-    const text = line.text;
+    const td = this._tdNode.cloneNode();
     if (line.type !== GrDiffLine.Type.BLANK) {
       td.classList.add('content');
     }
     td.classList.add(line.type);
-    let html = this._escapeHTML(text);
-    html = this._addTabWrappers(html, this._prefs.tab_size);
-    if (!this._prefs.line_wrapping &&
-        this._textLength(text, this._prefs.tab_size) >
-        this._prefs.line_length) {
-      html = this._addNewlines(text, html);
-    }
 
-    const contentText = this._createElement('div', 'contentText');
+    const tabSize = this._prefs.tab_size;
+    const lineLimit =
+        !this._prefs.line_wrapping ? this._prefs.line_length : Infinity;
+
+    const contentText = this._formatText(line.text, tabSize, lineLimit);
     if (opt_side) {
       contentText.setAttribute('data-side', opt_side);
-    }
-
-    // If the html is equivalent to the text then it didn't get highlighted
-    // or escaped. Use textContent which is faster than innerHTML.
-    if (html === text) {
-      contentText.textContent = text;
-    } else {
-      contentText.innerHTML = html;
     }
 
     for (const layer of this.layers) {
@@ -442,140 +432,81 @@
     return td;
   };
 
-  /**
-   * Returns the text length after normalizing unicode and tabs.
-   * @return {number} The normalized length of the text.
-   */
-  GrDiffBuilder.prototype._textLength = function(text, tabSize) {
-    text = text.replace(REGEX_ASTRAL_SYMBOL, '_');
-    let numChars = 0;
-    for (let i = 0; i < text.length; i++) {
-      if (text[i] === '\t') {
-        numChars += tabSize - (numChars % tabSize);
-      } else {
-        numChars++;
-      }
-    }
-    return numChars;
-  };
+  GrDiffBuilder.prototype._formatText = function(text, tabSize, lineLimit) {
+    const contentText = this._contentTextNode.cloneNode();
 
-  // Advance `index` by the appropriate number of characters that would
-  // represent one source code character and return that index. For
-  // example, for source code '<span>' the escaped html string is
-  // '&lt;span&gt;'. Advancing from index 0 on the prior html string would
-  // return 4, since &lt; maps to one source code character ('<').
-  GrDiffBuilder.prototype._advanceChar = function(html, index) {
-    // TODO(andybons): Unicode is all kinds of messed up in JS. Account for it.
-    // https://mathiasbynens.be/notes/javascript-unicode
-
-    // Tags don't count as characters
-    while (index < html.length &&
-           html.charCodeAt(index) === GrDiffBuilder.LESS_THAN_CODE) {
-      while (index < html.length &&
-             html.charCodeAt(index) !== GrDiffBuilder.GREATER_THAN_CODE) {
-        index++;
-      }
-      index++; // skip the ">" itself
+    if (!(lineLimit > 0)) {
+      lineLimit = 1;
     }
-    // An HTML entity (e.g., &lt;) counts as one character.
-    if (index < html.length &&
-        html.charCodeAt(index) === GrDiffBuilder.AMPERSAND_CODE) {
-      while (index < html.length &&
-             html.charCodeAt(index) !== GrDiffBuilder.SEMICOLON_CODE) {
-        index++;
-      }
-    }
-    return index + 1;
-  };
 
-  GrDiffBuilder.prototype._advancePastTagClose = function(html, index) {
-    while (index < html.length &&
-           html.charCodeAt(index) !== GrDiffBuilder.GREATER_THAN_CODE) {
-      index++;
-    }
-    return index + 1;
-  };
-
-  GrDiffBuilder.prototype._addNewlines = function(text, html) {
-    let htmlIndex = 0;
-    const indices = [];
-    let numChars = 0;
-    let prevHtmlIndex = 0;
-    for (let i = 0; i < text.length; i++) {
-      if (numChars > 0 && numChars % this._prefs.line_length === 0) {
-        indices.push(htmlIndex);
-      }
-      htmlIndex = this._advanceChar(html, htmlIndex);
-      if (text[i] === '\t') {
-        // Advance past tab closing tag.
-        htmlIndex = this._advancePastTagClose(html, htmlIndex);
-        // ~~ is a faster Math.floor
-        if (~~(numChars / this._prefs.line_length) !==
-            ~~((numChars + this._prefs.tab_size) / this._prefs.line_length)) {
-          // Tab crosses line limit - push it to the next line.
-          indices.push(prevHtmlIndex);
+    // This regex segments |text| along tabs and surrogate pairs.
+    let columnPos = 0;
+    let textOffset = 0;
+    for (let segment of text.split(/\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/)) {
+      if (segment) {
+        // |segment| contains only normal characters. If |segment| doesn't fit
+        // entirely on the current line, append chunks of |segment| followed by
+        // line breaks.
+        let rowStart = 0;
+        let rowEnd = lineLimit - columnPos;
+        while (rowEnd < segment.length) {
+          contentText.appendChild(
+              document.createTextNode(segment.substring(rowStart, rowEnd)));
+          contentText.appendChild(this._brNode.cloneNode());
+          columnPos = 0;
+          rowStart = rowEnd;
+          rowEnd += lineLimit;
         }
-        numChars += this._prefs.tab_size;
-      } else {
-        numChars++;
+        // Append the last part of |segment|, which fits on the current line.
+        contentText.appendChild(
+            document.createTextNode(segment.substring(rowStart)));
+        columnPos += (segment.length - rowStart);
+        textOffset += segment.length;
       }
-      prevHtmlIndex = htmlIndex;
+      // Handle special characters captured by the regexp.
+      if (textOffset < text.length) {
+        if (text.startsWith('\t', textOffset)) {
+          // Append a single '\t' character.
+          let effectiveTabSize = tabSize - (columnPos % tabSize);
+          if (columnPos + effectiveTabSize > lineLimit) {
+            contentText.appendChild(this._brNode.cloneNode());
+            columnPos = 0;
+            effectiveTabSize = tabSize;
+          }
+          contentText.appendChild(this._getTabWrapper(effectiveTabSize));
+          columnPos += effectiveTabSize;
+          textOffset++;
+        } else {
+          // Append a single surrogate pair.
+          if (columnPos >= lineLimit) {
+            contentText.appendChild(this._brNode.cloneNode());
+            columnPos = 0;
+          }
+          contentText.appendChild(document.createTextNode(
+              text.substring(textOffset, textOffset + 2)));
+          textOffset += 2;
+          columnPos += 1;
+        }
+      }
     }
-    let result = html;
-    // Since the result string is being altered in place, start from the end
-    // of the string so that the insertion indices are not affected as the
-    // result string changes.
-    for (let i = indices.length - 1; i >= 0; i--) {
-      result = result.slice(0, indices[i]) + GrDiffBuilder.LINE_FEED_HTML +
-          result.slice(indices[i]);
-    }
-    return result;
+    return contentText;
   };
 
   /**
-   * Takes a string of text (not HTML) and returns a string of HTML with tab
-   * elements in place of tab characters. In each case tab elements are given
-   * the width needed to reach the next tab-stop.
+   * Returns a <span> element holding a '\t' character, that will visually
+   * occupy |tabSize| many columns.
    *
-   * @param {string} A line of text potentially containing tab characters.
-   * @param {number} The width for tabs.
-   * @return {string} An HTML string potentially containing tab elements.
+   * @param {number} tabSize The effective size of this tab stop.
+   * @return {HTMLElement}
    */
-  GrDiffBuilder.prototype._addTabWrappers = function(line, tabSize) {
-    if (!line.length) { return ''; }
-
-    let result = '';
-    let offset = 0;
-    const split = line.split('\t');
-    let width;
-
-    for (let i = 0; i < split.length - 1; i++) {
-      offset += split[i].length;
-      width = tabSize - (offset % tabSize);
-      result += split[i] + this._getTabWrapper(width);
-      offset += width;
-    }
-    if (split.length) {
-      result += split[split.length - 1];
-    }
-
-    return result;
-  };
-
   GrDiffBuilder.prototype._getTabWrapper = function(tabSize) {
     // Force this to be a number to prevent arbitrary injection.
-    tabSize = +tabSize;
-    if (isNaN(tabSize)) {
-      throw Error('Invalid tab size from preferences.');
-    }
-
-    let str = '<span class="style-scope gr-diff tab ';
-    str += '" style="';
-    // TODO(andybons): CSS tab-size is not supported in IE.
-    str += 'tab-size:' + tabSize + ';';
-    str += '-moz-tab-size:' + tabSize + ';';
-    str += '">\t</span>';
-    return str;
+    // TODO(nick): This should be moved out of the inner loop.
+    const result = this._createElement('span', 'tab');
+    result.style['tab-size'] = tabSize;
+    result.style['-moz-tab-size'] = tabSize;
+    result.innerText = '\t';
+    return result;
   };
 
   GrDiffBuilder.prototype._createElement = function(tagName, className) {
@@ -620,14 +551,8 @@
         !(!group.adds.length && !group.removes.length);
   };
 
-  GrDiffBuilder.prototype._escapeHTML = function(str) {
-    return str.replace(HTML_ENTITY_PATTERN, s => {
-      return HTML_ENTITY_MAP[s];
-    });
-  };
-
   /**
-   * Set the blame information for the diff. For any already-rednered line,
+   * Set the blame information for the diff. For any already-rendered line,
    * re-render its blame cell content.
    * @param {Object} blame
    */

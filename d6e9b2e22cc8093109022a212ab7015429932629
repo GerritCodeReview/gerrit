@@ -279,6 +279,24 @@
     },
     {
       "key": {
+        "uuid": "767c6c70_01fd261d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-17T18:22:45Z",
+      "side": 1,
+      "message": "Thanks! link?",
+      "parentUuid": "b02901a1_bd8c20c3",
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02fb70ae_44ad4e94",
         "filename": "javatests/com/google/gerrit/server/group/db/AbstractGroupTest.java",
         "patchSetId": 5

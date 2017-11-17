@@ -35,7 +35,7 @@ Caller must have the ADMINISTRATE_SERVER capability.
 Change the logging level of the loggers in the package com.google to DEBUG.
 ----
     $ssh -p 29418 review.example.com gerrit logging set-level \
-     debug com.google.
+     debug com.google
 ----
 
 Reset the logging level of every logger to what they were at deployment time.

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Appenders>
+    <!--<Console name="Console" target="SYSTEM_OUT">-->
+    <Console name="stderr" target="SYSTEM_OUT">
+      <PatternLayout pattern="[%d] [%t] %-5p %c %x: %m%n"/>
+    </Console>
+  </Appenders>
+  <Loggers>
+    <Root level="info">
+      <AppenderRef ref="stderr"/>
+    </Root>
+  </Loggers>
+</Configuration>

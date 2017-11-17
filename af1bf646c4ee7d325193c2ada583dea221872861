@@ -1,4 +1,119 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1510929310 +0100\nnonce AMT3iFhnnFFu3EWOQZcjkzbhxVQgiHPx3y0iSPr5a0bBOK05KG7v2t7xBn6/ALUh7KTLw0PkD43b\n\n0000000000000000000000000000000000000000 af1bf646c4ee7d325193c2ada583dea221872861 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaDvOeAAoJEFG1/Zeg0O9RYWoH/RjT/bT7zVTOVGVWxWV+gEsk\ng5jdQvm0KUkehLiTctGpfBoeW/Qtth6xDtsDLQ7GX0CiDIX9IqZdPdCDFw9HKSrG\nXw1G8p2vih1b5ltjMGS9UfRmEvvmJ55gmi2smgcxOllnOlTWzlbPM6CsTCw+Xs60\nF6ntSfeO0D2E1V/YJdnWDNCpRIqlb2Y8mPGgyNGAOnnHBfk0hffza005tBAwIzLl\nFB32LUI3RBoPIKU207RfQgHczMJmc6lW2rOWGw0PkEWeFwm4RUPFA0IR5DrvNN4+\n8+Bjl6Q7XqX+/FSZlZXB548kNkO2K9FSwRgRClk9opvBDlp1YyWVnkegRQqEAzY\u003d\n\u003dPUQq\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "929f1a64_d6c167e6",
+        "filename": "java/com/google/gerrit/reviewdb/server/DisallowReadFromGroupsReviewDbWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-17T15:08:52Z",
+      "side": 1,
+      "message": "Optional: you can remove all the \"throws OrmException\" clauses",
+      "range": {
+        "startLine": 87,
+        "startChar": 56,
+        "endLine": 87,
+        "endChar": 75
+      },
+      "revId": "af1bf646c4ee7d325193c2ada583dea221872861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df10a559_6fc7d669",
+        "filename": "java/com/google/gerrit/reviewdb/server/DisallowReadFromGroupsReviewDbWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-17T15:08:52Z",
+      "side": 1,
+      "message": "Why doesn\u0027t this throw? If there\u0027s a real reason, please leave a comment.",
+      "revId": "af1bf646c4ee7d325193c2ada583dea221872861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d339a686_db0670c3",
+        "filename": "java/com/google/gerrit/reviewdb/server/ReviewDbUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-17T15:08:52Z",
+      "side": 1,
+      "message": "Optional: Maybe wrap this in a while loop so it\u0027s not dependent on the order in which they\u0027re wrapped.",
+      "revId": "af1bf646c4ee7d325193c2ada583dea221872861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8037615b_13a4c7da",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-17T15:08:52Z",
+      "side": 1,
+      "message": "Nit: // TODO(ekempin):",
+      "range": {
+        "startLine": 208,
+        "startChar": 7,
+        "endLine": 208,
+        "endChar": 11
+      },
+      "revId": "af1bf646c4ee7d325193c2ada583dea221872861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8dd43a7_32029d07",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-17T15:08:52Z",
+      "side": 1,
+      "message": "Nit: TODO format",
+      "revId": "af1bf646c4ee7d325193c2ada583dea221872861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d5f8672_f7338fbb",
+        "filename": "java/com/google/gerrit/server/schema/NotesMigrationSchemaFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-17T15:08:52Z",
+      "side": 1,
+      "message": "Nit: wrapping",
+      "revId": "af1bf646c4ee7d325193c2ada583dea221872861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

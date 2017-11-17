@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ac438b8_9c641e83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountDeactivator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-11-17T14:48:58Z",
+      "side": 1,
+      "message": "The accountState should have the externalIds, can we do this instead:\n\nif (account.getUserName() !\u003d null\n    \u0026\u0026 realm.accBelongsToRealm(account.getExternalIds())\n    \u0026\u0026 !realm.isActive(account.getUserName())) {\n  sif.deactivate(account.getAccount().getId());\n  log.info(\"deactivated account \" + account.getUserName());\n  return true;\n}",
+      "range": {
+        "startLine": 126,
+        "startChar": 6,
+        "endLine": 133,
+        "endChar": 7
+      },
+      "revId": "92aa132705b88b1efc008fd8ef03ab057e851cee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

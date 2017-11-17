@@ -17,6 +17,24 @@
       "revId": "9b1d260caa0faddab8490353365712073020def0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8395cdcd_ce9fc71a",
+        "filename": "java/com/google/gerrit/server/group/db/GroupBundle.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-17T07:29:22Z",
+      "side": 1,
+      "message": "I wrote this issue upstream: [1].\n\n* [1] https://github.com/google/auto/issues/551",
+      "parentUuid": "577937e5_f1f9a3d9",
+      "revId": "9b1d260caa0faddab8490353365712073020def0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

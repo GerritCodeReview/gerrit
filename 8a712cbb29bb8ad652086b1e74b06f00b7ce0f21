@@ -22,6 +22,30 @@
       "revId": "8a712cbb29bb8ad652086b1e74b06f00b7ce0f21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d318cfcf_189d4e1d",
+        "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-17T12:50:39Z",
+      "side": 0,
+      "message": "In this case I\u0027m a little surprised it can\u0027t prove that overflow is impossible since array lengths must be non-negative. I wonder if we should file a bug against ErrorProne.",
+      "parentUuid": "bad3a1b6_d1f13ff5",
+      "range": {
+        "startLine": 520,
+        "startChar": 21,
+        "endLine": 520,
+        "endChar": 55
+      },
+      "revId": "8a712cbb29bb8ad652086b1e74b06f00b7ce0f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

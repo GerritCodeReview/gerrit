@@ -107,9 +107,27 @@ def declare_nongoogle_deps():
     )
 
     maven_jar(
+        name = "jackson-annotations",
+        artifact = "com.fasterxml.jackson.core:jackson-annotations:2.10.3",
+        sha1 = "0f63b3b1da563767d04d2e4d3fc1ae0cdeffebe7",
+    )
+
+    maven_jar(
         name = "jackson-core",
         artifact = "com.fasterxml.jackson.core:jackson-core:2.10.3",
         sha1 = "f7ee7b55c7d292ac72fbaa7648c089f069c938d2",
+    )
+
+    maven_jar(
+        name = "jackson-databind",
+        artifact = "com.fasterxml.jackson.core:jackson-databind:2.10.3",
+        sha1 = "aae92628b5447fa25af79871ca98668da6edd439",
+    )
+
+    maven_jar(
+        name = "jackson-dataformat-smile",
+        artifact = "com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.9.8",
+        sha1 = "ff397547ff168e77279a1cd549e2ca4923c991aa",
     )
 
     # Test-only dependencies below.

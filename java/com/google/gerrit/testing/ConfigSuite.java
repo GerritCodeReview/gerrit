@@ -111,7 +111,7 @@ public class ConfigSuite extends Suite {
   static {
     System.setProperty(
         FLOGGER_BACKEND_PROPERTY,
-        "com.google.common.flogger.backend.log4j.Log4jBackendFactory#getInstance");
+        "com.google.common.flogger.backend.log4j2.Log4j2BackendFactory#getInstance");
     System.setProperty(FLOGGER_LOGGING_CONTEXT, LoggingContext.class.getName() + "#getInstance");
   }
 

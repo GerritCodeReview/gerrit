@@ -59,8 +59,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.util.FS;
@@ -292,7 +293,9 @@ public class GerritServer implements AutoCloseable {
       throws Exception {
     checkArgument(site != null, "site is required (even for in-memory server");
     desc.checkValidAnnotations();
-    Logger.getLogger("com.google.gerrit").setLevel(Level.DEBUG);
+    LoggerContext context = LoggerContext.getContext(false);
+    Logger logger = context.getLogger("com.google.gerrit");
+    logger.setLevel(Level.DEBUG);
     CyclicBarrier serverStarted = new CyclicBarrier(2);
     Daemon daemon =
         new Daemon(

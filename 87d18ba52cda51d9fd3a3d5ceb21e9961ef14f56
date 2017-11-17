@@ -48,6 +48,53 @@
     },
     {
       "key": {
+        "uuid": "b4dcdc96_290c72bd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-17T18:33:54Z",
+      "side": 1,
+      "message": "See comment below",
+      "parentUuid": "0081e5a7_d271c6e0",
+      "range": {
+        "startLine": 254,
+        "startChar": 4,
+        "endLine": 263,
+        "endChar": 6
+      },
+      "revId": "87d18ba52cda51d9fd3a3d5ceb21e9961ef14f56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf584c35_e012a2de",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-17T18:33:54Z",
+      "side": 1,
+      "message": "this issue (with the question above) was that there were so many conditionals that called the placement function with different arguments, so I don\u0027t think it\u0027s quite as simple to just call it with the node.",
+      "range": {
+        "startLine": 300,
+        "startChar": 5,
+        "endLine": 312,
+        "endChar": 7
+      },
+      "revId": "87d18ba52cda51d9fd3a3d5ceb21e9961ef14f56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "141893d9_4a6d0132",
         "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.html",
         "patchSetId": 3
@@ -62,6 +109,24 @@
       "revId": "87d18ba52cda51d9fd3a3d5ceb21e9961ef14f56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5ea424c_866e6ece",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-17T18:33:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "141893d9_4a6d0132",
+      "revId": "87d18ba52cda51d9fd3a3d5ceb21e9961ef14f56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

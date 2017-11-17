@@ -19,13 +19,18 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.inject.Inject;
+import java.io.Serializable;
 import java.nio.file.Path;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 import org.eclipse.jgit.lib.Config;
 
 public class GarbageCollectionLogFile implements LifecycleListener {
+  static final String PATTERN_LAYOUT = "[%d] %-5p %x: %m%n";
+
   @Inject
   public GarbageCollectionLogFile(SitePaths sitePaths, @GerritServerConfig Config config) {
     if (SystemLog.shouldConfigure()) {
@@ -38,15 +43,22 @@ public class GarbageCollectionLogFile implements LifecycleListener {
 
   @Override
   public void stop() {
-    LogManager.getLogger(GarbageCollection.LOG_NAME).removeAllAppenders();
+    LoggerContext ctx = LoggerContext.getContext(false);
+    Logger root = ctx.getLogger(GarbageCollection.LOG_NAME);
+    for (Appender appender : root.getAppenders().values()) {
+      root.removeAppender(appender);
+    }
   }
 
   private static void initLogSystem(Path logdir, boolean rotate) {
-    Logger gcLogger = LogManager.getLogger(GarbageCollection.LOG_NAME);
-    gcLogger.removeAllAppenders();
-    gcLogger.addAppender(
-        SystemLog.createAppender(
-            logdir, GarbageCollection.LOG_NAME, new PatternLayout("[%d] %-5p %x: %m%n"), rotate));
-    gcLogger.setAdditivity(false);
+    LoggerContext ctx = LoggerContext.getContext(false);
+    Logger root = ctx.getLogger(GarbageCollection.LOG_NAME);
+    for (Appender appender : root.getAppenders().values()) {
+      root.removeAppender(appender);
+    }
+    Layout<? extends Serializable> layout =
+        PatternLayout.newBuilder().withPattern(PATTERN_LAYOUT).build();
+    root.addAppender(SystemLog.createAppender(logdir, GarbageCollection.LOG_NAME, layout, rotate));
+    root.setAdditive(false);
   }
 }

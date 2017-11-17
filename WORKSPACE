@@ -231,21 +231,47 @@ maven_jar(
 )
 
 maven_jar(
-    name = "impl_log4j",
-    artifact = "org.slf4j:slf4j-log4j12:" + SLF4J_VERS,
-    sha1 = "58f588119ffd1702c77ccab6acb54bfb41bed8bd",
-)
-
-maven_jar(
     name = "jcl_over_slf4j",
     artifact = "org.slf4j:jcl-over-slf4j:" + SLF4J_VERS,
     sha1 = "56003dcd0a31deea6391b9e2ef2f2dc90b205a92",
 )
 
+LOG4J_VERS = "2.10.0"
+
 maven_jar(
-    name = "log4j",
-    artifact = "log4j:log4j:1.2.17",
-    sha1 = "5af35056b4d257e4b64b9e8069c0746e8b08629f",
+    name = "impl_log4j",
+    artifact = "org.apache.logging.log4j:log4j-slf4j-impl:" + LOG4J_VERS,
+    sha1 = "8e4e0a30736175e31c7f714d95032c1734cfbdea",
+)
+
+maven_jar(
+    name = "log4j-api",
+    artifact = "org.apache.logging.log4j:log4j-api:" + LOG4J_VERS,
+    sha1 = "fec5797a55b786184a537abd39c3fa1449d752d6",
+)
+
+maven_jar(
+    name = "log4j-core",
+    artifact = "org.apache.logging.log4j:log4j-core:" + LOG4J_VERS,
+    sha1 = "c90b597163cd28ab6d9687edd53db601b6ea75a1",
+)
+
+maven_jar(
+    name = "log4j-web",
+    artifact = "org.apache.logging.log4j:log4j-web:" + LOG4J_VERS,
+    sha1 = "f3d3ace0a975c14dfda24602f10dd3d2ef497a1e",
+)
+
+maven_jar(
+    name = "log4j1.2-api",
+    artifact = "org.apache.logging.log4j:log4j-1.2-api:" + LOG4J_VERS,
+    sha1 = "62e26af2612d1bd03aba1c7c087447f14033b7ba",
+)
+
+maven_jar(
+    name = "disruptor",
+    artifact = "com.lmax:disruptor:3.3.7",
+    sha1 = "8549fdcbda5d64db98871e64a4cd0045611686d1",
 )
 
 maven_jar(
@@ -966,9 +992,21 @@ maven_jar(
 JACKSON_VERSION = "2.8.9"
 
 maven_jar(
+    name = "jackson_annotations",
+    artifact = "com.fasterxml.jackson.core:jackson-annotations:" + JACKSON_VERSION,
+    sha1 = "e0e758381a6579cb2029dace23a7209b90ac7232",
+)
+
+maven_jar(
     name = "jackson_core",
     artifact = "com.fasterxml.jackson.core:jackson-core:" + JACKSON_VERSION,
     sha1 = "569b1752705da98f49aabe2911cc956ff7d8ed9d",
+)
+
+maven_jar(
+    name = "jackson_databind",
+    artifact = "com.fasterxml.jackson.core:jackson-databind:" + JACKSON_VERSION,
+    sha1 = "4dfca3975be3c1a98eacb829e70f02e9a71bc159",
 )
 
 maven_jar(

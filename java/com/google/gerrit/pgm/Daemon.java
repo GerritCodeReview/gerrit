@@ -339,6 +339,8 @@ public class Daemon extends SiteProgram {
 
     if (!consoleLog) {
       manager.add(ErrorLogFile.start(getSitePath(), config));
+    } else {
+      ErrorLogFile.errorOnlyConsoleRun();
     }
 
     sshd &= !sshdOff();

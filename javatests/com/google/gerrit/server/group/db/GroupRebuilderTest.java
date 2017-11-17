@@ -70,8 +70,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
             AbstractGroupTest::newPersonIdent,
             AbstractGroupTest::getAccountNameEmail,
             AbstractGroupTest::getGroupName);
-    bundleFactory =
-        new GroupBundle.Factory(new AuditLogReader(SERVER_ID, repoManager, allUsersName));
+    bundleFactory = new GroupBundle.Factory(new AuditLogReader(SERVER_ID));
   }
 
   @After

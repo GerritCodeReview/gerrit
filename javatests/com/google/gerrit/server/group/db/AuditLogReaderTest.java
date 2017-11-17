@@ -40,7 +40,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
   @Before
   public void setUp() throws Exception {
-    auditLogReader = new AuditLogReader(SERVER_ID, repoManager, allUsersName);
+    auditLogReader = new AuditLogReader(SERVER_ID);
   }
 
   @Test
@@ -50,13 +50,13 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
     AccountGroupMemberAudit expAudit =
         createExpMemberAudit(group.getId(), userId, userId, getTipTimestamp(uuid));
-    assertThat(auditLogReader.getMembersAudit(uuid)).containsExactly(expAudit);
+    assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid)).containsExactly(expAudit);
   }
 
   @Test
   public void createGroupAsServerIdent() throws Exception {
     InternalGroup group = createGroup(1, "test-group", serverIdent, null);
-    assertThat(auditLogReader.getMembersAudit(group.getGroupUUID())).hasSize(0);
+    assertThat(auditLogReader.getMembersAudit(allUsersRepo, group.getGroupUUID())).hasSize(0);
   }
 
   @Test
@@ -66,7 +66,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
     AccountGroupMemberAudit expAudit1 =
         createExpMemberAudit(group.getId(), userId, userId, getTipTimestamp(uuid));
-    assertThat(auditLogReader.getMembersAudit(uuid)).containsExactly(expAudit1);
+    assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid)).containsExactly(expAudit1);
 
     // User adds account 100002 to the group.
     Account.Id id = new Account.Id(100002);
@@ -75,7 +75,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
     AccountGroupMemberAudit expAudit2 =
         createExpMemberAudit(group.getId(), id, userId, getTipTimestamp(uuid));
     assertTipCommit(uuid, "Update group\n\nAdd: Account 100002 <100002@server-id>");
-    assertThat(auditLogReader.getMembersAudit(uuid))
+    assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid))
         .containsExactly(expAudit1, expAudit2)
         .inOrder();
 
@@ -84,7 +84,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
     assertTipCommit(uuid, "Update group\n\nRemove: Account 100002 <100002@server-id>");
 
     expAudit2.removed(userId, getTipTimestamp(uuid));
-    assertThat(auditLogReader.getMembersAudit(uuid))
+    assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid))
         .containsExactly(expAudit1, expAudit2)
         .inOrder();
   }
@@ -97,7 +97,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
     AccountGroupMemberAudit expAudit1 =
         createExpMemberAudit(groupId, userId, userId, getTipTimestamp(uuid));
-    assertThat(auditLogReader.getMembersAudit(uuid)).containsExactly(expAudit1);
+    assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid)).containsExactly(expAudit1);
 
     Account.Id id1 = new Account.Id(100002);
     Account.Id id2 = new Account.Id(100003);
@@ -114,7 +114,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
             + "\n"
             + "Add: Account 100002 <100002@server-id>\n"
             + "Add: Account 100003 <100003@server-id>");
-    assertThat(auditLogReader.getMembersAudit(uuid))
+    assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid))
         .containsExactly(expAudit1, expAudit2, expAudit3)
         .inOrder();
   }
@@ -132,13 +132,13 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
     AccountGroupByIdAud expAudit =
         createExpGroupAudit(group.getId(), subgroupUuid, userId, getTipTimestamp(uuid));
-    assertThat(auditLogReader.getSubgroupsAudit(uuid)).containsExactly(expAudit);
+    assertThat(auditLogReader.getSubgroupsAudit(allUsersRepo, uuid)).containsExactly(expAudit);
 
     removeSubgroups(uuid, ImmutableSet.of(subgroupUuid));
     assertTipCommit(uuid, String.format("Update group\n\nRemove-group: Group <%s>", subgroupUuid));
 
     expAudit.removed(userId, getTipTimestamp(uuid));
-    assertThat(auditLogReader.getSubgroupsAudit(uuid)).containsExactly(expAudit);
+    assertThat(auditLogReader.getSubgroupsAudit(allUsersRepo, uuid)).containsExactly(expAudit);
   }
 
   @Test
@@ -164,7 +164,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
         createExpGroupAudit(group.getId(), subgroupUuid1, userId, getTipTimestamp(uuid));
     AccountGroupByIdAud expAudit2 =
         createExpGroupAudit(group.getId(), subgroupUuid2, userId, getTipTimestamp(uuid));
-    assertThat(auditLogReader.getSubgroupsAudit(uuid))
+    assertThat(auditLogReader.getSubgroupsAudit(allUsersRepo, uuid))
         .containsExactly(expAudit1, expAudit2)
         .inOrder();
   }
@@ -176,7 +176,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
     AccountGroup.UUID uuid = group.getGroupUUID();
     AccountGroupMemberAudit expMemberAudit =
         createExpMemberAudit(groupId, userId, userId, getTipTimestamp(uuid));
-    assertThat(auditLogReader.getMembersAudit(uuid)).containsExactly(expMemberAudit);
+    assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid)).containsExactly(expMemberAudit);
 
     Account.Id id1 = new Account.Id(100002);
     Account.Id id2 = new Account.Id(100003);
@@ -200,7 +200,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
         createExpMemberAudit(groupId, id1, userId, getTipTimestamp(uuid));
     AccountGroupMemberAudit expMemberAudit2 =
         createExpMemberAudit(groupId, id2, userId, getTipTimestamp(uuid));
-    assertThat(auditLogReader.getMembersAudit(uuid))
+    assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid))
         .containsExactly(expMemberAudit, expMemberAudit1, expMemberAudit2)
         .inOrder();
 
@@ -209,14 +209,15 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
     assertTipCommit(uuid, String.format("Update group\n\nAdd-group: Group <%s>", subgroupUuid1));
     AccountGroupByIdAud expGroupAudit1 =
         createExpGroupAudit(group.getId(), subgroupUuid1, userId, getTipTimestamp(uuid));
-    assertThat(auditLogReader.getSubgroupsAudit(uuid)).containsExactly(expGroupAudit1);
+    assertThat(auditLogReader.getSubgroupsAudit(allUsersRepo, uuid))
+        .containsExactly(expGroupAudit1);
 
     // Remove one account.
     removeMembers(uuid, ImmutableSet.of(id2));
     assertTipCommit(
         uuid, String.format("Update group\n\nRemove: Account %s <%s@server-id>", id2, id2));
     expMemberAudit2.removed(userId, getTipTimestamp(uuid));
-    assertThat(auditLogReader.getMembersAudit(uuid))
+    assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid))
         .containsExactly(expMemberAudit, expMemberAudit1, expMemberAudit2)
         .inOrder();
 
@@ -232,7 +233,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
         createExpGroupAudit(group.getId(), subgroupUuid2, userId, getTipTimestamp(uuid));
     AccountGroupByIdAud expGroupAudit3 =
         createExpGroupAudit(group.getId(), subgroupUuid3, userId, getTipTimestamp(uuid));
-    assertThat(auditLogReader.getSubgroupsAudit(uuid))
+    assertThat(auditLogReader.getSubgroupsAudit(allUsersRepo, uuid))
         .containsExactly(expGroupAudit1, expGroupAudit2, expGroupAudit3)
         .inOrder();
 
@@ -248,7 +249,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
         createExpMemberAudit(groupId, id2, userId, getTipTimestamp(uuid));
     AccountGroupMemberAudit expMemberAudit3 =
         createExpMemberAudit(groupId, id3, userId, getTipTimestamp(uuid));
-    assertThat(auditLogReader.getMembersAudit(uuid))
+    assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid))
         .containsExactly(
             expMemberAudit, expMemberAudit1, expMemberAudit2, expMemberAudit4, expMemberAudit3)
         .inOrder();
@@ -263,7 +264,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
             + String.format("Remove-group: Group <%s>", subgroupUuid3));
     expGroupAudit1.removed(userId, getTipTimestamp(uuid));
     expGroupAudit3.removed(userId, getTipTimestamp(uuid));
-    assertThat(auditLogReader.getSubgroupsAudit(uuid))
+    assertThat(auditLogReader.getSubgroupsAudit(allUsersRepo, uuid))
         .containsExactly(expGroupAudit1, expGroupAudit2, expGroupAudit3)
         .inOrder();
 
@@ -271,7 +272,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
     addSubgroups(uuid, ImmutableSet.of(subgroupUuid1));
     AccountGroupByIdAud expGroupAudit4 =
         createExpGroupAudit(group.getId(), subgroupUuid1, userId, getTipTimestamp(uuid));
-    assertThat(auditLogReader.getSubgroupsAudit(uuid))
+    assertThat(auditLogReader.getSubgroupsAudit(allUsersRepo, uuid))
         .containsExactly(expGroupAudit1, expGroupAudit2, expGroupAudit3, expGroupAudit4)
         .inOrder();
   }

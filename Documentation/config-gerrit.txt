@@ -1440,7 +1440,7 @@ For example, it is possible to overwrite Gerrit's default log4j
 configuration:
 
 ----
-  javaOptions = -Dlog4j.configuration=file:///home/gerrit/site/etc/log4j.properties
+  javaOptions = -Dlog4j.configurationFile=file:///home/gerrit/site/etc/log4j.properties
 ----
 
 [[container.daemonOpt]]container.daemonOpt::

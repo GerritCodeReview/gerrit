@@ -22,6 +22,30 @@
       "revId": "ed0c23240229352d3c72f9ac199e2c7436d33cad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ef827b5_548f6a92",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-18T00:55:35Z",
+      "side": 1,
+      "message": "Yeah, this should really be :host(.custom) .chip (\n\nIt\u0027s not used now, but might be in the future. fixed in latest patch.",
+      "parentUuid": "744bb0b3_b4391975",
+      "range": {
+        "startLine": 53,
+        "startChar": 23,
+        "endLine": 53,
+        "endChar": 29
+      },
+      "revId": "ed0c23240229352d3c72f9ac199e2c7436d33cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

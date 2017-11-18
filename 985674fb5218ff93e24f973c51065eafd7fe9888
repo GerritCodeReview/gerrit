@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "ec50115c_673da70d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-18T00:49:48Z",
+      "side": 1,
+      "message": "Nitpick: why not ..\n\n !(prefs.tab_size \u003e 0) → prefs.tab_size \u003c\u003d 0\n\n..?",
+      "range": {
+        "startLine": 31,
+        "startChar": 8,
+        "endLine": 31,
+        "endChar": 29
+      },
+      "revId": "985674fb5218ff93e24f973c51065eafd7fe9888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2eba615d_3157a2c3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-18T00:49:48Z",
+      "side": 1,
+      "message": "Nitpick: please declare this outside the method near the top of the file. (e.g. where the old Regex was defined near l.31)",
+      "range": {
+        "startLine": 429,
+        "startChar": 4,
+        "endLine": 433,
+        "endChar": 76
+      },
+      "revId": "985674fb5218ff93e24f973c51065eafd7fe9888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1bf5e6eb_a9519732",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
         "patchSetId": 18
@@ -16,6 +62,70 @@
       "revId": "985674fb5218ff93e24f973c51065eafd7fe9888",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de51f23a_ad086d99",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-18T00:49:48Z",
+      "side": 1,
+      "message": "I see! Counting these manually, it\u0027s clear this was a bug.",
+      "parentUuid": "1bf5e6eb_a9519732",
+      "revId": "985674fb5218ff93e24f973c51065eafd7fe9888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca3c0655_592b2b85",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-18T00:49:48Z",
+      "side": 1,
+      "message": "Technically, the old ..\n\n (new Array(52)).join(\u0027a\u0027)\n\n.. trick creates 51 characters.\n\nOTOH, 52 characters doesn\u0027t invalidate the nature of the test.",
+      "range": {
+        "startLine": 155,
+        "startChar": 19,
+        "endLine": 155,
+        "endChar": 33
+      },
+      "revId": "985674fb5218ff93e24f973c51065eafd7fe9888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e577911c_a833a101",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-18T00:49:48Z",
+      "side": 1,
+      "message": "Whoa. 👍",
+      "range": {
+        "startLine": 219,
+        "startChar": 6,
+        "endLine": 220,
+        "endChar": 51
+      },
+      "revId": "985674fb5218ff93e24f973c51065eafd7fe9888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

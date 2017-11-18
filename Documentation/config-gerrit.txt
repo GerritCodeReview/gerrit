@@ -3349,6 +3349,23 @@ if `jsonLogging` is enabled.
 +
 Defaults to true.
 
+[[logSocket]]
+=== Section logSocket
+
+[[logSocket.enable]]logSocket.enable::
++
+If set to true, enables log4j socket
++
+Defaults to false.
+
+[[logSocket.hostName]]logSocket.hostName::
++
+This is the host name for connecting to for example logstash or any other connections.
+
+[[logSocket.port]]logSocket.port::
++
+This is the port that is used when connecting using log4j socket.
+
 [[mimetype]]
 === Section mimetype
 

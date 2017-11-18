@@ -37,8 +37,6 @@
     properties: {
       /** @type {?} */
       change: Object,
-      /** @type {?} */
-      currentRevision: Object,
       commitInfo: Object,
       mutable: Boolean,
       /**

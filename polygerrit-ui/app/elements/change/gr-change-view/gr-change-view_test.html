@@ -49,6 +49,11 @@ limitations under the License.
 
     setup(() => {
       sandbox = sinon.sandbox.create();
+      stub('gr-endpoint-decorator', {
+        _import: sandbox.stub().returns(Promise.resolve()),
+      });
+      // Since _endpoints are global, must reset state.
+      Gerrit._endpoints = new GrPluginEndpoints();
       navigateToChangeStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
       stub('gr-rest-api-interface', {
         getConfig() { return Promise.resolve({test: 'config'}); },
@@ -1373,5 +1378,30 @@ limitations under the License.
       assert.equal(Gerrit.Nav.getEditUrlForDiff.lastCall.args[1], 'foo');
       assert.isTrue(Gerrit.Nav.navigateToRelativeUrl.called);
     });
+
+    suite('plugin endpoints', () => {
+      test('endpoint params', done => {
+        element._change = {labels: {}};
+        element._currentRevision = {};
+        let hookEl;
+        let plugin;
+        Gerrit.install(
+            p => {
+              plugin = p;
+              plugin.hook('change-view-integration').getLastAttached().then(
+                  el => hookEl = el);
+            },
+            '0.1',
+            'http://some/plugins/url.html');
+        Gerrit._setPluginsCount(0);
+        flush(() => {
+          assert.strictEqual(hookEl.plugin, plugin);
+          assert.strictEqual(hookEl.change, element._change);
+          assert.strictEqual(hookEl.revision, element._currentRevision);
+          done();
+        });
+      });
+    });
   });
+
 </script>

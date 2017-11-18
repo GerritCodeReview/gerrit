@@ -40,6 +40,16 @@ Extension point is located between `Files` and `Messages` section on the change
 view page, and it may take full page's width. Primary purpose is to enable
 plugins to display custom CI related information (build status, etc).
 
+* `change`
++
+current change displayed, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]
+
+* `revision`
++
+current revision displayed, an instance of
+link:rest-api-changes.html#revision-info[RevisionInfo]
+
 === change-metadata-item
 Extension point is located on the bottom of the change view left panel, under
 `Label Status` and `Links` sections. It's width is equal to the left panel's and
@@ -52,3 +62,8 @@ In addition to default parameters, the following are available:
 +
 current change displayed, an instance of
 link:rest-api-changes.html#change-info[ChangeInfo]
+
+* `revision`
++
+current revision displayed, an instance of
+link:rest-api-changes.html#revision-info[RevisionInfo]

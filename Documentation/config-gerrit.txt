@@ -2652,12 +2652,12 @@ org.anyorg.MySecureIPFilter that performs source IP security filtering:
 
 ----
 [auth]
-	type = HTTP
-	httpHeader = TRUSTED_USER
+  type = HTTP
+  httpHeader = TRUSTED_USER
 
 [httpd]
-	filterClass = org.anyorg.MySecureHeaderFilter
-	filterClass = org.anyorg.MySecureIPFilter
+  filterClass = org.anyorg.MySecureHeaderFilter
+  filterClass = org.anyorg.MySecureIPFilter
 ----
 
 [[httpd.idleTimeout]]httpd.idleTimeout::
@@ -3348,6 +3348,23 @@ If set to true, enables error logging in regular plain text format. Can only be 
 if `jsonLogging` is enabled.
 +
 Defaults to true.
+
+[[logSocket]]
+=== Section logSocket
+
+[[logSocket.enable]]logSocket.enable::
++
+If set to true, enables log4j socket
++
+Defaults to false.
+
+[[logSocket.hostName]]logSocket.hostName::
++
+This is the host name for connecting to for example logstash or any other connections.
+
+[[logSocket.port]]logSocket.port::
++
+This is the port that is used when connecting using log4j socket.
 
 [[mimetype]]
 === Section mimetype

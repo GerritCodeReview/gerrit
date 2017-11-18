@@ -19,7 +19,6 @@ limitations under the License.
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
-<link rel="import" href="../../plugins/gr-endpoint-param/gr-endpoint-param.html">
 <link rel="import" href="../../plugins/gr-external-style/gr-external-style.html">
 <link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
@@ -331,7 +330,6 @@ limitations under the License.
       </section>
       <gr-endpoint-decorator name="change-metadata-item">
         <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
-        <gr-endpoint-param name="revision" value="[[currentRevision]]"></gr-endpoint-param>
       </gr-endpoint-decorator>
     </gr-external-style>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

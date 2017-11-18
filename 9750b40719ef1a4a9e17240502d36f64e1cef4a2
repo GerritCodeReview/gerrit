@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e523441d_4087bd3b",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-18T00:20:24Z",
+      "side": 1,
+      "message": "I think there\u0027s too much going on in .on() method.\nThis way .on() essentially serves as an umbrella for bunch of different APIs.\nI suggest moving those APIs to be more explicit into standalone JS classes, like changeActions() or restApi()",
+      "revId": "9750b40719ef1a4a9e17240502d36f64e1cef4a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbe1fcb1_ed5f3053",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-18T00:20:24Z",
+      "side": 1,
+      "message": "Since AnnotationLayer interface isn\u0027t defined, it makes it much more difficult to track and test changes to it.\n\nGoing further, the critical piece of the annotation layer is the `annotate` method - looks like you don\u0027t need neither \u0027process\u0027 nor \u0027cancel\u0027.\nAs a result, using only `annotate` function may be sufficient for basic use-case.\n\nGoing even further, plugin probably don\u0027t need `el` instance. It needs a helper that allows to apply certain CSS class to a certain range - and such function probably could be passed in easily.\n\nAlso, it might be a good idea to use builder to set up individual methods. This way plugin author has maximal flexibility and can chose what\u0027s needed.\nAlso, it makes it easier to add, remove, and test methods.\n\nSo, the simplest lightest API I can imagine would look like this:\n\nplugin.annotationApi()\n  // Optional: Use notify() function to report updates.\n  .addNotifier(notify \u003d\u003e {\n    new Promise(resolve \u003d\u003e setTimeout(resolve, 3000)).then(\n      () \u003d\u003e notify());\n  // Use annotate() function to apply CSS class to line.\n  }).addLayer((line, annotate) \u003d\u003e {\n    if (line.length % 2 \u003d\u003d 0) {\n      annotate(0, line.length, \u0027mycssclass\u0027);\n    }\n  });",
+      "revId": "9750b40719ef1a4a9e17240502d36f64e1cef4a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc1ff2b8_9ecae5cf",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-18T00:20:24Z",
+      "side": 1,
+      "message": "I think Gerrit.css() is an acceptable workaround until we figure out a better way.",
+      "revId": "9750b40719ef1a4a9e17240502d36f64e1cef4a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

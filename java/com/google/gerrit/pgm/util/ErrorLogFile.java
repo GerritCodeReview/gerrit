@@ -74,6 +74,11 @@ public class ErrorLogFile {
     boolean json = config.getBoolean("log", "jsonLogging", false);
     boolean text = config.getBoolean("log", "textLogging", true) || !json;
 
+    boolean socketEnable = config.getBoolean("logSocket", "enable", false);
+    String socketHost = config.getString("logSocket", null, "hostname");
+    int socketPort = config.getInt("logSocket", "port", 4560);
+    int bufferSize = config.getInt("core", "asyncLoggingBufferSize", 64);
+
     if (text) {
       root.addAppender(
           SystemLog.createAppender(
@@ -83,6 +88,11 @@ public class ErrorLogFile {
     if (json) {
       root.addAppender(
           SystemLog.createAppender(logdir, LOG_NAME + JSON_SUFFIX, new JSONEventLayoutV1()));
+    }
+
+    if (socketEnable) {
+      root.addAppender(
+          SystemLog.createSocketAppender(socketHost, socketPort, bufferSize));
     }
   }
 }

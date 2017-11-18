@@ -3336,6 +3336,26 @@ By default unset.
 [[log]]
 === Section log
 
+[[log.enableSocket]]log.enableSocket::
++
+If set to true, enables log4j socket.
++
+Note that only error log is sent through the socket.
++
+Defaults to false.
+
+[[log.socketHostname]]log.socketHostname::
++
+This sets the host name that will be used when connecting to for example logstash or any other connections.
++
+This will only work if you set log.enableSocket.
+
+[[log.socketPort]]log.socketPort::
++
+This sets the port that is used when connecting using log4j socket.
++
+This will only work if you set log.enableSocket.
+
 [[log.jsonLogging]]log.jsonLogging::
 +
 If set to true, enables error logging in JSON format (file name: "logs/error_log.json").

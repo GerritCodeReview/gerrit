@@ -32,6 +32,7 @@ import org.apache.log4j.Layout;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.helpers.OnlyOnceErrorHandler;
+import org.apache.log4j.net.SocketAppender;
 import org.apache.log4j.spi.ErrorHandler;
 import org.apache.log4j.spi.LoggingEvent;
 import org.eclipse.jgit.lib.Config;
@@ -70,6 +71,16 @@ public class SystemLog {
     dst.activateOptions();
     dst.setErrorHandler(new OnlyOnceErrorHandler());
     return dst;
+  }
+
+  public static AsyncAppender createSocketAppender(String hostname, int port, int bufferSize) {
+    AsyncAppender async = new AsyncAppender();
+    async.setBlocking(true);
+    async.setBufferSize(bufferSize);
+    async.setLocationInfo(false);
+    async.addAppender(new SocketAppender(hostname, port));
+    async.activateOptions();
+    return async;
   }
 
   public AsyncAppender createAsyncAppender(String name, Layout layout) {

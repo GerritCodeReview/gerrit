@@ -89,7 +89,7 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
           bundleFactory.fromReviewDb(db, new AccountGroup.Id(createdGroup.groupId));
       deleteGroupRefs(reviewDbBundle);
 
-      assertThat(rebuild(reviewDbBundle)).isEqualTo(reviewDbBundle.roundToSecond());
+      assertThat(rebuild(reviewDbBundle)).isEqualTo(reviewDbBundle.truncateToSecond());
     }
   }
 
@@ -111,7 +111,7 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
       deleteGroupRefs(reviewDbBundle);
 
       GroupBundle noteDbBundle = rebuild(reviewDbBundle);
-      assertThat(noteDbBundle).isEqualTo(reviewDbBundle.roundToSecond());
+      assertThat(noteDbBundle).isEqualTo(reviewDbBundle.truncateToSecond());
 
       ImmutableList<CommitInfo> log = log(group1);
       assertThat(log).hasSize(4);

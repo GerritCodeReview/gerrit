@@ -16,7 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.common.TimeUtil.roundToSecond;
+import static com.google.gerrit.common.TimeUtil.truncateToSecond;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.NOTE_DB;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.REVIEW_DB;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
@@ -1098,7 +1098,7 @@ public class ChangeBundleTest extends GerritBaseTests {
     PatchSet ps1 = new PatchSet(c.currentPatchSetId());
     ps1.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
     ps1.setUploader(accountId);
-    ps1.setCreatedOn(roundToSecond(TimeUtil.nowTs()));
+    ps1.setCreatedOn(truncateToSecond(TimeUtil.nowTs()));
     PatchSet ps2 = clone(ps1);
     ps2.setCreatedOn(TimeUtil.nowTs());
 
@@ -1152,7 +1152,7 @@ public class ChangeBundleTest extends GerritBaseTests {
     PatchSet ps1 = new PatchSet(c.currentPatchSetId());
     ps1.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
     ps1.setUploader(accountId);
-    ps1.setCreatedOn(roundToSecond(TimeUtil.nowTs()));
+    ps1.setCreatedOn(truncateToSecond(TimeUtil.nowTs()));
     ps1.setPushCertificate("some cert");
     PatchSet ps2 = clone(ps1);
     ps2.setPushCertificate(ps2.getPushCertificate() + "\n\n");
@@ -1579,7 +1579,7 @@ public class ChangeBundleTest extends GerritBaseTests {
         new PatchSetApproval(
             new PatchSetApproval.Key(c.currentPatchSetId(), accountId, new LabelId("Code-Review")),
             (short) 1,
-            roundToSecond(TimeUtil.nowTs()));
+            truncateToSecond(TimeUtil.nowTs()));
     PatchSetApproval a2 = clone(a1);
     a2.setGranted(TimeUtil.nowTs());
 
@@ -1827,7 +1827,7 @@ public class ChangeBundleTest extends GerritBaseTests {
             5,
             accountId,
             null,
-            roundToSecond(TimeUtil.nowTs()));
+            truncateToSecond(TimeUtil.nowTs()));
     PatchLineComment c2 = clone(c1);
     c2.setWrittenOn(TimeUtil.nowTs());
 

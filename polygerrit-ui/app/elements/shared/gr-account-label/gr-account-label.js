@@ -26,10 +26,6 @@
         type: Number,
         value: 32,
       },
-      showEmail: {
-        type: Boolean,
-        value: false,
-      },
       title: {
         type: String,
         reflectToAttribute: true,
@@ -76,8 +72,9 @@
       return result;
     },
 
-    _computeShowEmail(showEmail, account) {
-      return !!(showEmail && account && account.email);
+    _computeShowEmailClass(account) {
+      if (!account || account.name || !account.email) { return ''; }
+      return 'showEmail';
     },
 
     _computeEmailStr(account) {

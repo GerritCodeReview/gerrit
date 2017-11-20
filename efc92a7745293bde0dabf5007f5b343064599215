@@ -16,6 +16,24 @@
       "revId": "efc92a7745293bde0dabf5007f5b343064599215",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67318da7_1bf31664",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-20T22:35:21Z",
+      "side": 1,
+      "message": "I think it\u0027s simpler to leave it as is for now, as it\u0027s a bit messier than this. The initial title is computed by \u0027_computeLabel\u0027, and then updates are made via this function. There would need to be additional changes to remove the title upon instantiation, and since this is all related to showing tooltip text, an empty string should function the same as null.",
+      "parentUuid": "70063b5f_7df4fb74",
+      "revId": "efc92a7745293bde0dabf5007f5b343064599215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

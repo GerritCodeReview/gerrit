@@ -104,6 +104,11 @@ limitations under the License.
       // Character is an ellipsis.
       return '\u2026/' + pathPieces[pathPieces.length - 1];
     },
+
+    specialFilesFilter(file) {
+      return file.__path !== Gerrit.PathListBehavior.COMMIT_MESSAGE_PATH &&
+          file.__path !== Gerrit.PathListBehavior.MERGE_LIST_PATH;
+    },
   };
 })(window);
 </script>

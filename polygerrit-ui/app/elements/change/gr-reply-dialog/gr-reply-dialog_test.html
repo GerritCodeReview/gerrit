@@ -432,6 +432,17 @@ limitations under the License.
       assert.equal(element.draft, '');
     });
 
+    test('does not check stored draft when quote is present', () => {
+      const storedDraft = 'hello world';
+      const quote = '> foo bar';
+      getDraftCommentStub.returns({message: storedDraft});
+      element.quote = quote;
+      element.open();
+      assert.isFalse(getDraftCommentStub.called);
+      assert.equal(element.draft, quote);
+      assert.isNotOk(element.quote);
+    });
+
     test('updates stored draft on edits', () => {
       const firstEdit = 'hello';
       const location = element._getStorageLocation();

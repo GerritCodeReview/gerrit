@@ -244,7 +244,14 @@
           });
 
       this._focusOn(opt_focusTarget);
-      this.draft = this._loadStoredDraft();
+      if (this.quote && this.quote.length) {
+        // If a reply quote has been provided, use it and clear the property.
+        this.draft = this.quote;
+        this.quote = null;
+      } else {
+        // Otherwise, check for an unsaved draft in localstorage.
+        this.draft = this._loadStoredDraft();
+      }
       if (this.$.restAPI.hasPendingDiffDrafts()) {
         this._savingComments = true;
         this.$.restAPI.awaitPendingDiffDrafts().then(() => {

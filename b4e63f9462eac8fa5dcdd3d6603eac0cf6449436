@@ -23,6 +23,30 @@
       "revId": "b4e63f9462eac8fa5dcdd3d6603eac0cf6449436",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e142ffb_605c28c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-20T11:03:04Z",
+      "side": 1,
+      "message": "OK, then just remove the TODOs?",
+      "parentUuid": "ec0a0466_32836775",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 23
+      },
+      "revId": "b4e63f9462eac8fa5dcdd3d6603eac0cf6449436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

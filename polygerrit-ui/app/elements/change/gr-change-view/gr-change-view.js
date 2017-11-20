@@ -1251,38 +1251,37 @@
       }
 
       this._updateCheckTimerHandle = this.async(() => {
-        this.fetchChangeUpdates(this._change, this.$.restAPI)
-            .then(result => {
-              let toastMessage = null;
-              if (!result.isLatest) {
-                toastMessage = ReloadToastMessage.NEWER_REVISION;
-              } else if (result.newStatus === this.ChangeStatus.MERGED) {
-                toastMessage = ReloadToastMessage.MERGED;
-              } else if (result.newStatus === this.ChangeStatus.ABANDONED) {
-                toastMessage = ReloadToastMessage.ABANDONED;
-              } else if (result.newStatus === this.ChangeStatus.NEW) {
-                toastMessage = ReloadToastMessage.RESTORED;
-              } else if (result.newMessages) {
-                toastMessage = ReloadToastMessage.NEW_MESSAGE;
-              }
+        this.fetchChangeUpdates(this._change, this.$.restAPI).then(result => {
+          let toastMessage = null;
+          if (!result.isLatest) {
+            toastMessage = ReloadToastMessage.NEWER_REVISION;
+          } else if (result.newStatus === this.ChangeStatus.MERGED) {
+            toastMessage = ReloadToastMessage.MERGED;
+          } else if (result.newStatus === this.ChangeStatus.ABANDONED) {
+            toastMessage = ReloadToastMessage.ABANDONED;
+          } else if (result.newStatus === this.ChangeStatus.NEW) {
+            toastMessage = ReloadToastMessage.RESTORED;
+          } else if (result.newMessages) {
+            toastMessage = ReloadToastMessage.NEW_MESSAGE;
+          }
 
-              if (!toastMessage) {
-                this._startUpdateCheckTimer();
-                return;
-              }
+          if (!toastMessage) {
+            this._startUpdateCheckTimer();
+            return;
+          }
 
-              this._cancelUpdateCheckTimer();
-              this.fire('show-alert', {
-                message: toastMessage,
-                // Persist this alert.
-                dismissOnNavigation: true,
-                action: 'Reload',
-                callback: function() {
-                  // Load the current change without any patch range.
-                  Gerrit.Nav.navigateToChange(this._change);
-                }.bind(this),
-              });
-            });
+          this._cancelUpdateCheckTimer();
+          this.fire('show-alert', {
+            message: toastMessage,
+            // Persist this alert.
+            dismissOnNavigation: true,
+            action: 'Reload',
+            callback: function() {
+              // Load the current change without any patch range.
+              Gerrit.Nav.navigateToChange(this._change);
+            }.bind(this),
+          });
+        });
       }, this._serverConfig.change.update_delay * 1000);
     },
 

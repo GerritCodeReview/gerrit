@@ -32,7 +32,11 @@ enum GroupConfigEntry {
     @Override
     void initNewConfig(Config config, InternalGroupCreation group) {
       AccountGroup.Id id = group.getId();
-      config.setInt(SECTION_NAME, null, super.keyName, id.get());
+
+      // Do not use config.setInt(...) to write the group ID because config.setInt(...) persists
+      // integers that can be expressed in KiB as a unit strings, e.g. "1024" is stored as "1k".
+      // Using config.setString(...) ensures that group IDs are human readable.
+      config.setString(SECTION_NAME, null, super.keyName, Integer.toString(id.get()));
     }
 
     @Override

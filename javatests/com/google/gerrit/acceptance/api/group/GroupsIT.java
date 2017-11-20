@@ -985,10 +985,36 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   @Sandboxed
   public void cannotCreateGroupBranch() throws Exception {
-    grant(allUsers, RefNames.REFS_GROUPS + "*", Permission.CREATE);
-    grant(allUsers, RefNames.REFS_GROUPS + "*", Permission.PUSH);
+    testCannotCreateGroupBranch(
+        RefNames.REFS_GROUPS + "*", RefNames.refsGroups(new AccountGroup.UUID(name("foo"))));
+  }
 
-    String groupRef = RefNames.refsGroups(new AccountGroup.UUID(name("foo")));
+  @Test
+  @Sandboxed
+  public void cannotCreateGroupNamesBranch() throws Exception {
+    assume().that(groupsInNoteDb()).isTrue();
+
+    // Manually delete group names ref
+    try (Repository repo = repoManager.openRepository(allUsers);
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit commit = rw.parseCommit(repo.exactRef(RefNames.REFS_GROUPNAMES).getObjectId());
+      RefUpdate updateRef = repo.updateRef(RefNames.REFS_GROUPNAMES);
+      updateRef.setExpectedOldObjectId(commit.toObjectId());
+      updateRef.setNewObjectId(ObjectId.zeroId());
+      updateRef.setForceUpdate(true);
+      assertThat(updateRef.delete()).isEqualTo(RefUpdate.Result.FORCED);
+    }
+
+    // refs/meta/group-names is only visible with ACCESS_DATABASE
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+
+    testCannotCreateGroupBranch(RefNames.REFS_GROUPNAMES, RefNames.REFS_GROUPNAMES);
+  }
+
+  private void testCannotCreateGroupBranch(String refPattern, String groupRef) throws Exception {
+    grant(allUsers, refPattern, Permission.CREATE);
+    grant(allUsers, refPattern, Permission.PUSH);
+
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), allUsersRepo).to(groupRef);
     r.assertErrorStatus();
@@ -1003,9 +1029,23 @@ public class GroupsIT extends AbstractDaemonTest {
   @Sandboxed
   public void cannotDeleteGroupBranch() throws Exception {
     assume().that(groupsInNoteDb()).isTrue();
+    testCannotDeleteGroupBranch(RefNames.REFS_GROUPS + "*", RefNames.refsGroups(adminGroupUuid()));
+  }
 
-    grant(allUsers, RefNames.REFS_GROUPS + "*", Permission.DELETE, true, REGISTERED_USERS);
-    String groupRef = RefNames.refsGroups(adminGroupUuid());
+  @Test
+  @Sandboxed
+  public void cannotDeleteGroupNamesBranch() throws Exception {
+    assume().that(groupsInNoteDb()).isTrue();
+
+    // refs/meta/group-names is only visible with ACCESS_DATABASE
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+
+    testCannotDeleteGroupBranch(RefNames.REFS_GROUPNAMES, RefNames.REFS_GROUPNAMES);
+  }
+
+  private void testCannotDeleteGroupBranch(String refPattern, String groupRef) throws Exception {
+    grant(allUsers, refPattern, Permission.DELETE, true, REGISTERED_USERS);
+
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     PushResult r = deleteRef(allUsersRepo, groupRef);
     RemoteRefUpdate refUpdate = r.getRemoteUpdate(groupRef);

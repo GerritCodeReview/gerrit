@@ -983,7 +983,6 @@ limitations under the License.
       test('reply from comment adds quote text', () => {
         const e = {detail: {message: {message: 'quote text'}}};
         element._handleMessageReply(e);
-        assert.equal(element.$.replyDialog.draft, '> quote text\n\n');
         assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
       });
 
@@ -992,7 +991,6 @@ limitations under the License.
         element.$.replyDialog.quote = '> old quote text\n\n';
         const e = {detail: {message: {message: 'quote text'}}};
         element._handleMessageReply(e);
-        assert.equal(element.$.replyDialog.draft, '> quote text\n\n');
         assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
       });
 

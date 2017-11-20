@@ -255,8 +255,8 @@
       return commands;
     },
 
-    _computeNoteDbClass(noteDB) {
-      return noteDB ? 'showNoteDb': '';
+    _computeProjectsClass(config) {
+      return config ? 'showConfig': '';
     },
   });
 })();

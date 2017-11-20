@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1510933924 +0100\nnonce AMT3iFjr4BfJOCOCm+z4h9fP3ALfHGtrgwkcLO2DDI/vV2OknYMq1xjz0ZUWJ6e3wFqBxwXmQ7Rv\n\n0000000000000000000000000000000000000000 85a21cb1148cdc0079fdd56a832a8aa3e29b5219 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaDwWkAAoJEFG1/Zeg0O9RaVUH/jIAqyEk2PdZoA3G5iBSOo0S\nPMkySmb5PJL2/Rtd9kfZeuBxMrKv4TBTGxF8JWFznu0OrOX3OvdbBpW0xPXGg9By\ngRfrzfTCAnmncPLoi5P+zlz/wxTqdj2AHeFWRH38t5eK6Mp5tWtwxNtCbIotj62E\nckS8i/MVpqVn5KvqUEZymdeiYQCApNDbQyoKujE9kszpsYC6Q9GoC0ogS/7L1tIK\ndFgb5lTkUegwFbf4vOu5o19oVU1X2Dw7MbN0dxbVyxRYDFtwMOd6WaucVn8/akyL\nJv0crChX4eiwbtPdKZmSvf3+Vu67NQ0vIlRtaIyzRtAnIoASV8G0UPiroFvRw7k\u003d\n\u003dZffz\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec0a0466_32836775",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-20T11:02:09Z",
+      "side": 1,
+      "message": "I don\u0027t completely agree. Reading from NoteDb only means that NoteDb is our source of truth. If we update ReviewDb, we shouldn\u0027t read from NoteDb and write the updated result back to ReviewDb. ReviewDb should stay \u0027clean\u0027 of NoteDb as long as we might need to go back to reading from ReviewDb due to issues with NoteDb.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 23
+      },
+      "revId": "b4e63f9462eac8fa5dcdd3d6603eac0cf6449436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

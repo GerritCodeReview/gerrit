@@ -34,17 +34,45 @@ limitations under the License.
 <script>
   suite('gr-account-link tests', () => {
     let element;
+    let sandbox;
 
     setup(() => {
       stub('gr-rest-api-interface', {
         getConfig() { return Promise.resolve({}); },
       });
       element = fixture('basic');
+      sandbox = sinon.sandbox.create();
     });
 
+    teardown(() => {
+      sandbox.restore();
+    })
+
     test('computed fields', () => {
-      assert.equal(element._computeShowEmail({name: 'asd'}), false);
-      assert.equal(element._computeShowEmail({}), true);
+      const url = 'test/url';
+      const urlStub = sandbox.stub(Gerrit.Nav, 'getUrlForOwner').returns(url);
+      let account = {
+        email: 'email',
+        username: 'username',
+        name: 'name',
+        _account_id: '_account_id'
+      };
+      assert.isNotOk(element._computeOwnerLink());
+      assert.equal(element._computeOwnerLink(account), url);
+      assert.isTrue(urlStub.lastCall.calledWithExactly('email'));
+
+      delete account.email;
+      assert.equal(element._computeOwnerLink(account), url);
+      assert.isTrue(urlStub.lastCall.calledWithExactly('username'));
+
+      delete account.username;
+      assert.equal(element._computeOwnerLink(account), url);
+      assert.isTrue(urlStub.lastCall.calledWithExactly('name'));
+
+      delete account.name;
+      assert.equal(element._computeOwnerLink(account), url);
+      assert.isTrue(urlStub.lastCall.calledWithExactly('_account_id'));
+
     });
   });
 </script>

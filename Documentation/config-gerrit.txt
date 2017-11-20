@@ -2420,6 +2420,16 @@ Default value is true.
 
 The httpd section configures the embedded servlet container.
 
+[[httpd.h2]]httpd.h2::
++
+Enables http/2. Benefits are performance improvements.
+Note that http/2 is not supported in alot of browsers at this moment
++
+If you use proxy-* then you can optionally also do it for apache too.
+so that the backend + frontent support it.
++
+By default this is true.
+
 [[httpd.listenUrl]]httpd.listenUrl::
 +
 Specifies the URLs the internal HTTP daemon should listen for
@@ -2652,12 +2662,12 @@ org.anyorg.MySecureIPFilter that performs source IP security filtering:
 
 ----
 [auth]
-	type = HTTP
-	httpHeader = TRUSTED_USER
+  type = HTTP
+  httpHeader = TRUSTED_USER
 
 [httpd]
-	filterClass = org.anyorg.MySecureHeaderFilter
-	filterClass = org.anyorg.MySecureIPFilter
+  filterClass = org.anyorg.MySecureHeaderFilter
+  filterClass = org.anyorg.MySecureIPFilter
 ----
 
 [[httpd.idleTimeout]]httpd.idleTimeout::

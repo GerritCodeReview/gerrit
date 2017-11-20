@@ -759,7 +759,7 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(groups).containsKey(group);
     assertThat(groups).containsKey(otherGroup);
 
-    groups = gApi.groups().list().withSubstring("foo").getAsMap();
+    groups = gApi.groups().list().withSubstring("non-existing-substring").getAsMap();
     assertThat(groups).isEmpty();
   }
 
@@ -867,7 +867,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void pushToGroupBranchIsRejectedForAllUsersRepo() throws Exception {
     String groupRef =
-        RefNames.refsGroups(new AccountGroup.UUID(gApi.groups().create(name("fo")).get().id));
+        RefNames.refsGroups(new AccountGroup.UUID(gApi.groups().create(name("foo")).get().id));
     assertPushToGroupBranch(allUsers, groupRef, !groupsInNoteDb(), "group update not allowed");
   }
 
@@ -883,7 +883,7 @@ public class GroupsIT extends AbstractDaemonTest {
   public void pushToGroupsBranchForNonAllUsersRepo() throws Exception {
     assertCreateGroupBranch(project, null);
     String groupRef =
-        RefNames.refsGroups(new AccountGroup.UUID(gApi.groups().create(name("fo")).get().id));
+        RefNames.refsGroups(new AccountGroup.UUID(gApi.groups().create(name("foo")).get().id));
     assertPushToGroupBranch(project, groupRef, true, null);
   }
 

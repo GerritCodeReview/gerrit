@@ -36,6 +36,7 @@ import com.google.gerrit.server.group.db.testing.GroupTestUtil;
 import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gerrit.testing.TestTimeUtil;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
@@ -403,6 +404,25 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     assertThat(GroupTestUtil.readNameToUuidMap(repo)).containsExactly("a", "a-1", "b", "b-2");
   }
 
+  @Test
+  public void groupNameWithExtraWhitespace() throws Exception {
+    List<AccountGroup> groups =
+        ImmutableList.of(
+            newGroup(" a"),
+            newGroup("  a"),
+            newGroup("a "),
+            newGroup("a  "),
+            newGroup(" a "),
+            newGroup(" a  "),
+            newGroup("  a "),
+            newGroup("  a  "));
+    for (AccountGroup g : groups) {
+      GroupBundle b = builder().group(g).build();
+      rebuilder.rebuild(repo, b, null);
+      assertThat(reload(g)).isEqualTo(b);
+    }
+  }
+
   private GroupBundle reload(AccountGroup g) throws Exception {
     return bundleFactory.fromNoteDb(repo, g.getGroupUUID());
   }
@@ -412,7 +432,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     return new AccountGroup(
         new AccountGroup.NameKey(name),
         new AccountGroup.Id(id),
-        new AccountGroup.UUID(name + "-" + id),
+        new AccountGroup.UUID(name.trim() + "-" + id),
         TimeUtil.nowTs());
   }
 

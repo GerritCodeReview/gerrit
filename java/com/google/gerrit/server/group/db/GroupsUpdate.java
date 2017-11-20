@@ -554,11 +554,16 @@ public class GroupsUpdate {
   }
 
   static String getGroupName(GroupCache groupCache, AccountGroup.UUID groupUuid) {
-    return groupCache
-        .get(groupUuid)
-        .map(InternalGroup::getName)
-        .map(name -> formatNameEmail(name, groupUuid.get()))
-        .orElse(groupUuid.get());
+    String uuid = groupUuid.get();
+    String name =
+        groupCache
+            .get(groupUuid)
+            .map(InternalGroup::getName)
+            // Still use "Name <UUID>" format even if we can't find the name (including for external
+            // groups), just using the UUID as the name. This makes parsing the audit log easier, at
+            // the cost of some slight duplication in the commit message
+            .orElse(uuid);
+    return formatNameEmail(name, uuid);
   }
 
   private String getGroupName(AccountGroup.UUID groupUuid) {

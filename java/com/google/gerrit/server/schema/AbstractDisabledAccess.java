@@ -34,7 +34,7 @@ abstract class AbstractDisabledAccess<T, K extends Key<?>> implements Access<T, 
   }
 
   @SuppressWarnings("deprecation")
-  private static <T, K extends Key<?>>
+  private static <T>
       com.google.common.util.concurrent.CheckedFuture<T, OrmException> emptyFuture() {
     return Futures.immediateCheckedFuture(null);
   }

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1511180794 +0100\nnonce AMT3iFh+WNdkWYhvfOZZhU9IOvC1tMbSJzBbvDZNuOWCb+2TlOkaxx1lSZG/G8ADQPpDuffWxtlo\n\n0000000000000000000000000000000000000000 f12898392b368dc16efd2b4e274d98d0777dbce2 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaEsn6AAoJEFG1/Zeg0O9RJ/YH/jbdi+upZh3wzstnBnXnkJnx\n1BzTeU97qtBCFYrfdLseIuPJVRECJ6gkB2Nvy/aGQ3kyGT6inarh7xCSNUSicvmb\n3fpunDIAVknjYCI4BUd1FPZjip0I1cefYM7Vgi/+gzjilUARZURSj8UiZLsIva4y\nuY7MEH3JQbYvZhDDfhSsfhUQmMUNYOTlBXEMlWmZVN0W3mxM2nbj4IQxNwTm4AGb\n86JK39tyzHs6SEwGck+yoXw1Pl6kOAhWhbv8SWKq95lb0ElEiuh/DF+sslwe+Gde\n4xyAsGLst1bC1/QME03LtCjQc3QgTqStrY+5iX3aUOQSShcr+J5AN/z0HlibowI\u003d\n\u003dlaha\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd3daeee_5c66a673",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1297,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-20T12:29:56Z",
+      "side": 1,
+      "message": "Since this can take multiple permissions, the name should be pluralized.",
+      "range": {
+        "startLine": 1297,
+        "startChar": 17,
+        "endLine": 1297,
+        "endChar": 33
+      },
+      "revId": "5c09498047aeea2d04e2364cad383036e48326e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

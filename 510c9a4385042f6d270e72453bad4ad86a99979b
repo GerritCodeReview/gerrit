@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "2bed8dc7_abbab7bb",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-20T10:54:26Z",
+      "side": 1,
+      "message": "Done in:\n  https://gerrit-review.googlesource.com/142855",
+      "parentUuid": "32a46d08_4d02f372",
+      "range": {
+        "startLine": 782,
+        "startChar": 39,
+        "endLine": 783,
+        "endChar": 28
+      },
+      "revId": "510c9a4385042f6d270e72453bad4ad86a99979b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "240b0e31_988df9c2",
         "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 1
@@ -97,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "01c966e5_7fee77eb",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-20T10:54:26Z",
+      "side": 1,
+      "message": "Done in:\n  https://gerrit-review.googlesource.com/142855",
+      "parentUuid": "f51169a8_e11f2abd",
+      "range": {
+        "startLine": 810,
+        "startChar": 6,
+        "endLine": 812,
+        "endChar": 82
+      },
+      "revId": "510c9a4385042f6d270e72453bad4ad86a99979b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9d522a9_14ac201f",
         "filename": "java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
         "patchSetId": 1
@@ -129,6 +177,24 @@
       "revId": "510c9a4385042f6d270e72453bad4ad86a99979b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfd7b820_231c5033",
+        "filename": "java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-20T10:54:26Z",
+      "side": 1,
+      "message": "Done in:\n  https://gerrit-review.googlesource.com/142854",
+      "parentUuid": "4cce9004_76d7d461",
+      "revId": "510c9a4385042f6d270e72453bad4ad86a99979b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -224,6 +290,30 @@
       "revId": "510c9a4385042f6d270e72453bad4ad86a99979b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8332f026_9bb30927",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-20T10:54:26Z",
+      "side": 1,
+      "message": "I think this is no longer true. Fixed in:\n  https://gerrit-review.googlesource.com/142853",
+      "parentUuid": "1db01279_7d4200b0",
+      "range": {
+        "startLine": 849,
+        "startChar": 61,
+        "endLine": 849,
+        "endChar": 63
+      },
+      "revId": "510c9a4385042f6d270e72453bad4ad86a99979b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

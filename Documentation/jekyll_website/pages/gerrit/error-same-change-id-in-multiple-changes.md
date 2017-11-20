@@ -1,0 +1,114 @@
+---
+title: " same Change-Id in multiple changes"
+sidebar: errors_sidebar
+permalink: error-same-change-id-in-multiple-changes.html
+---
+With this error message Gerrit rejects to push a commit if it contains
+the same Change-Id as a predecessor commit.
+
+The reason for rejecting such a commit is that it would introduce, for
+the corresponding change in Gerrit, a dependency upon itself. Gerrit
+prevents such dependencies between patch sets within the same change to
+keep the review process simple. Otherwise reviewers would not only have
+to review the latest patch set but also all the patch sets the latest
+one depends on.
+
+This error is quite common, it appears when a user tries to address
+review comments and creates a new commit instead of amending the
+existing commit. Another possibility for this error, although less
+likely, is that the user tried to create a patch series with multiple
+changes to be reviewed and accidentally included the same Change-Id into
+the different commit messages.
+
+## Example
+
+Here an example about how the push is failing. Please note that the two
+commits *one commit* and *another commit* both have the same Change-Id
+(of course in real life it can happen that there are more than two
+commits that have the same Change-Id).
+
+``` 
+  $ git log
+  commit 13d381265ffff88088e1af88d0e2c2c1143743cd
+  Author: John Doe <john.doe@example.com>
+  Date:   Thu Dec 16 10:15:48 2010 +0100
+
+      another commit
+
+      Change-Id: I93478acac09965af91f03c82e55346214811ac79
+
+  commit ca45e125145b12fe9681864b123bc9daea501bf7
+  Author: John Doe <john.doe@example.com>
+  Date:   Thu Dec 16 10:12:54 2010 +0100
+
+      one commit
+
+      Change-Id: I93478acac09965af91f03c82e55346214811ac79
+
+  $ git push ssh://JohnDoe@host:29418/myProject HEAD:refs/for/master
+  Counting objects: 8, done.
+  Delta compression using up to 2 threads.
+  Compressing objects: 100% (2/2), done.
+  Writing objects: 100% (6/6), 558 bytes, done.
+  Total 6 (delta 0), reused 0 (delta 0)
+  To ssh://JohnDoe@host:29418/myProject
+  ! [remote rejected] HEAD -> refs/for/master (same Change-Id in multiple changes.
+  Squash the commits with the same Change-Id or ensure Change-Ids are unique for each commit)
+  error: failed to push some refs to 'ssh://JohnDoe@host:29418/myProject'
+```
+
+If it was the intention to rework a change and push a new patch set, the
+problem can be fixed by squashing the commits that contain the same
+Change-Id. The squashed commit can then be pushed to Gerrit.
+
+To squash the commits, use `git rebase -i` to do an interactive rebase.
+For the example above where the last two commits have the same
+Change-Id, this means an interactive rebase for the last two commits
+should be done. For further details about the git rebase command please
+check the [Git documentation for
+rebase](http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html).
+
+``` 
+  $ git rebase -i HEAD~2
+
+  pick ca45e12 one commit
+  squash 13d3812 another commit
+
+  [detached HEAD ab37207] squashed commit
+   1 files changed, 3 insertions(+), 0 deletions(-)
+  Successfully rebased and updated refs/heads/master.
+
+  $ git log
+  commit ab37207d33647685801dba36cb4fd51f3eb73507
+  Author: John Doe <john.doe@example.com>
+  Date:   Thu Dec 16 10:12:54 2010 +0100
+
+      squashed commit
+
+      Change-Id: I93478acac09965af91f03c82e55346214811ac79
+
+  $ git push ssh://JohnDoe@host:29418/myProject HEAD:refs/for/master
+  Counting objects: 5, done.
+  Writing objects: 100% (3/3), 307 bytes, done.
+  Total 3 (delta 0), reused 0 (delta 0)
+  To ssh://JohnDoe@host:29418/myProject
+   * [new branch]      HEAD -> refs/for/master
+```
+
+If it was the intention to create a patch series with multiple changes
+to be reviewed, each commit message should contain the Change-Id of the
+corresponding change in Gerrit. If a change in Gerrit does not exist
+yet, the Change-Id should be generated (either by using a [commit
+hook](cmd-hook-commit-msg.html) or by using EGit) or the Change-Id could
+be removed (not recommended since then amending this commit to create
+subsequent patch sets is more error prone). To change the Change-Id of
+an existing commit do an interactive [git
+rebase](http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html)
+and fix the affected commit messages.
+
+## GERRIT
+
+Part of [Gerrit Error Messages](error-messages.html)
+
+## SEARCHBOX
+

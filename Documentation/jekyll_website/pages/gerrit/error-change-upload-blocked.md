@@ -1,0 +1,43 @@
+---
+title: " One or more refs/for/ names blocks change upload"
+sidebar: errors_sidebar
+permalink: error-change-upload-blocked.html
+---
+With this error message Gerrit rejects to push a commit for code review
+if the remote git repository has a branch under the *refs/for/*
+namespace.
+
+Gerrit uses the *refs/for/* namespace for magical refs that represent
+the review queues for branches in the git repository hosted by Gerrit.
+If, for a project, a real branch is created under the *refs/for*
+namespace this conflicts with the namespace reserved for the Gerrit
+review queues and Gerrit can’t accept further pushes for code review.
+
+To solve this problem all real branches that exist under the *refs/for/*
+namespace have to be deleted or renamed in the remote git repository.
+
+To see which branches exist under the *refs/for/* namespace a Gerrit
+administrator can run the following command:
+
+``` 
+  $ git for-each-ref refs/for
+```
+
+If all these branches should be deleted it can be done with the
+following command:
+
+``` 
+  $ for n in $(git for-each-ref --format='%(refname)' refs/for);
+    do git update-ref -d $n; done
+```
+
+Branches under the *refs/for/* namespace can be created by users that
+bypass Gerrit and push directly to the git repository itself (not using
+the Gerrit server’s SSH port).
+
+## GERRIT
+
+Part of [Gerrit Error Messages](error-messages.html)
+
+## SEARCHBOX
+

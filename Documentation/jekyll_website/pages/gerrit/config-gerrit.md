@@ -1,0 +1,4553 @@
+---
+title: " Gerrit Code Review - Configuration"
+sidebar: gerritdoc_sidebar
+permalink: config-gerrit.html
+---
+## File `etc/gerrit.config`
+
+The optional file `'$site_path'/etc/gerrit.config` is a Git-style config
+file that controls many host specific settings for Gerrit.
+
+> **Note**
+> 
+> The contents of the `etc/gerrit.config` file are cached at startup by
+> Gerrit. If you modify any properties in this file, Gerrit needs to be
+> restarted before it will use the new values.
+
+Sample `etc/gerrit.config`:
+
+    [core]
+      packedGitLimit = 200 m
+    
+    [cache]
+      directory = /var/cache/gerrit
+
+### Section accountPatchReviewDb
+
+The AccountPatchReviewDb is a database used to store the user file
+reviewed flags. It co-exists with [ReviewDb](#database) and
+[NoteDb](note-db.html).
+
+  - accountPatchReviewDb.url  
+    The url of accountPatchReviewDb. Supported types are `H2`,
+    `POSTGRESQL`, `MARIADB`, and `MYSQL`. Drop the driver jar in the lib
+    folder of the site path if the Jdbc driver of the corresponding
+    Database is not yet in the class path.
+    
+    Default is to create H2 database in the db folder of the site path.
+    
+    Changing this parameter requires to migrate database using the
+    [MigrateAccountPatchReviewDb](pgm-MigrateAccountPatchReviewDb.html)
+    program. Migration cannot be done while the server is running.
+    
+    Also note that the db\_name has to be a new db and not reusing
+    gerrit’s own review database, otherwise gerrit’s init will remove
+    the table.
+
+<!-- end list -->
+
+    [accountPatchReviewDb]
+      url = jdbc:postgresql://<host>:<port>/<db_name>?user=<user>&password=<password>
+
+  - accountPatchReviewDb.poolLimit  
+    Maximum number of open database connections. If the server needs
+    more than this number, request processing threads will wait up to
+    [poolMaxWait](#accountPatchReviewDb.poolMaxWait) seconds for a
+    connection to be released before they abort with an exception. This
+    limit must be several units higher than the total number of httpd
+    and sshd threads as some request processing code paths may need
+    multiple connections.
+    
+    Default is [sshd.threads](#sshd.threads) +
+    [httpd.maxThreads](#httpd.maxThreads) + 2.
+
+  - database.poolMinIdle  
+    Minimum number of connections to keep idle in the pool. Default is
+    4.
+
+  - accountPatchReviewDb.poolMaxIdle  
+    Maximum number of connections to keep idle in the pool. If there are
+    more idle connections, connections will be closed instead of being
+    returned back to the pool. Default is
+    min([accountPatchReviewDb.poolLimit](#accountPatchReviewDb.poolLimit),
+    16).
+
+  - accountPatchReviewDb.poolMaxWait  
+    Maximum amount of time a request processing thread will wait to
+    acquire a database connection from the pool. If no connection is
+    released within this time period, the processing thread will abort
+    its current operations and return an error to the client. Values
+    should use common unit suffixes to express their setting:
+    
+      - ms, milliseconds
+    
+      - s, sec, second, seconds
+    
+      - m, min, minute, minutes
+    
+      - h, hr, hour, hours
+    
+    If a unit suffix is not specified, `milliseconds` is assumed.
+    Default is `30 seconds`.
+
+### Section accounts
+
+  - accounts.visibility  
+    Controls visibility of other users' dashboard pages and completion
+    suggestions to web users.
+    
+    If `ALL`, all users are visible to all other users, even anonymous
+    users.
+    
+    If `SAME_GROUP`, only users who are also members of a group the
+    current user is a member of are visible.
+    
+    If `VISIBLE_GROUP`, only users who are members of at least one group
+    that is visible to the current user are visible.
+    
+    If `NONE`, no users other than the current user are visible.
+    
+    Default is `ALL`.
+
+### Section addreviewer
+
+  - addreviewer.maxWithoutConfirmation  
+    The maximum number of reviewers a user can add at once by adding a
+    group as reviewer without being asked to confirm the operation.
+    
+    If set to 0, the user will never be asked to confirm adding a group
+    as reviewer.
+    
+    Default is 10.
+    
+    This setting only applies for adding reviewers in the Gerrit Web UI,
+    but is ignored when adding reviewers with the
+    [set-reviewers](cmd-set-reviewers.html) command.
+
+  - addreviewer.maxAllowed  
+    The maximum number of reviewers a user can add at once by adding a
+    group as reviewer.
+    
+    If set to 0, there is no limit for the number of reviewers that can
+    be added at once by adding a group as reviewer.
+    
+    Default is 20.
+
+  - addReviewer.baseWeight  
+    The weight that will be applied in the default reviewer ranking
+    algorithm. This can be increased or decreased to give more or less
+    influence to plugins. If set to zero, the base ranking will not have
+    any effect. Reviewers will then be ordered as ranked by the plugins
+    (if there are any).
+    
+    By default 1.
+
+### Section auth
+
+See also [SSO configuration](config-sso.html).
+
+  - auth.type  
+    Type of user authentication employed by Gerrit. The supported values
+    are:
+    
+      - `OpenID`
+        
+        The default setting. Gerrit uses any valid OpenID provider
+        chosen by the end-user. For more information see
+        [openid.net](http://openid.net/).
+    
+      - `OpenID_SSO`
+        
+        Supports OpenID from a single provider. There is no registration
+        link, and the "Sign In" link sends the user directly to the
+        provider’s SSO entry point.
+    
+      - `HTTP`
+        
+        Gerrit relies upon data presented in the HTTP request. This
+        includes HTTP basic authentication, or some types of commercial
+        single-sign-on solutions. With this setting enabled the
+        authentication must take place in the web server or servlet
+        container, and not from within Gerrit.
+    
+      - `HTTP_LDAP`
+        
+        Exactly like `HTTP` (above), but additionally Gerrit
+        pre-populates a user’s full name and email address based on
+        information obtained from the user’s account object in LDAP. The
+        user’s group membership is also pulled from LDAP, making any
+        LDAP groups that a user is a member of available as groups in
+        Gerrit. Hence the `_LDAP` suffix in the name of this
+        authentication type. Gerrit does NOT authenticate the user via
+        LDAP.
+    
+      - `CLIENT_SSL_CERT_LDAP`
+        
+        This authentication type is actually kind of SSO. Gerrit will
+        configure Jetty’s SSL channel to request the client’s SSL
+        certificate. For this authentication to work a Gerrit
+        administrator has to import the root certificate of the trust
+        chain used to issue the client’s certificate into the
+        \<review-site\>/etc/keystore. After the authentication is done
+        Gerrit will obtain basic user registration (name and email) from
+        LDAP, and some group memberships. Hence the `_LDAP` suffix in
+        the name of this authentication type. Gerrit does NOT
+        authenticate the user via LDAP. This authentication type can
+        only be used under hosted daemon mode, and the httpd.listenUrl
+        must use https:// as the protocol. Optionally, certificate
+        revocation list file can be used at \<review-site\>/etc/crl.pem.
+        For details, see httpd.sslCrl.
+    
+      - `LDAP`
+        
+        Gerrit prompts the user to enter a username and a password,
+        which it then verifies by performing a simple bind against the
+        configured [ldap.server](#ldap.server). In this configuration
+        the web server is not involved in the user authentication
+        process.
+        
+        The actual username used in the LDAP simple bind request is the
+        account’s full DN, which is discovered by first querying the
+        directory using either an anonymous request, or the configured
+        [ldap.username](#ldap.username) identity. Gerrit can also use
+        kerberos if [ldap.authentication](#ldap.authentication) is set
+        to `GSSAPI`.
+        
+        If [`auth.gitBasicAuthPolicy`](#auth.gitBasicAuthPolicy) is set
+        to `HTTP`, the randomly generated HTTP password is used for
+        authentication. On the other hand, if
+        [`auth.gitBasicAuthPolicy`](#auth.gitBasicAuthPolicy) is set to
+        `HTTP_LDAP`, the password in the request is first checked
+        against the HTTP password and, if it does not match, it is then
+        validated against the LDAP password. Service users that only
+        exist in the Gerrit database are authenticated by their HTTP
+        passwords.
+    
+      - `LDAP_BIND`
+        
+        Gerrit prompts the user to enter a username and a password,
+        which it then verifies by performing a simple bind against the
+        configured [ldap.server](#ldap.server). In this configuration
+        the web server is not involved in the user authentication
+        process.
+        
+        Unlike `LDAP` above, the username used to perform the LDAP
+        simple bind request is the exact string supplied in the dialog
+        by the user. The configured [ldap.username](#ldap.username)
+        identity is not used to obtain account information.
+    
+      - `OAUTH`
+        
+        OAuth is a protocol that lets external apps request
+        authorization to private details in a user’s account without
+        getting their password. This is preferred over Basic
+        Authentication because tokens can be limited to specific types
+        of data, and can be revoked by users at any time.
+        
+        Site owners have to register their application before getting
+        started. Note that provider specific plugins must be used with
+        this authentication scheme.
+        
+        Git clients may send OAuth 2 access tokens instead of passwords
+        in the Basic authentication header. Note that provider specific
+        plugins must be installed to facilitate this authentication
+        scheme. If multiple OAuth 2 provider plugins are installed one
+        of them must be selected as default with the
+        `auth.gitOAuthProvider` option.
+    
+      - `DEVELOPMENT_BECOME_ANY_ACCOUNT`
+        
+        **DO NOT USE**. Only for use in a development environment.
+        
+        When this is the configured authentication method a hyperlink
+        titled `Become` appears in the top right corner of the page,
+        taking the user to a form where they can enter the username of
+        any existing user account, and immediately login as that
+        account, without any authentication taking place. This form of
+        authentication is only useful for the GWT hosted mode shell,
+        where OpenID authentication redirects might be risky to the
+        developer’s host computer, and HTTP authentication is not
+        possible.
+    
+    By default, OpenID.
+
+  - auth.allowedOpenID  
+    List of permitted OpenID providers. A user may only authenticate
+    with an OpenID that matches this list. Only used if `auth.type` is
+    set to `OpenID` (the default).
+    
+    Patterns may be either a [standard Java regular expression
+    (java.util.regex)](http://download.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html)
+    (start with `^` and end with `$`) or be a simple prefix (any other
+    string).
+    
+    By default, the list contains two values, `http://` and `https://`,
+    allowing users to authenticate with any OpenID provider.
+
+  - auth.trustedOpenID  
+    List of trusted OpenID providers. Only used if `auth.type` is set to
+    `OpenID` (the default).
+    
+    In order for a user to take advantage of permissions beyond those
+    granted to the `Anonymous Users` and `Registered Users` groups, the
+    user account must only have OpenIDs which match at least one pattern
+    from this list.
+    
+    Patterns may be either a [standard Java regular expression
+    (java.util.regex)](http://download.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html)
+    (start with `^` and end with `$`) or be a simple prefix (any other
+    string).
+    
+    By default, the list contains two values, `http://` and `https://`,
+    allowing Gerrit to trust any OpenID it receives.
+
+  - auth.openIdDomain  
+    List of allowed OpenID email address domains. Only used if
+    `auth.type` is set to `OPENID` or `OPENID_SSO`.
+    
+    Domain is case insensitive and must be in the same form as it
+    appears in the email address, for example, "example.com".
+    
+    By default, any domain is accepted.
+
+  - auth.maxOpenIdSessionAge  
+    Time in seconds before an OpenID provider must force the user to
+    authenticate themselves again before authentication to this Gerrit
+    server. Currently this is only a polite request, and users coming
+    from providers that don’t support the PAPE extension will be
+    accepted anyway. In the future it may be enforced, rejecting users
+    coming from providers that don’t honor the max session age.
+    
+    If set to 0, the provider will always force the user to authenticate
+    (e.g. supply their password). Values should use common unit suffixes
+    to express their setting:
+    
+      - s, sec, second, seconds
+    
+      - m, min, minute, minutes
+    
+      - h, hr, hour, hours
+    
+      - d, day, days
+    
+      - w, week, weeks (`1 week` is treated as `7 days`)
+    
+      - mon, month, months (`1 month` is treated as `30 days`)
+    
+      - y, year, years (`1 year` is treated as `365 days`)
+    
+    Default is -1, permitting infinite time between authentications.
+
+  - auth.registerEmailPrivateKey  
+    Private key to use when generating an email verification token.
+    
+    If not set, a random key is generated when running the [site
+    initialization](pgm-init.html).
+
+  - auth.maxRegisterEmailTokenAge  
+    Time in seconds before an email verification token sent to a user in
+    order to validate their email address expires.
+    
+      - s, sec, second, seconds
+    
+      - m, min, minute, minutes
+    
+      - h, hr, hour, hours
+    
+      - d, day, days
+    
+      - w, week, weeks (`1 week` is treated as `7 days`)
+    
+      - mon, month, months (`1 month` is treated as `30 days`)
+    
+      - y, year, years (`1 year` is treated as `365 days`)
+    
+    Default is 12 hours.
+
+  - auth.openIdSsoUrl  
+    The SSO entry point URL. Only used if `auth.type` is set to
+    `OpenID_SSO`.
+    
+    The "Sign In" link will send users directly to this URL.
+
+  - auth.httpHeader  
+    HTTP header to trust the username from, or unset to select HTTP
+    basic authentication. Only used if `auth.type` is set to `HTTP`.
+
+  - auth.httpDisplaynameHeader  
+    HTTP header to retrieve the user’s display name from. Only used if
+    `auth.type` is set to `HTTP`.
+    
+    If set, Gerrit trusts and enforces the user’s full name using the
+    HTTP header and disables the ability to manually modify the user’s
+    full name from the contact information page.
+
+  - auth.httpEmailHeader  
+    HTTP header to retrieve the user’s e-mail from. Only used if
+    `auth.type` is set to `HTTP`.
+    
+    If set, Gerrit trusts and enforces the user’s e-mail using the HTTP
+    header and disables the ability to manually modify or register other
+    e-mails from the contact information page.
+
+  - auth.httpExternalIdHeader  
+    HTTP header to retrieve the user’s external identification token.
+    Only used if `auth.type` is set to `HTTP`.
+    
+    If set, Gerrit adds the value contained in the HTTP header to the
+    user’s identity. Typical use is with a federated identity token from
+    an external system (e.g. GitHub OAuth 2.0 authentication) where the
+    user’s auth token exchanged during authentication handshake needs to
+    be used for authenticated communication to the external system later
+    on.
+    
+    Example: `auth.httpExternalIdHeader: X-GitHub-OTP`
+
+  - auth.loginUrl  
+    URL to redirect a browser to after the end-user has clicked on the
+    login link in the upper right corner. Only used if `auth.type` is
+    set to `HTTP` or `HTTP_LDAP`. Organizations using an enterprise
+    single-sign-on solution may want to redirect the browser to the SSO
+    product’s sign-in page for completing the login process and validate
+    their credentials.
+    
+    If set, Gerrit allows anonymous access until the end-user performs
+    the login and provides a trusted identity through the HTTP header.
+    If not set, Gerrit requires the HTTP header with a trusted identity
+    and returns the error page *LoginRedirect.html* if such a header is
+    not present.
+
+  - auth.loginText  
+    Text displayed in the loginUrl link. Only used if `auth.loginUrl` is
+    set.
+    
+    If not set, the "Sign In" text is used.
+
+  - auth.registerPageUrl  
+    URL of the registration page to use when a new user logs in to
+    Gerrit for the first time. Used only when `auth.type` is set to
+    `HTTP`.
+    
+    If not set, the standard Gerrit registration page `/#/register/` is
+    displayed.
+
+  - auth.logoutUrl  
+    URL to redirect a browser to after the end-user has clicked on the
+    "Sign Out" link in the upper right corner. Organizations using an
+    enterprise single-sign-on solution may want to redirect the browser
+    to the SSO product’s sign-out page.
+    
+    If not set, the redirect returns to the list of all open changes.
+
+  - auth.registerUrl  
+    Target for the "Register" link in the upper right corner. Used only
+    when `auth.type` is `LDAP`, `LDAP_BIND` or `CUSTOM_EXTENSION`.
+    
+    If not set, no "Register" link is displayed.
+
+  - auth.registerText  
+    Text for the "Register" link in the upper right corner. Used only
+    when `auth.type` is `LDAP`, `LDAP_BIND` or `CUSTOM_EXTENSION`.
+    
+    If not set, defaults to "Register".
+
+  - auth.editFullNameUrl  
+    Target for the "Edit" button when the user is allowed to edit their
+    full name. Used only when `auth.type` is `LDAP`, `LDAP_BIND` or
+    `CUSTOM_EXTENSION`.
+
+  - auth.httpPasswordUrl  
+    Target for the "Obtain Password" link. Used only when `auth.type` is
+    `CUSTOM_EXTENSION`.
+
+  - auth.switchAccountUrl  
+    URL to switch user identities and login as a different account than
+    the currently active account. This is disabled by default except
+    when `auth.type` is `OPENID` and `DEVELOPMENT_BECOME_ANY_ACCOUNT`.
+    If set the "Switch Account" link is displayed next to "Sign Out".
+    
+    When `auth.type` does not normally enable this URL administrators
+    may set this to `login/`, allowing users to begin a new web session.
+    This value is used as an href in PolyGerrit and the GWT UI, so
+    absolute URLs like `https://someotherhost/login` work as well.
+    
+    currently viewed path in the link. Be aware that this path will
+    include a leading slash, so a value like this might be appropriate:
+    `/login${path}`.
+
+  - auth.cookiePath  
+    Sets "path" attribute of the authentication cookie.
+    
+    If not set, HTTP request’s path is used.
+
+  - auth.cookieDomain  
+    Sets "domain" attribute of the authentication cookie.
+    
+    If not set, HTTP request’s domain is used.
+
+  - auth.cookieSecure  
+    Sets "secure" flag of the authentication cookie. If true, cookies
+    will be transmitted only over HTTPS protocol.
+    
+    By default, false.
+
+  - auth.emailFormat  
+    Optional format string to construct user email addresses out of user
+    login names. Only used if `auth.type` is `HTTP`, `HTTP_LDAP` or
+    `LDAP`.
+    
+    This value can be set to a format string, where `{0}` is replaced
+    with the login name. E.g. "{0}+<gerrit@example>.com" with a user
+    login name of "foo" will produce "foo+<gerrit@example>.com" during
+    the first time user "foo" registers.
+    
+    If the site is using `HTTP_LDAP` or `LDAP`, using this option is
+    discouraged. Setting `ldap.accountEmailAddress` and importing the
+    email address from the LDAP directory is generally preferred.
+
+  - auth.contributorAgreements  
+    Controls whether or not the contributor agreement features are
+    enabled for the Gerrit site. If enabled a user must complete a
+    contributor agreement before they can upload changes.
+    
+    If enabled, the admin must also add one or more
+    [contributor-agreement sections](config-cla.html) in project.config
+    and create agreement files under `'$site_path'/static`, so users can
+    actually complete one or more agreements.
+    
+    By default this is false (no agreements are used).
+    
+    To enable the actual usage of contributor agreement the project
+    specific config option in the `project.config` must be set:
+    [receive.requireContributorAgreement](config-project-config.html).
+
+  - auth.trustContainerAuth  
+    If true then it is the responsibility of the container hosting
+    Gerrit to authenticate users. In this case Gerrit will blindly trust
+    the container.
+    
+    This parameter only affects git over http traffic. If set to false
+    then Gerrit will do the authentication (using Basic authentication).
+    
+    By default this is set to false.
+
+  - auth.gitBasicAuthPolicy  
+    When `auth.type` is `LDAP`, `LDAP_BIND` or `OAUTH`, it allows using
+    either the generated HTTP password, the LDAP or OAUTH password, or a
+    combination of HTTP and LDAP authentication, to authenticate Git
+    over HTTP and REST API requests. The supported values are:
+    
+    \*`HTTP`
+    
+    Only the HTTP password is accepted when doing Git over HTTP and REST
+    API requests.
+    
+    \*`LDAP`
+    
+    Only the `LDAP` password is allowed when doing Git over HTTP and
+    REST API requests.
+    
+    \*`OAUTH`
+    
+    Only the `OAUTH` authentication is allowed when doing Git over HTTP
+    and REST API requests.
+    
+    \*`HTTP_LDAP`
+    
+    The password in the request is first checked against the HTTP
+    password and, if it does not match, it is then validated against the
+    `LDAP` password.
+    
+    By default this is set to `LDAP` when [`auth.type`](#auth.type) is
+    `LDAP` and `OAUTH` when [`auth.type`](#auth.type) is `OAUTH`.
+    Otherwise, the default value is `HTTP`.
+
+  - auth.gitOAuthProvider  
+    Selects the OAuth 2 provider to authenticate git over HTTP traffic
+    with.
+    
+    In general there is no way to determine from an access token alone,
+    which OAuth 2 provider to address to verify that token, and the
+    BasicAuth scheme does not support amending such details. If multiple
+    OAuth provider plugins in a system offer support for git over HTTP
+    authentication site administrators must configure, which one to use
+    as default provider. In case the provider cannot be determined from
+    a request the access token will be sent to the default provider for
+    verification.
+    
+    The value of this parameter must be the identifier of an OAuth 2
+    provider in the form `plugin-name:provider-name`. Consult the
+    respective plugin documentation for details.
+
+  - auth.userNameToLowerCase  
+    If set the username that is received to authenticate a git operation
+    is converted to lower case for looking up the user account in
+    Gerrit.
+    
+    By setting this parameter a case insensitive authentication for the
+    git operations can be achieved, if it is ensured that the usernames
+    in Gerrit (scheme `username`) are stored in lower case (e.g. if the
+    parameter [ldap.accountSshUserName](#ldap.accountSshUserName) is set
+    to `${sAMAccountName.toLowerCase}`). It is important that for all
+    existing accounts this username is already in lower case. It is not
+    possible to convert the usernames of the existing accounts to lower
+    case because this would break the access to existing per-user
+    branches.
+    
+    This parameter only affects git over http and git over SSH traffic.
+    
+    By default this is set to false.
+
+  - auth.enableRunAs  
+    If true HTTP REST APIs will accept the `X-Gerrit-RunAs` HTTP request
+    header from any users granted the [Run
+    As](access-control.html#capability_runAs) capability. The header and
+    capability permit the authenticated user to impersonate another
+    account.
+    
+    If false the feature is disabled and cannot be re-enabled without
+    editing gerrit.config and restarting the server.
+    
+    Default is true.
+
+  - auth.allowRegisterNewEmail  
+    Whether users are allowed to register new email addresses.
+    
+    In addition for the HTTP authentication type
+    [auth.httpemailheader](#auth.httpemailheader) must **not** be set to
+    enable registration of new email addresses.
+    
+    By default, true.
+
+  - auth.autoUpdateAccountActiveStatus  
+    Whether to allow automatic synchronization of an account’s inactive
+    flag upon login. If set to true, upon login, if the authentication
+    back-end reports the account as active, the account’s inactive flag
+    in the internal Gerrit database will be updated to be active. If the
+    authentication back-end reports the account as inactive, the
+    account’s flag will be updated to be inactive and the login
+    attempt will be blocked. Users enabling this feature should ensure
+    that their authentication back-end is supported. Currently, only
+    strict *LDAP* authentication is supported.
+    
+    In addition, if this parameter is not set, or false, the
+    corresponding scheduled task to deactivate inactive Gerrit accounts
+    will also be disabled. If this parameter is set to true, users
+    should also consider configuring the
+    [accountDeactivation](#accountDeactivation) section appropriately.
+    
+    By default, false.
+
+### Section cache
+
+  - cache.directory  
+    Path to a local directory where Gerrit can write cached entities for
+    future lookup. This local disk cache is used to retain potentially
+    expensive to compute information across restarts. If the location
+    does not exist, Gerrit will try to create it.
+    
+    Technically, cached entities are persisted as a set of H2 databases
+    inside this directory.
+    
+    If not absolute, the path is resolved relative to `$site_path`.
+    
+    Default is unset, no disk cache.
+
+  - cache.h2CacheSize  
+    The size of the in-memory cache for each opened H2 cache database,
+    in bytes.
+    
+    Some caches of Gerrit are persistent and are backed by an H2
+    database. H2 uses memory to cache its database content. The
+    parameter `h2CacheSize` allows to limit the memory used by H2 and
+    thus prevent out-of-memory caused by the H2 database using too much
+    memory.
+    
+    See [database.h2.cachesize](#database.h2.cachesize) for a detailed
+    discussion.
+    
+    Default is unset, using up to half of the available memory.
+    
+    H2 will persist this value in the database, so to unset explicitly
+    specify 0.
+    
+    Common unit suffixes of *k*, *m*, or *g* are supported.
+
+  - cache.h2AutoServer  
+    If set to true, enable H2 autoserver mode for the H2-backed
+    persistent cache databases.
+    
+    See
+    [here](http://www.h2database.com/html/features.html#auto_mixed_mode)
+    for detail.
+    
+    Default is false.
+
+  - cache.\<name\>.maxAge  
+    Maximum age to keep an entry in the cache. Entries are removed from
+    the cache and refreshed from source data every maxAge interval.
+    Values should use common unit suffixes to express their setting:
+    
+      - s, sec, second, seconds
+    
+      - m, min, minute, minutes
+    
+      - h, hr, hour, hours
+    
+      - d, day, days
+    
+      - w, week, weeks (`1 week` is treated as `7 days`)
+    
+      - mon, month, months (`1 month` is treated as `30 days`)
+    
+      - y, year, years (`1 year` is treated as `365 days`)
+    
+    If a unit suffix is not specified, `seconds` is assumed. If 0 is
+    supplied, the maximum age is infinite and items are never purged
+    except when the cache is full.
+    
+    Default is `0`, meaning store forever with no expire, except:
+    
+      - `"adv_bases"`: default is `10 minutes`
+    
+      - `"ldap_groups"`: default is `1 hour`
+    
+      - `"web_sessions"`: default is `12 hours`
+
+  - cache.\<name\>.memoryLimit  
+    The total cost of entries to retain in memory. The cost computation
+    varies by the cache. For most caches where the in-memory size of
+    each entry is relatively the same, memoryLimit is currently defined
+    to be the number of entries held by the cache (each entry costs 1).
+    
+    For caches where the size of an entry can vary significantly between
+    individual entries (notably `"diff"`, `"diff_intraline"`),
+    memoryLimit is an approximation of the total number of bytes stored
+    by the cache. Larger entries that represent bigger patch sets or
+    longer source files will consume a bigger portion of the
+    memoryLimit. For these caches the memoryLimit should be set to
+    roughly the amount of RAM (in bytes) the administrator can dedicate
+    to the cache.
+    
+    Default is 1024 for most caches, except:
+    
+      - `"adv_bases"`: default is `4096`
+    
+      - `"diff"`: default is `10m` (10 MiB of memory)
+    
+      - `"diff_intraline"`: default is `10m` (10 MiB of memory)
+    
+      - `"diff_summary"`: default is `10m` (10 MiB of memory)
+    
+      - `"groups"`: default is unlimited
+    
+      - `"groups_byname"`: default is unlimited
+    
+      - `"groups_byuuid"`: default is unlimited
+    
+      - `"plugin_resources"`: default is 2m (2 MiB of memory)
+    
+    If set to 0 the cache is disabled. Entries are removed immediately
+    after being stored by the cache. This is primarily useful for
+    testing.
+
+  - cache.\<name\>.diskLimit  
+    Total size in bytes of the keys and values stored on disk. Caches
+    that have grown bigger than this size are scanned daily at 1 AM
+    local server time to trim the cache. Entries are removed in least
+    recently accessed order until the cache fits within this limit.
+    Caches may grow larger than this during the day, as the size check
+    is only performed once every 24 hours.
+    
+    Default is 128 MiB per cache, except:
+    
+      - `"diff_summary"`: default is `1g` (1 GiB of disk space)
+    
+    If 0, disk storage for the cache is disabled.
+
+#### Standard Caches
+
+  - cache `"accounts"`  
+    Cache entries contain important details of an active user, including
+    their display name, preferences, and known email addresses. Entry
+    information is obtained from the `accounts` database table.
+
+\+ If direct updates are made to any of these database tables, this
+cache should be flushed.
+
+  - cache `"adv_bases"`  
+    Used only for push over smart HTTP when branch level access controls
+    are enabled. The cache entry contains all commits that are available
+    for the client to use as potential delta bases. Push over smart HTTP
+    requires two HTTP requests, and this cache tries to carry state from
+    the first request into the second to ensure it can complete.
+
+  - cache `"changes"`  
+    The size of `memoryLimit` determines the number of projects for
+    which all changes will be cached. If the cache is set to 1024, this
+    means all changes for up to 1024 projects can be held in the cache.
+    
+    Default value is 0 (disabled). It is disabled by default due to the
+    fact that change updates are not communicated between Gerrit
+    servers. Hence this cache should be disabled in an
+    multi-master/multi-slave setup.
+    
+    The cache should be flushed whenever the database changes table is
+    modified outside of Gerrit.
+
+  - cache `"diff"`  
+    Each item caches the differences between two commits, at both the
+    directory and file levels. Gerrit uses this cache to accelerate the
+    display of affected file names, as well as file contents.
+    
+    Entries in this cache are relatively large, so memoryLimit is an
+    estimate in bytes of memory used. Administrators should try to
+    target cache.diff.memoryLimit to fit all changes users will view in
+    a 1 or 2 day span.
+
+  - cache `"diff_intraline"`  
+    Each item caches the intraline difference of one file, when compared
+    between two commits. Gerrit uses this cache to accelerate display of
+    intraline differences when viewing a file.
+    
+    Entries in this cache are relatively large, so memoryLimit is an
+    estimate in bytes of memory used. Administrators should try to
+    target cache.diff.memoryLimit to fit all files users will view in a
+    1 or 2 day span.
+
+  - cache `"diff_summary"`  
+    Each item caches list of file paths which are different between two
+    commits. Gerrit uses this cache to accelerate computing of the list
+    of paths of changed files.
+    
+    Ideally, disk limit of this cache is large enough to cover all
+    changes. This should significantly speed up change reindexing,
+    especially full offline reindexing.
+
+  - cache `"git_tags"`  
+    If branch or reference level READ access controls are used, this
+    cache tracks which tags are reachable from the branch tips of a
+    repository. Gerrit uses this information to determine the set of
+    tags that a client may access, derived from which tags are part of
+    the history of a visible branch.
+    
+    The cache is persisted to disk across server restarts as it can be
+    expensive to compute (60 or more seconds for a large history like
+    the Linux kernel repository).
+
+  - cache `"groups"`  
+    Caches the basic group information of internal groups by group ID,
+    including the group owner, name, and description.
+    
+    For this cache it is important to configure a size that is larger
+    than the number of internal Gerrit groups, otherwise general Gerrit
+    performance may be poor. This is why by default this cache is
+    unlimited.
+    
+    External group membership obtained from LDAP is cached under
+    `"ldap_groups"`.
+
+  - cache `"groups_byname"`  
+    Caches the basic group information of internal groups by group name,
+    including the group owner, name, and description.
+    
+    For this cache it is important to configure a size that is larger
+    than the number of internal Gerrit groups, otherwise general Gerrit
+    performance may be poor. This is why by default this cache is
+    unlimited.
+    
+    External group membership obtained from LDAP is cached under
+    `"ldap_groups"`.
+
+  - cache `"groups_byuuid"`  
+    Caches the basic group information of internal groups by group UUID,
+    including the group owner, name, and description.
+    
+    For this cache it is important to configure a size that is larger
+    than the number of internal Gerrit groups, otherwise general Gerrit
+    performance may be poor. This is why by default this cache is
+    unlimited.
+    
+    External group membership obtained from LDAP is cached under
+    `"ldap_groups"`.
+
+  - cache `"groups_bymember"`  
+    Caches the groups which contain a specific member (account). If
+    direct updates are made to the `account_group_members` table, this
+    cache should be flushed.
+
+  - cache `"groups_bysubgroups"`  
+    Caches the parent groups of a subgroup. If direct updates are made
+    to the `account_group_includes` table, this cache should be flushed.
+
+  - cache `"ldap_groups"`  
+    Caches the LDAP groups that a user belongs to, if LDAP has been
+    configured on this server. This cache should be configured with a
+    low maxAge setting, to ensure LDAP modifications are picked up in a
+    timely fashion.
+
+  - cache `"ldap_groups_byinclude"`  
+    Caches the hierarchical structure of LDAP groups.
+
+  - cache `"ldap_usernames"`  
+    Caches a mapping of LDAP username to Gerrit account identity. The
+    cache automatically updates when a user first creates their account
+    within Gerrit, so the cache expire time is largely irrelevant.
+
+  - cache `"permission_sort"`  
+    Caches the order in which access control sections must be applied to
+    a reference. Sorting the sections can be expensive when regular
+    expressions are used, so this cache remembers the ordering for each
+    branch.
+
+  - cache `"plugin_resources"`  
+    Caches formatted plugin resources, such as plugin documentation that
+    has been converted from Markdown to HTML. The memoryLimit refers to
+    the bytes of memory dedicated to storing the documentation.
+
+  - cache `"projects"`  
+    Caches the project description records, from the `projects` table in
+    the database. If a project record is updated or deleted, this cache
+    should be flushed. Newly inserted projects do not require a cache
+    flush, as they will be read upon first reference.
+
+  - cache `"sshkeys"`  
+    Caches unpacked versions of user SSH keys, so the internal SSH
+    daemon can match against them during authentication. The unit of
+    storage is per-user, so 1024 items translates to 1024 unique user
+    accounts. As each individual user account may configure multiple SSH
+    keys, the total number of keys may be larger than the item count.
+
+  - cache `"web_sessions"`  
+    Tracks the live user sessions coming in over HTTP. Flushing this
+    cache would cause all users to be signed out immediately, forcing
+    them to sign-in again. To avoid breaking active users, this cache is
+    not flushed automatically by `gerrit flush-caches --all`, but
+    instead must be explicitly requested.
+    
+    If no disk cache is configured (or `cache.web_sessions.diskLimit` is
+    set to 0) a server restart will force all users to sign-out, and
+    need to sign-in again after the restart, as the cache was unable to
+    persist the session information. Enabling a disk cache is strongly
+    recommended.
+    
+    Session storage is relatively inexpensive. The average entry in this
+    cache is approximately 346 bytes.
+
+See also [gerrit flush-caches](cmd-flush-caches.html).
+
+#### Cache Options
+
+  - cache.diff.timeout  
+    Maximum number of milliseconds to wait for diff data before giving
+    up and falling back on a simpler diff algorithm that will not be
+    able to break down modified regions into smaller ones. This is a
+    work around for an infinite loop bug in the default difference
+    algorithm implementation.
+    
+    Values should use common unit suffixes to express their setting:
+    
+      - ms, milliseconds
+    
+      - s, sec, second, seconds
+    
+      - m, min, minute, minutes
+    
+      - h, hr, hour, hours
+    
+    If a unit suffix is not specified, `milliseconds` is assumed.
+    
+    Default is 5 seconds.
+
+  - cache.diff\_intraline.timeout  
+    Maximum number of milliseconds to wait for intraline difference data
+    before giving up and disabling it for a particular file pair. This
+    is a work around for an infinite loop bug in the intraline
+    difference implementation.
+    
+    If computation takes longer than the timeout, the worker thread is
+    terminated, an error message is shown, and no intraline difference
+    is displayed for the file pair.
+    
+    Values should use common unit suffixes to express their setting:
+    
+      - ms, milliseconds
+    
+      - s, sec, second, seconds
+    
+      - m, min, minute, minutes
+    
+      - h, hr, hour, hours
+    
+    If a unit suffix is not specified, `milliseconds` is assumed.
+    
+    Default is 5 seconds.
+
+  - cache.diff\_intraline.enabled  
+    Boolean to enable or disable the computation of intraline
+    differences when populating a diff cache entry. This flag is
+    provided primarily as a backdoor to disable the intraline difference
+    feature if necessary. To maintain backwards compatibility with prior
+    versions, this setting will fallback to `cache.diff.intraline` if
+    not set in the configuration.
+    
+    Default is true, enabled.
+
+  - cache.projects.checkFrequency  
+    How often project configuration should be checked for update from
+    Git. Gerrit Code Review caches project access rules and
+    configuration in memory, checking the refs/meta/config branch every
+    checkFrequency minutes to see if a new revision should be loaded and
+    used for future access. Values can be specified using standard time
+    unit abbreviations (*ms*, *sec*, *min*, etc.).
+    
+    If set to 0, checks occur every time, which may slow down
+    operations. If set to *disabled* or *off*, no check will ever be
+    done. Administrators may force the cache to flush with [gerrit
+    flush-caches](cmd-flush-caches.html).
+    
+    Default is 5 minutes.
+
+  - cache.projects.loadOnStartup  
+    If the project cache should be loaded during server startup.
+    
+    The cache is loaded concurrently. Admins should ensure that the
+    cache size set under
+    [cache.projects.memoryLimit](#cache.name.memoryLimit) is not smaller
+    than the number of repos.
+    
+    Default is false, disabled.
+
+  - cache.projects.loadThreads  
+    Only relevant if
+    [cache.projects.loadOnStartup](#cache.projects.loadOnStartup) is
+    true.
+    
+    The number of threads to allocate for loading the cache at startup.
+    These threads will die out after the cache is loaded.
+    
+    Default is the number of CPUs.
+
+### Section capability
+
+  - capability.administrateServer  
+    Names of groups of users that are allowed to exercise the
+    `administrateServer` capability, in addition to those listed in
+    All-Projects. Configuring this option can be a useful fail-safe to
+    recover a server in the event an administrator removed all groups
+    from the `administrateServer` capability, or to ensure that specific
+    groups always have administration capabilities.
+    
+        [capability]
+          administrateServer = group Fail Safe Admins
+    
+    The configuration file uses group names, not UUIDs. If a group is
+    renamed the gerrit.config file must be updated to reflect the new
+    name. If a group cannot be found for the configured name a warning
+    is logged and the server will continue normal startup.
+    
+    If not specified (default), only the groups listed by All-Projects
+    may use the `administrateServer` capability.
+
+  - capability.makeFirstUserAdmin  
+    Whether the first user that logs in to the Gerrit server should
+    automatically be added to the administrator group and hence get the
+    `administrateServer` capability assigned. This is useful to
+    bootstrap the authentication database.
+    
+    Default is true.
+
+### Section change
+
+  - change.largeChange  
+    Number of changed lines from which on a change is considered as a
+    large change. The number of changed lines of a change is the sum of
+    the lines that were inserted and deleted in the change.
+    
+    The specified value is used to visualize the change sizes in the Web
+    UI in change tables and user dashboards.
+    
+    By default 500.
+
+  - change.updateDelay  
+    How often in seconds the web interface should poll for updates to
+    the currently open change. The poller relies on the client’s browser
+    cache to use If-Modified-Since and respect `304 Not Modified` HTTP
+    responses. This allows for fast polls, often under 8 milliseconds.
+    
+    With a configured 30 second delay a server with 4900 active users
+    will typically need to dedicate 1 CPU to the update check. 4900
+    users divided by an average delay of 30 seconds is 163 requests
+    arriving per second. If requests are served at ~6 ms response time,
+    1 CPU is necessary to keep up with the update request traffic. On a
+    smaller user base of 500 active users, the default 30 second delay
+    is only 17 requests per second and requires ~10% CPU.
+    
+    If 0 the update polling is disabled.
+    
+    Default is 5 minutes.
+
+  - change.allowBlame  
+    Allow blame on side by side diff. If set to false, blame cannot be
+    used.
+    
+    Default is true.
+
+  - change.allowDrafts  
+    Allow drafts workflow. If set to false, drafts cannot be created,
+    deleted or published.
+    
+    Default is true.
+
+  - change.cacheAutomerge  
+    When reviewing diff commits, the left-hand side shows the output of
+    the result of JGit’s automatic merge algorithm. This option controls
+    whether this output is cached in the change repository, or if only
+    the diff is cached in the persistent `diff` cache.
+    
+    If true, automerge results are stored in the repository under
+    `refs/cache-automerge/*`; the results of diffing the change against
+    its automerge base are stored in the diff cache. If false, no extra
+    data is stored in the repository, only the diff cache. This can
+    result in slight performance improvements by reducing the number of
+    refs in the repo.
+    
+    Default is true.
+
+  - change.showAssigneeInChangesTable  
+    Show assignee field in changes table. If set to false, assignees
+    will not be visible in changes table.
+    
+    Default is false.
+
+  - change.submitLabel  
+    Label name for the submit button.
+    
+    Default is "Submit".
+
+  - change.submitLabelWithParents  
+    Label name for the submit button if the change has parents which
+    will be submitted together with this change.
+    
+    Default is "Submit including parents".
+
+  - change.submitTooltip  
+    Tooltip for the submit button. Variables available for replacement
+    include `${patchSet}` for the current patch set number (1, 2, 3),
+    `${branch}` for the branch name ("master") and `${commit}` for the
+    abbreviated commit SHA-1 (`c9c0edb`).
+
+  - change.submitTooltipAncestors  
+    Tooltip for the submit button if there are ancestors which would
+    also be submitted by submitting the change. Additionally to the
+    variables as in [change.submitTooltip](#change.submitTooltip), there
+    is the variable `${submitSize}` indicating the number of changes
+    which are submitted.
+    
+    changes including ancestors and other changes related by topic)".
+
+  - change.submitWholeTopic  
+    Determines if the submit button submits the whole topic instead of
+    just the current change.
+    
+    Default is false.
+
+  - change.submitTopicLabel  
+    If `change.submitWholeTopic` is set and a change has a topic, the
+    label name for the submit button is given here instead of the
+    configuration `change.submitLabel`.
+    
+    Defaults to "Submit whole topic"
+
+  - change.submitTopicTooltip  
+    If `change.submitWholeTopic` is configured to true and a change has
+    a topic, this configuration determines the tooltip for the submit
+    button instead of `change.submitTooltip`. The variable
+    `${topicSize}` is available for the number of changes in the same
+    topic to be submitted. The number of all changes to be submitted is
+    in the variable `${submitSize}`.
+    
+    changes related by topic)".
+
+  - change.replyLabel  
+    Label name for the reply button. In the user interface an ellipsis
+    (…) is appended.
+    
+    Default is "Reply". In the user interface it becomes "Reply…".
+
+  - change.replyTooltip  
+    Tooltip for the reply button. In the user interface a note about the
+    keyboard shortcut is appended.
+    
+    Default is "Reply and score". In the user interface it becomes
+    "Reply and score (Shortcut: a)".
+
+  - change.robotCommentSizeLimit  
+    Maximum allowed size of a robot comment that will be accepted. Robot
+    comments which exceed the indicated size will be rejected on
+    addition. The specified value is interpreted as the maximum size in
+    bytes of the JSON representation of the robot comment. Common unit
+    suffixes of *k*, *m*, or *g* are supported. Zero or negative values
+    allow robot comments of unlimited size.
+    
+    The default limit is 1024kB.
+
+### Section changeCleanup
+
+This section allows to configure change cleanups and schedules them to
+run periodically.
+
+  - changeCleanup.abandonAfter  
+    Period of inactivity after which open changes should be abandoned
+    automatically.
+    
+    By default `0`, never abandon open changes.
+    
+    \[WARNING\] Auto-Abandoning changes may confuse/annoy users. When
+    enabling this, make sure to choose a reasonably large grace period
+    and inform users in advance.
+    
+    The following suffixes are supported to define the time unit:
+    
+      - `d, day, days`
+    
+      - `w, week, weeks` (`1 week` is treated as `7 days`)
+    
+      - `mon, month, months` (`1 month` is treated as `30 days`)
+    
+      - `y, year, years` (`1 year` is treated as `365 days`)
+
+  - changeCleanup.abandonIfMergeable  
+    Whether changes which are mergeable should be auto-abandoned.
+    
+    By default `true`.
+
+  - changeCleanup.abandonMessage  
+    Change message that should be posted when a change is abandoned.
+    
+    By default "Auto-Abandoned due to inactivity, see If this change is
+    still wanted it should be restored.".
+
+  - changeCleanup.startTime  
+    Start time to define the first execution of the change cleanups. If
+    the configured `'changeCleanup.interval'` is shorter than
+    `'changeCleanup.startTime - now'` the start time will be preponed by
+    the maximum integral multiple of `'changeCleanup.interval'` so that
+    the start time is still in the future.
+    
+        <day of week> <hours>:<minutes>
+        or
+        <hours>:<minutes>
+        
+        <day of week> : Mon, Tue, Wed, Thu, Fri, Sat, Sun
+        <hours>       : 00-23
+        <minutes>     : 0-59
+
+  - changeCleanup.interval  
+    Interval for periodic repetition of triggering the change cleanups.
+    The interval must be larger than zero. The following suffixes are
+    supported to define the time unit for the interval:
+    
+      - `s, sec, second, seconds`
+    
+      - `m, min, minute, minutes`
+    
+      - `h, hr, hour, hours`
+    
+      - `d, day, days`
+    
+      - `w, week, weeks` (`1 week` is treated as `7 days`)
+    
+      - `mon, month, months` (`1 month` is treated as `30 days`)
+    
+      - `y, year, years` (`1 year` is treated as `365 days`)
+
+[Schedule examples](#schedule-examples) can be found in the [gc](#gc)
+section.
+
+### Section commentlink
+
+Comment links are find/replace strings applied to change descriptions,
+patch comments, in-line code comments and approval category value
+descriptions to turn set strings into hyperlinks. One common use is for
+linking to bug-tracking systems.
+
+In the following example configuration the *changeid* comment link will
+match typical Gerrit Change-Id values and create a hyperlink to changes
+which reference it. The second configuration *bugzilla* will hyperlink
+terms such as *bug 42* to an external bug tracker, supplying the
+argument record number *42* for display. The third configuration
+*tracker* uses raw HTML to more precisely control how the replacement is
+displayed to the user.
+
+    [commentlink "changeid"]
+      match = (I[0-9a-f]{8,40})
+      link = "#/q/$1"
+    
+    [commentlink "bugzilla"]
+      match = "(bug\\s+#?)(\\d+)"
+      link = http://bugs.example.com/show_bug.cgi?id=$2
+    
+    [commentlink "tracker"]
+      match = ([Bb]ug:\\s+)(\\d+)
+      html = $1<a href=\"http://trak.example.com/$2\">$2</a>
+
+Comment links can also be specified in `project.config` and sections in
+children override those in parents. The only restriction is that to
+avoid injecting arbitrary user-supplied HTML in the page, comment links
+defined in `project.config` may only supply `link`, not `html`.
+
+  - commentlink.\<name\>.match  
+    A JavaScript regular expression to match positions to be replaced
+    with a hyperlink. Subexpressions of the matched string can be stored
+    using groups and accessed with `$'n'` syntax, where *n* is the group
+    number, starting from 1.
+    
+    The configuration file parser eats one level of backslashes, so the
+    character class `\s` requires `\\s` in the configuration file. The
+    parser also terminates the line at the first `#`, so a match
+    expression containing \# must be wrapped in double quotes.
+    
+    To match case insensitive strings, a character class with both the
+    upper and lower case character for each position must be used. For
+    example, to match the string `bug` in a case insensitive way the
+    match pattern `[bB][uU][gG]` needs to be used.
+    
+    The regular expression pattern is applied to the HTML form of the
+    message in question, which means it needs to assume the data has
+    been escaped. So `"` needs to be matched as `&amp;quot;`, `<` as
+    `&amp;lt;`, and `'` as `&amp;#39;`.
+    
+    A common pattern to match is `bug\\s+(\\d+)`.
+
+  - commentlink.\<name\>.link  
+    The URL to direct the user to whenever the regular expression is
+    matched. Groups in the match expression may be accessed as `$'n'`.
+    
+    The link property is used only when the html property is not
+    present.
+
+  - commentlink.\<name\>.html  
+    HTML to replace the entire matched string with. If present, this
+    property overrides the link property above. Groups in the match
+    expression may be accessed as `$'n'`.
+    
+    The configuration file eats double quotes, so escaping them as `\"`
+    is necessary to protect them from the parser.
+
+  - commentlink.\<name\>.enabled  
+    Whether the comment link is enabled. A child project may override a
+    section in a parent or the site-wide config that is disabled by
+    specifying `enabled = true`.
+    
+    Disabling sections in `gerrit.config` can be used by site
+    administrators to create a library of comment links with `html` set
+    that are not user-supplied and thus can be verified to be XSS-free,
+    but are only enabled for a subset of projects.
+    
+    By default, true.
+    
+    Note that the names and contents of disabled sections are visible
+    even to anonymous users via the [REST
+    API](rest-api-projects.html#get-config).
+
+### Section container
+
+These settings are applied only if Gerrit is started as the container
+process through Gerrit’s *gerrit.sh* rc.d compatible wrapper script.
+
+  - container.heapLimit  
+    Maximum heap size of the Java process running Gerrit, in bytes. This
+    property is translated into the *-Xmx* flag for the JVM.
+    
+    Default is platform and JVM specific.
+    
+    Common unit suffixes of *k*, *m*, or *g* are supported.
+
+  - container.javaHome  
+    Path of the JRE/JDK installation to run Gerrit with. If not set, the
+    Gerrit startup script will attempt to search your system and guess a
+    suitable JRE. Overrides the environment variable *JAVA\_HOME*.
+
+  - container.javaOptions  
+    Additional options to pass along to the Java runtime. If multiple
+    values are configured, they are passed in order on the command line,
+    separated by spaces. These options are appended onto
+    *JAVA\_OPTIONS*.
+
+For example, it is possible to overwrite Gerrit’s default log4j
+configuration:
+
+``` 
+  javaOptions = -Dlog4j.configuration=file:///home/gerrit/site/etc/log4j.properties
+```
+
+  - container.daemonOpt  
+    Additional options to pass to the daemon (e.g. *--enable-httpd*). If
+    multiple values are configured, they are passed in that order to the
+    command line, separated by spaces.
+    
+    Execute `java -jar gerrit.war daemon --help` to see all possible
+    options.
+
+  - container.slave  
+    Used on Gerrit slave installations. If set to true the Gerrit JVM is
+    called with the *--slave* switch, enabling slave mode. If no value
+    is set (or any other value), Gerrit defaults to master mode.
+
+  - container.startupTimeout  
+    The maximum time (in seconds) to wait for a gerrit.sh start command
+    to run a new Gerrit daemon successfully. If not set, defaults to 90
+    seconds.
+
+  - container.user  
+    Login name (or UID) of the operating system user the Gerrit JVM will
+    execute as. If not set, defaults to the user who launched the
+    *gerrit.sh* wrapper script.
+
+  - container.war  
+    Path of the JAR file to start daemon execution with. This should be
+    the path of the local *gerrit.war* archive. Overrides the
+    environment variable *GERRIT\_WAR*.
+    
+    If not set, defaults to *$site\_path/bin/gerrit.war*, or to
+    *$HOME/gerrit.war*.
+
+### Section core
+
+  - core.packedGitWindowSize  
+    Number of bytes of a pack file to load into memory in a single read
+    operation. This is the "page size" of the JGit buffer cache, used
+    for all pack access operations. All disk IO occurs as single window
+    reads. Setting this too large may cause the process to load more
+    data than is required; setting this too small may increase the
+    frequency of `read()` system calls.
+    
+    Default on JGit is 8 KiB on all platforms.
+    
+    Common unit suffixes of *k*, *m*, or *g* are supported.
+
+  - core.packedGitLimit  
+    Maximum number of bytes to load and cache in memory from pack files.
+    If JGit needs to access more than this many bytes it will unload
+    less frequently used windows to reclaim memory space within the
+    process. As this buffer must be shared with the rest of the JVM
+    heap, it should be a fraction of the total memory available.
+    
+    Default on JGit is 10 MiB on all platforms.
+    
+    Common unit suffixes of *k*, *m*, or *g* are supported.
+
+  - core.deltaBaseCacheLimit  
+    Maximum number of bytes to reserve for caching base objects that
+    multiple deltafied objects reference. By storing the entire
+    decompressed base object in a cache Git is able to avoid unpacking
+    and decompressing frequently used base objects multiple times.
+    
+    Default on JGit is 10 MiB on all platforms. You probably do not need
+    to adjust this value.
+    
+    Common unit suffixes of *k*, *m*, or *g* are supported.
+
+  - core.packedGitOpenFiles  
+    Maximum number of pack files to have open at once. A pack file must
+    be opened in order for any of its data to be available in a cached
+    window.
+    
+    If you increase this to a larger setting you may need to also adjust
+    the ulimit on file descriptors for the host JVM, as Gerrit needs
+    additional file descriptors available for network sockets and other
+    repository data manipulation.
+    
+    Default on JGit is 128 file descriptors on all platforms.
+
+  - core.streamFileThreshold  
+    Largest object size, in bytes, that JGit will allocate as a
+    contiguous byte array. Any file revision larger than this threshold
+    will have to be streamed, typically requiring the use of temporary
+    files under *$GIT\_DIR/objects* to implement pseudo-random access
+    during delta decompression.
+    
+    Servers with very high traffic should set this to be larger than the
+    size of their common big files. For example a server managing the
+    Android platform typically has to deal with ~10-12 MiB XML files, so
+    `15 m` would be a reasonable setting in that environment. Setting
+    this too high may cause the JVM to run out of heap space when
+    handling very big binary files, such as device firmware or CD-ROM
+    ISO images.
+    
+    Defaults to 25% of the available JVM heap, limited to 2048m.
+    
+    Common unit suffixes of *k*, *m*, or *g* are supported.
+
+  - core.packedGitMmap  
+    When true, JGit will use `mmap()` rather than `malloc()+read()` to
+    load data from pack files. The use of mmap can be problematic on
+    some JVMs as the garbage collector must deduce that a memory mapped
+    segment is no longer in use before a call to `munmap()` can be made
+    by the JVM native code.
+    
+    In server applications (such as Gerrit) that need to access many
+    pack files, setting this to true risks artificially running out of
+    virtual address space, as the garbage collector cannot reclaim
+    unused mapped spaces fast enough.
+    
+    Default on JGit is false. Although potentially slower, it yields
+    much more predictable behavior.
+
+  - core.asyncLoggingBufferSize  
+    Size of the buffer to store logging events for asynchronous logging.
+    Putting a larger value can protect threads from stalling when the
+    AsyncAppender threads are not fast enough to consume the logging
+    events from the buffer. It also protects from losing log entries in
+    this case.
+    
+    Default is 64 entries.
+
+  - core.useRecursiveMerge  
+    Use JGit’s recursive merger for three-way merges. This only affects
+    projects that allow content merges.
+    
+    As explained in this
+    [blog](http://codicesoftware.blogspot.com/2011/09/merge-recursive-strategy.html),
+    the recursive merge produces better results if the two commits that
+    are merged have more than one common predecessor.
+    
+    Default is true.
+
+  - core.repositoryCacheCleanupDelay  
+    Delay between each periodic cleanup of expired repositories.
+    
+    Values can be specified using standard time unit abbreviations
+    (`ms`, `sec`, `min`, etc.).
+    
+    Set it to 0 in order to switch off cache expiration. If cache
+    expiration is switched off, the JVM can still evict cache entries
+    when it is running low on available heap memory.
+    
+    Set it to -1 to automatically derive cleanup delay from
+    `core.repositoryCacheExpireAfter` (lowest value between 1/10 of
+    `core.repositoryCacheExpireAfter` and 10 minutes).
+    
+    Default is -1.
+
+  - core.repositoryCacheExpireAfter  
+    Time an unused repository should expire and be evicted from the
+    repository cache.
+    
+    Values can be specified using standard time unit abbreviations
+    (`ms`, `sec`, `min`, etc.).
+    
+    Default is 1 hour.
+
+### Section database
+
+The database section configures ReviewDb, where Gerrit stores its
+metadata records about account groups and change reviews. Starting from
+2.15, accounts are always stored in NoteDb and, optionally, changes too.
+See the [NoteDb documentation](note-db.html) for more information.
+
+Note that user file reviewed flags are stored in a separate database.
+See the [accountPatchReviewDb](#accountPatchReviewDb) section for more
+information.
+
+    [database]
+      type = POSTGRESQL
+      hostname = localhost
+      database = reviewdb
+      username = gerrit
+      password = s3kr3t
+
+  - database.type  
+    Type of database server to connect to. If set this value will be
+    used to automatically create correct database.driver and
+    database.url values to open the connection.
+    
+      - `DB2`
+        
+        Connect to a DB2 database server.
+    
+      - `DERBY`
+        
+        Connect to an Apache Derby database server.
+    
+      - `H2`
+        
+        Connect to a local embedded H2 database.
+    
+      - `JDBC`
+        
+        Connect using a JDBC driver class name and URL.
+    
+      - `MAXDB`
+        
+        Connect to an SAP MaxDB database server.
+    
+      - `MYSQL`
+        
+        Connect to a MySQL database server.
+    
+      - `MARIADB`
+        
+        Connect to a MariaDB database server.
+    
+      - `ORACLE`
+        
+        Connect to an Oracle database server.
+    
+      - `POSTGRESQL`
+        
+        Connect to a PostgreSQL database server.
+    
+    If not specified, database.driver and database.url are used as-is,
+    and if they are also not specified, defaults to H2.
+
+  - database.hostname  
+    Hostname of the database server. Defaults to *localhost*.
+
+  - database.port  
+    Port number of the database server. Defaults to the default port of
+    the server named by database.type.
+
+  - database.database  
+    For POSTGRESQL or MYSQL, the name of the database on the server.
+    
+    For H2, this is the path to the database, and if not absolute is
+    relative to `'$site_path'`.
+
+  - database.username  
+    Username to connect to the database server as.
+
+  - database.password  
+    Password to authenticate to the database server with.
+
+  - database.driver  
+    Name of the JDBC driver class to connect to the database with.
+    Setting this usually isn’t necessary as it can be derived from
+    database.type or database.url for any supported database.
+
+  - database.url  
+    *jdbc:* URL for the database. Setting this variable usually isn’t
+    necessary as it can be constructed from the all of the above
+    properties.
+
+  - database.connectionPool  
+    If true, use connection pooling for database connections. Otherwise,
+    a new database connection is opened for each request.
+    
+    Default is false for MySQL, and true for other database backends.
+
+  - database.poolLimit  
+    Maximum number of open database connections. If the server needs
+    more than this number, request processing threads will wait up to
+    [poolMaxWait](#database.poolMaxWait) seconds for a connection to be
+    released before they abort with an exception. This limit must be
+    several units higher than the total number of httpd and sshd threads
+    as some request processing code paths may need multiple connections.
+    
+    Default is [sshd.threads](#sshd.threads) +
+    [httpd.maxThreads](#httpd.maxThreads) + 2.
+    
+    This setting only applies if
+    [database.connectionPool](#database.connectionPool) is true.
+
+  - database.poolMinIdle  
+    Minimum number of connections to keep idle in the pool. Default is
+    4.
+    
+    This setting only applies if
+    [database.connectionPool](#database.connectionPool) is true.
+
+  - database.poolMaxIdle  
+    Maximum number of connections to keep idle in the pool. If there are
+    more idle connections, connections will be closed instead of being
+    returned back to the pool. Default is
+    min([database.poolLimit](#database.poolLimit), 16).
+    
+    This setting only applies if
+    [database.connectionPool](#database.connectionPool) is true.
+
+  - database.poolMaxWait  
+    Maximum amount of time a request processing thread will wait to
+    acquire a database connection from the pool. If no connection is
+    released within this time period, the processing thread will abort
+    its current operations and return an error to the client. Values
+    should use common unit suffixes to express their setting:
+    
+      - ms, milliseconds
+    
+      - s, sec, second, seconds
+    
+      - m, min, minute, minutes
+    
+      - h, hr, hour, hours
+    
+    If a unit suffix is not specified, `milliseconds` is assumed.
+    
+    Default is `30 seconds`.
+    
+    This setting only applies if
+    [database.connectionPool](#database.connectionPool) is true.
+
+  - database.dataSourceInterceptorClass  
+    Class that implements DataSourceInterceptor interface to monitor SQL
+    activity. This class must have default constructor and be available
+    on Gerrit’s bootstrap classpath, e. g. in `$gerrit_site/lib`
+    directory. Example implementation of SQL monitoring can be found in
+    javamelody-plugin.
+
+  - database.h2  
+    The settings in this section are used for the reviewdb if the
+    [database.type](#database.type) is H2.
+    
+    Additionally gerrit uses H2 for storing reviewed flags on changes.
+
+  - database.h2.cacheSize  
+    The size of the H2 internal database cache, in bytes. The H2
+    internal cache for persistent H2-backed caches is controlled by
+    [cache.h2CacheSize](#cache.h2CacheSize).
+    
+    H2 uses memory to cache its database content. The parameter
+    `cacheSize` allows to limit the memory used by H2 and thus prevent
+    out-of-memory caused by the H2 database using too much memory.
+    
+    Technically the H2 cache size is configured using the CACHE\_SIZE
+    parameter in the H2 JDBC connection URL, as described
+    [here](http://www.h2database.com/html/features.html#cache_settings)
+    
+    Default is unset, using up to half of the available memory.
+    
+    H2 will persist this value in the database, so to unset explicitly
+    specify 0.
+    
+    Common unit suffixes of *k*, *m*, or *g* are supported.
+
+  - database.h2.autoServer  
+    If `true` enable the automatic mixed mode (see [Automatic Mixed
+    Mode](http://www.h2database.com/html/features.html#auto_mixed_mode)).
+    This enables concurrent access to the embedded H2 database from
+    command line utils (e.g. MigrateToNoteDb).
+    
+    Default is `false`.
+
+### Section download
+
+    [download]
+      command = checkout
+      command = cherry_pick
+      command = pull
+      command = format_patch
+      scheme = ssh
+      scheme = http
+      scheme = anon_http
+      scheme = anon_git
+      scheme = repo_download
+
+The download section configures the allowed download methods.
+
+  - download.command  
+    Commands that should be offered to download changes.
+    
+    Multiple commands are supported:
+    
+      - `checkout`
+        
+        Command to fetch and checkout the patch set.
+    
+      - `cherry_pick`
+        
+        Command to fetch the patch set and to cherry-pick it onto the
+        current commit.
+    
+      - `pull`
+        
+        Command to pull the patch set.
+    
+      - `format_patch`
+        
+        Command to fetch the patch set and to feed it into the
+        `format-patch` command.
+    
+    If `download.command` is not specified, all download commands are
+    offered.
+
+  - download.scheme  
+    Schemes that should be used to download changes.
+    
+    Multiple schemes are supported:
+    
+      - `http`
+        
+        Authenticated HTTP download is allowed.
+    
+      - `ssh`
+        
+        Authenticated SSH download is allowed.
+    
+      - `anon_http`
+        
+        Anonymous HTTP download is allowed.
+    
+      - `anon_git`
+        
+        Anonymous Git download is allowed. This is not default, it is
+        also necessary to set
+        [gerrit.canonicalGitUrl](#gerrit.canonicalGitUrl) variable.
+    
+      - `repo_download`
+        
+        Gerrit advertises patch set downloads with the `repo download`
+        command, assuming that all projects managed by this instance are
+        generally worked on with the repo multi-repository tool. This is
+        not default, as not all instances will deploy repo.
+    
+    If `download.scheme` is not specified, SSH, HTTP and Anonymous HTTP
+    downloads are allowed.
+
+  - download.checkForHiddenChangeRefs  
+    Whether the download commands should be adapted when the change refs
+    are hidden.
+    
+    Git has a configuration option to hide refs from the initial
+    advertisement (`uploadpack.hideRefs`). This option can be used to
+    hide the change refs from the client. As consequence fetching
+    changes by change ref does not work anymore. However by setting
+    `uploadpack.allowTipSha1InWant` to `true` fetching changes by commit
+    ID is possible. If `download.checkForHiddenChangeRefs` is set to
+    `true` the git download commands use the commit ID instead of the
+    change ref when a project is configured like this.
+    
+    Example git configuration on a project:
+    
+        [uploadpack]
+          hideRefs = refs/changes/
+          hideRefs = refs/cache-automerge/
+          allowTipSha1InWant = true
+    
+    By default `false`.
+
+  - download.archive  
+    Specifies which archive formats, if any, should be offered on the
+    change screen and supported for `git-upload-archive` operation:
+    
+        [download]
+          archive = tar
+          archive = tbz2
+          archive = tgz
+          archive = txz
+          archive = zip
+
+If `download.archive` is not specified defaults to all archive commands.
+Set to `off` or empty string to disable.
+
+Zip is not supported because it may be interpreted by a Java plugin as a
+valid JAR file, whose code would have access to cookies on the domain.
+For this reason `zip` format is always excluded from formats offered
+through the `Download` drop down or accessible in the REST API.
+
+  - download.maxBundleSize  
+    Specifies the maximum size of a bundle in bytes that can be
+    downloaded. As bundles are kept in memory this setting is to protect
+    the server from a single request consuming too much heap when
+    generating a bundle and thereby impacting other users.
+    
+    Defaults to 100MB.
+
+### Section gc
+
+This section allows to configure the git garbage collection and
+schedules it to run periodically. It will be triggered and executed
+sequentially for all projects.
+
+  - gc.aggressive  
+    Determines if scheduled garbage collections and garbage collections
+    triggered through Web-UI should run in aggressive mode or not.
+    Aggressive garbage collections are more expensive but may lead to
+    significantly smaller repositories.
+    
+    Valid values are "true" and "false," default is "false".
+
+  - gc.startTime  
+    Start time to define the first execution of the git garbage
+    collection. If the configured `'gc.interval'` is shorter than
+    `'gc.startTime - now'` the start time will be preponed by the
+    maximum integral multiple of `'gc.interval'` so that the start time
+    is still in the future.
+    
+        <day of week> <hours>:<minutes>
+        or
+        <hours>:<minutes>
+        
+        <day of week> : Mon, Tue, Wed, Thu, Fri, Sat, Sun
+        <hours>       : 00-23
+        <minutes>     : 0-59
+
+  - gc.interval  
+    Interval for periodic repetition of triggering the git garbage
+    collection. The interval must be larger than zero. The following
+    suffixes are supported to define the time unit for the interval:
+    
+      - `s, sec, second, seconds`
+    
+      - `m, min, minute, minutes`
+    
+      - `h, hr, hour, hours`
+    
+      - `d, day, days`
+    
+      - `w, week, weeks` (`1 week` is treated as `7 days`)
+    
+      - `mon, month, months` (`1 month` is treated as `30 days`)
+    
+      - `y, year, years` (`1 year` is treated as `365 days`)
+
+  - Examples
+    
+        gc.startTime = Fri 10:30
+        gc.interval  = 2 day
+    
+    Assuming the server is started on Mon 7:00 → `'startTime - now = 4
+    days 3:30 hours'`. This is larger than the interval hence prepone
+    the start time by the maximum integral multiple of the interval so
+    that start time is still in the future, i.e. prepone by 4 days. This
+    yields a start time of Mon 10:30, next executions are Wed 10:30, Fri
+    10:30 etc.
+    
+        gc.startTime = 6:00
+        gc.interval = 1 day
+    
+    Assuming the server is started on Mon 7:00 this yields the first run
+    on next Tuesday at 6:00 and a repetition interval of 1 day.
+
+### Section gerrit
+
+  - gerrit.basePath  
+    Local filesystem directory holding all Git repositories that Gerrit
+    knows about and can process changes for. A project entity in Gerrit
+    maps to a local Git repository by creating the path string
+    `"${basePath}/${project_name}.git"`.
+    
+    If relative, the path is resolved relative to `'$site_path'`.
+
+  - gerrit.allProjects  
+    Name of the permissions-only project defining global server access
+    controls and settings. These are inherited into every other project
+    managed by the running server. The name is relative to
+    `gerrit.basePath`.
+    
+    Defaults to `All-Projects` if not set.
+
+  - gerrit.allUsers  
+    Name of the project in which meta data of all users is stored. The
+    name is relative to `gerrit.basePath`.
+    
+    Defaults to `All-Users` if not set.
+
+  - gerrit.canonicalWebUrl  
+    The default URL for Gerrit to be accessed through.
+    
+    Typically this would be set to something like
+    "http://review.example.com/" or "http://example.com:8080/gerrit/" so
+    Gerrit can output links that point back to itself.
+    
+    Setting this is highly recommended, as its necessary for the upload
+    code invoked by "git push" or "repo upload" to output hyperlinks to
+    the newly uploaded changes.
+
+  - gerrit.canonicalGitUrl  
+    Optional base URL for repositories available over the anonymous git
+    protocol. For example, set this to `git://mirror.example.com/base/`
+    to have Gerrit display patch set download URLs in the UI. Gerrit
+    automatically appends the project name onto the end of the URL.
+    
+    By default unset, as the git daemon must be configured externally by
+    the system administrator, and might not even be running on the same
+    host as Gerrit.
+
+  - gerrit.docUrl  
+    Optional base URL for documentation, under which one can find
+    "index.html", "rest-api.html", etc. Used as the base for the fixed
+    set of links in the "Documentation" tab. A slash is implicitly
+    appended. (For finer control over the top menu, consider writing a
+    [plugin](dev-plugins.html#top-menu-extensions).)
+    
+    If unset or empty, the documentation tab will only be shown if
+    `/Documentation/index.html` can be reached by the browser at app
+    load time.
+
+  - gerrit.editGpgKeys  
+    If enabled and server-side signed push validation is also
+    [enabled](#receive.enableSignedPush), enable the [REST API
+    endpoints](rest-api-accounts.html#list-gpg-keys) and web UI for
+    editing GPG keys. If disabled, GPG keys can only be added by
+    administrators with direct git access to All-Users.
+    
+    Defaults to true.
+
+  - gerrit.installCommitMsgHookCommand  
+    Optional command to install the `commit-msg` hook. Typically of the
+    form:
+    
+        fetch-cmd some://url/to/commit-msg .git/hooks/commit-msg ; chmod +x .git/hooks/commit-msg
+    
+    By default unset; falls back to using scp from the canonical SSH
+    host, or curl from the canonical HTTP URL for the server. Only
+    necessary if a proxy or other server/network configuration prevents
+    clients from fetching from the default location.
+
+  - gerrit.gitHttpUrl  
+    Optional base URL for repositories available over the HTTP protocol.
+    For example, set this to `http://mirror.example.com/base/` to have
+    Gerrit display URLs from this server, rather than itself.
+    
+    By default unset, as the HTTP daemon must be configured externally
+    by the system administrator, and might not even be running on the
+    same host as Gerrit.
+
+  - gerrit.installModule  
+    Repeatable list of class name of additional Guice modules to load at
+    Gerrit startup and init phases. Classes are resolved using the
+    primary Gerrit class loader, hence the class needs to be either
+    declared in Gerrit or an additional JAR located under the `/lib`
+    directory.
+    
+    By default unset.
+    
+    Example:
+
+<!-- end list -->
+
+    [gerrit]
+      installModule = com.googlesource.gerrit.libmodule.MyModule
+      installModule = com.example.abc.OurSpecialSauceModule
+
+  - gerrit.reportBugUrl  
+    URL to direct users to when they need to report a bug.
+    
+    By default unset, meaning no bug report URL will be displayed.
+    Administrators should set this to the URL of their issue tracker, if
+    necessary.
+
+  - gerrit.reportBugText  
+    Text to be displayed in the link to the bug report URL.
+    
+    Only used when `gerrit.reportBugUrl` is set.
+    
+    Defaults to "Report Bug".
+
+  - gerrit.disableReverseDnsLookup  
+    Disables reverse DNS lookup during computing ref log entry for
+    identified user.
+    
+    Defaults to false.
+
+  - gerrit.secureStoreClass  
+    Use the secure store implementation from a specified class.
+    
+    If specified, must be the fully qualified class name of a class that
+    implements the `com.google.gerrit.server.securestore.SecureStore`
+    interface, and the jar file containing the class must be placed in
+    the `$site_path/lib` folder.
+    
+    If not specified, the default no-op implementation is used.
+
+  - gerrit.canLoadInIFrame  
+    For security reasons Gerrit will always jump out of iframe. Setting
+    this option to true will prevent this behavior.
+    
+    By default false.
+
+  - gerrit.cdnPath  
+    Path prefix for PolyGerrit’s static resources if using a CDN.
+
+  - gerrit.faviconPath  
+    Path for PolyGerrit’s favicon after [default
+    URL](#gerrit.canonicalWebUrl), including icon name and extension
+    (.ico should be used).
+
+  - gerrit.ui  
+    Default UI when the user does not request a different preference via
+    argument or cookie.
+    
+      - `GWT` for the old-style Google Web Toolkit-based interface.
+    
+      - `POLYGERRIT` for the new Polymer-based HTML5 Web interface.
+        
+        A sanity check during startup is performed that the value of
+        gerrit.ui is an enabled UI.
+        
+        Defaults to GWT (if GWT is enabled) or POLYGERRIT (if POLYGERRIT
+        is enabled and GWT is disabled)
+
+### Section gitweb
+
+Gerrit can forward requests to either an internally managed gitweb
+(which allows Gerrit to enforce some access controls), or to an
+externally managed gitweb (where the web server manages access). See
+also [Gitweb Integration](config-gitweb.html).
+
+  - gitweb.cgi  
+    Path to the locally installed `gitweb.cgi` executable. This CGI will
+    be called by Gerrit Code Review when the URL `/gitweb` is accessed.
+    Project level access controls are enforced prior to calling the CGI.
+    
+    Defaults to `/usr/lib/cgi-bin/gitweb.cgi` if `gitweb.url` is not
+    set.
+
+  - gitweb.url  
+    Optional URL of an affiliated gitweb service. Defines the web
+    location where a `gitweb.cgi` is installed to browse
+    `gerrit.basePath` and the repositories it contains.
+    
+    Gerrit appends any necessary query arguments onto the end of this
+    URL. For example, `?p=$project.git;h=$commit`.
+
+  - gitweb.type  
+    Optional type of affiliated gitweb service. This allows using
+    alternatives to gitweb, such as cgit.
+    
+    Valid values are `gitweb`, `cgit`, `disabled` or `custom`.
+    
+    If not set, or set to `disabled`, there is no gitweb hyperlinking
+    support.
+
+  - gitweb.revision  
+    Optional pattern to use for constructing the gitweb URL when
+    pointing at a specific commit when `gitweb.type` is set to `custom`.
+    
+    Valid replacements are `${project}` for the project name in Gerrit
+    and `${commit}` for the SHA1 hash for the commit.
+
+  - gitweb.project  
+    Optional pattern to use for constructing the gitweb URL when
+    pointing at a specific project when `gitweb.type` is set to
+    `custom`.
+    
+    Valid replacements are `${project}` for the project name in Gerrit.
+
+  - gitweb.branch  
+    Optional pattern to use for constructing the gitweb URL when
+    pointing at a specific branch when `gitweb.type` is set to `custom`.
+    
+    Valid replacements are `${project}` for the project name in Gerrit
+    and `${branch}` for the name of the branch.
+
+  - gitweb.tag  
+    Optional pattern to use for constructing the gitweb URL when
+    pointing at a specific tag when `gitweb.type` is set to `custom`.
+    
+    Valid replacements are `${project}` for the project name in Gerrit
+    and `${tag}` for the name of the tag.
+
+  - gitweb.roottree  
+    Optional pattern to use for constructing the gitweb URL when
+    pointing at the contents of the root tree in a specific commit when
+    `gitweb.type` is set to `custom`.
+    
+    Valid replacements are `${project}` for the project name in Gerrit
+    and `${commit}` for the SHA1 hash for the commit.
+
+  - gitweb.file  
+    Optional pattern to use for constructing the gitweb URL when
+    pointing at the contents of a file in a specific commit when
+    `gitweb.type` is set to `custom`.
+    
+    Valid replacements are `${project}` for the project name in Gerrit,
+    `${file}` for the file name and `${commit}` for the SHA1 hash for
+    the commit.
+
+  - gitweb.filehistory  
+    Optional pattern to use for constructing the gitweb URL when
+    pointing at the history of a file in a specific branch when when
+    `gitweb.type` is set to `custom`.
+    
+    Valid replacements are `${project}` for the project name in Gerrit,
+    `${file}` for the file name and `${branch}` for the name of the
+    branch.
+
+  - gitweb.linkname  
+    Optional setting for modifying the link name presented to the user
+    in the Gerrit web-UI.
+    
+    The default linkname for custom type is `gitweb`.
+
+  - gitweb.pathSeparator  
+    Optional character to substitute the standard path separator (slash)
+    in project names and branch names.
+    
+    By default, Gerrit will use hexadecimal encoding for slashes in
+    project and branch names. Some web servers, such as Tomcat, reject
+    this hexadecimal encoding in the URL.
+    
+    Some alternative gitweb services, such as
+    [Gitblit](http://gitblit.com), allow using an alternative path
+    separator character. In Gitblit, this can be configured through the
+    property
+    [web.forwardSlashCharacter](http://gitblit.com/properties.html). In
+    Gerrit, the alternative path separator can be configured
+    correspondingly using the property `gitweb.pathSeparator`.
+    
+    Valid values are the characters `*`, `(` and `)`.
+
+  - gitweb.urlEncode  
+    Whether or not Gerrit should encode the generated viewer URL.
+    
+    Gerrit composes the viewer URL using information about the project,
+    branch, file or commit of the target object to be displayed.
+    Typically viewers such as CGit and gitweb do need those parts to be
+    encoded, including the `/` in project’s name, for being correctly
+    parsed. However other viewers could instead require an unencoded URL
+    (e.g. GitHub web based viewer).
+    
+    Valid values are `true` and `false`. The default is `true`.
+
+### Section groups
+
+  - groups.newGroupsVisibleToAll  
+    Controls whether newly created groups should be by default visible
+    to all registered users.
+    
+    By default, false.
+
+  - groups.\<uuid\>.name  
+    Display name for group with the given UUID.
+    
+    This option is only supported for system groups (scheme *global*).
+    
+    E.g. this parameter can be used to configure another name for the
+    `Anonymous Users` group:
+    
+        [groups "global:Anonymous-Users"]
+          name = All Users
+    
+    When setting this parameter it should be verified that there is no
+    existing group with the same name (case-insensitive). Configuring an
+    ambiguous name makes Gerrit fail on startup. Once set Gerrit ensures
+    that it is not possible to create a group with this name. Gerrit
+    also keeps the default name reserved so that it cannot be used for
+    new groups either. This means there is no danger of ambiguous group
+    names when this parameter is removed and the system group uses the
+    default name again.
+
+### Section http
+
+  - http.proxy  
+    URL of the proxy server when making outgoing HTTP connections for
+    OpenID login transactions. Syntax should be
+    `http://`*hostname*`:`*port*.
+
+  - http.proxyUsername  
+    Optional username to authenticate to the HTTP proxy with. This
+    property is honored only if the username does not appear in the
+    http.proxy property above.
+
+  - http.proxyPassword  
+    Optional password to authenticate to the HTTP proxy with. This
+    property is honored only if the password does not appear in the
+    http.proxy property above.
+
+  - http.addUserAsRequestAttribute  
+    If true, *User* attribute will be added to the request attributes so
+    it can be accessed outside the request scope (will be set to
+    username or id if username not configured).
+    
+    This attribute can be used by the servlet container to log user in
+    the http access log.
+    
+    When running the embedded servlet container, this attribute is used
+    to print user in the httpd\_log.
+    
+      - `%{User}r`
+        
+        Pattern to print user in Tomcat AccessLog.
+    
+    Default value is true.
+
+### Section httpd
+
+The httpd section configures the embedded servlet container.
+
+  - httpd.listenUrl  
+    Specifies the URLs the internal HTTP daemon should listen for
+    connections on. The special hostname *\** may be used to listen on
+    all local addresses. A context path may optionally be included,
+    placing Gerrit Code Review’s web address within a subdirectory of
+    the server.
+    
+    Multiple protocol schemes are supported:
+    
+      - `http://`*hostname*`:`*port*
+        
+        Plain-text HTTP protocol. If port is not supplied, defaults to
+        80, the standard HTTP port.
+    
+      - `https://`*hostname*`:`*port*
+        
+        SSL encrypted HTTP protocol. If port is not supplied, defaults
+        to 443, the standard HTTPS port.
+        
+        Externally facing production sites are encouraged to use a
+        reverse proxy configuration and `proxy-https://` (below), rather
+        than using the embedded servlet container to implement the SSL
+        processing. The proxy server with SSL support is probably easier
+        to configure, provides more configuration options to control
+        cipher usage, and is likely using natively compiled encryption
+        algorithms, resulting in higher throughput.
+    
+      - `proxy-http://`*hostname*`:`*port*
+        
+        Plain-text HTTP relayed from a reverse proxy. If port is not
+        supplied, defaults to 8080.
+        
+        Like http, but additional header parsing features are enabled to
+        honor X-Forwarded-For, X-Forwarded-Host and X-Forwarded-Server.
+        These headers are typically set by Apache’s
+        [mod\_proxy](http://httpd.apache.org/docs/2.2/mod/mod_proxy.html#x-headers).
+    
+      - `proxy-https://`*hostname*`:`*port*
+        
+        Plain text HTTP relayed from a reverse proxy that has already
+        handled the SSL encryption/decryption. If port is not supplied,
+        defaults to 8080.
+        
+        Behaves exactly like proxy-http, but also sets the scheme to
+        assume *https://* is the proper URL back to the server.
+    
+    If multiple values are supplied, the daemon will listen on all of
+    them.
+    
+    By default, <http://*:8080>.
+
+  - httpd.reuseAddress  
+    If true, permits the daemon to bind to the port even if the port is
+    already in use. If false, the daemon ensures the port is not in use
+    before starting. Busy sites may need to set this to true to permit
+    fast restarts.
+    
+    By default, true.
+
+  - httpd.inheritChannel  
+    If true, permits the daemon to inherit its server socket channel
+    from fd0/1(stdin/stdout). When set to true, the server can be socket
+    activated via systemd or xinetd.
+    
+    By default, false.
+
+  - httpd.requestHeaderSize  
+    Size, in bytes, of the buffer used to parse the HTTP headers of an
+    incoming HTTP request. The entire request headers, including any
+    cookies sent by the browser, must fit within this buffer, otherwise
+    the server aborts with the response *413 Request Entity Too Large*.
+    
+    One buffer of this size is allocated per active connection.
+    Allocating a buffer that is too large wastes memory that cannot be
+    reclaimed, allocating a buffer that is too small may cause
+    unexpected errors caused by very long Referer URLs or large cookie
+    values.
+    
+    By default, 16384 (16 K), which is sufficient for most OpenID and
+    other web-based single-sign-on integrations.
+
+  - httpd.sslCrl  
+    Path of the certificate revocation list file in PEM format. This crl
+    file is optional, and available for CLIENT\_SSL\_CERT\_LDAP
+    authentication.
+    
+    To create and view a crl using openssl:
+    
+        openssl ca -gencrl -out crl.pem
+        openssl crl -in crl.pem -text
+    
+    If not absolute, the path is resolved relative to `$site_path`.
+    
+    By default, `$site_path/etc/crl.pem`.
+
+  - httpd.sslKeyStore  
+    Path of the Java keystore containing the server’s SSL certificate
+    and private key. This keystore is required for `https://` in URL.
+    
+    To create a self-signed certificate for simple internal usage:
+    
+        keytool -keystore keystore -alias jetty -genkey -keyalg RSA
+        chmod 600 keystore
+    
+    If not absolute, the path is resolved relative to `$site_path`.
+    
+    By default, `$site_path/etc/keystore`.
+
+  - httpd.sslKeyPassword  
+    Password used to decrypt the private portion of the sslKeyStore.
+    Java keystores require a password, even if the administrator doesn’t
+    want to enable one.
+    
+    If set to the empty string the embedded server will prompt for the
+    password during startup.
+    
+    By default, `gerrit`.
+
+  - httpd.requestLog  
+    Enable (or disable) the `'$site_path'/logs/httpd_log` request log.
+    If enabled, an NCSA combined log format request log file is written
+    out by the internal HTTP daemon.
+    
+    `log4j.appender` with the name `httpd_log` can be configured to
+    overwrite programmatic configuration.
+    
+    By default, true if httpd.listenUrl uses http:// or https://, and
+    false if httpd.listenUrl uses proxy-http:// or proxy-https://.
+
+  - httpd.acceptorThreads  
+    Number of worker threads dedicated to accepting new incoming TCP
+    connections and allocating them connection-specific resources.
+    
+    By default, 2, which should be suitable for most high-traffic sites.
+
+  - httpd.minThreads  
+    Minimum number of spare threads to keep in the worker thread pool.
+    This number must be at least 1 larger than httpd.acceptorThreads
+    multiplied by the number of httpd.listenUrls configured.
+    
+    By default, 5, suitable for most lower-volume traffic sites.
+
+  - httpd.maxThreads  
+    Maximum number of threads to permit in the worker thread pool.
+    
+    By default 25, suitable for most lower-volume traffic sites.
+    
+    > **Note**
+    > 
+    > Unless SSH daemon is disabled, see
+    > [sshd.listenAddress](#sshd.listenAddress), the max number of
+    > concurrent Git requests over HTTP and SSH together is defined by
+    > the [sshd.threads](#sshd.threads) and
+    > [sshd.batchThreads](#sshd.batchThreads).
+
+  - httpd.maxQueued  
+    Maximum number of client connections which can enter the worker
+    thread pool waiting for a worker thread to become available. 0 sets
+    the queue size to the Integer.MAX\_VALUE.
+    
+    By default 200.
+
+  - httpd.maxWait  
+    Maximum amount of time a client will wait for an available thread to
+    handle a project clone, fetch or push request over the smart HTTP
+    transport.
+    
+    Values should use common unit suffixes to express their setting:
+    
+      - s, sec, second, seconds
+    
+      - m, min, minute, minutes
+    
+      - h, hr, hour, hours
+    
+      - d, day, days
+    
+      - w, week, weeks (`1 week` is treated as `7 days`)
+    
+      - mon, month, months (`1 month` is treated as `30 days`)
+    
+      - y, year, years (`1 year` is treated as `365 days`)
+    
+    If a unit suffix is not specified, `minutes` is assumed. If 0 is
+    supplied, the maximum age is infinite and connections will not abort
+    until the client disconnects.
+    
+    By default, 5 minutes.
+
+  - httpd.filterClass  
+    Class that implements the javax.servlet.Filter interface for
+    filtering any HTTP related traffic going through the Gerrit HTTP
+    protocol. Class is loaded and configured in the Gerrit Jetty
+    container and run in front of all Gerrit URL handlers, allowing the
+    filter to inspect, modify, allow or reject each request. It needs to
+    be provided as JAR library under $GERRIT\_SITE/lib as it is resolved
+    using the default Gerrit class loader and cannot be dynamically
+    loaded by a plugin.
+    
+    Failing to load the Filter class would result in a Gerrit start-up
+    failure, as this class is supposed to provide mandatory filtering in
+    front of Gerrit HTTP protocol.
+    
+    Typical usage is in conjunction with the `auth.type=HTTP` as
+    replacement of an Apache HTTP proxy layer as security enforcement on
+    top of Gerrit by returning a trusted username as HTTP Header.
+    
+    Allow multiple values to install multiple servlet filters.
+    
+    Example of using a security library secure.jar under
+    $GERRIT\_SITE/lib that provides a org.anyorg.MySecureHeaderFilter
+    Servlet Filter that enforces a trusted username in the
+    `TRUSTED_USER` HTTP Header and org.anyorg.MySecureIPFilter that
+    performs source IP security filtering:
+
+<!-- end list -->
+
+    [auth]
+            type = HTTP
+            httpHeader = TRUSTED_USER
+    
+    [httpd]
+            filterClass = org.anyorg.MySecureHeaderFilter
+            filterClass = org.anyorg.MySecureIPFilter
+
+  - httpd.idleTimeout  
+    Maximum idle time for a connection, which roughly translates to the
+    TCP socket `SO_TIMEOUT`.
+    
+    This value is interpreted as the maximum time between some progress
+    being made on the connection. So if a single byte is read or
+    written, then the timeout is reset.
+    
+    The max idle time is applied:
+    
+      - When waiting for a new message to be received on a connection
+    
+      - When waiting for a new message to be sent on a connection
+    
+    By default, 30 seconds.
+
+  - httpd.robotsFile  
+    Location of an external robots.txt file to be used instead of the
+    one bundled with the .war of the application.
+    
+    If not absolute, the path is resolved relative to `$site_path`.
+    
+    If the file doesn’t exist or can’t be read the default robots.txt
+    file bundled with the .war will be used instead.
+
+  - httpd.registerMBeans  
+    Enable (or disable) registration of Jetty MBeans for Java JMX.
+    
+    By default, false.
+
+### Section index
+
+The index section configures the secondary index.
+
+Note that after enabling the secondary index, the index must be built
+using the [reindex program](pgm-reindex.html) before restarting the
+Gerrit server.
+
+  - index.type  
+    Type of secondary indexing employed by Gerrit. The supported values
+    are:
+    
+      - `LUCENE`
+        
+        A [Lucene](http://lucene.apache.org/) index is used.
+        
+        \+ \* `ELASTICSEARCH` look into [Elasticsearch
+        section](#elasticsearch)
+        
+        An [Elasticsearch](http://www.elasticsearch.org/) index is used.
+    
+    By default, `LUCENE`.
+
+  - index.threads  
+    Number of threads to use for indexing in normal interactive
+    operations. Setting it to 0 disables the dedicated thread pool and
+    indexing will be done in the same thread as the operation.
+    
+    If not set or set to a negative value, defaults to 1 plus half of
+    the number of logical CPUs as returned by the JVM.
+
+  - index.batchThreads  
+    Number of threads to use for indexing in background operations, such
+    as online schema upgrades.
+    
+    If not set or set to a negative value, defaults to the number of
+    logical CPUs as returned by the JVM.
+
+  - index.onlineUpgrade  
+    Whether to upgrade to new index schema versions while the server is
+    running. This is recommended as it prevents additional downtime
+    during Gerrit version upgrades (avoiding the need for an offline
+    reindex step using Reindex), but can add additional server load
+    during the upgrade.
+    
+    If set to false, there is no way to upgrade the index schema to take
+    advantage of new search features without restarting the server.
+    
+    Defaults to true.
+
+  - index.maxLimit  
+    Maximum limit to allow for search queries. Requesting results above
+    this limit will truncate the list (but will still set
+    `_more_changes` on result lists). Set to 0 for no limit.
+    
+    Defaults to no limit.
+
+  - index.maxPages  
+    Maximum number of pages of search results to allow, as index
+    implementations may have to scan through large numbers of skipped
+    results when searching with an offset. Requesting results starting
+    past this threshold times the requested limit will result in an
+    error. Set to 0 for no limit.
+    
+    Defaults to no limit.
+
+  - index.maxTerms  
+    Maximum number of leaf terms to allow in a query. Too-large queries
+    may perform poorly, so setting this option causes query parsing to
+    fail fast before attempting to send them to the secondary index.
+    Should this limit be reached, database is used instead of index as
+    applicable.
+    
+    When the index type is `LUCENE`, also sets the maximum number of
+    clauses permitted per BooleanQuery. This is so that all enforced
+    query limits are the same.
+    
+    Defaults to 1024.
+
+  - index.reindexAfterRefUpdate  
+    Whether to reindex all affected open changes after a ref is updated.
+    This includes reindexing all open changes to recompute the
+    "mergeable" bit every time the destination branch moves, as well as
+    reindexing changes to take into account new project configuration
+    (e.g. label definitions).
+    
+    Leaving this enabled may result in fresher results, but may cause
+    performance problems if there are lots of open changes on a project
+    whose branches advance frequently.
+    
+    Defaults to true.
+
+  - index.autoReindexIfStale  
+    Whether to automatically check if a document became stale in the
+    index immediately after indexing it. If false, there is a race
+    condition during two simultaneous writes that may cause one of the
+    writes to not be reflected in the index. The check to avoid this
+    does consume some resources.
+    
+    Defaults to true.
+
+#### Lucene configuration
+
+Open and closed changes are indexed in separate indexes named *open* and
+*closed* respectively.
+
+The following settings are only used when the index type is `LUCENE`.
+
+  - index.name.ramBufferSize  
+    Determines the amount of RAM that may be used for buffering added
+    documents and deletions before they are flushed to the index. See
+    the [Lucene
+    documentation](http://lucene.apache.org/core/4_6_0/core/org/apache/lucene/index/LiveIndexWriterConfig.html#setRAMBufferSizeMB\(double\))
+    for further details.
+    
+    Defaults to 16M.
+
+  - index.name.maxBufferedDocs  
+    Determines the minimal number of documents required before the
+    buffered in-memory documents are flushed to the index. Large values
+    generally give faster indexing. See the [Lucene
+    documentation](http://lucene.apache.org/core/4_6_0/core/org/apache/lucene/index/LiveIndexWriterConfig.html#setMaxBufferedDocs\(int\))
+    for further details.
+    
+    Defaults to -1, meaning no maximum is set and the writer will flush
+    according to RAM usage.
+
+  - index.name.commitWithin  
+    Determines the period at which changes are automatically committed
+    to stable store on disk. This is a costly operation and may block
+    additional index writes, so lower with caution.
+    
+    If zero, changes are committed after every write. This is very
+    costly but may be useful if offline reindexing is infeasible, or for
+    development servers.
+    
+    Values can be specified using standard time unit abbreviations
+    (`ms`, `sec`, `min`, etc.).
+    
+    If negative, `commitWithin` is disabled. Changes are flushed to disk
+    when the in-memory buffer fills, but only committed and guaranteed
+    to be synced to disk when the process finishes.
+    
+    Defaults to 300000 ms (5 minutes).
+
+Sample Lucene index configuration:
+
+    [index]
+      type = LUCENE
+    
+    [index "changes_open"]
+      ramBufferSize = 60 m
+      maxBufferedDocs = 3000
+    
+    [index "changes_closed"]
+      ramBufferSize = 20 m
+      maxBufferedDocs = 500
+
+### Section elasticsearch
+
+> **Warning**
+> 
+> The Elasticsearch support is incomplete. Online reindexing is still
+> considered as beta.
+
+Open and closed changes are indexed in a single index, separated into
+types *open\_changes* and *closed\_changes* respectively.
+
+  - elasticsearch.prefix  
+    This setting can be used to prefix index names to allow multiple
+    Gerrit instances in a single Elasticsearch cluster. Prefix
+    *gerrit1\_* would result in a change index named
+    *gerrit1\_changes\_0001*.
+    
+    Not set by default.
+
+  - elasticsearch.username  
+    Username used to connect to Elasticsearch.
+    
+    Not set by default.
+
+  - elasticsearch.password  
+    Password used to connect to Elasticsearch.
+    
+    Not set by default.
+
+  - elasticsearch.requestCompression  
+    Enable request compression.
+    
+    Defaults to `false`.
+
+  - elasticsearch.connectionTimeout  
+    How long should Gerrit waits for connection.
+    
+    The value is in the usual time-unit format like "1 m", "5 m".
+    
+    Defaults to `5 m`
+
+  - elasticsearch.maxConnectionIdleTime  
+    How long connection can stay in idle.
+    
+    The value is in the usual time-unit format like "1 m", "5 m".
+    
+    Defaults to `5 m`
+
+  - elasticsearch.maxTotalConnection  
+    How many connections can be spawn simultaneously.
+    
+    Defaults to `1`
+
+  - elasticsearch.maxReadTimeout  
+    Timeout for the read operation.
+    
+    The value is in the usual time-unit format like "1 m", "5 m".
+    
+    Defaults to `5 m`
+
+#### Elasticsearch server(s) configuration
+
+Each section correspond to one Elasticsearch server.
+
+  - elasticsearch.name.protocol  
+    Elasticsearch server protocol \[http|https\].
+    
+    Defaults to `http`.
+
+  - elasticsearch.name.hostname  
+    Elasticsearch server hostname.
+
+Defaults to `localhost`.
+
+  - elasticsearch.name.port  
+    Elasticsearch server port.
+    
+    Defaults to `9200`.
+
+### Section ldap
+
+LDAP integration is only enabled if `auth.type` is set to `HTTP_LDAP`,
+`LDAP` or `CLIENT_SSL_CERT_LDAP`. See above for a detailed description
+of the `auth.type` settings and their implications.
+
+An example LDAP configuration follows, and then discussion of the
+parameters introduced here. Suitable defaults for most parameters are
+automatically guessed based on the type of server detected during
+startup. The guessed defaults support
+[RFC 2307](http://www.ietf.org/rfc/rfc2307.txt), Active Directory and
+[FreeIPA](https://www.freeipa.org).
+
+    [ldap]
+      server = ldap://ldap.example.com
+    
+      accountBase = ou=people,dc=example,dc=com
+      accountPattern = (&(objectClass=person)(uid=${username}))
+      accountFullName = displayName
+      accountEmailAddress = mail
+    
+      groupBase = ou=groups,dc=example,dc=com
+      groupMemberPattern = (&(objectClass=group)(member=${dn}))
+
+  - ldap.server  
+    URL of the organization’s LDAP server to query for user information
+    and group membership from. Must be of the form `ldap://host` or
+    `ldaps://host` to bind with either a plaintext or SSL connection.
+    
+    If `auth.type` is `LDAP` this setting should use `ldaps://` to
+    ensure the end user’s plaintext password is transmitted only over an
+    encrypted connection.
+
+  - ldap.sslVerify  
+    If false and ldap.server is an `ldaps://` style URL, Gerrit will not
+    verify the server certificate when it connects to perform a query.
+    
+    By default, true, requiring the certificate to be verified.
+
+  - ldap.groupsVisibleToAll  
+    If true, LDAP groups are visible to all registered users.
+    
+    By default, false, LDAP groups are visible only to administrators
+    and group members.
+
+  - ldap.username  
+    *(Optional)* Username to bind to the LDAP server with. If not set,
+    an anonymous connection to the LDAP server is attempted.
+
+  - ldap.password  
+    *(Optional)* Password for the user identified by `ldap.username`. If
+    not set, an anonymous (or passwordless) connection to the LDAP
+    server is attempted.
+
+  - ldap.referral  
+    *(Optional)* How an LDAP referral should be handled if it is
+    encountered during directory traversal. Set to `follow` to
+    automatically follow any referrals, or `ignore` to ignore the
+    referrals.
+    
+    By default, `ignore`.
+
+  - ldap.readTimeout  
+    *(Optional)* The read timeout for an LDAP operation. The value is in
+    the usual time-unit format like "1 s", "100 ms", etc… A timeout can
+    be used to avoid blocking all of the SSH command start threads in
+    case the LDAP server becomes slow.
+    
+    By default there is no timeout and Gerrit will wait for the LDAP
+    server to respond until the TCP connection times out.
+
+  - ldap.accountBase  
+    Root of the tree containing all user accounts. This is typically of
+    the form `ou=people,dc=example,dc=com`.
+    
+    This setting may be added multiple times to specify more than one
+    root.
+
+  - ldap.accountScope  
+    Scope of the search performed for accounts. Must be one of:
+    
+      - `one`: Search only one level below accountBase, but not
+        recursive
+    
+      - `sub` or `subtree`: Search recursively below accountBase
+    
+      - `base` or `object`: Search exactly accountBase; probably not
+        desired
+    
+    Default is `subtree` as many directories have several levels.
+
+  - ldap.accountPattern  
+    Query pattern to use when searching for a user account. This may be
+    any valid LDAP query expression, including the standard `(&...)` and
+    `(|...)` operators. If `auth.type` is `HTTP_LDAP` then the variable
+    `${username}` is replaced with a parameter set to the username that
+    was supplied by the HTTP server. If `auth.type` is `LDAP` then the
+    variable `${username}` is replaced by the string entered by the end
+    user.
+    
+    This pattern is used to search the objects contained directly under
+    the `ldap.accountBase` tree. A typical setting for this parameter is
+    `(uid=${username})` or `(cn=${username})`, but the proper setting
+    depends on the LDAP schema used by the directory server.
+    
+    Default is `(uid=${username})` for FreeIPA and RFC 2307 servers, and
+    `(&(objectClass=user)(sAMAccountName=${username}))` for Active
+    Directory.
+
+  - ldap.accountFullName  
+    *(Optional)* Name of an attribute on the user account object which
+    contains the initial value for the user’s full name field in Gerrit.
+    Typically this is the `displayName` property in LDAP, but could also
+    be `legalName` or `cn`.
+    
+    Attribute values may be concatenated with literal strings. For
+    example to join given name and surname together, use the pattern
+    `${givenName} ${SN}`.
+    
+    If set, users will be unable to modify their full name field, as
+    Gerrit will populate it only from the LDAP data.
+    
+    Default is `displayName` for FreeIPA and RFC 2307 servers, and
+    `${givenName} ${sn}` for Active Directory.
+
+  - ldap.accountEmailAddress  
+    *(Optional)* Name of an attribute on the user account object which
+    contains the user’s Internet email address, as defined by this LDAP
+    server.
+    
+    Attribute values may be concatenated with literal strings, for
+    example to set the email address to the lowercase form of
+    sAMAccountName followed by a constant domain name, use
+    `${sAMAccountName.toLowerCase}@example.com`.
+    
+    If set, the preferred email address will be prefilled from LDAP, but
+    users may still be able to register additional email addresses, and
+    select a different preferred email address.
+    
+    Default is `mail`.
+
+  - ldap.accountSshUserName  
+    *(Optional)* Name of an attribute on the user account object which
+    contains the initial value for the user’s SSH username field in
+    Gerrit. Typically this is the `uid` property in LDAP, but could also
+    be `cn`. Administrators should prefer to match the attribute
+    corresponding to the user’s workstation username, as this is what
+    SSH clients will default to.
+    
+    Attribute values may also be forced to lowercase, or to uppercase in
+    an expression. For example, `${sAMAccountName.toLowerCase}` will
+    force the value of sAMAccountName, if defined, to be all lowercase.
+    The suffix `.toUpperCase` can be used for the other direction. The
+    suffix `.localPart` can be used to split attribute values of the
+    form *user@example.com* and return only the left hand side, for
+    example `${userPrincipalName.localPart}` would provide only *user*.
+    
+    If set, users will be unable to modify their SSH username field, as
+    Gerrit will populate it only from the LDAP data. Note that once the
+    username has been set it cannot be changed, therefore it is
+    recommended not to make changes to this setting that would cause the
+    value to differ, as this will prevent users from logging in.
+    
+    Default is `uid` for FreeIPA and RFC 2307 servers, and
+    `${sAMAccountName.toLowerCase}` for Active Directory.
+
+  - ldap.accountMemberField  
+    *(Optional)* Name of an attribute on the user account object which
+    contains the groups the user is part of. Typically used for Active
+    Directory and FreeIPA servers.
+    
+    Default is unset for RFC 2307 servers (disabled) and `memberOf` for
+    Active Directory and FreeIPA.
+
+  - ldap.accountMemberExpandGroups  
+    *(Optional)* Whether to expand nested groups recursively. This
+    setting is used only if `ldap.accountMemberField` is set.
+    
+    Default is unset for FreeIPA and `true` for RFC 2307 servers and
+    Active Directory.
+
+  - ldap.fetchMemberOfEagerly  
+    *(Optional)* Whether to fetch the `memberOf` account attribute on
+    login. Setups which use LDAP for user authentication but don’t make
+    use of the LDAP groups may benefit from setting this option to
+    `false` as this will result in a much faster LDAP login.
+    
+    Default is unset for RFC 2307 servers (disabled) and `true` for
+    Active Directory and FreeIPA.
+
+  - ldap.groupBase  
+    Root of the tree containing all group objects. This is typically of
+    the form `ou=groups,dc=example,dc=com`.
+    
+    This setting may be added multiple times to specify more than one
+    root.
+
+  - ldap.groupScope  
+    Scope of the search performed for group objects. Must be one of:
+    
+      - `one`: Search only one level below groupBase, but not recursive
+    
+      - `sub` or `subtree`: Search recursively below groupBase
+    
+      - `base` or `object`: Search exactly groupBase; probably not
+        desired
+    
+    Default is `subtree` as many directories have several levels.
+
+  - ldap.groupPattern  
+    Query pattern used when searching for an LDAP group to connect to a
+    Gerrit group. This may be any valid LDAP query expression, including
+    the standard `(&...)` and `(|...)` operators. The variable
+    `${groupname}` is replaced with the search term supplied by the
+    group owner.
+    
+    Default is `(cn=${groupname})` for FreeIPA and RFC 2307 servers, and
+    `(&(objectClass=group)(cn=${groupname}))` for Active Directory.
+
+  - ldap.groupMemberPattern  
+    Query pattern to use when searching for the groups that a user
+    account is currently a member of. This may be any valid LDAP query
+    expression, including the standard `(&...)` and `(|...)` operators.
+    
+    If `auth.type` is `HTTP_LDAP` then the variable `${username}` is
+    replaced with a parameter set to the username that was supplied by
+    the HTTP server. Other variables appearing in the pattern, such as
+    `${fooBarAttribute}`, are replaced with the value of the
+    corresponding attribute (in this case, `fooBarAttribute`) as read
+    from the user’s account object matched under `ldap.accountBase`.
+    Attributes such as `${dn}` or `${uidNumber}` may be useful.
+    
+    Default is `(|(memberUid=${username})(gidNumber=${gidNumber}))` for
+    RFC 2307, and unset (disabled) for Active Directory and FreeIPA.
+
+  - ldap.groupName  
+    *(Optional)* Name of the attribute on the group object which
+    contains the value to use as the group name in Gerrit.
+    
+    Typically the attribute name is `cn` for RFC 2307 and Active
+    Directory servers. For other servers the attribute name may differ,
+    for example `apple-group-realname` on Apple MacOS X Server.
+    
+    It is also possible to specify a literal string containing a pattern
+    of attribute values. For example to create a Gerrit group name
+    consisting of LDAP group name and group ID, use the pattern `${cn}
+    (${gidNumber})`.
+    
+    Default is `cn`.
+
+  - ldap.mandatoryGroup  
+    All users must be a member of this group to allow account creation
+    or authentication.
+    
+    Setting mandatoryGroup implies enabling of
+    `ldap.fetchMemberOfEagerly`
+    
+    By default, unset.
+
+  - ldap.localUsernameToLowerCase  
+    Converts the local username, that is used to login into the Gerrit
+    Web UI, to lower case before doing the LDAP authentication. By
+    setting this parameter to true, a case insensitive login to the
+    Gerrit Web UI can be achieved.
+    
+    If set, it must be ensured that the local usernames for all existing
+    accounts are converted to lower case, otherwise a user that has a
+    local username that contains upper case characters will not be able
+    to login anymore. The local usernames for the existing accounts can
+    be converted to lower case by running the server program
+    [LocalUsernamesToLowerCase](pgm-LocalUsernamesToLowerCase.html).
+    Please be aware that the conversion of the local usernames to lower
+    case can’t be undone. For newly created accounts the local username
+    will be directly stored in lower case.
+    
+    By default, unset/false.
+
+  - ldap.authentication  
+    Defines how Gerrit authenticates with the server. When set to
+    `GSSAPI` Gerrit will use Kerberos. To use kerberos the
+    `java.security.auth.login.config` system property must point to a
+    login to a JAAS configuration file and, if Java 6 is used, the
+    system property `java.security.krb5.conf` must point to the
+    appropriate krb5.ini file with references to the KDC.
+
+Typical jaas.conf.
+
+    KerberosLogin {
+        com.sun.security.auth.module.Krb5LoginModule
+                required
+                useTicketCache=true
+                doNotPrompt=true
+                renewTGT=true;
+    };
+
+See Java documentation on how to create the krb5.ini file.
+
+Note the `renewTGT` property to make sure the TGT does not expire, and
+`useTicketCache` to use the TGT supplied by the operating system. As the
+whole point of using GSSAPI is to have passwordless authentication to
+the LDAP service, this option does not acquire a new TGT on its own.
+
+On Windows servers the registry key
+`HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\Kerberos\Parameters`
+must have the DWORD value `allowtgtsessionkey` set to 1 and the account
+must not have local administrator privileges.
+
+  - ldap.useConnectionPooling  
+    *(Optional)* Enable the LDAP connection pooling or not.
+    
+    If it is true, the LDAP service provider maintains a pool of
+    (possibly) previously used connections and assigns them to a Context
+    instance as needed. When a Context instance is done with a
+    connection (closed or garbage collected), the connection is returned
+    to the pool for future use.
+    
+    For details, see [LDAP connection management
+    (Pool)](http://docs.oracle.com/javase/tutorial/jndi/ldap/pool.html)
+    and [LDAP connection management
+    (Configuration)](http://docs.oracle.com/javase/tutorial/jndi/ldap/config.html)
+    
+    By default, false.
+
+  - ldap.connectTimeout  
+    *(Optional)* Timeout period for establishment of an LDAP connection.
+    
+    The value is in the usual time-unit format like "1 s", "100 ms",
+    etc…
+    
+    By default there is no timeout and Gerrit will wait indefinitely.
+
+#### LDAP Connection Pooling
+
+Once LDAP connection pooling is enabled by setting the
+[ldap.useConnectionPooling](#ldap.useConnectionPooling) configuration
+property to `true`, the connection pool can be configured using JVM
+system properties as explained in the [Java SE
+Documentation](http://docs.oracle.com/javase/7/docs/technotes/guides/jndi/jndi-ldap.html#POOL).
+
+For standalone Gerrit (running with the embedded Jetty), JVM system
+properties are specified in the [container section](#container):
+
+``` 
+  javaOptions = -Dcom.sun.jndi.ldap.connect.pool.maxsize=20
+  javaOptions = -Dcom.sun.jndi.ldap.connect.pool.prefsize=10
+  javaOptions = -Dcom.sun.jndi.ldap.connect.pool.timeout=300000
+```
+
+### Section lfs
+
+  - lfs.plugin  
+    The name of a plugin which serves the [LFS
+    protocol](https://github.com/github/git-lfs/blob/master/docs/api/v1/http-v1-batch.md)
+    on the `<project-name>/info/lfs/objects/batch` endpoint. When not
+    configured Gerrit will respond with `501 Not Implemented` on LFS
+    protocol requests.
+    
+    By default unset.
+
+### Section log
+
+  - log.jsonLogging  
+    If set to true, enables error logging in JSON format (file name:
+    "logs/error\_log.json").
+    
+    Defaults to false.
+
+  - log.textLogging  
+    If set to true, enables error logging in regular plain text format.
+    Can only be disabled if `jsonLogging` is enabled.
+    
+    Defaults to true.
+
+### Section mimetype
+
+  - mimetype.\<name\>.safe  
+    If set to true, files with the MIME type `<name>` will be sent as
+    direct downloads to the user’s browser, rather than being wrapped up
+    inside of zipped archives. The type name may be a complete type
+    name, e.g. `image/gif`, a generic media type, e.g. `+image/*+`, or
+    the wildcard `+*/*+` to match all types.
+    
+    By default, false for all MIME types.
+
+Common examples:
+
+    [mimetype "image/*"]
+      safe = true
+    
+    [mimetype "application/pdf"]
+      safe = true
+    
+    [mimetype "application/msword"]
+      safe = true
+    
+    [mimetype "application/vnd.ms-excel"]
+      safe = true
+
+### Section noteDb
+
+NoteDb is the next generation of Gerrit storage backend, currently
+powering `googlesource.com`. For more information, including how to
+migrate your data, see the [documentation](note-db.html).
+
+  - notedb.accounts.sequenceBatchSize  
+    The next available account sequence number is stored as UTF-8 text
+    in a blob pointed to by the `refs/sequences/accounts` ref in the
+    `All-Users` repository. Multiple processes share the same sequence
+    by incrementing the counter using normal git ref updates. To
+    amortize the cost of these ref updates, processes increment the
+    counter by a larger number and hand out numbers from that range in
+    memory until they run out. This configuration parameter controls the
+    size of the account ID batch that each process retrieves at once.
+    
+    By default, 1.
+
+  - noteDb.retryMaxWait  
+    Maximum time to wait between attempts to retry update operations
+    when one attempt fails due to contention (aka lock failure) on the
+    underlying ref storage. Operations are retried with exponential
+    backoff, plus some random jitter, until the interval reaches this
+    limit. After that, retries continue to occur after a fixed timeout
+    (plus jitter), up to [`noteDb.retryTimeout`](#noteDb.retryTimeout).
+    
+    Defaults to 5 seconds; unit suffixes are supported, and assumes
+    milliseconds if not specified.
+
+  - noteDb.retryTimeout  
+    Total timeout for retrying update operations when one attempt fails
+    due to contention (aka lock failure) on the underlying ref storage.
+    
+    Defaults to 20 seconds; unit suffixes are supported, and assumes
+    milliseconds if not specified.
+
+  - noteDb.groups.readSequenceFromNoteDb  
+    Whether the group sequence should be read from NoteDb.
+    
+    Once set to `true` this parameter cannot be set back to `false`
+    because the group sequence in ReviewDb will no longer be updated
+    when group IDs are retrieved from NoteDb, and hence the group
+    sequence in ReviewDb will be outdated.
+    
+    By default `false`.
+
+### Section oauth
+
+OAuth integration is only enabled if `auth.type` is set to `OAUTH`. See
+[above](#auth.type) for a detailed description of the `auth.type`
+settings and their implications.
+
+By default, contact information, like the full name and email address,
+is retrieved from the selected OAuth provider when a user account is
+created, or when a user requests to reload that information in the
+settings UI. If that is not supported by the OAuth provider, users can
+be allowed to edit their contact information manually.
+
+  - oauth.allowEditFullName  
+    If true, the full name can be edited in the contact information.
+    
+    Default is false.
+
+  - oauth.allowRegisterNewEmail  
+    If true, additional email addresses can be registered in the contact
+    information.
+    
+    Default is false.
+
+### Section pack
+
+Global settings controlling how Gerrit Code Review creates pack streams
+for Git clients running clone, fetch, or pull. Most of these variables
+are per-client request, and thus should be carefully set given the
+expected concurrent request load and available CPU and memory resources.
+
+  - pack.deltacompression  
+    If true, delta compression between objects is enabled. This may
+    result in a smaller overall transfer for the client, but requires
+    more server memory and CPU time.
+    
+    False (off) by default, matching Gerrit Code Review 2.1.4.
+
+  - pack.threads  
+    Maximum number of threads to use for delta compression (if enabled).
+    This is per-client request. If set to 0 then the number of CPUs is
+    auto-detected and one thread per CPU is used, per client request.
+    
+    By default, 1.
+
+### Section plugins
+
+  - plugins.checkFrequency  
+    How often plugins should be examined for new plugins to load,
+    removed plugins to be unloaded, or updated plugins to be reloaded.
+    Values can be specified using standard time unit abbreviations
+    (*ms*, *sec*, *min*, etc.).
+    
+    If set to 0, automatic plugin reloading is disabled. Administrators
+    may force reloading with [gerrit plugin
+    reload](cmd-plugin-reload.html).
+    
+    Default is 1 minute.
+
+  - plugins.allowRemoteAdmin  
+    Enable remote installation, enable and disable of plugins over HTTP
+    and SSH. If set to true Administrators can install new plugins
+    remotely, or disable existing plugins. Defaults to false.
+
+  - plugins.jsLoadTimeout  
+    Set the timeout value for loading JavaScript plugins in Gerrit UI.
+    Values can be specified using standard time unit abbreviations
+    (*ms*, *sec*, *min*, etc.).
+    
+    Default is 5 seconds. Negative values will be converted to 0.
+
+### Section receive
+
+This section is used to configure behavior of the *receive-pack*
+handler, which responds to *git push* requests.
+
+  - receive.allowGroup  
+    Name of the groups of users that are allowed to execute
+    *receive-pack* on the server. One or more groups can be set.
+    
+    If no groups are added, any user will be allowed to execute
+    *receive-pack* on the server.
+
+  - receive.certNonceSeed  
+    If set to a non-empty value and server-side signed push validation
+    is [enabled](#receive.enableSignedPush), use this value as the seed
+    to the HMAC SHA-1 nonce generator. If unset, a 64-byte random seed
+    will be generated at server startup.
+    
+    As this is used as the seed of a cryptographic algorithm, it is
+    recommended to be placed in [`secure.config`](#secure-config).
+    
+    Defaults to unset.
+
+  - receive.certNonceSlop  
+    When validating the nonce passed as part of the signed push
+    protocol, accept valid nonces up to this many seconds old. This
+    allows certificate verification to work over HTTP where there is a
+    lag between the HTTP response providing the nonce to sign and the
+    next request containing the signed nonce. This can be significant on
+    large repositories, since the lag also includes the time to count
+    objects on the client.
+    
+    Default is 5 minutes.
+
+  - receive.changeUpdateThreads  
+    Number of threads to perform change creation or patch set updates
+    concurrently. Each thread uses its own database connection from the
+    database connection pool, and if all threads are busy then main
+    receive thread will also perform a change creation or patch set
+    update.
+    
+    Defaults to 1, using only the main receive thread. This feature is
+    for databases with very high latency that can benefit from
+    concurrent operations when multiple changes are impacted at once.
+
+  - receive.checkMagicRefs  
+    If true, Gerrit will verify the destination repository has no
+    references under the magic *refs/for* branch namespace. Names under
+    these locations confuse clients when trying to upload code reviews
+    so Gerrit requires them to be empty.
+    
+    If false Gerrit skips the sanity check and assumes administrators
+    have ensured the repository does not contain any magic references.
+    Setting to false to skip the check can decrease latency during push.
+    
+    Default is true.
+
+  - receive.checkReferencedObjectsAreReachable  
+    If set to true, Gerrit will validate that all referenced objects
+    that are not included in the received pack are reachable by the
+    user.
+    
+    Carrying out this check on gits with many refs and commits can be a
+    very CPU-heavy operation. For non public Gerrit-servers this check
+    may be overkill.
+    
+    Only disable this check if you trust the clients not to forge SHA1
+    references to access commits intended to be hidden from the user.
+    
+    Default is true.
+
+  - receive.enableSignedPush  
+    If true, server-side signed push validation is enabled.
+    
+    When a client pushes with `git push --signed`, this ensures that the
+    push certificate is valid and signed with a valid public key stored
+    in the `refs/meta/gpg-keys` branch of `All-Users`.
+    
+    Defaults to false.
+
+  - receive.maxBatchChanges  
+    The maximum number of changes that Gerrit allows to be pushed in a
+    batch for review. When this number is exceeded Gerrit rejects the
+    push with an error message.
+    
+    May be overridden for certain groups by specifying a limit in the
+    [*Batch Changes
+    Limit*](access-control.html#capability_batchChangesLimit) global
+    capability.
+    
+    This setting can be used to prevent users from uploading large
+    number of changes for review by mistake.
+    
+    Default is zero, no limit.
+
+  - receive.maxBatchCommits  
+    The maximum number of commits that Gerrit allows to be pushed in a
+    batch directly to a branch when [bypassing
+    review](user-upload.html#bypass_review). This limit can be bypassed
+    if a user [skips validation](user-upload.html#skip_validation).
+    
+    Default is 10000.
+
+  - receive.maxObjectSizeLimit  
+    Maximum allowed Git object size that *receive-pack* will accept. If
+    an object is larger than the given size the pack-parsing will abort
+    and the push operation will fail. If set to zero then there is no
+    limit.
+    
+    Gerrit administrators can use this setting to prevent developers
+    from pushing objects which are too large to Gerrit.
+    
+    This setting can also be set in the `project.config`
+    [receive.maxObjectSizeLimit](config-project-config.html) in order to
+    further reduce the global setting. The project specific setting is
+    only honored when it further reduces the global limit.
+    
+    Default is zero.
+    
+    Common unit suffixes of *k*, *m*, or *g* are supported.
+
+  - receive.maxTrustDepth  
+    If signed push validation is [enabled](#receive.enableSignedPush),
+    set to the maximum depth to search when checking if a key is
+    [trusted](#receive.trustedKey).
+    
+    Default is 0, meaning only explicitly trusted keys are allowed.
+
+  - receive.threadPoolSize  
+    Maximum size of the thread pool in which the change data in received
+    packs is processed.
+    
+    Defaults to the number of available CPUs according to the Java
+    runtime.
+
+  - receive.timeout  
+    Overall timeout on the time taken to process the change data in
+    received packs. Only includes the time processing Gerrit changes and
+    updating references, not the time to index the pack. Values can be
+    specified using standard time unit abbreviations (*ms*, *sec*,
+    *min*, etc.).
+    
+    Default is 4 minutes. If no unit is specified, milliseconds is
+    assumed.
+
+  - receive.trustedKey  
+    List of GPG key fingerprints that should be considered trust roots
+    by the server when signed push validation is
+    [enabled](#receive.enableSignedPush). A key is trusted by the server
+    if it is either in this list, or a path of trust signatures leads
+    from the key to a configured trust root. The maximum length of the
+    path is determined by
+    [`receive.maxTrustDepth`](#receive.maxTrustDepth).
+    
+    Key fingerprints can be displayed with `gpg --list-keys
+    --with-fingerprint`.
+    
+    Trust signatures can be added to a key using the `tsign` command to
+    [`gpg
+    --edit-key`](https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.html),
+    after which the signed key should be re-uploaded.
+    
+    If no keys are specified, web-of-trust checks are disabled. This is
+    the default behavior.
+
+### Section repository
+
+Repositories in this sense are the same as projects.
+
+In the following example configuration `Registered Users` is set to be
+the default owner of new projects.
+
+    [repository "*"]
+      ownerGroup = Registered Users
+
+The only matching patterns supported are exact match or wildcard
+matching which can be specified by ending the name with a `*`. If a
+project matches more than one repository configuration, then the
+configuration from the more precise match will be used. In the following
+example, the default submit type for a project named `project/plugins/a`
+would be `CHERRY_PICK`.
+
+    [repository "project/*"]
+      defaultSubmitType = MERGE_IF_NECESSARY
+    [repository "project/plugins/*"]
+      defaultSubmitType = CHERRY_PICK
+
+> **Note**
+> 
+> All properties are used from the matching repository configuration. In
+> the previous example, all properties will be used from
+> `project/plugins/\*` section and no properties will be inherited nor
+> overridden from `project/*`.
+
+  - repository.\<name\>.basePath  
+    Alternate to [gerrit.basePath](#gerrit.basePath). The repository
+    will be created
+    
+    If configuring the basePath for an existing project in gerrit, make
+    sure to stop gerrit, move the repository in the alternate basePath,
+    configure basePath for this repository and then start Gerrit.
+    
+    Path must be absolute.
+
+  - repository.\<name\>.defaultSubmitType  
+    The default submit type for newly created projects. Supported values
+    are `MERGE_IF_NECESSARY`, `FAST_FORWARD_ONLY`,
+    `REBASE_IF_NECESSARY`, `REBASE_ALWAYS`, `MERGE_ALWAYS` and
+    `CHERRY_PICK`.
+    
+    For more details see [Submit
+    Types](project-configuration.html#submit_type).
+    
+    By default, `MERGE_IF_NECESSARY`.
+
+  - repository.\<name\>.ownerGroup  
+    A name of a group which exists in the database. Zero, one or many
+    groups are allowed. Each on its own line. Groups which don’t exist
+    in the database are ignored.
+
+### Section rules
+
+  - rules.enable  
+    If true, Gerrit will load and execute *rules.pl* files in each
+    project’s refs/meta/config branch, if present. When set to false,
+    only the default internal rules will be used.
+    
+    Default is true, to execute project specific rules.
+
+  - rules.reductionLimit  
+    Maximum number of Prolog reductions that can be performed when
+    evaluating rules for a single change. Each function call made in
+    user rule code, internal Gerrit Prolog code, or the Prolog
+    interpreter counts against this limit.
+    
+    Sites using very complex rules that need many reductions should
+    compile Prolog to Java bytecode with [rulec](pgm-rulec.html). This
+    eliminates the dynamic Prolog interpreter from charging its own
+    reductions against the limit, enabling more logic to execute within
+    the same bounds.
+    
+    A reductionLimit of 0 is nearly infinite, implemented by setting the
+    internal limit to 2^31-1.
+    
+    Default is 100,000 reductions (about 14 ms on Intel Core i7 CPU).
+
+  - rules.compileReductionLimit  
+    Maximum number of Prolog reductions that can be performed when
+    compiling source code to internal Prolog machine code.
+    
+    Default is 10x reductionLimit (1,000,000).
+
+  - rules.maxSourceBytes  
+    Maximum input size (in bytes) of a Prolog rules.pl file. Larger
+    source files may need a larger rules.compileReductionLimit. Consider
+    using [rulec](pgm-rulec.html) to precompile larger rule files.
+    
+    A size of 0 bytes disables rules, same as rules.enable = false.
+    
+    Common unit suffixes of *k*, *m*, or *g* are supported.
+    
+    Default is 128 KiB.
+
+  - rules.maxPrologDatabaseSize  
+    Number of predicate clauses allowed to be defined in the Prolog
+    database by project rules. Very complex rules may need more than the
+    default 256 limit, but cost more memory and may need more time to
+    evaluate. Consider using [rulec](pgm-rulec.html) to precompile
+    larger rule files.
+    
+    Default is 256.
+
+### Section execution
+
+  - execution.defaultThreadPoolSize  
+    The default size of the background execution thread pool in which
+    miscellaneous tasks are handled.
+    
+    Default is 1.
+
+### Section receiveemail
+
+  - receiveemail.protocol  
+    Specifies the protocol used for receiving emails. Valid options are
+    *POP3*, *IMAP* and *NONE*. Note that Gerrit will automatically
+    switch between POP3 and POP3s as well as IMAP and IMAPS depending on
+    the specified [encryption](#receiveemail.encryption).
+    
+    Defaults to *NONE* which means that receiving emails is disabled.
+
+  - receiveemail.host  
+    The hostname of the mailserver. Example: *imap.gmail.com*.
+    
+    Defaults to an empty string which means that receiving emails is
+    disabled.
+
+  - receiveemail.port  
+    The port the email server exposes for receiving emails.
+    
+    Defaults to the industry standard for a given protocol and
+    encryption: POP3: 110; POP3S: 995; IMAP: 143; IMAPS: 993.
+
+  - receiveemail.username  
+    Username used for authenticating with the email server.
+    
+    Defaults to an empty string.
+
+  - receiveemail.password  
+    Password used for authenticating with the email server.
+    
+    Defaults to an empty string.
+
+  - receiveemail.encryption  
+    Encryption standard used for transport layer security between Gerrit
+    and the email server. Possible values include *NONE*, *SSL* and
+    *TLS*.
+    
+    Defaults to *NONE*.
+
+  - receiveemail.fetchInterval  
+    Time between two consecutive fetches from the email server.
+    Communication with the email server is not kept alive. Examples:
+    60s, 10m, 1h.
+    
+    Defaults to 60 seconds.
+
+  - receiveemail.enableImapIdle  
+    If the IMAP protocol is used for retrieving emails, IMAPv4 IDLE can
+    be used to keep the connection with the email server alive and
+    receive a push when a new email is delivered to the inbox. In this
+    case, Gerrit will process the email immediately and will not have a
+    fetch delay.
+    
+    Defaults to false.
+
+  - receiveemail.filter.mode  
+    A black- and whitelist filter to filter incoming emails.
+    
+    If `OFF`, emails are not filtered by the list filter.
+    
+    If `WHITELIST`, only emails where a pattern from
+    [receiveemail.filter.patterns](#receiveemail.filter.patterns)
+    matches *From* will be processed.
+    
+    If `BLACKLIST`, only emails where no pattern from
+    [receiveemail.filter.patterns](#receiveemail.filter.patterns)
+    matches *From* will be processed.
+    
+    Defaults to `OFF`.
+
+  - receiveemail.filter.patterns  
+    A list of regular expressions to match the email sender against.
+    This can also be a list of addresses when regular expression
+    characters are escaped.
+
+### Section sendemail
+
+  - sendemail.enable  
+    If false Gerrit will not send email messages, for any reason, and
+    all other properties of section sendemail are ignored.
+    
+    By default, true, allowing notifications to be sent.
+
+  - sendemail.html  
+    If false, Gerrit will only send plain-text emails. If true, Gerrit
+    will send multi-part emails with an HTML and plain text part.
+    
+    By default, true, allowing HTML in the emails Gerrit sends.
+
+  - sendemail.connectTimeout  
+    The connection timeout of opening a socket connected to a remote
+    SMTP server.
+    
+    Values can be specified using standard time unit abbreviations
+    (*ms*, *sec*, *min*, etc.). If no unit is specified, milliseconds is
+    assumed.
+    
+    Default is 0. A timeout of zero is interpreted as an infinite
+    timeout. The connection will then block until established or an
+    error occurs.
+
+  - sendemail.threadPoolSize  
+    Maximum size of thread pool in which the review comments
+    notifications are sent out asynchronously.
+    
+    By default, 1.
+
+  - sendemail.from  
+    Designates what name and address Gerrit will place in the From field
+    of any generated email messages. The supported values are:
+    
+      - `USER`
+        
+        Gerrit will set the From header to use the current user’s Full
+        Name and Preferred Email. This may cause messages to be
+        classified as spam if the user’s domain has SPF or DKIM enabled
+        and [sendemail.smtpServer](#sendemail.smtpServer) is not a
+        trusted relay for that domain. You can specify
+        [sendemail.allowedDomain](#sendemail.allowedDomain) to instruct
+        Gerrit to only send as USER if USER is from those domains.
+    
+      - `MIXED`
+        
+        Shorthand for `${user} (Code Review) <review@example.com>` where
+        `review@example.com` is the same as [user.email](#user.email).
+        See below for a description of how the replacement is handled.
+    
+      - `SERVER`
+        
+        Gerrit will set the From header to the same name and address it
+        records in any commits Gerrit creates. This is set by
+        [user.name](#user.name) and [user.email](#user.email), or
+        guessed from the local operating system.
+    
+      - `Code Review <review@example.com>`
+        
+        If set to a name and email address in brackets, Gerrit will use
+        this name and email address for any messages, overriding the
+        name that may have been selected for commits by user.name and
+        user.email. Optionally, the name portion may contain the
+        placeholder `${user}`, which is replaced by the Full Name of the
+        current user.
+    
+    By default, MIXED.
+
+  - sendemail.allowedDomain  
+    Only used when `sendemail.from` is set to `USER`. List of allowed
+    domains. If user’s email matches one of the domains, emails will be
+    sent as USER, otherwise as MIXED mode. Wildcards may be specified by
+    including `*` to match any number of characters, for example
+    `*.example.com` matches any subdomain of `example.com`.
+    
+    By default, `*`.
+
+  - sendemail.smtpServer  
+    Hostname (or IP address) of a SMTP server that will relay messages
+    generated by Gerrit to end users.
+    
+    By default, 127.0.0.1 (aka localhost).
+
+  - sendemail.smtpServerPort  
+    Port number of the SMTP server in sendemail.smtpserver.
+    
+    By default, 25, or 465 if smtpEncryption is *ssl*.
+
+  - sendemail.smtpEncryption  
+    Specify the encryption to use, either *ssl* or *tls*.
+    
+    By default, *none*, indicating no encryption is used.
+
+  - sendemail.sslVerify  
+    If false and sendemail.smtpEncryption is *ssl* or *tls*, Gerrit will
+    not verify the server certificate when it connects to send an email
+    message.
+    
+    By default, true, requiring the certificate to be verified.
+
+  - sendemail.smtpUser  
+    User name to authenticate with, if required for relay.
+
+  - sendemail.smtpPass  
+    Password for the account named by sendemail.smtpUser.
+
+  - sendemail.allowrcpt  
+    If present, each value adds one entry to the whitelist of email
+    addresses that Gerrit can send email to. If set to a complete email
+    address, that one address is added to the white list. If set to a
+    domain name, any address at that domain can receive email from
+    Gerrit.
+    
+    By default, unset, permitting delivery to any email address.
+
+  - sendemail.includeDiff  
+    If true, new change emails and merged change emails from Gerrit will
+    include the complete unified diff of the change. Variable
+    maxmimumDiffSize places an upper limit on how large the email can
+    get when this option is enabled.
+    
+    By default, false.
+
+  - sendemail.maximumDiffSize  
+    Largest size of unified diff output to include in an email. When the
+    diff exceeds this size the file paths will be listed instead.
+    Standard byte unit suffixes are supported.
+    
+    By default, 256 KiB.
+
+  - sendemail.importance  
+    If present, emails sent from Gerrit will have the given level of
+    importance. Valid values include *high* and *low*, which email
+    clients will render in different ways.
+    
+    By default, unset, so no Importance header is generated.
+
+  - sendemail.expiryDays  
+    If present, emails sent from Gerrit will expire after the given
+    number of days. This will add the Expiry-Date header and email
+    clients may expire or expunge mails whose Expiry-Date header is in
+    the past. This should be a positive non-zero number indicating how
+    many days in the future the mails should expire.
+    
+    By default, unset, so no Expiry-Date header is generated.
+
+  - sendemail.replyToAddress  
+    A custom Reply-To address should only be provided if Gerrit is set
+    up to receive emails and the inbound address differs from
+    [sendemail.from](#sendemail.from). It will be set as Reply-To header
+    on all types of outgoing email where Gerrit can parse back a user’s
+    reply.
+    
+    Defaults to an empty string which adds
+    [sendemail.from](#sendemail.from) as Reply-To if inbound email is
+    enabled and the review’s author otherwise.
+
+  - sendemail.allowTLD  
+    List of custom TLDs to allow sending emails to in addition to those
+    specified in the [IANA list](http://data.iana.org/TLD/).
+    
+    Defaults to an empty list, meaning no additional TLDs are allowed.
+
+### Section site
+
+  - site.allowOriginRegex  
+    List of regular expressions matching origins that should be
+    permitted to use the full Gerrit REST API. These should be trusted
+    applications, as the sites may be able to use the user’s
+    credentials. Applies to all requests, including state changing
+    methods (PUT, DELETE, POST).
+    
+    Expressions should not require trailing slash. For example a valid
+    pattern might be `https://build-status[.]example[.]com`.
+    
+    By default, unset, denying all cross-origin requests.
+
+  - site.refreshHeaderFooter  
+    If true the server checks the site header, footer and CSS files for
+    updated versions. If false, a server restart is required to change
+    any of these resources. Default is true, allowing automatic reloads.
+
+### Section ssh-alias
+
+Variables in section ssh-alias permit the site administrator to alias
+another command from Gerrit or a plugin into the `gerrit` command
+namespace. To alias `replication start` to `gerrit replicate`:
+
+    [ssh-alias]
+      replicate = replication start
+
+### Section sshd
+
+  - sshd.enableCompression  
+    In the general case, we want to disable transparent compression,
+    since the majority of our data transfer is highly compressed Git
+    pack files and we cannot make them any smaller than they already
+    are.
+    
+    However, if there are CPU in abundance and the server is reachable
+    through slow networks, gits with huge amount of refs can benefit
+    from SSH-compression since git does not compress the ref
+    announcement during handshake.
+    
+    Compression can be especially useful when Gerrit slaves are being
+    used for the larger clones and fetches and the master server mostly
+    takes small receive-packs.
+    
+    By default, `false`.
+
+  - sshd.backend  
+    Starting from version 0.9.0 Apache SSHD project added support for
+    NIO2 IoSession. To use the new NIO2 session the `backend` option
+    must be set to `NIO2`. Otherwise, this option must be set to `MINA`.
+    
+    By default, `NIO2`.
+
+  - sshd.listenAddress  
+    Specifies the local addresses the internal SSHD should listen for
+    connections on. The following forms may be used to specify an
+    address. In any form, `:'port'` may be omitted to use the default of
+    `29418`.
+    
+      - `'hostname':'port'` (for example `review.example.com:29418`)
+    
+      - `'IPv4':'port'` (for example `10.0.0.1:29418`)
+    
+      - `['IPv6']:'port'` (for example `[ff02::1]:29418`)
+    
+      - `+*:'port'+` (for example `+*:29418+`)
+    
+    If multiple values are supplied, the daemon will listen on all of
+    them.
+    
+    To disable the internal SSHD, set listenAddress to `off`.
+    
+    By default, `*:29418`.
+
+  - sshd.advertisedAddress  
+    Specifies the addresses clients should be told to connect to. This
+    may differ from sshd.listenAddress if a firewall based port
+    redirector is being used, making Gerrit appear to answer on port 22.
+    The following forms may be used to specify an address. In any form,
+    `:'port'` may be omitted to use the default SSH port of 22.
+    
+      - `'hostname':'port'` (for example `review.example.com:22`)
+    
+      - `'IPv4':'port'` (for example `10.0.0.1:29418`)
+    
+      - `['IPv6']:'port'` (for example `[ff02::1]:29418`)
+    
+    If multiple values are supplied, the daemon will advertise all of
+    them.
+    
+    By default uses the value of `sshd.listenAddress`.
+
+  - sshd.tcpKeepAlive  
+    If true, enables TCP keepalive messages to the other side, so the
+    daemon can terminate connections if the peer disappears.
+    
+    Only effective when `sshd.backend` is set to `MINA`.
+    
+    By default, `true`.
+
+  - sshd.threads  
+    Number of threads to use when executing SSH command requests. If
+    additional requests are received while all threads are busy they are
+    queued and serviced in a first-come-first-served order.
+    
+    By default, 2x the number of CPUs available to the JVM.
+    
+    > **Note**
+    > 
+    > When SSH daemon is enabled then this setting also defines the max
+    > number of concurrent Git requests for interactive users over SSH
+    > and HTTP together.
+
+  - sshd.batchThreads  
+    Number of threads to allocate for SSH command requests from
+    [non-interactive users](access-control.html#non-interactive_users).
+    If equals to 0, then all non-interactive requests are executed in
+    the same queue as interactive requests.
+    
+    Any other value will remove the number of threads from the queue
+    allocated to interactive users, and create a separate thread pool of
+    the requested size, which will be used to run commands from
+    non-interactive users.
+    
+    If the number of threads requested for non-interactive users is
+    larger than the total number of threads allocated in sshd.threads,
+    then the value of sshd.threads is increased to accommodate the
+    requested value.
+    
+    By default is 1 on single core node, 2 otherwise.
+    
+    > **Note**
+    > 
+    > When SSH daemon is enabled then this setting also defines the max
+    > number of concurrent Git requests for batch users over SSH and
+    > HTTP together.
+
+  - sshd.streamThreads  
+    Number of threads to use when formatting events to asynchronous
+    streaming clients. Event formatting is multiplexed onto this thread
+    pool by a simple FIFO scheduling system.
+    
+    By default, 1 plus the number of CPUs available to the JVM.
+
+  - sshd.commandStartThreads  
+    Number of threads used to parse a command line submitted by a client
+    over SSH for execution, create the internal data structures used by
+    that command, and schedule it for execution on another thread.
+    
+    By default, 2.
+
+  - sshd.maxAuthTries  
+    Maximum number of authentication attempts before the server
+    disconnects the client. Each public key that a client has loaded
+    into its local agent counts as one auth request. Users can work
+    around the server’s limit by loading less keys into their agent, or
+    selecting a specific key in their `~/.ssh/config` file with the
+    `IdentityFile` option.
+    
+    By default, 6.
+
+  - sshd.loginGraceTime  
+    Time in seconds that a client has to authenticate before the server
+    automatically terminates their connection. Values should use common
+    unit suffixes to express their setting:
+    
+      - s, sec, second, seconds
+    
+      - m, min, minute, minutes
+    
+      - h, hr, hour, hours
+    
+      - d, day, days
+    
+    By default, 2 minutes.
+
+  - sshd.idleTimeout  
+    Time in seconds after which the server automatically terminates idle
+    connections (or 0 to disable closing of idle connections) not
+    waiting for any server operation to complete. Values should use
+    common unit suffixes to express their setting:
+    
+      - s, sec, second, seconds
+    
+      - m, min, minute, minutes
+    
+      - h, hr, hour, hours
+    
+      - d, day, days
+    
+    By default, 0.
+
+  - sshd.waitTimeout  
+    Time in seconds after which the server automatically terminates
+    connections waiting for a server operation to complete, like for
+    instance cloning a very large repo with lots of refs. Values should
+    use common unit suffixes to express their setting:
+    
+      - s, sec, second, seconds
+    
+      - m, min, minute, minutes
+    
+      - h, hr, hour, hours
+    
+      - d, day, days
+    
+    By default, 30s.
+
+  - sshd.maxConnectionsPerUser  
+    Maximum number of concurrent SSH sessions that a user account may
+    open at one time. This is the number of distinct SSH logins that
+    each user may have active at one time, and is not related to the
+    number of commands a user may issue over a single connection. If set
+    to 0, there is no limit.
+    
+    By default, 64.
+
+  - sshd.cipher  
+    Available ciphers. To permit multiple ciphers, specify multiple
+    `sshd.cipher` keys in the configuration file, one cipher name per
+    key. Cipher names starting with `+` are enabled in addition to the
+    default ciphers, cipher names starting with `-` are removed from the
+    default cipher set.
+    
+    Supported ciphers:
+    
+      - `aes128-ctr`
+    
+      - `aes192-ctr`
+    
+      - `aes256-ctr`
+    
+      - `aes128-cbc`
+    
+      - `aes192-cbc`
+    
+      - `aes256-cbc`
+    
+      - `blowfish-cbc`
+    
+      - `3des-cbc`
+    
+      - `arcfour128`
+    
+      - `arcfour256`
+    
+      - `none`
+        
+        By default, all supported ciphers except `none` are available.
+        
+        If your setup allows for it, it’s recommended to disable all
+        ciphers except the AES-CTR modes.
+
+  - sshd.mac  
+    Available MAC (message authentication code) algorithms. To permit
+    multiple algorithms, specify multiple `sshd.mac` keys in the
+    configuration file, one MAC per key. MAC names starting with `+` are
+    enabled in addition to the default MACs, MAC names starting with `-`
+    are removed from the default MACs.
+    
+    Supported MACs:
+    
+      - `hmac-md5`
+    
+      - `hmac-md5-96`
+    
+      - `hmac-sha1`
+    
+      - `hmac-sha1-96`
+    
+      - `hmac-sha2-256`
+    
+      - `hmac-sha2-512`
+        
+        By default, all supported MACs are available.
+
+  - sshd.kex  
+    Available key exchange algorithms. To permit multiple algorithms,
+    specify multiple `sshd.kex` keys in the configuration file, one key
+    exchange algorithm per key. Key exchange algorithm names starting
+    with `+` are enabled in addition to the default key exchange
+    algorithms, key exchange algorithm names starting with `-` are
+    removed from the default key exchange algorithms.
+    
+    In the following example configuration, support for the 1024-bit
+    `diffie-hellman-group1-sha1` key exchange is disabled while leaving
+    all of the other default algorithms enabled:
+    
+        [sshd]
+          kex = -diffie-hellman-group1-sha1
+    
+    Supported key exchange algorithms:
+    
+      - `ecdh-sha2-nistp521`
+    
+      - `ecdh-sha2-nistp384`
+    
+      - `ecdh-sha2-nistp256`
+    
+      - `diffie-hellman-group-exchange-sha256`
+    
+      - `diffie-hellman-group-exchange-sha1`
+    
+      - `diffie-hellman-group14-sha1`
+    
+      - `diffie-hellman-group1-sha1`
+    
+    By default, all supported key exchange algorithms are available.
+    Without Bouncy Castle, `diffie-hellman-group1-sha1` is the only
+    available algorithm.
+    
+    It is strongly recommended to disable at least
+    `diffie-hellman-group1-sha1` as it’s known to be vulnerable (logjam
+    attack). Additionally, if your setup allows for it, it is
+    recommended to disable the remaining two `sha1` key exchange
+    algorithms.
+
+  - sshd.kerberosKeytab  
+    Enable kerberos authentication for SSH connections. To permit
+    kerberos authentication, the server must have a host principal (see
+    `sshd.kerberosPrincipal`) which is acquired from a keytab. This must
+    be provisioned by the kerberos administrators, and is typically
+    installed into `/etc/krb5.keytab` on host machines.
+    
+    The keytab must contain at least one `host/` principal, typically
+    using the host’s canonical name. If it does not use the canonical
+    name, the `sshd.kerberosPrincipal` should be configured with the
+    correct name.
+    
+    By default, not set and so kerberos authentication is not enabled.
+
+  - sshd.kerberosPrincipal  
+    If kerberos authentication is enabled with `sshd.kerberosKeytab`,
+    instead use the given principal name instead of the default. If the
+    principal does not begin with `host/` a warning message is printed
+    and may prevent successful authentication.
+    
+    This may be useful if the host is behind an IP load balancer or
+    other SSH forwarding systems, since the principal name is
+    constructed by the client and must match for kerberos authentication
+    to work.
+    
+    By default, `host/canonical.host.name`
+
+  - sshd.requestLog  
+    Enable (or disable) the `'$site_path'/logs/sshd_log` request log. If
+    enabled, a request log file is written out by the SSH daemon.
+    
+    `log4j.appender` with the name `sshd_log` can be configured to
+    overwrite programmatic configuration.
+    
+    By default, `true`.
+
+  - sshd.rekeyBytesLimit  
+    The SSH daemon will issue a rekeying after a certain amount of data.
+    This configuration option allows you to tweak that setting.
+    
+    By default, 1073741824 (bytes, 1GB).
+    
+    The `rekeyBytesLimit` cannot be set to lower than 32.
+
+  - sshd.rekeyTimeLimit  
+    The SSH daemon will issue a rekeying after a certain amount of time.
+    This configuration option allows you to tweak that setting.
+    
+    By default, 1h.
+    
+    Set to 0 to disable this check.
+
+### Section suggest
+
+  - suggest.maxSuggestedReviewers  
+    The maximum numbers of reviewers suggested.
+    
+    By default 10.
+
+  - suggest.from  
+    The number of characters that a user must have typed before
+    suggestions are provided. If set to 0, suggestions are always
+    provided. This is only used for suggesting accounts when adding
+    members to a group.
+    
+    By default 0.
+
+### Section theme
+
+  - theme.backgroundColor  
+    Background color for the page, and major data tables like the all
+    open changes table or the account dashboard. The value must be a
+    valid HTML hex color code, or standard color name.
+    
+    By default white, `FFFFFF`.
+
+  - theme.topMenuColor  
+    This is the color of the main menu bar at the top of the page. The
+    value must be a valid HTML hex color code, or standard color name.
+    
+    By default white, `FFFFFF`.
+
+  - theme.textColor  
+    Text color for the page, and major data tables like the all open
+    changes table or the account dashboard. The value must be a valid
+    HTML hex color code, or standard color name.
+    
+    By default dark grey, `353535`.
+
+  - theme.trimColor  
+    Primary color used as a background color behind text. This is the
+    color of the main menu bar at the top, of table headers, and of
+    major UI areas that we want to offset from other portions of the
+    page. The value must be a valid HTML hex color code, or standard
+    color name.
+    
+    By default a light grey, `EEEEEE`.
+
+  - theme.selectionColor  
+    Background color used within a trimColor area to denote the
+    currently selected tab, or the background color used in a table to
+    denote the currently selected row. The value must be a valid HTML
+    hex color code, or standard color name.
+    
+    By default a pale blue, `D8EDF9`.
+
+  - theme.changeTableOutdatedColor  
+    Background color used for patch outdated messages. The value must be
+    a valid HTML hex color code, or standard color name.
+    
+    By default a shade of red, `F08080`.
+
+  - theme.tableOddRowColor  
+    Background color for tables such as lists of open reviews for odd
+    rows. This is so you can have a different color for odd and even
+    rows of the table. The value must be a valid HTML hex color code, or
+    standard color name.
+    
+    By default transparent.
+
+  - theme.tableEvenRowColor  
+    Background color for tables such as lists of open reviews for even
+    rows. This is so you can have a different color for odd and even
+    rows of the table. The value must be a valid HTML hex color code, or
+    standard color name.
+    
+    By default transparent.
+
+A different theme may be used for signed-in vs. signed-out user status
+by using the "signed-in" and "signed-out" theme sections. Variables not
+specified in a section are inherited from the default theme.
+
+    [theme]
+      backgroundColor = FFFFFF
+    [theme "signed-in"]
+      backgroundColor = C0C0C0
+    [theme "signed-out"]
+      backgroundColor = 00FFFF
+
+As example, here is the theme configuration to have the old green look:
+
+    [theme]
+      backgroundColor = FCFEEF
+      textColor = 000000
+      trimColor = D4E9A9
+      selectionColor = FFFFCC
+      topMenuColor = D4E9A9
+      changeTableOutdatedColor = F08080
+    [theme "signed-in"]
+      backgroundColor = FFFFFF
+
+### Section trackingid
+
+Tagged footer lines containing references to external tracking systems,
+parsed out of the commit message and saved in Gerrit’s secondary index.
+
+After making changes to this section, existing changes must be reindexed
+with [reindex](pgm-reindex.html).
+
+The tracking ids are searchable using tr:\<tracking id\> or
+bug:\<tracking id\>.
+
+    [trackingid "jira-bug"]
+      footer = Bugfix:
+      footer = Bug:
+      match = JRA\\d{2,8}
+      system = JIRA
+    
+    [trackingid "jira-feature"]
+      footer = Feature
+      match = JRA(\\d{2,8})
+      system = JIRA
+
+  - trackingid.\<name\>.footer  
+    A prefix tag that identifies the footer line to parse for tracking
+    ids.
+    
+    Several trackingid entries can have the same footer tag, and a
+    single trackingid entry can have multiple footer tags.
+    
+    If multiple footer tags are specified, each tag will be parsed
+    separately and duplicates will be ignored.
+    
+    The trailing ":" is optional.
+
+  - trackingid.\<name\>.match  
+    A [standard Java regular expression
+    (java.util.regex)](http://download.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html)
+    used to match the external tracking id part of the footer line. The
+    match can result in several entries in the DB. If grouping is used
+    in the regex the first group will be interpreted as the tracking id.
+    Tracking ids longer than 32 characters will be ignored.
+    
+    The configuration file parser eats one level of backslashes, so the
+    character class `\s` requires `\\s` in the configuration file. The
+    parser also terminates the line at the first `#`, so a match
+    expression containing \# must be wrapped in double quotes.
+
+  - trackingid.\<name\>.system  
+    The name of the external tracking system (maximum 10 characters). It
+    is possible to have several trackingid entries for the same tracking
+    system.
+
+### Section transfer
+
+  - transfer.timeout  
+    Number of seconds to wait for a single network read or write to
+    complete before giving up and declaring the remote side is not
+    responding. If 0, there is no timeout, and this server will wait
+    indefinitely for a transfer to finish.
+    
+    A timeout should be large enough to mostly transfer the objects to
+    the other side. 1 second may be too small for larger projects,
+    especially over a WAN link, while 10-30 seconds is a much more
+    reasonable timeout value.
+    
+    Defaults to 0 seconds, wait indefinitely.
+
+### Section upload
+
+Options to control the behavior of `upload-pack` on the server side,
+which handles a user’s fetch, clone, or repo sync command.
+
+    [upload]
+      allowGroup = GROUP_ALLOWED_TO_EXECUTE
+      allowGroup = YET_ANOTHER_GROUP_ALLOWED_TO_EXECUTE
+
+  - upload.allowGroup  
+    Name of the groups of users that are allowed to execute
+    *upload-pack*. One or more groups can be set.
+    
+    If no groups are added, any user will be allowed to execute
+    *upload-pack* on the server.
+
+### Section accountDeactivation
+
+Configures the parameters for the scheduled task to sweep and deactivate
+Gerrit accounts according to their status reported by the auth backend.
+Currently only supported for LDAP backends.
+
+  - accountDeactivation.startTime  
+    Start time to define the first execution of account deactivations.
+    If the configured `'accountDeactivation.interval'` is shorter than
+    `'accountDeactivation.startTime - now'` the start time will be
+    preponed by the maximum integral multiple of
+    `'accountDeactivation.interval'` so that the start time is still in
+    the future.
+    
+        <day of week> <hours>:<minutes>
+        or
+        <hours>:<minutes>
+        
+        <day of week> : Mon, Tue, Wed, Thu, Fri, Sat, Sun
+        <hours>       : 00-23
+        <minutes>     : 0-59
+
+  - accountDeactivation.interval  
+    Interval for periodic repetition of triggering account deactivation
+    sweeps. The interval must be larger than zero. The following
+    suffixes are supported to define the time unit for the interval:
+    
+      - `s, sec, second, seconds`
+    
+      - `m, min, minute, minutes`
+    
+      - `h, hr, hour, hours`
+    
+      - `d, day, days`
+    
+      - `w, week, weeks` (`1 week` is treated as `7 days`)
+    
+      - `mon, month, months` (`1 month` is treated as `30 days`)
+    
+      - `y, year, years` (`1 year` is treated as `365 days`)
+
+### Section urlAlias
+
+URL aliases define regular expressions for URL tokens that are mapped to
+target URL tokens.
+
+Each URL alias must be specified in its own subsection. The subsection
+name should be a descriptive name. It must be unique, but is not
+interpreted in any way.
+
+The URL aliases are applied in no particular order. The first matching
+URL alias is used and further matches are ignored.
+
+URL aliases can be used to map plugin screens into the Gerrit URL
+namespace, or to replace Gerrit screens by plugin screens.
+
+Example:
+
+    [urlAlias "MyPluginScreen"]
+      match = /myscreen/(.*)
+      token = /x/myplugin/myscreen/$1
+    [urlAlias "MyChangeScreen"]
+      match = /c/(.*)
+      token = /x/myplugin/c/$1
+
+  - urlAlias.match  
+    A regular expression for a URL token.
+    
+    The matched URL token is replaced by `urlAlias.token`.
+
+  - urlAlias.token  
+    The target URL token.
+    
+    It can contain placeholders for the groups matched by the
+    `urlAlias.match` regular expression: `$1` for the first matched
+    group, `$2` for the second matched group, etc.
+
+### Section submodule
+
+  - submodule.verboseSuperprojectUpdate  
+    When using [automatic superproject
+    updates](user-submodules.html#automatic_update) this option will
+    determine how the submodule commit messages are included into the
+    commit message of the superproject update.
+    
+    If `FALSE`, will not include any commit messages for the gitlink
+    update.
+    
+    If `SUBJECT_ONLY`, will include only the commit subjects.
+    
+    If `TRUE`, will include full commit messages.
+    
+    By default this is `TRUE`.
+
+  - submodule.enableSuperProjectSubscriptions  
+    This allows to enable the superproject subscription mechanism.
+    
+    By default this is true.
+
+  - submodule.maxCombinedCommitMessageSize  
+    This allows to limit the length of the commit message for a
+    submodule.
+    
+    By default this is 262144 (256 KiB).
+    
+    Common unit suffixes of k, m, or g are supported.
+
+  - submodule.maxCommitMessages  
+    This allows to limit the number of commit messages that should be
+    combined when creating a commit message for a submodule.
+    
+    By default this is 1000.
+
+### Section user
+
+  - user.name  
+    Name that Gerrit calls itself in Git when it creates a new Git
+    commit, such as a merge during change submission.
+    
+    By default this is "Gerrit Code Review".
+
+  - user.email  
+    Email address that Gerrit refers to itself as when it creates a new
+    Git commit, such as a merge commit during change submission.
+    
+    If not set, Gerrit generates this as "gerrit@`hostname`", where
+    `hostname` is the hostname of the system Gerrit is running on.
+    
+    By default, not set, generating the value at startup.
+
+  - user.anonymousCoward  
+    Username that is displayed in the Gerrit Web UI and in e-mail
+    notifications if the full name of the user is not set.
+    
+    By default "Anonymous Coward" is used.
+
+## File `etc/secure.config`
+
+The optional file `'$site_path'/etc/secure.config` overrides (or
+supplements) the settings supplied by `'$site_path'/etc/gerrit.config`.
+The file should be readable only by the daemon process and can be used
+to contain private configuration entries that wouldn’t normally be
+exposed to everyone.
+
+Sample `etc/secure.config`:
+
+    [auth]
+      registerEmailPrivateKey = 2zHNrXE2bsoylzUqDxZp0H1cqUmjgWb6
+    
+    [database]
+      username = webuser
+      password = s3kr3t
+    
+    [ldap]
+      password = l3tm3srch
+    
+    [httpd]
+      sslKeyPassword = g3rr1t
+    
+    [sendemail]
+      smtpPass = sp@m
+    
+    [remote "bar"]
+      password = s3kr3t
+
+## File `etc/peer_keys`
+
+The optional file `'$site_path'/etc/peer_keys` controls who can login as
+the *Gerrit Code Review* user, required for the
+[suexec](cmd-suexec.html) command.
+
+The format is one Base-64 encoded public key per line.
+
+## Database system\_config
+
+Several columns in the `system_config` table within the metadata
+database may be set to control how Gerrit behaves.
+
+> **Note**
+> 
+> The contents of the `system_config` table are cached at startup by
+> Gerrit. If you modify any columns in this table, Gerrit needs to be
+> restarted before it will use the new values.
+
+## Configuring the Polygerrit UI
+
+Please see [UI](dev-polygerrit.html) on configuring the Polygerrit UI.
+
+### Configurable Parameters
+
+  - site\_path  
+    Local filesystem directory holding the site customization assets.
+    Placing this directory under version control and/or backup is a good
+    idea.
+    
+    Files in this directory provide additional configuration.
+    
+    Other files support site customization.
+    
+      - [Themes](config-themes.html)
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

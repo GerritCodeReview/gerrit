@@ -1,0 +1,176 @@
+entries:
+- title: Sidebar
+  product: Gerrit Documentation
+  version: 2.15(ish)
+  folders:
+
+  - title:
+    output: pdf
+    type: frontmatter
+    folderitems:
+    - title:
+      url: /titlepage.html
+      output: pdf
+      type: frontmatter
+
+    - title:
+      url: /tocpage.html
+      output: pdf
+      type: frontmatter
+
+  - title: "Command-line Reference"
+    output: web
+    folderitems:
+
+    - title: Overview
+      url: /cmd-index.html
+      output: web
+    - title: gerrit-cherry-pick
+      url: /cmd-cherry-pick.html
+      output: web
+    - title: commit-msg Hook
+      url: /cmd-hook-commit-msg.html
+      output: web
+    - title: gerrit apropos
+      url: /cmd-apropos.html
+      output: web
+    - title: gerrit ban-commit
+      utl: /cmd-ban-commit.html
+      output: web
+    - title: gerrit create-branch
+      url: /cmd-create-branch.html
+      output: web
+    - title: gerrit ls-groups
+      url: /cmd-ls-groups.html
+      output: web
+    - title: gerrit ls-members
+      url: /cmd-ls-members.html
+      output: web
+    - title: gerrit ls-projects
+      url: /cmd-ls-projects.html
+      output: web
+    - title: gerrit query
+      url: /cmd-query.html
+      output: web
+    - title: gerrit rename-group
+      url: /cmd-rename-group.html
+      output: web
+    - title: gerrit review
+      url: /cmd-review.html
+      output: web
+    - title: gerrit set-head
+      url: /cmd-set-head.html
+      output: web
+    - title: gerrit set-project
+      url: /cmd-set-project.html
+      output: web
+    - title: gerrit set-reviewers
+      url: /cmd-set-reviewers.html
+      output: web
+    - title: gerrit stream-events
+      url: /cmd-stream-events.html
+      output: web
+    - title: gerrit version
+      url: /cmd-version.html
+      output: web
+    - title: git receive-pack
+      url: /cmd-receive-pack.html
+      output: web
+    - title: gerrit close-connection
+      url: /cmd-close-connection.html
+      output: web
+    - title: gerrit create-account
+      url: /cmd-create-account.html
+      output: web
+    - title: gerrit create-group
+      url: /cmd-create-group.html
+      output: web
+    - title: gerrit create-project
+      url: /cmd-create-project.html
+      output: web
+    - title: gerrit flush-caches
+      url: /cmd-flush-caches.html
+      output: web
+    - title: gerrit gc
+      url: /cmd-gc.html
+      output: web
+    - title: gerrit gsql
+      url: /cmd-gsql.html
+      output: web
+    - title: gerrit index activate
+      url: /cmd-index-activate.html
+      output: web
+    - title: gerrit index start
+      url: /cmd-index-start.html
+      output: web
+    - title: gerrit index changes
+      url: /cmd-index-changes.html
+      output: web
+    - title: gerrit index project
+      url: /cmd-index-project.html
+      output: web
+    - title: gerrit logging ls-level
+      url: /cmd-logging-ls-level.html
+      output: web
+    - title: gerrit logging set-level
+      url: /cmd-logging-set-level.html
+      output: web
+    - title: gerrit ls-user-refs
+      url: /cmd-ls-user-refs.html
+      output: web
+    - title: gerrit plugin add
+      url: /cmd-plugin-install.html
+      output: web
+    - title: gerrit plugin enable
+      url: /cmd-plugin-enable.html
+      output: web
+    - title: gerrit plugin install
+      url: /cmd-plugin-install.html
+      output: web
+    - title: gerrit plugin ls
+      url: /cmd-plugin-ls.html
+      output: web
+    - title: gerrit plugin reload
+      url: /cmd-plugin-reload.html
+      output: web
+    - title: gerrit plugin remove
+      url: /cmd-plugin-remove.html
+      output: web
+    - title: gerrit plugin rm
+      url: /cmd-pluging-rm.html
+      output: web
+    - title: gerrit set-account
+      url: /cmd-set-account.html
+      output: web
+    - title: gerrit set-members
+      url: /cmd-set-members.html
+      output: web
+    - title: gerrit set-project-parent
+      url: /cmd-set-project-parent.html
+      output: web
+    - title: gerrit show-caches
+      url: /cmd-show-caches.html
+      output: web
+    - title: gerrit show-connections
+      url: /cmd-show-connections.html
+      output: web
+    - title: gerrit show-queue
+      url: /cmd-show-queue.html
+      output: web
+    - title: gerrit test-submit rule
+      url: /cmd-test-submit-rule.html
+      output: web
+    - title: gerrit test-submit type
+      url: /cmd-test-submit-type.thml
+      output: web
+    - title: kill
+      url: /cmd-kill.html
+      output: web
+    - title: ps
+      url: /cmd-show-queue.html
+      output: web
+    - title: suexec
+      url: /cmd-suexec.html
+      output: web
+
+

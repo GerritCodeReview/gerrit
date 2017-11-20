@@ -1,0 +1,64 @@
+---
+title: " non-fast forward"
+sidebar: errors_sidebar
+permalink: error-non-fast-forward.html
+---
+With this error message Gerrit rejects a push if the remote branch can’t
+be fast forwarded onto the pushed commit. This is the case if the pushed
+commit is not based on the current tip of the remote branch.
+
+If a non-fast forward update would be done, all commits from the remote
+branch that succeed the base commit of the pushed commit would be
+removed. This would be especially confusing for other users that have
+based their work on such a commit. Because of this Git by default does
+not allow non-fast forward updates.
+
+When working with Gerrit, this error can only occur if [code review is
+bypassed](user-upload.html#bypass_review).
+
+There are different reasons why this error can occur:
+
+1.  the remote branch has evolved since you started your development
+
+2.  you are pushing the commit to the wrong project
+
+## the remote branch has evolved since you started your development
+
+You start your development based on the current tip of the remote
+branch. While you implement your feature / bug-fix, a change in Gerrit
+gets submitted (or another user directly pushes a commit) so that the
+remote branch evolves. If you are now pushing your commit, with
+bypassing code review, your push will be rejected with the error message
+*non-fast forward*. To solve the problem you have to
+    either
+
+1.  [rebase](http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html)
+    your commit on the new tip of the remote branch
+    or
+
+2.  [merge](http://www.kernel.org/pub/software/scm/git/docs/git-merge.html)
+    your commit with the new tip of the remote branch.
+
+Afterwards the push should be successful.
+
+## you are pushing the commit to the wrong project
+
+If you do a commit in one project and then accidentally push this
+commit, with bypassing code review, to another project, this will fail
+with the error message *non-fast forward*. To fix the problem you should
+check the push specification and verify that you are pushing the commit
+to the correct project.
+
+Although it is considered bad practice, it is possible to allow non-fast
+forward updates with Git. For this the remote Git repository has to be
+configured to not deny non-fast forward updates (set the [Git
+configuration](http://www.kernel.org/pub/software/scm/git/docs/git-config.html)
+parameter *receive.denyNonFastForwards* to *false*). Then it is possible
+to push a non-fast forward update by using the *--force* option.
+
+## GERRIT
+
+Part of [Gerrit Error Messages](error-messages.html)
+
+## SEARCHBOX
+

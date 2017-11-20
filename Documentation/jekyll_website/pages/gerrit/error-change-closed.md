@@ -1,0 +1,47 @@
+---
+title: " change ... closed"
+sidebar: errors_sidebar
+permalink: error-change-closed.html
+---
+With this error message Gerrit rejects to push a commit or submit a
+review label (approval) to a change that is already closed.
+
+## When Pushing a Commit
+
+This error occurs if you are trying to push a commit that contains the
+Change-Id of a closed change in its commit message. A change can be
+closed either because it was already submitted and merged or because it
+was abandoned.
+
+If the change for which you wanted to upload a new patch set was already
+submitted and merged you may want to push your commit as a new change.
+To do this you have to remove the Change-Id from the commit message as
+explained [here](error-push-fails-due-to-commit-message.html) and
+ideally generate a new Change-Id using the [commit
+hook](cmd-hook-commit-msg.html) or EGit. Before pushing again it is also
+recommended to do a [git
+rebase](http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html)
+to base your commit on the submitted change. Pushing again should now
+create a new change in Gerrit.
+
+If the change for which you wanted to upload a new patch set was
+abandoned and your new changes overcome the reasons for abandoning this
+change you may want to restore the change in the Gerrit Web UI (browse
+the abandoned change in the Gerrit Web UI and click on the *Restore
+Change* button). Afterwards the push should succeed and a new patch set
+for this change will be created.
+
+## When Submitting a Review Label
+
+This error occurs if you are trying to submit a review label (approval)
+using the [ssh review command](cmd-review.html) after the change has
+been closed. A change can be closed because it was submitted and merged,
+because it was abandoned, or because the patchset to which you are
+submitting the review has been replaced by a newer patchset.
+
+## GERRIT
+
+Part of [Gerrit Error Messages](error-messages.html)
+
+## SEARCHBOX
+

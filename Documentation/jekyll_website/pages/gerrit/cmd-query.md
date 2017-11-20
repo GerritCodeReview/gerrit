@@ -1,0 +1,167 @@
+---
+title: " gerrit query"
+sidebar: cmd_sidebar
+permalink: cmd-query.html
+---
+## NAME
+
+gerrit query - Query the change database
+
+## SYNOPSIS
+
+> 
+> 
+>     ssh -p <port> <host> gerrit query
+>       [--format {TEXT | JSON}]
+>       [--current-patch-set]
+>       [--patch-sets | --all-approvals]
+>       [--files]
+>       [--comments]
+>       [--commit-message]
+>       [--dependencies]
+>       [--submit-records]
+>       [--all-reviewers]
+>       [--start <n> | -S <n>]
+>       [--]
+>       <query>
+>       [limit:<n>]
+
+## DESCRIPTION
+
+Queries the change database and returns results describing changes that
+match the input query. More recently updated changes appear before older
+changes, which is the same order presented in the web interface. For
+each matching change, the result contains data for the change’s latest
+patch set, even if the query matched on an older patch set (for example
+an older patch set’s sha1 revision).
+
+A query may be limited on the number of results it returns with the
+*limit:* operator. If no limit is supplied an internal default limit is
+used to prevent explosion of the result set. To obtain results beyond
+the limit, the *--start* flag can be used to resume the query after
+skipping a certain number of results.
+
+Non-option arguments to this command are joined with spaces and then
+parsed as a query. This simplifies calling conventions over SSH by
+permitting operators to appear in different arguments.
+
+Query operators may quote values using matched curly braces (e.g.
+`reviewerin:{Developer Group}`) to sidestep issues with 2 levels of
+shell quoting (caller shell invoking SSH, and the SSH command line
+parser in the server).
+
+## OPTIONS
+
+  - \--format  
+    Formatting method for the results. `TEXT` is the default, presenting
+    a human readable display. `JSON` returns [change
+    attributes](json.html#change), one line per matching record, with
+    embedded LFs escaped.
+
+  - \--current-patch-set  
+    Include information about the current patch set in the results. Note
+    that the information will only be included when the current patch
+    set is visible to the caller.
+
+  - \--patch-sets  
+    Include information about all patch sets visible to the caller. If
+    combined with the --current-patch-set flag then the current patch
+    set information will be output twice, once in each field.
+
+  - \--all-approvals  
+    Include information about all patch sets visible to the caller along
+    with the approval information for each patch set. If combined with
+    the --current-patch-set flag then the current patch set information
+    will be output twice, once in each field.
+
+  - \--files  
+    Support for listing files with patch sets and their attributes
+    (ADDED, MODIFIED, DELETED, RENAMED, COPIED) and size information
+    (number of insertions and deletions). Note that this option requires
+    either the --current-patch-set or the --patch-sets option in order
+    to give any file information.
+
+  - \--comments  
+    Include comments for all changes. If combined with the --patch-sets
+    flag then all inline/file comments are included for each patch set
+    that is visible to the caller.
+
+  - \--commit-message  
+    Include the full commit message in the change description.
+
+  - \--dependencies  
+    Show information about patch sets which depend on, or are needed by,
+    each patch set.
+
+  - \--all-reviewers  
+    Show the name and email of all reviewers which are added to a change
+    (irrespective of whether they have been voting on that change or
+    not).
+
+  - \--submit-records  
+    Show submit record information about the change, which includes
+    whether the change meets the criteria for submission (including
+    information for each review label).
+
+  - \--start; -S  
+    Number of changes to skip.
+
+  - limit:\<n\>  
+    Maximum number of results to return. This is actually a query
+    operator, and not a command line option. If more than one limit:
+    operator is provided, the smallest limit will be used to cut the
+    result set.
+
+## ACCESS
+
+Any user who has SSH access to Gerrit.
+
+## SCRIPTING
+
+This command is intended to be used in scripts.
+
+## EXAMPLES
+
+Find the 2 most recent open changes in the tools/gerrit
+project:
+
+``` 
+  $ ssh -p 29418 review.example.com gerrit query --format=JSON status:open project:tools/gerrit limit:2
+  {"project":"tools/gerrit", ...}
+  {"project":"tools/gerrit", ...}
+  {"type":"stats","rowCount":2,"runningTimeMilliseconds:15}
+```
+
+Skip number of
+changes:
+
+``` 
+  $ ssh -p 29418 review.example.com gerrit query --format=JSON --start 42 status:open project:tools/gerrit limit:2
+  {"project":"tools/gerrit", ...}
+  {"project":"tools/gerrit", ...}
+  {"type":"stats","rowCount":1,"runningTimeMilliseconds:15}
+```
+
+## SCHEMA
+
+The JSON messages consist of nested objects referencing the
+[change](json.html#change), [patchset](json.html#patchSet),
+[account](json.html#) involved, and other attributes as appropriate.
+
+Note that any field may be missing in the JSON messages, so consumers of
+this JSON stream should deal with that appropriately.
+
+## SEE ALSO
+
+  - [Query Operators](user-search.html)
+
+  - [JSON Data Formats](json.html)
+
+  - [Access Controls](access-control.html)
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

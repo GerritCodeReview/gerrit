@@ -1,0 +1,216 @@
+---
+title: " gerrit create-project"
+sidebar: cmd_sidebar
+permalink: cmd-create-project.html
+---
+## NAME
+
+gerrit create-project - Create a new hosted project
+
+## SYNOPSIS
+
+> 
+> 
+>     ssh -p <port> <host> gerrit create-project
+>       [--owner <GROUP> … | -o <GROUP> …]
+>       [--parent <NAME> | -p <NAME> ]
+>       [--suggest-parents | -S ]
+>       [--permissions-only]
+>       [--description <DESC> | -d <DESC>]
+>       [--submit-type <TYPE> | -t <TYPE>]
+>       [--use-contributor-agreements | --ca]
+>       [--use-signed-off-by | --so]
+>       [--use-content-merge]
+>       [--create-new-change-for-all-not-in-target]
+>       [--require-change-id | --id]
+>       [[--branch <REF> | -b <REF>] …]
+>       [--empty-commit]
+>       [--max-object-size-limit <N>]
+>       [--plugin-config <PARAM> …]
+>       { <NAME> }
+
+## DESCRIPTION
+
+Creates a new bare Git repository under `gerrit.basePath`, using the
+project name supplied. The newly created repository is empty (has no
+commits), but is registered in the Gerrit database so that the initial
+commit may be uploaded for review, or initial content can be pushed
+directly into a branch.
+
+If replication is enabled, this command also connects to each of the
+configured remote systems over SSH and uses command line git on the
+remote system to create the empty repository.
+
+## ACCESS
+
+Caller must be a member of the privileged *Administrators* group, or
+have been granted [the *Create Project* global
+capability](access-control.html#capability_createProject).
+
+## SCRIPTING
+
+This command is intended to be used in scripts.
+
+## OPTIONS
+
+  - \<NAME\>  
+    Required; name of the new project to create. If name ends with
+    `.git` the suffix will be automatically removed.
+
+  - \--branch; -b  
+    Name of the initial branch(es) in the newly created project. Several
+    branches can be specified on the command line. If several branches
+    are specified then the first one becomes HEAD of the project. If
+    none branches are specified then default value (*master*) is used.
+
+  - \--owner; -o  
+    Name of the group(s) which will initially own this repository. The
+    specified group(s) must already be defined within Gerrit. Several
+    groups can be specified on the command line.
+    
+    Defaults to what is specified by `repository.*.ownerGroup` in
+    gerrit.config.
+
+  - \--parent; -p  
+    Name of the parent project to inherit access rights through. If not
+    specified, the parent is set to the default project `All-Projects`.
+
+  - \--suggest-parents; -S  
+    Suggest parent candidates. This option cannot be used with other
+    arguments. Print out a list of projects that are already parents to
+    other projects, thus it can help the user find a suitable parent for
+    the new project.
+
+  - \--permissions-only  
+    Create the project only to serve as a parent for other projects. The
+    new project’s Git repository will be initialized to have *HEAD*
+    point to *refs/meta/config*.
+
+  - \--description; -d  
+    Initial description of the project. If not specified, no description
+    is stored.
+    
+    Description values containing spaces should be quoted in single
+    quotes ('). This most likely requires double quoting the value, for
+    example `--description "'A description string'"`.
+
+  - \--submit-type; -t  
+    Action used by Gerrit to submit an approved change to its
+    destination branch. Supported options are:
+    
+      - FAST\_FORWARD\_ONLY: produces a strictly linear history.
+    
+      - MERGE\_IF\_NECESSARY: create a merge commit when required.
+    
+      - REBASE\_IF\_NECESSARY: rebase the commit when required.
+    
+      - REBASE\_ALWAYS: always rebase the commit including dependencies.
+    
+      - MERGE\_ALWAYS: always create a merge commit.
+    
+      - CHERRY\_PICK: always cherry-pick the commit.
+    
+    Defaults to MERGE\_IF\_NECESSARY unless
+    [repository.\<name\>.defaultSubmitType](config-gerrit.html#repository.name.defaultSubmitType)
+    is set to a different value. For more details see [Submit
+    Types](project-configuration.html#submit_type).
+
+  - \--use-content-merge  
+    If enabled, Gerrit will try to perform a 3-way merge of text file
+    content when a file has been modified by both the destination branch
+    and the change being submitted. This option only takes effect if
+    submit type is not FAST\_FORWARD\_ONLY. Disabled by default.
+
+  - \--use-contributor-agreements; --ca  
+    If enabled, authors must complete a contributor agreement on the
+    site before pushing any commits or changes to this project. Disabled
+    by default.
+
+  - \--use-signed-off-by  
+    \--so: If enabled, each change must contain a Signed-off-by line
+    from either the author or the uploader in the commit message.
+    Disabled by default.
+
+  - \--create-new-change-for-all-not-in-target  
+    \--ncfa: If enabled, a new change is created for every commit that
+    is not in the target branch. If the pushed commit is a merge commit,
+    this flag is ignored for that push. To avoid accidental creation of
+    a large number of open changes, this option also does not accept
+    merge commits in the commit chain. Disabled by default.
+
+  - \--require-change-id; --id  
+    Require a valid [Change-Id](user-changeid.html) footer in any commit
+    uploaded for review. This does not apply to commits pushed directly
+    to a branch or tag.
+
+  - \--empty-commit  
+    Creates an initial empty commit for the Git repository of the
+    project that is newly created.
+
+  - \--max-object-size-limit  
+    Define maximum Git object size for this project. Pushes containing
+    an object larger than this limit will be rejected. This can be used
+    to further limit the global
+    [receive.maxObjectSizeLimit](config-gerrit.html#receive.maxObjectSizeLimit)
+    and cannot be used to increase that globally set limit.
+    
+    Common unit suffixes of *k*, *m*, or *g* are supported.
+
+  - \--plugin-config  
+    A plugin configuration parameter that should be set for this
+    project. The plugin configuration parameter must be specified in the
+    format *\<plugin-name\>.\<parameter-name\>=\<value\>*. Only
+    parameters that are explicitly declared by a plugin can be set.
+    Multiple `--plugin-config` options can be specified to set multiple
+    plugin parameters.
+
+## EXAMPLES
+
+Create a new project called
+`tools/gerrit`:
+
+``` 
+        $ ssh -p 29418 review.example.com gerrit create-project tools/gerrit.git
+```
+
+Create a new project with a
+description:
+
+``` 
+        $ ssh -p 29418 review.example.com gerrit create-project tool.git --description "'Tools used by build system'"
+```
+
+Note that it is necessary to quote the description twice. The local
+shell needs double quotes around the value to ensure the single quotes
+are passed through SSH as-is to the remote Gerrit server, which uses the
+single quotes to delimit the value.
+
+## REPLICATION
+
+If the replication plugin is installed, the plugin will attempt to
+perform remote repository creation by a Bourne shell
+script:
+
+``` 
+  mkdir -p '/base/project.git' && cd '/base/project.git' && git init --bare && git update-ref HEAD refs/heads/master
+```
+
+For this to work successfully the remote system must be able to run
+arbitrary shell scripts, and must have `git` in the user’s PATH
+environment variable. Administrators could also run this command line by
+hand to establish a new empty repository.
+
+A custom extension or plugin may also be developed to implement the
+NewProjectCreatedListener extension point and handle custom logic for
+remote repository creation.
+
+## SEE ALSO
+
+  - [Project Configuration](project-configuration.html)
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

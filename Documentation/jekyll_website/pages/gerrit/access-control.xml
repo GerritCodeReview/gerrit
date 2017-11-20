@@ -1,0 +1,1558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<?asciidoc-toc?>
+<?asciidoc-numbered?>
+
+<article lang="en">
+<articleinfo>
+    <title>Gerrit Code Review - Access Controls</title>
+</articleinfo>
+<simpara>Access controls in Gerrit are group based.  Every user account is a
+member of one or more groups, and access and privileges are granted
+to those groups.  Access rights cannot be granted to individual
+users.</simpara>
+<section id="system_groups">
+<title>System Groups</title>
+<simpara>Gerrit comes with the following system groups:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Anonymous Users
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Change Owner
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Project Owners
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Registered Users
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara>The system groups are assigned special access and membership management
+privileges.</simpara>
+<section id="anonymous_users">
+<title>Anonymous Users</title>
+<simpara>All users are automatically a member of this group.  Users who are
+not signed in are a member of only this group, and no others.</simpara>
+<simpara>Any access rights assigned to this group are inherited by all users.</simpara>
+<simpara>Administrators and project owners can grant access rights to this
+group in order to permit anonymous users to view project changes,
+without requiring sign in first.  Currently it is only worthwhile
+to grant <literal>Read</literal> access to this group as Gerrit requires an account
+identity for all other operations.</simpara>
+</section>
+<section id="project_owners">
+<title>Project Owners</title>
+<simpara>Access rights assigned to this group are always evaluated within the
+context of a project to which the access rights apply. These rights
+therefore apply to all the users who are owners of this project.</simpara>
+<simpara>By assigning access rights to this group on a parent project Gerrit
+administrators can define a set of default access rights for
+<link linkend="category_owner">project owners</link>. Child projects inherit these
+access rights where they are resolved to the users that own the child
+project.  Having default access rights for
+<link linkend="category_owner">project owners</link> assigned on a parent project may
+avoid the need to initially configure access rights for
+newly created child projects.</simpara>
+</section>
+<section id="change_owner">
+<title>Change Owner</title>
+<simpara>Access rights assigned to this group are always evaluated within the
+context of a change to which the access rights apply. These rights
+therefore apply to the user who is the owner of this change.</simpara>
+<simpara>It is typical to assign a label to this group, allowing the change
+owner to vote on his change, but not actually cause it to become
+approved or rejected.</simpara>
+</section>
+<section id="registered_users">
+<title>Registered Users</title>
+<simpara>All signed-in users are automatically a member of this group (and
+also <link linkend="anonymous_users"><emphasis>Anonymous Users</emphasis></link>, see above).</simpara>
+<simpara>Any access rights assigned to this group are inherited by all
+users as soon as they sign-in to Gerrit.  If OpenID authentication
+is being employed, moving from only <emphasis>Anonymous Users</emphasis> into this
+group is very easy.  Caution should be taken when assigning any
+permissions to this group.</simpara>
+<simpara>It is typical to assign <literal>Code-Review -1..+1</literal> to this group,
+allowing signed-in users to vote on a change, but not actually
+cause it to become approved or rejected.</simpara>
+<simpara>Registered users are always permitted to make and publish comments
+on any change in any project they have <literal>Read</literal> access to.</simpara>
+</section>
+</section>
+<section id="_predefined_groups">
+<title>Predefined Groups</title>
+<simpara>Predefined groups differs from system groups by the fact that they
+exist in the ACCOUNT_GROUPS table (like normal groups) but predefined groups
+are created on Gerrit site initialization and unique UUIDs are assigned
+to those groups. These UUIDs are different on different Gerrit sites.</simpara>
+<simpara>Gerrit comes with two predefined groups:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Administrators
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Non-Interactive Users
+</simpara>
+</listitem>
+</itemizedlist>
+<section id="administrators">
+<title>Administrators</title>
+<simpara>This is a predefined group, created on Gerrit site initialization, that
+has the capability <ulink url="access-control.html#capability_administrateServer">
+<emphasis>Administrate Server</emphasis></ulink> assigned.</simpara>
+<simpara>It is a normal Gerrit group without magic. This means if you remove
+the <emphasis>Administrate Server</emphasis> capability from it, its members are no longer
+Gerrit administrators, despite the group name. The group may also be
+renamed.</simpara>
+</section>
+<section id="non-interactive_users">
+<title>Non-Interactive Users</title>
+<simpara>This is the Gerrit "batch" identity. The capabilities
+<ulink url="access-control.html#capability_priority"><emphasis>Priority BATCH</emphasis></ulink> and
+<ulink url="access-control.html#capability_streamEvents"><emphasis>Stream Events</emphasis></ulink>
+are assigned to this predefined group on Gerrit site creation.</simpara>
+<simpara>The members of this group are not expected to perform interactive
+operations on the Gerrit web front-end.</simpara>
+<simpara>However, sometimes such a user may need a separate thread pool in
+order to prevent it from grabbing threads from the interactive users.</simpara>
+<simpara>These users live in a second thread pool, which separates operations
+made by the non-interactive users from the ones made by the interactive
+users. This ensures that the interactive users can keep working when
+resources are tight.</simpara>
+</section>
+</section>
+<section id="_account_groups">
+<title>Account Groups</title>
+<simpara>Account groups contain a list of zero or more user account members,
+added individually by a group owner.  Any user account listed as
+a group member is given any access rights granted to the group.</simpara>
+<simpara>Every group has one other group designated as its owner.  Users who
+are members of the owner group can:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Add users and other groups to this group
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Remove users and other groups from this group
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Change the name of this group
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Change the description of this group
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Change the owner of this group, to another group
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara>It is permissible for a group to own itself, allowing the group
+members to directly manage who their peers are.</simpara>
+<simpara>Newly created groups are automatically created as owning themselves,
+with the creating user as the only member.  This permits the group
+creator to add additional members, and change the owner to another
+group if desired.</simpara>
+<simpara>It is somewhat common to create two groups at the same time,
+for example <literal>Foo</literal> and <literal>Foo-admin</literal>, where the latter group
+<literal>Foo-admin</literal> owns both itself and also group <literal>Foo</literal>.  Users who
+are members of <literal>Foo-admin</literal> can thus control the membership of
+<literal>Foo</literal>, without actually having the access rights granted to <literal>Foo</literal>.
+This configuration can help prevent accidental submits when the
+members of <literal>Foo</literal> have submit rights on a project, and the members of
+<literal>Foo-admin</literal> typically do not need to have such rights.</simpara>
+</section>
+<section id="ldap_groups">
+<title>LDAP Groups</title>
+<simpara>LDAP groups are Account Groups that are maintained inside of your
+LDAP instance. If you are using LDAP to manage your groups they will
+not appear in the Groups list. However you can use them just like
+regular Account Groups by prefixing your group with "ldap/" in the
+Access Control for a project. For example "ldap/foo-project" will
+add the LDAP "foo-project" group to the access list.</simpara>
+</section>
+<section id="_project_access_control_lists">
+<title>Project Access Control Lists</title>
+<simpara>A system wide access control list affecting all projects is stored in
+project "<literal>All-Projects</literal>".  This inheritance can be configured
+through <ulink url="cmd-set-project-parent.html">gerrit set-project-parent</ulink>.</simpara>
+<simpara>Per-project access control lists are also supported.</simpara>
+<simpara>Users are permitted to use the maximum range granted to any of their
+groups on a label.  For example, a user is a member of <literal>Foo Leads</literal>, and
+the following ACLs are granted on a project:</simpara>
+<informaltable
+frame="all"
+rowsep="1" colsep="1"
+>
+<tgroup cols="4">
+<colspec colname="col_1" colwidth="25*"/>
+<colspec colname="col_2" colwidth="25*"/>
+<colspec colname="col_3" colwidth="25*"/>
+<colspec colname="col_4" colwidth="25*"/>
+<thead>
+<row>
+<entry align="left" valign="top">Group           </entry>
+<entry align="left" valign="top">Reference Name </entry>
+<entry align="left" valign="top">Label      </entry>
+<entry align="left" valign="top">Range</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>Anonymous Users</simpara></entry>
+<entry align="left" valign="top"><simpara>refs/heads/*</simpara></entry>
+<entry align="left" valign="top"><simpara>Code-Review</simpara></entry>
+<entry align="left" valign="top"><simpara>-1..+1</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Registered Users</simpara></entry>
+<entry align="left" valign="top"><simpara>refs/heads/*</simpara></entry>
+<entry align="left" valign="top"><simpara>Code-Review</simpara></entry>
+<entry align="left" valign="top"><simpara>-1..+2</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Foo Leads</simpara></entry>
+<entry align="left" valign="top"><simpara>refs/heads/*</simpara></entry>
+<entry align="left" valign="top"><simpara>Code-Review</simpara></entry>
+<entry align="left" valign="top"><simpara>-2..0</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<simpara>Then the effective range permitted to be used by the user is
+<literal>-2..+2</literal>, as the user is a member of all three groups (see above
+about the system groups) and the maximum range is chosen (so the
+lowest value granted to any group, and the highest value granted
+to any group).</simpara>
+<simpara>Reference-level access control is also possible.</simpara>
+<simpara>Permissions can be set on a single reference name to match one
+branch (e.g. <literal>refs/heads/master</literal>), or on a reference namespace
+(e.g. <literal>+refs/heads/*+</literal>) to match any branch starting with that
+prefix. So a permission with <literal>+refs/heads/*+</literal> will match all of
+<literal>refs/heads/master</literal>, <literal>refs/heads/experimental</literal>, <literal>refs/heads/release/1.0</literal> etc.</simpara>
+<simpara>Reference names can also be described with a regular expression
+by prefixing the reference name with <literal>^</literal>.  For example
+<literal>^refs/heads/[a-z]{1,8}</literal> matches all lower case branch names
+between 1 and 8 characters long.  Within a regular expression <literal>.</literal>
+is a wildcard matching any character, but may be escaped as <literal>\.</literal>.
+The <ulink url="http://www.brics.dk/automaton/">dk.brics.automaton library</ulink>
+is used for evaluation of regular expression access control
+rules. See the library documentation for details on this
+particular regular expression flavor. One quirk is that the
+shortest possible pattern expansion must be a valid ref name:
+thus <literal>^refs/heads/.*/name</literal> will fail because <literal>refs/heads//name</literal>
+is not a valid reference, but <literal>^refs/heads/.+/name</literal> will work.</simpara>
+<simpara id="sharded-user-id">References can have the user name or the sharded account ID of the
+current user automatically included, creating dynamic access controls
+that change to match the currently logged in user.  For example to
+provide a personal sandbox space to all developers,
+<literal>+refs/heads/sandbox/${username}/*+</literal> allows the user <emphasis>joe</emphasis> to use
+<emphasis>refs/heads/sandbox/joe/foo</emphasis>. The sharded account ID can be used to
+give users access to their user branch in the <literal>All-Users</literal> repository,
+for example <literal>+refs/users/${shardeduserid}+</literal> is resolved to
+<emphasis>refs/users/23/1011123</emphasis> if the account ID of the current user is
+<literal>1011123</literal>.</simpara>
+<simpara>When evaluating a reference-level access right, Gerrit will use
+the full set of access rights to determine if the user
+is allowed to perform a given action. For example, if a user is a
+member of <literal>Foo Leads</literal>, they are reviewing a change destined for
+the <literal>refs/heads/qa</literal> branch, and the following ACLs are granted
+on the project:</simpara>
+<informaltable
+frame="all"
+rowsep="1" colsep="1"
+>
+<tgroup cols="5">
+<colspec colname="col_1" colwidth="20*"/>
+<colspec colname="col_2" colwidth="20*"/>
+<colspec colname="col_3" colwidth="20*"/>
+<colspec colname="col_4" colwidth="20*"/>
+<colspec colname="col_5" colwidth="20*"/>
+<thead>
+<row>
+<entry align="left" valign="top">Group            </entry>
+<entry align="left" valign="top">Reference Name</entry>
+<entry align="left" valign="top">Label      </entry>
+<entry align="left" valign="top">Range   </entry>
+<entry align="left" valign="top">Exclusive</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>Registered Users</simpara></entry>
+<entry align="left" valign="top"><simpara>refs/heads/*</simpara></entry>
+<entry align="left" valign="top"><simpara>Code-Review</simpara></entry>
+<entry align="left" valign="top"><simpara>-1..+1</simpara></entry>
+<entry align="left" valign="top"><simpara></simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Foo Leads</simpara></entry>
+<entry align="left" valign="top"><simpara>refs/heads/*</simpara></entry>
+<entry align="left" valign="top"><simpara>Code-Review</simpara></entry>
+<entry align="left" valign="top"><simpara>-2..+2</simpara></entry>
+<entry align="left" valign="top"><simpara></simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>QA Leads</simpara></entry>
+<entry align="left" valign="top"><simpara>refs/heads/qa</simpara></entry>
+<entry align="left" valign="top"><simpara>Code-Review</simpara></entry>
+<entry align="left" valign="top"><simpara>-2..+2</simpara></entry>
+<entry align="left" valign="top"><simpara></simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<simpara>Then the effective range permitted to be used by the user is
+<literal>-2..+2</literal>, as the user&#8217;s membership of <literal>Foo Leads</literal> effectively grant
+them access to the entire reference space, thanks to the wildcard.</simpara>
+<simpara>Gerrit also supports exclusive reference-level access control.</simpara>
+<simpara>It is possible to configure Gerrit to grant an exclusive ref level
+access control so that only users of a specific group can perform
+an operation on a project/reference pair. This is done by ticking
+the exclusive flag when setting the permission for the
+<literal>refs/heads/qa</literal> branch.</simpara>
+<simpara>For example, if a user who is a member of <literal>Foo Leads</literal> tries to
+review a change destined for branch <literal>refs/heads/qa</literal> in a project,
+and the following ACLs are granted:</simpara>
+<informaltable
+frame="all"
+rowsep="1" colsep="1"
+>
+<tgroup cols="5">
+<colspec colname="col_1" colwidth="20*"/>
+<colspec colname="col_2" colwidth="20*"/>
+<colspec colname="col_3" colwidth="20*"/>
+<colspec colname="col_4" colwidth="20*"/>
+<colspec colname="col_5" colwidth="20*"/>
+<thead>
+<row>
+<entry align="left" valign="top">Group           </entry>
+<entry align="left" valign="top">Reference Name</entry>
+<entry align="left" valign="top">Label      </entry>
+<entry align="left" valign="top">Range   </entry>
+<entry align="left" valign="top">Exclusive</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>Registered Users</simpara></entry>
+<entry align="left" valign="top"><simpara>refs/heads/*</simpara></entry>
+<entry align="left" valign="top"><simpara>Code-Review</simpara></entry>
+<entry align="left" valign="top"><simpara>-1..+1</simpara></entry>
+<entry align="left" valign="top"><simpara></simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Foo Leads</simpara></entry>
+<entry align="left" valign="top"><simpara>refs/heads/*</simpara></entry>
+<entry align="left" valign="top"><simpara>Code-Review</simpara></entry>
+<entry align="left" valign="top"><simpara>-2..+2</simpara></entry>
+<entry align="left" valign="top"><simpara></simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>QA Leads</simpara></entry>
+<entry align="left" valign="top"><simpara>refs/heads/qa</simpara></entry>
+<entry align="left" valign="top"><simpara>Code-Review</simpara></entry>
+<entry align="left" valign="top"><simpara>-2..+2</simpara></entry>
+<entry align="left" valign="top"><simpara>X</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<simpara>Then this user will not have <literal>Code-Review</literal> rights on that change,
+since there is an exclusive access right in place for the
+<literal>refs/heads/qa</literal> branch. This allows locking down access for a
+particular branch to a limited set of users, bypassing inherited
+rights and wildcards.</simpara>
+<simpara>In order to grant the ability to <literal>Code-Review</literal> to the members of
+<literal>Foo Leads</literal>, in <literal>refs/heads/qa</literal> then the following access rights
+would be needed:</simpara>
+<informaltable
+frame="all"
+rowsep="1" colsep="1"
+>
+<tgroup cols="5">
+<colspec colname="col_1" colwidth="20*"/>
+<colspec colname="col_2" colwidth="20*"/>
+<colspec colname="col_3" colwidth="20*"/>
+<colspec colname="col_4" colwidth="20*"/>
+<colspec colname="col_5" colwidth="20*"/>
+<thead>
+<row>
+<entry align="left" valign="top">Group           </entry>
+<entry align="left" valign="top">Reference Name</entry>
+<entry align="left" valign="top">Category   </entry>
+<entry align="left" valign="top">Range   </entry>
+<entry align="left" valign="top">Exclusive</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>Registered Users</simpara></entry>
+<entry align="left" valign="top"><simpara>refs/heads/*</simpara></entry>
+<entry align="left" valign="top"><simpara>Code-Review</simpara></entry>
+<entry align="left" valign="top"><simpara>-1..+1</simpara></entry>
+<entry align="left" valign="top"><simpara></simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Foo Leads</simpara></entry>
+<entry align="left" valign="top"><simpara>refs/heads/*</simpara></entry>
+<entry align="left" valign="top"><simpara>Code-Review</simpara></entry>
+<entry align="left" valign="top"><simpara>-2..+2</simpara></entry>
+<entry align="left" valign="top"><simpara></simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>QA Leads</simpara></entry>
+<entry align="left" valign="top"><simpara>refs/heads/qa</simpara></entry>
+<entry align="left" valign="top"><simpara>Code-Review</simpara></entry>
+<entry align="left" valign="top"><simpara>-2..+2</simpara></entry>
+<entry align="left" valign="top"><simpara>X</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Foo Leads</simpara></entry>
+<entry align="left" valign="top"><simpara>refs/heads/qa</simpara></entry>
+<entry align="left" valign="top"><simpara>Code-Review</simpara></entry>
+<entry align="left" valign="top"><simpara>-2..+2</simpara></entry>
+<entry align="left" valign="top"><simpara></simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<section id="_openid_authentication">
+<title>OpenID Authentication</title>
+<simpara>If the Gerrit instance is configured to use OpenID authentication,
+an account&#8217;s effective group membership will be restricted to only
+the <literal>Anonymous Users</literal> and <literal>Registered Users</literal> groups, unless <emphasis role="strong">all</emphasis>
+of its OpenID identities match one or more of the patterns listed
+in the <literal>auth.trustedOpenID</literal> list from <literal>gerrit.config</literal>.</simpara>
+</section>
+<section id="_all_projects">
+<title>All Projects</title>
+<simpara>Any access right granted to a group within <literal>All-Projects</literal>
+is automatically inherited by every other project in the same
+Gerrit instance.  These rights can be seen, but not modified,
+in any other project&#8217;s <literal>Access</literal> administration tab.</simpara>
+<simpara>Only members of the groups with the <literal>Administrate Server</literal> capability
+may edit the access control list for <literal>All-Projects</literal>. By default this
+capability is given to the group <literal>Administrators</literal>, but can be given
+to more groups.</simpara>
+<simpara>Ownership of this project cannot be delegated to another group.
+This restriction is by design.  Granting ownership to another
+group gives nearly the same level of access as membership in
+<literal>Administrators</literal> does, as group members would be able to alter
+permissions for every managed project including global capabilities.</simpara>
+</section>
+<section id="_per_project">
+<title>Per-Project</title>
+<simpara>The per-project ACL is evaluated before the global <literal>All-Projects</literal> ACL,
+permitting some limited override capability to project owners. This
+behavior is generally only useful on the <literal>Read</literal> category when
+granting <emphasis>DENY</emphasis> within a specific project to deny a group access.</simpara>
+</section>
+</section>
+<section id="references">
+<title>Special and magic references</title>
+<simpara>The reference namespaces used in git are generally two, one for branches and
+one for tags:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+<literal>refs/heads/*</literal>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<literal>refs/tags/*</literal>
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara>However, every reference under <literal>refs/*</literal> is really available, and in Gerrit this
+opportunity for giving other refs a special meaning is used.  In Gerrit they
+are sometimes used as magic/virtual references that give the push to Gerrit a
+special meaning.</simpara>
+<section id="references_special">
+<title>Special references</title>
+<simpara>The special references have content that&#8217;s either generated by Gerrit or
+contains important project configuration that Gerrit needs. When making
+changes to these references, Gerrit will take extra precautions to verify the
+contents compatibility at upload time.</simpara>
+<section id="_refs_changes">
+<title>refs/changes/*</title>
+<simpara>Under this namespace each uploaded patch set for every change gets a static
+reference in their git.  The format is convenient but still intended to scale to
+hundreds of thousands of patch sets.  To access a given patch set you will
+need the change number and patch set number.</simpara>
+<simpara><emphasis>refs/changes/</emphasis>&lt;last two digits of change number&gt;/
+  &lt;change number&gt;/
+  &lt;patch set number&gt;</simpara>
+<simpara>You can also find these static references linked on the page of each change.</simpara>
+</section>
+<section id="_refs_meta_config">
+<title>refs/meta/config</title>
+<simpara>This is where the Gerrit configuration of each project resides.  This
+branch contains several files of importance: <literal>project.config</literal>, <literal>groups</literal> and
+<literal>rules.pl</literal>.  Together they control access and behavior during the change
+review process.</simpara>
+</section>
+<section id="_refs_meta_dashboards">
+<title>refs/meta/dashboards/*</title>
+<simpara>There&#8217;s a dedicated page where you can read more about
+<ulink url="user-dashboards.html">User Dashboards</ulink>.</simpara>
+</section>
+<section id="_refs_notes_review">
+<title>refs/notes/review</title>
+<simpara>Autogenerated copy of review notes for all changes in the git.  Each log entry
+on the refs/notes/review branch also references the patch set on which the
+review is made.  This functionality is provided by the review-notes plugin.</simpara>
+</section>
+</section>
+<section id="references_magic">
+<title>Magic references</title>
+<simpara>These are references with added functionality to them compared to a regular
+git push operation.</simpara>
+<section id="refs_for">
+<title>refs/for/&lt;branch ref&gt;</title>
+<simpara>Most prominent is the <literal>refs/for/&lt;branch ref&gt;</literal> reference which is the reference
+upon which we build the code review intercept before submitting a commit to
+the branch it&#8217;s uploaded to.</simpara>
+<simpara>Further documentation on how to push can be found on the
+<ulink url="user-upload.html#push_create">Upload changes</ulink> page.</simpara>
+</section>
+</section>
+</section>
+<section id="access_categories">
+<title>Access Categories</title>
+<simpara>Gerrit has several permission categories that can be granted to groups
+within projects, enabling functionality for that group&#8217;s members.</simpara>
+<section id="category_abandon">
+<title>Abandon</title>
+<simpara>This category controls whether users are allowed to abandon changes
+to projects in Gerrit. It can give permission to abandon a specific
+change to a given ref.</simpara>
+<simpara>The uploader of a change, anyone granted the <link linkend="category_owner"><literal>Owner</literal></link>
+permission at the ref or project level, and anyone granted the
+<link linkend="capability_administrateServer"><literal>Administrate Server</literal></link>
+permission can also Abandon changes.</simpara>
+<simpara>This also grants the permission to restore a change if the user also
+has <ulink url="#category_push">push permission</ulink> on the change&#8217;s destination
+ref.</simpara>
+</section>
+<section id="category_create">
+<title>Create Reference</title>
+<simpara>The create reference category controls whether it is possible to
+create new references, branches or tags.  This implies that the
+reference must not already exist, it&#8217;s not a destructive permission
+in that you can&#8217;t overwrite or remove any previously existing
+references (and also discard any commits in the process).</simpara>
+<simpara>It&#8217;s probably most common to either permit the creation of a single
+branch in many gits (by granting permission on a parent project), or
+to grant this permission to a name pattern of branches.</simpara>
+<simpara>This permission is often given in conjunction with regular push
+branch permissions, allowing the holder of both to create new branches
+as well as bypass review for new commits on that branch.</simpara>
+<simpara>To push lightweight (non-annotated) tags, grant
+<literal>Create Reference</literal> for reference name <literal>+refs/tags/*+</literal>, as lightweight
+tags are implemented just like branches in Git. To push a lightweight
+tag on a new commit (commit not reachable from any branch/tag) grant
+<literal>Push</literal> permission on <literal>+refs/tags/*+</literal> too. The <literal>Push</literal> permission on
+<literal>+refs/tags/*+</literal> also allows fast-forwarding of lightweight tags.</simpara>
+<simpara>For example, to grant the possibility to create new branches under the
+namespace <literal>foo</literal>, you have to grant this permission on
+<literal>+refs/heads/foo/*+</literal> for the group that should have it.
+Finally, if you plan to grant each user a personal namespace in
+where they are free to create as many branches as they wish, you
+should grant the create reference permission so it&#8217;s possible
+to create new branches. This is done by using the special
+<literal>${username}</literal> keyword in the reference pattern, e.g.
+<literal>+refs/heads/sandbox/${username}/*+</literal>. If you do, it&#8217;s also recommended
+you grant the users the push force permission to be able to clean up
+stale branches.</simpara>
+</section>
+<section id="category_delete">
+<title>Delete Reference</title>
+<simpara>The delete reference category controls whether it is possible to delete
+references, branches or tags. It doesn&#8217;t allow any other update of
+references.</simpara>
+<simpara>Deletion of references is also possible if <literal>Push</literal> with the force option
+is granted, however that includes the permission to fast-forward and
+force-update references to existing and new commits. Being able to push
+references for new commits is bad if bypassing of code review must be
+prevented.</simpara>
+</section>
+<section id="category_forge_author">
+<title>Forge Author</title>
+<simpara>Normally Gerrit requires the author and the committer identity
+lines in a Git commit object (or tagger line in an annotated tag) to
+match one of the registered email addresses of the uploading user.
+This permission allows users to bypass parts of that validation, which
+may be necessary when mirroring changes from an upstream project.</simpara>
+<simpara>Permits the use of an unverified author line in commit objects.
+This can be useful when applying patches received by email from
+3rd parties, when cherry-picking changes written by others across
+branches, or when amending someone else&#8217;s commit to fix up a minor
+problem before submitting.</simpara>
+<simpara>By default this is granted to <literal>Registered Users</literal> in all projects,
+but a site administrator may disable it if verified authorship
+is required.</simpara>
+</section>
+<section id="category_forge_committer">
+<title>Forge Committer</title>
+<simpara>Normally Gerrit requires the author and the committer identity
+lines in a Git commit object (or tagger line in an annotated tag) to
+match one of the registered email addresses of the uploading user.
+This permission allows users to bypass parts of that validation, which
+may be necessary when mirroring changes from an upstream project.</simpara>
+<simpara>Allows the use of an unverified committer line in commit objects, or an
+unverified tagger line in annotated tag objects.  Typically this is only
+required when mirroring commits from an upstream project repository.</simpara>
+</section>
+<section id="category_forge_server">
+<title>Forge Server</title>
+<simpara>Normally Gerrit requires the author and the committer identity
+lines in a Git commit object (or tagger line in an annotated tag) to
+match one of the registered email addresses of the uploading user.
+This permission allows users to bypass parts of that validation, which
+may be necessary when mirroring changes from an upstream project.</simpara>
+<simpara>Allows the use of the server&#8217;s own name and email on the committer
+line of a new commit object.  This should only be necessary when force
+pushing a commit history which has been rewritten by <emphasis>git filter-branch</emphasis>
+and that contains merge commits previously created by this Gerrit Code
+Review server.</simpara>
+</section>
+<section id="category_owner">
+<title>Owner</title>
+<simpara>The <literal>Owner</literal> category controls which groups can modify the project&#8217;s
+configuration.  Users who are members of an owner group can:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Change the project description
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Grant/revoke any access rights, including <literal>Owner</literal>
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara>To get SSH branch access project owners must grant an access right to a group
+they are a member of, just like for any other user.</simpara>
+<simpara>Ownership over a particular branch subspace may be delegated by
+entering a branch pattern.  To delegate control over all branches
+that begin with <literal>qa/</literal> to the QA group, add <literal>Owner</literal> category
+for reference <literal>+refs/heads/qa/*+</literal>.  Members of the QA group can
+further refine access, but only for references that begin with
+<literal>refs/heads/qa/</literal>. See <link linkend="project_owners">project owners</link> to find
+out more about this role.</simpara>
+<simpara>For the <literal>All-Projects</literal> root project any <literal>Owner</literal> access right on
+<emphasis>refs/*</emphasis> is ignored since this permission would allow users to edit the
+global capabilities, which is the same as being able to administrate
+the Gerrit server (e.g. the user could assign the <literal>Administrate Server</literal>
+capability to the own account).</simpara>
+</section>
+<section id="category_push">
+<title>Push</title>
+<simpara>This category controls how users are allowed to upload new commits
+to projects in Gerrit. It can either give permission to push
+directly into a branch, bypassing any code review process
+that would otherwise be used. Or it may give permission to upload
+new changes for code review, this depends on which namespace the
+permission is granted to.</simpara>
+<section id="category_push_direct">
+<title>Direct Push</title>
+<simpara>Any existing branch can be fast-forwarded to a new commit.
+Creation of new branches is controlled by the
+<ulink url="access-control.html#category_create"><emphasis>Create Reference</emphasis></ulink>
+category.  Deletion of existing branches is rejected.  This is the
+safest mode as commits cannot be discarded.</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Force option
+</simpara>
+<simpara>Implies <link linkend="category_delete">Delete Reference</link>. Since a force push is
+effectively a delete immediately followed by a create, but performed
+atomically on the server and logged, this option also permits forced
+push updates to branches.  Enabling this option allows existing commits
+to be discarded from a project history.</simpara>
+</listitem>
+</itemizedlist>
+<simpara>The push category is primarily useful for projects that only want to
+take advantage of Gerrit&#8217;s access control features and do not need
+its code review functionality.  Projects that need to require code
+reviews should not grant this category.</simpara>
+</section>
+<section id="category_push_review">
+<title>Upload To Code Review</title>
+<simpara>The <literal>Push</literal> access right granted on the namespace
+<literal>refs/for/refs/heads/BRANCH</literal> permits the user to upload a non-merge
+commit to the project&#8217;s <literal>refs/for/BRANCH</literal> namespace, creating a new
+change for code review.</simpara>
+<simpara>A user must be able to clone or fetch the project in order to create
+a new commit on their local system, so in practice they must also
+have the <literal>Read</literal> access granted to upload a change.</simpara>
+<simpara>For an open source, public Gerrit installation, it is common to grant
+<literal>Push</literal> for <literal>+refs/for/refs/heads/*+</literal> to <literal>Registered Users</literal> in the
+<literal>All-Projects</literal> ACL.  For more private installations, its common to
+grant <literal>Push</literal> for <literal>+refs/for/refs/heads/*+</literal> to all users of a project.</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Force option
+</simpara>
+<simpara>The force option has no function when granted to a branch in the
+<literal>+refs/for/refs/heads/*+</literal> namespace.</simpara>
+</listitem>
+</itemizedlist>
+</section>
+</section>
+<section id="category_add_patch_set">
+<title>Add Patch Set</title>
+<simpara>This category controls which users are allowed to upload new patch sets to
+existing changes. Irrespective of this permission, change owners are always
+allowed to upload new patch sets for their changes. This permission needs to be
+set on <literal>refs/for/*</literal>.</simpara>
+<simpara>By default, this permission is granted to <literal>Registered Users</literal> on <literal>refs/for/*</literal>,
+allowing all registered users to upload a new patch set to any change. Revoking
+this permission (by granting it to no groups and setting the "Exclusive" flag)
+will prevent users from uploading a patch set to a change they do not own.</simpara>
+</section>
+<section id="category_push_merge">
+<title>Push Merge Commits</title>
+<simpara>The <literal>Push Merge Commit</literal> access right permits the user to upload merge
+commits.  It&#8217;s an add-on to the <link linkend="category_push">Push</link> access right, and
+so it won&#8217;t be sufficient with only <literal>Push Merge Commit</literal> granted for a
+push to happen.  Some projects wish to restrict merges to being created
+by Gerrit. By granting <literal>Push</literal> without <literal>Push Merge Commit</literal>, the only
+merges that enter the system will be those created by Gerrit.</simpara>
+<simpara>The reference name connected to a <literal>Push Merge Commit</literal> entry must always
+be prefixed with <literal>refs/for/</literal>, for example <literal>refs/for/refs/heads/BRANCH</literal>.
+This applies even for an entry that complements a <literal>Push</literal> entry for
+<literal>refs/heads/BRANCH</literal> that allows direct pushes of non-merge commits, and
+the intention of the <literal>Push Merge Commit</literal> entry is to allow direct pushes
+of merge commits.</simpara>
+</section>
+<section id="category_create_annotated">
+<title>Create Annotated Tag</title>
+<simpara>This category permits users to push an annotated tag object into the
+project&#8217;s repository.  Typically this would be done with a command line
+such as:</simpara>
+<screen>  git push ssh://USER@HOST:PORT/PROJECT tag v1.0</screen>
+<simpara>Or:</simpara>
+<screen>  git push https://HOST/PROJECT tag v1.0</screen>
+<simpara>Tags must be annotated (created with <literal>git tag -a</literal>), should exist in
+the <literal>refs/tags/</literal> namespace, and should be new.</simpara>
+<simpara>This category is intended to be used to publish tags when a project
+reaches a stable release point worth remembering in history.</simpara>
+<simpara>It allows for a new annotated (unsigned) tag to be created.  The
+tagger email address must be verified for the current user.</simpara>
+<simpara>To push tags created by users other than the current user (such
+as tags mirrored from an upstream project), <literal>Forge Committer Identity</literal>
+must be also granted in addition to <literal>Create Annotated Tag</literal>.</simpara>
+<simpara>To push lightweight (non annotated) tags, grant
+<link linkend="category_create"><literal>Create Reference</literal></link> for reference name
+<literal>+refs/tags/*+</literal>, as lightweight tags are implemented just like
+branches in Git.</simpara>
+<simpara>To delete or overwrite an existing tag, grant <literal>Push</literal> with the force
+option enabled for reference name <literal>+refs/tags/*+</literal>, as deleting a tag
+requires the same permission as deleting a branch.</simpara>
+<simpara>To push an annotated tag on a new commit (commit not reachable from any
+branch/tag) grant <literal>Push</literal> permission on <literal>+refs/tags/*+</literal> too.
+The <literal>Push</literal> permission on <literal>+refs/tags/*+</literal> does <emphasis role="strong">not</emphasis> allow updating of annotated
+tags, not even fast-forwarding of annotated tags. Update of annotated tags
+is only allowed by granting <literal>Push</literal> with <literal>force</literal> option on <literal>+refs/tags/*+</literal>.</simpara>
+</section>
+<section id="category_create_signed">
+<title>Create Signed Tag</title>
+<simpara>This category permits users to push a PGP signed tag object into the
+project&#8217;s repository.  Typically this would be done with a command
+line such as:</simpara>
+<screen>  git push ssh://USER@HOST:PORT/PROJECT tag v1.0</screen>
+<simpara>Or:</simpara>
+<screen>  git push https://HOST/PROJECT tag v1.0</screen>
+<simpara>Tags must be signed (created with <literal>git tag -s</literal>), should exist in the
+<literal>refs/tags/</literal> namespace, and should be new.</simpara>
+</section>
+<section id="category_read">
+<title>Read</title>
+<simpara>The <literal>Read</literal> category controls visibility to the project&#8217;s
+changes, comments, code diffs, and Git access over SSH or HTTP.
+A user must have this access granted in order to see a project, its
+changes, or any of its data.</simpara>
+<simpara>This category has a special behavior, where the per-project ACL is
+evaluated before the global all projects ACL.  If the per-project
+ACL has granted <literal>Read</literal> with <emphasis>DENY</emphasis>, and does not otherwise grant
+<literal>Read</literal> with <emphasis>ALLOW</emphasis>, then a <literal>Read</literal> in the all projects ACL
+is ignored.  This behavior is useful to hide a handful of projects
+on an otherwise public server.</simpara>
+<simpara>For an open source, public Gerrit installation it is common to grant
+<literal>Read</literal> to <literal>Anonymous Users</literal> in the <literal>All-Projects</literal> ACL, enabling
+casual browsing of any project&#8217;s changes, as well as fetching any
+project&#8217;s repository over SSH or HTTP.  New projects can be
+temporarily hidden from public view by granting <literal>Read</literal> with <emphasis>DENY</emphasis>
+to <literal>Anonymous Users</literal> and granting <literal>Read</literal> to the project owner&#8217;s
+group within the per-project ACL.</simpara>
+<simpara>For a private Gerrit installation using a trusted HTTP authentication
+source, granting <literal>Read</literal> to <literal>Registered Users</literal> may be more
+typical, enabling read access only to those users who have been
+able to authenticate through the HTTP access controls.  This may
+be suitable in a corporate deployment if the HTTP access control
+is already restricted to the correct set of users.</simpara>
+</section>
+<section id="category_rebase">
+<title>Rebase</title>
+<simpara>This category permits users to rebase changes via the web UI by pushing
+the <literal>Rebase Change</literal> button.</simpara>
+<simpara>The change owner and submitters can always rebase changes in the web UI
+(even without having the <literal>Rebase</literal> access right assigned).</simpara>
+<simpara>Users without this access right who are able to upload new patch sets
+can still do the rebase locally and upload the rebased commit as a new
+patch set.</simpara>
+</section>
+<section id="category_remove_reviewer">
+<title>Remove Reviewer</title>
+<simpara>This category permits users to remove other users from the list of
+reviewers on a change.</simpara>
+<simpara>Change owners can always remove reviewers who have given a zero or positive
+score (even without having the <literal>Remove Reviewer</literal> access right assigned).</simpara>
+<simpara>Project owners and site administrators can always remove any reviewer (even
+without having the <literal>Remove Reviewer</literal> access right assigned).</simpara>
+<simpara>Users without this access right can only remove themselves from the
+reviewer list on a change.</simpara>
+</section>
+<section id="category_review_labels">
+<title>Review Labels</title>
+<simpara>For every configured label <literal>My-Name</literal> in the project, there is a
+corresponding permission <literal>label-My-Name</literal> with a range corresponding to
+the defined values. There is also a corresponding <literal>labelAs-My-Name</literal>
+permission that enables editing another user&#8217;s label.</simpara>
+<simpara>Gerrit comes pre-configured with a default <emphasis>Code-Review</emphasis> label that can
+be granted to groups within projects, enabling functionality for that
+group&#8217;s members. <ulink url="config-labels.html">Custom labels</ulink> may also be
+defined globally or on a per-project basis.</simpara>
+</section>
+<section id="category_submit">
+<title>Submit</title>
+<simpara>This category permits users to submit changes.</simpara>
+<simpara>Submitting a change causes it to be merged into the destination
+branch as soon as possible, making it a permanent part of the
+project&#8217;s history.</simpara>
+<simpara>In order to submit, all labels (such as <literal>Verified</literal> and <literal>Code-Review</literal>,
+above) must enable submit, and also must not block it.  See above for
+details on each label.</simpara>
+<simpara>To <ulink url="user-upload.html#auto_merge">immediately submit a change on push</ulink>
+the caller needs to have the Submit permission on <literal>refs/for/&lt;ref&gt;</literal>
+(e.g. on <literal>refs/for/refs/heads/master</literal>).</simpara>
+<simpara>Submitting to the <literal>refs/meta/config</literal> branch is only allowed to project
+owners. Any explicit submit permissions for non-project-owners on this
+branch are ignored. By submitting to the <literal>refs/meta/config</literal> branch the
+configuration of the project is changed, which can include changes to
+the access rights of the project. Allowing this to be done by a
+non-project-owner would open a security hole enabling editing of access
+rights, and thus granting of powers beyond submitting to the
+configuration.</simpara>
+</section>
+<section id="category_submit_on_behalf_of">
+<title>Submit (On Behalf Of)</title>
+<simpara>This category permits users who have also been granted the <literal>Submit</literal>
+permission to submit changes on behalf of another user, by using the
+<literal>on_behalf_of</literal> field in <ulink url="rest-api-changes.html#submit-input">SubmitInput</ulink>
+when <ulink url="rest-api-changes.html#submit-change">submitting using the REST API</ulink>.</simpara>
+<simpara>Note that this permission is named <literal>submitAs</literal> in the <literal>project.config</literal>
+file.</simpara>
+</section>
+<section id="category_view_private_changes">
+<title>View Private Changes</title>
+<simpara>This category permits users to view all private changes.</simpara>
+<simpara>The change owner and any explicitly added reviewers can always see
+private changes (even without having the <literal>View Private Changes</literal> access
+right assigned).</simpara>
+</section>
+<section id="category_delete_own_changes">
+<title>Delete Own Changes</title>
+<simpara>This category permits users to delete their own changes if they are not merged
+yet. This means only own changes that are open or abandoned can be deleted.</simpara>
+</section>
+<section id="category_edit_topic_name">
+<title>Edit Topic Name</title>
+<simpara>This category permits users to edit the topic name of a change that
+is uploaded for review.</simpara>
+<simpara>The change owner, branch owners, project owners, and site administrators
+can always edit the topic name (even without having the <literal>Edit Topic Name</literal>
+access right assigned).</simpara>
+<simpara>Whether the topic can be edited on closed changes can be controlled
+by the <emphasis>Force Edit</emphasis> flag. If this flag is not set the topic can only be
+edited on open changes.</simpara>
+</section>
+<section id="category_edit_hashtags">
+<title>Edit Hashtags</title>
+<simpara>This category permits users to add or remove hashtags on a change that
+is uploaded for review.</simpara>
+<simpara>The change owner, branch owners, project owners, and site administrators
+can always edit or remove hashtags (even without having the <literal>Edit Hashtags</literal>
+access right assigned).</simpara>
+</section>
+<section id="category_edit_assigned_to">
+<title>Edit Assignee</title>
+<simpara>This category permits users to set who is assigned to a change that is
+uploaded for review.</simpara>
+<simpara>The change owner, ref owners, and the user currently assigned to a change
+can always change the assignee.</simpara>
+</section>
+</section>
+<section id="example_roles">
+<title>Examples of typical roles in a project</title>
+<simpara>Below follows a set of typical roles on a server and which access
+rights these roles typically should be granted. You may see them as
+general guidelines for a typical way to set up your project on a
+brand new Gerrit instance.</simpara>
+<section id="examples_contributor">
+<title>Contributor</title>
+<simpara>This is the typical user on a public server. They are able to read
+your project and upload new changes to it. They are able to give
+feedback on other changes as well, but are unable to block or approve
+any changes.</simpara>
+<simpara>Suggested access rights to grant:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+<link linkend="category_read"><literal>Read</literal></link>
+<xref linkend="category_read"/> on <emphasis>refs/heads/*</emphasis> and <emphasis>refs/tags/*</emphasis>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<link linkend="category_push"><literal>Push</literal></link>
+<xref linkend="category_push"/> to <emphasis>refs/for/refs/heads/*</emphasis>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<ulink url="config-labels.html#label_Code-Review"><literal>Code-Review</literal></ulink> with range <emphasis>-1</emphasis> to <emphasis>+1</emphasis> for <emphasis>refs/heads/*</emphasis>
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara>If it&#8217;s desired to have the possibility to upload temporarily hidden
+changes there&#8217;s a specific permission for that.  This enables someone
+to add specific reviewers for early feedback before making the change
+publicly visible.</simpara>
+</section>
+<section id="examples_developer">
+<title>Developer</title>
+<simpara>This is the typical core developer on a public server.  They are able
+to read the project, upload changes to a branch.  They are allowed to
+push merge commits to merge branches together.  Also, they are allowed
+to forge author identity, thus handling commits belonging to others
+than themselves, effectively allowing them to transfer commits
+between different branches.</simpara>
+<simpara>They are furthermore able to code review and verify commits, and
+eventually submit them.  If you have an automated CI system that
+builds all uploaded patch sets you might want to skip the
+verification rights for the developer and let the CI system do that
+exclusively.</simpara>
+<simpara>Suggested access rights to grant:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+<link linkend="category_read"><literal>Read</literal></link>
+<xref linkend="category_read"/> on <emphasis>refs/heads/*</emphasis> and <emphasis>refs/tags/*</emphasis>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<link linkend="category_push"><literal>Push</literal></link>
+<xref linkend="category_push"/> to <emphasis>refs/for/refs/heads/*</emphasis>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<link linkend="category_push_merge"><literal>Push merge commit</literal></link>
+<xref linkend="category_push_merge"/> to <emphasis>refs/for/refs/heads/*</emphasis>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<link linkend="category_forge_author"><literal>Forge Author Identity</literal></link>
+<xref linkend="category_forge_author"/> to <emphasis>refs/heads/*</emphasis>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<ulink url="config-labels.html#label_Code-Review"><literal>Label: Code-Review</literal></ulink> with range <emphasis>-2</emphasis> to <emphasis>+2</emphasis> for <emphasis>refs/heads/*</emphasis>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<ulink url="config-labels.html#label_Verified"><literal>Label: Verified</literal></ulink> with range <emphasis>-1</emphasis> to <emphasis>+1</emphasis> for <emphasis>refs/heads/*</emphasis>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<link linkend="category_submit"><literal>Submit</literal></link>
+<xref linkend="category_submit"/> on <emphasis>refs/heads/*</emphasis>
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara>If the project is small or the developers are seasoned it might make
+sense to give them the freedom to push commits directly to a branch.</simpara>
+<simpara>Optional access rights to grant:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+<link linkend="category_push"><literal>Push</literal></link> to <emphasis>refs/heads/*</emphasis>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<link linkend="category_push_merge"><literal>Push merge commit</literal></link> to <emphasis>refs/heads/*</emphasis>
+</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section id="examples_cisystem">
+<title>CI system</title>
+<simpara>A typical Continuous Integration system should be able to download new changes
+to build and then leave a verdict somehow.</simpara>
+<simpara>As an example, the popular
+<ulink url="https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger">gerrit-trigger plugin</ulink>
+for Jenkins/Hudson can set labels at:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+The start of a build
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+A successful build
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+An unstable build (tests fails)
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+A failed build
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara>Usually the range chosen for this verdict is the <literal>Verified</literal> label.  Depending on
+the size of your project and discipline of involved developers you might want
+to limit access right to the +1 <literal>Verified</literal> label to the CI system only.  That
+way it&#8217;s guaranteed that submitted commits always get built and pass tests
+successfully.</simpara>
+<simpara>If the build doesn&#8217;t complete successfully the CI system can set the
+<literal>Verified</literal> label to -1.  However that means that a failed build will block
+submit of the change even if someone else sets <literal>Verified</literal> +1.  Depending on the
+project and how much the CI system can be trusted for accurate results, a
+blocking label might not be feasible.  A recommended alternative is to set the
+label <literal>Code-review</literal> to -1 instead, as it isn&#8217;t a blocking label but still
+shows a red label in the Gerrit UI.  Optionally, to enable the possibility to
+deliver different results (build error vs unstable for instance), it&#8217;s also
+possible to set <literal>Code-review</literal> +1 as well.</simpara>
+<simpara>If pushing new changes is granted, it&#8217;s possible to automate cherry-pick of
+submitted changes for upload to other branches under certain conditions.  This
+is probably not the first step of what a project wants to automate however,
+and so the push right can be found under the optional section.</simpara>
+<simpara>Suggested access rights to grant, that won&#8217;t block changes:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+<link linkend="category_read"><literal>Read</literal></link>
+<xref linkend="category_read"/> on <emphasis>refs/heads/*</emphasis> and <emphasis>refs/tags/*</emphasis>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<ulink url="config-labels.html#label_Code-Review"><literal>Label: Code-Review</literal></ulink> with range <emphasis>-1</emphasis> to <emphasis>0</emphasis> for <emphasis>refs/heads/*</emphasis>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<ulink url="config-labels.html#label_Verified"><literal>Label: Verified</literal></ulink> with range <emphasis>0</emphasis> to <emphasis>+1</emphasis> for <emphasis>refs/heads/*</emphasis>
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara>Optional access rights to grant:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+<ulink url="config-labels.html#label_Code-Review"><literal>Label: Code-Review</literal></ulink> with range <emphasis>-1</emphasis> to <emphasis>+1</emphasis> for <emphasis>refs/heads/*</emphasis>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<link linkend="category_push"><literal>Push</literal></link>
+<xref linkend="category_push"/> to <emphasis>refs/for/refs/heads/*</emphasis>
+</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section id="examples_integrator">
+<title>Integrator</title>
+<simpara>Integrators are like developers but with some additional rights granted due
+to their administrative role in a project.  They can upload or push any commit
+with any committer email (not just their own) and they can also create new
+tags and branches.</simpara>
+<simpara>Suggested access rights to grant:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+<link linkend="examples_developer">Developer rights</link>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<link linkend="category_push"><literal>Push</literal></link> to <emphasis>refs/heads/*</emphasis>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<link linkend="category_push_merge"><literal>Push merge commit</literal></link> to <emphasis>refs/heads/*</emphasis>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<link linkend="category_forge_committer"><literal>Forge Committer Identity</literal></link> to <emphasis>refs/for/refs/heads/*</emphasis>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<link linkend="category_create"><literal>Create Reference</literal></link> to <emphasis>refs/heads/*</emphasis>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<link linkend="category_create_annotated"><literal>Create Annotated Tag</literal></link> to <emphasis>refs/tags/*</emphasis>
+</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section id="examples_project-owner">
+<title>Project owner</title>
+<simpara>The project owner is almost like an integrator but with additional destructive
+power in the form of being able to delete branches.  Optionally these users
+also have the power to configure access rights in gits assigned to them.</simpara>
+<warning><simpara>These users should be really knowledgeable about git, for instance knowing why
+tags never should be removed from a server.  This role is granted potentially
+destructive access rights and cleaning up after such a mishap could be time
+consuming!</simpara></warning>
+<simpara>Suggested access rights to grant:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+<link linkend="examples_integrator">Integrator rights</link>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<link linkend="category_push"><literal>Push</literal></link> with the force option to <emphasis>refs/heads/*</emphasis> and <emphasis>refs/tags/*</emphasis>
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara>Optional access right to grant:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+<link linkend="category_owner"><literal>Owner</literal></link> in the gits they mostly work with.
+</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section id="examples_administrator">
+<title>Administrator</title>
+<simpara>The administrator role is the most powerful role known in the Gerrit universe.
+This role may grant itself (or others) any access right.  By default the
+<link linkend="administrators"><literal>Administrators</literal> group</link> is the group that has this role.</simpara>
+<simpara>Mandatory access rights:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+<link linkend="capability_administrateServer">The <literal>Administrate Server</literal> capability</link>
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara>Suggested access rights to grant:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+<link linkend="examples_project-owner"><literal>Project owner rights</literal></link>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Any <link linkend="global_capabilities"><literal>capabilities</literal></link> needed by the administrator
+</simpara>
+</listitem>
+</itemizedlist>
+</section>
+</section>
+<section id="_enforcing_site_wide_access_policies">
+<title>Enforcing site wide access policies</title>
+<simpara>By granting the <link linkend="category_owner"><literal>Owner</literal></link> access right on the <literal>+refs/*+</literal> to a
+group, Gerrit administrators can delegate the responsibility of maintaining
+access rights for that project to that group.</simpara>
+<simpara>In a corporate deployment it is often necessary to enforce some access
+policies. An example could be that no-one can update or delete a tag, not even
+the project owners. The <emphasis>ALLOW</emphasis> and <emphasis>DENY</emphasis> rules are not enough for this
+purpose as project owners can grant themselves any access right they wish and,
+thus, effectively override any inherited access rights from the
+"<literal>All-Projects</literal>" or some other common parent project.</simpara>
+<simpara>What is needed is a mechanism to block a permission in a parent project so
+that even project owners cannot allow a blocked permission in their child
+project. Still, project owners should retain the possibility to manage all
+non-blocked rules as they wish. This gives best of both worlds:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Gerrit administrators can concentrate on enforcing site wide policies
+  and providing a meaningful set of default access permissions
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Project owners can manage access rights of their projects without a danger
+  of violating a site wide policy
+</simpara>
+</listitem>
+</itemizedlist>
+<section id="block">
+<title><emphasis>BLOCK</emphasis> access rule</title>
+<simpara>The <emphasis>BLOCK</emphasis> rule blocks a permission globally. An inherited <emphasis>BLOCK</emphasis>
+rule cannot be overridden in the inheriting project. Any <emphasis>ALLOW</emphasis> rule
+from an inheriting project, which conflicts with an inherited <emphasis>BLOCK</emphasis>
+rule will not be honored. Searching for <emphasis>BLOCK</emphasis> rules, in the chain
+of parent projects, ignores the Exclusive flag, unless the rule with
+the Exclusive flag is defined on the same project as the <emphasis>BLOCK</emphasis>
+rule. This means within the same project a <emphasis>BLOCK</emphasis> rule can be
+overruled by <emphasis>ALLOW</emphasis> rules on the same access section and <emphasis>ALLOW</emphasis>
+rules with Exclusive flag on access section for more specific refs.</simpara>
+<simpara>A <emphasis>BLOCK</emphasis> rule that blocks the <emphasis>push</emphasis> permission blocks any type of push,
+force or not. A blocking force push rule blocks only force pushes, but
+allows non-forced pushes if an <emphasis>ALLOW</emphasis> rule would have permitted it.</simpara>
+<simpara>It is also possible to block label ranges.  To block a group <emphasis>X</emphasis> from voting
+<emphasis>-2</emphasis> and <emphasis>+2</emphasis>, but keep their existing voting permissions for the <emphasis>-1..+1</emphasis>
+range intact we would define:</simpara>
+<screen>  [access "refs/heads/*"]
+    label-Code-Review = block -2..+2 group X</screen>
+<simpara>The interpretation of the <emphasis>min..max</emphasis> range in case of a blocking rule is: block
+every vote from <emphasis>-INFINITE..min</emphasis> and <emphasis>max..INFINITE</emphasis>. For the example above it
+means that the range <emphasis>-1..+1</emphasis> is not affected by this block.</simpara>
+</section>
+<section id="_emphasis_block_emphasis_and_emphasis_allow_emphasis_rules_in_the_same_access_section">
+<title><emphasis>BLOCK</emphasis> and <emphasis>ALLOW</emphasis> rules in the same access section</title>
+<simpara>When an access section of a project contains a <emphasis>BLOCK</emphasis> and an <emphasis>ALLOW</emphasis> rule for
+the same permission then this <emphasis>ALLOW</emphasis> rule overrides the <emphasis>BLOCK</emphasis> rule:</simpara>
+<screen>  [access "refs/heads/*"]
+    push = block group X
+    push = group Y</screen>
+<simpara>In this case a user which is a member of the group <emphasis>Y</emphasis> will still be allowed to
+push to <emphasis>refs/heads/*</emphasis> even if it is a member of the group <emphasis>X</emphasis>.</simpara>
+<note><simpara>An <emphasis>ALLOW</emphasis> rule overrides a <emphasis>BLOCK</emphasis> rule only when both of them are
+inside the same access section of the same project. An <emphasis>ALLOW</emphasis> rule in a
+different access section of the same project or in any access section in an
+inheriting project cannot override a <emphasis>BLOCK</emphasis> rule.</simpara></note>
+</section>
+<section id="_examples">
+<title>Examples</title>
+<simpara>The following examples show some possible use cases for the <emphasis>BLOCK</emphasis> rules.</simpara>
+<section id="_make_sure_no_one_can_update_or_delete_a_tag">
+<title>Make sure no one can update or delete a tag</title>
+<simpara>This requirement is quite common in a corporate deployment where
+reproducibility of a build must be guaranteed. To achieve that we block <emphasis>push</emphasis>
+permission for the <link linkend="anonymous_users"><emphasis>Anonymous Users</emphasis></link> in "<literal>All-Projects</literal>":</simpara>
+<screen>  [access "refs/tags/*"]
+    push = block group Anonymous Users</screen>
+<simpara>By blocking the <link linkend="anonymous_users"><emphasis>Anonymous Users</emphasis></link> we effectively block
+everyone as everyone is a member of that group. Note that the permission to
+create a tag is still necessary. Assuming that only <link linkend="category_owner">project owners</link> are allowed to create tags, we would extend the example above:</simpara>
+<screen>  [access "refs/tags/*"]
+    push = block group Anonymous Users
+    create = group Project Owners
+    pushTag = group Project Owners</screen>
+</section>
+<section id="_let_only_a_dedicated_group_vote_in_a_special_category">
+<title>Let only a dedicated group vote in a special category</title>
+<simpara>Assume there is a more restrictive process for submitting changes in stable
+release branches which is manifested as a new voting category
+<emphasis>Release-Process</emphasis>. Assume we want to make sure that only a <emphasis>Release Engineers</emphasis>
+group can vote in this category and that even project owners cannot approve
+this category. We have to block everyone except the <emphasis>Release Engineers</emphasis> to vote
+in this category and, of course, allow <emphasis>Release Engineers</emphasis> to vote in that
+category. In the "<literal>All-Projects</literal>" we define the following rules:</simpara>
+<screen>  [access "refs/heads/stable*"]
+    label-Release-Process = block -1..+1 group Anonymous Users
+    label-Release-Process = -1..+1 group Release Engineers</screen>
+</section>
+</section>
+</section>
+<section id="global_capabilities">
+<title>Global Capabilities</title>
+<simpara>The global capabilities control actions that the administrators of
+the server can perform which usually affect the entire
+server in some way.  The administrators may delegate these
+capabilities to trusted groups of users.</simpara>
+<simpara>Delegation of capabilities allows groups to be granted a subset of
+administrative capabilities without being given complete
+administrative control of the server.  This makes it possible to
+keep fewer users in the administrators group, even while spreading
+much of the server administration burden out to more users.</simpara>
+<simpara>Global capabilities are assigned to groups in the access rights settings
+of the root project ("<literal>All-Projects</literal>").</simpara>
+<simpara>Below you find a list of capabilities available:</simpara>
+<section id="capability_accessDatabase">
+<title>Access Database</title>
+<simpara>Allow users to access the database using the <literal>gsql</literal> command, and view code
+review metadata refs in repositories.</simpara>
+</section>
+<section id="capability_administrateServer">
+<title>Administrate Server</title>
+<simpara>This is in effect the owner and administrator role of the Gerrit
+instance. Any members of a group granted this capability will be
+able to grant any access right to any group. They will also have all
+capabilities granted to them automatically.</simpara>
+<simpara>In most installations only those users who have direct filesystem and
+database access should be granted this capability.</simpara>
+<simpara>This capability does not imply any other access rights. Users that have
+this capability do not automatically get code review approval or submit
+rights in projects. This is a feature designed to permit administrative
+users to otherwise access Gerrit as any other normal user would,
+without needing two different accounts.</simpara>
+</section>
+<section id="capability_batchChangesLimit">
+<title>Batch Changes Limit</title>
+<simpara>Allow site administrators to configure the batch changes limit for
+users to override the system config
+<ulink url="config-gerrit.html#receive.maxBatchChanges"><emphasis>receive.maxBatchChanges</emphasis></ulink>.</simpara>
+<simpara>Administrators can add a global block to <literal>All-Projects</literal> with group(s)
+that should have different limits.</simpara>
+<simpara>When applying a batch changes limit to a user the largest value
+granted by any of their groups is used. 0 means no limit.</simpara>
+</section>
+<section id="capability_createAccount">
+<title>Create Account</title>
+<simpara>Allow <ulink url="cmd-create-account.html">account creation over the ssh prompt</ulink>.
+This capability allows the granted group members to create non-interactive
+service accounts.  These service accounts are generally used for automation
+and made to be members of the
+<ulink url="access-control.html#non-interactive_users"><emphasis>Non-Interactive users</emphasis></ulink> group.</simpara>
+</section>
+<section id="capability_createGroup">
+<title>Create Group</title>
+<simpara>Allow group creation.  Groups are used to grant users access to different
+actions in projects.  This capability allows the granted group members to
+either <ulink url="cmd-create-group.html">create new groups via ssh</ulink> or via the web UI.</simpara>
+</section>
+<section id="capability_createProject">
+<title>Create Project</title>
+<simpara>Allow project creation.  This capability allows the granted group to
+either <ulink url="cmd-create-project.html">create new git projects via ssh</ulink>
+or via the web UI.</simpara>
+</section>
+<section id="capability_emailReviewers">
+<title>Email Reviewers</title>
+<simpara>Allow or deny sending email to change reviewers and watchers.  This can be used
+to deny build bots from emailing reviewers and people who watch the change.
+Instead, only the authors of the change and those who starred it will be
+emailed.  The allow rules are evaluated before deny rules, however the default
+is to allow emailing, if no explicit rule is matched.</simpara>
+</section>
+<section id="capability_flushCaches">
+<title>Flush Caches</title>
+<simpara>Allow the flushing of Gerrit&#8217;s caches.  This capability allows the granted
+group to <ulink url="cmd-flush-caches.html">flush some or all Gerrit caches via ssh</ulink>.</simpara>
+<note><simpara>This capability doesn&#8217;t imply permissions to the show-caches command.  For that
+you need the <link linkend="capability_viewCaches">view caches capability</link>.</simpara></note>
+</section>
+<section id="capability_kill">
+<title>Kill Task</title>
+<simpara>Allow the operation of the <ulink url="cmd-kill.html">kill command over ssh</ulink>.  The
+kill command ends tasks that currently occupy the Gerrit server, usually
+a replication task or a user initiated task such as an upload-pack or
+receive-pack.</simpara>
+</section>
+<section id="capability_maintainServer">
+<title>Maintain Server</title>
+<simpara>Allow basic, constrained server maintenance tasks, such as flushing caches and
+reindexing changes. Does not grant arbitrary database access, read/write, or
+ACL management permissions, as might the
+<link linkend="capability_administrateServer">administrate server capability</link>.</simpara>
+<simpara>Implies the following capabilities:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+<link linkend="capability_flushCaches">Flush Caches</link>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<link linkend="capability_kill">Kill Task</link>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<link linkend="capability_runGC">Run Garbage Collection</link>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<link linkend="capability_viewCaches">View Caches</link>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<link linkend="capability_viewQueue">View Queue</link>
+</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section id="capability_modifyAccount">
+<title>Modify Account</title>
+<simpara>Allow to <ulink url="cmd-set-account.html">modify accounts over the ssh prompt</ulink>.
+This capability allows the granted group members to modify any user account
+setting.</simpara>
+</section>
+<section id="capability_priority">
+<title>Priority</title>
+<simpara>This capability allows users to use
+<ulink url="config-gerrit.html#sshd.batchThreads">the thread pool reserved</ulink> for
+<ulink url="access-control.html#non-interactive_users"><emphasis>Non-Interactive Users</emphasis></ulink>.
+It&#8217;s a binary value in that granted users either have access to the thread
+pool, or they don&#8217;t.</simpara>
+<simpara>There are three modes for this capability and they&#8217;re listed by rising
+priority:</simpara>
+<variablelist>
+<varlistentry>
+<term>
+No capability configured.
+</term>
+<listitem>
+<simpara>
+The user isn&#8217;t a member of a group with any priority capability granted. By
+default the user is then in the <emphasis>INTERACTIVE</emphasis> thread pool.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis>BATCH</emphasis>
+</term>
+<listitem>
+<simpara>
+If there&#8217;s a thread pool configured for <emphasis>Non-Interactive Users</emphasis> and a user is
+granted the priority capability with the <emphasis>BATCH</emphasis> mode selected, the user ends
+up in the separate batch user thread pool. This is true unless the user is
+also granted the below <emphasis>INTERACTIVE</emphasis> option.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis>INTERACTIVE</emphasis>
+</term>
+<listitem>
+<simpara>
+If a user is granted the priority capability with the <emphasis>INTERACTIVE</emphasis> option,
+regardless if they also have the <emphasis>BATCH</emphasis> option or not, they are in the
+<emphasis>INTERACTIVE</emphasis> thread pool.
+</simpara>
+</listitem>
+</varlistentry>
+</variablelist>
+</section>
+<section id="capability_queryLimit">
+<title>Query Limit</title>
+<simpara>Allow site administrators to configure the query limit for users to
+be above the default hard-coded value of 500.  Administrators can add
+a global block to <literal>All-Projects</literal> with group(s) that should have different
+limits.</simpara>
+<simpara>When applying a query limit to a user the largest value granted by
+any of their groups is used.</simpara>
+<simpara>This limit applies not only to the <ulink url="cmd-query.html"><literal>gerrit query</literal></ulink>
+command, but also to the web UI results pagination size.</simpara>
+</section>
+<section id="capability_runAs">
+<title>Run As</title>
+<simpara>Allow users to impersonate any other user with the <literal>X-Gerrit-RunAs</literal>
+HTTP header on REST API calls, or the <ulink url="cmd-suexec.html">suexec</ulink>
+SSH command.</simpara>
+<simpara>When impersonating an administrator the Administrate Server capability
+is not honored.  This security feature tries to prevent a role with
+Run As capability from modifying the access controls in All-Projects,
+however modification may still be possible if the impersonated user
+has permission to push or submit changes on <literal>refs/meta/config</literal>.  Run
+As also blocks using most capabilities including Create User, Run
+Garbage Collection, etc., unless the capability is also explicitly
+granted to a group the administrator is a member of.</simpara>
+<simpara>Administrators do not automatically inherit this capability; it must
+be explicitly granted.</simpara>
+</section>
+<section id="capability_runGC">
+<title>Run Garbage Collection</title>
+<simpara>Allow users to run the Git garbage collection for the repositories of
+all projects.</simpara>
+</section>
+<section id="capability_streamEvents">
+<title>Stream Events</title>
+<simpara>Allow performing streaming of Gerrit events. This capability
+allows the granted group to
+<ulink url="cmd-stream-events.html">stream Gerrit events via ssh</ulink>.</simpara>
+</section>
+<section id="capability_viewAllAccounts">
+<title>View All Accounts</title>
+<simpara>Allow viewing all accounts for purposes of auto-completion, regardless
+of <ulink url="config-gerrit.html#accounts.visibility">accounts.visibility</ulink>
+setting.</simpara>
+</section>
+<section id="capability_viewCaches">
+<title>View Caches</title>
+<simpara>Allow querying for status of Gerrit&#8217;s internal caches.  This capability allows
+the granted group to
+<ulink url="cmd-show-caches.html">look at some or all Gerrit caches via ssh</ulink>.</simpara>
+</section>
+<section id="capability_viewConnections">
+<title>View Connections</title>
+<simpara>Allow querying for status of Gerrit&#8217;s current client connections.  This
+capability allows the granted group to
+<ulink url="cmd-show-connections.html">look at Gerrit&#8217;s current connections via ssh</ulink>.</simpara>
+</section>
+<section id="capability_viewPlugins">
+<title>View Plugins</title>
+<simpara>Allow viewing the list of installed plugins.</simpara>
+</section>
+<section id="capability_viewQueue">
+<title>View Queue</title>
+<simpara>Allow querying for status of Gerrit&#8217;s internal task queue.  This capability
+allows the granted group to
+<ulink url="cmd-show-queue.html">look at the Gerrit task queue via ssh</ulink>.</simpara>
+</section>
+</section>
+<section id="_gerrit">
+<title>GERRIT</title>
+<simpara>Part of <ulink url="index.html">Gerrit Code Review</ulink></simpara>
+</section>
+<section id="_searchbox">
+<title>SEARCHBOX</title>
+</section>
+</article>

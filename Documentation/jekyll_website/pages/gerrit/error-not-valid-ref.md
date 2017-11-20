@@ -1,0 +1,45 @@
+---
+title: " not valid ref"
+sidebar: errors_sidebar
+permalink: error-not-valid-ref.html
+---
+With this error message Gerrit rejects to push a commit if the target
+ref in the push specification has an incorrect format (for example:
+*/refs/for/master*, *refs/for//master*).
+
+To solve the problem you have to correct the target ref in the push
+specification. Depending on whether you want to push your commit with or
+without code review the ref format is different:
+
+## ref format for pushing a commit for code review:
+
+If it was the intention to push a commit for code review the target ref
+in the push specification must be the project’s magical ref
+`refs/for/'branch'` (where *branch* must be replaced with the name of an
+existing branch to which you want to push your commit). Further details
+about how to push a commit for code review are explained at [Create
+Changes](user-upload.html#push_create)).
+
+Example for pushing a commit for code review to the *master* branch:
+
+    $ git push ssh://JohnDoe@host:29418/myProject HEAD:refs/for/master
+
+## ref format for directly pushing a commit (without code review):
+
+If it was the intention to bypass code review and to push directly to a
+branch the target ref in the push specification must be the name of the
+branch to which you want to push. Further details about how to bypass
+code review are explained at [Bypass
+Review](user-upload.html#bypass_review).
+
+Example for pushing a commit directly to the *master* branch (without
+code review):
+
+    $ git push ssh://JohnDoe@host:29418/myProject HEAD:master
+
+## GERRIT
+
+Part of [Gerrit Error Messages](error-messages.html)
+
+## SEARCHBOX
+

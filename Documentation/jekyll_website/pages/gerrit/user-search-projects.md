@@ -1,0 +1,40 @@
+---
+title: " Gerrit Code Review - Searching Projects"
+sidebar: gerritdoc_sidebar
+permalink: user-search-projects.html
+---
+## Search Operators
+
+Operators act as restrictions on the search. As more operators are added
+to the same query string, they further restrict the returned results.
+
+  - name:'NAME'  
+    Matches projects that have exactly the name *NAME*.
+
+  - inname:'NAME'  
+    Matches projects that a name part that starts with *NAME* (case
+    insensitive).
+
+  - description:'DESCRIPTION'  
+    Matches projects whose description contains *DESCRIPTION*, using a
+    full-text search.
+
+## Magical Operators
+
+  - is:visible  
+    Magical internal flag to prove the current user has access to read
+    the projects and all the refs. This flag is always added to any
+    query.
+
+  - limit:'CNT'  
+    Limit the returned results to no more than *CNT* records. This is
+    automatically set to the page size configured in the current user’s
+    preferences. Including it in a web query may lead to unpredictable
+    results with regards to pagination.
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

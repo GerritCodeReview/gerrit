@@ -1,0 +1,156 @@
+---
+title: " gerrit ls-groups"
+sidebar: cmd_sidebar
+permalink: cmd-ls-groups.html
+---
+## NAME
+
+gerrit ls-groups - List groups visible to caller
+
+## SYNOPSIS
+
+> 
+> 
+>     ssh -p <port> <host> gerrit ls-groups
+>       [--project <NAME> | -p <NAME>]
+>       [--user <NAME> | -u <NAME>]
+>       [--owned]
+>       [--visible-to-all]
+>       [-q <GROUP>]
+>       [--verbose | -v]
+
+## DESCRIPTION
+
+Displays the list of group names, one per line, that are visible to the
+account of the calling user.
+
+If the caller is a member of the privileged *Administrators* group, all
+groups are listed.
+
+## ACCESS
+
+Any user who has SSH access to Gerrit.
+
+## SCRIPTING
+
+This command is intended to be used in scripts.
+
+All non-printable characters (ASCII value 31 or less) are escaped
+according to the conventions used in languages like C, Python, and Perl,
+employing standard sequences like `\n` and `\t`, and `\xNN` for all
+others. In shell scripts, the `printf` command can be used to unescape
+the output.
+
+## OPTIONS
+
+  - \--project; -p  
+    Name of the project for which the groups should be listed. Only
+    groups are listed for which any permission is set on this project
+    (or for which a permission is inherited from a parent project).
+    Multiple --project options may be specified to specify additional
+    projects. In this case all groups are listed that have a permission
+    for any of the specified projects.
+    
+    This option can’t be used together with the *--user* option.
+
+  - \--user; -u  
+    User for which the groups should be listed. Only groups are listed
+    that contain this user as a member.
+    
+    The calling user can list the groups for the own user or must be a
+    member of the privileged *Administrators* group to list the groups
+    for other users.
+    
+    This option can’t be used together with the *--project* option.
+
+  - \--owned  
+    Lists only the groups that are owned by the user that was specified
+    by the `--user` option or if no user was specified the groups that
+    are owned by the calling user.
+
+  - \--visible-to-all  
+    Displays only groups that are visible to all registered users
+    (groups that are explicitly marked as visible to all registered
+    users).
+
+  - \-q  
+    Group that should be inspected. The `-q` option can be specified
+    multiple times to define several groups to be inspected. If
+    specified the listed groups will only contain groups that were
+    specified to be inspected. This is e.g. useful in combination with
+    the `--owned` and `--user` options to check whether a group is owned
+    by a user.
+
+  - \--verbose; -v  
+    Enable verbose output with tab-separated columns for the group name,
+    UUID, description, owner group name, owner group UUID and whether
+    the group is visible to all (`true` or `false`).
+    
+    If a group has been "orphaned", i.e. its owner group UUID refers to
+    a nonexistent group, the owner group name field will read `n/a`.
+
+## EXAMPLES
+
+List visible groups:
+
+``` 
+        $ ssh -p 29418 review.example.com gerrit ls-groups
+        Administrators
+        Anonymous Users
+        MyProject_Committers
+        Project Owners
+        Registered Users
+```
+
+List all groups for which any permission is set for the project
+"MyProject":
+
+``` 
+        $ ssh -p 29418 review.example.com gerrit ls-groups --project MyProject
+        MyProject_Committers
+        Project Owners
+        Registered Users
+```
+
+List all groups which are owned by the calling user:
+
+``` 
+        $ ssh -p 29418 review.example.com gerrit ls-groups --owned
+        MyProject_Committers
+        MyProject_Verifiers
+```
+
+Check if the calling user owns the group `MyProject_Committers`. If
+`MyProject_Committers` is returned the calling user owns this group. If
+the result is empty, the calling user doesn’t own the
+group.
+
+``` 
+        $ ssh -p 29418 review.example.com gerrit ls-groups --owned -q MyProject_Committers
+        MyProject_Committers
+```
+
+Extract the UUID of the *Administrators*
+group:
+
+``` 
+        $ ssh -p 29418 review.example.com gerrit ls-groups -v | awk '-F\t' '$1 == "Administrators" {print $2}'
+        ad463411db3eec4e1efb0d73f55183c1db2fd82a
+```
+
+Extract and expand the multi-line description of the *Administrators*
+group:
+
+``` 
+        $ printf "$(ssh -p 29418 review.example.com gerrit ls-groups -v | awk '-F\t' '$1 == "Administrators" {print $3}')\n"
+        This is a
+        multi-line
+        description.
+```
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

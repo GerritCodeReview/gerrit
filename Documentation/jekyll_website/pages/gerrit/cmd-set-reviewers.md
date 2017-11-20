@@ -1,0 +1,100 @@
+---
+title: " gerrit set-reviewers"
+sidebar: cmd_sidebar
+permalink: cmd-set-reviewers.html
+---
+## NAME
+
+gerrit set-reviewers - Add or remove reviewers to a change
+
+## SYNOPSIS
+
+> 
+> 
+>     ssh -p <port> <host> gerrit set-reviewers
+>       [--project <PROJECT> | -p <PROJECT>]
+>       [--add <REVIEWER> … | -a <REVIEWER> …]
+>       [--remove <REVIEWER> … | -r <REVIEWER> …]
+>       [--]
+
+## DESCRIPTION
+
+Adds or removes reviewers to the specified change, sending email
+notifications when changes are made.
+
+Changes can be specified in the [same
+format](rest-api-changes.html#change-id) supported by the REST API, as
+well as with the commit SHA-1 (at least the 7 first characters).
+
+## OPTIONS
+
+  - \--project; -p  
+    Name of the project the intended change is contained within. This
+    option must be supplied before Change-Id in order to take effect.
+
+  - \--add; -a  
+    A user that should be added as reviewer to the change or a group for
+    which all members should be added as reviewers to the change.
+    Multiple users and groups can be added at once as reviewers by using
+    this option multiple times.
+
+  - \--remove; -r  
+    Remove this user from the reviewer list of the change. Multiple
+    users can be removed at once from the reviewer list by using this
+    option multiple times.
+
+  - \--help; -h  
+    Display site-specific usage information
+
+## ACCESS
+
+Any user who has SSH access to Gerrit.
+
+## SCRIPTING
+
+This command is intended to be used in scripts.
+
+## EXAMPLES
+
+Add reviewers alice and bob, but remove eve from change Iac6b2ac2.
+
+``` 
+        $ ssh -p 29418 review.example.com gerrit set-reviewers \
+          -a alice@example.com -a bob@example.com \
+          -r eve@example.com \
+          Iac6b2ac2
+```
+
+Add reviewer elvis to old-style change id 1935 specifying that the
+change is in project "graceland"
+
+``` 
+        $ ssh -p 29418 review.example.com gerrit set-reviewers \
+          --project graceland \
+          -a elvis@example.com \
+          1935
+```
+
+Add all project owners as reviewers to change Iac6b2ac2.
+
+``` 
+        $ ssh -p 29418 review.example.com gerrit set-reviewers \
+          -a "'Project Owners'" \
+          Iac6b2ac2
+```
+
+Add all project owners as reviewers to commit
+13dff08acca571b22542ebd2e31acf4572ea0b86.
+
+``` 
+        $ ssh -p 29418 review.example.com gerrit set-reviewers \
+          -a "'Project Owners'" \
+          13dff08acca571b22542ebd2e31acf4572ea0b86
+```
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

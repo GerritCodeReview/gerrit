@@ -1,0 +1,94 @@
+---
+title: " gerrit show-connections"
+sidebar: cmd_sidebar
+permalink: cmd-show-connections.html
+---
+## NAME
+
+gerrit show-connections - Display active client SSH connections
+
+## SYNOPSIS
+
+> 
+> 
+>     ssh -p <port> <host> gerrit show-connections
+>       [--numeric | -n]
+
+## DESCRIPTION
+
+Presents a table of the active SSH connections, the users who are
+currently connected to the internal server and performing an activity.
+
+## ACCESS
+
+Caller must be a member of the privileged *Administrators* group, or
+have been granted [the *View Connections* global
+capability](access-control.html#capability_viewConnections).
+
+## SCRIPTING
+
+Intended for interactive use only.
+
+## OPTIONS
+
+  - \--numeric; -n  
+    Show client hostnames as IP addresses instead of DNS hostname.
+
+  - \--wide; -w  
+    Do not format the output to the terminal width (default of 80
+    columns).
+
+## DISPLAY
+
+  - Session  
+    Unique session identifier on this server. Session identifiers have a
+    period of 2^32-1 and start from a random value.
+
+  - Start  
+    Time (local to the server) that this connection started. Only shown
+    for MINA backend.
+
+  - Idle  
+    Time since the last data transfer on this connection. Note that most
+    SSH clients use not only a TCP based connection keep-alive, but also
+    an encrypted keep alive higher up in the SSH protocol stack. That
+    higher keep alive resets the idle timer, about once a minute. Only
+    shown for MINA backend.
+
+  - User  
+    The username of the account that is authenticated on this
+    connection. If the -n option is used, this column shows the Account
+    Id instead.
+
+  - Remote Host  
+    Reverse lookup hostname, or if -n option is used, the remote IP
+    address.
+
+## EXAMPLES
+
+With reverse DNS lookup (default):
+
+``` 
+        $ ssh -p 29418 review.example.com gerrit show-connections
+        Session     Start     Idle   User            Remote Host
+        --------------------------------------------------------------
+        3abf31e6 20:09:02 00:00:00  jdoe            jdoe-desktop.example.com
+        --
+```
+
+Without reverse DNS lookup:
+
+``` 
+        $ ssh -p 29418 review.example.com gerrit show-connections -n
+        Session     Start     Idle   User            Remote Host
+        --------------------------------------------------------------
+        3abf31e6 20:09:02 00:00:00  a/1001240       10.0.0.1
+        --
+```
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

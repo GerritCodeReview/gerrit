@@ -1,0 +1,53 @@
+---
+title: " gerrit-cherry-pick"
+sidebar: cmd_sidebar
+permalink: cmd-cherry-pick.html
+---
+## NAME
+
+gerrit-cherry-pick - Download and cherry pick one or more changes
+
+## SYNOPSIS
+
+> 
+> 
+>     gerrit-cherry-pick <remote> <changeid>…
+>     gerrit-cherry-pick --continue | --skip | --abort
+>     gerrit-cherry-pick --close <remote>
+
+## DESCRIPTION
+
+Downloads the listed changes specified on the command line and proceeds
+to cherry-pick them (rewriting commit SHA-1s as it goes) onto the
+current branch.
+
+If a merge failure prevents this from being completely automatic, you
+will be asked to resolve the conflict and restart the command with the
+`--continue` option.
+
+Change ids may be specified as either the change id (e.g. 1234) or as
+change id slash patch set number (e.g. 1234/8). If the patch set number
+is not supplied, `/1` is assumed.
+
+The `--close` command line option is now deprecated, as closing existing
+changes post cherry-pick is better handled simply by ensuring [Change-Id
+lines](user-changeid.html) are present in each commit message.
+
+## OBTAINING
+
+To obtain the *gerrit-cherry-pick* script use scp, curl or wget to copy
+it to your local
+system:
+
+``` 
+  $ scp -p -P 29418 john.doe@review.example.com:bin/gerrit-cherry-pick ~/bin/
+
+  $ curl -Lo ~/bin/gerrit-cherry-pick http://review.example.com/tools/bin/gerrit-cherry-pick
+```
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

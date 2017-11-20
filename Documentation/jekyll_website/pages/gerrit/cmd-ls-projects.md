@@ -1,0 +1,163 @@
+---
+title: " gerrit ls-projects"
+sidebar: cmd_sidebar
+permalink: cmd-ls-projects.html
+---
+## NAME
+
+gerrit ls-projects - List projects visible to caller
+
+## SYNOPSIS
+
+> 
+> 
+>     ssh -p <port> <host> gerrit ls-projects
+>       [--show-branch <BRANCH> …]
+>       [--description | -d]
+>       [--tree | -t]
+>       [--type {code | permissions | all}]
+>       [--format {text | json | json_compact}]
+>       [--all]
+>       [--limit <N>]
+>       [--has-acl-for GROUP]
+
+## DESCRIPTION
+
+Displays the list of project names, one per line, that the calling user
+account has been granted *READ* access to.
+
+If the caller is a member of the privileged *Administrators* group, all
+projects are listed.
+
+## ACCESS
+
+Any user who has SSH access to Gerrit.
+
+## SCRIPTING
+
+This command is intended to be used in scripts.
+
+## OPTIONS
+
+  - \--show-branch; -b  
+    Branch for which the command will display the sha of each project.
+    The command may have multiple --show-branch parameters, in this case
+    sha will be shown for each of the branches. If the user does not
+    have READ access to some branch or the branch does not exist then
+    stub (40 `-` symbols) is shown. If the user does not have access to
+    any branch in the project then the whole project is not shown.
+
+  - \--description; -d  
+    Allows listing of projects together with their respective
+    description.
+    
+    For text format output, all non-printable characters (ASCII value 31
+    or less) are escaped according to the conventions used in languages
+    like C, Python, and Perl, employing standard sequences like `\n` and
+    `\t`, and `\xNN` for all others. In shell scripts, the `printf`
+    command can be used to unescape the output.
+
+  - \--tree; -t  
+    Displays project inheritance in a tree-like format. This option does
+    not work together with the show-branch option.
+
+  - \--type  
+    Display only projects of the specified type. If not specified,
+    defaults to `all`. Supported types:
+    
+      - `code`  
+        Any project likely to contain user files.
+    
+      - `permissions`  
+        Projects created with the `--permissions-only` flag.
+    
+      - `all`  
+        Any type of project.
+
+  - \--format  
+    What output format to display the results in.
+    
+      - `text`  
+        Simple text based format.
+    
+      - `json`  
+        Map of JSON objects describing each project.
+    
+      - `json_compact`  
+        Minimized JSON output.
+
+  - \--all  
+    Display all projects that are accessible by the calling user
+    account. Besides the projects that the calling user account has been
+    granted *READ* access to, this includes all projects that are owned
+    by the calling user account (even if for these projects the *READ*
+    access right is not assigned to the calling user account).
+
+  - \--limit  
+    Cap the number of results to the first N matches.
+
+  - \--has-acl-for  
+    Display only projects on which access rights for this group are
+    directly assigned. Projects which only inherit access rights for
+    this group are not listed.
+    
+    With this option you can find out on which projects a group is used.
+
+## HTTP
+
+This command is also available over HTTP, as `/projects/` for anonymous
+access and `/a/projects/` for authenticated access. Named options are
+available as query parameters. Results can be limited to projects
+matching a prefix by supplying the prefix as part of the URL, for
+example `/projects/external/` lists only projects whose name start with
+the string `external/`.
+
+Over HTTP the `json_compact` output format is assumed if the client
+explicitly asks for JSON using HTTP header `Accept: application/json`.
+When any JSON output format is used on HTTP, readers must skip the first
+line produced. The first line is a garbage JSON string crafted to
+prevent a browser from executing the response in a script tag.
+
+Output will be gzip compressed if `Accept-Encoding: gzip` was used by
+the client in the request headers.
+
+## EXAMPLES
+
+List visible projects:
+
+``` 
+        $ ssh -p 29418 review.example.com gerrit ls-projects
+        platform/manifest
+        tools/gerrit
+        tools/gwtorm
+
+        $ curl http://review.example.com/projects/
+        platform/manifest
+        tools/gerrit
+        tools/gwtorm
+
+        $ curl http://review.example.com/projects/tools/
+        tools/gerrit
+        tools/gwtorm
+```
+
+Clone any project visible to the user:
+
+``` 
+        for p in `ssh -p 29418 review.example.com gerrit ls-projects`
+        do
+          mkdir -p `dirname "$p"`
+          git clone --bare "ssh://review.example.com:29418/$p.git" "$p.git"
+        done
+```
+
+## SEE ALSO
+
+  - [Access Controls](access-control.html)
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

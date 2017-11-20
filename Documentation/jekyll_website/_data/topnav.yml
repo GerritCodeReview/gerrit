@@ -1,0 +1,29 @@
+## Topnav single links
+## if you want to list an external url, use external_url instead of url. the theme will apply a different link base.
+topnav:
+- title: Topnav
+  items:
+    - title: About
+      external_url: https://www.gerritcodereview.com/about.md
+#Topnav dropdowns
+topnav_dropdowns:
+- title: Topnav dropdowns
+  folders:
+    - title: Code
+      folderitems:
+        - title: Source
+          external_url: https://gerrit.googlesource.com/gerrit/
+        - title: Releases
+          external_url: https://www.gerritcodereview.com/releases/README.md
+        - title: Builds
+          external_url: https://gerrit-ci.gerritforge.com/
+        - title: Reviews
+          external_url: https://gerrit-review.googlesource.com/q/status:open+project:gerrit
+    - title: Docs
+      folderitems:
+        - title: Beta
+          url: /doc-index.html
+        - title: Latest
+          external_url: https://gerrit-documentation.storage.googleapis.com/Documentation/2.14.5.1/index.html
+        - title: Wiki
+          external_url: https://gerrit.googlesource.com/homepage/+/md-pages/docs/

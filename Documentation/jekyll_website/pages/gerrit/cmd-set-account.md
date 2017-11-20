@@ -1,0 +1,119 @@
+---
+title: " gerrit set-account"
+sidebar: cmd_sidebar
+permalink: cmd-set-account.html
+---
+## NAME
+
+gerrit set-account - Change an account’s settings.
+
+## SYNOPSIS
+
+> 
+> 
+>     ssh -p <port> <host> gerrit set-account
+>       [--full-name <FULLNAME>] [--active|--inactive]
+>       [--add-email <EMAIL>] [--delete-email <EMAIL> | ALL]
+>       [--preferred-email <EMAIL>]
+>       [--add-ssh-key - | <KEY>]
+>       [--delete-ssh-key - | <KEY> | ALL]
+>       [--http-password <PASSWORD>]
+>       [--clear-http-password] <USER>
+
+## DESCRIPTION
+
+Modifies a given user’s settings. This command can be useful to
+deactivate an account, set HTTP password, add/delete ssh keys without
+going through the UI.
+
+It also allows managing email addresses, which bypasses the verification
+step we force within the UI.
+
+## ACCESS
+
+Caller must be a member of the privileged *Administrators* group, or
+have been granted [the *Modify Account* global
+capability](access-control.html#capability_modifyAccount). For security
+reasons only the members of the privileged *Administrators* group can
+add or delete SSH keys for a user.
+
+To set the HTTP password for the user account (option --http-password)
+or to clear the HTTP password (option --clear-http-password) caller must
+be a member of the privileged *Administrators* group.
+
+## SCRIPTING
+
+This command is intended to be used in scripts.
+
+## OPTIONS
+
+  - \<USER\>  
+    Required; Full name, email-address, SSH username or account id.
+
+  - \--full-name  
+    Set the display name for the user account.
+    
+    Names containing spaces should be quoted in single quotes ('). This
+    most likely requires double quoting the value, for example
+    `--full-name "'A description string'"`.
+
+  - \--active  
+    Set the account state to be active.
+
+  - \--inactive  
+    Set the account state to be inactive. This prevents the user from
+    logging in.
+
+  - \--add-email  
+    Add another email to the user’s account. This doesn’t trigger the
+    mail validation and adds the email directly to the user’s account.
+    May be supplied more than once to add multiple emails to an account
+    in a single command execution.
+
+  - \--delete-email  
+    Delete an email from this user’s account if it exists. If the email
+    provided is *ALL*, all associated emails are deleted from this
+    account. May be supplied more than once to remove multiple emails
+    from an account in a single command execution.
+
+  - \--preferred-email  
+    Sets the preferred email address for the user’s account. The email
+    address must already have been registered with the user’s account
+    before it can be set. May be supplied with the delete-email option
+    as long as the emails are not the same.
+
+  - \--add-ssh-key  
+    Content of the public SSH key to add to the account’s keyring. If
+    `-` the key is read from stdin, rather than from the command line.
+    May be supplied more than once to add multiple SSH keys in a single
+    command execution.
+
+  - \--delete-ssh-key  
+    Content of the public SSH key to remove from the account’s keyring
+    or the comment associated with this key. If `-` the key is read from
+    stdin, rather than from the command line. If the key provided is
+    *ALL*, all associated SSH keys are removed from this account. May be
+    supplied more than once to delete multiple SSH keys in a single
+    command execution.
+
+  - \--http-password  
+    Set the HTTP password for the user account.
+
+  - \--clear-http-password  
+    Clear the HTTP password for the user account.
+
+## EXAMPLES
+
+Add an email and SSH key to `watcher`'s
+account:
+
+``` 
+    $ cat ~/.ssh/id_watcher.pub | ssh -p 29418 review.example.com gerrit set-account --add-ssh-key - --add-email mail@example.com watcher
+```
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

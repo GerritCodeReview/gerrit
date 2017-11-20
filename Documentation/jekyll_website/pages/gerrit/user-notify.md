@@ -1,0 +1,262 @@
+---
+title: " Gerrit Code Review - Email Notifications"
+sidebar: gerritdoc_sidebar
+permalink: user-notify.html
+---
+## Description
+
+Gerrit can automatically notify users by email when new changes are
+uploaded for review, after comments have been posted on a change, or
+after the change has been submitted to a branch.
+
+## User Level Settings
+
+Individual users can configure email subscriptions by editing watched
+projects through Settings \> Watched Projects with the web UI.
+
+Specific projects may be watched, or the special project `All-Projects`
+can be watched to watch all projects that are visible to the user.
+
+[Change search expressions](user-search.html) can be used to filter
+change notifications to specific subsets, for example `branch:master` to
+only see changes proposed for the master branch. If a filter would match
+at the `All-Projects` level as well as a specific project, the more
+specific project’s notification settings are used.
+
+Notification mails for new changes and new patch sets are not sent to
+the change owner.
+
+Notification mails for comments added on changes are not sent to the
+user who added the comment unless the user has enabled the *Every
+comment* option in the user preferences.
+
+## Project Level Settings
+
+Project owners and site administrators can configure project level
+notifications, enabling Gerrit Code Review to automatically send emails
+to team mailing lists, or groups of users. Project settings are stored
+inside of the `refs/meta/config` branch of each Git repository, and are
+placed inside of the `project.config` file.
+
+To edit the project level notify settings, ensure the project owner has
+Push permission already granted for the `refs/meta/config` branch.
+Consult [access controls](access-control.html) for details on how access
+permissions work.
+
+Initialize a temporary Git repository to edit the configuration:
+
+``` 
+  mkdir cfg_dir
+  cd cfg_dir
+  git init
+```
+
+Download the existing configuration from Gerrit:
+
+``` 
+  git fetch ssh://localhost:29418/project refs/meta/config
+  git checkout FETCH_HEAD
+```
+
+Enable notifications to an email address by adding to `project.config`,
+this can be done using the `git config`
+command:
+
+``` 
+  git config -f project.config --add notify.team.email team-address@example.com
+  git config -f project.config --add notify.team.email paranoid-manager@example.com
+```
+
+Examining the project.config file with any text editor should show a new
+notify section describing the email addresses to deliver to:
+
+``` 
+  [notify "team"]
+        email = team-address@example.com
+        email = paranoid-manager@example.com
+```
+
+Each notify section within a single project.config file must have a
+unique name. The section name itself does not matter and may later
+appear in the web UI. Naming a section after the email address or group
+it delivers to is typical. Multiple sections can be specified if
+different filters are needed.
+
+Commit the configuration change, and push it back:
+
+``` 
+  git commit -a -m "Notify team-address@example.com of changes"
+  git push ssh://localhost:29418/project HEAD:refs/meta/config
+```
+
+  - notify.\<name\>.email  
+    List of email addresses to send matching notifications to. Each
+    email address should be placed on its own line.
+    
+    Internal groups within Gerrit Code Review can also be named using
+    `group NAME` syntax. If this format is used the group’s UUID must
+    also appear in the corresponding `groups` file. Gerrit will expand
+    the group membership and BCC all current users.
+
+  - notify.\<name\>.type  
+    Types of notifications to send. If not specified, all notifications
+    are sent.
+    
+      - `new_changes`: Only newly created changes.
+    
+      - `new_patchsets`: Only newly created patch sets.
+    
+      - `all_comments`: Only comments on existing changes.
+    
+      - `submitted_changes`: Only changes that have been submitted.
+    
+      - `abandoned_changes`: Only changes that have been abandoned.
+    
+      - `all`: All notifications.
+    
+    Like email, this variable may be a list of options.
+
+  - notify.\<name\>.header  
+    Email header used to list the destination. If not set BCC is used.
+    Only one value may be specified. To use different headers for each
+    address list them in different notify blocks.
+    
+      - `to`: The standard To field is used; addresses are visible to
+        all.
+    
+      - `cc`: The standard CC field is used; addresses are visible to
+        all.
+    
+      - `bcc`: SMTP RCPT TO is used to hide the address.
+
+  - notify.\<name\>.filter  
+    [Change search expression](user-search.html) to match changes that
+    should be sent to the emails named in this section. Within a
+    Git-style configuration file double quotes around complex operator
+    values may need to be escaped, e.g. `filter =
+    branch:\"^(maint|stable)-.*\"`.
+
+When sending email to a bare email address in a notify block, Gerrit
+Code Review ignores read access controls and assumes the administrator
+has set the filtering options correctly. Project owners can implement
+security filtering by adding the `visibleto:groupname` predicate to the
+filter expression, for example:
+
+``` 
+  [notify "Developers"]
+        email = team-address@example.com
+        filter = visibleto:Developers
+```
+
+When sending email to an internal group, the internal group’s read
+access is automatically checked by Gerrit and therefore does not need to
+use the `visibleto:` operator in the filter.
+
+## Email Footers
+
+Notification emails related to changes include metadata about the change
+to support writing mail filters. This metadata is included in the form
+of footers in the message content. For HTML emails, these footers are
+hidden, but they can be examined by viewing the HTML source of messages.
+
+In this way users may apply filters and rules to their incoming Gerrit
+notifications using the values of these footers. For example a Gmail
+filter to find emails regarding reviews that you are a reviewer of might
+take the following form.
+
+``` 
+  "Gerrit-Reviewer: Your Name <your.email@example.com>"
+```
+
+  - Gerrit-MessageType  
+    The message type footer states the type of the message and will take
+    one of the following values.
+    
+      - abandon
+    
+      - comment
+    
+      - deleteReviewer
+    
+      - deleteVote
+    
+      - merged
+    
+      - newchange
+    
+      - newpatchset
+    
+      - restore
+    
+      - revert
+    
+      - setassignee
+
+  - Gerrit-Change-Id  
+    The change ID footer states the ID of the change, such as
+    `I3443af49fcdc16ca941ee7cf2b5e33c1106f3b1d`.
+
+  - Gerrit-Change-Number  
+    The change number footer states the numeric ID of the change, for
+    example `92191`.
+
+  - Gerrit-PatchSet  
+    The patch set footer states the number of the patch set that the
+    email relates to. For example, a notification email for a vote being
+    set on the seventh patch set will take a value of `7`.
+
+  - Gerrit-Owner  
+    The owner footer states the name and email address of the change’s
+    owner. For example, `Owner Name <owner@example.com>`.
+
+  - Gerrit-Reviewer  
+    The reviewer footers list the names and email addresses of the
+    change’s reviewrs. One footer is included for each reviewer. For
+    example, if a change has two reviewers, the footers might include:
+
+<!-- end list -->
+
+``` 
+  Gerrit-Reviewer: Reviewer One <one@example.com>
+  Gerrit-Reviewer: Reviewer Two <two@example.com>
+```
+
+  - Gerrit-CC  
+    The CC footers list the names and email addresses of those who have
+    been CC’d on the change. One footer is included for each reviewer.
+    For example, if a change CCs two users, the footers might include:
+
+<!-- end list -->
+
+``` 
+  Gerrit-CC: User One <one@example.com>
+  Gerrit-CC: User Two <two@example.com>
+```
+
+  - Gerrit-Project  
+    The project footer states the project to which the change belongs.
+
+  - Gerrit-Branch  
+    The branch footer states the abbreviated name of the branch that the
+    change targets.
+
+  - Gerrit-Comment-Date  
+    In comment emails, the comment date footer states the date that the
+    comment was posted.
+
+  - Gerrit-HasComments  
+    In comment emails, the has-comments footer states whether inline
+    comments had been posted in that notification using "Yes" or "No",
+    for example `Gerrit-HasComments: Yes`.
+
+  - Gerrit-HasLabels  
+    In comment emails, the has-labels footer states whether label votes
+    had been posted in that notification using "Yes" or "No", for
+    example `Gerrit-HasLabels: No`.
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

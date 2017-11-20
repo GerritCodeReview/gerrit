@@ -1,0 +1,192 @@
+---
+title: " gerrit review"
+sidebar: cmd_sidebar
+permalink: cmd-review.html
+---
+## NAME
+
+gerrit review - Apply reviews to one or more patch sets
+
+## SYNOPSIS
+
+> 
+> 
+>     ssh -p <port> <host> gerrit review
+>       [--project <PROJECT> | -p <PROJECT>]
+>       [--branch <BRANCH> | -b <BRANCH>]
+>       [--message <MESSAGE> | -m <MESSAGE>]
+>       [--notify <NOTIFYHANDLING> | -n <NOTIFYHANDLING>]
+>       [--submit | -s]
+>       [--abandon | --restore]
+>       [--rebase]
+>       [--move <BRANCH>]
+>       [--publish]
+>       [--json | -j]
+>       [--delete]
+>       [--verified <N>] [--code-review <N>]
+>       [--label Label-Name=<N>]
+>       [--tag TAG]
+>       {COMMIT | CHANGEID,PATCHSET}…
+
+## DESCRIPTION
+
+Updates the current user’s approval status of the specified patch sets
+and/or submits them for merging, sending out email notifications and
+updating the database.
+
+Patch sets may be specified in *CHANGEID,PATCHSET* format, such as
+*8242,2*, or *COMMIT* format.
+
+If a patch set is specified with the *COMMIT* format, the complete or
+abbreviated commit SHA-1 may be used. If the same commit is available in
+multiple projects the `--project` option may be used to limit where
+Gerrit searches for the change to only the contents of the specified
+project. If the same commit is available in multiple branches the
+`--branch` option may be used to limit where Gerrit searches for changes
+to only the specified branch.
+
+## OPTIONS
+
+  - \--project; -p  
+    Name of the project the intended changes are contained within. This
+    option must be supplied before the commit SHA-1 in order to take
+    effect.
+
+  - \--branch; -b  
+    Name of the branch the intended changes are contained within. This
+    option must be supplied before the commit SHA-1 in order to take
+    effect.
+
+  - \--message; -m  
+    Optional cover letter to include as part of the message sent to
+    reviewers when the approval states are updated. (option is mutually
+    exclusive with --json)
+
+  - \--json; -j  
+    Read review input json from stdin. See
+    [ReviewInput](rest-api-changes.html#review-input) entity for the
+    format. (option is mutually exclusive with --submit, --restore,
+    --publish, --delete, --abandon, --message, --rebase and --move)
+
+  - \--notify; -n  
+    Who to send email notifications to after the review is stored. This
+    option only applies for storing the review, but not for any other
+    action (abandon, restore etc.) done by this command.
+    
+      - NONE: send no email
+    
+      - OWNER: send email to change owners
+    
+      - OWNER\_REVIEWERS: send email to change owners and reviewers
+    
+      - ALL: send email to all (change owners, reviewers, watchers and
+        any user who has starred the change)
+
+  - \--help; -h  
+    Display site-specific usage information, including the complete
+    listing of supported approval categories and values.
+
+  - \--abandon  
+    Abandon the specified change(s). (option is mutually exclusive with
+    --submit, --restore, --publish, --delete, --rebase, --move and
+    --json)
+
+  - \--restore  
+    Restore the specified abandoned change(s). (option is mutually
+    exclusive with --abandon and --json)
+
+  - \--rebase  
+    Rebase the specified change(s). (option is mutually exclusive with
+    --abandon, --submit, --delete and --json)
+
+  - \--move  
+    Move the specified change(s). (option is mutually exclusive with
+    --json and --abandon)
+
+  - \--submit; -s  
+    Submit the specified patch set(s) for merging. (option is mutually
+    exclusive with --abandon, --publish --delete, --rebase and --json)
+
+  - \--code-review; --verified  
+    Set the label to the value *N*. The exact option names supported and
+    the range of values permitted differs per site, check the output of
+    --help, or contact your site administrator for further details.
+    These options are only available for the labels that are defined in
+    the *All-Projects* root project and that are valid for all projects;
+    for other labels, see --label. Votes that are not permitted for the
+    user are silently ignored.
+
+  - \--label  
+    Set a label by name to the value *N*. Invalid votes (invalid label
+    or invalid value) and votes that are not permitted for the user are
+    silently ignored.
+
+  - \--tag; -t  
+    Apply a *TAG* to the change message, votes, and inline comments. The
+    *TAG* can represent an external system like CI that does automated
+    verification of the change. Comments with specific *TAG* values can
+    be filtered out in the web UI. Note that to apply different tags on
+    on different votes/comments, multiple invocations of the SSH command
+    are required.
+
+## ACCESS
+
+Any user who has SSH access to Gerrit.
+
+## SCRIPTING
+
+This command is intended to be used in scripts.
+
+## EXAMPLES
+
+Approve the change with commit c0ff33 as "Verified
++1"
+
+``` 
+        $ ssh -p 29418 review.example.com gerrit review --verified +1 c0ff33
+```
+
+Vote on the project specific label
+"mylabel":
+
+``` 
+        $ ssh -p 29418 review.example.com gerrit review --label mylabel=+1 c0ff33
+```
+
+Append the message "Build Successful". Notice two levels of quoting is
+required, one for the local shell, and another for the argument parser
+inside the Gerrit
+server:
+
+``` 
+        $ ssh -p 29418 review.example.com gerrit review -m '"Build Successful"' c0ff33
+```
+
+Mark the unmerged commits both "Verified +1" and "Code-Review +2" and
+submit them for merging:
+
+``` 
+  $ ssh -p 29418 review.example.com gerrit review \
+    --verified +1 \
+    --code-review +2 \
+    --submit \
+    --project this/project \
+    $(git rev-list origin/master..HEAD)
+```
+
+Abandon an active change:
+
+``` 
+  $ ssh -p 29418 review.example.com gerrit review --abandon c0ff33
+```
+
+## SEE ALSO
+
+  - [Access Controls](access-control.html)
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

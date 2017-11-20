@@ -1,0 +1,149 @@
+---
+title: " Gerrit Code Review - Themes"
+sidebar: gerritdoc_sidebar
+permalink: config-themes.html
+---
+Gerrit supports some customization of the HTML it sends to the browser,
+allowing organizations to alter the look and feel of the application to
+fit with their general scheme.
+
+Configuration can either be sitewide or per-project. Projects without a
+specified theme inherit from their parents, or from the sitewide theme
+for `All-Projects`.
+
+Sitewide themes are stored in `'$site_path'/etc`, and per-project themes
+are stored in `'$site_path'/themes/{project-name}`. Files are only
+served from a single theme directory; if you want to modify or extend an
+inherited theme, you must copy it into the appropriate per-project
+directory.
+
+## HTML Header/Footer
+
+At startup Gerrit reads the following files (if they exist) and uses
+them to customize the HTML page it sends to clients:
+
+  - `<theme-dir>/GerritSiteHeader.html`
+    
+    HTML is inserted below the menu bar, but above any page content.
+    This is a good location for an organizational logo, or links to
+    other systems like bug tracking.
+
+  - `<theme-dir>/GerritSiteFooter.html`
+    
+    HTML is inserted at the bottom of the page, below all other content,
+    but just above the footer rule and the "Powered by Gerrit Code
+    Review (v….)" message shown at the extreme bottom.
+
+  - `<theme-dir>/GerritSite.css`
+    
+    The CSS rules are inlined into the top of the HTML page, inside of a
+    `<style>` tag. These rules can be used to support styling the
+    elements within either the header or the footer.
+
+The \*.html files must be valid XHTML, with one root element, typically
+a single `<div>` tag. The server parses it as XML, and then inserts the
+root element into the host page. If a file has more than one root level
+element, Gerrit will not start.
+
+## Static Images
+
+Static image files can also be served from `'$site_path'/static`, and
+may be referenced in `GerritSite{Header,Footer}.html` or
+`GerritSite.css` by the relative URL `static/$name` (e.g.
+`static/logo.png`).
+
+To simplify security management, files are only served from
+`'$site_path'/static`. Subdirectories are explicitly forbidden from
+being served from this location by enforcing the rule that file names
+cannot contain `/` or `\`. (Client requests for `static/foo/bar` will
+result in 404 Not Found responses.)
+
+## HTTP Caching
+
+The header, footer, and CSS files are inlined into the host page, which
+is always sent with a no-cache header. Clients will see any changes
+immediately after they are made.
+
+Assets under `'$site_path'/static` whose file name matches one of the
+following patterns are served with a 1 year expiration, permitting very
+aggressive caching by clients and edge-proxies:
+
+  - `*.cache.html`
+
+  - `*.cache.gif`
+
+  - `*.cache.png`
+
+  - `*.cache.css`
+
+  - `*.cache.jar`
+
+  - `*.cache.swf`
+
+All other assets under `'$site_path'/static` are served with a 5 minute
+expire, permitting some (limited) caching. It may take up to 5 minutes
+after making a change, before clients see the changes.
+
+It is recommended that static images used in the site header or footer
+be named with a unique caching file name, for example
+`my_logo1.cache.png`, to allow browsers to take advantage of their disk
+cache. If the image needs to be modified, create a new file,
+`my_logo2.cache.png` and update the header (or footer) HTML to reference
+the new image path.
+
+## Google Analytics Integration
+
+To connect Gerrit to Google Analytics add the following to your
+`GerritSiteFooter.html`:
+
+``` 
+  <div>
+  <!-- standard analytics code -->
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      var pageTracker = _gat._getTracker("UA-nnnnnnn-n");
+      pageTracker._trackPageview();
+    </script>
+  be <!-- /standard analytics code -->
+
+  <script type="text/javascript">
+    window.onload = function() {
+      var p = window.location.pathname;
+      Gerrit.on('history', function (s) {
+        pageTracker._trackPageview(p + '/' + s)
+      });
+    };
+  </script>
+  </div>
+```
+
+Please consult the Google Analytics documentation for the correct setup
+code (the first two script tags). The above is shown only as a reference
+example.
+
+If your footer is otherwise empty, wrap all of the script tags into a
+single `<div>` tag (like above) to ensure it is a well-formed XHTML
+document file.
+
+The global function `Gerrit.on("history")` accepts functions that accept
+a string parameter. These functions are put into a list and invoked any
+time Gerrit shifts URLs. You’ll see page names like `/c/123` be passed
+to these functions, which in turn are handed off to Google Analytics for
+tracking. Our example hook above uses */* instead of *\#* because
+Analytics won’t track anchors.
+
+The `window.onload` callback is necessary to ensure that the
+`Gerrit.on()` function has actually been defined by the page. Because
+GWT loads the module asynchronously any `<script>` block in the header
+or footer will execute before Gerrit has defined the function and is
+ready to register the hook callback.
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

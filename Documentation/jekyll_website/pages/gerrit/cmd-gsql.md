@@ -1,0 +1,72 @@
+---
+title: " gerrit gsql"
+sidebar: cmd_sidebar
+permalink: cmd-gsql.html
+---
+## NAME
+
+gerrit gsql - Administrative interface to active database
+
+## SYNOPSIS
+
+> 
+> 
+>     ssh -p <port> <host> gerrit gsql
+>       [--format {PRETTY | JSON | JSON_SINGLE}]
+>       [-c QUERY]
+
+## DESCRIPTION
+
+Provides interactive query support directly against the underlying SQL
+database used by the host Gerrit server. All SQL statements are
+supported, including SELECT, UPDATE, INSERT, DELETE and ALTER.
+
+## OPTIONS
+
+  - \--format  
+    Set the format records are output in. In PRETTY (the default)
+    records are displayed in a tabular output suitable for reading by a
+    human on a sufficiently wide terminal. In JSON mode records are
+    output as JSON objects using the column names as the property names,
+    one object per line. In JSON\_SINGLE mode the whole result set is
+    output as a single JSON object.
+
+  - \-c  
+    Execute the single query statement supplied, and then exit.
+
+## ACCESS
+
+Caller must have been granted the [Access
+Database](access-control.html#capability_accessDatabase) global
+capability.
+
+## SCRIPTING
+
+Intended for interactive use only, unless format is JSON, or
+JSON\_SINGLE.
+
+## EXAMPLES
+
+To manually correct a user’s SSH user name:
+
+``` 
+        $ ssh -p 29418 review.example.com gerrit gsql
+        Welcome to Gerrit Code Review v2.0.25
+        (PostgreSQL 8.3.8)
+
+        Type '\h' for help.  Type '\r' to clear the buffer.
+
+        gerrit> update accounts set ssh_user_name = 'alice' where account_id=1;
+        UPDATE 1; 1 ms
+        gerrit> \q
+        Bye
+
+        $ ssh -p 29418 review.example.com gerrit flush-caches --cache sshkeys --cache accounts
+```
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

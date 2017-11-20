@@ -1421,7 +1421,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           rc, LABEL, name, KEY_CAN_OVERRIDE, label.canOverride(), LabelType.DEF_CAN_OVERRIDE);
       List<String> values = Lists.newArrayListWithCapacity(label.getValues().size());
       for (LabelValue value : label.getValues()) {
-        values.add(value.format());
+        values.add(value.format().trim());
       }
       rc.setStringList(LABEL, name, KEY_VALUE, values);
     }

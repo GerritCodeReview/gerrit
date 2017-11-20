@@ -34,6 +34,24 @@
       "revId": "efc92a7745293bde0dabf5007f5b343064599215",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce577924_7a12f130",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-20T22:36:16Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "67318da7_1bf31664",
+      "revId": "efc92a7745293bde0dabf5007f5b343064599215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1511175143 +0100\nnonce AMT3iFhTvq26ivW321wuzuwkoXMmI0S8Xu90fnm9UI09LyCbzK6xjk68kekeeUGdwjOwv4hgN4JH\n\n0000000000000000000000000000000000000000 56ad63ff2c70addc2a6755e1ff6f17276f1f2164 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaErPnAAoJEFG1/Zeg0O9Rq7EIAKQegWvP+QgurV9a4GIVllSS\npKxJotWdTK4D1s/nUABQbggz08Q2WCEfJO2LfU2T+ub/iDKsLjySXRTV7ZV+WfDl\nRAWkF1/eYFl5o/I1KkDxv4YZ6IUx7zGn32NWyZJtdzFW/pZgIwl/VDlqeAstrHSn\nJYBSj7wINXVlSUGy8DTm+wbDzhAC77aFvlv3M4gv0COk65zT/oNiuVdIPBR3qRpQ\nCKOFUKNEcSsFgUS5/r/qOKdW898hHRcslxn+RqTaJX8EOJhEjaajarDOrDQdFMsz\n8m0raGrMLrWBQNkCkxLabQEIR8Ilx4nlbAcqfNTBrvYKKMyE7bHunJKpMXNM1+A\u003d\n\u003d616r\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a94c0dba_0299e8cb",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1068,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-20T10:58:31Z",
+      "side": 1,
+      "message": "This class now has eight @Sandboxed annotations, which means we restart the Gerrit test server 8 times in total. I think we should do better at this and try harder to avoid @Sandboxed e.g. by resetting the permissions we set in a test to leave a clean state behind. I don\u0027t think this has to be part of this change and can just be a separate effort, though.\n\nAlternatively we could just always reset the global permissions to the default state after each test. This should save us \u003e50% of all @Sandboxed usages.",
+      "revId": "bd04940a5652d5610486dd7a4cb49c47d5b1258a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

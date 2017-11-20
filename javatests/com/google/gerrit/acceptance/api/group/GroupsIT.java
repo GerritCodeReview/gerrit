@@ -1065,7 +1065,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void stalenessChecker() throws Exception {
-    assume().that(groupsInNoteDb()).isTrue();
+    assume().that(readGroupsFromNoteDb()).isTrue();
 
     // Newly created group is not stale
     GroupInfo groupInfo = gApi.groups().create(name("foo")).get();
@@ -1238,7 +1238,10 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private boolean groupsInNoteDb() {
-    return cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, false)
-        && cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false);
+    return cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, false);
+  }
+
+  private boolean readGroupsFromNoteDb() {
+    return groupsInNoteDb() && cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false);
   }
 }

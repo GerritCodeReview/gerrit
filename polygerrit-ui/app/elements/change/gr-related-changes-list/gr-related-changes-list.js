@@ -84,6 +84,25 @@
       this._sameTopic = [];
     },
 
+    /**
+     * Handle a click on the button to open the dropdown.
+     * @param {!Event} e
+     */
+    _showDropdownTapHandler(e) {
+      this._open();
+    },
+
+    /**
+     * Open the dropdown.
+     */
+    _open() {
+      this.$.relatedOverlay.open();
+    },
+
+    _closeTapHandler() {
+      this.$.relatedOverlay.close();
+    },
+
     reload() {
       if (!this.change || !this.patchNum) {
         return Promise.resolve();

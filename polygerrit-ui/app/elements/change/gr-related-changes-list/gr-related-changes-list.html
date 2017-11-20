@@ -16,7 +16,12 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
+<link rel="import" href="../../shared/gr-icons/gr-icons.html">
+
+
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
+<link rel="import" href="../../../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -25,10 +30,14 @@ limitations under the License.
   <template>
     <style include="shared-styles">
       :host {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+
       }
-      h3 {
-        margin: .5em 0 0;
+      #header {
+        align-items: center;
+        display: flex;
       }
       section {
         margin-bottom: 1.4em; /* Same as line height for collapse purposes */
@@ -92,7 +101,23 @@ limitations under the License.
       .mobile {
         display: none;
       }
-       @media screen and (max-width: 60em) {
+      .dropdown-content {
+        background-color: #fff;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
+        padding: 1em 1em .5em 1em;
+      }
+      .right {
+        display: flex;
+        flex-direction: row-reverse;
+      }
+      gr-overlay {
+        top: 0;
+        right: 0;
+        height: auto;
+        position: fixed;
+        overflow: auto;
+      }
+      @media screen and (max-width: 60em) {
         .mobile {
           display: block;
         }
@@ -104,79 +129,125 @@ limitations under the License.
         }
       }
     </style>
-    <div>
-      <hr class="mobile">
-      <section class="relatedChanges" hidden$="[[!_relatedResponse.changes.length]]" hidden>
-        <h4>Relation chain</h4>
-        <template
-            is="dom-repeat"
-            items="[[_relatedResponse.changes]]"
-            as="related">
-          <div class$="rightIndent [[_computeChangeContainerClass(change, related)]]">
-            <a href$="[[_computeChangeURL(related._change_number, related.project, related._revision_number)]]"
-                class$="[[_computeLinkClass(related)]]"
-                title$="[[related.commit.subject]]">
-              [[related.commit.subject]]
-            </a>
-            <span class$="[[_computeChangeStatusClass(related)]]">
-              ([[_computeChangeStatus(related)]])
-            </span>
-          </div>
-        </template>
-      </section>
-      <section hidden$="[[!_submittedTogether.length]]" hidden>
-        <h4>Submitted together</h4>
-        <template is="dom-repeat" items="[[_submittedTogether]]" as="change">
-          <div>
-            <a href$="[[_computeChangeURL(change._number, change.project)]]"
-                class$="[[_computeLinkClass(change)]]"
-                title$="[[change.project]]: [[change.branch]]: [[change.subject]]">
-              [[change.project]]: [[change.branch]]: [[change.subject]]
-            </a>
-            <span
-                tabindex="-1"
-                title="Submittable"
-                class$="submittableCheck [[_computeLinkClass(change)]]">✓</span>
-          </div>
-        </template>
-      </section>
-      <section hidden$="[[!_sameTopic.length]]" hidden>
-        <h4>Same topic</h4>
-        <template is="dom-repeat" items="[[_sameTopic]]" as="change">
-          <div>
-            <a href$="[[_computeChangeURL(change._number, change.project)]]"
-                class$="[[_computeLinkClass(change)]]"
-                title$="[[change.project]]: [[change.branch]]: [[change.subject]]">
-              [[change.project]]: [[change.branch]]: [[change.subject]]
-            </a>
-          </div>
-        </template>
-      </section>
-      <section hidden$="[[!_conflicts.length]]" hidden>
-        <h4>Merge conflicts</h4>
-        <template is="dom-repeat" items="[[_conflicts]]" as="change">
-          <div>
-            <a href$="[[_computeChangeURL(change._number, change.project)]]"
-                class$="[[_computeLinkClass(change)]]"
-                title$="[[change.subject]]">
-              [[change.subject]]
-            </a>
-          </div>
-        </template>
-      </section>
-      <section hidden$="[[!_cherryPicks.length]]" hidden>
-        <h4>Cherry picks</h4>
-        <template is="dom-repeat" items="[[_cherryPicks]]" as="change">
-          <div>
-            <a href$="[[_computeChangeURL(change._number, change.project)]]"
-                class$="[[_computeLinkClass(change)]]"
-                title$="[[change.branch]]: [[change.subject]]">
-              [[change.branch]]: [[change.subject]]
-            </a>
-          </div>
-        </template>
-      </section>
+
+  <div>
+    <div id="header">
+      <h3>Related Changes</h3>
+      <gr-button
+          link
+          id="trigger"
+          class="dropdown-trigger"
+          on-tap="_open"
+          slot="dropdown-trigger">
+          <iron-icon
+              icon="gr-icons:open-with"
+              slot="prefix"
+              prefix
+              class$="searchIcon [[_computeShowSearchIconClass(showSearchIcon)]]">
+          </iron-icon>
+      </gr-button>
     </div>
+
+
+      <div class="summary">
+        <div hidden$="[[!_relatedResponse.changes.length]]">
+            [[_relatedResponse.changes.length]] related changes</div>
+        <div hidden$="[[!_submittedTogether.length]]">
+            [[_submittedTogether.length]] submitted together</div>
+        <div hidden$="[[!_sameTopic.length]]">
+            [[_sameTopic.length]] same topic</div>
+        <div hidden$="[[!_conflicts.length]]">
+            [[_conflicts.length]] conflicts</div>
+        <div hidden$="[[!_cherryPicks.length]]">
+            [[_cherryPicks.length]] cherrypicks</div>
+      </div>
+    </div>
+
+    <gr-overlay id="relatedOverlay" with-backdrop>
+      <div class="dropdown-content" slot="dropdown-content">
+        <section class="relatedChanges" hidden$="[[!_relatedResponse.changes.length]]" hidden>
+          <h4>Relation chain</h4>
+          <template
+              is="dom-repeat"
+              items="[[_relatedResponse.changes]]"
+              as="related">
+            <div class$="rightIndent [[_computeChangeContainerClass(change, related)]]">
+              <a href$="[[_computeChangeURL(related._change_number, related.project, related._revision_number)]]"
+                  class$="[[_computeLinkClass(related)]]"
+                  title$="[[related.commit.subject]]">
+                [[related.commit.subject]]
+              </a>
+              <span class$="[[_computeChangeStatusClass(related)]]">
+                ([[_computeChangeStatus(related)]])
+              </span>
+            </div>
+          </template>
+        </section>
+        <section hidden$="[[!_submittedTogether.length]]" hidden>
+          <h4>Submitted together</h4>
+          <template is="dom-repeat" items="[[_submittedTogether]]" as="change">
+            <div>
+              <a href$="[[_computeChangeURL(change._number, change.project)]]"
+                  class$="[[_computeLinkClass(change)]]"
+                  title$="[[change.project]]: [[change.branch]]: [[change.subject]]">
+                [[change.project]]: [[change.branch]]: [[change.subject]]
+              </a>
+              <span
+                  tabindex="-1"
+                  title="Submittable"
+                  class$="submittableCheck [[_computeLinkClass(change)]]">✓</span>
+            </div>
+          </template>
+        </section>
+        <section hidden$="[[!_sameTopic.length]]" hidden>
+          <h4>Same topic</h4>
+          <template is="dom-repeat" items="[[_sameTopic]]" as="change">
+            <div>
+              <a href$="[[_computeChangeURL(change._number, change.project)]]"
+                  class$="[[_computeLinkClass(change)]]"
+                  title$="[[change.project]]: [[change.branch]]: [[change.subject]]">
+                [[change.project]]: [[change.branch]]: [[change.subject]]
+              </a>
+            </div>
+          </template>
+        </section>
+        <section hidden$="[[!_conflicts.length]]" hidden>
+          <h4>Merge conflicts</h4>
+          <template is="dom-repeat" items="[[_conflicts]]" as="change">
+            <div>
+              <a href$="[[_computeChangeURL(change._number, change.project)]]"
+                  class$="[[_computeLinkClass(change)]]"
+                  title$="[[change.subject]]">
+                [[change.subject]]
+              </a>
+            </div>
+          </template>
+        </section>
+        <section hidden$="[[!_cherryPicks.length]]" hidden>
+          <h4>Cherry picks</h4>
+          <template is="dom-repeat" items="[[_cherryPicks]]" as="change">
+            <div>
+              <a href$="[[_computeChangeURL(change._number, change.project)]]"
+                  class$="[[_computeLinkClass(change)]]"
+                  title$="[[change.branch]]: [[change.subject]]">
+                [[change.branch]]: [[change.subject]]
+              </a>
+            </div>
+          </template>
+        </section>
+        <div class="right">
+          <gr-button
+              id="cancelBtn"
+              link
+              on-tap="_closeTapHandler">Close</gr-button>
+        </div>
+      </div>
+
+    </gr-overlay>
+
+
+
+
     <div hidden$="[[!loading]]">Loading...</div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

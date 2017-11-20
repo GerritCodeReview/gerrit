@@ -52,7 +52,7 @@
     open(...args) {
       return new Promise(resolve => {
         Polymer.IronOverlayBehaviorImpl.open.apply(this, args);
-        if (this._isMobile()) {
+        if (this._isMobile() && !(this.id === 'relatedOverlay')) {
           this.fire('fullscreen-overlay-opened');
           this._fullScreenOpen = true;
         }

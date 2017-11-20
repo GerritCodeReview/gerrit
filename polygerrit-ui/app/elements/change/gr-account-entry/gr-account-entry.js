@@ -23,9 +23,9 @@
      * @event add
      */
     properties: {
+      allowAnyInput: Boolean,
       borderless: Boolean,
       change: Object,
-      _config: Object,
       filter: Function,
       placeholder: String,
       /**
@@ -51,6 +51,8 @@
           return this._getReviewerSuggestions.bind(this);
         },
       },
+
+      _config: Object,
     },
 
     behaviors: [

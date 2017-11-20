@@ -149,8 +149,7 @@ public class RefOperationValidators {
           }
         }
 
-        if (refEvent.command.getRefName().startsWith(RefNames.REFS_GROUPS)
-            || refEvent.command.getRefName().equals(RefNames.REFS_GROUPNAMES)) {
+        if (RefNames.isGroupRef(refEvent.command.getRefName())) {
           if (refEvent.command.getType().equals(ReceiveCommand.Type.CREATE)) {
             throw new ValidationException("Not allowed to create group branch.");
           } else if (refEvent.command.getType().equals(ReceiveCommand.Type.DELETE)) {

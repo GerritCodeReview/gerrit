@@ -778,7 +778,7 @@ public class CommitValidators {
     }
   }
 
-  /** Rejects updates to group branches (refs/groups/* and refs/meta/group-names). */
+  /** Rejects updates to group branches. */
   public static class GroupCommitValidator implements CommitValidationListener {
     private final AllUsersName allUsers;
 
@@ -789,8 +789,7 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
-      // Groups are stored inside 'refs/groups/' refs inside the 'All-Users' repository.
-      // Group names are stored inside 'refs/meta/group-names' refs inside the 'All-Users' repository.
+      // Groups are stored inside the 'All-Users' repository.
       if (!allUsers.equals(receiveEvent.project.getNameKey())) {
         return Collections.emptyList();
       }
@@ -801,8 +800,7 @@ public class CommitValidators {
         return Collections.emptyList();
       }
 
-      if (receiveEvent.command.getRefName().startsWith(RefNames.REFS_GROUPS)
-          || receiveEvent.command.getRefName().equals(RefNames.REFS_GROUPNAMES)) {
+      if (RefNames.isGroupRef(receiveEvent.command.getRefName())) {
         throw new CommitValidationException("group update not allowed");
       }
       return Collections.emptyList();

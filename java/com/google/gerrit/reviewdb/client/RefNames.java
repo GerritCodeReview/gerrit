@@ -224,8 +224,20 @@ public class RefNames {
     return ref.startsWith(REFS_USERS);
   }
 
+  /**
+   * Whether the ref is a group branch that stores NoteDb data of a group. Returns {@code true} for
+   * all refs that start with {@code refs/groups/}.
+   */
   public static boolean isRefsGroups(String ref) {
     return ref.startsWith(REFS_GROUPS);
+  }
+
+  /**
+   * Whether the ref is used for storing group data in NoteDb. Returns {@code true} for all group
+   * branches and refs/meta/group-names.
+   */
+  public static boolean isGroupRef(String ref) {
+    return isRefsGroups(ref) || REFS_GROUPNAMES.equals(ref);
   }
 
   static Integer parseShardedRefPart(String name) {

@@ -61,8 +61,10 @@ import com.google.gerrit.server.events.EventBroker;
 import com.google.gerrit.server.events.StreamEventsApiListener;
 import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.GitRepositoryManagerModule;
+import com.google.gerrit.server.git.JGitConfigProvider;
 import com.google.gerrit.server.git.LocalMergeSuperSetComputation;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
+import com.google.gerrit.server.git.SystemReaderInstaller;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.receive.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.index.IndexModule;
@@ -256,6 +258,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
 
       Module configModule = new GerritServerConfigModule();
       modules.add(configModule);
+      modules.add(JGitConfigProvider.module());
 
       Injector cfgInjector = Guice.createInjector(sitePathModule, configModule, secureStore);
       Config cfg = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
@@ -306,6 +309,13 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
           });
       modules.add(new GerritServerConfigModule());
     }
+    modules.add(
+        new LifecycleModule() {
+          @Override
+          protected void configure() {
+            listener().to(SystemReaderInstaller.class);
+          }
+        });
     modules.add(new DatabaseModule());
     modules.add(new NotesMigration.Module());
     modules.add(new GroupsMigration.Module());

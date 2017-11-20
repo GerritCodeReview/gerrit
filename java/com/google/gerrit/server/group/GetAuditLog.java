@@ -127,9 +127,7 @@ public class GetAuditLog implements RestReadView<GroupResource> {
     accountLoader.fill();
 
     // sort by date and then reverse so that the newest audit event comes first
-    Collections.sort(auditEvents, comparing((GroupAuditEventInfo a) -> a.date));
-    Collections.reverse(auditEvents);
-
+    Collections.sort(auditEvents, comparing((GroupAuditEventInfo a) -> a.date).reversed());
     return auditEvents;
   }
 }

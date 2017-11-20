@@ -872,6 +872,14 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushToDeletedGroupBranchIsRejectedForAllUsersRepo() throws Exception {
+    String groupRef =
+        RefNames.refsDeletedGroups(
+            new AccountGroup.UUID(gApi.groups().create(name("foo")).get().id));
+    assertPushToGroupBranch(allUsers, groupRef, true, "group update not allowed");
+  }
+
+  @Test
   public void pushToGroupNamesBranchIsRejectedForAllUsersRepo() throws Exception {
     assume().that(groupsInNoteDb()).isTrue(); // branch only exists when groups are in NoteDb
     // refs/meta/group-names isn't usually available for fetch, so grant ACCESS_DATABASE
@@ -888,6 +896,15 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushToDeletedGroupsBranchForNonAllUsersRepo() throws Exception {
+    assertCreateGroupBranch(project, null);
+    String groupRef =
+        RefNames.refsDeletedGroups(
+            new AccountGroup.UUID(gApi.groups().create(name("foo")).get().id));
+    assertPushToGroupBranch(project, groupRef, true, null);
+  }
+
+  @Test
   public void pushToGroupNamesBranchForNonAllUsersRepo() throws Exception {
     assertPushToGroupBranch(project, RefNames.REFS_GROUPNAMES, true, null);
   }
@@ -897,6 +914,8 @@ public class GroupsIT extends AbstractDaemonTest {
       throws Exception {
     grant(project, RefNames.REFS_GROUPS + "*", Permission.CREATE, false, REGISTERED_USERS);
     grant(project, RefNames.REFS_GROUPS + "*", Permission.PUSH, false, REGISTERED_USERS);
+    grant(project, RefNames.REFS_DELETED_GROUPS + "*", Permission.CREATE, false, REGISTERED_USERS);
+    grant(project, RefNames.REFS_DELETED_GROUPS + "*", Permission.PUSH, false, REGISTERED_USERS);
     grant(project, RefNames.REFS_GROUPNAMES, Permission.PUSH, false, REGISTERED_USERS);
 
     TestRepository<InMemoryRepository> repo = cloneProject(project);
@@ -991,6 +1010,14 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   @Sandboxed
+  public void cannotCreateDeletedGroupBranch() throws Exception {
+    testCannotCreateGroupBranch(
+        RefNames.REFS_DELETED_GROUPS + "*",
+        RefNames.refsDeletedGroups(new AccountGroup.UUID(name("foo"))));
+  }
+
+  @Test
+  @Sandboxed
   public void cannotCreateGroupNamesBranch() throws Exception {
     assume().that(groupsInNoteDb()).isTrue();
 
@@ -1030,6 +1057,14 @@ public class GroupsIT extends AbstractDaemonTest {
   public void cannotDeleteGroupBranch() throws Exception {
     assume().that(groupsInNoteDb()).isTrue();
     testCannotDeleteGroupBranch(RefNames.REFS_GROUPS + "*", RefNames.refsGroups(adminGroupUuid()));
+  }
+
+  @Test
+  @Sandboxed
+  public void cannotDeleteDeletedGroupBranch() throws Exception {
+    String groupRef = RefNames.refsDeletedGroups(new AccountGroup.UUID(name("foo")));
+    createBranch(allUsers, groupRef, "Foo");
+    testCannotDeleteGroupBranch(RefNames.REFS_DELETED_GROUPS + "*", groupRef);
   }
 
   @Test
@@ -1183,6 +1218,11 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private void createGroupBranch(Project.NameKey project, String ref) throws IOException {
+    createBranch(project, ref, "Create Group");
+  }
+
+  private void createBranch(Project.NameKey project, String ref, String commitMessage)
+      throws IOException {
     try (Repository r = repoManager.openRepository(project);
         ObjectInserter oi = r.newObjectInserter();
         RevWalk rw = new RevWalk(r)) {
@@ -1193,7 +1233,7 @@ public class GroupsIT extends AbstractDaemonTest {
       cb.setTreeId(emptyTree);
       cb.setCommitter(ident);
       cb.setAuthor(ident);
-      cb.setMessage("Create group");
+      cb.setMessage(commitMessage);
       ObjectId emptyCommit = oi.insert(cb);
 
       oi.flush();

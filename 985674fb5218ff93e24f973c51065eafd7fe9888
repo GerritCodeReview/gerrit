@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "268c1e0d_ab801c6b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1054782
+      },
+      "writtenOn": "2017-11-20T20:20:53Z",
+      "side": 1,
+      "message": "That yields a different behavior on NaN. The original code seemed to defend against NaN values in prefs.tab_size, so I was doing the same here.\n\nI\u0027ll switch to an explicit isNaN() check, since that\u0027s more readable and this isn\u0027t in the inner loop.",
+      "parentUuid": "ec50115c_673da70d",
+      "range": {
+        "startLine": 31,
+        "startChar": 8,
+        "endLine": 31,
+        "endChar": 29
+      },
+      "revId": "985674fb5218ff93e24f973c51065eafd7fe9888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2eba615d_3157a2c3",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 18
@@ -45,6 +69,30 @@
       "revId": "985674fb5218ff93e24f973c51065eafd7fe9888",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a43373c7_5c949336",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1054782
+      },
+      "writtenOn": "2017-11-20T20:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2eba615d_3157a2c3",
+      "range": {
+        "startLine": 429,
+        "startChar": 4,
+        "endLine": 433,
+        "endChar": 76
+      },
+      "revId": "985674fb5218ff93e24f973c51065eafd7fe9888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -106,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "2c7a2ce1_3010d871",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1054782
+      },
+      "writtenOn": "2017-11-20T20:20:53Z",
+      "side": 1,
+      "message": "Oh my. Good catch.",
+      "parentUuid": "ca3c0655_592b2b85",
+      "range": {
+        "startLine": 155,
+        "startChar": 19,
+        "endLine": 155,
+        "endChar": 33
+      },
+      "revId": "985674fb5218ff93e24f973c51065eafd7fe9888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e577911c_a833a101",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
         "patchSetId": 18
@@ -117,6 +189,30 @@
       "writtenOn": "2017-11-18T00:49:48Z",
       "side": 1,
       "message": "Whoa. 👍",
+      "range": {
+        "startLine": 219,
+        "startChar": 6,
+        "endLine": 220,
+        "endChar": 51
+      },
+      "revId": "985674fb5218ff93e24f973c51065eafd7fe9888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e8ea82a_b56b6049",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1054782
+      },
+      "writtenOn": "2017-11-20T20:20:53Z",
+      "side": 1,
+      "message": "This test case is kind of an acknowledgement that the current code doesn\u0027t deal with combining marks and zero-width characters properly.\n\nGetting this right would require an implementation of unicode grapheme segmentation, specified here: http://unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries . Very hard to do with a regex, but there is a proposal for a web standard here: https://github.com/tc39/proposal-intl-segmenter -- there\u0027s even some polyfill provided.\n\nIn Chrome there\u0027s a nonstandard (and deprecated, but not removed) API to do this, which works like this:\n\nvar a \u003d Intl.v8BreakIterator({}, {type: \u0027character\u0027});\na.adoptText(\u0027ab👍cdก้้้้้้้้้้้้้้้้\u0027);\nundefined\na.next()\n1           // + 1 (a)\na.next()\n2           // + 1 (b)\na.next()\n4           // + 2 (thumbs up / surrogate pair)\na.next()\n5           // + 1 (c)\na.next()\n6           // + 1 (d)\na.next()\n23          // + 17 (combining marks)\na.next()\n-1\n\nI haven\u0027t benchmarked this, but it being nonstandard makes it quite tricky to even contemplate using (and you\u0027d still need to grep for \u0027\\t\u0027 chars). I\u0027d hypothesize that, working one char at a time, this would probably be dominated by the loop overhead, but on the plus side it should be space efficient, and the loop body would be very small.\n\nI\u0027ve added a summary of the above to the comment above the REGEXP.\n\nPersonally, my bias is for ASCII-without-tabs to stay on the fastest possible path.",
+      "parentUuid": "e577911c_a833a101",
       "range": {
         "startLine": 219,
         "startChar": 6,

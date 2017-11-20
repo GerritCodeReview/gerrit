@@ -210,7 +210,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     assertBodyEquals("Update patch set 1\n\nComment on the change.\n\nPatch-set: 1\n", commit);
 
     PersonIdent author = commit.getAuthorIdent();
-    assertThat(author.getName()).isEqualTo("Anonymous Coward (3)");
+    assertThat(author.getName()).isEqualTo("Name of user not set (3)");
     assertThat(author.getEmailAddress()).isEqualTo("3@gerrit");
   }
 

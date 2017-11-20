@@ -442,10 +442,6 @@
       const msg = e.detail.message.message;
       const quoteStr = msg.split('\n').map(
           line => { return '> ' + line; }).join('\n') + '\n\n';
-
-      if (quoteStr !== this.$.replyDialog.quote) {
-        this.$.replyDialog.draft = quoteStr;
-      }
       this.$.replyDialog.quote = quoteStr;
       this._openReplyDialog(this.$.replyDialog.FocusTarget.BODY);
     },

@@ -98,6 +98,10 @@
         type: Number,
         notify: true,
       },
+      numFiles: {
+        type: Number,
+        notify: true,
+      },
       /** @type {?} */
       _patchChange: {
         type: Object,
@@ -187,6 +191,7 @@
 
       promises.push(this._getFiles().then(files => {
         this._files = files;
+        this.numFiles = files.length;
       }));
       promises.push(this._getLoggedIn().then(loggedIn => {
         return this._loggedIn = loggedIn;

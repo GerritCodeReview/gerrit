@@ -102,6 +102,7 @@
         value: DEFAULT_NUM_FILES_SHOWN,
         observer: '_numFilesShownChanged',
       },
+      _numFiles: Number,
       _account: {
         type: Object,
         value: {},

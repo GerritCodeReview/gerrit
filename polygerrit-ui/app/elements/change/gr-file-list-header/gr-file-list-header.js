@@ -17,6 +17,11 @@
   // Maximum length for patch set descriptions.
   const PATCH_DESC_MAX_LENGTH = 500;
 
+  // Negative num files value allows for computed functions that utilize numFiles
+  // to be called.
+  // TODO(kaspern): when Polymer 2 is in use, remove this constant.
+  const NUM_FILES_UNINITIALIZED = -1;
+
   Polymer({
     is: 'gr-file-list-header',
 
@@ -37,6 +42,10 @@
       diffViewMode: {
         type: String,
         notify: true,
+      },
+      numFiles: {
+        type: Number,
+        value: NUM_FILES_UNINITIALIZED,
       },
       patchNum: String,
       basePatchNum: String,
@@ -134,8 +143,7 @@
      */
     _getPatchsetHash(revisions, patchSet) {
       for (const rev in revisions) {
-        if (revisions.hasOwnProperty(rev) &&
-            revisions[rev] === patchSet) {
+        if (revisions.hasOwnProperty(rev) && revisions[rev] === patchSet) {
           return rev;
         }
       }
@@ -211,6 +219,11 @@
         return '';
       }
       return 'patchInfoOldPatchSet';
+    },
+
+    _computeHeaderText(numFiles) {
+      if (numFiles === NUM_FILES_UNINITIALIZED) { return 'Files'; }
+      return `${numFiles} ${numFiles === 1 ? 'File' : 'Files'}`;
     },
   });
 })();

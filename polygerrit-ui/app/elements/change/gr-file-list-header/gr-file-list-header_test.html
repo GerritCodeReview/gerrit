@@ -309,5 +309,11 @@ limitations under the License.
         assert.isFalse(isVisible(element.$.editControls.parentElement));
       });
     });
+
+    test('_computeHeaderText', () => {
+      assert.equal(element._computeHeaderText(-1), 'Files');
+      assert.equal(element._computeHeaderText(1), '1 File');
+      assert.equal(element._computeHeaderText(100), '100 Files');
+    });
   });
 </script>

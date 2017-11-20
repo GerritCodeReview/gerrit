@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70063b5f_7df4fb74",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-20T17:29:04Z",
+      "side": 1,
+      "message": "My 2¢: Philosophically, I think this function should just remove the `title` attribute if the placeholder or value are null. Or alternatively just set the attribute to an empty string.\n\nWhen we overload the meaning of an empty string to mean \"no value\" we lose the ability to express empty strings as valid values.\n\nGranted, an empty string will likely never be a valid value, so I don\u0027t mean to block this change.",
+      "revId": "efc92a7745293bde0dabf5007f5b343064599215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

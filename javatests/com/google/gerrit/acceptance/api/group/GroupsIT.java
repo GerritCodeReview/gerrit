@@ -38,6 +38,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -1175,19 +1176,9 @@ public class GroupsIT extends AbstractDaemonTest {
     // Manual update makes index document stale
     String groupRef = RefNames.refsGroups(groupUuid);
     try (Repository repo = repoManager.openRepository(allUsers);
-        ObjectInserter oi = repo.newObjectInserter();
         RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(repo.exactRef(groupRef).getObjectId());
-
-      PersonIdent ident = new PersonIdent(serverIdent.get(), TimeUtil.nowTs());
-      CommitBuilder cb = new CommitBuilder();
-      cb.setTreeId(commit.getTree());
-      cb.setCommitter(ident);
-      cb.setAuthor(ident);
-      cb.setMessage(commit.getFullMessage());
-      ObjectId emptyCommit = oi.insert(cb);
-      oi.flush();
-
+      ObjectId emptyCommit = createCommit(repo, commit.getFullMessage(), commit.getTree());
       RefUpdate updateRef = repo.updateRef(groupRef);
       updateRef.setExpectedOldObjectId(commit.toObjectId());
       updateRef.setNewObjectId(emptyCommit);
@@ -1257,22 +1248,35 @@ public class GroupsIT extends AbstractDaemonTest {
     try (Repository r = repoManager.openRepository(project);
         ObjectInserter oi = r.newObjectInserter();
         RevWalk rw = new RevWalk(r)) {
-      ObjectId emptyTree = oi.insert(Constants.OBJ_TREE, new byte[] {});
-      PersonIdent ident = new PersonIdent(serverIdent.get(), TimeUtil.nowTs());
-
-      CommitBuilder cb = new CommitBuilder();
-      cb.setTreeId(emptyTree);
-      cb.setCommitter(ident);
-      cb.setAuthor(ident);
-      cb.setMessage(commitMessage);
-      ObjectId emptyCommit = oi.insert(cb);
-
-      oi.flush();
-
+      ObjectId emptyCommit = createCommit(r, commitMessage);
       RefUpdate updateRef = r.updateRef(ref);
       updateRef.setExpectedOldObjectId(ObjectId.zeroId());
       updateRef.setNewObjectId(emptyCommit);
       assertThat(updateRef.update(rw)).isEqualTo(RefUpdate.Result.NEW);
+    }
+  }
+
+  private ObjectId createCommit(Repository repo, String commitMessage) throws IOException {
+    return createCommit(repo, commitMessage, null);
+  }
+
+  private ObjectId createCommit(Repository repo, String commitMessage, @Nullable ObjectId treeId)
+      throws IOException {
+    try (ObjectInserter oi = repo.newObjectInserter()) {
+      if (treeId == null) {
+        treeId = oi.insert(Constants.OBJ_TREE, new byte[] {});
+      }
+
+      PersonIdent ident = new PersonIdent(serverIdent.get(), TimeUtil.nowTs());
+      CommitBuilder cb = new CommitBuilder();
+      cb.setTreeId(treeId);
+      cb.setCommitter(ident);
+      cb.setAuthor(ident);
+      cb.setMessage(commitMessage);
+
+      ObjectId commit = oi.insert(cb);
+      oi.flush();
+      return commit;
     }
   }
 

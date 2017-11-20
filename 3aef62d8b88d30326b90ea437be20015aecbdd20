@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e91fb150_b063b73e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-20T20:28:42Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "815392bb_06cf36c1",
+      "range": {
+        "startLine": 7,
+        "startChar": 51,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "3aef62d8b88d30326b90ea437be20015aecbdd20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c33424b4_b40c5092",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-11-20T09:28:14Z",
       "side": 1,
       "message": "probably",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "3aef62d8b88d30326b90ea437be20015aecbdd20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34926332_df71de2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-20T20:28:42Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c33424b4_b40c5092",
       "range": {
         "startLine": 9,
         "startChar": 10,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a1ccc872_2df257d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-20T20:28:42Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f7b78993_377b29be",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 43
+      },
+      "revId": "3aef62d8b88d30326b90ea437be20015aecbdd20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d6ca1df5_38145783",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "e8a78036_343fe699",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-20T20:28:42Z",
+      "side": 1,
+      "message": "Ah i see. Thanks.",
+      "parentUuid": "d6ca1df5_38145783",
+      "range": {
+        "startLine": 12,
+        "startChar": 26,
+        "endLine": 12,
+        "endChar": 32
+      },
+      "revId": "3aef62d8b88d30326b90ea437be20015aecbdd20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "799bff6b_6500efb8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -105,6 +201,30 @@
       "writtenOn": "2017-11-20T09:28:14Z",
       "side": 1,
       "message": "Again, we only use the servlet API, so I am not sure this holds. The docs seem to refer to the general 8.x Tomcat release.",
+      "range": {
+        "startLine": 16,
+        "startChar": 18,
+        "endLine": 16,
+        "endChar": 29
+      },
+      "revId": "3aef62d8b88d30326b90ea437be20015aecbdd20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "146d2b9f_83a4fa4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-20T20:28:42Z",
+      "side": 1,
+      "message": "Thanks, done. (Remove it).",
+      "parentUuid": "799bff6b_6500efb8",
       "range": {
         "startLine": 16,
         "startChar": 18,

@@ -32,7 +32,6 @@ import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.testing.GroupTestUtil;
 import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gerrit.testing.TestTimeUtil;
@@ -473,9 +472,5 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
   private ImmutableList<CommitInfo> logGroupNames() throws Exception {
     return GroupTestUtil.log(repo, REFS_GROUPNAMES);
-  }
-
-  private static InternalGroup removeRefState(InternalGroup group) throws Exception {
-    return group.toBuilder().setRefState(null).build();
   }
 }

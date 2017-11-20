@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo;
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfos;
+import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
@@ -48,6 +49,7 @@ import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.groups.Groups.ListRequest;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo.GroupMemberAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo.Type;
@@ -63,6 +65,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.GroupIncludeCache;
@@ -70,8 +73,10 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.group.db.Groups;
+import com.google.gerrit.server.group.db.testing.GroupTestUtil;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.index.group.StalenessChecker;
+import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestTimeUtil;
@@ -125,6 +130,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Inject private Groups groups;
   @Inject private GroupIncludeCache groupIncludeCache;
+  @Inject private GroupsMigration groupsMigration;
   @Inject private StalenessChecker stalenessChecker;
   @Inject private GroupIndexer groupIndexer;
 
@@ -233,6 +239,36 @@ public class GroupsIT extends AbstractDaemonTest {
 
     gApi.groups().id(p).removeGroups(g);
     assertNoIncludes(p);
+  }
+
+  @Test
+  public void includeExternalGroup() throws Exception {
+    String g = createGroup("group");
+    String subgroupUuid = SystemGroupBackend.REGISTERED_USERS.get();
+    gApi.groups().id(g).addGroups(subgroupUuid);
+
+    List<GroupInfo> subgroups = gApi.groups().id(g).includedGroups();
+    assertThat(subgroups).hasSize(1);
+    assertThat(subgroups.get(0).id).isEqualTo(subgroupUuid.replace(":", "%3A"));
+    assertThat(subgroups.get(0).groupId).isNull();
+
+    if (groupsMigration.writeToNoteDb()) {
+      AccountGroup.UUID uuid = new AccountGroup.UUID(gApi.groups().id(g).get().id);
+      try (Repository repo = repoManager.openRepository(allUsers)) {
+        ImmutableList<CommitInfo> log = GroupTestUtil.log(repo, RefNames.refsGroups(uuid));
+        assertThat(log).hasSize(2);
+
+        assertThat(log.get(0)).message().isEqualTo("Create group");
+        assertThat(log.get(1))
+            .message()
+            .isEqualTo(
+                "Update group\n\nAdd-group: global:Registered-Users <global:Registered-Users>");
+
+        List<AccountGroupByIdAud> audit = groups.getSubgroupsAudit(db, repo, uuid);
+        assertThat(audit).hasSize(1);
+        assertThat(audit.get(0).getIncludeUUID()).isEqualTo(SystemGroupBackend.REGISTERED_USERS);
+      }
+    }
   }
 
   @Test

@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -31,6 +32,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.group.ServerInitiated;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.GroupBundle;
 import com.google.gerrit.server.group.db.GroupRebuilder;
 import com.google.gerrit.server.group.db.GroupsUpdate;
@@ -102,8 +104,11 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
     try (TempClockStep step = TestTimeUtil.freezeClock()) {
       gApi.groups().id(group1.id).addMembers(user.id.toString(), user2.id.toString());
     }
+    TimeUtil.nowTs();
 
-    gApi.groups().id(group1.id).addGroups(group2.id);
+    try (TempClockStep step = TestTimeUtil.freezeClock()) {
+      gApi.groups().id(group1.id).addGroups(group2.id, SystemGroupBackend.REGISTERED_USERS.get());
+    }
 
     try (BlockReviewDbUpdatesForGroups ctx = new BlockReviewDbUpdatesForGroups()) {
       GroupBundle reviewDbBundle =
@@ -143,7 +148,11 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
 
       assertThat(log.get(3))
           .message()
-          .isEqualTo("Update group\n\nAdd-group: " + group2.name + " <" + group2.id + ">");
+          .isEqualTo(
+              "Update group\n"
+                  + "\n"
+                  + ("Add-group: " + group2.name + " <" + group2.id + ">\n")
+                  + ("Add-group: global:Registered-Users <global:Registered-Users>"));
       assertThat(log.get(3)).author().name().isEqualTo(admin.fullName);
       assertThat(log.get(3)).author().email().isEqualTo(admin.id + "@" + serverId);
       assertThat(log.get(3)).committer().hasSameDateAs(log.get(3).author);

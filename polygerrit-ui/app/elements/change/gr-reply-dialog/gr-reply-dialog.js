@@ -261,7 +261,7 @@
     getFocusStops() {
       return {
         start: this.$.reviewers.focusStart,
-        end: this.$.cancelButton,
+        end: this.$.sendButton,
       };
     },
 

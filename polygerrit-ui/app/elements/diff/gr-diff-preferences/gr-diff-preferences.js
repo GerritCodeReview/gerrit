@@ -45,7 +45,7 @@
     getFocusStops() {
       return {
         start: this.$.contextSelect,
-        end: this.$.cancelButton,
+        end: this.$.saveButton,
       };
     },
 

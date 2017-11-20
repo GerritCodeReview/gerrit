@@ -14,14 +14,11 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
-import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project;
@@ -32,30 +29,19 @@ import com.google.gerrit.server.index.project.ProjectField;
 import com.google.gerrit.server.index.project.ProjectIndex;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectData;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Bulk;
 import io.searchbox.core.Bulk.Builder;
-import io.searchbox.core.Search;
 import io.searchbox.core.search.sort.Sort;
 import io.searchbox.core.search.sort.Sort.Sorting;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, ProjectData>
     implements ProjectIndex {
@@ -69,8 +55,6 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
 
   static final String PROJECTS = "projects";
   static final String PROJECTS_PREFIX = PROJECTS + "_";
-
-  private static final Logger log = LoggerFactory.getLogger(ElasticProjectIndex.class);
 
   private final ProjectMapping mapping;
   private final Provider<ProjectCache> projectCache;
@@ -108,7 +92,9 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
   @Override
   public DataSource<ProjectData> getSource(Predicate<ProjectData> p, QueryOptions opts)
       throws QueryParseException {
-    return new QuerySource(p, opts);
+    Sort sort = new Sort(ProjectField.NAME.getName(), Sorting.ASC);
+    sort.setIgnoreUnmapped();
+    return new ElasticQuerySource(p, opts.filterFields(IndexUtils::projectFields), PROJECTS, sort);
   }
 
   @Override
@@ -127,96 +113,16 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
     return projectState.getProject().getName();
   }
 
-  private class QuerySource implements DataSource<ProjectData> {
-    private final Search search;
-    private final Set<String> fields;
-
-    QuerySource(Predicate<ProjectData> p, QueryOptions opts) throws QueryParseException {
-      QueryBuilder qb = queryBuilder.toQueryBuilder(p);
-      fields = IndexUtils.projectFields(opts);
-      SearchSourceBuilder searchSource =
-          new SearchSourceBuilder()
-              .query(qb)
-              .from(opts.start())
-              .size(opts.limit())
-              .fields(Lists.newArrayList(fields));
-
-      Sort sort = new Sort(ProjectField.NAME.getName(), Sorting.ASC);
-      sort.setIgnoreUnmapped();
-
-      search =
-          new Search.Builder(searchSource.toString())
-              .addType(PROJECTS)
-              .addIndex(indexName)
-              .addSort(ImmutableList.of(sort))
-              .build();
+  @Override
+  protected ProjectData fromDocument(JsonObject json, Set<String> fields) {
+    JsonElement source = json.get("_source");
+    if (source == null) {
+      source = json.getAsJsonObject().get("fields");
     }
 
-    @Override
-    public int getCardinality() {
-      return 10;
-    }
-
-    @Override
-    public ResultSet<ProjectData> read() throws OrmException {
-      try {
-        List<ProjectData> results = Collections.emptyList();
-        JestResult result = client.execute(search);
-        if (result.isSucceeded()) {
-          JsonObject obj = result.getJsonObject().getAsJsonObject("hits");
-          if (obj.get("hits") != null) {
-            JsonArray json = obj.getAsJsonArray("hits");
-            results = Lists.newArrayListWithCapacity(json.size());
-            for (int i = 0; i < json.size(); i++) {
-              results.add(toProjectData(json.get(i)));
-            }
-          }
-        } else {
-          log.error(result.getErrorMessage());
-        }
-        final List<ProjectData> r = Collections.unmodifiableList(results);
-        return new ResultSet<ProjectData>() {
-          @Override
-          public Iterator<ProjectData> iterator() {
-            return r.iterator();
-          }
-
-          @Override
-          public List<ProjectData> toList() {
-            return r;
-          }
-
-          @Override
-          public void close() {
-            // Do nothing.
-          }
-        };
-      } catch (IOException e) {
-        throw new OrmException(e);
-      }
-    }
-
-    @Override
-    public ResultSet<FieldBundle> readRaw() throws OrmException {
-      // TOOD(hiesel): Make a generic implementation for Lucene/ES
-      throw new UnsupportedOperationException("not implemented");
-    }
-
-    @Override
-    public String toString() {
-      return search.toString();
-    }
-
-    private ProjectData toProjectData(JsonElement json) {
-      JsonElement source = json.getAsJsonObject().get("_source");
-      if (source == null) {
-        source = json.getAsJsonObject().get("fields");
-      }
-
-      Project.NameKey nameKey =
-          new Project.NameKey(
-              source.getAsJsonObject().get(ProjectField.NAME.getName()).getAsString());
-      return projectCache.get().get(nameKey).toProjectData();
-    }
+    Project.NameKey nameKey =
+        new Project.NameKey(
+            source.getAsJsonObject().get(ProjectField.NAME.getName()).getAsString());
+    return projectCache.get().get(nameKey).toProjectData();
   }
 }

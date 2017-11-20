@@ -1,0 +1,159 @@
+---
+title: " Gerrit Code Review - Dashboards"
+sidebar: gerritdoc_sidebar
+permalink: user-dashboards.html
+---
+## Custom Dashboards
+
+A custom dashboard is shown in a layout similar to the per-user
+dashboard, but the sections are entirely configured from the URL.
+Because of this custom dashboards are stateless on the server side.
+Users or projects can simply trade URLs using an external system like a
+project wiki, or site administrators can put the links into the site’s
+`GerritHeader.html` or `GerritFooter.html`.
+
+Dashboards are available via URLs
+like:
+
+``` 
+  /#/dashboard/?title=Custom+View&To+Review=reviewer:john.doe@example.com&Pending+In+myproject=project:myproject+is:open
+```
+
+This opens a view showing the title "Custom View" with two sections, "To
+Review" and "Pending in myproject":
+
+``` 
+  Custom View
+
+  To Review
+
+    Results of `reviewer:john.doe@example.com`
+
+  Pending In myproject
+
+    Results of `project:myproject is:open`
+```
+
+The dashboard URLs are easy to configure. All keys and values in the URL
+are encoded as query parameters. Set the page and window title using an
+optional `title=Text` parameter.
+
+Each section’s title is defined by the parameter name, the section
+display order is defined by the order the parameters appear in the URL,
+and the query results are defined by the parameter value. To limit the
+number of rows in a query use `limit:N`, otherwise the entire result set
+will be shown (up to the user’s query limit).
+
+Parameters may be separated from each other using any of the following
+characters, as some users may find one more readable than another: `&`
+or `;` or `,`
+
+The special `foreach=...` parameter is designed to facilitate more
+easily writing similar queries in a dashboard. The value of the foreach
+parameter will be used in every query in the dashboard by appending it
+to their ends with a space (ANDing it with the queries).
+
+Example custom dashboard using foreach to constrain a dashboard to
+changes for the current
+user:
+
+``` 
+  /#/dashboard/?title=Mine&foreach=owner:self&My+Pending=is:open&My+Merged=is:merged
+```
+
+## Project Dashboards
+
+It is possible to share custom dashboards at a project level. To do this
+define the dashboards in a `+refs/meta/dashboards/*+` branch of the
+project. For each dashboard create a config file. The file path/name
+will be used as name (equivalent to a title in a custom dashboard) for
+the dashboard.
+
+Example of a dashboard config file:
+
+    [dashboard]
+      description = Most recent open and merged changes.
+    [section "Open Changes"]
+      query = status:open project:myProject limit:15
+    [section "Merged Changes"]
+      query = status:merged project:myProject limit:15
+
+Once defined, project dashboards are accessible using stable URLs by
+using the project name, refname and pathname of the dashboard via URLs ,
+e.g. create a dashboard config file named `Main` and push it to
+`refs/meta/dashboards/Site` branch of All-Projects, then access it like:
+
+``` 
+  /#/projects/All-Projects,dashboards/Site:Main
+```
+
+Project dashboards are inherited from ancestor projects unless
+overridden by dashboards with the same ref and name. This makes it easy
+to define common dashboards for every project by simply defining project
+dashboards on the All-Projects project.
+
+### Token `${project}`
+
+Project dashboard queries may contain the special `${project}` token
+which will be replaced with the name of the project to which the
+dashboard is being applied. This is useful for defining dashboards
+designed to be inherited. With this token, it is possible to cause a
+query in a project dashboard to be restricted to only changes for the
+project in which an inherited dashboard is being applied by simply
+adding `project:${project}` to the query in the dashboard.
+
+The `${project}` token can also be used in the [dashboard
+title](#dashboard.title) and in the [dashboard
+description](#dashboard.description).
+
+### Section `dashboard`
+
+  - dashboard.title  
+    The title of the dashboard.
+    
+    If not specified the path of the dashboard config file is used as
+    title.
+
+  - dashboard.description  
+    The description of the dashboard.
+
+  - dashboard.foreach  
+    The value of the foreach parameter gets appended to every query in
+    the dashboard.
+    
+    Example dashboard config section to constrain the entire dashboard
+    to the project to which it is applied:
+    
+        [dashboard]
+          foreach = project:${project}
+
+### Section `section`
+
+  - section.\<name\>.query  
+    The change query that should be used to populate the section with
+    the given name.
+
+## Project Default Dashboard
+
+It is possible to define a default dashboard for a project in the
+projects `project.config` file in the `refs/meta/config` branch:
+
+    [dashboard]
+      default = refs/meta/dashboards/main:default
+
+The dashboard set as the default dashboard will be inherited as the
+default dashboard by child projects if they do not define their own
+default dashboard. The `local-default` entry makes it possible to define
+a different default dashboard that is only used by this project but not
+inherited to the child projects.
+
+    [dashboard]
+      default = refs/meta/dashboards/main:default
+      local-default = refs/meta/dashboards/main:local
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

@@ -1,0 +1,291 @@
+---
+title: " Gerrit Inspector"
+sidebar: gerritdoc_sidebar
+permalink: dev-inspector.html
+---
+## NAME
+
+Gerrit Inspector - Interactive Jython environment for Gerrit
+
+## SYNOPSIS
+
+> 
+> 
+>     java -jar gerrit.war daemon
+>       -d <SITE_PATH>
+>       [--enable-httpd | --disable-httpd]
+>       [--enable-sshd | --disable-sshd]
+>       [--console-log]
+>       [--slave]
+>       -s
+
+## DESCRIPTION
+
+Runs the Gerrit network daemon on the local system as described in the
+[Daemon documentation](pgm-daemon.html), additionally starting an
+interactive Jython shell for inspection and troubleshooting of live data
+of the Gerrit instance.
+
+> **Caution**
+> 
+> Gerrit Inspector works directly on instances of Java Virtual Machine
+> objects and it is possible to read and write instance members as well
+> as invoke Java functions. Access is granted also to *private* and
+> *protected* members. Therefore it is possible to introduce changes to
+> the internal state of the system in an inconsistent way. Care must be
+> taken not to break the running system and/or destroy the data.
+
+## INSTALLATION
+
+Gerrit Inspector requires Jython library (*jython.jar*) to be installed
+in the *$site\_path/lib* directory. Jython, a Python interpreter for the
+Java Virtual Machine, can be obtained from the <http://www.jython.org/>
+website. Only *jython.jar* file is needed, installation of Jython
+libraries is optional. Gerrit Inspector has been tested with Jython
+2.5.2 but might work an earlier version.
+
+## STARTUP
+
+During startup Jython examines Java libraries found on the classpath.
+While libraries are inspected a large amount of messages is displayed on
+the
+    console:
+
+    *sys-package-mgr*: processing new jar, '/home/user/.gerritcodereview/tmp/gerrit_4890671371398741854_app/sshd-core-0.5.1-r1095809.jar'
+
+After this a system-wide embedded initialization script is started. This
+script is contained in the gerrit’s WAR archive. This script produces
+output similar to the following on the console:
+
+    "Shell" is "com.google.gerrit.pgm.shell.JythonShell@61644f2d"
+    "m" is "com.google.gerrit.lifecycle.LifecycleManager@6f03b248"
+    "ds" is "com.google.gerrit.server.schema.DataSourceProvider@6b3592c"
+    "schk" is "com.google.gerrit.server.schema.SchemaVersionCheck@5e8cb9bd"
+    
+    Welcome to the Gerrit Inspector
+    Enter help() to see the above again, EOF to quit and stop Gerrit
+
+Then an optional user startup script is processed. It should be located
+in the gerrit user home directory as *.gerritcodereview/Startup.py*.
+
+This script can access all variables defined in the system (such as the
+ones displayed by the initialization script as shown above). Variables
+and functions defined by the startup scripts are available for the
+interactive interpreter.
+
+When interactive interpreter exits (by issuing EOF on the command line),
+a whole Gerrit instance is shut down gracefully.
+
+## USING THE INTERPRETER
+
+Gerrit Inspector launches Jython interpreter in the context of the
+Gerrit Java Virtual Machine. All core facilities of the Jython (and
+Python) language are available to the user.
+
+Additional facilities can be provided, for example a *Lib* directory
+from the Jython distribution can be installed under
+*$site\_path/lib/Lib* to provide access to many standard Python modules.
+Jython can also use additional Java classes and libraries and most of
+the Python modules and scripts.
+
+The Inspector has by default access to classes and object instances
+available in the Java Virtual Machine. Objects are introspected and
+**private** and **protected** members are also available.
+
+For more information on using Jython, especially with regards to its
+limitations in interfacing to the Java Virtual Machine, please refer to
+the [Jython documentation](http://www.jython.org/).
+
+After successful initialization it is possible to examine components of
+Java packages, classes and live instances.
+
+    >>> import com.google.inject
+    >>> dir(com.google.inject)
+    ['AbstractModule', 'Binder', 'Binding', 'BindingAnnotation', 'ConfigurationException', 'CreationException', 'Exposed', 'Guice', 'ImplementedBy', 'Inject', 'Injector', 'Key', 'MembersInjector', 'Module', 'OutOfScopeException', 'PrivateBinder', 'PrivateModule', 'ProvidedBy', 'Provider', 'Provides', 'ProvisionException', 'Scope', 'ScopeAnnotation', 'Scopes', 'Singleton', 'Stage', 'TypeLiteral', '__name__', 'assistedinject', 'binder', 'internal', 'matcher', 'name', 'servlet', 'spi', 'util']
+    >>> type(com.google.inject)
+    <type 'javapackage'>
+    >>> dir(com.google.inject.Guice)
+    ['__class__', '__copy__', '__deepcopy__', '__delattr__', '__doc__',
+    '__eq__', '__getattribute__', '__hash__', '__init__', '__ne__',
+    '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__',
+    '__str__', '__unicode__', 'class', 'clone', 'createInjector',
+    'equals', 'finalize', 'getClass', 'hashCode', 'notify', 'notifyAll',
+    'registerNatives', 'toString', 'wait']
+
+Startup script provides some convenient variables to access some global
+Gerrit components, for example a connection to the review database is
+kept open:
+
+    >>> ds
+    org.apache.commons.dbcp.BasicDataSource@61db2215
+    >>> ds.driverClassName
+    u'org.postgresql.Driver'
+    >>> ds.dataSource
+    org.apache.commons.dbcp.PoolingDataSource@23226fe1
+    >>> ds.dataSource.connection
+    jdbc:postgresql://localhost/reviewdb, UserName=rv, PostgreSQL Native Driver
+
+It is also possible to interact with the ORM layer:
+
+    >>> db = schk.schema.open()
+    >>> db
+    com.google.gerrit.reviewdb.server.ReviewDb_Schema_GwtOrm$$28@24cbbdf3
+    >>> db.getDialect()
+    com.google.gwtorm.schema.sql.DialectPostgreSQL@4de07d3e
+    >>> for x in db.patchSets().iterateAllEntities():
+    ...     print x
+    ...
+    [PatchSet 1,1]
+    [PatchSet 2,1]
+    [PatchSet 3,1]
+    [PatchSet 4,1]
+    [PatchSet 5,1]
+    [PatchSet 6,1]
+    [PatchSet 7,1]
+    [PatchSet 8,1]
+    [PatchSet 6,2]
+    >>> for x in db.patchComments().iterateAllEntities():
+    ...     print x
+    com.google.gerrit.reviewdb.client.PatchLineComment@5381298a
+    com.google.gerrit.reviewdb.client.PatchLineComment@44ce4dda
+    com.google.gerrit.reviewdb.client.PatchLineComment@44594680
+    >>> dir(com.google.gerrit.reviewdb.client.PatchLineComment)
+    ['Key', 'STATUS_DRAFT', 'STATUS_PUBLISHED', 'Status', '__class__',
+    '__copy__', '__deepcopy__', '__delattr__', '__doc__', '__eq__',
+    '__getattribute__', '__hash__', '__init__', '__ne__', '__new__',
+    '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__str__',
+    '__unicode__', 'author', 'class', 'clone', 'equals', 'finalize',
+    'getAuthor', 'getClass', 'getKey', 'getLine', 'getMessage',
+    'getParentUuid', 'getSide', 'getStatus', 'getWrittenOn', 'hashCode',
+    'key', 'line', 'lineNbr', 'message', 'notify', 'notifyAll',
+    'parentUuid', 'registerNatives', 'setMessage', 'setSide', 'setStatus',
+    'side', 'status', 'toString', 'updated', 'wait', 'writtenOn']
+    >>> for x in db.patchComments().iterateAllEntities():
+    ...     print x.status, x.line, x.message
+    ...
+    P 2 I like it!
+    P 2 more
+    P 1 better
+
+A built-in **help()** function provides values of global variables
+defined in the interpreter:
+
+    >>> help()
+    "schk" is "com.google.gerrit.server.schema.SchemaVersionCheck@5e8cb9bd"
+    "ds" is "com.google.gerrit.server.schema.DataSourceProvider@6b3592c"
+    "m" is "com.google.gerrit.lifecycle.LifecycleManager@6f03b248"
+    "Shell" is "com.google.gerrit.pgm.shell.JythonShell@61644f2d"
+    "d" is "com.google.gerrit.pgm.Daemon@28a3f689"
+    
+    Welcome to the Gerrit Inspector
+    Enter help() to see the above again, EOF to quit and stop Gerrit
+
+Java and Python exceptions are intercepted by the Inspector:
+
+    >>> import java.lang.RuntimeException
+    >>> raise java.lang.RuntimeException("Exiting")
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+            at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+            at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+            at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+            at java.lang.reflect.Constructor.newInstance(Constructor.java:532)
+            at org.python.core.PyReflectedConstructor.constructProxy(PyReflectedConstructor.java:210)
+    
+    java.lang.RuntimeException: java.lang.RuntimeException: Exiting
+    >>>
+
+To exit the interpreter, use EOF character (Ctrl-D on Unix systems,
+Ctrl-Z on Windows).
+
+It is also possible to shut down the JVM by using **System.exit()**
+
+    >>> import java.lang.System
+    >>> java.lang.System.exit(1)
+
+And Gerrit should shut down all its subsystems and
+    exit:
+
+    [2012-04-17 15:31:08,458] INFO  com.google.gerrit.pgm.Daemon : caught shutdown, cleaning up
+
+## TROUBLESHOOTING
+
+Gerrit Inspector is logging to the Gerrit error log.
+
+A successful startup is indicated in the
+logfile:
+
+``` 
+  [2012-04-17 13:43:44,888] INFO  com.google.gerrit.pgm.shell.JythonShell : Jython shell instance created.
+```
+
+If *jython.jar* library is not available, Gerrit refuses to start when
+given **-s**
+    option:
+
+    [2012-04-17 13:57:29,611] ERROR com.google.gerrit.pgm.Daemon : Unable to start daemon
+    com.google.inject.ProvisionException: Guice provision errors:
+    
+    1) Error injecting constructor, java.lang.UnsupportedOperationException: Cannot create Jython shell: Class org.python.util.InteractiveConsole not found
+         (You might need to install jython.jar in the lib directory)
+      at com.google.gerrit.pgm.shell.JythonShell.<init>(JythonShell.java:47)
+      while locating com.google.gerrit.pgm.shell.JythonShell
+      while locating com.google.gerrit.pgm.shell.InteractiveShell
+
+Errors during processing of the startup script, *Startup.py*, are logged
+to the error
+    log:
+
+    [2012-04-17 14:20:30,558] INFO  com.google.gerrit.pgm.shell.JythonShell : Jython shell instance created.
+    [2012-04-17 14:20:38,005] ERROR com.google.gerrit.pgm.shell.JythonShell : Exception occurred while loading file Startup.py :
+    java.lang.reflect.InvocationTargetException
+            at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+            at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+            at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+            at java.lang.reflect.Method.invoke(Method.java:616)
+            at com.google.gerrit.pgm.shell.JythonShell.runMethod0(JythonShell.java:112)
+            at com.google.gerrit.pgm.shell.JythonShell.execFile(JythonShell.java:194)
+            at com.google.gerrit.pgm.shell.JythonShell.reload(JythonShell.java:178)
+            at com.google.gerrit.pgm.shell.JythonShell.run(JythonShell.java:152)
+            at com.google.gerrit.pgm.Daemon.run(Daemon.java:190)
+            at com.google.gerrit.pgm.util.AbstractProgram.main(AbstractProgram.java:67)
+            at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+            at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+            at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+            at java.lang.reflect.Method.invoke(Method.java:616)
+            at com.google.gerrit.launcher.GerritLauncher.invokeProgram(GerritLauncher.java:167)
+            at com.google.gerrit.launcher.GerritLauncher.mainImpl(GerritLauncher.java:91)
+            at com.google.gerrit.launcher.GerritLauncher.main(GerritLauncher.java:49)
+            at Main.main(Main.java:25)
+    Caused by: Traceback (most recent call last):
+      File "/home/user/.gerritcodereview/Startup.py", line 1, in <module>
+        Test
+    NameError: name 'Test' is not defined
+
+Those errors are non-fatal. System and user scripts can be loaded again
+by issuing the following command in the Gerrit Inspector console:
+
+    Shell.reload()
+
+## LOGGING
+
+Error and warning messages from the server are automatically written to
+the log file under *$site\_path/logs/error\_log*.
+
+Output and error messages (including Java and Python exceptions)
+resulting from interactive work are logged to the console.
+
+## KNOWN ISSUES
+
+The Inspector does not yet recognize Google Guice bindings.
+
+> **Important**
+> 
+> Using the Inspector may void your warranty.
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

@@ -1,0 +1,406 @@
+---
+title: " Gerrit Code Review - Building with Bazel"
+sidebar: gerritdoc_sidebar
+permalink: dev-bazel.html
+---
+## Installation
+
+You need to use Java 8 and Node.js for building gerrit.
+
+You can install Bazel from the bazel.io:
+<https://www.bazel.io/versions/master/docs/install.html>
+
+## Building on the Command Line
+
+### Gerrit Development WAR File
+
+To build the Gerrit web application that includes the GWT UI and the
+PolyGerrit UI:
+
+``` 
+  bazel build gerrit
+```
+
+> **Note**
+> 
+> PolyGerrit UI may require additional tools (such as npm). Please read
+> the polygerrit-ui/README.md for more info.
+
+The output executable WAR will be placed in:
+
+``` 
+  bazel-bin/gerrit.war
+```
+
+### Gerrit Release WAR File
+
+To build the Gerrit web application that includes the GWT UI, the
+PolyGerrit UI and documentation:
+
+``` 
+  bazel build release
+```
+
+The output executable WAR will be placed in:
+
+``` 
+  bazel-bin/release.war
+```
+
+### Headless Mode
+
+To build Gerrit in headless mode, i.e. without the GWT Web UI:
+
+``` 
+  bazel build headless
+```
+
+The output executable WAR will be placed in:
+
+``` 
+  bazel-bin/headless.war
+```
+
+### Extension and Plugin API JAR Files
+
+To build the extension, plugin and GWT API JAR files:
+
+``` 
+  bazel build api
+```
+
+The output archive that contains Java binaries, Java sources and Java
+docs will be placed in:
+
+``` 
+  bazel-genfiles/api.zip
+```
+
+Install {extension,plugin,gwt}-api to the local maven repository:
+
+``` 
+  tools/maven/api.sh install
+```
+
+Install gerrit.war to the local maven repository:
+
+``` 
+  tools/maven/api.sh war_install
+```
+
+### Plugins
+
+``` 
+  bazel build plugins:core
+```
+
+The output JAR files for individual plugins will be placed in:
+
+``` 
+  bazel-genfiles/plugins/<name>/<name>.jar
+```
+
+The JAR files will also be packaged in:
+
+``` 
+  bazel-genfiles/plugins/core.zip
+```
+
+To build a specific plugin:
+
+``` 
+  bazel build plugins/<name>
+```
+
+The output JAR file will be be placed in:
+
+``` 
+  bazel-genfiles/plugins/<name>/<name>.jar
+```
+
+Note that when building an individual plugin, the `core.zip` package is
+not regenerated.
+
+## Using an IDE.
+
+### IntelliJ
+
+The Gerrit build works with Bazel’s [IntelliJ
+plugin](https://ij.bazel.io). Please follow the instructions on
+[IntelliJ Setup](#dev-intellij#).
+
+### Eclipse
+
+#### Generating the Eclipse Project
+
+Create the Eclipse project:
+
+``` 
+  tools/eclipse/project.py
+```
+
+and then follow the [setup instructions](dev-eclipse.html#setup).
+
+#### Refreshing the Classpath
+
+If an updated classpath is needed, the Eclipse project can be refreshed
+and missing dependency JARs can be downloaded by running `project.py`
+again. For IntelliJ, you need to click the `Sync Project
+with BUILD Files` button of [IntelliJ plugin](https://ij.bazel.io).
+
+### Documentation
+
+To build only the documentation for testing or static hosting:
+
+``` 
+  bazel build Documentation:searchfree
+```
+
+The html files will be bundled into `searchfree.zip` in this location:
+
+``` 
+  bazel-bin/Documentation/searchfree.zip
+```
+
+To build the executable WAR with the documentation included:
+
+``` 
+  bazel build withdocs
+```
+
+The WAR file will be placed in:
+
+``` 
+  bazel-bin/withdocs.war
+```
+
+## Running Unit Tests
+
+``` 
+  bazel test --build_tests_only //...
+```
+
+Debugging
+tests:
+
+``` 
+  bazel test --test_output=streamed --test_filter=com.gerrit.TestClass.testMethod  testTarget
+```
+
+Debug test
+example:
+
+``` 
+  bazel test --test_output=streamed --test_filter=com.google.gerrit.acceptance.api.change.ChangeIT.getAmbiguous //javatests/com/google/gerrit/acceptance/api/change:api_change
+```
+
+To run a specific test group, e.g. the rest-account test
+group:
+
+``` 
+  bazel test //javatests/com/google/gerrit/acceptance/rest/account:rest_account
+```
+
+To run the tests against NoteDb backend with write to NoteDb, but not
+read from it:
+
+``` 
+  bazel test --test_env=GERRIT_NOTEDB=WRITE //...
+```
+
+Write and read from NoteDb:
+
+``` 
+  bazel test --test_env=GERRIT_NOTEDB=READ_WRITE //...
+```
+
+Primary storage NoteDb:
+
+``` 
+  bazel test --test_env=GERRIT_NOTEDB=PRIMARY //...
+```
+
+Primary storage NoteDb and ReviewDb disabled:
+
+``` 
+  bazel test --test_env=GERRIT_NOTEDB=ON //...
+```
+
+To run only tests that do not use SSH:
+
+``` 
+  bazel test --test_env=GERRIT_USE_SSH=NO //...
+```
+
+To exclude tests that have been marked as flaky:
+
+``` 
+  bazel test --test_tag_filters=-flaky //...
+```
+
+To ignore cached test results:
+
+``` 
+  bazel test --cache_test_results=NO //...
+```
+
+To run one or more specific groups of tests:
+
+``` 
+  bazel test --test_tag_filters=api,git //...
+```
+
+The following values are currently supported for the group name:
+
+  - annotation
+
+  - api
+
+  - edit
+
+  - git
+
+  - notedb
+
+  - pgm
+
+  - rest
+
+  - server
+
+  - ssh
+
+## Dependencies
+
+Dependency JARs are normally downloaded as needed, but you can download
+everything upfront. This is useful to enable subsequent builds to run
+without network access:
+
+``` 
+  bazel fetch //...
+```
+
+When downloading from behind a proxy (which is common in some corporate
+environments), it might be necessary to explicitly specify the proxy
+that is then used by
+`curl`:
+
+``` 
+  export http_proxy=http://<proxy_user_id>:<proxy_password>@<proxy_server>:<proxy_port>
+```
+
+Redirection to local mirrors of Maven Central and the Gerrit storage
+bucket is supported by defining specific properties in
+`local.properties`, a file that is not tracked by Git:
+
+``` 
+  echo download.GERRIT = http://nexus.my-company.com/ >>local.properties
+  echo download.MAVEN_CENTRAL = http://nexus.my-company.com/ >>local.properties
+```
+
+The `local.properties` file may be placed in the root of the gerrit
+repository being built, or in `~/.gerritcodereview/`. The file in the
+root of the gerrit repository has precedence.
+
+## Building against unpublished Maven JARs
+
+To build against unpublished Maven JARs, like gwtorm or PrologCafe, the
+custom JARs must be installed in the local Maven repository (`mvn clean
+install`) and `maven_jar()` must be updated to point to the
+`MAVEN_LOCAL` Maven repository for that artifact:
+
+``` python
+ maven_jar(
+   name = 'gwtorm',
+   artifact = 'gwtorm:gwtorm:42',
+   repository = MAVEN_LOCAL,
+ )
+```
+
+## Building against artifacts from custom Maven repositories
+
+To build against custom Maven repositories, two modes of operations are
+supported: with rewrite in local.properties and without.
+
+Without rewrite the URL of custom Maven repository can be directly
+passed to the maven\_jar() function:
+
+``` python
+  GERRIT_FORGE = 'http://gerritforge.com/snapshot'
+
+  maven_jar(
+    name = 'gitblit',
+    artifact = 'com.gitblit:gitblit:1.4.0',
+    sha1 = '1b130dbf5578ace37507430a4a523f6594bf34fa',
+    repository = GERRIT_FORGE,
+ )
+```
+
+When the custom URL has to be rewritten, then the same logic as with
+Gerrit known Maven repository is used: Repo name must be defined that
+matches an entry in local.properties file:
+
+``` 
+  download.GERRIT_FORGE = http://my.company.mirror/gerrit-forge
+```
+
+And corresponding WORKSPACE excerpt:
+
+``` python
+  GERRIT_FORGE = 'GERRIT_FORGE:'
+
+  maven_jar(
+    name = 'gitblit',
+    artifact = 'com.gitblit:gitblit:1.4.0',
+    sha1 = '1b130dbf5578ace37507430a4a523f6594bf34fa',
+    repository = GERRIT_FORGE,
+ )
+```
+
+To consume the JGit dependency from the development tree, edit
+`lib/jgit/jgit.bzl` setting LOCAL\_JGIT\_REPO to a directory holding a
+JGit repository.
+
+### Cleaning The download cache
+
+The cache for downloaded artifacts is located in
+`~/.gerritcodereview/buck-cache/downloaded-artifacts`.
+
+If you really do need to clean the download cache manually, then:
+
+``` 
+ rm -rf ~/.gerritcodereview/buck-cache/downloaded-artifacts
+```
+
+\[NOTE\] When building with Bazel the artifacts are still cached in
+`~/.gerritcodereview/buck-cache/downloaded-artifacts`. This allows Bazel
+to make use of libraries that were previously downloaded by Buck.
+
+To accelerate builds, local action cache can be activated. Note, that
+this experimental feature is not activated per default and only
+available since Bazel version 0.7.
+
+To activate the local action cache, create accessible cache directory:
+
+``` 
+ mkdir -p ~/.gerritcodereview/bazel-cache/cas
+```
+
+and add these lines to your `~/.bazelrc`
+    file:
+
+    build --experimental_local_disk_cache_path=/home/<user>/.gerritcodereview/bazel-cache/cas
+    build --experimental_local_disk_cache
+    build --experimental_strict_action_env
+
+\[NOTE\] `experimental_local_disk_cache_path` must be absolute path.
+Expansion of `~` is unfortunately not supported yet. This is also the
+reason why we can’t activate this feature by default yet (by adjusting
+tools/bazel.rc file).
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

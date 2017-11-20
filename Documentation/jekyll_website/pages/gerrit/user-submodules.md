@@ -1,0 +1,280 @@
+---
+title: " Gerrit Code Review - Superproject subscription to submodules updates"
+sidebar: gerritdoc_sidebar
+permalink: user-submodules.html
+---
+## Description
+
+Gerrit supports a custom git superproject feature for tracking
+submodules. This feature is useful for automatic updates on
+superprojects whenever a change is merged on tracked submodules.
+
+When a superproject is subscribed to a submodule, it is not required to
+push/merge commits to this superproject to update the gitlink to the
+submodule. Whenever a commit is merged in a submodule, its subscribed
+superproject is updated by Gerrit.
+
+Imagine a superproject called *super* having a branch called *dev*
+having subscribed to a submodule *sub* on a branch *dev-of-sub*. When a
+commit is merged in branch *dev-of-sub* of *sub* project, Gerrit
+automatically creates a new commit on branch *dev* of *super* updating
+the gitlink to point to the just merged commit.
+
+To take advantage of this feature, one should:
+
+1.  ensure superproject subscriptions are enabled on the server via
+    [submodule.enableSuperProjectSubscriptions](config-gerrit.html#submodule.enableSuperProjectSubscriptions)
+
+2.  configure the submodule to allow having a superproject subscribed
+
+3.  ensure the .gitmodules file of the superproject includes
+    
+    1.  a branch field
+    
+    2.  a url that starts with the
+        [`gerrit.canonicalWebUrl`](config-gerrit.html#gerrit.canonicalWebUrl)
+
+When a commit in a project is merged, Gerrit checks for superprojects
+that are subscribed to the the project and automatically updates those
+superprojects with a commit that updates the gitlink for the project.
+
+This feature is enabled by default and can be disabled via
+[submodule.enableSuperProjectSubscriptions](config-gerrit.html#submodule.enableSuperProjectSubscriptions)
+in the server configuration.
+
+## Git submodules overview
+
+Submodules are a Git feature that allows an external repository to be
+attached inside a repository at a specific path. The objective here is
+to provide a brief overview, further details can be found in the
+official Git submodule documentation.
+
+Imagine a repository called *super* and another one called *sub*. Also
+consider *sub* available in a running Gerrit instance on "server". With
+this feature, one could attach *sub* inside of *super* repository at
+path *sub* by executing the following command when being inside *super*:
+
+    git submodule add ssh://server/sub sub
+
+Still considering the above example, after its execution notice that
+inside the local repository *super* the *sub* folder is considered a
+gitlink to the external repository *sub*. Also notice a file called
+.gitmodules is created (it is a configuration file containing the
+subscription of *sub*). To provide the SHA-1 each gitlink points to in
+the external repository, one should use the command:
+
+    git submodule status
+
+In the example provided, if *sub* is updated and *super* is supposed to
+see the latest SHA-1 (considering here *sub* has only the master
+branch), one should then commit the modified gitlink for *sub* in the
+*super* project. Actually it would not even need to be an external
+update, one could move to *sub* folder (inside *super*), modify its
+content, commit, then move back to *super* and commit the modified
+gitlink for *sub*.
+
+## Creating a new subscription
+
+### Ensure the subscription is allowed
+
+Gerrit has a complex access control system, where different repositories
+can be accessed by different groups of people. To ensure that the
+submodule related information is allowed to be exposed in the
+superproject, the submodule needs to be configured to enable the
+superproject subscription. In a submodule client, checkout the
+refs/meta/config branch and edit the subscribe capabilities in the
+*project.config* file:
+
+``` 
+    git fetch <remote> refs/meta/config:refs/meta/config
+    git checkout refs/meta/config
+    $EDITOR project.config
+```
+
+and add the following lines:
+
+``` 
+  [allowSuperproject "<superproject>"]
+    matching = <refspec>
+```
+
+where the *superproject* should be the exact project name of the
+superproject. The refspec defines which branches of the submodule are
+allowed to be subscribed to which branches of the superproject. See
+below for [details](#acl_refspec). Push the configuration for review and
+submit the change:
+
+``` 
+  git add project.config
+  git commit -m "Allow <superproject> to subscribe"
+  git push <remote> HEAD:refs/for/refs/meta/config
+```
+
+After the change is integrated a superproject subscription is possible.
+
+The configuration is inherited from parent projects, such that you can
+have a configuration in the "All-Projects" project like:
+
+``` 
+    [allowSuperproject "my-only-superproject"]
+        matching = refs/heads/*:refs/heads/*
+```
+
+and then you don’t have to worry about configuring the individual
+projects any more. Child projects cannot negate the parent’s
+configuration.
+
+### Defining the submodule branch
+
+Since Gerrit manages subscriptions in the branch scope, we could have a
+scenario having a project called *super* having a branch *integration*
+subscribed to a project called *sub* in branch *integration*, and also
+having the same *super* project but in branch *dev* subscribed to the
+*sub* project in a branch called *local-dev*.
+
+After adding the git submodule to a super project, one should edit the
+.gitmodules file to add a branch field to each submodule section which
+is supposed to be subscribed.
+
+As the branch field is a Gerrit-specific field it will not be filled
+automatically by the git submodule command, so one needs to edit it
+manually. Its value should indicate the branch of a submodule project
+that when updated will trigger automatic update of its registered
+gitlink.
+
+The branch value could be "*.*" if the submodule project branch has the
+same name as the destination branch of the commit having
+gitlinks/.gitmodules file.
+
+If the intention is to make use of the Gerrit feature described here,
+one should always be sure to update the .gitmodules file after adding
+submodules to a super project.
+
+If a git submodule is added but the branch field is not added to the
+.gitmodules file, Gerrit will not create a subscription for the
+submodule and there will be no automatic updates to the superproject.
+
+Whenever a commit is merged to a project, its project config is checked
+to see if any potential superprojects are allowed to subscribe to it. If
+so, the superproject is checked if a valid subscription exists by
+checking the .gitmodules file for the a submodule which includes a
+`branch` field and a url pointing to this server.
+
+### The RefSpec in the allowSuperproject section
+
+There are two options for specifying which branches can be subscribed
+to. The most common is to set
+`allowSuperproject.<superproject>.matching` to a Git-style refspec,
+which has the same syntax as the refspecs used for pushing in Git.
+Regular expressions as found in the ACL configuration are not supported.
+
+The most restrictive refspec is allowing one specific branch of the
+submodule to be subscribed to one specific branch of the superproject:
+
+``` 
+  [allowSuperproject "<superproject>"]
+    matching = refs/heads/<submodule-branch>:refs/heads/<superproject-branch>
+```
+
+If you want to allow for a 1:1 mapping, i.e. *master* maps to *master*,
+*stable* maps to *stable*, but not allowing *master* to be subscribed to
+*stable*:
+
+``` 
+  [allowSuperproject "<superproject>"]
+    matching = refs/heads/*:refs/heads/*
+```
+
+To allow all refs matching one pattern to subscribe to all refs matching
+another pattern, set `allowSuperproject.<superproject>.all` to the
+patterns concatenated with a colon. For example, to make a single branch
+available for subscription from all branches of the superproject:
+
+``` 
+  [allowSuperproject "<superproject>"]
+     all = refs/heads/<submodule-branch>:refs/heads/*
+```
+
+To make all branches available for subscription from all branches of the
+superproject:
+
+``` 
+  [allowSuperproject "<superproject>"]
+     all = refs/heads/*:refs/heads/*
+```
+
+### Subscription Limitations
+
+Gerrit will only automatically update superprojects where the submodules
+are hosted on the same Gerrit instance as the superproject. Gerrit
+determines this by checking that the URL of the submodule specified in
+the .gitmodules file starts with
+[`gerrit.canonicalWebUrl`](config-gerrit.html#gerrit.canonicalWebUrl).
+The protocol part is ignored in this check.
+
+It is currently not possible to use the submodule subscription feature
+with a canonical web URL that differs from the first part of the
+submodule URL. Instead relative submodules should be used.
+
+The Gerrit instance administrator should ensure that the canonical web
+URL value is specified in its configuration file. Users should ensure
+that they use the correct hostname of the running Gerrit instance when
+adding submodule subscriptions.
+
+When converting an existing submodule to use subscription by adding a
+`branch` field into the .gitmodules file, Gerrit does not change the
+revision of the submodule (i.e. update the superproject’s gitlink) until
+the next time the branch of the submodule advances. In other words, if
+the currently used revision of the submodule is not the branch’s head,
+adding a subscription will not cause an immediate update to the head. In
+this case the revision must be manually updated at the same time as
+adding the subscription.
+
+### Relative submodules
+
+To enable easier usage of Gerrit mirrors and/or distribution over
+several protocols, such as plain git and HTTP(S) as well as SSH, one can
+use relative submodules. This means that instead of providing the entire
+URL to the submodule a relative path is stated in the .gitmodules file.
+
+Gerrit will try to match the entire project name of the submodule
+including directories. Therefore it is important to supply the full path
+name of the Gerrit project, not only relative to the super repository.
+See the following example:
+
+We have a super repository placed under a sub directory.
+
+    product/super_repository.git
+
+To this repository we wish add a submodule "deeper" into the directory
+structure.
+
+    product/framework/subcomponent.git
+
+Now we need to edit the .gitmodules to include the complete path to the
+Gerrit project. Observe that we need to use two "../" to include the
+complete Gerrit project path.
+
+    path = subcomponent.git
+    url = ../../product/framework/subcomponent.git
+    branch = master
+
+In contrast the following will not setup proper submodule subscription,
+even if the submodule will be successfully cloned by git from Gerrit.
+
+    path = subcomponent.git
+    url = ../framework/subcomponent.git
+    branch = master
+
+## Removing Subscriptions
+
+To remove a subscription, either disable the subscription from the
+submodules configuration or remove the submodule or information thereof
+(such as the branch field) in the superproject.
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

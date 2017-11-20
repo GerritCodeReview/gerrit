@@ -1,0 +1,86 @@
+---
+title: " Gerrit Code Review - Automatic Site Initialization on Startup"
+sidebar: gerritdoc_sidebar
+permalink: config-auto-site-initialization.html
+---
+## Description
+
+Gerrit supports automatic site initialization on server startup when
+Gerrit runs in a servlet container. Both creation of a new site and
+upgrade of an existing site are supported. By default, all packaged
+plugins will be installed when Gerrit is deployed in a servlet container
+and the location of the Gerrit distribution can be determined at
+runtime. It is also possible to install only a subset of packaged
+plugins or not install any plugins.
+
+This feature may be useful for such setups where Gerrit administrators
+don’t have direct access to the database and the file system of the
+server where Gerrit should be deployed and, therefore, cannot perform
+the init from their local machine prior to deploying Gerrit on such a
+server. It may also make deployment and testing in a local servlet
+container faster to set up as the init step could be skipped.
+
+## Gerrit Configuration
+
+The site initialization will be performed only if the `gerrit.init`
+system property exists. The value of the property is not used; only the
+existence of the property matters.
+
+If the `gerrit.site_path` system property is defined then the init is
+run for that site. The database connectivity, in that case, is defined
+in the `etc/gerrit.config`.
+
+If `gerrit.site_path` is not defined then Gerrit will try to find the
+`gerrit.init_path` system property. If defined this property will be
+used to determine the site path. The database connectivity, also for
+this case, is defined by the `jdbc/ReviewDb` JNDI property.
+
+> **Warning**
+> 
+> Defining the `jdbc/ReviewDb` JNDI property for an H2 database under
+> the path defined by either `gerrit.site_path` or `gerrit.init_path`
+> will cause an incomplete auto initialization and Gerrit will fail to
+> start. Opening a connection to such a database will create a subfolder
+> under the site path folder (in order to create the H2 database) and
+> Gerrit will no longer consider that site path to be new and, because
+> of that, skip some required initialization steps (for example, Lucene
+> index creation). In order to auto initialize Gerrit with an embedded
+> H2 database use the `gerrit.site_path` to define the location of the
+> review site and don’t define a JNDI resource with a URL under that
+> path.
+
+If the `gerrit.install_plugins` property is not defined then all
+packaged plugins will be installed. If it is defined then it is parsed
+as a comma-separated list of plugin names to install. If the value is an
+empty string then no plugin will be installed.
+
+### Example 1
+
+Prepare Tomcat so that a site is initialized at a given path using the
+H2 database (if the site doesn’t exist yet) or using whatever database
+is defined in `etc/gerrit.config` of that
+site:
+
+``` 
+  $ export CATALINA_OPTS='-Dgerrit.init -Dgerrit.site_path=/path/to/site'
+  $ catalina.sh start
+```
+
+### Example 2
+
+Assuming the database schema doesn’t exist in the database defined via
+the `jdbc/ReviewDb` JNDI property, initialize a new site using that
+database and a given
+path:
+
+``` 
+  $ export CATALINA_OPTS='-Dgerrit.init -Dgerrit.init_path=/path/to/site'
+  $ catalina.sh start
+```
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

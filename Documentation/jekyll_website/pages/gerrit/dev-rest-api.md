@@ -1,0 +1,94 @@
+---
+title: " Gerrit Code Review - REST API Developers' Notes"
+sidebar: gerritdoc_sidebar
+permalink: dev-rest-api.html
+---
+This document is about developing the REST API. For details of the
+actual APIs available in Gerrit, please see the [REST API interface
+reference](rest-api.html).
+
+## Testing REST API Functionality
+
+### Basic Testing
+
+Basic testing of REST API functionality can be done with `curl`:
+
+``` 
+  curl http://localhost:8080/path/to/api/
+```
+
+By default, `curl` sends `GET` requests. To test APIs with `PUT`,
+`POST`, or `DELETE`, an additional argument is required:
+
+``` 
+ curl -X PUT http://localhost:8080/path/to/api/
+ curl -X POST http://localhost:8080/path/to/api/
+ curl -X DELETE http://localhost:8080/path/to/api/
+```
+
+### Sending Data in the Request
+
+Some REST APIs accept data in the request body of `PUT` and `POST`
+requests.
+
+Test data can be included from a local
+file:
+
+``` 
+  curl -X PUT -d@testdata.txt --header "Content-Type: application/json" http://localhost:8080/path/to/api/
+```
+
+Note that the `-d` option will remove the newlines from the content of
+the local file. If the content should be sent as-is then use the
+`--data-binary` option
+instead:
+
+``` 
+  curl -X PUT --data-binary @testdata.txt --header "Content-Type: text/plain" http://localhost:8080/path/to/api/
+```
+
+Example to set a Gerrit project’s
+[description](rest-api-projects.html#set-project-description):
+
+``` 
+ curl -X PUT --user john:2LlAB3K9B0PF --data-binary @project-desc.txt --header "Content-Type: application/json; charset=UTF-8" http://localhost:8080/a/projects/myproject/description
+```
+
+### Authentication
+
+To test APIs that require authentication, the username and password must
+be specified on the command line:
+
+``` 
+ curl --user username:password http://localhost:8080/a/path/to/api/
+```
+
+This makes it easy to switch users for testing of permissions.
+
+It is also possible to test with a username and password from the
+`.netrc` file (on Windows, `_netrc`):
+
+``` 
+ curl -n http://localhost:8080/a/path/to/api/
+```
+
+In both cases, the password should be the user’s [HTTP
+password](user-upload.html#http).
+
+### Verifying Header Content
+
+To verify the headers returned from a REST API call, use `curl` in
+verbose mode:
+
+``` 
+  curl -v -n -X DELETE http://localhost:8080/a/path/to/api/
+```
+
+The headers on both the request and the response will be printed.
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

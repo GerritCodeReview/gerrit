@@ -1,0 +1,315 @@
+entries:
+- title: Sidebar
+  product: Gerrit Documentation
+  version: 2.15(ish)
+  folders:
+
+  - title:
+    output: pdf
+    type: frontmatter
+    folderitems:
+    - title:
+      url: /titlepage.html
+      output: pdf
+      type: frontmatter
+
+    - title:
+      url: /tocpage.html
+      output: pdf
+      type: frontmatter
+
+  - title: "Quickstarts"
+    output: web
+    folderitems:
+
+    - title: Quickstart for Installing Gerrit on Linux
+      url: /linux-quickstart.html
+      output: web
+
+  - title: "About Gerrit"
+    output: web
+    folderitems:
+
+    - title: Product Overview
+      url: /intro-quick.html
+      output: web
+
+    - title: How Gerrit Works
+      url: /intro-how-gerrit-works.html
+      output: web
+
+    - title: Basic Gerrit Walkthrough
+      url: /intro-gerrit-walkthrough.html
+      output: web
+
+  - title: "Tutorials"
+    output: web
+    folderitems:
+
+    - title: All Tutorials
+      url: /tutorial-index.html
+      output: web
+
+    - title: Reviewing Changes
+      url: /user-review-ui.html
+      output: web
+
+    - title: Searching Changes
+      url: /user-search.html
+      output: web
+
+    - title: Manipulating Changes in Browser
+      url: /user-inline-edit.html
+      output: web
+
+    - title: Subscribing to Email Notifications
+      url: /user-notify.html
+      output: web
+
+    - title: Uploading Changes
+      url: /user-upload.html
+      output: web
+
+    - title: Change-Id Lines
+      url: /user-changeid.html
+      output: web
+
+    - title: Signed-off-by Lines
+      url: /user-signedoffby.html
+      output: web
+
+    - title: Change Cleanup
+      url: /user-change-cleanup.html
+      output: web
+
+  - title: "Project Management"
+    output: web
+    folderitems:
+
+    - title: Project Configuration
+      url: /project-configuration.html
+      output: web
+
+    - title: Review Labels
+      url: /config-labels.html
+      output: web
+
+    - title: Project Configuration File Format
+      url: /config-project-config.html
+      output: web
+
+    - title: Access Controls
+      url: /access-control.html
+      output: web
+
+    - title: Submodules
+      url: /user-submodules.html
+      output: web
+
+    - title: Repo
+      external_url: https://source.android.com/source/using-repo.html
+      output: web
+
+    - title: Prolog Cookbook
+      url: /prolog-cookbook.html
+      output: web
+
+    - title: Prolog Facts for Gerrit Changes
+      url: /prolog-change-facts.html
+      output: web
+
+    - title: Project deletion
+      url: /intro-project-owner.html#project-deletion
+      output: web
+
+  - title: "Customization and Integration"
+    output: web
+    folderitems:
+
+    - title: Dashboards
+      url: /user-dashboards.html
+      output: web
+
+    - title: Gitweb Integration
+      url: /config-gitweb.html
+      output: web
+
+    - title: Themes
+      url: /config-themes.html
+      output: web
+
+    - title: Single Sign-On Systems
+      url: /config-sso.html
+      output: web
+
+    - title: Hooks
+      url: /config-hooks.html
+      output: web
+
+    - title: Mail Templates
+      url: /config-mail.html
+      output: web
+
+    - title: Contributor Agreements
+      url: /config-cla.html
+      output: web
+
+    - title: Robot Comments
+      url: /config-robot-comments.html
+      output: web
+
+  - title: "Server Administration"
+    output: web
+    folderitems:
+
+    - title: Installation Guide
+      url: /install.html
+      output: web
+
+    - title: System Settings
+      url: /config-gerrit.html
+      output: web
+
+    - title: Command Line Tools
+      url: /cmd-index.html
+      output: web
+
+    - title: Replication
+      url: /config-plugins.html#replication
+      output: web
+
+    - title: Plugins
+      url: /config-plugins.html
+      output: web
+
+    - title: Metrics
+      url: /metrics.html
+      output: web
+
+    - title: Reverse Proxy
+      url: /config-reverseproxy.html
+      output: web
+
+    - title: Automatic Site Initialization on Startup
+      url: /config-auto-site-initialization.html
+      output: web
+
+    - title: Server Side Administrative Tools
+      url: /pgm-index.html
+      output: web
+
+    - title: NoteDb
+      url: /note-db.html
+      output: web
+
+    - title: Accounts
+      url: /config-accounts.html
+      output: web
+
+  - title: "Developer"
+    output: web
+    folderitems:
+
+    - title: Developer Setup
+      url: /dev-readme.html
+      output: web
+
+    - title: Building with Bazel
+      url: /dev-bazel.html
+      output: web
+
+    - title: Eclipse Setup
+      url: /dev-eclipse.html
+      output: web
+
+    - title: IntelliJ Setup
+      url: /dev-intellij.html
+      output: web
+
+    - title: Contributing to Gerrit
+      url: /dev-contributing.html
+      output: web
+
+    - title: Developing Plugins
+      url: /dev-plugins.html
+      output: web
+
+    - title: Building Gerrit plugins
+      url: /dev-build-plugins.html
+      output: web
+
+    - title: JavaScript Plugin API
+      url: /js-api.html
+      output: web
+
+    - title: Validation Interfaces
+      url: /config-validation.html
+      output: web
+
+    - title: Starring Changes
+      url: /dev-stars.html
+      output: web
+
+    - title: System Design
+      url: /dev-design.html
+      output: web
+
+    - title: i18n Support
+      url: /i18n-readme.html
+      output: web
+
+  - title: "Reference"
+    output: web
+    folderitems:
+
+    - title: Command-line Reference
+      url: /cmd-index.html
+      output: web
+
+    - title: REST API Reference
+      url: /rest-api.html
+      output: web
+
+    - title: Error Messages
+      url: /error-messages.html
+      output: web
+
+  - title: "Maintainer"
+    output: web
+    folderitems:
+
+    - title: Making a Gerrit Release
+      url: /dev-release.html
+      output: web
+
+    - title: Making a Release of a Gerrit Subproject
+      url: /dev-release-subproject.html
+      output: web
+
+    - title: Making a Release of JGit
+      url: /dev-release-jgit.html
+      output: web
+
+  - title: "Concepts"
+    output: web
+    folderitems:
+
+    - title: Review Labels
+      url: /config-labels.html
+      output: web
+
+    - title: Access Controls
+      url: /access-control.html
+      output: web
+
+    - title: Changes
+      url: /concept-changes.html
+      output: web
+
+    - title: The refs/for Namespace
+      url: /concept-refs-for-namespace.html
+      output: web
+
+    - title: Patch Sets
+      url: /concept-patch-sets.html
+      output: web

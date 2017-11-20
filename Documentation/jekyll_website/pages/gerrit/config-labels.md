@@ -1,0 +1,424 @@
+---
+title: " Gerrit Code Review - Review Labels"
+sidebar: gerritdoc_sidebar
+permalink: config-labels.html
+---
+As part of the code review process, reviewers score each change with
+values for each label configured for the project. The label values that
+a given user is allowed to set are defined according to the [access
+controls](access-control.html#category_review_labels). Gerrit comes
+pre-configured with the Code-Review label that can be granted to groups
+within projects, enabling functionality for that group’s members.
+
+## Label: Code-Review
+
+The Code-Review label is configured upon the creation of a Gerrit
+instance. It may have any meaning the project desires. It was originally
+invented by the Android Open Source Project to mean *I read the code and
+it seems reasonably correct*.
+
+The range of values is:
+
+  - \-2 This shall not be merged
+    
+    The code is so horribly incorrect/buggy/broken that it must not be
+    submitted to this project, or to this branch. This value is valid
+    across all patch sets in the same change, i.e. the reviewer must
+    actively change his/her review to something else before the change
+    is submittable.
+    
+    **Any -2 blocks submit.**
+
+  - \-1 I would prefer this is not merged as is
+    
+    The code doesn’t look right, or could be done differently, but the
+    reviewer is willing to live with it as-is if another reviewer
+    accepts it, perhaps because it is better than what is currently in
+    the project. Often this is also used by contributors who don’t like
+    the change, but also aren’t responsible for the project long-term
+    and thus don’t have final say on change submission.
+    
+    Does not block submit.
+
+  - 0 No score
+    
+    Didn’t try to perform the code review task, or glanced over it but
+    don’t have an informed opinion yet.
+
+  - \+1 Looks good to me, but someone else must approve
+    
+    The code looks right to this reviewer, but the reviewer doesn’t have
+    access to the `+2` value for this category. Often this is used by
+    contributors to a project who were able to review the change and
+    like what it is doing, but don’t have final approval over what gets
+    submitted.
+
+  - \+2 Looks good to me, approved
+    
+    Basically the same as `+1`, but for those who have final say over
+    how the project will develop.
+    
+    **Any +2 enables submit.**
+
+For a change to be submittable, the latest patch set must have a `+2
+Looks good to me, approved` in this category, and no `-2 Do not submit`.
+Thus `-2` on any patch set can block a submit, while `+2` on the latest
+patch set can enable it.
+
+If a Gerrit installation does not wish to use this label in any project,
+the `[label "Code-Review"]` section can be deleted from `project.config`
+in `All-Projects`.
+
+If a Gerrit installation or project wants to modify the description text
+associated with these label values, the text can be updated in the
+`label.Code-Review.value` fields in `project.config`.
+
+Additional entries could be added to `label.Code-Review.value` to
+further extend the negative and positive range, but there is likely
+little value in doing so as this only expands the middle region. This
+label is a `MaxWithBlock` type, which means that the lowest negative
+value if present blocks a submit, while the highest positive value is
+required to enable submit.
+
+## Label: Verified
+
+The Verified label was originally invented by the Android Open Source
+Project to mean *compiles, passes basic unit tests*. Some CI tools
+expect to use the Verified label to vote on a change after running.
+
+During site initialization the administrator may have chosen to
+configure the default Verified label for all projects. In case it is
+desired to configure it at a later time, administrators can do this by
+adding the following to `project.config` in `All-Projects`:
+
+``` 
+  [label "Verified"]
+      function = MaxWithBlock
+      value = -1 Fails
+      value =  0 No score
+      value = +1 Verified
+      copyAllScoresIfNoCodeChange = true
+```
+
+The range of values is:
+
+  - \-1 Fails
+    
+    Tried to compile, but got a compile error, or tried to run tests,
+    but one or more tests did not pass.
+    
+    **Any -1 blocks submit.**
+
+  - 0 No score
+    
+    Didn’t try to perform the verification tasks.
+
+  - \+1 Verified
+    
+    Compiled (and ran tests) successfully.
+    
+    **Any +1 enables submit.**
+
+For a change to be submittable, the change must have a `+1 Verified` in
+this label, and no `-1 Fails`. Thus, `-1 Fails` can block a submit,
+while `+1 Verified` enables a submit.
+
+Additional values could also be added to this label, to allow it to
+behave more like `Code-Review` (below). Add -2 and +2 entries to the
+`label.Verified.value` fields in `project.config` to get the same
+behavior.
+
+## Customized Labels
+
+Site administrators and project owners can define their own labels, or
+customize labels inherited from parent projects.
+
+See above for descriptions of how [`Verified`](#label_Verified) and
+[`Code-Review`](#label_Code-Review) work, and add your own label to
+`project.config` to get the same behavior over your own range of values,
+for any label you desire.
+
+Just like the built-in labels, users need to be given permissions to
+vote on custom labels. Permissions can either be added by manually
+editing project.config when adding the labels, or, once the labels are
+added, permission categories for those labels will show up in the
+permission editor web UI.
+
+Labels may be added to any project’s `project.config`; the default
+labels are defined in `All-Projects`.
+
+### Inheritance
+
+Labels are inherited from parent projects. A child project may add,
+override, or remove labels defined in its parents.
+
+Overriding a label in a child project overrides all its properties and
+values. It is not possible to modify an inherited label by adding
+properties in the child project’s configuration; all properties from the
+parent definition must be redefined in the child.
+
+To remove a label in a child project, add an empty label with the same
+name as in the parent.
+
+### Layout
+
+Labels are laid out in the order they are specified in project.config,
+with inherited labels appearing first, providing some layout control to
+the administrator.
+
+### `label.Label-Name`
+
+The name for a label, consisting only of alphanumeric characters and
+`-`.
+
+### `label.Label-Name.value`
+
+A multi-valued key whose values are of the form `"<#> Value description
+text"`. The `<#>` may be any positive or negative number with an
+optional leading `+`.
+
+### `label.Label-Name.defaultValue`
+
+The default value (or score) for the label. The defaultValue must be
+within the range of valid label values. It is an optional label setting,
+if not defined the defaultValue for the label will be 0. When a
+defaultValue is defined, that value will get set in the Reply dialog by
+default.
+
+A defaultValue can be set to a score that is outside of the permissible
+range for a user. In that case the score that will get set in the Reply
+box will be either the lowest or highest score in the permissible range.
+
+### `label.Label-Name.function`
+
+The name of a function for evaluating multiple votes for a label. This
+function is only applied if the default submit rule is used for a label.
+If you write a [custom submit
+rule](prolog-cookbook.html#HowToWriteSubmitRules) (and do not call the
+default rule), the function name is ignored and may be treated as
+optional.
+
+Valid values are:
+
+  - `MaxWithBlock` (default)
+    
+    The lowest possible negative value, if present, blocks a submit,
+    while the highest possible positive value is required to enable
+    submit. There must be at least one positive value, or else submit
+    will never be enabled. To permit blocking submits, ensure a negative
+    value is defined.
+
+  - `AnyWithBlock`
+    
+    The lowest possible negative value, if present, blocks a submit, Any
+    other value enables a submit. To permit blocking submits, ensure
+    that a negative value is defined.
+
+  - `MaxNoBlock`
+    
+    The highest possible positive value is required to enable submit,
+    but the lowest possible negative value will not block the change.
+
+  - `NoBlock`/`NoOp`
+    
+    The label is purely informational and values are not considered when
+    determining whether a change is submittable.
+
+  - `PatchSetLock`
+    
+    The `PatchSetLock` function provides a locking mechanism for patch
+    sets. This function’s values are not considered when determining
+    whether a change is submittable. When set, no new patchsets can be
+    created and rebase and abandon are blocked.
+    
+    This function is designed to allow overlapping locks, so several
+    lock accounts could lock the same change.
+    
+    Allowed range of values are 0 (Patch Set Unlocked) to 1 (Patch Set
+    Locked).
+
+### `label.Label-Name.allowPostSubmit`
+
+If true, the label may be voted on for changes that have already been
+submitted. If false, the label will not appear in the UI and will not be
+accepted when reviewing a closed change.
+
+In either case, voting on a label after submission is only permitted if
+the new vote is at least as high as the old vote by that user. This
+avoids creating the false impression that a post-submit vote can change
+the past and affect submission somehow.
+
+Defaults to true.
+
+### `label.Label-Name.copyMinScore`
+
+If true, the lowest possible negative value for the label is copied
+forward when a new patch set is uploaded. Defaults to false, except for
+All-Projects which has it true by default.
+
+### `label.Label-Name.copyMaxScore`
+
+If true, the highest possible positive value for the label is copied
+forward when a new patch set is uploaded. This can be used to enable
+sticky approvals, reducing turn-around for trivial cleanups prior to
+submitting a change. Defaults to false.
+
+### `label.Label-Name.copyAllScoresOnMergeCommitFirstParentUpdate`
+
+This policy is useful if you don’t want to trigger CI or human
+verification again if your target branch moved on but the feature branch
+being merged into the target branch did not change. It only applies if
+the patch set is a merge commit.
+
+If true, all scores for the label are copied forward when a new patch
+set is uploaded that is a new merge commit which only differs from the
+previous patch set in its first parent, or has identical parents. The
+first parent would be the parent of the merge commit that is part of the
+change’s target branch, whereas the other parent(s) refer to the feature
+branch(es) to be merged.
+
+Defaults to false.
+
+### `label.Label-Name.copyAllScoresOnTrivialRebase`
+
+If true, all scores for the label are copied forward when a new patch
+set is uploaded that is a trivial rebase. A new patch set is considered
+as trivial rebase if the commit message is the same as in the previous
+patch set and if it has the same code delta as the previous patch set.
+This is the case if the change was rebased onto a different parent, or
+if the parent did not change at all.
+
+This can be used to enable sticky approvals, reducing turn-around for
+trivial rebases prior to submitting a change. For the pre-installed
+Code-Review label this is enabled by default.
+
+Defaults to false.
+
+### `label.Label-Name.copyAllScoresIfNoCodeChange`
+
+If true, all scores for the label are copied forward when a new patch
+set is uploaded that has the same parent tree as the previous patch set
+and the same code delta as the previous patch set. This means only the
+commit message is different. This can be used to enable sticky approvals
+on labels that only depend on the code, reducing turn-around if only the
+commit message is changed prior to submitting a change. For the Verified
+label that is optionally installed by the [init](pgm-init.html) site
+program this is enabled by default.
+
+Defaults to false.
+
+### `label.Label-Name.copyAllScoresIfNoChange`
+
+If true, all scores for the label are copied forward when a new patch
+set is uploaded that has the same parent tree, code delta, and commit
+message as the previous patch set. This means that only the patch set
+SHA1 is different. This can be used to enable sticky approvals, reducing
+turn-around for this special case. It is recommended to leave this
+enabled for both Verified and Code-Review labels.
+
+Defaults to true.
+
+### `label.Label-Name.canOverride`
+
+If false, the label cannot be overridden by child projects. Any
+configuration for this label in child projects will be ignored. Defaults
+to true.
+
+### `label.Label-Name.branch`
+
+By default a given project’s label applicable scope is all changes on
+all branches of this project and its child projects.
+
+Label’s applicable scope can be branch specific via configuration. E.g.
+create a label `Video-Qualify` on parent project and configure the
+`branch` as:
+
+``` 
+  [label "Video-Qualify"]
+      branch = refs/heads/video-1.0/*
+      branch = refs/heads/video-1.1/Kino
+```
+
+Then **only** changes in above branch scope of parent project and child
+projects will be affected by `Video-Qualify`.
+
+> **Note**
+> 
+> The `branch` is independent from the branch scope defined in `access`
+> parts in `project.config` file. That means from the UI a user can
+> always assign permissions for that label on a branch, but this
+> permission is then ignored if the label doesn’t apply for that branch.
+> Additionally, the `branch` modifier has no effect when the submit rule
+> is customized in the rules.pl of the project or inherited from parent
+> projects.
+
+### Example
+
+To define a new 3-valued category that behaves exactly like `Verified`,
+but has different names/labels:
+
+``` 
+  [label "Copyright-Check"]
+      function = MaxWithBlock
+      value = -1 Do not have copyright
+      value =  0 No score
+      value = +1 Copyright clear
+```
+
+The new column will appear at the end of the table, and `-1 Do not have
+copyright` will block submit, while `+1 Copyright clear` is required to
+enable submit.
+
+### Default Value Example
+
+This example attempts to describe how a label default value works with
+the user permissions. Assume the configuration below.
+
+``` 
+  [access "refs/heads/*"]
+      label-Snarky-Review = -3..+3 group Administrators
+      label-Snarky-Review = -2..+2 group Project Owners
+      label-Snarky-Review = -1..+1 group Registered Users
+  [label "Snarky-Review"]
+      value = -3 Ohh, hell no!
+      value = -2 Hmm, I'm not a fan
+      value = -1 I'm not sure I like this
+      value =  0 No score
+      value = +1 I like, but need another to like it as well
+      value = +2 Hmm, this is pretty nice
+      value = +3 Ohh, hell yes!
+      defaultValue = -3
+```
+
+Upon clicking the Reply button:
+
+  - Administrators have all scores (-3..+3) available, -3 is set as the
+    default.
+
+  - Project Owners have limited scores (-2..+2) available, -2 is set as
+    the default.
+
+  - Registered Users have limited scores (-1..+1) available, -1 is set
+    as the default.
+
+### Patch Set Lock Example
+
+This example shows how a label can be configured to have a standard
+patch set lock.
+
+``` 
+  [access "refs/heads/*"]
+      label-Patch-Set-Lock = +0..+1 group Administrators
+  [label "Patch-Set-Lock"]
+      function = PatchSetLock
+      value =  0 Patch Set Unlocked
+      value = +1 Patch Set Locked
+      defaultValue = 0
+```
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

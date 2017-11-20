@@ -1,0 +1,42 @@
+---
+title: " PolyGerrit - GUI"
+sidebar: gerritdoc_sidebar
+permalink: dev-polygerrit.html
+---
+> **Important**
+> 
+> PolyGerrit is still a beta feature…
+
+Missing features in PolyGerrit:
+
+  - Inline Edit
+
+  - And many more features missing.
+
+## Configuring
+
+By default both GWT and PolyGerrit UI are available to users.
+
+To disable GWT but not PolyGerrit:
+
+    [gerrit]
+            enableGwtUi = false
+            enablePolyGerrit = true
+
+To enable GWT but not PolyGerrit:
+
+    [gerrit]
+            enableGwtUi = true
+            enablePolyGerrit = false
+
+To switch to the PolyGerrit UI you have to add `?polygerrit=1` in the
+URL.
+
+for example <https://gerrit.example.org/?polygerrit=1>
+
+To disable PolyGerrit UI, change 1 to 0, which will take you back to GWT
+UI.
+
+More information can be found in the
+[README](https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/)
+

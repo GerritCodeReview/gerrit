@@ -1,0 +1,283 @@
+---
+title: "= Gitweb Integration"
+sidebar: gerritdoc_sidebar
+permalink: config-gitweb.html
+---
+## Gitweb Integration
+
+Gerrit Code Review can manage and generate hyperlinks to gitweb,
+allowing users to jump from Gerrit content to the same information, but
+shown by gitweb.
+
+### Internal/Managed gitweb
+
+In the internal configuration, Gerrit inspects the request, enforces its
+project level access controls, and directly executes `gitweb.cgi` if the
+user is authorized to view the page.
+
+To enable the internal configuration, set
+[gitweb.cgi](config-gerrit.html#gitweb.cgi) with the path of the
+installed CGI. This defaults to `/usr/lib/cgi-bin/gitweb.cgi`, which is
+a common installation path for the *gitweb* package on Linux
+distributions.
+
+``` 
+  git config --file $site_path/etc/gerrit.config gitweb.cgi /usr/lib/cgi-bin/gitweb.cgi
+  git config --file $site_path/etc/gerrit.config --unset gitweb.url
+```
+
+Alternatively, if Gerrit is served behind reverse proxy, it can generate
+different URLs for gitweb’s links (they need to be rewritten to
+`<gerrit>/gitweb?args` on the web server). This allows for serving
+gitweb under a different URL than the Gerrit instance. To enable this
+feature, set both: `gitweb.cgi` and
+`gitweb.url`.
+
+``` 
+  git config --file $site_path/etc/gerrit.config gitweb.cgi /usr/lib/cgi-bin/gitweb.cgi
+  git config --file $site_path/etc/gerrit.config gitweb.url /pretty/path/to/gitweb
+```
+
+After updating `'$site_path'/etc/gerrit.config`, the Gerrit server must
+be restarted and clients must reload the host page to see the change.
+
+#### Configuration
+
+Most of the gitweb configuration file is handled automatically by Gerrit
+Code Review. Site specific overrides can be placed in
+`'$site_path'/etc/gitweb_config.perl`, as this file is loaded as part of
+the generated configuration file.
+
+#### Logo and CSS
+
+If the package-manager installed CGI (`/usr/lib/cgi-bin/gitweb.cgi`) is
+being used, the stock CSS and logo files will be served from either
+`/usr/share/gitweb` or `/var/www`.
+
+Otherwise, Gerrit expects `gitweb.css` and `git-logo.png` to be found in
+the same directory as the CGI script itself. This matches with the
+default source code distribution, and most custom installations.
+
+#### Access Control
+
+Access controls for internally managed gitweb page views are enforced
+using the standard project READ +1 permission.
+
+Also, in order for a user to be able to view any gitweb information for
+a project, the user must be able to read all references (including
+refs/meta/config, refs/meta/dashboards/\*, etc.). If you have exclusive
+read permissions for any references, make sure to include all parties
+that should be able to read the gitweb info for any of the branches in
+that project.
+
+### External/Unmanaged gitweb
+
+For the external configuration, gitweb runs under the control of an
+external web server, and Gerrit access controls are not enforced. Gerrit
+provides configuration parameters for integration with gitweb.
+
+#### Linux Installation
+
+##### Install Gitweb
+
+On Ubuntu:
+
+``` 
+  $ sudo apt-get install gitweb
+```
+
+With Yum:
+
+``` 
+  $ yum install gitweb
+```
+
+##### Configure Gitweb
+
+Update `/etc/gitweb.conf`, add the public GIT repositories:
+
+    $projectroot = "/var/www/repo/";
+    
+    # directory to use for temp files
+    $git_temp = "/tmp";
+    
+    # target of the home link on top of all pages
+    #$home_link = $my_uri || "/";
+    
+    # html text to include at home page
+    $home_text = "indextext.html";
+    
+    # file with project list; by default, simply scan the projectroot dir.
+    $projects_list = $projectroot;
+    
+    # stylesheet to use
+    # I took off the prefix / of the following path to put these files inside gitweb directory directly
+    $stylesheet = "gitweb.css";
+    
+    # logo to use
+    $logo = "git-logo.png";
+    
+    # the favicon
+    $favicon = "git-favicon.png";
+
+#### Configure & Restart Apache Web Server
+
+##### Configure Apache
+
+Link gitweb to `/var/www/gitweb`, check `/etc/gitweb.conf` if unsure of
+paths:
+
+``` 
+  $ sudo ln -s /usr/share/gitweb /var/www/gitweb
+```
+
+Add the gitweb directory to the Apache configuration by creating a
+"gitweb" file inside the Apache conf.d directory:
+
+``` 
+  $ touch /etc/apache/conf.d/gitweb
+```
+
+Add the following to /etc/apache/conf.d/gitweb:
+
+    Alias /gitweb /var/www/gitweb
+    
+    Options Indexes FollowSymlinks ExecCGI
+    DirectoryIndex /cgi-bin/gitweb.cgi
+    AllowOverride None
+
+> **Note**
+> 
+> This may have already been added by yum/apt-get. If that’s the case,
+> leave as is.
+
+##### Restart the Apache Web Server
+
+``` 
+  $ sudo /etc/init.d/apache2 restart
+```
+
+Now you should be able to view your repository projects online:
+
+<http://localhost/gitweb>
+
+#### Windows Installation
+
+Instructions are available for installing the gitweb module distributed
+with MsysGit:
+
+[GitWeb](https://github.com/msysgit/msysgit/wiki/GitWeb)
+
+If you don’t have Apache installed, you can download the appropriate
+build for Windows from
+[apachelounge.org](http://www.apachelounge.com/download).
+
+After you have installed Apache, you will want to create a [new service
+user
+account](http://httpd.apache.org/docs/2.0/platform/windows.html#winsvc)
+to use with Apache.
+
+If you’re still having difficulty setting up permissions, you may find
+this tech note useful for configuring Apache Service to run under
+another account. You must grant the new account ["run as
+service"](http://technet.microsoft.com/en-us/library/cc794944\(WS.10\).aspx)
+permission:
+
+The gitweb version in msysgit is missing several important and required
+perl modules, including CGI.pm. The perl included with the msysgit
+distro 1.7.8 is broken.. The [unicore folder is missing along with
+utf8\_heavy.pl and
+CGI.pm](http://groups.google.com/group/msysgit/browse_thread/thread/ba3501f1f0ed95af).
+You can verify by checking for perl modules. From an msys console,
+execute the following to check:
+
+    $ perl -mCGI -mEncode -mFcntl -mFile::Find -mFile::Basename -e ""
+
+You may encounter the following exception:
+
+    $ perl -mCGI -mEncode -mFcntl -mFile::Find -mFile::Basename -e ""
+    Can't locate CGI.pm in @INC (@INC contains: /usr/lib/perl5/5.8.8/msys
+    /usr/lib/p erl5/5.8.8 /usr/lib/perl5/site_perl/5.8.8/msys
+    /usr/lib/perl5/site_perl/5.8.8 /u sr/lib/perl5/site_perl .). BEGIN
+    failed--compilation aborted.
+
+If you’re missing CGI.pm, you’ll have to deploy the module to the msys
+environment: You will have to retrieve them from the 5.8.8 distro on :
+
+<http://strawberryperl.com/releases.html>
+
+File: strawberry-perl-5.8.8.3.zip
+
+contents: `bin/` `lib/` `site/`
+
+copy the contents of lib into `msysgit/lib/perl5/5.8.8` and overwrite
+existing files.
+
+#### Enable Gitweb Integration
+
+To enable the external gitweb integration, set
+[gitweb.url](config-gerrit.html#gitweb.url) with the URL of your gitweb
+CGI.
+
+The CGI’s `$projectroot` should be the same directory as
+gerrit.basePath, or a fairly current replica. If a replica is being
+used, ensure it uses a full mirror, so the `+refs/changes/*+` namespace
+is available.
+
+    $ git config -f $site_path/etc/gerrit.config --unset gitweb.cgi
+    $ git config -f $site_path/etc/gerrit.config gitweb.url https://gitweb.corporation.com
+
+If you’re not following the traditional {projectName}.git project naming
+conventions, you will want to customize Gerrit to read them. Add the
+following:
+
+    $ git config -f $site_path/etc/gerrit.config gitweb.type custom
+    $ git config -f $site_path/etc/gerrit.config gitweb.project ?p=\${project}\;a=summary
+    $ git config -f $site_path/etc/gerrit.config gitweb.revision ?p=\${project}\;a=commit\;h=\${commit}
+    $ git config -f $site_path/etc/gerrit.config gitweb.branch ?p=\${project}\;a=shortlog\;h=\${branch}
+    $ git config -f $site_path/etc/gerrit.config gitweb.roottree ?p=\${project}\;a=tree\;hb=\${commit}
+    $ git config -f $site_path/etc/gerrit.config gitweb.file ?p=\${project}\;hb=\${commit}\;f=\${file}
+    $ git config -f $site_path/etc/gerrit.config gitweb.filehistory ?p=\${project}\;a=history\;hb=\${branch}\;f=\${file}
+
+After updating `'$site_path'/etc/gerrit.config`, the Gerrit server must
+be restarted and clients must reload the host page to see the change.
+
+Note that when using a custom gitweb configuration, values must be
+specified for all of the `project`, `revision`, `branch`, `roottree`,
+`file`, and `filehistory` settings, otherwise the configuration will not
+be used.
+
+##### Access Control
+
+Gitweb access controls can be implemented using standard web server
+access controls. This isn’t typically integrated with Gerrit’s own
+access controls. Caution must be taken to ensure the controls are
+consistent if access needs to be restricted.
+
+##### Caching Gitweb
+
+If your repository set is large and you are expecting a lot of users,
+you may want to look at the caching forks used by high-traffic sites
+like kernel.org or repo.or.cz.
+
+### Alternatives to gitweb
+
+There are other alternatives to gitweb that can also be used with
+Gerrit, such as cgit.
+
+cgit can be used by specifying `gitweb.type` to be *cgit*.
+
+It is also possible to define custom patterns.
+
+### SEE ALSO
+
+  - [Section gitweb](config-gerrit.html#gitweb)
+
+  - [cgit](http://git.zx2c4.com/cgit/about/)
+
+## GERRIT
+
+Part of [Gerrit Code Review](index.html)
+
+## SEARCHBOX
+

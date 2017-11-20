@@ -1,0 +1,51 @@
+entries:
+- title: Sidebar
+  product: Gerrit Documentation
+  version: 2.15(ish)
+  folders:
+
+  - title:
+    output: pdf
+    type: frontmatter
+    folderitems:
+    - title:
+      url: /titlepage.html
+      output: pdf
+      type: frontmatter
+
+    - title:
+      url: /tocpage.html
+      output: pdf
+      type: frontmatter
+
+  - title: "REST API Reference"
+    output: web
+    folderitems:
+
+    - title: Overview
+      url: /rest-api.html
+      output: web
+    - title: access
+      url: /rest-api-access.html
+      output: web
+    - title: accounts
+      url: /rest-api-accounts.html
+      output: web
+    - title: changes
+      url: /rest-api-changes.html
+      output: web
+    - title: config
+      url: /rest-api-config.html
+      output: web
+    - title: groups
+      url: /rest-api-groups.html
+      output: web
+    - title: plugins
+      url: /rest-api-plugins.html
+      output: web
+    - title: projects
+      url: /rest-api-projects.html
+      output: web
+    - title: documentation
+      url: /rest-api-documentation.html
+      output: web

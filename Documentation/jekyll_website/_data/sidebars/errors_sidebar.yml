@@ -1,0 +1,115 @@
+entries:
+- title: Sidebar
+  product: Gerrit Documentation
+  version: 2.15(ish)
+  folders:
+
+  - title:
+    output: pdf
+    type: frontmatter
+    folderitems:
+    - title:
+      url: /titlepage.html
+      output: pdf
+      type: frontmatter
+
+    - title:
+      url: /tocpage.html
+      output: pdf
+      type: frontmatter
+
+  - title: "Error Messages"
+    output: web
+    folderitems:
+
+    - title: Error Messages
+      url: /error-messages.html
+      output: web
+    - title: branch not found
+      url: /error-branch-not-found.html
+      output: web
+    - title: change closed
+      url: /error-change-closed.html
+      output: web
+    - title: change does not belong to project
+      url: /error-change-does-not-belong-to-project.html
+      output: web
+    - title: change not found
+      url: /error-change-not-found.html
+      output: web
+    - title: commit already exists
+      url: /error-commit-already-exists.html
+      output: web
+    - title: contains banned commit
+      url: /error-contains-banned-commit.html
+      output: web
+    - title: has duplicates
+      url: /error-has-duplicates.html
+      output: web
+    - title: invalid author
+      url: /error-invalid-author.html
+      output: web
+    - title: invalid Change-Id line format in commit footer
+      url: /error-invalid-changid-line.html
+      output: web
+    - title: invalid committer
+      url: /error-invalid-committer.html
+      output: web
+    - title: missing Change-Id in commit message footer
+      url: /error-missing-changeid.html
+      output: web
+    - title: missing subject Change-Id must be in commit message footer
+      url: /error-missing-subject.html
+      output: web
+    - title: multiple Change-Id lines in commit message footer
+      url: /error-multiple-changeid-lines.html
+      output: web
+    - title: no common ancestry
+      url: /error-no-common-ancestry.html
+      output: web
+    - title: no new changes
+      url: /error-no-new-changes.html
+      output: web
+    - title: non-fast forward
+      url: /error-non-fast-forward.html
+      output: web
+    - title: not a Gerrit administrator
+      url: /error-not-a-gerrit-administrator.html
+      output: web
+    - title: not permitted to create
+      url: /error-not-permitted-to-create.html
+      output: web
+    - title: not signed-off-by
+      url: /error-not-signed-off-by.html
+      output: web
+    - title: not valid ref
+      url: /error-not-valid-ref.html
+      output: web
+    - title: one or more ref names block change upload
+      url: /error-change-upload-blocked.html
+      output: web
+    - title: permission denied
+      url: /error-permission-denied.html
+      output: web
+    - title: prohibited by Gerrit
+      url: /error-prohibited-by-gerrit.html
+      output: web
+    - title: project not found
+      url: /error-project-not-found.html
+      output: web
+    - title: same change-id in multiple changes
+      url: /error-same-change-id-in-multiple-changes.html
+      output: web
+    - title: too many commits
+      url: /error-too-many-commits.html
+      output: web
+    - title: upload denied for project
+      url: /error-upload-denied.html
+      output: web
+    - title: you are not allowed to upload merges
+      url: /error-not-allowed-upload-merges.html
+      output: web
+    - title: push fails due to commit message
+      url: /error-push-fails-due-to-commit-message.html
+      output: web
+

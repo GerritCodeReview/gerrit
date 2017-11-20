@@ -42,36 +42,46 @@ public class NotesMigrationSchemaFactory implements SchemaFactory<ReviewDb> {
 
   @Override
   public ReviewDb open() throws OrmException {
-    ReviewDb db = delegate.open();
-    if (migration.readChanges()) {
-      // There are two levels at which this class disables access to Changes and related tables,
-      // corresponding to two phases of the NoteDb migration:
-      //
-      // 1. When changes are read from NoteDb but some changes might still have their primary
-      //    storage in ReviewDb, it is generally programmer error to read changes from ReviewDb.
-      //    However, since ReviewDb is still the primary storage for most or all changes, we still
-      //    need to support writing to ReviewDb. This behavior is accomplished by wrapping in a
-      //    DisallowReadFromChangesReviewDbWrapper.
-      //
-      //    Some codepaths might need to be able to read from ReviewDb if they really need to,
-      //    because they need to operate on the underlying source of truth, for example when
-      //    reading a change to determine its primary storage. To support this,
-      //    ReviewDbUtil#unwrapDb can detect and unwrap databases of this type.
-      //
-      // 2. After all changes have their primary storage in NoteDb, we can completely shut off
-      //    access to the change tables. At this point in the migration, we are by definition not
-      //    using the ReviewDb tables at all; we could even delete the tables at this point, and
-      //    Gerrit would continue to function.
-      //
-      //    This is accomplished by setting the delegate ReviewDb *underneath*
-      //    DisallowReadFromChanges to be a complete no-op, with NoChangesReviewDbWrapper. With
-      //    this wrapper, all read operations return no results, and write operations silently do
-      //    nothing. This wrapper is not a public class and nobody should ever attempt to unwrap
-      //    it.
+    // There are two levels at which this class disables access to Changes and related tables,
+    // corresponding to two phases of the NoteDb migration:
+    //
+    // 1. When changes are read from NoteDb but some changes might still have their primary storage
+    //    in ReviewDb, it is generally programmer error to read changes from ReviewDb. However,
+    //    since ReviewDb is still the primary storage for most or all changes, we still need to
+    //    support writing to ReviewDb. This behavior is accomplished by wrapping in a
+    //    DisallowReadFromChangesReviewDbWrapper.
+    //
+    //    Some codepaths might need to be able to read from ReviewDb if they really need to,
+    //    because they need to operate on the underlying source of truth, for example when reading
+    //    a change to determine its primary storage. To support this, ReviewDbUtil#unwrapDb can
+    //    detect and unwrap databases of this type.
+    //
+    // 2. After all changes have their primary storage in NoteDb, we can completely shut off access
+    //    to the change tables. At this point in the migration, we are by definition not using the
+    //    ReviewDb tables at all; we could even delete the tables at this point, and Gerrit would
+    //    continue to function.
+    //
+    //    This is accomplished by setting the delegate ReviewDb *underneath*
+    //    DisallowReadFromChanges to be a complete no-op, with NoChangesReviewDbWrapper. With this
+    //    wrapper, all read operations return no results, and write operations silently do nothing.
+    //    This wrapper is not a public class and nobody should ever attempt to unwrap it.
 
-      if (migration.disableChangeReviewDb()) {
-        db = new NoChangesReviewDbWrapper(db);
-      }
+    // First create the wrappers which can not be removed by ReviewDbUtil#unwrapDb(ReviewDb).
+    ReviewDb db = delegate.open();
+    if (migration.readChanges() && migration.disableChangeReviewDb()) {
+      // Disable writes to change tables in ReviewDb (ReviewDb access for changes are No-Ops).
+      db = new NoChangesReviewDbWrapper(db);
+    }
+
+    if (groupsMigration.readFromNoteDb() && groupsMigration.disableGroupReviewDb()) {
+      // Disable writes to group tables in ReviewDb (ReviewDb access for groups are No-Ops).
+      db = new NoGroupsReviewDbWrapper(db);
+    }
+
+    // Second create the wrappers which can be removed by ReviewDbUtil#unwrapDb(ReviewDb).
+    if (migration.readChanges()) {
+      // If reading changes from NoteDb is configured, changes should not be read from ReviewDb.
+      // Make sure that any attempt to read a change from ReviewDb anyway fails with an exception.
       db = new DisallowReadFromChangesReviewDbWrapper(db);
     }
 

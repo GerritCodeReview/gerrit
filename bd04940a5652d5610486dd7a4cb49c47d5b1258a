@@ -17,6 +17,24 @@
       "revId": "bd04940a5652d5610486dd7a4cb49c47d5b1258a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cff4e0a_15adbc7e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1068,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-20T10:59:43Z",
+      "side": 1,
+      "message": "Makes sense, but shouldn\u0027t be part of this change.",
+      "parentUuid": "a94c0dba_0299e8cb",
+      "revId": "bd04940a5652d5610486dd7a4cb49c47d5b1258a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

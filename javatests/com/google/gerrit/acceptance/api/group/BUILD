@@ -6,6 +6,7 @@ acceptance_tests(
     labels = ["api"],
     deps = [
         ":util",
+        "//java/com/google/gerrit/server/group/db/testing",
         "//javatests/com/google/gerrit/acceptance/rest/account:util",
     ],
 )

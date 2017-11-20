@@ -236,6 +236,23 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void includeExternalGroup() throws Exception {
+    String g = createGroup("group");
+    String subgroupUuid = SystemGroupBackend.REGISTERED_USERS.get();
+    gApi.groups().id(g).addGroups(subgroupUuid);
+
+    List<GroupInfo> subgroups = gApi.groups().id(g).includedGroups();
+    assertThat(subgroups).hasSize(1);
+    assertThat(subgroups.get(0).id).isEqualTo(subgroupUuid.replace(":", "%3A"));
+    assertThat(subgroups.get(0).name).isEqualTo("Registered Users");
+    assertThat(subgroups.get(0).groupId).isNull();
+
+    List<? extends GroupAuditEventInfo> auditEvents = gApi.groups().id(g).auditLog();
+    assertThat(auditEvents).hasSize(1);
+    assertAuditEvent(auditEvents.get(0), Type.ADD_GROUP, admin.id, "Registered Users");
+  }
+
+  @Test
   public void includeExistingGroup_OK() throws Exception {
     String p = createGroup("parent");
     String g = createGroup("newGroup");

@@ -29,6 +29,8 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.GitRepositoryManagerModule;
+import com.google.gerrit.server.git.JGitConfigProvider;
+import com.google.gerrit.server.git.SystemReaderInstaller;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.schema.DataSourceModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
@@ -152,6 +154,8 @@ public abstract class SiteProgram extends AbstractProgram {
                   .in(SINGLETON);
               listener().to(SiteLibraryBasedDataSourceProvider.class);
             }
+
+            listener().to(SystemReaderInstaller.class);
           }
         });
     Module configModule = new GerritServerConfigModule();
@@ -163,6 +167,7 @@ public abstract class SiteProgram extends AbstractProgram {
             bind(GerritRuntime.class).toInstance(getGerritRuntime());
           }
         });
+    modules.add(JGitConfigProvider.module());
     Injector cfgInjector = Guice.createInjector(sitePathModule, configModule);
     Config cfg = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
     String dbType;

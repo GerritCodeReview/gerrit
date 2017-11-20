@@ -19,7 +19,7 @@ import com.google.inject.Provider;
 import org.eclipse.jgit.lib.Config;
 
 public class AnonymousCowardNameProvider implements Provider<String> {
-  public static final String DEFAULT = "Anonymous Coward";
+  public static final String DEFAULT = "(User's name not set)";
 
   private final String anonymousCoward;
 

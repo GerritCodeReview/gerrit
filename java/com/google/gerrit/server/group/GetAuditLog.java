@@ -31,6 +31,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -42,30 +44,37 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 public class GetAuditLog implements RestReadView<GroupResource> {
   private final Provider<ReviewDb> db;
   private final AccountLoader.Factory accountLoaderFactory;
+  private final AllUsersName allUsers;
   private final GroupCache groupCache;
   private final GroupJson groupJson;
   private final GroupBackend groupBackend;
   private final Groups groups;
+  private final GitRepositoryManager repoManager;
 
   @Inject
   public GetAuditLog(
       Provider<ReviewDb> db,
       AccountLoader.Factory accountLoaderFactory,
+      AllUsersName allUsers,
       GroupCache groupCache,
       GroupJson groupJson,
       GroupBackend groupBackend,
-      Groups groups) {
+      Groups groups,
+      GitRepositoryManager repoManager) {
     this.db = db;
     this.accountLoaderFactory = accountLoaderFactory;
+    this.allUsers = allUsers;
     this.groupCache = groupCache;
     this.groupJson = groupJson;
     this.groupBackend = groupBackend;
     this.groups = groups;
+    this.repoManager = repoManager;
   }
 
   @Override
@@ -82,45 +91,47 @@ public class GetAuditLog implements RestReadView<GroupResource> {
 
     List<GroupAuditEventInfo> auditEvents = new ArrayList<>();
 
-    for (AccountGroupMemberAudit auditEvent :
-        groups.getMembersAudit(db.get(), group.getGroupUUID())) {
-      AccountInfo member = accountLoader.get(auditEvent.getMemberId());
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
+      for (AccountGroupMemberAudit auditEvent :
+          groups.getMembersAudit(db.get(), allUsersRepo, group.getGroupUUID())) {
+        AccountInfo member = accountLoader.get(auditEvent.getMemberId());
 
-      auditEvents.add(
-          GroupAuditEventInfo.createAddUserEvent(
-              accountLoader.get(auditEvent.getAddedBy()), auditEvent.getAddedOn(), member));
-
-      if (!auditEvent.isActive()) {
         auditEvents.add(
-            GroupAuditEventInfo.createRemoveUserEvent(
-                accountLoader.get(auditEvent.getRemovedBy()), auditEvent.getRemovedOn(), member));
-      }
-    }
+            GroupAuditEventInfo.createAddUserEvent(
+                accountLoader.get(auditEvent.getAddedBy()), auditEvent.getAddedOn(), member));
 
-    for (AccountGroupByIdAud auditEvent :
-        groups.getSubgroupsAudit(db.get(), group.getGroupUUID())) {
-      AccountGroup.UUID includedGroupUUID = auditEvent.getIncludeUUID();
-      Optional<InternalGroup> includedGroup = groupCache.get(includedGroupUUID);
-      GroupInfo member;
-      if (includedGroup.isPresent()) {
-        member = groupJson.format(new InternalGroupDescription(includedGroup.get()));
-      } else {
-        GroupDescription.Basic groupDescription = groupBackend.get(includedGroupUUID);
-        member = new GroupInfo();
-        member.id = Url.encode(includedGroupUUID.get());
-        member.name = groupDescription.getName();
+        if (!auditEvent.isActive()) {
+          auditEvents.add(
+              GroupAuditEventInfo.createRemoveUserEvent(
+                  accountLoader.get(auditEvent.getRemovedBy()), auditEvent.getRemovedOn(), member));
+        }
       }
 
-      auditEvents.add(
-          GroupAuditEventInfo.createAddGroupEvent(
-              accountLoader.get(auditEvent.getAddedBy()),
-              auditEvent.getKey().getAddedOn(),
-              member));
+      for (AccountGroupByIdAud auditEvent :
+          groups.getSubgroupsAudit(db.get(), allUsersRepo, group.getGroupUUID())) {
+        AccountGroup.UUID includedGroupUUID = auditEvent.getIncludeUUID();
+        Optional<InternalGroup> includedGroup = groupCache.get(includedGroupUUID);
+        GroupInfo member;
+        if (includedGroup.isPresent()) {
+          member = groupJson.format(new InternalGroupDescription(includedGroup.get()));
+        } else {
+          GroupDescription.Basic groupDescription = groupBackend.get(includedGroupUUID);
+          member = new GroupInfo();
+          member.id = Url.encode(includedGroupUUID.get());
+          member.name = groupDescription.getName();
+        }
 
-      if (!auditEvent.isActive()) {
         auditEvents.add(
-            GroupAuditEventInfo.createRemoveGroupEvent(
-                accountLoader.get(auditEvent.getRemovedBy()), auditEvent.getRemovedOn(), member));
+            GroupAuditEventInfo.createAddGroupEvent(
+                accountLoader.get(auditEvent.getAddedBy()),
+                auditEvent.getKey().getAddedOn(),
+                member));
+
+        if (!auditEvent.isActive()) {
+          auditEvents.add(
+              GroupAuditEventInfo.createRemoveGroupEvent(
+                  accountLoader.get(auditEvent.getRemovedBy()), auditEvent.getRemovedOn(), member));
+        }
       }
     }
 

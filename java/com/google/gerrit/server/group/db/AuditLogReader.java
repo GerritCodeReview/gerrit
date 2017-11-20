@@ -23,9 +23,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerId;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.NoteDbUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -52,29 +50,83 @@ class AuditLogReader {
   private static final Logger log = LoggerFactory.getLogger(AuditLogReader.class);
 
   private final String serverId;
-  private final GitRepositoryManager repoManager;
-  private final AllUsersName allUsers;
 
   @Inject
-  AuditLogReader(
-      @GerritServerId String serverId, GitRepositoryManager repoManager, AllUsersName allUsers) {
+  AuditLogReader(@GerritServerId String serverId) {
     this.serverId = serverId;
-    this.repoManager = repoManager;
-    this.allUsers = allUsers;
   }
 
   // Having separate methods for reading the two types of audit records mirrors the split in
   // ReviewDb. Once ReviewDb is gone, the audit record interface becomes more flexible and we can
   // revisit this, e.g. to do only a single walk, or even change the record types.
 
-  ImmutableList<AccountGroupMemberAudit> getMembersAudit(AccountGroup.UUID uuid)
+  ImmutableList<AccountGroupMemberAudit> getMembersAudit(Repository repo, AccountGroup.UUID uuid)
       throws IOException, ConfigInvalidException {
-    return new MembersAuditLogParser().parseAuditLog(uuid);
+    return getMembersAudit(getGroupId(repo, uuid), parseCommits(repo, uuid));
   }
 
-  ImmutableList<AccountGroupByIdAud> getSubgroupsAudit(AccountGroup.UUID uuid)
+  private ImmutableList<AccountGroupMemberAudit> getMembersAudit(
+      AccountGroup.Id groupId, List<ParsedCommit> commits) {
+    ListMultimap<MemberKey, AccountGroupMemberAudit> audits =
+        MultimapBuilder.hashKeys().linkedListValues().build();
+    ImmutableList.Builder<AccountGroupMemberAudit> result = ImmutableList.builder();
+    for (ParsedCommit pc : commits) {
+      for (Account.Id id : pc.addedMembers()) {
+        MemberKey key = MemberKey.create(groupId, id);
+        AccountGroupMemberAudit audit =
+            new AccountGroupMemberAudit(
+                new AccountGroupMemberAudit.Key(id, groupId, pc.when()), pc.authorId());
+        audits.put(key, audit);
+        result.add(audit);
+      }
+      for (Account.Id id : pc.removedMembers()) {
+        List<AccountGroupMemberAudit> adds = audits.get(MemberKey.create(groupId, id));
+        if (!adds.isEmpty()) {
+          AccountGroupMemberAudit audit = adds.remove(0);
+          audit.removed(pc.authorId(), pc.when());
+        } else {
+          // Match old behavior of DbGroupMemberAuditListener and add a "legacy" add/remove pair.
+          AccountGroupMemberAudit audit =
+              new AccountGroupMemberAudit(
+                  new AccountGroupMemberAudit.Key(id, groupId, pc.when()), pc.authorId());
+          audit.removedLegacy();
+          result.add(audit);
+        }
+      }
+    }
+    return result.build();
+  }
+
+  ImmutableList<AccountGroupByIdAud> getSubgroupsAudit(Repository repo, AccountGroup.UUID uuid)
       throws IOException, ConfigInvalidException {
-    return new SubgroupsAuditLogParser().parseAuditLog(uuid);
+    return getSubgroupsAudit(getGroupId(repo, uuid), parseCommits(repo, uuid));
+  }
+
+  private ImmutableList<AccountGroupByIdAud> getSubgroupsAudit(
+      AccountGroup.Id groupId, List<ParsedCommit> commits) {
+    ListMultimap<SubgroupKey, AccountGroupByIdAud> audits =
+        MultimapBuilder.hashKeys().linkedListValues().build();
+    ImmutableList.Builder<AccountGroupByIdAud> result = ImmutableList.builder();
+    for (ParsedCommit pc : commits) {
+      for (AccountGroup.UUID uuid : pc.addedSubgroups()) {
+        SubgroupKey key = SubgroupKey.create(groupId, uuid);
+        AccountGroupByIdAud audit =
+            new AccountGroupByIdAud(
+                new AccountGroupByIdAud.Key(groupId, uuid, pc.when()), pc.authorId());
+        audits.put(key, audit);
+        result.add(audit);
+      }
+      for (AccountGroup.UUID uuid : pc.removedSubgroups()) {
+        List<AccountGroupByIdAud> adds = audits.get(SubgroupKey.create(groupId, uuid));
+        if (!adds.isEmpty()) {
+          AccountGroupByIdAud audit = adds.remove(0);
+          audit.removed(pc.authorId(), pc.when());
+        } else {
+          // Unlike members, DbGroupMemberAuditListener didn't insert an add/remove pair here.
+        }
+      }
+    }
+    return result.build();
   }
 
   private Optional<ParsedCommit> parse(AccountGroup.UUID uuid, RevCommit c) {
@@ -139,100 +191,33 @@ class AuditLogReader {
         line);
   }
 
-  private abstract class AuditLogParser<T> {
-    final ImmutableList<T> parseAuditLog(AccountGroup.UUID uuid)
-        throws IOException, ConfigInvalidException {
-      try (Repository repo = repoManager.openRepository(allUsers);
-          RevWalk rw = new RevWalk(repo)) {
-        Ref ref = repo.exactRef(RefNames.refsGroups(uuid));
-        if (ref == null) {
-          return ImmutableList.of();
-        }
-
-        // TODO(dborowitz): This re-walks all commits just to find createdOn, which we don't need.
-        AccountGroup.Id groupId =
-            GroupConfig.loadForGroup(repo, uuid).getLoadedGroup().get().getId();
-
-        rw.reset();
-        rw.markStart(rw.parseCommit(ref.getObjectId()));
-        rw.setRetainBody(true);
-        rw.sort(RevSort.COMMIT_TIME_DESC, true);
-        rw.sort(RevSort.REVERSE, true);
-
-        ImmutableList.Builder<T> result = ImmutableList.builder();
-        RevCommit c;
-        while ((c = rw.next()) != null) {
-          parse(uuid, c).ifPresent(pc -> visit(groupId, pc, result));
-        }
-        return result.build();
+  private ImmutableList<ParsedCommit> parseCommits(Repository repo, AccountGroup.UUID uuid)
+      throws IOException {
+    try (RevWalk rw = new RevWalk(repo)) {
+      Ref ref = repo.exactRef(RefNames.refsGroups(uuid));
+      if (ref == null) {
+        return ImmutableList.of();
       }
-    }
 
-    protected abstract void visit(
-        AccountGroup.Id groupId, ParsedCommit pc, ImmutableList.Builder<T> result);
-  }
+      rw.reset();
+      rw.markStart(rw.parseCommit(ref.getObjectId()));
+      rw.setRetainBody(true);
+      rw.sort(RevSort.COMMIT_TIME_DESC, true);
+      rw.sort(RevSort.REVERSE, true);
 
-  private class MembersAuditLogParser extends AuditLogParser<AccountGroupMemberAudit> {
-    private ListMultimap<MemberKey, AccountGroupMemberAudit> audits =
-        MultimapBuilder.hashKeys().linkedListValues().build();
-
-    @Override
-    protected void visit(
-        AccountGroup.Id groupId,
-        ParsedCommit pc,
-        ImmutableList.Builder<AccountGroupMemberAudit> result) {
-      for (Account.Id id : pc.addedMembers()) {
-        MemberKey key = MemberKey.create(groupId, id);
-        AccountGroupMemberAudit audit =
-            new AccountGroupMemberAudit(
-                new AccountGroupMemberAudit.Key(id, groupId, pc.when()), pc.authorId());
-        audits.put(key, audit);
-        result.add(audit);
+      ImmutableList.Builder<ParsedCommit> result = ImmutableList.builder();
+      RevCommit c;
+      while ((c = rw.next()) != null) {
+        parse(uuid, c).ifPresent(result::add);
       }
-      for (Account.Id id : pc.removedMembers()) {
-        List<AccountGroupMemberAudit> adds = audits.get(MemberKey.create(groupId, id));
-        if (!adds.isEmpty()) {
-          AccountGroupMemberAudit audit = adds.remove(0);
-          audit.removed(pc.authorId(), pc.when());
-        } else {
-          // Match old behavior of DbGroupMemberAuditListener and add a "legacy" add/remove pair.
-          AccountGroupMemberAudit audit =
-              new AccountGroupMemberAudit(
-                  new AccountGroupMemberAudit.Key(id, groupId, pc.when()), pc.authorId());
-          audit.removedLegacy();
-          result.add(audit);
-        }
-      }
+      return result.build();
     }
   }
 
-  private class SubgroupsAuditLogParser extends AuditLogParser<AccountGroupByIdAud> {
-    private ListMultimap<SubgroupKey, AccountGroupByIdAud> audits =
-        MultimapBuilder.hashKeys().linkedListValues().build();
-
-    @Override
-    protected void visit(
-        AccountGroup.Id groupId,
-        ParsedCommit pc,
-        ImmutableList.Builder<AccountGroupByIdAud> result) {
-      for (AccountGroup.UUID uuid : pc.addedSubgroups()) {
-        SubgroupKey key = SubgroupKey.create(groupId, uuid);
-        AccountGroupByIdAud audit =
-            new AccountGroupByIdAud(
-                new AccountGroupByIdAud.Key(groupId, uuid, pc.when()), pc.authorId());
-        audits.put(key, audit);
-        result.add(audit);
-      }
-      for (AccountGroup.UUID uuid : pc.removedSubgroups()) {
-        List<AccountGroupByIdAud> adds = audits.get(SubgroupKey.create(groupId, uuid));
-        if (!adds.isEmpty()) {
-          AccountGroupByIdAud audit = adds.remove(0);
-          audit.removed(pc.authorId(), pc.when());
-        } else {
-          // Unlike members, DbGroupMemberAuditListener didn't insert an add/remove pair here.
-        }
-      }
-    }
+  private AccountGroup.Id getGroupId(Repository repo, AccountGroup.UUID uuid)
+      throws ConfigInvalidException, IOException {
+    // TODO(dborowitz): This re-walks all commits just to find createdOn, which we don't need.
+    return GroupConfig.loadForGroup(repo, uuid).getLoadedGroup().get().getId();
   }
 
   @AutoValue

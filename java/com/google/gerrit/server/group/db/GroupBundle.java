@@ -110,7 +110,7 @@ public abstract class GroupBundle {
                   accountId ->
                       new AccountGroupMember(new AccountGroupMember.Key(accountId, groupId)))
               .collect(toImmutableSet()),
-          auditLogReader.getMembersAudit(uuid),
+          auditLogReader.getMembersAudit(repo, uuid),
           internalGroup
               .getSubgroups()
               .stream()
@@ -118,7 +118,7 @@ public abstract class GroupBundle {
                   subgroupUuid ->
                       new AccountGroupById(new AccountGroupById.Key(groupId, subgroupUuid)))
               .collect(toImmutableSet()),
-          auditLogReader.getSubgroupsAudit(uuid));
+          auditLogReader.getSubgroupsAudit(repo, uuid));
     }
   }
 

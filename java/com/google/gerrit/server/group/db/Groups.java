@@ -313,16 +313,18 @@ public class Groups {
    * Returns the membership audit records for a given group.
    *
    * @param db the {@code ReviewDb} instance to use for lookups
+   * @param repo All-Users repository.
    * @param groupUuid the UUID of the group
    * @return the audit records, in arbitrary order; empty if the group does not exist
    * @throws OrmException if an error occurs while reading from ReviewDb
    * @throws IOException if an error occurs while reading from NoteDb
    * @throws ConfigInvalidException if the group couldn't be retrieved from NoteDb
    */
-  public List<AccountGroupMemberAudit> getMembersAudit(ReviewDb db, AccountGroup.UUID groupUuid)
+  public List<AccountGroupMemberAudit> getMembersAudit(
+      ReviewDb db, Repository repo, AccountGroup.UUID groupUuid)
       throws OrmException, IOException, ConfigInvalidException {
     if (groupsMigration.readFromNoteDb()) {
-      return auditLogReader.getMembersAudit(groupUuid);
+      return auditLogReader.getMembersAudit(repo, groupUuid);
     }
     Optional<AccountGroup> group = getGroupFromReviewDb(db, groupUuid);
     if (!group.isPresent()) {
@@ -339,16 +341,18 @@ public class Groups {
    * Returns the subgroup audit records for a given group.
    *
    * @param db the {@code ReviewDb} instance to use for lookups
+   * @param repo All-Users repository.
    * @param groupUuid the UUID of the group
    * @return the audit records, in arbitrary order; empty if the group does not exist
    * @throws OrmException if an error occurs while reading from ReviewDb
    * @throws IOException if an error occurs while reading from NoteDb
    * @throws ConfigInvalidException if the group couldn't be retrieved from NoteDb
    */
-  public List<AccountGroupByIdAud> getSubgroupsAudit(ReviewDb db, AccountGroup.UUID groupUuid)
+  public List<AccountGroupByIdAud> getSubgroupsAudit(
+      ReviewDb db, Repository repo, AccountGroup.UUID groupUuid)
       throws OrmException, IOException, ConfigInvalidException {
     if (groupsMigration.readFromNoteDb()) {
-      return auditLogReader.getSubgroupsAudit(groupUuid);
+      return auditLogReader.getSubgroupsAudit(repo, groupUuid);
     }
     Optional<AccountGroup> group = getGroupFromReviewDb(db, groupUuid);
     if (!group.isPresent()) {

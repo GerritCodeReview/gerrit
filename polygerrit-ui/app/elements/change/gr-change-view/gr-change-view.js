@@ -166,6 +166,7 @@
         type: Boolean,
         value: true,
       },
+      _currentRevision: Object,
       _currentRevisionActions: Object,
       _allPatchSets: {
         type: Array,
@@ -983,6 +984,7 @@
                 parseInt(lineHeight.slice(0, lineHeight.length - 2), 10);
 
             this._change = change;
+            this._currentRevision = currentRevision;
             if (!this._patchRange || !this._patchRange.patchNum ||
                 this.patchNumEquals(this._patchRange.patchNum,
                     currentRevision._number)) {

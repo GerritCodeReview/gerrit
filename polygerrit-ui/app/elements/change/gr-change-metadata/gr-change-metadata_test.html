@@ -38,6 +38,9 @@ limitations under the License.
 
     setup(() => {
       sandbox = sinon.sandbox.create();
+      stub('gr-endpoint-decorator', {
+        _import: sandbox.stub().returns(Promise.resolve()),
+      });
       stub('gr-rest-api-interface', {
         getConfig() { return Promise.resolve({}); },
         getLoggedIn() { return Promise.resolve(false); },
@@ -612,6 +615,30 @@ limitations under the License.
           assert.isFalse(element._computeAssigneeReadOnly(mutable, change));
           mutable = false;
           assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
+        });
+      });
+    });
+
+    suite('plugin endpoints', () => {
+      test('endpoint params', done => {
+        element.change = {labels: {}};
+        element.currentRevision = {};
+        let hookEl;
+        let plugin;
+        Gerrit.install(
+            p => {
+              plugin = p;
+              plugin.hook('change-metadata-item').getLastAttached().then(
+                  el => hookEl = el);
+            },
+            '0.1',
+            'http://some/plugins/url.html');
+        Gerrit._setPluginsCount(0);
+        flush(() => {
+          assert.strictEqual(hookEl.plugin, plugin);
+          assert.strictEqual(hookEl.change, element.change);
+          assert.strictEqual(hookEl.revision, element.currentRevision);
+          done();
         });
       });
     });

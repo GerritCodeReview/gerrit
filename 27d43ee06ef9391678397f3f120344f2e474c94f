@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3c5037d0_0e78d1fa",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-20T12:24:38Z",
+      "side": 1,
+      "message": "sorry, from earlier version of this change.",
+      "parentUuid": "73d2b7ab_c78097b5",
+      "range": {
+        "startLine": 175,
+        "startChar": 2,
+        "endLine": 175,
+        "endChar": 68
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c764c32_079b814b",
         "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
         "patchSetId": 11

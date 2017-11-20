@@ -29,6 +29,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.GitRepositoryManagerModule;
+import com.google.gerrit.server.git.SystemReaderInstaller;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.schema.DataSourceModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
@@ -133,6 +134,13 @@ public abstract class SiteProgram extends AbstractProgram {
             }
           });
     }
+    modules.add(
+        new LifecycleModule() {
+          @Override
+          protected void configure() {
+            listener().to(SystemReaderInstaller.class);
+          }
+        });
 
     modules.add(
         new LifecycleModule() {

@@ -60,7 +60,6 @@ import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.GerritServerTests;
 import com.google.gerrit.testing.InMemoryDatabase;
 import com.google.inject.Inject;
@@ -72,7 +71,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
@@ -82,13 +80,6 @@ import org.junit.Test;
 
 @Ignore
 public abstract class AbstractQueryAccountsTest extends GerritServerTests {
-  @ConfigSuite.Default
-  public static Config defaultConfig() {
-    Config cfg = new Config();
-    cfg.setInt("index", null, "maxPages", 10);
-    return cfg;
-  }
-
   @Inject protected Accounts accounts;
 
   @Inject protected AccountsUpdate.Server accountsUpdate;

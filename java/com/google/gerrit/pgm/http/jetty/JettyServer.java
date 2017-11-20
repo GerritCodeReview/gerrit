@@ -42,6 +42,7 @@ import java.util.Set;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import org.eclipse.jetty.http.HttpScheme;
+import org.eclipse.jetty.http2.server.HTTP2CServerConnectionFactory;
 import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.ForwardedRequestCustomizer;
@@ -285,8 +286,9 @@ public class JettyServer {
 
   private static ServerConnector newServerConnector(
       Server server, int acceptors, HttpConfiguration config) {
+    HTTP2CServerConnectionFactory h2 = new HTTP2CServerConnectionFactory(new HttpConfiguration(config));
     return new ServerConnector(
-        server, null, null, null, 0, acceptors, new HttpConnectionFactory(config));
+        server, new HttpConnectionFactory(config), h2);
   }
 
   private HttpConfiguration defaultConfig(int requestHeaderSize) {

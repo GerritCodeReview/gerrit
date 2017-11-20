@@ -110,7 +110,7 @@ final class ElasticTestUtils {
   }
 
   static void deleteAllIndexes(ElasticNodeInfo nodeInfo) {
-    nodeInfo.node.client().admin().indices().prepareDelete("_all").execute();
+    nodeInfo.node.client().admin().indices().prepareDelete("_all").execute().actionGet();
   }
 
   static class NodeInfo {

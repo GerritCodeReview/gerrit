@@ -15,7 +15,6 @@
 package com.google.gerrit.server.group.db;
 
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
-import static java.util.Comparator.comparing;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -40,7 +39,6 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -329,10 +327,7 @@ public class Groups {
       return ImmutableList.of();
     }
 
-    List<AccountGroupMemberAudit> audits =
-        db.accountGroupMembersAudit().byGroup(group.get().getId()).toList();
-    Collections.sort(audits, comparing((AccountGroupMemberAudit a) -> a.getAddedOn()));
-    return audits;
+    return db.accountGroupMembersAudit().byGroup(group.get().getId()).toList();
   }
 
   /**
@@ -355,9 +350,6 @@ public class Groups {
       return ImmutableList.of();
     }
 
-    List<AccountGroupByIdAud> audits =
-        db.accountGroupByIdAud().byGroup(group.get().getId()).toList();
-    Collections.sort(audits, comparing((AccountGroupByIdAud a) -> a.getAddedOn()));
-    return audits;
+    return db.accountGroupByIdAud().byGroup(group.get().getId()).toList();
   }
 }

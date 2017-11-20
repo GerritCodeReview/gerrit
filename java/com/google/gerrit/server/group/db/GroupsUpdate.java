@@ -477,12 +477,14 @@ public class GroupsUpdate {
 
   private Optional<UpdateResult> updateGroupInNoteDb(
       AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
-      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
+      throws IOException, ConfigInvalidException, OrmDuplicateKeyException, NoSuchGroupException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
       GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersRepo, groupUuid);
       groupConfig.setGroupUpdate(groupUpdate, this::getAccountNameEmail, this::getGroupName);
       if (!groupConfig.getLoadedGroup().isPresent()) {
-        // TODO(aliceks): Throw a NoSuchGroupException here when all groups are stored in NoteDb.
+        if (groupsMigration.readFromNoteDb()) {
+          throw new NoSuchGroupException(groupUuid);
+        }
         return Optional.empty();
       }
 

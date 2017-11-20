@@ -156,7 +156,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
                         "" //
                             + "[label \"CustomLabel\"]\n" //
                             + "  value = -1 Negative\n" //
-                            + "  value =  0 No Score\n" //
+                            + "  value = 0 No Score\n" //
                             + "  value =  1 Positive\n")) //
                 ));
 
@@ -178,7 +178,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
                         "" //
                             + "[label \"CustomLabel\"]\n" //
                             + "  value = -1 Negative\n" //
-                            + "  value =  0 No Score\n" //
+                            + "  value = 0 No Score\n" //
                             + "  value =  1 Positive\n" //
                             + "  defaultValue = -1\n")) //
                 ));
@@ -201,7 +201,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
                         "" //
                             + "[label \"CustomLabel\"]\n" //
                             + "  value = -1 Negative\n" //
-                            + "  value =  0 No Score\n" //
+                            + "  value = 0 No Score\n" //
                             + "  value =  1 Positive\n" //
                             + "  defaultValue = -2\n")) //
                 ));

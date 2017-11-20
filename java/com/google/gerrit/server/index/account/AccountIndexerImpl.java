@@ -102,7 +102,7 @@ public class AccountIndexerImpl implements AccountIndexer {
   }
 
   private static boolean autoReindexIfStale(Config cfg) {
-    return cfg.getBoolean("index", null, "autoReindexIfStale", false);
+    return cfg.getBoolean("index", null, "autoReindexIfStale", true);
   }
 
   private void autoReindexIfStale(Account.Id id) {

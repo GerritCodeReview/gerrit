@@ -15,7 +15,9 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.gerrit.elasticsearch.ElasticTestUtils.ElasticNodeInfo;
+import com.google.gerrit.server.query.IndexConfig;
 import com.google.gerrit.server.query.change.AbstractQueryChangesTest;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.InMemoryRepositoryManager.Repo;
 import com.google.inject.Guice;
@@ -29,6 +31,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    return IndexConfig.createForElasticsearch();
+  }
+
   private static ElasticNodeInfo nodeInfo;
 
   @BeforeClass

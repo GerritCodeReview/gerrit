@@ -144,7 +144,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   }
 
   @Override
-  public DataSource getSource(Predicate<ChangeData> p, QueryOptions opts)
+  public DataSource<ChangeData> getSource(Predicate<ChangeData> p, QueryOptions opts)
       throws QueryParseException {
     Set<Change.Status> statuses = ChangeIndexRewriter.getPossibleStatus(p);
     List<String> indexes = Lists.newArrayListWithCapacity(2);

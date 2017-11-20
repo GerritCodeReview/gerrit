@@ -18,6 +18,7 @@ import static com.google.gerrit.server.config.GerritServerConfigModule.getSecure
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.common.Die;
+import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
@@ -28,6 +29,7 @@ import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.GitRepositoryManagerModule;
+import com.google.gerrit.server.git.SystemReaderInstaller;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.inject.AbstractModule;
@@ -106,6 +108,13 @@ public abstract class SiteProgram extends AbstractProgram {
           });
     }
 
+    modules.add(
+        new LifecycleModule() {
+          @Override
+          protected void configure() {
+            listener().to(SystemReaderInstaller.class);
+          }
+        });
     Module configModule = new GerritServerConfigModule();
     modules.add(configModule);
     modules.add(

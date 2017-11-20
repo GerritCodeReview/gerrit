@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1509983558 +0100\nnonce AMT3iFg7ZVIIeiDUV4GXqOMce9rRQKTIQG/z70jruKdwxRXLT1xH9soFhS7UYXnP6Fua4UHlJxUD\n\n0000000000000000000000000000000000000000 4f742db3ec34d4ed947200275f431344f8954571 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaAIVGAAoJEFG1/Zeg0O9RcVEH+wf7cIqjjzIUjPuKRWykbRIq\n6W8ueHiH0szRdHqXGe4HeOjXxtjd+RUa7Fcb4+61O92EJ+LNfg5om8AhpOz9wh/r\n/Z/EDRauNqDgvd7EUPxnwGRq0V7MG8eEEAm3DG/0/Dl6f49cvMuzu6kHWOIhVM/D\n3wgaHDCeyGmotbaokVg3VQdMf3qYfpAk1S2YEXxd2IWN117k0pjZ0D9HD7ytZqlc\nxHudxcxJiZ8kq+7J8Urls3D2BLI6aylCWDJJqI2kKTCAU1B6JTDMx1b01shwI7kz\ngI1BClayu4HaYWhvJBK3dIFSDdVqj/UpwtihjC6mcyuSAAw34U0mXj2DJ7YYnSA\u003d\n\u003dDLSN\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "599d4503_3808d8c1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-20T18:10:34Z",
+      "side": 1,
+      "message": "This is tripping the Group consistency checker; the branch name in this space should be a sharded UUID, so it should be created with newGroup().",
+      "revId": "4f742db3ec34d4ed947200275f431344f8954571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -23,8 +23,10 @@ limitations under the License.
 
 <script>
   suite('gr-path-list-behavior tests', () => {
+    const behavior = Gerrit.PathListBehavior;
+
     test('special sort', () => {
-      const sort = Gerrit.PathListBehavior.specialFilePathCompare;
+      const sort = behavior.specialFilePathCompare;
       const testFiles = [
         '/a.h',
         '/MERGE_LIST',
@@ -46,7 +48,7 @@ limitations under the License.
     });
 
     test('file display name', () => {
-      const name = Gerrit.PathListBehavior.computeDisplayPath;
+      const name = behavior.computeDisplayPath;
       assert.equal(name('/foo/bar/baz'), '/foo/bar/baz');
       assert.equal(name('/foobarbaz'), '/foobarbaz');
       assert.equal(name('/COMMIT_MSG'), 'Commit message');
@@ -54,7 +56,7 @@ limitations under the License.
     });
 
     test('truncatePath with long path should add ellipsis', () => {
-      const truncatePath = Gerrit.PathListBehavior.truncatePath;
+      const truncatePath = behavior.truncatePath;
       let path = 'level1/level2/level3/level4/file.js';
       let shortenedPath = truncatePath(path);
       // The expected path is truncated with an ellipsis.
@@ -67,11 +69,21 @@ limitations under the License.
     });
 
     test('truncatePath with short path should not add ellipsis', () => {
-      const truncatePath = Gerrit.PathListBehavior.truncatePath;
+      const truncatePath = behavior.truncatePath;
       const path = 'file.js';
       const expectedPath = 'file.js';
       const shortenedPath = truncatePath(path);
       assert.equal(shortenedPath, expectedPath);
+    });
+
+    test('specialFilesFilter', () => {
+      const specialFilesFilter = behavior.specialFilesFilter;
+      assert.equal(specialFilesFilter({__path: behavior.MERGE_LIST_PATH}),
+          false);
+      assert.equal(specialFilesFilter({__path: behavior.COMMIT_MESSAGE_PATH}),
+          false);
+      assert.equal(specialFilesFilter({__path: ''}), true);
+      assert.equal(specialFilesFilter({__path: 'test/path.cpp'}), true);
     });
   });
 </script>

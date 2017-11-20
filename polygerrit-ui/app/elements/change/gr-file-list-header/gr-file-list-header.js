@@ -38,6 +38,11 @@
         type: String,
         notify: true,
       },
+      // TODO(kaspern): when Polymer 2 is in use, remove the null initial value.
+      numFiles: {
+        type: Number,
+        value: null,
+      },
       patchNum: String,
       basePatchNum: String,
       filesExpanded: String,
@@ -134,8 +139,7 @@
      */
     _getPatchsetHash(revisions, patchSet) {
       for (const rev in revisions) {
-        if (revisions.hasOwnProperty(rev) &&
-            revisions[rev] === patchSet) {
+        if (revisions.hasOwnProperty(rev) && revisions[rev] === patchSet) {
           return rev;
         }
       }
@@ -211,6 +215,11 @@
         return '';
       }
       return 'patchInfoOldPatchSet';
+    },
+
+    _computeHeaderText(numFiles) {
+      if (numFiles === null) { return 'Files'; }
+      return `${numFiles} ${numFiles === 1 ? 'File' : 'Files'}`;
     },
   });
 })();

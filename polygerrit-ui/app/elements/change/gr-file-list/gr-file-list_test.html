@@ -88,11 +88,40 @@ limitations under the License.
 
       element.numFilesShown = 200;
       saveStub = sandbox.stub(element, '_saveReviewedState',
-          () => { return Promise.resolve(); });
+          () => Promise.resolve());
     });
 
     teardown(() => {
       sandbox.restore();
+    });
+
+    test('reload', () => {
+      element.changeNum = '42';
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '2',
+      };
+      sandbox.stub(element.$.restAPI, 'getChangeFiles', () => Promise.resolve({
+        '/COMMIT_MSG': {lines_inserted: 9},
+        'tags.html': {lines_deleted: 123},
+        'about.txt': {},
+      }));
+      sandbox.stub(element, '_setReviewedFiles');
+      const expectedCalls = [];
+
+      // Spy on all expected calls in reload().
+      expectedCalls.push(sandbox.spy(element, 'collapseAllDiffs'));
+      expectedCalls.push(sandbox.spy(element, '_getFiles'));
+      expectedCalls.push(sandbox.spy(element, '_getLoggedIn'));
+      expectedCalls.push(sandbox.spy(element, '_getReviewedFiles'));
+      expectedCalls.push(sandbox.spy(element, '_getDiffPreferences'));
+      expectedCalls.push(sandbox.spy(element, '_getPreferences'));
+
+      return element.reload().then(() => {
+        for (const spy of expectedCalls) { assert.isTrue(spy.called); }
+        assert.isFalse(element._loading);
+        assert.equal(element.numFiles, 2);
+      });
     });
 
     test('correct number of files are shown', () => {
@@ -106,8 +135,8 @@ limitations under the License.
     });
 
     test('get file list', done => {
-      const getChangeFilesStub = sandbox.stub(element.$.restAPI, 'getChangeFiles',
-          () => {
+      const getChangeFilesStub =
+          sandbox.stub(element.$.restAPI, 'getChangeFiles', () => {
             return Promise.resolve({
               '/COMMIT_MSG': {lines_inserted: 9},
               'tags.html': {lines_deleted: 123},
@@ -133,7 +162,6 @@ limitations under the License.
           lines_deleted: 123,
           __path: 'tags.html',
         });
-
         getChangeFilesStub.restore();
         done();
       });

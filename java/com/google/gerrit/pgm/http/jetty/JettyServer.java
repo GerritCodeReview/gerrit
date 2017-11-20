@@ -42,6 +42,8 @@ import java.util.Set;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import org.eclipse.jetty.http.HttpScheme;
+import org.eclipse.jetty.http2.server.HTTP2CServerConnectionFactory;
+import org.eclipse.jetty.http2.server.HTTP2ServerConnectionFactory;
 import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.ForwardedRequestCustomizer;
@@ -187,7 +189,7 @@ public class JettyServer {
 
       if ("http".equals(u.getScheme())) {
         defaultPort = 80;
-        c = newServerConnector(server, acceptors, config);
+        c = newServerConnector(server, acceptors, config, cfg);
 
       } else if ("https".equals(u.getScheme())) {
         SslContextFactory ssl = new SslContextFactory();
@@ -228,7 +230,7 @@ public class JettyServer {
       } else if ("proxy-http".equals(u.getScheme())) {
         defaultPort = 8080;
         config.addCustomizer(new ForwardedRequestCustomizer());
-        c = newServerConnector(server, acceptors, config);
+        c = newServerConnector(server, acceptors, config, cfg);
 
       } else if ("proxy-https".equals(u.getScheme())) {
         defaultPort = 8080;
@@ -242,7 +244,7 @@ public class JettyServer {
                 request.setSecure(true);
               }
             });
-        c = newServerConnector(server, acceptors, config);
+        c = newServerConnector(server, acceptors, config, cfg);
 
       } else {
         throw new IllegalArgumentException(
@@ -284,9 +286,19 @@ public class JettyServer {
   }
 
   private static ServerConnector newServerConnector(
-      Server server, int acceptors, HttpConfiguration config) {
-    return new ServerConnector(
-        server, null, null, null, 0, acceptors, new HttpConnectionFactory(config));
+      Server server, int acceptors, HttpConfiguration config, Config cfg) {
+    Boolean h2Enable = cfg.getBoolean("httpd", "h2", true);
+    HTTP2ServerConnectionFactory h2;
+    HTTP2CServerConnectionFactory h2c;
+    if (h2Enable) {
+      h2 = new HTTP2ServerConnectionFactory(new HttpConfiguration(config));
+      h2c = new HTTP2CServerConnectionFactory(new HttpConfiguration(config));
+    } else {
+      h2 = null;
+      h2c = null;
+    }
+
+    return new ServerConnector(server, new HttpConnectionFactory(config), h2, h2c);
   }
 
   private HttpConfiguration defaultConfig(int requestHeaderSize) {

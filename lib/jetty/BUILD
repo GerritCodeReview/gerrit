@@ -28,6 +28,8 @@ java_library(
     exports = [
         ":continuation",
         ":http",
+        "@jetty_http2_server//jar",
+        "@jetty_http2_server_common//jar",
         "@jetty_server//jar",
     ],
 )

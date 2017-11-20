@@ -802,6 +802,18 @@ maven_jar(
 )
 
 maven_jar(
+    name = "jetty_http2_server",
+    artifact = "org.eclipse.jetty.http2:http2-server:" + JETTY_VERS,
+    sha1 = "acf09b510403b23b78706fe8295b58c26fd93855",
+)
+
+maven_jar(
+    name = "jetty_http2_server_common",
+    artifact = "org.eclipse.jetty.http2:http2-common:" + JETTY_VERS,
+    sha1 = "d2d808cdd0df578900ad17966326e7a39203f74d",
+)
+
+maven_jar(
     name = "jetty_jmx",
     artifact = "org.eclipse.jetty:jetty-jmx:" + JETTY_VERS,
     sha1 = "f988136dc5aa634afed6c5a35d910ee9599c6c23",

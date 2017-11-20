@@ -403,6 +403,18 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     assertThat(GroupTestUtil.readNameToUuidMap(repo)).containsExactly("a", "a-1", "b", "b-2");
   }
 
+  @Test
+  public void groupNamesWithLeadingAndTrailingWhitespace() throws Exception {
+    for (String leading : ImmutableList.of("", " ", "  ")) {
+      for (String trailing : ImmutableList.of("", " ", "  ")) {
+        AccountGroup g = newGroup(leading + "a" + trailing);
+        GroupBundle b = builder().group(g).build();
+        rebuilder.rebuild(repo, b, null);
+        assertThat(reload(g)).isEqualTo(b);
+      }
+    }
+  }
+
   private GroupBundle reload(AccountGroup g) throws Exception {
     return bundleFactory.fromNoteDb(repo, g.getGroupUUID());
   }
@@ -412,7 +424,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     return new AccountGroup(
         new AccountGroup.NameKey(name),
         new AccountGroup.Id(id),
-        new AccountGroup.UUID(name + "-" + id),
+        new AccountGroup.UUID(name.trim() + "-" + id),
         TimeUtil.nowTs());
   }
 

@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.project.testing.Util;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
 import java.io.IOException;
@@ -156,7 +157,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
                         "" //
                             + "[label \"CustomLabel\"]\n" //
                             + "  value = -1 Negative\n" //
-                            + "  value =  0 No Score\n" //
+                            + "  value = 0 No Score\n" //
                             + "  value =  1 Positive\n")) //
                 ));
 
@@ -178,7 +179,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
                         "" //
                             + "[label \"CustomLabel\"]\n" //
                             + "  value = -1 Negative\n" //
-                            + "  value =  0 No Score\n" //
+                            + "  value = 0 No Score\n" //
                             + "  value =  1 Positive\n" //
                             + "  defaultValue = -1\n")) //
                 ));
@@ -201,7 +202,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
                         "" //
                             + "[label \"CustomLabel\"]\n" //
                             + "  value = -1 Negative\n" //
-                            + "  value =  0 No Score\n" //
+                            + "  value = 0 No Score\n" //
                             + "  value =  1 Positive\n" //
                             + "  defaultValue = -2\n")) //
                 ));
@@ -299,6 +300,31 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
                 + LABEL_SCORES_CONFIG
                 + "\tfunction = MaxWithBlock\n" // label gets this function when it is created
                 + "\tdefaultValue = 0\n"); //  label gets this value when it is created
+  }
+
+  @Test
+  public void editConfigLabelValues() throws Exception {
+    RevCommit rev = util.commit(util.tree());
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    cfg.getLabelSections()
+        .put(
+            "My-Label",
+            Util.category(
+                "My-Label",
+                Util.value(-1, "Negative"),
+                Util.value(0, "No score"),
+                Util.value(1, "Positive")));
+    rev = commit(cfg);
+    assertThat(text(rev, "project.config"))
+        .isEqualTo(
+            "[label \"My-Label\"]\n"
+                + "\tfunction = MaxWithBlock\n"
+                + "\tdefaultValue = 0\n"
+                + "\tvalue = -1 Negative\n"
+                + "\tvalue = 0 No score\n"
+                + "\tvalue = +1 Positive\n");
   }
 
   @Test

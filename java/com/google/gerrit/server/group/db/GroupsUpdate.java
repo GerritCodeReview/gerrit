@@ -206,7 +206,6 @@ public class GroupsUpdate {
       ReviewDb db, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws OrmException, IOException, ConfigInvalidException {
     if (!groupsMigration.disableGroupReviewDb()) {
-      // TODO(ekempin): Don't read groups from ReviewDb if reading groups from NoteDb is configured
       InternalGroup createdGroupInReviewDb =
           createGroupInReviewDb(ReviewDbUtil.unwrapDb(db), groupCreation, groupUpdate);
 
@@ -247,7 +246,6 @@ public class GroupsUpdate {
       throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
     UpdateResult reviewDbUpdateResult = null;
     if (!groupsMigration.disableGroupReviewDb()) {
-      // TODO(ekempin): Don't read groups from ReviewDb if reading groups from NoteDb is configured
       AccountGroup group = getExistingGroupFromReviewDb(ReviewDbUtil.unwrapDb(db), groupUuid);
       reviewDbUpdateResult = updateGroupInReviewDb(ReviewDbUtil.unwrapDb(db), group, groupUpdate);
 

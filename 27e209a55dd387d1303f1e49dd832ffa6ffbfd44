@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da978605_351160b9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-20T17:53:38Z",
+      "side": 1,
+      "message": "Is this the right color? #8f756c looks like indistinct shade of brown.\n\nIt\u0027s so indistinct that I can\u0027t really even describe the color.",
+      "range": {
+        "startLine": 42,
+        "startChar": 27,
+        "endLine": 42,
+        "endChar": 33
+      },
+      "revId": "27e209a55dd387d1303f1e49dd832ffa6ffbfd44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

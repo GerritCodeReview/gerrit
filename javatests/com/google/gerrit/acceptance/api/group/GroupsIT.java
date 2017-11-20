@@ -1187,6 +1187,17 @@ public class GroupsIT extends AbstractDaemonTest {
     assertStaleGroupAndReindex(groupUuid);
   }
 
+  @Test
+  public void groupNamesWithLeadingAndTrailingWhitespace() throws Exception {
+    for (String leading : ImmutableList.of("", " ", "  ")) {
+      for (String trailing : ImmutableList.of("", " ", "  ")) {
+        String name = leading + name("group") + trailing;
+        GroupInfo g = gApi.groups().create(name).get();
+        assertThat(g.name).isEqualTo(name);
+      }
+    }
+  }
+
   private void assertStaleGroupAndReindex(AccountGroup.UUID groupUuid) throws IOException {
     // Evict group from cache to be sure that we use the index state for staleness checks. This has
     // to happen directly on the groupsByUUID cache because GroupsCacheImpl triggers a reindex for

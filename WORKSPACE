@@ -100,8 +100,8 @@ maven_jar(
 
 maven_jar(
     name = "servlet_api_3_1",
-    artifact = "org.apache.tomcat:tomcat-servlet-api:8.0.24",
-    sha1 = "5d9e2e895e3111622720157d0aa540066d5fce3a",
+    artifact = "org.apache.tomcat:tomcat-servlet-api:8.5.23",
+    sha1 = "021a212688ec94fe77aff74ab34cc74f6f940e60",
 )
 
 GWT_VERS = "2.8.2"

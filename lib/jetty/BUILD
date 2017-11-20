@@ -29,6 +29,8 @@ java_library(
         ":continuation",
         ":http",
         "@jetty_server//jar",
+        "@jetty_http2_server//jar",
+        "@jetty_http2_server_common//jar",
     ],
 )
 

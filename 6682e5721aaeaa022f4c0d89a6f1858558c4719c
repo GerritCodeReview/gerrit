@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be8b578a_f559fccf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-20T21:33:11Z",
+      "side": 1,
+      "message": "Small nitpicks: removed the period at the end of the first line, and corrected the bug reference.",
+      "range": {
+        "startLine": 7,
+        "startChar": 63,
+        "endLine": 7,
+        "endChar": 64
+      },
+      "revId": "6682e5721aaeaa022f4c0d89a6f1858558c4719c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

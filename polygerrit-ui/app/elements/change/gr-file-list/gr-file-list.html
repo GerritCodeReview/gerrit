@@ -69,6 +69,15 @@ limitations under the License.
         text-align: center;
         width: 1.5em;
       }
+      .file-row.expanded {
+        background-color: #fff;
+        border-bottom: 1px solid #ddd;
+        position: sticky;
+        top: 0;
+        /* Ewww... but it needs to be on top of the diff content.  and it's not
+          otherwise. */
+        z-index: 10;
+      }
       .file-row:hover {
         background-color: #f5fafd;
       }
@@ -201,7 +210,7 @@ limitations under the License.
           display: block;
         }
         .row.selected {
-          background-color: transparent;
+          background-color: #fff;
         }
         .stats {
           display: none;
@@ -232,104 +241,107 @@ limitations under the License.
           as="file"
           initial-count="[[fileListIncrement]]"
           target-framerate="1">
-        <div class="file-row row" data-path$="[[file.__path]]" tabindex="-1">
-          <div class="show-hide" hidden$="[[_userPrefs.expand_inline_diffs]]">
-            <label class="show-hide" data-path$="[[file.__path]]"
-                data-expand=true>
-              <input type="checkbox" class="show-hide"
-                  checked$="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]"
-                  data-path$="[[file.__path]]" data-expand=true>
-              [[_computeShowHideText(file.__path, _expandedFilePaths.*)]]
-            </label>
-          </div>
-          <div class$="[[_computeClass('status', file.__path)]]"
-              tabindex="0"
-              aria-label$="[[_computeFileStatusLabel(file.status)]]">
-            [[_computeFileStatus(file.status)]]
-          </div>
-          <span
-              data-url="[[_computeDiffURL(change, patchRange.patchNum, patchRange.basePatchNum, file.__path)]]"
-              class$="[[_computePathClass(file.__path, _expandedFilePaths.*)]]">
-            <a href$="[[_computeDiffURL(change, patchRange.patchNum, patchRange.basePatchNum, file.__path)]]">
-              <span title$="[[computeDisplayPath(file.__path)]]"
-                  class="fullFileName">
-                [[computeDisplayPath(file.__path)]]
-              </span>
-              <span title$="[[computeDisplayPath(file.__path)]]"
-                  class="truncatedFileName">
-                [[computeTruncatedPath(file.__path)]]
-              </span>
-            </a>
-            <div class="oldPath" hidden$="[[!file.old_path]]" hidden
-                title$="[[file.old_path]]">
-              [[file.old_path]]
+        <div class="stickyArea">
+          <div class$="file-row row [[_computePathClass(file.__path, _expandedFilePaths.*)]]"
+              data-path$="[[file.__path]]" tabindex="-1">
+            <div class="show-hide" hidden$="[[_userPrefs.expand_inline_diffs]]">
+              <label class="show-hide" data-path$="[[file.__path]]"
+                  data-expand=true>
+                <input type="checkbox" class="show-hide"
+                    checked$="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]"
+                    data-path$="[[file.__path]]" data-expand=true>
+                [[_computeShowHideText(file.__path, _expandedFilePaths.*)]]
+              </label>
             </div>
-          </span>
-          <div class="comments desktop">
-            <span class="drafts">
-              [[_computeDraftsString(changeComments, patchRange.patchNum, file.__path)]]
+            <div class$="[[_computeClass('status', file.__path)]]"
+                tabindex="0"
+                aria-label$="[[_computeFileStatusLabel(file.status)]]">
+              [[_computeFileStatus(file.status)]]
+            </div>
+            <span
+                data-url="[[_computeDiffURL(change, patchRange.patchNum, patchRange.basePatchNum, file.__path)]]"
+                class="path">
+              <a href$="[[_computeDiffURL(change, patchRange.patchNum, patchRange.basePatchNum, file.__path)]]">
+                <span title$="[[computeDisplayPath(file.__path)]]"
+                    class="fullFileName">
+                  [[computeDisplayPath(file.__path)]]
+                </span>
+                <span title$="[[computeDisplayPath(file.__path)]]"
+                    class="truncatedFileName">
+                  [[computeTruncatedPath(file.__path)]]
+                </span>
+              </a>
+              <div class="oldPath" hidden$="[[!file.old_path]]" hidden
+                  title$="[[file.old_path]]">
+                [[file.old_path]]
+              </div>
             </span>
-            [[_computeCommentsString(changeComments, patchRange.patchNum, file.__path)]]
-          </div>
-          <div class="comments mobile">
-            <span class="drafts">
-              [[_computeDraftsStringMobile(changeComments, patchRange.patchNum,
+            <div class="comments desktop">
+              <span class="drafts">
+                [[_computeDraftsString(changeComments, patchRange.patchNum, file.__path)]]
+              </span>
+              [[_computeCommentsString(changeComments, patchRange.patchNum, file.__path)]]
+            </div>
+            <div class="comments mobile">
+              <span class="drafts">
+                [[_computeDraftsStringMobile(changeComments, patchRange.patchNum,
+                    file.__path)]]
+              </span>
+              [[_computeCommentsStringMobile(changeComments, patchRange.patchNum,
                   file.__path)]]
-            </span>
-            [[_computeCommentsStringMobile(changeComments, patchRange.patchNum,
-                file.__path)]]
+            </div>
+            <div class$="[[_computeClass('stats', file.__path)]]">
+              <span
+                  class="added"
+                  tabindex="0"
+                  aria-label$="[[file.lines_inserted]] lines added"
+                  hidden$=[[file.binary]]>
+                +[[file.lines_inserted]]
+              </span>
+              <span
+                  class="removed"
+                  tabindex="0"
+                  aria-label$="[[file.lines_deleted]] lines removed"
+                  hidden$=[[file.binary]]>
+                -[[file.lines_deleted]]
+              </span>
+              <span class$="[[_computeBinaryClass(file.size_delta)]]"
+                  hidden$=[[!file.binary]]>
+                [[_formatBytes(file.size_delta)]]
+                [[_formatPercentage(file.size, file.size_delta)]]
+              </span>
+            </div>
+            <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden>
+              <span class$="reviewedLabel [[_computeReviewedClass(file.isReviewed)]]">Reviewed</span>
+              <label>
+                <input class="reviewed" type="checkbox" checked="[[file.isReviewed]]">
+                <span class="markReviewed" title="Mark as reviewed (shortcut: r)">[[_computeReviewedText(file.isReviewed)]]</span>
+              </label>
+            </div>
+            <div class="editFileControls showOnEdit">
+              <gr-edit-file-controls
+                  class$="[[_computeClass('', file.__path)]]"
+                  file-path="[[file.__path]]"></gr-edit-file-controls>
+            </div>
           </div>
-          <div class$="[[_computeClass('stats', file.__path)]]">
-            <span
-                class="added"
-                tabindex="0"
-                aria-label$="[[file.lines_inserted]] lines added"
-                hidden$=[[file.binary]]>
-              +[[file.lines_inserted]]
-            </span>
-            <span
-                class="removed"
-                tabindex="0"
-                aria-label$="[[file.lines_deleted]] lines removed"
-                hidden$=[[file.binary]]>
-              -[[file.lines_deleted]]
-            </span>
-            <span class$="[[_computeBinaryClass(file.size_delta)]]"
-                hidden$=[[!file.binary]]>
-              [[_formatBytes(file.size_delta)]]
-              [[_formatPercentage(file.size, file.size_delta)]]
-            </span>
-          </div>
-          <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden>
-            <span class$="reviewedLabel [[_computeReviewedClass(file.isReviewed)]]">Reviewed</span>
-            <label>
-              <input class="reviewed" type="checkbox" checked="[[file.isReviewed]]">
-              <span class="markReviewed" title="Mark as reviewed (shortcut: r)">[[_computeReviewedText(file.isReviewed)]]</span>
-            </label>
-          </div>
-          <div class="editFileControls showOnEdit">
-            <gr-edit-file-controls
-                class$="[[_computeClass('', file.__path)]]"
-                file-path="[[file.__path]]"></gr-edit-file-controls>
-          </div>
+          <template is="dom-if"
+              if="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]">
+            <gr-diff
+                no-auto-render
+                display-line="[[_displayLine]]"
+                inline-index=[[index]]
+                hidden="[[!_isFileExpanded(file.__path, _expandedFilePaths.*)]]"
+                change-num="[[changeNum]]"
+                patch-range="[[patchRange]]"
+                path="[[file.__path]]"
+                prefs="[[diffPrefs]]"
+                project-name="[[change.project]]"
+                project-config="[[projectConfig]]"
+                on-line-selected="_onLineSelected"
+                no-render-on-prefs-change
+                view-mode="[[diffViewMode]]"></gr-diff>
+          </template>
         </div>
-        <template is="dom-if"
-            if="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]">
-          <gr-diff
-              no-auto-render
-              display-line="[[_displayLine]]"
-              inline-index=[[index]]
-              hidden="[[!_isFileExpanded(file.__path, _expandedFilePaths.*)]]"
-              change-num="[[changeNum]]"
-              patch-range="[[patchRange]]"
-              path="[[file.__path]]"
-              prefs="[[diffPrefs]]"
-              project-name="[[change.project]]"
-              project-config="[[projectConfig]]"
-              on-line-selected="_onLineSelected"
-              no-render-on-prefs-change
-              view-mode="[[diffViewMode]]"></gr-diff>
-        </template>
       </template>
     </div>
     <div

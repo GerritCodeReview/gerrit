@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1511268515 -0500\nnonce AMT3iFjKScVowDIdanYpzm4G96eTs1FlHaZPIWR8JzZNKlWAyH3Re+CP1PZgHPIo1v57Jsh0NLEF\n\n0000000000000000000000000000000000000000 8b769cef1ef10fc6097106f635a2e12525f3ce9c refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAloUIKMVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMWDoP/2PlFW5NXVyDQ4JakErVDGK+5Xln\nh0Gc0CCe+LomuAcrzkLXnrk45mFzORPIYeGO7trvDxttm/9OQjOWJBATmvAEyAUO\nGqXVc951Jsvd0rRxCdRNc8/rodwiSvaiVthN0Uerf3dKpTbZaYBVlKD2DrtOhAQE\nlsqvq2nU74k2j1c4JkcRtgQchOajUiNTf35wo09zXcI4PeBdrMcG7WVQFll8gwf0\nV9pKmP3+QWNwK3QagclJWF2gqOJ54BRSAjX+7NfVsdhyPAc26cbOw8cU7zpQJIRP\nJz6JyPvaPrGzKKgUbttTmwBvE1ncUscibAXgvs1UiLb8+tz4wNzt/rAD8+XOwN+m\niorsiValbYrNLIue5qOFGkV6JvTFHNemjogfYLAOPancmQhE2F3vvprQwzU2Ja0w\nHPaBVYnywQN5FInp/0Czwv21qEJPBeV/ERP3kH3XxKEbJXJaeilDzg06nLreHYxP\nW30QccDsoDMeKpAi5TcZAfFtJR/nfKDlH5Zl06vCprqkYC+oVKjREtbAGDmFwtY8\nNDXy4wZxBH9d3muPkQYZHHBUPC9fOjOiLGgvF5qJW0XqTkBrEPzTGFKu7IP4XNgY\nQvBqezvota/RW4rx0+4sR7WgV2Yu4Whs/AddvciGTY5pIeBX3WLes/eFnn1xcjs2\nHgFMJIn4/4cUHwrF\n\u003d9lgb\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "880daa5b_f2582542",
+        "filename": "javatests/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-21T13:15:11Z",
+      "side": 1,
+      "message": "I\u0027m not sure that this is the test that David had in mind. \nIf I understood it correctly he suggested to test that reading from a config file which uses the old format with leading space is still working.",
+      "revId": "173a9e7509f3ebd758cf4b359bb3a8a2721c9885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

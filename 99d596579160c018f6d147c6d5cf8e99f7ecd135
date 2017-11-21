@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26208292_b4c926b1",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-21T04:35:42Z",
+      "side": 1,
+      "message": "Should this be System.out.format like in the Reindex program?\n\nOr, should TextProgressMonitor be used?",
+      "range": {
+        "startLine": 100,
+        "startChar": 8,
+        "endLine": 100,
+        "endChar": 25
+      },
+      "revId": "99d596579160c018f6d147c6d5cf8e99f7ecd135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

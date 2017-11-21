@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64ae9cc2_61af43fe",
+        "filename": "polygerrit-ui/app/elements/shared/revision-info/revision-info.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-21T22:07:31Z",
+      "side": 1,
+      "message": "I\u0027m tempted to add this to app/scripts rather than elements, since it\u0027s really a file to house a vanilla JS class (not an element). However, there are already some other classes that could be moved there too, so maybe this will be a matter of follow-up cleanup.\n\nThe reason it\u0027s a class rather than a webcomponent, is so that information about a change can be passed down without needing to pass down the entire change object. This is a similar strategy to the one used by the gr-comment-api.",
+      "revId": "421bf1db9cc402fe3e6cd0dc1349b366d051c67e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cfe7b7d8_e637b6c7",
+        "filename": "polygerrit-ui/app/elements/shared/revision-info/revision-info.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-21T22:07:31Z",
+      "side": 1,
+      "message": "In the future we can also use this class to track which revisions share a parent, so that we can show comments on the left-hand-side in more cases and address issue 6746.",
+      "revId": "421bf1db9cc402fe3e6cd0dc1349b366d051c67e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

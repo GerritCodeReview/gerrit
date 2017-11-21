@@ -157,6 +157,29 @@
     },
     {
       "key": {
+        "uuid": "3df349f1_f8f09d2f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T09:22:42Z",
+      "side": 1,
+      "message": "This new class is part of the check.consistency endpoint. Should we check through the API? Inject the test target class here and test against it directly makes it like a small test while it\u0027s not. \n\nOf course, the API will require ACCESS_DATABASE capability.\n\nallowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 56
+      },
+      "revId": "bc149aa84590e54ed228b4fc7ce58c7a76fecf34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8d324f2a_ebb089a7",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
         "patchSetId": 25
@@ -219,6 +242,75 @@
         "startChar": 2,
         "endLine": 100,
         "endChar": 14
+      },
+      "revId": "bc149aa84590e54ed228b4fc7ce58c7a76fecf34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe48f16b_74b336b8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T09:22:42Z",
+      "side": 1,
+      "message": "nit: this could be private.",
+      "range": {
+        "startLine": 118,
+        "startChar": 2,
+        "endLine": 118,
+        "endChar": 8
+      },
+      "revId": "bc149aa84590e54ed228b4fc7ce58c7a76fecf34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31a21ea1_fd9d2f87",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T09:22:42Z",
+      "side": 1,
+      "message": "Since every test has @Sandboxed, how about annotation this class as @Sandboxed directly? Also it could be better if we can avoid using this.",
+      "range": {
+        "startLine": 123,
+        "startChar": 2,
+        "endLine": 123,
+        "endChar": 12
+      },
+      "revId": "bc149aa84590e54ed228b4fc7ce58c7a76fecf34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1b64302_9634a816",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T09:22:42Z",
+      "side": 1,
+      "message": "nit: private void and move it after these tests?",
+      "range": {
+        "startLine": 192,
+        "startChar": 2,
+        "endLine": 192,
+        "endChar": 6
       },
       "revId": "bc149aa84590e54ed228b4fc7ce58c7a76fecf34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

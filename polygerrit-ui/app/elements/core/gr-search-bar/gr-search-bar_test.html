@@ -105,7 +105,7 @@ limitations under the License.
     });
 
     suite('_getSearchSuggestions', () => {
-      test('Autocompletes accounts', done => {
+      test('Autocompletes accounts', () => {
         sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
           Promise.resolve([
             {
@@ -114,9 +114,8 @@ limitations under the License.
             },
           ])
         );
-        element._getSearchSuggestions('owner:fr').then(s => {
-          assert.equal(s[0].value, 'owner:"fred <fred@goog.co>"');
-          done();
+        return element._getSearchSuggestions('owner:fr').then(s => {
+          assert.equal(s[0].value, 'owner:fred@goog.co');
         });
       });
 
@@ -257,7 +256,7 @@ limitations under the License.
           ])
         );
         element._getSearchSuggestions('owner:fr').then(s => {
-          assert.equal(s[0].value, 'owner:"Anonymous <fred@goog.co>"');
+          assert.equal(s[0].value, 'owner:fred@goog.co');
           done();
         });
       });

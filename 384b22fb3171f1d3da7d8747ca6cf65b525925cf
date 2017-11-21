@@ -94,6 +94,30 @@
       "revId": "384b22fb3171f1d3da7d8747ca6cf65b525925cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5086e73_ccd967e9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1350,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-11-21T01:53:31Z",
+      "side": 1,
+      "message": "Mostly looks good.\n\nNit: I would leave out the heading \u0027NOTE\u0027. Everything in documentation is a note.\n\n\u003e PolyGerrit does not support regex matching against HTML.\n\u003e Comment link patterns that are written in this style are deprecated and\n\u003e should be updated to match text formats.\n\nThis doesn\u0027t make it clear to me what I should do to avoid trouble. Should I duplicate my commentlink to be two commentlinks, one that applies to the HTML and the other that applies to markup?\n\nThis doesn\u0027t really feel like a deprecation (gradual removal of support, starting with a warning and followed by later removal). It feels more like cleanly removing a misfeature all at once.",
+      "parentUuid": "449a1a5c_8a8083d4",
+      "range": {
+        "startLine": 1350,
+        "startChar": 0,
+        "endLine": 1350,
+        "endChar": 46
+      },
+      "revId": "384b22fb3171f1d3da7d8747ca6cf65b525925cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

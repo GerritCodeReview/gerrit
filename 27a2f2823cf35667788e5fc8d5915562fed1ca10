@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58f19b32_6209459e",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-21T18:44:55Z",
+      "side": 1,
+      "message": "Hm, this definitely needs a better organization.\n\nBest I can think of is to create a context object and pass instance of it to the function, see gr-plugin-action-context to see what I mean.",
+      "range": {
+        "startLine": 17,
+        "startChar": 19,
+        "endLine": 17,
+        "endChar": 73
+      },
+      "revId": "27a2f2823cf35667788e5fc8d5915562fed1ca10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbb3301e_801c9491",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-21T18:44:55Z",
+      "side": 1,
+      "message": "Can this be moved into annotationApi()? This way annotatediff would become internal PolyGerrit event and when it is removed, no change is required for the plugin.\n\ngr-annotation-actions-js-api has plugin instance already so it could do plugin.on(\u0027annotatediff\u0027) internally for the delayed initialization.\n\nLet me know if this makes sense or not.",
+      "revId": "27a2f2823cf35667788e5fc8d5915562fed1ca10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

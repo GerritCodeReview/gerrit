@@ -118,6 +118,30 @@
       "revId": "384b22fb3171f1d3da7d8747ca6cf65b525925cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8de164c7_305d5bb6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1350,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-21T18:57:07Z",
+      "side": 1,
+      "message": "\u003e I would leave out the heading \u0027NOTE\u0027.\n\nDone.\n\n\u003e Should I duplicate my commentlink to be two commentlinks,\n\nHmm, I think you\u0027re right, duplicating the commentlinks may be the way to support both UIs. This deserves additional explanation in this doc.\n\n\u003e This doesn\u0027t really feel like a deprecation\n\nAgree: I\u0027ve removed use of the word.\n\n\u003e Though im unsure how to convert this one\n\u003e \n\u003e [commentlink \"ci-test-result\"]\n\u003e   ...\n\nI see, thanks for providing this example. In this case the commentlink cannot yet be upgraded to recognize those messages because PG linkifies before running the commentlink patterns. So, anything that looks like a URL will never be text that the commentlink patterns can be matched against.\n\nWe have issue 5526 for inverting the sequence of linkification, passes. I think I\u0027ll I\u0027ll mark this change as a WIP until we have a strategy for links like yours (potentially just by fixing issue 5526).",
+      "parentUuid": "d5086e73_ccd967e9",
+      "range": {
+        "startLine": 1350,
+        "startChar": 0,
+        "endLine": 1350,
+        "endChar": 46
+      },
+      "revId": "384b22fb3171f1d3da7d8747ca6cf65b525925cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

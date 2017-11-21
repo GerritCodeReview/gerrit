@@ -27,6 +27,7 @@ import java.nio.file.Path;
 import org.apache.log4j.Appender;
 import org.apache.log4j.AsyncAppender;
 import org.apache.log4j.DailyRollingFileAppender;
+import org.apache.log4j.FileAppender;
 import org.apache.log4j.Layout;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -44,19 +45,21 @@ public class SystemLog {
 
   private final SitePaths site;
   private final int asyncLoggingBufferSize;
+  private final boolean rotateLogs;
 
   @Inject
   public SystemLog(SitePaths site, @GerritServerConfig Config config) {
     this.site = site;
     this.asyncLoggingBufferSize = config.getInt("core", "asyncLoggingBufferSize", 64);
+    this.rotateLogs = config.getBoolean("log", "rotate", true);
   }
 
   public static boolean shouldConfigure() {
     return Strings.isNullOrEmpty(System.getProperty(LOG4J_CONFIGURATION));
   }
 
-  public static Appender createAppender(Path logdir, String name, Layout layout) {
-    final DailyRollingFileAppender dst = new DailyRollingFileAppender();
+  public static Appender createAppender(Path logdir, String name, Layout layout, boolean rotate) {
+    final FileAppender dst = rotate ? new DailyRollingFileAppender() : new FileAppender();
     dst.setName(name);
     dst.setLayout(layout);
     dst.setEncoding(UTF_8.name());
@@ -74,6 +77,11 @@ public class SystemLog {
   }
 
   public AsyncAppender createAsyncAppender(String name, Layout layout, boolean forPlugin) {
+    return createAsyncAppender(name, layout, forPlugin, rotateLogs);
+  }
+
+  private AsyncAppender createAsyncAppender(
+      String name, Layout layout, boolean forPlugin, boolean rotate) {
     AsyncAppender async = new AsyncAppender();
     async.setName(name);
     async.setBlocking(true);
@@ -81,7 +89,7 @@ public class SystemLog {
     async.setLocationInfo(false);
 
     if (forPlugin || shouldConfigure()) {
-      async.addAppender(createAppender(site.logs_dir, name, layout));
+      async.addAppender(createAppender(site.logs_dir, name, layout, rotate));
     } else {
       Appender appender = LogManager.getLogger(name).getAppender(name);
       if (appender != null) {

@@ -17,6 +17,24 @@
       "revId": "4f742db3ec34d4ed947200275f431344f8954571",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72fbe18b_89141d35",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-21T09:15:15Z",
+      "side": 1,
+      "message": "Yes, we only created the group branches manually here because the code that writes groups to NoteDb was not merged yet when this test was written. Fixed in:\n  https://gerrit-review.googlesource.com/c/gerrit/+/143290",
+      "parentUuid": "599d4503_3808d8c1",
+      "revId": "4f742db3ec34d4ed947200275f431344f8954571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

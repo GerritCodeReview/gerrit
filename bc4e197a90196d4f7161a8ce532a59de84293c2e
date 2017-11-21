@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d8f82d9_87afe97a",
+        "filename": "java/com/google/gerrit/server/config/AnonymousCowardNameProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-21T13:07:31Z",
+      "side": 1,
+      "message": "Maybe in a seperate patch we should rename this class?",
+      "revId": "bc4e197a90196d4f7161a8ce532a59de84293c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d0119cc_52fcb967",
+        "filename": "java/com/google/gerrit/server/config/AnonymousCowardNameProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-21T13:07:31Z",
+      "side": 1,
+      "message": "I think this may affect polygerrit\u0027s logic so polygerrit will need updating to use \"Anonymous\" like before. Before it was checking for \"Anonymous Coward\" and replacing it with \"Anonymous\".",
+      "range": {
+        "startLine": 22,
+        "startChar": 39,
+        "endLine": 22,
+        "endChar": 62
+      },
+      "revId": "bc4e197a90196d4f7161a8ce532a59de84293c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

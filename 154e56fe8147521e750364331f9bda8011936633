@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2b6635bf_8559b60b",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-21T19:23:29Z",
+      "side": 1,
+      "message": "We\u0027re going to need a variant of this method that takes an open repository instance, so our migration flume can pass in a completely in-memory repo to run consistency checks prior to saving anything to storage.\n\nDoesn\u0027t have to be in this change.",
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f8f19bae_f431069e",
         "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
         "patchSetId": 32

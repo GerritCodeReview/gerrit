@@ -31,8 +31,11 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Collection;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A bundle of all entities rooted at a single {@link AccountGroup} entity.
@@ -42,6 +45,8 @@ import org.eclipse.jgit.lib.Repository;
  */
 @AutoValue
 public abstract class GroupBundle {
+  private static final Logger log = LoggerFactory.getLogger(GroupBundle.class);
+
   static {
     // Initialization-time checks that the column set hasn't changed since the
     // last time this file was updated.
@@ -63,6 +68,22 @@ public abstract class GroupBundle {
     checkColumns(AccountGroupMemberAudit.class, 1, 2, 3, 4);
   }
 
+  public enum Source {
+    REVIEW_DB("ReviewDb"),
+    NOTE_DB("NoteDb");
+
+    private final String name;
+
+    private Source(String name) {
+      this.name = name;
+    }
+
+    @Override
+    public String toString() {
+      return name;
+    }
+  }
+
   @Singleton
   public static class Factory {
     private final AuditLogReader auditLogReader;
@@ -78,11 +99,12 @@ public abstract class GroupBundle {
         throw new OrmException("Group " + id + " not found");
       }
       return create(
+          Source.REVIEW_DB,
           group,
-          db.accountGroupMembers().byGroup(id),
-          db.accountGroupMembersAudit().byGroup(id),
-          db.accountGroupById().byGroup(id),
-          db.accountGroupByIdAud().byGroup(id));
+          db.accountGroupMembers().byGroup(id).toList(),
+          db.accountGroupMembersAudit().byGroup(id).toList(),
+          db.accountGroupById().byGroup(id).toList(),
+          db.accountGroupByIdAud().byGroup(id).toList());
     }
 
     public GroupBundle fromNoteDb(Repository repo, AccountGroup.UUID uuid)
@@ -102,6 +124,7 @@ public abstract class GroupBundle {
       accountGroup.setVisibleToAll(internalGroup.isVisibleToAll());
 
       return create(
+          Source.NOTE_DB,
           accountGroup,
           internalGroup
               .getMembers()
@@ -123,18 +146,41 @@ public abstract class GroupBundle {
   }
 
   public static GroupBundle create(
+      Source source,
       AccountGroup group,
-      Iterable<AccountGroupMember> members,
-      Iterable<AccountGroupMemberAudit> memberAudit,
-      Iterable<AccountGroupById> byId,
-      Iterable<AccountGroupByIdAud> byIdAudit) {
+      Collection<AccountGroupMember> members,
+      Collection<AccountGroupMemberAudit> memberAudit,
+      Collection<AccountGroupById> byId,
+      Collection<AccountGroupByIdAud> byIdAudit) {
+    AccountGroup.UUID uuid = group.getGroupUUID();
     return new AutoValue_GroupBundle.Builder()
         .group(group)
-        .members(members)
-        .memberAudit(memberAudit)
-        .byId(byId)
-        .byIdAudit(byIdAudit)
+        .members(logIfNotUnique(source, uuid, members, AccountGroupMember.class))
+        .memberAudit(logIfNotUnique(source, uuid, memberAudit, AccountGroupMemberAudit.class))
+        .byId(logIfNotUnique(source, uuid, byId, AccountGroupById.class))
+        .byIdAudit(logIfNotUnique(source, uuid, byIdAudit, AccountGroupByIdAud.class))
         .build();
+  }
+
+  private static <T> ImmutableSet<T> logIfNotUnique(
+      Source source, AccountGroup.UUID uuid, Collection<T> collection, Class<T> clazz) {
+    ImmutableSet<T> set = ImmutableSet.copyOf(collection);
+    if (set.size() != collection.size()) {
+      // One way this can happen is that distinct audit entities can compare equal, because
+      // AccountGroup{MemberAudit,ByIdAud}.Key does not include the addedOn timestamp in its
+      // members() list. However, this particular issue only applies to pure adds, since removedOn
+      // *is* included in equality. As a result, if this happens, it means the audit log is already
+      // corrupt, and it's not clear if we can programmatically repair it. For migrating to NoteDb,
+      // we'll try our best to recreate it, but no guarantees it will match the real sequence of
+      // attempted operations, which is in any case lost in the mists of time.
+      log.warn(
+          "group {} in {} has duplicate {} entities: {}",
+          uuid,
+          source,
+          clazz.getSimpleName(),
+          collection);
+    }
+    return set;
   }
 
   static Builder builder() {

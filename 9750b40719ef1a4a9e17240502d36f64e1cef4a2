@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c8c78142_4793e586",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-11-21T15:50:24Z",
+      "side": 1,
+      "message": "Gave this a shot in the new shared/gr-js-api-interface/gr-annotation-actions-js-api.js. Let me know what you think.",
+      "parentUuid": "e523441d_4087bd3b",
+      "revId": "9750b40719ef1a4a9e17240502d36f64e1cef4a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bbe1fcb1_ed5f3053",
         "filename": "polygerrit-ui/app/elements/coverage.js",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "bd624de2_8ccebf75",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-11-21T15:50:24Z",
+      "side": 1,
+      "message": "Thanks for thinking through this!\nI followed the same pattern you listed above with a few modifications for additional parameters. PTAL.",
+      "parentUuid": "bbe1fcb1_ed5f3053",
+      "revId": "9750b40719ef1a4a9e17240502d36f64e1cef4a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc1ff2b8_9ecae5cf",
         "filename": "polygerrit-ui/app/elements/coverage.js",
         "patchSetId": 7
@@ -47,6 +83,24 @@
       "writtenOn": "2017-11-18T00:20:24Z",
       "side": 1,
       "message": "I think Gerrit.css() is an acceptable workaround until we figure out a better way.",
+      "revId": "9750b40719ef1a4a9e17240502d36f64e1cef4a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7035547_4322ccbd",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-11-21T15:50:24Z",
+      "side": 1,
+      "message": "I\u0027m still unsure how to use Gerrit.css for this on a line. Sticking to GrAnnotation.annotateElement for now.",
+      "parentUuid": "dc1ff2b8_9ecae5cf",
       "revId": "9750b40719ef1a4a9e17240502d36f64e1cef4a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

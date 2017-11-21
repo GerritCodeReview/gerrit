@@ -975,30 +975,7 @@ add_apprentice_master(S1, S2) :-
 add_apprentice_master(S, S).
 ----
 
-=== Example 15: Only allow Author to submit change
-This example adds a new needed category `Only-Author-Can-Submit` for any user
-that is not the author of the patch. This effectively blocks all users except
-the author from submitting the change. This could result in an impossible
-situation if the author does not have permissions for submitting the change.
-
-`rules.pl`
-[source,prolog]
-----
-submit_rule(S) :-
-    gerrit:default_submit(In),
-    In =.. [submit | Ls],
-    only_allow_author_to_submit(Ls, R),
-    S =.. [submit | R].
-
-only_allow_author_to_submit(S, S) :-
-    gerrit:commit_author(Id),
-    gerrit:current_user(Id),
-    !.
-
-only_allow_author_to_submit(S1, [label('Only-Author-Can-Submit', need(_)) | S1]).
-----
-
-=== Example 16: Make change submittable if all comments have been resolved
+=== Example 15: Make change submittable if all comments have been resolved
 In this example we will use the `unresolved_comments_count` fact about a
 change. Our goal is to block the submission of any change with some
 unresolved comments. Basically, it can be achieved by the following rules:
@@ -1048,7 +1025,7 @@ It's only used to show `'Needs All-Comments-Resolved'` in the UI to clearly
 indicate to the user that all the comments have to be resolved for the
 change to become submittable.
 
-=== Example 17: Make change submittable if it is a pure revert
+=== Example 16: Make change submittable if it is a pure revert
 In this example we will use the `pure_revert` fact about a
 change. Our goal is to block the submission of any change that is not a
 pure revert. Basically, it can be achieved by the following rules:

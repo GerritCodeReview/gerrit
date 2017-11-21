@@ -64,8 +64,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
     SubmitRuleEvaluator evaluator =
-        submitRuleEvaluatorFactory.create(
-            rsrc.getUser(), changeDataFactory.create(db.get(), rsrc.getNotes()));
+        submitRuleEvaluatorFactory.create(changeDataFactory.create(db.get(), rsrc.getNotes()));
 
     SubmitTypeRecord rec =
         evaluator

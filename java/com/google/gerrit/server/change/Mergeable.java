@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -110,7 +109,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
     }
 
     ChangeData cd = changeDataFactory.create(db.get(), resource.getNotes());
-    result.submitType = getSubmitType(resource.getUser(), cd, ps);
+    result.submitType = getSubmitType(cd, ps);
 
     try (Repository git = gitManager.openRepository(change.getProject())) {
       ObjectId commit = toId(ps);
@@ -142,10 +141,9 @@ public class Mergeable implements RestReadView<RevisionResource> {
     return result;
   }
 
-  private SubmitType getSubmitType(CurrentUser user, ChangeData cd, PatchSet patchSet)
-      throws OrmException {
+  private SubmitType getSubmitType(ChangeData cd, PatchSet patchSet) throws OrmException {
     SubmitTypeRecord rec =
-        submitRuleEvaluatorFactory.create(user, cd).setPatchSet(patchSet).getSubmitType();
+        submitRuleEvaluatorFactory.create(cd).setPatchSet(patchSet).getSubmitType();
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new OrmException("Submit type rule failed: " + rec);
     }

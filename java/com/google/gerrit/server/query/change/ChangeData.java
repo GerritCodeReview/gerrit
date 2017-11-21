@@ -911,11 +911,7 @@ public class ChangeData {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
-      records =
-          submitRuleEvaluatorFactory
-              .create(userFactory.create(change().getOwner()), this)
-              .setOptions(options)
-              .evaluate();
+      records = submitRuleEvaluatorFactory.create(this).setOptions(options).evaluate();
       submitRecords.put(options, records);
     }
     return records;
@@ -932,10 +928,7 @@ public class ChangeData {
 
   public SubmitTypeRecord submitTypeRecord() throws OrmException {
     if (submitTypeRecord == null) {
-      submitTypeRecord =
-          submitRuleEvaluatorFactory
-              .create(userFactory.create(change().getOwner()), this)
-              .getSubmitType();
+      submitTypeRecord = submitRuleEvaluatorFactory.create(this).getSubmitType();
     }
     return submitTypeRecord;
   }

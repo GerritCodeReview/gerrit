@@ -80,6 +80,18 @@ limitations under the License.
       });
     });
 
+    test('selectAll', () => {
+      const nativeInput = element.$.input.inputElement;
+      const selectionStub = sandbox.stub(nativeInput, 'setSelectionRange');
+
+      element.selectAll();
+      assert.isFalse(selectionStub.called);
+
+      element.$.input.value = 'test';
+      element.selectAll();
+      assert.isTrue(selectionStub.called);
+    });
+
     test('esc key behavior', done => {
       let promise;
       const queryStub = sandbox.spy(() => {

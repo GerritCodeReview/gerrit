@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "4eeafa00_7d65ad4d",
+        "filename": "java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T10:11:52Z",
+      "side": 1,
+      "message": "But there we don\u0027t prevent create/delete \"refs/delete-groups/\" like what we do here. intended?",
+      "parentUuid": "4e42c500_c234a516",
+      "range": {
+        "startLine": 152,
+        "startChar": 12,
+        "endLine": 152,
+        "endChar": 74
+      },
+      "revId": "d7848539cab757ae2bc2b976caadc35fc696cb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32146be2_9f472ed0",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 2

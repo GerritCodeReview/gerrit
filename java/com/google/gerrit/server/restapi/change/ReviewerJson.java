@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.permissions.LabelPermission;
@@ -79,7 +78,6 @@ public class ReviewerJson {
       }
       ReviewerInfo info =
           format(
-              rsrc.getChangeResource().getUser(),
               new ReviewerInfo(rsrc.getReviewerUser().getAccountId().get()),
               permissionBackend.user(rsrc.getReviewerUser()).database(db).change(cd),
               cd);
@@ -95,12 +93,10 @@ public class ReviewerJson {
     return format(ImmutableList.<ReviewerResource>of(rsrc));
   }
 
-  public ReviewerInfo format(
-      CurrentUser user, ReviewerInfo out, PermissionBackend.ForChange perm, ChangeData cd)
+  public ReviewerInfo format(ReviewerInfo out, PermissionBackend.ForChange perm, ChangeData cd)
       throws OrmException, PermissionBackendException {
     PatchSet.Id psId = cd.change().currentPatchSetId();
     return format(
-        user,
         out,
         perm,
         cd,
@@ -109,7 +105,6 @@ public class ReviewerJson {
   }
 
   public ReviewerInfo format(
-      CurrentUser user,
       ReviewerInfo out,
       PermissionBackend.ForChange perm,
       ChangeData cd,
@@ -129,7 +124,7 @@ public class ReviewerJson {
     // do not exist in the DB.
     PatchSet ps = cd.currentPatchSet();
     if (ps != null) {
-      for (SubmitRecord rec : submitRuleEvaluatorFactory.create(user, cd).evaluate()) {
+      for (SubmitRecord rec : submitRuleEvaluatorFactory.create(cd).evaluate()) {
         if (rec.labels == null) {
           continue;
         }

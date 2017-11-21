@@ -88,6 +88,12 @@ public class RefNames {
   /** NoteDb ref for the NoteMap of all group names */
   public static final String REFS_GROUPNAMES = "refs/meta/group-names";
 
+  /**
+   * NoteDb ref for deleted groups {@code refs/deleted-groups}. This ref namespace is foreseen as an
+   * attic for deleted groups (it's reserved but not used yet)
+   */
+  public static final String REFS_DELETED_GROUPS = "refs/deleted-groups/";
+
   /** Draft inline comments of a user on a change */
   public static final String REFS_DRAFT_COMMENTS = "refs/draft-comments/";
 
@@ -130,6 +136,10 @@ public class RefNames {
 
   public static String refsGroups(AccountGroup.UUID groupUuid) {
     return REFS_GROUPS + shardUuid(groupUuid.get());
+  }
+
+  public static String refsDeletedGroups(AccountGroup.UUID groupUuid) {
+    return REFS_DELETED_GROUPS + shardUuid(groupUuid.get());
   }
 
   public static String refsUsers(Account.Id accountId) {
@@ -224,8 +234,28 @@ public class RefNames {
     return ref.startsWith(REFS_USERS);
   }
 
+  /**
+   * Whether the ref is a group branch that stores NoteDb data of a group. Returns {@code true} for
+   * all refs that start with {@code refs/groups/}.
+   */
   public static boolean isRefsGroups(String ref) {
     return ref.startsWith(REFS_GROUPS);
+  }
+
+  /**
+   * Whether the ref is a group branch that stores NoteDb data of a deleted group. Returns {@code
+   * true} for all refs that start with {@code refs/deleted-groups/}.
+   */
+  public static boolean isRefsDeletedGroups(String ref) {
+    return ref.startsWith(REFS_DELETED_GROUPS);
+  }
+
+  /**
+   * Whether the ref is used for storing group data in NoteDb. Returns {@code true} for all group
+   * branches, refs/meta/group-names and deleted group branches.
+   */
+  public static boolean isGroupRef(String ref) {
+    return isRefsGroups(ref) || isRefsDeletedGroups(ref) || REFS_GROUPNAMES.equals(ref);
   }
 
   static Integer parseShardedRefPart(String name) {

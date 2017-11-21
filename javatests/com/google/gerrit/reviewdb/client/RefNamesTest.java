@@ -71,6 +71,20 @@ public class RefNamesTest {
   }
 
   @Test
+  public void refForDeletedGroupIsSharded() throws Exception {
+    AccountGroup.UUID groupUuid = new AccountGroup.UUID("ABCDEFG");
+    String groupRef = RefNames.refsDeletedGroups(groupUuid);
+    assertThat(groupRef).isEqualTo("refs/deleted-groups/AB/ABCDEFG");
+  }
+
+  @Test
+  public void refForDeletedGroupWithUuidLessThanTwoCharsIsRejected() throws Exception {
+    AccountGroup.UUID groupUuid = new AccountGroup.UUID("A");
+    expectedException.expect(IllegalArgumentException.class);
+    RefNames.refsDeletedGroups(groupUuid);
+  }
+
+  @Test
   public void refsUsers() throws Exception {
     assertThat(RefNames.refsUsers(accountId)).isEqualTo("refs/users/23/1011123");
   }
@@ -123,6 +137,38 @@ public class RefNamesTest {
     assertThat(RefNames.isRefsUsers("refs/users/23/1011123/edit-67473/42")).isTrue();
 
     assertThat(RefNames.isRefsUsers("refs/heads/master")).isFalse();
+    assertThat(RefNames.isRefsUsers("refs/groups/" + TEST_SHARDED_GROUP_UUID)).isFalse();
+  }
+
+  @Test
+  public void isRefsGroups() throws Exception {
+    assertThat(RefNames.isRefsGroups("refs/groups/" + TEST_SHARDED_GROUP_UUID)).isTrue();
+
+    assertThat(RefNames.isRefsGroups("refs/heads/master")).isFalse();
+    assertThat(RefNames.isRefsGroups("refs/users/23/1011123")).isFalse();
+    assertThat(RefNames.isRefsGroups(RefNames.REFS_GROUPNAMES)).isFalse();
+    assertThat(RefNames.isRefsGroups("refs/deleted-groups/" + TEST_SHARDED_GROUP_UUID)).isFalse();
+  }
+
+  @Test
+  public void isRefsDeletedGroups() throws Exception {
+    assertThat(RefNames.isRefsDeletedGroups("refs/deleted-groups/" + TEST_SHARDED_GROUP_UUID))
+        .isTrue();
+
+    assertThat(RefNames.isRefsDeletedGroups("refs/heads/master")).isFalse();
+    assertThat(RefNames.isRefsDeletedGroups("refs/users/23/1011123")).isFalse();
+    assertThat(RefNames.isRefsDeletedGroups(RefNames.REFS_GROUPNAMES)).isFalse();
+    assertThat(RefNames.isRefsDeletedGroups("refs/groups/" + TEST_SHARDED_GROUP_UUID)).isFalse();
+  }
+
+  @Test
+  public void isGroupRef() throws Exception {
+    assertThat(RefNames.isGroupRef("refs/groups/" + TEST_SHARDED_GROUP_UUID)).isTrue();
+    assertThat(RefNames.isGroupRef("refs/deleted-groups/" + TEST_SHARDED_GROUP_UUID)).isTrue();
+    assertThat(RefNames.isGroupRef(RefNames.REFS_GROUPNAMES)).isTrue();
+
+    assertThat(RefNames.isGroupRef("refs/heads/master")).isFalse();
+    assertThat(RefNames.isGroupRef("refs/users/23/1011123")).isFalse();
   }
 
   @Test

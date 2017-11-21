@@ -23,6 +23,30 @@
       "revId": "d7848539cab757ae2bc2b976caadc35fc696cb96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7adaea9_918c6e86",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-21T08:41:44Z",
+      "side": 1,
+      "message": "Not sure this is true. We use assert... when we assert that state of an object, but test... if it\u0027s a whole parameterized test case that is executed with different parameters.",
+      "parentUuid": "32146be2_9f472ed0",
+      "range": {
+        "startLine": 1032,
+        "startChar": 4,
+        "endLine": 1032,
+        "endChar": 8
+      },
+      "revId": "d7848539cab757ae2bc2b976caadc35fc696cb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

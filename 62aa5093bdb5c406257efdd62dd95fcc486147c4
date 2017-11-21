@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2de0d40a_c0d52528",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1351,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-11-21T19:01:28Z",
+      "side": 1,
+      "message": "micronit: there shouldn\u0027t be a comma here",
+      "range": {
+        "startLine": 1351,
+        "startChar": 44,
+        "endLine": 1351,
+        "endChar": 45
+      },
+      "revId": "62aa5093bdb5c406257efdd62dd95fcc486147c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

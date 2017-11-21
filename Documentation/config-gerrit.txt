@@ -3349,6 +3349,13 @@ if `jsonLogging` is enabled.
 +
 Defaults to true.
 
+[[log.compress]]log.compress::
++
+If set to true, log files are compressed at server startup and then daily at 11pm
+(in the server's local time zone).
++
+Defaults to true.
+
 [[mimetype]]
 === Section mimetype
 

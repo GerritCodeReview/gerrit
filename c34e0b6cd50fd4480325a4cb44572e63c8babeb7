@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce070cbf_90a41aae",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-21T22:22:10Z",
+      "side": 1,
+      "message": "Is this +/ newly added in the PG form of project dashboard? I don\u0027t see it in the doc.\n\nIf it is new, it seems unnecessary since the pattern appears plenty unambiguous.",
+      "range": {
+        "startLine": 314,
+        "startChar": 37,
+        "endLine": 314,
+        "endChar": 39
+      },
+      "revId": "c34e0b6cd50fd4480325a4cb44572e63c8babeb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "c34e0b6cd50fd4480325a4cb44572e63c8babeb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "378b0e6c_00679027",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-11-21T23:18:46Z",
+      "side": 1,
+      "message": "Perhaps, since we don\u0027t use /p/ for anything else, but if we ever did we\u0027d have a complication (e.g. what if a project name ends with \"/dashboard\"?).\n\nThe old UI is similar, except it uses \",\" instead of \"/+/\".",
+      "parentUuid": "ce070cbf_90a41aae",
+      "range": {
+        "startLine": 314,
+        "startChar": 37,
+        "endLine": 314,
+        "endChar": 39
+      },
+      "revId": "c34e0b6cd50fd4480325a4cb44572e63c8babeb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

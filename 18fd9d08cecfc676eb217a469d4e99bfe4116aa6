@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1511219365 -0500\nnonce AMT3iFgQUWXNUXQAMxeScV3lPdyWxF9j1eiqOXG7oui+TVjFJpeHr4jZl7oMao55oOmJPGQTHr52\n\n0000000000000000000000000000000000000000 18fd9d08cecfc676eb217a469d4e99bfe4116aa6 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAloTYKUVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiM5i4P/1hDA6bUHvDXO+tP3zGR0zyhy3Bw\nx9WowerVoIw/l+0Yg+/dRPiN8RNM94chrHvC0+PuJ0mUKNzSJxPuUfFdk8VSJvxX\nrN58tGI3rH5cCtcy2iwZLH57x+e5cq4Fpbi5lfJrm+M/sWJRm6xWyHifi6FCF0eO\nI/WJ0hpyIDdGYYyn7gNporMeUdtrQH36lU1voHVLT2NW8cypgDv+j7eU3vCmA6xG\nV5XIa28xqFj9TZFSmyX9v8oaSUjML5zfSO7iMguKRDMfcyAL9TaDviwEzC/hx5KN\ntd+cE1rFpsTBn7vhyU9JYLTWJjrWzOjvaD7TJ/Uj8U86lEM3H7XB3fdwmHNuAMru\n+q654aDKgvpD3daz8iy9n+SH0vk6cK2YYHyY9cg748JoJuvCKImdRIYozlLwViOq\nH7RDAMFm7KdHRAczdTW6Q8KWk8Wl28+dKaMY781kVo1orXV1T46mDn1NV6r9JEFM\nUFIjQGY+GUQDSZw0A91wCLauwQjbHNsb9iv6It3gFMX70eDRgPCh6naXOUFBrMLW\nK3htBJ23bqY2uPI1/dGfEu5OGJ5C9eRAMmo6tAQoIvdduUK007LAL/v4TxmO0DCk\n8m/5pHYnSIuhLOSqAcxed5AsT4ZTE6KYm5l9oBLOJSKv/A/Azo9TKfQS5lgcWBuo\n5uC89dt4/iXFgrAu\n\u003dLsZS\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "fef3a2c5_b13d6f00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-21T10:36:50Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this test rather be in GroupsIT? The test in GroupRebuilderTest doesn\u0027t hurt but GroupRebuilder and GroupRebuilderTest will be deleted after the migration. We should have a test we keep for the future.",
+      "range": {
+        "startLine": 10,
+        "startChar": 37,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "18fd9d08cecfc676eb217a469d4e99bfe4116aa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

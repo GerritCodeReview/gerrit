@@ -297,6 +297,12 @@ limitations under the License.
       });
     });
 
+    test('reply button is not visible when logged out', () => {
+      assert.equal(getComputedStyle(element.$.replyBtn).display, 'none');
+      element._loggedIn = true;
+      assert.notEqual(getComputedStyle(element.$.replyBtn).display, 'none');
+    });
+
     test('download tap calls _handleOpenDownloadDialog', () => {
       sandbox.stub(element, '_handleOpenDownloadDialog');
       element.$.actions.fire('download-tap');

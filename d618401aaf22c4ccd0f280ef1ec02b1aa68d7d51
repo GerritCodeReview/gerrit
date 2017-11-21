@@ -22,6 +22,30 @@
       "revId": "d618401aaf22c4ccd0f280ef1ec02b1aa68d7d51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "580fca72_0fb2e1d1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1350,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-21T00:41:13Z",
+      "side": 1,
+      "message": "Good idea.\n\nIn fact, for PG, the regex is only applied to the raw (unescaped) text and not to the HTML (escaped or otherwise). Patch 4 makes this more clear.",
+      "parentUuid": "4c8e1121_2ffb9840",
+      "range": {
+        "startLine": 1350,
+        "startChar": 12,
+        "endLine": 1350,
+        "endChar": 49
+      },
+      "revId": "d618401aaf22c4ccd0f280ef1ec02b1aa68d7d51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

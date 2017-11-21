@@ -95,7 +95,7 @@ adding the following to `project.config` in `All-Projects`:
   [label "Verified"]
       function = MaxWithBlock
       value = -1 Fails
-      value =  0 No score
+      value = 0 No score
       value = +1 Verified
       copyAllScoresIfNoCodeChange = true
 ----
@@ -379,7 +379,7 @@ but has different names/labels:
   [label "Copyright-Check"]
       function = MaxWithBlock
       value = -1 Do not have copyright
-      value =  0 No score
+      value = 0 No score
       value = +1 Copyright clear
 ----
 
@@ -401,7 +401,7 @@ user permissions.  Assume the configuration below.
       value = -3 Ohh, hell no!
       value = -2 Hmm, I'm not a fan
       value = -1 I'm not sure I like this
-      value =  0 No score
+      value = 0 No score
       value = +1 I like, but need another to like it as well
       value = +2 Hmm, this is pretty nice
       value = +3 Ohh, hell yes!

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6655488d_6b4a2c77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-21T00:17:43Z",
+      "side": 1,
+      "message": "Just to confirm my understanding, as of this change, does this table accurately reflect the rules?\n\n              Email                  No email\n            +----------------------+-------------+\n   Username | `${name} (${email})` | `${name}`   |\n            +----------------------+-------------+\nNo username | `${email}`           | `Anonymous` |\n            +----------------------+-------------+",
+      "revId": "c589905cacdec36d15b500d53d69969083e2e344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "569bc98d_d5d28a6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-21T00:17:43Z",
+      "side": 1,
+      "message": "Should this be ..\n\n s/change/label/\n\n.. ?",
+      "range": {
+        "startLine": 11,
+        "startChar": 32,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "c589905cacdec36d15b500d53d69969083e2e344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

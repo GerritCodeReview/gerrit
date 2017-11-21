@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "feae90c0_a8e3a99d",
+        "filename": "polygerrit-ui/app/behaviors/gr-anonymous-name-behavior/gr-anonymous-name-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-21T13:18:01Z",
+      "side": 1,
+      "message": "Im not exactly sure if this is correct?\n\nI just want to make sure that we check against the old name and the new one.",
+      "revId": "44e423332db5c8d7d285e3789bb13a8861f380c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

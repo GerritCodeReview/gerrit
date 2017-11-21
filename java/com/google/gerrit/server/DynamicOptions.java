@@ -50,8 +50,18 @@ public class DynamicOptions {
    *   }
    * </pre>
    *
-   * The option will be prefixed by the plugin name. In the example above, if the plugin name was
+   * <p>The option will be prefixed by the plugin name. In the example above, if the plugin name was
    * my-plugin, then the --verbose option as used by the caller would be --my-plugin--verbose.
+   *
+   * <p>Additional options can be annotated with @RequiresOption which will cause them to be ignored
+   * unless the required option is present. For example:
+   *
+   * <pre>
+   *   {@literal @}RequiresOptions("--help")
+   *   {@literal @}Option(name = "--help-as-json",
+   *           usage = "display help text in json format")
+   *   public boolean displayHelpAsJson;
+   * </pre>
    */
   public interface DynamicBean {}
 
@@ -261,6 +271,7 @@ public class DynamicOptions {
     for (Entry<String, DynamicBean> e : beansByPlugin.entrySet()) {
       clp.parseWithPrefix("--" + e.getKey(), e.getValue());
     }
+    clp.drainOptionQueue();
   }
 
   public void setDynamicBeans() {

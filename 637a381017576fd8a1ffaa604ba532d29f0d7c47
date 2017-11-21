@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6e576b6_d868afe8",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T08:56:58Z",
+      "side": 1,
+      "message": "Could we separate this method to multiple smaller methods, each of which checks one aspect?",
+      "range": {
+        "startLine": 86,
+        "startChar": 38,
+        "endLine": 86,
+        "endChar": 44
+      },
+      "revId": "637a381017576fd8a1ffaa604ba532d29f0d7c47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

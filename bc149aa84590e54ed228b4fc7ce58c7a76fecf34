@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebad8e82_aaa66a1d",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T08:56:58Z",
+      "side": 1,
+      "message": "optional: we call this repoManager in most of our code.",
+      "range": {
+        "startLine": 67,
+        "startChar": 37,
+        "endLine": 67,
+        "endChar": 43
+      },
+      "revId": "bc149aa84590e54ed228b4fc7ce58c7a76fecf34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe6d0d1d_875a4f2c",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T08:56:58Z",
+      "side": 1,
+      "message": "nit: keep the same order with their declarations.",
+      "range": {
+        "startLine": 71,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 33
+      },
+      "revId": "bc149aa84590e54ed228b4fc7ce58c7a76fecf34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c9a06c4_acaac233",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T08:56:58Z",
+      "side": 1,
+      "message": "This method is too long and can be split into several small methods.",
+      "range": {
+        "startLine": 86,
+        "startChar": 38,
+        "endLine": 86,
+        "endChar": 43
+      },
+      "revId": "bc149aa84590e54ed228b4fc7ce58c7a76fecf34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2b9e1ff_8a00b067",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T08:56:58Z",
+      "side": 1,
+      "message": "nit: can be simplified to:\nif (byUUID.get(subUuid) \u003d\u003d null \u0026\u0026 groupBackend.get(subUuid) \u003d\u003d null) {\n...\n}",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 50
+      },
+      "revId": "bc149aa84590e54ed228b4fc7ce58c7a76fecf34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f4ddff6_22557a29",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T08:56:58Z",
+      "side": 1,
+      "message": "nit: remove this necessary whitespace.",
+      "revId": "bc149aa84590e54ed228b4fc7ce58c7a76fecf34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "308ae182_fdeca1da",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T08:56:58Z",
+      "side": 1,
+      "message": "optional: failed to parse group %s. It would be better if we also encode the exception message in the error.",
+      "range": {
+        "startLine": 259,
+        "startChar": 28,
+        "endLine": 259,
+        "endChar": 51
+      },
+      "revId": "bc149aa84590e54ed228b4fc7ce58c7a76fecf34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96acd8e4_44ac7bfd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T08:56:58Z",
+      "side": 1,
+      "message": "nit: move this down to the other inject.",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 60,
+        "endChar": 52
+      },
+      "revId": "bc149aa84590e54ed228b4fc7ce58c7a76fecf34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d324f2a_ebb089a7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T08:56:58Z",
+      "side": 1,
+      "message": "nit: it could be better to move them to the end of this class.",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 94,
+        "endChar": 3
+      },
+      "revId": "bc149aa84590e54ed228b4fc7ce58c7a76fecf34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1a25c1d_84b3fc4f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T08:56:58Z",
+      "side": 1,
+      "message": "nit: private?",
+      "range": {
+        "startLine": 96,
+        "startChar": 1,
+        "endLine": 98,
+        "endChar": 15
+      },
+      "revId": "bc149aa84590e54ed228b4fc7ce58c7a76fecf34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6b8433a_f56139be",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T08:56:58Z",
+      "side": 1,
+      "message": "nit: this should be a private static?\nprivate static String BOGUS \u003d \"...\".",
+      "range": {
+        "startLine": 100,
+        "startChar": 2,
+        "endLine": 100,
+        "endChar": 14
+      },
+      "revId": "bc149aa84590e54ed228b4fc7ce58c7a76fecf34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

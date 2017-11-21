@@ -23,18 +23,17 @@ limitations under the License.
   <template>
     <style include="shared-styles">
       .labelContainer {
+        align-items: center;
+        display: flex;
         margin-bottom: .5em;
-      }
-      .labelContainer:last-child {
-        margin-bottom: 0;
       }
       .labelName {
         display: inline-block;
+        flex: 0 0 auto;
         margin-right: .5em;
         min-width: 7em;
-        text-align: right;
-        white-space: nowrap;
-        width: 25%;
+        text-align: left;
+        width: 20%;
       }
       .labelMessage {
         color: #666;
@@ -43,13 +42,16 @@ limitations under the License.
         content: ' ';
       }
       .selectedValueText {
-        color: #666;
+        color: rgba(0, 0, 0, .54);
+        font-size: 11px;
         font-style: italic;
-        margin-bottom: .5em;
-        margin-left: calc(25% + .5em);
+        margin: 0 .5em 0 .5em;
       }
       .selectedValueText.hidden {
         display: none;
+      }
+      .buttonWrapper {
+        flex: none;
       }
       gr-button {
         min-width: 40px;
@@ -87,33 +89,35 @@ limitations under the License.
     </style>
     <div class="labelContainer">
       <span class="labelName">[[label.name]]</span>
-      <template is="dom-repeat"
-          items="[[_computeBlankItems(permittedLabels, label.name, 'start')]]"
-          as="value">
-        <span class="placeholder" data-label$="[[label.name]]"></span>
-      </template>
-      <iron-selector
-          attr-for-selected="value"
-          selected="[[_computeLabelValue(labels, permittedLabels, label)]]"
-          hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]"
-          on-selected-item-changed="_setSelectedValueText">
+      <div class="buttonWrapper">
         <template is="dom-repeat"
-            items="[[_computePermittedLabelValues(permittedLabels, label.name)]]"
+            items="[[_computeBlankItems(permittedLabels, label.name, 'start')]]"
             as="value">
-          <gr-button has-tooltip value$="[[value]]"
-            title$="[[_computeLabelValueTitle(labels, label.name, value)]]">
-          [[value]]</gr-button>
+          <span class="placeholder" data-label$="[[label.name]]"></span>
         </template>
-      </iron-selector>
-      <template is="dom-repeat"
-          items="[[_computeBlankItems(permittedLabels, label.name, 'end')]]"
-          as="value">
-        <span class="placeholder" data-label$="[[label.name]]"></span>
-      </template>
-      <span class="labelMessage"
-          hidden$="[[_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
-        You don't have permission to edit this label.
-      </span>
+        <iron-selector
+            attr-for-selected="value"
+            selected="[[_computeLabelValue(labels, permittedLabels, label)]]"
+            hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]"
+            on-selected-item-changed="_setSelectedValueText">
+          <template is="dom-repeat"
+              items="[[_computePermittedLabelValues(permittedLabels, label.name)]]"
+              as="value">
+            <gr-button has-tooltip value$="[[value]]"
+              title$="[[_computeLabelValueTitle(labels, label.name, value)]]">
+            [[value]]</gr-button>
+          </template>
+        </iron-selector>
+        <template is="dom-repeat"
+            items="[[_computeBlankItems(permittedLabels, label.name, 'end')]]"
+            as="value">
+          <span class="placeholder" data-label$="[[label.name]]"></span>
+        </template>
+        <span class="labelMessage"
+            hidden$="[[_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
+          You don't have permission to edit this label.
+        </span>
+      </div>
       <div class$="selectedValueText [[_computeHiddenClass(permittedLabels, label.name)]]">
         <span id="selectedValueLabel">[[_selectedValueText]]</span>
       </div>

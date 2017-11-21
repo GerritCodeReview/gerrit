@@ -22,6 +22,30 @@
       "revId": "384b22fb3171f1d3da7d8747ca6cf65b525925cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d06939b_77f9093c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1350,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-11-21T00:43:48Z",
+      "side": 1,
+      "message": "Alternatively, can this say what exactly is deprecated? What should I do as a user to avoid trouble?",
+      "parentUuid": "931c7f6c_43de31b1",
+      "range": {
+        "startLine": 1350,
+        "startChar": 0,
+        "endLine": 1350,
+        "endChar": 46
+      },
+      "revId": "384b22fb3171f1d3da7d8747ca6cf65b525925cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

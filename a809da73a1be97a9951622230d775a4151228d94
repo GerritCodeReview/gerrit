@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "3e97942d_4d575fe3",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-21T21:37:16Z",
+      "side": 1,
+      "message": "Let\u0027s just chat with him about it tomorrow. I just want to make sure he considered how this works. If he\u0027s cool with it, can merge if after that.",
+      "parentUuid": "87b9b354_20c355d8",
+      "range": {
+        "startLine": 149,
+        "startChar": 28,
+        "endLine": 149,
+        "endChar": 60
+      },
+      "revId": "a809da73a1be97a9951622230d775a4151228d94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd609716_9ab83753",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js",
         "patchSetId": 1

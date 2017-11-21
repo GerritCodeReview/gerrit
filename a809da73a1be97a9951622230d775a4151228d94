@@ -45,6 +45,46 @@
       "revId": "a809da73a1be97a9951622230d775a4151228d94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8140c4b3_7de8b19d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-21T17:30:54Z",
+      "side": 1,
+      "message": "Why not just use null?",
+      "range": {
+        "startLine": 48,
+        "startChar": 15,
+        "endLine": 48,
+        "endChar": 38
+      },
+      "revId": "a809da73a1be97a9951622230d775a4151228d94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d684c577_4ae6d15f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-21T17:30:54Z",
+      "side": 1,
+      "message": "I don\u0027t think the commit message should be counted like a file.\n\nCan this be ..\n\n this.numFiles \u003d files.length - 1;\n\n.. ?\n\nThat way a change that modifies nothing and only contains a commit message would say ..\n\n 0 Files",
+      "revId": "a809da73a1be97a9951622230d775a4151228d94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

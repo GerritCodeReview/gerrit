@@ -59,60 +59,6 @@ public class GroupNameNotes extends VersionedMetaData {
   @VisibleForTesting
   static final String UNIQUE_REF_ERROR = "GroupReference collection must contain unique references";
 
-  public static void updateGroupNames(
-      Repository allUsersRepo,
-      ObjectInserter inserter,
-      BatchRefUpdate bru,
-      Collection<GroupReference> groupReferences,
-      PersonIdent ident)
-      throws IOException {
-    // Not strictly necessary for iteration; throws IAE if it encounters duplicates, which is nice.
-    ImmutableBiMap<AccountGroup.UUID, String> biMap = toBiMap(groupReferences);
-
-    try (ObjectReader reader = inserter.newReader();
-        RevWalk rw = new RevWalk(reader)) {
-      // Always start from an empty map, discarding old notes.
-      NoteMap noteMap = NoteMap.newEmptyMap();
-      Ref ref = allUsersRepo.exactRef(RefNames.REFS_GROUPNAMES);
-      RevCommit oldCommit = ref != null ? rw.parseCommit(ref.getObjectId()) : null;
-
-      for (Map.Entry<AccountGroup.UUID, String> e : biMap.entrySet()) {
-        AccountGroup.NameKey nameKey = new AccountGroup.NameKey(e.getValue());
-        ObjectId noteKey = getNoteKey(nameKey);
-        noteMap.set(noteKey, getAsNoteData(e.getKey(), nameKey), inserter);
-      }
-
-      ObjectId newTreeId = noteMap.writeTree(inserter);
-      if (oldCommit != null && newTreeId.equals(oldCommit.getTree())) {
-        return;
-      }
-      CommitBuilder cb = new CommitBuilder();
-      if (oldCommit != null) {
-        cb.addParentId(oldCommit);
-      }
-      cb.setTreeId(newTreeId);
-      cb.setAuthor(ident);
-      cb.setCommitter(ident);
-      int n = groupReferences.size();
-      cb.setMessage("Store " + n + " group name" + (n != 1 ? "s" : ""));
-      ObjectId newId = inserter.insert(cb).copy();
-
-      ObjectId oldId = oldCommit != null ? oldCommit.copy() : ObjectId.zeroId();
-      bru.addCommand(new ReceiveCommand(oldId, newId, RefNames.REFS_GROUPNAMES));
-    }
-  }
-
-  private static ImmutableBiMap<AccountGroup.UUID, String> toBiMap(
-      Collection<GroupReference> groupReferences) {
-    try {
-      return groupReferences
-          .stream()
-          .collect(toImmutableBiMap(gr -> gr.getUUID(), gr -> gr.getName()));
-    } catch (IllegalArgumentException e) {
-      throw new IllegalArgumentException(UNIQUE_REF_ERROR, e);
-    }
-  }
-
   private final AccountGroup.UUID groupUuid;
   private final Optional<AccountGroup.NameKey> oldGroupName;
   private final Optional<AccountGroup.NameKey> newGroupName;
@@ -179,6 +125,111 @@ public class GroupNameNotes extends VersionedMetaData {
     }
   }
 
+  public static void updateGroupNames(
+      Repository allUsersRepo,
+      ObjectInserter inserter,
+      BatchRefUpdate bru,
+      Collection<GroupReference> groupReferences,
+      PersonIdent ident)
+      throws IOException {
+    // Not strictly necessary for iteration; throws IAE if it encounters duplicates, which is nice.
+    ImmutableBiMap<AccountGroup.UUID, String> biMap = toBiMap(groupReferences);
+
+    try (ObjectReader reader = inserter.newReader();
+        RevWalk rw = new RevWalk(reader)) {
+      // Always start from an empty map, discarding old notes.
+      NoteMap noteMap = NoteMap.newEmptyMap();
+      Ref ref = allUsersRepo.exactRef(RefNames.REFS_GROUPNAMES);
+      RevCommit oldCommit = ref != null ? rw.parseCommit(ref.getObjectId()) : null;
+
+      for (Map.Entry<AccountGroup.UUID, String> e : biMap.entrySet()) {
+        AccountGroup.NameKey nameKey = new AccountGroup.NameKey(e.getValue());
+        ObjectId noteKey = getNoteKey(nameKey);
+        noteMap.set(noteKey, getAsNoteData(e.getKey(), nameKey), inserter);
+      }
+
+      ObjectId newTreeId = noteMap.writeTree(inserter);
+      if (oldCommit != null && newTreeId.equals(oldCommit.getTree())) {
+        return;
+      }
+      CommitBuilder cb = new CommitBuilder();
+      if (oldCommit != null) {
+        cb.addParentId(oldCommit);
+      }
+      cb.setTreeId(newTreeId);
+      cb.setAuthor(ident);
+      cb.setCommitter(ident);
+      int n = groupReferences.size();
+      cb.setMessage("Store " + n + " group name" + (n != 1 ? "s" : ""));
+      ObjectId newId = inserter.insert(cb).copy();
+
+      ObjectId oldId = oldCommit != null ? oldCommit.copy() : ObjectId.zeroId();
+      bru.addCommand(new ReceiveCommand(oldId, newId, RefNames.REFS_GROUPNAMES));
+    }
+  }
+
+  @VisibleForTesting
+  public static GroupReference getGroupReference(ObjectReader reader, ObjectId noteDataBlobId)
+      throws IOException, ConfigInvalidException {
+    byte[] noteData = reader.open(noteDataBlobId, OBJ_BLOB).getCachedBytes();
+    return getFromNoteData(noteData);
+  }
+
+  private static ImmutableBiMap<AccountGroup.UUID, String> toBiMap(
+      Collection<GroupReference> groupReferences) {
+    try {
+      return groupReferences
+          .stream()
+          .collect(toImmutableBiMap(gr -> gr.getUUID(), gr -> gr.getName()));
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(UNIQUE_REF_ERROR, e);
+    }
+  }
+
+  // Use the same approach as ExternalId.Key.sha1().
+  @SuppressWarnings("deprecation")
+  @VisibleForTesting
+  static ObjectId getNoteKey(AccountGroup.NameKey groupName) {
+    return ObjectId.fromRaw(Hashing.sha1().hashString(groupName.get(), UTF_8).asBytes());
+  }
+
+  private static void removeNote(
+      NoteMap noteMap, AccountGroup.NameKey groupName, ObjectInserter inserter) throws IOException {
+    ObjectId noteKey = getNoteKey(groupName);
+    noteMap.set(noteKey, null, inserter);
+  }
+
+  private static void addNote(
+      NoteMap noteMap,
+      AccountGroup.NameKey groupName,
+      AccountGroup.UUID groupUuid,
+      ObjectInserter inserter)
+      throws IOException {
+    ObjectId noteKey = getNoteKey(groupName);
+    noteMap.set(noteKey, getAsNoteData(groupUuid, groupName), inserter);
+  }
+
+  private static String getAsNoteData(AccountGroup.UUID uuid, AccountGroup.NameKey groupName) {
+    Config config = new Config();
+    config.setString(SECTION_NAME, null, UUID_PARAM, uuid.get());
+    config.setString(SECTION_NAME, null, NAME_PARAM, groupName.get());
+    return config.toText();
+  }
+
+  private static GroupReference getFromNoteData(byte[] noteData) throws ConfigInvalidException {
+    Config config = new Config();
+    config.fromText(new String(noteData, UTF_8));
+
+    String uuid = config.getString(SECTION_NAME, null, UUID_PARAM);
+    String name = config.getString(SECTION_NAME, null, NAME_PARAM);
+    if (uuid == null || name == null) {
+      throw new ConfigInvalidException(
+          String.format("UUID '%s' and name '%s' must be defined", uuid, name));
+    }
+
+    return new GroupReference(new AccountGroup.UUID(uuid), name);
+  }
+
   @Override
   protected String getRefName() {
     return RefNames.REFS_GROUPNAMES;
@@ -196,6 +247,27 @@ public class GroupNameNotes extends VersionedMetaData {
       }
       ensureOldNameIsPresent(noteMap);
     }
+  }
+
+  @Override
+  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
+    if (!oldGroupName.isPresent() && !newGroupName.isPresent()) {
+      return false;
+    }
+
+    NoteMap noteMap = revision == null ? NoteMap.newEmptyMap() : NoteMap.read(reader, revision);
+    if (oldGroupName.isPresent()) {
+      removeNote(noteMap, oldGroupName.get(), inserter);
+    }
+
+    if (newGroupName.isPresent()) {
+      addNote(noteMap, newGroupName.get(), groupUuid, inserter);
+    }
+
+    commit.setTreeId(noteMap.writeTree(inserter));
+    commit.setMessage(getCommitMessage());
+
+    return true;
   }
 
   private void ensureOldNameIsPresent(NoteMap noteMap) throws IOException, ConfigInvalidException {
@@ -222,78 +294,6 @@ public class GroupNameNotes extends VersionedMetaData {
       throw new OrmDuplicateKeyException(
           String.format("Name '%s' is already used", newGroupName.get().get()));
     }
-  }
-
-  @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
-    if (!oldGroupName.isPresent() && !newGroupName.isPresent()) {
-      return false;
-    }
-
-    NoteMap noteMap = revision == null ? NoteMap.newEmptyMap() : NoteMap.read(reader, revision);
-    if (oldGroupName.isPresent()) {
-      removeNote(noteMap, oldGroupName.get(), inserter);
-    }
-
-    if (newGroupName.isPresent()) {
-      addNote(noteMap, newGroupName.get(), groupUuid, inserter);
-    }
-
-    commit.setTreeId(noteMap.writeTree(inserter));
-    commit.setMessage(getCommitMessage());
-
-    return true;
-  }
-
-  private static void removeNote(
-      NoteMap noteMap, AccountGroup.NameKey groupName, ObjectInserter inserter) throws IOException {
-    ObjectId noteKey = getNoteKey(groupName);
-    noteMap.set(noteKey, null, inserter);
-  }
-
-  private static void addNote(
-      NoteMap noteMap,
-      AccountGroup.NameKey groupName,
-      AccountGroup.UUID groupUuid,
-      ObjectInserter inserter)
-      throws IOException {
-    ObjectId noteKey = getNoteKey(groupName);
-    noteMap.set(noteKey, getAsNoteData(groupUuid, groupName), inserter);
-  }
-
-  // Use the same approach as ExternalId.Key.sha1().
-  @SuppressWarnings("deprecation")
-  @VisibleForTesting
-  static ObjectId getNoteKey(AccountGroup.NameKey groupName) {
-    return ObjectId.fromRaw(Hashing.sha1().hashString(groupName.get(), UTF_8).asBytes());
-  }
-
-  private static String getAsNoteData(AccountGroup.UUID uuid, AccountGroup.NameKey groupName) {
-    Config config = new Config();
-    config.setString(SECTION_NAME, null, UUID_PARAM, uuid.get());
-    config.setString(SECTION_NAME, null, NAME_PARAM, groupName.get());
-    return config.toText();
-  }
-
-  @VisibleForTesting
-  public static GroupReference getGroupReference(ObjectReader reader, ObjectId noteDataBlobId)
-      throws IOException, ConfigInvalidException {
-    byte[] noteData = reader.open(noteDataBlobId, OBJ_BLOB).getCachedBytes();
-    return getFromNoteData(noteData);
-  }
-
-  private static GroupReference getFromNoteData(byte[] noteData) throws ConfigInvalidException {
-    Config config = new Config();
-    config.fromText(new String(noteData, UTF_8));
-
-    String uuid = config.getString(SECTION_NAME, null, UUID_PARAM);
-    String name = config.getString(SECTION_NAME, null, NAME_PARAM);
-    if (uuid == null || name == null) {
-      throw new ConfigInvalidException(
-          String.format("UUID '%s' and name '%s' must be defined", uuid, name));
-    }
-
-    return new GroupReference(new AccountGroup.UUID(uuid), name);
   }
 
   private String getCommitMessage() {

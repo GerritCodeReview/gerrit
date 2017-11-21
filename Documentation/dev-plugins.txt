@@ -814,8 +814,18 @@ parameters to be parsed. OptionHandlers may optionally pass this class to
 other methods which may then both parse/consume more parameters and call
 additional parameters.
 
+When calling command options not provided by your plugin, there is always
+a risk that the options may not exist, perhaps because the options being
+called are to be provided by another plugin, and said plugin is not
+currently installed. To protect againt this situation, it is possible to
+define an option as being dependent on other options using the
+@RequiresOptions() annotation. If the required options are not all not
+currently present, then the dependent option will not be available or
+visible in the help.
+
 The example below shows a plugin that adds a "--special" option (perhaps
-for use with the Query command) that calls the "--format json" option.
+for use with the Query command) that calls (and requires) the
+"--format json" option.
 
 [source, java]
 ----
@@ -840,6 +850,7 @@ public class JsonOutputOptionHandler<T> extends OptionHandler<T> {
   }
 }
 
+@RequiresOptions("--format")
 @Option(
   name = "--special",
   usage = "ouptut results using json",

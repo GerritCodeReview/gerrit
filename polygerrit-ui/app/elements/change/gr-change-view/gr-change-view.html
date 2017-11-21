@@ -376,6 +376,7 @@ limitations under the License.
                   <gr-button
                       id="replyBtn"
                       class="reply"
+                      hidden$="[[!_loggedIn]]"
                       secondary
                       disabled="[[_replyDisabled]]"
                       on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>

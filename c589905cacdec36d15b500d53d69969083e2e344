@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c634b42b_40b232ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-21T00:22:05Z",
+      "side": 1,
+      "message": "Almost... except for the Email + Username\n\n              Email                  No email\n            +----------------------+-------------+\n   Username | `${name}` .          | `${name}`   |\n            +----------------------+-------------+\nNo username | `${email}`           | `Anonymous` |\n            +----------------------+-------------+",
+      "parentUuid": "6655488d_6b4a2c77",
+      "revId": "c589905cacdec36d15b500d53d69969083e2e344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "569bc98d_d5d28a6f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -39,6 +57,30 @@
       "revId": "c589905cacdec36d15b500d53d69969083e2e344",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d5deafb_1d7af5f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-21T00:22:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "569bc98d_d5d28a6f",
+      "range": {
+        "startLine": 11,
+        "startChar": 32,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "c589905cacdec36d15b500d53d69969083e2e344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

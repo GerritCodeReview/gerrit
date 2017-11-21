@@ -189,14 +189,8 @@
           MAX_AUTOCOMPLETE_RESULTS)
           .then(accounts => {
             if (!accounts) { return []; }
-            return accounts.map(acct => {
-              if (acct.email) {
-                return predicate + ':"' + this._accountOrAnon(acct) +
-                    ' <' + acct.email + '>"';
-              } else {
-                return predicate + ':"' + this._accountOrAnon(acct) + '"';
-              }
-            });
+            return accounts.map(acct =>
+                `${predicate}:"${acct.email || this._accountOrAnon(acct)}"`);
           }).then(accounts => {
             // When the expression supplied is a beginning substring of 'self',
             // add it as an autocomplete option.

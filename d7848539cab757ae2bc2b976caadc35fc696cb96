@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c5ee13fe_bde43daa",
+        "filename": "java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T09:45:32Z",
+      "side": 1,
+      "message": "How about those \"refs/deleted-groups/\"?",
+      "range": {
+        "startLine": 152,
+        "startChar": 12,
+        "endLine": 152,
+        "endChar": 74
+      },
+      "revId": "d7848539cab757ae2bc2b976caadc35fc696cb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32146be2_9f472ed0",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 2

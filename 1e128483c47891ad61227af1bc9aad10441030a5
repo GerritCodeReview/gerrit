@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f463b542_3a0c51b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-21T13:04:34Z",
+      "side": 1,
+      "message": "Uh woops thanks for catching that.",
+      "parentUuid": "4202bae9_9c769a12",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "1e128483c47891ad61227af1bc9aad10441030a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d4a213b5_11ea396c",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2017-11-21T12:03:48Z",
       "side": 1,
       "message": "I don\u0027t think we need a new section for these.  Instead we could just have for example:\n\nlog.enableSocket\nlog.socketHostname\nlog.socketPort",
+      "range": {
+        "startLine": 3352,
+        "startChar": 0,
+        "endLine": 3353,
+        "endChar": 21
+      },
+      "revId": "1e128483c47891ad61227af1bc9aad10441030a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fd19ce7_af58a924",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 3353,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-21T13:04:34Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d4a213b5_11ea396c",
       "range": {
         "startLine": 3352,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "1f75dee9_e9bc469b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 3368,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-21T13:04:34Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "906dbb54_1e4ba4b3",
+      "range": {
+        "startLine": 3361,
+        "startChar": 0,
+        "endLine": 3368,
+        "endChar": 0
+      },
+      "revId": "1e128483c47891ad61227af1bc9aad10441030a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "36f1db8c_49957084",
         "filename": "java/com/google/gerrit/pgm/util/ErrorLogFile.java",
         "patchSetId": 8
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "d4f9a031_55f32f10",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogFile.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-21T13:04:34Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "36f1db8c_49957084",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 73
+      },
+      "revId": "1e128483c47891ad61227af1bc9aad10441030a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "56086376_28afc5e0",
         "filename": "java/com/google/gerrit/server/util/SystemLog.java",
         "patchSetId": 8
@@ -105,6 +201,30 @@
       "writtenOn": "2017-11-21T12:03:48Z",
       "side": 1,
       "message": "inline this at L79 since that\u0027s the only place it\u0027s used.",
+      "range": {
+        "startLine": 78,
+        "startChar": 28,
+        "endLine": 78,
+        "endChar": 63
+      },
+      "revId": "1e128483c47891ad61227af1bc9aad10441030a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b444d98_09dbb82e",
+        "filename": "java/com/google/gerrit/server/util/SystemLog.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-21T13:04:34Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "56086376_28afc5e0",
       "range": {
         "startLine": 78,
         "startChar": 28,

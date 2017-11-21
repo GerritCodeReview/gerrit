@@ -3356,6 +3356,12 @@ If set to true, log files are compressed at server startup and then daily at 11p
 +
 Defaults to true.
 
+[[log.rotate]]log.rotate::
++
+If set to true, log files are rotated daily at midnight (GMT).
++
+Defaults to true.
+
 [[mimetype]]
 === Section mimetype
 

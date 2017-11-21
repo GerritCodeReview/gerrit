@@ -73,16 +73,18 @@ public class ErrorLogFile {
 
     boolean json = config.getBoolean("log", "jsonLogging", false);
     boolean text = config.getBoolean("log", "textLogging", true) || !json;
+    boolean rotate = config.getBoolean("log", "rotate", true);
 
     if (text) {
       root.addAppender(
           SystemLog.createAppender(
-              logdir, LOG_NAME, new PatternLayout("[%d] [%t] %-5p %c %x: %m%n")));
+              logdir, LOG_NAME, new PatternLayout("[%d] [%t] %-5p %c %x: %m%n"), rotate));
     }
 
     if (json) {
       root.addAppender(
-          SystemLog.createAppender(logdir, LOG_NAME + JSON_SUFFIX, new JSONEventLayoutV1()));
+          SystemLog.createAppender(
+              logdir, LOG_NAME + JSON_SUFFIX, new JSONEventLayoutV1(), rotate));
     }
   }
 }

@@ -34,7 +34,8 @@ limitations under the License.
       } else if (enableEmail && account && account.email) {
         return account.email;
       } else if (config && config.user &&
-          config.user.anonymous_coward_name !== 'Anonymous Coward') {
+          (config.user.anonymous_coward_name !== 'Anonymous Coward' ||
+           config.user.anonymous_coward_name !== 'Name of user not set')) {
         return config.user.anonymous_coward_name;
       }
 

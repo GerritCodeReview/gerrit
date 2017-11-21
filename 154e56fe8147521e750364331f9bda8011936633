@@ -1,0 +1,441 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8f19bae_f431069e",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T18:23:15Z",
+      "side": 1,
+      "message": "nit: it looks to me this is not needed, you can just pass in \"repo\" and get \"RefDatabase\" when necessary.",
+      "range": {
+        "startLine": 96,
+        "startChar": 6,
+        "endLine": 96,
+        "endChar": 45
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db128efb_0a9f6722",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T18:23:15Z",
+      "side": 1,
+      "message": "no need to continue?",
+      "range": {
+        "startLine": 104,
+        "startChar": 7,
+        "endLine": 104,
+        "endChar": 24
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa167c48_2c2e7d3a",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T18:23:15Z",
+      "side": 1,
+      "message": "nit: remove and use \"ref.getObjectId()\" directly below.",
+      "range": {
+        "startLine": 231,
+        "startChar": 4,
+        "endLine": 231,
+        "endChar": 40
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93da5f90_06e1ce36",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T18:23:15Z",
+      "side": 1,
+      "message": "nit: it\u0027s better to move them out of the try block.",
+      "range": {
+        "startLine": 240,
+        "startChar": 9,
+        "endLine": 246,
+        "endChar": 52
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7cb9dec_0418ebcc",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T18:23:15Z",
+      "side": 1,
+      "message": "nit: can be removed.",
+      "range": {
+        "startLine": 259,
+        "startChar": 6,
+        "endLine": 259,
+        "endChar": 21
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21989cb6_271eb1c4",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T18:23:15Z",
+      "side": 1,
+      "message": "optional: just \n\nbyUUID.put(uuid, cfg.getLoadedGroup().get());",
+      "range": {
+        "startLine": 272,
+        "startChar": 0,
+        "endLine": 274,
+        "endChar": 28
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84eda5b4_e680d6e2",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T18:23:15Z",
+      "side": 1,
+      "message": "nit: no need to add to \"todo\" if it contains in \"seen\".\n       if (!seen.contains(g)) {\n          todo.add(g);\n        }",
+      "range": {
+        "startLine": 312,
+        "startChar": 8,
+        "endLine": 312,
+        "endChar": 20
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8efe816c_9c941ab1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T18:23:15Z",
+      "side": 1,
+      "message": "It\u0027s already injected in AbstractDaemonTest.",
+      "range": {
+        "startLine": 78,
+        "startChar": 2,
+        "endLine": 78,
+        "endChar": 60
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2baa6135_093375ca",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T18:23:15Z",
+      "side": 1,
+      "message": "nit: private static",
+      "range": {
+        "startLine": 84,
+        "startChar": 2,
+        "endLine": 84,
+        "endChar": 9
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7377b5c_a9fbe0ce",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T18:23:15Z",
+      "side": 1,
+      "message": "Move this to the first line as it\u0027s a precondition for those tests. Also given this assume, we don\u0027t need it again in the following tests.",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 45
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d3430b6_c6512090",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T18:23:15Z",
+      "side": 1,
+      "message": "nit: createGroup(\"g1\") is enough here.",
+      "range": {
+        "startLine": 92,
+        "startChar": 16,
+        "endLine": 92,
+        "endChar": 52
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3115bd32_613fd307",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T18:23:15Z",
+      "side": 1,
+      "message": "It\u0027s better for us to assert the result of these setups.",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 97,
+        "endChar": 39
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2f4a822_d1cf3a84",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T18:23:15Z",
+      "side": 1,
+      "message": "allUsersRepo is needed in multiple tests, we may just open it once in #basicSetup(). And then close in a @After method.",
+      "range": {
+        "startLine": 113,
+        "startChar": 9,
+        "endLine": 113,
+        "endChar": 63
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6b69330_55dcc517",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T18:23:15Z",
+      "side": 1,
+      "message": "How about moving this \"allGood\" as the first test?",
+      "range": {
+        "startLine": 123,
+        "startChar": 1,
+        "endLine": 126,
+        "endChar": 3
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3804a3f3_82e88a85",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T18:23:15Z",
+      "side": 1,
+      "message": "parseGroupRefFail?",
+      "range": {
+        "startLine": 143,
+        "startChar": 14,
+        "endLine": 143,
+        "endChar": 27
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb0a34bf_2229ac78",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T18:23:15Z",
+      "side": 1,
+      "message": "All below methods should be private.",
+      "range": {
+        "startLine": 267,
+        "startChar": 1,
+        "endLine": 267,
+        "endChar": 18
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc3aba3a_41ac9763",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T18:23:15Z",
+      "side": 1,
+      "message": "nit: instead of passing in a \"boolean\", how about passing \"ConsistencyProblemInfo.Status\" directly?",
+      "range": {
+        "startLine": 282,
+        "startChar": 37,
+        "endLine": 282,
+        "endChar": 50
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "567f40d9_f6380310",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T18:23:15Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we know how many problems we are expecting?",
+      "range": {
+        "startLine": 288,
+        "startChar": 6,
+        "endLine": 290,
+        "endChar": 7
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "225b965e_807207a5",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-21T18:23:15Z",
+      "side": 1,
+      "message": "optional: s/name/fileName",
+      "range": {
+        "startLine": 299,
+        "startChar": 46,
+        "endLine": 299,
+        "endChar": 50
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -35,9 +35,5 @@
           account.email || account.username || account.name ||
           account._account_id);
     },
-
-    _computeShowEmail(account) {
-      return !!(account && !account.name);
-    },
   });
 })();

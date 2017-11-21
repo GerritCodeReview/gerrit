@@ -35,12 +35,12 @@
       value: {
         type: String,
         notify: true,
-        value: null,
+        value: '',
         observer: '_updateTitle',
       },
       placeholder: {
         type: String,
-        value: null,
+        value: '',
       },
       readOnly: {
         type: Boolean,
@@ -181,7 +181,7 @@
     },
 
     _updateTitle(value) {
-      this.setAttribute('title', (value && value.length) ? value : null);
+      this.setAttribute('title', this._computeLabel(value, this.placeholder));
     },
   });
 })();

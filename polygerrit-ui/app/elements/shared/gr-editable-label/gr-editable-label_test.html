@@ -35,6 +35,12 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="no-placeholder">
+  <template>
+    <gr-editable-label value=""></gr-editable-label>
+  </template>
+</test-fixture>
+
 <test-fixture id="read-only">
   <template>
     <gr-editable-label
@@ -47,12 +53,14 @@ limitations under the License.
 <script>
   suite('gr-editable-label tests', () => {
     let element;
+    let elementNoPlaceholder;
     let input;
     let label;
     let sandbox;
 
     setup(() => {
       element = fixture('basic');
+      elementNoPlaceholder = fixture('no-placeholder');
 
       input = element.$.input.$.input;
       label = element.$$('label');
@@ -76,6 +84,26 @@ limitations under the License.
       // The dropdown is open (which covers up the label):
       assert.isTrue(element.$.dropdown.opened);
       assert.equal(input.value, 'value text');
+    });
+
+    test('title with placeholder', done => {
+      assert.equal(element.title, 'value text');
+      element.value = '';
+
+      element.async(() => {
+        assert.equal(element.title, 'label text');
+        done();
+      });
+    });
+
+    test('title without placeholder', done => {
+      assert.equal(elementNoPlaceholder.title, '');
+      element.value = 'value text';
+
+      element.async(() => {
+        assert.equal(element.title, 'value text');
+        done();
+      });
     });
 
     test('edit value', done => {

@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.Emails;
@@ -87,7 +86,7 @@ public class SubmitRuleEvaluator {
   }
 
   public interface Factory {
-    SubmitRuleEvaluator create(CurrentUser user, ChangeData cd);
+    SubmitRuleEvaluator create(ChangeData cd);
   }
 
   private final AccountCache accountCache;
@@ -99,7 +98,6 @@ public class SubmitRuleEvaluator {
   private SubmitRuleOptions.Builder optsBuilder = SubmitRuleOptions.builder();
   private SubmitRuleOptions opts;
   private Change change;
-  private CurrentUser user;
   private PatchSet patchSet;
   private boolean logErrors = true;
   private long reductionsConsumed;
@@ -113,13 +111,11 @@ public class SubmitRuleEvaluator {
       Accounts accounts,
       Emails emails,
       ProjectCache projectCache,
-      @Assisted CurrentUser user,
       @Assisted ChangeData cd) {
     this.accountCache = accountCache;
     this.accounts = accounts;
     this.emails = emails;
     this.projectCache = projectCache;
-    this.user = user;
     this.cd = cd;
   }
 
@@ -229,11 +225,7 @@ public class SubmitRuleEvaluator {
     try {
       results =
           evaluateImpl(
-              "locate_submit_rule",
-              "can_submit",
-              "locate_submit_filter",
-              "filter_submit_results",
-              user);
+              "locate_submit_rule", "can_submit", "locate_submit_filter", "filter_submit_results");
     } catch (RuleEvalException e) {
       return ruleError(e.getMessage(), e);
     }
@@ -391,11 +383,7 @@ public class SubmitRuleEvaluator {
               "locate_submit_type",
               "get_submit_type",
               "locate_submit_type_filter",
-              "filter_submit_type_results",
-              // Do not include current user in submit type evaluation. This is used
-              // for mergeability checks, which are stored persistently and so must
-              // have a consistent view of the submit type.
-              null);
+              "filter_submit_type_results");
     } catch (RuleEvalException e) {
       return typeError(e.getMessage(), e);
     }
@@ -460,10 +448,9 @@ public class SubmitRuleEvaluator {
       String userRuleLocatorName,
       String userRuleWrapperName,
       String filterRuleLocatorName,
-      String filterRuleWrapperName,
-      CurrentUser user)
+      String filterRuleWrapperName)
       throws RuleEvalException {
-    PrologEnvironment env = getPrologEnvironment(user);
+    PrologEnvironment env = getPrologEnvironment();
     try {
       Term sr = env.once("gerrit", userRuleLocatorName, new VariableTerm());
       List<Term> results = new ArrayList<>();
@@ -507,7 +494,7 @@ public class SubmitRuleEvaluator {
     }
   }
 
-  private PrologEnvironment getPrologEnvironment(CurrentUser user) throws RuleEvalException {
+  private PrologEnvironment getPrologEnvironment() throws RuleEvalException {
     PrologEnvironment env;
     try {
       if (opts.rule() == null) {
@@ -529,9 +516,6 @@ public class SubmitRuleEvaluator {
     env.set(StoredValues.EMAILS, emails);
     env.set(StoredValues.REVIEW_DB, cd.db());
     env.set(StoredValues.CHANGE_DATA, cd);
-    if (user != null) {
-      env.set(StoredValues.CURRENT_USER, user);
-    }
     env.set(StoredValues.PROJECT_STATE, projectState);
     return env;
   }

@@ -24,7 +24,6 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.Accounts;
@@ -54,7 +53,6 @@ public final class StoredValues {
   public static final StoredValue<Emails> EMAILS = create(Emails.class);
   public static final StoredValue<ReviewDb> REVIEW_DB = create(ReviewDb.class);
   public static final StoredValue<ChangeData> CHANGE_DATA = create(ChangeData.class);
-  public static final StoredValue<CurrentUser> CURRENT_USER = create(CurrentUser.class);
   public static final StoredValue<ProjectState> PROJECT_STATE = create(ProjectState.class);
 
   public static Change getChange(Prolog engine) throws SystemException {

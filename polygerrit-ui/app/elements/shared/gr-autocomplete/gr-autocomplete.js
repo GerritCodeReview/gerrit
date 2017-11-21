@@ -173,6 +173,7 @@
 
     selectAll() {
       const nativeInputElement = this.$.input.inputElement;
+      if (!this.$.input.value) { return; }
       nativeInputElement.setSelectionRange(0, this.$.input.value.length);
     },
 

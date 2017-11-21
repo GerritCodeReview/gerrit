@@ -20,6 +20,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
@@ -34,6 +35,7 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.Future;
 import java.util.zip.GZIPOutputStream;
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,15 +53,20 @@ public class LogFileCompressor implements Runnable {
   static class Lifecycle implements LifecycleListener {
     private final WorkQueue queue;
     private final LogFileCompressor compressor;
+    private final boolean enabled;
 
     @Inject
-    Lifecycle(WorkQueue queue, LogFileCompressor compressor) {
+    Lifecycle(WorkQueue queue, LogFileCompressor compressor, @GerritServerConfig Config config) {
       this.queue = queue;
       this.compressor = compressor;
+      this.enabled = config.getBoolean("log", "compress", true);
     }
 
     @Override
     public void start() {
+      if (!enabled) {
+        return;
+      }
       // compress log once and then schedule compression every day at 11:00pm
       queue.getDefaultQueue().execute(compressor);
       ZoneId zone = ZoneId.systemDefault();

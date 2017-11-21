@@ -157,6 +157,7 @@ limitations under the License.
         '_handleImproperlyEncodedPlusRoute',
         '_handlePassThroughRoute',
         '_handleProjectAccessRoute',
+        '_handleProjectDashboardRoute',
         '_handleProjectListFilterOffsetRoute',
         '_handleProjectListFilterRoute',
         '_handleProjectListOffsetRoute',
@@ -365,6 +366,17 @@ limitations under the License.
           assert.equal(
               element._generateUrl(params),
               '/dashboard/user?name=query&title=custom%20dashboard');
+        });
+
+        test('project dashboard', () => {
+          const params = {
+            view: Gerrit.Nav.View.DASHBOARD,
+            project: 'gerrit/project',
+            dashboard: 'default:main',
+          };
+          assert.equal(
+              element._generateUrl(params),
+              '/p/gerrit/project/+/dashboard/default:main');
         });
       });
 

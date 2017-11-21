@@ -561,6 +561,12 @@ public class Gerrit implements EntryPoint {
     if (Location.getPath().endsWith("/") && tokens[0].startsWith("/")) {
       tokens[0] = tokens[0].substring(1);
     }
+    if (tokens[0].startsWith("projects/") && tokens[0].contains(",dashboards/")) {
+      // Rewrite project dashboard URIs to a new format, because otherwise
+      // "/projects/..." would be served as an API request.
+      tokens[0] = "p/" + tokens[0].substring("projects/".length());
+      tokens[0] = tokens[0].replace(",dashboards/", "/+/dashboard/");
+    }
     builder.setPath(Location.getPath() + tokens[0]);
     if (tokens.length == 2) {
       builder.setHash(tokens[1]);

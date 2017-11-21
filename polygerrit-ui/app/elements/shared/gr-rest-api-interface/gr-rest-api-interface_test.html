@@ -1172,5 +1172,14 @@ limitations under the License.
         });
       });
     });
+
+    test('getDashboard', () => {
+      const fetchStub = sandbox.stub(element, '_fetchSharedCacheURL');
+      element.getDashboard('gerrit/project', 'default:main');
+      assert.isTrue(fetchStub.calledOnce);
+      assert.equal(
+          fetchStub.lastCall.args[0],
+          '/projects/gerrit%2Fproject/dashboards/default%3Amain');
+    });
   });
 </script>

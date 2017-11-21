@@ -867,9 +867,9 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void pushToGroupBranchIsRejectedForAllUsersRepo() throws Exception {
-    String groupRef =
-        RefNames.refsGroups(new AccountGroup.UUID(gApi.groups().create(name("foo")).get().id));
-    assertPushToGroupBranch(allUsers, groupRef, !groupsInNoteDb(), "group update not allowed");
+    assume().that(groupsInNoteDb()).isTrue(); // branch only exists when groups are in NoteDb
+    assertPushToGroupBranch(
+        allUsers, RefNames.refsGroups(adminGroupUuid()), "group update not allowed");
   }
 
   @Test
@@ -877,7 +877,8 @@ public class GroupsIT extends AbstractDaemonTest {
     String groupRef =
         RefNames.refsDeletedGroups(
             new AccountGroup.UUID(gApi.groups().create(name("foo")).get().id));
-    assertPushToGroupBranch(allUsers, groupRef, true, "group update not allowed");
+    createBranch(allUsers, groupRef);
+    assertPushToGroupBranch(allUsers, groupRef, "group update not allowed");
   }
 
   @Test
@@ -885,7 +886,7 @@ public class GroupsIT extends AbstractDaemonTest {
     assume().that(groupsInNoteDb()).isTrue(); // branch only exists when groups are in NoteDb
     // refs/meta/group-names isn't usually available for fetch, so grant ACCESS_DATABASE
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
-    assertPushToGroupBranch(allUsers, RefNames.REFS_GROUPNAMES, false, "group update not allowed");
+    assertPushToGroupBranch(allUsers, RefNames.REFS_GROUPNAMES, "group update not allowed");
   }
 
   @Test
@@ -893,7 +894,8 @@ public class GroupsIT extends AbstractDaemonTest {
     assertCreateGroupBranch(project, null);
     String groupRef =
         RefNames.refsGroups(new AccountGroup.UUID(gApi.groups().create(name("foo")).get().id));
-    assertPushToGroupBranch(project, groupRef, true, null);
+    createBranch(project, groupRef);
+    assertPushToGroupBranch(project, groupRef, null);
   }
 
   @Test
@@ -902,17 +904,18 @@ public class GroupsIT extends AbstractDaemonTest {
     String groupRef =
         RefNames.refsDeletedGroups(
             new AccountGroup.UUID(gApi.groups().create(name("foo")).get().id));
-    assertPushToGroupBranch(project, groupRef, true, null);
+    createBranch(project, groupRef);
+    assertPushToGroupBranch(project, groupRef, null);
   }
 
   @Test
   public void pushToGroupNamesBranchForNonAllUsersRepo() throws Exception {
-    assertPushToGroupBranch(project, RefNames.REFS_GROUPNAMES, true, null);
+    createBranch(project, RefNames.REFS_GROUPNAMES);
+    assertPushToGroupBranch(project, RefNames.REFS_GROUPNAMES, null);
   }
 
   private void assertPushToGroupBranch(
-      Project.NameKey project, String groupRefName, boolean createRef, String expectedErrorOnUpdate)
-      throws Exception {
+      Project.NameKey project, String groupRefName, String expectedErrorOnUpdate) throws Exception {
     grant(project, RefNames.REFS_GROUPS + "*", Permission.CREATE, false, REGISTERED_USERS);
     grant(project, RefNames.REFS_GROUPS + "*", Permission.PUSH, false, REGISTERED_USERS);
     grant(project, RefNames.REFS_DELETED_GROUPS + "*", Permission.CREATE, false, REGISTERED_USERS);
@@ -920,10 +923,6 @@ public class GroupsIT extends AbstractDaemonTest {
     grant(project, RefNames.REFS_GROUPNAMES, Permission.PUSH, false, REGISTERED_USERS);
 
     TestRepository<InMemoryRepository> repo = cloneProject(project);
-
-    if (createRef) {
-      createGroupBranch(project, groupRefName);
-    }
 
     // update existing branch
     fetch(repo, groupRefName + ":groupRef");
@@ -970,12 +969,15 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void pushToGroupBranchForReviewForAllUsersRepoIsRejectedOnSubmit() throws Exception {
-    pushToGroupBranchForReviewAndSubmit(allUsers, "group update not allowed");
+    pushToGroupBranchForReviewAndSubmit(
+        allUsers, RefNames.refsGroups(adminGroupUuid()), "group update not allowed");
   }
 
   @Test
   public void pushToGroupBranchForReviewForNonAllUsersRepoAndSubmit() throws Exception {
-    pushToGroupBranchForReviewAndSubmit(project, null);
+    String groupRef = RefNames.refsGroups(adminGroupUuid());
+    createBranch(project, groupRef);
+    pushToGroupBranchForReviewAndSubmit(project, groupRef, null);
   }
 
   @Test
@@ -1064,7 +1066,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Sandboxed
   public void cannotDeleteDeletedGroupBranch() throws Exception {
     String groupRef = RefNames.refsDeletedGroups(new AccountGroup.UUID(name("foo")));
-    createBranch(allUsers, groupRef, "Foo");
+    createBranch(allUsers, groupRef);
     testCannotDeleteGroupBranch(RefNames.REFS_DELETED_GROUPS + "*", groupRef);
   }
 
@@ -1180,25 +1182,25 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(stalenessChecker.isStale(groupUuid)).isFalse();
   }
 
-  private void pushToGroupBranchForReviewAndSubmit(Project.NameKey project, String expectedError)
-      throws Exception {
+  private void pushToGroupBranchForReviewAndSubmit(
+      Project.NameKey project, String groupRef, String expectedError) throws Exception {
+    assume().that(groupsInNoteDb()).isTrue(); // branch only exists when groups are in NoteDb
+
     grantLabel(
         "Code-Review", -2, 2, project, RefNames.REFS_GROUPS + "*", false, REGISTERED_USERS, false);
     grant(project, RefNames.REFS_GROUPS + "*", Permission.SUBMIT, false, REGISTERED_USERS);
 
-    String groupRefName = RefNames.REFS_GROUPS + name("foo");
-    createGroupBranch(project, groupRefName);
     TestRepository<InMemoryRepository> repo = cloneProject(project);
-    fetch(repo, groupRefName + ":groupRef");
+    fetch(repo, groupRef + ":groupRef");
     repo.reset("groupRef");
 
     PushOneCommit.Result r =
         pushFactory
             .create(
                 db, admin.getIdent(), repo, "Update group config", "group.config", "some content")
-            .to(MagicBranch.NEW_CHANGE + groupRefName);
+            .to(MagicBranch.NEW_CHANGE + groupRef);
     r.assertOkStatus();
-    assertThat(r.getChange().change().getDest().get()).isEqualTo(groupRefName);
+    assertThat(r.getChange().change().getDest().get()).isEqualTo(groupRef);
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
 
     if (expectedError != null) {
@@ -1208,16 +1210,11 @@ public class GroupsIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).current().submit();
   }
 
-  private void createGroupBranch(Project.NameKey project, String ref) throws IOException {
-    createBranch(project, ref, "Create Group");
-  }
-
-  private void createBranch(Project.NameKey project, String ref, String commitMessage)
-      throws IOException {
+  private void createBranch(Project.NameKey project, String ref) throws IOException {
     try (Repository r = repoManager.openRepository(project);
         ObjectInserter oi = r.newObjectInserter();
         RevWalk rw = new RevWalk(r)) {
-      ObjectId emptyCommit = createCommit(r, commitMessage);
+      ObjectId emptyCommit = createCommit(r, "Test change");
       RefUpdate updateRef = r.updateRef(ref);
       updateRef.setExpectedOldObjectId(ObjectId.zeroId());
       updateRef.setNewObjectId(emptyCommit);

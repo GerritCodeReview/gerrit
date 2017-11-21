@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "fbaa7543_74a074a2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-21T23:10:04Z",
+      "side": 1,
+      "message": "Only make the row sticky when it\u0027s expanded. otherwise it looks a little strange.",
+      "range": {
+        "startLine": 72,
+        "startChar": 6,
+        "endLine": 80,
+        "endChar": 7
+      },
+      "revId": "164a1f30c39944fd6a8978e388e03792471d301b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b1e34319_99282b31",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 3

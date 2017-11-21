@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -37,6 +38,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.audit.AuditService;
@@ -96,6 +98,7 @@ public class GroupsUpdate {
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
+  private final GroupBackend groupBackend;
   private final GroupCache groupCache;
   private final GroupIncludeCache groupIncludeCache;
   private final AuditService auditService;
@@ -114,6 +117,7 @@ public class GroupsUpdate {
   GroupsUpdate(
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
+      GroupBackend groupBackend,
       GroupCache groupCache,
       GroupIncludeCache groupIncludeCache,
       AuditService auditService,
@@ -129,6 +133,7 @@ public class GroupsUpdate {
       @Assisted @Nullable IdentifiedUser currentUser) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
+    this.groupBackend = groupBackend;
     this.groupCache = groupCache;
     this.groupIncludeCache = groupIncludeCache;
     this.auditService = auditService;
@@ -553,16 +558,15 @@ public class GroupsUpdate {
     return getAccountNameEmail(accountCache, anonymousCowardName, accountId, serverId);
   }
 
-  static String getGroupName(GroupCache groupCache, AccountGroup.UUID groupUuid) {
-    return groupCache
-        .get(groupUuid)
-        .map(InternalGroup::getName)
-        .map(name -> formatNameEmail(name, groupUuid.get()))
-        .orElse(groupUuid.get());
+  static String getGroupName(GroupBackend groupBackend, AccountGroup.UUID groupUuid) {
+    String uuid = groupUuid.get();
+    GroupDescription.Basic desc = groupBackend.get(groupUuid);
+    String name = desc != null ? desc.getName() : uuid;
+    return formatNameEmail(name, uuid);
   }
 
   private String getGroupName(AccountGroup.UUID groupUuid) {
-    return getGroupName(groupCache, groupUuid);
+    return getGroupName(groupBackend, groupUuid);
   }
 
   private static String formatNameEmail(String name, String email) {

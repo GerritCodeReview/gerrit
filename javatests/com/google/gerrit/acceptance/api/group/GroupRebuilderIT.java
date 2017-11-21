@@ -15,35 +15,37 @@
 package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.assertThat;
-import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
-import static com.google.gerrit.server.notedb.NotesMigration.READ;
-import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupById;
+import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.group.ServerInitiated;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.GroupBundle;
 import com.google.gerrit.server.group.db.GroupRebuilder;
 import com.google.gerrit.server.group.db.GroupsUpdate;
-import com.google.gerrit.testing.ConfigSuite;
+import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gerrit.testing.TestTimeUtil.TempClockStep;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -57,19 +59,18 @@ import org.junit.Test;
 
 @NoHttpd
 public class GroupRebuilderIT extends AbstractDaemonTest {
-  @ConfigSuite.Default
-  public static Config defaultConfig() {
-    Config config = new Config();
-    // This test is explicitly testing the migration from ReviewDb to NoteDb, and handles reading
-    // from NoteDb manually. It should work regardless of the value of noteDb.groups.write, however.
-    config.setBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false);
-    return config;
-  }
-
   @Inject @GerritServerId private String serverId;
   @Inject @ServerInitiated private Provider<GroupsUpdate> groupsUpdate;
   @Inject private GroupBundle.Factory bundleFactory;
   @Inject private GroupRebuilder rebuilder;
+  @Inject private GroupsMigration migration;
+
+  @Before
+  public void setUp() {
+    // This test is explicitly testing the migration from ReviewDb to NoteDb, and handles reading
+    // from NoteDb manually. It should work regardless of the value of noteDb.groups.write, however.
+    assume().that(migration.readFromNoteDb()).isFalse();
+  }
 
   @Before
   public void setTimeForTesting() {
@@ -102,8 +103,11 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
     try (TempClockStep step = TestTimeUtil.freezeClock()) {
       gApi.groups().id(group1.id).addMembers(user.id.toString(), user2.id.toString());
     }
+    TimeUtil.nowTs();
 
-    gApi.groups().id(group1.id).addGroups(group2.id);
+    try (TempClockStep step = TestTimeUtil.freezeClock()) {
+      gApi.groups().id(group1.id).addGroups(group2.id, SystemGroupBackend.REGISTERED_USERS.get());
+    }
 
     try (BlockReviewDbUpdatesForGroups ctx = new BlockReviewDbUpdatesForGroups()) {
       GroupBundle reviewDbBundle =
@@ -143,11 +147,48 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
 
       assertThat(log.get(3))
           .message()
-          .isEqualTo("Update group\n\nAdd-group: " + group2.name + " <" + group2.id + ">");
+          .isEqualTo(
+              "Update group\n"
+                  + "\n"
+                  + ("Add-group: " + group2.name + " <" + group2.id + ">\n")
+                  + ("Add-group: Registered Users <global:Registered-Users>"));
       assertThat(log.get(3)).author().name().isEqualTo(admin.fullName);
       assertThat(log.get(3)).author().email().isEqualTo(admin.id + "@" + serverId);
       assertThat(log.get(3)).committer().hasSameDateAs(log.get(3).author);
     }
+  }
+
+  @Test
+  public void unknownGroupUuid() throws Exception {
+    GroupInfo group = gApi.groups().create(name("group")).get();
+
+    AccountGroup.UUID subgroupUuid = new AccountGroup.UUID("mybackend:foo");
+
+    AccountGroupById byId =
+        new AccountGroupById(
+            new AccountGroupById.Key(new AccountGroup.Id(group.groupId), subgroupUuid));
+    assertThat(groupBackend.handles(byId.getIncludeUUID())).isFalse();
+    db.accountGroupById().insert(Collections.singleton(byId));
+
+    AccountGroupByIdAud audit = new AccountGroupByIdAud(byId, admin.id, TimeUtil.nowTs());
+    db.accountGroupByIdAud().insert(Collections.singleton(audit));
+
+    GroupBundle reviewDbBundle = bundleFactory.fromReviewDb(db, new AccountGroup.Id(group.groupId));
+    deleteGroupRefs(reviewDbBundle);
+
+    GroupBundle noteDbBundle = rebuild(reviewDbBundle);
+    assertThat(noteDbBundle).isEqualTo(reviewDbBundle.truncateToSecond());
+
+    ImmutableList<CommitInfo> log = log(group);
+    assertThat(log).hasSize(3);
+
+    assertThat(log.get(0)).message().isEqualTo("Create group");
+    assertThat(log.get(1))
+        .message()
+        .isEqualTo("Update group\n\nAdd: Administrator <" + admin.id + "@" + serverId + ">");
+    assertThat(log.get(2))
+        .message()
+        .isEqualTo("Update group\n\nAdd-group: mybackend:foo <mybackend:foo>");
   }
 
   private void deleteGroupRefs(GroupBundle bundle) throws Exception {

@@ -33,7 +33,7 @@ import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerId;
@@ -81,7 +81,7 @@ public class GroupRebuilder {
       AllUsersName allUsers,
       MetaDataUpdate.InternalFactory metaDataUpdateFactory,
       AccountCache accountCache,
-      GroupCache groupCache) {
+      GroupBackend groupBackend) {
     this(
         serverIdent,
         allUsers,
@@ -95,7 +95,7 @@ public class GroupRebuilder {
                 ident.getWhen(),
                 ident.getTimeZone()),
         id -> GroupsUpdate.getAccountNameEmail(accountCache, anonymousCowardName, id, serverId),
-        uuid -> GroupsUpdate.getGroupName(groupCache, uuid));
+        uuid -> GroupsUpdate.getGroupName(groupBackend, uuid));
   }
 
   @VisibleForTesting

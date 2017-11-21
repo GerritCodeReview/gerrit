@@ -700,8 +700,7 @@
     },
 
     _computePathClass(path, expandedFilesRecord) {
-      return this._isFileExpanded(path, expandedFilesRecord) ? 'path expanded' :
-          'path';
+      return this._isFileExpanded(path, expandedFilesRecord) ? 'expanded' : '';
     },
 
     _computeShowHideText(path, expandedFilesRecord) {

@@ -104,6 +104,24 @@
       "revId": "9750b40719ef1a4a9e17240502d36f64e1cef4a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4061c782_6f3ab426",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-21T21:28:46Z",
+      "side": 1,
+      "message": "Here\u0027s what I mean:\n\nline.annotateElement(el, Gerrit.css(\u0027font-weight:bold\u0027))\n\nNot feeling strongly, of course.",
+      "parentUuid": "d7035547_4322ccbd",
+      "revId": "9750b40719ef1a4a9e17240502d36f64e1cef4a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -95,7 +95,7 @@ limitations under the License.
         vertical-align: -.425em;
       }
       gr-reply-dialog {
-        width: 50em;
+        width: 60em;
       }
       .changeStatus {
         text-transform: capitalize;
@@ -234,6 +234,11 @@ limitations under the License.
         #commitMessageEditor {
           min-width: 0;
         }
+        gr-reply-dialog {
+          height: 100vh;
+          min-width: initial;
+          width: 100vw;
+        }
       }
       /* NOTE: If you update this breakpoint, also update the
       BREAKPOINT_RELATED_SMALL in the JS */
@@ -253,10 +258,6 @@ limitations under the License.
         .header-title {
           flex-wrap: wrap;
           font-size: 1.1em;
-        }
-        gr-reply-dialog {
-          min-width: initial;
-          width: 100vw;
         }
         .desktop {
           display: none;

@@ -63,6 +63,30 @@
       "revId": "bc4e197a90196d4f7161a8ce532a59de84293c2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10462f56_ba52676b",
+        "filename": "java/com/google/gerrit/server/config/AnonymousCowardNameProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-21T13:14:42Z",
+      "side": 1,
+      "message": "It already does that, but we wanted to replace the default \"Anonymous Coward\" with a nicer alternative like \"Anonymous\".\n\nSee https://gerrit-review.googlesource.com/#/c/gerrit/+/143331/",
+      "parentUuid": "0115f3f2_1fa2c321",
+      "range": {
+        "startLine": 22,
+        "startChar": 39,
+        "endLine": 22,
+        "endChar": 62
+      },
+      "revId": "bc4e197a90196d4f7161a8ce532a59de84293c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

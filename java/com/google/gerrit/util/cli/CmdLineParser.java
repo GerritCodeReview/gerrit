@@ -53,6 +53,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -355,6 +357,10 @@ public class CmdLineParser {
     parser.parseWithPrefix(prefix, bean);
   }
 
+  public void drainOptionQueue() {
+    parser.addOptionsWithMetRequirements();
+  }
+
   private String makeOption(String name) {
     if (!name.startsWith("-")) {
       if (name.length() == 1) {
@@ -493,12 +499,52 @@ public class CmdLineParser {
     @SuppressWarnings("rawtypes")
     private List<OptionHandler> optionsList;
 
+    private Map<String, QueuedOption> queuedOptionsByName = new LinkedHashMap<>();
     private HelpOption help;
+
+    private class QueuedOption {
+      public final Option option;
+      public final Setter setter;
+      public final String[] requiredOptions;
+
+      private QueuedOption(Option option, Setter setter, RequiresOptions requiresOptions) {
+        this.option = option;
+        this.setter = setter;
+        this.requiredOptions = requiresOptions != null ? requiresOptions.value() : new String[0];
+      }
+    }
 
     MyParser(Object bean) {
       super(bean, ParserProperties.defaults().withAtSyntax(false));
       parseAdditionalOptions(bean, new HashSet<>());
+      addOptionsWithMetRequirements();
       ensureOptionsInitialized();
+    }
+
+    public int addOptionsWithMetRequirements() {
+      int count = 0;
+      for (Iterator<Map.Entry<String, QueuedOption>> it = queuedOptionsByName.entrySet().iterator();
+          it.hasNext(); ) {
+        QueuedOption queuedOption = it.next().getValue();
+        if (hasAllRequiredOptions(queuedOption)) {
+          addOption(queuedOption.setter, queuedOption.option);
+          it.remove();
+          count++;
+        }
+      }
+      if (count > 0) {
+        count += addOptionsWithMetRequirements();
+      }
+      return count;
+    }
+
+    private boolean hasAllRequiredOptions(QueuedOption queuedOption) {
+      for (String name : queuedOption.requiredOptions) {
+        if (findOptionByName(name) == null) {
+          return false;
+        }
+      }
+      return true;
     }
 
     // NOTE: Argument annotations on bean are ignored.
@@ -515,13 +561,19 @@ public class CmdLineParser {
         for (Method m : c.getDeclaredMethods()) {
           Option o = m.getAnnotation(Option.class);
           if (o != null) {
-            addOption(new MethodSetter(this, bean, m), new PrefixedOption(prefix, o));
+            queueOption(
+                new PrefixedOption(prefix, o),
+                new MethodSetter(this, bean, m),
+                m.getAnnotation(RequiresOptions.class));
           }
         }
         for (Field f : c.getDeclaredFields()) {
           Option o = f.getAnnotation(Option.class);
           if (o != null) {
-            addOption(Setters.create(f, bean), new PrefixedOption(prefix, o));
+            queueOption(
+                new PrefixedOption(prefix, o),
+                Setters.create(f, bean),
+                f.getAnnotation(RequiresOptions.class));
           }
           if (f.isAnnotationPresent(Options.class)) {
             try {
@@ -586,6 +638,14 @@ public class CmdLineParser {
         }
       }
       return null;
+    }
+
+    private void queueOption(Option option, Setter setter, RequiresOptions requiresOptions) {
+      if (queuedOptionsByName.put(option.name(), new QueuedOption(option, setter, requiresOptions))
+          != null) {
+        throw new IllegalAnnotationError(
+            "Option name " + option.name() + " is used more than once");
+      }
     }
 
     @SuppressWarnings("rawtypes")

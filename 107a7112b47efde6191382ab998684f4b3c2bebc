@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1510825296 +0100\nnonce AMT3iFilYEmakgQXR1EiBCwGENfH6wxg3hM7MhJcQTVCNjBYF/KD83J2D4KRw0bLgHFKH4LaKAkT\n\n0000000000000000000000000000000000000000 107a7112b47efde6191382ab998684f4b3c2bebc refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaDV1QAAoJEFG1/Zeg0O9RBI4IAIUtK/I45ziPERaeu6x0riHV\nFC6R8gr1rr/Yt7X+JR6vyMzfh5cc4GmytmTeP/lKKZ9JF159buoCrqP5LKutAdrS\nUVR3qspVUtAO4PqAF9DLw020Dd5+5N1dGWPqqS4yepCko4jYh09BHdeGSOf8WP4L\noiOLWw+yiRJE2+E9Azu8/N9qfr5986x1P1KPxTUVfkKw6l4gMsTISNXAkeIYzTeI\n+w1fWvONXE+SuslLdLI1n/GxJ3fjWqMvVkfcp7XAtc4TvUwMRtqUWRRhh0OkP7Kn\nEWg20Xpi1nWVGqKN3xg5uBFkXRT50+19dqffi6pDV/yO0R0CjsPWVORm7J9bacY\u003d\n\u003dfOcN\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f92c407e_706ab6d4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-21T15:08:26Z",
+      "side": 1,
+      "message": "this forgets the groupname note, so it triggers the checker.",
+      "range": {
+        "startLine": 1021,
+        "startChar": 16,
+        "endLine": 1021,
+        "endChar": 22
+      },
+      "revId": "107a7112b47efde6191382ab998684f4b3c2bebc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

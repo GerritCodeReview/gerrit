@@ -98,6 +98,29 @@
     },
     {
       "key": {
+        "uuid": "2d459b76_0ab681e1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 997,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-21T15:08:22Z",
+      "side": 1,
+      "message": "this triggers the consistency checker; I think this test is superfluous, since the branch should never be deleted when notedb is active.",
+      "range": {
+        "startLine": 997,
+        "startChar": 23,
+        "endLine": 997,
+        "endChar": 28
+      },
+      "revId": "d7848539cab757ae2bc2b976caadc35fc696cb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32146be2_9f472ed0",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 2

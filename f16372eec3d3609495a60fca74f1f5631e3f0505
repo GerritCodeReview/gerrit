@@ -86,6 +86,24 @@
     },
     {
       "key": {
+        "uuid": "9f289c2c_273b361e",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-21T12:56:57Z",
+      "side": 1,
+      "message": "Huh? There are a bunch of calls to createAccount in this file, there are way more than 2 users in the server. If some test is passing because there are only 2 users at the time that test is called, then we have just been getting lucky with method iteration order. IMHO we should fix that test.\n\nI am also not seeing where in this file we are checking user refs, but I might have missed it.\n\nThe reason I am pushing back is that adding @Sandboxed (without any additional methods) increases the test runtime from 13s to 20s, which is pretty significant.",
+      "parentUuid": "6af308d6_dd4a5113",
+      "revId": "f16372eec3d3609495a60fca74f1f5631e3f0505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8a03cb47_099c9e95",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
         "patchSetId": 3

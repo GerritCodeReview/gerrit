@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1e34319_99282b31",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-21T22:46:52Z",
+      "side": 1,
+      "message": "The only change here is wrapping the file row and diff contents inside this div. This is so when the div is off the page, the header is no longer sticky on the top of the page. Without this div, sticky row remained longer than it should (if the files after it were not expanded).",
+      "range": {
+        "startLine": 244,
+        "startChar": 7,
+        "endLine": 244,
+        "endChar": 32
+      },
+      "revId": "164a1f30c39944fd6a8978e388e03792471d301b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

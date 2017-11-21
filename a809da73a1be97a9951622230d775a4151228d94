@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14b78ca6_f25d819c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-21T00:32:02Z",
+      "side": 1,
+      "message": "Unrelated to the implementation:\n\nOne thing I\u0027m thinking about that may be confusing-- is that this count relates to the specific patchset (since it\u0027s coming from the file list). I believe this makes sense in the context it is put in- the header of the file list.\n\nHowever, I wonder if it could get taken out of context, and seem like that\u0027s the number of files affected in the change, which isn\u0027t necessarily the case.",
+      "range": {
+        "startLine": 149,
+        "startChar": 28,
+        "endLine": 149,
+        "endChar": 60
+      },
+      "revId": "a809da73a1be97a9951622230d775a4151228d94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd609716_9ab83753",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-21T00:32:02Z",
+      "side": 1,
+      "message": "nit: \u003e80ch",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 81
+      },
+      "revId": "a809da73a1be97a9951622230d775a4151228d94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

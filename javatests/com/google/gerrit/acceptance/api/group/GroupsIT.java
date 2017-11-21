@@ -27,6 +27,9 @@ import static com.google.gerrit.server.notedb.NotesMigration.DISABLE_REVIEW_DB;
 import static com.google.gerrit.server.notedb.NotesMigration.READ;
 import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
 import static com.google.gerrit.server.notedb.NotesMigration.WRITE;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Throwables;
@@ -71,6 +74,7 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.group.db.Groups;
+import com.google.gerrit.server.group.db.GroupsConsistencyChecker;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.index.group.StalenessChecker;
 import com.google.gerrit.server.util.MagicBranch;
@@ -80,6 +84,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -128,6 +134,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Inject private GroupIncludeCache groupIncludeCache;
   @Inject private StalenessChecker stalenessChecker;
   @Inject private GroupIndexer groupIndexer;
+  @Inject private GroupsConsistencyChecker consistencyChecker;
 
   @Inject
   @Named("groups_byuuid")
@@ -141,6 +148,13 @@ public class GroupsIT extends AbstractDaemonTest {
   @After
   public void resetTime() {
     TestTimeUtil.useSystemTime();
+  }
+
+  @After
+  public void consistencyCheck() throws Exception {
+    if (description.getAnnotation(IgnoreGroupInconsistencies.class) == null) {
+      assertThat(consistencyChecker.check()).isEmpty();
+    }
   }
 
   @Test
@@ -1038,6 +1052,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   @Sandboxed
+  @IgnoreGroupInconsistencies
   public void cannotCreateGroupNamesBranch() throws Exception {
     assume().that(groupsInNoteDb()).isTrue();
 
@@ -1153,6 +1168,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  @IgnoreGroupInconsistencies
   public void stalenessChecker() throws Exception {
     assume().that(readGroupsFromNoteDb()).isTrue();
 
@@ -1332,4 +1348,8 @@ public class GroupsIT extends AbstractDaemonTest {
   private boolean readGroupsFromNoteDb() {
     return groupsInNoteDb() && cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false);
   }
+
+  @Target({TYPE, METHOD})
+  @Retention(RUNTIME)
+  private @interface IgnoreGroupInconsistencies {}
 }

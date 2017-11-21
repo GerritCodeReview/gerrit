@@ -43,12 +43,12 @@ public class SystemLog {
   public static final String LOG4J_CONFIGURATION = "log4j.configuration";
 
   private final SitePaths site;
-  private final Config config;
+  private final int asyncLoggingBufferSize;
 
   @Inject
   public SystemLog(SitePaths site, @GerritServerConfig Config config) {
     this.site = site;
-    this.config = config;
+    this.asyncLoggingBufferSize = config.getInt("core", "asyncLoggingBufferSize", 64);
   }
 
   public static boolean shouldConfigure() {
@@ -73,7 +73,7 @@ public class SystemLog {
     AsyncAppender async = new AsyncAppender();
     async.setName(name);
     async.setBlocking(true);
-    async.setBufferSize(config.getInt("core", "asyncLoggingBufferSize", 64));
+    async.setBufferSize(asyncLoggingBufferSize);
     async.setLocationInfo(false);
 
     if (shouldConfigure()) {

@@ -19,6 +19,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
@@ -35,6 +36,14 @@ import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testing.ConfigSuite;
 import java.util.List;
 import org.eclipse.jgit.junit.TestRepository;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefRename;
@@ -43,6 +52,8 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -51,7 +62,6 @@ import org.junit.Test;
  * test server configuration, and leak from one test method into the next one, there is no way for
  * this test to not be sandboxed.
  */
-@Sandboxed
 @NoHttpd
 public class GroupsConsistencyIT extends AbstractDaemonTest {
 
@@ -66,6 +76,8 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
   private GroupInfo gAdmin;
   private GroupInfo g1;
   private GroupInfo g2;
+  private Repository repo;
+  private Map<String, Ref> startRefs;
 
   private static String BOGUS_UUID = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
 
@@ -84,6 +96,29 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
     this.g1 = gApi.groups().id(name1).detail();
     this.g2 = gApi.groups().id(name2).detail();
     this.gAdmin = gApi.groups().id("Administrators").detail();
+
+    repo = repoManager.openRepository(allUsers);
+    startRefs = repo.getAllRefs();
+  }
+
+  @After
+  public void reset() throws IOException {
+    if (repo == null) { return; }
+    Map<String, Ref> endRefs = repo.getAllRefs();
+
+    for (Map.Entry<String, Ref> e : endRefs.entrySet()) {
+      RefUpdate ru = repo.updateRef(e.getKey());
+      ru.setForceUpdate(true);
+
+      if (!startRefs.containsKey(e.getKey())) {
+        assertThat(ru.delete()).isEqualTo(Result.FORCED);
+      } else {
+        ru.setNewObjectId(startRefs.get(e.getKey()).getObjectId());
+        RefUpdate.Result result = ru.update();
+        assertThat(result).isAnyOf(Result.FORCED, Result.NO_CHANGE);
+      }
+    }
+    repo.close();
   }
 
   private boolean groupsInNoteDb() {
@@ -99,12 +134,11 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
   @Test
   public void missingGroupNameRef() throws Exception {
 
-    try (Repository repo = repoManager.openRepository(allUsers)) {
       RefUpdate ru = repo.updateRef(RefNames.REFS_GROUPNAMES);
       ru.setForceUpdate(true);
       RefUpdate.Result result = ru.delete();
       assertThat(result).isEqualTo(Result.FORCED);
-    }
+
 
     assertError("refs/meta/group-names does not exist");
   }
@@ -112,12 +146,10 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
   @Test
   public void missingGroupRef() throws Exception {
 
-    try (Repository repo = repoManager.openRepository(allUsers)) {
       RefUpdate ru = repo.updateRef(RefNames.refsGroups(new AccountGroup.UUID(g1.id)));
       ru.setForceUpdate(true);
       RefUpdate.Result result = ru.delete();
       assertThat(result).isEqualTo(Result.FORCED);
-    }
 
     assertError("missing as group ref");
   }
@@ -125,13 +157,11 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
   @Test
   public void parseGroupRef() throws Exception {
 
-    try (Repository repo = repoManager.openRepository(allUsers)) {
       RefRename ru =
           repo.renameRef(
               RefNames.refsGroups(new AccountGroup.UUID(g1.id)), RefNames.REFS_GROUPS + BOGUS_UUID);
       RefUpdate.Result result = ru.rename();
       assertThat(result).isEqualTo(Result.RENAMED);
-    }
 
     assertError("null UUID from");
   }
@@ -139,14 +169,12 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
   @Test
   public void missingNameEntry() throws Exception {
 
-    try (Repository repo = repoManager.openRepository(allUsers)) {
       RefRename ru =
           repo.renameRef(
               RefNames.refsGroups(new AccountGroup.UUID(g1.id)),
               RefNames.refsGroups(new AccountGroup.UUID(BOGUS_UUID)));
       RefUpdate.Result result = ru.rename();
       assertThat(result).isEqualTo(Result.RENAMED);
-    }
 
     assertError("group " + BOGUS_UUID + " has no entry in name map");
   }
@@ -292,51 +320,4 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
           .create();
     }
   }
-  /*
-  private void foo(String refname, String filename, String contents) throws Exception {
-    try (Repository repo = repoManager.openRepository(allUsers);
-        RevWalk rw = new RevWalk(repo);
-        TreeWalk tw = new TreeWalk(repo);
-        ObjectInserter ins = repo.newObjectInserter()) {
-
-      DirCache dc = DirCache.newInCore();
-      DirCacheBuilder dirCacheBuilder = dc.builder();
-
-      // Copy the old bits of the tree.
-      // This feels incredibly clumsy.
-      tw.addTree(c.getTree());
-      tw.setRecursive(true);
-      while (tw.next()) {
-        if (tw.getPathString().equals(filename)) {
-          continue;
-        }
-        DirCacheEntry de = new DirCacheEntry(tw.getPathString());
-        de.setFileMode(tw.getFileMode());
-        de.setObjectId(tw.getObjectId(0));
-        dirCacheBuilder.add(de);
-      }
-
-      DirCacheEntry e = new DirCacheEntry(filename);
-      e.setObjectId(ins.insert(Constants.OBJ_BLOB, contents.getBytes(StandardCharsets.UTF_8)));
-      e.setFileMode(FileMode.REGULAR_FILE);
-
-      dirCacheBuilder.add(e);
-      dirCacheBuilder.finish();
-
-      CommitBuilder cb = new CommitBuilder();
-      cb.setParentId(c);
-      cb.setMessage("update group file");
-      cb.setTreeId(dc.writeTree(ins));
-      cb.setAuthor(serverIdent.get());
-      cb.setCommitter(serverIdent.get());
-
-      ObjectId newCommit = ins.insert(Constants.OBJ_COMMIT, cb.build());
-      ins.flush();
-
-      RefUpdate ru = repo.updateRef(refname);
-      ru.setExpectedOldObjectId(ref.getObjectId());
-      ru.setNewObjectId(newCommit);
-      assertThat(ru.update()).isEqualTo(Result.FAST_FORWARD);
-    }
-  }*/
 }

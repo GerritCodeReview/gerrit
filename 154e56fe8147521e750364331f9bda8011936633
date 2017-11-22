@@ -104,6 +104,30 @@
     },
     {
       "key": {
+        "uuid": "5effd560_7f8b7abd",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-22T12:37:24Z",
+      "side": 1,
+      "message": "There is no such thing as an atomic snapshot of refs in the on-disk git file format; loose refs are by definition spread across multiple files.\n\nFor the DFS backend, calling repo.getAllRefs() once is sufficient to cache the list of refs, so I think that\u0027s your best bet.\n\nHolding on to a RefDatabase instance doesn\u0027t do anything; the refdb is already a final field in the repository.",
+      "parentUuid": "e6f3cb0a_7d1291c3",
+      "range": {
+        "startLine": 96,
+        "startChar": 6,
+        "endLine": 96,
+        "endChar": 45
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db128efb_0a9f6722",
         "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
         "patchSetId": 32

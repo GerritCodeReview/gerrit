@@ -146,11 +146,13 @@ public class GroupConfig extends VersionedMetaData {
       ImmutableSet<Account.Id> members,
       ImmutableSet<AccountGroup.UUID> subgroups,
       Timestamp createdOn,
-      ObjectId refState) {
+      ObjectId refState)
+      throws ConfigInvalidException {
     InternalGroup.Builder group = InternalGroup.builder();
     group.setGroupUUID(groupUuid);
-    Arrays.stream(GroupConfigEntry.values())
-        .forEach(configEntry -> configEntry.readFromConfig(group, config));
+    for (GroupConfigEntry configEntry : GroupConfigEntry.values()) {
+      configEntry.readFromConfig(groupUuid, group, config);
+    }
     group.setMembers(members);
     group.setSubgroups(subgroups);
     group.setCreatedOn(createdOn);

@@ -17,6 +17,7 @@ package com.google.gerrit.server.group.db;
 import com.google.common.base.Strings;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 // TODO(aliceks): Add Javadoc descriptions to this file. Mention that this class must only be used
@@ -24,9 +25,14 @@ import org.eclipse.jgit.lib.Config;
 enum GroupConfigEntry {
   ID("id") {
     @Override
-    void readFromConfig(InternalGroup.Builder group, Config config) {
-      AccountGroup.Id id = new AccountGroup.Id(config.getInt(SECTION_NAME, super.keyName, 0));
-      group.setId(id);
+    void readFromConfig(AccountGroup.UUID groupUuid, InternalGroup.Builder group, Config config)
+        throws ConfigInvalidException {
+      int id = config.getInt(SECTION_NAME, super.keyName, -1);
+      if (id < 0) {
+        throw new ConfigInvalidException(
+            String.format("ID of the group %s must not be negative", groupUuid.get()));
+      }
+      group.setId(new AccountGroup.Id(id));
     }
 
     @Override
@@ -46,10 +52,14 @@ enum GroupConfigEntry {
   },
   NAME("name") {
     @Override
-    void readFromConfig(InternalGroup.Builder group, Config config) {
-      AccountGroup.NameKey name =
-          new AccountGroup.NameKey(config.getString(SECTION_NAME, null, super.keyName));
-      group.setNameKey(name);
+    void readFromConfig(AccountGroup.UUID groupUuid, InternalGroup.Builder group, Config config)
+        throws ConfigInvalidException {
+      String name = config.getString(SECTION_NAME, null, super.keyName);
+      if (Strings.isNullOrEmpty(name)) {
+        throw new ConfigInvalidException(
+            String.format("Name of the group %s must be defined", groupUuid.get()));
+      }
+      group.setNameKey(new AccountGroup.NameKey(name));
     }
 
     @Override
@@ -67,9 +77,9 @@ enum GroupConfigEntry {
   },
   DESCRIPTION("description") {
     @Override
-    void readFromConfig(InternalGroup.Builder group, Config config) {
+    void readFromConfig(AccountGroup.UUID groupUuid, InternalGroup.Builder group, Config config) {
       String description = config.getString(SECTION_NAME, null, super.keyName);
-      group.setDescription(description);
+      group.setDescription(Strings.emptyToNull(description));
     }
 
     @Override
@@ -89,8 +99,13 @@ enum GroupConfigEntry {
   },
   OWNER_GROUP_UUID("ownerGroupUuid") {
     @Override
-    void readFromConfig(InternalGroup.Builder group, Config config) {
+    void readFromConfig(AccountGroup.UUID groupUuid, InternalGroup.Builder group, Config config)
+        throws ConfigInvalidException {
       String ownerGroupUuid = config.getString(SECTION_NAME, null, super.keyName);
+      if (Strings.isNullOrEmpty(ownerGroupUuid)) {
+        throw new ConfigInvalidException(
+            String.format("Owner UUID of the group %s must be defined", groupUuid.get()));
+      }
       group.setOwnerGroupUUID(new AccountGroup.UUID(ownerGroupUuid));
     }
 
@@ -110,7 +125,7 @@ enum GroupConfigEntry {
   },
   VISIBLE_TO_ALL("visibleToAll") {
     @Override
-    void readFromConfig(InternalGroup.Builder group, Config config) {
+    void readFromConfig(AccountGroup.UUID groupUuid, InternalGroup.Builder group, Config config) {
       boolean visibleToAll = config.getBoolean(SECTION_NAME, super.keyName, false);
       group.setVisibleToAll(visibleToAll);
     }
@@ -137,7 +152,9 @@ enum GroupConfigEntry {
     this.keyName = keyName;
   }
 
-  abstract void readFromConfig(InternalGroup.Builder group, Config config);
+  abstract void readFromConfig(
+      AccountGroup.UUID groupUuid, InternalGroup.Builder group, Config config)
+      throws ConfigInvalidException;
 
   abstract void initNewConfig(Config config, InternalGroupCreation group);
 

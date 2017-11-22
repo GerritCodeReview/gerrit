@@ -46,6 +46,30 @@
       "revId": "e16694f0a734d6e29141d25f461c23092c481ce2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38faa334_904e94fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Realm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-22T07:15:02Z",
+      "side": 1,
+      "message": "Resolve",
+      "parentUuid": "0fc90a2a_77b58538",
+      "range": {
+        "startLine": 65,
+        "startChar": 18,
+        "endLine": 65,
+        "endChar": 35
+      },
+      "revId": "e16694f0a734d6e29141d25f461c23092c481ce2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

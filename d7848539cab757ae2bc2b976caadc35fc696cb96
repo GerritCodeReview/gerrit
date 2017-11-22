@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "8acec1ac_bd88204a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 997,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-22T07:17:15Z",
+      "side": 1,
+      "message": "This was solved in [1] by annotating the test with @IgnoreGroupInconsistencies.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/143292",
+      "parentUuid": "2d459b76_0ab681e1",
+      "range": {
+        "startLine": 997,
+        "startChar": 23,
+        "endLine": 997,
+        "endChar": 28
+      },
+      "revId": "d7848539cab757ae2bc2b976caadc35fc696cb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32146be2_9f472ed0",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 2

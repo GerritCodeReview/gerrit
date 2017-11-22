@@ -808,7 +808,6 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void fetchUserBranch() throws Exception {
     setApiUser(user);
 
@@ -1076,7 +1075,6 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void pushAccountConfigToUserBranchForReviewDeactivateOtherAccount() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
 
@@ -1340,7 +1338,6 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void pushAccountConfigToUserBranchDeactivateOtherAccount() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
 
@@ -1374,7 +1371,6 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void cannotCreateUserBranch() throws Exception {
     grant(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE);
     grant(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH);
@@ -1391,7 +1387,6 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void createUserBranchWithAccessDatabaseCapability() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     grant(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE);
@@ -1407,7 +1402,6 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void cannotCreateNonUserBranchUnderRefsUsersWithAccessDatabaseCapability()
       throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
@@ -1426,7 +1420,6 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void createDefaultUserBranch() throws Exception {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       assertThat(repo.exactRef(RefNames.REFS_USERS_DEFAULT)).isNull();
@@ -1447,7 +1440,6 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void cannotDeleteUserBranch() throws Exception {
     grant(
         allUsers,

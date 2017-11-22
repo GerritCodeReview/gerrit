@@ -195,7 +195,7 @@ public abstract class AbstractDaemonTest {
                 firstTest = description;
               }
               beforeTest(description);
-              try {
+              try (ProjectConfigResetter resetter = resetProjects(allProjects, allUsers)) {
                 base.evaluate();
               } finally {
                 afterTest();
@@ -302,6 +302,10 @@ public abstract class AbstractDaemonTest {
       }
     }
     TempFileUtil.cleanup();
+  }
+
+  protected ProjectConfigResetter resetProjects(Project.NameKey... projects) throws Exception {
+    return new ProjectConfigResetter(repoManager, metaDataUpdateFactory, projectCache, projects);
   }
 
   protected static Config submitWholeTopicEnabledConfig() {

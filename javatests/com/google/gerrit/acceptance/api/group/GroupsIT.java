@@ -1022,14 +1022,12 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void cannotCreateGroupBranch() throws Exception {
     testCannotCreateGroupBranch(
         RefNames.REFS_GROUPS + "*", RefNames.refsGroups(new AccountGroup.UUID(name("foo"))));
   }
 
   @Test
-  @Sandboxed
   public void cannotCreateDeletedGroupBranch() throws Exception {
     testCannotCreateGroupBranch(
         RefNames.REFS_DELETED_GROUPS + "*",
@@ -1073,14 +1071,12 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void cannotDeleteGroupBranch() throws Exception {
     assume().that(groupsInNoteDb()).isTrue();
     testCannotDeleteGroupBranch(RefNames.REFS_GROUPS + "*", RefNames.refsGroups(adminGroupUuid()));
   }
 
   @Test
-  @Sandboxed
   public void cannotDeleteDeletedGroupBranch() throws Exception {
     String groupRef = RefNames.refsDeletedGroups(new AccountGroup.UUID(name("foo")));
     createBranch(allUsers, groupRef);
@@ -1088,7 +1084,6 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void cannotDeleteGroupNamesBranch() throws Exception {
     assume().that(groupsInNoteDb()).isTrue();
 

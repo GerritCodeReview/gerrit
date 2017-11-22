@@ -309,35 +309,31 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Test
   public void uploadPackSubsetOfRefsVisibleWithAccessDatabase() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
-    try {
-      deny("refs/heads/master", Permission.READ, REGISTERED_USERS);
-      allow("refs/heads/branch", Permission.READ, REGISTERED_USERS);
+    deny("refs/heads/master", Permission.READ, REGISTERED_USERS);
+    allow("refs/heads/branch", Permission.READ, REGISTERED_USERS);
 
-      String changeId = c1.change().getKey().get();
-      setApiUser(admin);
-      gApi.changes().id(changeId).edit().create();
-      setApiUser(user);
+    String changeId = c1.change().getKey().get();
+    setApiUser(admin);
+    gApi.changes().id(changeId).edit().create();
+    setApiUser(user);
 
-      assertUploadPackRefs(
-          // Change 1 is visible due to accessDatabase capability, even though
-          // refs/heads/master is not.
-          r1 + "1",
-          r1 + "meta",
-          r2 + "1",
-          r2 + "meta",
-          r3 + "1",
-          r3 + "meta",
-          r4 + "1",
-          r4 + "meta",
-          "refs/heads/branch",
-          "refs/tags/branch-tag",
-          // See comment in subsetOfBranchesVisibleNotIncludingHead.
-          "refs/tags/master-tag",
-          // All edits are visible due to accessDatabase capability.
-          "refs/users/00/1000000/edit-" + c1.getId() + "/1");
-    } finally {
-      removeGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
-    }
+    assertUploadPackRefs(
+        // Change 1 is visible due to accessDatabase capability, even though
+        // refs/heads/master is not.
+        r1 + "1",
+        r1 + "meta",
+        r2 + "1",
+        r2 + "meta",
+        r3 + "1",
+        r3 + "meta",
+        r4 + "1",
+        r4 + "meta",
+        "refs/heads/branch",
+        "refs/tags/branch-tag",
+        // See comment in subsetOfBranchesVisibleNotIncludingHead.
+        "refs/tags/master-tag",
+        // All edits are visible due to accessDatabase capability.
+        "refs/users/00/1000000/edit-" + c1.getId() + "/1");
   }
 
   @Test
@@ -375,12 +371,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       assertRefs(repo, newFilter(repo, allProjects), true);
 
       allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
-      try {
-        setApiUser(user);
-        assertRefs(repo, newFilter(repo, allProjects), true, "refs/sequences/changes");
-      } finally {
-        removeGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
-      }
+      setApiUser(user);
+      assertRefs(repo, newFilter(repo, allProjects), true, "refs/sequences/changes");
     }
   }
 
@@ -488,17 +480,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Test
   public void advertisedReferencesIncludeAllUserBranchesWithAccessDatabase() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
-    try {
-      TestRepository<?> userTestRepository = cloneProject(allUsers, user);
-      try (Git git = userTestRepository.git()) {
-        assertThat(getUserRefs(git))
-            .containsExactly(
-                RefNames.REFS_USERS_SELF,
-                RefNames.refsUsers(user.id),
-                RefNames.refsUsers(admin.id));
-      }
-    } finally {
-      removeGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    TestRepository<?> userTestRepository = cloneProject(allUsers, user);
+    try (Git git = userTestRepository.git()) {
+      assertThat(getUserRefs(git))
+          .containsExactly(
+              RefNames.REFS_USERS_SELF, RefNames.refsUsers(user.id), RefNames.refsUsers(admin.id));
     }
   }
 
@@ -549,18 +535,14 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   public void advertisedReferencesIncludeAllGroupBranchesForAdmins() throws Exception {
     allow(allUsersName, RefNames.REFS_GROUPS + "*", Permission.READ, REGISTERED_USERS);
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ADMINISTRATE_SERVER);
-    try {
-      AccountGroup.UUID users = createGroup("Users", admins);
-      TestRepository<?> userTestRepository = cloneProject(allUsers, user);
-      try (Git git = userTestRepository.git()) {
-        assertThat(getGroupRefs(git))
-            .containsExactly(
-                RefNames.refsGroups(admins),
-                RefNames.refsGroups(nonInteractiveUsers),
-                RefNames.refsGroups(users));
-      }
-    } finally {
-      removeGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ADMINISTRATE_SERVER);
+    AccountGroup.UUID users = createGroup("Users", admins);
+    TestRepository<?> userTestRepository = cloneProject(allUsers, user);
+    try (Git git = userTestRepository.git()) {
+      assertThat(getGroupRefs(git))
+          .containsExactly(
+              RefNames.refsGroups(admins),
+              RefNames.refsGroups(nonInteractiveUsers),
+              RefNames.refsGroups(users));
     }
   }
 
@@ -648,50 +630,46 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @GerritConfig(name = "noteDb.groups.write", value = "true")
   public void hideMetadata() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
-    try {
-      // create change
-      TestRepository<?> allUsersRepo = cloneProject(allUsers);
-      fetch(allUsersRepo, RefNames.REFS_USERS_SELF + ":userRef");
-      allUsersRepo.reset("userRef");
-      PushOneCommit.Result mr =
-          pushFactory
-              .create(db, admin.getIdent(), allUsersRepo)
-              .to("refs/for/" + RefNames.REFS_USERS_SELF);
-      mr.assertOkStatus();
+    // create change
+    TestRepository<?> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, RefNames.REFS_USERS_SELF + ":userRef");
+    allUsersRepo.reset("userRef");
+    PushOneCommit.Result mr =
+        pushFactory
+            .create(db, admin.getIdent(), allUsersRepo)
+            .to("refs/for/" + RefNames.REFS_USERS_SELF);
+    mr.assertOkStatus();
 
-      List<String> expectedNonMetaRefs =
-          ImmutableList.of(
-              RefNames.REFS_USERS_SELF,
-              RefNames.refsUsers(admin.id),
-              RefNames.refsUsers(user.id),
-              RefNames.REFS_EXTERNAL_IDS,
-              RefNames.REFS_GROUPNAMES,
-              RefNames.refsGroups(admins),
-              RefNames.refsGroups(nonInteractiveUsers),
-              RefNames.REFS_SEQUENCES + Sequences.NAME_ACCOUNTS,
-              RefNames.REFS_SEQUENCES + Sequences.NAME_GROUPS,
-              RefNames.REFS_CONFIG);
+    List<String> expectedNonMetaRefs =
+        ImmutableList.of(
+            RefNames.REFS_USERS_SELF,
+            RefNames.refsUsers(admin.id),
+            RefNames.refsUsers(user.id),
+            RefNames.REFS_EXTERNAL_IDS,
+            RefNames.REFS_GROUPNAMES,
+            RefNames.refsGroups(admins),
+            RefNames.refsGroups(nonInteractiveUsers),
+            RefNames.REFS_SEQUENCES + Sequences.NAME_ACCOUNTS,
+            RefNames.REFS_SEQUENCES + Sequences.NAME_GROUPS,
+            RefNames.REFS_CONFIG);
 
-      List<String> expectedMetaRefs =
-          new ArrayList<>(ImmutableList.of(mr.getPatchSetId().toRefName()));
-      if (NoteDbMode.get() != NoteDbMode.OFF) {
-        expectedMetaRefs.add(changeRefPrefix(mr.getChange().getId()) + "meta");
-      }
+    List<String> expectedMetaRefs =
+        new ArrayList<>(ImmutableList.of(mr.getPatchSetId().toRefName()));
+    if (NoteDbMode.get() != NoteDbMode.OFF) {
+      expectedMetaRefs.add(changeRefPrefix(mr.getChange().getId()) + "meta");
+    }
 
-      List<String> expectedAllRefs = new ArrayList<>(expectedNonMetaRefs);
-      expectedAllRefs.addAll(expectedMetaRefs);
+    List<String> expectedAllRefs = new ArrayList<>(expectedNonMetaRefs);
+    expectedAllRefs.addAll(expectedMetaRefs);
 
-      try (Repository repo = repoManager.openRepository(allUsers)) {
-        Map<String, Ref> all = repo.getAllRefs();
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      Map<String, Ref> all = repo.getAllRefs();
 
-        VisibleRefFilter filter = refFilterFactory.create(projectCache.get(allUsers), repo);
-        assertThat(filter.filter(all, false).keySet()).containsExactlyElementsIn(expectedAllRefs);
+      VisibleRefFilter filter = refFilterFactory.create(projectCache.get(allUsers), repo);
+      assertThat(filter.filter(all, false).keySet()).containsExactlyElementsIn(expectedAllRefs);
 
-        assertThat(filter.setShowMetadata(false).filter(all, false).keySet())
-            .containsExactlyElementsIn(expectedNonMetaRefs);
-      }
-    } finally {
-      removeGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+      assertThat(filter.setShowMetadata(false).filter(all, false).keySet())
+          .containsExactlyElementsIn(expectedNonMetaRefs);
     }
   }
 

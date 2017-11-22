@@ -440,6 +440,30 @@
     },
     {
       "key": {
+        "uuid": "c263b406_222f6c75",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-22T12:34:56Z",
+      "side": 1,
+      "message": "I do this as a general pattern because if someone makes a change to the code and adds something else to todo, then it\u0027s easy to forget the check, causing an infinite loop.",
+      "parentUuid": "a3b71969_2162a099",
+      "range": {
+        "startLine": 312,
+        "startChar": 8,
+        "endLine": 312,
+        "endChar": 20
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8efe816c_9c941ab1",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
         "patchSetId": 32

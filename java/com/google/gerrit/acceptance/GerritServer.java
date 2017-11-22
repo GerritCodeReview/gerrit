@@ -407,6 +407,7 @@ public class GerritServer implements AutoCloseable {
             install(InProcessProtocol.module());
             install(new NoSshModule());
             install(new AsyncReceiveCommits.Module());
+            factory(ProjectResetter.Builder.Factory.class);
           }
         };
     return sysInjector.createChildInjector(module);

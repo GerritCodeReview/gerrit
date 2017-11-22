@@ -204,7 +204,7 @@ public class JettyServer {
         if (AuthType.CLIENT_SSL_CERT_LDAP.equals(authType)) {
           ssl.setNeedClientAuth(true);
 
-          Path crl = getFile(cfg, "sslcrl", "etc/crl.pem");
+          Path crl = getFile(cfg, "sslCrl", "etc/crl.pem");
           if (Files.exists(crl)) {
             ssl.setCrlPath(crl.toAbsolutePath().toString());
             ssl.setValidatePeerCerts(true);

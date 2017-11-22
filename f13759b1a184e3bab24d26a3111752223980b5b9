@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3a9bf4a_395da578",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-22T15:26:07Z",
+      "side": 1,
+      "message": "Please revert this modification. (more context: https://gerrit-review.googlesource.com/c/gerrit/+/141210/11/java/com/google/gerrit/server/group/db/GroupNameNotes.java#175)",
+      "range": {
+        "startLine": 175,
+        "startChar": 2,
+        "endLine": 175,
+        "endChar": 68
+      },
+      "revId": "f13759b1a184e3bab24d26a3111752223980b5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b20f506_2767e734",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-22T15:26:07Z",
+      "side": 1,
+      "message": "Can\u0027t we use the class GroupsMigration?",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 82,
+        "endChar": 99
+      },
+      "revId": "f13759b1a184e3bab24d26a3111752223980b5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba9f75a9_c4704abb",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-22T15:26:07Z",
+      "side": 1,
+      "message": "optional: As done below, byUUID.get(g.getOwnerGroupUUID()) could be checked first.",
+      "range": {
+        "startLine": 184,
+        "startChar": 8,
+        "endLine": 184,
+        "endChar": 55
+      },
+      "revId": "f13759b1a184e3bab24d26a3111752223980b5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ea101f6_a96b788b",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-22T15:26:07Z",
+      "side": 1,
+      "message": "Missing \u0027no\u0027?",
+      "range": {
+        "startLine": 258,
+        "startChar": 48,
+        "endLine": 258,
+        "endChar": 83
+      },
+      "revId": "f13759b1a184e3bab24d26a3111752223980b5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ec337e0_aae506c9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-22T15:26:07Z",
+      "side": 1,
+      "message": "True. I\u0027m just wondering if this class shouldn\u0027t rather contain unit tests and hence not use the Gerrit server at all. GroupsConsistencyChecker doesn\u0027t really depend on server functionalities. It could be directly instantiated via its constructor (passing in other manually created objects). For the repository, we could use the InMemoryRepositoryManager. Thus, test execution would be much faster.",
+      "range": {
+        "startLine": 59,
+        "startChar": 57,
+        "endLine": 61,
+        "endChar": 33
+      },
+      "revId": "f13759b1a184e3bab24d26a3111752223980b5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05d60ccd_dca955f5",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-22T15:26:07Z",
+      "side": 1,
+      "message": "We should rather refer to the \u0027user\u0027 TestAccount and use one of its identifiers here. The same holds for the next line regarding the admin account.",
+      "range": {
+        "startLine": 89,
+        "startChar": 36,
+        "endLine": 89,
+        "endChar": 42
+      },
+      "revId": "f13759b1a184e3bab24d26a3111752223980b5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c304b2cc_0d0390a3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-22T15:26:07Z",
+      "side": 1,
+      "message": "Here and below: Reusing a name for an object of a different type is not good style.",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 11
+      },
+      "revId": "f13759b1a184e3bab24d26a3111752223980b5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78824a36_71c65ba5",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-22T15:26:07Z",
+      "side": 1,
+      "message": "Here and for the other tests: As this assumption is contained in the @Before method, we don\u0027t need it in every test.",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 45
+      },
+      "revId": "f13759b1a184e3bab24d26a3111752223980b5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc65fe5a_d8436459",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-22T15:26:07Z",
+      "side": 1,
+      "message": "optional: I would prefer this test to be the first or last one, not something in the middle as now.",
+      "range": {
+        "startLine": 118,
+        "startChar": 2,
+        "endLine": 118,
+        "endChar": 23
+      },
+      "revId": "f13759b1a184e3bab24d26a3111752223980b5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05ddbd0f_ba9775d3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-22T15:26:07Z",
+      "side": 1,
+      "message": "I agree. Couldn\u0027t TestRepository be used? For instance:\n\n TestRepository\u003c?\u003e testRepository \u003d new TestRepository\u003c\u003e(repo, rw);\n testRepository\n     .branch(refname)\n     .commit()\n     .add(filename, contents)\n     .parent(c)\n     .message(\"update group file\")\n     .author(serverIdent.get())\n     .committer(serverIdent.get())\n     .create();",
+      "range": {
+        "startLine": 302,
+        "startChar": 6,
+        "endLine": 303,
+        "endChar": 38
+      },
+      "revId": "f13759b1a184e3bab24d26a3111752223980b5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1511367919 -0500\nnonce AMT3iFiL7CUcBHx9yielmZ91RAhBEtl8au2j3FME8Yc9+XanHynhzwtaGGS8T+335RciT8D5qML1\n\n0000000000000000000000000000000000000000 8b233e29b74f6133aff853afc66bf305435b865a refs/for/master%r\u003daliceks\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAloVpO8VHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMXNoP/0QfavWxoU0QYm4wDjCm4U/W5vPN\nCsh0BW8LwIpwOLoPXWzZvlY31WczbKkZd51RBXCbkwlL0R+ASkLiQRri0Vydv+Qc\nl0+weJRrRKp5JL1v10uY4kL2dsC/nWWuubWk7I9n3XJ39Tv2XueaOFnXbatzUoHJ\nAcjYwtjcpmbX1qIaF+AY1VY27N+vqLoCZHEs/8G/MzWo1QBcY2hx2a5W3aXnq2vY\nabGQCPWKXb5yNB1YrlFAST3bye2secDoCa3GHhgJZuyu+inFgG2oGIAPA+JNoN24\nv4CSee4TQDe4uzPwru0C++fQjHqEi5VmicYtCRaNyH4O8TDC263HKFCSeQ3nWIlz\nnYkDEo9H0km3uYKDqY7eYOqipv2eoLtcDyKD4uGBCZh6I3DopQCpQNSLj737Gwjo\nUoEYsD4ciWlW9mFibVAEOppEBXHxXX1Hc3EA1KfpoALqrgWsfFDKwi6p2G0nWUGR\nC3JMYP4fxwCxJHTgcYfUq8favsJI7PLcfWza5eHA4NC+VT1x/+wHbYjZdCkyptHm\nvlSu8lX+ToCqO2xKwrnXdKwdb6td95ryTrgpQYJHE0Wq1O655+rXLRqeLK3NKEGO\nuNXgzCnUdALkWeitz+MnE/JaZrs87JtyNbwIQh3raHVgbUUrK9k5T/FLkZ5Xi8FI\nSRMA+uMCD5hC74rO\n\u003dLx8L\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b95e8964_3826113a",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-22T16:53:29Z",
+      "side": 1,
+      "message": "optional: As this method is only ever called with \u0027true\u0027, we wouldn\u0027t need to pass in a boolean parameter.",
+      "range": {
+        "startLine": 111,
+        "startChar": 29,
+        "endLine": 111,
+        "endChar": 55
+      },
+      "revId": "252c6d672e1a3af02dbde74b92f81f911cbf19f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7b20a3d_a51b0e9e",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-22T16:53:29Z",
+      "side": 1,
+      "message": "optional: I\u0027m a bit confused by the position of this method. I would have expected it to be below onSave().",
+      "range": {
+        "startLine": 176,
+        "startChar": 27,
+        "endLine": 176,
+        "endChar": 37
+      },
+      "revId": "252c6d672e1a3af02dbde74b92f81f911cbf19f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30da478d_62095a84",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-22T16:53:29Z",
+      "side": 1,
+      "message": "optional: David P. will probably complain about an Eclipse warning for the \u0027else\u0027.",
+      "range": {
+        "startLine": 179,
+        "startChar": 6,
+        "endLine": 179,
+        "endChar": 13
+      },
+      "revId": "252c6d672e1a3af02dbde74b92f81f911cbf19f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f2e2316_dbd9beba",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfigEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-22T16:53:29Z",
+      "side": 1,
+      "message": "optional: Is there a word missing? That part of the sentence sounds strange to me.",
+      "range": {
+        "startLine": 59,
+        "startChar": 95,
+        "endLine": 60,
+        "endChar": 51
+      },
+      "revId": "252c6d672e1a3af02dbde74b92f81f911cbf19f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -48,26 +48,26 @@ public class GroupIndexerImpl implements GroupIndexer {
 
   private final GroupCache groupCache;
   private final DynamicSet<GroupIndexedListener> indexedListener;
-  private final GroupIndexCollection indexes;
   private final StalenessChecker stalenessChecker;
-  private final boolean autoReindexIfStale;
-  private final GroupIndex index;
   private final ListeningExecutorService batchExecutor;
+  private final boolean autoReindexIfStale;
+  @Nullable private final GroupIndexCollection indexes;
+  @Nullable private final GroupIndex index;
 
   @AssistedInject
   GroupIndexerImpl(
       GroupCache groupCache,
       DynamicSet<GroupIndexedListener> indexedListener,
       StalenessChecker stalenessChecker,
-      @GerritServerConfig Config config,
       @IndexExecutor(BATCH) ListeningExecutorService batchExecutor,
+      @GerritServerConfig Config config,
       @Assisted GroupIndexCollection indexes) {
     this.groupCache = groupCache;
     this.indexedListener = indexedListener;
-    this.indexes = indexes;
     this.stalenessChecker = stalenessChecker;
-    this.autoReindexIfStale = autoReindexIfStale(config);
     this.batchExecutor = batchExecutor;
+    this.autoReindexIfStale = autoReindexIfStale(config);
+    this.indexes = indexes;
     this.index = null;
   }
 
@@ -76,15 +76,15 @@ public class GroupIndexerImpl implements GroupIndexer {
       GroupCache groupCache,
       DynamicSet<GroupIndexedListener> indexedListener,
       StalenessChecker stalenessChecker,
-      @GerritServerConfig Config config,
       @IndexExecutor(BATCH) ListeningExecutorService batchExecutor,
-      @Assisted GroupIndex index) {
+      @GerritServerConfig Config config,
+      @Assisted @Nullable GroupIndex index) {
     this.groupCache = groupCache;
     this.indexedListener = indexedListener;
-    this.indexes = null;
     this.stalenessChecker = stalenessChecker;
-    this.autoReindexIfStale = autoReindexIfStale(config);
     this.batchExecutor = batchExecutor;
+    this.autoReindexIfStale = autoReindexIfStale(config);
+    this.indexes = null;
     this.index = index;
   }
 

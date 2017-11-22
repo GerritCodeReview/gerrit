@@ -128,6 +128,30 @@
     },
     {
       "key": {
+        "uuid": "42b9cada_81137217",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-22T12:46:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5effd560_7f8b7abd",
+      "range": {
+        "startLine": 96,
+        "startChar": 6,
+        "endLine": 96,
+        "endChar": 45
+      },
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db128efb_0a9f6722",
         "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
         "patchSetId": 32

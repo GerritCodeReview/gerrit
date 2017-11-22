@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "2472d0a5_7cc82ed1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-22T20:12:58Z",
+      "side": 1,
+      "message": "I hate being such a pedant, but if the commit message style is so formal as to forbid a period at the end of the subject, surely an exclamation mark would be even less aligned with the style.\n\nAt any rate, I think this commit message can describe he behavior more precisely, as well as link to issue 5178. Maybe\n\n Sticky headers for inline diffs\n\n Something something position:sticky something.\n\n Feature: Issue 5178",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "164a1f30c39944fd6a8978e388e03792471d301b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dab050e3_980b12e5",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-22T20:12:58Z",
+      "side": 1,
+      "message": "The most useful thing to document in a comment when using z-index is what other elements the index needs to be greater than (or less than, if applicable). That makes it easier to update with confidence if need ever arises.\n\nI mean, I guess I also think the \"Ewww\" isn\u0027t appropriate in a code comment, even if I completely agree with the sentiment. 😉",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 78,
+        "endChar": 23
+      },
+      "revId": "164a1f30c39944fd6a8978e388e03792471d301b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fbaa7543_74a074a2",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 3

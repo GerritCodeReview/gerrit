@@ -23,7 +23,6 @@ limitations under the License.
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-dropdown-list/gr-dropdown-list.html">
-<link rel="import" href="../../shared/gr-fixed-panel/gr-fixed-panel.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../gr-comment-api/gr-comment-api.html">
@@ -44,11 +43,6 @@ limitations under the License.
       }
       gr-diff {
         border: none;
-      }
-      gr-fixed-panel {
-        background-color: #fff;
-        border-bottom: 1px #eee solid;
-        z-index: 1;
       }
       header,
       .subHeader {
@@ -118,6 +112,15 @@ limitations under the License.
       .blameLoader.show {
         display: inline;
       }
+      .sticky {
+        background: #fff;
+        border-bottom: 1px solid #eee;
+        left: 0;
+        position: sticky;
+        top: 0;
+        width: 100vw;
+        z-index: 1;
+      }
       gr-dropdown-list {
         --trigger-style: {
           text-transform: none;
@@ -176,12 +179,9 @@ limitations under the License.
         }
       }
     </style>
-    <gr-fixed-panel
-        class$="[[_computeContainerClass(_editLoaded)]]"
-        floating-disabled="[[_panelFloatingDisabled]]"
-        keep-on-scroll
-        ready-for-measure="[[!_loading]]">
-      <header>
+    <div>
+      <div class="sticky">
+      <header class$="[[_computeContainerClass(_editLoaded)]]">
         <h3>
           <a href$="[[_computeChangePath(_change, _patchRange.*, _change.revisions)]]">
             [[_changeNum]]</a><span>:</span>
@@ -278,7 +278,7 @@ limitations under the License.
             href$="[[_computeNavLinkURL(_change, _path, _fileList, 1, 1)]]">
           &gt;</a>
       </div>
-    </gr-fixed-panel>
+    </div>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
     <gr-diff
         id="diff"
@@ -297,6 +297,7 @@ limitations under the License.
         is-blame-loaded="{{_isBlameLoaded}}"
         on-line-selected="_onLineSelected">
     </gr-diff>
+    </div>
     <gr-diff-preferences
         id="diffPreferences"
         prefs="{{_prefs}}"

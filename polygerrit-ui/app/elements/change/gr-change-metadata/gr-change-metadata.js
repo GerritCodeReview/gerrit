@@ -107,18 +107,27 @@
     },
 
     /**
+     * This is a whitelist of web link types that provide direct links to
+     * the commit in the url property.
+     */
+    _isCommitWebLink(link) {
+      return link.name === 'gitiles' || link.name === 'gitweb';
+    },
+
+    /**
      * @param {Object} commitInfo
      * @return {?Array} If array is empty, returns null instead so
      * an existential check can be used to hide or show the webLinks
      * section.
      */
     _computeWebLinks(commitInfo) {
-      if (!commitInfo) return null;
-      const weblinks = Gerrit.Weblinks.getChangeWeblinks(
-          this.change ? this.change.repo : '',
-          commitInfo.commit,
-          {weblinks: commitInfo.web_links});
-      return weblinks.length ? weblinks : null;
+      if (!commitInfo || !commitInfo.web_links) { return null; }
+      // We are already displaying these types of links elsewhere,
+      // don't include in the metadata links section.
+      const webLinks = commitInfo.web_links.filter(
+          l => { return !this._isCommitWebLink(l); });
+
+      return webLinks.length ? webLinks : null;
     },
 
     _computeStrategy(change) {

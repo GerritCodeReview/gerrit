@@ -34,48 +34,22 @@ limitations under the License.
 <script>
   suite('gr-commit-info tests', () => {
     let element;
-    let sandbox;
-    let configStub;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
-      configStub = sandbox.stub().returns({});
-      stub('gr-rest-api-interface', {
-        getConfig: configStub,
-      });
       element = fixture('basic');
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('weblinks use Gerrit.Weblinks interface', () => {
-      const weblinksStub = sandbox.stub(Gerrit.Weblinks, '_generateWeblinks')
-          .returns([{name: 'stubb', url: '#s'}]);
-      element.change = {};
-      element.commitInfo = {};
-      element.serverConfig = {};
-      assert.isTrue(weblinksStub.called);
-      assert.isOk(element._computeShowWebLink(element.change,
-          element.commitInfo, element.serverConfig));
-      assert.equal(element._computeWebLink(element.change, element.commitInfo,
-          element.serverConfig), '#s');
     });
 
     test('no web link when unavailable', () => {
       element.commitInfo = {};
       element.serverConfig = {};
-      element.change = {labels: [], project: ''};
+      element.change = {labels: []};
 
       assert.isNotOk(element._computeShowWebLink(element.change,
           element.commitInfo, element.serverConfig));
     });
 
     test('use web link when available', () => {
-      element.change = {labels: [], project: ''};
-      element.commitInfo =
-          {commit: 'commitsha', web_links: [{name: 'gitweb', url: 'link-url'}]};
+      element.commitInfo = {web_links: [{name: 'gitweb', url: 'link-url'}]};
       element.serverConfig = {};
 
       assert.isOk(element._computeShowWebLink(element.change,
@@ -85,9 +59,7 @@ limitations under the License.
     });
 
     test('does not relativize web links that begin with scheme', () => {
-      element.change = {labels: [], project: ''};
       element.commitInfo = {
-        commit: 'commitsha',
         web_links: [{name: 'gitweb', url: 'https://link-url'}],
       };
       element.serverConfig = {};
@@ -100,10 +72,10 @@ limitations under the License.
 
     test('use gitweb when available', () => {
       element.commitInfo = {commit: 'commit-sha'};
-      configStub.returns({gitweb: {
+      element.serverConfig = {gitweb: {
         url: 'url-base/',
         type: {revision: 'xx ${project} xx ${commit} xx'},
-      }});
+      }};
       element.change = {
         project: 'project-name',
         labels: [],
@@ -122,10 +94,10 @@ limitations under the License.
         commit: 'commit-sha',
         web_links: [{url: 'link-url'}],
       };
-      configStub.returns({gitweb: {
+      element.serverConfig = {gitweb: {
         url: 'url-base/',
         type: {revision: 'xx ${project} xx ${commit} xx'},
-      }});
+      }};
       element.change = {
         project: 'project-name',
         labels: [],
@@ -143,7 +115,6 @@ limitations under the License.
     });
 
     test('ignore web links that are neither gitweb nor gitiles', () => {
-      element.change = {project: 'project-name'};
       element.commitInfo = {
         commit: 'commit-sha',
         web_links: [
@@ -157,6 +128,7 @@ limitations under the License.
           },
         ],
       };
+      element.serverConfig = {};
 
       assert.isOk(element._computeShowWebLink(element.change,
           element.commitInfo, element.serverConfig));

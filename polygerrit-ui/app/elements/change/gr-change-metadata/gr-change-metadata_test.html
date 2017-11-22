@@ -116,17 +116,6 @@ limitations under the License.
           ['test', 'test2']);
     });
 
-    test('weblinks use Gerrit.Weblinks interface', () => {
-      const weblinksStub = sandbox.stub(Gerrit.Weblinks, '_generateWeblinks')
-          .returns([{name: 'stubb', url: '#s'}]);
-      element.commitInfo = {};
-      flushAsynchronousOperations();
-      const webLinks = element.$.webLinks;
-      assert.isTrue(weblinksStub.called);
-      assert.isFalse(webLinks.hasAttribute('hidden'));
-      assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
-    });
-
     test('weblinks hidden when no weblinks', () => {
       element.commitInfo = {};
       flushAsynchronousOperations();

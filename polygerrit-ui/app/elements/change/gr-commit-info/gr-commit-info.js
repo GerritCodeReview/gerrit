@@ -20,6 +20,7 @@
     properties: {
       change: Object,
       commitInfo: Object,
+      serverConfig: Object,
       _showWebLink: {
         type: Boolean,
         computed: '_computeShowWebLink(change, commitInfo, serverConfig)',
@@ -30,25 +31,68 @@
       },
     },
 
-    _getWeblink(change, commitInfo) {
-      const [weblink] = Gerrit.Weblinks.getPatchSetWeblinks(
-          change.project, commitInfo.commit, {weblinks: commitInfo.web_links})
-          || [];
-      return weblink;
+    _isWebLink(link) {
+      // This is a whitelist of web link types that provide direct links to
+      // the commit in the url property.
+      return link.name === 'gitiles' || link.name === 'gitweb';
     },
 
-    _computeShowWebLink(change, commitInfo) {
-      return !!this._getWeblink(change, commitInfo);
+    _computeShowWebLink(change, commitInfo, serverConfig) {
+      if (serverConfig.gitweb && serverConfig.gitweb.url &&
+          serverConfig.gitweb.type && serverConfig.gitweb.type.revision) {
+        return true;
+      }
+
+      if (!commitInfo.web_links) {
+        return false;
+      }
+
+      for (const link of commitInfo.web_links) {
+        if (this._isWebLink(link)) {
+          return true;
+        }
+      }
+
+      return false;
     },
 
     _computeWebLink(change, commitInfo, serverConfig) {
-      const {url} = this._getWeblink(change, commitInfo) || {};
-      return url;
+      if (!this._computeShowWebLink(change, commitInfo, serverConfig)) {
+        return;
+      }
+
+      if (serverConfig.gitweb && serverConfig.gitweb.url &&
+          serverConfig.gitweb.type && serverConfig.gitweb.type.revision) {
+        return serverConfig.gitweb.url +
+            serverConfig.gitweb.type.revision
+                .replace('${project}', change.project)
+                .replace('${commit}', commitInfo.commit);
+      }
+
+      let webLink = null;
+      for (const link of commitInfo.web_links) {
+        if (this._isWebLink(link)) {
+          webLink = link.url;
+          break;
+        }
+      }
+
+      if (!webLink) {
+        return;
+      }
+
+      if (!/^https?\:\/\//.test(webLink)) {
+        webLink = '../../' + webLink;
+      }
+
+      return webLink;
     },
 
     _computeShortHash(commitInfo) {
-      const {name} = this._getWeblink(this.change, commitInfo) || {};
-      return name;
+      if (!commitInfo || !commitInfo.commit) {
+        return;
+      }
+      return commitInfo.commit.slice(0, 7);
     },
   });
 })();

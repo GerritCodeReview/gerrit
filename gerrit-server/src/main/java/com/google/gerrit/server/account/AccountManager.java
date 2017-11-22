@@ -30,6 +30,7 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
+import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupsUpdate;
 import com.google.gerrit.server.project.ProjectCache;
@@ -125,7 +126,12 @@ public class AccountManager {
    *     added to the admin group (only for the first account).
    */
   public AuthResult authenticate(AuthRequest who) throws AccountException, IOException {
-    who = realm.authenticate(who);
+    try {
+      who = realm.authenticate(who);
+    } catch (NoSuchUserException e) {
+      deactivateAccountIfItExists(who);
+      throw e;
+    }
     try {
       try (ReviewDb db = schema.open()) {
         ExternalId id = externalIds.get(who.getExternalIdKey());
@@ -147,6 +153,21 @@ public class AccountManager {
       }
     } catch (OrmException | ConfigInvalidException e) {
       throw new AccountException("Authentication error", e);
+    }
+  }
+
+  private void deactivateAccountIfItExists(AuthRequest authRequest) {
+    if (!shouldUpdateActiveStatus(authRequest)) {
+      return;
+    }
+    try {
+      ExternalId id = externalIds.get(authRequest.getExternalIdKey());
+      if (id == null) {
+        return;
+      }
+      setInactiveFlag.deactivate(id.accountId());
+    } catch (Exception e) {
+      log.error("Unable to deactivate account " + authRequest.getUserName(), e);
     }
   }
 

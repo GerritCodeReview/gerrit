@@ -123,6 +123,30 @@
       "revId": "c540430cf567407530238b5725e17dd0bf926663",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2cf1c7e7_0ac2fe8f",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-22T10:05:04Z",
+      "side": 1,
+      "message": "As discussed offline, we don\u0027t need tests for those cases right now. (One of the reasons: We don\u0027t have any restrictions for the UUIDs of external groups.)",
+      "parentUuid": "0d8d83c4_e7c403c4",
+      "range": {
+        "startLine": 217,
+        "startChar": 77,
+        "endLine": 217,
+        "endChar": 81
+      },
+      "revId": "c540430cf567407530238b5725e17dd0bf926663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "694ca1ae_5fc23742",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-11-22T16:01:22Z",
+      "side": 1,
+      "message": "Created and passed in GrAnnotationActionsContext. I could not think of any functions I could delegate to it though.",
+      "parentUuid": "58f19b32_6209459e",
+      "range": {
+        "startLine": 17,
+        "startChar": 19,
+        "endLine": 17,
+        "endChar": 73
+      },
+      "revId": "27a2f2823cf35667788e5fc8d5915562fed1ca10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dbb3301e_801c9491",
         "filename": "polygerrit-ui/app/elements/coverage.js",
         "patchSetId": 9
@@ -39,6 +63,24 @@
       "revId": "27a2f2823cf35667788e5fc8d5915562fed1ca10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb5453e3_cb782f3b",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-11-22T16:01:22Z",
+      "side": 1,
+      "message": "I *think* I understand.\nI also tried to use the constant EventType.ANNOTATE_DIFF there but did not know how to get to it from gr-annotation-actions-js-api.js.",
+      "parentUuid": "dbb3301e_801c9491",
+      "revId": "27a2f2823cf35667788e5fc8d5915562fed1ca10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

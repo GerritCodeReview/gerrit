@@ -122,6 +122,24 @@
       "revId": "9750b40719ef1a4a9e17240502d36f64e1cef4a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8718b972_61a6a772",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-11-22T16:01:22Z",
+      "side": 1,
+      "message": "Used Gerrit.css in the plugin to pass to gr-annotation-actions-js-api.js.",
+      "parentUuid": "4061c782_6f3ab426",
+      "revId": "9750b40719ef1a4a9e17240502d36f64e1cef4a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

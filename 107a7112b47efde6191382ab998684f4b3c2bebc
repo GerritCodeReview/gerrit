@@ -23,6 +23,30 @@
       "revId": "107a7112b47efde6191382ab998684f4b3c2bebc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d9fcf11_a7c992f3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-22T07:16:47Z",
+      "side": 1,
+      "message": "This was solved in [1] by annotating the test with @IgnoreGroupInconsistencies.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/143292",
+      "parentUuid": "f92c407e_706ab6d4",
+      "range": {
+        "startLine": 1021,
+        "startChar": 16,
+        "endLine": 1021,
+        "endChar": 22
+      },
+      "revId": "107a7112b47efde6191382ab998684f4b3c2bebc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

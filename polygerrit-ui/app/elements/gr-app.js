@@ -154,7 +154,6 @@
       if (this.params.justRegistered) {
         this.$.registration.open();
       }
-      this.$.header.unfloat();
     },
 
     // Argument used for binding update only.

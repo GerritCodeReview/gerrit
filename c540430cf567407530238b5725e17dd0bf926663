@@ -75,6 +75,30 @@
       "revId": "c540430cf567407530238b5725e17dd0bf926663",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0d7b02d_b0db30b1",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-22T09:25:51Z",
+      "side": 1,
+      "message": "This test was exactly about an empty string not being allowed for the UUID of the owner.",
+      "parentUuid": "0c893852_143164a7",
+      "range": {
+        "startLine": 217,
+        "startChar": 77,
+        "endLine": 217,
+        "endChar": 81
+      },
+      "revId": "c540430cf567407530238b5725e17dd0bf926663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

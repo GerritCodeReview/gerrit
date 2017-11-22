@@ -16,6 +16,24 @@
       "revId": "c540430cf567407530238b5725e17dd0bf926663",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "decff0e2_01454dcb",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-22T08:40:08Z",
+      "side": 1,
+      "message": "Updating the ID is not allowed. That\u0027s why I designed the API in such a way that it isn\u0027t even possible to update the ID (e.g. InternalGroupUpdate doesn\u0027t have a property for the ID). Hence, there isn\u0027t any way to test that scenario.",
+      "parentUuid": "6dec3a5e_026cd236",
+      "revId": "c540430cf567407530238b5725e17dd0bf926663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

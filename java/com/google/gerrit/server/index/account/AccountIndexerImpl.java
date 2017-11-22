@@ -50,8 +50,8 @@ public class AccountIndexerImpl implements AccountIndexer {
   private final StalenessChecker stalenessChecker;
   private final ListeningExecutorService batchExecutor;
   private final boolean autoReindexIfStale;
-  private final AccountIndexCollection indexes;
-  private final AccountIndex index;
+  @Nullable private final AccountIndexCollection indexes;
+  @Nullable private final AccountIndex index;
 
   @AssistedInject
   AccountIndexerImpl(
@@ -77,7 +77,7 @@ public class AccountIndexerImpl implements AccountIndexer {
       StalenessChecker stalenessChecker,
       @IndexExecutor(BATCH) ListeningExecutorService batchExecutor,
       @GerritServerConfig Config config,
-      @Assisted AccountIndex index) {
+      @Assisted @Nullable AccountIndex index) {
     this.byIdCache = byIdCache;
     this.indexedListener = indexedListener;
     this.stalenessChecker = stalenessChecker;

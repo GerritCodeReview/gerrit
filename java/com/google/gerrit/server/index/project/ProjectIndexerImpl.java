@@ -37,8 +37,8 @@ public class ProjectIndexerImpl implements ProjectIndexer {
 
   private final ProjectCache projectCache;
   private final DynamicSet<ProjectIndexedListener> indexedListener;
-  private final ProjectIndexCollection indexes;
-  private final ProjectIndex index;
+  @Nullable private final ProjectIndexCollection indexes;
+  @Nullable private final ProjectIndex index;
 
   @AssistedInject
   ProjectIndexerImpl(
@@ -55,7 +55,7 @@ public class ProjectIndexerImpl implements ProjectIndexer {
   ProjectIndexerImpl(
       ProjectCache projectCache,
       DynamicSet<ProjectIndexedListener> indexedListener,
-      @Assisted ProjectIndex index) {
+      @Assisted @Nullable ProjectIndex index) {
     this.projectCache = projectCache;
     this.indexedListener = indexedListener;
     this.indexes = null;

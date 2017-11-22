@@ -21,6 +21,7 @@ import com.google.common.util.concurrent.Atomics;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.index.Index;
@@ -81,8 +82,8 @@ public class ChangeIndexer {
     return Futures.makeChecked(Futures.allAsList(futures), IndexUtils.MAPPER);
   }
 
-  private final ChangeIndexCollection indexes;
-  private final ChangeIndex index;
+  @Nullable private final ChangeIndexCollection indexes;
+  @Nullable private final ChangeIndex index;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final NotesMigration notesMigration;
   private final ChangeNotes.Factory changeNotesFactory;

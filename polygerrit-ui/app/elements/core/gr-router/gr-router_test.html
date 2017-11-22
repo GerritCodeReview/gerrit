@@ -1365,5 +1365,68 @@ limitations under the License.
             [['a', 'b'], ['e', 'f']]);
       });
     });
+
+    suite('routing patterns', () => {
+      const patterns = [];
+
+      function testRoute(path, expectedHandlerName, testHandler) {
+        if (!patterns.length) {
+          // One-time setup across tests.
+          sandbox.stub(element, '_mapRoute',
+              (pattern, handler) => patterns.push([pattern, handler]));
+          element._startRouter();
+        }
+        let bestMatch, bestMatchHandler;
+        for (let [pattern, handler] of patterns) {
+          const match = path.match(pattern);
+          if (match && (!bestMatch || bestMatch[0].length < match[0].length)) {
+            bestMatch = match;
+            bestMatchHandler = handler;
+          }
+        }
+        if (!bestMatch) {
+          assert.fail(
+              undefined, expectedHandlerName, 'no handler matched: ' + path);
+        }
+        assert.strictEqual(
+            bestMatchHandler, expectedHandlerName, `routing '${path}'`);
+        if (testHandler) {
+          testHandler({params: bestMatch});
+        }
+      }
+
+      test('_handleProjectRoute', () => {
+        testRoute('/p/project', '_handleProjectRoute', data => {
+          assert.equal(data.params[1], 'project');
+        });
+        testRoute('/p/project/', '_handleProjectRoute', data => {
+          assert.equal(data.params[1], 'project');
+        });
+        testRoute('/p/project/+', '_handleProjectRoute', data => {
+          assert.equal(data.params[1], 'project');
+        });
+        testRoute('/p/project/+/', '_handleProjectRoute', data => {
+          assert.equal(data.params[1], 'project');
+        });
+        testRoute('/admin/projects/project', '_handleProjectRoute', data => {
+          assert.equal(data.params[1], 'project');
+        });
+        testRoute('/p/sub/project', '_handleProjectRoute', data => {
+          assert.equal(data.params[1], 'sub/project');
+        });
+        testRoute('/p/sub/project/', '_handleProjectRoute', data => {
+          assert.equal(data.params[1], 'sub/project');
+        });
+        testRoute('/p/sub/project/+', '_handleProjectRoute', data => {
+          assert.equal(data.params[1], 'sub/project');
+        });
+        testRoute('/p/sub/project/+/', '_handleProjectRoute', data => {
+          assert.equal(data.params[1], 'sub/project');
+        });
+        testRoute('/admin/projects/sub/project', '_handleProjectRoute', data => {
+          assert.equal(data.params[1], 'sub/project');
+        });
+      });
+    });
   });
 </script>

@@ -55,8 +55,11 @@
     // Matches /admin/create-project
     LEGACY_CREATE_GROUP: /^\/admin\/create-group\/?$/,
 
-    // Matches /admin/projects/<project>
-    PROJECT: /^\/admin\/projects\/([^,]+)$/,
+    // Matches /p/<project> with optional trailing "/+" and/or "/"
+    PROJECT: /^\/p\/([^+]+?)(\/\+)?\/?$/,
+
+    // Matches /admin/projects/<project> (alias for /p/<project>)
+    PROJECT_ADMIN: /^\/admin\/projects\/([^,]+)$/,
 
     // Matches /admin/projects/<project>,commands.
     PROJECT_COMMANDS: /^\/admin\/projects\/(.+),commands$/,
@@ -622,6 +625,7 @@
           '_handleProjectListFilterRoute');
 
       this._mapRoute(RoutePattern.PROJECT, '_handleProjectRoute');
+      this._mapRoute(RoutePattern.PROJECT_ADMIN, '_handleProjectRoute');
 
       this._mapRoute(RoutePattern.PLUGINS, '_handlePassThroughRoute');
 

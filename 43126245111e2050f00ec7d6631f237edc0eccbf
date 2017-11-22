@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97893a0b_5a695162",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-22T19:45:41Z",
+      "side": 1,
+      "message": "Hm, can we avoid passing el around?\nI assume it can be managed in annotateRangeFunc()",
+      "revId": "43126245111e2050f00ec7d6631f237edc0eccbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18c28825_90df8235",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-22T19:45:41Z",
+      "side": 1,
+      "message": "This probably should be a number in the context object.",
+      "range": {
+        "startLine": 28,
+        "startChar": 79,
+        "endLine": 28,
+        "endChar": 88
+      },
+      "revId": "43126245111e2050f00ec7d6631f237edc0eccbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22a96e35_dd24f2bc",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-22T19:45:41Z",
+      "side": 1,
+      "message": "This probably should be a number in the context object.",
+      "range": {
+        "startLine": 29,
+        "startChar": 78,
+        "endLine": 29,
+        "endChar": 86
+      },
+      "revId": "43126245111e2050f00ec7d6631f237edc0eccbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "773debe0_5bbe1425",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-context.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-22T19:45:41Z",
+      "side": 1,
+      "message": "Should be private, I suppose.",
+      "revId": "43126245111e2050f00ec7d6631f237edc0eccbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e1d58be_3c9e0a43",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-context.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-22T19:45:41Z",
+      "side": 1,
+      "message": "FYI: change num is considered to be a legacy item.\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-info\n\nAlso, I wonder if project is needed?",
+      "revId": "43126245111e2050f00ec7d6631f237edc0eccbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49e734b3_151e3461",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-context.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-22T19:45:41Z",
+      "side": 1,
+      "message": "annotateRange()?\nProbably also can be defined as a method on the object.\nSince the context has the el, it could call GrAnnotation.annotateElement() directly.\n\nGrAnnotationActionsContext.prototype.annotateRange \u003d function(\n    start, end, cssClass) {\n  GrAnnotation.annotateElement(this._el, start, end, cssClass);\n}",
+      "range": {
+        "startLine": 23,
+        "startChar": 9,
+        "endLine": 23,
+        "endChar": 26
+      },
+      "revId": "43126245111e2050f00ec7d6631f237edc0eccbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

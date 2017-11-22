@@ -22,6 +22,30 @@
       "revId": "7965f84f6f65846a9d51d4ae31dfb4f8f1eabe04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eda952f_f0c1709f",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-22T00:03:49Z",
+      "side": 1,
+      "message": "Without them, the backend does a substring search. Do we want that?",
+      "parentUuid": "c4ab4e55_deaba320",
+      "range": {
+        "startLine": 193,
+        "startChar": 30,
+        "endLine": 193,
+        "endChar": 74
+      },
+      "revId": "7965f84f6f65846a9d51d4ae31dfb4f8f1eabe04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

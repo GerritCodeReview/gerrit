@@ -844,6 +844,7 @@
           this.ListChangesOption.ALL_REVISIONS,
           this.ListChangesOption.CHANGE_ACTIONS,
           this.ListChangesOption.CURRENT_ACTIONS,
+          this.ListChangesOption.DETAILED_LABELS,
           this.ListChangesOption.DOWNLOAD_COMMANDS,
           this.ListChangesOption.MESSAGES,
           this.ListChangesOption.SUBMITTABLE,

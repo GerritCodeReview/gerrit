@@ -19,7 +19,6 @@ import static com.google.gerrit.acceptance.AssertUtil.assertPrefs;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
-import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DateFormat;
@@ -41,7 +40,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
-@Sandboxed
 public class GeneralPreferencesIT extends AbstractDaemonTest {
   private TestAccount user42;
 

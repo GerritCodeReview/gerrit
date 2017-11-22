@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5e56e292_138dae7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-22T20:49:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2472d0a5_7cc82ed1",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "164a1f30c39944fd6a8978e388e03792471d301b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab050e3_980b12e5",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "164a1f30c39944fd6a8978e388e03792471d301b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1ef8331_88e9127f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-22T20:49:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab050e3_980b12e5",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 78,
+        "endChar": 23
+      },
+      "revId": "164a1f30c39944fd6a8978e388e03792471d301b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

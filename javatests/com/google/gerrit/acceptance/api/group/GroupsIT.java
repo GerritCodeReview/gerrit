@@ -38,8 +38,9 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.ProjectResetter;
+import com.google.gerrit.acceptance.ProjectResetter.Builder;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
@@ -154,6 +155,14 @@ public class GroupsIT extends AbstractDaemonTest {
     if (description.getAnnotation(IgnoreGroupInconsistencies.class) == null) {
       assertThat(consistencyChecker.check()).isEmpty();
     }
+  }
+
+  @Override
+  protected ProjectResetter resetProjects(Builder resetter) throws IOException {
+    // Don't reset All-Users since deleting users makes groups inconsistent (e.g. groups would
+    // contain members that no longer exist) and as result of this the group consistency checker
+    // that is executed after each test would fail.
+    return resetter.reset(allProjects, RefNames.REFS_CONFIG).build();
   }
 
   @Test
@@ -1035,14 +1044,12 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void cannotCreateGroupBranch() throws Exception {
     testCannotCreateGroupBranch(
         RefNames.REFS_GROUPS + "*", RefNames.refsGroups(new AccountGroup.UUID(name("foo"))));
   }
 
   @Test
-  @Sandboxed
   public void cannotCreateDeletedGroupBranch() throws Exception {
     testCannotCreateGroupBranch(
         RefNames.REFS_DELETED_GROUPS + "*",
@@ -1050,26 +1057,27 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   @IgnoreGroupInconsistencies
   public void cannotCreateGroupNamesBranch() throws Exception {
     assume().that(groupsInNoteDb()).isTrue();
 
-    // Manually delete group names ref
-    try (Repository repo = repoManager.openRepository(allUsers);
-        RevWalk rw = new RevWalk(repo)) {
-      RevCommit commit = rw.parseCommit(repo.exactRef(RefNames.REFS_GROUPNAMES).getObjectId());
-      RefUpdate updateRef = repo.updateRef(RefNames.REFS_GROUPNAMES);
-      updateRef.setExpectedOldObjectId(commit.toObjectId());
-      updateRef.setNewObjectId(ObjectId.zeroId());
-      updateRef.setForceUpdate(true);
-      assertThat(updateRef.delete()).isEqualTo(RefUpdate.Result.FORCED);
+    try (ProjectResetter resetter = projectResetter.builder().reset(allUsers).build()) {
+      // Manually delete group names ref
+      try (Repository repo = repoManager.openRepository(allUsers);
+          RevWalk rw = new RevWalk(repo)) {
+        RevCommit commit = rw.parseCommit(repo.exactRef(RefNames.REFS_GROUPNAMES).getObjectId());
+        RefUpdate updateRef = repo.updateRef(RefNames.REFS_GROUPNAMES);
+        updateRef.setExpectedOldObjectId(commit.toObjectId());
+        updateRef.setNewObjectId(ObjectId.zeroId());
+        updateRef.setForceUpdate(true);
+        assertThat(updateRef.delete()).isEqualTo(RefUpdate.Result.FORCED);
+      }
+
+      // refs/meta/group-names is only visible with ACCESS_DATABASE
+      allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+
+      testCannotCreateGroupBranch(RefNames.REFS_GROUPNAMES, RefNames.REFS_GROUPNAMES);
     }
-
-    // refs/meta/group-names is only visible with ACCESS_DATABASE
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
-
-    testCannotCreateGroupBranch(RefNames.REFS_GROUPNAMES, RefNames.REFS_GROUPNAMES);
   }
 
   private void testCannotCreateGroupBranch(String refPattern, String groupRef) throws Exception {
@@ -1087,14 +1095,12 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void cannotDeleteGroupBranch() throws Exception {
     assume().that(groupsInNoteDb()).isTrue();
     testCannotDeleteGroupBranch(RefNames.REFS_GROUPS + "*", RefNames.refsGroups(adminGroupUuid()));
   }
 
   @Test
-  @Sandboxed
   public void cannotDeleteDeletedGroupBranch() throws Exception {
     String groupRef = RefNames.refsDeletedGroups(new AccountGroup.UUID(name("foo")));
     createBranch(allUsers, groupRef);
@@ -1102,7 +1108,6 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void cannotDeleteGroupNamesBranch() throws Exception {
     assume().that(groupsInNoteDb()).isTrue();
 
@@ -1133,11 +1138,9 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void blockReviewDbUpdatesOnGroupCreation() throws Exception {
     assume().that(groupsInNoteDb()).isFalse();
-    cfg.setBoolean("user", null, "blockReviewDbGroupUpdates", true);
-    try {
+    try (AutoCloseable ctx = createBlockReviewDbGroupUpdatesContext()) {
       gApi.groups().create(name("foo"));
       fail("Expected RestApiException: Updates to groups in ReviewDb are blocked");
     } catch (RestApiException e) {
@@ -1146,13 +1149,11 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void blockReviewDbUpdatesOnGroupUpdate() throws Exception {
     assume().that(groupsInNoteDb()).isFalse();
     String group1 = gApi.groups().create(name("foo")).get().id;
     String group2 = gApi.groups().create(name("bar")).get().id;
-    cfg.setBoolean("user", null, "blockReviewDbGroupUpdates", true);
-    try {
+    try (AutoCloseable ctx = createBlockReviewDbGroupUpdatesContext()) {
       gApi.groups().id(group1).addGroups(group2);
       fail("Expected RestApiException: Updates to groups in ReviewDb are blocked");
     } catch (RestApiException e) {
@@ -1357,6 +1358,16 @@ public class GroupsIT extends AbstractDaemonTest {
 
   private boolean readGroupsFromNoteDb() {
     return groupsInNoteDb() && cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false);
+  }
+
+  private AutoCloseable createBlockReviewDbGroupUpdatesContext() {
+    cfg.setBoolean("user", null, "blockReviewDbGroupUpdates", true);
+    return new AutoCloseable() {
+      @Override
+      public void close() {
+        cfg.setBoolean("user", null, "blockReviewDbGroupUpdates", false);
+      }
+    };
   }
 
   @Target({METHOD})

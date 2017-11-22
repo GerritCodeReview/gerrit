@@ -22,6 +22,30 @@
       "revId": "8aeabecdfd1c99dfe62d635d0c8ac02b7b154db6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e9ff1e2_b6589b7a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-22T16:26:31Z",
+      "side": 1,
+      "message": "no, oversight. Done.",
+      "parentUuid": "cff0ceb7_647f76ee",
+      "range": {
+        "startLine": 295,
+        "startChar": 2,
+        "endLine": 296,
+        "endChar": 87
+      },
+      "revId": "8aeabecdfd1c99dfe62d635d0c8ac02b7b154db6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

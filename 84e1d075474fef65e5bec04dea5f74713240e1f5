@@ -46,6 +46,30 @@
       "revId": "84e1d075474fef65e5bec04dea5f74713240e1f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c74e1e20_48dc586e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1352,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-22T07:39:42Z",
+      "side": 1,
+      "message": "Yes, looks like it can be removed here.",
+      "parentUuid": "f43e02e1_d9b5528d",
+      "range": {
+        "startLine": 1352,
+        "startChar": 11,
+        "endLine": 1352,
+        "endChar": 16
+      },
+      "revId": "84e1d075474fef65e5bec04dea5f74713240e1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

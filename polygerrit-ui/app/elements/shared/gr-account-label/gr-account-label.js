@@ -29,8 +29,9 @@
       title: {
         type: String,
         reflectToAttribute: true,
-        computed: '_computeAccountTitle(account)',
+        computed: '_computeAccountTitle(account, additionalText)',
       },
+      additionalText: String,
       hasTooltip: {
         type: Boolean,
         reflectToAttribute: true,
@@ -52,6 +53,7 @@
     ],
 
     ready() {
+      if (!this.additionalText) { this.additionalText = ''; }
       this.$.restAPI.getConfig()
           .then(config => { this._serverConfig = config; });
     },
@@ -60,7 +62,7 @@
       return this.getUserName(config, account, false);
     },
 
-    _computeAccountTitle(account) {
+    _computeAccountTitle(account, tooltip) {
       if (!account) { return; }
       let result = '';
       if (this._computeName(account, this._serverConfig)) {
@@ -68,6 +70,9 @@
       }
       if (account.email) {
         result += ' <' + account.email + '>';
+      }
+      if (this.additionalText) {
+        return result + ' ' + this.additionalText;
       }
       return result;
     },

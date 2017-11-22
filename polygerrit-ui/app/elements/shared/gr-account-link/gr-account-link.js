@@ -18,6 +18,7 @@
     is: 'gr-account-link',
 
     properties: {
+      additionalText: String,
       account: Object,
       avatarImageSize: {
         type: Number,

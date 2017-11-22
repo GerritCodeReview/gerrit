@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.hash.Hashing;
@@ -287,10 +288,9 @@ public class GroupNameNotes extends VersionedMetaData {
     config.fromText(new String(noteData, UTF_8));
 
     String uuid = config.getString(SECTION_NAME, null, UUID_PARAM);
-    String name = config.getString(SECTION_NAME, null, NAME_PARAM);
-    if (uuid == null || name == null) {
-      throw new ConfigInvalidException(
-          String.format("UUID '%s' and name '%s' must be defined", uuid, name));
+    String name = Strings.nullToEmpty(config.getString(SECTION_NAME, null, NAME_PARAM));
+    if (uuid == null) {
+      throw new ConfigInvalidException(String.format("UUID for group '%s'", name));
     }
 
     return new GroupReference(new AccountGroup.UUID(uuid), name);

@@ -21,7 +21,6 @@ import static com.google.gerrit.acceptance.GitUtil.fetch;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.Theme;
@@ -34,7 +33,6 @@ import org.junit.After;
 import org.junit.Test;
 
 @NoHttpd
-@Sandboxed
 public class DiffPreferencesIT extends AbstractDaemonTest {
   @After
   public void cleanUp() throws Exception {

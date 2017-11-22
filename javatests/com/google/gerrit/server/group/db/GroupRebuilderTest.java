@@ -119,6 +119,34 @@ public class GroupRebuilderTest extends AbstractGroupTest {
   }
 
   @Test
+  public void nullGroupDescription() throws Exception {
+    AccountGroup g = newGroup("a");
+    g.setDescription(null);
+    assertThat(g.getDescription()).isNull();
+    GroupBundle b = builder().group(g).build();
+
+    rebuilder.rebuild(repo, b, null);
+
+    GroupBundle noteDbBundle = reload(g);
+    assertMigratedCleanly(noteDbBundle, b);
+    assertThat(noteDbBundle.group().getDescription()).isNull();
+  }
+
+  @Test
+  public void emptyGroupDescription() throws Exception {
+    AccountGroup g = newGroup("a");
+    g.setDescription("");
+    assertThat(g.getDescription()).isEmpty();
+    GroupBundle b = builder().group(g).build();
+
+    rebuilder.rebuild(repo, b, null);
+
+    GroupBundle noteDbBundle = reload(g);
+    assertMigratedCleanly(noteDbBundle, b);
+    assertThat(noteDbBundle.group().getDescription()).isNull();
+  }
+
+  @Test
   public void membersAndSubgroups() throws Exception {
     AccountGroup g = newGroup("a");
     GroupBundle b =

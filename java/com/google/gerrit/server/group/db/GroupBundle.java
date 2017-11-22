@@ -22,6 +22,7 @@ import static java.util.Comparator.nullsLast;
 import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
@@ -39,6 +40,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
@@ -259,7 +261,7 @@ public abstract class GroupBundle {
         noteDbBundle);
 
     ImmutableList.Builder<String> result = ImmutableList.builder();
-    if (!reviewDbBundle.group().equals(noteDbBundle.group())) {
+    if (!groupsEqual(reviewDbBundle.group(), noteDbBundle.group())) {
       result.add(
           "AccountGroups differ\n"
               + ("ReviewDb: " + reviewDbBundle.group() + "\n")
@@ -290,6 +292,19 @@ public abstract class GroupBundle {
               + ("NoteDb  : " + noteDbBundle.byIdAudit()));
     }
     return result.build();
+  }
+
+  private static boolean groupsEqual(AccountGroup reviewDbGroup, AccountGroup noteDbGroup) {
+    // Identical to AccountGroup#equals except for special handling of empty description
+    return Objects.equals(reviewDbGroup.getName(), noteDbGroup.getName())
+        && Objects.equals(reviewDbGroup.getId(), noteDbGroup.getId())
+        && Objects.equals(
+            Strings.emptyToNull(reviewDbGroup.getDescription()), noteDbGroup.getDescription())
+        && reviewDbGroup.isVisibleToAll() == noteDbGroup.isVisibleToAll()
+        && Objects.equals(reviewDbGroup.getGroupUUID(), noteDbGroup.getGroupUUID())
+        && Objects.equals(reviewDbGroup.getOwnerGroupUUID(), noteDbGroup.getOwnerGroupUUID())
+        // Treat created on epoch identical regardless if underlying value is null.
+        && reviewDbGroup.getCreatedOn().equals(noteDbGroup.getCreatedOn());
   }
 
   public AccountGroup.Id id() {

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "474f17a4_e616ba7e",
+        "filename": "java/com/google/gerrit/server/Sequences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-22T12:29:44Z",
+      "side": 0,
+      "message": "dave, is this still needed?",
+      "range": {
+        "startLine": 91,
+        "startChar": 50,
+        "endLine": 91,
+        "endChar": 62
+      },
+      "revId": "4310ae0d24a0f1644c6be535941888eb302ff4b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f85db215_c1342c08",
         "filename": "java/com/google/gerrit/server/Sequences.java",
         "patchSetId": 1

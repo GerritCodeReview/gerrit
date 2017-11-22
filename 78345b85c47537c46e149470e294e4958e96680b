@@ -70,6 +70,30 @@
       "revId": "78345b85c47537c46e149470e294e4958e96680b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a46e4bab_eb52ab5e",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-22T23:00:28Z",
+      "side": 1,
+      "message": "It should filter it i think. I doint know filter 100% but found the doc and tested locally.",
+      "parentUuid": "16b663c3_a2ba469e",
+      "range": {
+        "startLine": 55,
+        "startChar": 18,
+        "endLine": 55,
+        "endChar": 39
+      },
+      "revId": "78345b85c47537c46e149470e294e4958e96680b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

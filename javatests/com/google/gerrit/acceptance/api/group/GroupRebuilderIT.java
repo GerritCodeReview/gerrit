@@ -90,7 +90,7 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
           bundleFactory.fromReviewDb(db, new AccountGroup.Id(createdGroup.groupId));
       deleteGroupRefs(reviewDbBundle);
 
-      assertThat(rebuild(reviewDbBundle)).isEqualTo(reviewDbBundle.truncateToSecond());
+      assertMigratedCleanly(rebuild(reviewDbBundle), reviewDbBundle);
     }
   }
 
@@ -115,7 +115,7 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
       deleteGroupRefs(reviewDbBundle);
 
       GroupBundle noteDbBundle = rebuild(reviewDbBundle);
-      assertThat(noteDbBundle).isEqualTo(reviewDbBundle.truncateToSecond());
+      assertMigratedCleanly(noteDbBundle, reviewDbBundle);
 
       ImmutableList<CommitInfo> log = log(group1);
       assertThat(log).hasSize(4);
@@ -177,7 +177,7 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
     deleteGroupRefs(reviewDbBundle);
 
     GroupBundle noteDbBundle = rebuild(reviewDbBundle);
-    assertThat(noteDbBundle).isEqualTo(reviewDbBundle.truncateToSecond());
+    assertMigratedCleanly(noteDbBundle, reviewDbBundle);
 
     ImmutableList<CommitInfo> log = log(group);
     assertThat(log).hasSize(3);
@@ -211,6 +211,10 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
       rebuilder.rebuild(repo, reviewDbBundle, null);
       return bundleFactory.fromNoteDb(repo, reviewDbBundle.uuid());
     }
+  }
+
+  private void assertMigratedCleanly(GroupBundle noteDbBundle, GroupBundle expectedReviewDbBundle) {
+    assertThat(GroupBundle.compare(expectedReviewDbBundle, noteDbBundle)).isEmpty();
   }
 
   private ImmutableList<CommitInfo> log(GroupInfo g) throws Exception {

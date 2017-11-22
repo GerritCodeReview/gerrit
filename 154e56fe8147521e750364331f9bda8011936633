@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0fc18529_edc8ba19",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-22T07:54:39Z",
+      "side": 1,
+      "message": "+1 We could add an overloading method with \"Repository\" as a parameter while this method will call that method instead. We  may add it in this change directly.",
+      "parentUuid": "2b6635bf_8559b60b",
+      "revId": "154e56fe8147521e750364331f9bda8011936633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f8f19bae_f431069e",
         "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
         "patchSetId": 32

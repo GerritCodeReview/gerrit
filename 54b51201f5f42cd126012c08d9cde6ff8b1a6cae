@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6136e63_74f86834",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-22T20:52:37Z",
+      "side": 1,
+      "message": "This seems like it could be a slightly confusing property name. This property is for additional text to appear in the tooltip, right?\n\nIf this `tooltip` property is null, the account chip may still have a tooltip.\n\nIf this understanding is correct, maybe this can be explained in a JSDoc on the property?",
+      "revId": "54b51201f5f42cd126012c08d9cde6ff8b1a6cae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "051f4188_ba288f41",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-22T20:52:37Z",
+      "side": 1,
+      "message": "Nit: please set the then in curly braces.\n\n if (!this.tooltip) { this.tooltip \u003d \u0027\u0027; }",
+      "revId": "54b51201f5f42cd126012c08d9cde6ff8b1a6cae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -60,7 +60,6 @@ public class Sequences {
   private final RepoSequence accountSeq;
   private final RepoSequence changeSeq;
   private final RepoSequence groupSeq;
-  private final boolean readGroupSeqFromNoteDb;
   private final Timer2<SequenceType, Boolean> nextIdLatency;
 
   @Inject
@@ -99,7 +98,6 @@ public class Sequences {
     groupSeq =
         new RepoSequence(
             repoManager, gitRefUpdated, allUsers, NAME_GROUPS, groupSeed, groupBatchSize);
-    readGroupSeqFromNoteDb = readGroupFromNoteDbSetting(cfg);
 
     nextIdLatency =
         metrics.newTimer(
@@ -109,10 +107,6 @@ public class Sequences {
                 .setUnit(Units.MILLISECONDS),
             Field.ofEnum(SequenceType.class, "sequence"),
             Field.ofBoolean("multiple"));
-  }
-
-  public static boolean readGroupFromNoteDbSetting(Config cfg) {
-    return cfg.getBoolean("noteDb", "groups", "readSequenceFromNoteDb", false);
   }
 
   public int nextAccountId() throws OrmException {
@@ -150,14 +144,9 @@ public class Sequences {
   }
 
   public int nextGroupId() throws OrmException {
-    if (readGroupSeqFromNoteDb) {
-      try (Timer2.Context timer = nextIdLatency.start(SequenceType.GROUPS, false)) {
-        return groupSeq.next();
-      }
+    try (Timer2.Context timer = nextIdLatency.start(SequenceType.GROUPS, false)) {
+      return groupSeq.next();
     }
-    int groupId = nextGroupId(db.get());
-    groupSeq.increaseTo(groupId + 1); // NoteDb stores next available group ID.
-    return groupId;
   }
 
   @VisibleForTesting

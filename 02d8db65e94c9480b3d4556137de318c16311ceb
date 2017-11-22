@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1511377323 -0500\nnonce AMT3iFgav6Sj07W7wN59Bt9nRH+VWhEr5Z6MAUkdc+g4OwOQ3FqgBiF4yRHaGBfHAn7t47JRYvEa\n\n0000000000000000000000000000000000000000 e70ecb3edb9a909a28acc82470d7b3b22df6f776 refs/for/master%topic\u003dgroup-bundle-comparison,r\u003daliceks\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAloVyasVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMRQMP/jP94l0tLX6c2mAl39B1aq//aosr\nf4XnOaKxGRO0NPtzfiramJOaxgWuCg1F/DwWLuAKmrqqgybN1+PdZl+8SV80bbCT\n/B4/lQNLz4Na3O53YJwGhmI6KzjEnVw4qvsUZzmoOVq9Ilm0gVqyJUgBn+tZ7gTD\nl0w/6F884Myhs59FG2ejC+lr9OXHBCZxWKz3x97ylncdGqWo/Ny3cL7pCrGy4Rsr\nvA9ncDOpCfYkb8PKMs9ZeVVOKPEBzEnlAUIWiC/LELW3TaQAq0WEvyiXKBzjb3mB\ndXuziWFxxaJ/g9oVa5cUub22d7qeBFTPSSVWD/PDXlYO6E2wDDRkhTRFFnu9tB1c\nZg4s6pZdsvQwMQvCt6CfSWoc2Wl5ny+Xuv7wnXVvYMmzQ2RPfz2U9USl9dRcYyyf\nwNMYH4vHXd2t6xYLbVLWrz/ILbRA5LOUoAjGlJW+bpDN1e7Cz9DZeOj+gwkjvkHv\n1pud7JlyMQxoKMdcI5sme+vWreV02ze5T7RPjBR1/pucJroCTYk4N2/hk4cRz0Nu\n8u3iy64HTPlLAiS2L5Euks5OsnklkSjCy5AOCThEhz2b/mse8pSI8lG0C9FLulmW\nTUiFFhD46yJmtms4jeXNyLsCYSjWHAdp/O1U4LjiXVViwRiT4NZdl6QhELDtW1It\niCQSz1QmQVyD+Muk\n\u003d8YYM\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f05ab115_16fe840f",
+        "filename": "java/com/google/gerrit/server/group/db/GroupBundle.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-22T19:07:04Z",
+      "side": 1,
+      "message": "FYI, since I\u0027ll be out tomorrow, this will cause our internal migration test to fail when this change is imported. As the error message suggests, a.equals(b.truncateToSecond()) needs to be replaced with GroupBundle.compare(a, b), and it should log the return value of compare.",
+      "revId": "02d8db65e94c9480b3d4556137de318c16311ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

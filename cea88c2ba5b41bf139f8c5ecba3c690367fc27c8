@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2e04a4e9_76115630",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogFile.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-22T01:27:51Z",
+      "side": 1,
+      "message": "Yep since we still want it to log to the logs just in case.",
+      "parentUuid": "103e4003_a372e263",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 5
+      },
+      "revId": "cea88c2ba5b41bf139f8c5ecba3c690367fc27c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9cc1f0c1_6aee212c",
         "filename": "java/com/google/gerrit/server/util/SystemLog.java",
         "patchSetId": 12
@@ -36,6 +60,30 @@
       "writtenOn": "2017-11-22T01:07:47Z",
       "side": 1,
       "message": "This doesn\u0027t get called when starting up gerrit in Eclipse (error_log is not created in that  case).  But at least the GC, ssh and httpd logs are still getting created with the file appender.",
+      "range": {
+        "startLine": 76,
+        "startChar": 2,
+        "endLine": 84,
+        "endChar": 3
+      },
+      "revId": "cea88c2ba5b41bf139f8c5ecba3c690367fc27c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ce0ced7_871af1da",
+        "filename": "java/com/google/gerrit/server/util/SystemLog.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-22T01:27:51Z",
+      "side": 1,
+      "message": "hmm, but before this is called it should have called createAppender for the error log.",
+      "parentUuid": "9cc1f0c1_6aee212c",
       "range": {
         "startLine": 76,
         "startChar": 2,

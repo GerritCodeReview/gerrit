@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6dec3a5e_026cd236",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-22T07:05:25Z",
+      "side": 1,
+      "message": "Do you also want test that updating the id to null/empty/negative value is not possible?\nActually should it be possible to update the id at all?",
+      "revId": "c540430cf567407530238b5725e17dd0bf926663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

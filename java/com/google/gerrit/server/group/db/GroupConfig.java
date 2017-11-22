@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
@@ -70,6 +71,7 @@ public class GroupConfig extends VersionedMetaData {
   private Function<Account.Id, String> accountNameEmailRetriever = Account.Id::toString;
   private Function<AccountGroup.UUID, String> groupNameRetriever = AccountGroup.UUID::get;
   private boolean isLoaded = false;
+  private boolean allowSaveEmptyName;
 
   private GroupConfig(AccountGroup.UUID groupUuid) {
     this.groupUuid = checkNotNull(groupUuid);
@@ -104,6 +106,10 @@ public class GroupConfig extends VersionedMetaData {
     }
 
     this.groupCreation = Optional.of(groupCreation);
+  }
+
+  void setAllowSaveEmptyName(boolean allowSaveEmptyName) {
+    this.allowSaveEmptyName = allowSaveEmptyName;
   }
 
   public void setGroupUpdate(
@@ -167,12 +173,26 @@ public class GroupConfig extends VersionedMetaData {
     return c;
   }
 
+  private Optional<String> getNewName() {
+    if (groupUpdate.isPresent()) {
+      return groupUpdate.get().getName().map(n -> Strings.nullToEmpty(n.get()));
+    } else if (groupCreation.isPresent()) {
+      return Optional.of(Strings.nullToEmpty(groupCreation.get().getNameKey().get()));
+    }
+    return Optional.empty();
+  }
+
   @Override
   protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
     checkLoaded();
     if (!groupCreation.isPresent() && !groupUpdate.isPresent()) {
       // Group was neither created nor changed. -> A new commit isn't necessary.
       return false;
+    }
+
+    if (!allowSaveEmptyName && getNewName().equals(Optional.of(""))) {
+      throw new ConfigInvalidException(
+          String.format("Name of the group %s must be defined", groupUuid.get()));
     }
 
     Timestamp createdOn;

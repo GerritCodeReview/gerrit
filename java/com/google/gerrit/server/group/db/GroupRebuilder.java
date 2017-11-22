@@ -118,6 +118,7 @@ public class GroupRebuilder {
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
     GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersRepo, bundle.uuid());
     AccountGroup group = bundle.group();
+    groupConfig.setAllowSaveEmptyName(true);
     groupConfig.setGroupCreation(
         InternalGroupCreation.builder()
             .setId(bundle.id())

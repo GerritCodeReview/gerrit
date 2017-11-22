@@ -55,10 +55,10 @@ enum GroupConfigEntry {
     void readFromConfig(AccountGroup.UUID groupUuid, InternalGroup.Builder group, Config config)
         throws ConfigInvalidException {
       String name = config.getString(SECTION_NAME, null, super.keyName);
-      if (Strings.isNullOrEmpty(name)) {
-        throw new ConfigInvalidException(
-            String.format("Name of the group %s must be defined", groupUuid.get()));
-      }
+      // An empty name is invalid in NoteDb; GroupConfig will refuse to store it and it might be
+      // unusable in permissions. But, it was technically valid in the ReviewDb storage layer, and
+      // the NoteDb migrated such groups faithfully, so we need to be able to read them back here.
+      name = Strings.nullToEmpty(name);
       group.setNameKey(new AccountGroup.NameKey(name));
     }
 

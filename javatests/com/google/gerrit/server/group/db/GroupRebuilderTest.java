@@ -108,6 +108,18 @@ public class GroupRebuilderTest extends AbstractGroupTest {
   }
 
   @Test
+  public void emptyGroupName() throws Exception {
+    AccountGroup g = newGroup("");
+    GroupBundle b = builder().group(g).build();
+
+    rebuilder.rebuild(repo, b, null);
+
+    GroupBundle noteDbBundle = reload(g);
+    assertThat(noteDbBundle).isEqualTo(b);
+    assertThat(noteDbBundle.group().getName()).isEmpty();
+  }
+
+  @Test
   public void membersAndSubgroups() throws Exception {
     AccountGroup g = newGroup("a");
     GroupBundle b =

@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1511360638 +0100\nnonce AMT3iFiLZpUzxds1YF1lU+y+zL4VVW40WmpjryoITi9H1GPgsxkDFHoIN52W7e5EO0HS0zAh6N7i\n\n0000000000000000000000000000000000000000 417d4b76efa0f66a53f3d2184a0fbc849ecdf315 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaFYh+AAoJEFG1/Zeg0O9RSsAIALOuOlApK+Uz7Y2CRUHA+5qG\npz4Nk+u7PbUdtTKIomhQ/MWXYbZSBAZ5clzXC/Xzjm+zsFLJ0WGvfQ/qmCmQtEMr\nSDW/dFu8Owt7ccxILcgLSvVCHHYSHRnZAZQVuK+5rAmLJDUEhgmTXPED6/sY0ZxS\nXJUdduukANoWnOP1xQIdnOsvpPiJOIBx98xkimE3XNCpp6YwyBkgzlPnDfyBPNnF\nwB4W/qSYegR9GAf7nQHhTqH5Qn3DzHyf+b6ppnF3eKDDb/0B2CxHJSWcymUSwO4f\naZovmoFt9I0MJXI0exf62tI4mj5hbR/DU2t1/1VI1QSF7zt+cbI3NrFYAoMamlE\u003d\n\u003dHZzO\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a285f0a_bb2436d5",
+        "filename": "java/com/google/gerrit/acceptance/ProjectConfigResetter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-22T15:55:31Z",
+      "side": 1,
+      "message": "rather than storing project config, couldn\u0027t you store a map\u003cstring, Ref\u003e and force-reset the whole repo back to the previous refs, deleting any extraneous refs?\n\nsince you create commits in l.69, you are actually still leaking state between tests.\n\n(see also https://gerrit-review.googlesource.com/#/c/gerrit/+/143870)",
+      "range": {
+        "startLine": 51,
+        "startChar": 25,
+        "endLine": 51,
+        "endChar": 38
+      },
+      "revId": "417d4b76efa0f66a53f3d2184a0fbc849ecdf315",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ee9502c_508f8628",
+        "filename": "java/com/google/gerrit/acceptance/ProjectConfigResetter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-22T15:55:31Z",
+      "side": 1,
+      "message": "I probably forgot to rest some cache somewhere.",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 20
+      },
+      "revId": "417d4b76efa0f66a53f3d2184a0fbc849ecdf315",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

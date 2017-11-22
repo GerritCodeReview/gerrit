@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1db203f5_2764ef87",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-22T16:19:40Z",
+      "side": 1,
+      "message": "Does this work?\ndeny(...) is not removing the permission that was granted before, but rather adds another rule with Action.DENY.\n\nAlso I think removing the permission should happen in a finally block.",
+      "range": {
+        "startLine": 755,
+        "startChar": 4,
+        "endLine": 755,
+        "endChar": 8
+      },
+      "revId": "a8ee223034dd239ed8ef5189d314519b69187ea7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

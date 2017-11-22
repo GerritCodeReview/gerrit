@@ -47,7 +47,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -181,6 +183,15 @@ public class AccountCreator {
 
   public TestAccount get(String username) {
     return checkNotNull(accounts.get(username), "No TestAccount created for %s", username);
+  }
+
+  public void evict(Collection<Account.Id> ids) {
+    Iterator<TestAccount> it = accounts.values().iterator();
+    while (it.hasNext()) {
+      if (ids.contains(it.next().id)) {
+        it.remove();
+      }
+    }
   }
 
   public static KeyPair genSshKey() throws JSchException {

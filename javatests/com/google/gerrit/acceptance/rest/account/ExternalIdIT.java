@@ -34,7 +34,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
@@ -85,7 +84,6 @@ import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.eclipse.jgit.util.MutableInteger;
 import org.junit.Test;
 
-@Sandboxed
 public class ExternalIdIT extends AbstractDaemonTest {
   @Inject private ExternalIdsUpdate.Server extIdsUpdate;
   @Inject private ExternalIds externalIds;
@@ -818,47 +816,47 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void checkNoReloadAfterUpdate() throws Exception {
     Set<ExternalId> expectedExtIds = new HashSet<>(externalIds.byAccount(admin.id));
-    externalIdReader.setFailOnLoad(true);
+    try (AutoCloseable ctx = createFailOnLoadContext()) {
+      // insert external ID
+      ExternalId extId = ExternalId.create("foo", "bar", admin.id);
+      extIdsUpdate.create().insert(extId);
+      expectedExtIds.add(extId);
+      assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExtIds);
 
-    // insert external ID
-    ExternalId extId = ExternalId.create("foo", "bar", admin.id);
-    extIdsUpdate.create().insert(extId);
-    expectedExtIds.add(extId);
-    assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExtIds);
+      // update external ID
+      expectedExtIds.remove(extId);
+      extId = ExternalId.createWithEmail("foo", "bar", admin.id, "foo.bar@example.com");
+      extIdsUpdate.create().upsert(extId);
+      expectedExtIds.add(extId);
+      assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExtIds);
 
-    // update external ID
-    expectedExtIds.remove(extId);
-    extId = ExternalId.createWithEmail("foo", "bar", admin.id, "foo.bar@example.com");
-    extIdsUpdate.create().upsert(extId);
-    expectedExtIds.add(extId);
-    assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExtIds);
-
-    // delete external ID
-    extIdsUpdate.create().delete(extId);
-    expectedExtIds.remove(extId);
-    assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExtIds);
+      // delete external ID
+      extIdsUpdate.create().delete(extId);
+      expectedExtIds.remove(extId);
+      assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExtIds);
+    }
   }
 
   @Test
   public void byAccountFailIfReadingExternalIdsFails() throws Exception {
-    externalIdReader.setFailOnLoad(true);
+    try (AutoCloseable ctx = createFailOnLoadContext()) {
+      // update external ID branch so that external IDs need to be reloaded
+      insertExtIdBehindGerritsBack(ExternalId.create("foo", "bar", admin.id));
 
-    // update external ID branch so that external IDs need to be reloaded
-    insertExtIdBehindGerritsBack(ExternalId.create("foo", "bar", admin.id));
-
-    exception.expect(IOException.class);
-    externalIds.byAccount(admin.id);
+      exception.expect(IOException.class);
+      externalIds.byAccount(admin.id);
+    }
   }
 
   @Test
   public void byEmailFailIfReadingExternalIdsFails() throws Exception {
-    externalIdReader.setFailOnLoad(true);
+    try (AutoCloseable ctx = createFailOnLoadContext()) {
+      // update external ID branch so that external IDs need to be reloaded
+      insertExtIdBehindGerritsBack(ExternalId.create("foo", "bar", admin.id));
 
-    // update external ID branch so that external IDs need to be reloaded
-    insertExtIdBehindGerritsBack(ExternalId.create("foo", "bar", admin.id));
-
-    exception.expect(IOException.class);
-    externalIds.byEmail(admin.email);
+      exception.expect(IOException.class);
+      externalIds.byEmail(admin.email);
+    }
   }
 
   @Test
@@ -943,5 +941,15 @@ public class ExternalIdIT extends AbstractDaemonTest {
   private void assertRefUpdateFailure(RemoteRefUpdate update, String msg) {
     assertThat(update.getStatus()).isEqualTo(Status.REJECTED_OTHER_REASON);
     assertThat(update.getMessage()).isEqualTo(msg);
+  }
+
+  private AutoCloseable createFailOnLoadContext() {
+    externalIdReader.setFailOnLoad(true);
+    return new AutoCloseable() {
+      @Override
+      public void close() {
+        externalIdReader.setFailOnLoad(false);
+      }
+    };
   }
 }

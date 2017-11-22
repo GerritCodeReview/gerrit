@@ -46,6 +46,30 @@
       "revId": "7965f84f6f65846a9d51d4ae31dfb4f8f1eabe04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "957aff31_8dabe7d4",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-22T00:07:53Z",
+      "side": 1,
+      "message": "It looks to me like the backend does a substring search either way:\n\n* https://gerrit-review.googlesource.com/q/owner:%2522kasp%2522\n\nIs there some performance hit you\u0027re trying to avoid?",
+      "parentUuid": "6eda952f_f0c1709f",
+      "range": {
+        "startLine": 193,
+        "startChar": 30,
+        "endLine": 193,
+        "endChar": 74
+      },
+      "revId": "7965f84f6f65846a9d51d4ae31dfb4f8f1eabe04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

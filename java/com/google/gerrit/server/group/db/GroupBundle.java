@@ -22,6 +22,7 @@ import static java.util.Comparator.nullsLast;
 import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
@@ -246,7 +247,14 @@ public abstract class GroupBundle {
 
   public static ImmutableList<String> compare(
       GroupBundle reviewDbBundle, GroupBundle noteDbBundle) {
+    // Normalize the ReviewDb bundle to what we expect in NoteDb. This means that values in error
+    // messages will not reflect the actual data in ReviewDb, but it will make it easier for humans
+    // to see the difference.
     reviewDbBundle = reviewDbBundle.truncateToSecond();
+    AccountGroup reviewDbGroup = new AccountGroup(reviewDbBundle.group());
+    reviewDbGroup.setDescription(Strings.emptyToNull(reviewDbGroup.getDescription()));
+    reviewDbBundle = reviewDbBundle.toBuilder().group(reviewDbGroup).build();
+
     checkArgument(
         reviewDbBundle.source() == Source.REVIEW_DB,
         "first bundle's source must be %s: %s",

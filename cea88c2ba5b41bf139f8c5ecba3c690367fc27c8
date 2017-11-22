@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "109a7ae7_bd4fa1ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-22T01:54:27Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "385d4ec8_33920dba",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "cea88c2ba5b41bf139f8c5ecba3c690367fc27c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "68e74f62_d40b32b9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "aec4445d_7ce58f74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-22T01:54:27Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "68e74f62_d40b32b9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "cea88c2ba5b41bf139f8c5ecba3c690367fc27c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f12da5b2_b1c93e6d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -59,6 +107,30 @@
       "writtenOn": "2017-11-22T01:42:56Z",
       "side": 1,
       "message": "I would just remove this.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 44
+      },
+      "revId": "cea88c2ba5b41bf139f8c5ecba3c690367fc27c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ef11ed3_13952df7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-22T01:54:27Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f12da5b2_b1c93e6d",
       "range": {
         "startLine": 11,
         "startChar": 0,

@@ -24,7 +24,6 @@ limitations under the License.
 <link rel="import" href="../../plugins/gr-endpoint-param/gr-endpoint-param.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
-<link rel="import" href="../../shared/gr-fixed-panel/gr-fixed-panel.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -73,36 +72,43 @@ limitations under the License.
       .rightControls {
         justify-content: flex-end
       }
+      .sticky {
+        background-color: #fff;
+        border-bottom: 1px solid #ddd;
+        left: 0;
+        position: sticky;
+        top: 0;
+        width: 100vw;
+        z-index: 1;
+      }
     </style>
-    <gr-fixed-panel
-        class$="[[_computeContainerClass(_editLoaded)]]"
-        floating-disabled="[[_panelFloatingDisabled]]"
-        keep-on-scroll
-        ready-for-measure="[[!_loading]]">
-      <header>
-        <gr-editable-label
-            label-text="File path"
-            value="[[_path]]"
-            placeholder="File path..."
-            on-changed="_handlePathChanged"></gr-editable-label>
-        <span class="rightControls">
-          <gr-button
-              id="save"
-              disabled$="[[_saveDisabled]]"
-              primary
-              on-tap="_saveEdit">Save</gr-button>
-          <gr-button id="cancel" on-tap="_handleCancelTap">Cancel</gr-button>
-        </span>
-      </header>
-    </gr-fixed-panel>
-    <div class="textareaWrapper">
-      <gr-endpoint-decorator name="editor">
-        <gr-endpoint-param name="fileContent" value="[[_newContent]]">
-        </gr-endpoint-param>
-        <gr-endpoint-param name="prefs" value="[[_prefs]]">
-        </gr-endpoint-param>
-        <textarea value="{{_newContent::input}}" id="file"></textarea>
-      </gr-endpoint-decorator>
+    <div>
+      <div class="sticky">
+        <header>
+          <gr-editable-label
+              label-text="File path"
+              value="[[_path]]"
+              placeholder="File path..."
+              on-changed="_handlePathChanged"></gr-editable-label>
+          <span class="rightControls">
+            <gr-button
+                id="save"
+                disabled$="[[_saveDisabled]]"
+                primary
+                on-tap="_saveEdit">Save</gr-button>
+            <gr-button id="cancel" on-tap="_handleCancelTap">Cancel</gr-button>
+          </span>
+        </header>
+      </div>
+      <div class="textareaWrapper">
+        <gr-endpoint-decorator name="editor">
+          <gr-endpoint-param name="fileContent" value="[[_newContent]]">
+          </gr-endpoint-param>
+          <gr-endpoint-param name="prefs" value="[[_prefs]]">
+          </gr-endpoint-param>
+          <textarea value="{{_newContent::input}}" id="file"></textarea>
+        </gr-endpoint-decorator>
+      </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

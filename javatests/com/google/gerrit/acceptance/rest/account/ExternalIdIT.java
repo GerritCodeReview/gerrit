@@ -85,7 +85,6 @@ import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.eclipse.jgit.util.MutableInteger;
 import org.junit.Test;
 
-@Sandboxed
 public class ExternalIdIT extends AbstractDaemonTest {
   @Inject private ExternalIdsUpdate.Server extIdsUpdate;
   @Inject private ExternalIds externalIds;
@@ -816,6 +815,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Sandboxed
   public void checkNoReloadAfterUpdate() throws Exception {
     Set<ExternalId> expectedExtIds = new HashSet<>(externalIds.byAccount(admin.id));
     externalIdReader.setFailOnLoad(true);
@@ -840,6 +840,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Sandboxed
   public void byAccountFailIfReadingExternalIdsFails() throws Exception {
     externalIdReader.setFailOnLoad(true);
 
@@ -851,6 +852,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Sandboxed
   public void byEmailFailIfReadingExternalIdsFails() throws Exception {
     externalIdReader.setFailOnLoad(true);
 

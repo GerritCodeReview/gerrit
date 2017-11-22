@@ -99,6 +99,30 @@
       "revId": "c540430cf567407530238b5725e17dd0bf926663",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d8d83c4_e7c403c4",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-22T09:33:00Z",
+      "side": 1,
+      "message": "Yes. But my question was whether \" \" and \"\\n \" are legal for UUID? I think they should not be allowed?",
+      "parentUuid": "e0d7b02d_b0db30b1",
+      "range": {
+        "startLine": 217,
+        "startChar": 77,
+        "endLine": 217,
+        "endChar": 81
+      },
+      "revId": "c540430cf567407530238b5725e17dd0bf926663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

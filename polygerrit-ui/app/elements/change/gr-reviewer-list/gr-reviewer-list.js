@@ -75,6 +75,78 @@
       '_reviewersChanged(change.reviewers.*, change.owner)',
     ],
 
+    /**
+     * Converts change.permitted_labels to an array of hashes of label keys to
+     * numeric scores.
+     * Example:
+     * [{
+     *   'Code-Review': ['-1', ' 0', '+1']
+     * }]
+     * will be converted to
+     * [{
+     *   label: 'Code-Review',
+     *   scores: [-1, 0, 1]
+     * }]
+     */
+    _permittedLabelsToNumericScores(labels) {
+      if (!labels) return [];
+      return Object.keys(labels).map(label => ({
+        label,
+        scores: labels[label].map(v => parseInt(v, 10)),
+      }));
+    },
+
+    /**
+     * Returns hash of labels to max permitted score.
+     * @param {!Object} change
+     * @returns {!Object} labels to max permitted scores hash
+     */
+    _getMaxPermittedScores(change) {
+      return this._permittedLabelsToNumericScores(change.permitted_labels)
+          .map(({label, scores}) => ({
+            [label]: scores
+                .map(v => parseInt(v, 10))
+                .reduce((a, b) => Math.max(a, b))}))
+          .reduce((acc, i) => Object.assign(acc, i), {});
+    },
+
+    /**
+     * Returns max permitted score for reviewer.
+     * @param {!Object} reviewer
+     * @param {!Object} change
+     * @param {string} label
+     * @return {number}
+     */
+    _getReviewerPermittedScore(reviewer, change, label) {
+      const detailed = change.labels[label].all.filter(
+          ({_account_id}) => reviewer._account_id === _account_id).pop();
+      if (!detailed || !detailed.hasOwnProperty('permitted_voting_range')) {
+        return NaN;
+      }
+      return detailed.permitted_voting_range.max;
+    },
+
+    _computeReviewerTooltip(reviewer, change) {
+      if (!change || !change.permitted_labels) return '';
+      const maxScores = [];
+      const maxPermitted = this._getMaxPermittedScores(change);
+      for (const label of Object.keys(change.permitted_labels)) {
+        const maxScore =
+              this._getReviewerPermittedScore(reviewer, change, label);
+        if (isNaN(maxScore) || maxScore < 0) continue;
+        if (maxScore > 0 && maxScore === maxPermitted[label]) {
+          maxScores.push(`${label}: +${maxScore}`);
+        } else {
+          maxScores.push(`${label}`);
+        }
+      }
+      if (maxScores.length) {
+        return 'Votable: ' + maxScores.join(', ');
+      } else {
+        return '';
+      }
+    },
+
     _reviewersChanged(changeRecord, owner) {
       let result = [];
       const reviewers = changeRecord.base;

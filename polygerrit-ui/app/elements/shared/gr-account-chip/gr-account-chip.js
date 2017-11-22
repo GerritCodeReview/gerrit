@@ -33,6 +33,7 @@
 
     properties: {
       account: Object,
+      additionalText: String,
       disabled: {
         type: Boolean,
         value: false,

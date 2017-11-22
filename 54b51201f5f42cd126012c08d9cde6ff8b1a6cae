@@ -69,6 +69,24 @@
       "revId": "54b51201f5f42cd126012c08d9cde6ff8b1a6cae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52291306_4dcdf990",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-22T21:30:14Z",
+      "side": 1,
+      "message": "Looks like this was not included in PS4.",
+      "parentUuid": "b81c8314_b303901a",
+      "revId": "54b51201f5f42cd126012c08d9cde6ff8b1a6cae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

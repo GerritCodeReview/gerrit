@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
-import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -41,7 +40,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-@Sandboxed
 public class SuggestReviewersIT extends AbstractDaemonTest {
   @Inject private CreateGroup.Factory createGroupFactory;
 

@@ -36,8 +36,8 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.ProjectResetter;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
@@ -1022,14 +1022,12 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void cannotCreateGroupBranch() throws Exception {
     testCannotCreateGroupBranch(
         RefNames.REFS_GROUPS + "*", RefNames.refsGroups(new AccountGroup.UUID(name("foo"))));
   }
 
   @Test
-  @Sandboxed
   public void cannotCreateDeletedGroupBranch() throws Exception {
     testCannotCreateGroupBranch(
         RefNames.REFS_DELETED_GROUPS + "*",
@@ -1037,25 +1035,26 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void cannotCreateGroupNamesBranch() throws Exception {
     assume().that(groupsInNoteDb()).isTrue();
 
-    // Manually delete group names ref
-    try (Repository repo = repoManager.openRepository(allUsers);
-        RevWalk rw = new RevWalk(repo)) {
-      RevCommit commit = rw.parseCommit(repo.exactRef(RefNames.REFS_GROUPNAMES).getObjectId());
-      RefUpdate updateRef = repo.updateRef(RefNames.REFS_GROUPNAMES);
-      updateRef.setExpectedOldObjectId(commit.toObjectId());
-      updateRef.setNewObjectId(ObjectId.zeroId());
-      updateRef.setForceUpdate(true);
-      assertThat(updateRef.delete()).isEqualTo(RefUpdate.Result.FORCED);
+    try (ProjectResetter resetter = projectResetter.builder().reset(allUsers).build()) {
+      // Manually delete group names ref
+      try (Repository repo = repoManager.openRepository(allUsers);
+          RevWalk rw = new RevWalk(repo)) {
+        RevCommit commit = rw.parseCommit(repo.exactRef(RefNames.REFS_GROUPNAMES).getObjectId());
+        RefUpdate updateRef = repo.updateRef(RefNames.REFS_GROUPNAMES);
+        updateRef.setExpectedOldObjectId(commit.toObjectId());
+        updateRef.setNewObjectId(ObjectId.zeroId());
+        updateRef.setForceUpdate(true);
+        assertThat(updateRef.delete()).isEqualTo(RefUpdate.Result.FORCED);
+      }
+
+      // refs/meta/group-names is only visible with ACCESS_DATABASE
+      allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+
+      testCannotCreateGroupBranch(RefNames.REFS_GROUPNAMES, RefNames.REFS_GROUPNAMES);
     }
-
-    // refs/meta/group-names is only visible with ACCESS_DATABASE
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
-
-    testCannotCreateGroupBranch(RefNames.REFS_GROUPNAMES, RefNames.REFS_GROUPNAMES);
   }
 
   private void testCannotCreateGroupBranch(String refPattern, String groupRef) throws Exception {
@@ -1073,14 +1072,12 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void cannotDeleteGroupBranch() throws Exception {
     assume().that(groupsInNoteDb()).isTrue();
     testCannotDeleteGroupBranch(RefNames.REFS_GROUPS + "*", RefNames.refsGroups(adminGroupUuid()));
   }
 
   @Test
-  @Sandboxed
   public void cannotDeleteDeletedGroupBranch() throws Exception {
     String groupRef = RefNames.refsDeletedGroups(new AccountGroup.UUID(name("foo")));
     createBranch(allUsers, groupRef);
@@ -1088,7 +1085,6 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void cannotDeleteGroupNamesBranch() throws Exception {
     assume().that(groupsInNoteDb()).isTrue();
 
@@ -1119,7 +1115,6 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void blockReviewDbUpdatesOnGroupCreation() throws Exception {
     assume().that(groupsInNoteDb()).isFalse();
     cfg.setBoolean("user", null, "blockReviewDbGroupUpdates", true);
@@ -1128,11 +1123,12 @@ public class GroupsIT extends AbstractDaemonTest {
       fail("Expected RestApiException: Updates to groups in ReviewDb are blocked");
     } catch (RestApiException e) {
       assertWriteGroupToReviewDbBlockedException(e);
+    } finally {
+      cfg.setBoolean("user", null, "blockReviewDbGroupUpdates", false);
     }
   }
 
   @Test
-  @Sandboxed
   public void blockReviewDbUpdatesOnGroupUpdate() throws Exception {
     assume().that(groupsInNoteDb()).isFalse();
     String group1 = gApi.groups().create(name("foo")).get().id;
@@ -1143,6 +1139,8 @@ public class GroupsIT extends AbstractDaemonTest {
       fail("Expected RestApiException: Updates to groups in ReviewDb are blocked");
     } catch (RestApiException e) {
       assertWriteGroupToReviewDbBlockedException(e);
+    } finally {
+      cfg.setBoolean("user", null, "blockReviewDbGroupUpdates", false);
     }
   }
 

@@ -24,7 +24,6 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.client.ReviewerState;
@@ -133,7 +132,6 @@ public class AssigneeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Sandboxed
   public void setAssigneeToInactiveUser() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.accounts().id(user.getId().get()).setActive(false);

@@ -75,6 +75,37 @@
       '_reviewersChanged(change.reviewers.*, change.owner)',
     ],
 
+    _computeReviewerTooltip(reviewer, change) {
+      const maxScores = [];
+      const permittedLabels = Object.keys(change.permitted_labels);
+      // Hash of labels to max permitted score from change.permitted_labels.
+      const maxPermitted = permittedLabels
+            .map(label => ({label, scores: change.permitted_labels[label]}))
+            .map(({label, scores}) => ({
+              [label]: scores
+                  .map(v => parseInt(v, 10))
+                  .reduce((a, b) => Math.max(a, b))}))
+            .reduce((acc, i) => Object.assign(acc, i));
+      for (const label of permittedLabels) {
+        const detailed = change.labels[label].all.filter(
+            ({_account_id}) => reviewer._account_id === _account_id).pop();
+        if (detailed && detailed.hasOwnProperty('permitted_voting_range')) {
+          const {permitted_voting_range: {max}} = detailed;
+          if (isNaN(max) || max < 0) continue;
+          if (max > 0 && max === maxPermitted[label]) {
+            maxScores.push(`${label}: +${max}`);
+          } else {
+            maxScores.push(`${label}`);
+          }
+        }
+      }
+      if (maxScores.length) {
+        return 'Votable: ' + maxScores.join(', ');
+      } else {
+        return '';
+      }
+    },
+
     _reviewersChanged(changeRecord, owner) {
       let result = [];
       const reviewers = changeRecord.base;

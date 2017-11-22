@@ -33,6 +33,7 @@
 
     properties: {
       account: Object,
+      tooltip: String,
       disabled: {
         type: Boolean,
         value: false,

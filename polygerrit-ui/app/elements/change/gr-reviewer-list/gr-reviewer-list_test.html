@@ -290,5 +290,33 @@ limitations under the License.
       assert.equal(element._reviewers.length, 100);
       assert.isTrue(element.$$('.hiddenReviewers').hidden);
     });
+
+    test('votable labels', () => {
+      const change = {
+        labels: {
+          Foo: {
+            all: [{_account_id: 7, permitted_voting_range: {max: 2}}],
+          },
+          Bar: {
+            all: [{_account_id: 1, permitted_voting_range: {max: 1}},
+                  {_account_id: 7, permitted_voting_range: {max: 1}}],
+          },
+          FooBar: {
+            all: [{_account_id: 7, permitted_voting_range: {max: 0}}],
+          },
+        },
+        permitted_labels: {
+          Foo: ['-1', ' 0', '+1', '+2'],
+          Bar: ['-1', ' 0', '+1', '+2'],
+          FooBar: ['-1', ' 0'],
+        },
+      };
+      assert.strictEqual('Votable: Bar',
+          element._computeReviewerTooltip({_account_id: 1}, change));
+      assert.strictEqual('Votable: Foo: +2, Bar, FooBar',
+          element._computeReviewerTooltip({_account_id: 7}, change));
+      assert.strictEqual('',
+          element._computeReviewerTooltip({_account_id: 2}, change));
+    });
   });
 </script>

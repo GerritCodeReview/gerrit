@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.notedb.GroupsMigration;
@@ -43,7 +42,6 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Ref;
@@ -67,8 +65,7 @@ public class GroupsConsistencyChecker {
       GroupBackend groupBackend,
       AllUsersName allUsersName,
       GitRepositoryManager repositoryManager,
-      GroupsMigration groupsMigration,
-      @GerritServerConfig Config config) {
+      GroupsMigration groupsMigration) {
     this.accounts = accounts;
     this.groupBackend = groupBackend;
     this.allUsersName = allUsersName;

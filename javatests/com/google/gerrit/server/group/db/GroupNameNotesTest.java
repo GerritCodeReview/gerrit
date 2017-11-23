@@ -26,6 +26,7 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.group.db.testing.GroupTestUtil;
 import com.google.gerrit.server.update.RefUpdateUtil;
@@ -43,6 +44,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -130,14 +132,8 @@ public class GroupNameNotesTest extends GerritBaseTests {
     assertThat(log.get(1)).author().matches(ident);
     assertThat(log.get(1)).committer().matches(ident);
 
-    try (RevWalk rw = new RevWalk(repo)) {
-      ObjectReader reader = rw.getObjectReader();
-      NoteMap noteMap =
-          NoteMap.read(reader, rw.parseCommit(ObjectId.fromString(log.get(1).commit)));
-      String note = new String(reader.open(noteMap.get(k1), OBJ_BLOB).getCachedBytes(), UTF_8);
-      // Old note content was overwritten.
-      assertThat(note).isEqualTo("[group]\n\tuuid = a-1\n\tname = a\n");
-    }
+    // Old note content was overwritten.
+    assertThat(readNameNote(g1)).isEqualTo("[group]\n\tuuid = a-1\n\tname = a\n");
   }
 
   @Test
@@ -170,6 +166,15 @@ public class GroupNameNotesTest extends GerritBaseTests {
     assertIllegalArgument(
         new GroupReference(new AccountGroup.UUID("uuid1"), "name1"),
         new GroupReference(new AccountGroup.UUID("uuid1"), "name1"));
+  }
+
+  @Test
+  public void emptyGroupName() throws Exception {
+    GroupReference g = newGroup("");
+    updateGroupNames(newPersonIdent(), g);
+
+    assertThat(GroupTestUtil.readNameToUuidMap(repo)).containsExactly("", "-1");
+    assertThat(readNameNote(g)).isEqualTo("[group]\n\tuuid = -1\n\tname = \n");
   }
 
   private GroupReference newGroup(String name) {
@@ -209,5 +214,15 @@ public class GroupNameNotesTest extends GerritBaseTests {
 
   private ImmutableList<CommitInfo> log() throws Exception {
     return GroupTestUtil.log(repo, REFS_GROUPNAMES);
+  }
+
+  private String readNameNote(GroupReference g) throws Exception {
+    ObjectId k = getNoteKey(g);
+    try (RevWalk rw = new RevWalk(repo)) {
+      ObjectReader reader = rw.getObjectReader();
+      Ref ref = repo.exactRef(RefNames.REFS_GROUPNAMES);
+      NoteMap noteMap = NoteMap.read(reader, rw.parseCommit(ref.getObjectId()));
+      return new String(reader.open(noteMap.get(k), OBJ_BLOB).getCachedBytes(), UTF_8);
+    }
   }
 }

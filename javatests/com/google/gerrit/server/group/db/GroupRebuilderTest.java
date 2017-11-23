@@ -17,7 +17,6 @@ package com.google.gerrit.server.group.db;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_GROUPNAMES;
-import static com.google.gerrit.server.group.db.GroupBundle.builder;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
@@ -84,7 +83,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b);
+    assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(1);
     assertCommit(log.get(0), "Create group", SERVER_NAME, SERVER_EMAIL);
@@ -101,10 +100,50 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b);
+    assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(1);
     assertServerCommit(log.get(0), "Create group");
+  }
+
+  @Test
+  public void emptyGroupName() throws Exception {
+    AccountGroup g = newGroup("");
+    GroupBundle b = builder().group(g).build();
+
+    rebuilder.rebuild(repo, b, null);
+
+    GroupBundle noteDbBundle = reload(g);
+    assertMigratedCleanly(noteDbBundle, b);
+    assertThat(noteDbBundle.group().getName()).isEmpty();
+  }
+
+  @Test
+  public void nullGroupDescription() throws Exception {
+    AccountGroup g = newGroup("a");
+    g.setDescription(null);
+    assertThat(g.getDescription()).isNull();
+    GroupBundle b = builder().group(g).build();
+
+    rebuilder.rebuild(repo, b, null);
+
+    GroupBundle noteDbBundle = reload(g);
+    assertMigratedCleanly(noteDbBundle, b);
+    assertThat(noteDbBundle.group().getDescription()).isNull();
+  }
+
+  @Test
+  public void emptyGroupDescription() throws Exception {
+    AccountGroup g = newGroup("a");
+    g.setDescription("");
+    assertThat(g.getDescription()).isEmpty();
+    GroupBundle b = builder().group(g).build();
+
+    rebuilder.rebuild(repo, b, null);
+
+    GroupBundle noteDbBundle = reload(g);
+    assertMigratedCleanly(noteDbBundle, b);
+    assertThat(noteDbBundle.group().getDescription()).isNull();
   }
 
   @Test
@@ -119,7 +158,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b);
+    assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(2);
     assertServerCommit(log.get(0), "Create group");
@@ -148,7 +187,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b);
+    assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(4);
     assertServerCommit(log.get(0), "Create group");
@@ -174,7 +213,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b);
+    assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(4);
     assertServerCommit(log.get(0), "Create group");
@@ -198,7 +237,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b);
+    assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(3);
     assertServerCommit(log.get(0), "Create group");
@@ -223,7 +262,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b);
+    assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(4);
     assertServerCommit(log.get(0), "Create group");
@@ -244,7 +283,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b);
+    assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(3);
     assertServerCommit(log.get(0), "Create group");
@@ -274,7 +313,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b);
+    assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(5);
     assertServerCommit(log.get(0), "Create group");
@@ -321,7 +360,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b);
+    assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(5);
     assertServerCommit(log.get(0), "Create group");
@@ -356,7 +395,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b);
+    assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(3);
     assertServerCommit(log.get(0), "Create group");
@@ -397,8 +436,8 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     assertThat(log(g1)).hasSize(1);
     assertThat(log(g2)).hasSize(1);
     assertThat(logGroupNames()).hasSize(1);
-    assertThat(reload(g1)).isEqualTo(b1);
-    assertThat(reload(g2)).isEqualTo(b2);
+    assertMigratedCleanly(reload(g1), b1);
+    assertMigratedCleanly(reload(g2), b2);
 
     assertThat(GroupTestUtil.readNameToUuidMap(repo)).containsExactly("a", "a-1", "b", "b-2");
   }
@@ -410,13 +449,17 @@ public class GroupRebuilderTest extends AbstractGroupTest {
         AccountGroup g = newGroup(leading + "a" + trailing);
         GroupBundle b = builder().group(g).build();
         rebuilder.rebuild(repo, b, null);
-        assertThat(reload(g)).isEqualTo(b);
+        assertMigratedCleanly(reload(g), b);
       }
     }
   }
 
   private GroupBundle reload(AccountGroup g) throws Exception {
     return bundleFactory.fromNoteDb(repo, g.getGroupUUID());
+  }
+
+  private void assertMigratedCleanly(GroupBundle noteDbBundle, GroupBundle expectedReviewDbBundle) {
+    assertThat(GroupBundle.compare(expectedReviewDbBundle, noteDbBundle)).isEmpty();
   }
 
   private AccountGroup newGroup(String name) {
@@ -484,5 +527,9 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
   private ImmutableList<CommitInfo> logGroupNames() throws Exception {
     return GroupTestUtil.log(repo, REFS_GROUPNAMES);
+  }
+
+  private static GroupBundle.Builder builder() {
+    return GroupBundle.builder().source(GroupBundle.Source.REVIEW_DB);
   }
 }

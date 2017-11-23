@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
@@ -78,6 +79,7 @@ public class GroupConfig extends VersionedMetaData {
   private Function<Account.Id, String> accountNameEmailRetriever = Account.Id::toString;
   private Function<AccountGroup.UUID, String> groupNameRetriever = AccountGroup.UUID::get;
   private boolean isLoaded = false;
+  private boolean allowSaveEmptyName;
 
   private GroupConfig(AccountGroup.UUID groupUuid) {
     this.groupUuid = checkNotNull(groupUuid);
@@ -121,6 +123,10 @@ public class GroupConfig extends VersionedMetaData {
     }
 
     this.groupCreation = Optional.of(groupCreation);
+  }
+
+  void setAllowSaveEmptyName() {
+    this.allowSaveEmptyName = true;
   }
 
   public void setGroupUpdate(
@@ -192,6 +198,11 @@ public class GroupConfig extends VersionedMetaData {
       return false;
     }
 
+    if (!allowSaveEmptyName && getNewName().equals(Optional.of(""))) {
+      throw new ConfigInvalidException(
+          String.format("Name of the group %s must be defined", groupUuid.get()));
+    }
+
     Timestamp createdOn;
     if (groupCreation.isPresent()) {
       createdOn = groupCreation.get().getCreatedOn();
@@ -232,6 +243,16 @@ public class GroupConfig extends VersionedMetaData {
 
   private void checkLoaded() {
     checkState(isLoaded, "Group %s not loaded yet", groupUuid.get());
+  }
+
+  private Optional<String> getNewName() {
+    if (groupUpdate.isPresent()) {
+      return groupUpdate.get().getName().map(n -> Strings.nullToEmpty(n.get()));
+    }
+    if (groupCreation.isPresent()) {
+      return Optional.of(Strings.nullToEmpty(groupCreation.get().getNameKey().get()));
+    }
+    return Optional.empty();
   }
 
   private Config updateGroupProperties() throws IOException, ConfigInvalidException {

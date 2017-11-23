@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.group.db;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.hamcrest.CoreMatchers.instanceOf;
 
 import com.google.gerrit.common.TimeUtil;
@@ -120,12 +121,19 @@ public class GroupConfigTest {
   }
 
   @Test
-  public void nameInConfigMustBeDefined() throws Exception {
+  public void nameInConfigMayBeUndefined() throws Exception {
     populateGroupConfig(groupUuid, "[group]\n\tid = 42\n\townerGroupUuid = owners\n");
 
-    expectedException.expect(ConfigInvalidException.class);
-    expectedException.expectMessage("Name of the group users-XYZ");
-    GroupConfig.loadForGroup(repository, groupUuid);
+    GroupConfig groupConfig = GroupConfig.loadForGroup(repository, groupUuid);
+    assertThat(groupConfig.getLoadedGroup().get().getName()).isEmpty();
+  }
+
+  @Test
+  public void nameInConfigMayBeEmpty() throws Exception {
+    populateGroupConfig(groupUuid, "[group]\n\tname=\n\tid = 42\n\townerGroupUuid = owners\n");
+
+    GroupConfig groupConfig = GroupConfig.loadForGroup(repository, groupUuid);
+    assertThat(groupConfig.getLoadedGroup().get().getName()).isEmpty();
   }
 
   @Test

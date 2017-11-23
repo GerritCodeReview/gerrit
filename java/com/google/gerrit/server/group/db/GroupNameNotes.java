@@ -31,6 +31,7 @@ import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -49,6 +50,8 @@ import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Holds code for reading and writing group names for a single group as NoteDb data. The data is
@@ -58,6 +61,8 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * <p>TODO(aliceks): more javadoc.
  */
 public class GroupNameNotes extends VersionedMetaData {
+  private static final Logger log = LoggerFactory.getLogger(GroupNameNotes.class);
+
   private static final String SECTION_NAME = "group";
   private static final String UUID_PARAM = "uuid";
   private static final String NAME_PARAM = "name";
@@ -178,9 +183,12 @@ public class GroupNameNotes extends VersionedMetaData {
       RevCommit notesCommit = revWalk.parseCommit(ref.getObjectId());
       NoteMap noteMap = NoteMap.read(reader, notesCommit);
       ImmutableSet.Builder<GroupReference> groupReferences = ImmutableSet.builder();
+      Map<AccountGroup.UUID, String> byUUID = new HashMap<>();
+      Map<String, AccountGroup.UUID> byName = new HashMap<>();
       for (Note note : noteMap) {
         GroupReference groupReference = getGroupReference(reader, note.getData());
         groupReferences.add(groupReference);
+        checkConsistency(groupReference, byUUID, byName);
       }
       return groupReferences.build();
     }
@@ -301,6 +309,34 @@ public class GroupNameNotes extends VersionedMetaData {
     }
 
     return new GroupReference(new AccountGroup.UUID(uuid), name);
+  }
+
+  /**
+   * Check whether there are duplicate group UUIDs or names. Use two {@code Map} rather than one
+   * {@code BiMap} so that more possible inconsistencies could be found.
+   */
+  private static void checkConsistency(
+      GroupReference groupReference,
+      Map<AccountGroup.UUID, String> byUUID,
+      Map<String, AccountGroup.UUID> byName) {
+    AccountGroup.UUID uuid = groupReference.getUUID();
+    String name = groupReference.getName();
+
+    if (byUUID.containsKey(uuid)) {
+      log.warn(
+          "shared group UUID between group %s (%s) and %s (%s)",
+          byUUID.get(uuid), uuid, name, uuid);
+    } else {
+      byUUID.put(uuid, name);
+    }
+
+    if (byName.containsKey(name)) {
+      log.warn(
+          "shared group name between group %s (%s) and %s (%s)",
+          name, byName.get(name), name, uuid);
+    } else {
+      byName.put(name, uuid);
+    }
   }
 
   private String getCommitMessage() {

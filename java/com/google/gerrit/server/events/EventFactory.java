@@ -157,6 +157,7 @@ public class EventFactory {
     a.owner = asAccountAttribute(change.getOwner());
     a.assignee = asAccountAttribute(change.getAssignee());
     a.status = change.getStatus();
+    a.createdOn = change.getCreatedOn().getTime() / 1000L;
     return a;
   }
 
@@ -186,7 +187,6 @@ public class EventFactory {
    * @param change
    */
   public void extend(ChangeAttribute a, Change change) {
-    a.createdOn = change.getCreatedOn().getTime() / 1000L;
     a.lastUpdated = change.getLastUpdatedOn().getTime() / 1000L;
     a.open = change.getStatus().isOpen();
   }

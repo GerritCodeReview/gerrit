@@ -25,6 +25,8 @@ limitations under the License.
 
 <link rel="import" href="../../diff/gr-comment-api/gr-comment-api.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/mock-diff-response_test.html">
+<link rel="import" href="../../shared/revision-info/revision-info.html">
+
 <link rel="import" href="gr-patch-range-select.html">
 
 <script>void(0);</script>
@@ -49,6 +51,14 @@ limitations under the License.
     let element;
     let sandbox;
     let commentApiWrapper;
+
+    function getInfo(revisions) {
+      const revisionObj = {};
+      for (let i = 0; i < revisions.length; i++) {
+        revisionObj[i] = revisions[i];
+      }
+      return new Gerrit.RevisionInfo({revisions: revisionObj});
+    }
 
     setup(() => {
       sandbox = sinon.sandbox.create();
@@ -112,6 +122,17 @@ limitations under the License.
         {num: 2},
         {num: 1},
       ];
+      const revisions = [
+        {
+          commit: {parents: []},
+          _number: 2,
+          description: 'description',
+        },
+        {commit: {parents: []}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
+      ];
+      element.revisionInfo = getInfo(revisions);
       const patchNum = 1;
       const sortedRevisions = [
         {_number: 3},
@@ -158,17 +179,19 @@ limitations under the License.
         },
       ];
       assert.deepEqual(element._computeBaseDropdownContent(availablePatches,
-          patchNum, sortedRevisions, element.changeComments),
+          patchNum, sortedRevisions, element.changeComments,
+          element.revisionInfo),
           expectedResult);
     });
 
     test('_computeBaseDropdownContent called when patchNum updates', () => {
       element.revisions = [
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
       ];
+      element.revisionInfo = getInfo(element.revisions);
       element.availablePatches = [
         {num: 1},
         {num: 2},
@@ -189,16 +212,17 @@ limitations under the License.
     test('_computeBaseDropdownContent called when changeComments update',
         done => {
           element.revisions = [
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
+            {commit: {parents: []}},
+            {commit: {parents: []}},
+            {commit: {parents: []}},
+            {commit: {parents: []}},
           ];
+          element.revisionInfo = getInfo(element.revisions);
           element.availablePatches = [
-        {num: 'edit'},
-        {num: 3},
-        {num: 2},
-        {num: 1},
+            {num: 'edit'},
+            {num: 3},
+            {num: 2},
+            {num: 1},
           ];
           element.patchNum = 2;
           element.basePatchNum = 'PARENT';
@@ -215,11 +239,12 @@ limitations under the License.
 
     test('_computePatchDropdownContent called when basePatchNum updates', () => {
       element.revisions = [
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
       ];
+      element.revisionInfo = getInfo(element.revisions);
       element.availablePatches = [
         {num: 1},
         {num: 2},
@@ -238,11 +263,12 @@ limitations under the License.
 
     test('_computePatchDropdownContent called when comments update', done => {
       element.revisions = [
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
       ];
+      element.revisionInfo = getInfo(element.revisions);
       element.availablePatches = [
         {num: 1},
         {num: 2},

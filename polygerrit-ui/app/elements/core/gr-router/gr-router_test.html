@@ -505,16 +505,6 @@ limitations under the License.
           assert.isNotOk(params.basePatchNum);
           assert.equal(params.patchNum, 'edit');
         });
-
-        // TODO(issue 4760): Remove when PG supports diffing against numbered
-        // parents of a merge.
-        test('range -n..m normalizes to m', () => {
-          const params = {basePatchNum: -2, patchNum: 4};
-          const needsRedirect = element._normalizePatchRangeParams(params);
-          assert.isTrue(needsRedirect);
-          assert.isNotOk(params.basePatchNum);
-          assert.equal(params.patchNum, 4);
-        });
       });
     });
 

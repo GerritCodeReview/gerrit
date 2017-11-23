@@ -14,24 +14,16 @@
 
 package com.google.gerrit.server.group.db;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroup.NameKey;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -41,137 +33,92 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.notes.Note;
-import org.eclipse.jgit.notes.NoteMap;
-import org.eclipse.jgit.revwalk.RevWalk;
 
-/** Checks internal consistency of NoteDb storage of groups. */
-@Singleton
+/**
+ * Checks individual groups for oddities, such as cycles, non-existent subgroups, etc. Only works if
+ * we are writing to NoteDb.
+ */
 public class GroupsConsistencyChecker {
+  private final AllUsersName allUsersName;
   private final GroupBackend groupBackend;
   private final Accounts accounts;
-  private final AllUsersName allUsersName;
   private final GitRepositoryManager repoManager;
-  private final GroupsMigration groupsMigration;
+  private final GroupsNoteDbConsistencyChecker globalChecker;
 
   @Inject
   GroupsConsistencyChecker(
+      AllUsersName allUsersName,
       Accounts accounts,
       GroupBackend groupBackend,
-      AllUsersName allUsersName,
       GitRepositoryManager repositoryManager,
-      GroupsMigration groupsMigration,
-      @GerritServerConfig Config config) {
+      GroupsNoteDbConsistencyChecker globalChecker) {
     this.accounts = accounts;
     this.groupBackend = groupBackend;
-    this.allUsersName = allUsersName;
+    this.globalChecker = globalChecker;
     this.repoManager = repositoryManager;
-    this.groupsMigration = groupsMigration;
+    this.allUsersName = allUsersName;
   }
 
-  /** Checks that all internal group references exist, and that no groups have cycles. */
-  public List<ConsistencyProblemInfo> check() throws OrmException, IOException {
-    if (!groupsMigration.writeToNoteDb()) {
-      return new ArrayList<>();
-    }
-
+  public List<ConsistencyCheckInfo.ConsistencyProblemInfo> check()
+      throws OrmException, IOException {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
-      return check(repo);
+      Map<AccountGroup.UUID, InternalGroup> groups = new HashMap<>();
+      List<ConsistencyCheckInfo.ConsistencyProblemInfo> problems =
+          globalChecker.check(repo, groups);
+      if (!problems.isEmpty()) {
+        return problems;
+      }
+
+      for (InternalGroup g : groups.values()) {
+        problems.addAll(checkGroup(g, groups));
+      }
+      return problems;
     }
   }
 
-  public List<ConsistencyProblemInfo> check(Repository repo) throws OrmException, IOException {
-    // Get all refs in an attempt to avoid seeing half committed group updates.
-    Map<String, Ref> refs = repo.getAllRefs();
+  /** checkCycle walks through root's subgroups recursively, and checks for cycles. */
+  private List<ConsistencyCheckInfo.ConsistencyProblemInfo> checkCycle(
+      InternalGroup root, Map<AccountGroup.UUID, InternalGroup> byUUID) {
+    List<ConsistencyCheckInfo.ConsistencyProblemInfo> problems = new ArrayList<>();
+    Set<InternalGroup> todo = new LinkedHashSet<>();
+    Set<InternalGroup> seen = new HashSet<>();
 
-    List<ConsistencyProblemInfo> problems = new ArrayList<>();
-    Map<AccountGroup.UUID, InternalGroup> byUUID = new HashMap<>();
-    BiMap<AccountGroup.UUID, String> nameMap = HashBiMap.create();
+    todo.add(root);
+    while (!todo.isEmpty()) {
+      InternalGroup t = todo.iterator().next();
+      todo.remove(t);
 
-    readGroups(repo, refs, problems, byUUID);
-    readGroupNames(repo, refs, problems, nameMap);
-
-    // The sequential IDs are not keys in NoteDb, so no need to check them.
-
-    // No use continuing if we couldn't read the data.
-    if (!problems.isEmpty()) {
-      return problems;
-    }
-
-    problems = checkGlobalConsistency(byUUID, nameMap);
-    if (!problems.isEmpty()) {
-      return problems;
-    }
-
-    // Check subgroups and members.
-    for (InternalGroup g : byUUID.values()) {
-      problems.addAll(checkGroup(g, byUUID));
-    }
-    return problems;
-  }
-
-  /** Check invariants of the group refs with the groupname refs. */
-  private List<ConsistencyProblemInfo> checkGlobalConsistency(
-      Map<AccountGroup.UUID, InternalGroup> byUUID, BiMap<AccountGroup.UUID, String> nameMap) {
-    List<ConsistencyProblemInfo> problems = new ArrayList<>();
-
-    // Check consistency between the data coming from different refs.
-    for (AccountGroup.UUID uuid : byUUID.keySet()) {
-      if (!nameMap.containsKey(uuid)) {
-        problems.add(error("group %s has no entry in name map", uuid));
+      if (seen.contains(t)) {
         continue;
       }
+      seen.add(t);
 
-      String noteName = nameMap.get(uuid);
-      String groupRefName = byUUID.get(uuid).getName();
-      if (!Objects.equals(noteName, groupRefName)) {
-        problems.add(
-            error(
-                "inconsistent name for group %s (name map %s vs. group ref %s)",
-                uuid, noteName, groupRefName));
+      // We don't check for owner cycles, since those are normal in self-administered groups.
+      for (AccountGroup.UUID subUuid : t.getSubgroups()) {
+        InternalGroup g = byUUID.get(subUuid);
+        if (g == null) {
+          continue;
+        }
+
+        if (Objects.equals(g, root)) {
+          problems.add(
+              warning(
+                  "group %s (%s) contains a cycle: %s (%s) points to it as subgroup.",
+                  root.getName(), root.getGroupUUID(), t.getName(), t.getGroupUUID()));
+        }
+
+        todo.add(g);
       }
-    }
-
-    for (AccountGroup.UUID uuid : nameMap.keySet()) {
-      if (!byUUID.containsKey(uuid)) {
-        problems.add(
-            error(
-                "name map has entry (%s, %s), entry missing as group ref",
-                uuid, nameMap.get(uuid)));
-      }
-    }
-
-    // No use delving further into inconsistent data.
-    if (!problems.isEmpty()) {
-      return problems;
-    }
-
-    // Check ids.
-    Map<AccountGroup.Id, InternalGroup> groupById = new HashMap<>();
-    for (InternalGroup g : byUUID.values()) {
-      InternalGroup before = groupById.get(g.getId());
-      if (before != null) {
-        problems.add(
-            error(
-                "shared group id %s for %s (%s) and %s (%s)",
-                g.getId(), before.getName(), before.getGroupUUID(), g.getName(), g.getGroupUUID()));
-      }
-      groupById.put(g.getId(), g);
     }
     return problems;
   }
 
   /** Checks the metadata for a single group for problems. */
-  private List<ConsistencyProblemInfo> checkGroup(
+  private List<ConsistencyCheckInfo.ConsistencyProblemInfo> checkGroup(
       InternalGroup g, Map<AccountGroup.UUID, InternalGroup> byUUID) throws IOException {
-    List<ConsistencyProblemInfo> problems = new ArrayList<>();
+    List<ConsistencyCheckInfo.ConsistencyProblemInfo> problems = new ArrayList<>();
 
     problems.addAll(checkCycle(g, byUUID));
 
@@ -211,122 +158,13 @@ public class GroupsConsistencyChecker {
     return problems;
   }
 
-  private void readGroupNames(
-      Repository repo,
-      Map<String, Ref> refs,
-      List<ConsistencyProblemInfo> problems,
-      BiMap<AccountGroup.UUID, String> result)
-      throws IOException {
-    Ref ref = refs.get(RefNames.REFS_GROUPNAMES);
-    if (ref == null) {
-      problems.add(
-          new ConsistencyProblemInfo(
-              groupsMigration.readFromNoteDb()
-                  ? ConsistencyProblemInfo.Status.ERROR
-                  : ConsistencyProblemInfo.Status.WARNING,
-              String.format("ref %s does not exist", RefNames.REFS_GROUPNAMES)));
-      return;
-    }
-
-    try (RevWalk rw = new RevWalk(repo)) {
-      NoteMap nm = NoteMap.read(rw.getObjectReader(), rw.parseCommit(ref.getObjectId()));
-      for (Note note : nm) {
-        ObjectLoader ld = rw.getObjectReader().open(note.getData());
-        byte[] data = ld.getCachedBytes();
-
-        GroupReference gRef;
-        try {
-          gRef = GroupNameNotes.getFromNoteData(data);
-        } catch (ConfigInvalidException e) {
-          problems.add(
-              error(
-                  "notename entry %s: %s does not parse: %s",
-                  note, new String(data, StandardCharsets.UTF_8), e.getMessage()));
-          continue;
-        }
-
-        ObjectId nameKey = GroupNameNotes.getNoteKey(new NameKey(gRef.getName()));
-        if (!Objects.equals(nameKey, note)) {
-          problems.add(error("notename entry %s does not match name %s", note, gRef.getName()));
-        }
-
-        // We trust SHA1 to have no collisions, so no need to check uniqueness of name.
-        result.put(gRef.getUUID(), gRef.getName());
-      }
-    }
+  private ConsistencyCheckInfo.ConsistencyProblemInfo warning(String fmt, Object... args) {
+    return new ConsistencyCheckInfo.ConsistencyProblemInfo(
+        ConsistencyCheckInfo.ConsistencyProblemInfo.Status.WARNING, String.format(fmt, args));
   }
 
-  private void readGroups(
-      Repository repo,
-      Map<String, Ref> refs,
-      List<ConsistencyProblemInfo> problems,
-      Map<AccountGroup.UUID, InternalGroup> byUUID)
-      throws IOException {
-    for (Map.Entry<String, Ref> entry : refs.entrySet()) {
-      if (!entry.getKey().startsWith(RefNames.REFS_GROUPS)) {
-        continue;
-      }
-
-      AccountGroup.UUID uuid = AccountGroup.UUID.fromRef(entry.getKey());
-      if (uuid == null) {
-        problems.add(error("null UUID from %s", entry.getKey()));
-        continue;
-      }
-      try {
-        GroupConfig cfg =
-            GroupConfig.loadForGroupSnapshot(repo, uuid, entry.getValue().getObjectId());
-
-        byUUID.put(uuid, cfg.getLoadedGroup().get());
-      } catch (ConfigInvalidException e) {
-        problems.add(error("group %s does not parse: %s", uuid, e.getMessage()));
-      }
-    }
-  }
-
-  /** checkCycle walks through root's subgroups recursively, and checks for cycles. */
-  private List<ConsistencyProblemInfo> checkCycle(
-      InternalGroup root, Map<AccountGroup.UUID, InternalGroup> byUUID) {
-    List<ConsistencyProblemInfo> problems = new ArrayList<>();
-    Set<InternalGroup> todo = new LinkedHashSet<>();
-    Set<InternalGroup> seen = new HashSet<>();
-
-    todo.add(root);
-    while (!todo.isEmpty()) {
-      InternalGroup t = todo.iterator().next();
-      todo.remove(t);
-
-      if (seen.contains(t)) {
-        continue;
-      }
-      seen.add(t);
-
-      // We don't check for owner cycles, since those are normal in self-administered groups.
-      for (AccountGroup.UUID subUuid : t.getSubgroups()) {
-        InternalGroup g = byUUID.get(subUuid);
-        if (g == null) {
-          continue;
-        }
-
-        if (Objects.equals(g, root)) {
-          problems.add(
-              warning(
-                  "group %s (%s) contains a cycle: %s (%s) points to it as subgroup.",
-                  root.getName(), root.getGroupUUID(), t.getName(), t.getGroupUUID()));
-        }
-
-        todo.add(g);
-      }
-    }
-    return problems;
-  }
-
-  private ConsistencyProblemInfo warning(String fmt, Object... args) {
-    return new ConsistencyProblemInfo(
-        ConsistencyProblemInfo.Status.WARNING, String.format(fmt, args));
-  }
-
-  private ConsistencyProblemInfo error(String fmt, Object... args) {
-    return new ConsistencyProblemInfo(
-        ConsistencyProblemInfo.Status.ERROR, String.format(fmt, args));
+  private ConsistencyCheckInfo.ConsistencyProblemInfo error(String fmt, Object... args) {
+    return new ConsistencyCheckInfo.ConsistencyProblemInfo(
+        ConsistencyCheckInfo.ConsistencyProblemInfo.Status.ERROR, String.format(fmt, args));
   }
 }

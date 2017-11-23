@@ -73,7 +73,7 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.group.db.Groups;
-import com.google.gerrit.server.group.db.GroupsConsistencyChecker;
+import com.google.gerrit.server.group.db.GroupsNoteDbConsistencyChecker;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.index.group.StalenessChecker;
 import com.google.gerrit.server.util.MagicBranch;
@@ -133,7 +133,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Inject private GroupIncludeCache groupIncludeCache;
   @Inject private StalenessChecker stalenessChecker;
   @Inject private GroupIndexer groupIndexer;
-  @Inject private GroupsConsistencyChecker consistencyChecker;
+  @Inject private GroupsNoteDbConsistencyChecker consistencyChecker;
 
   @Inject
   @Named("groups_byuuid")

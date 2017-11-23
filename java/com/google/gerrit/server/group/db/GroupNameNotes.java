@@ -182,7 +182,9 @@ public class GroupNameNotes extends VersionedMetaData {
         GroupReference groupReference = getGroupReference(reader, note.getData());
         groupReferences.add(groupReference);
       }
-      return groupReferences.build();
+      ImmutableSet<GroupReference> references = groupReferences.build();
+      GroupsConsistencyChecker.checkGroupNameNotesConsistency(references);
+      return references;
     }
   }
 

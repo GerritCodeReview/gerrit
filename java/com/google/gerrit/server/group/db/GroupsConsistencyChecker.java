@@ -16,6 +16,7 @@ package com.google.gerrit.server.group.db;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.reviewdb.client.Account;
@@ -51,10 +52,14 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Checks internal consistency of NoteDb storage of groups. */
 @Singleton
 public class GroupsConsistencyChecker {
+  private static final Logger log = LoggerFactory.getLogger(GroupsConsistencyChecker.class);
+
   private final GroupBackend groupBackend;
   private final Accounts accounts;
   private final AllUsersName allUsersName;
@@ -328,5 +333,32 @@ public class GroupsConsistencyChecker {
   private ConsistencyProblemInfo error(String fmt, Object... args) {
     return new ConsistencyProblemInfo(
         ConsistencyProblemInfo.Status.ERROR, String.format(fmt, args));
+  }
+
+  /** Check whether there are duplicate group UUIDs or names. */
+  public static void checkGroupNameNotesConsistency(ImmutableSet<GroupReference> groupReferences) {
+    Map<AccountGroup.UUID, String> byUUID = new HashMap<>();
+    Map<String, AccountGroup.UUID> byName = new HashMap<>();
+
+    for (GroupReference gRef : groupReferences) {
+      AccountGroup.UUID uuid = gRef.getUUID();
+      String name = gRef.getName();
+
+      if (byUUID.containsKey(uuid)) {
+        log.warn(
+            "shared group UUID between group %s (%s) and %s (%s)",
+            byUUID.get(uuid), uuid, name, uuid);
+      } else {
+        byUUID.put(uuid, name);
+      }
+
+      if (byName.containsKey(name)) {
+        log.warn(
+            "shared group name between group %s (%s) and %s (%s)",
+            name, byName.get(name), name, uuid);
+      } else {
+        byName.put(name, uuid);
+      }
+    }
   }
 }

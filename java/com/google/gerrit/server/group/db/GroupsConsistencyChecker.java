@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.group.db;
 
+import static com.google.gerrit.server.group.db.GroupNameNotes.getGroupReference;
+
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableSet;
@@ -47,10 +49,12 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -359,6 +363,46 @@ public class GroupsConsistencyChecker {
       } else {
         byName.put(name, uuid);
       }
+    }
+  }
+
+  /** Check group 'uuid'&'name' from 'group.config' with group name notes. */
+  public static void checkWithGroupNameNotes(Repository allUsersRepo, InternalGroup group) {
+    try {
+      Ref ref = allUsersRepo.exactRef(RefNames.REFS_GROUPNAMES);
+      if (ref == null) {
+        log.warn("ref %s does not exist", RefNames.REFS_GROUPNAMES);
+        return;
+      }
+
+      try (RevWalk revWalk = new RevWalk(allUsersRepo);
+          ObjectReader reader = revWalk.getObjectReader()) {
+        RevCommit notesCommit = revWalk.parseCommit(ref.getObjectId());
+        NoteMap noteMap = NoteMap.read(reader, notesCommit);
+        ObjectId noteDataBlobId = noteMap.get(GroupNameNotes.getNoteKey(group.getNameKey()));
+
+        String name = group.getName();
+        AccountGroup.UUID uuid = group.getGroupUUID();
+        if (noteDataBlobId == null) {
+          log.warn("Group with name '%s' doesn't exist in the list of all names", name);
+          return;
+        }
+
+        GroupReference groupRef = getGroupReference(reader, noteDataBlobId);
+        if (!Objects.equals(uuid, groupRef.getUUID())) {
+          log.warn(
+              "group with name '%s' has UUID '%s' in 'group.config' while '%s' in group name notes",
+              name, uuid, groupRef.getUUID());
+        }
+
+        if (!Objects.equals(name, groupRef.getName())) {
+          log.warn(
+              "group with UUID '%s' has name '%s' in 'group.config' while '%s' in group name notes",
+              uuid, name, groupRef.getName());
+        }
+      }
+    } catch (IOException | ConfigInvalidException e) {
+      log.warn("fail to check consistency with group name notes", e);
     }
   }
 }

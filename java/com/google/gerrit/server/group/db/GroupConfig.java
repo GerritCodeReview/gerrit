@@ -71,6 +71,7 @@ public class GroupConfig extends VersionedMetaData {
 
   private final AccountGroup.UUID groupUuid;
   private final String ref;
+  private final Repository allUsersRepo;
 
   private Optional<InternalGroup> loadedGroup = Optional.empty();
   private Optional<InternalGroupCreation> groupCreation = Optional.empty();
@@ -79,15 +80,16 @@ public class GroupConfig extends VersionedMetaData {
   private Function<AccountGroup.UUID, String> groupNameRetriever = AccountGroup.UUID::get;
   private boolean isLoaded = false;
 
-  private GroupConfig(AccountGroup.UUID groupUuid) {
+  private GroupConfig(AccountGroup.UUID groupUuid, Repository allUsersRepo) {
     this.groupUuid = checkNotNull(groupUuid);
-    ref = RefNames.refsGroups(groupUuid);
+    this.ref = RefNames.refsGroups(groupUuid);
+    this.allUsersRepo = allUsersRepo;
   }
 
   public static GroupConfig createForNewGroup(
       Repository repository, InternalGroupCreation groupCreation)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
-    GroupConfig groupConfig = new GroupConfig(groupCreation.getGroupUUID());
+    GroupConfig groupConfig = new GroupConfig(groupCreation.getGroupUUID(), repository);
     groupConfig.load(repository);
     groupConfig.setGroupCreation(groupCreation);
     return groupConfig;
@@ -95,7 +97,7 @@ public class GroupConfig extends VersionedMetaData {
 
   public static GroupConfig loadForGroup(Repository repository, AccountGroup.UUID groupUuid)
       throws IOException, ConfigInvalidException {
-    GroupConfig groupConfig = new GroupConfig(groupUuid);
+    GroupConfig groupConfig = new GroupConfig(groupUuid, repository);
     groupConfig.load(repository);
     return groupConfig;
   }
@@ -104,13 +106,14 @@ public class GroupConfig extends VersionedMetaData {
   public static GroupConfig loadForGroupSnapshot(
       Repository repository, AccountGroup.UUID groupUuid, ObjectId commitId)
       throws IOException, ConfigInvalidException {
-    GroupConfig groupConfig = new GroupConfig(groupUuid);
+    GroupConfig groupConfig = new GroupConfig(groupUuid, repository);
     groupConfig.load(repository, commitId);
     return groupConfig;
   }
 
   public Optional<InternalGroup> getLoadedGroup() {
     checkLoaded();
+    loadedGroup.ifPresent(t -> GroupsConsistencyChecker.checkWithGroupNameNotes(allUsersRepo, t));
     return loadedGroup;
   }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "467a13b4_27aeb498",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-23T08:42:04Z",
+      "side": 0,
+      "message": "My impression is that this part would be helpful. Could we please keep it?",
+      "range": {
+        "startLine": 293,
+        "startChar": 49,
+        "endLine": 293,
+        "endChar": 64
+      },
+      "revId": "42286a0c861c0d46b14f4d0bcea7485c9ed219b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

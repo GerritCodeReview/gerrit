@@ -67,7 +67,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
   private GroupInfo g1;
   private GroupInfo g2;
 
-  private static String BOGUS_UUID = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+  private final static String BOGUS_UUID = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
 
   @Before
   public void basicSetup() throws Exception {

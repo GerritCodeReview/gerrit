@@ -25,8 +25,12 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.Multimaps;
+import com.google.common.collect.SortedSetMultimap;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
@@ -38,8 +42,14 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.function.Function;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
@@ -181,6 +191,9 @@ public abstract class GroupBundle {
               nullsLast(naturalOrder()))
           .thenComparing(a -> a.getRemovedOn(), nullsLast(naturalOrder()));
 
+  private static final Comparator<AuditEntry> AUDIT_ENTRY_COMPARATOR =
+      Comparator.comparing(AuditEntry::getTimestamp);
+
   public static GroupBundle create(
       Source source,
       AccountGroup group,
@@ -279,7 +292,7 @@ public abstract class GroupBundle {
               + ("ReviewDb: " + reviewDbBundle.members() + "\n")
               + ("NoteDb  : " + noteDbBundle.members()));
     }
-    if (!reviewDbBundle.memberAudit().equals(noteDbBundle.memberAudit())) {
+    if (!areMemberAuditsConsideredEqual(reviewDbBundle.memberAudit(), noteDbBundle.memberAudit())) {
       result.add(
           "AccountGroupMemberAudits differ\n"
               + ("ReviewDb: " + reviewDbBundle.memberAudit() + "\n")
@@ -291,13 +304,128 @@ public abstract class GroupBundle {
               + ("ReviewDb: " + reviewDbBundle.byId() + "\n")
               + ("NoteDb  : " + noteDbBundle.byId()));
     }
-    if (!reviewDbBundle.byIdAudit().equals(noteDbBundle.byIdAudit())) {
+    if (!areByIdAuditsConsideredEqual(reviewDbBundle.byIdAudit(), noteDbBundle.byIdAudit())) {
       result.add(
           "AccountGroupByIdAudits differ\n"
               + ("ReviewDb: " + reviewDbBundle.byIdAudit() + "\n")
               + ("NoteDb  : " + noteDbBundle.byIdAudit()));
     }
     return result.build();
+  }
+
+  private static boolean areMemberAuditsConsideredEqual(
+      ImmutableSet<AccountGroupMemberAudit> reviewDbMemberAudits,
+      ImmutableSet<AccountGroupMemberAudit> noteDbMemberAudits) {
+    SortedSetMultimap<String, AuditEntry> reviewDbMemberAuditsByMemberId =
+        toMemberAuditEntriesByMemberId(reviewDbMemberAudits);
+    SortedSetMultimap<String, AuditEntry> noteDbMemberAuditsByMemberId =
+        toMemberAuditEntriesByMemberId(noteDbMemberAudits);
+
+    return areConsideredEqual(reviewDbMemberAuditsByMemberId, noteDbMemberAuditsByMemberId);
+  }
+
+  private static boolean areByIdAuditsConsideredEqual(
+      ImmutableSet<AccountGroupByIdAud> reviewDbByIdAudits,
+      ImmutableSet<AccountGroupByIdAud> noteDbByIdAudits) {
+    SortedSetMultimap<String, AuditEntry> reviewDbByIdAuditsById =
+        toByIdAuditEntriesById(reviewDbByIdAudits);
+    SortedSetMultimap<String, AuditEntry> noteDbByIdAuditsById =
+        toByIdAuditEntriesById(noteDbByIdAudits);
+
+    return areConsideredEqual(reviewDbByIdAuditsById, noteDbByIdAuditsById);
+  }
+
+  private static boolean areConsideredEqual(
+      SortedSetMultimap<String, AuditEntry> reviewDbMemberAuditsByMemberId,
+      SortedSetMultimap<String, AuditEntry> noteDbMemberAuditsByMemberId) {
+    for (String memberId : reviewDbMemberAuditsByMemberId.keySet()) {
+      List<AuditEntry> reviewDbAuditEntries =
+          ImmutableList.copyOf(reviewDbMemberAuditsByMemberId.get(memberId));
+      SortedSet<AuditEntry> noteDbAuditEntries = noteDbMemberAuditsByMemberId.get(memberId);
+
+      int reviewDbIndex = 0;
+      for (AuditEntry noteDbAuditEntry : noteDbAuditEntries) {
+        Set<AuditEntry> redundantReviewDbAuditEntries = new HashSet<>();
+        while (reviewDbIndex < reviewDbAuditEntries.size()) {
+          AuditEntry reviewDbAuditEntry = reviewDbAuditEntries.get(reviewDbIndex);
+          if (!reviewDbAuditEntry.getAction().equals(noteDbAuditEntry.getAction())) {
+            break;
+          }
+          redundantReviewDbAuditEntries.add(reviewDbAuditEntry);
+          reviewDbIndex++;
+        }
+
+        if (!redundantReviewDbAuditEntries.contains(noteDbAuditEntry)) {
+          return false;
+        }
+      }
+
+      if (reviewDbIndex < reviewDbAuditEntries.size()) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private static SortedSetMultimap<String, AuditEntry> toMemberAuditEntriesByMemberId(
+      ImmutableSet<AccountGroupMemberAudit> memberAudits) {
+    return memberAudits
+        .stream()
+        .flatMap(GroupBundle::toAuditEntries)
+        .collect(
+            Multimaps.toMultimap(
+                AuditEntry::getTarget,
+                Function.identity(),
+                MultimapBuilder.hashKeys().treeSetValues(AUDIT_ENTRY_COMPARATOR)::build));
+  }
+
+  private static Stream<AuditEntry> toAuditEntries(AccountGroupMemberAudit memberAudit) {
+    AuditEntry additionAuditEntry =
+        AuditEntry.create(
+            Action.ADD,
+            memberAudit.getAddedBy(),
+            memberAudit.getMemberId(),
+            memberAudit.getAddedOn());
+    if (memberAudit.isActive()) {
+      return Stream.of(additionAuditEntry);
+    }
+
+    AuditEntry removalAuditEntry =
+        AuditEntry.create(
+            Action.REMOVE,
+            memberAudit.getRemovedBy(),
+            memberAudit.getMemberId(),
+            memberAudit.getRemovedOn());
+    return Stream.of(additionAuditEntry, removalAuditEntry);
+  }
+
+  private static SortedSetMultimap<String, AuditEntry> toByIdAuditEntriesById(
+      ImmutableSet<AccountGroupByIdAud> byIdAudits) {
+    return byIdAudits
+        .stream()
+        .flatMap(GroupBundle::toAuditEntries)
+        .collect(
+            Multimaps.toMultimap(
+                AuditEntry::getTarget,
+                Function.identity(),
+                MultimapBuilder.hashKeys().treeSetValues(AUDIT_ENTRY_COMPARATOR)::build));
+  }
+
+  private static Stream<AuditEntry> toAuditEntries(AccountGroupByIdAud byIdAudit) {
+    AuditEntry additionAuditEntry =
+        AuditEntry.create(
+            Action.ADD, byIdAudit.getAddedBy(), byIdAudit.getIncludeUUID(), byIdAudit.getAddedOn());
+    if (byIdAudit.isActive()) {
+      return Stream.of(additionAuditEntry);
+    }
+
+    AuditEntry removalAuditEntry =
+        AuditEntry.create(
+            Action.REMOVE,
+            byIdAudit.getRemovedBy(),
+            byIdAudit.getIncludeUUID(),
+            byIdAudit.getRemovedOn());
+    return Stream.of(additionAuditEntry, removalAuditEntry);
   }
 
   public AccountGroup.Id id() {
@@ -379,6 +507,33 @@ public abstract class GroupBundle {
   @Override
   public boolean equals(Object o) {
     throw new UnsupportedOperationException("Use GroupBundle.compare(a, b) instead of equals");
+  }
+
+  @AutoValue
+  abstract static class AuditEntry {
+    private static AuditEntry create(
+        Action action, Account.Id userId, Account.Id memberId, Timestamp timestamp) {
+      return new AutoValue_GroupBundle_AuditEntry(
+          action, userId, String.valueOf(memberId.get()), timestamp);
+    }
+
+    private static AuditEntry create(
+        Action action, Account.Id userId, AccountGroup.UUID subgroupId, Timestamp timestamp) {
+      return new AutoValue_GroupBundle_AuditEntry(action, userId, subgroupId.get(), timestamp);
+    }
+
+    abstract Action getAction();
+
+    abstract Account.Id getUserId();
+
+    abstract String getTarget();
+
+    abstract Timestamp getTimestamp();
+  }
+
+  enum Action {
+    ADD,
+    REMOVE
   }
 
   @AutoValue.Builder

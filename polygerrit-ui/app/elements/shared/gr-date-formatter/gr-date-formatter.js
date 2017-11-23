@@ -133,7 +133,7 @@
 
     _computeDateStr(dateStr, timeFormat, relative) {
       if (!dateStr) { return ''; }
-      const date = moment(util.parseDate(dateStr));
+      const date = dateStr instanceof Date ? dateStr : moment(util.parseDate(dateStr));
       if (!date.isValid()) { return ''; }
       if (relative) {
         const dateFromNow = date.fromNow();
@@ -161,7 +161,7 @@
 
     _computeFullDateStr(dateStr, timeFormat) {
       if (!dateStr) { return ''; }
-      const date = moment(util.parseDate(dateStr));
+      const date = dateStr instanceof Date ? dateStr : moment(util.parseDate(dateStr));
       if (!date.isValid()) { return ''; }
       let format = TimeFormats.MONTH_DAY_YEAR + ', ';
       format += this._timeToSecondsFormat(timeFormat);

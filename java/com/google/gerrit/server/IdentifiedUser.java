@@ -325,7 +325,7 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   public String getName() {
-    return getAccount().getName(anonymousCowardName);
+    return getAccount().getName();
   }
 
   public String getNameEmail() {

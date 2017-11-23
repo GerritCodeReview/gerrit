@@ -90,11 +90,11 @@ public class GroupRebuilder {
         // TODO(dborowitz): These probably won't work during init.
         (id, ident) ->
             new PersonIdent(
-                GroupsUpdate.getAccountName(accountCache, anonymousCowardName, id),
+                GroupsUpdate.getAccountName(accountCache, id),
                 GroupsUpdate.getEmailForAuditLog(id, serverId),
                 ident.getWhen(),
                 ident.getTimeZone()),
-        id -> GroupsUpdate.getAccountNameEmail(accountCache, anonymousCowardName, id, serverId),
+        id -> GroupsUpdate.getAccountNameEmail(accountCache, id, serverId),
         uuid -> GroupsUpdate.getGroupName(groupBackend, uuid));
   }
 

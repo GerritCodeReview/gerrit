@@ -549,7 +549,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       return new PersonIdent(serverIdent, events.getWhen());
     }
     return changeNoteUtil.newIdent(
-        accountCache.get(id).getAccount(), events.getWhen(), serverIdent, anonymousCowardName);
+        accountCache.get(id).getAccount(), events.getWhen(), serverIdent);
   }
 
   private List<HashtagsEvent> getHashtagsEvents(Change change, NoteDbUpdateManager manager)

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb89a901_0aa03efd",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupBundleTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-23T16:36:17Z",
+      "side": 1,
+      "message": "optional: I just noticed that this line and line 88 are too long.",
+      "range": {
+        "startLine": 82,
+        "startChar": 100,
+        "endLine": 82,
+        "endChar": 115
+      },
+      "revId": "a3294c66c614fac5b66c3b30906450d02f26bc5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

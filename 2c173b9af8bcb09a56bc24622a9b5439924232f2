@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "bf3fe060_1220082a",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-23T17:35:08Z",
+      "side": 1,
+      "message": "you have to check here if the UUID is already there or not.",
+      "range": {
+        "startLine": 183,
+        "startChar": 8,
+        "endLine": 183,
+        "endChar": 23
+      },
+      "revId": "2c173b9af8bcb09a56bc24622a9b5439924232f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7b43431b_36a24a81",
         "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
         "patchSetId": 3

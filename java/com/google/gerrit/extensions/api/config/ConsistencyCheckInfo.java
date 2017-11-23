@@ -78,5 +78,13 @@ public class ConsistencyCheckInfo {
     public String toString() {
       return status.name() + ": " + message;
     }
+
+    public static ConsistencyProblemInfo warning(String fmt, Object... args) {
+      return new ConsistencyProblemInfo(Status.WARNING, String.format(fmt, args));
+    }
+
+    public static ConsistencyProblemInfo error(String fmt, Object... args) {
+      return new ConsistencyProblemInfo(Status.ERROR, String.format(fmt, args));
+    }
   }
 }

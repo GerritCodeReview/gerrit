@@ -29,6 +29,7 @@ import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.query.PredicateParser;
 import com.google.gerrit.server.query.account.AccountPredicates;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gerrit.server.query.account.AccountQueryProcessor;
@@ -47,7 +48,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
   private static final int MAX_SUGGEST_RESULTS = 100;
 
   private final AccountLoader.Factory accountLoaderFactory;
-  private final AccountQueryBuilder queryBuilder;
+  private final PredicateParser<AccountState> queryBuilder;
   private final AccountQueryProcessor queryProcessor;
   private final boolean suggestConfig;
   private final int suggestFrom;

@@ -30,8 +30,8 @@ import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.PredicateParser;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.SingleGroupUser;
 import com.google.gwtorm.server.OrmException;
 import java.util.ArrayList;
@@ -224,14 +224,14 @@ public class ProjectWatch {
 
   private boolean filterMatch(CurrentUser user, String filter)
       throws OrmException, QueryParseException {
-    ChangeQueryBuilder qb;
+    PredicateParser<ChangeData> qb;
     Predicate<ChangeData> p = null;
 
     if (user == null) {
       qb = args.queryBuilder.asUser(args.anonymousUser);
     } else {
       qb = args.queryBuilder.asUser(user);
-      p = qb.is_visible();
+      p = qb.parse("is:visible");
     }
 
     if (filter != null) {

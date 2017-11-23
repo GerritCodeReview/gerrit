@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
+import com.google.gerrit.server.query.PredicateParser;
 import com.google.gerrit.server.query.group.GroupQueryBuilder;
 import com.google.gerrit.server.query.group.GroupQueryProcessor;
 import com.google.gwtorm.server.OrmException;
@@ -34,7 +35,7 @@ import java.util.List;
 import org.kohsuke.args4j.Option;
 
 public class QueryGroups implements RestReadView<TopLevelResource> {
-  private final GroupQueryBuilder queryBuilder;
+  private final PredicateParser<InternalGroup> queryBuilder;
   private final GroupQueryProcessor queryProcessor;
   private final GroupJson json;
 

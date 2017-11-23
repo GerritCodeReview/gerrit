@@ -43,6 +43,7 @@ import com.google.gerrit.server.change.SuggestReviewers;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.PredicateParser;
 import com.google.gerrit.server.query.account.AccountPredicates;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gerrit.server.query.account.AccountQueryProcessor;
@@ -108,7 +109,7 @@ public class ReviewersUtil {
   private static final int CANDIDATE_LIST_MULTIPLIER = 2;
 
   private final AccountLoader accountLoader;
-  private final AccountQueryBuilder accountQueryBuilder;
+  private final PredicateParser<AccountState> accountQueryBuilder;
   private final Provider<AccountQueryProcessor> queryProvider;
   private final GroupBackend groupBackend;
   private final GroupMembers groupMembers;

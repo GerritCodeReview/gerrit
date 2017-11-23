@@ -80,6 +80,7 @@
           bottomText: `${this._computePatchSetDescription(
               _sortedRevisions, basePatchNum)}`,
           value: basePatch.num,
+          date: this._computePatchSetDate(_sortedRevisions, basePatchNum),
         });
       }
 
@@ -125,6 +126,7 @@
           bottomText: `${this._computePatchSetDescription(
               _sortedRevisions, patchNum)}`,
           value: patchNum,
+          date: this._computePatchSetDate(_sortedRevisions, basePatchNum),
         });
       }
       return dropdownContent;
@@ -210,6 +212,15 @@
           (opt_addFrontSpace ? ' ' : '') +
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
     },
+
+    /**
+     * @param {!Array} revisions
+     * @param {number|string} patchNum
+     */
+    _computePatchSetDate(revisions, patchNum) {
+      const rev = this.getRevisionByPatchNum(revisions, patchNum);
+      return (rev && rev.created) ? new Date(rev.created) : undefined;
+    }
 
     /**
      * Catches value-change events from the patchset dropdowns and determines

@@ -17,11 +17,13 @@ package com.google.gerrit.server.group.db;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.gerrit.server.group.db.GroupNameNotes.getGroupReference;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -32,6 +34,7 @@ import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.function.Function;
@@ -42,11 +45,17 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Holds code for reading and writing internal group data for a single group to/from NoteDB.
@@ -58,6 +67,8 @@ import org.eclipse.jgit.revwalk.RevSort;
  * <p>TODO(aliceks): expand docs.
  */
 public class GroupConfig extends VersionedMetaData {
+  private static final Logger log = LoggerFactory.getLogger(GroupConfig.class);
+
   public static final String GROUP_CONFIG_FILE = "group.config";
 
   static final FooterKey FOOTER_ADD_MEMBER = new FooterKey("Add");
@@ -71,6 +82,7 @@ public class GroupConfig extends VersionedMetaData {
 
   private final AccountGroup.UUID groupUuid;
   private final String ref;
+  private final Repository allUsersRepo;
 
   private Optional<InternalGroup> loadedGroup = Optional.empty();
   private Optional<InternalGroupCreation> groupCreation = Optional.empty();
@@ -79,15 +91,16 @@ public class GroupConfig extends VersionedMetaData {
   private Function<AccountGroup.UUID, String> groupNameRetriever = AccountGroup.UUID::get;
   private boolean isLoaded = false;
 
-  private GroupConfig(AccountGroup.UUID groupUuid) {
+  private GroupConfig(AccountGroup.UUID groupUuid, Repository allUsersRepo) {
     this.groupUuid = checkNotNull(groupUuid);
-    ref = RefNames.refsGroups(groupUuid);
+    this.ref = RefNames.refsGroups(groupUuid);
+    this.allUsersRepo = allUsersRepo;
   }
 
   public static GroupConfig createForNewGroup(
       Repository repository, InternalGroupCreation groupCreation)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
-    GroupConfig groupConfig = new GroupConfig(groupCreation.getGroupUUID());
+    GroupConfig groupConfig = new GroupConfig(groupCreation.getGroupUUID(), repository);
     groupConfig.load(repository);
     groupConfig.setGroupCreation(groupCreation);
     return groupConfig;
@@ -95,7 +108,7 @@ public class GroupConfig extends VersionedMetaData {
 
   public static GroupConfig loadForGroup(Repository repository, AccountGroup.UUID groupUuid)
       throws IOException, ConfigInvalidException {
-    GroupConfig groupConfig = new GroupConfig(groupUuid);
+    GroupConfig groupConfig = new GroupConfig(groupUuid, repository);
     groupConfig.load(repository);
     return groupConfig;
   }
@@ -104,13 +117,14 @@ public class GroupConfig extends VersionedMetaData {
   public static GroupConfig loadForGroupSnapshot(
       Repository repository, AccountGroup.UUID groupUuid, ObjectId commitId)
       throws IOException, ConfigInvalidException {
-    GroupConfig groupConfig = new GroupConfig(groupUuid);
+    GroupConfig groupConfig = new GroupConfig(groupUuid, repository);
     groupConfig.load(repository, commitId);
     return groupConfig;
   }
 
   public Optional<InternalGroup> getLoadedGroup() {
     checkLoaded();
+    loadedGroup.ifPresent(t -> checkConsistencyWithGroupNameNotes(t));
     return loadedGroup;
   }
 
@@ -232,6 +246,44 @@ public class GroupConfig extends VersionedMetaData {
 
   private void checkLoaded() {
     checkState(isLoaded, "Group %s not loaded yet", groupUuid.get());
+  }
+
+  private void checkConsistencyWithGroupNameNotes(InternalGroup internalGroup) {
+    try {
+      Ref ref = allUsersRepo.exactRef(RefNames.REFS_GROUPNAMES);
+      if (ref == null) {
+        log.warn("ref %s does not exist", RefNames.REFS_GROUPNAMES);
+      }
+
+      String name = internalGroup.getName();
+      AccountGroup.UUID uuid = internalGroup.getGroupUUID();
+
+      try (RevWalk revWalk = new RevWalk(allUsersRepo);
+          ObjectReader reader = revWalk.getObjectReader()) {
+        RevCommit notesCommit = revWalk.parseCommit(ref.getObjectId());
+        NoteMap noteMap = NoteMap.read(reader, notesCommit);
+        ObjectId noteDataBlobId =
+            noteMap.get(GroupNameNotes.getNoteKey(internalGroup.getNameKey()));
+        if (noteDataBlobId == null) {
+          log.warn("Group with name '%s' doesn't exist in the list of all names", name);
+        }
+
+        GroupReference groupRef = getGroupReference(reader, noteDataBlobId);
+        if (!Objects.equals(uuid, groupRef.getUUID())) {
+          log.warn(
+              "Group with name '%s' has UUID '%s' in GroupConfig while '%s' in GroupNameNotes",
+              name, uuid, groupRef.getUUID());
+        }
+
+        if (!Objects.equals(name, groupRef.getName())) {
+          log.warn(
+              "Group with UUID '%s' has name '%s' in GroupConfig while '%s' in GroupNameNotes",
+              uuid, name, groupRef.getName());
+        }
+      }
+    } catch (IOException | ConfigInvalidException e) {
+      log.warn("fail to check consistency between GroupConfig and GroupNameNotes", e);
+    }
   }
 
   private Config updateGroupProperties() throws IOException, ConfigInvalidException {

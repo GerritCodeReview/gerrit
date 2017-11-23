@@ -136,7 +136,7 @@ As result a link:#server-info[ServerInfo] entity is returned.
       "from": 0
     },
     "user": {
-      "anonymous_coward_name": "Anonymous Coward"
+      "anonymous_coward_name": "Name of user not set"
     }
   }
 ----

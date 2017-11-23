@@ -289,7 +289,7 @@ public class GroupNameNotes extends VersionedMetaData {
     return getFromNoteData(noteData);
   }
 
-  static GroupReference getFromNoteData(byte[] noteData) throws ConfigInvalidException {
+  public static GroupReference getFromNoteData(byte[] noteData) throws ConfigInvalidException {
     Config config = new Config();
     config.fromText(new String(noteData, UTF_8));
 

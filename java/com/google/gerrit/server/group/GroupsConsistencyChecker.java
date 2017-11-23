@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.group.db;
+package com.google.gerrit.server.group;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -28,6 +28,8 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.group.db.GroupConfig;
+import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;

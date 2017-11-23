@@ -16,6 +16,8 @@ package com.google.gerrit.server.group.db;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.reviewdb.client.Account;
@@ -38,6 +40,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -316,12 +320,60 @@ public class GroupsConsistencyChecker {
     return problems;
   }
 
-  private ConsistencyProblemInfo warning(String fmt, Object... args) {
+  /** Check whether there are duplicate group UUIDs or names. */
+  public static ImmutableList<ConsistencyProblemInfo> checkGroupNameNotesConsistency(
+      ImmutableListMultimap<AccountGroup.UUID, String> byUUID,
+      ImmutableListMultimap<String, AccountGroup.UUID> byName) {
+    return new ImmutableList.Builder<ConsistencyProblemInfo>()
+        .addAll(duplicateUUIDs(byUUID))
+        .addAll(duplicateNames(byName))
+        .build();
+  }
+
+  private static List<ConsistencyProblemInfo> duplicateUUIDs(
+      ImmutableListMultimap<AccountGroup.UUID, String> byUUID) {
+    return byUUID
+        .keySet()
+        .stream()
+        .filter(t -> byUUID.get(t).size() > 1)
+        .map(t -> toProblemInfo(t, byUUID.get(t)))
+        .collect(Collectors.toList());
+  }
+
+  private static List<ConsistencyProblemInfo> duplicateNames(
+      ImmutableListMultimap<String, AccountGroup.UUID> byName) {
+    return byName
+        .keySet()
+        .stream()
+        .filter(t -> byName.get(t).size() > 1)
+        .map(t -> toProblemInfo(t, byName.get(t)))
+        .collect(Collectors.toList());
+  }
+
+  private static ConsistencyProblemInfo toProblemInfo(
+      AccountGroup.UUID uuid, ImmutableList<String> names) {
+    StringJoiner stringJoiner =
+        new StringJoiner(", ", String.format("shared group UUID '%s' between groups: ", uuid), "");
+    stringJoiner.setEmptyValue("");
+    names.stream().forEach(stringJoiner::add);
+    return warning(stringJoiner.toString());
+  }
+
+  private static ConsistencyProblemInfo toProblemInfo(
+      String name, ImmutableList<AccountGroup.UUID> uuids) {
+    StringJoiner stringJoiner =
+        new StringJoiner(", ", String.format("shared group name '%s' between groups: ", name), "");
+    stringJoiner.setEmptyValue("");
+    uuids.stream().map(u -> u.get()).forEach(stringJoiner::add);
+    return warning(stringJoiner.toString());
+  }
+
+  private static ConsistencyProblemInfo warning(String fmt, Object... args) {
     return new ConsistencyProblemInfo(
         ConsistencyProblemInfo.Status.WARNING, String.format(fmt, args));
   }
 
-  private ConsistencyProblemInfo error(String fmt, Object... args) {
+  private static ConsistencyProblemInfo error(String fmt, Object... args) {
     return new ConsistencyProblemInfo(
         ConsistencyProblemInfo.Status.ERROR, String.format(fmt, args));
   }

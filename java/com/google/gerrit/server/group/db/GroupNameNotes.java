@@ -22,10 +22,13 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo.Status;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.VersionedMetaData;
@@ -50,6 +53,8 @@ import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Holds code for reading and writing group names for a single group as NoteDb data. The data is
@@ -59,6 +64,8 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * <p>TODO(aliceks): more javadoc.
  */
 public class GroupNameNotes extends VersionedMetaData {
+  private static final Logger log = LoggerFactory.getLogger(GroupNameNotes.class);
+
   private static final String SECTION_NAME = "group";
   private static final String UUID_PARAM = "uuid";
   private static final String NAME_PARAM = "name";
@@ -178,12 +185,31 @@ public class GroupNameNotes extends VersionedMetaData {
         ObjectReader reader = revWalk.getObjectReader()) {
       RevCommit notesCommit = revWalk.parseCommit(ref.getObjectId());
       NoteMap noteMap = NoteMap.read(reader, notesCommit);
+
+      ImmutableListMultimap.Builder<AccountGroup.UUID, String> byUUID =
+          ImmutableListMultimap.builder();
+      ImmutableListMultimap.Builder<String, AccountGroup.UUID> byName =
+          ImmutableListMultimap.builder();
       ImmutableSet.Builder<GroupReference> groupReferences = ImmutableSet.builder();
       for (Note note : noteMap) {
         GroupReference groupReference = getGroupReference(reader, note.getData());
         groupReferences.add(groupReference);
+
+        byUUID.put(groupReference.getUUID(), groupReference.getName());
+        byName.put(groupReference.getName(), groupReference.getUUID());
       }
+      GroupsConsistencyChecker.checkGroupNameNotesConsistency(byUUID.build(), byName.build())
+          .stream()
+          .forEachOrdered(GroupNameNotes::logConsistencyProblem);
       return groupReferences.build();
+    }
+  }
+
+  public static void logConsistencyProblem(ConsistencyProblemInfo p) {
+    if (p.status == Status.WARNING) {
+      log.warn(p.message);
+    } else {
+      log.error(p.message);
     }
   }
 

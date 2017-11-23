@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80286823_1b6d5499",
+        "filename": "java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-23T18:00:46Z",
+      "side": 1,
+      "message": "Should we add some branches around accountId.get()?\n\nThis is what the getNameEmail function did.",
+      "range": {
+        "startLine": 249,
+        "startChar": 11,
+        "endLine": 249,
+        "endChar": 47
+      },
+      "revId": "b2ba5476c1067e3305e38e55d931b0abf822d400",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

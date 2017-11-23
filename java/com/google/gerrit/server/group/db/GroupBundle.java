@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group.db;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.checkColumns;
 import static java.util.Comparator.naturalOrder;
@@ -25,8 +26,12 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.Multimaps;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
@@ -38,8 +43,13 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
@@ -181,6 +191,10 @@ public abstract class GroupBundle {
               nullsLast(naturalOrder()))
           .thenComparing(a -> a.getRemovedOn(), nullsLast(naturalOrder()));
 
+  private static final Comparator<AuditEntry> AUDIT_ENTRY_COMPARATOR =
+      Comparator.comparing(AuditEntry::getTimestamp)
+          .thenComparing(AuditEntry::getAction, Comparator.comparingInt(Action::getOrder));
+
   public static GroupBundle create(
       Source source,
       AccountGroup group,
@@ -279,7 +293,7 @@ public abstract class GroupBundle {
               + ("ReviewDb: " + reviewDbBundle.members() + "\n")
               + ("NoteDb  : " + noteDbBundle.members()));
     }
-    if (!reviewDbBundle.memberAudit().equals(noteDbBundle.memberAudit())) {
+    if (!areMemberAuditsConsideredEqual(reviewDbBundle.memberAudit(), noteDbBundle.memberAudit())) {
       result.add(
           "AccountGroupMemberAudits differ\n"
               + ("ReviewDb: " + reviewDbBundle.memberAudit() + "\n")
@@ -291,13 +305,143 @@ public abstract class GroupBundle {
               + ("ReviewDb: " + reviewDbBundle.byId() + "\n")
               + ("NoteDb  : " + noteDbBundle.byId()));
     }
-    if (!reviewDbBundle.byIdAudit().equals(noteDbBundle.byIdAudit())) {
+    if (!areByIdAuditsConsideredEqual(reviewDbBundle.byIdAudit(), noteDbBundle.byIdAudit())) {
       result.add(
           "AccountGroupByIdAudits differ\n"
               + ("ReviewDb: " + reviewDbBundle.byIdAudit() + "\n")
               + ("NoteDb  : " + noteDbBundle.byIdAudit()));
     }
     return result.build();
+  }
+
+  private static boolean areMemberAuditsConsideredEqual(
+      ImmutableSet<AccountGroupMemberAudit> reviewDbMemberAudits,
+      ImmutableSet<AccountGroupMemberAudit> noteDbMemberAudits) {
+    ListMultimap<String, AuditEntry> reviewDbMemberAuditsByMemberId =
+        toMemberAuditEntriesByMemberId(reviewDbMemberAudits);
+    ListMultimap<String, AuditEntry> noteDbMemberAuditsByMemberId =
+        toMemberAuditEntriesByMemberId(noteDbMemberAudits);
+
+    return areConsideredEqual(reviewDbMemberAuditsByMemberId, noteDbMemberAuditsByMemberId);
+  }
+
+  private static boolean areByIdAuditsConsideredEqual(
+      ImmutableSet<AccountGroupByIdAud> reviewDbByIdAudits,
+      ImmutableSet<AccountGroupByIdAud> noteDbByIdAudits) {
+    ListMultimap<String, AuditEntry> reviewDbByIdAuditsById =
+        toByIdAuditEntriesById(reviewDbByIdAudits);
+    ListMultimap<String, AuditEntry> noteDbByIdAuditsById =
+        toByIdAuditEntriesById(noteDbByIdAudits);
+
+    return areConsideredEqual(reviewDbByIdAuditsById, noteDbByIdAuditsById);
+  }
+
+  private static ListMultimap<String, AuditEntry> toMemberAuditEntriesByMemberId(
+      ImmutableSet<AccountGroupMemberAudit> memberAudits) {
+    return memberAudits
+        .stream()
+        .flatMap(GroupBundle::toAuditEntries)
+        .collect(
+            Multimaps.toMultimap(
+                AuditEntry::getTarget,
+                Function.identity(),
+                MultimapBuilder.hashKeys().arrayListValues()::build));
+  }
+
+  private static Stream<AuditEntry> toAuditEntries(AccountGroupMemberAudit memberAudit) {
+    AuditEntry additionAuditEntry =
+        AuditEntry.create(
+            Action.ADD,
+            memberAudit.getAddedBy(),
+            memberAudit.getMemberId(),
+            memberAudit.getAddedOn());
+    if (memberAudit.isActive()) {
+      return Stream.of(additionAuditEntry);
+    }
+
+    AuditEntry removalAuditEntry =
+        AuditEntry.create(
+            Action.REMOVE,
+            memberAudit.getRemovedBy(),
+            memberAudit.getMemberId(),
+            memberAudit.getRemovedOn());
+    return Stream.of(additionAuditEntry, removalAuditEntry);
+  }
+
+  private static ListMultimap<String, AuditEntry> toByIdAuditEntriesById(
+      ImmutableSet<AccountGroupByIdAud> byIdAudits) {
+    return byIdAudits
+        .stream()
+        .flatMap(GroupBundle::toAuditEntries)
+        .collect(
+            Multimaps.toMultimap(
+                AuditEntry::getTarget,
+                Function.identity(),
+                MultimapBuilder.hashKeys().arrayListValues()::build));
+  }
+
+  private static Stream<AuditEntry> toAuditEntries(AccountGroupByIdAud byIdAudit) {
+    AuditEntry additionAuditEntry =
+        AuditEntry.create(
+            Action.ADD, byIdAudit.getAddedBy(), byIdAudit.getIncludeUUID(), byIdAudit.getAddedOn());
+    if (byIdAudit.isActive()) {
+      return Stream.of(additionAuditEntry);
+    }
+
+    AuditEntry removalAuditEntry =
+        AuditEntry.create(
+            Action.REMOVE,
+            byIdAudit.getRemovedBy(),
+            byIdAudit.getIncludeUUID(),
+            byIdAudit.getRemovedOn());
+    return Stream.of(additionAuditEntry, removalAuditEntry);
+  }
+
+  /**
+   * Determines whether the audit log entries are equal except for redundant entries. Entries of the
+   * same type (addition/removal) which follow directly on each other according to their timestamp
+   * are considered redundant.
+   */
+  private static boolean areConsideredEqual(
+      ListMultimap<String, AuditEntry> reviewDbMemberAuditsByTarget,
+      ListMultimap<String, AuditEntry> noteDbMemberAuditsByTarget) {
+    for (String target : reviewDbMemberAuditsByTarget.keySet()) {
+      ImmutableList<AuditEntry> reviewDbAuditEntries =
+          reviewDbMemberAuditsByTarget
+              .get(target)
+              .stream()
+              .sorted(AUDIT_ENTRY_COMPARATOR)
+              .collect(toImmutableList());
+      ImmutableSet<AuditEntry> noteDbAuditEntries =
+          noteDbMemberAuditsByTarget
+              .get(target)
+              .stream()
+              .sorted(AUDIT_ENTRY_COMPARATOR)
+              .collect(toImmutableSet());
+
+      int reviewDbIndex = 0;
+      for (AuditEntry noteDbAuditEntry : noteDbAuditEntries) {
+        Set<AuditEntry> redundantReviewDbAuditEntries = new HashSet<>();
+        while (reviewDbIndex < reviewDbAuditEntries.size()) {
+          AuditEntry reviewDbAuditEntry = reviewDbAuditEntries.get(reviewDbIndex);
+          if (!reviewDbAuditEntry.getAction().equals(noteDbAuditEntry.getAction())) {
+            break;
+          }
+          redundantReviewDbAuditEntries.add(reviewDbAuditEntry);
+          reviewDbIndex++;
+        }
+
+        if (!redundantReviewDbAuditEntries.contains(noteDbAuditEntry)) {
+          return false;
+        }
+      }
+
+      if (reviewDbIndex < reviewDbAuditEntries.size()) {
+        // Some of the ReviewDb audit log entries aren't matched by NoteDb audit log entries.
+        return false;
+      }
+    }
+    return true;
   }
 
   public AccountGroup.Id id() {
@@ -380,6 +524,43 @@ public abstract class GroupBundle {
   @Override
   public boolean equals(Object o) {
     throw new UnsupportedOperationException("Use GroupBundle.compare(a, b) instead of equals");
+  }
+
+  @AutoValue
+  abstract static class AuditEntry {
+    private static AuditEntry create(
+        Action action, Account.Id userId, Account.Id memberId, Timestamp timestamp) {
+      return new AutoValue_GroupBundle_AuditEntry(
+          action, userId, String.valueOf(memberId.get()), timestamp);
+    }
+
+    private static AuditEntry create(
+        Action action, Account.Id userId, AccountGroup.UUID subgroupId, Timestamp timestamp) {
+      return new AutoValue_GroupBundle_AuditEntry(action, userId, subgroupId.get(), timestamp);
+    }
+
+    abstract Action getAction();
+
+    abstract Account.Id getUserId();
+
+    abstract String getTarget();
+
+    abstract Timestamp getTimestamp();
+  }
+
+  enum Action {
+    ADD(1),
+    REMOVE(2);
+
+    private int order;
+
+    Action(int order) {
+      this.order = order;
+    }
+
+    public int getOrder() {
+      return order;
+    }
   }
 
   @AutoValue.Builder

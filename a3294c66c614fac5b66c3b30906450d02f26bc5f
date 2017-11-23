@@ -22,6 +22,30 @@
       "revId": "a3294c66c614fac5b66c3b30906450d02f26bc5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3955780_b429d751",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupBundleTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-23T17:02:54Z",
+      "side": 1,
+      "message": "Since the java format checker isn\u0027t complaining I think we can live with it. Also I think readability wise it is easier to read like that.",
+      "parentUuid": "eb89a901_0aa03efd",
+      "range": {
+        "startLine": 82,
+        "startChar": 100,
+        "endLine": 82,
+        "endChar": 115
+      },
+      "revId": "a3294c66c614fac5b66c3b30906450d02f26bc5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

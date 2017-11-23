@@ -31,9 +31,11 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.group.db.GroupNameNotes;
+import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testing.ConfigSuite;
 import java.util.List;
+import javax.inject.Inject;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
@@ -63,6 +65,8 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
     return config;
   }
 
+  @Inject private GroupsMigration groupsMigration;
+
   private GroupInfo gAdmin;
   private GroupInfo g1;
   private GroupInfo g2;
@@ -87,8 +91,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
   }
 
   private boolean groupsInNoteDb() {
-    return cfg.getBoolean(
-        NotesMigration.SECTION_NOTE_DB, GROUPS.key(), NotesMigration.WRITE, false);
+    return groupsMigration.writeToNoteDb();
   }
 
   @Test
@@ -98,7 +101,6 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
 
   @Test
   public void missingGroupNameRef() throws Exception {
-
     try (Repository repo = repoManager.openRepository(allUsers)) {
       RefUpdate ru = repo.updateRef(RefNames.REFS_GROUPNAMES);
       ru.setForceUpdate(true);
@@ -106,7 +108,11 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
       assertThat(result).isEqualTo(Result.FORCED);
     }
 
-    assertError("refs/meta/group-names does not exist");
+    assertConsistency(
+        "refs/meta/group-names does not exist",
+        groupsMigration.readFromNoteDb()
+            ? ConsistencyProblemInfo.Status.ERROR
+            : ConsistencyProblemInfo.Status.WARNING);
   }
 
   @Test
@@ -271,7 +277,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
       }
     }
 
-    fail(String.format("could not find substring '%s' in %s", msg, problems));
+    fail(String.format("could not find %s substring '%s' in %s", want, msg, problems));
   }
 
   private void updateGroupFile(String refname, String filename, String contents) throws Exception {

@@ -47,7 +47,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ChangeAlreadyMergedException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestTimeUtil;
@@ -187,10 +186,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
       PersonIdent expectedAuthor =
           changeNoteUtil.newIdent(
-              accountCache.get(admin.id).getAccount(),
-              c.created,
-              serverIdent.get(),
-              AnonymousCowardNameProvider.DEFAULT);
+              accountCache.get(admin.id).getAccount(), c.created, serverIdent.get());
       assertThat(commit.getAuthorIdent()).isEqualTo(expectedAuthor);
 
       assertThat(commit.getCommitterIdent())

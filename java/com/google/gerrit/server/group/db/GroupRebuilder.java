@@ -35,7 +35,6 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
@@ -75,7 +74,6 @@ public class GroupRebuilder {
 
   @Inject
   GroupRebuilder(
-      @AnonymousCowardName String anonymousCowardName,
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       @GerritServerId String serverId,
       AllUsersName allUsers,
@@ -90,11 +88,11 @@ public class GroupRebuilder {
         // TODO(dborowitz): These probably won't work during init.
         (id, ident) ->
             new PersonIdent(
-                GroupsUpdate.getAccountName(accountCache, anonymousCowardName, id),
+                GroupsUpdate.getAccountName(accountCache, id),
                 GroupsUpdate.getEmailForAuditLog(id, serverId),
                 ident.getWhen(),
                 ident.getTimeZone()),
-        id -> GroupsUpdate.getAccountNameEmail(accountCache, anonymousCowardName, id, serverId),
+        id -> GroupsUpdate.getAccountNameEmail(accountCache, id, serverId),
         uuid -> GroupsUpdate.getGroupName(groupBackend, uuid));
   }
 

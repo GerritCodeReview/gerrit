@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b43431b_36a24a81",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-23T17:32:30Z",
+      "side": 1,
+      "message": "groupReference is keyed by UUID so this can never happen, since the input is set\u003cGroupReference\u003e.",
+      "range": {
+        "startLine": 349,
+        "startChar": 20,
+        "endLine": 349,
+        "endChar": 25
+      },
+      "revId": "2c173b9af8bcb09a56bc24622a9b5439924232f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "785034e4_2e35c3d5",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-23T17:32:30Z",
+      "side": 1,
+      "message": "Can you make this output List\u003cConsistencyProblemInfo\u003e? The caller can then decide whether to log or abort.",
+      "range": {
+        "startLine": 356,
+        "startChar": 11,
+        "endLine": 356,
+        "endChar": 12
+      },
+      "revId": "2c173b9af8bcb09a56bc24622a9b5439924232f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gson.Gson;
@@ -114,7 +113,6 @@ public class ChangeNoteUtil {
 
   private final AccountCache accountCache;
   private final PersonIdent serverIdent;
-  private final String anonymousCowardName;
   private final String serverId;
   private final Gson gson = newGson();
   private final boolean writeJson;
@@ -123,24 +121,18 @@ public class ChangeNoteUtil {
   public ChangeNoteUtil(
       AccountCache accountCache,
       @GerritPersonIdent PersonIdent serverIdent,
-      @AnonymousCowardName String anonymousCowardName,
       @GerritServerId String serverId,
       @GerritServerConfig Config config) {
     this.accountCache = accountCache;
     this.serverIdent = serverIdent;
-    this.anonymousCowardName = anonymousCowardName;
     this.serverId = serverId;
     this.writeJson = config.getBoolean("notedb", "writeJson", false);
   }
 
   @VisibleForTesting
-  public PersonIdent newIdent(
-      Account author, Date when, PersonIdent serverIdent, String anonymousCowardName) {
+  public PersonIdent newIdent(Account author, Date when, PersonIdent serverIdent) {
     return new PersonIdent(
-        author.getName(anonymousCowardName),
-        author.getId().get() + "@" + serverId,
-        when,
-        serverIdent.getTimeZone());
+        author.getName(), author.getId().get() + "@" + serverId, when, serverIdent.getTimeZone());
   }
 
   public boolean getWriteJson() {
@@ -617,8 +609,7 @@ public class ChangeNoteUtil {
   }
 
   private void appendIdent(PrintWriter writer, String header, Account.Id id, Timestamp ts) {
-    PersonIdent ident =
-        newIdent(accountCache.get(id).getAccount(), ts, serverIdent, anonymousCowardName);
+    PersonIdent ident = newIdent(accountCache.get(id).getAccount(), ts, serverIdent);
     StringBuilder name = new StringBuilder();
     PersonIdent.appendSanitized(name, ident.getName());
     name.append(" <");

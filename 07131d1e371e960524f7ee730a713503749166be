@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d93bf283_00eea416",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-11-23T02:06:38Z",
+      "side": 1,
+      "message": "Thanks for doing this, we had this in our backlog for a long time but never did it.",
+      "revId": "07131d1e371e960524f7ee730a713503749166be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1e40d25_2d2af575",
+        "filename": "java/com/google/gerrit/server/git/SystemReaderInstaller.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-11-23T02:06:38Z",
+      "side": 1,
+      "message": "Is this called only once or every time a repo is opened?\n\nI am asking because if it\u0027s called every time a repo is opened, then we could eventually support loading the latest version of jgit.config without having to restart Gerrit.",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 7
+      },
+      "revId": "07131d1e371e960524f7ee730a713503749166be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

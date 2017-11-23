@@ -22,6 +22,30 @@
       "revId": "b2ba5476c1067e3305e38e55d931b0abf822d400",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42838cce_1b348f34",
+        "filename": "java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-23T18:37:10Z",
+      "side": 1,
+      "message": "bikeshed? either way is fine, I think.",
+      "parentUuid": "80286823_1b6d5499",
+      "range": {
+        "startLine": 249,
+        "startChar": 11,
+        "endLine": 249,
+        "endChar": 47
+      },
+      "revId": "b2ba5476c1067e3305e38e55d931b0abf822d400",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

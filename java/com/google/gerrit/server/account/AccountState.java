@@ -37,6 +37,10 @@ import org.apache.commons.codec.DecoderException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Superset of all information related to an Account. This includes external IDs, project watches,
+ * and properties from the account config file. AccountState maps one-to-one to Account.
+ */
 public class AccountState {
   private static final Logger logger = LoggerFactory.getLogger(AccountState.class);
 

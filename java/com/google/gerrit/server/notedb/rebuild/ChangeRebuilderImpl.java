@@ -49,7 +49,6 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.notedb.ChangeBundle;
@@ -125,7 +124,6 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   private final PatchListCache patchListCache;
   private final PersonIdent serverIdent;
   private final ProjectCache projectCache;
-  private final String anonymousCowardName;
   private final String serverId;
   private final long skewMs;
 
@@ -145,7 +143,6 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       PatchListCache patchListCache,
       @GerritPersonIdent PersonIdent serverIdent,
       @Nullable ProjectCache projectCache,
-      @AnonymousCowardName String anonymousCowardName,
       @GerritServerId String serverId) {
     super(schemaFactory);
     this.accountCache = accountCache;
@@ -160,7 +157,6 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     this.patchListCache = patchListCache;
     this.serverIdent = serverIdent;
     this.projectCache = projectCache;
-    this.anonymousCowardName = anonymousCowardName;
     this.serverId = serverId;
     this.skewMs = NoteDbChangeState.getReadOnlySkew(cfg);
   }
@@ -549,7 +545,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       return new PersonIdent(serverIdent, events.getWhen());
     }
     return changeNoteUtil.newIdent(
-        accountCache.get(id).getAccount(), events.getWhen(), serverIdent, anonymousCowardName);
+        accountCache.get(id).getAccount(), events.getWhen(), serverIdent);
   }
 
   private List<HashtagsEvent> getHashtagsEvents(Change change, NoteDbUpdateManager manager)

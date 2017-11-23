@@ -43,7 +43,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public abstract class AbstractChangeUpdate {
   protected final NotesMigration migration;
   protected final ChangeNoteUtil noteUtil;
-  protected final String anonymousCowardName;
   protected final Account.Id accountId;
   protected final Account.Id realAccountId;
   protected final PersonIdent authorIdent;
@@ -64,19 +63,17 @@ public abstract class AbstractChangeUpdate {
       ChangeNotes notes,
       CurrentUser user,
       PersonIdent serverIdent,
-      String anonymousCowardName,
       ChangeNoteUtil noteUtil,
       Date when) {
     this.migration = migration;
     this.noteUtil = noteUtil;
     this.serverIdent = new PersonIdent(serverIdent, when);
-    this.anonymousCowardName = anonymousCowardName;
     this.notes = notes;
     this.change = notes.getChange();
     this.accountId = accountId(user);
     Account.Id realAccountId = accountId(user.getRealUser());
     this.realAccountId = realAccountId != null ? realAccountId : accountId;
-    this.authorIdent = ident(noteUtil, serverIdent, anonymousCowardName, user, when);
+    this.authorIdent = ident(noteUtil, serverIdent, user, when);
     this.when = when;
     this.readOnlySkewMs = NoteDbChangeState.getReadOnlySkew(cfg);
   }
@@ -86,7 +83,6 @@ public abstract class AbstractChangeUpdate {
       NotesMigration migration,
       ChangeNoteUtil noteUtil,
       PersonIdent serverIdent,
-      String anonymousCowardName,
       @Nullable ChangeNotes notes,
       @Nullable Change change,
       Account.Id accountId,
@@ -99,7 +95,6 @@ public abstract class AbstractChangeUpdate {
     this.migration = migration;
     this.noteUtil = noteUtil;
     this.serverIdent = new PersonIdent(serverIdent, when);
-    this.anonymousCowardName = anonymousCowardName;
     this.notes = notes;
     this.change = change != null ? change : notes.getChange();
     this.accountId = accountId;
@@ -122,15 +117,10 @@ public abstract class AbstractChangeUpdate {
   }
 
   private static PersonIdent ident(
-      ChangeNoteUtil noteUtil,
-      PersonIdent serverIdent,
-      String anonymousCowardName,
-      CurrentUser u,
-      Date when) {
+      ChangeNoteUtil noteUtil, PersonIdent serverIdent, CurrentUser u, Date when) {
     checkUserType(u);
     if (u instanceof IdentifiedUser) {
-      return noteUtil.newIdent(
-          u.asIdentifiedUser().getAccount(), when, serverIdent, anonymousCowardName);
+      return noteUtil.newIdent(u.asIdentifiedUser().getAccount(), when, serverIdent);
     } else if (u instanceof InternalUser) {
       return serverIdent;
     }
@@ -185,7 +175,7 @@ public abstract class AbstractChangeUpdate {
   }
 
   protected PersonIdent newIdent(Account author, Date when) {
-    return noteUtil.newIdent(author, when, serverIdent, anonymousCowardName);
+    return noteUtil.newIdent(author, when, serverIdent);
   }
 
   /** Whether no updates have been done. */

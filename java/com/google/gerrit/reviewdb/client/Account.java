@@ -236,15 +236,17 @@ public final class Account {
    *
    * <p>If the account has a full name, it returns only the full name. Otherwise it returns a longer
    * form that includes the email address.
+   *
+   * <p>The return value goes into NoteDb commits and audit logs, so it should not be changed.
    */
-  public String getName(String anonymousCowardName) {
+  public String getName() {
     if (fullName != null) {
       return fullName;
     }
     if (preferredEmail != null) {
       return preferredEmail;
     }
-    return getNameEmail(anonymousCowardName);
+    return "GerritAccount #" + accountId.get();
   }
 
   /**

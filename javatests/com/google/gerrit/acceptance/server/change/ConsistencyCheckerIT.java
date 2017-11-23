@@ -893,10 +893,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     PersonIdent committer = serverIdent.get();
     PersonIdent author =
         noteUtil.newIdent(
-            accountCache.get(admin.getId()).getAccount(),
-            committer.getWhen(),
-            committer,
-            anonymousCowardName);
+            accountCache.get(admin.getId()).getAccount(), committer.getWhen(), committer);
     testRepo
         .branch(RefNames.changeMetaRef(id))
         .commit()

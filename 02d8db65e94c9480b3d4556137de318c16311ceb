@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "12ae7500_f05300e2",
+        "filename": "java/com/google/gerrit/server/group/db/GroupBundle.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-23T13:12:25Z",
+      "side": 1,
+      "message": "We absolutely should have the same behavior as for equals(), which is throwing an UnsupportedOperationException, in order to not break the general contract for equals()/hashcode().",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 368,
+        "endChar": 41
+      },
+      "revId": "02d8db65e94c9480b3d4556137de318c16311ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f05ab115_16fe840f",
         "filename": "java/com/google/gerrit/server/group/db/GroupBundle.java",
         "patchSetId": 3

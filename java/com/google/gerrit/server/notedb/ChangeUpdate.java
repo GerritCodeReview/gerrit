@@ -62,7 +62,6 @@ import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.ProjectCache;
@@ -168,7 +167,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private ChangeUpdate(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      @AnonymousCowardName String anonymousCowardName,
       NotesMigration migration,
       AccountCache accountCache,
       NoteDbUpdateManager.Factory updateManagerFactory,
@@ -182,7 +180,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this(
         cfg,
         serverIdent,
-        anonymousCowardName,
         migration,
         accountCache,
         updateManagerFactory,
@@ -200,7 +197,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private ChangeUpdate(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      @AnonymousCowardName String anonymousCowardName,
       NotesMigration migration,
       AccountCache accountCache,
       NoteDbUpdateManager.Factory updateManagerFactory,
@@ -215,7 +211,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this(
         cfg,
         serverIdent,
-        anonymousCowardName,
         migration,
         accountCache,
         updateManagerFactory,
@@ -238,7 +233,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private ChangeUpdate(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      @AnonymousCowardName String anonymousCowardName,
       NotesMigration migration,
       AccountCache accountCache,
       NoteDbUpdateManager.Factory updateManagerFactory,
@@ -250,7 +244,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
       ChangeNoteUtil noteUtil) {
-    super(cfg, migration, notes, user, serverIdent, anonymousCowardName, noteUtil, when);
+    super(cfg, migration, notes, user, serverIdent, noteUtil, when);
     this.accountCache = accountCache;
     this.updateManagerFactory = updateManagerFactory;
     this.draftUpdateFactory = draftUpdateFactory;
@@ -263,7 +257,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private ChangeUpdate(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      @AnonymousCowardName String anonymousCowardName,
       NotesMigration migration,
       AccountCache accountCache,
       NoteDbUpdateManager.Factory updateManagerFactory,
@@ -282,7 +275,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         migration,
         noteUtil,
         serverIdent,
-        anonymousCowardName,
         null,
         change,
         accountId,

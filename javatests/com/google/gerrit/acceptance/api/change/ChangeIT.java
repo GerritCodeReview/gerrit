@@ -130,7 +130,6 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PostReview;
-import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -2406,8 +2405,7 @@ public class ChangeIT extends AbstractDaemonTest {
       assertThat(commitPatchSetCreation.getShortMessage()).isEqualTo("Create patch set 2");
       PersonIdent expectedAuthor =
           changeNoteUtil.newIdent(
-              accountCache.get(admin.id).getAccount(), c.updated,
-              serverIdent.get(), AnonymousCowardNameProvider.DEFAULT);
+              accountCache.get(admin.id).getAccount(), c.updated, serverIdent.get());
       assertThat(commitPatchSetCreation.getAuthorIdent()).isEqualTo(expectedAuthor);
       assertThat(commitPatchSetCreation.getCommitterIdent())
           .isEqualTo(new PersonIdent(serverIdent.get(), c.updated));
@@ -2417,10 +2415,7 @@ public class ChangeIT extends AbstractDaemonTest {
       assertThat(commitChangeCreation.getShortMessage()).isEqualTo("Create change");
       expectedAuthor =
           changeNoteUtil.newIdent(
-              accountCache.get(admin.id).getAccount(),
-              c.created,
-              serverIdent.get(),
-              AnonymousCowardNameProvider.DEFAULT);
+              accountCache.get(admin.id).getAccount(), c.created, serverIdent.get());
       assertThat(commitChangeCreation.getAuthorIdent()).isEqualTo(expectedAuthor);
       assertThat(commitChangeCreation.getCommitterIdent())
           .isEqualTo(new PersonIdent(serverIdent.get(), c.created));

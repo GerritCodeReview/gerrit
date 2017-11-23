@@ -189,6 +189,12 @@ public final class Account {
    */
   private String metaId;
 
+  /**
+   * The placeholder name for a user who did not set their name. This goes into NoteDb commits and
+   * audit logs, so it should not be changed.
+   */
+  private static final String ANONYMOUS_FORMAT = "GerritAccount #%d";
+
   protected Account() {}
 
   /**
@@ -237,14 +243,14 @@ public final class Account {
    * <p>If the account has a full name, it returns only the full name. Otherwise it returns a longer
    * form that includes the email address.
    */
-  public String getName(String anonymousCowardName) {
+  public String getName() {
     if (fullName != null) {
       return fullName;
     }
     if (preferredEmail != null) {
       return preferredEmail;
     }
-    return getNameEmail(anonymousCowardName);
+    return String.format(ANONYMOUS_FORMAT, accountId.get());
   }
 
   /**

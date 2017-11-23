@@ -72,6 +72,7 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.PredicateParser;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -96,7 +97,8 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 /** Parses a query string meant to be applied to change objects. */
-public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
+public class ChangeQueryBuilder extends QueryBuilder<ChangeData>
+    implements PredicateParser<ChangeData> {
   public interface ChangeOperatorFactory extends OperatorFactory<ChangeData, ChangeQueryBuilder> {}
 
   /**
@@ -437,7 +439,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return args;
   }
 
-  public ChangeQueryBuilder asUser(CurrentUser user) {
+  @Override
+  public PredicateParser<ChangeData> asUser(CurrentUser user) {
     return new ChangeQueryBuilder(builderDef, args.asUser(user));
   }
 

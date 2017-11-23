@@ -35,6 +35,7 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.PredicateParser;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -67,7 +68,7 @@ public class EmailArguments {
   final List<String> sshAddresses;
   final SitePaths site;
 
-  final ChangeQueryBuilder queryBuilder;
+  final PredicateParser<ChangeData> queryBuilder;
   final Provider<ReviewDb> db;
   final ChangeData.Factory changeDataFactory;
   final SoyTofu soyTofu;

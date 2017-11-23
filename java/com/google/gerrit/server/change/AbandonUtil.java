@@ -20,6 +20,7 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.config.ChangeCleanupConfig;
+import com.google.gerrit.server.query.PredicateParser;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
@@ -41,7 +42,7 @@ public class AbandonUtil {
 
   private final ChangeCleanupConfig cfg;
   private final Provider<ChangeQueryProcessor> queryProvider;
-  private final ChangeQueryBuilder queryBuilder;
+  private final PredicateParser<ChangeData> queryBuilder;
   private final Abandon abandon;
   private final InternalUser internalUser;
 

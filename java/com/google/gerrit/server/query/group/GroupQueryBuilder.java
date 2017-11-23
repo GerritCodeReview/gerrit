@@ -35,6 +35,7 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
+import com.google.gerrit.server.query.PredicateParser;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -44,7 +45,8 @@ import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /** Parses a query string meant to be applied to group objects. */
-public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
+public class GroupQueryBuilder extends QueryBuilder<InternalGroup>
+    implements PredicateParser<InternalGroup> {
   public static final String FIELD_UUID = "uuid";
   public static final String FIELD_DESCRIPTION = "description";
   public static final String FIELD_INNAME = "inname";

@@ -22,16 +22,24 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ProjectData;
+import com.google.gerrit.server.query.PredicateParser;
 import com.google.inject.Inject;
 import java.util.List;
 
 /** Parses a query string meant to be applied to project objects. */
-public class ProjectQueryBuilder extends QueryBuilder<ProjectData> {
+public class ProjectQueryBuilder extends QueryBuilder<ProjectData>
+    implements PredicateParser<ProjectData> {
   public static final String FIELD_LIMIT = "limit";
 
   private static final QueryBuilder.Definition<ProjectData, ProjectQueryBuilder> mydef =
       new QueryBuilder.Definition<>(ProjectQueryBuilder.class);
+
+  @Override
+  public PredicateParser<ProjectData> asUser(CurrentUser user) {
+    throw new UnsupportedOperationException();
+  }
 
   @Inject
   ProjectQueryBuilder() {

@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6a1aa01_27b3e724",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-23T16:09:46Z",
+      "side": 1,
+      "message": "I guess this is WIP? You\u0027re not adjusting the callers.",
+      "range": {
+        "startLine": 94,
+        "startChar": 51,
+        "endLine": 94,
+        "endChar": 61
+      },
+      "revId": "04baaca1e756199177a604c2472885f37c101f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d21e0f3_0bd0186a",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-23T16:09:46Z",
+      "side": 1,
+      "message": "javadoc - does this only log or throw an exception?",
+      "range": {
+        "startLine": 251,
+        "startChar": 15,
+        "endLine": 251,
+        "endChar": 49
+      },
+      "revId": "04baaca1e756199177a604c2472885f37c101f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b581b59a_2441aad9",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-23T16:09:46Z",
+      "side": 1,
+      "message": "return ; ?",
+      "range": {
+        "startLine": 255,
+        "startChar": 68,
+        "endLine": 255,
+        "endChar": 0
+      },
+      "revId": "04baaca1e756199177a604c2472885f37c101f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bf5de0e_4b424e72",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-23T16:09:46Z",
+      "side": 1,
+      "message": "move to use. Can you use only NameKey or only String, so it\u0027s clear we\u0027re not mixing them up?",
+      "range": {
+        "startLine": 258,
+        "startChar": 34,
+        "endLine": 258,
+        "endChar": 41
+      },
+      "revId": "04baaca1e756199177a604c2472885f37c101f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea856e64_2706e33c",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-23T16:09:46Z",
+      "side": 1,
+      "message": "move to use",
+      "range": {
+        "startLine": 259,
+        "startChar": 24,
+        "endLine": 259,
+        "endChar": 28
+      },
+      "revId": "04baaca1e756199177a604c2472885f37c101f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

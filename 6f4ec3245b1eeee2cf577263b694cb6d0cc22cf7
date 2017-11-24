@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1511520149 +0100\nnonce AMT3iFg8ZTUZ/BDxQ87se5EsLObhTcxKpU/Xeu875PCKp3DzKofBUHnZMeUf3BUeZAJh2PQpWFZi\n\n0000000000000000000000000000000000000000 6f4ec3245b1eeee2cf577263b694cb6d0cc22cf7 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaF/eVAAoJEFG1/Zeg0O9RygUIAJZ9r6Va3R0wg0xuADLUA7L7\nB8vfaB7lPAj42cyOswlP+Lf8RdYb1dt8rNxbWiWFYlYNBhZvVENDFf9RWY0sDU0j\nniOp14WfuwXm0CUXkaKiweVxALVDWGvUBUgBCObjOF/wLt6C8NX2F4YQHIm0GmiG\na0h35u1Mysp1nEa/8s26xxCZnZkgJzg/vjj2TwRNsIOh+6AdLEz2kw+VY5xqvnap\nwEguJ+HrnqLc/Rj89jitkGy0UQE3Fb8SDnMgEPmL794RXAZA1E9Nv0j9kPXP7SSx\nV57ur4lKL8kLl4MDPySbWnWDnUJPZPJBbjV9kV2jL9798YzZxHvdj0QUcjwdK6Q\u003d\n\u003dr0Ka\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "18a43558_c209b7a6",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-24T13:38:40Z",
+      "side": 1,
+      "message": "nit: Please add a JavaDoc",
+      "revId": "6f4ec3245b1eeee2cf577263b694cb6d0cc22cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c601548_09c7d464",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-24T13:38:40Z",
+      "side": 1,
+      "message": "This isn\u0027t inside a @Test directly, should we rather use checkArgument() ?",
+      "range": {
+        "startLine": 189,
+        "startChar": 14,
+        "endLine": 189,
+        "endChar": 24
+      },
+      "revId": "6f4ec3245b1eeee2cf577263b694cb6d0cc22cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee25cd34_73603451",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-24T13:38:40Z",
+      "side": 1,
+      "message": "optional: Create a method \u0027createFailOnLoadContext()\u0027 in externalIdReader returning an inlined auto-closeable:\n\npublic AutoCloseable createFailOnLoadContext() {\n   [set fail on load]\n   return new AutoCloseable() {\n      @Override\n      public void close() { [cleanup]}\n   }\n}\n\n\n\nand just do\n\ntry (AutoCloseable ctx \u003d externalIdReader.createFailOnLoadContext()) {\n.....\n}",
+      "range": {
+        "startLine": 820,
+        "startChar": 4,
+        "endLine": 820,
+        "endChar": 9
+      },
+      "revId": "6f4ec3245b1eeee2cf577263b694cb6d0cc22cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

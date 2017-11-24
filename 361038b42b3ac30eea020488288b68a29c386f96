@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "cb203761_6b7ce92a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-24T14:12:22Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "baef900b_a8ccc497",
+      "range": {
+        "startLine": 24,
+        "startChar": 38,
+        "endLine": 26,
+        "endChar": 18
+      },
+      "revId": "361038b42b3ac30eea020488288b68a29c386f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "698b98db_9e8b40ca",
         "filename": "java/com/google/gerrit/server/group/db/GroupBundle.java",
         "patchSetId": 3

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4662cc49_a9f330b3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-24T16:26:43Z",
+      "side": 1,
+      "message": "Doesn\u0027t this lead to en email with 2 times \u0027@\u0027?",
+      "range": {
+        "startLine": 236,
+        "startChar": 45,
+        "endLine": 236,
+        "endChar": 60
+      },
+      "revId": "a296304aee1042abb70b5b2c74a9e8038566f7e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

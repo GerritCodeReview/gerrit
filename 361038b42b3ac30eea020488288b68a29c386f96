@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "baef900b_a8ccc497",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-24T14:09:47Z",
+      "side": 1,
+      "message": "Well, we can\u0027t always say that the first attempt has completely failed. On our test host, I witnessed a situation where the first attempt only failed for one replicated instance but not for the others. So effectively, we can\u0027t really be sure which of the entries is the correct one.\n\nIf we really wanted to always pick the latest of the redundant entries, we would have to add a lot more complicated code to GroupsBundle/GroupsRebuilder and also test it. At the moment, we get the clean-up for free.\n\nUntil recently, we didn\u0027t even know about those redundant entries. So apparently, users didn\u0027t complain about not being able to find out when an addition happened in the presence of redundant audit entries (which are arguably very rare). Therefore, I don\u0027t think that anybody cares which of them we choose now.\n\nConsidering all arguments, I don\u0027t think that it\u0027s worth to explicitly pick one of the redundant entries for NoteDb.",
+      "parentUuid": "d3acc74f_b5da4a18",
+      "range": {
+        "startLine": 24,
+        "startChar": 38,
+        "endLine": 26,
+        "endChar": 18
+      },
+      "revId": "361038b42b3ac30eea020488288b68a29c386f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "698b98db_9e8b40ca",
         "filename": "java/com/google/gerrit/server/group/db/GroupBundle.java",
         "patchSetId": 3

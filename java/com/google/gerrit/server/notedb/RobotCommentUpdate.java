@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
@@ -77,7 +76,6 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
   private RobotCommentUpdate(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      @AnonymousCowardName String anonymousCowardName,
       NotesMigration migration,
       ChangeNoteUtil noteUtil,
       @Assisted ChangeNotes notes,
@@ -90,7 +88,6 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
         migration,
         noteUtil,
         serverIdent,
-        anonymousCowardName,
         notes,
         null,
         accountId,
@@ -103,7 +100,6 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
   private RobotCommentUpdate(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
-      @AnonymousCowardName String anonymousCowardName,
       NotesMigration migration,
       ChangeNoteUtil noteUtil,
       @Assisted Change change,
@@ -116,7 +112,6 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
         migration,
         noteUtil,
         serverIdent,
-        anonymousCowardName,
         null,
         change,
         accountId,

@@ -234,17 +234,23 @@ public final class Account {
   /**
    * Formats an account name.
    *
-   * <p>If the account has a full name, it returns only the full name. Otherwise it returns a longer
-   * form that includes the email address.
+   * <p>The return value goes into NoteDb commits and audit logs, so it should not be changed.
+   *
+   * <p>This method deliberately does not use {@code Anonymous Coward} because it can be changed
+   * using a {@code gerrit.config} option which is a problem for NoteDb commits that still refer to
+   * a previously defined value.
+   *
+   * @return the fullname, if present, otherwise the preferred email, if present, as a last resort a
+   *     generic string containing the accountId.
    */
-  public String getName(String anonymousCowardName) {
+  public String getName() {
     if (fullName != null) {
       return fullName;
     }
     if (preferredEmail != null) {
       return preferredEmail;
     }
-    return getNameEmail(anonymousCowardName);
+    return "GerritAccount #" + accountId.get();
   }
 
   /**
@@ -267,7 +273,7 @@ public final class Account {
       b.append(" <");
       b.append(preferredEmail);
       b.append(">");
-    } else if (accountId != null) {
+    } else {
       b.append(" (");
       b.append(accountId.get());
       b.append(")");

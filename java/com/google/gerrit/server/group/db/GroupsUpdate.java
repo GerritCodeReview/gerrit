@@ -43,7 +43,6 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.audit.AuditService;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -103,7 +102,6 @@ public class GroupsUpdate {
   private final GroupIncludeCache groupIncludeCache;
   private final AuditService auditService;
   private final AccountCache accountCache;
-  private final String anonymousCowardName;
   private final RenameGroupOp.Factory renameGroupOpFactory;
   private final String serverId;
   @Nullable private final IdentifiedUser currentUser;
@@ -122,7 +120,6 @@ public class GroupsUpdate {
       GroupIncludeCache groupIncludeCache,
       AuditService auditService,
       AccountCache accountCache,
-      @AnonymousCowardName String anonymousCowardName,
       RenameGroupOp.Factory renameGroupOpFactory,
       @GerritServerId String serverId,
       @GerritPersonIdent PersonIdent serverIdent,
@@ -138,15 +135,13 @@ public class GroupsUpdate {
     this.groupIncludeCache = groupIncludeCache;
     this.auditService = auditService;
     this.accountCache = accountCache;
-    this.anonymousCowardName = anonymousCowardName;
     this.renameGroupOpFactory = renameGroupOpFactory;
     this.serverId = serverId;
     this.groupsMigration = groupsMigration;
     this.gitRefUpdated = gitRefUpdated;
     this.currentUser = currentUser;
     metaDataUpdateFactory =
-        getMetaDataUpdateFactory(
-            metaDataUpdateInternalFactory, currentUser, serverIdent, serverId, anonymousCowardName);
+        getMetaDataUpdateFactory(metaDataUpdateInternalFactory, currentUser, serverIdent, serverId);
     authorIdent = getAuthorIdent(serverIdent, currentUser);
     reviewDbUpdatesAreBlocked = config.getBoolean("user", null, "blockReviewDbGroupUpdates", false);
   }
@@ -155,8 +150,7 @@ public class GroupsUpdate {
       MetaDataUpdate.InternalFactory metaDataUpdateInternalFactory,
       @Nullable IdentifiedUser currentUser,
       PersonIdent serverIdent,
-      String serverId,
-      String anonymousCowardName) {
+      String serverId) {
     return (projectName, repository, batchRefUpdate) -> {
       MetaDataUpdate metaDataUpdate =
           metaDataUpdateInternalFactory.create(projectName, repository, batchRefUpdate);
@@ -164,9 +158,7 @@ public class GroupsUpdate {
       PersonIdent authorIdent;
       if (currentUser != null) {
         metaDataUpdate.setAuthor(currentUser);
-        authorIdent =
-            getAuditLogAuthorIdent(
-                currentUser.getAccount(), serverIdent, serverId, anonymousCowardName);
+        authorIdent = getAuditLogAuthorIdent(currentUser.getAccount(), serverIdent, serverId);
       } else {
         authorIdent = serverIdent;
       }
@@ -176,9 +168,9 @@ public class GroupsUpdate {
   }
 
   private static PersonIdent getAuditLogAuthorIdent(
-      Account author, PersonIdent serverIdent, String serverId, String anonymousCowardName) {
+      Account author, PersonIdent serverIdent, String serverId) {
     return new PersonIdent(
-        author.getName(anonymousCowardName),
+        author.getName(),
         getEmailForAuditLog(author.getId(), serverId),
         serverIdent.getWhen(),
         serverIdent.getTimeZone());
@@ -532,21 +524,19 @@ public class GroupsUpdate {
     return resultBuilder.build();
   }
 
-  static String getAccountName(
-      AccountCache accountCache, String anonymousCowardName, Account.Id accountId) {
+  static String getAccountName(AccountCache accountCache, Account.Id accountId) {
     AccountState accountState = accountCache.getOrNull(accountId);
     return Optional.ofNullable(accountState)
         .map(AccountState::getAccount)
-        .map(account -> account.getName(anonymousCowardName))
-        .orElse(anonymousCowardName);
+        .map(account -> account.getName())
+        // Historically, the database did not enforce relational integrity, so it is
+        // possible for groups to have non-existing members.
+        .orElse("No Account for Id #" + accountId);
   }
 
   static String getAccountNameEmail(
-      AccountCache accountCache,
-      String anonymousCowardName,
-      Account.Id accountId,
-      String serverId) {
-    String accountName = getAccountName(accountCache, anonymousCowardName, accountId);
+      AccountCache accountCache, Account.Id accountId, String serverId) {
+    String accountName = getAccountName(accountCache, accountId);
     return formatNameEmail(accountName, getEmailForAuditLog(accountId, serverId));
   }
 
@@ -555,7 +545,7 @@ public class GroupsUpdate {
   }
 
   private String getAccountNameEmail(Account.Id accountId) {
-    return getAccountNameEmail(accountCache, anonymousCowardName, accountId, serverId);
+    return getAccountNameEmail(accountCache, accountId, serverId);
   }
 
   static String getGroupName(GroupBackend groupBackend, AccountGroup.UUID groupUuid) {

@@ -79,13 +79,15 @@ public class GroupBundleTest extends GerritBaseTests {
                 + "ReviewDb: [AccountGroupMember{key=1000,1}]\n"
                 + "NoteDb  : []",
             "AccountGroupMemberAudits differ\n"
-                + "ReviewDb: [AccountGroupMemberAudit{key=1000,1, addedBy=2000, removedBy=null, removedOn=null}]\n"
+                + ("ReviewDb: [AccountGroupMemberAudit{key=1000,1, addedBy=2000, removedBy=null,"
+                    + " removedOn=null}]\n")
                 + "NoteDb  : []",
             "AccountGroupByIds differ\n"
                 + "ReviewDb: [AccountGroupById{key=1,subgroup}]\n"
                 + "NoteDb  : []",
             "AccountGroupByIdAudits differ\n"
-                + "ReviewDb: [AccountGroupByIdAud{key=1,subgroup, addedBy=3000, removedBy=null, removedOn=null}]\n"
+                + ("ReviewDb: [AccountGroupByIdAud{key=1,subgroup, addedBy=3000, removedBy=null,"
+                    + " removedOn=null}]\n")
                 + "NoteDb  : []");
   }
 

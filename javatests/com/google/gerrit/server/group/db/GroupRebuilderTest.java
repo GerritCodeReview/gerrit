@@ -409,6 +409,78 @@ public class GroupRebuilderTest extends AbstractGroupTest {
   }
 
   @Test
+  public void redundantMemberAuditsAreIgnored() throws Exception {
+    AccountGroup g = newGroup("a");
+    Timestamp t1 = TimeUtil.nowTs();
+    Timestamp t2 = TimeUtil.nowTs();
+    Timestamp t3 = TimeUtil.nowTs();
+    Timestamp t4 = TimeUtil.nowTs();
+    Timestamp t5 = TimeUtil.nowTs();
+    GroupBundle b =
+        builder()
+            .group(g)
+            .members(member(g, 2))
+            .memberAudit(
+                addMember(g, 1, 8, t1),
+                addMember(g, 1, 8, t1),
+                addMember(g, 1, 8, t3),
+                addMember(g, 1, 9, t4),
+                addAndRemoveMember(g, 1, 8, t2, 9, t5),
+                addAndLegacyRemoveMember(g, 2, 9, t3),
+                addMember(g, 2, 8, t1),
+                addMember(g, 2, 9, t4),
+                addMember(g, 1, 8, t5))
+            .build();
+
+    rebuilder.rebuild(repo, b, null);
+
+    assertMigratedCleanly(reload(g), b);
+    ImmutableList<CommitInfo> log = log(g);
+    assertThat(log).hasSize(5);
+    assertServerCommit(log.get(0), "Create group");
+    assertCommit(
+        log.get(1),
+        "Update group\n\nAdd: Account 1 <1@server-id>\nAdd: Account 2 <2@server-id>",
+        "Account 8",
+        "8@server-id");
+    assertCommit(
+        log.get(2), "Update group\n\nRemove: Account 2 <2@server-id>", "Account 9", "9@server-id");
+    assertCommit(
+        log.get(3), "Update group\n\nAdd: Account 2 <2@server-id>", "Account 9", "9@server-id");
+    assertCommit(
+        log.get(4), "Update group\n\nRemove: Account 1 <1@server-id>", "Account 9", "9@server-id");
+  }
+
+  @Test
+  public void redundantByIdAuditsAreIgnored() throws Exception {
+    AccountGroup g = newGroup("a");
+    Timestamp t1 = TimeUtil.nowTs();
+    Timestamp t2 = TimeUtil.nowTs();
+    Timestamp t3 = TimeUtil.nowTs();
+    Timestamp t4 = TimeUtil.nowTs();
+    Timestamp t5 = TimeUtil.nowTs();
+    GroupBundle b =
+        builder()
+            .group(g)
+            .byId()
+            .byIdAudit(
+                addById(g, "x", 8, t1),
+                addById(g, "x", 8, t3),
+                addById(g, "x", 9, t4),
+                addAndRemoveById(g, "x", 8, t2, 9, t5))
+            .build();
+
+    rebuilder.rebuild(repo, b, null);
+
+    assertMigratedCleanly(reload(g), b);
+    ImmutableList<CommitInfo> log = log(g);
+    assertThat(log).hasSize(3);
+    assertServerCommit(log.get(0), "Create group");
+    assertCommit(log.get(1), "Update group\n\nAdd-group: Group <x>", "Account 8", "8@server-id");
+    assertCommit(log.get(2), "Update group\n\nRemove-group: Group <x>", "Account 9", "9@server-id");
+  }
+
+  @Test
   public void combineWithBatchGroupNameNotes() throws Exception {
     AccountGroup g1 = newGroup("a");
     AccountGroup g2 = newGroup("b");

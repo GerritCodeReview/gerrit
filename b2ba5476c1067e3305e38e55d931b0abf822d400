@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "405d7680_ae1ac680",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-24T10:34:14Z",
+      "side": 1,
+      "message": "This commit message should explicitly mention that NoteDb commits of changes are also affected and that the format changes for existing changes.",
+      "range": {
+        "startLine": 9,
+        "startChar": 49,
+        "endLine": 10,
+        "endChar": 14
+      },
+      "revId": "b2ba5476c1067e3305e38e55d931b0abf822d400",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f958b55f_12e13595",
+        "filename": "java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-24T10:34:14Z",
+      "side": 1,
+      "message": "This implies that the email address is the last resort, which it is not.\n\nIn general, I think that this Javadoc description should explicitly mention that anonymousCowardName isn\u0027t used and why. One might guess but I would rather have it spelled out to avoid confusion.",
+      "range": {
+        "startLine": 237,
+        "startChar": 71,
+        "endLine": 238,
+        "endChar": 42
+      },
+      "revId": "b2ba5476c1067e3305e38e55d931b0abf822d400",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "80286823_1b6d5499",
         "filename": "java/com/google/gerrit/reviewdb/client/Account.java",
         "patchSetId": 6
@@ -46,6 +92,29 @@
       "revId": "b2ba5476c1067e3305e38e55d931b0abf822d400",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37bbf320_a3ccbdfc",
+        "filename": "java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-24T10:34:14Z",
+      "side": 1,
+      "message": "optional: Can accountId ever be null? The database definition doesn\u0027t seem to allow null entries for the ID. (Why I\u0027m commenting this even though it might seem unrelated: It\u0027s strange if we have a method getName() which simply uses accountId and a method getNameEmail() which explicitly checks for null.)",
+      "range": {
+        "startLine": 272,
+        "startChar": 11,
+        "endLine": 272,
+        "endChar": 33
+      },
+      "revId": "b2ba5476c1067e3305e38e55d931b0abf822d400",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

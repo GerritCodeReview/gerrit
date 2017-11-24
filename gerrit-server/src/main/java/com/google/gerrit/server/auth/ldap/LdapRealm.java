@@ -235,13 +235,8 @@ class LdapRealm extends AbstractRealm {
         final Helper.LdapSchema schema = helper.getSchema(ctx);
         LdapQuery.Result m;
         who.setAuthProvidesAccountActiveStatus(true);
-        try {
-          m = helper.findAccount(schema, ctx, username, fetchMemberOfEagerly);
-          who.setActive(true);
-        } catch (NoSuchUserException e) {
-          who.setActive(false);
-          return who;
-        }
+        m = helper.findAccount(schema, ctx, username, fetchMemberOfEagerly);
+        who.setActive(true);
 
         if (authConfig.getAuthType() == AuthType.LDAP && !who.isSkipAuthentication()) {
           // We found the user account, but we need to verify

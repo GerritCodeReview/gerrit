@@ -25,11 +25,9 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.notedb.GroupsMigration;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -43,7 +41,6 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Ref;
@@ -67,8 +64,7 @@ public class GroupsConsistencyChecker {
       GroupBackend groupBackend,
       AllUsersName allUsersName,
       GitRepositoryManager repositoryManager,
-      GroupsMigration groupsMigration,
-      @GerritServerConfig Config config) {
+      GroupsMigration groupsMigration) {
     this.accounts = accounts;
     this.groupBackend = groupBackend;
     this.allUsersName = allUsersName;
@@ -77,7 +73,7 @@ public class GroupsConsistencyChecker {
   }
 
   /** Checks that all internal group references exist, and that no groups have cycles. */
-  public List<ConsistencyProblemInfo> check() throws OrmException, IOException {
+  public List<ConsistencyProblemInfo> check() throws IOException {
     if (!groupsMigration.writeToNoteDb()) {
       return new ArrayList<>();
     }
@@ -87,7 +83,7 @@ public class GroupsConsistencyChecker {
     }
   }
 
-  public List<ConsistencyProblemInfo> check(Repository repo) throws OrmException, IOException {
+  public List<ConsistencyProblemInfo> check(Repository repo) throws IOException {
     // Get all refs in an attempt to avoid seeing half committed group updates.
     Map<String, Ref> refs = repo.getAllRefs();
 

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "7a7640dc_eb7d0a6b",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-24T14:05:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18a43558_c209b7a6",
+      "revId": "6f4ec3245b1eeee2cf577263b694cb6d0cc22cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c601548_09c7d464",
         "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
         "patchSetId": 4
@@ -43,6 +61,30 @@
     },
     {
       "key": {
+        "uuid": "ee6ac909_b5fd1ee3",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-24T14:05:23Z",
+      "side": 1,
+      "message": "Done.\n\nUsed checkState, since we are not checking an argument that was passed into this method.",
+      "parentUuid": "2c601548_09c7d464",
+      "range": {
+        "startLine": 189,
+        "startChar": 14,
+        "endLine": 189,
+        "endChar": 24
+      },
+      "revId": "6f4ec3245b1eeee2cf577263b694cb6d0cc22cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee25cd34_73603451",
         "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
         "patchSetId": 4
@@ -63,6 +105,30 @@
       "revId": "6f4ec3245b1eeee2cf577263b694cb6d0cc22cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa7e1b96_6f852952",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-24T14:05:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee25cd34_73603451",
+      "range": {
+        "startLine": 820,
+        "startChar": 4,
+        "endLine": 820,
+        "endChar": 9
+      },
+      "revId": "6f4ec3245b1eeee2cf577263b694cb6d0cc22cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fa126dc_ce1f5f87",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-24T11:56:29Z",
+      "side": 1,
+      "message": "The code is a bit confusing in that regard. I would have expected an instance of GroupsMigration to be present within this class. If groups aren\u0027t written to NoteDb, check() should simply return an empty list. Right now, the method check() has exactly that behavior but that is not clear from looking just at this class. Can we have the check, which we currently have in GroupsNoteDbConsistencyChecker#check, in this classe\u0027s check() method instead?",
+      "range": {
+        "startLine": 41,
+        "startChar": 87,
+        "endLine": 42,
+        "endChar": 28
+      },
+      "revId": "9315573ce88d6fe3ea1dcb3d9ae1ef17a915c638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51ed3a02_8d1596fb",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-24T11:56:29Z",
+      "side": 1,
+      "message": "That isn\u0027t a good state. We should rather return an empty map. If we pick up the second one of my suggestions below, we could also just throw an exception.",
+      "range": {
+        "startLine": 57,
+        "startChar": 12,
+        "endLine": 57,
+        "endChar": 56
+      },
+      "revId": "9315573ce88d6fe3ea1dcb3d9ae1ef17a915c638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8004eca0_bb7a6387",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-24T11:56:29Z",
+      "side": 1,
+      "message": "We definitely shouldn\u0027t have this as an output argument for a public method. That\u0027s too confusing and also opens up possibilities for bugs.\n\nI\u0027ve got two different suggestions to fix this:\n- Introduce a container class for the return value which holds both the list of problems and the read UUIDs.\n- Transform this class from a singleton into an object with internal state. We don\u0027t really need this class to be a singleton. Checking whether NoteDb is enabled doesn\u0027t seem necessary to me within this class as the name of the class suggests that it is only for NoteDb. If some other code uses this class without checking for the state of the migration, it\u0027s a programmer error (similarly as if that code was using e.g. GroupConfig directly). Thus, the UUIDs could simply be a field on the object and accessed via a getter.",
+      "range": {
+        "startLine": 61,
+        "startChar": 46,
+        "endLine": 61,
+        "endChar": 67
+      },
+      "revId": "9315573ce88d6fe3ea1dcb3d9ae1ef17a915c638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -150,6 +150,11 @@ public class AccountIT extends AbstractDaemonTest {
   public static Config enableSignedPushConfig() {
     Config cfg = new Config();
     cfg.setBoolean("receive", null, "enableSignedPush", true);
+
+    // Disable the staleness checker so that tests that verify the number of expected index events
+    // are stable.
+    cfg.setBoolean("index", null, "autoReindexIfStale", false);
+
     return cfg;
   }
 

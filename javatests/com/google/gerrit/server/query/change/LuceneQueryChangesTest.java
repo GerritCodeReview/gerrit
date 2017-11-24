@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
+import com.google.gerrit.server.query.IndexConfig;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.InMemoryRepositoryManager.Repo;
@@ -31,6 +32,11 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    return IndexConfig.createForLucene();
+  }
+
   @ConfigSuite.Configs
   public static Map<String, Config> againstPreviousIndexVersion() {
     // the current schema version is already tested by the inherited default config suite

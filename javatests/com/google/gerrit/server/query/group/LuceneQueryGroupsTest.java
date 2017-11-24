@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.group;
 
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
+import com.google.gerrit.server.query.IndexConfig;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.IndexVersions;
@@ -25,6 +26,11 @@ import java.util.Map;
 import org.eclipse.jgit.lib.Config;
 
 public class LuceneQueryGroupsTest extends AbstractQueryGroupsTest {
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    return IndexConfig.createForLucene();
+  }
+
   @ConfigSuite.Configs
   public static Map<String, Config> againstPreviousIndexVersion() {
     // the current schema version is already tested by the inherited default config suite

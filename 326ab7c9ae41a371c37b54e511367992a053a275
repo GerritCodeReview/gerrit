@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf2b8bfc_13a552d7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-24T15:55:00Z",
+      "side": 1,
+      "message": "It is better to use:\n\n name(\"user\")\n\nhere and name(\"user\") + @example.com for the email because it guarantees a unique name based on the test method.",
+      "range": {
+        "startLine": 190,
+        "startChar": 31,
+        "endLine": 190,
+        "endChar": 44
+      },
+      "revId": "326ab7c9ae41a371c37b54e511367992a053a275",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

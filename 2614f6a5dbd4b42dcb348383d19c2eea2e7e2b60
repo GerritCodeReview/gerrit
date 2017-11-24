@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95748bd2_40574605",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-24T08:17:51Z",
+      "side": 1,
+      "message": "nit: missing spaces\n\nIIRC we usually use \u0027and\u0027 rather than the symbol in JavaDocs.",
+      "range": {
+        "startLine": 369,
+        "startChar": 24,
+        "endLine": 369,
+        "endChar": 25
+      },
+      "revId": "2614f6a5dbd4b42dcb348383d19c2eea2e7e2b60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26c8bcd4_c0f11a3d",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-24T08:17:51Z",
+      "side": 1,
+      "message": "checkGroupNameInvariant?\n\nHan-Wen implemented a similar check and we should try to keep the naming consistent.",
+      "range": {
+        "startLine": 370,
+        "startChar": 21,
+        "endLine": 370,
+        "endChar": 44
+      },
+      "revId": "2614f6a5dbd4b42dcb348383d19c2eea2e7e2b60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

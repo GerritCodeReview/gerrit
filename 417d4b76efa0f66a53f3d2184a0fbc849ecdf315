@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "a776f1f2_c3390252",
+        "filename": "java/com/google/gerrit/acceptance/ProjectConfigResetter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-24T10:37:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a285f0a_bb2436d5",
+      "range": {
+        "startLine": 51,
+        "startChar": 25,
+        "endLine": 51,
+        "endChar": 38
+      },
+      "revId": "417d4b76efa0f66a53f3d2184a0fbc849ecdf315",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ee9502c_508f8628",
         "filename": "java/com/google/gerrit/acceptance/ProjectConfigResetter.java",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2017-11-22T15:55:31Z",
       "side": 1,
       "message": "I probably forgot to rest some cache somewhere.",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 20
+      },
+      "revId": "417d4b76efa0f66a53f3d2184a0fbc849ecdf315",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b6caa9b_259e52c2",
+        "filename": "java/com/google/gerrit/acceptance/ProjectConfigResetter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-24T10:37:40Z",
+      "side": 1,
+      "message": "Yeah, doing the right cache evictions is a bit messy.",
+      "parentUuid": "6ee9502c_508f8628",
       "range": {
         "startLine": 70,
         "startChar": 8,

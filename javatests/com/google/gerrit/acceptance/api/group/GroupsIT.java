@@ -186,21 +186,24 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void cachedGroupsForMemberAreUpdatedOnMemberAdditionAndRemoval() throws Exception {
+    TestAccount account =
+        accountCreator.create("userForCache1", "userForCache1@example.com", "User for Cache 1");
+
     // Fill the cache for the observed account.
-    groupIncludeCache.getGroupsWithMember(user.getId());
+    groupIncludeCache.getGroupsWithMember(account.getId());
     String groupName = createGroup("users");
     AccountGroup.UUID groupUuid = new AccountGroup.UUID(gApi.groups().id(groupName).get().id);
 
-    gApi.groups().id(groupName).addMembers(user.fullName);
+    gApi.groups().id(groupName).addMembers(account.username);
 
     Collection<AccountGroup.UUID> groupsWithMemberAfterAddition =
-        groupIncludeCache.getGroupsWithMember(user.getId());
+        groupIncludeCache.getGroupsWithMember(account.getId());
     assertThat(groupsWithMemberAfterAddition).contains(groupUuid);
 
-    gApi.groups().id(groupName).removeMembers(user.fullName);
+    gApi.groups().id(groupName).removeMembers(account.username);
 
     Collection<AccountGroup.UUID> groupsWithMemberAfterRemoval =
-        groupIncludeCache.getGroupsWithMember(user.getId());
+        groupIncludeCache.getGroupsWithMember(account.getId());
     assertThat(groupsWithMemberAfterRemoval).doesNotContain(groupUuid);
   }
 
@@ -374,6 +377,23 @@ public class GroupsIT extends AbstractDaemonTest {
     GroupInfo group = gApi.groups().create(newGroupName).get();
 
     assertThat(group.createdOn).isAtLeast(testStartTime);
+  }
+
+  @Test
+  public void cachedGroupsForMemberAreUpdatedOnGroupCreation() throws Exception {
+    TestAccount account =
+        accountCreator.create("userForCache2", "userForCache2@example.com", "User for Cache 2");
+
+    // Fill the cache for the observed account.
+    groupIncludeCache.getGroupsWithMember(account.id);
+
+    GroupInput groupInput = new GroupInput();
+    groupInput.name = name("Users");
+    groupInput.members = ImmutableList.of(account.username);
+    GroupInfo group = gApi.groups().create(groupInput).get();
+
+    Collection<AccountGroup.UUID> groups = groupIncludeCache.getGroupsWithMember(account.id);
+    assertThat(groups).containsExactly(new AccountGroup.UUID(group.id));
   }
 
   @Test

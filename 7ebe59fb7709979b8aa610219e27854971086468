@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9dfaa55b_fc14fe84",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupRebuilderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-24T10:45:22Z",
+      "side": 1,
+      "message": "Can the audit log contain a \n\naddMember(g, 1, 8, t5)\n\nhere? (User 8 would try to re-add user 1 at ts5?)\n\nI am assuming no, but wanted to double-check.",
+      "range": {
+        "startLine": 431,
+        "startChar": 16,
+        "endLine": 431,
+        "endChar": 39
+      },
+      "revId": "7ebe59fb7709979b8aa610219e27854971086468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

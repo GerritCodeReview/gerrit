@@ -377,6 +377,20 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cachedGroupsForMemberAreUpdatedOnGroupCreation() throws Exception {
+    // Fill the cache for the observed account.
+    groupIncludeCache.getGroupsWithMember(user.id);
+
+    GroupInput groupInput = new GroupInput();
+    groupInput.name = name("Users");
+    groupInput.members = ImmutableList.of(user.username);
+    GroupInfo group = gApi.groups().create(groupInput).get();
+
+    Collection<AccountGroup.UUID> groups = groupIncludeCache.getGroupsWithMember(user.id);
+    assertThat(groups).containsExactly(new AccountGroup.UUID(group.id));
+  }
+
+  @Test
   public void getGroup() throws Exception {
     InternalGroup adminGroup = adminGroup();
     testGetGroup(adminGroup.getGroupUUID().get(), adminGroup);

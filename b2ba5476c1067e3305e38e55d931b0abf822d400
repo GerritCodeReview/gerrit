@@ -190,6 +190,30 @@
       "revId": "b2ba5476c1067e3305e38e55d931b0abf822d400",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5a13708_6b861a9d",
+        "filename": "java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-24T13:19:31Z",
+      "side": 1,
+      "message": "... as discussed, we removed the other check instead.",
+      "parentUuid": "05c29c8c_464c0465",
+      "range": {
+        "startLine": 272,
+        "startChar": 11,
+        "endLine": 272,
+        "endChar": 33
+      },
+      "revId": "b2ba5476c1067e3305e38e55d931b0abf822d400",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

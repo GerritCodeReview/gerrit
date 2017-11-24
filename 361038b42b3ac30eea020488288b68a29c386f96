@@ -45,6 +45,30 @@
       "revId": "361038b42b3ac30eea020488288b68a29c386f96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a94f7d4a_8bf63983",
+        "filename": "java/com/google/gerrit/server/group/db/GroupBundle.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-24T13:53:29Z",
+      "side": 1,
+      "message": "They can\u0027t differ by target since that is the Map\u0027s key and handled by the outer loop.",
+      "parentUuid": "698b98db_9e8b40ca",
+      "range": {
+        "startLine": 425,
+        "startChar": 7,
+        "endLine": 432,
+        "endChar": 9
+      },
+      "revId": "361038b42b3ac30eea020488288b68a29c386f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

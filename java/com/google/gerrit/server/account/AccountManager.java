@@ -24,8 +24,6 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.client.AccountFieldName;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -34,6 +32,7 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
+import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
@@ -130,7 +129,12 @@ public class AccountManager {
    *     added to the admin group (only for the first account).
    */
   public AuthResult authenticate(AuthRequest who) throws AccountException, IOException {
-    who = realm.authenticate(who);
+    try {
+      who = realm.authenticate(who);
+    } catch (NoSuchUserException e) {
+      deactivateAccountIfItExists(who);
+      throw e;
+    }
     try {
       try (ReviewDb db = schema.open()) {
         ExternalId id = externalIds.get(who.getExternalIdKey());
@@ -141,25 +145,7 @@ public class AccountManager {
         }
 
         // Account exists
-        Account act = byIdCache.get(id.accountId()).getAccount();
-        if (autoUpdateAccountActiveStatus && who.authProvidesAccountActiveStatus()) {
-          if (who.isActive() && !act.isActive()) {
-            try {
-              setInactiveFlag.activate(act.getId());
-              act = byIdCache.get(id.accountId()).getAccount();
-            } catch (ResourceNotFoundException e) {
-              throw new AccountException("Unable to activate account " + act.getId(), e);
-            }
-          } else if (!who.isActive() && act.isActive()) {
-            try {
-              setInactiveFlag.deactivate(act.getId());
-              act = byIdCache.get(id.accountId()).getAccount();
-            } catch (RestApiException e) {
-              throw new AccountException("Unable to deactivate account " + act.getId(), e);
-            }
-          }
-        }
-
+        Account act = updateAccountActiveStatus(who, byIdCache.get(id.accountId()).getAccount());
         if (!act.isActive()) {
           throw new AccountException("Authentication error, account inactive");
         }
@@ -171,6 +157,47 @@ public class AccountManager {
     } catch (OrmException | ConfigInvalidException e) {
       throw new AccountException("Authentication error", e);
     }
+  }
+
+  private void deactivateAccountIfItExists(AuthRequest authRequest) {
+    if (!shouldUpdateActiveStatus(authRequest)) {
+      return;
+    }
+    try {
+      ExternalId id = externalIds.get(authRequest.getExternalIdKey());
+      if (id == null) {
+        return;
+      }
+      setInactiveFlag.deactivate(id.accountId());
+    } catch (Exception e) {
+      log.error("Unable to deactivate account " + authRequest.getUserName(), e);
+    }
+  }
+
+  private Account updateAccountActiveStatus(AuthRequest authRequest, Account account)
+      throws AccountException {
+    if (!shouldUpdateActiveStatus(authRequest) || authRequest.isActive() == account.isActive()) {
+      return account;
+    }
+
+    if (authRequest.isActive()) {
+      try {
+        setInactiveFlag.activate(account.getId());
+      } catch (Exception e) {
+        throw new AccountException("Unable to activate account " + account.getId(), e);
+      }
+    } else {
+      try {
+        setInactiveFlag.deactivate(account.getId());
+      } catch (Exception e) {
+        throw new AccountException("Unable to deactivate account " + account.getId(), e);
+      }
+    }
+    return byIdCache.get(account.getId()).getAccount();
+  }
+
+  private boolean shouldUpdateActiveStatus(AuthRequest authRequest) {
+    return autoUpdateAccountActiveStatus && authRequest.authProvidesAccountActiveStatus();
   }
 
   private void update(AuthRequest who, ExternalId extId)

@@ -43,7 +43,6 @@ import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -216,7 +215,7 @@ public class SubmitRuleEvaluator {
     initOptions();
     try {
       init();
-    } catch (OrmException e) {
+    } catch (OrmException | NoSuchProjectException e) {
       return ruleError("Error looking up change " + cd.getId(), e);
     }
 
@@ -381,7 +380,7 @@ public class SubmitRuleEvaluator {
     initOptions();
     try {
       init();
-    } catch (OrmException e) {
+    } catch (OrmException | NoSuchProjectException e) {
       return typeError("Error looking up change " + cd.getId(), e);
     }
 
@@ -624,7 +623,7 @@ public class SubmitRuleEvaluator {
     }
   }
 
-  private void init() throws OrmException {
+  private void init() throws OrmException, NoSuchProjectException {
     if (change == null) {
       change = cd.change();
       if (change == null) {
@@ -633,10 +632,9 @@ public class SubmitRuleEvaluator {
     }
 
     if (projectState == null) {
-      try {
-        projectState = projectCache.checkedGet(change.getProject());
-      } catch (IOException e) {
-        throw new OrmException("Can't load project state", e);
+      projectState = projectCache.get(change.getProject());
+      if (projectState == null) {
+        throw new NoSuchProjectException(change.getProject());
       }
     }
 

@@ -621,7 +621,8 @@ public class PluginLoader implements LifecycleListener {
     Map<String, Path> activePlugins = Maps.newHashMapWithExpectedSize(pluginPaths.keys().size());
     for (String name : pluginPaths.keys()) {
       for (Path pluginPath : pluginPaths.asMap().get(name)) {
-        if (!pluginPath.getFileName().toString().endsWith(".disabled")) {
+        if (!pluginPath.getFileName().toString().endsWith(".disabled") ||
+            !pluginPath.getFileName().toString().startsWith(".")) {
           assert !activePlugins.containsKey(name);
           activePlugins.put(name, pluginPath);
         }
@@ -692,7 +693,7 @@ public class PluginLoader implements LifecycleListener {
   }
 
   private Iterable<Path> filterDisabledPlugins(Collection<Path> paths) {
-    return Iterables.filter(paths, p -> !p.getFileName().toString().endsWith(".disabled"));
+    return Iterables.filter(paths, p -> !p.getFileName().toString().endsWith(".disabled") || !p.getFileName().toString().endsWith("."));
   }
 
   public String getGerritPluginName(Path srcPath) {

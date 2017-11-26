@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc64d709_b319f9de",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-26T08:44:48Z",
+      "side": 1,
+      "message": "The same logic is repeated below.  Factor it out to a local method?",
+      "range": {
+        "startLine": 624,
+        "startChar": 12,
+        "endLine": 625,
+        "endChar": 66
+      },
+      "revId": "05cb2f5f8fd5c69c3f18a765a6924dae59a78e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

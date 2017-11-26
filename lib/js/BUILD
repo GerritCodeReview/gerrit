@@ -21,6 +21,7 @@ load("//tools/bzl:js.bzl", "bower_component", "js_component")
 #
 
 load("//lib/js:bower_components.bzl", "define_bower_components")
+load("//plugins:external_bower_components.bzl", "external_bower_components")
 
 define_bower_components()
 
@@ -35,3 +36,5 @@ filegroup(
     srcs = ["//lib/highlightjs:highlight.min.js"],
     data = ["//lib:LICENSE-highlightjs"],
 )
+
+external_bower_components()

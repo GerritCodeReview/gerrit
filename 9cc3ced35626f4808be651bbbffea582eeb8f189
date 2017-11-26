@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83ec916f_1740af42",
+        "filename": "tools/bzl/plugins.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-26T09:15:54Z",
+      "side": 1,
+      "message": "This broke Eclipse project generation in core. Note that almost all backend devs rely on Eclipse IDE (some use IJ, though), so that this cannot be submitted, until that problem is sorted out:\n\n  $ tools/eclipse/project.py \nERROR: /home/davido/projects/gerrit2/tools/eclipse/BUILD:44:1: no such target \u0027//plugins/codemirror-editor:codemirror-editor__plugin\u0027: target \u0027codemirror-editor__plugin\u0027 not declared in package \u0027plugins/codemirror-editor\u0027 defined by /home/davido/projects/gerrit2/plugins/codemirror-editor/BUILD and referenced by \u0027//tools/eclipse:main_classpath_collect\u0027\nERROR: Analysis of target \u0027//tools/eclipse:main_classpath_collect\u0027 failed; build aborted: Loading failed\nINFO: Elapsed time: 1.075s\nFAILED: Build did NOT complete successfully (73 packages loaded)\n\nThis is because CUSTOM_PLUGINS contribute to the classpath collector machinery:\n\n  classpath_collector(\n    name \u003d \"main_classpath_collect\",\n    testonly \u003d 1,\n    deps \u003d LIBS + PGMLIBS + DEPS + TEST_DEPS +\n           [\"//plugins/%s:%s__plugin\" % (n, n) for n in CORE_PLUGINS + CUSTOM_PLUGINS] +\n           [\"//plugins/%s:%s__plugin_test_deps\" % (n, n) for n in CUSTOM_PLUGINS_TEST_DEPS],\n)\n\nIOW: it is expected, that core/custom plugins are actually JAR-artifacts and as such should contribute to the classpath construction machinery for the Eclipse IDE.\n\nThis brngs me to a different idea, to introduce CORE_JS_PLUGINS variable and add codemirror plugin to this var and exclude it from classpath machinery. That way, this issue with classpath construction could be resolved.\n\nOf course, there is still another unresolved issue, that polymer vulcanize \u003d\u003e crisper pipeline produces two separate artifacts: JS and HTML file, that both belong to the plugin final artifact. I think, right now, Gerrit plugin loader cannot deal with that?\n\nThis raises the question, why don\u0027t we package codemirrow-editor plugin as normal JAR artifact, similar to buildbucket plugin: [1].\n\n* [1] https://chromium.googlesource.com/infra/gerrit-plugins/buildbucket",
+      "revId": "9cc3ced35626f4808be651bbbffea582eeb8f189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

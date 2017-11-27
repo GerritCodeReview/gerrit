@@ -31,20 +31,17 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.group.db.GroupNameNotes;
+import com.google.gerrit.server.group.db.testing.GroupTestUtil;
 import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testing.ConfigSuite;
 import java.util.List;
 import javax.inject.Inject;
-import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -276,22 +273,8 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
     fail(String.format("could not find %s substring '%s' in %s", want, msg, problems));
   }
 
-  private void updateGroupFile(String refname, String filename, String contents) throws Exception {
-    try (Repository repo = repoManager.openRepository(allUsers);
-        RevWalk rw = new RevWalk(repo)) {
-      Ref ref = repo.exactRef(refname);
-      RevCommit c = rw.parseCommit(ref.getObjectId());
-
-      TestRepository<Repository> testRepository = new TestRepository<>(repo, rw);
-      testRepository
-          .branch(refname)
-          .commit()
-          .add(filename, contents)
-          .parent(c)
-          .message("update group file")
-          .author(serverIdent.get())
-          .committer(serverIdent.get())
-          .create();
-    }
+  private void updateGroupFile(String refName, String fileName, String content) throws Exception {
+    GroupTestUtil.updateGroupFile(
+        repoManager, allUsers, serverIdent.get(), refName, fileName, content);
   }
 }

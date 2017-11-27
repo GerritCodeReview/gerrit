@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66cfea46_37c9be68",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-27T20:22:11Z",
+      "side": 1,
+      "message": "Should this be named ..\n\n PROJECT_LEGACY\n\n.. so we can leave the other one named ..\n\n PROJECT\n\n.. ?",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 11
+      },
+      "revId": "c2c820b2b07c671a220a53f49d1147e5760b2b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ae486f5_6a88d565",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-27T20:22:11Z",
+      "side": 1,
+      "message": "Can this be a redirect, so that we have only one canonical project URL?\n\nSomething like,\n\n_handleLegacyProjectRoute(ctx) {\n  this._redirect(\u0027/admin/projects/\u0027 + encodeURIComponent(ctx.params[0]));\n},",
+      "revId": "c2c820b2b07c671a220a53f49d1147e5760b2b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84a51b69_549d9d4f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1427,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-27T20:22:11Z",
+      "side": 1,
+      "message": "Nit: this line exceeds 80 characters.",
+      "revId": "c2c820b2b07c671a220a53f49d1147e5760b2b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

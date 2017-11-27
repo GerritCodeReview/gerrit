@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9cb68b2d_c34042e1",
+        "filename": "java/com/google/gerrit/server/Sequences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-27T13:10:24Z",
+      "side": 0,
+      "message": "ah, yes, we still need to support migration from reviewdb until we release 3.1 (?).",
+      "parentUuid": "919ed2cc_cb4ae77d",
+      "range": {
+        "startLine": 91,
+        "startChar": 50,
+        "endLine": 91,
+        "endChar": 62
+      },
+      "revId": "4310ae0d24a0f1644c6be535941888eb302ff4b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f85db215_c1342c08",
         "filename": "java/com/google/gerrit/server/Sequences.java",
         "patchSetId": 1

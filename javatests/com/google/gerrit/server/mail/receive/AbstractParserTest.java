@@ -96,7 +96,8 @@ public class AbstractParserTest {
     comments.add(newComment("c1", "gerrit-server/test.txt", "comment", 0));
     comments.add(newComment("c2", "gerrit-server/test.txt", "comment", 2));
     comments.add(newComment("c3", "gerrit-server/test.txt", "comment", 3));
-    comments.add(newRangeComment("c4", "gerrit-server/readme.txt", "comment", 3));
+    comments.add(newComment("c3", "gerrit-server/test.txt", "comment", 115));
+    comments.add(newRangeComment("c5", "gerrit-server/readme.txt", "comment", 3));
     return comments;
   }
 }

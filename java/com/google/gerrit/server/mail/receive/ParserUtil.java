@@ -95,8 +95,9 @@ public class ParserUtil {
     MailComment lastComment = Iterables.getLast(comments);
 
     if (comment.isSameCommentPath(lastComment)) {
-      // Merge the two comments
-      lastComment.message += "\n\n" + comment.message;
+      // Merge the two comments. Links should just be appended, while regular text that came from
+      // different <div> elements should be separated by a paragraph.
+      lastComment.message += (comment.isLink ? " " : "\n\n") + comment.message;
       return;
     }
 

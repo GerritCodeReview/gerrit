@@ -71,7 +71,12 @@ public class HtmlParser {
     for (Element e : d.body().getAllElements()) {
       String elementName = e.tagName();
       boolean isInBlockQuote =
-          e.parents().stream().filter(p -> p.tagName().equals("blockquote")).findAny().isPresent();
+          e.parents()
+              .stream()
+              .anyMatch(
+                  p ->
+                      p.tagName().equals("blockquote")
+                          || MAIL_PROVIDER_EXTRAS.contains(p.className()));
 
       if (elementName.equals("a")) {
         String href = e.attr("href");
@@ -96,39 +101,63 @@ public class HtmlParser {
             lastEncounteredComment = perspectiveComment;
             iter.next();
           }
+          continue;
         } else if (ParserUtil.isCommentUrl(href, changeUrl, perspectiveComment)) {
           // This is a regular inline comment
           lastEncounteredComment = perspectiveComment;
           iter.next();
+          continue;
         }
-      } else if (!isInBlockQuote
-          && elementName.equals("div")
-          && !MAIL_PROVIDER_EXTRAS.contains(e.className())) {
-        // This is a comment typed by the user
-        // Replace non-breaking spaces and trim string
-        String content = e.ownText().replace('\u00a0', ' ').trim();
-        if (!Strings.isNullOrEmpty(content)) {
-          if (lastEncounteredComment == null && lastEncounteredFileName == null) {
-            // Remove quotation line, email signature and
-            // "Sent from my xyz device"
-            content = ParserUtil.trimQuotation(content);
-            // TODO(hiesel) Add more sanitizer
-            if (!Strings.isNullOrEmpty(content)) {
-              ParserUtil.appendOrAddNewComment(
-                  new MailComment(content, null, null, MailComment.CommentType.CHANGE_MESSAGE),
-                  parsedComments);
-            }
-          } else if (lastEncounteredComment == null) {
+      }
+
+      if (isInBlockQuote) {
+        // There is no user-input in quoted text
+        continue;
+      }
+      if (!elementName.equals("div") && !elementName.equals("a")) {
+        // We only accept div and a since these tags contain user input
+        continue;
+      }
+      if (elementName.equals("a") && e.attr("href").startsWith("mailto:")) {
+        // We don't accept mailto: links in general as they often appear in reply-to lines
+        // (User<user@gmail.com> wrote: ...)
+        continue;
+      }
+
+      // This is a comment typed by the user
+      // Replace non-breaking spaces and trim string
+      String content = e.ownText().replace('\u00a0', ' ').trim();
+      boolean isLink = elementName.equals("a");
+      if (!Strings.isNullOrEmpty(content)) {
+        if (lastEncounteredComment == null && lastEncounteredFileName == null) {
+          // Remove quotation line, email signature and
+          // "Sent from my xyz device"
+          content = ParserUtil.trimQuotation(content);
+          // TODO(hiesel) Add more sanitizer
+          if (!Strings.isNullOrEmpty(content)) {
             ParserUtil.appendOrAddNewComment(
                 new MailComment(
-                    content, lastEncounteredFileName, null, MailComment.CommentType.FILE_COMMENT),
-                parsedComments);
-          } else {
-            ParserUtil.appendOrAddNewComment(
-                new MailComment(
-                    content, null, lastEncounteredComment, MailComment.CommentType.INLINE_COMMENT),
+                    content, null, null, MailComment.CommentType.CHANGE_MESSAGE, isLink),
                 parsedComments);
           }
+        } else if (lastEncounteredComment == null) {
+          ParserUtil.appendOrAddNewComment(
+              new MailComment(
+                  content,
+                  lastEncounteredFileName,
+                  null,
+                  MailComment.CommentType.FILE_COMMENT,
+                  isLink),
+              parsedComments);
+        } else {
+          ParserUtil.appendOrAddNewComment(
+              new MailComment(
+                  content,
+                  null,
+                  lastEncounteredComment,
+                  MailComment.CommentType.INLINE_COMMENT,
+                  isLink),
+              parsedComments);
         }
       }
     }

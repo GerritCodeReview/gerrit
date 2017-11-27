@@ -39,6 +39,28 @@ public abstract class HtmlParserTest extends AbstractParserTest {
   }
 
   @Test
+  public void changeMessageWithLink() {
+    MailMessage.Builder b = newMailMessageBuilder();
+    b.htmlContent(
+        newHtmlBody(
+            "Did you consider this: "
+                + "<a href=\"http://gerritcodereview.com\">http://gerritcodereview.com</a>",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null));
+
+    List<Comment> comments = defaultComments();
+    List<MailComment> parsedComments = HtmlParser.parse(b.build(), comments, "");
+
+    assertThat(parsedComments).hasSize(1);
+    assertChangeMessage(
+        "Did you consider this: http://gerritcodereview.com", parsedComments.get(0));
+  }
+
+  @Test
   public void simpleInlineComments() {
     MailMessage.Builder b = newMailMessageBuilder();
     b.htmlContent(
@@ -57,7 +79,7 @@ public abstract class HtmlParserTest extends AbstractParserTest {
     assertThat(parsedComments).hasSize(3);
     assertChangeMessage("Looks good to me", parsedComments.get(0));
     assertInlineComment("I have a comment on this.", parsedComments.get(1), comments.get(1));
-    assertInlineComment("Also have a comment here.", parsedComments.get(2), comments.get(3));
+    assertInlineComment("Also have a comment here.", parsedComments.get(2), comments.get(4));
   }
 
   @Test
@@ -79,7 +101,7 @@ public abstract class HtmlParserTest extends AbstractParserTest {
     assertThat(parsedComments).hasSize(3);
     assertChangeMessage("Looks good to me", parsedComments.get(0));
     assertFileComment("This is a nice file", parsedComments.get(1), comments.get(1).key.filename);
-    assertInlineComment("Also have a comment here.", parsedComments.get(2), comments.get(3));
+    assertInlineComment("Also have a comment here.", parsedComments.get(2), comments.get(4));
   }
 
   @Test
@@ -105,7 +127,7 @@ public abstract class HtmlParserTest extends AbstractParserTest {
 
     assertThat(parsedComments).hasSize(2);
     assertFileComment("This is a nice file", parsedComments.get(0), comments.get(1).key.filename);
-    assertInlineComment("Also have a comment here.", parsedComments.get(1), comments.get(3));
+    assertInlineComment("Also have a comment here.", parsedComments.get(1), comments.get(4));
   }
 
   @Test
@@ -122,7 +144,7 @@ public abstract class HtmlParserTest extends AbstractParserTest {
     assertThat(parsedComments).hasSize(3);
     assertChangeMessage(txtMessage, parsedComments.get(0));
     assertFileComment(txtMessage, parsedComments.get(1), comments.get(1).key.filename);
-    assertInlineComment(txtMessage, parsedComments.get(2), comments.get(3));
+    assertInlineComment(txtMessage, parsedComments.get(2), comments.get(4));
   }
 
   /**

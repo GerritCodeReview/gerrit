@@ -108,11 +108,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
       assertThat(result).isEqualTo(Result.FORCED);
     }
 
-    assertConsistency(
-        "refs/meta/group-names does not exist",
-        groupsMigration.readFromNoteDb()
-            ? ConsistencyProblemInfo.Status.ERROR
-            : ConsistencyProblemInfo.Status.WARNING);
+    assertError("refs/meta/group-names does not exist");
   }
 
   @Test

@@ -20,6 +20,7 @@ import java.io.IOException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -100,6 +101,29 @@ public class RefUpdateUtil {
       throw new LockFailureException("Update aborted with one or more lock failures: " + bru, bru);
     } else if (failure > 0) {
       throw new IOException("Update failed: " + bru);
+    }
+  }
+
+  public static void deleteChecked(Repository repo, String refName) throws IOException {
+    RefUpdate ru = repo.updateRef(refName);
+    ru.setForceUpdate(true);
+    switch (ru.delete()) {
+      case FAST_FORWARD:
+      case FORCED:
+      case NEW:
+      case NO_CHANGE:
+        return;
+      case LOCK_FAILURE:
+        throw new LockFailureException("Lock failure deleting " + refName, ru);
+      case RENAMED:
+      case IO_FAILURE:
+      case NOT_ATTEMPTED:
+      case REJECTED:
+      case REJECTED_CURRENT_BRANCH:
+      case REJECTED_MISSING_OBJECT:
+      case REJECTED_OTHER_REASON:
+      default:
+        throw new IOException("Failed to delete delete " + refName + ": " + ru.getResult());
     }
   }
 

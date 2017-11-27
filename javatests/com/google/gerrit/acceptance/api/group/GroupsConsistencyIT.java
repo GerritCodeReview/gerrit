@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.group;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.group.db.testing.GroupTestUtil.updateGroupFile;
 import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -36,15 +37,11 @@ import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testing.ConfigSuite;
 import java.util.List;
 import javax.inject.Inject;
-import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -160,6 +157,9 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
   @Test
   public void groupRefDoesNotParse() throws Exception {
     updateGroupFile(
+        repoManager,
+        allUsers,
+        serverIdent.get(),
         RefNames.refsGroups(new AccountGroup.UUID(g1.id)),
         GroupConfig.GROUP_CONFIG_FILE,
         "[this is not valid\n");
@@ -169,6 +169,9 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
   @Test
   public void nameRefDoesNotParse() throws Exception {
     updateGroupFile(
+        repoManager,
+        allUsers,
+        serverIdent.get(),
         RefNames.REFS_GROUPNAMES,
         GroupNameNotes.getNoteKey(new AccountGroup.NameKey(g1.name)).getName(),
         "[this is not valid\n");
@@ -183,6 +186,9 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
     cfg.setString("group", null, "ownerGroupUuid", gAdmin.id);
 
     updateGroupFile(
+        repoManager,
+        allUsers,
+        serverIdent.get(),
         RefNames.refsGroups(new AccountGroup.UUID(g1.id)),
         GroupConfig.GROUP_CONFIG_FILE,
         cfg.toText());
@@ -197,6 +203,9 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
     cfg.setString("group", null, "ownerGroupUuid", gAdmin.id);
 
     updateGroupFile(
+        repoManager,
+        allUsers,
+        serverIdent.get(),
         RefNames.refsGroups(new AccountGroup.UUID(g1.id)),
         GroupConfig.GROUP_CONFIG_FILE,
         cfg.toText());
@@ -211,6 +220,9 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
     cfg.setString("group", null, "ownerGroupUuid", BOGUS_UUID);
 
     updateGroupFile(
+        repoManager,
+        allUsers,
+        serverIdent.get(),
         RefNames.refsGroups(new AccountGroup.UUID(g1.id)),
         GroupConfig.GROUP_CONFIG_FILE,
         cfg.toText());
@@ -225,6 +237,9 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
     config.setString("group", null, "name", bogusName);
 
     updateGroupFile(
+        repoManager,
+        allUsers,
+        serverIdent.get(),
         RefNames.REFS_GROUPNAMES,
         GroupNameNotes.getNoteKey(new AccountGroup.NameKey(bogusName)).getName(),
         config.toText());
@@ -233,20 +248,37 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
 
   @Test
   public void nonexistentMember() throws Exception {
-    updateGroupFile(RefNames.refsGroups(new AccountGroup.UUID(g1.id)), "members", "314159265\n");
+    updateGroupFile(
+        repoManager,
+        allUsers,
+        serverIdent.get(),
+        RefNames.refsGroups(new AccountGroup.UUID(g1.id)),
+        "members",
+        "314159265\n");
     assertError("nonexistent member 314159265");
   }
 
   @Test
   public void nonexistentSubgroup() throws Exception {
     updateGroupFile(
-        RefNames.refsGroups(new AccountGroup.UUID(g1.id)), "subgroups", BOGUS_UUID + "\n");
+        repoManager,
+        allUsers,
+        serverIdent.get(),
+        RefNames.refsGroups(new AccountGroup.UUID(g1.id)),
+        "subgroups",
+        BOGUS_UUID + "\n");
     assertError("has nonexistent subgroup");
   }
 
   @Test
   public void cyclicSubgroup() throws Exception {
-    updateGroupFile(RefNames.refsGroups(new AccountGroup.UUID(g1.id)), "subgroups", g1.id + "\n");
+    updateGroupFile(
+        repoManager,
+        allUsers,
+        serverIdent.get(),
+        RefNames.refsGroups(new AccountGroup.UUID(g1.id)),
+        "subgroups",
+        g1.id + "\n");
     assertWarning("cyclic");
   }
 
@@ -278,24 +310,5 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
     }
 
     fail(String.format("could not find %s substring '%s' in %s", want, msg, problems));
-  }
-
-  private void updateGroupFile(String refname, String filename, String contents) throws Exception {
-    try (Repository repo = repoManager.openRepository(allUsers);
-        RevWalk rw = new RevWalk(repo)) {
-      Ref ref = repo.exactRef(refname);
-      RevCommit c = rw.parseCommit(ref.getObjectId());
-
-      TestRepository<Repository> testRepository = new TestRepository<>(repo, rw);
-      testRepository
-          .branch(refname)
-          .commit()
-          .add(filename, contents)
-          .parent(c)
-          .message("update group file")
-          .author(serverIdent.get())
-          .committer(serverIdent.get())
-          .create();
-    }
   }
 }

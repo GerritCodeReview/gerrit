@@ -16,6 +16,7 @@ package com.google.gerrit.server.group.db;
 
 import static com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo.error;
 import static com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo.warning;
+import static com.google.gerrit.server.group.db.GroupNameNotes.getGroupReference;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -31,6 +32,7 @@ import com.google.gerrit.server.notedb.GroupsMigration;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +44,7 @@ import javax.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.Note;
@@ -231,6 +234,57 @@ public class GroupsNoteDbConsistencyChecker {
     }
 
     return problems;
+  }
+
+  /**
+   * Check group 'uuid' and 'name' read from 'group.config' with group name notes.
+   *
+   * @param allUsersRepo 'AllUsersName' repository.
+   * @param name the name of the group to be checked.
+   * @param uuid the {@code AccountGroup.UUID} of the group to be checked.
+   * @return a list of {@code ConsistencyProblemInfo} containing the problem details.
+   */
+  public static List<ConsistencyProblemInfo> checkWithGroupNameNotes(
+      Repository allUsersRepo, String name, AccountGroup.UUID uuid) {
+    try {
+      Ref ref = allUsersRepo.exactRef(RefNames.REFS_GROUPNAMES);
+      if (ref == null) {
+        return Arrays.asList(warning("ref %s does not exist", RefNames.REFS_GROUPNAMES));
+      }
+
+      try (RevWalk revWalk = new RevWalk(allUsersRepo);
+          ObjectReader reader = revWalk.getObjectReader()) {
+        RevCommit notesCommit = revWalk.parseCommit(ref.getObjectId());
+        NoteMap noteMap = NoteMap.read(reader, notesCommit);
+        ObjectId noteDataBlobId =
+            noteMap.get(GroupNameNotes.getNoteKey(new AccountGroup.NameKey(name)));
+
+        if (noteDataBlobId == null) {
+          return Arrays.asList(
+              warning("Group with name '%s' doesn't exist in the list of all names", name));
+        }
+
+        List<ConsistencyProblemInfo> problems = new ArrayList<>();
+        GroupReference groupRef = getGroupReference(reader, noteDataBlobId);
+        if (!Objects.equals(uuid, groupRef.getUUID())) {
+          problems.add(
+              warning(
+                  "group with name '%s' has UUID '%s' in 'group.config' while '%s' in group name notes",
+                  name, uuid, groupRef.getUUID()));
+        }
+
+        if (!Objects.equals(name, groupRef.getName())) {
+          problems.add(
+              warning(
+                  "group with UUID '%s' has name '%s' in 'group.config' while '%s' in group name notes",
+                  uuid, name, groupRef.getName()));
+        }
+
+        return problems;
+      }
+    } catch (IOException | ConfigInvalidException e) {
+      return Arrays.asList(warning("fail to check consistency with group name notes"));
+    }
   }
 
   /** Check whether there are duplicate group UUIDs or names. */

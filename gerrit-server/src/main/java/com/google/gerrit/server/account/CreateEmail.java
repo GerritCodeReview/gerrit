@@ -96,10 +96,6 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
 
-    if (!validator.isValid(email)) {
-      throw new BadRequestException("invalid email address");
-    }
-
     if (!realm.allowsEdit(AccountFieldName.REGISTER_NEW_EMAIL)) {
       throw new MethodNotAllowedException("realm does not allow adding emails");
     }
@@ -107,6 +103,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
     return apply(rsrc.getUser(), input);
   }
 
+  /** To be used from plugins that want to create emails without permission checks. */
   public Response<EmailInfo> apply(IdentifiedUser user, EmailInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
           ResourceNotFoundException, OrmException, EmailException, MethodNotAllowedException,
@@ -117,6 +114,10 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
 
     if (input.email != null && !email.equals(input.email)) {
       throw new BadRequestException("email address must match URL");
+    }
+
+    if (!validator.isValid(email)) {
+      throw new BadRequestException("invalid email address");
     }
 
     EmailInfo info = new EmailInfo();

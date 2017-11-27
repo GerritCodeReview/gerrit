@@ -15,8 +15,6 @@
 
 package com.google.gerrit.server.patch;
 
-import static com.google.gerrit.server.patch.DiffSummaryLoader.toDiffSummary;
-
 import com.google.common.cache.Cache;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
@@ -101,7 +99,6 @@ public class PatchListCacheImpl implements PatchListCache {
       throws PatchListNotAvailableException {
     try {
       PatchList pl = fileCache.get(key, fileLoaderFactory.create(key, project));
-      diffSummaryCache.put(DiffSummaryKey.fromPatchListKey(key), toDiffSummary(pl));
       return pl;
     } catch (ExecutionException e) {
       PatchListLoader.log.warn("Error computing " + key, e);

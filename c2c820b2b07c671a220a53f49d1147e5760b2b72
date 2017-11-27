@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6e7c8f8d_d3d5ddbe",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-11-27T21:00:43Z",
+      "side": 1,
+      "message": "I didn\u0027t want to imply that this route was in any way deprecated (though I suppose calling something legacy here is actually doing the opposite, and saying it will be supported in perpetuity). I anticipate at some point we\u0027ll split this view into two, at which point the legacy route would no longer be legacy.\n\nWould you still like me to change it? I would rename it LEGACY_PROJECT to fit our naming pattern.",
+      "parentUuid": "66cfea46_37c9be68",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 11
+      },
+      "revId": "c2c820b2b07c671a220a53f49d1147e5760b2b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ae486f5_6a88d565",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "c2c820b2b07c671a220a53f49d1147e5760b2b72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49311dae_11511bf6",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-11-27T21:00:43Z",
+      "side": 1,
+      "message": "I lean toward no, for the purpose of maintaining current UI switching behavior, at least until 2.16.",
+      "parentUuid": "3ae486f5_6a88d565",
+      "revId": "c2c820b2b07c671a220a53f49d1147e5760b2b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

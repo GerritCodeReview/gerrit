@@ -15,7 +15,6 @@
 package com.google.gerrit.server.group.db;
 
 import static com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo.error;
-import static com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo.warning;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -25,7 +24,6 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyP
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.notedb.GroupsMigration;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -48,7 +46,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 /** Check the referential integrity of NoteDb group storage. */
 @Singleton
 public class GroupsNoteDbConsistencyChecker {
-  private final GroupsMigration groupsMigration;
 
   /**
    * The result of a consistency check. The UUID map is only non-null if no problems were detected.
@@ -60,20 +57,11 @@ public class GroupsNoteDbConsistencyChecker {
   }
 
   @Inject
-  GroupsNoteDbConsistencyChecker(GroupsMigration groupsMigration) {
-    this.groupsMigration = groupsMigration;
-  }
+  GroupsNoteDbConsistencyChecker() {}
 
-  /**
-   * Checks for problems with the given All-Users repo. Returns null if we are not writing to
-   * NoteDb.
-   */
+  /** Checks for problems with the given All-Users repo. */
   @Nullable
   public Result check(Repository repo) throws IOException {
-    if (!groupsMigration.writeToNoteDb()) {
-      return null;
-    }
-
     Result r = doCheck(repo);
     if (!r.problems.isEmpty()) {
       r.uuidToGroupMap = null;
@@ -136,7 +124,7 @@ public class GroupsNoteDbConsistencyChecker {
     Ref ref = refs.get(RefNames.REFS_GROUPNAMES);
     if (ref == null) {
       String msg = String.format("ref %s does not exist", RefNames.REFS_GROUPNAMES);
-      result.problems.add(groupsMigration.readFromNoteDb() ? error(msg) : warning(msg));
+      result.problems.add(error(msg));
       return;
     }
 

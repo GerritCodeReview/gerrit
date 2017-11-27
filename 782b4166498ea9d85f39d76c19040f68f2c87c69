@@ -144,6 +144,30 @@
       "revId": "782b4166498ea9d85f39d76c19040f68f2c87c69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f1a5c5a_38e9d542",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-27T14:10:25Z",
+      "side": 1,
+      "message": "Couldn\u0027t the rebuild REST endpoint just delete the ref before calling the rebuilder (maybe protected by a force option)?",
+      "parentUuid": "f8c21c5b_edc660bb",
+      "range": {
+        "startLine": 59,
+        "startChar": 6,
+        "endLine": 59,
+        "endChar": 49
+      },
+      "revId": "782b4166498ea9d85f39d76c19040f68f2c87c69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

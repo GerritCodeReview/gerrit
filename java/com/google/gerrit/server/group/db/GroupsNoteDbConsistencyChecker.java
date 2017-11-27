@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group.db;
 
 import static com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo.error;
+import static com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo.warning;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -41,10 +42,15 @@ import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Check the referential integrity of NoteDb group storage. */
 @Singleton
 public class GroupsNoteDbConsistencyChecker {
+  private static final Logger log = LoggerFactory.getLogger(GroupsNoteDbConsistencyChecker.class);
+
+  private static final String GROUP_CONSISTENCY_CHECK_LOG_PREFIX = "[GroupConsistencyCheck]: ";
 
   /**
    * The result of a consistency check. The UUID map is only non-null if no problems were detected.
@@ -205,5 +211,17 @@ public class GroupsNoteDbConsistencyChecker {
     }
 
     return problems;
+  }
+
+  public static void logConsistencyProblemAsWarning(String fmt, Object... args) {
+    logConsistencyProblem(warning(fmt, args));
+  }
+
+  public static void logConsistencyProblem(ConsistencyProblemInfo p) {
+    if (p.status == ConsistencyProblemInfo.Status.WARNING) {
+      log.warn(GROUP_CONSISTENCY_CHECK_LOG_PREFIX + p.message);
+    } else {
+      log.error(GROUP_CONSISTENCY_CHECK_LOG_PREFIX + p.message);
+    }
   }
 }

@@ -460,16 +460,15 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     Timestamp t3 = TimeUtil.nowTs();
     Timestamp t4 = TimeUtil.nowTs();
     Timestamp t5 = TimeUtil.nowTs();
-    Timestamp t6 = TimeUtil.nowTs();
     GroupBundle b =
         builder()
             .group(g)
             .members(member(g, 1))
             .memberAudit(
                 addAndLegacyRemoveMember(g, 1, 8, t1),
-                addMember(g, 1, 10, t3),
-                addAndRemoveMember(g, 1, 8, t4, 9, t5),
-                addMember(g, 1, 8, t6))
+                addMember(g, 1, 10, t2),
+                addAndRemoveMember(g, 1, 8, t3, 9, t4),
+                addMember(g, 1, 8, t5))
             .build();
 
     rebuilder.rebuild(repo, b, null);

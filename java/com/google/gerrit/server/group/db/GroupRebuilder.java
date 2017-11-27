@@ -114,7 +114,19 @@ public class GroupRebuilder {
 
   public void rebuild(Repository allUsersRepo, GroupBundle bundle, @Nullable BatchRefUpdate bru)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
-    GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersRepo, bundle.uuid());
+    rebuild(allUsersRepo, bundle, bru, false);
+  }
+
+  public void rebuild(
+      Repository allUsersRepo,
+      GroupBundle bundle,
+      @Nullable BatchRefUpdate bru,
+      boolean allowExisting)
+      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
+    // Start by assuming the empty revision so we produce the correct commit graph. We will fail
+    // with LockFailureException at the end if this assumption is incorrect.
+    GroupConfig groupConfig = GroupConfig.loadForGroupSnapshot(allUsersRepo, bundle.uuid(), null);
+
     AccountGroup group = bundle.group();
     groupConfig.setAllowSaveEmptyName();
     groupConfig.setGroupCreation(
@@ -164,7 +176,11 @@ public class GroupRebuilder {
         batch.write(groupConfig, cb);
       }
 
-      batch.createRef(groupConfig.getRefName());
+      if (allowExisting) {
+        batch.createRef(groupConfig.getRefName());
+      } else {
+        batch.commit();
+      }
     }
   }
 

@@ -208,7 +208,7 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
 
   private GroupBundle rebuild(GroupBundle reviewDbBundle) throws Exception {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      rebuilder.rebuild(repo, reviewDbBundle, null);
+      rebuilder.rebuild(repo, reviewDbBundle, null, false);
       return bundleFactory.fromNoteDb(repo, reviewDbBundle.uuid());
     }
   }

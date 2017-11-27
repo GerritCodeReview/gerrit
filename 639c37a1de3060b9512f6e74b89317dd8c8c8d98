@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1511774781 +0100\nnonce AMT3iFjX1Bo2EYmQ8wxL6402pBbKQC15SELo9Qm2WO2xZPK4bIFHRQTapkAXePQR1ppTb8RGOqf2\n\n0000000000000000000000000000000000000000 639c37a1de3060b9512f6e74b89317dd8c8c8d98 refs/for/stable-2.15\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaG9o9AAoJEFG1/Zeg0O9RdoUIAMRXRs5WWfHWB1urv0NsCGQL\n1T3fjOJ1jIsUlazJaLX/IEza4xR/hoPx590ET0VWLYkFS0zA8laZJOxB4eBZWcYL\nNQq56Jwm+ybZ7WltxV7V30PicXkT8KbqEmiWrvKVC5niafJyH+7XbUDBom8PifbB\n6YMc1N1oo/fseVdBXXBN9Icsh/Kx/AfUfHJE/vAfUWRWjElSAdbU8M00BFIZI/S5\nyrhr7rIHhuW72b/Al+VooejPQj6wzi0iobrvfr2Cin27ScphkwVfQCh1JwHrojX/\njST1WFIzp5hwcerD7EiMQmlAesbGKQeDFQ3eOP3c/dCCWcVSM5Tc8s2lKtUqOYc\u003d\n\u003dtqOg\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffa349bd_413fe441",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-27T10:01:19Z",
+      "side": 1,
+      "message": "I would do this here, so people can\u0027t confuse newEmail and email where you did this below.\n\n(or better: if whatever provides this value sanitizes it directly, so other parts of gerrit can\u0027t forget to sanitize it.)",
+      "range": {
+        "startLine": 82,
+        "startChar": 17,
+        "endLine": 82,
+        "endChar": 22
+      },
+      "revId": "639c37a1de3060b9512f6e74b89317dd8c8c8d98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

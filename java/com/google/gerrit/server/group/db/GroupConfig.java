@@ -23,6 +23,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -104,7 +105,7 @@ public class GroupConfig extends VersionedMetaData {
 
   /** Loads a group at a specific revision. */
   public static GroupConfig loadForGroupSnapshot(
-      Repository repository, AccountGroup.UUID groupUuid, ObjectId commitId)
+      Repository repository, AccountGroup.UUID groupUuid, @Nullable ObjectId commitId)
       throws IOException, ConfigInvalidException {
     GroupConfig groupConfig = new GroupConfig(groupUuid);
     groupConfig.load(repository, commitId);

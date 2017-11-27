@@ -114,7 +114,10 @@ public class GroupRebuilder {
 
   public void rebuild(Repository allUsersRepo, GroupBundle bundle, @Nullable BatchRefUpdate bru)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
-    GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersRepo, bundle.uuid());
+    // Start by assuming the empty revision so we produce the correct commit graph. The createRef
+    // call below will fail with LockFailureException at the end if this assumption is incorrect.
+    GroupConfig groupConfig = GroupConfig.loadForGroupSnapshot(allUsersRepo, bundle.uuid(), null);
+
     AccountGroup group = bundle.group();
     groupConfig.setAllowSaveEmptyName();
     groupConfig.setGroupCreation(

@@ -11,5 +11,6 @@ java_library(
         "//java/com/google/gerrit/server",
         "//lib:guava",
         "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib/jgit/org.eclipse.jgit.junit:junit",
     ],
 )

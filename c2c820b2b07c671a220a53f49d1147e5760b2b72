@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "d0aa21db_25e94d0c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-27T20:30:29Z",
+      "side": 1,
+      "message": "We intentionally have not included this sort of test because it hides the way page.js decides route precedence and parses parameters.\n\nSome routes are also not specified in regexes, but rather in page.js\u0027s custom string language with named parameters. These are not possible to test except *through* page.js, which we have not yet found a way to do.\n\nFor these reasons, I\u0027m not sure this suite should be included.",
+      "revId": "c2c820b2b07c671a220a53f49d1147e5760b2b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "84a51b69_549d9d4f",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.html",
         "patchSetId": 2

@@ -431,7 +431,15 @@ public abstract class GroupBundle {
           reviewDbIndex++;
         }
 
-        if (!redundantReviewDbAuditEntries.contains(noteDbAuditEntry)) {
+        // The order of the entries is not perfect as ReviewDb included milliseconds for timestamps
+        // and we cut off everything below seconds due to NoteDb/git. Consequently, we don't have a
+        // way to know in this method in which exact order additions/removals within the same second
+        // happened. The best we can do is to group all additions within the same second as
+        // redundant entries and the removals afterward. To compensate that we possibly group
+        // non-redundant additions/removals, we also accept NoteDb audit entries which just occur
+        // anywhere as ReviewDb audit entries.
+        if (!redundantReviewDbAuditEntries.contains(noteDbAuditEntry)
+            && !reviewDbAuditEntries.contains(noteDbAuditEntry)) {
           return false;
         }
       }

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "3dc28a1e_670ac064",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-27T12:59:57Z",
+      "side": 1,
+      "message": "I cannot quantify this because on my machine test execution times varies a lot from run to run (+/- 1 minute for the same set of tests without cached results). If anyone can measure the execution time of our whole test suite reliably I would be interested in the numbers with and without this change.\n\nAs explained above this is not only about performance. I actually think fixing issue 2. is more important than the performance improvement.",
+      "parentUuid": "cfd2b6e8_d68abcb7",
+      "range": {
+        "startLine": 84,
+        "startChar": 56,
+        "endLine": 84,
+        "endChar": 65
+      },
+      "revId": "2a9c62138361f43aa38083cef63f203af71a180b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e414515_796121ab",
         "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
         "patchSetId": 12

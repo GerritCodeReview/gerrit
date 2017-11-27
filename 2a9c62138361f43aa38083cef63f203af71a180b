@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1511778924 +0100\nnonce AMT3iFixBbDqRNSuKDsPB1iN/KEuVs/KU21cYW6O/sK6iLgIB0DRG3VdFVITjI7CiE9mEWFRNUnk\n\n0000000000000000000000000000000000000000 2a9c62138361f43aa38083cef63f203af71a180b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaG+psAAoJEFG1/Zeg0O9Roj0IAIQISj4+G9vflWwWQ+db7seY\nQfOd+RUW1BlosnHT5ijyi3YhjNl2nKhRQj6Cj0QzEjEoIOXRd/3zG7r3YCTP4VYF\nf4OE77vbUK37Oq+50nnk24TRSVdBH3bPVPrYDbArGn9JNUWuJ6n/B6jNbosA8jsx\nMSglAr4Eo4y+XBw0wKWUznfRng2N4Rd3YFACOvjkatqukCFnlZ73ot1n5j2wyIL+\nXyjob7qb4c+z2caSPNtysyg7bPkjyCcK7qoNIT7BilxGQoOe48tadzfbbjtEiTQl\nhENQZdgyO461jingVy5QtNXt7RhuBLdU3ltDSDQ0OuekYWa2JKvKJ55rDpEB5aM\u003d\n\u003duWHp\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "cfd2b6e8_d68abcb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-27T12:50:02Z",
+      "side": 1,
+      "message": "how much?  If the benefit is small we could just as well not do it and keep the code simpler.",
+      "range": {
+        "startLine": 84,
+        "startChar": 56,
+        "endLine": 84,
+        "endChar": 65
+      },
+      "revId": "2a9c62138361f43aa38083cef63f203af71a180b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e414515_796121ab",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-27T12:50:02Z",
+      "side": 1,
+      "message": "you\u0027re doing all of it in one place. Aren\u0027t the projects and accounts independent? If so you could do something like\n\n class RepoResetter {\n   RepoResetter(String name, refs ...String)\n\n   // return changed refs.\n   List\u003cString\u003e reset()\n }\n\n class AllUsersResetter extends RepoResetter .. {\n   // account stuff\n } \n\n class AllProjectsResetter extends RepoResetter .. {\n   // account stuff\n } \n\n class TestREsetter implements AutoCloseable {\n    AllProjectsResetter projects;\n    AllUsersResetter users; \n }",
+      "range": {
+        "startLine": 122,
+        "startChar": 16,
+        "endLine": 122,
+        "endChar": 24
+      },
+      "revId": "2a9c62138361f43aa38083cef63f203af71a180b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

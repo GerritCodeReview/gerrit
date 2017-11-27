@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "e624bc7f_e8050ce9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-27T14:51:08Z",
+      "side": 1,
+      "message": "Running a single test class in Eclipse shows that just adding @Sandboxed to a single test method adds about 1s to the runtime. It\u0027s harder to measure the impact of a single @Sandboxed on total \"bazel test\" time, but I think that the single-threaded time is convincing enough.\n\nAdding @Sandboxed to the class is equivalent to adding @Sandboxed to all methods.",
+      "parentUuid": "3dc28a1e_670ac064",
+      "range": {
+        "startLine": 84,
+        "startChar": 56,
+        "endLine": 84,
+        "endChar": 65
+      },
+      "revId": "2a9c62138361f43aa38083cef63f203af71a180b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e414515_796121ab",
         "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
         "patchSetId": 12

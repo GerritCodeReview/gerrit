@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "694b24bf_1f9cf481",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-27T12:16:58Z",
+      "side": 1,
+      "message": "nit: don\u0027t import UUID classes",
+      "range": {
+        "startLine": 93,
+        "startChar": 71,
+        "endLine": 93,
+        "endChar": 75
+      },
+      "revId": "f5565e894545dda0855d618eceb2e9329d35f1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "866d1ad0_1d29998c",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-27T12:16:58Z",
+      "side": 1,
+      "message": "[optional] Here and below. Rename this to \u0027allUsersRepo\u0027 to make it clearer that this should be the All-Users repository.",
+      "range": {
+        "startLine": 74,
+        "startChar": 33,
+        "endLine": 74,
+        "endChar": 37
+      },
+      "revId": "f5565e894545dda0855d618eceb2e9329d35f1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b9f5baa_fc054825",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-27T12:16:58Z",
+      "side": 1,
+      "message": "nit: don\u0027t import UUID class",
+      "range": {
+        "startLine": 133,
+        "startChar": 67,
+        "endLine": 133,
+        "endChar": 71
+      },
+      "revId": "f5565e894545dda0855d618eceb2e9329d35f1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

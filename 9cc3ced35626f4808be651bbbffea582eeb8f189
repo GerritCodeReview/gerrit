@@ -16,6 +16,24 @@
       "revId": "9cc3ced35626f4808be651bbbffea582eeb8f189",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de08ec16_d5d95410",
+        "filename": "tools/bzl/plugins.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-27T21:48:45Z",
+      "side": 1,
+      "message": "\u003e This broke Eclipse project generation in core.\n\nUnderstood. This is definitely something that needs to be addressed.\n\nIt seems to me that the best fix for this is definitely decoupling. I don\u0027t fully understand why we\u0027d want to enforce a contract that forces pure web code to be packaged as a JAR, especially since the entire Java-based frontend of Gerrit is on its way out sooner rather than later.\n\nI don\u0027t mean to pretend that I understand the intricacies of plugin development and loading -- this is my first crack at it, and I have you and others added as reviewers for very good reason 😊 That being said, what seems to make most sense to me is to move plugin development in general to a more standalone system.",
+      "parentUuid": "83ec916f_1740af42",
+      "revId": "9cc3ced35626f4808be651bbbffea582eeb8f189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

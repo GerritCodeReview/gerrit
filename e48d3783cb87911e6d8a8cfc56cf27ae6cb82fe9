@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c55f451_2f4e1313",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-27T19:21:14Z",
+      "side": 1,
+      "message": "you don\u0027t need a multimap, right? A Map\u003cUUID,string\u003e and Map\u003cString, UUID\u003e would do, no?",
+      "range": {
+        "startLine": 238,
+        "startChar": 6,
+        "endLine": 238,
+        "endChar": 27
+      },
+      "revId": "e48d3783cb87911e6d8a8cfc56cf27ae6cb82fe9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

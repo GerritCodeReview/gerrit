@@ -22,6 +22,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
@@ -178,11 +179,23 @@ public class GroupNameNotes extends VersionedMetaData {
         ObjectReader reader = revWalk.getObjectReader()) {
       RevCommit notesCommit = revWalk.parseCommit(ref.getObjectId());
       NoteMap noteMap = NoteMap.read(reader, notesCommit);
+
+      ImmutableListMultimap.Builder<AccountGroup.UUID, String> byUUID =
+          ImmutableListMultimap.builder();
+      ImmutableListMultimap.Builder<String, AccountGroup.UUID> byName =
+          ImmutableListMultimap.builder();
       ImmutableSet.Builder<GroupReference> groupReferences = ImmutableSet.builder();
       for (Note note : noteMap) {
         GroupReference groupReference = getGroupReference(reader, note.getData());
         groupReferences.add(groupReference);
+
+        byUUID.put(groupReference.getUUID(), groupReference.getName());
+        byName.put(groupReference.getName(), groupReference.getUUID());
       }
+      GroupsNoteDbConsistencyChecker.checkGroupNameNotesConsistency(byUUID.build(), byName.build())
+          .stream()
+          .forEachOrdered(GroupsNoteDbConsistencyChecker::logConsistencyProblem);
+
       return groupReferences.build();
     }
   }

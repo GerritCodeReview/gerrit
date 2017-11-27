@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3a269792_36a55d12",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-11-27T16:08:16Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "97893a0b_5a695162",
+      "revId": "43126245111e2050f00ec7d6631f237edc0eccbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18c28825_90df8235",
         "filename": "polygerrit-ui/app/elements/coverage.js",
         "patchSetId": 10
@@ -39,6 +57,30 @@
       "revId": "43126245111e2050f00ec7d6631f237edc0eccbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "120065d6_9b8d3db4",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-11-27T16:08:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18c28825_90df8235",
+      "range": {
+        "startLine": 28,
+        "startChar": 79,
+        "endLine": 28,
+        "endChar": 88
+      },
+      "revId": "43126245111e2050f00ec7d6631f237edc0eccbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "9967734a_a521509b",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-11-27T16:08:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22a96e35_dd24f2bc",
+      "range": {
+        "startLine": 29,
+        "startChar": 78,
+        "endLine": 29,
+        "endChar": 86
+      },
+      "revId": "43126245111e2050f00ec7d6631f237edc0eccbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "773debe0_5bbe1425",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-context.js",
         "patchSetId": 10
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "e3c3ff44_131201dd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-context.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-11-27T16:08:16Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "773debe0_5bbe1425",
+      "revId": "43126245111e2050f00ec7d6631f237edc0eccbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e1d58be_3c9e0a43",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-context.js",
         "patchSetId": 10
@@ -93,6 +177,24 @@
       "writtenOn": "2017-11-22T19:45:41Z",
       "side": 1,
       "message": "FYI: change num is considered to be a legacy item.\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-info\n\nAlso, I wonder if project is needed?",
+      "revId": "43126245111e2050f00ec7d6631f237edc0eccbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49c3478b_cb7b520a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-context.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-11-27T16:08:16Z",
+      "side": 1,
+      "message": "\u003e FYI: change num is considered to be a legacy item.\n\nAssuming you mean this line: \"The legacy numeric ID of the change.\"\nChromium in various different places uses changeNum + patchNum as a key (eg: the buildbucket plugin). I guess at some point that will have to change. Leaving it alone for now.\n\n\u003e \n\u003e https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-info\n\u003e \n\u003e Also, I wonder if project is needed?\n\nIt might be useful if it was there, or maybe not if the key is supposed to be changeNum + patchNum. I was going to add it anyway to be safe, but gr-diff does not know what the projectName is in the individual file diff view. eg: http://localhost:8080/c/demo-project2/+/94/2/NewFile",
+      "parentUuid": "8e1d58be_3c9e0a43",
       "revId": "43126245111e2050f00ec7d6631f237edc0eccbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -119,6 +221,30 @@
       "revId": "43126245111e2050f00ec7d6631f237edc0eccbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00f4c46a_b6060a57",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-context.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-11-27T16:08:16Z",
+      "side": 1,
+      "message": "That looks better now. Thanks for the suggestion. Done.",
+      "parentUuid": "49e734b3_151e3461",
+      "range": {
+        "startLine": 23,
+        "startChar": 9,
+        "endLine": 23,
+        "endChar": 26
+      },
+      "revId": "43126245111e2050f00ec7d6631f237edc0eccbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

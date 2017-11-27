@@ -32,9 +32,11 @@ import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -178,12 +180,19 @@ public class GroupNameNotes extends VersionedMetaData {
         ObjectReader reader = revWalk.getObjectReader()) {
       RevCommit notesCommit = revWalk.parseCommit(ref.getObjectId());
       NoteMap noteMap = NoteMap.read(reader, notesCommit);
-      ImmutableSet.Builder<GroupReference> groupReferences = ImmutableSet.builder();
+
+      Set<GroupReference> groupReferences = new LinkedHashSet<>();
       for (Note note : noteMap) {
         GroupReference groupReference = getGroupReference(reader, note.getData());
-        groupReferences.add(groupReference);
+        boolean result = groupReferences.add(groupReference);
+        if (!result) {
+          GroupsNoteDbConsistencyChecker.logConsistencyProblemAsWarning(
+              "The UUID of group %s (%s) is duplicate in group name notes",
+              groupReference.getName(), groupReference.getUUID());
+        }
       }
-      return groupReferences.build();
+
+      return ImmutableSet.copyOf(groupReferences);
     }
   }
 

@@ -70,6 +70,30 @@
       "revId": "2a9c62138361f43aa38083cef63f203af71a180b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e575c086_e4baa749",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-27T13:08:15Z",
+      "side": 1,
+      "message": "Doesn\u0027t this make it more complicated for the callers, as with this they need to know which project resetters they must use? Also callers then need to deal with combining RepoResetter/AllUsersResetter/AllProjectsResetter. TestResetter would implement this only for the general resetting after each test, but there are more callers in individual tests that may want to do something different.",
+      "parentUuid": "9e414515_796121ab",
+      "range": {
+        "startLine": 122,
+        "startChar": 16,
+        "endLine": 122,
+        "endChar": 24
+      },
+      "revId": "2a9c62138361f43aa38083cef63f203af71a180b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

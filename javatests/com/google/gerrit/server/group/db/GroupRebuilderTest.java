@@ -452,6 +452,45 @@ public class GroupRebuilderTest extends AbstractGroupTest {
   }
 
   @Test
+  public void additionsAndRemovalsWithinSameSecondCanBeMigrated() throws Exception {
+    TestTimeUtil.resetWithClockStep(1, TimeUnit.MILLISECONDS);
+    AccountGroup g = newGroup("a");
+    Timestamp t1 = TimeUtil.nowTs();
+    Timestamp t2 = TimeUtil.nowTs();
+    Timestamp t3 = TimeUtil.nowTs();
+    Timestamp t4 = TimeUtil.nowTs();
+    Timestamp t5 = TimeUtil.nowTs();
+    Timestamp t6 = TimeUtil.nowTs();
+    GroupBundle b =
+        builder()
+            .group(g)
+            .members(member(g, 1))
+            .memberAudit(
+                addAndLegacyRemoveMember(g, 1, 8, t1),
+                addMember(g, 1, 10, t3),
+                addAndRemoveMember(g, 1, 8, t4, 9, t5),
+                addMember(g, 1, 8, t6))
+            .build();
+
+    rebuilder.rebuild(repo, b, null);
+
+    assertMigratedCleanly(reload(g), b);
+    ImmutableList<CommitInfo> log = log(g);
+    assertThat(log).hasSize(6);
+    assertServerCommit(log.get(0), "Create group");
+    assertCommit(
+        log.get(1), "Update group\n\nAdd: Account 1 <1@server-id>", "Account 8", "8@server-id");
+    assertCommit(
+        log.get(2), "Update group\n\nRemove: Account 1 <1@server-id>", "Account 8", "8@server-id");
+    assertCommit(
+        log.get(3), "Update group\n\nAdd: Account 1 <1@server-id>", "Account 10", "10@server-id");
+    assertCommit(
+        log.get(4), "Update group\n\nRemove: Account 1 <1@server-id>", "Account 9", "9@server-id");
+    assertCommit(
+        log.get(5), "Update group\n\nAdd: Account 1 <1@server-id>", "Account 8", "8@server-id");
+  }
+
+  @Test
   public void redundantByIdAuditsAreIgnored() throws Exception {
     AccountGroup g = newGroup("a");
     Timestamp t1 = TimeUtil.nowTs();

@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyP
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -257,7 +258,7 @@ public class CommitValidators {
       String sha1 = commit.abbreviate(RevId.ABBREV_LEN).name();
 
       if (idList.isEmpty()) {
-        if (projectState.isRequireChangeID()) {
+        if (projectState.is(BooleanProjectConfig.REQUIRE_CHANGE_ID)) {
           String shortMsg = commit.getShortMessage();
           if (shortMsg.startsWith(CHANGE_ID_PREFIX)
               && CHANGE_ID
@@ -516,7 +517,7 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
-      if (!state.isUseSignedOffBy()) {
+      if (!state.is(BooleanProjectConfig.USE_SIGNED_OFF_BY)) {
         return Collections.emptyList();
       }
 

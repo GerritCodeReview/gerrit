@@ -19,6 +19,8 @@ import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
+import java.util.HashMap;
+import java.util.Map;
 
 /** Projects match a source code repository managed by Gerrit */
 public final class Project {
@@ -74,9 +76,7 @@ public final class Project {
 
   protected String description;
 
-  protected InheritableBoolean useContributorAgreements;
-
-  protected InheritableBoolean useSignedOffBy;
+  protected Map<BooleanProjectConfig, InheritableBoolean> booleanConfigs;
 
   protected SubmitType submitType;
 
@@ -84,11 +84,7 @@ public final class Project {
 
   protected NameKey parent;
 
-  protected InheritableBoolean requireChangeID;
-
   protected String maxObjectSizeLimit;
-
-  protected InheritableBoolean useContentMerge;
 
   protected String defaultDashboardId;
 
@@ -96,34 +92,17 @@ public final class Project {
 
   protected String themeName;
 
-  protected InheritableBoolean createNewChangeForAllNotInTarget;
-
-  protected InheritableBoolean enableSignedPush;
-  protected InheritableBoolean requireSignedPush;
-
-  protected InheritableBoolean rejectImplicitMerges;
-  protected InheritableBoolean privateByDefault;
-
-  protected InheritableBoolean enableReviewerByEmail;
-
-  protected InheritableBoolean matchAuthorToCommitterDate;
-
   protected Project() {}
 
   public Project(Project.NameKey nameKey) {
     name = nameKey;
     submitType = SubmitType.MERGE_IF_NECESSARY;
     state = ProjectState.ACTIVE;
-    useContributorAgreements = InheritableBoolean.INHERIT;
-    useSignedOffBy = InheritableBoolean.INHERIT;
-    requireChangeID = InheritableBoolean.INHERIT;
-    useContentMerge = InheritableBoolean.INHERIT;
-    createNewChangeForAllNotInTarget = InheritableBoolean.INHERIT;
-    enableSignedPush = InheritableBoolean.INHERIT;
-    requireSignedPush = InheritableBoolean.INHERIT;
-    privateByDefault = InheritableBoolean.INHERIT;
-    enableReviewerByEmail = InheritableBoolean.INHERIT;
-    matchAuthorToCommitterDate = InheritableBoolean.INHERIT;
+
+    booleanConfigs = new HashMap<>();
+    for (BooleanProjectConfig opt : BooleanProjectConfig.values()) {
+      booleanConfigs.put(opt, InheritableBoolean.INHERIT);
+    }
   }
 
   public Project.NameKey getNameKey() {
@@ -142,100 +121,20 @@ public final class Project {
     description = d;
   }
 
-  public InheritableBoolean getUseContributorAgreements() {
-    return useContributorAgreements;
-  }
-
-  public InheritableBoolean getUseSignedOffBy() {
-    return useSignedOffBy;
-  }
-
-  public InheritableBoolean getUseContentMerge() {
-    return useContentMerge;
-  }
-
-  public InheritableBoolean getRequireChangeID() {
-    return requireChangeID;
-  }
-
   public String getMaxObjectSizeLimit() {
     return maxObjectSizeLimit;
   }
 
-  public InheritableBoolean getRejectImplicitMerges() {
-    return rejectImplicitMerges;
+  public InheritableBoolean getBooleanConfig(BooleanProjectConfig config) {
+    return booleanConfigs.get(config);
   }
 
-  public InheritableBoolean getPrivateByDefault() {
-    return privateByDefault;
-  }
-
-  public void setPrivateByDefault(InheritableBoolean privateByDefault) {
-    this.privateByDefault = privateByDefault;
-  }
-
-  public InheritableBoolean getEnableReviewerByEmail() {
-    return enableReviewerByEmail;
-  }
-
-  public void setEnableReviewerByEmail(InheritableBoolean enable) {
-    enableReviewerByEmail = enable;
-  }
-
-  public InheritableBoolean getMatchAuthorToCommitterDate() {
-    return matchAuthorToCommitterDate;
-  }
-
-  public void setMatchAuthorToCommitterDate(InheritableBoolean match) {
-    matchAuthorToCommitterDate = match;
-  }
-
-  public void setUseContributorAgreements(InheritableBoolean u) {
-    useContributorAgreements = u;
-  }
-
-  public void setUseSignedOffBy(InheritableBoolean sbo) {
-    useSignedOffBy = sbo;
-  }
-
-  public void setUseContentMerge(InheritableBoolean cm) {
-    useContentMerge = cm;
-  }
-
-  public void setRequireChangeID(InheritableBoolean cid) {
-    requireChangeID = cid;
-  }
-
-  public InheritableBoolean getCreateNewChangeForAllNotInTarget() {
-    return createNewChangeForAllNotInTarget;
-  }
-
-  public void setCreateNewChangeForAllNotInTarget(InheritableBoolean useAllNotInTarget) {
-    this.createNewChangeForAllNotInTarget = useAllNotInTarget;
-  }
-
-  public InheritableBoolean getEnableSignedPush() {
-    return enableSignedPush;
-  }
-
-  public void setEnableSignedPush(InheritableBoolean enable) {
-    enableSignedPush = enable;
-  }
-
-  public InheritableBoolean getRequireSignedPush() {
-    return requireSignedPush;
-  }
-
-  public void setRequireSignedPush(InheritableBoolean require) {
-    requireSignedPush = require;
+  public void setBooleanConfig(BooleanProjectConfig config, InheritableBoolean val) {
+    booleanConfigs.replace(config, val);
   }
 
   public void setMaxObjectSizeLimit(String limit) {
     maxObjectSizeLimit = limit;
-  }
-
-  public void setRejectImplicitMerges(InheritableBoolean check) {
-    rejectImplicitMerges = check;
   }
 
   public SubmitType getSubmitType() {
@@ -280,14 +179,10 @@ public final class Project {
 
   public void copySettingsFrom(Project update) {
     description = update.description;
-    useContributorAgreements = update.useContributorAgreements;
-    useSignedOffBy = update.useSignedOffBy;
-    useContentMerge = update.useContentMerge;
-    requireChangeID = update.requireChangeID;
+    booleanConfigs = new HashMap<>(update.booleanConfigs);
     submitType = update.submitType;
     state = update.state;
     maxObjectSizeLimit = update.maxObjectSizeLimit;
-    createNewChangeForAllNotInTarget = update.createNewChangeForAllNotInTarget;
   }
 
   /**

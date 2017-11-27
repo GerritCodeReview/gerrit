@@ -106,6 +106,10 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       throws AuthException, BadRequestException, ResourceConflictException,
           ResourceNotFoundException, OrmException, EmailException, MethodNotAllowedException,
           IOException, ConfigInvalidException {
+    if (input == null) {
+      input = new EmailInput();
+    }
+
     if (input.email != null && !email.equals(input.email)) {
       throw new BadRequestException("email address must match URL");
     }

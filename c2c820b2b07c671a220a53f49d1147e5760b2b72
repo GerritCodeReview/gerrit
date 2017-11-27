@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "93bb79a0_0efa3345",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-27T21:57:00Z",
+      "side": 1,
+      "message": "It sounds like it\u0027s still worth changing: we might as call it \"legacy\" until it isn\u0027t.",
+      "parentUuid": "6e7c8f8d_d3d5ddbe",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 11
+      },
+      "revId": "c2c820b2b07c671a220a53f49d1147e5760b2b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ae486f5_6a88d565",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 2
@@ -84,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "494c14ae_64f5386a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-27T21:57:00Z",
+      "side": 1,
+      "message": "How would a redirect break UI switching? I thought both styles were already supported in the GWT UI.",
+      "parentUuid": "49311dae_11511bf6",
+      "revId": "c2c820b2b07c671a220a53f49d1147e5760b2b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d0aa21db_25e94d0c",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.html",
         "patchSetId": 2
@@ -113,6 +155,24 @@
       "side": 1,
       "message": "When I first wrote the regexp for this route, it didn\u0027t support the optional trailing prefixes that I wanted (/, /+, and /+/). With the subtle addition of a single \u0027?\u0027 character (to make one matching group non-greedy), it works. So I felt like there was a need to automatically assert that this behavior continues to work. It would be an easy thing to mess up later on, and it\u0027s unlikely that manual testing would pick up on it.\n\nIt\u0027s ok to me if this is imperfect. If behavior differs from page.js then that will bite us but that\u0027s no worse of a position than we\u0027d be in with no tests at all. I also don\u0027t need this suite to be complete. This is premature generalization, but I want to encourage more routing pattern testing (the hazards you mention notwithstanding).",
       "parentUuid": "d0aa21db_25e94d0c",
+      "revId": "c2c820b2b07c671a220a53f49d1147e5760b2b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2ad4722_8bce45e1",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-27T21:57:00Z",
+      "side": 1,
+      "message": "\u003e When I first wrote the regexp for this route, it didn\u0027t support the optional trailing prefixes that I wanted (/, /+, and /+/). With the subtle addition of a single \u0027?\u0027 character (to make one matching group non-greedy), it works.\n\nI see your point. Tests around the patterns themselves could help when editing the really big ones like CHANGE_OR_DIFF. Getting the group indexes right is also tricky.\n\nWhat if these tests focus on the patterns rather than the precedence? Like ..\n\n assert.match(exampleUrl, element.RoutePattern.NEW_REGEX);\n assert.deepEqual(element.RoutePattern.NEW_REGEX.match(exampleUrl, [...]);\n\nWhereas we can\u0027t test precedence in general (yet), we could specifically distinguish other similar routes like ..\n\n assert.notMatch(exampleUrl, SOME_EXISTING_REGEX);",
+      "parentUuid": "e993c0e1_6ac64983",
       "revId": "c2c820b2b07c671a220a53f49d1147e5760b2b72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

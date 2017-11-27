@@ -22,6 +22,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
@@ -124,7 +125,18 @@ public class Groups {
       Repository allUsersRepository, AccountGroup.UUID groupUuid)
       throws IOException, ConfigInvalidException {
     GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersRepository, groupUuid);
-    return groupConfig.getLoadedGroup();
+    Optional<InternalGroup> loadedGroup = groupConfig.getLoadedGroup();
+
+    if (loadedGroup.isPresent()) {
+      // Check consistency with group name notes.
+      InternalGroup g = loadedGroup.get();
+      List<ConsistencyCheckInfo.ConsistencyProblemInfo> problems =
+          GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
+              allUsersRepository, g.getName(), g.getGroupUUID());
+      problems.stream().forEach(GroupsNoteDbConsistencyChecker::logConsistencyProblem);
+    }
+
+    return loadedGroup;
   }
 
   public static InternalGroup asInternalGroup(ReviewDb db, AccountGroup accountGroup)

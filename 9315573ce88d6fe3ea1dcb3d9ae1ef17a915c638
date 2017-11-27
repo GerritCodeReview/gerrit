@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "40ca7417_f93dd991",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-27T09:51:06Z",
+      "side": 1,
+      "message": "Well, returning an empty map is part of \"undefined\" behavior.",
+      "parentUuid": "0b2d38ff_a8dd3091",
+      "range": {
+        "startLine": 57,
+        "startChar": 12,
+        "endLine": 57,
+        "endChar": 56
+      },
+      "revId": "9315573ce88d6fe3ea1dcb3d9ae1ef17a915c638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8004eca0_bb7a6387",
         "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
         "patchSetId": 4
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "I would prefer second one. The first one put two unrelated things into one container which doesn\u0027t make sense to me. I have updated this class so that the caller can get the the loaded \u0027byUUID\u0027 map through the getter method.",
       "parentUuid": "8004eca0_bb7a6387",
+      "range": {
+        "startLine": 61,
+        "startChar": 46,
+        "endLine": 61,
+        "endChar": 67
+      },
+      "revId": "9315573ce88d6fe3ea1dcb3d9ae1ef17a915c638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e192f5a_cc374683",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-27T09:51:06Z",
+      "side": 1,
+      "message": "I\u0027ve introduced a Result class here. PTAL.",
+      "parentUuid": "2b26aa84_10fa29bc",
       "range": {
         "startLine": 61,
         "startChar": 46,

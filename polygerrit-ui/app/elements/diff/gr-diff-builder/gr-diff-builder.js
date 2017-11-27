@@ -47,6 +47,7 @@
     this._outputEl = outputEl;
     this.groups = [];
     this._blameInfo = null;
+    this._parentIndex = undefined;
 
     this.layers = layers || [];
 
@@ -353,6 +354,7 @@
     threadGroupEl.isOnParent = isOnParent;
     threadGroupEl.projectName = this._projectName;
     threadGroupEl.range = range;
+    threadGroupEl.parentIndex = this._parentIndex;
     return threadGroupEl;
   };
 
@@ -368,7 +370,9 @@
     let isOnParent = comments[0].side === 'PARENT' || false;
     if (line.type === GrDiffLine.Type.REMOVE ||
         opt_side === GrDiffBuilder.Side.LEFT) {
-      if (this._comments.meta.patchRange.basePatchNum === 'PARENT') {
+      if (this._comments.meta.patchRange.basePatchNum === 'PARENT' ||
+          Gerrit.PatchSetBehavior.isMergeParent(
+              this._comments.meta.patchRange.basePatchNum)) {
         isOnParent = true;
       } else {
         patchNum = this._comments.meta.patchRange.basePatchNum;
@@ -584,6 +588,10 @@
         }
       }
     }
+  };
+
+  GrDiffBuilder.prototype.setParentIndex = function(index) {
+    this._parentIndex = index;
   };
 
   /**

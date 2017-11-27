@@ -79,7 +79,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
     this.registerNewEmailFactory = registerNewEmailFactory;
     this.putPreferred = putPreferred;
     this.validator = validator;
-    this.email = email;
+    this.email = email != null ? email.trim() : null;
     this.isDevMode = authConfig.getAuthType() == DEVELOPMENT_BECOME_ANY_ACCOUNT;
   }
 
@@ -88,16 +88,12 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       throws AuthException, BadRequestException, ResourceConflictException,
           ResourceNotFoundException, OrmException, EmailException, MethodNotAllowedException,
           IOException, ConfigInvalidException, PermissionBackendException {
-    if (self.get() != rsrc.getUser() || input.noConfirmation) {
-      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
-    }
-
     if (input == null) {
       input = new EmailInput();
     }
 
-    if (!validator.isValid(email)) {
-      throw new BadRequestException("invalid email address");
+    if (self.get() != rsrc.getUser() || input.noConfirmation) {
+      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
 
     if (!realm.allowsEdit(AccountFieldName.REGISTER_NEW_EMAIL)) {
@@ -107,12 +103,21 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
     return apply(rsrc.getUser(), input);
   }
 
+  /** To be used from plugins that want to create emails without permission checks. */
   public Response<EmailInfo> apply(IdentifiedUser user, EmailInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
           ResourceNotFoundException, OrmException, EmailException, MethodNotAllowedException,
           IOException, ConfigInvalidException, PermissionBackendException {
+    if (input == null) {
+      input = new EmailInput();
+    }
+
     if (input.email != null && !email.equals(input.email)) {
       throw new BadRequestException("email address must match URL");
+    }
+
+    if (!validator.isValid(email)) {
+      throw new BadRequestException("invalid email address");
     }
 
     EmailInfo info = new EmailInfo();

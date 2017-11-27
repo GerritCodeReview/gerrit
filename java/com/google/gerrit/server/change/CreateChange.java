@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -253,7 +254,7 @@ public class CreateChange
         c = newCommit(oi, rw, author, mergeTip, commitMessage);
       }
 
-      boolean privateByDefault = rsrc.getProjectState().isPrivateByDefault();
+      boolean privateByDefault = rsrc.getProjectState().is(BooleanProjectConfig.PRIVATE_BY_DEFAULT);
       Change.Id changeId = new Change.Id(seq.nextChangeId());
       ChangeInserter ins = changeInserterFactory.create(changeId, c, refName);
       ins.setMessage(String.format("Uploaded patch set %s.", ins.getPatchSetId().get()));

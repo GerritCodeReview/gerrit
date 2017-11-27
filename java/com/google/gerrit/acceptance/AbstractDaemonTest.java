@@ -69,6 +69,7 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -874,7 +875,7 @@ public abstract class AbstractDaemonTest {
   protected void setUseContributorAgreements(InheritableBoolean value) throws Exception {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       ProjectConfig config = ProjectConfig.read(md);
-      config.getProject().setUseContributorAgreements(value);
+      config.getProject().setBooleanConfig(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, value);
       config.commit(md);
       projectCache.evict(config.getProject());
     }
@@ -883,7 +884,7 @@ public abstract class AbstractDaemonTest {
   protected void setUseSignedOffBy(InheritableBoolean value) throws Exception {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       ProjectConfig config = ProjectConfig.read(md);
-      config.getProject().setUseSignedOffBy(value);
+      config.getProject().setBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFF_BY, value);
       config.commit(md);
       projectCache.evict(config.getProject());
     }

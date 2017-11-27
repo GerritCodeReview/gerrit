@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
@@ -114,7 +115,7 @@ public class PutMessage
 
     ensureCanEditCommitMessage(resource.getNotes());
     ensureChangeIdIsCorrect(
-        projectCache.checkedGet(resource.getProject()).isRequireChangeID(),
+        projectCache.checkedGet(resource.getProject()).is(BooleanProjectConfig.REQUIRE_CHANGE_ID),
         resource.getChange().getKey().get(),
         sanitizedCommitMessage);
 

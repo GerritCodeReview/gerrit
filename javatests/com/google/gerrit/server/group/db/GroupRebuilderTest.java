@@ -16,6 +16,7 @@ package com.google.gerrit.server.group.db;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_GROUPNAMES;
 
 import com.google.common.collect.ImmutableList;
@@ -34,11 +35,13 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.group.db.testing.GroupTestUtil;
 import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gerrit.testing.TestTimeUtil;
+import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
@@ -562,6 +565,26 @@ public class GroupRebuilderTest extends AbstractGroupTest {
         assertMigratedCleanly(reload(g), b);
       }
     }
+  }
+
+  @Test
+  public void disallowExisting() throws Exception {
+    AccountGroup g = newGroup("a");
+    GroupBundle b = builder().group(g).build();
+
+    rebuilder.rebuild(repo, b, null);
+    assertMigratedCleanly(reload(g), b);
+    String refName = RefNames.refsGroups(g.getGroupUUID());
+    ObjectId oldId = repo.exactRef(refName).getObjectId();
+
+    try {
+      rebuilder.rebuild(repo, b, null);
+      assert_().fail("expected OrmDuplicateKeyException");
+    } catch (OrmDuplicateKeyException e) {
+      // Expected.
+    }
+
+    assertThat(repo.exactRef(refName).getObjectId()).isEqualTo(oldId);
   }
 
   private GroupBundle reload(AccountGroup g) throws Exception {

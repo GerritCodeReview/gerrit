@@ -40,6 +40,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -182,7 +183,10 @@ public class PostReviewers
       return fail(reviewer, e.getMessage());
     }
     boolean confirmed = input.confirmed();
-    boolean allowByEmail = projectCache.checkedGet(rsrc.getProject()).isEnableReviewerByEmail();
+    boolean allowByEmail =
+        projectCache
+            .checkedGet(rsrc.getProject())
+            .is(BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL);
 
     Addition byAccountId =
         addByAccountId(reviewer, rsrc, state, notify, accountsToNotify, allowGroup, allowByEmail);

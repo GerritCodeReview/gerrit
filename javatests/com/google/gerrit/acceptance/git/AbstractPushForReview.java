@@ -69,6 +69,7 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.testing.EditInfoSubject;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -1159,7 +1160,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void pushSameCommitTwice() throws Exception {
     ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config.getProject().setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
+    config
+        .getProject()
+        .setBooleanConfig(
+            BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET, InheritableBoolean.TRUE);
     saveProjectConfig(project, config);
 
     PushOneCommit push =
@@ -1183,7 +1187,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void pushSameCommitTwiceWhenIndexFailed() throws Exception {
     ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config.getProject().setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
+    config
+        .getProject()
+        .setBooleanConfig(
+            BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET, InheritableBoolean.TRUE);
     saveProjectConfig(project, config);
 
     PushOneCommit push =
@@ -1276,7 +1283,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pushForReviewRejected(testRepo, "missing Change-Id in commit message footer");
 
     ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config.getProject().setRequireChangeID(InheritableBoolean.FALSE);
+    config
+        .getProject()
+        .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
     saveProjectConfig(project, config);
     pushForReviewOk(testRepo);
   }
@@ -1302,7 +1311,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pushForReviewRejected(testRepo, "multiple Change-Id lines in commit message footer");
 
     ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config.getProject().setRequireChangeID(InheritableBoolean.FALSE);
+    config
+        .getProject()
+        .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
     saveProjectConfig(project, config);
     pushForReviewRejected(testRepo, "multiple Change-Id lines in commit message footer");
   }
@@ -1323,7 +1334,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pushForReviewRejected(testRepo, "invalid Change-Id line format in commit message footer");
 
     ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config.getProject().setRequireChangeID(InheritableBoolean.FALSE);
+    config
+        .getProject()
+        .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
     saveProjectConfig(project, config);
     pushForReviewRejected(testRepo, "invalid Change-Id line format in commit message footer");
   }
@@ -1349,7 +1362,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pushForReviewRejected(testRepo, "invalid Change-Id line format in commit message footer");
 
     ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config.getProject().setRequireChangeID(InheritableBoolean.FALSE);
+    config
+        .getProject()
+        .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
+    ;
     saveProjectConfig(project, config);
     pushForReviewRejected(testRepo, "invalid Change-Id line format in commit message footer");
   }
@@ -1372,7 +1388,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             + " commit");
 
     ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config.getProject().setRequireChangeID(InheritableBoolean.FALSE);
+    config
+        .getProject()
+        .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
     saveProjectConfig(project, config);
 
     pushForReviewRejected(
@@ -1395,7 +1413,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             + " commit");
 
     ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config.getProject().setRequireChangeID(InheritableBoolean.FALSE);
+    config
+        .getProject()
+        .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
     saveProjectConfig(project, config);
 
     pushForReviewRejected(
@@ -2101,7 +2121,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   private void enableCreateNewChangeForAllNotInTarget() throws Exception {
     ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config.getProject().setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
+    config
+        .getProject()
+        .setBooleanConfig(
+            BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET, InheritableBoolean.TRUE);
     saveProjectConfig(project, config);
   }
 

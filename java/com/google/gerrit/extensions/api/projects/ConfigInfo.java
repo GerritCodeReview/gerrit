@@ -23,6 +23,7 @@ import java.util.Map;
 
 public class ConfigInfo {
   public String description;
+
   public InheritedBooleanInfo useContributorAgreements;
   public InheritedBooleanInfo useContentMerge;
   public InheritedBooleanInfo useSignedOffBy;
@@ -34,6 +35,7 @@ public class ConfigInfo {
   public InheritedBooleanInfo privateByDefault;
   public InheritedBooleanInfo enableReviewerByEmail;
   public InheritedBooleanInfo matchAuthorToCommitterDate;
+
   public MaxObjectSizeLimitInfo maxObjectSizeLimit;
   public SubmitType submitType;
   public ProjectState state;

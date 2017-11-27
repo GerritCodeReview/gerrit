@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.server.git.ProjectConfig;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
@@ -82,7 +83,8 @@ public class ImplicitMergeCheckIT extends AbstractDaemonTest {
 
   private void setRejectImplicitMerges() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.getProject().setRejectImplicitMerges(InheritableBoolean.TRUE);
+    cfg.getProject()
+        .setBooleanConfig(BooleanProjectConfig.REJECT_IMPLICIT_MERGES, InheritableBoolean.TRUE);
     saveProjectConfig(project, cfg);
   }
 

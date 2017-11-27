@@ -15,7 +15,7 @@
 package com.google.gerrit.server.mail.receive;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -29,10 +29,17 @@ import org.jsoup.nodes.Element;
 /** Provides functionality for parsing the HTML part of a {@link MailMessage}. */
 public class HtmlParser {
 
-  private static final ImmutableList<String> MAIL_PROVIDER_EXTRAS =
-      ImmutableList.of(
+  private static final ImmutableSet<String> MAIL_PROVIDER_EXTRAS =
+      ImmutableSet.of(
           "gmail_extra", // "On 01/01/2017 User<user@gmail.com> wrote:"
           "gmail_quote" // Used for quoting original content
+          );
+
+  private static final ImmutableSet<String> WHITELISTED_HTML_TAGS =
+      ImmutableSet.of(
+          "div", // Most user-typed comments are contained in a <div> tag
+          "a", // We allow links to be contained in a comment
+          "font" // Some email clients like nesting input in a new font tag
           );
 
   private HtmlParser() {}
@@ -114,8 +121,8 @@ public class HtmlParser {
         // There is no user-input in quoted text
         continue;
       }
-      if (!elementName.equals("div") && !elementName.equals("a")) {
-        // We only accept div and a since these tags contain user input
+      if (!WHITELISTED_HTML_TAGS.contains(elementName)) {
+        // We only accept a set of whitelisted tags that can contain user input
         continue;
       }
       if (elementName.equals("a") && e.attr("href").startsWith("mailto:")) {

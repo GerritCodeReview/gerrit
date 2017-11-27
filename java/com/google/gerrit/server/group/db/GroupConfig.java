@@ -23,6 +23,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -33,6 +34,7 @@ import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.function.Function;
@@ -72,6 +74,7 @@ public class GroupConfig extends VersionedMetaData {
 
   private final AccountGroup.UUID groupUuid;
   private final String ref;
+  private final Repository allUsersRepo;
 
   private Optional<InternalGroup> loadedGroup = Optional.empty();
   private Optional<InternalGroupCreation> groupCreation = Optional.empty();
@@ -81,15 +84,16 @@ public class GroupConfig extends VersionedMetaData {
   private boolean isLoaded = false;
   private boolean allowSaveEmptyName;
 
-  private GroupConfig(AccountGroup.UUID groupUuid) {
+  private GroupConfig(AccountGroup.UUID groupUuid, Repository allUsersRepo) {
     this.groupUuid = checkNotNull(groupUuid);
-    ref = RefNames.refsGroups(groupUuid);
+    this.ref = RefNames.refsGroups(groupUuid);
+    this.allUsersRepo = allUsersRepo;
   }
 
   public static GroupConfig createForNewGroup(
       Repository repository, InternalGroupCreation groupCreation)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
-    GroupConfig groupConfig = new GroupConfig(groupCreation.getGroupUUID());
+    GroupConfig groupConfig = new GroupConfig(groupCreation.getGroupUUID(), repository);
     groupConfig.load(repository);
     groupConfig.setGroupCreation(groupCreation);
     return groupConfig;
@@ -97,7 +101,7 @@ public class GroupConfig extends VersionedMetaData {
 
   public static GroupConfig loadForGroup(Repository repository, AccountGroup.UUID groupUuid)
       throws IOException, ConfigInvalidException {
-    GroupConfig groupConfig = new GroupConfig(groupUuid);
+    GroupConfig groupConfig = new GroupConfig(groupUuid, repository);
     groupConfig.load(repository);
     return groupConfig;
   }
@@ -106,13 +110,21 @@ public class GroupConfig extends VersionedMetaData {
   public static GroupConfig loadForGroupSnapshot(
       Repository repository, AccountGroup.UUID groupUuid, ObjectId commitId)
       throws IOException, ConfigInvalidException {
-    GroupConfig groupConfig = new GroupConfig(groupUuid);
+    GroupConfig groupConfig = new GroupConfig(groupUuid, repository);
     groupConfig.load(repository, commitId);
     return groupConfig;
   }
 
   public Optional<InternalGroup> getLoadedGroup() {
     checkLoaded();
+    if (loadedGroup.isPresent()) {
+      InternalGroup g = loadedGroup.get();
+      List<ConsistencyCheckInfo.ConsistencyProblemInfo> problems =
+          GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
+              allUsersRepo, g.getName(), g.getGroupUUID());
+      problems.stream().forEachOrdered(GroupsNoteDbConsistencyChecker::logConsistencyProblem);
+    }
+
     return loadedGroup;
   }
 

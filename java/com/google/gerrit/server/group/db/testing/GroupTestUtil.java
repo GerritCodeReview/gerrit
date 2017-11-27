@@ -23,12 +23,17 @@ import com.google.common.collect.Streams;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.CommitUtil;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import java.io.IOException;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -70,6 +75,48 @@ public class GroupTestUtil {
       }
     }
     return ImmutableList.of();
+  }
+
+  public static void updateGroupFile(
+      GitRepositoryManager repoManager,
+      AllUsersName allUsers,
+      PersonIdent serverIdent,
+      String refname,
+      String filename,
+      String contents)
+      throws Exception {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      updateGroupFile(repo, serverIdent, refname, filename, contents);
+    }
+  }
+
+  public static void updateGroupFile(
+      Repository allUsers,
+      PersonIdent serverIdent,
+      String refname,
+      String filename,
+      String contents)
+      throws Exception {
+    try (RevWalk rw = new RevWalk(allUsers)) {
+      TestRepository<Repository> testRepository = new TestRepository<>(allUsers, rw);
+      TestRepository.CommitBuilder builder =
+          testRepository
+              .branch(refname)
+              .commit()
+              .add(filename, contents)
+              .message("update group file")
+              .author(serverIdent)
+              .committer(serverIdent);
+
+      Ref ref = allUsers.exactRef(refname);
+      if (ref != null) {
+        RevCommit c = rw.parseCommit(ref.getObjectId());
+        if (c != null) {
+          builder.parent(c);
+        }
+      }
+      builder.create();
+    }
   }
 
   private GroupTestUtil() {}

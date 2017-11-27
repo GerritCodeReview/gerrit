@@ -20,14 +20,15 @@ import static com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.Consi
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.testing.GerritBaseTests;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.group.db.testing.GroupTestUtil;
 import java.util.List;
 import org.junit.Test;
 
-public class GroupsNoteDbConsistencyCheckerTest extends GerritBaseTests {
+public class GroupsNoteDbConsistencyCheckerTest extends AbstractGroupTest {
 
   @Test
-  public void duplicateUUIDs() throws Exception {
+  public void duplicateUUIDsInGroupNameNotes() throws Exception {
     ImmutableListMultimap<AccountGroup.UUID, String> byUUID =
         ImmutableListMultimap.of(
             new AccountGroup.UUID("uuid-1"),
@@ -48,5 +49,61 @@ public class GroupsNoteDbConsistencyCheckerTest extends GerritBaseTests {
     List<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkDuplicateUUIDs(byUUID);
     assertThat(problems).containsExactly(exp1, exp2);
+  }
+
+  @Test
+  public void GroupNamesRefIsMissing() throws Exception {
+    checkConsistency(warning("ref %s does not exist", RefNames.REFS_GROUPNAMES));
+  }
+
+  @Test
+  public void GroupNameNoteDataBlobIsMissing() throws Exception {
+    GroupTestUtil.updateGroupFile(allUsersRepo, serverIdent, RefNames.REFS_GROUPNAMES, "a", "c");
+    checkConsistency(warning("Group with name 'g-1' doesn't exist in the list of all names"));
+  }
+
+  @Test
+  public void GroupNameNoteHasDifferentUUID() throws Exception {
+    updateGroupNamesRef("[group]\n\tuuid = uuid-2\n\tname = g-1\n");
+    checkConsistency(
+        warning(
+            "group with name 'g-1' has UUID 'uuid-1' in 'group.config' while 'uuid-2' in group name notes"));
+  }
+
+  @Test
+  public void GroupNameNoteHasDifferentName() throws Exception {
+    updateGroupNamesRef("[group]\n\tuuid = uuid-1\n\tname = g-2\n");
+    checkConsistency(
+        warning(
+            "group with UUID 'uuid-1' has name 'g-1' in 'group.config' while 'g-2' in group name notes"));
+  }
+
+  @Test
+  public void GroupNameNoteHasDifferentNameAndUUID() throws Exception {
+    updateGroupNamesRef("[group]\n\tuuid = uuid-2\n\tname = g-2\n");
+    checkConsistency(
+        warning(
+            "group with name 'g-1' has UUID 'uuid-1' in 'group.config' while 'uuid-2' in group name notes"),
+        warning(
+            "group with UUID 'uuid-1' has name 'g-1' in 'group.config' while 'g-2' in group name notes"));
+  }
+
+  @Test
+  public void GroupNameNoteFailToParse() throws Exception {
+    updateGroupNamesRef("[invalid");
+    checkConsistency(warning("fail to check consistency with group name notes"));
+  }
+
+  private void checkConsistency(ConsistencyProblemInfo... exps) throws Exception {
+    List<ConsistencyProblemInfo> problems =
+        GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
+            allUsersRepo, "g-1", new AccountGroup.UUID("uuid-1"));
+    assertThat(problems).containsExactly(exps);
+  }
+
+  private void updateGroupNamesRef(String content) throws Exception {
+    String nameKey = GroupNameNotes.getNoteKey(new AccountGroup.NameKey("g-1")).getName();
+    GroupTestUtil.updateGroupFile(
+        allUsersRepo, serverIdent, RefNames.REFS_GROUPNAMES, nameKey, content);
   }
 }

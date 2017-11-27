@@ -88,12 +88,12 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       throws AuthException, BadRequestException, ResourceConflictException,
           ResourceNotFoundException, OrmException, EmailException, MethodNotAllowedException,
           IOException, ConfigInvalidException, PermissionBackendException {
-    if (self.get() != rsrc.getUser() || input.noConfirmation) {
-      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
-    }
-
     if (input == null) {
       input = new EmailInput();
+    }
+
+    if (self.get() != rsrc.getUser() || input.noConfirmation) {
+      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
 
     if (!validator.isValid(email)) {
@@ -111,6 +111,10 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       throws AuthException, BadRequestException, ResourceConflictException,
           ResourceNotFoundException, OrmException, EmailException, MethodNotAllowedException,
           IOException, ConfigInvalidException, PermissionBackendException {
+    if (input == null) {
+      input = new EmailInput();
+    }
+
     if (input.email != null && !email.equals(input.email)) {
       throw new BadRequestException("email address must match URL");
     }

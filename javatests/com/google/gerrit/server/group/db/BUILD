@@ -12,6 +12,7 @@ junit_tests(
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/group/db/testing",
         "//java/com/google/gerrit/testing:gerrit-test-util",
+        "//lib:gwtorm",
         "//lib:truth",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",

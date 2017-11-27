@@ -16,6 +16,7 @@ package com.google.gerrit.server.group.db;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ImmutableBiMap.toImmutableBiMap;
+import static com.google.gerrit.server.group.db.GroupNameNotes.getGroupReference;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
@@ -193,6 +194,21 @@ public class GroupNameNotes extends VersionedMetaData {
       }
 
       return (ImmutableSet<GroupReference>) groupReferences;
+    }
+  }
+
+  public static Optional<GroupReference> loadOneGroupReference(
+      Repository allUsersRepo, ObjectId revision, String groupName)
+      throws IOException, ConfigInvalidException {
+    try (RevWalk revWalk = new RevWalk(allUsersRepo);
+        ObjectReader reader = revWalk.getObjectReader()) {
+      RevCommit notesCommit = revWalk.parseCommit(revision);
+      NoteMap noteMap = NoteMap.read(reader, notesCommit);
+      ObjectId noteDataBlobId = noteMap.get(getNoteKey(new AccountGroup.NameKey(groupName)));
+      if (noteDataBlobId == null) {
+        return Optional.empty();
+      }
+      return Optional.of(getGroupReference(reader, noteDataBlobId));
     }
   }
 

@@ -28,10 +28,12 @@ import com.google.gerrit.server.group.InternalGroup;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -215,6 +217,52 @@ public class GroupsNoteDbConsistencyChecker {
     }
 
     return problems;
+  }
+
+  /**
+   * Check group 'uuid' and 'name' read from 'group.config' with group name notes.
+   *
+   * @param allUsersRepo 'All-Users' repository.
+   * @param groupName the name of the group to be checked.
+   * @param groupUUID the {@code AccountGroup.UUID} of the group to be checked.
+   * @return a list of {@code ConsistencyProblemInfo} containing the problem details.
+   */
+  public static List<ConsistencyProblemInfo> checkWithGroupNameNotes(
+      Repository allUsersRepo, String groupName, AccountGroup.UUID groupUUID) {
+    try {
+      Ref ref = allUsersRepo.exactRef(RefNames.REFS_GROUPNAMES);
+      if (ref == null) {
+        return Collections.singletonList(error("ref %s does not exist", RefNames.REFS_GROUPNAMES));
+      }
+
+      Optional<GroupReference> groupRef =
+          GroupNameNotes.loadOneGroupReference(allUsersRepo, ref.getObjectId(), groupName);
+
+      if (!groupRef.isPresent()) {
+        return Collections.singletonList(
+            error("Group with name '%s' doesn't exist in the list of all names", groupName));
+      }
+
+      AccountGroup.UUID uuid = groupRef.get().getUUID();
+      String name = groupRef.get().getName();
+
+      List<ConsistencyProblemInfo> problems = new ArrayList<>();
+      if (!Objects.equals(groupUUID, uuid)) {
+        problems.add(
+            warning(
+                "group with name '%s' has UUID '%s' in 'group.config' but '%s' in group name notes",
+                groupName, groupUUID, uuid));
+      }
+
+      if (!Objects.equals(groupName, name)) {
+        problems.add(
+            warning("group note of name '%s' claims to represent name of '%s'", groupName, name));
+      }
+      return problems;
+    } catch (IOException | ConfigInvalidException e) {
+      return Collections.singletonList(
+          error("fail to check consistency with group name notes: %s", e.getMessage()));
+    }
   }
 
   public static void logConsistencyProblemAsWarning(String fmt, Object... args) {

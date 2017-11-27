@@ -104,12 +104,13 @@
      * @return {Promise} A promise that resolves when the diff is completely
      *     processed.
      */
-    process(content, isImageDiff) {
+    process(content, isBinary) {
       this.groups = [];
       this.push('groups', this._makeFileComments());
 
-      // If image diff, only render the file lines.
-      if (isImageDiff) { return Promise.resolve(); }
+      // If it's a binary diff, we won't be rendering hunks of text differences
+      // so finish processing.
+      if (isBinary) { return Promise.resolve(); }
 
       return new Promise(resolve => {
         const state = {

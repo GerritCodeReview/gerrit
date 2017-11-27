@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec045778_ff5cda47",
+        "filename": "java/com/google/gerrit/acceptance/TestAccount.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-27T15:40:50Z",
+      "side": 0,
+      "message": "Unrelated cleanup?",
+      "revId": "6cafa8c32a6c20d6803b89ae672b9bd01851325a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

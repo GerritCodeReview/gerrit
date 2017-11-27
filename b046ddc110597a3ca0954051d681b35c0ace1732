@@ -1,4 +1,211 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1511793780 +0100\nnonce AMT3iFhez2byFtLcTD7wl6CKiOUFa5Sjb7BJw6Su89JVXOTBUSO+nxLZij770Z+q4Yhpy9dC/QTL\n\n0000000000000000000000000000000000000000 b046ddc110597a3ca0954051d681b35c0ace1732 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaHCR0AAoJEFG1/Zeg0O9RYMcH/AhSM6VmpUAyn+lPgEH+qmcY\nmdZ2zxhkaqkb4fbRd7HoNwmtuJLxoUpozck+pEJFxgS1e4KGXz/73ZhGTxIep3zO\nOhpke3j8yW+ApNcmx7Wl0l4p75+UJacSAgZjbawt+SwuCOua/5u3rRKDxNq7JE82\nXcbXPhMKBASKyu4pBYwQUyF0ppp62e8sWbG8pP1wtRcMyN20gbbw2jZ82h+iZSfC\ns6hc5BrWJGruCw5R38Y8FsenTEGYgkH/RAbqgKwmaVF3o+x5Gu17nd4w7on+KQbn\nNff0gyYJ8bbeI7gwWD5AYFj/Cn6xVV9GGT9kKEBS+0b3U5R385KzhyRi2eupJxc\u003d\n\u003dsuZ1\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a70b6458_7324a921",
+        "filename": "java/com/google/gerrit/acceptance/AccountCreator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-27T15:40:50Z",
+      "side": 1,
+      "message": "Optional: accounts().values().removeIf(a -\u003e ids.contains(a.id))",
+      "range": {
+        "startLine": 189,
+        "startChar": 60,
+        "endLine": 189,
+        "endChar": 0
+      },
+      "revId": "b046ddc110597a3ca0954051d681b35c0ace1732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b944b2e3_89a62e8a",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-27T15:40:50Z",
+      "side": 1,
+      "message": "Or if any change meta refs are reset? Typically this is not the case (see also my comment below), but it\u0027s theoretically possible to have changes in All-Projects/All-Users.",
+      "range": {
+        "startLine": 69,
+        "startChar": 35,
+        "endLine": 69,
+        "endChar": 71
+      },
+      "revId": "b046ddc110597a3ca0954051d681b35c0ace1732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f8b2b9e_0b129199",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-27T15:40:50Z",
+      "side": 1,
+      "message": "I think it\u0027s worth mentioning explicitly that it is not usually necessary to reset projects other than All-Projects and All-Users because usually each acceptance test creates a brand new project to store all of its changes. Since that project is not used outside of the test method that creates it, leaving refs us not an issue.",
+      "revId": "b046ddc110597a3ca0954051d681b35c0ace1732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57da0bd6_ecf7d5a4",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-27T15:40:50Z",
+      "side": 1,
+      "message": "Builder.Factorys make me sad.\n\nI don\u0027t really have a better suggestion, though.",
+      "revId": "b046ddc110597a3ca0954051d681b35c0ace1732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05784aac_905f2cba",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-27T15:40:50Z",
+      "side": 1,
+      "message": ".equals? Pretty sure entries() is a Collection\u003cMap.Entry\u003cProject.NameKey, String\u003e\u003e.",
+      "range": {
+        "startLine": 266,
+        "startChar": 33,
+        "endLine": 266,
+        "endChar": 42
+      },
+      "revId": "b046ddc110597a3ca0954051d681b35c0ace1732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94c93932_61004527",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-27T15:40:50Z",
+      "side": 1,
+      "message": "Redundant?",
+      "range": {
+        "startLine": 274,
+        "startChar": 30,
+        "endLine": 274,
+        "endChar": 60
+      },
+      "revId": "b046ddc110597a3ca0954051d681b35c0ace1732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04d1fafe_f0506395",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-27T15:40:50Z",
+      "side": 1,
+      "message": "Unrelated?",
+      "revId": "b046ddc110597a3ca0954051d681b35c0ace1732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fb3f2e7_202f17e9",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-27T15:40:50Z",
+      "side": 1,
+      "message": "Optional idea for future cleanup: this spec could potentially be described as an annotation.",
+      "range": {
+        "startLine": 491,
+        "startChar": 4,
+        "endLine": 491,
+        "endChar": 7
+      },
+      "revId": "b046ddc110597a3ca0954051d681b35c0ace1732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2d523b0_7c848a32",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-27T15:40:50Z",
+      "side": 1,
+      "message": "How is this different from the default?",
+      "range": {
+        "startLine": 491,
+        "startChar": 62,
+        "endLine": 491,
+        "endChar": 77
+      },
+      "revId": "b046ddc110597a3ca0954051d681b35c0ace1732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "542420ed_587b1f36",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-27T15:40:50Z",
+      "side": 1,
+      "message": "Unrelated?",
+      "revId": "b046ddc110597a3ca0954051d681b35c0ace1732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

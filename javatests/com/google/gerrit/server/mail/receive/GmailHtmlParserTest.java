@@ -26,7 +26,7 @@ public class GmailHtmlParserTest extends HtmlParserTest {
             + "On Fri, Nov 18, 2016 at 11:15 AM, foobar (Gerrit) noreply@gerrit.com"
             + "<span dir=\"ltr\">&lt;<a href=\"mailto:noreply@gerrit.com\" "
             + "target=\"_blank\">noreply@gerrit.com</a>&gt;</span> wrote:<br>"
-            + "<blockquote class=\"gmail_quote\" "
+            + "</div></div><blockquote class=\"gmail_quote\" "
             + "<p>foobar <strong>posted comments</strong> on this change.</p>"
             + "<p><a href=\""
             + CHANGE_URL
@@ -41,7 +41,6 @@ public class GmailHtmlParserTest extends HtmlParserTest {
             + "/1/gerrit-server/test.txt\">"
             + "File gerrit-server/<wbr>test.txt:</a></p>"
             + commentBlock(f1)
-            + "<li><p>"
             + "<a href=\""
             + CHANGE_URL
             + "/1/gerrit-server/test.txt\">"
@@ -105,7 +104,7 @@ public class GmailHtmlParserTest extends HtmlParserTest {
             + "</p><p>Gerrit-MessageType: comment<br>"
             + "Footer omitted</p>"
             + "<div><div></div></div>"
-            + "<p>Gerrit-HasComments: Yes</p></blockquote></div><br></div></div>";
+            + "<p>Gerrit-HasComments: Yes</p></blockquote></div>";
     return email;
   }
 

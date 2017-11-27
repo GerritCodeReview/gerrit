@@ -118,6 +118,30 @@
       "revId": "2a9c62138361f43aa38083cef63f203af71a180b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a67b9bd_cd8377bd",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-27T14:43:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c823765_b0103cb3",
+      "range": {
+        "startLine": 122,
+        "startChar": 16,
+        "endLine": 122,
+        "endChar": 24
+      },
+      "revId": "2a9c62138361f43aa38083cef63f203af71a180b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -101,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "e993c0e1_6ac64983",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-11-27T21:06:59Z",
+      "side": 1,
+      "message": "When I first wrote the regexp for this route, it didn\u0027t support the optional trailing prefixes that I wanted (/, /+, and /+/). With the subtle addition of a single \u0027?\u0027 character (to make one matching group non-greedy), it works. So I felt like there was a need to automatically assert that this behavior continues to work. It would be an easy thing to mess up later on, and it\u0027s unlikely that manual testing would pick up on it.\n\nIt\u0027s ok to me if this is imperfect. If behavior differs from page.js then that will bite us but that\u0027s no worse of a position than we\u0027d be in with no tests at all. I also don\u0027t need this suite to be complete. This is premature generalization, but I want to encourage more routing pattern testing (the hazards you mention notwithstanding).",
+      "parentUuid": "d0aa21db_25e94d0c",
+      "revId": "c2c820b2b07c671a220a53f49d1147e5760b2b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "84a51b69_549d9d4f",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.html",
         "patchSetId": 2

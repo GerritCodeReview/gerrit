@@ -23,6 +23,30 @@
       "revId": "639c37a1de3060b9512f6e74b89317dd8c8c8d98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8eb3f51b_fdf15859",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-27T10:44:30Z",
+      "side": 1,
+      "message": "Yes, don\u0027t know why I wasn\u0027t doing this in the first place...\n\nDone",
+      "parentUuid": "ffa349bd_413fe441",
+      "range": {
+        "startLine": 82,
+        "startChar": 17,
+        "endLine": 82,
+        "endChar": 22
+      },
+      "revId": "639c37a1de3060b9512f6e74b89317dd8c8c8d98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

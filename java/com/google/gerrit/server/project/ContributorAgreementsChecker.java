@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -65,7 +66,7 @@ public class ContributorAgreementsChecker {
       throw new IOException("Can't load All-Projects");
     }
 
-    if (!projectState.isUseContributorAgreements()) {
+    if (!projectState.is(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS)) {
       return;
     }
 

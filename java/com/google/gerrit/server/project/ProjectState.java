@@ -31,8 +31,8 @@ import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.ThemeInfo;
-import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -66,7 +66,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -375,48 +374,19 @@ public class ProjectState {
     return isAllUsers;
   }
 
-  public boolean isUseContributorAgreements() {
-    return getInheritableBoolean(Project::getUseContributorAgreements);
-  }
-
-  public boolean isUseContentMerge() {
-    return getInheritableBoolean(Project::getUseContentMerge);
-  }
-
-  public boolean isUseSignedOffBy() {
-    return getInheritableBoolean(Project::getUseSignedOffBy);
-  }
-
-  public boolean isRequireChangeID() {
-    return getInheritableBoolean(Project::getRequireChangeID);
-  }
-
-  public boolean isCreateNewChangeForAllNotInTarget() {
-    return getInheritableBoolean(Project::getCreateNewChangeForAllNotInTarget);
-  }
-
-  public boolean isEnableSignedPush() {
-    return getInheritableBoolean(Project::getEnableSignedPush);
-  }
-
-  public boolean isRequireSignedPush() {
-    return getInheritableBoolean(Project::getRequireSignedPush);
-  }
-
-  public boolean isRejectImplicitMerges() {
-    return getInheritableBoolean(Project::getRejectImplicitMerges);
-  }
-
-  public boolean isPrivateByDefault() {
-    return getInheritableBoolean(Project::getPrivateByDefault);
-  }
-
-  public boolean isEnableReviewerByEmail() {
-    return getInheritableBoolean(Project::getEnableReviewerByEmail);
-  }
-
-  public boolean isMatchAuthorToCommitterDate() {
-    return getInheritableBoolean(Project::getMatchAuthorToCommitterDate);
+  public boolean is(BooleanProjectConfig config) {
+    for (ProjectState s : tree()) {
+      switch (s.getProject().getBooleanConfig(config)) {
+        case TRUE:
+          return true;
+        case FALSE:
+          return false;
+        case INHERIT:
+        default:
+          continue;
+      }
+    }
+    return false;
   }
 
   /** All available label types. */
@@ -559,21 +529,6 @@ public class ProjectState {
 
   private String readFile(Path p) throws IOException {
     return Files.exists(p) ? new String(Files.readAllBytes(p), UTF_8) : null;
-  }
-
-  private boolean getInheritableBoolean(Function<Project, InheritableBoolean> func) {
-    for (ProjectState s : tree()) {
-      switch (func.apply(s.getProject())) {
-        case TRUE:
-          return true;
-        case FALSE:
-          return false;
-        case INHERIT:
-        default:
-          continue;
-      }
-    }
-    return false;
   }
 
   private LabelTypes loadLabelTypes() {

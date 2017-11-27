@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.RebaseChangeOp;
@@ -179,7 +180,8 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
                 // Do not post message after inserting new patchset because there
                 // will be one about change being merged already.
                 .setPostMessage(false)
-                .setMatchAuthorToCommitterDate(args.project.isMatchAuthorToCommitterDate());
+                .setMatchAuthorToCommitterDate(
+                    args.project.is(BooleanProjectConfig.MATCH_AUTHOR_TO_COMMITTER_DATE));
         try {
           rebaseOp.updateRepo(ctx);
         } catch (MergeConflictException | NoSuchChangeException e) {

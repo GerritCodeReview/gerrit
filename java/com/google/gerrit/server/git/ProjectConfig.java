@@ -44,6 +44,7 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -88,8 +89,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private static final String PROJECT = "project";
   private static final String KEY_DESCRIPTION = "description";
-  private static final String KEY_MATCH_AUTHOR_DATE_WITH_COMMITTER_DATE =
-      "matchAuthorToCommitterDate";
 
   public static final String ACCESS = "access";
   private static final String KEY_INHERIT_FROM = "inheritFrom";
@@ -115,23 +114,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String CAPABILITY = "capability";
 
   private static final String RECEIVE = "receive";
-  private static final String KEY_REQUIRE_SIGNED_OFF_BY = "requireSignedOffBy";
-  private static final String KEY_REQUIRE_CHANGE_ID = "requireChangeId";
-  private static final String KEY_USE_ALL_NOT_IN_TARGET = "createNewChangeForAllNotInTarget";
-  private static final String KEY_MAX_OBJECT_SIZE_LIMIT = "maxObjectSizeLimit";
-  private static final String KEY_REQUIRE_CONTRIBUTOR_AGREEMENT = "requireContributorAgreement";
   private static final String KEY_CHECK_RECEIVED_OBJECTS = "checkReceivedObjects";
-  private static final String KEY_ENABLE_SIGNED_PUSH = "enableSignedPush";
-  private static final String KEY_REQUIRE_SIGNED_PUSH = "requireSignedPush";
-  private static final String KEY_REJECT_IMPLICIT_MERGES = "rejectImplicitMerges";
-
-  private static final String CHANGE = "change";
-  private static final String KEY_PRIVATE_BY_DEFAULT = "privateByDefault";
 
   private static final String SUBMIT = "submit";
   private static final String KEY_ACTION = "action";
-  private static final String KEY_MERGE_CONTENT = "mergeContent";
   private static final String KEY_STATE = "state";
+
+  private static final String KEY_MAX_OBJECT_SIZE_LIMIT = "maxObjectSizeLimit";
 
   private static final String SUBSCRIBE_SECTION = "allowSuperproject";
   private static final String SUBSCRIBE_MATCH_REFS = "matching";
@@ -156,9 +145,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String KEY_VALUE = "value";
   private static final String KEY_CAN_OVERRIDE = "canOverride";
   private static final String KEY_BRANCH = "branch";
-
-  private static final String REVIEWER = "reviewer";
-  private static final String KEY_ENABLE_REVIEWER_BY_EMAIL = "enableByEmail";
 
   private static final String LEGACY_PERMISSION_PUSH_TAG = "pushTag";
   private static final String LEGACY_PERMISSION_PUSH_SIGNED_TAG = "pushSignedTag";
@@ -520,37 +506,20 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
     p.setParentName(rc.getString(ACCESS, null, KEY_INHERIT_FROM));
 
-    p.setUseContributorAgreements(
-        getEnum(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, InheritableBoolean.INHERIT));
-    p.setUseSignedOffBy(
-        getEnum(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, InheritableBoolean.INHERIT));
-    p.setRequireChangeID(
-        getEnum(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, InheritableBoolean.INHERIT));
-    p.setCreateNewChangeForAllNotInTarget(
-        getEnum(rc, RECEIVE, null, KEY_USE_ALL_NOT_IN_TARGET, InheritableBoolean.INHERIT));
-    p.setEnableSignedPush(
-        getEnum(rc, RECEIVE, null, KEY_ENABLE_SIGNED_PUSH, InheritableBoolean.INHERIT));
-    p.setRequireSignedPush(
-        getEnum(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_PUSH, InheritableBoolean.INHERIT));
+    for (BooleanProjectConfig config : BooleanProjectConfig.values()) {
+      p.setBooleanConfig(
+          config,
+          getEnum(
+              rc,
+              config.getSection(),
+              config.getSubSection(),
+              config.getName(),
+              InheritableBoolean.INHERIT));
+    }
+
     p.setMaxObjectSizeLimit(rc.getString(RECEIVE, null, KEY_MAX_OBJECT_SIZE_LIMIT));
-    p.setRejectImplicitMerges(
-        getEnum(rc, RECEIVE, null, KEY_REJECT_IMPLICIT_MERGES, InheritableBoolean.INHERIT));
-
-    p.setPrivateByDefault(
-        getEnum(rc, CHANGE, null, KEY_PRIVATE_BY_DEFAULT, InheritableBoolean.INHERIT));
-
-    p.setEnableReviewerByEmail(
-        getEnum(rc, REVIEWER, null, KEY_ENABLE_REVIEWER_BY_EMAIL, InheritableBoolean.INHERIT));
 
     p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, DEFAULT_SUBMIT_ACTION));
-    p.setUseContentMerge(getEnum(rc, SUBMIT, null, KEY_MERGE_CONTENT, InheritableBoolean.INHERIT));
-    p.setMatchAuthorToCommitterDate(
-        getEnum(
-            rc,
-            SUBMIT,
-            null,
-            KEY_MATCH_AUTHOR_DATE_WITH_COMMITTER_DATE,
-            InheritableBoolean.INHERIT));
     p.setState(getEnum(rc, PROJECT, null, KEY_STATE, DEFAULT_STATE_VALUE));
 
     p.setDefaultDashboard(rc.getString(DASHBOARD, null, KEY_DEFAULT));
@@ -1056,87 +1025,25 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       rc.unset(PROJECT, null, KEY_DESCRIPTION);
     }
     set(rc, ACCESS, null, KEY_INHERIT_FROM, p.getParentName());
-    set(
-        rc,
-        RECEIVE,
-        null,
-        KEY_REQUIRE_CONTRIBUTOR_AGREEMENT,
-        p.getUseContributorAgreements(),
-        InheritableBoolean.INHERIT);
-    set(
-        rc,
-        RECEIVE,
-        null,
-        KEY_REQUIRE_SIGNED_OFF_BY,
-        p.getUseSignedOffBy(),
-        InheritableBoolean.INHERIT);
-    set(
-        rc,
-        RECEIVE,
-        null,
-        KEY_REQUIRE_CHANGE_ID,
-        p.getRequireChangeID(),
-        InheritableBoolean.INHERIT);
-    set(
-        rc,
-        RECEIVE,
-        null,
-        KEY_USE_ALL_NOT_IN_TARGET,
-        p.getCreateNewChangeForAllNotInTarget(),
-        InheritableBoolean.INHERIT);
+
+    for (BooleanProjectConfig config : BooleanProjectConfig.values()) {
+      set(
+          rc,
+          config.getSection(),
+          config.getSubSection(),
+          config.getName(),
+          p.getBooleanConfig(config),
+          InheritableBoolean.INHERIT);
+    }
+
     set(
         rc,
         RECEIVE,
         null,
         KEY_MAX_OBJECT_SIZE_LIMIT,
         validMaxObjectSizeLimit(p.getMaxObjectSizeLimit()));
-    set(
-        rc,
-        RECEIVE,
-        null,
-        KEY_ENABLE_SIGNED_PUSH,
-        p.getEnableSignedPush(),
-        InheritableBoolean.INHERIT);
-    set(
-        rc,
-        RECEIVE,
-        null,
-        KEY_REQUIRE_SIGNED_PUSH,
-        p.getRequireSignedPush(),
-        InheritableBoolean.INHERIT);
-    set(
-        rc,
-        RECEIVE,
-        null,
-        KEY_REJECT_IMPLICIT_MERGES,
-        p.getRejectImplicitMerges(),
-        InheritableBoolean.INHERIT);
-
-    set(
-        rc,
-        CHANGE,
-        null,
-        KEY_PRIVATE_BY_DEFAULT,
-        p.getPrivateByDefault(),
-        InheritableBoolean.INHERIT);
-
-    set(
-        rc,
-        REVIEWER,
-        null,
-        KEY_ENABLE_REVIEWER_BY_EMAIL,
-        p.getEnableReviewerByEmail(),
-        InheritableBoolean.INHERIT);
 
     set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), DEFAULT_SUBMIT_ACTION);
-    set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.getUseContentMerge(), InheritableBoolean.INHERIT);
-    set(
-        rc,
-        SUBMIT,
-        null,
-        KEY_MATCH_AUTHOR_DATE_WITH_COMMITTER_DATE,
-        p.getMatchAuthorToCommitterDate(),
-        InheritableBoolean.INHERIT);
 
     set(rc, PROJECT, null, KEY_STATE, p.getState(), DEFAULT_STATE_VALUE);
 

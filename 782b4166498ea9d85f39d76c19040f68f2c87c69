@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1511787835 -0500\nnonce AMT3iFiLqngLmjTLHsCEUGSbG6iNcJG+zvVj6/aByKllac3epA+mLKS8EVjVUttndxr7Bd2x7h4y\n\n0000000000000000000000000000000000000000 782b4166498ea9d85f39d76c19040f68f2c87c69 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlocDTsVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMVBEP/ReuTNlJoAvvGe9//TCBMq6wl5HJ\nrCxQcdh/LF4/NACmXuYR4jCBTTh8nMOk2Sw/p+C0owU1qmPiJpgBUwsBAgdqvX9R\nVMER8njbo4TZDWvFMj64kp5i//ZAYs32GPT2YlaVdgpBS2PZUgz/pYjWa7fGOZV1\nL/hRuczAV+pNMolMyYAYC0ICSUOIudwHqtpNBM4GW78BIbf7zAS5xb+8oDcPVziz\nYZ1I6/u5tOBGi1d6r8LlT9n3vFHVUpD0F9vwZWzRuoSat4YlfKEN7RDG3BuntsIj\nxwmZ3Kv5ZDwexmrj3ns3rIL4tJ58vw5b7Ftl1CcS8sy+6BDwVxSCrWbqoDtcQo/N\n3aEbJZR95FpbdxHHQtIZzabQY3bXt4yU0EX187eNSuKh3M6m1k5dFla/X44XWpMA\nLiW+OoKFSoaHYONivXZ88wnxS9TEnEKRIcxxJbdu+q7wHY1tEl13891/DRVM944v\nQ1x7pv8KY8lEClMhYkXTuYxTGiGOL+C1Byq+XxZZGKzX33O5E0BI8BBix4hxvm02\naq4aasDaYp6bTkLLSmPrCoWHNi4hx0MgZkFjVrS2Sr8seTuQyMtk/JnOnIhYvSjY\nHomN83JHoDWZeF9ublNaLYOCvDmw2O9oIvPJGRxHyHQeEHCliEo3jVDtIWPfm6on\n5gsx+PunM/0gCHrr\n\u003dL14P\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "96aa848d_859cfc37",
+        "filename": "java/com/google/gerrit/server/group/Rebuild.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-27T13:27:57Z",
+      "side": 1,
+      "message": "Maybe MethodNotAllowedException would be better?",
+      "range": {
+        "startLine": 73,
+        "startChar": 16,
+        "endLine": 73,
+        "endChar": 35
+      },
+      "revId": "782b4166498ea9d85f39d76c19040f68f2c87c69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e4601ca_9cc3dd03",
+        "filename": "java/com/google/gerrit/server/group/Rebuild.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-27T13:27:57Z",
+      "side": 1,
+      "message": "Maybe MethodNotAllowedException would be better?\n\nWe also use 405 Method Not Allowed for other group endpoints when they are invoked for external groups.",
+      "range": {
+        "startLine": 76,
+        "startChar": 16,
+        "endLine": 76,
+        "endChar": 35
+      },
+      "revId": "782b4166498ea9d85f39d76c19040f68f2c87c69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2c0fad3_941767f4",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-27T13:27:57Z",
+      "side": 1,
+      "message": "Should the rebuild REST endpoint also work if the group ref already exists?",
+      "range": {
+        "startLine": 59,
+        "startChar": 6,
+        "endLine": 59,
+        "endChar": 49
+      },
+      "revId": "782b4166498ea9d85f39d76c19040f68f2c87c69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "239f1bdf_3307ec2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-27T10:13:37Z",
+      "side": 1,
+      "message": "The tl;dr answer is performance: Having a method or class annotated with @Sandboxed is very expensive because we restart the Gerrit server. People tend to use @Sandboxed even though they could just cleanup whatever the test did in a finally statement because the disadvantage there is that it required extra boilerplate (making the code more complex) and also some extra time to write the test.\n\nIn contrast to that, just cleaning up the refs (hence, project configs, permissions, soon groups etc.) is rather cheap and can be done in the background after each test method. This way, nobody has to bother about leaving garbage in All-Projects or All-Users behind and we still don\u0027y pay the performance tribute that @Sandboxed incurs.\n\nThere will still be occasions where @Sandboxed is handy, but the majority of usages will be gone after this change.",
+      "parentUuid": "878045f2_30d4f1f3",
+      "revId": "b7e980818f94e0f4ecf7c3898f8138abcf37cce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6238fa56_5dddef1f",
         "filename": "java/com/google/gerrit/acceptance/ProjectResetterTest.java",
         "patchSetId": 11

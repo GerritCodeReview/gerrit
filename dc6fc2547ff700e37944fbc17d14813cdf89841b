@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "95104280_5bf9fc20",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-27T09:06:36Z",
+      "side": 1,
+      "message": "Yes. If you still want to use non-singleton there, you could remove this field and create a new instance in #check().",
+      "parentUuid": "04a9f1f9_d4420420",
+      "range": {
+        "startLine": 53,
+        "startChar": 16,
+        "endLine": 53,
+        "endChar": 46
+      },
+      "revId": "dc6fc2547ff700e37944fbc17d14813cdf89841b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a9cc18f9_a1869474",
         "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2017-11-27T08:47:05Z",
       "side": 1,
       "message": "this object is now stateful, but it\u0027s statefulness is undocumented. Apparently, it retains the state at the moment you call check() and overwrites that state on each check() call?",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 18
+      },
+      "revId": "dc6fc2547ff700e37944fbc17d14813cdf89841b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a4b0d50_0758e057",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-27T09:06:36Z",
+      "side": 1,
+      "message": "After a second thought, it\u0027s hard for the caller to know the relation between #check and #getUuidMap(). The expected order is #check first, then #getUuidMap. In fact, I thought if it\u0027s better if we can separate these reading out of the #check. But it\u0027s also OK to just add the byUUID map to the returned results.",
+      "parentUuid": "a9cc18f9_a1869474",
       "range": {
         "startLine": 108,
         "startChar": 4,

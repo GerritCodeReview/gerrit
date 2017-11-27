@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "613c3f11_2b08efe5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-27T11:24:17Z",
+      "side": 1,
+      "message": "Should this be fixed in a separate commit that can be backported to the stable branch?  Or is it not worth the effort?",
+      "range": {
+        "startLine": 22,
+        "startChar": 43,
+        "endLine": 24,
+        "endChar": 23
+      },
+      "revId": "35bfd2fff5c7b1645e538d68bd6af68c80878080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25ab11e5_530a8b34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-27T11:24:17Z",
+      "side": 1,
+      "message": "Should be:\n\n Bug: Issue 7553\n\notherwise it doesn\u0027t get hyperlinked",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 9
+      },
+      "revId": "35bfd2fff5c7b1645e538d68bd6af68c80878080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

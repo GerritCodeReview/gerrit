@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.cache.h2;
 
+import com.github.benmanes.caffeine.guava.CaffeinatedGuava;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -168,7 +169,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
             executor,
             store,
             def.keyType(),
-            (Cache<K, ValueHolder<V>>) defaultFactory.create(def, true).build());
+            (Cache<K, ValueHolder<V>>) CaffeinatedGuava.build(defaultFactory.create(def, true)));
     synchronized (caches) {
       caches.add(cache);
     }
@@ -188,9 +189,9 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
         newSqlStore(def.name(), def.keyType(), limit, def.expireAfterWrite(TimeUnit.SECONDS));
     Cache<K, ValueHolder<V>> mem =
         (Cache<K, ValueHolder<V>>)
-            defaultFactory
-                .create(def, true)
-                .build((CacheLoader<K, V>) new H2CacheImpl.Loader<>(executor, store, loader));
+            CaffeinatedGuava.build(
+                defaultFactory.create(def, true),
+                (CacheLoader<K, V>) new H2CacheImpl.Loader<>(executor, store, loader));
     H2CacheImpl<K, V> cache = new H2CacheImpl<>(executor, store, def.keyType(), mem);
     caches.add(cache);
     return cache;

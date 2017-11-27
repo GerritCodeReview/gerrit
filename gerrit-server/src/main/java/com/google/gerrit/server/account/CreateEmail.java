@@ -116,35 +116,40 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       throw new BadRequestException("email address must match URL");
     }
 
-    if (!validator.isValid(email)) {
+    String newEmail = email;
+    if (newEmail != null) {
+      newEmail = newEmail.trim();
+    }
+
+    if (!validator.isValid(newEmail)) {
       throw new BadRequestException("invalid email address");
     }
 
     EmailInfo info = new EmailInfo();
-    info.email = email;
+    info.email = newEmail;
     if (input.noConfirmation || isDevMode) {
       if (isDevMode) {
         log.warn("skipping email validation in developer mode");
       }
       try {
-        accountManager.link(user.getAccountId(), AuthRequest.forEmail(email));
+        accountManager.link(user.getAccountId(), AuthRequest.forEmail(newEmail));
       } catch (AccountException e) {
         throw new ResourceConflictException(e.getMessage());
       }
       if (input.preferred) {
-        putPreferred.apply(new AccountResource.Email(user, email), null);
+        putPreferred.apply(new AccountResource.Email(user, newEmail), null);
         info.preferred = true;
       }
     } else {
       try {
-        RegisterNewEmailSender sender = registerNewEmailFactory.create(email);
+        RegisterNewEmailSender sender = registerNewEmailFactory.create(newEmail);
         if (!sender.isAllowed()) {
-          throw new MethodNotAllowedException("Not allowed to add email address " + email);
+          throw new MethodNotAllowedException("Not allowed to add email address " + newEmail);
         }
         sender.send();
         info.pendingConfirmation = true;
       } catch (EmailException | RuntimeException e) {
-        log.error("Cannot send email verification message to " + email, e);
+        log.error("Cannot send email verification message to " + newEmail, e);
         throw e;
       }
     }

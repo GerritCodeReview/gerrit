@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "79e3a7a8_1b8c192e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-27T07:35:38Z",
+      "side": 1,
+      "message": "name() includes the current test method name, so there would be no need to increment names/indices throughout test methods. You can just start at 0 each time in each method.",
+      "range": {
+        "startLine": 235,
+        "startChar": 43,
+        "endLine": 235,
+        "endChar": 46
+      },
+      "revId": "a296304aee1042abb70b5b2c74a9e8038566f7e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4662cc49_a9f330b3",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 4
@@ -13,6 +36,30 @@
       "writtenOn": "2017-11-24T16:26:43Z",
       "side": 1,
       "message": "Doesn\u0027t this lead to en email with 2 times \u0027@\u0027?",
+      "range": {
+        "startLine": 236,
+        "startChar": 45,
+        "endLine": 236,
+        "endChar": 60
+      },
+      "revId": "a296304aee1042abb70b5b2c74a9e8038566f7e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cc319f4_f2cf085b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-27T07:35:38Z",
+      "side": 1,
+      "message": "Yes, it does. I think createUniqueAccount() should go into AbstractDaemonTest since it is rather generic I am sure it can be used in a couple of other places as well. There is already a createAccount() method in ADT that does not explicitly handle the email address.",
+      "parentUuid": "4662cc49_a9f330b3",
       "range": {
         "startLine": 236,
         "startChar": 45,

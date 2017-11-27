@@ -30,7 +30,8 @@ enum GroupConfigEntry {
       int id = config.getInt(SECTION_NAME, super.keyName, -1);
       if (id < 0) {
         throw new ConfigInvalidException(
-            String.format("ID of the group %s must not be negative", groupUuid.get()));
+            String.format(
+                "ID of the group %s must not be negative, found %d", groupUuid.get(), id));
       }
       group.setId(new AccountGroup.Id(id));
     }

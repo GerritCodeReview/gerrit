@@ -79,7 +79,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
     this.registerNewEmailFactory = registerNewEmailFactory;
     this.putPreferred = putPreferred;
     this.validator = validator;
-    this.email = email;
+    this.email = email != null ? email.trim() : null;
     this.isDevMode = authConfig.getAuthType() == DEVELOPMENT_BECOME_ANY_ACCOUNT;
   }
 

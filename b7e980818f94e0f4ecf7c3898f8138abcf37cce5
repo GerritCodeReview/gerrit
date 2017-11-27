@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "73d3cf5d_f4895fde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-27T10:35:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "878045f2_30d4f1f3",
+      "revId": "b7e980818f94e0f4ecf7c3898f8138abcf37cce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6238fa56_5dddef1f",
         "filename": "java/com/google/gerrit/acceptance/ProjectResetterTest.java",
         "patchSetId": 11
@@ -48,6 +66,24 @@
       "writtenOn": "2017-11-27T08:18:25Z",
       "side": 1,
       "message": "This test file is a no op. The tests are never executed.\n\nI don\u0027t think we support unit tests in this package. Dave specified in this thread: [1] where/how junt test location should be organized to match junit test location @Google, quoting:\n\nI\u0027d also like to clarify the proposal around test utilities, continuing in the vein of matching the Gerrit layout to what we use internally at Google:\n* Test utilities go in the java tree; specifically, tests for subpackage foo go in java/com/google/gerrit/foo/testing\n* java_library rules for test utilities get testonly \u003d 1\n* Tests for subpackage foo go in javatests/com/google/gerrit/foo\n* Tests for test utilities go in javatests/com/google/gerrit/foo/testing\n\nTo see, whyt it is a no op:\n\n  $ bazel test java/com/google/gerrit/acceptance/...\n  .\n  INFO: Analysed 0 targets (5 packages loaded).\n  INFO: Found 0 test targets...\n  INFO: Elapsed time: 2.116s, Critical Path: 0.43s\n  INFO: Build completed successfully, 1 total action\n\nWenn I move this test to:\n\n  $ git mv java/com/google/gerrit/acceptance/ProjectResetterTest.java javatests/com/google/gerrit/acceptance/\n\nThe the test hopefully has effect:\n\n  $ bazel test javatests/com/google/gerrit/acceptance:acceptance_framework_tests \nINFO: Analysed target //javatests/com/google/gerrit/acceptance:acceptance_framework_tests (228 packages loaded).\nINFO: Found 1 test target...\nTarget //javatests/com/google/gerrit/acceptance:acceptance_framework_tests up-to-date:\n  bazel-bin/javatests/com/google/gerrit/acceptance/acceptance_framework_tests.jar\n  bazel-bin/javatests/com/google/gerrit/acceptance/acceptance_framework_tests\nINFO: Elapsed time: 35.634s, Critical Path: 28.08s\nINFO: Build completed successfully, 133 total actions\n//javatests/com/google/gerrit/acceptance:acceptance_framework_tests      PASSED in 1.0s\n\nYou can check if you break the tests, and re-run and check it is failing: [2]:\n\n  $ bazel test javatests/com/google/gerrit/acceptance:acceptance_framework_tests \nINFO: Analysed target //javatests/com/google/gerrit/acceptance:acceptance_framework_tests (0 packages loaded).\nINFO: Found 1 test target...\nFAIL: //javatests/com/google/gerrit/acceptance:acceptance_framework_tests (see /home/davido/.cache/bazel/_bazel_davido/27a001f4182820ef315d8d2d4f1edafe/execroot/gerrit/bazel-out/k8-fastbuild/testlogs/javatests/com/google/gerrit/acceptance/acceptance_framework_tests/test.log)\nTarget //javatests/com/google/gerrit/acceptance:acceptance_framework_tests up-to-date:\n  bazel-bin/javatests/com/google/gerrit/acceptance/acceptance_framework_tests.jar\n  bazel-bin/javatests/com/google/gerrit/acceptance/acceptance_framework_tests\nINFO: Elapsed time: 1.494s, Critical Path: 1.24s\nINFO: Build completed, 1 test FAILED, 3 total actions\n//javatests/com/google/gerrit/acceptance:acceptance_framework_tests      FAILED in 0.9s\n  /home/davido/.cache/bazel/_bazel_davido/27a001f4182820ef315d8d2d4f1edafe/execroot/gerrit/bazel-out/k8-fastbuild/testlogs/javatests/com/google/gerrit/acceptance/acceptance_framework_tests/test.log\n\n* [1] https://groups.google.com/d/topic/repo-discuss/TcvEkD-KO_c/discussion\n* [2] http://paste.openstack.org/show/627422/",
+      "revId": "b7e980818f94e0f4ecf7c3898f8138abcf37cce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aacb9751_1c0b43e8",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetterTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-27T10:35:46Z",
+      "side": 1,
+      "message": "Thanks, good catch!\n\nDone.",
+      "parentUuid": "6238fa56_5dddef1f",
       "revId": "b7e980818f94e0f4ecf7c3898f8138abcf37cce5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

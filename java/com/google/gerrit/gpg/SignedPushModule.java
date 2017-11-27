@@ -16,6 +16,7 @@ package com.google.gerrit.gpg;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.EnableSignedPush;
 import com.google.gerrit.server.config.AllUsersName;
@@ -88,7 +89,7 @@ class SignedPushModule extends AbstractModule {
     @Override
     public void init(Project.NameKey project, ReceivePack rp) {
       ProjectState ps = projectCache.get(project);
-      if (!ps.isEnableSignedPush()) {
+      if (!ps.is(BooleanProjectConfig.ENABLE_SIGNED_PUSH)) {
         rp.setSignedPushConfig(null);
         return;
       } else if (signedPushConfig == null) {
@@ -103,7 +104,7 @@ class SignedPushModule extends AbstractModule {
       rp.setSignedPushConfig(signedPushConfig);
 
       List<PreReceiveHook> hooks = new ArrayList<>(3);
-      if (ps.isRequireSignedPush()) {
+      if (ps.is(BooleanProjectConfig.REQUIRE_SIGNED_PUSH)) {
         hooks.add(SignedPushPreReceiveHook.Required.INSTANCE);
       }
       hooks.add(hook);

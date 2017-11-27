@@ -41,6 +41,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -273,11 +274,14 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       newProject.setSubmitType(
           MoreObjects.firstNonNull(
               args.submitType, repositoryCfg.getDefaultSubmitType(args.getProject())));
-      newProject.setUseContributorAgreements(args.contributorAgreements);
-      newProject.setUseSignedOffBy(args.signedOffBy);
-      newProject.setUseContentMerge(args.contentMerge);
-      newProject.setCreateNewChangeForAllNotInTarget(args.newChangeForAllNotInTarget);
-      newProject.setRequireChangeID(args.changeIdRequired);
+      newProject.setBooleanConfig(
+          BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, args.contributorAgreements);
+      newProject.setBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFFBY, args.signedOffBy);
+      newProject.setBooleanConfig(BooleanProjectConfig.USE_CONTENT_MERGE, args.contentMerge);
+      newProject.setBooleanConfig(
+          BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
+          args.newChangeForAllNotInTarget);
+      newProject.setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, args.changeIdRequired);
       newProject.setMaxObjectSizeLimit(args.maxObjectSizeLimit);
       if (args.newParent != null) {
         newProject.setParentName(args.newParent);

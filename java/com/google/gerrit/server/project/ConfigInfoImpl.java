@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -51,65 +52,20 @@ public class ConfigInfoImpl extends ConfigInfo {
     Project p = projectState.getProject();
     this.description = Strings.emptyToNull(p.getDescription());
 
-    InheritedBooleanInfo useContributorAgreements = new InheritedBooleanInfo();
-    InheritedBooleanInfo useSignedOffBy = new InheritedBooleanInfo();
-    InheritedBooleanInfo useContentMerge = new InheritedBooleanInfo();
-    InheritedBooleanInfo requireChangeId = new InheritedBooleanInfo();
-    InheritedBooleanInfo createNewChangeForAllNotInTarget = new InheritedBooleanInfo();
-    InheritedBooleanInfo enableSignedPush = new InheritedBooleanInfo();
-    InheritedBooleanInfo requireSignedPush = new InheritedBooleanInfo();
-    InheritedBooleanInfo rejectImplicitMerges = new InheritedBooleanInfo();
-    InheritedBooleanInfo privateByDefault = new InheritedBooleanInfo();
-    InheritedBooleanInfo enableReviewerByEmail = new InheritedBooleanInfo();
-    InheritedBooleanInfo matchAuthorToCommitterDate = new InheritedBooleanInfo();
-
-    useContributorAgreements.value = projectState.isUseContributorAgreements();
-    useSignedOffBy.value = projectState.isUseSignedOffBy();
-    useContentMerge.value = projectState.isUseContentMerge();
-    requireChangeId.value = projectState.isRequireChangeID();
-    createNewChangeForAllNotInTarget.value = projectState.isCreateNewChangeForAllNotInTarget();
-
-    useContributorAgreements.configuredValue = p.getUseContributorAgreements();
-    useSignedOffBy.configuredValue = p.getUseSignedOffBy();
-    useContentMerge.configuredValue = p.getUseContentMerge();
-    requireChangeId.configuredValue = p.getRequireChangeID();
-    createNewChangeForAllNotInTarget.configuredValue = p.getCreateNewChangeForAllNotInTarget();
-    enableSignedPush.configuredValue = p.getEnableSignedPush();
-    requireSignedPush.configuredValue = p.getRequireSignedPush();
-    rejectImplicitMerges.configuredValue = p.getRejectImplicitMerges();
-    privateByDefault.configuredValue = p.getPrivateByDefault();
-    enableReviewerByEmail.configuredValue = p.getEnableReviewerByEmail();
-    matchAuthorToCommitterDate.configuredValue = p.getMatchAuthorToCommitterDate();
-
     ProjectState parentState = Iterables.getFirst(projectState.parents(), null);
-    if (parentState != null) {
-      useContributorAgreements.inheritedValue = parentState.isUseContributorAgreements();
-      useSignedOffBy.inheritedValue = parentState.isUseSignedOffBy();
-      useContentMerge.inheritedValue = parentState.isUseContentMerge();
-      requireChangeId.inheritedValue = parentState.isRequireChangeID();
-      createNewChangeForAllNotInTarget.inheritedValue =
-          parentState.isCreateNewChangeForAllNotInTarget();
-      enableSignedPush.inheritedValue = projectState.isEnableSignedPush();
-      requireSignedPush.inheritedValue = projectState.isRequireSignedPush();
-      privateByDefault.inheritedValue = projectState.isPrivateByDefault();
-      rejectImplicitMerges.inheritedValue = projectState.isRejectImplicitMerges();
-      enableReviewerByEmail.inheritedValue = projectState.isEnableReviewerByEmail();
-      matchAuthorToCommitterDate.inheritedValue = projectState.isMatchAuthorToCommitterDate();
+    for (BooleanProjectConfig cfg : BooleanProjectConfig.values()) {
+      InheritedBooleanInfo info = new InheritedBooleanInfo();
+      info.configuredValue = p.getBooleanConfig(cfg);
+      if (parentState != null) {
+        info.inheritedValue = parentState.is(cfg);
+      }
+      cfg.set(this, info);
     }
 
-    this.useContributorAgreements = useContributorAgreements;
-    this.useSignedOffBy = useSignedOffBy;
-    this.useContentMerge = useContentMerge;
-    this.requireChangeId = requireChangeId;
-    this.rejectImplicitMerges = rejectImplicitMerges;
-    this.createNewChangeForAllNotInTarget = createNewChangeForAllNotInTarget;
-    this.enableReviewerByEmail = enableReviewerByEmail;
-    this.matchAuthorToCommitterDate = matchAuthorToCommitterDate;
-    if (serverEnableSignedPush) {
-      this.enableSignedPush = enableSignedPush;
-      this.requireSignedPush = requireSignedPush;
+    if (!serverEnableSignedPush) {
+      this.enableSignedPush = null;
+      this.requireSignedPush = null;
     }
-    this.privateByDefault = privateByDefault;
 
     MaxObjectSizeLimitInfo maxObjectSizeLimit = new MaxObjectSizeLimitInfo();
     maxObjectSizeLimit.value =

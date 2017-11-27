@@ -36,6 +36,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -150,11 +151,11 @@ public class AllProjectsCreator {
       ProjectConfig config = ProjectConfig.read(md);
       Project p = config.getProject();
       p.setDescription("Access inherited by all other projects.");
-      p.setRequireChangeID(InheritableBoolean.TRUE);
-      p.setUseContentMerge(InheritableBoolean.TRUE);
-      p.setUseContributorAgreements(InheritableBoolean.FALSE);
-      p.setUseSignedOffBy(InheritableBoolean.FALSE);
-      p.setEnableSignedPush(InheritableBoolean.FALSE);
+      p.setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.TRUE);
+      p.setBooleanConfig(BooleanProjectConfig.USE_CONTENT_MERGE, InheritableBoolean.TRUE);
+      p.setBooleanConfig(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, InheritableBoolean.FALSE);
+      p.setBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFFBY, InheritableBoolean.FALSE);
+      p.setBooleanConfig(BooleanProjectConfig.ENABLE_SIGNED_PUSH, InheritableBoolean.FALSE);
 
       AccessSection cap = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
       AccessSection all = config.getAccessSection(AccessSection.ALL, true);

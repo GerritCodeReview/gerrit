@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -181,10 +182,14 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertProjectInfo(project, p);
     assertThat(project.getDescription()).isEqualTo(in.description);
     assertThat(project.getSubmitType()).isEqualTo(in.submitType);
-    assertThat(project.getUseContributorAgreements()).isEqualTo(in.useContributorAgreements);
-    assertThat(project.getUseSignedOffBy()).isEqualTo(in.useSignedOffBy);
-    assertThat(project.getUseContentMerge()).isEqualTo(in.useContentMerge);
-    assertThat(project.getRequireChangeID()).isEqualTo(in.requireChangeId);
+    assertThat(project.getBooleanConfig(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS))
+        .isEqualTo(in.useContributorAgreements);
+    assertThat(project.getBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFFBY))
+        .isEqualTo(in.useSignedOffBy);
+    assertThat(project.getBooleanConfig(BooleanProjectConfig.USE_CONTENT_MERGE))
+        .isEqualTo(in.useContentMerge);
+    assertThat(project.getBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID))
+        .isEqualTo(in.requireChangeId);
   }
 
   @Test

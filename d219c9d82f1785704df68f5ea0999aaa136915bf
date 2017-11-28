@@ -70,6 +70,30 @@
       "revId": "d219c9d82f1785704df68f5ea0999aaa136915bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aec25230_fa48d6c7",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-28T13:28:18Z",
+      "side": 1,
+      "message": "I don\u0027t think that using something like a Multiset and watching the return value of Multiset#add would mess up this class more than the code of lines 190 - 195.",
+      "parentUuid": "8e984c1f_19939af8",
+      "range": {
+        "startLine": 188,
+        "startChar": 8,
+        "endLine": 191,
+        "endChar": 71
+      },
+      "revId": "d219c9d82f1785704df68f5ea0999aaa136915bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

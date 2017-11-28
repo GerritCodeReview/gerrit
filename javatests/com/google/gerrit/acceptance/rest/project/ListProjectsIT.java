@@ -219,7 +219,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
         .inOrder();
 
     // "All" boolean option causes hidden projects to be included
-    assertThatNameList(gApi.projects().list().withAll().get())
+    assertThatNameList(gApi.projects().list().withAll(true).get())
         .containsExactly(allProjects, allUsers, project, hidden)
         .inOrder();
   }

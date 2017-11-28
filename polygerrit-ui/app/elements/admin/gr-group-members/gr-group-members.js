@@ -16,6 +16,8 @@
 
   const SUGGESTIONS_LIMIT = 15;
 
+  const URL_REGEX = '^(?:[a-z]+:)?//';
+
   Polymer({
     is: 'gr-group-members',
 
@@ -109,8 +111,17 @@
       return this._loading || this._loading === undefined;
     },
 
-    _groupUrl(item) {
-      return this.getBaseUrl() + '/admin/groups/' + this.encodeURL(item, true);
+    _computeGroupUrl(url) {
+      const r = new RegExp(URL_REGEX, 'i');
+      if (r.test(url)) {
+        return url;
+      }
+
+      // For GWT compatibility
+      if (url.startsWith('#')) {
+        return this.getBaseUrl() + url.slice(1);
+      }
+      return this.getBaseUrl() + url;
     },
 
     _handleSavingGroupMember() {

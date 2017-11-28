@@ -46,6 +46,30 @@
       "revId": "42b24008008909399b165d3e3b6e6c6b5fa22092",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1c7ba41_544678ed",
+        "filename": "java/com/google/gerrit/extensions/api/projects/Projects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-28T10:19:00Z",
+      "side": 1,
+      "message": "Fair point. Done.",
+      "parentUuid": "2e196f89_ff96df2a",
+      "range": {
+        "startLine": 98,
+        "startChar": 12,
+        "endLine": 98,
+        "endChar": 24
+      },
+      "revId": "42b24008008909399b165d3e3b6e6c6b5fa22092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

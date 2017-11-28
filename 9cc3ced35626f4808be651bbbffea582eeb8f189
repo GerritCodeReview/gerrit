@@ -70,6 +70,24 @@
       "revId": "9cc3ced35626f4808be651bbbffea582eeb8f189",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a92c098_2ce0e4cb",
+        "filename": "tools/bzl/plugins.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-28T22:49:01Z",
+      "side": 1,
+      "message": "\u003e I guess, this is because only JAR plugins are respected?\n\nYeah, that\u0027s because currently, only JAR plugins are supported during installation machinery: [1]. Moreover, installed version is extracted from the MANIFEST file, and upgrade/install operation is retrieved: [2].\n\n* [1] https://github.com/GerritCodeReview/gerrit/blob/master/java/com/google/gerrit/pgm/WarDistribution.java#L50-L59\n* [2] https://github.com/GerritCodeReview/gerrit/blob/master/java/com/google/gerrit/pgm/init/InitPlugins.java#L129-L164",
+      "parentUuid": "346a66b6_42ac109c",
+      "revId": "9cc3ced35626f4808be651bbbffea582eeb8f189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

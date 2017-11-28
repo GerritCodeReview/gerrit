@@ -19,6 +19,8 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.index.IndexConfig;
@@ -128,10 +130,14 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
       return query(AccountPredicates.preferredEmailExact(email));
     }
 
-    return query(AccountPredicates.preferredEmail(email))
-        .stream()
-        .filter(a -> a.getAccount().getPreferredEmail().equals(email))
-        .collect(toList());
+    if (hasPreferredEmail()) {
+      return query(AccountPredicates.preferredEmail(email))
+          .stream()
+          .filter(a -> a.getAccount().getPreferredEmail().equals(email))
+          .collect(toList());
+    }
+
+    return ImmutableList.of();
   }
 
   /**
@@ -159,23 +165,32 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
       return accountsByEmail;
     }
 
-    List<List<AccountState>> r =
-        query(emailList.stream().map(e -> AccountPredicates.preferredEmail(e)).collect(toList()));
-    Multimap<String, AccountState> accountsByEmail = ArrayListMultimap.create();
-    for (int i = 0; i < emailList.size(); i++) {
-      String email = emailList.get(i);
-      Set<AccountState> matchingAccounts =
-          r.get(i)
-              .stream()
-              .filter(a -> a.getAccount().getPreferredEmail().equals(email))
-              .collect(toSet());
-      accountsByEmail.putAll(email, matchingAccounts);
+    if (hasPreferredEmail()) {
+      List<List<AccountState>> r =
+          query(emailList.stream().map(e -> AccountPredicates.preferredEmail(e)).collect(toList()));
+      Multimap<String, AccountState> accountsByEmail = ArrayListMultimap.create();
+      for (int i = 0; i < emailList.size(); i++) {
+        String email = emailList.get(i);
+        Set<AccountState> matchingAccounts =
+            r.get(i)
+                .stream()
+                .filter(a -> a.getAccount().getPreferredEmail().equals(email))
+                .collect(toSet());
+        accountsByEmail.putAll(email, matchingAccounts);
+      }
+      return accountsByEmail;
     }
-    return accountsByEmail;
+
+    return ImmutableListMultimap.of();
   }
 
   public List<AccountState> byWatchedProject(Project.NameKey project) throws OrmException {
     return query(AccountPredicates.watchedProject(project));
+  }
+
+  private boolean hasPreferredEmail() {
+    Schema<AccountState> s = schema();
+    return (s != null && s.hasField(AccountField.PREFERRED_EMAIL));
   }
 
   private boolean hasPreferredEmailExact() {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c9edfd8_39947247",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-28T09:15:44Z",
+      "side": 1,
+      "message": "Mention that it\u0027s okay to change this since the change [1] that added this method wasn\u0027t released yet. Otherwise this would break the API.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/141691",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "e84daf6ac6c3ca6c0aa5039ba3be3625d7a8cc32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

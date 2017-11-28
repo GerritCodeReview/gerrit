@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupBaseInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.Url;
@@ -324,7 +323,7 @@ public class ReviewersUtil {
           return result;
         }
       }
-    } catch (NoSuchGroupException | NoSuchProjectException e) {
+    } catch (NoSuchProjectException e) {
       return result;
     }
 

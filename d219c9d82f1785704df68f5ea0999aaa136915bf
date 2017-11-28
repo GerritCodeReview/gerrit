@@ -22,6 +22,30 @@
       "revId": "d219c9d82f1785704df68f5ea0999aaa136915bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e984c1f_19939af8",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-28T13:20:15Z",
+      "side": 1,
+      "message": "We could like hanwen\u0027s check, but we will miss up this class. By doing like this, we can keep this class clean and also be able to know there is a consistency check here from GroupsNoteDbConsistencyChecker.",
+      "parentUuid": "668a0f99_ef2b3b03",
+      "range": {
+        "startLine": 188,
+        "startChar": 8,
+        "endLine": 191,
+        "endChar": 71
+      },
+      "revId": "d219c9d82f1785704df68f5ea0999aaa136915bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

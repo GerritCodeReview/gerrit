@@ -1144,8 +1144,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Sandboxed
   public void blockReviewDbUpdatesOnGroupCreation() throws Exception {
     assume().that(groupsInNoteDb()).isFalse();
-    cfg.setBoolean("user", null, "blockReviewDbGroupUpdates", true);
-    try {
+    try (AutoCloseable ctx = createBlockReviewDbGroupUpdatesContext()) {
       gApi.groups().create(name("foo"));
       fail("Expected RestApiException: Updates to groups in ReviewDb are blocked");
     } catch (RestApiException e) {
@@ -1159,8 +1158,7 @@ public class GroupsIT extends AbstractDaemonTest {
     assume().that(groupsInNoteDb()).isFalse();
     String group1 = gApi.groups().create(name("foo")).get().id;
     String group2 = gApi.groups().create(name("bar")).get().id;
-    cfg.setBoolean("user", null, "blockReviewDbGroupUpdates", true);
-    try {
+    try (AutoCloseable ctx = createBlockReviewDbGroupUpdatesContext()) {
       gApi.groups().id(group1).addGroups(group2);
       fail("Expected RestApiException: Updates to groups in ReviewDb are blocked");
     } catch (RestApiException e) {
@@ -1365,6 +1363,16 @@ public class GroupsIT extends AbstractDaemonTest {
 
   private boolean readGroupsFromNoteDb() {
     return groupsInNoteDb() && cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false);
+  }
+
+  private AutoCloseable createBlockReviewDbGroupUpdatesContext() {
+    cfg.setBoolean("user", null, "blockReviewDbGroupUpdates", true);
+    return new AutoCloseable() {
+      @Override
+      public void close() {
+        cfg.setBoolean("user", null, "blockReviewDbGroupUpdates", false);
+      }
+    };
   }
 
   @Target({METHOD})

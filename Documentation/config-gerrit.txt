@@ -3430,17 +3430,6 @@ contention (aka lock failure) on the underlying ref storage.
 Defaults to 20 seconds; unit suffixes are supported, and assumes milliseconds if
 not specified.
 
-[[noteDb.groups.readSequenceFromNoteDb]]noteDb.groups.readSequenceFromNoteDb::
-+
-Whether the group sequence should be read from NoteDb.
-+
-Once set to `true` this parameter cannot be set back to `false` because
-the group sequence in ReviewDb will no longer be updated when group
-IDs are retrieved from NoteDb, and hence the group sequence in
-ReviewDb will be outdated.
-+
-By default `false`.
-
 
 [[oauth]]
 === Section oauth

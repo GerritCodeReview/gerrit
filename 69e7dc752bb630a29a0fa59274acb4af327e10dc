@@ -23,6 +23,30 @@
       "revId": "69e7dc752bb630a29a0fa59274acb4af327e10dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3be55023_ec460568",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-28T15:14:46Z",
+      "side": 1,
+      "message": "assume is normally used to skip a whole test, but here we want to skip only part of it. If we use assume here in the middle of the test at least Eclipse marks the test as skipped and not as successful.\n\nDoing the check against the index version instead of checking that the schema contains the field is consistent with how this is handled in the change query tests. It has the advantage that we verify that all schema versions \u003e\u003d 6 do have this field. I agree that for this particular test it\u0027s maybe not important, but I would still keep it for consistency.",
+      "parentUuid": "de0d9025_50540642",
+      "range": {
+        "startLine": 450,
+        "startChar": 3,
+        "endLine": 453,
+        "endChar": 5
+      },
+      "revId": "69e7dc752bb630a29a0fa59274acb4af327e10dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

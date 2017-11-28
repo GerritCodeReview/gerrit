@@ -325,7 +325,8 @@ GET /projects/?type=PERMISSIONS HTTP/1.0
 ----
 
 All::
-Get all projects, including those whose state is "HIDDEN".
+Get all projects, including those whose state is "HIDDEN". May not be used
+together with the `state` option.
 +
 .Request
 ----
@@ -344,6 +345,30 @@ GET /projects/?all HTTP/1.0
       "id": "All-Projects",
       "state": "ACTIVE"
     },
+    "some-other-project": {
+      "id": "some-other-project",
+      "state": "HIDDEN"
+    }
+  }
+----
+
+State(s)::
+Get all projects with the given state. May not be used together with the
+`all` option.
++
+.Request
+----
+GET /projects/?state=HIDDEN HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
     "some-other-project": {
       "id": "some-other-project",
       "state": "HIDDEN"

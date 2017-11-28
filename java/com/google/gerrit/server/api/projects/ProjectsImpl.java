@@ -131,6 +131,8 @@ class ProjectsImpl implements Projects {
 
     lp.setAll(request.isAll());
 
+    lp.setState(request.getState());
+
     return lp.apply();
   }
 

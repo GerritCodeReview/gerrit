@@ -22,6 +22,30 @@
       "revId": "e48d3783cb87911e6d8a8cfc56cf27ae6cb82fe9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bb3823c_26c98d7f",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-28T07:36:40Z",
+      "side": 1,
+      "message": "Why? Map has no duplicate entry. But here this \"byUUID\" is read from the group.config files which may contain duplicate uuid-\u003ename pair. So MultiMap is necessary here?",
+      "parentUuid": "0c55f451_2f4e1313",
+      "range": {
+        "startLine": 238,
+        "startChar": 6,
+        "endLine": 238,
+        "endChar": 27
+      },
+      "revId": "e48d3783cb87911e6d8a8cfc56cf27ae6cb82fe9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

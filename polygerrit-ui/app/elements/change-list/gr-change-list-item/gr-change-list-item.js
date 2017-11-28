@@ -108,7 +108,7 @@
     },
 
     _computeProjectBranchURL(change) {
-      return Gerrit.Nav.getUrlForBranch(change.branch, change.project, 'open');
+      return Gerrit.Nav.getUrlForBranch(change.branch, change.project);
     },
 
     _computeTopicURL(change) {

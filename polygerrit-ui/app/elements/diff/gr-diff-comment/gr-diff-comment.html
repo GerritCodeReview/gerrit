@@ -309,7 +309,7 @@ limitations under the License.
                 on-tap="_handleEdit">Edit</gr-button>
             <gr-button link class="action save hideOnPublished"
                 on-tap="_handleSave"
-                disabled$="[[_computeSaveDisabled(_messageText)]]">Save
+                disabled$="[[_computeSaveDisabled(_messageText, comment)]]">Save
             </gr-button>
           </div>
         </div>

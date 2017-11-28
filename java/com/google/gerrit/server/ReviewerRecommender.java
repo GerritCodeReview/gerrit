@@ -27,8 +27,6 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.AccountDirectory.FillOptions;
-import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.change.SuggestReviewers;
 import com.google.gerrit.server.change.SuggestedReviewer;
@@ -46,7 +44,6 @@ import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -93,8 +90,6 @@ public class ReviewerRecommender {
       Provider<ReviewDb> dbProvider,
       ApprovalsUtil approvalsUtil,
       @GerritServerConfig Config config) {
-    Set<FillOptions> fillOptions = EnumSet.of(FillOptions.SECONDARY_EMAILS);
-    fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
     this.changeQueryBuilder = changeQueryBuilder;
     this.config = config;
     this.queryProvider = queryProvider;

@@ -46,6 +46,30 @@
       "revId": "d219c9d82f1785704df68f5ea0999aaa136915bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d573e1b3_270c9521",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-28T13:26:15Z",
+      "side": 1,
+      "message": "fwiw, I think it\u0027s better to integrate the checks into the code that reads/writes things (perhaps by throwing an exception if an impossible condition is encountered). Then the check also partly serves to document what the code is doing.",
+      "parentUuid": "8e984c1f_19939af8",
+      "range": {
+        "startLine": 188,
+        "startChar": 8,
+        "endLine": 191,
+        "endChar": 71
+      },
+      "revId": "d219c9d82f1785704df68f5ea0999aaa136915bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

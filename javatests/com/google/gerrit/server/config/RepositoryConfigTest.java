@@ -74,17 +74,17 @@ public class RepositoryConfigTest {
 
   @Test
   public void defaultSubmitTypeForStartWithFilter() {
-    configureDefaultSubmitType("somePath/somePath/*", SubmitType.REBASE_IF_NECESSARY);
-    configureDefaultSubmitType("somePath/*", SubmitType.CHERRY_PICK);
+    configureDefaultSubmitType(Paths.get("somePath", "somePath", "*").toString(), SubmitType.REBASE_IF_NECESSARY);
+    configureDefaultSubmitType(Paths.get("somePath", "*").toString(), SubmitType.CHERRY_PICK);
     configureDefaultSubmitType("*", SubmitType.MERGE_ALWAYS);
 
     assertThat(repoCfg.getDefaultSubmitType(new NameKey("someProject")))
         .isEqualTo(SubmitType.MERGE_ALWAYS);
 
-    assertThat(repoCfg.getDefaultSubmitType(new NameKey("somePath/someProject")))
+    assertThat(repoCfg.getDefaultSubmitType(new NameKey(Paths.get("somePath", "someProject").toString())))
         .isEqualTo(SubmitType.CHERRY_PICK);
 
-    assertThat(repoCfg.getDefaultSubmitType(new NameKey("somePath/somePath/someProject")))
+    assertThat(repoCfg.getDefaultSubmitType(new NameKey(Paths.get("somePath", "somePath", "someProject").toString())))
         .isEqualTo(SubmitType.REBASE_IF_NECESSARY);
   }
 
@@ -125,16 +125,16 @@ public class RepositoryConfigTest {
     ImmutableList<String> ownerGroups3 = ImmutableList.of("group3");
 
     configureOwnerGroups("*", ownerGroups1);
-    configureOwnerGroups("somePath/*", ownerGroups2);
-    configureOwnerGroups("somePath/somePath/*", ownerGroups3);
+    configureOwnerGroups(Paths.get("somePath", "*").toString(), ownerGroups2);
+    configureOwnerGroups(Paths.get("somePath", "somePath", "*").toString(), ownerGroups3);
 
     assertThat(repoCfg.getOwnerGroups(new NameKey("someProject")))
         .containsExactlyElementsIn(ownerGroups1);
 
-    assertThat(repoCfg.getOwnerGroups(new NameKey("somePath/someProject")))
+    assertThat(repoCfg.getOwnerGroups(new NameKey(Paths.get("somePath", "someProject").toString())))
         .containsExactlyElementsIn(ownerGroups2);
 
-    assertThat(repoCfg.getOwnerGroups(new NameKey("somePath/somePath/someProject")))
+    assertThat(repoCfg.getOwnerGroups(new NameKey(Paths.get("somePath", "somePath", "someProject").toString())))
         .containsExactlyElementsIn(ownerGroups3);
   }
 
@@ -153,14 +153,14 @@ public class RepositoryConfigTest {
 
   @Test
   public void basePathForStarFilter() {
-    String basePath = "/someAbsolutePath/someDirectory";
+    String basePath = Paths.get("someAbsolutePath", "someDirectory").toString();
     configureBasePath("*", basePath);
     assertThat(repoCfg.getBasePath(new NameKey("someProject")).toString()).isEqualTo(basePath);
   }
 
   @Test
   public void basePathForSpecificFilter() {
-    String basePath = "/someAbsolutePath/someDirectory";
+    String basePath = Paths.get("someAbsolutePath", "someDirectory").toString();
     configureBasePath("someProject", basePath);
     assertThat(repoCfg.getBasePath(new NameKey("someOtherProject"))).isNull();
     assertThat(repoCfg.getBasePath(new NameKey("someProject")).toString()).isEqualTo(basePath);
@@ -168,20 +168,20 @@ public class RepositoryConfigTest {
 
   @Test
   public void basePathForStartWithFilter() {
-    String basePath1 = "/someAbsolutePath1/someDirectory";
+    String basePath1 = Paths.get("someAbsolutePath1", "someDirectory").toString();
     String basePath2 = "someRelativeDirectory2";
-    String basePath3 = "/someAbsolutePath3/someDirectory";
-    String basePath4 = "/someAbsolutePath4/someDirectory";
+    String basePath3 = Paths.get("someAbsolutePath3", "someDirectory").toString();
+    String basePath4 = Paths.get("someAbsolutePath4", "someDirectory").toString();
 
     configureBasePath("pro*", basePath1);
-    configureBasePath("project/project/*", basePath2);
-    configureBasePath("project/*", basePath3);
+    configureBasePath(Paths.get("project", "project", "*").toString(), basePath2);
+    configureBasePath(Paths.get("project", "*").toString(), basePath3);
     configureBasePath("*", basePath4);
 
     assertThat(repoCfg.getBasePath(new NameKey("project1")).toString()).isEqualTo(basePath1);
-    assertThat(repoCfg.getBasePath(new NameKey("project/project/someProject")).toString())
+    assertThat(repoCfg.getBasePath(new NameKey(Paths.get("project", "project", "someProject").toString())).toString())
         .isEqualTo(basePath2);
-    assertThat(repoCfg.getBasePath(new NameKey("project/someProject")).toString())
+    assertThat(repoCfg.getBasePath(new NameKey(Paths.get("project", "someProject").toString())).toString())
         .isEqualTo(basePath3);
     assertThat(repoCfg.getBasePath(new NameKey("someProject")).toString()).isEqualTo(basePath4);
   }
@@ -193,8 +193,8 @@ public class RepositoryConfigTest {
             Paths.get("/someBasePath1"), Paths.get("/someBasePath2"), Paths.get("/someBasePath2"));
 
     configureBasePath("*", allBasePaths.get(0).toString());
-    configureBasePath("project/*", allBasePaths.get(1).toString());
-    configureBasePath("project/project/*", allBasePaths.get(2).toString());
+    configureBasePath(Paths.get("project", "*").toString(), allBasePaths.get(1).toString());
+    configureBasePath(Paths.get("project", "project", "*").toString(), allBasePaths.get(2).toString());
 
     assertThat(repoCfg.getAllBasePaths()).isEqualTo(allBasePaths);
   }

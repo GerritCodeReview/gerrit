@@ -118,6 +118,30 @@
       "revId": "d219c9d82f1785704df68f5ea0999aaa136915bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ceb75c04_785f15f7",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-28T13:39:20Z",
+      "side": 1,
+      "message": "Just a clarification regarding by previous comment: I didn\u0027t mean \u0027mess up\u0027 in a negative sense. I was just referring to mixing the code for the checks with the code necessary for the method.",
+      "parentUuid": "1e024881_77ac3002",
+      "range": {
+        "startLine": 188,
+        "startChar": 8,
+        "endLine": 191,
+        "endChar": 71
+      },
+      "revId": "d219c9d82f1785704df68f5ea0999aaa136915bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

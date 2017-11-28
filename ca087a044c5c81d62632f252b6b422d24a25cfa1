@@ -46,6 +46,30 @@
       "revId": "ca087a044c5c81d62632f252b6b422d24a25cfa1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ddf675f_55b9fad2",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-28T12:58:03Z",
+      "side": 1,
+      "message": "Ah ok: So sha1(groupname) is used as a key for the note we store so there can\u0027t be duplicate names.",
+      "parentUuid": "14329a82_b59d29fe",
+      "range": {
+        "startLine": 56,
+        "startChar": 14,
+        "endLine": 56,
+        "endChar": 44
+      },
+      "revId": "ca087a044c5c81d62632f252b6b422d24a25cfa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

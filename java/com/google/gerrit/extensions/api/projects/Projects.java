@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -94,6 +95,7 @@ public interface Projects {
     private boolean showTree;
     private boolean all;
     private FilterType type = FilterType.ALL;
+    private ProjectState state = null;
 
     public List<ProjectInfo> get() throws RestApiException {
       Map<String, ProjectInfo> map = getAsMap();
@@ -153,8 +155,13 @@ public interface Projects {
       return this;
     }
 
-    public ListRequest withAll() {
-      this.all = true;
+    public ListRequest withAll(boolean all) {
+      this.all = all;
+      return this;
+    }
+
+    public ListRequest withState(ProjectState state) {
+      this.state = state;
       return this;
     }
 
@@ -196,6 +203,10 @@ public interface Projects {
 
     public boolean isAll() {
       return all;
+    }
+
+    public ProjectState getState() {
+      return state;
     }
   }
 

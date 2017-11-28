@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "849cae40_3cb1f5a8",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-28T12:47:37Z",
+      "side": 1,
+      "message": "Why is this test not applicable anymore?",
+      "range": {
+        "startLine": 56,
+        "startChar": 14,
+        "endLine": 56,
+        "endChar": 44
+      },
+      "revId": "ca087a044c5c81d62632f252b6b422d24a25cfa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

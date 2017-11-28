@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "6827a762_de52a244",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-28T00:35:42Z",
+      "side": 1,
+      "message": "This change sets up an entirely new link generation system that can be overridden by the embedded context.\n\nBut we already currently have such a system with the generateUrl(params) method that embedded contexts have to define.\n\nWould it be simpler to setup a \"WEBLINK\" type for params and allow the embedded context to redefine weblinks the same way it redefines all the other Gerrit links?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "4cfe7253efc860145ef428bb401faf7e1244f65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b673d475_321ab11e",
         "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.html",
         "patchSetId": 1

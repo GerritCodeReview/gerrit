@@ -22,8 +22,10 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.group.db.Groups;
+import com.google.gerrit.server.group.db.GroupsNoteDbConsistencyChecker;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -31,6 +33,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -90,12 +93,13 @@ public class InternalGroupBackend implements GroupBackend {
   }
 
   private boolean isVisible(GroupReference groupReference) {
-    return groupCache
-        .get(groupReference.getUUID())
-        .map(InternalGroupDescription::new)
-        .map(groupControlFactory::controlFor)
-        .filter(GroupControl::isVisible)
-        .isPresent();
+    Optional<InternalGroup> group = groupCache.get(groupReference.getUUID());
+    if (!group.isPresent()) {
+      // groupRefs are read from group name notes. There is an inconsistency if this lookup fails.
+      GroupsNoteDbConsistencyChecker.logFailToLoadFromGroupRefAsWarning(groupReference.getUUID());
+      return false;
+    }
+    return groupControlFactory.controlFor(new InternalGroupDescription(group.get())).isVisible();
   }
 
   @Override

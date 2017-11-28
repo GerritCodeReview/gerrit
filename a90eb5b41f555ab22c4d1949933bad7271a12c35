@@ -45,6 +45,30 @@
       "revId": "a90eb5b41f555ab22c4d1949933bad7271a12c35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec817314_6b878559",
+        "filename": "javatests/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-28T12:31:21Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8ac4a5d0_f2b6e75d",
+      "range": {
+        "startLine": 178,
+        "startChar": 34,
+        "endLine": 178,
+        "endChar": 48
+      },
+      "revId": "a90eb5b41f555ab22c4d1949933bad7271a12c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

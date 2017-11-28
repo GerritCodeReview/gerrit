@@ -87,6 +87,30 @@
       "revId": "e3dcb948bc4d46d97c413ff1f260598465aa895f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88c8cef9_53550f14",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-28T20:15:46Z",
+      "side": 1,
+      "message": "I like this, nice. Provides a great starting point for people looking to build a plugin for the new UI. Maybe in the future we can flesh it out more and include things like transpilation, etc.",
+      "parentUuid": "790189cc_1043b2fe",
+      "range": {
+        "startLine": 387,
+        "startChar": 34,
+        "endLine": 387,
+        "endChar": 46
+      },
+      "revId": "e3dcb948bc4d46d97c413ff1f260598465aa895f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

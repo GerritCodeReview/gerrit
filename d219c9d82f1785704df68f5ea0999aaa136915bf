@@ -94,6 +94,30 @@
       "revId": "d219c9d82f1785704df68f5ea0999aaa136915bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e024881_77ac3002",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-28T13:30:23Z",
+      "side": 1,
+      "message": "LinkedHashSet might also suffice.\n\nRegarding throwing an exception: I wouldn\u0027t throw an exception but delegate the logging to the class of the consistency checker.",
+      "parentUuid": "aec25230_fa48d6c7",
+      "range": {
+        "startLine": 188,
+        "startChar": 8,
+        "endLine": 191,
+        "endChar": 71
+      },
+      "revId": "d219c9d82f1785704df68f5ea0999aaa136915bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

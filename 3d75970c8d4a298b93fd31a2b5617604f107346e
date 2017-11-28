@@ -16,6 +16,24 @@
       "revId": "3d75970c8d4a298b93fd31a2b5617604f107346e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d073138_5e88b1b8",
+        "filename": "javatests/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-28T18:27:19Z",
+      "side": 1,
+      "message": "Oh, David Pursehouse suggested to use Paths.get over Files.seperator.",
+      "parentUuid": "5e4003bd_dcbd0aa5",
+      "revId": "3d75970c8d4a298b93fd31a2b5617604f107346e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

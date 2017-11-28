@@ -37,6 +37,7 @@ limitations under the License.
     let sandbox;
     let groups;
     let groupMembers;
+    let includedGroups;
 
     setup(() => {
       sandbox = sinon.sandbox.create();
@@ -67,6 +68,26 @@ limitations under the License.
         },
       ];
 
+      includedGroups = [{
+        url: 'https://group/url',
+        options: {},
+        id: 'testId',
+        name: 'testName',
+      },
+      {
+        url: '/group/url',
+        options: {},
+        id: 'testId2',
+        name: 'testName2',
+      },
+      {
+        url: '#/group/url',
+        options: {},
+        id: 'testId3',
+        name: 'testName3',
+      },
+      ];
+
       stub('gr-rest-api-interface', {
         getSuggestedAccounts(input) {
           if (input.startsWith('test')) {
@@ -94,6 +115,9 @@ limitations under the License.
           }
         },
         getLoggedIn() { return Promise.resolve(true); },
+        getConfig() {
+          return Promise.resolve();
+        },
         getGroupConfig() {
           return Promise.resolve(groups);
         },
@@ -103,13 +127,33 @@ limitations under the License.
         getIsGroupOwner() {
           return Promise.resolve(true);
         },
+        getIncludedGroup() {
+          return Promise.resolve(includedGroups);
+        },
+        getAccountCapabilities() {
+          return Promise.resolve();
+        },
       });
-
       element = fixture('basic');
+      sandbox.stub(element, 'getBaseUrl').returns('https://test/site');
+      element.groupId = 1;
+      return element._loadGroupDetails();
     });
 
     teardown(() => {
       sandbox.restore();
+    });
+
+    test('_includedGroups', () => {
+      assert.equal(element._includedGroups.length, 3);
+      assert.equal(Polymer.dom(element.root)
+          .querySelectorAll('.nameColumn a')[0].href, includedGroups[0].url);
+      assert.equal(Polymer.dom(element.root)
+          .querySelectorAll('.nameColumn a')[1].href,
+          'https://test/site/group/url');
+      assert.equal(Polymer.dom(element.root)
+          .querySelectorAll('.nameColumn a')[2].href,
+          'https://test/site/group/url');
     });
 
     test('save correctly', () => {

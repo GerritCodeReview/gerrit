@@ -195,6 +195,7 @@ limitations under the License.
       suite('when text is empty', () => {
         setup(() => {
           element._messageText = '';
+          element.comment = {};
         });
 
         test('esc closes comment when text is empty', () => {
@@ -448,7 +449,7 @@ limitations under the License.
           'header middle content is not visible');
     });
 
-    test('draft creation/cancelation', done => {
+    test('draft creation/cancellation', done => {
       assert.isFalse(element.editing);
       MockInteractions.tap(element.$$('.edit'));
       assert.isTrue(element.editing);
@@ -494,6 +495,7 @@ limitations under the License.
     });
 
     test('storage is cleared only after save success', () => {
+      element._messageText = 'test';
       const eraseStub = sandbox.stub(element, '_eraseDraftComment');
       sandbox.stub(element.$.restAPI, 'getResponseObject')
           .returns(Promise.resolve({}));
@@ -512,6 +514,15 @@ limitations under the License.
           assert.isTrue(eraseStub.called);
         });
       });
+    });
+
+    test('_computeSaveDisabled', () => {
+      const comment = {message: 'test'};
+      assert.equal(element._computeSaveDisabled('', {}), true);
+      assert.equal(element._computeSaveDisabled('test', {}), false);
+      assert.equal(element._computeSaveDisabled('', comment), false);
+      assert.equal(element._computeSaveDisabled('test', comment), true);
+      assert.equal(element._computeSaveDisabled('test2', comment), false);
     });
 
     suite('confirm discard', () => {
@@ -736,5 +747,14 @@ limitations under the License.
       element._handleCancel({preventDefault: () => {}});
       assert.isTrue(discardSpy.called);
     });
+
+    test('deleting text from saved draft and saving deletes the draft', () => {
+      element.comment = {id: 'foo', message: 'test'};
+      element._messageText = '';
+      const discardStub = sandbox.stub(element, '_discardDraft');
+
+      element.save();
+      assert.isTrue(discardStub.called);
+    })
   });
 </script>

@@ -184,6 +184,10 @@
 
       this.disabled = true;
 
+      if (!this._messageText) {
+        return this._discardDraft();
+      }
+
       this._xhrPromise = this._saveDraft(this.comment).then(response => {
         this.disabled = false;
         if (!response.ok) { return response; }
@@ -284,12 +288,13 @@
       return isAdmin && !draft ? 'showDeleteButtons' : '';
     },
 
-    _computeSaveDisabled(draft) {
-      return draft == null || draft.trim() == '';
+    _computeSaveDisabled(draft, comment) {
+      if (comment.message) { return draft === comment.message; }
+      return !draft || draft.trim() === '';
     },
 
     _handleSaveKey(e) {
-      if (this._messageText.length) {
+      if (!this._computeSaveDisabled(this._messageText, this.comment)) {
         e.preventDefault();
         this._handleSave(e);
       }
@@ -418,7 +423,7 @@
 
     _handleDiscard(e) {
       e.preventDefault();
-      if (this._computeSaveDisabled(this._messageText)) {
+      if (this._computeSaveDisabled(this._messageText, this.comment)) {
         this._discardDraft();
         return;
       }
@@ -455,6 +460,8 @@
         this.disabled = false;
         throw err;
       });
+
+      return this._xhrPromise;
     },
 
     _closeConfirmDiscardOverlay() {

@@ -106,6 +106,24 @@
       "revId": "9cc3ced35626f4808be651bbbffea582eeb8f189",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc3ef53d_0d12978b",
+        "filename": "tools/bzl/plugins.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-28T23:06:11Z",
+      "side": 1,
+      "message": "Looking into the code, it seems to be intrusive change (but this of course could all be done). So may be we should explore second option i mentioned in another comment, to produce JAR plugin, similar builducket plugin: [1].\n\nI\u0027m looking into this second option right now.\n\n* [1] https://chromium.googlesource.com/infra/gerrit-plugins/buildbucket/+/master/BUILD",
+      "parentUuid": "ab9ef74f_b2e425fb",
+      "revId": "9cc3ced35626f4808be651bbbffea582eeb8f189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

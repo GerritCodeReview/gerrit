@@ -33,6 +33,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.group.db.GroupsNoteDbConsistencyChecker;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndex;
@@ -156,7 +157,18 @@ public class InitAdminUser implements InitStep {
             accountIndex.replace(as);
           }
 
-          InternalGroup adminInternalGroup = groupsOnInit.getExistingGroup(db, adminGroup);
+          InternalGroup adminInternalGroup;
+          try {
+            adminInternalGroup = groupsOnInit.getExistingGroup(db, adminGroup);
+          } catch (NoSuchGroupException e) {
+            // adminGroup is read from group name notes. The above code tries to load the group
+            // from the group ref. If it fails, there exists an inconsistency.
+            GroupsNoteDbConsistencyChecker.logConsistencyProblemAsWarning(
+                "Group %s (%s) from group name notes is failed to load from group ref",
+                adminGroup.getName(), adminGroup.getUUID());
+            throw e; // rethrow the exception.
+          }
+
           for (GroupIndex groupIndex : groupIndexCollection.getWriteIndexes()) {
             groupIndex.replace(adminInternalGroup);
           }

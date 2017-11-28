@@ -41,7 +41,9 @@ import com.google.gerrit.server.account.GetGroups;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.account.InternalGroupBackend;
 import com.google.gerrit.server.group.db.Groups;
+import com.google.gerrit.server.group.db.GroupsNoteDbConsistencyChecker;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -343,6 +345,12 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       GroupDescription.Basic desc = groupBackend.get(ref.getUUID());
       if (desc != null) {
         groupInfos.add(json.addOptions(options).format(desc));
+      } else if (groupBackend instanceof InternalGroupBackend) {
+        // groupRefs are read from group name notes. InternalGroupBackend leverages on GroupCache.
+        // There is an inconsistency if this lookup return null.
+        GroupsNoteDbConsistencyChecker.logConsistencyProblemAsWarning(
+            "Group %s (%s) from group name notes is failed to load from group ref",
+            ref.getName(), ref.getUUID());
       }
     }
     return groupInfos;
@@ -407,7 +415,15 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   private Optional<GroupDescription.Internal> loadGroup(GroupReference groupReference) {
-    return groupCache.get(groupReference.getUUID()).map(InternalGroupDescription::new);
+    Optional<GroupDescription.Internal> group =
+        groupCache.get(groupReference.getUUID()).map(InternalGroupDescription::new);
+    if (!group.isPresent()) {
+      // groupReference here is read from group name notes. There is an inconsistency if this lookup
+      // returns empty.
+      GroupsNoteDbConsistencyChecker.logConsistencyProblemAsWarning(
+          "Group %s (%s) from group name notes is failed to load from group ref");
+    }
+    return group;
   }
 
   private List<GroupInfo> getGroupsOwnedBy(String id)

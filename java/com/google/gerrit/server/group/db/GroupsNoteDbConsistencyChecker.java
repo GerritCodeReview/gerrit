@@ -283,6 +283,10 @@ public class GroupsNoteDbConsistencyChecker {
     }
   }
 
+  public static void logConsistencyProblemAsWarning(String fmt, Object... args) {
+    logConsistencyProblem(warning(fmt, args));
+  }
+
   /** Check whether there are duplicate group UUIDs. */
   public static List<ConsistencyProblemInfo> checkDuplicateUUIDs(
       ImmutableListMultimap<AccountGroup.UUID, String> byUUID) {

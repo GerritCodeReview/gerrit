@@ -142,6 +142,24 @@
       "revId": "9cc3ced35626f4808be651bbbffea582eeb8f189",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f4e62b0_5ac15e06",
+        "filename": "tools/bzl/plugins.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-28T23:39:00Z",
+      "side": 1,
+      "message": "\u003e I\u0027m fairly certain all that needs to be done is copying the .html\n \u003e file into the right directory.\n\nOTOH, with jar, we could still use Crisper split and even put more assets.\n \n \u003e I\u0027d really like to avoid packaging anything into a jar, if\n \u003e possible. It seems much more futureproof to keep things simple.\n \u003e \n \u003e How would I go about running the WAR init script in a debugger?\n\nI think, what you could do is attached the debugger from the command line, but I never did that. Always debugged from Eclipse, but with war distribution this is different.\n\nI think I got it working with JAR packaging will upload new change in a moment.",
+      "parentUuid": "42abecf1_e069c6f3",
+      "revId": "9cc3ced35626f4808be651bbbffea582eeb8f189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -269,9 +269,10 @@ Outputs:
 """
 
 def _vulcanize_impl(ctx):
-  # intermediate artifact.
+  # intermediate artifact if split is wanted.
+  suffix = ".vulcanized.html" if ctx.attr.split else None
   vulcanized = ctx.new_file(
-    ctx.configuration.genfiles_dir, ctx.outputs.html, ".vulcanized.html")
+    ctx.configuration.genfiles_dir, ctx.outputs.html, suffix)
   destdir = ctx.outputs.html.path + ".dir"
   zips =  [z for d in ctx.attr.deps for z in d.transitive_zipfiles ]
 
@@ -316,22 +317,29 @@ def _vulcanize_impl(ctx):
     command = cmd,
     **node_tweaks)
 
-  hermetic_npm_command = "export PATH && " + " ".join([
-    'python',
-    ctx.file._run_npm.path,
-    ctx.file._crisper_archive.path,
-    "--always-write-script",
-    "--source", vulcanized.path,
-    "--html", ctx.outputs.html.path,
-    "--js", ctx.outputs.js.path])
+  if ctx.attr.split:
+    hermetic_npm_command = "export PATH && " + " ".join([
+      'python',
+      ctx.file._run_npm.path,
+      ctx.file._crisper_archive.path,
+      "--always-write-script",
+      "--source", vulcanized.path,
+      "--html", ctx.outputs.html.path,
+      "--js", ctx.outputs.js.path])
 
-  ctx.actions.run_shell(
-    mnemonic = "Crisper",
-    inputs = [ctx.file._run_npm, ctx.file.app,
-              ctx.file._crisper_archive, vulcanized],
-    outputs = [ctx.outputs.js, ctx.outputs.html],
-    command = hermetic_npm_command,
-    **node_tweaks)
+    ctx.actions.run_shell(
+      mnemonic = "Crisper",
+      inputs = [ctx.file._run_npm, ctx.file.app,
+                ctx.file._crisper_archive, vulcanized],
+      outputs = [ctx.outputs.js, ctx.outputs.html],
+      command = hermetic_npm_command,
+      **node_tweaks)
+
+def _vulcanize_output_func(name, split):
+  out = {"html": "%{name}.html"}
+  if split:
+    out["js"] = "%{name}.js"
+  return out
 
 _vulcanize_rule = rule(
     _vulcanize_impl,
@@ -349,6 +357,7 @@ _vulcanize_rule = rule(
             ".ico",
         ]),
         "pkg": attr.string(mandatory = True),
+        "split": attr.bool(default = True),
         "_run_npm": attr.label(
             default = Label("//tools/js:run_npm_binary.py"),
             allow_single_file = True,
@@ -362,12 +371,9 @@ _vulcanize_rule = rule(
             allow_single_file = True,
         ),
     },
-    outputs = {
-        "html": "%{name}.html",
-        "js": "%{name}.js",
-    },
+    outputs = _vulcanize_output_func,
 )
 
 def vulcanize(*args, **kwargs):
-  """Vulcanize runs vulcanize and crisper on a set of sources."""
+  """Vulcanize runs vulcanize and (optionally) crisper on a set of sources."""
   _vulcanize_rule(*args, pkg=PACKAGE_NAME, **kwargs)

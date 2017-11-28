@@ -41,7 +41,9 @@ import com.google.gerrit.server.account.GetGroups;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.account.InternalGroupBackend;
 import com.google.gerrit.server.group.db.Groups;
+import com.google.gerrit.server.group.db.GroupsNoteDbConsistencyChecker;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -343,6 +345,11 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       GroupDescription.Basic desc = groupBackend.get(ref.getUUID());
       if (desc != null) {
         groupInfos.add(json.addOptions(options).format(desc));
+      } else if (groupBackend instanceof InternalGroupBackend) {
+        // groupRefs are read from group name notes. InternalGroupBackend leverages on GroupCache.
+        // There is an inconsistency if this lookup return null.
+        GroupsNoteDbConsistencyChecker.logFailToLoadFromGroupRefAsWarning(
+            ref.getName(), ref.getUUID());
       }
     }
     return groupInfos;
@@ -389,8 +396,10 @@ public class ListGroups implements RestReadView<TopLevelResource> {
         groups
             .getAllGroupReferences(db.get())
             .filter(group -> isRelevant(pattern, group))
-            .map(this::loadGroup)
+            .map(t -> groupCache.get(t.getUUID()))
+            .peek(ListGroups::checkConsistency)
             .flatMap(Streams::stream)
+            .map(InternalGroupDescription::new)
             .filter(this::isVisible)
             .filter(filter)
             .sorted(GROUP_COMPARATOR)
@@ -452,5 +461,12 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     }
     GroupControl c = groupControlFactory.controlFor(group);
     return c.isVisible();
+  }
+
+  private static void checkConsistency(Optional<InternalGroup> group) {
+    if (!group.isPresent()) {
+      GroupsNoteDbConsistencyChecker.logFailToLoadFromGroupRefAsWarning(
+          group.get().getName(), group.get().getGroupUUID());
+    }
   }
 }

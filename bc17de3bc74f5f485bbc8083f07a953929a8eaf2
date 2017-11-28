@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9b13c19_955e5d38",
+        "filename": "java/com/google/gerrit/pgm/init/InitAdminUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-28T18:09:58Z",
+      "side": 1,
+      "message": "This code is only executed during the first initialization. If the group can\u0027t be retrieved, we will simply print the exception on the command line and stop the init. Logging the inconsistency doesn\u0027t make sense here.",
+      "range": {
+        "startLine": 163,
+        "startChar": 12,
+        "endLine": 171,
+        "endChar": 0
+      },
+      "revId": "bc17de3bc74f5f485bbc8083f07a953929a8eaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ac0ea71_b2ab0c6d",
+        "filename": "java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-28T18:09:58Z",
+      "side": 1,
+      "message": "I don\u0027t think this is the correct place for this check. It should be in InternalGroupBackend.",
+      "range": {
+        "startLine": 348,
+        "startChar": 8,
+        "endLine": 354,
+        "endChar": 7
+      },
+      "revId": "bc17de3bc74f5f485bbc8083f07a953929a8eaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c326fed_ca46c8e7",
+        "filename": "java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-28T18:09:58Z",
+      "side": 1,
+      "message": "There\u0027s a code path in this file which calls this method but doesn\u0027t use Groups#getAllGroupReferences previously. Hence, simply adding the check here might produce false positives.",
+      "range": {
+        "startLine": 417,
+        "startChar": 46,
+        "endLine": 417,
+        "endChar": 55
+      },
+      "revId": "bc17de3bc74f5f485bbc8083f07a953929a8eaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "411368db_25a8eea2",
+        "filename": "java/com/google/gerrit/server/index/group/AllGroupsIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-28T18:09:58Z",
+      "side": 1,
+      "message": "If we have the exact same code in multiple places, could we maybe introduce a dedicated method in GroupsNoteDbConsistencyChecker which just has the UUID as parameter?",
+      "range": {
+        "startLine": 106,
+        "startChar": 20,
+        "endLine": 110,
+        "endChar": 29
+      },
+      "revId": "bc17de3bc74f5f485bbc8083f07a953929a8eaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "145928ed_46848b85",
+        "filename": "java/com/google/gerrit/server/index/group/AllGroupsIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-28T18:09:58Z",
+      "side": 1,
+      "message": "Actually, we should log the inconsistency here and not above. At this moment, the group is loaded directly from NoteDb as we evicted the cache in line 104. When retrieving the \u0027oldGroup\u0027, it can already be contained in the cache and hence the group isn\u0027t even read from NoteDb.",
+      "range": {
+        "startLine": 115,
+        "startChar": 20,
+        "endLine": 115,
+        "endChar": 26
+      },
+      "revId": "bc17de3bc74f5f485bbc8083f07a953929a8eaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

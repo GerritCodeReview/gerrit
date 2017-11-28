@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth8.assertThat;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
+import java.nio.file.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -153,14 +154,14 @@ public class RepositoryConfigTest {
 
   @Test
   public void basePathForStarFilter() {
-    String basePath = "/someAbsolutePath/someDirectory";
+    String basePath = File.separator + "someAbsolutePath" + File.separator + "someDirectory";
     configureBasePath("*", basePath);
     assertThat(repoCfg.getBasePath(new NameKey("someProject")).toString()).isEqualTo(basePath);
   }
 
   @Test
   public void basePathForSpecificFilter() {
-    String basePath = "/someAbsolutePath/someDirectory";
+    String basePath = File.separator + "someAbsolutePath" + File.separator + "someDirectory";
     configureBasePath("someProject", basePath);
     assertThat(repoCfg.getBasePath(new NameKey("someOtherProject"))).isNull();
     assertThat(repoCfg.getBasePath(new NameKey("someProject")).toString()).isEqualTo(basePath);
@@ -168,10 +169,10 @@ public class RepositoryConfigTest {
 
   @Test
   public void basePathForStartWithFilter() {
-    String basePath1 = "/someAbsolutePath1/someDirectory";
+    String basePath1 = File.separator + "someAbsolutePath1" + File.separator + "someDirectory";
     String basePath2 = "someRelativeDirectory2";
-    String basePath3 = "/someAbsolutePath3/someDirectory";
-    String basePath4 = "/someAbsolutePath4/someDirectory";
+    String basePath3 = File.separator + "someAbsolutePath3" + File.separator + "someDirectory";
+    String basePath4 = File.separator + "someAbsolutePath4" + File.separator + "someDirectory";
 
     configureBasePath("pro*", basePath1);
     configureBasePath("project/project/*", basePath2);

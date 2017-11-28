@@ -109,10 +109,6 @@
       return this._loading || this._loading === undefined;
     },
 
-    _groupUrl(item) {
-      return this.getBaseUrl() + '/admin/groups/' + this.encodeURL(item, true);
-    },
-
     _handleSavingGroupMember() {
       return this.$.restAPI.saveGroupMembers(this._groupName,
           this._groupMemberSearch).then(config => {

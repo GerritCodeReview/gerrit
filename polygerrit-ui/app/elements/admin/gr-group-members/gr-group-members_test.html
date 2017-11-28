@@ -37,6 +37,7 @@ limitations under the License.
     let sandbox;
     let groups;
     let groupMembers;
+    let includedGroups;
 
     setup(() => {
       sandbox = sinon.sandbox.create();
@@ -67,6 +68,14 @@ limitations under the License.
         },
       ];
 
+      includedGroups = [{
+        url: 'https://group/url',
+        options: {},
+        id: 'testId',
+        name: 'testName',
+      },
+      ];
+
       stub('gr-rest-api-interface', {
         getSuggestedAccounts(input) {
           if (input.startsWith('test')) {
@@ -94,6 +103,9 @@ limitations under the License.
           }
         },
         getLoggedIn() { return Promise.resolve(true); },
+        getConfig() {
+          return Promise.resolve();
+        },
         getGroupConfig() {
           return Promise.resolve(groups);
         },
@@ -103,13 +115,25 @@ limitations under the License.
         getIsGroupOwner() {
           return Promise.resolve(true);
         },
+        getIncludedGroup() {
+          return Promise.resolve(includedGroups);
+        },
+        getAccountCapabilities() {
+          return Promise.resolve();
+        },
       });
-
       element = fixture('basic');
+      element.groupId = 1;
+      return element._loadGroupDetails();
     });
 
     teardown(() => {
       sandbox.restore();
+    });
+
+    test('_includedGroups', () => {
+      assert.equal(element._includedGroups.length, 1);
+      assert.equal(element.$$('.nameColumn a').href, includedGroups[0].url);
     });
 
     test('save correctly', () => {

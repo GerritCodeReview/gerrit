@@ -47,6 +47,30 @@
       "revId": "69e7dc752bb630a29a0fa59274acb4af327e10dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d832fbf1_cf10b9e9",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-28T15:43:41Z",
+      "side": 1,
+      "message": "Ok that makes sense. I just feel like checking for field presence is better than checking against a magic number (even without an assume()). But consistency is certainly an argument to not bother with it further.",
+      "parentUuid": "3be55023_ec460568",
+      "range": {
+        "startLine": 450,
+        "startChar": 3,
+        "endLine": 453,
+        "endChar": 5
+      },
+      "revId": "69e7dc752bb630a29a0fa59274acb4af327e10dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

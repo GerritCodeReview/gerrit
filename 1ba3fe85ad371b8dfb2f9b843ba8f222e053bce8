@@ -46,6 +46,30 @@
       "revId": "1ba3fe85ad371b8dfb2f9b843ba8f222e053bce8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc73f9f0_42adf156",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-28T23:39:40Z",
+      "side": 1,
+      "message": "Will look into this, the examples I saw returned from the API itself were full URLs, but maybe either is possible.",
+      "parentUuid": "c8901f9b_ac8951be",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 26
+      },
+      "revId": "1ba3fe85ad371b8dfb2f9b843ba8f222e053bce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

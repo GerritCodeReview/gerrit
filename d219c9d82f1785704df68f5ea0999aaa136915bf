@@ -142,6 +142,30 @@
       "revId": "d219c9d82f1785704df68f5ea0999aaa136915bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21affa7b_eddec513",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-28T18:19:55Z",
+      "side": 1,
+      "message": "I have logged here directly. It looks simpler while we cannot test it easily.",
+      "parentUuid": "ceb75c04_785f15f7",
+      "range": {
+        "startLine": 188,
+        "startChar": 8,
+        "endLine": 191,
+        "endChar": 71
+      },
+      "revId": "d219c9d82f1785704df68f5ea0999aaa136915bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -39,6 +39,29 @@
       "revId": "e3dcb948bc4d46d97c413ff1f260598465aa895f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "790189cc_1043b2fe",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-28T20:03:37Z",
+      "side": 1,
+      "message": "As syntactic sugar, I defined alias for vulcanize with split \u003d False, and called it:\n\n  polygerrit_plugin()\n\nYou can see it in action in Bazlets change, and I also adjsuted the build in standalone build mode change:\n\n* [1] https://gerrit-review.googlesource.com/#/c/bazlets/+/144470/2/tools/js.bzl@393\n* [2] https://gerrit-review.googlesource.com/#/c/plugins/codemirror-editor/+/144492/2/BUILD@3",
+      "range": {
+        "startLine": 387,
+        "startChar": 34,
+        "endLine": 387,
+        "endChar": 46
+      },
+      "revId": "e3dcb948bc4d46d97c413ff1f260598465aa895f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

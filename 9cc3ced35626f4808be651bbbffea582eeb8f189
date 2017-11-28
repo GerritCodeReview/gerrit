@@ -88,6 +88,24 @@
       "revId": "9cc3ced35626f4808be651bbbffea582eeb8f189",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab9ef74f_b2e425fb",
+        "filename": "tools/bzl/plugins.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-28T22:54:04Z",
+      "side": 1,
+      "message": "\u003e I guess, this is because only JAR plugins are respected?\n\nThis is a question I also have. I\u0027m not entirely sure what needs to be done here -- it looks like InitPlugins.java is what we need. Although I\u0027m fairly certain that for this specific case all we really need is to copy the HTML file to the plugins base dir, we should probably have more advanced mechanisms in place for plugin installation with dependencies/local assets.",
+      "parentUuid": "346a66b6_42ac109c",
+      "revId": "9cc3ced35626f4808be651bbbffea582eeb8f189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

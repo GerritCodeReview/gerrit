@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b673d475_321ab11e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-28T00:23:12Z",
+      "side": 1,
+      "message": "Duplicate import.",
+      "revId": "4cfe7253efc860145ef428bb401faf7e1244f65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

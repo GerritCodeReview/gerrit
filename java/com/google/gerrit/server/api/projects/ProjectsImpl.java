@@ -19,6 +19,7 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.api.projects.Projects;
+import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -130,6 +131,25 @@ class ProjectsImpl implements Projects {
     lp.setFilterType(type);
 
     lp.setAll(request.isAll());
+
+    Projects.ListRequest.State requestState = request.getState();
+    if (requestState != null) {
+      ProjectState state;
+      switch (requestState) {
+        case ACTIVE:
+          state = ProjectState.ACTIVE;
+          break;
+        case HIDDEN:
+          state = ProjectState.HIDDEN;
+          break;
+        case READ_ONLY:
+          state = ProjectState.READ_ONLY;
+          break;
+        default:
+          throw new BadRequestException("Unknown project state: " + requestState);
+      }
+      lp.setState(state);
+    }
 
     return lp.apply();
   }

@@ -84,6 +84,12 @@ public interface Projects {
       ALL
     }
 
+    public enum State {
+      ACTIVE,
+      HIDDEN,
+      READ_ONLY,
+    }
+
     private final List<String> branches = new ArrayList<>();
     private boolean description;
     private String prefix;
@@ -94,6 +100,7 @@ public interface Projects {
     private boolean showTree;
     private boolean all;
     private FilterType type = FilterType.ALL;
+    private State state = null;
 
     public List<ProjectInfo> get() throws RestApiException {
       Map<String, ProjectInfo> map = getAsMap();
@@ -158,6 +165,11 @@ public interface Projects {
       return this;
     }
 
+    public ListRequest withState(State state) {
+      this.state = state;
+      return this;
+    }
+
     public boolean getDescription() {
       return description;
     }
@@ -196,6 +208,10 @@ public interface Projects {
 
     public boolean isAll() {
       return all;
+    }
+
+    public State getState() {
+      return state;
     }
   }
 

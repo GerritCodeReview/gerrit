@@ -26,6 +26,7 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
+import com.google.gerrit.extensions.api.projects.Projects;
 import com.google.gerrit.extensions.api.projects.Projects.ListRequest;
 import com.google.gerrit.extensions.api.projects.Projects.ListRequest.FilterType;
 import com.google.gerrit.extensions.client.ProjectState;
@@ -191,37 +192,57 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listWithHiddenProject() throws Exception {
+  public void listWithHiddenAndReadonlyProjects() throws Exception {
     Project.NameKey hidden = createProject("project-to-hide");
+    Project.NameKey readonly = createProject("project-to-read");
 
-    // The project is included because it was not hidden yet
+    // Set project read-only
+    ConfigInput input = new ConfigInput();
+    input.state = ProjectState.READ_ONLY;
+    ConfigInfo info = gApi.projects().name(readonly.get()).config(input);
+    assertThat(info.state).isEqualTo(input.state);
+
+    // The hidden project is included because it was not hidden yet.
+    // The read-only project is included.
     assertThatNameList(gApi.projects().list().get())
-        .containsExactly(allProjects, allUsers, project, hidden)
+        .containsExactly(allProjects, allUsers, project, hidden, readonly)
         .inOrder();
 
     // Hide the project
-    ConfigInput input = new ConfigInput();
     input.state = ProjectState.HIDDEN;
-    ConfigInfo info = gApi.projects().name(hidden.get()).config(input);
+    info = gApi.projects().name(hidden.get()).config(input);
     assertThat(info.state).isEqualTo(input.state);
 
     // Project is still accessible directly
     gApi.projects().name(hidden.get()).get();
 
-    // But is not included in the list
+    // Hidden project is not included in the list
     assertThatNameList(gApi.projects().list().get())
-        .containsExactly(allProjects, allUsers, project)
+        .containsExactly(allProjects, allUsers, project, readonly)
         .inOrder();
 
     // ALL filter applies to type, and doesn't include hidden state
     assertThatNameList(gApi.projects().list().withType(FilterType.ALL).get())
-        .containsExactly(allProjects, allUsers, project)
+        .containsExactly(allProjects, allUsers, project, readonly)
         .inOrder();
 
     // "All" boolean option causes hidden projects to be included
     assertThatNameList(gApi.projects().list().withAll(true).get())
-        .containsExactly(allProjects, allUsers, project, hidden)
+        .containsExactly(allProjects, allUsers, project, hidden, readonly)
         .inOrder();
+
+    // "State" option causes only the projects in that state to be included
+    assertThatNameList(gApi.projects().list().withState(Projects.ListRequest.State.HIDDEN).get())
+        .containsExactly(hidden);
+    assertThatNameList(gApi.projects().list().withState(Projects.ListRequest.State.READ_ONLY).get())
+        .containsExactly(readonly);
+    assertThatNameList(gApi.projects().list().withState(Projects.ListRequest.State.ACTIVE).get())
+        .containsExactly(allProjects, allUsers, project)
+        .inOrder();
+
+    // Cannot use "all" and "state" together
+    assertBadRequest(
+        gApi.projects().list().withAll(true).withState(Projects.ListRequest.State.ACTIVE));
   }
 
   private void assertBadRequest(ListRequest req) throws Exception {

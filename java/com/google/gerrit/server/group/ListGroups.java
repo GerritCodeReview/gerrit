@@ -42,6 +42,7 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.db.Groups;
+import com.google.gerrit.server.group.db.GroupsNoteDbConsistencyChecker;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -389,8 +390,10 @@ public class ListGroups implements RestReadView<TopLevelResource> {
         groups
             .getAllGroupReferences(db.get())
             .filter(group -> isRelevant(pattern, group))
-            .map(this::loadGroup)
+            .map(t -> groupCache.get(t.getUUID()))
+            .peek(ListGroups::checkConsistency)
             .flatMap(Streams::stream)
+            .map(InternalGroupDescription::new)
             .filter(this::isVisible)
             .filter(filter)
             .sorted(GROUP_COMPARATOR)
@@ -452,5 +455,11 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     }
     GroupControl c = groupControlFactory.controlFor(group);
     return c.isVisible();
+  }
+
+  private static void checkConsistency(Optional<InternalGroup> group) {
+    if (!group.isPresent()) {
+      GroupsNoteDbConsistencyChecker.logFailToLoadFromGroupRefAsWarning(group.get().getGroupUUID());
+    }
   }
 }

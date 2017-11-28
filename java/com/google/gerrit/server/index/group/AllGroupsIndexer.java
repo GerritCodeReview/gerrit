@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.Groups;
+import com.google.gerrit.server.group.db.GroupsNoteDbConsistencyChecker;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -107,6 +108,10 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
                     index.replace(internalGroup.get());
                   } else {
                     index.delete(uuid);
+
+                    // The UUID here is read from group name notes. If it fails to load from group
+                    // cache, there exists an inconsistency.
+                    GroupsNoteDbConsistencyChecker.logFailToLoadFromGroupRefAsWarning(uuid);
                   }
                   verboseWriter.println("Reindexed " + desc);
                   done.incrementAndGet();

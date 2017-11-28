@@ -275,4 +275,9 @@ public class GroupsNoteDbConsistencyChecker {
       log.error(p.message);
     }
   }
+
+  public static void logFailToLoadFromGroupRefAsWarning(AccountGroup.UUID uuid) {
+    logConsistencyProblem(
+        warning("Group with UUID %s from group name notes failed to load from group ref", uuid));
+  }
 }

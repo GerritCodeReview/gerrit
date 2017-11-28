@@ -283,6 +283,18 @@ public class GroupsNoteDbConsistencyChecker {
     }
   }
 
+  public static void logFailToLoadFromGroupRefAsWarning(String groupName, AccountGroup.UUID uuid) {
+    logConsistencyProblem(
+        warning(
+            "Group %s (%s) from group name notes is failed to load from group ref",
+            groupName, uuid));
+  }
+
+  public static void logFailToLoadFromGroupRefAsWarning(AccountGroup.UUID uuid) {
+    logConsistencyProblem(
+        warning("Group with UUID %s from group name notes is failed to load from group ref", uuid));
+  }
+
   /** Check whether there are duplicate group UUIDs. */
   public static List<ConsistencyProblemInfo> checkDuplicateUUIDs(
       ImmutableListMultimap<AccountGroup.UUID, String> byUUID) {

@@ -447,6 +447,11 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertThat(rawFields.isPresent()).isTrue();
     assertThat(rawFields.get().getValue(AccountField.ID)).isEqualTo(userInfo._accountId);
 
+    // The field EXTERNAL_ID_STATE is only supported from schema version 6.
+    if (getSchemaVersion() < 6) {
+      return;
+    }
+
     List<AccountExternalIdInfo> externalIdInfos = gApi.accounts().self().getExternalIds();
     List<ByteArrayWrapper> blobs = new ArrayList<>();
     for (AccountExternalIdInfo info : externalIdInfos) {
@@ -648,5 +653,9 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     public int hashCode() {
       return Arrays.hashCode(arr);
     }
+  }
+
+  protected int getSchemaVersion() {
+    return indexes.getSearchIndex().getSchema().getVersion();
   }
 }

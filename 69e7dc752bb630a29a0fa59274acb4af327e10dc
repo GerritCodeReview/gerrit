@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1511880141 +0100\nnonce AMT3iFjELOIAcTF3erT1PDGuW5kcREu1/O+mqY07zzlPio7Wcsq6POdokFRuokjMdB+0tc88hRGz\n\n0000000000000000000000000000000000000000 69e7dc752bb630a29a0fa59274acb4af327e10dc refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaHXXNAAoJEFG1/Zeg0O9Rr7kIAIanLBiHkx9bYOiRU/FL/HBw\neVf07uBANMolr/6r5A3a7IfXtict2MmDwM0rv0ENLNgbnjRWrWc3bn/55gvKc4bV\nrlwAw7xEa/hgg/5EMACyfM/cxpGDsrgR0+RZfwcwrvl4jG9byOrGlPlyCWTgPUV9\nXx7e1l1U2SdhHQPTNVMOcjvyfwbsUsdbtIS5iCuLxkozaix9ySiXPKw4fUlYXYo/\nttCy32UTXMSG7D5UKLL02RqRgH53tu1MKBn9ruhIn6LeCyy0gRhH4A4I1XmLz0Gd\nMeEpudNzOoDTVM4d0PbCvF2P2SUCdFARp8JOctzImHzJ47orlozLn+U2OFbf7vQ\u003d\n\u003d8n6V\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "de0d9025_50540642",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-28T14:49:25Z",
+      "side": 1,
+      "message": "Can we rather assume that the index has the field we need?\n\n  assume().that(indexes.getSearchIndex().getSchema().getFields().values()).contains(ChangeField.REVERT_OF);\n\nThat would enable us to not have index numbers in these tests which sounds like a plus.",
+      "range": {
+        "startLine": 450,
+        "startChar": 3,
+        "endLine": 453,
+        "endChar": 5
+      },
+      "revId": "69e7dc752bb630a29a0fa59274acb4af327e10dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

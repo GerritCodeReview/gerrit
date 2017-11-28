@@ -44,6 +44,7 @@ limitations under the License.
       /* TODO (viktard): Clean-up after chromium-style migrates to component. */
       .titleText::before {
         background-image: var(--header-icon);
+        background-image: linear-gradient(transparent,transparent), var(--header-icon-svg)
         background-size: var(--header-icon-size) var(--header-icon-size);
         content: "";
         display: inline-block;

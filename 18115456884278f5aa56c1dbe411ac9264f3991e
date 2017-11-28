@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3622b773_bbeb7e1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-28T12:11:18Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "aec9700f_4675c935",
+      "range": {
+        "startLine": 9,
+        "startChar": 31,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "18115456884278f5aa56c1dbe411ac9264f3991e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9b9db91a_7c90a822",
         "filename": "javatests/com/google/gerrit/server/config/RepositoryConfigTest.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "0602d326_9128d357",
+        "filename": "javatests/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-28T12:11:18Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9b9db91a_7c90a822",
+      "range": {
+        "startLine": 157,
+        "startChar": 22,
+        "endLine": 157,
+        "endChar": 92
+      },
+      "revId": "18115456884278f5aa56c1dbe411ac9264f3991e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "808956e0_88c06d6a",
         "filename": "javatests/com/google/gerrit/server/config/RepositoryConfigTest.java",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2017-11-28T12:04:13Z",
       "side": 1,
       "message": "Needs to be done here too?",
+      "range": {
+        "startLine": 178,
+        "startChar": 30,
+        "endLine": 178,
+        "endChar": 31
+      },
+      "revId": "18115456884278f5aa56c1dbe411ac9264f3991e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6621217_02f2babc",
+        "filename": "javatests/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-28T12:11:18Z",
+      "side": 1,
+      "message": "Using Paths.get?\n\nI\u0027ve done it with the File.separator for now as did not think you ment use Path.get here too.",
+      "parentUuid": "808956e0_88c06d6a",
       "range": {
         "startLine": 178,
         "startChar": 30,

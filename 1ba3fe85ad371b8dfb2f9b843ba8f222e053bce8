@@ -22,6 +22,30 @@
       "revId": "1ba3fe85ad371b8dfb2f9b843ba8f222e053bce8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8901f9b_ac8951be",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-28T23:33:34Z",
+      "side": 1,
+      "message": "Actually reading https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html#list-subgroups clearly, it dosent included https:// part but it does \"#/admin/groups/uuid-7ca042f4d5847936fcb90ca91057673157fd06fc\" unless the doc is wrong.\n\nwont that turn it into if you are at \"/admin/groups/\u003cnum\u003e,members#/admin/groups/uuid-7ca042f4d5847936fcb90ca91057673157fd06fc\" ?",
+      "parentUuid": "06ddef12_0ed84f95",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 26
+      },
+      "revId": "1ba3fe85ad371b8dfb2f9b843ba8f222e053bce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

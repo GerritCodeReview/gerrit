@@ -22,6 +22,30 @@
       "revId": "038a8ff797b2fb03d03169d2772600ac3c766463",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "057ba15f_5de0db3e",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-28T12:50:18Z",
+      "side": 1,
+      "message": "This is not introduced by this change. Will be removed in a new change.",
+      "parentUuid": "8fc1bd44_9fb63fa7",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 37
+      },
+      "revId": "038a8ff797b2fb03d03169d2772600ac3c766463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

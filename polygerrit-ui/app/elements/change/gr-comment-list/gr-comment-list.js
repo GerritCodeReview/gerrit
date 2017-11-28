@@ -46,8 +46,11 @@
     },
 
     _computeDiffLineURL(file, changeNum, patchNum, comment) {
+      const basePatchNum = comment.hasOwnProperty('parent') ?
+          -comment.parent : null;
       return Gerrit.Nav.getUrlForDiffById(this.changeNum, this.projectName,
-          file, patchNum, null, comment.line, this._isOnParent(comment));
+          file, patchNum, basePatchNum, comment.line,
+          this._isOnParent(comment));
     },
 
     _computeCommentsForFile(comments, file) {

@@ -124,6 +124,24 @@
       "revId": "9cc3ced35626f4808be651bbbffea582eeb8f189",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42abecf1_e069c6f3",
+        "filename": "tools/bzl/plugins.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-28T23:26:47Z",
+      "side": 1,
+      "message": "I\u0027m fairly certain all that needs to be done is copying the .html file into the right directory.\n\nI\u0027d really like to avoid packaging anything into a jar, if possible. It seems much more futureproof to keep things simple.\n\nHow would I go about running the WAR init script in a debugger?",
+      "parentUuid": "bc3ef53d_0d12978b",
+      "revId": "9cc3ced35626f4808be651bbbffea582eeb8f189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

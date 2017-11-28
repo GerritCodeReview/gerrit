@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "314a233e_116ef3ca",
+        "filename": "javatests/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-28T12:26:06Z",
+      "side": 1,
+      "message": "And here, and in various other places below.",
+      "range": {
+        "startLine": 178,
+        "startChar": 59,
+        "endLine": 178,
+        "endChar": 60
+      },
+      "revId": "a90eb5b41f555ab22c4d1949933bad7271a12c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ac4a5d0_f2b6e75d",
+        "filename": "javatests/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-28T12:26:06Z",
+      "side": 1,
+      "message": "Not sure why you can\u0027t use Paths.get here too?",
+      "range": {
+        "startLine": 178,
+        "startChar": 34,
+        "endLine": 178,
+        "endChar": 48
+      },
+      "revId": "a90eb5b41f555ab22c4d1949933bad7271a12c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

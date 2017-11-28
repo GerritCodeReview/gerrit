@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a36a2035_54e639f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-28T05:42:35Z",
+      "side": 1,
+      "message": "If I\u0027m following your proposal correctly, this would mean following:\n\n- remove gr-weblinks from public API\n- add more params for generateUrl\n- use Gerrit.Nav.getXXXforYYY instead of Gerrit.Weblinks.getXXX\n\nHow do you propose to address the following?\n\n1. generateUrl generates single URL while weblinks are an array (e.g. android\u0027s build weblinks)\n2. generateUrl generates a label, while weblinks have labels",
+      "parentUuid": "6827a762_de52a244",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "4cfe7253efc860145ef428bb401faf7e1244f65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b673d475_321ab11e",
         "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.html",
         "patchSetId": 1

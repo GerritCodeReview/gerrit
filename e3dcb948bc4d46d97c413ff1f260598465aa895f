@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "410ef495_8d8d82f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-28T19:59:04Z",
+      "side": 1,
+      "message": "Thanks for uploading. I pushed it in another change, that I abandoned in favour of your change: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/145171/",
+      "revId": "e3dcb948bc4d46d97c413ff1f260598465aa895f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebfbed2_8aada07b",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-28T19:59:04Z",
+      "side": 1,
+      "message": "Yeah, I also was thinking about copy/move thing, but was able to eliminate this expensive step, as we can say that vulcanize is equals to the output if split should be skipped.\n\nif you change lines 273-275 to be:\n\n    if ctx.attr.split:\n    vulcanized \u003d ctx.new_file(\n      ctx.configuration.genfiles_dir, ctx.outputs.html, \".vulcanized.html\")\n  else:\n    vulcanized \u003d ctx.outputs.html\n\nthen this else barnch shoudn\u0027t be needed, as vulcanized step already be writing to the final output.",
+      "range": {
+        "startLine": 338,
+        "startChar": 2,
+        "endLine": 344,
+        "endChar": 5
+      },
+      "revId": "e3dcb948bc4d46d97c413ff1f260598465aa895f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

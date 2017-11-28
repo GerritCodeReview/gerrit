@@ -52,6 +52,24 @@
       "revId": "9cc3ced35626f4808be651bbbffea582eeb8f189",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "346a66b6_42ac109c",
+        "filename": "tools/bzl/plugins.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-28T22:18:50Z",
+      "side": 1,
+      "message": "If I rebase this change on master and, change the codemirror-editor plugin to skip split, with:\n\n  vulcanize(\n    name \u003d \"codemirror-editor\",\n    srcs \u003d [\"editor.html\"],\n    app \u003d \"editor.html\",\n    split \u003d False,\n    visibility \u003d [\"//visibility:public\"],\n    deps \u003d [\"//lib/js:codemirror-minified\"],\n  )\n\nthen the `bazel build release` works as expected:\n\n  $ unzip -t bazel-bin/release.war | grep -i plugins\n    testing: WEB-INF/plugins/         OK\n    testing: WEB-INF/plugins/replication.jar   OK\n    testing: WEB-INF/plugins/singleusergroup.jar   OK\n    testing: WEB-INF/plugins/download-commands.jar   OK\n    testing: WEB-INF/plugins/codemirror-editor.html   OK\n    testing: WEB-INF/plugins/reviewnotes.jar   OK\n    testing: WEB-INF/plugins/hooks.jar   OK\n    testing: WEB-INF/plugins/commit-message-length-validator.jar   OK\n    testing: Documentation/dev-plugins.html   OK\n    testing: Documentation/rest-api-plugins.html   OK\n    testing: Documentation/config-plugins.html   OK\n    testing: Documentation/dev-build-plugins.html   OK\n\nAnd even ls-command correctly shows the html-plugin:\n\n  $ java -jar bazel-bin/release.war ls | grep codemirror\nplugins/codemirror-editor.html\n\nHowever, the init command, don\u0027t offer html-plugin for installation:\n\n  *** Plugins\n  *** \n  Installing plugins.\n  Install plugin commit-message-length-validator version v2.14.2-1-g3f96a82 [y/N]? y\n  Installed commit-message-length-validator v2.14.2-1-g3f96a82\n  Install plugin download-commands version v2.15-rc1-3-gddbd127 [y/N]? y\n  Installed download-commands v2.15-rc1-3-gddbd127\nInstall plugin hooks version v2.15-rc1 [y/N]? y\n  Installed hooks v2.15-rc1\nInstall plugin replication version v2.15-rc2-5-g196d057 [y/N]? y\n  Installed replication v2.15-rc2-5-g196d057\n  Install plugin reviewnotes version v2.14.3-6-g5e6d0fb [y/N]? y\n  Installed reviewnotes v2.14.3-6-g5e6d0fb\n  Install plugin singleusergroup version v2.14.3-7-g73cfc73 [y/N]? y\n  Installed singleusergroup v2.14.3-7-g73cfc73\n  Initializing plugins.\n\nI guess, this is because only JAR plugins are respected?",
+      "parentUuid": "8ae92ac0_bdc4ae5b",
+      "revId": "9cc3ced35626f4808be651bbbffea582eeb8f189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

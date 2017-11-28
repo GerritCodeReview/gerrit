@@ -61,6 +61,18 @@ public final class AccountGroupByIdAud {
     public com.google.gwtorm.client.Key<?>[] members() {
       return new com.google.gwtorm.client.Key<?>[] {includeUUID};
     }
+
+    @Override
+    public String toString() {
+      return "Key{"
+          + "groupId="
+          + groupId
+          + ", includeUUID="
+          + includeUUID
+          + ", addedOn="
+          + addedOn
+          + '}';
+    }
   }
 
   @Column(id = 1, name = Column.NONE)

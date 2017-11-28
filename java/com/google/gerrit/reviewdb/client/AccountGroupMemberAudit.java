@@ -61,6 +61,18 @@ public final class AccountGroupMemberAudit {
     public com.google.gwtorm.client.Key<?>[] members() {
       return new com.google.gwtorm.client.Key<?>[] {groupId};
     }
+
+    @Override
+    public String toString() {
+      return "Key{"
+          + "groupId="
+          + groupId
+          + ", accountId="
+          + accountId
+          + ", addedOn="
+          + addedOn
+          + '}';
+    }
   }
 
   @Column(id = 1, name = Column.NONE)

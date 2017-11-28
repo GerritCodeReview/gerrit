@@ -105,7 +105,7 @@
    * @param {Object} group
    */
   GrDiffBuilder.prototype.buildSectionElement = function() {
-    throw Error('Subclasses must implement buildGroupElement');
+    throw Error('Subclasses must implement buildSectionElement');
   };
 
   GrDiffBuilder.prototype.emitGroup = function(group, opt_beforeSection) {

@@ -44,6 +44,7 @@ limitations under the License.
   <script src="gr-diff-builder-side-by-side.js"></script>
   <script src="gr-diff-builder-unified.js"></script>
   <script src="gr-diff-builder-image.js"></script>
+  <script src="gr-diff-builder-binary.js"></script>
   <script>
     (function() {
       'use strict';
@@ -142,11 +143,12 @@ limitations under the License.
           this._builder.addColumns(this.diffElement, prefs.font_size);
 
           const reporting = this.$.reporting;
+          const isBinary = !!(this.isImageDiff || this.diff.binary);
 
           reporting.time(TimingLabel.TOTAL);
           reporting.time(TimingLabel.CONTENT);
           this.dispatchEvent(new CustomEvent('render-start', {bubbles: true}));
-          return this.$.processor.process(this.diff.content, this.isImageDiff)
+          return this.$.processor.process(this.diff.content, isBinary)
               .then(() => {
                 if (this.isImageDiff) {
                   this._builder.renderDiffImages();
@@ -257,6 +259,10 @@ limitations under the License.
             builder = new GrDiffBuilderImage(diff, comments, prefs,
                 this.projectName, this.diffElement, this.baseImage,
                 this.revisionImage);
+          } else if (diff.binary) {
+            // If the diff is binary, but not an image.
+            return new GrDiffBuilderBinary(diff, comments, prefs,
+                this.projectName, this.diffElement);
           } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
             builder = new GrDiffBuilderSideBySide(diff, comments, prefs,
                 this.projectName, this.diffElement, this._layers);

@@ -752,6 +752,63 @@ limitations under the License.
       });
     });
 
+    suite('rendering text, images and binary files', () => {
+      let processStub;
+      let comments;
+      let prefs;
+      let content;
+
+      setup(() => {
+        element = fixture('basic');
+        element.viewMode = 'SIDE_BY_SIDE';
+        processStub = sandbox.stub(element.$.processor, 'process')
+            .returns(Promise.resolve());
+        sandbox.stub(element, '_anyLineTooLong').returns(true);
+        comments = {left: [], right: []};
+        prefs = {
+          line_length: 10,
+          show_tabs: true,
+          tab_size: 4,
+          context: -1,
+          syntax_highlighting: true,
+        };
+        content = [{
+          a: ['all work and no play make andybons a dull boy'],
+          b: ['elgoog elgoog elgoog'],
+        }, {
+          ab: [
+            'Non eram nescius, Brute, cum, quae summis ingeniis ',
+            'exquisitaque doctrina philosophi Graeco sermone tractavissent',
+          ],
+        }];
+      });
+
+      test('text', () => {
+        element.diff = {content};
+        return element.render(comments, prefs).then(() => {
+          assert.isTrue(processStub.calledOnce);
+          assert.isFalse(processStub.lastCall.args[1]);
+        });
+      });
+
+      test('image', () => {
+        element.diff = {content, binary: true};
+        element.isImageDiff = true;
+        return element.render(comments, prefs).then(() => {
+          assert.isTrue(processStub.calledOnce);
+          assert.isTrue(processStub.lastCall.args[1]);
+        });
+      });
+
+      test('binary', () => {
+        element.diff = {content, binary: true};
+        return element.render(comments, prefs).then(() => {
+          assert.isTrue(processStub.calledOnce);
+          assert.isTrue(processStub.lastCall.args[1]);
+        });
+      });
+    });
+
     suite('rendering', () => {
       let content;
       let outputEl;

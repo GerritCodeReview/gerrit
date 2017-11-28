@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "09d1217a_8f5f7997",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-28T17:19:18Z",
+      "side": 1,
+      "message": "Is it important to use forEachOrdered() here instead of forEach()?",
+      "range": {
+        "startLine": 125,
+        "startChar": 24,
+        "endLine": 125,
+        "endChar": 38
+      },
+      "revId": "038a8ff797b2fb03d03169d2772600ac3c766463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a3bd9b7_ac71a32d",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-28T17:19:18Z",
+      "side": 1,
+      "message": "I think Groups#getGroupFromNoteDb would be a much better place for this check. GroupConfig#getLoadedGroup is called too often in other places (e.g. also during group updates) for which we would have to check whether doing this check is safe and doesn\u0027t produce false positives.\n\nAnother reason for not doing the check here: GroupConfig actually shouldn\u0027t know anything about the notes for the group names, not even implicitly. The sole responsibility of GroupConfig is to read from group.config/members/subgroups and to write to them. It may do internal consistency checks but shouldn\u0027t know about other parts of the NoteDb implementation. The classes which combine the individual parts of the NoteDb implementation (like Groups) would be responsible for checking the consistency of the combined parts.",
+      "range": {
+        "startLine": 120,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 5
+      },
+      "revId": "038a8ff797b2fb03d03169d2772600ac3c766463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8fc1bd44_9fb63fa7",
         "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
         "patchSetId": 4
@@ -70,6 +116,167 @@
       "revId": "038a8ff797b2fb03d03169d2772600ac3c766463",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ac25129_4ec72b5f",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-28T17:19:18Z",
+      "side": 1,
+      "message": "GroupNameNotes#getNoteKey and GroupNameNotes#getGroupReference are only public for tests. They were never intended for public use. All code (except for some tests) which reads from the notes should be in GroupNameNotes. My suggestion is to add a static method to GroupNameNotes which reads the note for a given name and returns Optional\u003cGroupReference\u003e.",
+      "range": {
+        "startLine": 238,
+        "startChar": 6,
+        "endLine": 248,
+        "endChar": 83
+      },
+      "revId": "038a8ff797b2fb03d03169d2772600ac3c766463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c04d70c_22c6b09d",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-28T17:19:18Z",
+      "side": 1,
+      "message": "Here and below: Line too long.",
+      "range": {
+        "startLine": 260,
+        "startChar": 100,
+        "endLine": 260,
+        "endChar": 104
+      },
+      "revId": "038a8ff797b2fb03d03169d2772600ac3c766463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e25e02bb_97ec0ce6",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-28T17:19:18Z",
+      "side": 1,
+      "message": "That\u0027s a bit confusing as the UUID isn\u0027t the key for the note but the name. I would rather say: \"note of name \u0027%s\u0027 claims to represent name \u0027%s\u0027\" or something along the lines of it.",
+      "range": {
+        "startLine": 267,
+        "startChar": 19,
+        "endLine": 267,
+        "endChar": 102
+      },
+      "revId": "038a8ff797b2fb03d03169d2772600ac3c766463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14652f00_fab1a554",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-28T17:19:18Z",
+      "side": 1,
+      "message": "Here and above: If you prefer to use standard JDK tools, it\u0027s more efficient to use Collections#singletonList for single element lists. With Guava, ImmutableList#of is also an option which we often like to use. It automatically has optimizations for single element lists.",
+      "range": {
+        "startLine": 274,
+        "startChar": 13,
+        "endLine": 274,
+        "endChar": 26
+      },
+      "revId": "038a8ff797b2fb03d03169d2772600ac3c766463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "996c2258_a64915e9",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-28T17:19:18Z",
+      "side": 1,
+      "message": "Just logging this and swallowing the exception (which indicates the real problem) is not very helpful. We should log the original exception, too.",
+      "range": {
+        "startLine": 274,
+        "startChar": 36,
+        "endLine": 274,
+        "endChar": 83
+      },
+      "revId": "038a8ff797b2fb03d03169d2772600ac3c766463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23d1c895_d6a16842",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-28T17:19:18Z",
+      "side": 1,
+      "message": "Here and below: Methods in Java typically start with a lower case letter.",
+      "range": {
+        "startLine": 55,
+        "startChar": 14,
+        "endLine": 55,
+        "endChar": 38
+      },
+      "revId": "038a8ff797b2fb03d03169d2772600ac3c766463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95addb10_eeeb064d",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-28T17:19:18Z",
+      "side": 1,
+      "message": "A note on readability and testing practices: I wouldn\u0027t know from these two lines why the expected warning refers to a group \u0027g-1\u0027. Tests should typically be self-explanatory.\n\nTo improve readability, I would do without the method checkConsistency(). The two lines of duplicated code don\u0027t hurt. The method updateGroupNamesRef() could be kept if the name of the group was passed in.",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 94
+      },
+      "revId": "038a8ff797b2fb03d03169d2772600ac3c766463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

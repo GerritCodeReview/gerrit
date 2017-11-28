@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aec9700f_4675c935",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-28T12:04:13Z",
+      "side": 1,
+      "message": "don\u0027t",
+      "range": {
+        "startLine": 9,
+        "startChar": 31,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "18115456884278f5aa56c1dbe411ac9264f3991e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b9db91a_7c90a822",
+        "filename": "javatests/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-28T12:04:13Z",
+      "side": 1,
+      "message": "What about:\n\n Paths.get(\"someAbsolutePath\", \"someDirectory\").toString();\n\n?",
+      "range": {
+        "startLine": 157,
+        "startChar": 22,
+        "endLine": 157,
+        "endChar": 92
+      },
+      "revId": "18115456884278f5aa56c1dbe411ac9264f3991e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "808956e0_88c06d6a",
+        "filename": "javatests/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-28T12:04:13Z",
+      "side": 1,
+      "message": "Needs to be done here too?",
+      "range": {
+        "startLine": 178,
+        "startChar": 30,
+        "endLine": 178,
+        "endChar": 31
+      },
+      "revId": "18115456884278f5aa56c1dbe411ac9264f3991e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

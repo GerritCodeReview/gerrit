@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bae97835_5031412c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-28T10:16:26Z",
+      "side": 1,
+      "message": "This test is flaky. Sometimes it fails with:\n\n...ERROR com.google.gerrit.httpd.restapi.RestApiServlet : Error in PUT /a/projects/com.google.gerrit.acceptance.rest.project.CreateProjectIT_createSameProjectFromTwoConcurrentRequests_foo7\njava.lang.NullPointerException                                         \n  at com.google.gerrit.server.project.ProjectJson.format(ProjectJson.java:46)\n  at com.google.gerrit.server.project.CreateProject.apply(CreateProject.java:217)\n  at com.google.gerrit.server.project.CreateProject.apply(CreateProject.java:84)\n  at com.google.gerrit.httpd.restapi.RestApiServlet.service(RestApiServlet.java:405)\n  at javax.servlet.http.HttpServlet.service(HttpServlet.java:742)      \n  ...\n\n1) createSameProjectFromTwoConcurrentRequests(com.google.gerrit.acceptance.rest.project.CreateProjectIT)\njava.lang.AssertionError: Not true that \u003c[500, 409]\u003e contains all of \u003c[201, 409]\u003e. It is missing \u003c[201]\u003e\n  at com.google.gerrit.acceptance.rest.project.CreateProjectIT.createSameProjectFromTwoConcurrentRequests(CreateProjectIT.java:109)\n  ...",
+      "revId": "ed561804ebade686ed4f7372d7a3b2f0b7cb4e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

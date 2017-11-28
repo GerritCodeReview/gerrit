@@ -26,7 +26,6 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -262,7 +261,7 @@ public class PostReviewers
       boolean confirmed,
       boolean allowGroup,
       boolean allowByEmail)
-      throws OrmException, IOException, PermissionBackendException {
+      throws IOException, PermissionBackendException {
     if (!allowGroup) {
       return null;
     }
@@ -288,10 +287,6 @@ public class PostReviewers
     Set<Account> members;
     try {
       members = groupMembers.listAccounts(group.getGroupUUID(), rsrc.getProject());
-    } catch (NoSuchGroupException e) {
-      return fail(
-          reviewer,
-          MessageFormat.format(ChangeMessages.get().reviewerNotFoundUserOrGroup, group.getName()));
     } catch (NoSuchProjectException e) {
       return fail(reviewer, e.getMessage());
     }

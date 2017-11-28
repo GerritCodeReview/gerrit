@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.collect.Sets;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
@@ -27,7 +26,6 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Collections;
@@ -55,7 +53,7 @@ public class GroupMembers {
   }
 
   public Set<Account> listAccounts(AccountGroup.UUID groupUUID, Project.NameKey project)
-      throws NoSuchGroupException, NoSuchProjectException, OrmException, IOException {
+      throws NoSuchProjectException, IOException {
     return listAccounts(groupUUID, project, new HashSet<AccountGroup.UUID>());
   }
 
@@ -63,7 +61,7 @@ public class GroupMembers {
       final AccountGroup.UUID groupUUID,
       final Project.NameKey project,
       final Set<AccountGroup.UUID> seen)
-      throws NoSuchGroupException, OrmException, NoSuchProjectException, IOException {
+      throws NoSuchProjectException, IOException {
     if (SystemGroupBackend.PROJECT_OWNERS.equals(groupUUID)) {
       return getProjectOwners(project, seen);
     }
@@ -75,7 +73,7 @@ public class GroupMembers {
   }
 
   private Set<Account> getProjectOwners(final Project.NameKey project, Set<AccountGroup.UUID> seen)
-      throws NoSuchProjectException, NoSuchGroupException, OrmException, IOException {
+      throws NoSuchProjectException, IOException {
     seen.add(SystemGroupBackend.PROJECT_OWNERS);
     if (project == null) {
       return Collections.emptySet();
@@ -97,7 +95,7 @@ public class GroupMembers {
 
   private Set<Account> getGroupMembers(
       InternalGroup group, Project.NameKey project, Set<AccountGroup.UUID> seen)
-      throws NoSuchGroupException, OrmException, NoSuchProjectException, IOException {
+      throws NoSuchProjectException, IOException {
     seen.add(group.getGroupUUID());
     GroupControl groupControl = groupControlFactory.controlFor(new InternalGroupDescription(group));
 

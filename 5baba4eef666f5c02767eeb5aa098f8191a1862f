@@ -22,6 +22,30 @@
       "revId": "5baba4eef666f5c02767eeb5aa098f8191a1862f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8ea2f82_e47fa301",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-28T23:12:02Z",
+      "side": 0,
+      "message": "Ah sorry ignore this comment. Wrote it on the html file.",
+      "parentUuid": "b48dcc0b_67040444",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 6
+      },
+      "revId": "5baba4eef666f5c02767eeb5aa098f8191a1862f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

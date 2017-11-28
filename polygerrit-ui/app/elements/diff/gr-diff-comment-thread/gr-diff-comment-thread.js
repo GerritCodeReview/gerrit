@@ -173,7 +173,7 @@
         const c1Date = c1.__date || util.parseDate(c1.updated);
         const c2Date = c2.__date || util.parseDate(c2.updated);
         const dateCompare = c1Date - c2Date;
-        if (!c1.id || !c1.id.localeCompare) { return 0; }
+        if (dateCompare === 0 && (!c1.id || !c1.id.localeCompare)) { return 0; }
         // If same date, fall back to sorting by id.
         return dateCompare ? dateCompare : c1.id.localeCompare(c2.id);
       });

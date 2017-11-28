@@ -22,6 +22,29 @@
       "revId": "d7ef9a93cace1e773933c78e3384c95a8cdbd2da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56004aca_af089612",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-28T10:31:59Z",
+      "side": 1,
+      "message": "Should not be necessary if time step is set for the tests.",
+      "range": {
+        "startLine": 415,
+        "startChar": 8,
+        "endLine": 416,
+        "endChar": 27
+      },
+      "revId": "d7ef9a93cace1e773933c78e3384c95a8cdbd2da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

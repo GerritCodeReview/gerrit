@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92d0cf4f_da620f25",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-28T22:58:15Z",
+      "side": 1,
+      "message": "I think with this change we should increase the max width, probably to the 50em that we typically use with mobile, since this is less likely to fit than the previous version.",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 48
+      },
+      "revId": "37f86db57245ea8560b4bb7d77d678b017c47380",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

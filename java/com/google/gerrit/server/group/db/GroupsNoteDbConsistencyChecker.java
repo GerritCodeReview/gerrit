@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -55,9 +54,6 @@ public class GroupsNoteDbConsistencyChecker {
 
     @Nullable public Map<AccountGroup.UUID, InternalGroup> uuidToGroupMap;
   }
-
-  @Inject
-  GroupsNoteDbConsistencyChecker() {}
 
   /** Checks for problems with the given All-Users repo. */
   public Result check(Repository repo) throws IOException {

@@ -679,6 +679,42 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(
+    name = "auth.registerEmailPrivateKey",
+    value = "HsOc6l+2lhS9G7sE/RsnS7Z6GJjdRDX14co="
+  )
+  public void addEmailToBeConfirmedToOwnAccount() throws Exception {
+    TestAccount user = accountCreator.create();
+    setApiUser(user);
+
+    String email = "self@example.com";
+    EmailInput input = newEmailInput(email, false);
+    gApi.accounts().self().addEmail(input);
+  }
+
+  @Test
+  public void cannotAddEmailToBeConfirmedToOtherAccountWithoutModifyAccountPermission()
+      throws Exception {
+    TestAccount user = accountCreator.create();
+    setApiUser(user);
+
+    exception.expect(AuthException.class);
+    exception.expectMessage("modify account not permitted");
+    gApi.accounts().id(admin.id.get()).addEmail(newEmailInput("foo@example.com", false));
+  }
+
+  @Test
+  @GerritConfig(
+    name = "auth.registerEmailPrivateKey",
+    value = "HsOc6l+2lhS9G7sE/RsnS7Z6GJjdRDX14co="
+  )
+  public void addEmailToBeConfirmedToOtherAccount() throws Exception {
+    TestAccount user = accountCreator.create();
+    String email = "me@example.com";
+    gApi.accounts().id(user.id.get()).addEmail(newEmailInput(email, false));
+  }
+
+  @Test
   public void deleteEmail() throws Exception {
     String email = "foo.bar@example.com";
     EmailInput input = newEmailInput(email);

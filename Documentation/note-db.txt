@@ -31,7 +31,10 @@ same repository as code changes.
 - Storing link:config-accounts.html[account data] is fully implemented in the
   2.15 release. Account data is migrated automatically during the upgrade
   process by running `gerrit.war init`.
-- Account and change metadata on the servers behind `googlesource.com` is fully
+- Storing link:config-groups.html[group metadata] is fully implemented
+  for the 2.16 release. Group data is migrated automatically during
+  the upgrade process by running `gerrit.war init`
+- Account, group and change metadata on the servers behind `googlesource.com` is fully
   migrated to NoteDb. In other words, if you use
   link:https://gerrit-review.googlesource.com/[gerrit-review], you're already
   using NoteDb.
@@ -44,8 +47,6 @@ For an example NoteDb change, poke around at this one:
 
 == Future Work ("Gerrit 3.0")
 
-- Storing group data is a work in progress. Like account data, it will be
-  migrated automatically.
 - NoteDb will be the only database format supported by Gerrit 3.0. The offline
   change data migration tool will be included in Gerrit 3.0, but online
   migration will only be available in the 2.x line.

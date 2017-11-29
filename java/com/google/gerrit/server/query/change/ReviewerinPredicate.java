@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
 public class ReviewerinPredicate extends ChangeOperatorPredicate {
@@ -24,7 +25,7 @@ public class ReviewerinPredicate extends ChangeOperatorPredicate {
   protected final AccountGroup.UUID uuid;
 
   public ReviewerinPredicate(IdentifiedUser.GenericFactory userFactory, AccountGroup.UUID uuid) {
-    super(ChangeQueryBuilder.FIELD_REVIEWERIN, uuid.toString());
+    super(ChangeField.FIELD_REVIEWERIN, uuid.toString());
     this.userFactory = userFactory;
     this.uuid = uuid;
   }

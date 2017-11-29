@@ -38,6 +38,6 @@ public class HasStarsPredicate extends ChangeIndexPredicate {
 
   @Override
   public String toString() {
-    return ChangeQueryBuilder.FIELD_STARBY + ":" + accountId;
+    return ChangeField.FIELD_STARBY + ":" + accountId;
   }
 }

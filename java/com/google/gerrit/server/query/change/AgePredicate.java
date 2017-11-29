@@ -28,7 +28,7 @@ public class AgePredicate extends TimestampRangeChangePredicate {
   protected final long cut;
 
   public AgePredicate(String value) {
-    super(ChangeField.UPDATED, ChangeQueryBuilder.FIELD_AGE, value);
+    super(ChangeField.UPDATED, ChangeField.FIELD_AGE, value);
 
     long s = ConfigUtil.getTimeUnit(getValue(), 0, SECONDS);
     long ms = MILLISECONDS.convert(s, SECONDS);

@@ -41,6 +41,6 @@ public class StarPredicate extends ChangeIndexPredicate {
 
   @Override
   public String toString() {
-    return ChangeQueryBuilder.FIELD_STAR + ":" + label;
+    return ChangeField.FIELD_STAR + ":" + label;
   }
 }

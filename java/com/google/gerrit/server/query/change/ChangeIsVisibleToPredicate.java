@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.IndexUtils;
+import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -42,7 +43,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
       ChangeNotes.Factory notesFactory,
       CurrentUser user,
       PermissionBackend permissionBackend) {
-    super(ChangeQueryBuilder.FIELD_VISIBLETO, IndexUtils.describe(user));
+    super(ChangeField.FIELD_VISIBLETO, IndexUtils.describe(user));
     this.db = db;
     this.notesFactory = notesFactory;
     this.user = user;

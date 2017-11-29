@@ -35,7 +35,6 @@ import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.query.change.AndChangeSource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.OrSource;
 import com.google.inject.Inject;
@@ -189,7 +188,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       // Replace any limits with the limit provided by the caller. The caller
       // should have already searched the predicate tree for limit predicates
       // and included that in their limit computation.
-      return new LimitPredicate<>(ChangeQueryBuilder.FIELD_LIMIT, opts.limit());
+      return new LimitPredicate<>(ChangeField.FIELD_LIMIT, opts.limit());
     } else if (!isRewritePossible(in)) {
       if (in instanceof IndexPredicate) {
         throw new QueryParseException("Unsupported index predicate: " + in.toString());

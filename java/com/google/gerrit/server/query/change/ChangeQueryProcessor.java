@@ -15,7 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_LIMIT;
+import static com.google.gerrit.server.index.change.ChangeField.FIELD_LIMIT;
 
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;

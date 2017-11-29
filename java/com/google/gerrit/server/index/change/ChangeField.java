@@ -91,6 +91,26 @@ import org.eclipse.jgit.lib.PersonIdent;
  */
 public class ChangeField {
   public static final int NO_ASSIGNEE = -1;
+  public static final String FIELD_AGE = "age";
+  public static final String FIELD_BEFORE = "before";
+  public static final String FIELD_CHANGE = "change";
+  public static final String FIELD_CONFLICTS = "conflicts";
+  public static final String FIELD_DESTINATION = "destination";
+  public static final String FIELD_LABEL = "label";
+  public static final String FIELD_LIMIT = "limit";
+  public static final String FIELD_MERGE = "merge";
+  public static final String FIELD_OWNERIN = "ownerin";
+  public static final String FIELD_PARENTPROJECT = "parentproject";
+  public static final String FIELD_PATH = "path";
+  public static final String FIELD_REVIEWER = "reviewer";
+  public static final String FIELD_REVIEWERIN = "reviewerin";
+  public static final String FIELD_STARREDBY = "starredby";
+  public static final String FIELD_VISIBLETO = "visibleto";
+  public static final String FIELD_WATCHEDBY = "watchedby";
+  public static final String ARG_ID_USER = "user";
+  public static final String ARG_ID_GROUP = "group";
+  public static final String ARG_ID_OWNER = "owner";
+  public static final Account.Id OWNER_ACCOUNT_ID = new Account.Id(0);
 
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
 
@@ -98,28 +118,33 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
       integer("legacy_id").stored().build(cd -> cd.getId().get());
 
+  public static final String FIELD_CHANGE_ID = "change_id";
   /** Newer style Change-Id key. */
   public static final FieldDef<ChangeData, String> ID =
-      prefix(ChangeQueryBuilder.FIELD_CHANGE_ID).build(changeGetter(c -> c.getKey().get()));
+      prefix(FIELD_CHANGE_ID).build(changeGetter(c -> c.getKey().get()));
 
+  public static final String FIELD_STATUS = "status";
   /** Change status string, in the same format as {@code status:}. */
   public static final FieldDef<ChangeData, String> STATUS =
-      exact(ChangeQueryBuilder.FIELD_STATUS)
+      exact(FIELD_STATUS)
           .build(changeGetter(c -> ChangeStatusPredicate.canonicalize(c.getStatus())));
 
+  public static final String FIELD_PROJECT = "project";
   /** Project containing the change. */
   public static final FieldDef<ChangeData, String> PROJECT =
-      exact(ChangeQueryBuilder.FIELD_PROJECT)
+      exact(FIELD_PROJECT)
           .stored()
           .build(changeGetter(c -> c.getProject().get()));
 
+  public static final String FIELD_PROJECTS = "projects";
   /** Project containing the change, as a prefix field. */
   public static final FieldDef<ChangeData, String> PROJECTS =
-      prefix(ChangeQueryBuilder.FIELD_PROJECTS).build(changeGetter(c -> c.getProject().get()));
+      prefix(FIELD_PROJECTS).build(changeGetter(c -> c.getProject().get()));
 
+  public static final String FIELD_REF = "ref";
   /** Reference (aka branch) the change will submit onto. */
   public static final FieldDef<ChangeData, String> REF =
-      exact(ChangeQueryBuilder.FIELD_REF).build(changeGetter(c -> c.getDest().get()));
+      exact(FIELD_REF).build(changeGetter(c -> c.getDest().get()));
 
   /** Topic, a short annotation on the branch. */
   public static final FieldDef<ChangeData, String> EXACT_TOPIC =
@@ -129,18 +154,20 @@ public class ChangeField {
   public static final FieldDef<ChangeData, String> FUZZY_TOPIC =
       fullText("topic5").build(ChangeField::getTopic);
 
+  public static final String FIELD_SUBMISSIONID = "submissionid";
   /** Submission id assigned by MergeOp. */
   public static final FieldDef<ChangeData, String> SUBMISSIONID =
-      exact(ChangeQueryBuilder.FIELD_SUBMISSIONID).build(changeGetter(Change::getSubmissionId));
+      exact(FIELD_SUBMISSIONID).build(changeGetter(Change::getSubmissionId));
 
   /** Last update time since January 1, 1970. */
   public static final FieldDef<ChangeData, Timestamp> UPDATED =
       timestamp("updated2").stored().build(changeGetter(Change::getLastUpdatedOn));
 
+  public static final String FIELD_FILE = "file";
   /** List of full file paths modified in the current patch set. */
   public static final FieldDef<ChangeData, Iterable<String>> PATH =
       // Named for backwards compatibility.
-      exact(ChangeQueryBuilder.FIELD_FILE)
+      exact(FIELD_FILE)
           .buildRepeatable(cd -> firstNonNull(cd.currentFilePaths(), ImmutableList.of()));
 
   public static Set<String> getFileParts(ChangeData cd) throws OrmException {
@@ -161,9 +188,10 @@ public class ChangeField {
     return r;
   }
 
+  public static final String FIELD_HASHTAG = "hashtag";
   /** Hashtags tied to a change */
   public static final FieldDef<ChangeData, Iterable<String>> HASHTAG =
-      exact(ChangeQueryBuilder.FIELD_HASHTAG)
+      exact(FIELD_HASHTAG)
           .buildRepeatable(cd -> cd.hashtags().stream().map(String::toLowerCase).collect(toSet()));
 
   /** Hashtags with original case. */
@@ -172,17 +200,20 @@ public class ChangeField {
           .buildRepeatable(
               cd -> cd.hashtags().stream().map(t -> t.getBytes(UTF_8)).collect(toSet()));
 
+  public static final String FIELD_FILEPART = "filepart";
   /** Components of each file path modified in the current patch set. */
   public static final FieldDef<ChangeData, Iterable<String>> FILE_PART =
-      exact(ChangeQueryBuilder.FIELD_FILEPART).buildRepeatable(ChangeField::getFileParts);
+      exact(FIELD_FILEPART).buildRepeatable(ChangeField::getFileParts);
 
+  public static final String FIELD_OWNER = "owner";
   /** Owner/creator of the change. */
   public static final FieldDef<ChangeData, Integer> OWNER =
-      integer(ChangeQueryBuilder.FIELD_OWNER).build(changeGetter(c -> c.getOwner().get()));
+      integer(FIELD_OWNER).build(changeGetter(c -> c.getOwner().get()));
 
+  public static final String FIELD_ASSIGNEE = "assignee";
   /** The user assigned to the change. */
   public static final FieldDef<ChangeData, Integer> ASSIGNEE =
-      integer(ChangeQueryBuilder.FIELD_ASSIGNEE)
+      integer(FIELD_ASSIGNEE)
           .build(changeGetter(c -> c.getAssignee() != null ? c.getAssignee().get() : NO_ASSIGNEE));
 
   /** Reviewer(s) associated with the change. */
@@ -195,21 +226,24 @@ public class ChangeField {
           .stored()
           .buildRepeatable(cd -> getReviewerByEmailFieldValues(cd.reviewersByEmail()));
 
+  public static final String FIELD_PENDING_REVIEWER = "pendingreviewer";
   /** Reviewer(s) modified during change's current WIP phase. */
   public static final FieldDef<ChangeData, Iterable<String>> PENDING_REVIEWER =
-      exact(ChangeQueryBuilder.FIELD_PENDING_REVIEWER)
+      exact(FIELD_PENDING_REVIEWER)
           .stored()
           .buildRepeatable(cd -> getReviewerFieldValues(cd.pendingReviewers()));
 
+  public static final String FIELD_PENDING_REVIEWER_BY_EMAIL = "pendingreviewerbyemail";
   /** Reviewer(s) by email modified during change's current WIP phase. */
   public static final FieldDef<ChangeData, Iterable<String>> PENDING_REVIEWER_BY_EMAIL =
-      exact(ChangeQueryBuilder.FIELD_PENDING_REVIEWER_BY_EMAIL)
+      exact(FIELD_PENDING_REVIEWER_BY_EMAIL)
           .stored()
           .buildRepeatable(cd -> getReviewerByEmailFieldValues(cd.pendingReviewersByEmail()));
 
+  public static final String FIELD_REVERTOF = "revertof";
   /** References a change that this change reverts. */
   public static final FieldDef<ChangeData, Integer> REVERT_OF =
-      integer(ChangeQueryBuilder.FIELD_REVERTOF)
+      integer(FIELD_REVERTOF)
           .build(cd -> cd.change().getRevertOf() != null ? cd.change().getRevertOf().get() : null);
 
   @VisibleForTesting
@@ -288,13 +322,15 @@ public class ChangeField {
     return ReviewerByEmailSet.fromTable(b.build());
   }
 
+  public static final String FIELD_COMMIT = "commit";
   /** Commit ID of any patch set on the change, using prefix match. */
   public static final FieldDef<ChangeData, Iterable<String>> COMMIT =
-      prefix(ChangeQueryBuilder.FIELD_COMMIT).buildRepeatable(ChangeField::getRevisions);
+      prefix(FIELD_COMMIT).buildRepeatable(ChangeField::getRevisions);
 
+  public static final String FIELD_EXACTCOMMIT = "exactcommit";
   /** Commit ID of any patch set on the change, using exact match. */
   public static final FieldDef<ChangeData, Iterable<String>> EXACT_COMMIT =
-      exact(ChangeQueryBuilder.FIELD_EXACTCOMMIT).buildRepeatable(ChangeField::getRevisions);
+      exact(FIELD_EXACTCOMMIT).buildRepeatable(ChangeField::getRevisions);
 
   private static Set<String> getRevisions(ChangeData cd) throws OrmException {
     Set<String> revisions = new HashSet<>();
@@ -306,9 +342,10 @@ public class ChangeField {
     return revisions;
   }
 
+  public static final String FIELD_TR = "tr";
   /** Tracking id extracted from a footer. */
   public static final FieldDef<ChangeData, Iterable<String>> TR =
-      exact(ChangeQueryBuilder.FIELD_TR)
+      exact(FIELD_TR)
           .buildRepeatable(cd -> ImmutableSet.copyOf(cd.trackingFooters().values()));
 
   /** List of labels on the current patch set including change owner votes. */
@@ -323,7 +360,7 @@ public class ChangeField {
         allApprovals.add(formatLabel(a.getLabel(), a.getValue(), a.getAccountId()));
         if (owners && cd.change().getOwner().equals(a.getAccountId())) {
           allApprovals.add(
-              formatLabel(a.getLabel(), a.getValue(), ChangeQueryBuilder.OWNER_ACCOUNT_ID));
+              formatLabel(a.getLabel(), a.getValue(), OWNER_ACCOUNT_ID));
         }
         distinctApprovals.add(formatLabel(a.getLabel(), a.getValue()));
       }
@@ -366,28 +403,32 @@ public class ChangeField {
     return ImmutableSet.of(name, email, nameEmailBuilder.toString());
   }
 
+  public static final String FIELD_AUTHOR = "author";
   /**
    * The exact email address, or any part of the author name or email address, in the current patch
    * set.
    */
   public static final FieldDef<ChangeData, Iterable<String>> AUTHOR =
-      fullText(ChangeQueryBuilder.FIELD_AUTHOR).buildRepeatable(ChangeField::getAuthorParts);
+      fullText(FIELD_AUTHOR).buildRepeatable(ChangeField::getAuthorParts);
 
+  public static final String FIELD_EXACTAUTHOR = "exactauthor";
   /** The exact name, email address and NameEmail of the author. */
   public static final FieldDef<ChangeData, Iterable<String>> EXACT_AUTHOR =
-      exact(ChangeQueryBuilder.FIELD_EXACTAUTHOR)
+      exact(FIELD_EXACTAUTHOR)
           .buildRepeatable(ChangeField::getAuthorNameAndEmail);
 
+  public static final String FIELD_COMMITTER = "committer";
   /**
    * The exact email address, or any part of the committer name or email address, in the current
    * patch set.
    */
   public static final FieldDef<ChangeData, Iterable<String>> COMMITTER =
-      fullText(ChangeQueryBuilder.FIELD_COMMITTER).buildRepeatable(ChangeField::getCommitterParts);
+      fullText(FIELD_COMMITTER).buildRepeatable(ChangeField::getCommitterParts);
 
+  public static final String FIELD_EXACTCOMMITTER = "exactcommitter";
   /** The exact name, email address, and NameEmail of the committer. */
   public static final FieldDef<ChangeData, Iterable<String>> EXACT_COMMITTER =
-      exact(ChangeQueryBuilder.FIELD_EXACTCOMMITTER)
+      exact(FIELD_EXACTCOMMITTER)
           .buildRepeatable(ChangeField::getCommitterNameAndEmail);
 
   public static final ProtobufCodec<Change> CHANGE_CODEC = CodecFactory.encoder(Change.class);
@@ -416,19 +457,21 @@ public class ChangeField {
   }
 
   private static String formatAccount(Account.Id accountId) {
-    if (ChangeQueryBuilder.OWNER_ACCOUNT_ID.equals(accountId)) {
-      return ChangeQueryBuilder.ARG_ID_OWNER;
+    if (OWNER_ACCOUNT_ID.equals(accountId)) {
+      return ARG_ID_OWNER;
     }
     return Integer.toString(accountId.get());
   }
 
+  public static final String FIELD_MESSAGE = "message";
   /** Commit message of the current patch set. */
   public static final FieldDef<ChangeData, String> COMMIT_MESSAGE =
-      fullText(ChangeQueryBuilder.FIELD_MESSAGE).build(ChangeData::commitMessage);
+      fullText(FIELD_MESSAGE).build(ChangeData::commitMessage);
 
+  public static final String FIELD_COMMENT = "comment";
   /** Summary or inline comment. */
   public static final FieldDef<ChangeData, Iterable<String>> COMMENT =
-      fullText(ChangeQueryBuilder.FIELD_COMMENT)
+      fullText(FIELD_COMMENT)
           .buildRepeatable(
               cd ->
                   Stream.concat(
@@ -436,15 +479,17 @@ public class ChangeField {
                           cd.messages().stream().map(ChangeMessage::getMessage))
                       .collect(toSet()));
 
+  public static final String FIELD_UNRESOLVED_COMMENT_COUNT = "unresolved";
   /** Number of unresolved comments of the change. */
   public static final FieldDef<ChangeData, Integer> UNRESOLVED_COMMENT_COUNT =
-      intRange(ChangeQueryBuilder.FIELD_UNRESOLVED_COMMENT_COUNT)
+      intRange(FIELD_UNRESOLVED_COMMENT_COUNT)
           .stored()
           .build(ChangeData::unresolvedCommentCount);
 
+  public static final String FIELD_MERGEABLE = "mergeable2";
   /** Whether the change is mergeable. */
   public static final FieldDef<ChangeData, String> MERGEABLE =
-      exact(ChangeQueryBuilder.FIELD_MERGEABLE)
+      exact(FIELD_MERGEABLE)
           .stored()
           .build(
               cd -> {
@@ -455,39 +500,46 @@ public class ChangeField {
                 return m ? "1" : "0";
               });
 
+  public static final String FIELD_ADDED = "added";
   /** The number of inserted lines in this change. */
   public static final FieldDef<ChangeData, Integer> ADDED =
-      intRange(ChangeQueryBuilder.FIELD_ADDED)
+      intRange(FIELD_ADDED)
           .stored()
           .build(cd -> cd.changedLines().isPresent() ? cd.changedLines().get().insertions : null);
 
+  public static final String FIELD_DELETED = "deleted";
   /** The number of deleted lines in this change. */
   public static final FieldDef<ChangeData, Integer> DELETED =
-      intRange(ChangeQueryBuilder.FIELD_DELETED)
+      intRange(FIELD_DELETED)
           .stored()
           .build(cd -> cd.changedLines().isPresent() ? cd.changedLines().get().deletions : null);
 
+  public static final String FIELD_DELTA = "delta";
   /** The total number of modified lines in this change. */
   public static final FieldDef<ChangeData, Integer> DELTA =
-      intRange(ChangeQueryBuilder.FIELD_DELTA)
+      intRange(FIELD_DELTA)
           .build(cd -> cd.changedLines().map(c -> c.insertions + c.deletions).orElse(null));
 
+  public static final String FIELD_PRIVATE = "private";
   /** Determines if this change is private. */
   public static final FieldDef<ChangeData, String> PRIVATE =
-      exact(ChangeQueryBuilder.FIELD_PRIVATE).build(cd -> cd.change().isPrivate() ? "1" : "0");
+      exact(FIELD_PRIVATE).build(cd -> cd.change().isPrivate() ? "1" : "0");
 
+  public static final String FIELD_WIP = "wip";
   /** Determines if this change is work in progress. */
   public static final FieldDef<ChangeData, String> WIP =
-      exact(ChangeQueryBuilder.FIELD_WIP).build(cd -> cd.change().isWorkInProgress() ? "1" : "0");
+      exact(FIELD_WIP).build(cd -> cd.change().isWorkInProgress() ? "1" : "0");
 
+  public static final String FIELD_STARTED = "started";
   /** Determines if this change has started review. */
   public static final FieldDef<ChangeData, String> STARTED =
-      exact(ChangeQueryBuilder.FIELD_STARTED)
+      exact(FIELD_STARTED)
           .build(cd -> cd.change().hasReviewStarted() ? "1" : "0");
 
+  public static final String FIELD_COMMENTBY = "commentby";
   /** Users who have commented on this change. */
   public static final FieldDef<ChangeData, Iterable<Integer>> COMMENTBY =
-      integer(ChangeQueryBuilder.FIELD_COMMENTBY)
+      integer(FIELD_COMMENTBY)
           .buildRepeatable(
               cd ->
                   Stream.concat(
@@ -497,9 +549,10 @@ public class ChangeField {
                       .map(Account.Id::get)
                       .collect(toSet()));
 
+  public static final String FIELD_STAR = "star";
   /** Star labels on this change in the format: &lt;account-id&gt;:&lt;label&gt; */
   public static final FieldDef<ChangeData, Iterable<String>> STAR =
-      exact(ChangeQueryBuilder.FIELD_STAR)
+      exact(FIELD_STAR)
           .stored()
           .buildRepeatable(
               cd ->
@@ -509,14 +562,16 @@ public class ChangeField {
                           StarredChangesUtil.StarField.create(e.getKey(), e.getValue())
                               .toString()));
 
+  public static final String FIELD_STARBY = "starby";
   /** Users that have starred the change with any label. */
   public static final FieldDef<ChangeData, Iterable<Integer>> STARBY =
-      integer(ChangeQueryBuilder.FIELD_STARBY)
+      integer(FIELD_STARBY)
           .buildRepeatable(cd -> Iterables.transform(cd.stars().keySet(), Account.Id::get));
 
+  public static final String FIELD_GROUP = "group";
   /** Opaque group identifiers for this change's patch sets. */
   public static final FieldDef<ChangeData, Iterable<String>> GROUP =
-      exact(ChangeQueryBuilder.FIELD_GROUP)
+      exact(FIELD_GROUP)
           .buildRepeatable(
               cd ->
                   cd.patchSets().stream().flatMap(ps -> ps.getGroups().stream()).collect(toSet()));
@@ -528,18 +583,21 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<byte[]>> PATCH_SET =
       storedOnly("_patch_set").buildRepeatable(cd -> toProtos(PATCH_SET_CODEC, cd.patchSets()));
 
+  public static final String FIELD_EDITBY = "editby";
   /** Users who have edits on this change. */
   public static final FieldDef<ChangeData, Iterable<Integer>> EDITBY =
-      integer(ChangeQueryBuilder.FIELD_EDITBY)
+      integer(FIELD_EDITBY)
           .buildRepeatable(cd -> cd.editsByUser().stream().map(Account.Id::get).collect(toSet()));
 
+  public static final String FIELD_DRAFTBY = "draftby";
   /** Users who have draft comments on this change. */
   public static final FieldDef<ChangeData, Iterable<Integer>> DRAFTBY =
-      integer(ChangeQueryBuilder.FIELD_DRAFTBY)
+      integer(FIELD_DRAFTBY)
           .buildRepeatable(cd -> cd.draftsByUser().stream().map(Account.Id::get).collect(toSet()));
 
   public static final Integer NOT_REVIEWED = -1;
 
+  public static final String FIELD_REVIEWEDBY = "reviewedby";
   /**
    * Users the change was reviewed by since the last author update.
    *
@@ -551,7 +609,7 @@ public class ChangeField {
    * emitted.
    */
   public static final FieldDef<ChangeData, Iterable<Integer>> REVIEWEDBY =
-      integer(ChangeQueryBuilder.FIELD_REVIEWEDBY)
+      integer(FIELD_REVIEWEDBY)
           .stored()
           .buildRepeatable(
               cd -> {
@@ -678,7 +736,7 @@ public class ChangeField {
         if (label.appliedBy != null) {
           result.add(slc + label.appliedBy.get());
           if (label.appliedBy.equals(changeOwner)) {
-            result.add(slc + ChangeQueryBuilder.OWNER_ACCOUNT_ID.get());
+            result.add(slc + OWNER_ACCOUNT_ID.get());
           }
         }
       }

@@ -17,13 +17,14 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.index.change.ChangeField;
 
 /** Predicate over change number (aka legacy ID or Change.Id). */
 public class LegacyChangeIdPredicate extends ChangeIndexPredicate {
   protected final Change.Id id;
 
   public LegacyChangeIdPredicate(Change.Id id) {
-    super(LEGACY_ID, ChangeQueryBuilder.FIELD_CHANGE, id.toString());
+    super(LEGACY_ID, ChangeField.FIELD_CHANGE, id.toString());
     this.id = id;
   }
 

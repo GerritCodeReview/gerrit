@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
 public class OwnerinPredicate extends ChangeOperatorPredicate {
@@ -24,7 +25,7 @@ public class OwnerinPredicate extends ChangeOperatorPredicate {
   protected final AccountGroup.UUID uuid;
 
   public OwnerinPredicate(IdentifiedUser.GenericFactory userFactory, AccountGroup.UUID uuid) {
-    super(ChangeQueryBuilder.FIELD_OWNERIN, uuid.toString());
+    super(ChangeField.FIELD_OWNERIN, uuid.toString());
     this.userFactory = userFactory;
     this.uuid = uuid;
   }

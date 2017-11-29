@@ -21,6 +21,7 @@ import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
+import com.google.gerrit.server.index.change.ChangeField;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -112,8 +113,8 @@ public class IsWatchedByPredicate extends AndPredicate<ChangeData> {
   public String toString() {
     String val = describe(user);
     if (val.indexOf(' ') < 0) {
-      return ChangeQueryBuilder.FIELD_WATCHEDBY + ":" + val;
+      return ChangeField.FIELD_WATCHEDBY + ":" + val;
     }
-    return ChangeQueryBuilder.FIELD_WATCHEDBY + ":\"" + val + "\"";
+    return ChangeField.FIELD_WATCHEDBY + ":\"" + val + "\"";
   }
 }

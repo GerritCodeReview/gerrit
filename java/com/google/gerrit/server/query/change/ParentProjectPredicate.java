@@ -19,6 +19,7 @@ import com.google.gerrit.index.query.OrPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
@@ -72,6 +73,6 @@ public class ParentProjectPredicate extends OrPredicate<ChangeData> {
 
   @Override
   public String toString() {
-    return ChangeQueryBuilder.FIELD_PARENTPROJECT + ":" + value;
+    return ChangeField.FIELD_PARENTPROJECT + ":" + value;
   }
 }

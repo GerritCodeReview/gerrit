@@ -23,6 +23,7 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.strategy.SubmitDryRun;
+import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -66,7 +67,7 @@ public class ConflictsPredicate {
 
     List<Predicate<ChangeData>> filePredicates = new ArrayList<>(files.size());
     for (String file : files) {
-      filePredicates.add(new EqualsPathPredicate(ChangeQueryBuilder.FIELD_PATH, file));
+      filePredicates.add(new EqualsPathPredicate(ChangeField.FIELD_PATH, file));
     }
 
     List<Predicate<ChangeData>> and = new ArrayList<>(5);
@@ -76,7 +77,7 @@ public class ConflictsPredicate {
     and.add(Predicate.or(filePredicates));
 
     ChangeDataCache changeDataCache = new ChangeDataCache(cd, args.projectCache);
-    and.add(new CheckConflict(ChangeQueryBuilder.FIELD_CONFLICTS, value, args, c, changeDataCache));
+    and.add(new CheckConflict(ChangeField.FIELD_CONFLICTS, value, args, c, changeDataCache));
     return Predicate.and(and);
   }
 

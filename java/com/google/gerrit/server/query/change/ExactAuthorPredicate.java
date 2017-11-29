@@ -15,7 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.server.index.change.ChangeField.EXACT_AUTHOR;
-import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_EXACTAUTHOR;
+import static com.google.gerrit.server.index.change.ChangeField.FIELD_EXACTAUTHOR;
 
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;

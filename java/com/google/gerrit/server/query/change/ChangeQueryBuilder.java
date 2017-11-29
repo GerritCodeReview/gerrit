@@ -125,66 +125,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   // NOTE: As new search operations are added, please keep the
   // SearchSuggestOracle up to date.
 
-  public static final String FIELD_ADDED = "added";
-  public static final String FIELD_AGE = "age";
-  public static final String FIELD_ASSIGNEE = "assignee";
-  public static final String FIELD_AUTHOR = "author";
-  public static final String FIELD_EXACTAUTHOR = "exactauthor";
-  public static final String FIELD_BEFORE = "before";
-  public static final String FIELD_CHANGE = "change";
-  public static final String FIELD_CHANGE_ID = "change_id";
-  public static final String FIELD_COMMENT = "comment";
-  public static final String FIELD_COMMENTBY = "commentby";
-  public static final String FIELD_COMMIT = "commit";
-  public static final String FIELD_COMMITTER = "committer";
-  public static final String FIELD_EXACTCOMMITTER = "exactcommitter";
-  public static final String FIELD_CONFLICTS = "conflicts";
-  public static final String FIELD_DELETED = "deleted";
-  public static final String FIELD_DELTA = "delta";
-  public static final String FIELD_DESTINATION = "destination";
-  public static final String FIELD_DRAFTBY = "draftby";
-  public static final String FIELD_EDITBY = "editby";
-  public static final String FIELD_EXACTCOMMIT = "exactcommit";
-  public static final String FIELD_FILE = "file";
-  public static final String FIELD_FILEPART = "filepart";
-  public static final String FIELD_GROUP = "group";
-  public static final String FIELD_HASHTAG = "hashtag";
-  public static final String FIELD_LABEL = "label";
-  public static final String FIELD_LIMIT = "limit";
-  public static final String FIELD_MERGE = "merge";
-  public static final String FIELD_MERGEABLE = "mergeable2";
-  public static final String FIELD_MESSAGE = "message";
-  public static final String FIELD_OWNER = "owner";
-  public static final String FIELD_OWNERIN = "ownerin";
-  public static final String FIELD_PARENTPROJECT = "parentproject";
-  public static final String FIELD_PATH = "path";
-  public static final String FIELD_PENDING_REVIEWER = "pendingreviewer";
-  public static final String FIELD_PENDING_REVIEWER_BY_EMAIL = "pendingreviewerbyemail";
-  public static final String FIELD_PRIVATE = "private";
-  public static final String FIELD_PROJECT = "project";
-  public static final String FIELD_PROJECTS = "projects";
-  public static final String FIELD_REF = "ref";
-  public static final String FIELD_REVIEWEDBY = "reviewedby";
-  public static final String FIELD_REVIEWER = "reviewer";
-  public static final String FIELD_REVIEWERIN = "reviewerin";
-  public static final String FIELD_STAR = "star";
-  public static final String FIELD_STARBY = "starby";
-  public static final String FIELD_STARREDBY = "starredby";
-  public static final String FIELD_STARTED = "started";
-  public static final String FIELD_STATUS = "status";
-  public static final String FIELD_SUBMISSIONID = "submissionid";
-  public static final String FIELD_TR = "tr";
-  public static final String FIELD_UNRESOLVED_COMMENT_COUNT = "unresolved";
-  public static final String FIELD_VISIBLETO = "visibleto";
-  public static final String FIELD_WATCHEDBY = "watchedby";
-  public static final String FIELD_WIP = "wip";
-  public static final String FIELD_REVERTOF = "revertof";
-
-  public static final String ARG_ID_USER = "user";
-  public static final String ARG_ID_GROUP = "group";
-  public static final String ARG_ID_OWNER = "owner";
-  public static final Account.Id OWNER_ACCOUNT_ID = new Account.Id(0);
-
   private static final QueryBuilder.Definition<ChangeData, ChangeQueryBuilder> mydef =
       new QueryBuilder.Definition<>(ChangeQueryBuilder.class);
 
@@ -712,7 +652,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (path.startsWith("^")) {
       return new RegexPathPredicate(path);
     }
-    return new EqualsPathPredicate(FIELD_PATH, path);
+    return new EqualsPathPredicate(ChangeField.FIELD_PATH, path);
   }
 
   @Operator
@@ -738,13 +678,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       PredicateArgs lblArgs = new PredicateArgs(splitReviewer[1]);
 
       for (Map.Entry<String, String> pair : lblArgs.keyValue.entrySet()) {
-        if (pair.getKey().equalsIgnoreCase(ARG_ID_USER)) {
-          if (pair.getValue().equals(ARG_ID_OWNER)) {
-            accounts = Collections.singleton(OWNER_ACCOUNT_ID);
+        if (pair.getKey().equalsIgnoreCase(ChangeField.ARG_ID_USER)) {
+          if (pair.getValue().equals(ChangeField.ARG_ID_OWNER)) {
+            accounts = Collections.singleton(ChangeField.OWNER_ACCOUNT_ID);
           } else {
             accounts = parseAccount(pair.getValue());
           }
-        } else if (pair.getKey().equalsIgnoreCase(ARG_ID_GROUP)) {
+        } else if (pair.getKey().equalsIgnoreCase(ChangeField.ARG_ID_GROUP)) {
           group = parseGroup(pair.getValue()).getUUID();
         } else {
           throw new QueryParseException("Invalid argument identifier '" + pair.getKey() + "'");
@@ -756,8 +696,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           throw new QueryParseException("more than one user/group specified (" + value + ")");
         }
         try {
-          if (value.equals(ARG_ID_OWNER)) {
-            accounts = Collections.singleton(OWNER_ACCOUNT_ID);
+          if (value.equals(ChangeField.ARG_ID_OWNER)) {
+            accounts = Collections.singleton(ChangeField.OWNER_ACCOUNT_ID);
           } else {
             accounts = parseAccount(value);
           }
@@ -1041,7 +981,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (limit == null) {
       throw error("Invalid limit: " + query);
     }
-    return new LimitPredicate<>(FIELD_LIMIT, limit);
+    return new LimitPredicate<>(ChangeField.FIELD_LIMIT, limit);
   }
 
   @Operator

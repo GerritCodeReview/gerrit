@@ -23,7 +23,7 @@ public class AfterPredicate extends TimestampRangeChangePredicate {
   protected final Date cut;
 
   public AfterPredicate(String value) throws QueryParseException {
-    super(ChangeField.UPDATED, ChangeQueryBuilder.FIELD_BEFORE, value);
+    super(ChangeField.UPDATED, ChangeField.FIELD_BEFORE, value);
     cut = parse(value);
   }
 

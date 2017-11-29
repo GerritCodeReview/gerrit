@@ -117,6 +117,39 @@ limitations under the License.
       assert.isTrue(labelsChangedHandler.called);
     });
 
+    test('_computeButtonClass', () => {
+      let value = 1;
+      let index = 0;
+      let totalItems = 5;
+      // positive and first position
+      assert.equal(element._computeButtonClass(value, index,
+          totalItems), 'positive');
+      // negative and first position
+      value = -1
+      assert.equal(element._computeButtonClass(value, index,
+          totalItems), 'min');
+      // negative but not first position
+      index = 1;
+      assert.equal(element._computeButtonClass(value, index,
+          totalItems), 'negative');
+      // neutral
+      value = 0;
+      assert.equal(element._computeButtonClass(value, index,
+          totalItems), 'neutral');
+      // positive but not last position
+      value = 1;
+      assert.equal(element._computeButtonClass(value, index,
+          totalItems), 'positive');
+      // positive and last position
+      index = 4;
+      assert.equal(element._computeButtonClass(value, index,
+          totalItems), 'max');
+      // negative and last position
+      value = -1;
+      assert.equal(element._computeButtonClass(value, index,
+          totalItems), 'negative');
+    });
+
     test('correct item is selected', () => {
       // 1 should be the value of the selected item
       assert.strictEqual(element.$$('iron-selector').selected, '+1');

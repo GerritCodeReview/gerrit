@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f6b7837_d691a1ae",
+        "filename": "Documentation/config-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T13:35:39Z",
+      "side": 1,
+      "message": "There is an introduction about this repo. Here we can either link to that or move that intro out so that we have a doc explaining this special repo.\n\nconfig-accounts.html#all-users",
+      "range": {
+        "startLine": 32,
+        "startChar": 28,
+        "endLine": 32,
+        "endChar": 50
+      },
+      "revId": "dadde4c170f11686427998b7b9ef9f8ddeb0f206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff846019_5b3bc10d",
+        "filename": "Documentation/config-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T13:35:39Z",
+      "side": 1,
+      "message": "nit: members",
+      "range": {
+        "startLine": 41,
+        "startChar": 44,
+        "endLine": 41,
+        "endChar": 50
+      },
+      "revId": "dadde4c170f11686427998b7b9ef9f8ddeb0f206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a434ab0_c85eb592",
+        "filename": "Documentation/config-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T13:35:39Z",
+      "side": 1,
+      "message": "UUIDs",
+      "range": {
+        "startLine": 42,
+        "startChar": 29,
+        "endLine": 42,
+        "endChar": 33
+      },
+      "revId": "dadde4c170f11686427998b7b9ef9f8ddeb0f206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b081a5da_965504a7",
+        "filename": "Documentation/config-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T13:35:39Z",
+      "side": 1,
+      "message": "How about the format of `subgroups` and `members`?",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 52
+      },
+      "revId": "dadde4c170f11686427998b7b9ef9f8ddeb0f206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6a118c2_23ca31a4",
+        "filename": "Documentation/config-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T13:35:39Z",
+      "side": 1,
+      "message": "\"created based on\"?",
+      "range": {
+        "startLine": 66,
+        "startChar": 27,
+        "endLine": 66,
+        "endChar": 30
+      },
+      "revId": "dadde4c170f11686427998b7b9ef9f8ddeb0f206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ebb3ac5_4089b269",
+        "filename": "Documentation/config-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T13:35:39Z",
+      "side": 1,
+      "message": "We could mention here that this UUID is the same one used as part of the group ref name.",
+      "range": {
+        "startLine": 72,
+        "startChar": 9,
+        "endLine": 72,
+        "endChar": 30
+      },
+      "revId": "dadde4c170f11686427998b7b9ef9f8ddeb0f206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40f0e245_22f97e6d",
+        "filename": "Documentation/config-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T13:35:39Z",
+      "side": 1,
+      "message": "If \"READ\" is required to make the group visible to the group owner, we could make it more clear here.",
+      "range": {
+        "startLine": 79,
+        "startChar": 39,
+        "endLine": 80,
+        "endChar": 10
+      },
+      "revId": "dadde4c170f11686427998b7b9ef9f8ddeb0f206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efa67a39_33dff436",
+        "filename": "Documentation/config-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T13:35:39Z",
+      "side": 1,
+      "message": "r/.../link:access-control.html#capability_accessDatabase[Access Database]",
+      "range": {
+        "startLine": 81,
+        "startChar": 42,
+        "endLine": 81,
+        "endChar": 64
+      },
+      "revId": "dadde4c170f11686427998b7b9ef9f8ddeb0f206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c387108_32ad4fdb",
+        "filename": "Documentation/config-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T13:35:39Z",
+      "side": 1,
+      "message": "r/groupname ref/groupname ref (`refs/meta/group-names`)\nThis will make it clear for the readers.",
+      "range": {
+        "startLine": 82,
+        "startChar": 40,
+        "endLine": 82,
+        "endChar": 53
+      },
+      "revId": "dadde4c170f11686427998b7b9ef9f8ddeb0f206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ab817e4_fe3dc274",
+        "filename": "Documentation/config-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T13:35:39Z",
+      "side": 1,
+      "message": "add \"those users\"",
+      "range": {
+        "startLine": 83,
+        "startChar": 2,
+        "endLine": 83,
+        "endChar": 7
+      },
+      "revId": "dadde4c170f11686427998b7b9ef9f8ddeb0f206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f16609f2_e6294d8e",
+        "filename": "Documentation/config-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T13:35:39Z",
+      "side": 1,
+      "message": "link:rest-api-groups.html#index-group[Index Group]",
+      "range": {
+        "startLine": 90,
+        "startChar": 31,
+        "endLine": 90,
+        "endChar": 38
+      },
+      "revId": "dadde4c170f11686427998b7b9ef9f8ddeb0f206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "938aeddd_b1b7e7bc",
+        "filename": "javatests/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-29T07:36:08Z",
+      "side": 1,
+      "message": "I don\u0027t have time to review this now. Re-running the tests on patch set 9 on the other platform produce 12 failures now (I cherry-picked this change on most recent master): [1].\n\n* [1] http://paste.openstack.org/show/627666",
+      "revId": "57750237039eba3186cec70d2ec73f8c8d1654e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5962ea2f_79ccba33",
         "filename": "javatests/com/google/gerrit/server/config/RepositoryConfigTest.java",
         "patchSetId": 9

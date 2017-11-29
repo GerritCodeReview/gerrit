@@ -288,6 +288,30 @@
     },
     {
       "key": {
+        "uuid": "3a68f08f_b6dc2401",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T10:39:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e25e02bb_97ec0ce6",
+      "range": {
+        "startLine": 267,
+        "startChar": 19,
+        "endLine": 267,
+        "endChar": 102
+      },
+      "revId": "038a8ff797b2fb03d03169d2772600ac3c766463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14652f00_fab1a554",
         "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
         "patchSetId": 4
@@ -359,6 +383,30 @@
     },
     {
       "key": {
+        "uuid": "def90985_76e2e2cc",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T10:39:40Z",
+      "side": 1,
+      "message": "The exception message is added. But we still ignore the stack trace.",
+      "parentUuid": "996c2258_a64915e9",
+      "range": {
+        "startLine": 274,
+        "startChar": 36,
+        "endLine": 274,
+        "endChar": 83
+      },
+      "revId": "038a8ff797b2fb03d03169d2772600ac3c766463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23d1c895_d6a16842",
         "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
         "patchSetId": 4
@@ -382,6 +430,30 @@
     },
     {
       "key": {
+        "uuid": "4e35bd6f_033becf3",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T10:39:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23d1c895_d6a16842",
+      "range": {
+        "startLine": 55,
+        "startChar": 14,
+        "endLine": 55,
+        "endChar": 38
+      },
+      "revId": "038a8ff797b2fb03d03169d2772600ac3c766463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95addb10_eeeb064d",
         "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
         "patchSetId": 4
@@ -402,6 +474,30 @@
       "revId": "038a8ff797b2fb03d03169d2772600ac3c766463",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c5c0c1d_8dc3fe9c",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T10:39:40Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "95addb10_eeeb064d",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 94
+      },
+      "revId": "038a8ff797b2fb03d03169d2772600ac3c766463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a41dbb5f_6f8314a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-29T16:12:30Z",
+      "side": 1,
+      "message": "I\u0027m really sad to sse this abandoned. Would be an alternative apporach, like using the key shortcuts \"0|1|2\" or similar be a viable alternative for the revert:\n\n  https://gerrit-review.googlesource.com/#/c/gerrit/+/138772/\n \n?",
+      "revId": "8e55948c19a5186eb68e2a112b916d64f8e725e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72afdc4b_c27a6369",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-29T16:12:30Z",
+      "side": 1,
+      "message": "The last comment is we don\u0027t fully understand how to put itslef in this state, and don\u0027t know how to reproduce the problem?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 29
+      },
+      "revId": "8e55948c19a5186eb68e2a112b916d64f8e725e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

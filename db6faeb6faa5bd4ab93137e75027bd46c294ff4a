@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b0ca7008_f4a2cde8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-29T21:05:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c60e868_a9851889",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "db6faeb6faa5bd4ab93137e75027bd46c294ff4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83a27e4d_b2e3071f",
         "filename": "polygerrit-ui/app/elements/gr-app.js",
         "patchSetId": 4
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "ecc32dc0_9301cdfa",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-29T21:05:25Z",
+      "side": 1,
+      "message": "\u003e ... but still give people a chance to think about where they want to go.\n\nUser\u0027s can have as long as they like if they keep the key depressed.\n\nI\u0027d argue this value can be even lower. The jump action should only trigger if the g-key is still depressed, and holding the key down fires a stream of keydown events until it\u0027s released -- I suppose it\u0027s kind of like when a key is held down in an input and a character is repeated.\n\nThis context is not in the code itself, though, so perhaps that\u0027s worth describing in a comment, as well as increasing to 1 sec.",
+      "parentUuid": "83a27e4d_b2e3071f",
+      "revId": "db6faeb6faa5bd4ab93137e75027bd46c294ff4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f67305b_c569c0d1",
         "filename": "polygerrit-ui/app/elements/gr-app.js",
         "patchSetId": 4
@@ -56,6 +98,24 @@
       "revId": "db6faeb6faa5bd4ab93137e75027bd46c294ff4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b403cee_de0ec6aa",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-29T21:05:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f67305b_c569c0d1",
+      "revId": "db6faeb6faa5bd4ab93137e75027bd46c294ff4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -79,6 +139,30 @@
       "revId": "db6faeb6faa5bd4ab93137e75027bd46c294ff4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6575c20b_1cdf0dea",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-29T21:05:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cb62840_3d13cb88",
+      "range": {
+        "startLine": 136,
+        "startChar": 33,
+        "endLine": 136,
+        "endChar": 36
+      },
+      "revId": "db6faeb6faa5bd4ab93137e75027bd46c294ff4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

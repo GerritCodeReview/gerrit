@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1511791672 -0500\nnonce AMT3iFhPvz7xvlPaQ2K4Oux+BdcUl9Hz+IXeDlEyDQavU9OFsMm8ImxI3doxZboQUnRmXMCs2uRn\n\n0000000000000000000000000000000000000000 4848d1cfb792326b3f90582de5e9cb515f75cf0c refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlocHDgVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiM9o0P/iYAlSRXyGSZsQEdhjawp3UKtXts\ngBoGYh/hFy6mkoiDldXa9gXulfNmJuPePWzgLsI3hLQ1Ka8+X38wvqdloHvwZ0fR\npLnvtpqJuEK/aTHd7232R0hHrz38kzJw4TKDGnLGxkDtREvJFSDRGobKLKkgvhbB\nooWSRJ/41q4c/A1/WU8LIeu3NY58zr3kdFpCDPgwQRwVgWGm1swnLp8UEabfGGyL\nfcakCl3Ky4TNF8AlvbdtJASlppd9D+q/pfd4ZY7VnIcCSOWPWuDinv92oGESqK85\nSM7epx5xhvg0CQTHJli9D7j2t9y//fjQm+xMWEY4jaj+azre/oJ2qtVAqXRoHCSm\nDEzH6IsKP4ckM3Ws55ggxvTeFHR7VlOV7n4Ph1exMyv3ejKYwIxNJUDcAx6SRIww\nplPtqgd7ssBjZm/ydbyei0MzPxrJGgzWThjsahnTqom6/rMF8TUwDuZ5ojbXlee+\nR8mOlvuhxnAzGqqhUEhSGx1eFzbTklooPYCvr8y/6phlGWnmRlMyY0+BTPvVHipu\nB9v89nEoZuoiCDY4mRRO3nIljg8XwB4fTW3oFT/kRx6xbyOmiexW/o7pZzCDbmg7\nfKbzMQDC+oM+Sr1Lc7Al50UsickobRuFUt1wmYB4TzraceM36IZ7WqnJmz3Oyzib\n2k83G8BMYRuab5Hf\n\u003dPzvf\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2eed54e5_a191144a",
+        "filename": "java/com/google/gerrit/server/group/Rebuild.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-29T16:23:58Z",
+      "side": 1,
+      "message": "Optional: I don\u0027t understand why we need this. It\u0027s probably necessary, I\u0027m just lacking some insights here.",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 32
+      },
+      "revId": "4848d1cfb792326b3f90582de5e9cb515f75cf0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

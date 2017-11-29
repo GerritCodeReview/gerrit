@@ -168,6 +168,30 @@
       "revId": "782b4166498ea9d85f39d76c19040f68f2c87c69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40e19b46_3c6291f1",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-29T16:23:58Z",
+      "side": 1,
+      "message": "In the light of I55b8d10eb9, I will need the \u0027rebuild\u0027 REST endpoint especially with such a force option. I would appreciate it if we could add it.",
+      "parentUuid": "5f1a5c5a_38e9d542",
+      "range": {
+        "startLine": 59,
+        "startChar": 6,
+        "endLine": 59,
+        "endChar": 49
+      },
+      "revId": "782b4166498ea9d85f39d76c19040f68f2c87c69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

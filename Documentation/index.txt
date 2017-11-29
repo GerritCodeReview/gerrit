@@ -67,7 +67,8 @@
 . link:config-auto-site-initialization.html[Automatic Site Initialization on Startup]
 . link:pgm-index.html[Server Side Administrative Tools]
 . link:note-db.html[NoteDb]
-. link:config-accounts.html[Accounts]
+. link:config-accounts.html[Accounts on NoteDb]
+. link:config-groups.html[Groups on NoteDb]
 
 == Developer
 . Getting Started

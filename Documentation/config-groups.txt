@@ -1,0 +1,109 @@
+
+= Gerrit Code Review - Groups
+
+== Overview
+
+In Gerrit, we assign permissions to groups of accounts. These groups
+can be provided by an external system such as LDAP, but Gerrit also
+has a group system built-in ("internal groups")
+
+Starting from 2.16, these internal groups are fully stored in
+link:note-db.html[NoteDb].
+
+A group is characterized by the following information:
+
+* list of members (accounts)
+* list of subgroups
+* properties
+  - visibleToAll
+  - group owner
+
+Groups are keyed by the following unique identifiers:
+
+* GroupID, the former database key (a sequential number)
+
+* UUID, an opaque identifier. Internal groups use a 40 byte hex string
+as UUID
+
+* Name: Gerrit enforces that group names are unique
+
+== Storage format
+
+Group data is stored in the
+link:config-accounts.html#all-users[`All-Users` repository]. For each
+group, there is a ref, stored as a sharded UUID, e.g.
+
+----
+  refs/groups/ef/deafbeefdeafbeefdeafbeefdeafbeefdeafbeef
+----
+
+The ref points to commits holding files. The files are
+
+* `members`, holding numeric account IDs of members, one per line
+* `subgroups`, holding group UUIDs of subgroups, one per line
+* `group.config`, holding further configuration.
+
+The `group.config` file follows the following format
+
+----
+[group]
+  name = <name of the group>
+  id = 42
+  visibleToAll = false
+  description = <description of the group>
+  groupOwnerUuid = <UUID of the owner group>
+----
+
+Gerrit updates the ref for a group based on REST API calls, and the
+commit log effectively forms an audit log which shows how group
+membership evolved over time.
+
+To ensure uniqueness of the name, a separate ref
+`refs/meta/group-names` contains a notemap, ie. a map represented as a
+branch with a flat list of files.
+
+The format of this map is as follows:
+
+* keys are the normal SHA1 of the group name
+* values are blobs that look like
++
+----
+[group]
+  name = <name of the group>
+  uuid = <hex UUID identifier of the group>
+----
+
+To ensure uniqueness of the sequential ID, the ID for each new group
+is taken from the sequence counter under `refs/sequences/groups`,
+which works analogously to the ones for accounts and changes.
+
+== Visibility
+
+Group ownership together with `visibleToAll` determines visibility of
+the groups in the REST API.
+
+Fetching a group ref is permitted to the group's owners that also have
+READ permissions on the ref. For users that are not owners, the
+permissions on the ref are ignored. In addition, anyone with the
+link:access-control.html#capability_accessDatabase[Access Database]
+capability can read all group refs. The `refs/meta/group-names` ref is
+visible only to users with the
+link:access-control.html#capability_accessDatabase[Access Database]
+capability.
+
+== Pushing to group refs
+
+Validation on push for changes to the group ref is not implemented, so
+pushes are rejected. Pushes that bypass Gerrit should be avoided since
+the names, IDs and UUIDs must be internally consistent between all the
+branches involved. In addition, group references should not be created
+or deleted manually either. If you attempt any of these actions
+anyway, don't forget to link:rest-api-groups.html#index-group[Index
+Group] reindex the affected groups manually.
+
+== Replication
+
+In a replicated setting (eg. backups and or master/slave
+configurations), all refs in the `All-Users` project must be copied
+onto all replicas, including `refs/groups/*`, `refs/meta/group-names`
+and `refs/sequences/groups`.

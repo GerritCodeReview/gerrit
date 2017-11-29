@@ -17,7 +17,6 @@ package com.google.gerrit.server.group;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -206,7 +205,6 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
             .setGroupUUID(uuid)
             .setNameKey(createGroupArgs.getGroup())
             .setId(groupId)
-            .setCreatedOn(TimeUtil.nowTs())
             .build();
     InternalGroupUpdate.Builder groupUpdateBuilder =
         InternalGroupUpdate.builder().setVisibleToAll(createGroupArgs.visibleToAll);

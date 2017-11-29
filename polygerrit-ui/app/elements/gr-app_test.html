@@ -105,46 +105,5 @@ limitations under the License.
         assert.deepEqual(element.$.plugins.config, config);
       });
     });
-
-    suite('_jumpKeyPressed', () => {
-      let navStub;
-
-      setup(() => {
-        navStub = sandbox.stub(Gerrit.Nav, 'navigateToStatusSearch');
-      });
-
-      test('success', () => {
-        const e = {detail: {key: 'a'}, preventDefault: () => {}};
-        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-        element._isGKeyPressed = true;
-        element._jumpKeyPressed(e);
-        assert.isTrue(navStub.calledOnce);
-        assert.equal(navStub.lastCall.args[0], 'abandoned');
-      });
-
-      test('no g key', () => {
-        const e = {detail: {key: 'a'}, preventDefault: () => {}};
-        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-        element._isGKeyPressed = false;
-        element._jumpKeyPressed(e);
-        assert.isFalse(navStub.called);
-      });
-
-      test('should suppress', () => {
-        const e = {detail: {key: 'a'}, preventDefault: () => {}};
-        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(true);
-        element._isGKeyPressed = true;
-        element._jumpKeyPressed(e);
-        assert.isFalse(navStub.called);
-      });
-
-      test('unrecognized key', () => {
-        const e = {detail: {key: 'f'}, preventDefault: () => {}};
-        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-        element._isGKeyPressed = true;
-        element._jumpKeyPressed(e);
-        assert.isFalse(navStub.called);
-      });
-    });
   });
 </script>

@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c60e868_a9851889",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-11-29T20:40:32Z",
+      "side": 1,
+      "message": "This seems vague without a mention of time. How about timeout for partial jump key sequence?",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "db6faeb6faa5bd4ab93137e75027bd46c294ff4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83a27e4d_b2e3071f",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-11-29T20:40:32Z",
+      "side": 1,
+      "message": "I feel like this should be on the order of several seconds, at minimum. We want to catch pathological cases of a forgotten/mistaken \u0027g\u0027, but still give people a chance to think about where they want to go.",
+      "revId": "db6faeb6faa5bd4ab93137e75027bd46c294ff4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f67305b_c569c0d1",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-11-29T20:40:32Z",
+      "side": 1,
+      "message": "Add Timestamp to this property name.",
+      "revId": "db6faeb6faa5bd4ab93137e75027bd46c294ff4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cb62840_3d13cb88",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-11-29T20:40:32Z",
+      "side": 1,
+      "message": "Would be better to build a value relative to the const variable.",
+      "range": {
+        "startLine": 136,
+        "startChar": 33,
+        "endLine": 136,
+        "endChar": 36
+      },
+      "revId": "db6faeb6faa5bd4ab93137e75027bd46c294ff4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

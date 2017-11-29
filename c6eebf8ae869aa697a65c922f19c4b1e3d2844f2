@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b9fe610_fdd1b89b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-29T15:55:30Z",
+      "side": 1,
+      "message": "I\u0027m not totally convinced that we want to just delete this extension point. But I think it\u0027s fine to break anyway.",
+      "range": {
+        "startLine": 18,
+        "startChar": 57,
+        "endLine": 19,
+        "endChar": 62
+      },
+      "revId": "c6eebf8ae869aa697a65c922f19c4b1e3d2844f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40f8add6_5450fa57",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-29T15:55:30Z",
+      "side": 1,
+      "message": "This comment seems out of place, it is describing the opposite of the behavior in this block.",
+      "revId": "c6eebf8ae869aa697a65c922f19c4b1e3d2844f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d20cfc40_4eb7d3da",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-29T15:55:30Z",
+      "side": 1,
+      "message": "Same comment as above.",
+      "revId": "c6eebf8ae869aa697a65c922f19c4b1e3d2844f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

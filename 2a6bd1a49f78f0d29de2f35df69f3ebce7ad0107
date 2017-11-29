@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1511877126 +0100\nnonce AMT3iFjRW/aGCa7Z2XRybpYFLNEIdNn7OSi7TAGMilv5vBAC4hZ8tMnaO7jEpb1lyzD2bwrrH1Lz\n\n0000000000000000000000000000000000000000 2a6bd1a49f78f0d29de2f35df69f3ebce7ad0107 refs/for/stable-2.15\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaHWoGAAoJEFG1/Zeg0O9RT84H+gPw0YwmQ3VwVox8oxtZIJ/h\nYO7b4/Mmu70+zmrqb7Ktx0xeQ91YdCj762jACPn3rxC2S3cBN0O8xjeVzsxc2zjG\nsiMZExopWUIYZ8ezpYvBeAFw+D26QCB3fdKHbgkiMn1shSwTsztz7nncelowKlLU\nDuKIBqFf1AowWrXfHrmRlh0d9W6UGqnsVL0NQgKQ5rvRUE1iG4ynru6wEoEifYVM\nlR9q490BVI7FefUMf90K4dYnFi8u1wJSdT0477v/chnig10Rgeecq03yEz04lbE6\nxm5nog8vttvBavyghHoDBjF6HeFHbCugPuUVKxIYeBCvzDVsGIRNPEICROtNygk\u003d\n\u003d9Nba\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "44cdc237_a0d14cc8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/InternalAccountQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-29T02:28:59Z",
+      "side": 1,
+      "message": "optional: invert the logic so we have less diff caused only by indentation?\n\n if (!hasPreferredEmail()) {\n   return ImmutableList.of();\n }\n \n return query(...) ... ;",
+      "revId": "2a6bd1a49f78f0d29de2f35df69f3ebce7ad0107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "266ce03e_27fb5493",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/InternalAccountQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-29T02:28:59Z",
+      "side": 1,
+      "message": "optional: factor the common parts of these methods to another method.  i.e.\n\n private boolean hasField(AccountField field) {\n   Schema\u003cAccountState\u003e s \u003d schema();\n   return (s !\u003d null \u0026\u0026 s.hasField(field));\n }\n \n private boolean hasPreferredEmail() {\n   return hasField(AccountField.PREFERRED_EMAIL);\n }\n \n private boolean hasPreferredEmailExact() {\n   return hasField(AccountField.PREFERRED_EMAIL_EXACT);\n }",
+      "range": {
+        "startLine": 191,
+        "startChar": 2,
+        "endLine": 199,
+        "endChar": 3
+      },
+      "revId": "2a6bd1a49f78f0d29de2f35df69f3ebce7ad0107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

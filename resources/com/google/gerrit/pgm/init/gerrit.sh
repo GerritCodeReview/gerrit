@@ -161,7 +161,8 @@ fi
 # Try to determine GERRIT_SITE if not set
 ##################################################
 if test -z "$GERRIT_SITE" ; then
-  GERRIT_SITE_1=`dirname "$0"`/..
+  GERRIT_REAL_PATH=`realpath "$0"`
+  GERRIT_SITE_1=`dirname "${GERRIT_REAL_PATH}"`/..
   if test -f "${GERRIT_SITE_1}/${GERRIT_INSTALL_TRACE_FILE}" ; then
     GERRIT_SITE=${GERRIT_SITE_1}
   fi

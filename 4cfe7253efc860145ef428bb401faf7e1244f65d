@@ -49,6 +49,76 @@
     },
     {
       "key": {
+        "uuid": "46cd2b9d_bdcc1c2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-29T23:20:45Z",
+      "side": 1,
+      "message": "I see your point about how there are arrays of links in some cases.\n\n\u003e * remove gr-weblinks from public API\n\u003e * use Gerrit.Nav.getXXXforYYY instead of Gerrit.Weblinks.getXXX\n\nYes to both of these.\n\n\u003e * add more params for generateUrl\n\nNot precisely: I\u0027m only recommending that the `generateWebLink` function be provided by the embedded context like the other two nav functions in [1].\n\nThat way, it could return an array and would not need to return a single URL string.\n\n\u003e 1. generateUrl generates single URL while weblinks are an array (e.g. android\u0027s build weblinks)\n\u003e 2. generateUrl generates a label, while weblinks have labels\n\nThe result of a `generateWebLink` could be the same array of objects with labels and URL strings.\n\nReally just to avoid fragmentation of the way URLs are generated and accessed. Unless I missed it, it\u0027s not clear to me why we\u0027d create a new mechanism.\n\n* [1] https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html#108",
+      "parentUuid": "a36a2035_54e639f7",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "4cfe7253efc860145ef428bb401faf7e1244f65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0987d7df_42351aa8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-29T23:20:45Z",
+      "side": 1,
+      "message": "Nit: wrap then condition in curly braces.\n\n if (!commitInfo) { return null; }",
+      "range": {
+        "startLine": 118,
+        "startChar": 6,
+        "endLine": 118,
+        "endChar": 35
+      },
+      "revId": "4cfe7253efc860145ef428bb401faf7e1244f65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdb831a9_8ff8752e",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-29T23:20:45Z",
+      "side": 1,
+      "message": "If we only use this with the expectation of there being one result, can the function signature be something like ..\n\n getDefaultPatchSetWeblink\n\n.. ?",
+      "range": {
+        "startLine": 34,
+        "startChar": 12,
+        "endLine": 34,
+        "endChar": 21
+      },
+      "revId": "4cfe7253efc860145ef428bb401faf7e1244f65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b673d475_321ab11e",
         "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.html",
         "patchSetId": 1

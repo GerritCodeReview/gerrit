@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5962ea2f_79ccba33",
+        "filename": "javatests/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-29T00:04:52Z",
+      "side": 1,
+      "message": "Note:  we can\u0027t use Paths#toAbsolutePath, i.e.:\n\n Paths.get(...).toAbsolutePath();\n\nbecause it results in the path being resolved to the full absolute path on the system, for example beginning with something like:\n\n  /users/myusername/gerrit/\n\nmeaning the paths would not be the exact absolute paths that were used prior to this fix.",
+      "range": {
+        "startLine": 238,
+        "startChar": 11,
+        "endLine": 238,
+        "endChar": 43
+      },
+      "revId": "57750237039eba3186cec70d2ec73f8c8d1654e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

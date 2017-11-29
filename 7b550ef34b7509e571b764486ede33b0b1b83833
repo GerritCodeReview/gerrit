@@ -22,6 +22,30 @@
       "revId": "7b550ef34b7509e571b764486ede33b0b1b83833",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44f41d91_8edd555b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-29T17:27:25Z",
+      "side": 1,
+      "message": "The up and down keys are still bound because those events are relayed in to the diff cursor when the diffs are open.",
+      "parentUuid": "22afdd28_c98c6bed",
+      "range": {
+        "startLine": 147,
+        "startChar": 6,
+        "endLine": 148,
+        "endChar": 29
+      },
+      "revId": "7b550ef34b7509e571b764486ede33b0b1b83833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

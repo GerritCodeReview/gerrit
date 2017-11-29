@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.Set;
 
@@ -47,6 +48,10 @@ public abstract class InternalGroupUpdate {
 
   public abstract SubgroupModification getSubgroupModification();
 
+  public abstract Optional<Timestamp> getUpdatedOn();
+
+  public abstract Builder toBuilder();
+
   public static Builder builder() {
     return new AutoValue_InternalGroupUpdate.Builder()
         .setMemberModification(in -> in)
@@ -70,6 +75,8 @@ public abstract class InternalGroupUpdate {
     public abstract Builder setSubgroupModification(SubgroupModification subgroupModification);
 
     abstract SubgroupModification getSubgroupModification();
+
+    public abstract Builder setUpdatedOn(Timestamp timestamp);
 
     public abstract InternalGroupUpdate build();
   }

@@ -23,6 +23,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -203,15 +204,10 @@ public class GroupConfig extends VersionedMetaData {
           String.format("Name of the group %s must be defined", groupUuid.get()));
     }
 
-    Timestamp createdOn;
-    if (groupCreation.isPresent()) {
-      createdOn = groupCreation.get().getCreatedOn();
-      commit.setAuthor(new PersonIdent(commit.getAuthor(), createdOn));
-      commit.setCommitter(new PersonIdent(commit.getCommitter(), createdOn));
-    } else {
-      checkState(loadedGroup.isPresent(), "Cannot update non-existent group %s", groupUuid.get());
-      createdOn = loadedGroup.get().getCreatedOn();
-    }
+    Timestamp commitTimestamp =
+        groupUpdate.flatMap(InternalGroupUpdate::getUpdatedOn).orElseGet(TimeUtil::nowTs);
+    commit.setAuthor(new PersonIdent(commit.getAuthor(), commitTimestamp));
+    commit.setCommitter(new PersonIdent(commit.getCommitter(), commitTimestamp));
 
     Config config = updateGroupProperties();
 
@@ -222,6 +218,8 @@ public class GroupConfig extends VersionedMetaData {
     ImmutableSet<AccountGroup.UUID> originalSubgroups =
         loadedGroup.map(InternalGroup::getSubgroups).orElseGet(ImmutableSet::of);
     Optional<ImmutableSet<AccountGroup.UUID>> updatedSubgroups = updateSubgroups(originalSubgroups);
+
+    Timestamp createdOn = loadedGroup.map(InternalGroup::getCreatedOn).orElse(commitTimestamp);
 
     String commitMessage =
         createCommitMessage(originalMembers, updatedMembers, originalSubgroups, updatedSubgroups);

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "13994bdb_07d065b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-29T21:30:26Z",
+      "side": 1,
+      "message": "This revert has been abandoned in favor of fixing the key detection in I960926a3b8.",
+      "parentUuid": "a41dbb5f_6f8314a7",
+      "revId": "8e55948c19a5186eb68e2a112b916d64f8e725e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72afdc4b_c27a6369",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-11-29T16:12:30Z",
       "side": 1,
       "message": "The last comment is we don\u0027t fully understand how to put itslef in this state, and don\u0027t know how to reproduce the problem?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 29
+      },
+      "revId": "8e55948c19a5186eb68e2a112b916d64f8e725e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5f0c461_4bfe2e1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-29T21:30:26Z",
+      "side": 1,
+      "message": "I failed to update the bug with our new repro steps. They\u0027re there now.",
+      "parentUuid": "72afdc4b_c27a6369",
       "range": {
         "startLine": 11,
         "startChar": 0,

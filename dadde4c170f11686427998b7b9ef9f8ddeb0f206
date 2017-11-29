@@ -163,6 +163,30 @@
     },
     {
       "key": {
+        "uuid": "4fd74ab9_78f08f1c",
+        "filename": "Documentation/config-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-29T13:47:23Z",
+      "side": 1,
+      "message": "Just to avoid confusion \"READ\" is required to make the group _ref_ visible to group owners. Without READ group owners can still see the group via the Gerrit API.",
+      "parentUuid": "40f0e245_22f97e6d",
+      "range": {
+        "startLine": 79,
+        "startChar": 39,
+        "endLine": 80,
+        "endChar": 10
+      },
+      "revId": "dadde4c170f11686427998b7b9ef9f8ddeb0f206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "efa67a39_33dff436",
         "filename": "Documentation/config-groups.txt",
         "patchSetId": 2

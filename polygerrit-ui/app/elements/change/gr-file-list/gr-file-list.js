@@ -510,11 +510,14 @@
         return;
       }
 
-      e.preventDefault();
       if (this._showInlineDiffs) {
+        e.preventDefault();
         this.$.diffCursor.moveDown();
         this._displayLine = true;
       } else {
+        // Down key
+        if (this.getKeyboardEvent(e).keyCode === 40) { return; }
+        e.preventDefault();
         this.$.fileCursor.next();
         this.selectedIndex = this.$.fileCursor.index;
       }
@@ -525,11 +528,14 @@
         return;
       }
 
-      e.preventDefault();
       if (this._showInlineDiffs) {
+        e.preventDefault();
         this.$.diffCursor.moveUp();
         this._displayLine = true;
       } else {
+        // Up key
+        if (this.getKeyboardEvent(e).keyCode === 38) { return; }
+        e.preventDefault();
         this.$.fileCursor.previous();
         this.selectedIndex = this.$.fileCursor.index;
       }

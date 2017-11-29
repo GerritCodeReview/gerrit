@@ -74,6 +74,21 @@ limitations under the License.
         display: inline-block;
         width: 40px;
       }
+      gr-button.max {
+        --gr-button-background: #9fcc6b;
+      }
+      gr-button.positive {
+        --gr-button-background: #c9dfaf;
+      }
+      gr-button.min {
+        --gr-button-background: #f7a1ad;
+      }
+      gr-button.negative {
+        --gr-button-background: #f7c4cb;
+      }
+      gr-button.neutral {
+        --gr-button-background: #f4f4f4;
+      }
       @media only screen and (max-width: 25em) {
         .labelName {
           margin: 0;
@@ -100,8 +115,9 @@ limitations under the License.
         <template is="dom-repeat"
             items="[[_computePermittedLabelValues(permittedLabels, label.name)]]"
             as="value">
-          <gr-button has-tooltip value$="[[value]]"
-            title$="[[_computeLabelValueTitle(labels, label.name, value)]]">
+          [[items]]
+          <gr-button class$="[[_computeButtonClass(value, index, _items.length)]]" has-tooltip value$="[[value]]"
+              title$="[[_computeLabelValueTitle(labels, label.name, value)]]">
           [[value]]</gr-button>
         </template>
       </iron-selector>

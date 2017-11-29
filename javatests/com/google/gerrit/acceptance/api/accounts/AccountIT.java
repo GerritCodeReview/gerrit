@@ -803,9 +803,15 @@ public class AccountIT extends AbstractDaemonTest {
   public void putStatus() throws Exception {
     List<String> statuses = ImmutableList.of("OOO", "Busy");
     AccountInfo info;
-    for (String status : statuses) {
-      gApi.accounts().self().setStatus(status);
-      admin.status = status;
+    try {
+      for (String status : statuses) {
+        gApi.accounts().self().setStatus(status);
+        info = gApi.accounts().self().get();
+        assertUser(info, admin, status);
+        accountIndexedCounter.assertReindexOf(admin);
+      }
+    } finally {
+      gApi.accounts().self().setStatus(null);
       info = gApi.accounts().self().get();
       assertUser(info, admin);
       accountIndexedCounter.assertReindexOf(admin);
@@ -2002,10 +2008,15 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   private void assertUser(AccountInfo info, TestAccount account) throws Exception {
+    assertUser(info, account, null);
+  }
+
+  private void assertUser(AccountInfo info, TestAccount account, @Nullable String expectedStatus)
+      throws Exception {
     assertThat(info.name).isEqualTo(account.fullName);
     assertThat(info.email).isEqualTo(account.email);
     assertThat(info.username).isEqualTo(account.username);
-    assertThat(info.status).isEqualTo(account.status);
+    assertThat(info.status).isEqualTo(expectedStatus);
   }
 
   private Set<String> getEmails() throws RestApiException {

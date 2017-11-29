@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b779308d_8323dc1e",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T15:33:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0fe9be10_1c818dad",
+      "range": {
+        "startLine": 231,
+        "startChar": 15,
+        "endLine": 231,
+        "endChar": 40
+      },
+      "revId": "e8286e3a28cbe614bc0b6b3a3bac3d53888c7190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43b2fbe6_4b132ef7",
         "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
         "patchSetId": 7
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "0c95b7c9_5ef84f04",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T15:33:17Z",
+      "side": 1,
+      "message": "Why? I think our consistency checker should not bother other code. It should just do some silent log.",
+      "parentUuid": "43b2fbe6_4b132ef7",
+      "range": {
+        "startLine": 258,
+        "startChar": 13,
+        "endLine": 258,
+        "endChar": 24
+      },
+      "revId": "e8286e3a28cbe614bc0b6b3a3bac3d53888c7190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2638a994_611f2884",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
         "patchSetId": 7
@@ -59,6 +107,30 @@
       "writtenOn": "2017-11-29T15:26:28Z",
       "side": 1,
       "message": "inline this",
+      "range": {
+        "startLine": 276,
+        "startChar": 15,
+        "endLine": 276,
+        "endChar": 30
+      },
+      "revId": "e8286e3a28cbe614bc0b6b3a3bac3d53888c7190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38a2d837_b23a0786",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T15:33:17Z",
+      "side": 1,
+      "message": "In fact, this is intended. So that I don\u0027t need to modify lots of tests and just add three more parameters {\"repoManager, allUsers, serverIdent.get()\"}",
+      "parentUuid": "2638a994_611f2884",
       "range": {
         "startLine": 276,
         "startChar": 15,

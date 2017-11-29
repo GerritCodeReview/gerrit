@@ -32,7 +32,7 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.CreateChange;
-import com.google.gerrit.server.query.change.QueryChanges;
+import com.google.gerrit.server.change.QueryChanges;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

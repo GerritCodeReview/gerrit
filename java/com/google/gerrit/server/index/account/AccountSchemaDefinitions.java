@@ -40,7 +40,9 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
   static final Schema<AccountState> V6 =
       schema(V5, AccountField.REF_STATE, AccountField.EXTERNAL_ID_STATE);
 
-  static final Schema<AccountState> V7 = schema(V6, AccountField.PREFERRED_EMAIL_EXACT);
+  @Deprecated static final Schema<AccountState> V7 = schema(V6, AccountField.PREFERRED_EMAIL_EXACT);
+
+  static final Schema<AccountState> V8 = schema(V7, AccountField.NAME_PART_NO_SECONDARY_EMAIL);
 
   public static final String NAME = "accounts";
   public static final AccountSchemaDefinitions INSTANCE = new AccountSchemaDefinitions();

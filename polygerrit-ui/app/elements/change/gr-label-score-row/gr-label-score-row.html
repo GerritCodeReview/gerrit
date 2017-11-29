@@ -59,7 +59,7 @@ limitations under the License.
           box-shadow: none;
           padding: .2em .85em;
         }
-        --gr-button-background: #f5f5f5;
+        --gr-button-background: #f4f4f4;
         --gr-button-color: black;
         --gr-button-hover-color: black;
 
@@ -73,6 +73,21 @@ limitations under the License.
       .placeholder {
         display: inline-block;
         width: 40px;
+      }
+      iron-selector > gr-button.iron-selected.max {
+        --gr-button-background: #9fcc6b;
+      }
+      iron-selector > gr-button.iron-selected.positive {
+        --gr-button-background: #c9dfaf;
+      }
+      iron-selector > gr-button.iron-selected.min {
+        --gr-button-background: #f7a1ad;
+      }
+      iron-selector > gr-button.iron-selected.negative {
+        --gr-button-background: #f7c4cb;
+      }
+      iron-selector > gr-button.iron-selected.neutral {
+        --gr-button-background: #f4f4f4;
       }
       @media only screen and (max-width: 25em) {
         .labelName {
@@ -100,8 +115,8 @@ limitations under the License.
         <template is="dom-repeat"
             items="[[_computePermittedLabelValues(permittedLabels, label.name)]]"
             as="value">
-          <gr-button has-tooltip value$="[[value]]"
-            title$="[[_computeLabelValueTitle(labels, label.name, value)]]">
+          <gr-button class$="[[_computeButtonClass(value, index, _items.length)]]" has-tooltip value$="[[value]]"
+              title$="[[_computeLabelValueTitle(labels, label.name, value)]]">
           [[value]]</gr-button>
         </template>
       </iron-selector>

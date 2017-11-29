@@ -33,6 +33,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.index.RefState;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Set;
@@ -43,27 +44,38 @@ public class AccountField {
   public static final FieldDef<AccountState, Integer> ID =
       integer("id").stored().build(a -> a.getAccount().getId().get());
 
+  /**
+   * External IDs.
+   *
+   * <p>This field includes secondary emails. Use this field only if the current user is allowed to
+   * see secondary emails (requires the {@link GlobalCapability.MODIFY_ACCOUNT} capability).
+   */
   public static final FieldDef<AccountState, Iterable<String>> EXTERNAL_ID =
       exact("external_id")
           .buildRepeatable(a -> Iterables.transform(a.getExternalIds(), id -> id.key().get()));
 
-  /** Fuzzy prefix match on name and email parts. */
+  /**
+   * Fuzzy prefix match on name and email parts.
+   *
+   * <p>This field includes parts from the secondary emails. Use this field only if the current user
+   * is allowed to see secondary emails (requires the {@link GlobalCapability.MODIFY_ACCOUNT}
+   * capability).
+   *
+   * <p>Use the {@link AccountField#NAME_PART_NO_SECONDARY_EMAIL} if the current user can't see
+   * secondary emails.
+   */
   public static final FieldDef<AccountState, Iterable<String>> NAME_PART =
       prefix("name")
           .buildRepeatable(
-              a -> {
-                String fullName = a.getAccount().getFullName();
-                Set<String> parts =
-                    SchemaUtil.getNameParts(
-                        fullName, Iterables.transform(a.getExternalIds(), ExternalId::email));
+              a -> getNameParts(a, Iterables.transform(a.getExternalIds(), ExternalId::email)));
 
-                // Additional values not currently added by getPersonParts.
-                // TODO(dborowitz): Move to getPersonParts and remove this hack.
-                if (fullName != null) {
-                  parts.add(fullName.toLowerCase(Locale.US));
-                }
-                return parts;
-              });
+  /**
+   * Fuzzy prefix match on name and preferred email parts. Parts of secondary emails are not
+   * included.
+   */
+  public static final FieldDef<AccountState, Iterable<String>> NAME_PART_NO_SECONDARY_EMAIL =
+      prefix("name2")
+          .buildRepeatable(a -> getNameParts(a, Arrays.asList(a.getAccount().getPreferredEmail())));
 
   public static final FieldDef<AccountState, String> FULL_NAME =
       exact("full_name").build(a -> a.getAccount().getFullName());
@@ -71,6 +83,12 @@ public class AccountField {
   public static final FieldDef<AccountState, String> ACTIVE =
       exact("inactive").build(a -> a.getAccount().isActive() ? "1" : "0");
 
+  /**
+   * All emails (preferred email + secondary emails). Use this field only if the current user is
+   * allowed to see secondary emails (requires the 'Modify Account' capability).
+   *
+   * <p>Use the {@link AccountField#PREFERRED_EMAIL} if the current user can't see secondary emails.
+   */
   public static final FieldDef<AccountState, Iterable<String>> EMAIL =
       prefix("email")
           .buildRepeatable(
@@ -144,6 +162,18 @@ public class AccountField {
                       .filter(e -> e.blobId() != null)
                       .map(e -> e.toByteArray())
                       .collect(toSet()));
+
+  private static final Set<String> getNameParts(AccountState a, Iterable<String> emails) {
+    String fullName = a.getAccount().getFullName();
+    Set<String> parts = SchemaUtil.getNameParts(fullName, emails);
+
+    // Additional values not currently added by getPersonParts.
+    // TODO(dborowitz): Move to getPersonParts and remove this hack.
+    if (fullName != null) {
+      parts.add(fullName.toLowerCase(Locale.US));
+    }
+    return parts;
+  }
 
   private AccountField() {}
 }

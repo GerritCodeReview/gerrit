@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da305490_bb0895a5",
+        "filename": "java/com/google/gerrit/pgm/init/InitAdminUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T12:28:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9b13c19_955e5d38",
+      "range": {
+        "startLine": 163,
+        "startChar": 12,
+        "endLine": 171,
+        "endChar": 0
+      },
+      "revId": "bc17de3bc74f5f485bbc8083f07a953929a8eaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ac0ea71_b2ab0c6d",
         "filename": "java/com/google/gerrit/server/group/ListGroups.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "bc17de3bc74f5f485bbc8083f07a953929a8eaf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f478d24a_bb986f0c",
+        "filename": "java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T12:28:16Z",
+      "side": 1,
+      "message": "I don\u0027t think we can move it there as there UUIDs may not come from GroupNameNotes.",
+      "parentUuid": "2ac0ea71_b2ab0c6d",
+      "range": {
+        "startLine": 348,
+        "startChar": 8,
+        "endLine": 354,
+        "endChar": 7
+      },
+      "revId": "bc17de3bc74f5f485bbc8083f07a953929a8eaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "69a891fa_def8881f",
+        "filename": "java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T12:28:16Z",
+      "side": 1,
+      "message": "Right. I move this check. But I\u0027m also fine to remove this check.",
+      "parentUuid": "5c326fed_ca46c8e7",
+      "range": {
+        "startLine": 417,
+        "startChar": 46,
+        "endLine": 417,
+        "endChar": 55
+      },
+      "revId": "bc17de3bc74f5f485bbc8083f07a953929a8eaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "411368db_25a8eea2",
         "filename": "java/com/google/gerrit/server/index/group/AllGroupsIndexer.java",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "50f1aa03_32b0e1db",
+        "filename": "java/com/google/gerrit/server/index/group/AllGroupsIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T12:28:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "411368db_25a8eea2",
+      "range": {
+        "startLine": 106,
+        "startChar": 20,
+        "endLine": 110,
+        "endChar": 29
+      },
+      "revId": "bc17de3bc74f5f485bbc8083f07a953929a8eaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "145928ed_46848b85",
         "filename": "java/com/google/gerrit/server/index/group/AllGroupsIndexer.java",
         "patchSetId": 1
@@ -114,6 +210,30 @@
       "revId": "bc17de3bc74f5f485bbc8083f07a953929a8eaf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31855740_4c8b1db9",
+        "filename": "java/com/google/gerrit/server/index/group/AllGroupsIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T12:28:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "145928ed_46848b85",
+      "range": {
+        "startLine": 115,
+        "startChar": 20,
+        "endLine": 115,
+        "endChar": 26
+      },
+      "revId": "bc17de3bc74f5f485bbc8083f07a953929a8eaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

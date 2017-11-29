@@ -16,7 +16,6 @@ package com.google.gerrit.server.group.db;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import java.sql.Timestamp;
 
 // TODO(aliceks): Add Javadoc descriptions to this file.
 @AutoValue
@@ -27,8 +26,6 @@ public abstract class InternalGroupCreation {
   public abstract AccountGroup.NameKey getNameKey();
 
   public abstract AccountGroup.UUID getGroupUUID();
-
-  public abstract Timestamp getCreatedOn();
 
   public static Builder builder() {
     return new AutoValue_InternalGroupCreation.Builder();
@@ -41,8 +38,6 @@ public abstract class InternalGroupCreation {
     public abstract InternalGroupCreation.Builder setNameKey(AccountGroup.NameKey name);
 
     public abstract InternalGroupCreation.Builder setGroupUUID(AccountGroup.UUID groupUuid);
-
-    public abstract InternalGroupCreation.Builder setCreatedOn(Timestamp createdOn);
 
     public abstract InternalGroupCreation build();
   }

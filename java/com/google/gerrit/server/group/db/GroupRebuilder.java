@@ -122,13 +122,13 @@ public class GroupRebuilder {
             .setId(bundle.id())
             .setNameKey(group.getNameKey())
             .setGroupUUID(group.getGroupUUID())
-            .setCreatedOn(group.getCreatedOn())
             .build());
 
     InternalGroupUpdate.Builder updateBuilder =
         InternalGroupUpdate.builder()
             .setOwnerGroupUUID(group.getOwnerGroupUUID())
-            .setVisibleToAll(group.isVisibleToAll());
+            .setVisibleToAll(group.isVisibleToAll())
+            .setUpdatedOn(group.getCreatedOn());
     if (bundle.group().getDescription() != null) {
       updateBuilder.setDescription(group.getDescription());
     }
@@ -151,6 +151,7 @@ public class GroupRebuilder {
       for (Map.Entry<Key, Collection<Event>> e : events.entrySet()) {
         InternalGroupUpdate.Builder ub = InternalGroupUpdate.builder();
         e.getValue().forEach(event -> event.update().accept(ub));
+        ub.setUpdatedOn(e.getKey().when());
         groupConfig.setGroupUpdate(ub.build(), getAccountNameEmailFunc, getGroupNameFunc);
 
         PersonIdent currServerIdent = new PersonIdent(nowServerIdent, e.getKey().when());

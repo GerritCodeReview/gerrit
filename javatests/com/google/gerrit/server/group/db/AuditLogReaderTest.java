@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
@@ -288,7 +287,6 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
             .setGroupUUID(GroupUUID.make(groupName, serverIdent))
             .setNameKey(new AccountGroup.NameKey(groupName))
             .setId(new AccountGroup.Id(next))
-            .setCreatedOn(TimeUtil.nowTs())
             .build();
     InternalGroupUpdate groupUpdate =
         authorIdent.equals(serverIdent)

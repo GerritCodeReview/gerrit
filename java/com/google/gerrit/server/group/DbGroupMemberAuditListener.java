@@ -15,7 +15,6 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.base.Joiner;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
@@ -30,6 +29,7 @@ import com.google.gerrit.server.audit.GroupMemberAuditListener;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,10 +58,11 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
   }
 
   @Override
-  public void onAddAccountsToGroup(Account.Id me, Collection<AccountGroupMember> added) {
+  public void onAddAccountsToGroup(
+      Account.Id me, Collection<AccountGroupMember> added, Timestamp addedOn) {
     List<AccountGroupMemberAudit> auditInserts = new ArrayList<>();
     for (AccountGroupMember m : added) {
-      AccountGroupMemberAudit audit = new AccountGroupMemberAudit(m, me, TimeUtil.nowTs());
+      AccountGroupMemberAudit audit = new AccountGroupMemberAudit(m, me, addedOn);
       auditInserts.add(audit);
     }
     try (ReviewDb db = schema.open()) {
@@ -73,7 +74,8 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
   }
 
   @Override
-  public void onDeleteAccountsFromGroup(Account.Id me, Collection<AccountGroupMember> removed) {
+  public void onDeleteAccountsFromGroup(
+      Account.Id me, Collection<AccountGroupMember> removed, Timestamp removedOn) {
     List<AccountGroupMemberAudit> auditInserts = new ArrayList<>();
     List<AccountGroupMemberAudit> auditUpdates = new ArrayList<>();
     try (ReviewDb db = schema.open()) {
@@ -88,10 +90,10 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
         }
 
         if (audit != null) {
-          audit.removed(me, TimeUtil.nowTs());
+          audit.removed(me, removedOn);
           auditUpdates.add(audit);
         } else {
-          audit = new AccountGroupMemberAudit(m, me, TimeUtil.nowTs());
+          audit = new AccountGroupMemberAudit(m, me, removedOn);
           audit.removedLegacy();
           auditInserts.add(audit);
         }
@@ -105,10 +107,11 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
   }
 
   @Override
-  public void onAddGroupsToGroup(Account.Id me, Collection<AccountGroupById> added) {
+  public void onAddGroupsToGroup(
+      Account.Id me, Collection<AccountGroupById> added, Timestamp addedOn) {
     List<AccountGroupByIdAud> includesAudit = new ArrayList<>();
     for (AccountGroupById groupInclude : added) {
-      AccountGroupByIdAud audit = new AccountGroupByIdAud(groupInclude, me, TimeUtil.nowTs());
+      AccountGroupByIdAud audit = new AccountGroupByIdAud(groupInclude, me, addedOn);
       includesAudit.add(audit);
     }
     try (ReviewDb db = schema.open()) {
@@ -120,7 +123,8 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
   }
 
   @Override
-  public void onDeleteGroupsFromGroup(Account.Id me, Collection<AccountGroupById> removed) {
+  public void onDeleteGroupsFromGroup(
+      Account.Id me, Collection<AccountGroupById> removed, Timestamp removedOn) {
     final List<AccountGroupByIdAud> auditUpdates = new ArrayList<>();
     try (ReviewDb db = schema.open()) {
       for (AccountGroupById g : removed) {
@@ -134,7 +138,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
         }
 
         if (audit != null) {
-          audit.removed(me, TimeUtil.nowTs());
+          audit.removed(me, removedOn);
           auditUpdates.add(audit);
         }
       }

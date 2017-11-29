@@ -14,6 +14,8 @@
 (function() {
   'use strict';
 
+  const G_KEY_TIMEOUT_MS = 300;
+
   // Eagerly render Polymer components when backgrounded. (Skips
   // requestAnimationFrame.)
   // @see https://github.com/Polymer/polymer/issues/3851
@@ -45,9 +47,9 @@
         observer: '_accountChanged',
       },
 
-      _isGKeyPressed: {
-        type: Boolean,
-        value: false,
+      _lastGKeyPress: {
+        type: Number,
+        value: null,
       },
 
       /**
@@ -247,15 +249,16 @@
     },
 
     _gKeyDown() {
-      this._isGKeyPressed = true;
+      this._lastGKeyPress = Date.now();
     },
 
     _gKeyUp() {
-      this._isGKeyPressed = false;
+      this._lastGKeyPress = null;
     },
 
     _jumpKeyPressed(e) {
-      if (!this._isGKeyPressed ||
+      if (!this._lastGKeyPress ||
+          (Date.now() - this._lastGKeyPress > G_KEY_TIMEOUT_MS) ||
           this.shouldSuppressKeyboardShortcut(e)) { return; }
       e.preventDefault();
 

@@ -311,12 +311,36 @@ limitations under the License.
           FooBar: ['-1', ' 0'],
         },
       };
-      assert.strictEqual('Votable: Bar',
-          element._computeReviewerTooltip({_account_id: 1}, change));
-      assert.strictEqual('Votable: Foo: +2, Bar, FooBar',
-          element._computeReviewerTooltip({_account_id: 7}, change));
-      assert.strictEqual('',
-          element._computeReviewerTooltip({_account_id: 2}, change));
+      assert.strictEqual(
+          element._computeReviewerTooltip({_account_id: 1}, change),
+          'Votable: Bar');
+      assert.strictEqual(
+          element._computeReviewerTooltip({_account_id: 7}, change),
+          'Votable: Foo: +2, Bar, FooBar');
+      assert.strictEqual(
+          element._computeReviewerTooltip({_account_id: 2}, change),
+          '');
+    });
+
+    test('fails gracefully when all is not included', () => {
+      const change = {
+        labels: {
+          Foo: {},
+          Bar: {},
+          FooBar: {},
+        },
+        permitted_labels: {
+          Foo: ['-1', ' 0', '+1', '+2'],
+          Bar: ['-1', ' 0', '+1', '+2'],
+          FooBar: ['-1', ' 0'],
+        },
+      };
+      assert.strictEqual(
+          element._computeReviewerTooltip({_account_id: 1}, change), '');
+      assert.strictEqual(
+          element._computeReviewerTooltip({_account_id: 7}, change), '');
+      assert.strictEqual(
+          element._computeReviewerTooltip({_account_id: 2}, change), '');
     });
   });
 </script>

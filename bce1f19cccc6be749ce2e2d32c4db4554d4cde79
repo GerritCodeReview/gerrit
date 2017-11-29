@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9bfbceb6_e326af2e",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-29T15:17:00Z",
+      "side": 1,
+      "message": "nit: var is private, so can have a shorter name.\n\nDoesn\u0027t the logger prepend the classname anyway?",
+      "range": {
+        "startLine": 53,
+        "startChar": 30,
+        "endLine": 53,
+        "endChar": 64
+      },
+      "revId": "bce1f19cccc6be749ce2e2d32c4db4554d4cde79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

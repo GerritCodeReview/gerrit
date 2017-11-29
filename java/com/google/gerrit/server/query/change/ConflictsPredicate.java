@@ -23,6 +23,7 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.strategy.SubmitDryRun;
+import com.google.gerrit.server.index.change.ChangeData;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;

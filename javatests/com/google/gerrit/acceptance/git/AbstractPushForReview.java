@@ -80,7 +80,7 @@ import com.google.gerrit.server.git.receive.ReceiveConstants;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.testing.Util;
-import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.index.change.ChangeData;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestTimeUtil;
 import java.util.ArrayList;

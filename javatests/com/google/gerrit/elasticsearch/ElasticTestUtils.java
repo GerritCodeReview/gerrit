@@ -37,7 +37,7 @@ import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.gerrit.server.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.server.project.ProjectData;
-import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.index.change.ChangeData;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

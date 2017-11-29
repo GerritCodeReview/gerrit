@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.server.index.change.ChangeField.AUTHOR;
 import static com.google.gerrit.server.index.change.ChangeField.FIELD_AUTHOR;
 
+import com.google.gerrit.server.index.change.ChangeData;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;

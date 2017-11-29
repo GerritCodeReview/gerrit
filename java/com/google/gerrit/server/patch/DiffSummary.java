@@ -19,7 +19,7 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 
-import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
+import com.google.gerrit.server.index.change.ChangeData.ChangedLines;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

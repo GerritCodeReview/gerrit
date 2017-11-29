@@ -20,6 +20,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.index.change.ChangeData;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gwtorm.server.OrmException;

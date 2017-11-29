@@ -15,7 +15,7 @@
 package com.google.gerrit.server.index.change;
 
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
-import static com.google.gerrit.server.query.change.ChangeData.asChanges;
+import static com.google.gerrit.server.index.change.ChangeData.asChanges;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;

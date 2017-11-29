@@ -25,7 +25,7 @@ import com.google.gerrit.server.index.change.DummyChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.project.ProjectIndex;
 import com.google.gerrit.server.project.ProjectData;
-import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.index.change.ChangeData;
 import com.google.inject.AbstractModule;
 
 public class DummyIndexModule extends AbstractModule {

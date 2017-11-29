@@ -5,7 +5,7 @@ package gerrit;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.index.change.ChangeData;
 import com.google.gerrit.server.rules.StoredValues;
 import com.google.gwtorm.server.OrmException;
 import com.googlecode.prolog_cafe.exceptions.JavaException;

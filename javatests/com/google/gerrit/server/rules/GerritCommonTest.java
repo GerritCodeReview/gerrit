@@ -18,7 +18,7 @@ import static org.easymock.EasyMock.expect;
 
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.server.project.testing.Util;
-import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.index.change.ChangeData;
 import com.google.inject.AbstractModule;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
 import com.googlecode.prolog_cafe.exceptions.ReductionLimitException;

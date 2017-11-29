@@ -18,6 +18,7 @@ import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.OrPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.index.change.ChangeData;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;

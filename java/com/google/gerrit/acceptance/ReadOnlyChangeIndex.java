@@ -21,7 +21,7 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.server.index.change.ChangeIndex;
-import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.index.change.ChangeData;
 import java.io.IOException;
 
 public class ReadOnlyChangeIndex implements ChangeIndex {

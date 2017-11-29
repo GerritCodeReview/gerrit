@@ -37,7 +37,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.RefState;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
-import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

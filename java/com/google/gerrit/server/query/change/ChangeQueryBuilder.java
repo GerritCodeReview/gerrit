@@ -15,7 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.reviewdb.client.Change.CHANGE_ID_PATTERN;
-import static com.google.gerrit.server.query.change.ChangeData.asChanges;
+import static com.google.gerrit.server.index.change.ChangeData.asChanges;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
@@ -60,6 +60,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitDryRun;
 import com.google.gerrit.server.group.ListMembers;
+import com.google.gerrit.server.index.change.ChangeData;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;

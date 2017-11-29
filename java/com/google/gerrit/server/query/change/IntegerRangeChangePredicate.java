@@ -18,6 +18,7 @@ import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.IntegerRangePredicate;
 import com.google.gerrit.index.query.Matchable;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.index.change.ChangeData;
 
 public abstract class IntegerRangeChangePredicate extends IntegerRangePredicate<ChangeData>
     implements Matchable<ChangeData> {

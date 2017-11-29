@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
+import com.google.gerrit.server.index.change.ChangeData;
 import java.util.List;
 
 public interface PluginDefinedAttributesFactory {

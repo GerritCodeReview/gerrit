@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.index.query.Matchable;
 import com.google.gerrit.index.query.OperatorPredicate;
+import com.google.gerrit.server.index.change.ChangeData;
 
 public abstract class ChangeOperatorPredicate extends OperatorPredicate<ChangeData>
     implements Matchable<ChangeData> {

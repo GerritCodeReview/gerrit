@@ -17,7 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.server.permissions.ChangePermission.ABANDON;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
-import static com.google.gerrit.server.query.change.ChangeData.asChanges;
+import static com.google.gerrit.server.index.change.ChangeData.asChanges;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;

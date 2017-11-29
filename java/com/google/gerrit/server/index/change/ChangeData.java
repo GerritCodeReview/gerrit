@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.query.change;
+package com.google.gerrit.server.index.change;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
@@ -77,6 +77,8 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
+import com.google.gerrit.server.query.change.AutoValue_ChangeData_ReviewedByEvent;
+import com.google.gerrit.server.query.change.AutoValue_ChangeData_StarsOf;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
@@ -545,11 +547,11 @@ public class ChangeData {
     return project;
   }
 
-  boolean fastIsVisibleTo(CurrentUser user) {
+  public boolean fastIsVisibleTo(CurrentUser user) {
     return visibleTo == user;
   }
 
-  void cacheVisibleTo(CurrentUser user) {
+  public void cacheVisibleTo(CurrentUser user) {
     visibleTo = user;
   }
 

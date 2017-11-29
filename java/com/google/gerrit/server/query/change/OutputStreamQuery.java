@@ -31,6 +31,7 @@ import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.data.QueryStatsAttribute;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.change.ChangeData;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;

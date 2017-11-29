@@ -17,7 +17,6 @@ package com.google.gerrit.server.index.change;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 
 public class ChangeIndexDefinition extends IndexDefinition<Change.Id, ChangeData, ChangeIndex> {

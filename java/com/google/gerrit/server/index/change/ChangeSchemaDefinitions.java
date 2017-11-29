@@ -18,7 +18,6 @@ import static com.google.gerrit.index.SchemaUtil.schema;
 
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
-import com.google.gerrit.server.query.change.ChangeData;
 
 public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated

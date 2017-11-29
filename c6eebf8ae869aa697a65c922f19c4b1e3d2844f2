@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7a266c22_3bfcc543",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-29T16:17:41Z",
+      "side": 1,
+      "message": "I was talking about exactly this issue (in a more general context) with Shawn yesterday: someone may want to maintain an audit log outside of the Gerrit storage layer. The use case is if a company hires an outside auditor to audit their entire company for some sort of regulatory compliance, they want to be able to point the auditor at a single unified audit log storage system. This is much preferable to having the auditor manually correlate audit logs stored in a bunch of separate systems.\n\nSo we have to have some way of getting the audit log information from Gerrit to the external system. Right now, that can be done with this extension point. If we take it away, admins would have to write a tool to periodically read in audit logs via the GetAuditLog endpoint and dump them to the external system. This is perfectly doable, of course, but it\u0027s more work.\n\nEither way, we have to break audit log extensions. We have our choice of breaking them by slightly changing the Java method signatures, or by requiring them to be rewritten as batch jobs. The former is less pain.",
+      "parentUuid": "563f3890_579f7766",
+      "range": {
+        "startLine": 18,
+        "startChar": 57,
+        "endLine": 19,
+        "endChar": 62
+      },
+      "revId": "c6eebf8ae869aa697a65c922f19c4b1e3d2844f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "40f8add6_5450fa57",
         "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
         "patchSetId": 1

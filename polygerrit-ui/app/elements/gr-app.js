@@ -14,6 +14,10 @@
 (function() {
   'use strict';
 
+  // The maximum age of a keydown event to be used in a jump navigation. This is
+  // only for cases when the keyup event is lost.
+  const G_KEY_TIMEOUT_MS = 1000;
+
   // Eagerly render Polymer components when backgrounded. (Skips
   // requestAnimationFrame.)
   // @see https://github.com/Polymer/polymer/issues/3851
@@ -45,9 +49,14 @@
         observer: '_accountChanged',
       },
 
-      _isGKeyPressed: {
-        type: Boolean,
-        value: false,
+      /**
+       * The last time the g key was pressed in milliseconds (or a keydown event
+       * was handled if the key is held down).
+       * @type {Number|null}
+       */
+      _lastGKeyPressTimestampTimestamp: {
+        type: Number,
+        value: null,
       },
 
       /**
@@ -246,16 +255,19 @@
       return isShadowDom ? 'shadow' : '';
     },
 
-    _gKeyDown() {
-      this._isGKeyPressed = true;
+    _gKeyDown(e) {
+      if (this.modifierPressed(e)) { return; }
+      this._lastGKeyPressTimestampTimestamp = Date.now();
     },
 
     _gKeyUp() {
-      this._isGKeyPressed = false;
+      this._lastGKeyPressTimestampTimestamp = null;
     },
 
     _jumpKeyPressed(e) {
-      if (!this._isGKeyPressed ||
+      if (!this._lastGKeyPressTimestampTimestamp ||
+          (Date.now() - this._lastGKeyPressTimestampTimestamp >
+              G_KEY_TIMEOUT_MS) ||
           this.shouldSuppressKeyboardShortcut(e)) { return; }
       e.preventDefault();
 

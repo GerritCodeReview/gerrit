@@ -111,12 +111,13 @@ limitations under the License.
 
       setup(() => {
         navStub = sandbox.stub(Gerrit.Nav, 'navigateToStatusSearch');
+        sandbox.stub(Date, 'now').returns(10000);
       });
 
       test('success', () => {
         const e = {detail: {key: 'a'}, preventDefault: () => {}};
         sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-        element._isGKeyPressed = true;
+        element._lastGKeyPressTimestamp = 9000;
         element._jumpKeyPressed(e);
         assert.isTrue(navStub.calledOnce);
         assert.equal(navStub.lastCall.args[0], 'abandoned');
@@ -125,7 +126,15 @@ limitations under the License.
       test('no g key', () => {
         const e = {detail: {key: 'a'}, preventDefault: () => {}};
         sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-        element._isGKeyPressed = false;
+        element._lastGKeyPressTimestamp = null;
+        element._jumpKeyPressed(e);
+        assert.isFalse(navStub.called);
+      });
+
+      test('g key too long ago', () => {
+        const e = {detail: {key: 'a'}, preventDefault: () => {}};
+        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+        element._lastGKeyPressTimestamp = 3000;
         element._jumpKeyPressed(e);
         assert.isFalse(navStub.called);
       });
@@ -133,7 +142,7 @@ limitations under the License.
       test('should suppress', () => {
         const e = {detail: {key: 'a'}, preventDefault: () => {}};
         sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(true);
-        element._isGKeyPressed = true;
+        element._lastGKeyPressTimestamp = 9000;
         element._jumpKeyPressed(e);
         assert.isFalse(navStub.called);
       });
@@ -141,7 +150,7 @@ limitations under the License.
       test('unrecognized key', () => {
         const e = {detail: {key: 'f'}, preventDefault: () => {}};
         sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-        element._isGKeyPressed = true;
+        element._lastGKeyPressTimestamp = 9000;
         element._jumpKeyPressed(e);
         assert.isFalse(navStub.called);
       });

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "61d480e5_8400aff1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-29T07:27:09Z",
+      "side": 1,
+      "message": "Yes, but it sets the status on a newly created account that is not used by any other tests. Hence it\u0027s not a problem.",
+      "parentUuid": "c11d0996_c345de88",
+      "range": {
+        "startLine": 321,
+        "startChar": 2,
+        "endLine": 333,
+        "endChar": 3
+      },
+      "revId": "6fa1f7995948c76a817f93a30e04f40c3f74a876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96a4af65_b80123c9",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 1
@@ -46,6 +70,30 @@
       "revId": "6fa1f7995948c76a817f93a30e04f40c3f74a876",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ac6acf1_f73412e9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-29T07:27:09Z",
+      "side": 1,
+      "message": "I didn\u0027t bother because the follow-up change removes the @Sandboxed annotation again.\n\nDone.",
+      "parentUuid": "96a4af65_b80123c9",
+      "range": {
+        "startLine": 805,
+        "startChar": 45,
+        "endLine": 805,
+        "endChar": 58
+      },
+      "revId": "6fa1f7995948c76a817f93a30e04f40c3f74a876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

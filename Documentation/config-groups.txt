@@ -1,0 +1,85 @@
+
+= Gerrit Code Review - Groups
+
+== Overview
+
+In Gerrit, we assign permissions to groups of accounts. These groups
+can be provided by an external system such as LDAP, but Gerrit also
+has a group system built-in ("internal groups")
+
+Starting from 2.16, these internal groups are fully stored in
+link:note-db.html[NoteDb].
+
+A group is characterized by the following information:
+
+* list of members (accounts)
+* list of subgroups
+* properties
+  - visibleToAll
+* [another one?]
+
+Groups are keyed by the following unique identifiers:
+
+* GroupID, the former database key (a sequential number)
+
+* UUID, an opaque identifier. Internal groups use a 40 byte hex string
+as UUID
+
+* Name: Gerrit enforces that group names are unique
+
+== Storage format
+
+Group data is stored in the `All-Users` repository. For each group,
+there is a ref, stored as a sharded UUID, e.g.
+
+----
+  refs/groups/ef/deafbeefdeafbeefdeafbeefdeafbeefdeafbeef
+----
+
+The ref points to commits holding files. The files are
+
+* `members`, holding numeric account IDs of membes, one per line
+* `subgroups`, holding group UUID of subgroups
+* `group.config`, holding further configuration.
+
+The `group.config` file follows the following format
+
+----
+[group]
+  name = name of the group
+  id = 42
+  visibleToAll = false
+  description = description of the group
+----
+
+Gerrit updates the ref for a group based on REST API calls, and the
+commit log effectively forms an audit log which shows how group
+membership evolved over time.
+
+To ensure uniqueness of the name, a separate ref
+`refs/meta/group-names` contains a notemap, ie. a map represented as a
+branch with a flat list of files.
+
+The format of this map is as follows:
+
+* keys are the normal SHA1 of the group name
+* values are blobs that look like
++
+----
+[group]
+  name = name of the group
+  uuid = hex UUID of the group
+----
+
+To ensure uniqueness of the sequential ID, the ID for each new group
+is taken from the sequence counter under `refs/sequences/groups`,
+which works analogously to the ones for accounts and changes.
+
+Validation on push for changes to the group ref is not implemented, so
+pushes are rejected. Bypassing Gerrit on pushing should be avoided
+since the names, IDs and UUIDs must be internally consistent between
+the group and groupname branches. In addition, group references should
+not be created or deleted manually either.
+
+
+TODO(hiesel): document permissions?

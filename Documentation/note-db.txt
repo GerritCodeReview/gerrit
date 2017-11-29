@@ -44,8 +44,6 @@ For an example NoteDb change, poke around at this one:
 
 == Future Work ("Gerrit 3.0")
 
-- Storing group data is a work in progress. Like account data, it will be
-  migrated automatically.
 - NoteDb will be the only database format supported by Gerrit 3.0. The offline
   change data migration tool will be included in Gerrit 3.0, but online
   migration will only be available in the 2.x line.

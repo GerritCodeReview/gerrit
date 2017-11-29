@@ -118,6 +118,9 @@
      * @return {number}
      */
     _getReviewerPermittedScore(reviewer, change, label) {
+      // Note (issue 7874): sometimes the "all" list is not included in change
+      // detail responses, even when DETAILED_LABELS is included in options.
+      if (!change.labels[label].all) { return NaN; }
       const detailed = change.labels[label].all.filter(
           ({_account_id}) => reviewer._account_id === _account_id).pop();
       if (!detailed || !detailed.hasOwnProperty('permitted_voting_range')) {

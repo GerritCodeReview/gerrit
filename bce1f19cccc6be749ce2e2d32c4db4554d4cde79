@@ -69,6 +69,30 @@
       "revId": "bce1f19cccc6be749ce2e2d32c4db4554d4cde79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa3bbdc6_9c74f75b",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T15:38:06Z",
+      "side": 1,
+      "message": "It\u0027s added so that we can search those logs easily. Since it\u0027s not essential, I will remove it in the next PS.",
+      "parentUuid": "1efe3774_b1f5261c",
+      "range": {
+        "startLine": 53,
+        "startChar": 30,
+        "endLine": 53,
+        "endChar": 64
+      },
+      "revId": "bce1f19cccc6be749ce2e2d32c4db4554d4cde79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

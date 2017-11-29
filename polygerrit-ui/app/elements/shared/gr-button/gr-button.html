@@ -54,6 +54,16 @@ limitations under the License.
       paper-button:focus {
         color: var(--gr-button-hover-color, var(--color-button-hover));
       }
+
+      /* This needs to stay below the focus selector so that hover takes
+      precedence over focus when both are true. */
+      paper-button:hover {
+        background: var(--gr-button-hover-background-color, transparent);
+      }
+      paper-button:active {
+        background-color: var(--gr-button-active-background-color, transparent);
+      }
+
       :host([disabled]) paper-button {
         color: #a8a8a8;
         cursor: wait;

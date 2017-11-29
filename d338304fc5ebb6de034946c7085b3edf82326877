@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92d8018e_bf9fac8b",
+        "filename": "Documentation/config-groups.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-29T08:43:45Z",
+      "side": 1,
+      "message": "group owner",
+      "revId": "d338304fc5ebb6de034946c7085b3edf82326877",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a01fdf02_98a5de0a",
+        "filename": "Documentation/config-groups.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-29T08:43:45Z",
+      "side": 1,
+      "message": "Mention the group index anywhere?",
+      "revId": "d338304fc5ebb6de034946c7085b3edf82326877",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "452c0463_0b701ac2",
+        "filename": "Documentation/config-groups.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-29T08:43:45Z",
+      "side": 1,
+      "message": "Say to whom the group refs are visible.",
+      "revId": "d338304fc5ebb6de034946c7085b3edf82326877",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b54a2cd_6a42096a",
+        "filename": "Documentation/config-groups.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-29T08:43:45Z",
+      "side": 1,
+      "message": "ownerGroupUuid is missing",
+      "revId": "d338304fc5ebb6de034946c7085b3edf82326877",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffbbd8ef_13accba1",
+        "filename": "Documentation/config-groups.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-29T08:43:45Z",
+      "side": 1,
+      "message": "TODO: document which refs need to be considered for replication",
+      "revId": "d338304fc5ebb6de034946c7085b3edf82326877",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4f5d134_0e35d5e7",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-29T08:43:45Z",
+      "side": 1,
+      "message": "Add a link to the page that describes groups in NoteDb here.",
+      "revId": "d338304fc5ebb6de034946c7085b3edf82326877",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

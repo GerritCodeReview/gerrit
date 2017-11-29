@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "563f3890_579f7766",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-29T16:10:33Z",
+      "side": 1,
+      "message": "This extension point is only called by the ReviewDb code path at the moment. I thought that we wanted to replace it by the reference updated events of NoteDb. If we want to keep it with NoteDb, we should include it in our list of remaining tasks.",
+      "parentUuid": "6b9fe610_fdd1b89b",
+      "range": {
+        "startLine": 18,
+        "startChar": 57,
+        "endLine": 19,
+        "endChar": 62
+      },
+      "revId": "c6eebf8ae869aa697a65c922f19c4b1e3d2844f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "40f8add6_5450fa57",
         "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2017-11-29T15:55:30Z",
       "side": 1,
       "message": "This comment seems out of place, it is describing the opposite of the behavior in this block.",
+      "revId": "c6eebf8ae869aa697a65c922f19c4b1e3d2844f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18397153_00f00a4a",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-29T16:10:33Z",
+      "side": 1,
+      "message": "We pass this code whenever we write to ReviewDb. I didn\u0027t want to distinguish between writing or not writing to NoteDb as setting the timestamp here for the \u0027not writing\u0027 case doesn\u0027t hurt.\n\nI don\u0027t understand why you think that the comment is describing the opposite of what the code does but I can simply remove it if that\u0027s better.",
+      "parentUuid": "40f8add6_5450fa57",
       "revId": "c6eebf8ae869aa697a65c922f19c4b1e3d2844f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2bdba362_b103b42f",
+        "filename": "Documentation/config-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T13:52:08Z",
+      "side": 1,
+      "message": "This is a new document which needs to be added to the list in: index.txt",
+      "revId": "dadde4c170f11686427998b7b9ef9f8ddeb0f206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f6b7837_d691a1ae",
         "filename": "Documentation/config-groups.txt",
         "patchSetId": 2
@@ -272,6 +289,29 @@
         "startChar": 31,
         "endLine": 90,
         "endChar": 38
+      },
+      "revId": "dadde4c170f11686427998b7b9ef9f8ddeb0f206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b08861dd_6d663870",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-29T13:52:08Z",
+      "side": 1,
+      "message": "add \u0027group\u0027 too.",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 20
       },
       "revId": "dadde4c170f11686427998b7b9ef9f8ddeb0f206",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

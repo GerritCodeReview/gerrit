@@ -18,10 +18,10 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.ChangePredicateParser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.config.ChangeCleanupConfig;
 import com.google.gerrit.server.index.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -41,7 +41,7 @@ public class AbandonUtil {
 
   private final ChangeCleanupConfig cfg;
   private final Provider<ChangeQueryProcessor> queryProvider;
-  private final ChangeQueryBuilder queryBuilder;
+  private final ChangePredicateParser queryBuilder;
   private final Abandon abandon;
   private final InternalUser internalUser;
 
@@ -50,7 +50,7 @@ public class AbandonUtil {
       ChangeCleanupConfig cfg,
       InternalUser.Factory internalUserFactory,
       Provider<ChangeQueryProcessor> queryProvider,
-      ChangeQueryBuilder queryBuilder,
+      ChangePredicateParser queryBuilder,
       Abandon abandon) {
     this.cfg = cfg;
     this.queryProvider = queryProvider;

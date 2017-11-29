@@ -107,7 +107,7 @@ public class ReviewersUtil {
   private static final int CANDIDATE_LIST_MULTIPLIER = 2;
 
   private final AccountLoader accountLoader;
-  private final AccountQueryBuilder accountQueryBuilder;
+  private final AccountPredicateParser accountQueryBuilder;
   private final Provider<AccountQueryProcessor> queryProvider;
   private final GroupBackend groupBackend;
   private final GroupMembers groupMembers;

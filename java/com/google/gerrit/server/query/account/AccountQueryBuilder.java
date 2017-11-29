@@ -23,6 +23,7 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.AccountPredicateParser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
@@ -31,7 +32,8 @@ import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
 /** Parses a query string meant to be applied to account objects. */
-public class AccountQueryBuilder extends QueryBuilder<AccountState> {
+public class AccountQueryBuilder extends QueryBuilder<AccountState>
+    implements AccountPredicateParser {
   public static final String FIELD_ACCOUNT = "account";
   public static final String FIELD_EMAIL = "email";
   public static final String FIELD_LIMIT = "limit";
@@ -116,6 +118,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
     return AccountPredicates.username(username);
   }
 
+  @Override
   public Predicate<AccountState> defaultQuery(String query) {
     return Predicate.and(
         Lists.transform(

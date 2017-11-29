@@ -38,7 +38,6 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.index.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -76,7 +75,7 @@ public class ReviewerRecommender {
       };
   private static final long PLUGIN_QUERY_TIMEOUT = 500; // ms
 
-  private final ChangeQueryBuilder changeQueryBuilder;
+  private final ChangePredicateParser changeQueryBuilder;
   private final Config config;
   private final DynamicMap<ReviewerSuggestion> reviewerSuggestionPluginMap;
   private final Provider<InternalChangeQuery> queryProvider;
@@ -86,7 +85,7 @@ public class ReviewerRecommender {
 
   @Inject
   ReviewerRecommender(
-      ChangeQueryBuilder changeQueryBuilder,
+      ChangePredicateParser changeQueryBuilder,
       DynamicMap<ReviewerSuggestion> reviewerSuggestionPluginMap,
       Provider<InternalChangeQuery> queryProvider,
       WorkQueue workQueue,
@@ -205,7 +204,7 @@ public class ReviewerRecommender {
               .get()
               .setLimit(25)
               .setRequestedFields(ChangeField.APPROVAL)
-              .query(changeQueryBuilder.owner("self"));
+              .query(changeQueryBuilder.parse("owner:self"));
       Map<Account.Id, MutableDouble> suggestions = new HashMap<>();
       for (ChangeData cd : result) {
         for (PatchSetApproval approval : cd.currentApprovals()) {
@@ -238,22 +237,23 @@ public class ReviewerRecommender {
     List<Predicate<ChangeData>> predicates = new ArrayList<>();
     for (Account.Id id : candidates) {
       try {
-        Predicate<ChangeData> projectQuery = changeQueryBuilder.project(projectState.getName());
+        Predicate<ChangeData> projectQuery =
+            changeQueryBuilder.parse("project:" + projectState.getName());
 
         // Get all labels for this project and create a compound OR query to
         // fetch all changes where users have applied one of these labels
         List<LabelType> labelTypes = projectState.getLabelTypes().getLabelTypes();
         List<Predicate<ChangeData>> labelPredicates = new ArrayList<>(labelTypes.size());
         for (LabelType type : labelTypes) {
-          labelPredicates.add(changeQueryBuilder.label(type.getName() + ",user=" + id));
+          labelPredicates.add(changeQueryBuilder.parse("label:" + type.getName() + ",user=" + id));
         }
         Predicate<ChangeData> reviewerQuery =
             Predicate.and(projectQuery, Predicate.or(labelPredicates));
 
         Predicate<ChangeData> ownerQuery =
-            Predicate.and(projectQuery, changeQueryBuilder.owner(id.toString()));
+            Predicate.and(projectQuery, changeQueryBuilder.parse("owner:" + id.toString()));
         Predicate<ChangeData> commentedByQuery =
-            Predicate.and(projectQuery, changeQueryBuilder.commentby(id.toString()));
+            Predicate.and(projectQuery, changeQueryBuilder.parse("commentby:" + id.toString()));
 
         predicates.add(reviewerQuery);
         predicates.add(ownerQuery);

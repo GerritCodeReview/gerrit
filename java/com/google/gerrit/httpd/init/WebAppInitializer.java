@@ -79,6 +79,7 @@ import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
 import com.google.gerrit.server.project.DefaultPermissionBackendModule;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager;
+import com.google.gerrit.server.query.QueryModule;
 import com.google.gerrit.server.schema.DataSourceModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
@@ -334,6 +335,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new MimeUtil2Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new GerritApiModule());
+    modules.add(new QueryModule());
     modules.add(new SearchingChangeCacheImpl.Module());
     modules.add(new InternalAccountDirectory.Module());
     modules.add(new DefaultPermissionBackendModule());

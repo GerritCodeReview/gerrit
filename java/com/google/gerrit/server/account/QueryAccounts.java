@@ -27,10 +27,10 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.AccountPredicateParser;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.query.account.AccountPredicates;
-import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gerrit.server.query.account.AccountQueryProcessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -47,7 +47,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
   private static final int MAX_SUGGEST_RESULTS = 100;
 
   private final AccountLoader.Factory accountLoaderFactory;
-  private final AccountQueryBuilder queryBuilder;
+  private final AccountPredicateParser queryBuilder;
   private final AccountQueryProcessor queryProcessor;
   private final boolean suggestConfig;
   private final int suggestFrom;
@@ -115,7 +115,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
   @Inject
   QueryAccounts(
       AccountLoader.Factory accountLoaderFactory,
-      AccountQueryBuilder queryBuilder,
+      AccountPredicateParser queryBuilder,
       AccountQueryProcessor queryProcessor,
       @GerritServerConfig Config cfg) {
     this.accountLoaderFactory = accountLoaderFactory;

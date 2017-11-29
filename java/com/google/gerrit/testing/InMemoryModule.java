@@ -70,6 +70,7 @@ import com.google.gerrit.server.plugins.PluginRestApiModule;
 import com.google.gerrit.server.plugins.ServerInformationImpl;
 import com.google.gerrit.server.project.DefaultPermissionBackendModule;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager;
+import com.google.gerrit.server.query.QueryModule;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.InMemoryAccountPatchReviewStore;
 import com.google.gerrit.server.schema.NotesMigrationSchemaFactory;
@@ -163,6 +164,7 @@ public class InMemoryModule extends FactoryModule {
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
     install(cfgInjector.getInstance(GerritGlobalModule.class));
     install(new GerritApiModule());
+    install(new QueryModule());
     install(new DefaultPermissionBackendModule());
     install(new SearchingChangeCacheImpl.Module());
     factory(GarbageCollection.Factory.class);

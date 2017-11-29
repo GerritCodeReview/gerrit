@@ -23,9 +23,9 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
+import com.google.gerrit.server.ProjectPredicateParser;
 import com.google.gerrit.server.index.project.ProjectIndex;
 import com.google.gerrit.server.index.project.ProjectIndexCollection;
-import com.google.gerrit.server.query.project.ProjectQueryBuilder;
 import com.google.gerrit.server.query.project.ProjectQueryProcessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -35,7 +35,7 @@ import org.kohsuke.args4j.Option;
 
 public class QueryProjects implements RestReadView<TopLevelResource> {
   private final ProjectIndexCollection indexes;
-  private final ProjectQueryBuilder queryBuilder;
+  private final ProjectPredicateParser queryBuilder;
   private final ProjectQueryProcessor queryProcessor;
   private final ProjectJson json;
 
@@ -75,7 +75,7 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
   @Inject
   protected QueryProjects(
       ProjectIndexCollection indexes,
-      ProjectQueryBuilder queryBuilder,
+      ProjectPredicateParser queryBuilder,
       ProjectQueryProcessor queryProcessor,
       ProjectJson json) {
     this.indexes = indexes;

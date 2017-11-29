@@ -43,9 +43,11 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangePredicateParser;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PredicateParser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
@@ -97,7 +99,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 /** Parses a query string meant to be applied to change objects. */
-public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
+public class ChangeQueryBuilder extends QueryBuilder<ChangeData> implements ChangePredicateParser {
   public interface ChangeOperatorFactory extends OperatorFactory<ChangeData, ChangeQueryBuilder> {}
 
   /**
@@ -378,7 +380,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return args;
   }
 
-  public ChangeQueryBuilder asUser(CurrentUser user) {
+  @Override
+  public PredicateParser<ChangeData> asUser(CurrentUser user) {
     return new ChangeQueryBuilder(builderDef, args.asUser(user));
   }
 

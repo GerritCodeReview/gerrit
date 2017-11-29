@@ -87,6 +87,7 @@ import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
 import com.google.gerrit.server.project.DefaultPermissionBackendModule;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager;
+import com.google.gerrit.server.query.QueryModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.InMemoryAccountPatchReviewStore;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
@@ -413,6 +414,8 @@ public class Daemon extends SiteProgram {
     modules.add(new MimeUtil2Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new GerritApiModule());
+    modules.add(new QueryModule());
+
 
     modules.add(new SearchingChangeCacheImpl.Module(slave));
     modules.add(new InternalAccountDirectory.Module());

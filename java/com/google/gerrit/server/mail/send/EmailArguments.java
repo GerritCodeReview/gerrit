@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ChangePredicateParser;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
@@ -37,7 +38,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.index.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.inject.Inject;
@@ -67,7 +68,7 @@ public class EmailArguments {
   final List<String> sshAddresses;
   final SitePaths site;
 
-  final ChangeQueryBuilder queryBuilder;
+  final ChangePredicateParser queryBuilder;
   final Provider<ReviewDb> db;
   final ChangeData.Factory changeDataFactory;
   final SoyTofu soyTofu;
@@ -95,7 +96,7 @@ public class EmailArguments {
       GerritPersonIdentProvider gerritPersonIdentProvider,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       AllProjectsName allProjectsName,
-      ChangeQueryBuilder queryBuilder,
+      ChangePredicateParser queryBuilder,
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       @MailTemplates SoyTofu soyTofu,

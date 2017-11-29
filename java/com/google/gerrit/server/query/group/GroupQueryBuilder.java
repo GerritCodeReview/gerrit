@@ -27,6 +27,7 @@ import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.GroupPredicateParser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
@@ -44,7 +45,7 @@ import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /** Parses a query string meant to be applied to group objects. */
-public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
+public class GroupQueryBuilder extends QueryBuilder<InternalGroup> implements GroupPredicateParser {
   public static final String FIELD_UUID = "uuid";
   public static final String FIELD_DESCRIPTION = "description";
   public static final String FIELD_INNAME = "inname";

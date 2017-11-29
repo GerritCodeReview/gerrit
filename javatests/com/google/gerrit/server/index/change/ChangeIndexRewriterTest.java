@@ -29,10 +29,12 @@ import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.ChangePredicateParser;
 import com.google.gerrit.server.query.change.AndChangeSource;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.OrSource;
+import com.google.gerrit.server.query.index.ChangeData;
 import com.google.gerrit.testing.GerritBaseTests;
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -45,7 +47,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
 
   private FakeChangeIndex index;
   private ChangeIndexCollection indexes;
-  private ChangeQueryBuilder queryBuilder;
+  private ChangePredicateParser queryBuilder;
   private ChangeIndexRewriter rewrite;
 
   @Before

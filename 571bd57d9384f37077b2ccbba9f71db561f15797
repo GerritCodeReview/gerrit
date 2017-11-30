@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "941f6304_a7228a94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-30T07:49:44Z",
+      "side": 1,
+      "message": "\"itself\".",
+      "range": {
+        "startLine": 11,
+        "startChar": 56,
+        "endLine": 11,
+        "endChar": 63
+      },
+      "revId": "571bd57d9384f37077b2ccbba9f71db561f15797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24accbc4_328240ec",
+        "filename": "java/com/google/gerrit/server/index/group/StalenessChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-30T07:49:44Z",
+      "side": 1,
+      "message": "This method is \"public static\" because it will be used somewhere else directly? Can it be a normal overloaded method?",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 23
+      },
+      "revId": "571bd57d9384f37077b2ccbba9f71db561f15797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

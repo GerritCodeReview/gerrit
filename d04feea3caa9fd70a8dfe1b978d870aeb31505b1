@@ -46,6 +46,30 @@
       "revId": "d04feea3caa9fd70a8dfe1b978d870aeb31505b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34a3cd4e_bc56c1ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-30T23:20:14Z",
+      "side": 1,
+      "message": "OK.  It might be worth trying to include that check in our CI builds.",
+      "parentUuid": "c8b64e37_7f5d398a",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "d04feea3caa9fd70a8dfe1b978d870aeb31505b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

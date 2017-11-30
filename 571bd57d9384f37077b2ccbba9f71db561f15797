@@ -95,6 +95,30 @@
       "revId": "571bd57d9384f37077b2ccbba9f71db561f15797",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9336e8c3_cb10566e",
+        "filename": "java/com/google/gerrit/server/index/group/StalenessChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-30T07:53:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7845f9e5_815985e5",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 23
+      },
+      "revId": "571bd57d9384f37077b2ccbba9f71db561f15797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

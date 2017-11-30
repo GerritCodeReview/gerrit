@@ -39,6 +39,10 @@
         type: String,
         value: 'No value selected',
       },
+      _items: {
+        type: Array,
+        computed: '_computePermittedLabelValues(permittedLabels, label.name)',
+      },
     },
 
     get selectedItem() {
@@ -85,6 +89,19 @@
         return permittedLabels[label.name].find(
             value => parseInt(value, 10) === labels[label.name].default_value);
       }
+    },
+
+    _computeButtonClass(value, index, totalItems) {
+      if (value < 0 && index === 0) {
+        return 'min';
+      } else if (value < 0) {
+        return 'negative';
+      } else if (value > 0 && index === totalItems - 1) {
+        return 'max';
+      } else if (value > 0) {
+        return 'positive';
+      }
+      return 'neutral';
     },
 
     _computeLabelValue(labels, permittedLabels, label) {

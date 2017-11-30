@@ -120,6 +120,30 @@
       "revId": "1c886dd46258068dfc172cd5b447b1fd2e573c90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac7c61c7_85a8a6b4",
+        "filename": "javatests/com/google/gerrit/server/update/RefUpdateUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-30T14:56:03Z",
+      "side": 1,
+      "message": "TIL, thanks.",
+      "parentUuid": "30bedc17_e5047190",
+      "range": {
+        "startLine": 159,
+        "startChar": 2,
+        "endLine": 164,
+        "endChar": 3
+      },
+      "revId": "1c886dd46258068dfc172cd5b447b1fd2e573c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

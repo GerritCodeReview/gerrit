@@ -19,21 +19,77 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.io.MoreFiles;
+import com.google.common.io.RecursiveDeleteOption;
 import com.google.gerrit.server.git.LockFailureException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.function.Consumer;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
-@RunWith(JUnit4.class)
+@RunWith(Parameterized.class)
 public class RefUpdateUtilTest {
+  public enum RepoSetup {
+    LOCAL_DISK {
+      @Override
+      Repository setUpRepo() throws Exception {
+        Path p = Files.createTempDirectory("gerrit_repo_");
+        try {
+          Repository repo = new FileRepository(p.toFile());
+          repo.create(true);
+          return repo;
+        } catch (Exception e) {
+          delete(p);
+          throw e;
+        }
+      }
+
+      @Override
+      void tearDownRepo(Repository repo) throws Exception {
+        delete(repo.getDirectory().toPath());
+      }
+
+      private void delete(Path p) throws Exception {
+        MoreFiles.deleteRecursively(p, RecursiveDeleteOption.ALLOW_INSECURE);
+      }
+    },
+
+    IN_MEMORY {
+      @Override
+      Repository setUpRepo() throws Exception {
+        return new InMemoryRepository(new DfsRepositoryDescription("repo"));
+      }
+
+      @Override
+      void tearDownRepo(Repository repo) throws Exception {}
+    };
+
+    abstract Repository setUpRepo() throws Exception;
+
+    abstract void tearDownRepo(Repository repo) throws Exception;
+  }
+
+  @Parameters(name = "{0}")
+  public static ImmutableList<RepoSetup[]> data() {
+    return ImmutableList.copyOf(new RepoSetup[][] {{RepoSetup.LOCAL_DISK}, {RepoSetup.IN_MEMORY}});
+  }
+
+  @Parameter public RepoSetup repoSetup;
+
   private static final Consumer<ReceiveCommand> OK = c -> c.setResult(ReceiveCommand.Result.OK);
   private static final Consumer<ReceiveCommand> LOCK_FAILURE =
       c -> c.setResult(ReceiveCommand.Result.LOCK_FAILURE);
@@ -50,6 +106,15 @@ public class RefUpdateUtilTest {
             "unexpected state after abort: %s",
             c);
       };
+
+  private Repository repo;
+
+  @After
+  public void tearDown() throws Exception {
+    if (repo != null) {
+      repoSetup.tearDownRepo(repo);
+    }
+  }
 
   @Test
   public void checkBatchRefUpdateResults() throws Exception {
@@ -72,6 +137,30 @@ public class RefUpdateUtilTest {
     assertLockFailureException(LOCK_FAILURE, LOCK_FAILURE, ABORTED, ABORTED);
     assertLockFailureException(ABORTED);
     assertLockFailureException(ABORTED, ABORTED);
+  }
+
+  @Test
+  public void deleteRefNoOp() throws Exception {
+    String ref = "refs/heads/foo";
+    assertThat(repo().exactRef(ref)).isNull();
+    RefUpdateUtil.deleteChecked(repo(), "refs/heads/foo");
+    assertThat(repo().exactRef(ref)).isNull();
+  }
+
+  @Test
+  public void deleteRef() throws Exception {
+    String ref = "refs/heads/foo";
+    new TestRepository<>(repo()).branch(ref).commit().create();
+    assertThat(repo().exactRef(ref)).isNotNull();
+    RefUpdateUtil.deleteChecked(repo(), "refs/heads/foo");
+    assertThat(repo().exactRef(ref)).isNull();
+  }
+
+  private Repository repo() throws Exception {
+    if (repo == null) {
+      repo = repoSetup.setUpRepo();
+    }
+    return repo;
   }
 
   @SafeVarargs

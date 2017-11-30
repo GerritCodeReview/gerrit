@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a50c9711_0ad2c6d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-30T14:00:52Z",
+      "side": 1,
+      "message": "What tool are you using?  Is it publicly available?\n\nOr did you just mean buildifier?",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "d04feea3caa9fd70a8dfe1b978d870aeb31505b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

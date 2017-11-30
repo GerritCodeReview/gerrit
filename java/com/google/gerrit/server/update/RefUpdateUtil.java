@@ -20,6 +20,7 @@ import java.io.IOException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -100,6 +101,50 @@ public class RefUpdateUtil {
       throw new LockFailureException("Update aborted with one or more lock failures: " + bru, bru);
     } else if (failure > 0) {
       throw new IOException("Update failed: " + bru);
+    }
+  }
+
+  /**
+   * Delete a single ref, throwing a checked exception on failure.
+   *
+   * <p>Does not require that the ref have any particular old value. Succeeds as a no-op if the ref
+   * did not exist.
+   *
+   * @param repo repository.
+   * @param refName ref name to delete.
+   * @throws LockFailureException if a low-level lock failure (e.g. compare-and-swap failure)
+   *     occurs.
+   * @throws IOException if an error occurred.
+   */
+  public static void deleteChecked(Repository repo, String refName) throws IOException {
+    RefUpdate ru = repo.updateRef(refName);
+    ru.setForceUpdate(true);
+    switch (ru.delete()) {
+      case FORCED:
+        // Ref was deleted.
+        return;
+
+      case NEW:
+        // Ref didn't exist (yes, really).
+        return;
+
+      case LOCK_FAILURE:
+        throw new LockFailureException("Failed to delete " + refName + ": " + ru.getResult(), ru);
+
+        // Not really failures, but should not be the result of a deletion, so the best option is to
+        // throw.
+      case NO_CHANGE:
+      case FAST_FORWARD:
+      case RENAMED:
+      case NOT_ATTEMPTED:
+
+      case IO_FAILURE:
+      case REJECTED:
+      case REJECTED_CURRENT_BRANCH:
+      case REJECTED_MISSING_OBJECT:
+      case REJECTED_OTHER_REASON:
+      default:
+        throw new IOException("Failed to delete " + refName + ": " + ru.getResult());
     }
   }
 

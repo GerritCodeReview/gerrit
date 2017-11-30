@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.api.GerritApiModule;
+import com.google.gerrit.server.api.PluginApiModule;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
@@ -163,6 +164,7 @@ public class InMemoryModule extends FactoryModule {
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
     install(cfgInjector.getInstance(GerritGlobalModule.class));
     install(new GerritApiModule());
+    install(new PluginApiModule());
     install(new DefaultPermissionBackendModule());
     install(new SearchingChangeCacheImpl.Module());
     factory(GarbageCollection.Factory.class);

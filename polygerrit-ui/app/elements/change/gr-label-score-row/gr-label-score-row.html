@@ -55,21 +55,28 @@ limitations under the License.
       gr-button {
         min-width: 40px;
         --gr-button: {
-          border: 1px solid #d1d2d3;
+          border: 1px solid rgba(0,0,0,.12);
           border-radius: 12px;
           box-shadow: none;
           padding: .2em .85em;
         }
-        --gr-button-background: #f5f5f5;
+        --gr-button-background: var(--button-background-color, #d9d9d9);
         --gr-button-color: black;
-        --gr-button-hover-color: black;
-
       }
-      iron-selector > gr-button.iron-selected {
-        --gr-button-background:#ddd;
-        --gr-button-color: black;
-        --gr-button-hover-background-color: #ddd;
-        --gr-button-hover-color: black;
+      iron-selector > gr-button.iron-selected.max {
+        --button-background-color: #9fcc6b;
+      }
+      iron-selector > gr-button.iron-selected.positive {
+        --button-background-color: #c9dfaf;
+      }
+      iron-selector > gr-button.iron-selected.min {
+        --button-background-color: #f7a1ad;
+      }
+      iron-selector > gr-button.iron-selected.negative {
+        --button-background-color: #f7c4cb;
+      }
+      iron-selector > gr-button.iron-selected.neutral {
+        --button-background-color: #ebf5fb;
       }
       .placeholder {
         display: inline-block;
@@ -107,9 +114,11 @@ limitations under the License.
           <template is="dom-repeat"
               items="[[_computePermittedLabelValues(permittedLabels, label.name)]]"
               as="value">
-            <gr-button has-tooltip value$="[[value]]"
-              title$="[[_computeLabelValueTitle(labels, label.name, value)]]">
-            [[value]]</gr-button>
+            <gr-button
+                class$="[[_computeButtonClass(value, index, _items.length)]]"
+                has-tooltip value$="[[value]]"
+                title$="[[_computeLabelValueTitle(labels, label.name, value)]]">
+              [[value]]</gr-button>
           </template>
         </iron-selector>
         <template is="dom-repeat"

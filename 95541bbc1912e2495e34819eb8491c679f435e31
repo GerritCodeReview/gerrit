@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f052331_cf6afe75",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-30T01:21:16Z",
+      "side": 1,
+      "message": "The _1 suffix is not necessary here. It\u0027s only used on GERRIT_SITE_1 because there is already a variable named GERRIT_SITE.",
+      "range": {
+        "startLine": 164,
+        "startChar": 18,
+        "endLine": 164,
+        "endChar": 20
+      },
+      "revId": "95541bbc1912e2495e34819eb8491c679f435e31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

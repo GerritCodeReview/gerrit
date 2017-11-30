@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1511999608 -0500\nnonce ADEcKBpYozKYJr1gxtrUTuq+D6JS8A0b6KB4lei3v7ajHF33YMpHHtzO2QuGMUrTEIglGtpqeTRv\n\n0000000000000000000000000000000000000000 3216a444ab9b7495e6b886fabe3cc040b3bfddff refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlofSHgVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMJcIP/juAz7I4GD4MT/+W8Op+T5JkXszp\nWYBMEeCSQYTIbhUKEnQEU6acEVhT/2Osts28IzAg/ahEGH0REF4Pq3Yhqqk8leHd\nPFIs2x5JUVEfEzlq/4AKV2+k+eILYks37QAXWOXnc467okyiBNRGJHqaigoYIu4k\nUr3VNUUMuu/g94gjx3iUiVh+I1cSAhfmYs4qdmfBgBVlB/iFLT2x5g2bz1lud5Cw\nyIr4hW3+dzoSYYr8aE7hcTZuY1g02esq49ZohdLajrVIfTC96cF+Vs2JSKk3rQaZ\nNz7mCT9qK9TJ+KTCx5iZ4rLjGU4jr4/LwtTSlS8N+Wi4V+9Y+YKrTKnidHE7izdP\nKwY1sj0Ebi3AVB/1xJdYmKbfJthJDRWRhAPXaBim/kx/dAmSrPlLQncioR7dqNFd\n4Pc0xucvJmfJTnFMGqLWY2Vhh2n9SPCQmdVTmeSRu+uWHnppMW3A9vuaWmTUt6dK\nYHUyZRvA3fVckSg7Si3CV1C8pK/rPtINV2eg/c1xrR4MGEuimky0DUjythC0Fclo\n6uCbHKMPG55kRAj4y6+tvNPnuToxwVzDkPsfuPqt0kfe2wAOstT5uRMrJdTFcFL2\nOPlki4CDtj4q45RXH/SFtOcJV7DyzEoSOTzmTF49hjUdLXDugk9W7McczLX3XkCR\nsd4cmoq0cC+iyo4E\n\u003ds8Mm\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a9e5606_70fe082e",
+        "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-30T10:54:01Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be rather loadForNewGroup()? It internally checks that the group/ref doesn\u0027t exist yet and throws an OrmDuplicateKeyException if it exists. We just have to catch this exception in Rebuild and map it to an appropriate key. (By the way, the call to setGroupCreation() below does the same but by passing null here we circumvent this check right now.)",
+      "range": {
+        "startLine": 119,
+        "startChar": 42,
+        "endLine": 119,
+        "endChar": 62
+      },
+      "revId": "3216a444ab9b7495e6b886fabe3cc040b3bfddff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd0a787f_581eb286",
+        "filename": "java/com/google/gerrit/server/update/RefUpdateUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-30T10:54:01Z",
+      "side": 1,
+      "message": "optional: All other methods of this class have Javadoc descriptions. If this method will outlive the migration, we should have a description here too.",
+      "range": {
+        "startLine": 107,
+        "startChar": 21,
+        "endLine": 107,
+        "endChar": 34
+      },
+      "revId": "3216a444ab9b7495e6b886fabe3cc040b3bfddff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9504ba43_69084da3",
+        "filename": "java/com/google/gerrit/server/update/RefUpdateUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-30T10:54:01Z",
+      "side": 1,
+      "message": "optional: Just out of curiosity, is this a possible result for a deletion?",
+      "range": {
+        "startLine": 113,
+        "startChar": 11,
+        "endLine": 113,
+        "endChar": 14
+      },
+      "revId": "3216a444ab9b7495e6b886fabe3cc040b3bfddff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

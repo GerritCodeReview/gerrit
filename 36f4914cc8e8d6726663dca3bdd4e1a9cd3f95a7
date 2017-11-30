@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1511967622 +0100\nnonce ADEcKBph4CdndxAglVRiMq/l7lenGEo2ss47woGx+wlIM6IKMnDBkopKpAa0Z3CJ0EU7n+Zz+NSg\n\n0000000000000000000000000000000000000000 20fb1ec03de67499e9c14d085d953174a5cab511 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaHsuGAAoJEFG1/Zeg0O9ReWMIALh8iJNA7EleEmqNoDfaGLte\nDkrEtK4jOl6sw6qf/JW+3vgxUq9YJe+t3Z2K0IzS5aWEhzwFiE9nLen4WKN3WDkU\nE12jl65EqMDOGJxv54dn3cFB6YmkJx9uRhLaJSY0+choUr2Qxs2qNpeYUf9GTjbt\nvi5x7kVZAwL3xVs5oKtgGYOfHp2IP9FPiYyND1B5nPYBVZVMzNrB5nwfRVXZ/vhV\nvfBXdJ/xkIHJLa6jME8Sr7GwX5cAlZZxflw9XaGZI4+VaRkpS3cGNWxVwhpd/gRX\nOlRb0lRP6r01toWLXey6T5rtzGZuYqrGjtTFyEx8XP6g3qEl0RwriHcQR+YvNDA\u003d\n\u003dr68g\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbeb35e5_9d9d5c55",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-30T07:23:19Z",
+      "side": 1,
+      "message": "The primary email has to be unique so of we set it like that we provoke test failures if this is used in other methods in this class.\n\n  String name \u003d name(\"foo\");\n  TestAccount foo \u003d accountCreator.create(name, name + \"@example.com\", \"Foo\");\n\nWould be the preferred choice IMHO.",
+      "range": {
+        "startLine": 607,
+        "startChar": 20,
+        "endLine": 607,
+        "endChar": 29
+      },
+      "revId": "36f4914cc8e8d6726663dca3bdd4e1a9cd3f95a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

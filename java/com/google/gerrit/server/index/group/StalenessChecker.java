@@ -63,6 +63,19 @@ public class StalenessChecker {
     this.groupsMigration = groupsMigration;
   }
 
+  public static boolean isStale(
+      AllUsersName allUsers,
+      GitRepositoryManager repoManager,
+      AccountGroup.UUID uuid,
+      ObjectId refStateFromIndex)
+      throws IOException {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      Ref ref = repo.exactRef(RefNames.refsGroups(uuid));
+      ObjectId head = ref == null ? ObjectId.zeroId() : ref.getObjectId();
+      return !head.equals(refStateFromIndex);
+    }
+  }
+
   public boolean isStale(AccountGroup.UUID uuid) throws IOException {
     if (!groupsMigration.readFromNoteDb()) {
       return false; // This class only treats staleness for groups in NoteDb.
@@ -88,10 +101,8 @@ public class StalenessChecker {
       }
     }
 
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      Ref ref = repo.exactRef(RefNames.refsGroups(uuid));
-      ObjectId head = ref == null ? ObjectId.zeroId() : ref.getObjectId();
-      return !head.equals(ObjectId.fromString(result.get().getValue(GroupField.REF_STATE), 0));
-    }
+    ObjectId refStateFromIndex =
+        ObjectId.fromString(result.get().getValue(GroupField.REF_STATE), 0);
+    return isStale(allUsers, repoManager, uuid, refStateFromIndex);
   }
 }

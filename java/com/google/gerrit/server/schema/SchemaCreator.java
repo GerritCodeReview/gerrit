@@ -17,7 +17,6 @@ package com.google.gerrit.server.schema;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
@@ -292,7 +291,6 @@ public class SchemaCreator {
         .setNameKey(new AccountGroup.NameKey(groupReference.getName()))
         .setId(new AccountGroup.Id(next))
         .setGroupUUID(groupReference.getUUID())
-        .setCreatedOn(TimeUtil.nowTs())
         .build();
   }
 

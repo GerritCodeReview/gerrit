@@ -236,8 +236,7 @@ public class GroupConfigTest {
     return InternalGroupCreation.builder()
         .setGroupUUID(groupUuid)
         .setNameKey(groupName)
-        .setId(groupId)
-        .setCreatedOn(TimeUtil.nowTs());
+        .setId(groupId);
   }
 
   private void populateGroupConfig(AccountGroup.UUID uuid, String fileContent) throws Exception {

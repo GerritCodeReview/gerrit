@@ -22,6 +22,30 @@
       "revId": "d04feea3caa9fd70a8dfe1b978d870aeb31505b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8b64e37_7f5d398a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-30T17:56:32Z",
+      "side": 1,
+      "message": "there is an internal lint checker that flags these errors when we do imports. Probably it\u0027s this one: \n\nhttps://github.com/bazelbuild/bazel/blob/551d4395fa7e1360478dfbccc928c56e88ac77c4/src/tools/skylark/java/com/google/devtools/skylark/skylint/BUILD#L5",
+      "parentUuid": "a50c9711_0ad2c6d1",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "d04feea3caa9fd70a8dfe1b978d870aeb31505b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

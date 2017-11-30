@@ -338,6 +338,7 @@ def _vulcanize_impl(ctx):
       **node_tweaks)
 
 def _vulcanize_output_func(name, split):
+  _ignore = [name]  # unused.
   out = {"html": "%{name}.html"}
   if split:
     out["js"] = "%{name}.js"

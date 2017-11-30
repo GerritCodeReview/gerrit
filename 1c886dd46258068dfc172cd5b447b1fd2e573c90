@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1512049952 -0500\nnonce ADEcKBp3aZOJgMYWJpwi5pi26Lj83ZgBA/qapFPLNFI+37X3bjr4SCJaL5Tm3VUY2I48Mq7VipUL\n\n0000000000000000000000000000000000000000 2cfbb7984cbc087b9604df50b76186966c62b235 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlogDSAVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMq1MP/179nhQqw8iDzaHcLOH8k8wW7o3E\nQBpjh9HpklHS2s56iPB6WNbm/StqiAj+fqDN5fhbYPk3mjHBn2NLtY/9qXBc7ybF\nNtX5Q936GgDzKPWU2W6idC085B7pJT+7eo7dvT7AgNuV3o8vNGZoI2uuEZwpHo7+\nsyKgHvAMr5x4DC95Rf5EdhJcxat4fXE5gIXTwtUsuoAJVoWf+bNzKFSZkS4bhNoN\ncvBcNLbeLoyJtLf7YDVXj8N27hqJ9J2YRMESxKMHBKXPYhZ7W2QQxFnHb6XoiOTb\nJhAR3tPV9TnWEmZX6EqAOgyubU0gYyWDet02eSdLxLvkK4Lx/WFkWkLdKUX064zk\n6aHzd0Tc9l1ft9LvpNJIT9doEQkc9rR/6PKQ0J85Z6bx031R0WEe27u1ILtGX9l3\nvBf0T/5Ljsxts64OKLIayyOxWV+2I4z2rzP4jldN4SWR1FOtGNNbNJWx0hXJYZyU\nWHbpnhXaYtm3fTb8ZQkCmJ1KS7x+Z/hqnKBJ1uS1d5FdUiKb88Lyo+Iyz/hQYJxb\nrxp+faTcOkw3ZCQKEIJylm5iLJi9UOVeNQ0Py9LpUX2TfNdLztS20ZHDHhlAe6gd\nRXhOnjZ1xduTlg1NYqvlP48lsl0ihncbIsNr1o4XbKxrqkurqIrl+Iv3+yspGlyW\n7gI9fsyuLdd7UfEQ\n\u003dxQ1Q\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbbfd3f8_189867d7",
+        "filename": "javatests/com/google/gerrit/server/update/RefUpdateUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-30T14:14:33Z",
+      "side": 1,
+      "message": "In my opinion, it would be better to have a separate class for the parameterized tests. The previously existing test and the new ones don\u0027t share any code. Besides, the previously existing test is unnecessarily executed twice now.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 30
+      },
+      "revId": "1c886dd46258068dfc172cd5b447b1fd2e573c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5599832_00bdd9d7",
+        "filename": "javatests/com/google/gerrit/server/update/RefUpdateUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-30T14:14:33Z",
+      "side": 1,
+      "message": "Instead of this additional method, we could have a constructor for this test class.",
+      "range": {
+        "startLine": 159,
+        "startChar": 2,
+        "endLine": 164,
+        "endChar": 3
+      },
+      "revId": "1c886dd46258068dfc172cd5b447b1fd2e573c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

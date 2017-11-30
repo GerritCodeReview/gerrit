@@ -1078,6 +1078,12 @@ public abstract class AbstractDaemonTest {
     return name;
   }
 
+  protected TestAccount createUniqueAccount(String userName, String fullName) throws Exception {
+    String uniqueUserName = name(userName);
+    String uniqueFullName = name(fullName);
+    return accountCreator.create(uniqueUserName, uniqueUserName + "@example.com", uniqueFullName);
+  }
+
   protected RevCommit getHead(Repository repo, String name) throws Exception {
     try (RevWalk rw = new RevWalk(repo)) {
       Ref r = repo.exactRef(name);

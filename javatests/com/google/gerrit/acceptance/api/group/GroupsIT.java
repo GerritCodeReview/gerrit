@@ -186,21 +186,23 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void cachedGroupsForMemberAreUpdatedOnMemberAdditionAndRemoval() throws Exception {
+    TestAccount account = createUniqueAccount("user", "User");
+
     // Fill the cache for the observed account.
-    groupIncludeCache.getGroupsWithMember(user.getId());
+    groupIncludeCache.getGroupsWithMember(account.getId());
     String groupName = createGroup("users");
     AccountGroup.UUID groupUuid = new AccountGroup.UUID(gApi.groups().id(groupName).get().id);
 
-    gApi.groups().id(groupName).addMembers(user.fullName);
+    gApi.groups().id(groupName).addMembers(account.username);
 
     Collection<AccountGroup.UUID> groupsWithMemberAfterAddition =
-        groupIncludeCache.getGroupsWithMember(user.getId());
+        groupIncludeCache.getGroupsWithMember(account.getId());
     assertThat(groupsWithMemberAfterAddition).contains(groupUuid);
 
-    gApi.groups().id(groupName).removeMembers(user.fullName);
+    gApi.groups().id(groupName).removeMembers(account.username);
 
     Collection<AccountGroup.UUID> groupsWithMemberAfterRemoval =
-        groupIncludeCache.getGroupsWithMember(user.getId());
+        groupIncludeCache.getGroupsWithMember(account.getId());
     assertThat(groupsWithMemberAfterRemoval).doesNotContain(groupUuid);
   }
 
@@ -221,8 +223,8 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void addMultipleMembers() throws Exception {
     String g = createGroup("users");
-    TestAccount u1 = accountCreator.create("u1", "u1@example.com", "Full Name 1");
-    TestAccount u2 = accountCreator.create("u2", "u2@example.com", "Full Name 2");
+    TestAccount u1 = createUniqueAccount("u1", "Full Name 1");
+    TestAccount u2 = createUniqueAccount("u2", "Full Name 2");
     gApi.groups().id(g).addMembers(u1.username, u2.username);
     assertMembers(g, u1, u2);
   }
@@ -230,12 +232,11 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void addMembersWithAtSign() throws Exception {
     String g = createGroup("users");
-    TestAccount u10 = accountCreator.create("u10", "u10@example.com", "Full Name 10");
-    TestAccount u11_at =
-        accountCreator.create("u11@something", "u11@example.com", "Full Name 11 With At");
-    accountCreator.create("u11", "u11.another@example.com", "Full Name 11 Without At");
-    gApi.groups().id(g).addMembers(u10.username, u11_at.username);
-    assertMembers(g, u10, u11_at);
+    TestAccount u1 = createUniqueAccount("u1", "Full Name 1");
+    TestAccount u2_at = createUniqueAccount("u2@something", "Full Name 2 With At");
+    TestAccount u2 = createUniqueAccount("u2", "Full Name 2 Without At");
+    gApi.groups().id(g).addMembers(u1.username, u2_at.username, u2.username);
+    assertMembers(g, u1, u2_at, u2);
   }
 
   @Test
@@ -374,6 +375,22 @@ public class GroupsIT extends AbstractDaemonTest {
     GroupInfo group = gApi.groups().create(newGroupName).get();
 
     assertThat(group.createdOn).isAtLeast(testStartTime);
+  }
+
+  @Test
+  public void cachedGroupsForMemberAreUpdatedOnGroupCreation() throws Exception {
+    TestAccount account = createUniqueAccount("user", "User");
+
+    // Fill the cache for the observed account.
+    groupIncludeCache.getGroupsWithMember(account.id);
+
+    GroupInput groupInput = new GroupInput();
+    groupInput.name = name("Users");
+    groupInput.members = ImmutableList.of(account.username);
+    GroupInfo group = gApi.groups().create(groupInput).get();
+
+    Collection<AccountGroup.UUID> groups = groupIncludeCache.getGroupsWithMember(account.id);
+    assertThat(groups).containsExactly(new AccountGroup.UUID(group.id));
   }
 
   @Test

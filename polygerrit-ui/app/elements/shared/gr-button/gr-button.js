@@ -28,6 +28,11 @@
         value: false,
         reflectToAttribute: true,
       },
+      raised: {
+        type: Boolean,
+        reflectToAttribute: true,
+        computed: '_isRaised(link)',
+      },
       loading: {
         type: Boolean,
         value: false,
@@ -73,6 +78,10 @@
       tabindex: '0',
     },
 
+    _isRaised(isLink) {
+      return !isLink;
+    },
+
     _handleAction(e) {
       if (this.disabled) {
         e.preventDefault();
@@ -85,6 +94,7 @@
         this._enabledTabindex = this.getAttribute('tabindex');
       }
       this.setAttribute('tabindex', disabled ? '-1' : this._enabledTabindex);
+      this.updateStyles();
     },
 
     _computeDisabled(disabled, loading) {

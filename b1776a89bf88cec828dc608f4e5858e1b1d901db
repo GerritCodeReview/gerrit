@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c64d0c4_01c898c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-01T16:42:03Z",
+      "side": 1,
+      "message": "GroupsUpdate?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 12
+      },
+      "revId": "b1776a89bf88cec828dc608f4e5858e1b1d901db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "941b0841_d8650c58",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-01T16:42:03Z",
+      "side": 1,
+      "message": "IMO the clearest way to say \"give me the result or else throw a RuntimeException\" is \".get()\".\n\nI suppose the counterargument is that you have the opportunity with this exception message to provide slightly more useful information than a bare NoSuchElementException. But in this case, I don\u0027t see the added value of this exception message. A programmer will look at this line in the stack trace, where they will see \"auditLogFormatter.get()\". Seeing that line, I think pretty much any reader will be able to figure out that the problem is \"the AuditLogFormatter is necessary but missing\" without having to see an exception message that says exactly that.",
+      "revId": "b1776a89bf88cec828dc608f4e5858e1b1d901db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40670414_afbff932",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-01T16:42:03Z",
+      "side": 1,
+      "message": "Same comment as above.",
+      "revId": "b1776a89bf88cec828dc608f4e5858e1b1d901db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

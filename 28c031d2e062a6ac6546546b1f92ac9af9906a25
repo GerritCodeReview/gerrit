@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "fc809f43_6c915a90",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-01T23:12:26Z",
+      "side": 1,
+      "message": "I don\u0027t think this can be _items. This is the list provided to the dom-repeat.",
+      "parentUuid": "7cf26770_c28f2bf4",
+      "range": {
+        "startLine": 115,
+        "startChar": 14,
+        "endLine": 115,
+        "endChar": 19
+      },
+      "revId": "28c031d2e062a6ac6546546b1f92ac9af9906a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee709160_a061a660",
         "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.html",
         "patchSetId": 10

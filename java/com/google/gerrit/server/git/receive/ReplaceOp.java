@@ -258,7 +258,7 @@ public class ReplaceOp implements BatchUpdateOp {
       if (magicBranch.removePrivate) {
         change.setPrivate(false);
         update.setPrivate(false);
-      } else if (magicBranch.isPrivate) {
+      } else if (magicBranch.isPrivate || magicBranch.draft) {
         change.setPrivate(true);
         update.setPrivate(true);
       }

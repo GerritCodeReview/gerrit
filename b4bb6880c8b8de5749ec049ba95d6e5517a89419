@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73b16098_88258a6c",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-12-01T12:03:48Z",
+      "side": 1,
+      "message": "realpath is not available on all Linux OS by default(e.g RedHat). We should use \"readlink -f\" instead.",
+      "range": {
+        "startLine": 164,
+        "startChar": 20,
+        "endLine": 164,
+        "endChar": 28
+      },
+      "revId": "b4bb6880c8b8de5749ec049ba95d6e5517a89419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

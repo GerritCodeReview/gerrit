@@ -70,6 +70,23 @@
       "revId": "d04feea3caa9fd70a8dfe1b978d870aeb31505b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31432aa2_cf7eebed",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-01T15:43:22Z",
+      "side": 1,
+      "message": "Putting on my Python readability hat for a moment, normally I would prefer the following to silence our internal Python linter:\n\n def _vulcanize_output_func(unused_name, split):\n\nbecause it has zero runtime cost.\n\nDoes bzl lint not support that?",
+      "revId": "d04feea3caa9fd70a8dfe1b978d870aeb31505b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

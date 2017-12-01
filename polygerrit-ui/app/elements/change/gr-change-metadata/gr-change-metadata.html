@@ -46,11 +46,10 @@ limitations under the License.
       .title {
         color: #666;
         font-family: var(--font-family-bold);
-        max-width: 20em;
         word-break: break-word;
+        width: 7em;
       }
       gr-account-link {
-        max-width: 20ch;
         overflow: hidden;
         text-overflow: ellipsis;
         vertical-align: middle;
@@ -221,7 +220,6 @@ limitations under the License.
               if="[[_showTopicChip(change.*, _settingTopic)]]">
             <gr-linked-chip
                 text="[[change.topic]]"
-                limit="40"
                 href="[[_computeTopicURL(change.topic)]]"
                 removable="[[!_topicReadOnly]]"
                 on-remove="_handleTopicRemoved"></gr-linked-chip>

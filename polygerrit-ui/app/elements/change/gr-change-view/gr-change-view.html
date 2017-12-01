@@ -104,7 +104,7 @@ limitations under the License.
          https://github.com/Polymer/polymer/issues/2531 */
       .container section.changeInfo {
         display: flex;
-        padding: 1em var(--default-horizontal-margin);
+        padding: 0 var(--default-horizontal-margin);
       }
       .changeId {
         color: #666;
@@ -116,7 +116,10 @@ limitations under the License.
         padding-right: 1em;
       }
       .changeMetadata {
+        border-right: 1px solid #ddd;
         font-size: .95em;
+        padding: 1em 0;
+        width: 26em;
       }
       /* Prevent plugin text from overflowing. */
       #change_plugins {
@@ -129,7 +132,7 @@ limitations under the License.
         max-width: var(--commit-message-max-width, 72ch);;
       }
       .commitMessage gr-linked-text {
-        word-break: break-all;
+        word-break: break-word;
       }
       #commitMessageEditor {
         min-width: 72ch;
@@ -164,6 +167,7 @@ limitations under the License.
       .relatedChanges {
         flex: 1 1 auto;
         overflow: hidden;
+        padding: 1em 0;
       }
       .mobile {
         display: none;
@@ -193,6 +197,7 @@ limitations under the License.
         display: flex;
         flex-direction: column;
         flex-shrink: 0;
+        margin: 1em 0;
       }
       .collapseToggleContainer {
         display: flex;
@@ -219,6 +224,12 @@ limitations under the License.
       .text {
         white-space: pre;
       }
+      @media screen and (min-width: 50em) and (max-width: 75em) {
+        .changeMetadata {
+          width: 14em;
+        }
+      }
+
       @media screen and (min-width: 80em) {
         .commitMessage {
           max-width: var(--commit-message-max-width, 100ch);

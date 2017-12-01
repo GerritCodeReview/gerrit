@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7c8bb2e_6e6917c6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-01T23:40:31Z",
+      "side": 1,
+      "message": "Why is this defined as a linear gradient from one color to itself? Couldn\u0027t this be..\n\n rgba(0, 0, 0, .12)\n\n..?",
+      "range": {
+        "startLine": 54,
+        "startChar": 20,
+        "endLine": 57,
+        "endChar": 9
+      },
+      "revId": "7797dcf123e52b0df3f6ba0422411b3f09403576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4c898940_d7a6d93c",
         "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
         "patchSetId": 5

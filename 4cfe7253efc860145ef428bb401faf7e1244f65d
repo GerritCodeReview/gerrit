@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "458a49e4_17fe3cde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-01T23:44:57Z",
+      "side": 1,
+      "message": "\u003e Done, although this has some downsides.\n\nWhat are the downsides?",
+      "parentUuid": "90c5478b_2dffe80d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "4cfe7253efc860145ef428bb401faf7e1244f65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0987d7df_42351aa8",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 1

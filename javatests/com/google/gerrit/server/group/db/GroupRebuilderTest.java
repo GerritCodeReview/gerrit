@@ -68,9 +68,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
             // Note that the expected name/email values in tests are not necessarily realistic,
             // since they use these trivial name/email functions. GroupRebuilderIT checks the actual
             // values.
-            AbstractGroupTest::newPersonIdent,
-            AbstractGroupTest::getAccountNameEmail,
-            AbstractGroupTest::getGroupName);
+            getAuditLogFormatter());
     bundleFactory = new GroupBundle.Factory(new AuditLogReader(SERVER_ID));
   }
 

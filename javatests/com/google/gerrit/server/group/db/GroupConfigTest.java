@@ -18,12 +18,12 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.hamcrest.CoreMatchers.instanceOf;
 
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MetaDataUpdate;
+import java.util.Optional;
 import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -44,6 +44,8 @@ public class GroupConfigTest {
   private final AccountGroup.UUID groupUuid = new AccountGroup.UUID("users-XYZ");
   private final AccountGroup.NameKey groupName = new AccountGroup.NameKey("users");
   private final AccountGroup.Id groupId = new AccountGroup.Id(123);
+  private final AuditLogFormatter auditLogFormatter =
+      new AuditLogFormatter(id -> Optional.empty(), uuid -> Optional.empty(), "server-id");
 
   @Before
   public void setUp() throws Exception {
@@ -96,7 +98,7 @@ public class GroupConfigTest {
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder().setOwnerGroupUUID(new AccountGroup.UUID(null)).build();
     GroupConfig groupConfig = GroupConfig.createForNewGroup(repository, groupCreation);
-    groupConfig.setGroupUpdate(groupUpdate, Account.Id::toString, AccountGroup.UUID::get);
+    groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       expectedException.expectCause(instanceOf(ConfigInvalidException.class));
@@ -111,7 +113,7 @@ public class GroupConfigTest {
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder().setOwnerGroupUUID(new AccountGroup.UUID("")).build();
     GroupConfig groupConfig = GroupConfig.createForNewGroup(repository, groupCreation);
-    groupConfig.setGroupUpdate(groupUpdate, Account.Id::toString, AccountGroup.UUID::get);
+    groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       expectedException.expectCause(instanceOf(ConfigInvalidException.class));
@@ -172,7 +174,7 @@ public class GroupConfigTest {
     GroupConfig groupConfig = GroupConfig.loadForGroup(repository, groupUuid);
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder().setName(new AccountGroup.NameKey(null)).build();
-    groupConfig.setGroupUpdate(groupUpdate, Account.Id::toString, AccountGroup.UUID::get);
+    groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       expectedException.expectCause(instanceOf(ConfigInvalidException.class));
@@ -189,7 +191,7 @@ public class GroupConfigTest {
     GroupConfig groupConfig = GroupConfig.loadForGroup(repository, groupUuid);
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder().setName(new AccountGroup.NameKey("")).build();
-    groupConfig.setGroupUpdate(groupUpdate, Account.Id::toString, AccountGroup.UUID::get);
+    groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       expectedException.expectCause(instanceOf(ConfigInvalidException.class));
@@ -206,7 +208,7 @@ public class GroupConfigTest {
     GroupConfig groupConfig = GroupConfig.loadForGroup(repository, groupUuid);
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder().setOwnerGroupUUID(new AccountGroup.UUID(null)).build();
-    groupConfig.setGroupUpdate(groupUpdate, Account.Id::toString, AccountGroup.UUID::get);
+    groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       expectedException.expectCause(instanceOf(ConfigInvalidException.class));
@@ -223,7 +225,7 @@ public class GroupConfigTest {
     GroupConfig groupConfig = GroupConfig.loadForGroup(repository, groupUuid);
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder().setOwnerGroupUUID(new AccountGroup.UUID("")).build();
-    groupConfig.setGroupUpdate(groupUpdate, Account.Id::toString, AccountGroup.UUID::get);
+    groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       expectedException.expectCause(instanceOf(ConfigInvalidException.class));

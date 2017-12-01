@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "916c9ad1_b02e229b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-01T23:08:05Z",
+      "side": 1,
+      "message": "Nitpicking! I don\u0027t think it should have the period. The entries of the shortcut dialog don\u0027t have periods, and neither do any of the button labels.",
+      "range": {
+        "startLine": 36,
+        "startChar": 32,
+        "endLine": 36,
+        "endChar": 33
+      },
+      "revId": "1de8f1199662146f4678964b8728cdf8c4e68929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -632,11 +632,11 @@ class ReceiveCommits {
     if (!updated.isEmpty()) {
       addMessage("");
       addMessage("Updated Changes:");
-      boolean edit = magicBranch != null && (magicBranch.edit || magicBranch.draft);
+      boolean edit = magicBranch != null && magicBranch.edit;
       Boolean isPrivate = null;
       Boolean wip = null;
       if (magicBranch != null) {
-        if (magicBranch.isPrivate) {
+        if (magicBranch.isPrivate || magicBranch.draft) {
           isPrivate = true;
         } else if (magicBranch.removePrivate) {
           isPrivate = false;
@@ -1180,9 +1180,7 @@ class ReceiveCommits {
 
     @Option(
       name = "--draft",
-      usage =
-          "Will be removed. Before that, this option will be mapped to '--private'"
-              + "for new changes and '--edit' for existing changes"
+      usage = "Will be removed. Before that, this option will be mapped to '--private'"
     )
     boolean draft;
 
@@ -1509,7 +1507,7 @@ class ReceiveCommits {
       return;
     }
 
-    if (magicBranch.isPrivate && magicBranch.removePrivate) {
+    if ((magicBranch.isPrivate || magicBranch.draft) && magicBranch.removePrivate) {
       reject(cmd, "the options 'private' and 'remove-private' are mutually exclusive");
       return;
     }
@@ -2445,7 +2443,7 @@ class ReceiveCommits {
         return false;
       }
 
-      if (magicBranch != null && (magicBranch.edit || magicBranch.draft)) {
+      if (magicBranch != null && magicBranch.edit) {
         return newEdit();
       }
 
@@ -2501,7 +2499,7 @@ class ReceiveCommits {
     }
 
     void addOps(BatchUpdate bu, @Nullable Task progress) throws IOException {
-      if (magicBranch != null && (magicBranch.edit || magicBranch.draft)) {
+      if (magicBranch != null && magicBranch.edit) {
         bu.addOp(notes.getChangeId(), new ReindexOnlyOp());
         if (prev != null) {
           bu.addRepoOnlyOp(new UpdateOneRefOp(prev));

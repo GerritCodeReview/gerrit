@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c898940_d7a6d93c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-01T21:31:39Z",
+      "side": 1,
+      "message": "Capitalize.",
+      "range": {
+        "startLine": 66,
+        "startChar": 9,
+        "endLine": 66,
+        "endChar": 15
+      },
+      "revId": "7797dcf123e52b0df3f6ba0422411b3f09403576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b95c60f_75d1adbf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-01T21:31:39Z",
+      "side": 1,
+      "message": "Capitalize.",
+      "range": {
+        "startLine": 73,
+        "startChar": 9,
+        "endLine": 73,
+        "endChar": 15
+      },
+      "revId": "7797dcf123e52b0df3f6ba0422411b3f09403576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a74dea1_8f450658",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-01T21:31:39Z",
+      "side": 1,
+      "message": "It seems like this is a strict negation of the link attribute in every case. Do you anticipate that changing in the future? If not, could we just use a :not([link]) selector in the CSS instead of this extra property?",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 8
+      },
+      "revId": "7797dcf123e52b0df3f6ba0422411b3f09403576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

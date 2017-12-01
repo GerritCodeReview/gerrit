@@ -45,7 +45,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.LabelType;
@@ -1879,24 +1878,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(info2.revisions).hasSize(1);
   }
 
-  @Sandboxed
   @Test
-  public void pushWithDraftOptionToExistingNewChangeGetsChangeEdit() throws Exception {
-    String changeId = createChange().getChangeId();
-    EditInfoSubject.assertThat(getEdit(changeId)).isAbsent();
-
-    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    ChangeStatus originalChangeStatus = changeInfo.status;
-
-    PushOneCommit.Result result = amendChange(changeId, "refs/drafts/master");
-    result.assertOkStatus();
-
-    changeInfo = gApi.changes().id(changeId).get();
-    assertThat(changeInfo.status).isEqualTo(originalChangeStatus);
-    assertThat(changeInfo.isPrivate).isNull();
-    assertThat(changeInfo.revisions).hasSize(1);
-
-    EditInfoSubject.assertThat(getEdit(changeId)).isPresent();
+  public void pushDraftsToExistingNonPrivateChangeGetsPrivateChange() throws Exception {
+    pushDraftsToExistingNonPrivateChangeGetsPrivateChange("refs/drafts/master");
+    pushDraftsToExistingNonPrivateChangeGetsPrivateChange("refs/for/master%draft");
   }
 
   @GerritConfig(name = "receive.maxBatchCommits", value = "2")
@@ -1930,6 +1915,26 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     result.assertOkStatus();
     assertThat(result.getMessage())
         .endsWith("Pushing to refs/publish/* is deprecated, use refs/for/* instead.\n");
+  }
+
+  private void pushDraftsToExistingNonPrivateChangeGetsPrivateChange(String ref) throws Exception {
+    String changeId = createChange().getChangeId();
+    EditInfoSubject.assertThat(getEdit(changeId)).isAbsent();
+
+    ChangeInfo info = gApi.changes().id(changeId).get();
+    assertThat(info.status).isEqualTo(ChangeStatus.NEW);
+    assertThat(info.isPrivate).isNull();
+    assertThat(info.revisions).hasSize(1);
+
+    PushOneCommit.Result result = amendChange(changeId, ref);
+    result.assertOkStatus();
+
+    info = gApi.changes().id(changeId).get();
+    assertThat(info.status).isEqualTo(ChangeStatus.NEW);
+    assertThat(info.isPrivate).isEqualTo(true);
+    assertThat(info.revisions).hasSize(2);
+    // Push as drafts will not create a change edit.
+    EditInfoSubject.assertThat(getEdit(changeId)).isAbsent();
   }
 
   private DraftInput newDraft(String path, int line, String message) {

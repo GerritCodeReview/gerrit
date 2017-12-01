@@ -77,8 +77,7 @@ public class GroupConfig extends VersionedMetaData {
   private Optional<InternalGroup> loadedGroup = Optional.empty();
   private Optional<InternalGroupCreation> groupCreation = Optional.empty();
   private Optional<InternalGroupUpdate> groupUpdate = Optional.empty();
-  private Function<Account.Id, String> accountNameEmailRetriever = Account.Id::toString;
-  private Function<AccountGroup.UUID, String> groupNameRetriever = AccountGroup.UUID::get;
+  private Optional<AuditLogFormatter> auditLogFormatter = Optional.empty();
   private boolean isLoaded = false;
   private boolean allowSaveEmptyName;
 
@@ -130,13 +129,9 @@ public class GroupConfig extends VersionedMetaData {
     this.allowSaveEmptyName = true;
   }
 
-  public void setGroupUpdate(
-      InternalGroupUpdate groupUpdate,
-      Function<Account.Id, String> accountNameEmailRetriever,
-      Function<AccountGroup.UUID, String> groupNameRetriever) {
+  public void setGroupUpdate(InternalGroupUpdate groupUpdate, AuditLogFormatter auditLogFormatter) {
     this.groupUpdate = Optional.of(groupUpdate);
-    this.accountNameEmailRetriever = accountNameEmailRetriever;
-    this.groupNameRetriever = groupNameRetriever;
+    this.auditLogFormatter = Optional.of(auditLogFormatter);
   }
 
   @Override
@@ -373,30 +368,38 @@ public class GroupConfig extends VersionedMetaData {
 
   private Stream<String> getCommitFootersForMemberModifications(
       ImmutableSet<Account.Id> oldMembers, ImmutableSet<Account.Id> newMembers) {
+    AuditLogFormatter formatter =
+        auditLogFormatter.orElseThrow(
+            () -> new IllegalStateException("AuditLogFormatter is necessary but missing"));
+
     Stream<String> removedMembers =
         Sets.difference(oldMembers, newMembers)
             .stream()
-            .map(accountNameEmailRetriever)
+            .map(formatter::getParsableAccount)
             .map((FOOTER_REMOVE_MEMBER.getName() + ": ")::concat);
     Stream<String> addedMembers =
         Sets.difference(newMembers, oldMembers)
             .stream()
-            .map(accountNameEmailRetriever)
+            .map(formatter::getParsableAccount)
             .map((FOOTER_ADD_MEMBER.getName() + ": ")::concat);
     return Stream.concat(removedMembers, addedMembers);
   }
 
   private Stream<String> getCommitFootersForSubgroupModifications(
       ImmutableSet<AccountGroup.UUID> oldSubgroups, ImmutableSet<AccountGroup.UUID> newSubgroups) {
+    AuditLogFormatter formatter =
+        auditLogFormatter.orElseThrow(
+            () -> new IllegalStateException("AuditLogFormatter is necessary but missing"));
+
     Stream<String> removedMembers =
         Sets.difference(oldSubgroups, newSubgroups)
             .stream()
-            .map(groupNameRetriever)
+            .map(formatter::getParsableGroup)
             .map((FOOTER_REMOVE_GROUP.getName() + ": ")::concat);
     Stream<String> addedMembers =
         Sets.difference(newSubgroups, oldSubgroups)
             .stream()
-            .map(groupNameRetriever)
+            .map(formatter::getParsableGroup)
             .map((FOOTER_ADD_GROUP.getName() + ": ")::concat);
     return Stream.concat(removedMembers, addedMembers);
   }

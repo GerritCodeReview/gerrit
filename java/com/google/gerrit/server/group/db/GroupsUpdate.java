@@ -26,7 +26,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -39,7 +38,6 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupIncludeCache;
@@ -102,14 +100,12 @@ public class GroupsUpdate {
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
-  private final GroupBackend groupBackend;
   private final GroupCache groupCache;
   private final GroupIncludeCache groupIncludeCache;
   private final AuditService auditService;
-  private final AccountCache accountCache;
   private final RenameGroupOp.Factory renameGroupOpFactory;
-  private final String serverId;
   @Nullable private final IdentifiedUser currentUser;
+  private final AuditLogFormatter auditLogFormatter;
   private final PersonIdent authorIdent;
   private final MetaDataUpdateFactory metaDataUpdateFactory;
   private final GroupsMigration groupsMigration;
@@ -137,19 +133,19 @@ public class GroupsUpdate {
       @Assisted @Nullable IdentifiedUser currentUser) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
-    this.groupBackend = groupBackend;
     this.groupCache = groupCache;
     this.groupIncludeCache = groupIncludeCache;
     this.auditService = auditService;
-    this.accountCache = accountCache;
     this.renameGroupOpFactory = renameGroupOpFactory;
-    this.serverId = serverId;
     this.groupsMigration = groupsMigration;
     this.gitRefUpdated = gitRefUpdated;
     this.retryHelper = retryHelper;
     this.currentUser = currentUser;
+
+    auditLogFormatter = new AuditLogFormatter(accountCache, groupBackend, serverId);
     metaDataUpdateFactory =
-        getMetaDataUpdateFactory(metaDataUpdateInternalFactory, currentUser, serverIdent, serverId);
+        getMetaDataUpdateFactory(
+            metaDataUpdateInternalFactory, currentUser, serverIdent, auditLogFormatter);
     authorIdent = getAuthorIdent(serverIdent, currentUser);
     reviewDbUpdatesAreBlocked = config.getBoolean("user", null, "blockReviewDbGroupUpdates", false);
   }
@@ -158,7 +154,7 @@ public class GroupsUpdate {
       MetaDataUpdate.InternalFactory metaDataUpdateInternalFactory,
       @Nullable IdentifiedUser currentUser,
       PersonIdent serverIdent,
-      String serverId) {
+      AuditLogFormatter auditLogFormatter) {
     return (projectName, repository, batchRefUpdate) -> {
       MetaDataUpdate metaDataUpdate =
           metaDataUpdateInternalFactory.create(projectName, repository, batchRefUpdate);
@@ -166,22 +162,14 @@ public class GroupsUpdate {
       PersonIdent authorIdent;
       if (currentUser != null) {
         metaDataUpdate.setAuthor(currentUser);
-        authorIdent = getAuditLogAuthorIdent(currentUser.getAccount(), serverIdent, serverId);
+        authorIdent =
+            auditLogFormatter.getParsableAuthorIdent(currentUser.getAccount(), serverIdent);
       } else {
         authorIdent = serverIdent;
       }
       metaDataUpdate.getCommitBuilder().setAuthor(authorIdent);
       return metaDataUpdate;
     };
-  }
-
-  private static PersonIdent getAuditLogAuthorIdent(
-      Account author, PersonIdent serverIdent, String serverId) {
-    return new PersonIdent(
-        author.getName(),
-        getEmailForAuditLog(author.getId(), serverId),
-        serverIdent.getWhen(),
-        serverIdent.getTimeZone());
   }
 
   private static PersonIdent getAuthorIdent(
@@ -507,7 +495,7 @@ public class GroupsUpdate {
           GroupNameNotes.forNewGroup(allUsersRepo, groupCreation.getGroupUUID(), groupName);
 
       GroupConfig groupConfig = GroupConfig.createForNewGroup(allUsersRepo, groupCreation);
-      groupConfig.setGroupUpdate(groupUpdate, this::getAccountNameEmail, this::getGroupName);
+      groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
 
       commit(allUsersRepo, groupConfig, groupNameNotes);
 
@@ -541,7 +529,7 @@ public class GroupsUpdate {
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException, NoSuchGroupException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
       GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersRepo, groupUuid);
-      groupConfig.setGroupUpdate(groupUpdate, this::getAccountNameEmail, this::getGroupName);
+      groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
       if (!groupConfig.getLoadedGroup().isPresent()) {
         if (groupsMigration.readFromNoteDb()) {
           throw new NoSuchGroupException(groupUuid);
@@ -588,50 +576,6 @@ public class GroupsUpdate {
       resultBuilder.setPreviousGroupName(originalGroup.getNameKey());
     }
     return resultBuilder.build();
-  }
-
-  static String getAccountName(AccountCache accountCache, Account.Id accountId) {
-    return accountCache
-        .maybeGet(accountId)
-        .map(AccountState::getAccount)
-        .map(account -> account.getName())
-        // Historically, the database did not enforce relational integrity, so it is
-        // possible for groups to have non-existing members.
-        .orElse("No Account for Id #" + accountId);
-  }
-
-  static String getAccountNameEmail(
-      AccountCache accountCache, Account.Id accountId, String serverId) {
-    String accountName = getAccountName(accountCache, accountId);
-    return formatNameEmail(accountName, getEmailForAuditLog(accountId, serverId));
-  }
-
-  static String getEmailForAuditLog(Account.Id accountId, String serverId) {
-    return accountId.get() + "@" + serverId;
-  }
-
-  private String getAccountNameEmail(Account.Id accountId) {
-    return getAccountNameEmail(accountCache, accountId, serverId);
-  }
-
-  static String getGroupName(GroupBackend groupBackend, AccountGroup.UUID groupUuid) {
-    String uuid = groupUuid.get();
-    GroupDescription.Basic desc = groupBackend.get(groupUuid);
-    String name = desc != null ? desc.getName() : uuid;
-    return formatNameEmail(name, uuid);
-  }
-
-  private String getGroupName(AccountGroup.UUID groupUuid) {
-    return getGroupName(groupBackend, groupUuid);
-  }
-
-  private static String formatNameEmail(String name, String email) {
-    StringBuilder formattedResult = new StringBuilder();
-    PersonIdent.appendSanitized(formattedResult, name);
-    formattedResult.append(" <");
-    PersonIdent.appendSanitized(formattedResult, email);
-    formattedResult.append(">");
-    return formattedResult.toString();
   }
 
   private void commit(

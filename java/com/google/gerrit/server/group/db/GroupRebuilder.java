@@ -51,9 +51,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.Optional;
-import java.util.function.BiFunction;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -68,9 +66,7 @@ public class GroupRebuilder {
   private final AllUsersName allUsers;
   private final MetaDataUpdate.InternalFactory metaDataUpdateFactory;
 
-  private final BiFunction<Account.Id, PersonIdent, PersonIdent> newPersonIdentFunc;
-  private final Function<Account.Id, String> getAccountNameEmailFunc;
-  private final Function<AccountGroup.UUID, String> getGroupNameFunc;
+  private final AuditLogFormatter auditLogFormatter;
 
   @Inject
   GroupRebuilder(
@@ -86,14 +82,7 @@ public class GroupRebuilder {
         metaDataUpdateFactory,
 
         // TODO(dborowitz): These probably won't work during init.
-        (id, ident) ->
-            new PersonIdent(
-                GroupsUpdate.getAccountName(accountCache, id),
-                GroupsUpdate.getEmailForAuditLog(id, serverId),
-                ident.getWhen(),
-                ident.getTimeZone()),
-        id -> GroupsUpdate.getAccountNameEmail(accountCache, id, serverId),
-        uuid -> GroupsUpdate.getGroupName(groupBackend, uuid));
+        new AuditLogFormatter(accountCache, groupBackend, serverId));
   }
 
   @VisibleForTesting
@@ -101,15 +90,11 @@ public class GroupRebuilder {
       Provider<PersonIdent> serverIdent,
       AllUsersName allUsers,
       MetaDataUpdate.InternalFactory metaDataUpdateFactory,
-      BiFunction<Account.Id, PersonIdent, PersonIdent> newPersonIdentFunc,
-      Function<Account.Id, String> getAccountNameEmailFunc,
-      Function<AccountGroup.UUID, String> getGroupNameFunc) {
+      AuditLogFormatter auditLogFormatter) {
     this.serverIdent = serverIdent;
     this.allUsers = allUsers;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
-    this.newPersonIdentFunc = newPersonIdentFunc;
-    this.getAccountNameEmailFunc = getAccountNameEmailFunc;
-    this.getGroupNameFunc = getGroupNameFunc;
+    this.auditLogFormatter = auditLogFormatter;
   }
 
   public void rebuild(Repository allUsersRepo, GroupBundle bundle, @Nullable BatchRefUpdate bru)
@@ -132,7 +117,7 @@ public class GroupRebuilder {
     if (bundle.group().getDescription() != null) {
       updateBuilder.setDescription(group.getDescription());
     }
-    groupConfig.setGroupUpdate(updateBuilder.build(), getAccountNameEmailFunc, getGroupNameFunc);
+    groupConfig.setGroupUpdate(updateBuilder.build(), auditLogFormatter);
 
     Map<Key, Collection<Event>> events = toEvents(bundle).asMap();
     PersonIdent nowServerIdent = getServerIdent(events);
@@ -152,14 +137,14 @@ public class GroupRebuilder {
         InternalGroupUpdate.Builder ub = InternalGroupUpdate.builder();
         e.getValue().forEach(event -> event.update().accept(ub));
         ub.setUpdatedOn(e.getKey().when());
-        groupConfig.setGroupUpdate(ub.build(), getAccountNameEmailFunc, getGroupNameFunc);
+        groupConfig.setGroupUpdate(ub.build(), auditLogFormatter);
 
         PersonIdent currServerIdent = new PersonIdent(nowServerIdent, e.getKey().when());
         CommitBuilder cb = new CommitBuilder();
         cb.setAuthor(
             e.getKey()
                 .accountId()
-                .map(id -> newPersonIdentFunc.apply(id, currServerIdent))
+                .map(id -> auditLogFormatter.getParsableAuthorIdent(id, currServerIdent))
                 .orElse(currServerIdent));
         cb.setCommitter(currServerIdent);
         batch.write(groupConfig, cb);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40e70959_b3d098e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-01T23:02:08Z",
+      "side": 1,
+      "message": "Equivalent to 322px.",
+      "range": {
+        "startLine": 16,
+        "startChar": 15,
+        "endLine": 16,
+        "endChar": 19
+      },
+      "revId": "16c2f587e8b8cd9db5e0fba221dc5b09c0fe7ba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,7 +19,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
@@ -31,12 +30,14 @@ import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.group.db.AuditLogFormatter;
 import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.group.db.GroupsUpdate;
@@ -55,6 +56,7 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collections;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
@@ -73,6 +75,7 @@ public class SchemaCreator {
   private final DataSourceType dataSourceType;
   private final GroupIndexCollection indexCollection;
   private final GroupsMigration groupsMigration;
+  private final String serverId;
 
   private final Config config;
   private final MetricMaker metricMaker;
@@ -90,6 +93,7 @@ public class SchemaCreator {
       DataSourceType dst,
       GroupIndexCollection ic,
       GroupsMigration gm,
+      @GerritServerId String serverId,
       @GerritServerConfig Config config,
       MetricMaker metricMaker,
       NotesMigration migration,
@@ -104,6 +108,7 @@ public class SchemaCreator {
         dst,
         ic,
         gm,
+        serverId,
         config,
         metricMaker,
         migration,
@@ -120,6 +125,7 @@ public class SchemaCreator {
       DataSourceType dst,
       GroupIndexCollection ic,
       GroupsMigration gm,
+      String serverId,
       Config config,
       MetricMaker metricMaker,
       NotesMigration migration,
@@ -133,6 +139,7 @@ public class SchemaCreator {
     dataSourceType = dst;
     indexCollection = ic;
     groupsMigration = gm;
+    this.serverId = serverId;
 
     this.config = config;
     this.allProjectsName = apName;
@@ -233,10 +240,13 @@ public class SchemaCreator {
   private InternalGroup createGroupInNoteDb(
       Repository allUsersRepo, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws ConfigInvalidException, IOException, OrmDuplicateKeyException {
-    GroupConfig groupConfig = GroupConfig.createForNewGroup(allUsersRepo, groupCreation);
     // We don't add any initial members or subgroups and hence the provided functions should never
-    // be called. To be on the safe side, we specify some valid functions.
-    groupConfig.setGroupUpdate(groupUpdate, Account.Id::toString, AccountGroup.UUID::get);
+    // be called.
+    AuditLogFormatter auditLogFormatter =
+        new AuditLogFormatter(id -> Optional.empty(), uuid -> Optional.empty(), serverId);
+
+    GroupConfig groupConfig = GroupConfig.createForNewGroup(allUsersRepo, groupCreation);
+    groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
 
     AccountGroup.NameKey groupName = groupUpdate.getName().orElseGet(groupCreation::getNameKey);
     GroupNameNotes groupNameNotes =

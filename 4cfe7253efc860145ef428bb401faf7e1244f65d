@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "b45fede5_56ff6cad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-12-02T00:47:05Z",
+      "side": 1,
+      "message": "Will weblinks be predefined or can they be setup via plugin? If there\u0027s concern for overlap the API could be Gerrit.Nav.Weblinks.PLUGIN_NAME.getXXX although that\u0027s a bit wordy.",
+      "parentUuid": "458a49e4_17fe3cde",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "4cfe7253efc860145ef428bb401faf7e1244f65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0987d7df_42351aa8",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 1

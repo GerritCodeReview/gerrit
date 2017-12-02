@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "217b9bc9_6831aec9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-02T00:18:58Z",
+      "side": 1,
+      "message": "Eh.. Guess not. I had a second bullet point that got moved into the first change in this series..",
+      "parentUuid": "3f5cd0b0_0a11eaeb",
+      "revId": "28c031d2e062a6ac6546546b1f92ac9af9906a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7cf26770_c28f2bf4",
         "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.html",
         "patchSetId": 10
@@ -110,6 +128,30 @@
       "revId": "28c031d2e062a6ac6546546b1f92ac9af9906a25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce69dbde_7dc62c7a",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-02T00:18:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee709160_a061a660",
+      "range": {
+        "startLine": 117,
+        "startChar": 13,
+        "endLine": 121,
+        "endChar": 21
+      },
+      "revId": "28c031d2e062a6ac6546546b1f92ac9af9906a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

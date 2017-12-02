@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "b5a4547b_35588e5b",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-02T00:18:57Z",
+      "side": 1,
+      "message": "It looks to me like _items is just this function call, though.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/145350/10/polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js#42",
+      "parentUuid": "fc809f43_6c915a90",
+      "range": {
+        "startLine": 115,
+        "startChar": 14,
+        "endLine": 115,
+        "endChar": 19
+      },
+      "revId": "28c031d2e062a6ac6546546b1f92ac9af9906a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee709160_a061a660",
         "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.html",
         "patchSetId": 10

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c6c400c8_c229619b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-02T00:16:51Z",
+      "side": 1,
+      "message": "You are not able to use multiple color definitions in the background property, so the way to achieve the same effect is to use a linear gradient that produces a flat looking color: \n\nhttps://developer.mozilla.org/en-US/docs/Web/CSS/background#Syntax",
+      "parentUuid": "a7c8bb2e_6e6917c6",
+      "range": {
+        "startLine": 54,
+        "startChar": 20,
+        "endLine": 57,
+        "endChar": 9
+      },
+      "revId": "7797dcf123e52b0df3f6ba0422411b3f09403576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c898940_d7a6d93c",
         "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "7797dcf123e52b0df3f6ba0422411b3f09403576",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ece1705_5d47d940",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-02T00:16:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c898940_d7a6d93c",
+      "range": {
+        "startLine": 66,
+        "startChar": 9,
+        "endLine": 66,
+        "endChar": 15
+      },
+      "revId": "7797dcf123e52b0df3f6ba0422411b3f09403576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "3e77e479_84ad6c5d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-02T00:16:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b95c60f_75d1adbf",
+      "range": {
+        "startLine": 73,
+        "startChar": 9,
+        "endLine": 73,
+        "endChar": 15
+      },
+      "revId": "7797dcf123e52b0df3f6ba0422411b3f09403576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a74dea1_8f450658",
         "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.js",
         "patchSetId": 5
@@ -91,6 +163,30 @@
       "revId": "7797dcf123e52b0df3f6ba0422411b3f09403576",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13d85ada_a64e4e82",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-02T00:16:51Z",
+      "side": 1,
+      "message": "We could use the negation, but I think this is a little bit cleaner. I also know that @wyatta hates negation. I don\u0027t feel strongly either way, but someone isn\u0027t going to like it 😊",
+      "parentUuid": "5a74dea1_8f450658",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 8
+      },
+      "revId": "7797dcf123e52b0df3f6ba0422411b3f09403576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

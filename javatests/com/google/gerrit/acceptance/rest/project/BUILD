@@ -1,14 +1,10 @@
 load("//javatests/com/google/gerrit/acceptance:tests.bzl", "acceptance_tests")
 
 acceptance_tests(
-    srcs = glob(["*IT.java"]),
-    group = "rest_project",
+    srcs = glob(["CreateProjectIT.java"]),
+    group = "create_project",
     labels = ["rest"],
-    deps = [
-        ":project",
-        ":push_tag_util",
-        ":refassert",
-    ],
+    shard_count = 4,
 )
 
 java_library(

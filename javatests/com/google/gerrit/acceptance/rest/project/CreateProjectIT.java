@@ -15,34 +15,10 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectInfo;
-import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectOwners;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import com.google.common.net.HttpHeaders;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.UseLocalDisk;
-import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.extensions.api.projects.ProjectInput;
-import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gerrit.extensions.common.ProjectInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.project.ProjectState;
-import java.util.Collections;
-import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
@@ -50,53 +26,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import org.apache.http.HttpStatus;
-import org.apache.http.message.BasicHeader;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Test;
 
 public class CreateProjectIT extends AbstractDaemonTest {
   @Test
-  public void createProjectHttp() throws Exception {
-    String newProjectName = name("newProject");
-    RestResponse r = adminRestSession.put("/projects/" + newProjectName);
-    r.assertCreated();
-    ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
-    assertThat(p.name).isEqualTo(newProjectName);
-
-    // Check that we populate the label data in the HTTP path. See GetProjectIT#getProject
-    // for more extensive coverage of the LabelTypeInfo.
-    assertThat(p.labels).hasSize(1);
-
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
-    assertThat(projectState).isNotNull();
-    assertProjectInfo(projectState.getProject(), p);
-    assertHead(newProjectName, "refs/heads/master");
-  }
-
-  @Test
-  public void createProjectHttpWhenProjectAlreadyExists_Conflict() throws Exception {
-    adminRestSession.put("/projects/" + allProjects.get()).assertConflict();
-  }
-
-  @Test
-  public void createProjectHttpWhenProjectAlreadyExists_PreconditionFailed() throws Exception {
-    adminRestSession
-        .putWithHeader(
-            "/projects/" + allProjects.get(), new BasicHeader(HttpHeaders.IF_NONE_MATCH, "*"))
-        .assertPreconditionFailed();
-  }
-
-  @Test
-  public void createSameProjectFromTwoConcurrentRequests() throws Exception {
-    ExecutorService executor = Executors.newFixedThreadPool(2);
+  public void createSameProjectFromTenConcurrentRequests1() throws Exception {
+    ExecutorService executor = Executors.newFixedThreadPool(10);
     try {
       for (int i = 0; i < 10; i++) {
         String newProjectName = name("foo" + i);
-        CyclicBarrier sync = new CyclicBarrier(2);
+        CyclicBarrier sync = new CyclicBarrier(10);
         Callable<RestResponse> createProjectFoo =
             () -> {
               sync.await();
@@ -105,7 +44,26 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
         Future<RestResponse> r1 = executor.submit(createProjectFoo);
         Future<RestResponse> r2 = executor.submit(createProjectFoo);
-        assertThat(ImmutableList.of(r1.get().getStatusCode(), r2.get().getStatusCode()))
+        Future<RestResponse> r3 = executor.submit(createProjectFoo);
+        Future<RestResponse> r4 = executor.submit(createProjectFoo);
+        Future<RestResponse> r5 = executor.submit(createProjectFoo);
+        Future<RestResponse> r6 = executor.submit(createProjectFoo);
+        Future<RestResponse> r7 = executor.submit(createProjectFoo);
+        Future<RestResponse> r8 = executor.submit(createProjectFoo);
+        Future<RestResponse> r9 = executor.submit(createProjectFoo);
+        Future<RestResponse> r10 = executor.submit(createProjectFoo);
+        assertThat(
+                ImmutableList.of(
+                    r1.get().getStatusCode(),
+                    r2.get().getStatusCode(),
+                    r3.get().getStatusCode(),
+                    r4.get().getStatusCode(),
+                    r5.get().getStatusCode(),
+                    r6.get().getStatusCode(),
+                    r7.get().getStatusCode(),
+                    r8.get().getStatusCode(),
+                    r9.get().getStatusCode(),
+                    r10.get().getStatusCode()))
             .containsAllOf(HttpStatus.SC_CREATED, HttpStatus.SC_CONFLICT);
       }
     } finally {
@@ -115,241 +73,497 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  @UseLocalDisk
-  public void createProjectHttpWithUnreasonableName_BadRequest() throws Exception {
-    ImmutableList<String> forbiddenStrings =
-        ImmutableList.of(
-            "/../", "/./", "//", ".git/", "?", "%", "*", ":", "<", ">", "|", "$", "/+", "~");
-    for (String s : forbiddenStrings) {
-      String projectName = name("invalid" + s + "name");
-      assertWithMessage("Expected status code for " + projectName + " to be 400.")
-          .that(adminRestSession.put("/projects/" + Url.encode(projectName)).getStatusCode())
-          .isEqualTo(HttpStatus.SC_BAD_REQUEST);
-    }
-  }
-
-  @Test
-  public void createProjectHttpWithNameMismatch_BadRequest() throws Exception {
-    ProjectInput in = new ProjectInput();
-    in.name = name("otherName");
-    adminRestSession.put("/projects/" + name("someName"), in).assertBadRequest();
-  }
-
-  @Test
-  public void createProjectHttpWithInvalidRefName_BadRequest() throws Exception {
-    ProjectInput in = new ProjectInput();
-    in.branches = Collections.singletonList(name("invalid ref name"));
-    adminRestSession.put("/projects/" + name("newProject"), in).assertBadRequest();
-  }
-
-  @Test
-  public void createProject() throws Exception {
-    String newProjectName = name("newProject");
-    ProjectInfo p = gApi.projects().create(newProjectName).get();
-    assertThat(p.name).isEqualTo(newProjectName);
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
-    assertThat(projectState).isNotNull();
-    assertProjectInfo(projectState.getProject(), p);
-    assertHead(newProjectName, "refs/heads/master");
-  }
-
-  @Test
-  public void createProjectWithGitSuffix() throws Exception {
-    String newProjectName = name("newProject");
-    ProjectInfo p = gApi.projects().create(newProjectName + ".git").get();
-    assertThat(p.name).isEqualTo(newProjectName);
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
-    assertThat(projectState).isNotNull();
-    assertProjectInfo(projectState.getProject(), p);
-    assertHead(newProjectName, "refs/heads/master");
-  }
-
-  @Test
-  public void createProjectWithProperties() throws Exception {
-    String newProjectName = name("newProject");
-    ProjectInput in = new ProjectInput();
-    in.name = newProjectName;
-    in.description = "Test description";
-    in.submitType = SubmitType.CHERRY_PICK;
-    in.useContributorAgreements = InheritableBoolean.TRUE;
-    in.useSignedOffBy = InheritableBoolean.TRUE;
-    in.useContentMerge = InheritableBoolean.TRUE;
-    in.requireChangeId = InheritableBoolean.TRUE;
-    ProjectInfo p = gApi.projects().create(in).get();
-    assertThat(p.name).isEqualTo(newProjectName);
-    Project project = projectCache.get(new Project.NameKey(newProjectName)).getProject();
-    assertProjectInfo(project, p);
-    assertThat(project.getDescription()).isEqualTo(in.description);
-    assertThat(project.getSubmitType()).isEqualTo(in.submitType);
-    assertThat(project.getUseContributorAgreements()).isEqualTo(in.useContributorAgreements);
-    assertThat(project.getUseSignedOffBy()).isEqualTo(in.useSignedOffBy);
-    assertThat(project.getUseContentMerge()).isEqualTo(in.useContentMerge);
-    assertThat(project.getRequireChangeID()).isEqualTo(in.requireChangeId);
-  }
-
-  @Test
-  public void createChildProject() throws Exception {
-    String parentName = name("parent");
-    ProjectInput in = new ProjectInput();
-    in.name = parentName;
-    gApi.projects().create(in);
-
-    String childName = name("child");
-    in = new ProjectInput();
-    in.name = childName;
-    in.parent = parentName;
-    gApi.projects().create(in);
-    Project project = projectCache.get(new Project.NameKey(childName)).getProject();
-    assertThat(project.getParentName()).isEqualTo(in.parent);
-  }
-
-  @Test
-  public void createChildProjectUnderNonExistingParent_UnprocessableEntity() throws Exception {
-    ProjectInput in = new ProjectInput();
-    in.name = name("newProjectName");
-    in.parent = "non-existing-project";
-    assertCreateFails(in, UnprocessableEntityException.class);
-  }
-
-  @Test
-  public void createProjectWithOwner() throws Exception {
-    String newProjectName = name("newProject");
-    ProjectInput in = new ProjectInput();
-    in.name = newProjectName;
-    in.owners = Lists.newArrayListWithCapacity(3);
-    in.owners.add("Anonymous Users"); // by name
-    in.owners.add(SystemGroupBackend.REGISTERED_USERS.get()); // by UUID
-    in.owners.add(
-        Integer.toString(
-            groupCache
-                .get(new AccountGroup.NameKey("Administrators"))
-                .orElse(null)
-                .getId()
-                .get())); // by ID
-    gApi.projects().create(in);
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
-    Set<AccountGroup.UUID> expectedOwnerIds = Sets.newHashSetWithExpectedSize(3);
-    expectedOwnerIds.add(SystemGroupBackend.ANONYMOUS_USERS);
-    expectedOwnerIds.add(SystemGroupBackend.REGISTERED_USERS);
-    expectedOwnerIds.add(groupUuid("Administrators"));
-    assertProjectOwners(expectedOwnerIds, projectState);
-  }
-
-  @Test
-  public void createProjectWithNonExistingOwner_UnprocessableEntity() throws Exception {
-    ProjectInput in = new ProjectInput();
-    in.name = name("newProjectName");
-    in.owners = Collections.singletonList("non-existing-group");
-    assertCreateFails(in, UnprocessableEntityException.class);
-  }
-
-  @Test
-  public void createPermissionOnlyProject() throws Exception {
-    String newProjectName = name("newProject");
-    ProjectInput in = new ProjectInput();
-    in.name = newProjectName;
-    in.permissionsOnly = true;
-    gApi.projects().create(in);
-    assertHead(newProjectName, RefNames.REFS_CONFIG);
-  }
-
-  @Test
-  public void createProjectWithEmptyCommit() throws Exception {
-    String newProjectName = name("newProject");
-    ProjectInput in = new ProjectInput();
-    in.name = newProjectName;
-    in.createEmptyCommit = true;
-    gApi.projects().create(in);
-    assertEmptyCommit(newProjectName, "refs/heads/master");
-  }
-
-  @Test
-  public void createProjectWithBranches() throws Exception {
-    String newProjectName = name("newProject");
-    ProjectInput in = new ProjectInput();
-    in.name = newProjectName;
-    in.createEmptyCommit = true;
-    in.branches = Lists.newArrayListWithCapacity(3);
-    in.branches.add("refs/heads/test");
-    in.branches.add("refs/heads/master");
-    in.branches.add("release"); // without 'refs/heads' prefix
-    gApi.projects().create(in);
-    assertHead(newProjectName, "refs/heads/test");
-    assertEmptyCommit(newProjectName, "refs/heads/test", "refs/heads/master", "refs/heads/release");
-  }
-
-  @Test
-  public void createProjectWithCapability() throws Exception {
-    allowGlobalCapabilities(SystemGroupBackend.REGISTERED_USERS, GlobalCapability.CREATE_PROJECT);
+  public void createSameProjectFromTenConcurrentRequests2() throws Exception {
+    ExecutorService executor = Executors.newFixedThreadPool(10);
     try {
-      setApiUser(user);
-      ProjectInput in = new ProjectInput();
-      in.name = name("newProject");
-      ProjectInfo p = gApi.projects().create(in).get();
-      assertThat(p.name).isEqualTo(in.name);
-    } finally {
-      removeGlobalCapabilities(
-          SystemGroupBackend.REGISTERED_USERS, GlobalCapability.CREATE_PROJECT);
-    }
-  }
+      for (int i = 0; i < 100; i++) {
+        String newProjectName = name("foo" + i);
+        CyclicBarrier sync = new CyclicBarrier(10);
+        Callable<RestResponse> createProjectFoo =
+            () -> {
+              sync.await();
+              return adminRestSession.put("/projects/" + newProjectName);
+            };
 
-  @Test
-  public void createProjectWithoutCapability_Forbidden() throws Exception {
-    setApiUser(user);
-    ProjectInput in = new ProjectInput();
-    in.name = name("newProject");
-    assertCreateFails(in, AuthException.class);
-  }
-
-  @Test
-  public void createProjectWhenProjectAlreadyExists_Conflict() throws Exception {
-    ProjectInput in = new ProjectInput();
-    in.name = allProjects.get();
-    assertCreateFails(in, ResourceConflictException.class);
-  }
-
-  @Test
-  public void createProjectWithCreateProjectCapabilityAndParentNotVisible() throws Exception {
-    Project parent = projectCache.get(allProjects).getProject();
-    parent.setState(com.google.gerrit.extensions.client.ProjectState.HIDDEN);
-    allowGlobalCapabilities(SystemGroupBackend.REGISTERED_USERS, GlobalCapability.CREATE_PROJECT);
-    try {
-      setApiUser(user);
-      ProjectInput in = new ProjectInput();
-      in.name = name("newProject");
-      ProjectInfo p = gApi.projects().create(in).get();
-      assertThat(p.name).isEqualTo(in.name);
-    } finally {
-      parent.setState(com.google.gerrit.extensions.client.ProjectState.ACTIVE);
-      removeGlobalCapabilities(
-          SystemGroupBackend.REGISTERED_USERS, GlobalCapability.CREATE_PROJECT);
-    }
-  }
-
-  private void assertHead(String projectName, String expectedRef) throws Exception {
-    try (Repository repo = repoManager.openRepository(new Project.NameKey(projectName))) {
-      assertThat(repo.exactRef(Constants.HEAD).getTarget().getName()).isEqualTo(expectedRef);
-    }
-  }
-
-  private void assertEmptyCommit(String projectName, String... refs) throws Exception {
-    Project.NameKey projectKey = new Project.NameKey(projectName);
-    try (Repository repo = repoManager.openRepository(projectKey);
-        RevWalk rw = new RevWalk(repo);
-        TreeWalk tw = new TreeWalk(rw.getObjectReader())) {
-      for (String ref : refs) {
-        RevCommit commit = rw.lookupCommit(repo.exactRef(ref).getObjectId());
-        rw.parseBody(commit);
-        tw.addTree(commit.getTree());
-        assertThat(tw.next()).isFalse();
-        tw.reset();
+        Future<RestResponse> r1 = executor.submit(createProjectFoo);
+        Future<RestResponse> r2 = executor.submit(createProjectFoo);
+        Future<RestResponse> r3 = executor.submit(createProjectFoo);
+        Future<RestResponse> r4 = executor.submit(createProjectFoo);
+        Future<RestResponse> r5 = executor.submit(createProjectFoo);
+        Future<RestResponse> r6 = executor.submit(createProjectFoo);
+        Future<RestResponse> r7 = executor.submit(createProjectFoo);
+        Future<RestResponse> r8 = executor.submit(createProjectFoo);
+        Future<RestResponse> r9 = executor.submit(createProjectFoo);
+        Future<RestResponse> r10 = executor.submit(createProjectFoo);
+        assertThat(
+                ImmutableList.of(
+                    r1.get().getStatusCode(),
+                    r2.get().getStatusCode(),
+                    r3.get().getStatusCode(),
+                    r4.get().getStatusCode(),
+                    r5.get().getStatusCode(),
+                    r6.get().getStatusCode(),
+                    r7.get().getStatusCode(),
+                    r8.get().getStatusCode(),
+                    r9.get().getStatusCode(),
+                    r10.get().getStatusCode()))
+            .containsAllOf(HttpStatus.SC_CREATED, HttpStatus.SC_CONFLICT);
       }
+    } finally {
+      executor.shutdown();
+      executor.awaitTermination(5, TimeUnit.SECONDS);
     }
   }
 
-  private void assertCreateFails(ProjectInput in, Class<? extends RestApiException> errType)
-      throws Exception {
-    exception.expect(errType);
-    gApi.projects().create(in);
+  @Test
+  public void createSameProjectFromTenConcurrentRequests3() throws Exception {
+    ExecutorService executor = Executors.newFixedThreadPool(10);
+    try {
+      for (int i = 0; i < 1000; i++) {
+        String newProjectName = name("foo" + i);
+        CyclicBarrier sync = new CyclicBarrier(1);
+        Callable<RestResponse> createProjectFoo =
+            () -> {
+              sync.await();
+              return adminRestSession.put("/projects/" + newProjectName);
+            };
+
+        Future<RestResponse> r1 = executor.submit(createProjectFoo);
+        assertThat(r1.get().getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
+      }
+    } finally {
+      executor.shutdown();
+      executor.awaitTermination(5, TimeUnit.SECONDS);
+    }
+  }
+
+  @Test
+  public void createSameProjectFromTenConcurrentRequests4() throws Exception {
+    ExecutorService executor = Executors.newFixedThreadPool(10);
+    try {
+      for (int i = 0; i < 10; i++) {
+        String newProjectName = name("foo" + i);
+        CyclicBarrier sync = new CyclicBarrier(10);
+        Callable<RestResponse> createProjectFoo =
+            () -> {
+              sync.await();
+              return adminRestSession.put("/projects/" + newProjectName);
+            };
+
+        Future<RestResponse> r1 = executor.submit(createProjectFoo);
+        Future<RestResponse> r2 = executor.submit(createProjectFoo);
+        Future<RestResponse> r3 = executor.submit(createProjectFoo);
+        Future<RestResponse> r4 = executor.submit(createProjectFoo);
+        Future<RestResponse> r5 = executor.submit(createProjectFoo);
+        Future<RestResponse> r6 = executor.submit(createProjectFoo);
+        Future<RestResponse> r7 = executor.submit(createProjectFoo);
+        Future<RestResponse> r8 = executor.submit(createProjectFoo);
+        Future<RestResponse> r9 = executor.submit(createProjectFoo);
+        Future<RestResponse> r10 = executor.submit(createProjectFoo);
+        assertThat(
+                ImmutableList.of(
+                    r1.get().getStatusCode(),
+                    r2.get().getStatusCode(),
+                    r3.get().getStatusCode(),
+                    r4.get().getStatusCode(),
+                    r5.get().getStatusCode(),
+                    r6.get().getStatusCode(),
+                    r7.get().getStatusCode(),
+                    r8.get().getStatusCode(),
+                    r9.get().getStatusCode(),
+                    r10.get().getStatusCode()))
+            .containsAllOf(HttpStatus.SC_CREATED, HttpStatus.SC_CONFLICT);
+      }
+    } finally {
+      executor.shutdown();
+      executor.awaitTermination(5, TimeUnit.SECONDS);
+    }
+  }
+
+  @Test
+  public void createSameProjectFromTenConcurrentRequests5() throws Exception {
+    ExecutorService executor = Executors.newFixedThreadPool(10);
+    try {
+      for (int i = 0; i < 10; i++) {
+        String newProjectName = name("foo" + i);
+        CyclicBarrier sync = new CyclicBarrier(10);
+        Callable<RestResponse> createProjectFoo =
+            () -> {
+              sync.await();
+              return adminRestSession.put("/projects/" + newProjectName);
+            };
+
+        Future<RestResponse> r1 = executor.submit(createProjectFoo);
+        Future<RestResponse> r2 = executor.submit(createProjectFoo);
+        Future<RestResponse> r3 = executor.submit(createProjectFoo);
+        Future<RestResponse> r4 = executor.submit(createProjectFoo);
+        Future<RestResponse> r5 = executor.submit(createProjectFoo);
+        Future<RestResponse> r6 = executor.submit(createProjectFoo);
+        Future<RestResponse> r7 = executor.submit(createProjectFoo);
+        Future<RestResponse> r8 = executor.submit(createProjectFoo);
+        Future<RestResponse> r9 = executor.submit(createProjectFoo);
+        Future<RestResponse> r10 = executor.submit(createProjectFoo);
+        assertThat(
+                ImmutableList.of(
+                    r1.get().getStatusCode(),
+                    r2.get().getStatusCode(),
+                    r3.get().getStatusCode(),
+                    r4.get().getStatusCode(),
+                    r5.get().getStatusCode(),
+                    r6.get().getStatusCode(),
+                    r7.get().getStatusCode(),
+                    r8.get().getStatusCode(),
+                    r9.get().getStatusCode(),
+                    r10.get().getStatusCode()))
+            .containsAllOf(HttpStatus.SC_CREATED, HttpStatus.SC_CONFLICT);
+      }
+    } finally {
+      executor.shutdown();
+      executor.awaitTermination(5, TimeUnit.SECONDS);
+    }
+  }
+
+  @Test
+  public void createSameProjectFromTenConcurrentRequests6() throws Exception {
+    ExecutorService executor = Executors.newFixedThreadPool(10);
+    try {
+      for (int i = 0; i < 10; i++) {
+        String newProjectName = name("foo" + i);
+        CyclicBarrier sync = new CyclicBarrier(10);
+        Callable<RestResponse> createProjectFoo =
+            () -> {
+              sync.await();
+              return adminRestSession.put("/projects/" + newProjectName);
+            };
+
+        Future<RestResponse> r1 = executor.submit(createProjectFoo);
+        Future<RestResponse> r2 = executor.submit(createProjectFoo);
+        Future<RestResponse> r3 = executor.submit(createProjectFoo);
+        Future<RestResponse> r4 = executor.submit(createProjectFoo);
+        Future<RestResponse> r5 = executor.submit(createProjectFoo);
+        Future<RestResponse> r6 = executor.submit(createProjectFoo);
+        Future<RestResponse> r7 = executor.submit(createProjectFoo);
+        Future<RestResponse> r8 = executor.submit(createProjectFoo);
+        Future<RestResponse> r9 = executor.submit(createProjectFoo);
+        Future<RestResponse> r10 = executor.submit(createProjectFoo);
+        assertThat(
+                ImmutableList.of(
+                    r1.get().getStatusCode(),
+                    r2.get().getStatusCode(),
+                    r3.get().getStatusCode(),
+                    r4.get().getStatusCode(),
+                    r5.get().getStatusCode(),
+                    r6.get().getStatusCode(),
+                    r7.get().getStatusCode(),
+                    r8.get().getStatusCode(),
+                    r9.get().getStatusCode(),
+                    r10.get().getStatusCode()))
+            .containsAllOf(HttpStatus.SC_CREATED, HttpStatus.SC_CONFLICT);
+      }
+    } finally {
+      executor.shutdown();
+      executor.awaitTermination(5, TimeUnit.SECONDS);
+    }
+  }
+
+  @Test
+  public void createSameProjectFromTenConcurrentRequests7() throws Exception {
+    ExecutorService executor = Executors.newFixedThreadPool(10);
+    try {
+      for (int i = 0; i < 10; i++) {
+        String newProjectName = name("foo" + i);
+        CyclicBarrier sync = new CyclicBarrier(10);
+        Callable<RestResponse> createProjectFoo =
+            () -> {
+              sync.await();
+              return adminRestSession.put("/projects/" + newProjectName);
+            };
+
+        Future<RestResponse> r1 = executor.submit(createProjectFoo);
+        Future<RestResponse> r2 = executor.submit(createProjectFoo);
+        Future<RestResponse> r3 = executor.submit(createProjectFoo);
+        Future<RestResponse> r4 = executor.submit(createProjectFoo);
+        Future<RestResponse> r5 = executor.submit(createProjectFoo);
+        Future<RestResponse> r6 = executor.submit(createProjectFoo);
+        Future<RestResponse> r7 = executor.submit(createProjectFoo);
+        Future<RestResponse> r8 = executor.submit(createProjectFoo);
+        Future<RestResponse> r9 = executor.submit(createProjectFoo);
+        Future<RestResponse> r10 = executor.submit(createProjectFoo);
+        assertThat(
+                ImmutableList.of(
+                    r1.get().getStatusCode(),
+                    r2.get().getStatusCode(),
+                    r3.get().getStatusCode(),
+                    r4.get().getStatusCode(),
+                    r5.get().getStatusCode(),
+                    r6.get().getStatusCode(),
+                    r7.get().getStatusCode(),
+                    r8.get().getStatusCode(),
+                    r9.get().getStatusCode(),
+                    r10.get().getStatusCode()))
+            .containsAllOf(HttpStatus.SC_CREATED, HttpStatus.SC_CONFLICT);
+      }
+    } finally {
+      executor.shutdown();
+      executor.awaitTermination(5, TimeUnit.SECONDS);
+    }
+  }
+
+  @Test
+  public void createSameProjectFromTenConcurrentRequests8() throws Exception {
+    ExecutorService executor = Executors.newFixedThreadPool(10);
+    try {
+      for (int i = 0; i < 10; i++) {
+        String newProjectName = name("foo" + i);
+        CyclicBarrier sync = new CyclicBarrier(10);
+        Callable<RestResponse> createProjectFoo =
+            () -> {
+              sync.await();
+              return adminRestSession.put("/projects/" + newProjectName);
+            };
+
+        Future<RestResponse> r1 = executor.submit(createProjectFoo);
+        Future<RestResponse> r2 = executor.submit(createProjectFoo);
+        Future<RestResponse> r3 = executor.submit(createProjectFoo);
+        Future<RestResponse> r4 = executor.submit(createProjectFoo);
+        Future<RestResponse> r5 = executor.submit(createProjectFoo);
+        Future<RestResponse> r6 = executor.submit(createProjectFoo);
+        Future<RestResponse> r7 = executor.submit(createProjectFoo);
+        Future<RestResponse> r8 = executor.submit(createProjectFoo);
+        Future<RestResponse> r9 = executor.submit(createProjectFoo);
+        Future<RestResponse> r10 = executor.submit(createProjectFoo);
+        assertThat(
+                ImmutableList.of(
+                    r1.get().getStatusCode(),
+                    r2.get().getStatusCode(),
+                    r3.get().getStatusCode(),
+                    r4.get().getStatusCode(),
+                    r5.get().getStatusCode(),
+                    r6.get().getStatusCode(),
+                    r7.get().getStatusCode(),
+                    r8.get().getStatusCode(),
+                    r9.get().getStatusCode(),
+                    r10.get().getStatusCode()))
+            .containsAllOf(HttpStatus.SC_CREATED, HttpStatus.SC_CONFLICT);
+      }
+    } finally {
+      executor.shutdown();
+      executor.awaitTermination(5, TimeUnit.SECONDS);
+    }
+  }
+
+  @Test
+  public void createSameProjectFromTenConcurrentRequests9() throws Exception {
+    ExecutorService executor = Executors.newFixedThreadPool(10);
+    try {
+      for (int i = 0; i < 10; i++) {
+        String newProjectName = name("foo" + i);
+        CyclicBarrier sync = new CyclicBarrier(10);
+        Callable<RestResponse> createProjectFoo =
+            () -> {
+              sync.await();
+              return adminRestSession.put("/projects/" + newProjectName);
+            };
+
+        Future<RestResponse> r1 = executor.submit(createProjectFoo);
+        Future<RestResponse> r2 = executor.submit(createProjectFoo);
+        Future<RestResponse> r3 = executor.submit(createProjectFoo);
+        Future<RestResponse> r4 = executor.submit(createProjectFoo);
+        Future<RestResponse> r5 = executor.submit(createProjectFoo);
+        Future<RestResponse> r6 = executor.submit(createProjectFoo);
+        Future<RestResponse> r7 = executor.submit(createProjectFoo);
+        Future<RestResponse> r8 = executor.submit(createProjectFoo);
+        Future<RestResponse> r9 = executor.submit(createProjectFoo);
+        Future<RestResponse> r10 = executor.submit(createProjectFoo);
+        assertThat(
+                ImmutableList.of(
+                    r1.get().getStatusCode(),
+                    r2.get().getStatusCode(),
+                    r3.get().getStatusCode(),
+                    r4.get().getStatusCode(),
+                    r5.get().getStatusCode(),
+                    r6.get().getStatusCode(),
+                    r7.get().getStatusCode(),
+                    r8.get().getStatusCode(),
+                    r9.get().getStatusCode(),
+                    r10.get().getStatusCode()))
+            .containsAllOf(HttpStatus.SC_CREATED, HttpStatus.SC_CONFLICT);
+      }
+    } finally {
+      executor.shutdown();
+      executor.awaitTermination(5, TimeUnit.SECONDS);
+    }
+  }
+
+  @Test
+  public void createSameProjectFromTenConcurrentRequests10() throws Exception {
+    ExecutorService executor = Executors.newFixedThreadPool(10);
+    try {
+      for (int i = 0; i < 10; i++) {
+        String newProjectName = name("foo" + i);
+        CyclicBarrier sync = new CyclicBarrier(10);
+        Callable<RestResponse> createProjectFoo =
+            () -> {
+              sync.await();
+              return adminRestSession.put("/projects/" + newProjectName);
+            };
+
+        Future<RestResponse> r1 = executor.submit(createProjectFoo);
+        Future<RestResponse> r2 = executor.submit(createProjectFoo);
+        Future<RestResponse> r3 = executor.submit(createProjectFoo);
+        Future<RestResponse> r4 = executor.submit(createProjectFoo);
+        Future<RestResponse> r5 = executor.submit(createProjectFoo);
+        Future<RestResponse> r6 = executor.submit(createProjectFoo);
+        Future<RestResponse> r7 = executor.submit(createProjectFoo);
+        Future<RestResponse> r8 = executor.submit(createProjectFoo);
+        Future<RestResponse> r9 = executor.submit(createProjectFoo);
+        Future<RestResponse> r10 = executor.submit(createProjectFoo);
+        assertThat(
+                ImmutableList.of(
+                    r1.get().getStatusCode(),
+                    r2.get().getStatusCode(),
+                    r3.get().getStatusCode(),
+                    r4.get().getStatusCode(),
+                    r5.get().getStatusCode(),
+                    r6.get().getStatusCode(),
+                    r7.get().getStatusCode(),
+                    r8.get().getStatusCode(),
+                    r9.get().getStatusCode(),
+                    r10.get().getStatusCode()))
+            .containsAllOf(HttpStatus.SC_CREATED, HttpStatus.SC_CONFLICT);
+      }
+    } finally {
+      executor.shutdown();
+      executor.awaitTermination(5, TimeUnit.SECONDS);
+    }
+  }
+
+  @Test
+  public void createSameProjectFromTenConcurrentRequests11() throws Exception {
+    ExecutorService executor = Executors.newFixedThreadPool(10);
+    try {
+      for (int i = 0; i < 10; i++) {
+        String newProjectName = name("foo" + i);
+        CyclicBarrier sync = new CyclicBarrier(10);
+        Callable<RestResponse> createProjectFoo =
+            () -> {
+              sync.await();
+              return adminRestSession.put("/projects/" + newProjectName);
+            };
+
+        Future<RestResponse> r1 = executor.submit(createProjectFoo);
+        Future<RestResponse> r2 = executor.submit(createProjectFoo);
+        Future<RestResponse> r3 = executor.submit(createProjectFoo);
+        Future<RestResponse> r4 = executor.submit(createProjectFoo);
+        Future<RestResponse> r5 = executor.submit(createProjectFoo);
+        Future<RestResponse> r6 = executor.submit(createProjectFoo);
+        Future<RestResponse> r7 = executor.submit(createProjectFoo);
+        Future<RestResponse> r8 = executor.submit(createProjectFoo);
+        Future<RestResponse> r9 = executor.submit(createProjectFoo);
+        Future<RestResponse> r10 = executor.submit(createProjectFoo);
+        assertThat(
+                ImmutableList.of(
+                    r1.get().getStatusCode(),
+                    r2.get().getStatusCode(),
+                    r3.get().getStatusCode(),
+                    r4.get().getStatusCode(),
+                    r5.get().getStatusCode(),
+                    r6.get().getStatusCode(),
+                    r7.get().getStatusCode(),
+                    r8.get().getStatusCode(),
+                    r9.get().getStatusCode(),
+                    r10.get().getStatusCode()))
+            .containsAllOf(HttpStatus.SC_CREATED, HttpStatus.SC_CONFLICT);
+      }
+    } finally {
+      executor.shutdown();
+      executor.awaitTermination(5, TimeUnit.SECONDS);
+    }
+  }
+
+  @Test
+  public void createSameProjectFromTenConcurrentRequests12() throws Exception {
+    ExecutorService executor = Executors.newFixedThreadPool(10);
+    try {
+      for (int i = 0; i < 10; i++) {
+        String newProjectName = name("foo" + i);
+        CyclicBarrier sync = new CyclicBarrier(10);
+        Callable<RestResponse> createProjectFoo =
+            () -> {
+              sync.await();
+              return adminRestSession.put("/projects/" + newProjectName);
+            };
+
+        Future<RestResponse> r1 = executor.submit(createProjectFoo);
+        Future<RestResponse> r2 = executor.submit(createProjectFoo);
+        Future<RestResponse> r3 = executor.submit(createProjectFoo);
+        Future<RestResponse> r4 = executor.submit(createProjectFoo);
+        Future<RestResponse> r5 = executor.submit(createProjectFoo);
+        Future<RestResponse> r6 = executor.submit(createProjectFoo);
+        Future<RestResponse> r7 = executor.submit(createProjectFoo);
+        Future<RestResponse> r8 = executor.submit(createProjectFoo);
+        Future<RestResponse> r9 = executor.submit(createProjectFoo);
+        Future<RestResponse> r10 = executor.submit(createProjectFoo);
+        assertThat(
+                ImmutableList.of(
+                    r1.get().getStatusCode(),
+                    r2.get().getStatusCode(),
+                    r3.get().getStatusCode(),
+                    r4.get().getStatusCode(),
+                    r5.get().getStatusCode(),
+                    r6.get().getStatusCode(),
+                    r7.get().getStatusCode(),
+                    r8.get().getStatusCode(),
+                    r9.get().getStatusCode(),
+                    r10.get().getStatusCode()))
+            .containsAllOf(HttpStatus.SC_CREATED, HttpStatus.SC_CONFLICT);
+      }
+    } finally {
+      executor.shutdown();
+      executor.awaitTermination(5, TimeUnit.SECONDS);
+    }
+  }
+
+  @Test
+  public void createSameProjectFromTenConcurrentRequests13() throws Exception {
+    ExecutorService executor = Executors.newFixedThreadPool(10);
+    try {
+      for (int i = 0; i < 10; i++) {
+        String newProjectName = name("foo" + i);
+        CyclicBarrier sync = new CyclicBarrier(10);
+        Callable<RestResponse> createProjectFoo =
+            () -> {
+              sync.await();
+              return adminRestSession.put("/projects/" + newProjectName);
+            };
+
+        Future<RestResponse> r1 = executor.submit(createProjectFoo);
+        Future<RestResponse> r2 = executor.submit(createProjectFoo);
+        Future<RestResponse> r3 = executor.submit(createProjectFoo);
+        Future<RestResponse> r4 = executor.submit(createProjectFoo);
+        Future<RestResponse> r5 = executor.submit(createProjectFoo);
+        Future<RestResponse> r6 = executor.submit(createProjectFoo);
+        Future<RestResponse> r7 = executor.submit(createProjectFoo);
+        Future<RestResponse> r8 = executor.submit(createProjectFoo);
+        Future<RestResponse> r9 = executor.submit(createProjectFoo);
+        Future<RestResponse> r10 = executor.submit(createProjectFoo);
+        assertThat(
+                ImmutableList.of(
+                    r1.get().getStatusCode(),
+                    r2.get().getStatusCode(),
+                    r3.get().getStatusCode(),
+                    r4.get().getStatusCode(),
+                    r5.get().getStatusCode(),
+                    r6.get().getStatusCode(),
+                    r7.get().getStatusCode(),
+                    r8.get().getStatusCode(),
+                    r9.get().getStatusCode(),
+                    r10.get().getStatusCode()))
+            .containsAllOf(HttpStatus.SC_CREATED, HttpStatus.SC_CONFLICT);
+      }
+    } finally {
+      executor.shutdown();
+      executor.awaitTermination(5, TimeUnit.SECONDS);
+    }
   }
 }

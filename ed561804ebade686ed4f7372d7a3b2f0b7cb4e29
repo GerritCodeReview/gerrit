@@ -16,6 +16,24 @@
       "revId": "ed561804ebade686ed4f7372d7a3b2f0b7cb4e29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dffc2aea_16b56f3e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-12-03T23:06:46Z",
+      "side": 1,
+      "message": "I filed this issue to track this breakage: [1] and instrumented the project creation machinery and the test, that helped reliably (at least here) to reproduce the problem: [2].\n\n* [1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7903\n* [2] https://gerrit-review.googlesource.com/#/c/gerrit/+/146032",
+      "parentUuid": "bae97835_5031412c",
+      "revId": "ed561804ebade686ed4f7372d7a3b2f0b7cb4e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

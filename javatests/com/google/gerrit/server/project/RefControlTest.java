@@ -214,6 +214,9 @@ public class RefControlTest {
     projectCache =
         new ProjectCache() {
           @Override
+          public void setVerbose(boolean b) {}
+
+          @Override
           public ProjectState getAllProjects() {
             return get(allProjectsName);
           }

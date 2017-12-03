@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -90,6 +91,7 @@ public class ProjectCacheImpl implements ProjectCache {
   private final Lock listLock;
   private final ProjectCacheClock clock;
   private final Provider<ProjectIndexer> indexer;
+  private boolean verbose;
 
   @Inject
   ProjectCacheImpl(
@@ -120,6 +122,11 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
+  public void setVerbose(boolean b) {
+    verbose = b;
+  }
+
+  @Override
   public ProjectState getAllUsers() {
     ProjectState state = get(allUsersName);
     if (state == null) {
@@ -141,9 +148,7 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Override
   public ProjectState checkedGet(Project.NameKey projectName) throws IOException {
-    if (projectName == null) {
-      return null;
-    }
+    Preconditions.checkNotNull(projectName);
     try {
       ProjectState state = byName.get(projectName.get());
       if (state != null && state.needsRefresh(clock.read())) {
@@ -156,6 +161,9 @@ public class ProjectCacheImpl implements ProjectCache {
         log.warn(String.format("Cannot read project %s", projectName.get()), e);
         Throwables.throwIfInstanceOf(e.getCause(), IOException.class);
         throw new IOException(e);
+      }
+      if (verbose) {
+        e.printStackTrace();
       }
       return null;
     }

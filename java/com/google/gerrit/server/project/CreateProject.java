@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.ProjectUtil;
@@ -209,6 +210,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       }
 
       ProjectState projectState = createProject(args);
+      Preconditions.checkNotNull(projectState);
       if (input.pluginConfigValues != null) {
         ConfigInput in = new ConfigInput();
         in.pluginConfigValues = input.pluginConfigValues;
@@ -245,7 +247,15 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
 
         fire(nameKey, head);
 
-        return projectCache.get(nameKey);
+        projectCache.setVerbose(true);
+        ProjectState projectState = projectCache.get(nameKey);
+        if (projectState == null) {
+          System.err.println("cache miss for repo: " + nameKey);
+          System.err.println(repoManager.list());
+          Preconditions.checkNotNull(projectState);
+        }
+        projectCache.setVerbose(false);
+        return projectState;
       }
     } catch (RepositoryCaseMismatchException e) {
       throw new ResourceConflictException(

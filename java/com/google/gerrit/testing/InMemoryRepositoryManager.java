@@ -94,7 +94,9 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
       }
     } catch (RepositoryNotFoundException e) {
       repo = new Repo(name);
-      repos.put(normalize(name), repo);
+      String normalized = normalize(name);
+      repos.put(normalized, repo);
+      //System.err.println("Mgr <repo created>: " + normalized);
     }
     return repo;
   }

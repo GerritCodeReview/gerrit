@@ -261,6 +261,11 @@ public abstract class GroupBundle {
 
   public static ImmutableList<String> compare(
       GroupBundle reviewDbBundle, GroupBundle noteDbBundle) {
+    return compare(reviewDbBundle, noteDbBundle, true);
+  }
+
+  public static ImmutableList<String> compare(
+      GroupBundle reviewDbBundle, GroupBundle noteDbBundle, boolean compareAudits) {
     // Normalize the ReviewDb bundle to what we expect in NoteDb. This means that values in error
     // messages will not reflect the actual data in ReviewDb, but it will make it easier for humans
     // to see the difference.
@@ -293,7 +298,9 @@ public abstract class GroupBundle {
               + ("ReviewDb: " + reviewDbBundle.members() + "\n")
               + ("NoteDb  : " + noteDbBundle.members()));
     }
-    if (!areMemberAuditsConsideredEqual(reviewDbBundle.memberAudit(), noteDbBundle.memberAudit())) {
+    if (compareAudits
+        && !areMemberAuditsConsideredEqual(
+            reviewDbBundle.memberAudit(), noteDbBundle.memberAudit())) {
       result.add(
           "AccountGroupMemberAudits differ\n"
               + ("ReviewDb: " + reviewDbBundle.memberAudit() + "\n")
@@ -305,7 +312,8 @@ public abstract class GroupBundle {
               + ("ReviewDb: " + reviewDbBundle.byId() + "\n")
               + ("NoteDb  : " + noteDbBundle.byId()));
     }
-    if (!areByIdAuditsConsideredEqual(reviewDbBundle.byIdAudit(), noteDbBundle.byIdAudit())) {
+    if (compareAudits
+        && !areByIdAuditsConsideredEqual(reviewDbBundle.byIdAudit(), noteDbBundle.byIdAudit())) {
       result.add(
           "AccountGroupByIdAudits differ\n"
               + ("ReviewDb: " + reviewDbBundle.byIdAudit() + "\n")

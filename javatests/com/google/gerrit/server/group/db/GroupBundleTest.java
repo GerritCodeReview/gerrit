@@ -94,6 +94,27 @@ public class GroupBundleTest extends GerritBaseTests {
   }
 
   @Test
+  public void compareIgnoreAudits() throws Exception {
+    GroupBundle reviewDbBundle = newBundle().source(Source.REVIEW_DB).build();
+    AccountGroup group = new AccountGroup(reviewDbBundle.group());
+
+    AccountGroupMember member =
+        new AccountGroupMember(new AccountGroupMember.Key(new Account.Id(1), group.getId()));
+    AccountGroupMemberAudit memberAudit =
+        new AccountGroupMemberAudit(member, new Account.Id(2), ts);
+    AccountGroupById byId =
+        new AccountGroupById(
+            new AccountGroupById.Key(group.getId(), new AccountGroup.UUID("subgroup-2")));
+    AccountGroupByIdAud byIdAudit = new AccountGroupByIdAud(byId, new Account.Id(3), ts);
+
+    GroupBundle noteDbBundle =
+        newBundle().source(Source.NOTE_DB).memberAudit(memberAudit).byIdAudit(byIdAudit).build();
+
+    assertThat(GroupBundle.compare(reviewDbBundle, noteDbBundle, true)).isNotEmpty();
+    assertThat(GroupBundle.compare(reviewDbBundle, noteDbBundle, false)).isEmpty();
+  }
+
+  @Test
   public void compareEqual() throws Exception {
     GroupBundle reviewDbBundle = newBundle().source(Source.REVIEW_DB).build();
     GroupBundle noteDbBundle = newBundle().source(Source.NOTE_DB).build();

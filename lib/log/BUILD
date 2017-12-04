@@ -47,6 +47,20 @@ java_library(
 )
 
 java_library(
+    name = "gelf",
+    data = ["//lib:LICENSE-logstash-gelf"],
+    visibility = ["//visibility:public"],
+    exports = ["@gelf//jar"],
+)
+
+java_library(
+    name = "json-simple",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@json-simple//jar"],
+)
+
+java_library(
     name = "json-smart",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],

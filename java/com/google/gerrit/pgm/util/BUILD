@@ -21,7 +21,9 @@ java_library(
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
+        "//lib/log:gelf",
         "//lib/log:jsonevent-layout",
+        "//lib/log:json-simple",
         "//lib/log:log4j",
     ],
 )

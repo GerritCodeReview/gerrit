@@ -51,7 +51,9 @@ final class DispatchCommand extends BaseCommand {
   private List<String> args = new ArrayList<>();
 
   @Inject
-  DispatchCommand(CurrentUser cu, @Assisted final Map<String, CommandProvider> all) {
+  DispatchCommand(
+      CurrentUser cu,
+      @Assisted final Map<String, CommandProvider> all) {
     currentUser = cu;
     commands = all;
     atomicCmd = Atomics.newReference();
@@ -99,6 +101,10 @@ final class DispatchCommand extends BaseCommand {
       provideStateTo(cmd);
       atomicCmd.set(cmd);
       cmd.start(env);
+
+      if (cmd instanceof BaseCommand) {
+        setMaskedArguments(((BaseCommand) cmd).getMaskedArguments());
+      }
 
     } catch (UnloggedFailure e) {
       String msg = e.getMessage();

@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -159,7 +160,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
                   } catch (Exception e) {
                     logger.warn(
                         "Cannot start command \""
-                            + ctx.getCommandLine()
+                            + cmd.getFormattedMaskedArguments(" ")
                             + "\" for user "
                             + ctx.getSession().getUsername(),
                         e);
@@ -179,23 +180,24 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
         try {
           cmd = dispatcher.get();
           cmd.setArguments(argv);
+          cmd.setMaskedArguments(argv.length > 0 ? Arrays.asList(argv[0])
+              : Arrays.asList(ctx.getCommandLine().split(" ")[0]));
           cmd.setInputStream(in);
           cmd.setOutputStream(out);
           cmd.setErrorStream(err);
-          cmd.setExitCallback(
-              new ExitCallback() {
-                @Override
-                public void onExit(int rc, String exitMessage) {
-                  exit.onExit(translateExit(rc), exitMessage);
-                  log(rc);
-                }
+          cmd.setExitCallback(new ExitCallback() {
+            @Override
+            public void onExit(int rc, String exitMessage) {
+              exit.onExit(translateExit(rc), exitMessage);
+              log(rc);
+            }
 
-                @Override
-                public void onExit(int rc) {
-                  exit.onExit(translateExit(rc));
-                  log(rc);
-                }
-              });
+            @Override
+            public void onExit(int rc) {
+              exit.onExit(translateExit(rc));
+              log(rc);
+            }
+          });
           cmd.start(env);
         } finally {
           sshScope.set(old);

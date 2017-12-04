@@ -22,6 +22,30 @@
       "revId": "e38d0f63e297dbefc2f2b8e37184b2f6e47df2e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2722e25_7b664aba",
+        "filename": "java/com/google/gerrit/server/group/db/GroupBundle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-04T15:52:22Z",
+      "side": 1,
+      "message": "It\u0027s easy to adjust. Let\u0027s choose the better style.",
+      "parentUuid": "9f7f115b_daed45b8",
+      "range": {
+        "startLine": 268,
+        "startChar": 60,
+        "endLine": 268,
+        "endChar": 81
+      },
+      "revId": "e38d0f63e297dbefc2f2b8e37184b2f6e47df2e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

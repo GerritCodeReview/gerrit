@@ -48,9 +48,12 @@ class SshLog implements LifecycleListener {
   private static final String P_STATUS = "status";
   private static final String P_AGENT = "agent";
 
+  private static final String MASK = "***";
+
   private final Provider<SshSession> session;
   private final Provider<Context> context;
   private final AsyncAppender async;
+  private final boolean auditMask;
   private final AuditService auditService;
 
   @Inject
@@ -64,6 +67,7 @@ class SshLog implements LifecycleListener {
     this.context = context;
     this.auditService = auditService;
 
+    auditMask = config.getBoolean("audit", "maskSensitiveData", false);
     if (!config.getBoolean("sshd", "requestLog", true)) {
       async = null;
       return;
@@ -121,7 +125,8 @@ class SshLog implements LifecycleListener {
     final Context ctx = context.get();
     ctx.finished = TimeUtil.nowMs();
 
-    String cmd = extractWhat(dcmd);
+    ListMultimap<String, ?> parameters = extractParameters(dcmd, true);
+    String cmd = extractWhat(dcmd, parameters);
 
     final LoggingEvent event = log(cmd);
     event.setProperty(P_WAIT, (ctx.started - ctx.created) + "ms");
@@ -154,10 +159,13 @@ class SshLog implements LifecycleListener {
     if (async != null) {
       async.append(event);
     }
-    audit(context.get(), status, dcmd);
+    if (!auditMask) {
+      parameters = extractParameters(dcmd, false);
+    }
+    audit(ctx, status, extractWhat(dcmd, parameters), parameters);
   }
 
-  private ListMultimap<String, ?> extractParameters(DispatchCommand dcmd) {
+  private ListMultimap<String, ?> extractParameters(DispatchCommand dcmd, boolean secure) {
     if (dcmd == null) {
       return MultimapBuilder.hashKeys(0).arrayListValues(0).build();
     }
@@ -177,7 +185,9 @@ class SshLog implements LifecycleListener {
       // --param=value
       int eqPos = arg.indexOf('=');
       if (arg.startsWith("--") && eqPos > 0) {
-        parms.put(arg.substring(0, eqPos), arg.substring(eqPos + 1));
+        String parm = arg.substring(0, eqPos);
+        parms.put(
+            parm, secure && dcmd.isSensitiveParameter(parm) ? MASK : arg.substring(eqPos + 1));
         continue;
       }
       // -p value or --param value
@@ -192,7 +202,8 @@ class SshLog implements LifecycleListener {
       if (paramName == null) {
         parms.put("$" + argPos++, arg);
       } else {
-        parms.put(paramName, arg);
+        String mask = secure ? MASK : arg;
+        parms.put(paramName, secure && dcmd.isSensitiveParameter(paramName) ? MASK : arg);
         paramName = null;
       }
     }
@@ -256,10 +267,6 @@ class SshLog implements LifecycleListener {
     audit(ctx, result, cmd, null);
   }
 
-  void audit(Context ctx, Object result, DispatchCommand cmd) {
-    audit(ctx, result, extractWhat(cmd), extractParameters(cmd));
-  }
-
   private void audit(Context ctx, Object result, String cmd, ListMultimap<String, ?> params) {
     String sessionId;
     CurrentUser currentUser;
@@ -277,14 +284,29 @@ class SshLog implements LifecycleListener {
     auditService.dispatch(new SshAuditEvent(sessionId, currentUser, cmd, created, params, result));
   }
 
-  private String extractWhat(DispatchCommand dcmd) {
+  private String extractWhat(DispatchCommand dcmd, ListMultimap<String, ?> parameters) {
     if (dcmd == null) {
       return "Command was already destroyed";
     }
     StringBuilder commandName = new StringBuilder(dcmd.getCommandName());
     String[] args = dcmd.getArguments();
-    for (int i = 1; i < args.length; i++) {
-      commandName.append(".").append(args[i]);
+    if (args.length >= 2) {
+      commandName.append(".").append(args[1]);
+    }
+
+    for (String key : parameters.keys()) {
+      for (Object value : parameters.get(key)) {
+        if (key.toString().startsWith("$")) {
+          commandName.append(".").append(value);
+        }
+      }
+    }
+    for (String key : parameters.keys()) {
+      for (Object value : parameters.get(key)) {
+        if (!key.toString().startsWith("$")) {
+          commandName.append(".").append(key).append(".").append(value);
+        }
+      }
     }
     return commandName.toString();
   }

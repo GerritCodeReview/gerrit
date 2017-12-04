@@ -71,6 +71,7 @@ public class SshModule extends LifecycleModule {
     configureRequestScope();
     install(new AsyncReceiveCommits.Module());
     configureAliases();
+    install(SshCommandSensitiveFieldsCacheImpl.module());
 
     bind(SshLog.class);
     DynamicSet.bind(binder(), GerritConfigListener.class).to(SshLog.class);

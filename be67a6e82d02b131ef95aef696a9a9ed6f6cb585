@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67e7bcf1_f26a78cc",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-04T13:14:35Z",
+      "side": 1,
+      "message": "When I described the task of supporting external audit system also with NoteDb, I said something of moving the respective code. The idea is to not distinguish between ReviewDb and NoteDb but trigger the audit listener after the update when either of them was processed.",
+      "range": {
+        "startLine": 506,
+        "startChar": 6,
+        "endLine": 509,
+        "endChar": 7
+      },
+      "revId": "be67a6e82d02b131ef95aef696a9a9ed6f6cb585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0fae9c7_fba0969c",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-04T13:14:35Z",
+      "side": 1,
+      "message": "We shouldn\u0027t recompute these values. Instead, we could adjust UpdateResult to offer separate methods for added/removed members/subgroups.",
+      "range": {
+        "startLine": 516,
+        "startChar": 4,
+        "endLine": 524,
+        "endChar": 51
+      },
+      "revId": "be67a6e82d02b131ef95aef696a9a9ed6f6cb585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aefe08ef_2c98897e",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-04T13:14:35Z",
+      "side": 1,
+      "message": "By the way, this change is not sufficient for the task of supporting external audit systems with NoteDb. We want to get rid of the ReviewDb types such as AccountGroupMember. Hence, the audit listeners shouldn\u0027t depend on them. In addition, Dave suggested that we introduce a new type Event (or something similar), which will be the method parameter for the listener. Thus, we can easily add further attributes in the future without breaking the method signature.",
+      "range": {
+        "startLine": 527,
+        "startChar": 6,
+        "endLine": 527,
+        "endChar": 18
+      },
+      "revId": "be67a6e82d02b131ef95aef696a9a9ed6f6cb585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

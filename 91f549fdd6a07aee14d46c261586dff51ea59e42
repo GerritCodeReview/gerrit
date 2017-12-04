@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c4940df_2277e574",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-04T15:59:09Z",
+      "side": 1,
+      "message": "Can you please clarify in the commit message that this is not part of this change?",
+      "range": {
+        "startLine": 10,
+        "startChar": 37,
+        "endLine": 12,
+        "endChar": 19
+      },
+      "revId": "91f549fdd6a07aee14d46c261586dff51ea59e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "815024e5_2d7ce3df",
+        "filename": "java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-04T15:59:09Z",
+      "side": 1,
+      "message": "Would it be possible to add a test (without too much effort)?",
+      "range": {
+        "startLine": 70,
+        "startChar": 23,
+        "endLine": 70,
+        "endChar": 46
+      },
+      "revId": "91f549fdd6a07aee14d46c261586dff51ea59e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

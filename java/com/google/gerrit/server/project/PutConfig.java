@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
@@ -52,6 +51,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.slf4j.Logger;
@@ -60,6 +60,8 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   private static final Logger log = LoggerFactory.getLogger(PutConfig.class);
+  private static final Pattern PARAMETER_NAME_PATTERN =
+      Pattern.compile("^[a-zA-Z0-9]+[a-zA-Z0-9-]*$");
 
   private final boolean serverEnableSignedPush;
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
@@ -190,10 +192,12 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       for (Entry<String, ConfigValue> v : e.getValue().entrySet()) {
         ProjectConfigEntry projectConfigEntry = pluginConfigEntries.get(pluginName, v.getKey());
         if (projectConfigEntry != null) {
-          if (!isValidParameterName(v.getKey())) {
+          if (!PARAMETER_NAME_PATTERN.matcher(v.getKey()).matches()) {
+            //TODO check why we have this restriction
             log.warn(
-                String.format(
-                    "Parameter name '%s' must match '^[a-zA-Z0-9]+[a-zA-Z0-9-]*$'", v.getKey()));
+                "Parameter name '{}' must match '{}'",
+                v.getKey(),
+                PARAMETER_NAME_PATTERN.pattern());
             continue;
           }
           String oldValue = cfg.getString(v.getKey());
@@ -282,10 +286,5 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
               "Not allowed to set parameter '%s' of plugin '%s' on project '%s'.",
               parameterName, pluginName, projectState.getName()));
     }
-  }
-
-  private static boolean isValidParameterName(String name) {
-    return CharMatcher.javaLetterOrDigit().or(CharMatcher.is('-')).matchesAllOf(name)
-        && !name.startsWith("-");
   }
 }

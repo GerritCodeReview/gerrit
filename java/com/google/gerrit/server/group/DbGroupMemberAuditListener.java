@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.group;
 
+import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
+
 import com.google.common.base.Joiner;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -65,7 +67,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
       AccountGroupMemberAudit audit = new AccountGroupMemberAudit(m, me, addedOn);
       auditInserts.add(audit);
     }
-    try (ReviewDb db = schema.open()) {
+    try (ReviewDb db = unwrapDb(schema.open())) {
       db.accountGroupMembersAudit().insert(auditInserts);
     } catch (OrmException e) {
       logOrmExceptionForAccounts(
@@ -78,7 +80,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
       Account.Id me, Collection<AccountGroupMember> removed, Timestamp removedOn) {
     List<AccountGroupMemberAudit> auditInserts = new ArrayList<>();
     List<AccountGroupMemberAudit> auditUpdates = new ArrayList<>();
-    try (ReviewDb db = schema.open()) {
+    try (ReviewDb db = unwrapDb(schema.open())) {
       for (AccountGroupMember m : removed) {
         AccountGroupMemberAudit audit = null;
         for (AccountGroupMemberAudit a :
@@ -114,7 +116,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
       AccountGroupByIdAud audit = new AccountGroupByIdAud(groupInclude, me, addedOn);
       includesAudit.add(audit);
     }
-    try (ReviewDb db = schema.open()) {
+    try (ReviewDb db = unwrapDb(schema.open())) {
       db.accountGroupByIdAud().insert(includesAudit);
     } catch (OrmException e) {
       logOrmExceptionForGroups(
@@ -126,7 +128,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
   public void onDeleteGroupsFromGroup(
       Account.Id me, Collection<AccountGroupById> removed, Timestamp removedOn) {
     final List<AccountGroupByIdAud> auditUpdates = new ArrayList<>();
-    try (ReviewDb db = schema.open()) {
+    try (ReviewDb db = unwrapDb(schema.open())) {
       for (AccountGroupById g : removed) {
         AccountGroupByIdAud audit = null;
         for (AccountGroupByIdAud a :

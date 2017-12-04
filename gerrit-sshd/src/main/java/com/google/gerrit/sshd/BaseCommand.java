@@ -42,6 +42,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
 import org.apache.sshd.common.SshException;
@@ -97,6 +99,8 @@ public abstract class BaseCommand implements Command {
 
   /** Unparsed command line options. */
   private String[] argv;
+
+  private Set<String> sensitiveParameters;
 
   public BaseCommand() {
     task = Atomics.newReference();
@@ -367,6 +371,25 @@ public abstract class BaseCommand implements Command {
     } catch (IOException e) {
       // Ignored
     }
+  }
+
+  public boolean isSensitiveParameters(String params) {
+    return this.sensitiveParameters == null ? false : sensitiveParameters.contains(params);
+  }
+
+  public void addSensitiveParameters(String sensitiveParameters) {
+    if (this.sensitiveParameters == null) {
+      this.sensitiveParameters = new HashSet<>();
+    }
+    this.sensitiveParameters.add(sensitiveParameters);
+  }
+
+  public void setSensitiveParamaters(Set<String> set) {
+    this.sensitiveParameters = set;
+  }
+
+  public Set<String> getSensitiveParamters() {
+    return this.sensitiveParameters;
   }
 
   private final class TaskThunk implements CancelableRunnable, ProjectRunnable {

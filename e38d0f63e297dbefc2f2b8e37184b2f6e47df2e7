@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f7f115b_daed45b8",
+        "filename": "java/com/google/gerrit/server/group/db/GroupBundle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-04T15:43:17Z",
+      "side": 1,
+      "message": "Just a note on style: If we intended to keep this code in the future, I would object to the introduction of a boolean parameter. Instead, having two different methods with clear names would be much better regarding readability. As we don\u0027t intend to keep it after the migration, I\u0027m with the flag approach.",
+      "range": {
+        "startLine": 268,
+        "startChar": 60,
+        "endLine": 268,
+        "endChar": 81
+      },
+      "revId": "e38d0f63e297dbefc2f2b8e37184b2f6e47df2e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

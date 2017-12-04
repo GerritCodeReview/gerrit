@@ -26,13 +26,19 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 /** Command that dispatches to a subcommand from its command table. */
 final class DispatchCommand extends BaseCommand {
@@ -90,6 +96,7 @@ final class DispatchCommand extends BaseCommand {
         } else {
           bc.setName(getName() + " " + commandName);
         }
+        checkSensitiveData(bc);
         bc.setArguments(args.toArray(new String[args.size()]));
 
       } else if (!args.isEmpty()) {
@@ -99,6 +106,7 @@ final class DispatchCommand extends BaseCommand {
       provideStateTo(cmd);
       atomicCmd.set(cmd);
       cmd.start(env);
+      this.setSensitiveParamaters(((BaseCommand)cmd).getSensitiveParamters());
 
     } catch (UnloggedFailure e) {
       String msg = e.getMessage();
@@ -108,6 +116,18 @@ final class DispatchCommand extends BaseCommand {
       err.write(msg.getBytes(ENC));
       err.flush();
       onExit(e.exitCode);
+    }
+  }
+
+  private void checkSensitiveData(BaseCommand cmd) {
+    for (Field field : cmd.getClass().getDeclaredFields()) {
+      if (field.isAnnotationPresent(SensitiveData.class)) {
+        Option option = field.getAnnotation(Option.class);
+        cmd.addSensitiveParameter(option.name());
+        for (String opt : option.aliases()) {
+          cmd.addSensitiveParameter(opt);
+        }
+      }
     }
   }
 

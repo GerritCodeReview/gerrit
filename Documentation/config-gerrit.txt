@@ -144,6 +144,18 @@ be ordered as ranked by the plugins (if there are any).
 +
 By default 1.
 
+[[audit]]
+=== Section audit
+
+[[audit.maskSensitiveData]]audit.maskSensitiveData::
++
+If true, ssh command parameter marked as sensitive with annotation `@SensitiveData` 
+is not included for audit.
++
+This option only affect audit. Other means of logging will always be masked.
++
+By default `false`.
+
 [[auth]]
 === Section auth
 

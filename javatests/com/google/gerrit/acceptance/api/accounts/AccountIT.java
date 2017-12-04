@@ -603,6 +603,42 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void getOwnEmails() throws Exception {
+    String email = "preferred@example.com";
+    TestAccount foo = accountCreator.create(name("foo"), email, "Foo");
+
+    setApiUser(foo);
+    assertThat(getEmails()).containsExactly(email);
+
+    setApiUser(admin);
+    String secondaryEmail = "secondary@example.com";
+    EmailInput input = newEmailInput(secondaryEmail);
+    gApi.accounts().id(foo.id.hashCode()).addEmail(input);
+
+    setApiUser(foo);
+    assertThat(getEmails()).containsExactly(email, secondaryEmail);
+  }
+
+  @Test
+  public void getEmailsOfOtherAccount() throws Exception {
+    String email = "preferred2@example.com";
+    String secondaryEmail = "secondary2@example.com";
+    TestAccount foo = accountCreator.create(name("foo"), email, "Foo");
+    EmailInput input = newEmailInput(secondaryEmail);
+    gApi.accounts().id(foo.id.hashCode()).addEmail(input);
+
+    setApiUser(user);
+    assertThat(
+            gApi.accounts()
+                .id(foo.id.get())
+                .getEmails()
+                .stream()
+                .map(e -> e.email)
+                .collect(toSet()))
+        .containsExactly(email, secondaryEmail);
+  }
+
+  @Test
   public void addEmail() throws Exception {
     List<String> emails = ImmutableList.of("new.email@example.com", "new.email@example.systems");
     Set<String> currentEmails = getEmails();

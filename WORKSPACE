@@ -263,6 +263,18 @@ maven_jar(
 )
 
 maven_jar(
+    name = "gelf",
+    artifact = "biz.paluch.logging:logstash-gelf:1.11.1",
+    sha1 = "12e1eb59c90028b8b4fbbe945228e1a0654bbfd6",
+)
+
+maven_jar(
+    name = "json-simple",
+    artifact = "com.googlecode.json-simple:json-simple:1.1.1",
+    sha1 = "c9ad4a0850ab676c5c64461a05ca524cdfff59f1",
+)
+
+maven_jar(
     name = "json_smart",
     artifact = "net.minidev:json-smart:1.1.1",
     sha1 = "24a2f903d25e004de30ac602c5b47f2d4e420a59",

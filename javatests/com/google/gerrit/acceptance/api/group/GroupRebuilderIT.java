@@ -214,7 +214,7 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
   }
 
   private void assertMigratedCleanly(GroupBundle noteDbBundle, GroupBundle expectedReviewDbBundle) {
-    assertThat(GroupBundle.compare(expectedReviewDbBundle, noteDbBundle)).isEmpty();
+    assertThat(GroupBundle.compareWithAudits(expectedReviewDbBundle, noteDbBundle)).isEmpty();
   }
 
   private ImmutableList<CommitInfo> log(GroupInfo g) throws Exception {

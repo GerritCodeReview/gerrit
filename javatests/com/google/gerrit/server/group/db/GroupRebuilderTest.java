@@ -592,7 +592,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
   }
 
   private void assertMigratedCleanly(GroupBundle noteDbBundle, GroupBundle expectedReviewDbBundle) {
-    assertThat(GroupBundle.compare(expectedReviewDbBundle, noteDbBundle)).isEmpty();
+    assertThat(GroupBundle.compareWithAudits(expectedReviewDbBundle, noteDbBundle)).isEmpty();
   }
 
   private AccountGroup newGroup(String name) {

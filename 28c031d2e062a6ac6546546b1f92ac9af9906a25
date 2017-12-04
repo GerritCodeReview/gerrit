@@ -132,6 +132,30 @@
     },
     {
       "key": {
+        "uuid": "010bcd0b_72798de7",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-04T23:16:42Z",
+      "side": 1,
+      "message": "@Becky, what do you think?",
+      "parentUuid": "40391186_92ebf50c",
+      "range": {
+        "startLine": 115,
+        "startChar": 14,
+        "endLine": 115,
+        "endChar": 19
+      },
+      "revId": "28c031d2e062a6ac6546546b1f92ac9af9906a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee709160_a061a660",
         "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.html",
         "patchSetId": 10

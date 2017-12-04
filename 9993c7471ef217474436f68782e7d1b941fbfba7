@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d616c16_71c69f0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-12-04T08:13:59Z",
+      "side": 1,
+      "message": "Changing from LoadingCache to non-loading Cache, by supplying Callable to get(key, callable) method: [1] didn\u0027t fix the problem: [2].\n\n* [1] http://paste.openstack.org/show/628052\n* [2] http://paste.openstack.org/show/628048",
+      "revId": "9993c7471ef217474436f68782e7d1b941fbfba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

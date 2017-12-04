@@ -54,6 +54,8 @@ java_library(
         "//lib/guice:guice-servlet",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
+        "//lib/log:gelf",
+        "//lib/log:json-simple",
         "//lib/log:jsonevent-layout",
         "//lib/log:log4j",
         "//lib/prolog:cafeteria",

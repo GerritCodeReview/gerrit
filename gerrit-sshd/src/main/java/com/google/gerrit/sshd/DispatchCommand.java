@@ -50,9 +50,15 @@ final class DispatchCommand extends BaseCommand {
   @Argument(index = 1, multiValued = true, metaVar = "ARG")
   private List<String> args = new ArrayList<>();
 
+  private final SshCommandSensitiveFieldsCache sshdCommandsSensitiveFieldsCache;
+
   @Inject
-  DispatchCommand(CurrentUser cu, @Assisted final Map<String, CommandProvider> all) {
+  DispatchCommand(
+      CurrentUser cu,
+      SshCommandSensitiveFieldsCache cache,
+      @Assisted final Map<String, CommandProvider> all) {
     currentUser = cu;
+    sshdCommandsSensitiveFieldsCache = cache;
     commands = all;
     atomicCmd = Atomics.newReference();
   }
@@ -90,6 +96,7 @@ final class DispatchCommand extends BaseCommand {
         } else {
           bc.setName(getName() + " " + commandName);
         }
+        bc.setSensitiveParameters(sshdCommandsSensitiveFieldsCache.get(bc.getClass()));
         bc.setArguments(args.toArray(new String[args.size()]));
 
       } else if (!args.isEmpty()) {
@@ -99,6 +106,10 @@ final class DispatchCommand extends BaseCommand {
       provideStateTo(cmd);
       atomicCmd.set(cmd);
       cmd.start(env);
+
+      if (cmd instanceof BaseCommand) {
+        setSensitiveParameters(((BaseCommand) cmd).getSensitiveParameters());
+      }
 
     } catch (UnloggedFailure e) {
       String msg = e.getMessage();

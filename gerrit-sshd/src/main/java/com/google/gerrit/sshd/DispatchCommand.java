@@ -16,23 +16,37 @@ package com.google.gerrit.sshd;
 
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityUtils;
 import com.google.gerrit.server.args4j.SubcommandHandler;
+import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.Inject;
+import com.google.inject.Module;
+import com.google.inject.name.Named;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Command that dispatches to a subcommand from its command table. */
 final class DispatchCommand extends BaseCommand {
@@ -50,9 +64,13 @@ final class DispatchCommand extends BaseCommand {
   @Argument(index = 1, multiValued = true, metaVar = "ARG")
   private List<String> args = new ArrayList<>();
 
+  private final SshCommandDetailCache sshdCommandsCache;
+
   @Inject
-  DispatchCommand(CurrentUser cu, @Assisted final Map<String, CommandProvider> all) {
+  DispatchCommand(CurrentUser cu, SshCommandDetailCache cache,
+      @Assisted final Map<String, CommandProvider> all) {
     currentUser = cu;
+    sshdCommandsCache = cache;
     commands = all;
     atomicCmd = Atomics.newReference();
   }
@@ -90,6 +108,7 @@ final class DispatchCommand extends BaseCommand {
         } else {
           bc.setName(getName() + " " + commandName);
         }
+        checkSensitiveData(bc);
         bc.setArguments(args.toArray(new String[args.size()]));
 
       } else if (!args.isEmpty()) {
@@ -100,6 +119,10 @@ final class DispatchCommand extends BaseCommand {
       atomicCmd.set(cmd);
       cmd.start(env);
 
+      if (cmd instanceof BaseCommand) {
+        setSensitiveParameters(((BaseCommand) cmd).getSensitiveParameters());
+      }
+
     } catch (UnloggedFailure e) {
       String msg = e.getMessage();
       if (!msg.endsWith("\n")) {
@@ -109,6 +132,10 @@ final class DispatchCommand extends BaseCommand {
       err.flush();
       onExit(e.exitCode);
     }
+  }
+
+  private void checkSensitiveData(BaseCommand cmd) {
+    cmd.setSensitiveParameters(sshdCommandsCache.get(cmd.getClass()));
   }
 
   private void checkRequiresCapability(Command cmd) throws UnloggedFailure {

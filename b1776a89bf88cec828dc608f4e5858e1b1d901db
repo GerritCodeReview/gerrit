@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "76bbd689_604ba3fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-04T11:25:04Z",
+      "side": 1,
+      "message": "GroupsUpdate and GroupsOnInit are both correct here. The next time I\u0027ll update this change, I\u0027ll include both of them in this sentence.",
+      "parentUuid": "0c64d0c4_01c898c8",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 12
+      },
+      "revId": "b1776a89bf88cec828dc608f4e5858e1b1d901db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "941b0841_d8650c58",
         "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2017-12-01T16:42:03Z",
       "side": 1,
       "message": "IMO the clearest way to say \"give me the result or else throw a RuntimeException\" is \".get()\".\n\nI suppose the counterargument is that you have the opportunity with this exception message to provide slightly more useful information than a bare NoSuchElementException. But in this case, I don\u0027t see the added value of this exception message. A programmer will look at this line in the stack trace, where they will see \"auditLogFormatter.get()\". Seeing that line, I think pretty much any reader will be able to figure out that the problem is \"the AuditLogFormatter is necessary but missing\" without having to see an exception message that says exactly that.",
+      "revId": "b1776a89bf88cec828dc608f4e5858e1b1d901db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a07849e_a7b5148e",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-04T11:25:04Z",
+      "side": 1,
+      "message": "Calling Optional#get without Optional#isPresent is considered a programming error. I\u0027m willing (though reluctantly) to ignore that rule for tests but certainly not for production code. Apart from that general rule, I have further reasons why I think plainly calling Optional#get is not a good option here. Please tell me if you want/need to hear those.\n\nBy the way, I had considered to use a Precondition\u0027s check which calls Optional#isPresent in combination with Optional#get but found Optional#orElseThrow more elegant. If you like that variant more, I can change it.",
+      "parentUuid": "941b0841_d8650c58",
       "revId": "b1776a89bf88cec828dc608f4e5858e1b1d901db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

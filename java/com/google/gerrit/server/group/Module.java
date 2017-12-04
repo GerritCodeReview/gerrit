@@ -28,9 +28,16 @@ import com.google.gerrit.server.group.AddSubgroups.UpdateSubgroup;
 import com.google.gerrit.server.group.DeleteMembers.DeleteMember;
 import com.google.gerrit.server.group.DeleteSubgroups.DeleteSubgroup;
 import com.google.gerrit.server.group.db.GroupsUpdate;
+import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.inject.Provides;
 
 public class Module extends RestApiModule {
+  private final GroupsMigration groupsMigration;
+
+  public Module(GroupsMigration groupsMigration) {
+    this.groupsMigration = groupsMigration;
+  }
+
   @Override
   protected void configure() {
     bind(GroupsCollection.class);
@@ -74,7 +81,13 @@ public class Module extends RestApiModule {
     factory(CreateGroup.Factory.class);
     factory(GroupsUpdate.Factory.class);
 
-    DynamicSet.bind(binder(), GroupMemberAuditListener.class).to(DbGroupMemberAuditListener.class);
+    if (!groupsMigration.disableGroupReviewDb()) {
+      // DbGroupMemberAuditListener is used solely for the ReviewDb audit log. It does not respect
+      // ReviewDb wrappers that disable reads. Hence, we don't want to bind it if ReviewDb is
+      // disabled.
+      DynamicSet.bind(binder(), GroupMemberAuditListener.class)
+          .to(DbGroupMemberAuditListener.class);
+    }
   }
 
   @Provides

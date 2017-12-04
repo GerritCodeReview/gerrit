@@ -42,6 +42,10 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
 import org.apache.sshd.common.SshException;
@@ -62,6 +66,8 @@ public abstract class BaseCommand implements Command {
   static final int STATUS_CANCEL = PRIVATE_STATUS | 1;
   static final int STATUS_NOT_FOUND = PRIVATE_STATUS | 2;
   public static final int STATUS_NOT_ADMIN = PRIVATE_STATUS | 3;
+
+  private static final String MASK = "***";
 
   @Option(name = "--", usage = "end of options", handler = EndOfOptionsHandler.class)
   private boolean endOfOptions;
@@ -84,6 +90,8 @@ public abstract class BaseCommand implements Command {
 
   @Inject private SshScope.Context context;
 
+  @Inject private SshCommandSensitiveFieldsCache cache;
+
   /** Commands declared by a plugin can be scoped by the plugin name. */
   @Inject(optional = true)
   @PluginName
@@ -97,6 +105,10 @@ public abstract class BaseCommand implements Command {
 
   /** Unparsed command line options. */
   private String[] argv;
+
+  private List<String> maskedArgv = new ArrayList<>();
+
+  private Set<String> sensitiveParameters = new HashSet<>();
 
   public BaseCommand() {
     task = Atomics.newReference();
@@ -141,6 +153,22 @@ public abstract class BaseCommand implements Command {
 
   public void setArguments(final String[] argv) {
     this.argv = argv;
+  }
+
+  public List<String> getMaskedArguments() {
+    return maskedArgv;
+  }
+
+  public String getFormattedMaskedArguments(String delimiter) {
+    return String.join(delimiter, maskedArgv);
+  }
+
+  public void setMaskedArguments(List<String> argv) {
+    this.maskedArgv = argv;
+  }
+
+  public boolean isSensitiveParameter(String param) {
+    return sensitiveParameters.contains(param);
   }
 
   @Override
@@ -325,7 +353,7 @@ public abstract class BaseCommand implements Command {
         m.append(")");
       }
       m.append(" during ");
-      m.append(context.getCommandLine());
+      m.append(getFormattedMaskedArguments(" "));
       log.error(m.toString(), e);
     }
 
@@ -371,7 +399,7 @@ public abstract class BaseCommand implements Command {
 
   protected String getTaskDescription() {
     StringBuilder m = new StringBuilder();
-    m.append(context.getCommandLine());
+    m.append(getFormattedMaskedArguments(" "));
     return m.toString();
   }
 
@@ -385,12 +413,46 @@ public abstract class BaseCommand implements Command {
     return m.toString();
   }
 
+  private void maskSensitiveParameters() {
+    sensitiveParameters = cache.get(this.getClass());
+    maskedArgv = new ArrayList<>();
+    maskedArgv.add(commandName);
+    boolean maskNext = false;
+    for (int i = 0; i < argv.length; i++) {
+      if (maskNext) {
+        maskedArgv.add(MASK);
+        maskNext = false;
+        continue;
+      }
+      String arg = argv[i];
+      String key = extractKey(arg);
+      if (isSensitiveParameter(key)) {
+        maskNext = arg.equals(key);
+        // When arg != key then parameter contains '=' sign and we mask them right away.
+        // Otherwise we mask the next parameter as indicated by maskNext.
+        if (!maskNext) {
+          arg = key + "=" + MASK;
+        }
+      }
+      maskedArgv.add(arg);
+    }
+  }
+
+  private String extractKey(String arg) {
+    int eqPos = arg.indexOf('=');
+    if (eqPos > 0) {
+      return arg.substring(0, eqPos);
+    }
+    return arg;
+  }
+
   private final class TaskThunk implements CancelableRunnable, ProjectRunnable {
     private final CommandRunnable thunk;
     private final String taskName;
     private Project.NameKey projectName;
 
     private TaskThunk(final CommandRunnable thunk) {
+      maskSensitiveParameters();
       this.thunk = thunk;
       this.taskName = getTaskName();
     }

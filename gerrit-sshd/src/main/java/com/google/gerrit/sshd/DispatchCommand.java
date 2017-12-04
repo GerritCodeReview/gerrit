@@ -100,6 +100,10 @@ final class DispatchCommand extends BaseCommand {
       atomicCmd.set(cmd);
       cmd.start(env);
 
+      if (cmd instanceof BaseCommand) {
+        setMaskedArguments(((BaseCommand) cmd).getMaskedArguments());
+      }
+
     } catch (UnloggedFailure e) {
       String msg = e.getMessage();
       if (!msg.endsWith("\n")) {

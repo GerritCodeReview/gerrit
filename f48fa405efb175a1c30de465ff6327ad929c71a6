@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17658e33_70e70848",
+        "filename": "java/com/google/gerrit/server/group/db/GroupBundle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-04T15:05:41Z",
+      "side": 1,
+      "message": "Please add a test which covers the value false.",
+      "range": {
+        "startLine": 268,
+        "startChar": 68,
+        "endLine": 268,
+        "endChar": 81
+      },
+      "revId": "f48fa405efb175a1c30de465ff6327ad929c71a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

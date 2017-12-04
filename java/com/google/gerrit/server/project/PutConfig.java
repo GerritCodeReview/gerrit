@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
@@ -319,7 +318,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   }
 
   private static boolean isValidParameterName(String name) {
-    return CharMatcher.javaLetterOrDigit().or(CharMatcher.is('-')).matchesAllOf(name)
-        && !name.startsWith("-");
+    return name.matches("^[a-zA-Z0-9-]+$") && !name.startsWith("-");
   }
 }

@@ -33,7 +33,12 @@ public abstract class GerritBaseTests {
 
   protected String getSanitizedMethodName() {
     String name = testName.getMethodName().toLowerCase();
-    name = CharMatcher.javaLetterOrDigit().negate().replaceFrom(name, '_');
+    name =
+        CharMatcher.inRange('a', 'z')
+            .or(CharMatcher.inRange('A', 'Z'))
+            .or(CharMatcher.inRange('0', '9'))
+            .negate()
+            .replaceFrom(name, '_');
     name = CharMatcher.is('_').trimTrailingFrom(name);
     return name;
   }

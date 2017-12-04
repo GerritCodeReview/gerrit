@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.common.base.CharMatcher;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -76,7 +75,7 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
   }
 
   private static boolean isPluginNameSane(String pluginName) {
-    return CharMatcher.javaLetterOrDigit().or(CharMatcher.is('-')).matchesAllOf(pluginName);
+    return pluginName.matches("^[a-zA-Z0-9-]+$");
   }
 
   public static class CapabilityInfo {

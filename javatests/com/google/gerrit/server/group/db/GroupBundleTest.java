@@ -66,7 +66,7 @@ public class GroupBundleTest extends GerritBaseTests {
     AccountGroup g2 = new AccountGroup(reviewDbBundle.group());
     g2.setDescription("Hello!");
     GroupBundle noteDbBundle = GroupBundle.builder().source(Source.NOTE_DB).group(g2).build();
-    assertThat(GroupBundle.compare(reviewDbBundle, noteDbBundle))
+    assertThat(GroupBundle.compareWithAudits(reviewDbBundle, noteDbBundle))
         .containsExactly(
             "AccountGroups differ\n"
                 + ("ReviewDb: AccountGroup{name=group, groupId=1, description=null,"
@@ -94,10 +94,31 @@ public class GroupBundleTest extends GerritBaseTests {
   }
 
   @Test
+  public void compareIgnoreAudits() throws Exception {
+    GroupBundle reviewDbBundle = newBundle().source(Source.REVIEW_DB).build();
+    AccountGroup group = new AccountGroup(reviewDbBundle.group());
+
+    AccountGroupMember member =
+        new AccountGroupMember(new AccountGroupMember.Key(new Account.Id(1), group.getId()));
+    AccountGroupMemberAudit memberAudit =
+        new AccountGroupMemberAudit(member, new Account.Id(2), ts);
+    AccountGroupById byId =
+        new AccountGroupById(
+            new AccountGroupById.Key(group.getId(), new AccountGroup.UUID("subgroup-2")));
+    AccountGroupByIdAud byIdAudit = new AccountGroupByIdAud(byId, new Account.Id(3), ts);
+
+    GroupBundle noteDbBundle =
+        newBundle().source(Source.NOTE_DB).memberAudit(memberAudit).byIdAudit(byIdAudit).build();
+
+    assertThat(GroupBundle.compareWithAudits(reviewDbBundle, noteDbBundle)).isNotEmpty();
+    assertThat(GroupBundle.compareWithoutAudits(reviewDbBundle, noteDbBundle)).isEmpty();
+  }
+
+  @Test
   public void compareEqual() throws Exception {
     GroupBundle reviewDbBundle = newBundle().source(Source.REVIEW_DB).build();
     GroupBundle noteDbBundle = newBundle().source(Source.NOTE_DB).build();
-    assertThat(GroupBundle.compare(reviewDbBundle, noteDbBundle)).isEmpty();
+    assertThat(GroupBundle.compareWithAudits(reviewDbBundle, noteDbBundle)).isEmpty();
   }
 
   private GroupBundle.Builder newBundle() {

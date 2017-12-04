@@ -103,7 +103,7 @@ public class Rebuild implements RestModifyView<GroupResource, Input> {
 
       GroupBundle noteDbBundle = bundleFactory.fromNoteDb(repo, uuid);
 
-      List<String> diffs = GroupBundle.compare(reviewDbBundle, noteDbBundle);
+      List<String> diffs = GroupBundle.compareWithAudits(reviewDbBundle, noteDbBundle);
       if (diffs.isEmpty()) {
         return BinaryResult.create("No differences between ReviewDb and NoteDb");
       }

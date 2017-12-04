@@ -76,6 +76,8 @@ java_library(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jsoup",
         "//lib/log:api",
+        "//lib/log:gelf",
+        "//lib/log:json-simple",
         "//lib/log:jsonevent-layout",
         "//lib/log:log4j",
         "//lib/lucene:lucene-analyzers-common",

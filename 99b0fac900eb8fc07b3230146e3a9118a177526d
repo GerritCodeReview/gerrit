@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6272cb7f_c9563dd4",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-04T23:40:21Z",
+      "side": 1,
+      "message": "isSensitiveParameter",
+      "range": {
+        "startLine": 376,
+        "startChar": 17,
+        "endLine": 376,
+        "endChar": 38
+      },
+      "revId": "99b0fac900eb8fc07b3230146e3a9118a177526d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "740198e9_6691d506",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-04T23:40:21Z",
+      "side": 1,
+      "message": "param",
+      "range": {
+        "startLine": 376,
+        "startChar": 46,
+        "endLine": 376,
+        "endChar": 52
+      },
+      "revId": "99b0fac900eb8fc07b3230146e3a9118a177526d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2371eb68_38fc18d0",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-04T23:40:21Z",
+      "side": 1,
+      "message": "addSensitiveParameter",
+      "range": {
+        "startLine": 380,
+        "startChar": 14,
+        "endLine": 380,
+        "endChar": 36
+      },
+      "revId": "99b0fac900eb8fc07b3230146e3a9118a177526d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2c5df0a_1e02ee05",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-04T23:40:21Z",
+      "side": 1,
+      "message": "sensitiveParameter",
+      "range": {
+        "startLine": 380,
+        "startChar": 44,
+        "endLine": 380,
+        "endChar": 63
+      },
+      "revId": "99b0fac900eb8fc07b3230146e3a9118a177526d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c1b209a_b1734412",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-04T23:40:21Z",
+      "side": 1,
+      "message": "nit: unnecessarily added blank line",
+      "revId": "99b0fac900eb8fc07b3230146e3a9118a177526d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b360161_e3625a25",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SensitiveData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-04T23:40:21Z",
+      "side": 1,
+      "message": "Missing copyright and license header.",
+      "revId": "99b0fac900eb8fc07b3230146e3a9118a177526d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea53f8e3_1036eb87",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SensitiveData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-04T23:40:21Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 9,
+        "startChar": 35,
+        "endLine": 9,
+        "endChar": 36
+      },
+      "revId": "99b0fac900eb8fc07b3230146e3a9118a177526d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae0285b7_c841bf52",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SensitiveData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-04T23:40:21Z",
+      "side": 1,
+      "message": "\"logs\" or \"the log\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 91,
+        "endLine": 9,
+        "endChar": 94
+      },
+      "revId": "99b0fac900eb8fc07b3230146e3a9118a177526d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

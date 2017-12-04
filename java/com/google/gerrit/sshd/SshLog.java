@@ -48,9 +48,12 @@ class SshLog implements LifecycleListener {
   private static final String P_STATUS = "status";
   private static final String P_AGENT = "agent";
 
+  private static final String MASK = "***";
+
   private final Provider<SshSession> session;
   private final Provider<Context> context;
   private final AsyncAppender async;
+  private final boolean auditMask;
   private final AuditService auditService;
 
   @Inject
@@ -64,6 +67,7 @@ class SshLog implements LifecycleListener {
     this.context = context;
     this.auditService = auditService;
 
+    auditMask = config.getBoolean("audit", "maskSensitiveData", false);
     if (!config.getBoolean("sshd", "requestLog", true)) {
       async = null;
       return;
@@ -121,8 +125,7 @@ class SshLog implements LifecycleListener {
     final Context ctx = context.get();
     ctx.finished = TimeUtil.nowMs();
 
-    String cmd = extractWhat(dcmd);
-
+    String cmd = extractWhat(dcmd, true);
     final LoggingEvent event = log(cmd);
     event.setProperty(P_WAIT, (ctx.started - ctx.created) + "ms");
     event.setProperty(P_EXEC, (ctx.finished - ctx.started) + "ms");
@@ -154,7 +157,11 @@ class SshLog implements LifecycleListener {
     if (async != null) {
       async.append(event);
     }
-    audit(context.get(), status, dcmd);
+
+    if (!auditMask) {
+      cmd = extractWhat(dcmd, false);
+    }
+    audit(ctx, status, cmd, extractParameters(dcmd));
   }
 
   private ListMultimap<String, ?> extractParameters(DispatchCommand dcmd) {
@@ -177,7 +184,10 @@ class SshLog implements LifecycleListener {
       // --param=value
       int eqPos = arg.indexOf('=');
       if (arg.startsWith("--") && eqPos > 0) {
-        parms.put(arg.substring(0, eqPos), arg.substring(eqPos + 1));
+        String param = arg.substring(0, eqPos);
+        String value =
+            auditMask && dcmd.isSensitiveParameter(param) ? MASK : arg.substring(eqPos + 1);
+        parms.put(param, value);
         continue;
       }
       // -p value or --param value
@@ -192,7 +202,7 @@ class SshLog implements LifecycleListener {
       if (paramName == null) {
         parms.put("$" + argPos++, arg);
       } else {
-        parms.put(paramName, arg);
+        parms.put(paramName, auditMask && dcmd.isSensitiveParameter(paramName) ? MASK : arg);
         paramName = null;
       }
     }
@@ -256,10 +266,6 @@ class SshLog implements LifecycleListener {
     audit(ctx, result, cmd, null);
   }
 
-  void audit(Context ctx, Object result, DispatchCommand cmd) {
-    audit(ctx, result, extractWhat(cmd), extractParameters(cmd));
-  }
-
   private void audit(Context ctx, Object result, String cmd, ListMultimap<String, ?> params) {
     String sessionId;
     CurrentUser currentUser;
@@ -277,12 +283,13 @@ class SshLog implements LifecycleListener {
     auditService.dispatch(new SshAuditEvent(sessionId, currentUser, cmd, created, params, result));
   }
 
-  private String extractWhat(DispatchCommand dcmd) {
+  private String extractWhat(DispatchCommand dcmd, boolean hideSensitive) {
     if (dcmd == null) {
       return "Command was already destroyed";
     }
-    StringBuilder commandName = new StringBuilder(dcmd.getCommandName());
-    String[] args = dcmd.getArguments();
+    String name = dcmd.getCommandName();
+    StringBuilder commandName = new StringBuilder(name == null ? "" : name);
+    String[] args = hideSensitive ? dcmd.getMaskedArguments() : dcmd.getArguments();
     for (int i = 1; i < args.length; i++) {
       commandName.append(".").append(args[i]);
     }

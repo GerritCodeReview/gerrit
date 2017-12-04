@@ -168,7 +168,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
                   } catch (Exception e) {
                     logger.warn(
                         "Cannot start command \""
-                            + ctx.getCommandLine()
+                            + cmd.getFormattedMaskedArguments(" ")
                             + "\" for user "
                             + ctx.getSession().getUsername(),
                         e);
@@ -188,6 +188,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
         try {
           cmd = dispatcher.get();
           cmd.setArguments(argv);
+          setMaskedArguments();
           cmd.setInputStream(in);
           cmd.setOutputStream(out);
           cmd.setErrorStream(err);
@@ -212,7 +213,22 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
       }
     }
 
-    private int translateExit(int rc) {
+    /**
+     * In case the command failed very early, try to display only command name to avoid leaking
+     * sensitive data in parameters.
+     */
+    private void setMaskedArguments() {
+      String[] args = new String[1];
+      if (argv.length > 0) {
+        args[0] = argv[0];
+      } else {
+        String[] cmds = ctx.getCommandLine().split(" ");
+        args[0] = cmds.length > 0 ? cmds[0] : "";
+      }
+      cmd.setMaskedArguments(args);
+    }
+
+    private int translateExit(final int rc) {
       switch (rc) {
         case BaseCommand.STATUS_NOT_ADMIN:
           return 1;

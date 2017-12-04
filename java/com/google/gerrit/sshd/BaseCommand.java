@@ -49,6 +49,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
+import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicReference;
@@ -70,6 +71,8 @@ public abstract class BaseCommand implements Command {
   static final int STATUS_CANCEL = PRIVATE_STATUS | 1;
   static final int STATUS_NOT_FOUND = PRIVATE_STATUS | 2;
   public static final int STATUS_NOT_ADMIN = PRIVATE_STATUS | 3;
+
+  private static final String MASK = "***";
 
   @Option(name = "--", usage = "end of options", handler = EndOfOptionsHandler.class)
   private boolean endOfOptions;
@@ -94,6 +97,8 @@ public abstract class BaseCommand implements Command {
 
   @Inject private SshScope.Context context;
 
+  @Inject private SshCommandSensitiveFieldsCache cache;
+
   /** Commands declared by a plugin can be scoped by the plugin name. */
   @Inject(optional = true)
   @PluginName
@@ -114,6 +119,12 @@ public abstract class BaseCommand implements Command {
 
   /** trimmed command line arguments. */
   private String[] trimmedArgv;
+
+  /** Unparsed command line options with sensitive data masked. */
+  private String[] maskedArgv;
+
+  /** Set of parameter names to be masked. */
+  protected Set<String> sensitiveParameters;
 
   public BaseCommand() {
     task = Atomics.newReference();
@@ -166,6 +177,12 @@ public abstract class BaseCommand implements Command {
    * @return the arguments where all the multiple-line fields are trimmed.
    */
   protected String[] getTrimmedArguments() {
+    String[] argv;
+    if (maskedArgv.length > 0) {
+      argv = maskedArgv;
+    } else {
+      argv = this.argv;
+    }
     if (trimmedArgv == null && argv != null) {
       trimmedArgv = new String[argv.length];
       for (int i = 0; i < argv.length; i++) {
@@ -178,6 +195,22 @@ public abstract class BaseCommand implements Command {
       }
     }
     return trimmedArgv;
+  }
+
+  public String[] getMaskedArguments() {
+    return maskedArgv;
+  }
+
+  public String getFormattedMaskedArguments(String delimiter) {
+    return commandName.replace(" ", delimiter) + String.join(delimiter, maskedArgv);
+  }
+
+  public void setMaskedArguments(String[] argv) {
+    this.maskedArgv = argv;
+  }
+
+  public boolean isSensitiveParameter(String param) {
+    return sensitiveParameters == null ? false : sensitiveParameters.contains(param);
   }
 
   @Override
@@ -350,7 +383,7 @@ public abstract class BaseCommand implements Command {
         m.append(")");
       }
       m.append(" during ");
-      m.append(context.getCommandLine());
+      m.append(getFormattedMaskedArguments(" "));
       log.error(m.toString(), e);
     }
 
@@ -395,6 +428,7 @@ public abstract class BaseCommand implements Command {
   }
 
   protected String getTaskDescription() {
+    maskedArgv = maskSensitiveParameters(argv);
     String[] ta = getTrimmedArguments();
     if (ta != null) {
       return commandName + " " + Joiner.on(" ").join(ta);
@@ -412,6 +446,47 @@ public abstract class BaseCommand implements Command {
       }
     }
     return m.toString();
+  }
+
+  protected String[] maskSensitiveParameters(String[] argv) {
+    if (argv == null) {
+      return new String[0];
+    }
+    String[] maskedArgv = new String[argv.length];
+    if (sensitiveParameters == null) {
+      sensitiveParameters = cache.get(this.getClass());
+    }
+    if (sensitiveParameters.isEmpty()) {
+      return argv;
+    }
+    boolean maskNext = false;
+    for (int i = 0; i < argv.length; i++) {
+      if (maskNext) {
+        maskedArgv[i] = MASK;
+        maskNext = false;
+        continue;
+      }
+      String arg = argv[i];
+      String key = extractKey(arg);
+      if (isSensitiveParameter(key)) {
+        maskNext = arg.equals(key);
+        // When arg != key then parameter contains '=' sign and we mask them right away.
+        // Otherwise we mask the next parameter as indicated by maskNext.
+        if (!maskNext) {
+          arg = key + "=" + MASK;
+        }
+      }
+      maskedArgv[i] = arg;
+    }
+    return maskedArgv;
+  }
+
+  private String extractKey(String arg) {
+    int eqPos = arg.indexOf('=');
+    if (eqPos > 0) {
+      return arg.substring(0, eqPos);
+    }
+    return arg;
   }
 
   private final class TaskThunk implements CancelableRunnable, ProjectRunnable {

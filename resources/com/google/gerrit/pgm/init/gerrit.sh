@@ -96,6 +96,23 @@ get_config() {
   fi
 }
 
+abs_script_dir_path() {
+  # readlink -f is not supported on MAC, so try to resolve
+  # recursively the symlink till physical link available.
+  # cd -P is not available in csh.
+
+  SOURCE=$0
+  while [ -h "$SOURCE" ]; do
+    DIR=$( cd $( dirname "$SOURCE") && pwd )
+    SOURCE=$(readlink "$SOURCE")
+
+    # If SOURCE is not absolute path make it absolute
+    [ "${SOURCE#/}" = "${SOURCE}" ] && SOURCE="$DIR/$SOURCE"
+  done
+  DIR=$( cd $( dirname "$SOURCE" ) && pwd )
+  echo $DIR
+}
+
 ##################################################
 # Get the action and options
 ##################################################
@@ -161,7 +178,9 @@ fi
 # Try to determine GERRIT_SITE if not set
 ##################################################
 if test -z "$GERRIT_SITE" ; then
-  GERRIT_SITE_1=`dirname "$0"`/..
+  GERRIT_REAL_BIN_DIR=`abs_script_dir_path`
+  GERRIT_SITE_1=$GERRIT_REAL_BIN_DIR/..
+
   if test -f "${GERRIT_SITE_1}/${GERRIT_INSTALL_TRACE_FILE}" ; then
     GERRIT_SITE=${GERRIT_SITE_1}
   fi

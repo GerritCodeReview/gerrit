@@ -10,16 +10,16 @@ PolyGerrit UI implements number of styling endpoints, which apply CSS mixins
 link:https://tabatkins.github.io/specs/css-apply-rule/[using @apply] to its
 direct contents.
 
-NOTE: Only items (ie CSS properties and mixin targets) documented here are
+NOTE: Only items (i.e. CSS properties and mixin targets) documented here are
 guaranteed to work in the long term, since they are covered by integration
 tests. + When there is a need to add new property or endpoint, please
 link:https://bugs.chromium.org/p/gerrit/issues/entry?template=PolyGerrit%20Issue[file
-a bug] stating your usecase to track and maintain for future releases.
+a bug] stating your use case to track and maintain for future releases.
 
-Plugin should be html-based and imported following PolyGerrit's
+Plugins should be html-based and imported following PolyGerrit's
 link:pg-plugin-dev.html#loading[dev guide].
 
-Plugin should provide Style Module, for example:
+Plugins should provide style like this:
 
 ``` html
   <dom-module id="some-style">
@@ -33,7 +33,7 @@ Plugin should provide Style Module, for example:
   </dom-module>
 ```
 
-Plugin should register style module with a styling endpoint using
+Plugins should register style module with a styling endpoint using
 `Plugin.prototype.registerStyleModule(endpointName, styleModuleName)`, for
 example:
 
@@ -45,7 +45,7 @@ example:
 
 == Available styling endpoints
 === change-metadata
-Following custom css mixins are recognized:
+Following custom CSS mixins are recognized:
 
 * `--change-metadata-assignee`
 +

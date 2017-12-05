@@ -19,6 +19,8 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.index.FieldDef;
@@ -130,6 +132,10 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
       return query(AccountPredicates.preferredEmailExact(email));
     }
 
+    if (!hasPreferredEmail()) {
+      return ImmutableList.of();
+    }
+
     return query(AccountPredicates.preferredEmail(email))
         .stream()
         .filter(a -> a.getAccount().getPreferredEmail().equals(email))
@@ -161,6 +167,10 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
       return accountsByEmail;
     }
 
+    if (!hasPreferredEmail()) {
+      return ImmutableListMultimap.of();
+    }
+
     List<List<AccountState>> r =
         query(emailList.stream().map(e -> AccountPredicates.preferredEmail(e)).collect(toList()));
     Multimap<String, AccountState> accountsByEmail = ArrayListMultimap.create();
@@ -180,8 +190,16 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
     return query(AccountPredicates.watchedProject(project));
   }
 
-  private boolean hasPreferredEmailExact() {
+  private boolean hasField(FieldDef<AccountState, ?> field) {
     Schema<AccountState> s = schema();
-    return (s != null && s.hasField(AccountField.PREFERRED_EMAIL_EXACT));
+    return (s != null && s.hasField(field));
+  }
+
+  private boolean hasPreferredEmail() {
+    return hasField(AccountField.PREFERRED_EMAIL);
+  }
+
+  private boolean hasPreferredEmailExact() {
+    return hasField(AccountField.PREFERRED_EMAIL_EXACT);
   }
 }

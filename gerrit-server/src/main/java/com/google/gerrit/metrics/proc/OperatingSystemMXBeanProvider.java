@@ -42,6 +42,9 @@ class OperatingSystemMXBeanProvider {
           }
         } catch (ReflectiveOperationException e) {
           log.debug(String.format("No implementation for %s: %s", name, e.getMessage()));
+        } catch (Exception e) {
+          log.debug(
+              String.format("Unable to check implementation for %s: %s", name, e.getMessage()));
         }
       }
       log.warn("No implementation of UnixOperatingSystemMXBean found");

@@ -122,8 +122,7 @@ limitations under the License.
         display: inline;
       }
       .draft:not(.editing) .save,
-      .draft:not(.editing) .cancel,
-      .draft:not(.editing) .resolve {
+      .draft:not(.editing) .cancel {
         display: none;
       }
       .editing .message,
@@ -294,9 +293,6 @@ limitations under the License.
               Resolved
             </label>
           </div>
-          <div class="action unresolved hideOnPublished" hidden$="[[resolved]]">
-            Unresolved
-          </div>
           <div class="rightActions">
             <gr-button link class="action cancel hideOnPublished"
                 on-tap="_handleCancel">Cancel</gr-button>
@@ -306,7 +302,7 @@ limitations under the License.
                 on-tap="_handleEdit">Edit</gr-button>
             <gr-button link class="action save hideOnPublished"
                 on-tap="_handleSave"
-                disabled$="[[_computeSaveDisabled(_messageText, comment)]]">Save
+                disabled$="[[_computeSaveDisabled(_messageText, comment, resolved)]]">Save
             </gr-button>
           </div>
         </div>

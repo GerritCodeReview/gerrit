@@ -179,7 +179,9 @@
           this.diffBuilder.getLineElByChild(range.startContainer);
       const endLineEl = this.diffBuilder.getLineElByChild(range.endContainer);
       const startLineNum = parseInt(startLineEl.getAttribute('data-value'), 10);
-      const endLineNum = parseInt(endLineEl.getAttribute('data-value'), 10);
+      const endLineNum = endLineEl === null ?
+          undefined :
+          parseInt(endLineEl.getAttribute('data-value'), 10);
 
       return this._getRangeFromDiff(startLineNum, range.startOffset, endLineNum,
           range.endOffset, side);
@@ -190,7 +192,8 @@
      *
      * @param {number} startLineNum
      * @param {number} startOffset
-     * @param {number} endLineNum
+     * @param {number|undefined} endLineNum Use undefined to get the range
+     *     extending to the end of the file.
      * @param {number} endOffset
      * @param {!string} side The side that is currently selected.
      * @return {string} The selected diff text.

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05895ac0_69a3b3ed",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-05T23:30:10Z",
+      "side": 1,
+      "message": "Parameters",
+      "range": {
+        "startLine": 387,
+        "startChar": 26,
+        "endLine": 387,
+        "endChar": 36
+      },
+      "revId": "ced3a8829efffe735555de3dc15026e33b8671b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "515ee785_9cf3ca9e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-05T23:30:10Z",
+      "side": 1,
+      "message": "Parameters",
+      "range": {
+        "startLine": 391,
+        "startChar": 33,
+        "endLine": 391,
+        "endChar": 42
+      },
+      "revId": "ced3a8829efffe735555de3dc15026e33b8671b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

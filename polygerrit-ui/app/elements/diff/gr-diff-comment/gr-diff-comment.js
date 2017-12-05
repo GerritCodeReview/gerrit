@@ -288,13 +288,16 @@
       return isAdmin && !draft ? 'showDeleteButtons' : '';
     },
 
-    _computeSaveDisabled(draft, comment) {
+    _computeSaveDisabled(draft, comment, resolved) {
+      // If resolved state has changed and a msg exists, save should be enabled.
+      if (comment.unresolved === resolved && draft) { return false; }
       if (comment.message) { return draft === comment.message; }
       return !draft || draft.trim() === '';
     },
 
     _handleSaveKey(e) {
-      if (!this._computeSaveDisabled(this._messageText, this.comment)) {
+      if (!this._computeSaveDisabled(this._messageText, this.comment,
+          this.resolved)) {
         e.preventDefault();
         this._handleSave(e);
       }
@@ -423,7 +426,8 @@
 
     _handleDiscard(e) {
       e.preventDefault();
-      if (this._computeSaveDisabled(this._messageText, this.comment)) {
+      if (this._computeSaveDisabled(this._messageText, this.comment,
+          this.resolved)) {
         this._discardDraft();
         return;
       }
@@ -573,9 +577,20 @@
       this.resolved = !this.resolved;
     },
 
-    _toggleResolved(resolved) {
-      this.comment.unresolved = !resolved;
-      this.fire('comment-update', this._getEventPayload());
+    _toggleResolved(resolved, previousValue) {
+      // Do not proceed if this call is for the initial definition of the
+      // resolved property.
+      if (previousValue === undefined) { return; }
+
+      // Modify payload instead of this.comment, as this.comment is passed from
+      // the parent by ref.
+      const payload = this._getEventPayload();
+      payload.comment.unresolved = !resolved;
+      this.fire('comment-update', payload);
+      if (!this.editing) {
+        // Save the resolved state immediately.
+        this._saveDraft(payload.comment);
+      }
     },
 
     _handleCommentDelete() {

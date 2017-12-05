@@ -116,6 +116,10 @@
 
     _commentsChanged(changeRecord) {
       this._orderedComments = this._sortedComments(this.comments);
+      this.updateThreadProperties();
+    },
+
+    updateThreadProperties() {
       if (this._orderedComments.length) {
         this._lastComment = this._getLastComment();
         this._unresolved = this._lastComment.unresolved;
@@ -353,6 +357,11 @@
         return;
       }
       this.set(['comments', index], comment);
+      // Because of the way we pass these comment objects around by-ref, in
+      // combination with the fact that Polymer does dirty checking in
+      // observers, the this.set() call above will not cause a thread update in
+      // some situations.
+      this.updateThreadProperties();
     },
 
     _indexOf(comment, arr) {

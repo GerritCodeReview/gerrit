@@ -345,8 +345,7 @@ limitations under the License.
       assert.isTrue(isVisible(element.$$('.discard')), 'discard is visible');
       assert.isFalse(isVisible(element.$$('.save')), 'save is not visible');
       assert.isFalse(isVisible(element.$$('.cancel')), 'cancel is not visible');
-      assert.isFalse(isVisible(element.$$('.resolve')),
-          'resolve is not visible');
+      assert.isTrue(isVisible(element.$$('.resolve')), 'resolve is visible');
       assert.isFalse(element.$$('.humanActions').hasAttribute('hidden'));
       assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
 
@@ -517,12 +516,18 @@ limitations under the License.
     });
 
     test('_computeSaveDisabled', () => {
-      const comment = {message: 'test'};
-      assert.equal(element._computeSaveDisabled('', {}), true);
-      assert.equal(element._computeSaveDisabled('test', {}), false);
-      assert.equal(element._computeSaveDisabled('', comment), false);
-      assert.equal(element._computeSaveDisabled('test', comment), true);
-      assert.equal(element._computeSaveDisabled('test2', comment), false);
+      const comment = {unresolved: true};
+      const msgComment = {message: 'test', unresolved: true};
+      assert.equal(element._computeSaveDisabled('', comment, false), true);
+      assert.equal(element._computeSaveDisabled('test', comment, false), false);
+      assert.equal(element._computeSaveDisabled('', msgComment, false), false);
+      assert.equal(
+          element._computeSaveDisabled('test', msgComment, false), true);
+      assert.equal(
+          element._computeSaveDisabled('test2', msgComment, false), false);
+      assert.equal(element._computeSaveDisabled('test', comment, true), false);
+      assert.equal(element._computeSaveDisabled('', comment, true), true);
+      assert.equal(element._computeSaveDisabled('', comment, false), true);
     });
 
     suite('confirm discard', () => {
@@ -659,9 +664,11 @@ limitations under the License.
       showStub.restore();
     });
 
-    test('proper event fires on resolve', done => {
+    test('proper event fires on resolve, comment is not saved', done => {
+      const save = sandbox.stub(element, '_saveDraft');
       element.addEventListener('comment-update', e => {
         assert.isTrue(e.detail.comment.unresolved);
+        assert.isFalse(save.called);
         done();
       });
       MockInteractions.tap(element.$$('.resolve input'));
@@ -672,6 +679,17 @@ limitations under the License.
       assert.isTrue(element.$$('.resolve input').checked);
       element.comment = {unresolved: true};
       assert.isFalse(element.$$('.resolve input').checked);
+    });
+
+    test('resolved checkbox saves when !editing', () => {
+      element.editing = false;
+      const save = sandbox.stub(element, '_saveDraft');
+
+      element.comment = {unresolved: false};
+      assert.isTrue(element.$$('.resolve input').checked);
+      element.comment = {unresolved: true};
+      assert.isFalse(element.$$('.resolve input').checked);
+      assert.isTrue(save.called);
     });
 
     suite('draft saving messages', () => {

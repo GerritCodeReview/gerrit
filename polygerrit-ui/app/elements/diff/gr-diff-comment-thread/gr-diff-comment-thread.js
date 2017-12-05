@@ -116,6 +116,10 @@
 
     _commentsChanged(changeRecord) {
       this._orderedComments = this._sortedComments(this.comments);
+      this.updateThreadProperties();
+    },
+
+    updateThreadProperties() {
       if (this._orderedComments.length) {
         this._lastComment = this._getLastComment();
         this._unresolved = this._lastComment.unresolved;
@@ -353,6 +357,7 @@
         return;
       }
       this.set(['comments', index], comment);
+      this.updateThreadProperties();
     },
 
     _indexOf(comment, arr) {

@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2755a76_7bba2c2b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-12-05T10:52:29Z",
+      "side": 1,
+      "message": "nit: not needed",
+      "range": {
+        "startLine": 377,
+        "startChar": 11,
+        "endLine": 377,
+        "endChar": 16
+      },
+      "revId": "161174914bd81981cdda3ef3287591247e8d4207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1899869d_960f63a4",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-12-05T10:52:29Z",
+      "side": 1,
+      "message": "nit: do we need it?",
+      "range": {
+        "startLine": 388,
+        "startChar": 4,
+        "endLine": 388,
+        "endChar": 9
+      },
+      "revId": "161174914bd81981cdda3ef3287591247e8d4207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3c05365_e00b812e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-12-05T10:52:29Z",
+      "side": 1,
+      "message": "nit: not needed",
+      "range": {
+        "startLine": 392,
+        "startChar": 11,
+        "endLine": 392,
+        "endChar": 16
+      },
+      "revId": "161174914bd81981cdda3ef3287591247e8d4207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b13763f3_8f6a8501",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-12-05T10:52:29Z",
+      "side": 1,
+      "message": "nit: not needed",
+      "range": {
+        "startLine": 105,
+        "startChar": 6,
+        "endLine": 105,
+        "endChar": 11
+      },
+      "revId": "161174914bd81981cdda3ef3287591247e8d4207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d191f47_eaf0ad57",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-12-05T10:52:29Z",
+      "side": 1,
+      "message": "how about having method called addSensitiveParameters that accept list in BaseCommand?",
+      "range": {
+        "startLine": 124,
+        "startChar": 10,
+        "endLine": 124,
+        "endChar": 41
+      },
+      "revId": "161174914bd81981cdda3ef3287591247e8d4207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

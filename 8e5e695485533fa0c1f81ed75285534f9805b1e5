@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bd245a2_08038fe1",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-05T03:23:08Z",
+      "side": 1,
+      "message": "What happens if something tries to compute a weblink before the config has loaded? Most weblinks will be generated statically so I\u0027d guess this is at least somewhat likely to happen.\n\nMaybe the config should be passed as one of the params?\n\nAnother approach might be to make the generate web links functions in Gerrit.Nav return a promise that resolves when the config is loaded.",
+      "revId": "8e5e695485533fa0c1f81ed75285534f9805b1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

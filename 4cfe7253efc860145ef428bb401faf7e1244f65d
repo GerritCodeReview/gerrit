@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "f05c5c22_08178d8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-05T03:23:08Z",
+      "side": 1,
+      "message": "\u003e Will weblinks be predefined or can they be setup via plugin?\n\nPlease, correct my if I\u0027m wrong, Viktar:\n\nAt least for cases like the \"view commit\" link (which is configured to point to Gitiles on gerrit-review), the type of the link is predefined (there\u0027s a specific place where commit links appear) but where it points _to_ is configured in the server config.",
+      "parentUuid": "b45fede5_56ff6cad",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "4cfe7253efc860145ef428bb401faf7e1244f65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0987d7df_42351aa8",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 1

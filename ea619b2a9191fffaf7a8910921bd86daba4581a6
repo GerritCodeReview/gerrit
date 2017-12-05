@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10d8e19a_8121feab",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-05T19:58:59Z",
+      "side": 1,
+      "message": "Did this fix an unrelated bug?",
+      "revId": "ea619b2a9191fffaf7a8910921bd86daba4581a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22688e4e_ee642e38",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-05T19:58:59Z",
+      "side": 1,
+      "message": "_computeSaveDisabled now takes 3 arguments, so something should still get passed as a third argument.",
+      "range": {
+        "startLine": 521,
+        "startChar": 0,
+        "endLine": 525,
+        "endChar": 77
+      },
+      "revId": "ea619b2a9191fffaf7a8910921bd86daba4581a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b42f4692_a9040d51",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-05T19:58:59Z",
+      "side": 1,
+      "message": "should probably test the inverse as well.",
+      "range": {
+        "startLine": 681,
+        "startChar": 10,
+        "endLine": 681,
+        "endChar": 47
+      },
+      "revId": "ea619b2a9191fffaf7a8910921bd86daba4581a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

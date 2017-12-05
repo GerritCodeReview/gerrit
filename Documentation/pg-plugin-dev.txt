@@ -21,7 +21,7 @@ spec.
   located in `gerrit-site/plugins` folder, where `pluginname` is an alphanumeric
   plugin name.
 
-Note: Code examples target modern brosers (Chrome, Firefox, Safari, Edge)
+Note: Code examples target modern browsers (Chrome, Firefox, Safari, Edge).
 
 Here's a recommended starter `myplugin.html`:
 
@@ -132,17 +132,17 @@ Note: TODO: Insert link to the full styling API.
 [[high-level-api-concepts]]
 == High-level DOM API concepts
 
-High leve API is based on low-level DOM API and is essentially a standartized
+High level API is based on low-level DOM API and is essentially a standardized
 way for doing common tasks. It's less flexible, but will be a bit more stable.
 
-Common way to access high-leve API is through `plugin` instance passed into
-setup callback parameter of `Gerrit.install()`, also sometimes referred as
-`self`.
+The common way to access high-level API is through `plugin` instance passed
+into setup callback parameter of `Gerrit.install()`, also sometimes referred to
+as `self`.
 
 [[low-level-api]]
 == Low-level DOM API
 
-Low-level DOM API methods are the base of all UI customization.
+The low-level DOM API methods are the base of all UI customization.
 
 === attributeHelper
 `plugin.attributeHelper(element)`

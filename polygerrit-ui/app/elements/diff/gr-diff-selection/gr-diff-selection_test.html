@@ -328,6 +328,27 @@ limitations under the License.
       assert.equal(element._getSelectedText('right'), ' other');
     });
 
+    test('copies to end of side (issue 7895)', () => {
+      element._cachedDiffBuilder.getLineElByChild = function(child) {
+        // Return null for the end container.
+        if (child.textContent === 'ga ga') { return null; }
+        while (!child.classList.contains('content') && child.parentElement) {
+          child = child.parentElement;
+        }
+        return child.previousElementSibling;
+      };
+      element.classList.add('selected-left');
+      element.classList.remove('selected-right');
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      const range = document.createRange();
+      range.setStart(element.querySelector('div.contentText').firstChild, 3);
+      range.setEnd(
+          element.querySelectorAll('div.contentText')[4].firstChild, 2);
+      selection.addRange(range);
+      assert.equal(element._getSelectedText('left'), 'ba\nzin\nga');
+    });
+
     suite('_getTextContentForRange', () => {
       let selection;
       let range;

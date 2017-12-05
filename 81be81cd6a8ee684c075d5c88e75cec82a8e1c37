@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7ab0a03_14420bdf",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-12-05T13:08:59Z",
+      "side": 1,
+      "message": "there is no need to format offset to 8 digits here - it looks bad in output e.g.:\n\u003e Migrated        4 rows in 0.0s (444.4/s)",
+      "range": {
+        "startLine": 105,
+        "startChar": 34,
+        "endLine": 105,
+        "endChar": 37
+      },
+      "revId": "81be81cd6a8ee684c075d5c88e75cec82a8e1c37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

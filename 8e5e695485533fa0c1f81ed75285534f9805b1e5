@@ -16,6 +16,24 @@
       "revId": "8e5e695485533fa0c1f81ed75285534f9805b1e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92e43a57_923b209b",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-05T21:59:52Z",
+      "side": 1,
+      "message": "I\u0027ve moved fetching config to before starting router, let me know what you think about this.",
+      "parentUuid": "0bd245a2_08038fe1",
+      "revId": "8e5e695485533fa0c1f81ed75285534f9805b1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

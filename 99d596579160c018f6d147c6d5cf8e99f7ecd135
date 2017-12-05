@@ -22,6 +22,30 @@
       "revId": "99d596579160c018f6d147c6d5cf8e99f7ecd135",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "730e533f_7f9de157",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-12-05T11:13:25Z",
+      "side": 1,
+      "message": "As per out.printf documentation:\n\u003e A convenience method to write a formatted string to this output stream using the specified format string and arguments.\n\u003e An invocation of this method of the form out.printf(format, args) behaves in exactly the same way as the invocation\n\u003e     out.format(format, args)\n\nWhat I would propose is to include some timing - how about that?",
+      "parentUuid": "26208292_b4c926b1",
+      "range": {
+        "startLine": 100,
+        "startChar": 8,
+        "endLine": 100,
+        "endChar": 25
+      },
+      "revId": "99d596579160c018f6d147c6d5cf8e99f7ecd135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

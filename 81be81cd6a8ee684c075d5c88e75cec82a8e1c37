@@ -22,6 +22,30 @@
       "revId": "81be81cd6a8ee684c075d5c88e75cec82a8e1c37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac528ec7_b8f2a9a0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateAccountPatchReviewDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-12-05T13:09:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7ab0a03_14420bdf",
+      "range": {
+        "startLine": 105,
+        "startChar": 34,
+        "endLine": 105,
+        "endChar": 37
+      },
+      "revId": "81be81cd6a8ee684c075d5c88e75cec82a8e1c37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

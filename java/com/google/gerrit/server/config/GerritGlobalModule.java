@@ -154,6 +154,7 @@ import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.send.SetAssigneeSender;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.mime.MimeUtilFileTypeRegistry;
+import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchScriptFactory;
@@ -200,11 +201,14 @@ import org.eclipse.jgit.transport.PreUploadHook;
 public class GerritGlobalModule extends FactoryModule {
   private final Config cfg;
   private final AuthModule authModule;
+  private final GroupsMigration groupsMigration;
 
   @Inject
-  GerritGlobalModule(@GerritServerConfig Config cfg, AuthModule authModule) {
+  GerritGlobalModule(
+      @GerritServerConfig Config cfg, AuthModule authModule, GroupsMigration groupsMigration) {
     this.cfg = cfg;
     this.authModule = authModule;
+    this.groupsMigration = groupsMigration;
   }
 
   @Override
@@ -302,7 +306,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new com.google.gerrit.server.account.Module());
     install(new com.google.gerrit.server.change.Module());
     install(new com.google.gerrit.server.config.Module());
-    install(new com.google.gerrit.server.group.Module());
+    install(new com.google.gerrit.server.group.Module(groupsMigration));
     install(new com.google.gerrit.server.project.Module());
 
     bind(GitReferenceUpdated.class);

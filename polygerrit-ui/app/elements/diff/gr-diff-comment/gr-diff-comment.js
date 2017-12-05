@@ -426,8 +426,8 @@
 
     _handleDiscard(e) {
       e.preventDefault();
-      if (this._computeSaveDisabled(this._messageText, this.comment,
-          this.resolved)) {
+
+      if (!this._messageText) {
         this._discardDraft();
         return;
       }

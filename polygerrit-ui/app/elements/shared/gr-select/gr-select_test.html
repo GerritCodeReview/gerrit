@@ -45,6 +45,11 @@ limitations under the License.
       element = fixture('basic');
     });
 
+    test('value of 0 should still trigger value updates', () => {
+      element.bindValue = 0;
+      assert.equal(element.nativeSelect.value, 0);
+    })
+
     test('bidirectional binding property-to-attribute', () => {
       const changeStub = sinon.stub();
       element.addEventListener('bind-value-changed', changeStub);

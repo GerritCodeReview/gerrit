@@ -22,6 +22,30 @@
       "revId": "2e8b4b3a91fd649d5a4df32b16a76830498ffa17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d80d45e_20189dc7",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-06T18:41:46Z",
+      "side": 1,
+      "message": "Yes. It\u0027s on my personal roadmap (and I think our plans for Q1) to do this upgrade.\n\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7144",
+      "parentUuid": "86c1d4a7_223df725",
+      "range": {
+        "startLine": 386,
+        "startChar": 2,
+        "endLine": 386,
+        "endChar": 52
+      },
+      "revId": "2e8b4b3a91fd649d5a4df32b16a76830498ffa17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

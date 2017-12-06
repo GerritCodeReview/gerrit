@@ -665,7 +665,7 @@ limitations under the License.
     });
 
     test('proper event fires on resolve, comment is not saved', done => {
-      const save = sandbox.stub(element, '_saveDraft');
+      const save = sandbox.stub(element, 'save');
       element.addEventListener('comment-update', e => {
         assert.isTrue(e.detail.comment.unresolved);
         assert.isFalse(save.called);
@@ -675,6 +675,7 @@ limitations under the License.
     });
 
     test('resolved comment state indicated by checkbox', () => {
+      sandbox.stub(element, 'save');
       element.comment = {unresolved: false};
       assert.isTrue(element.$$('.resolve input').checked);
       element.comment = {unresolved: true};
@@ -683,7 +684,7 @@ limitations under the License.
 
     test('resolved checkbox saves when !editing', () => {
       element.editing = false;
-      const save = sandbox.stub(element, '_saveDraft');
+      const save = sandbox.stub(element, 'save');
 
       element.comment = {unresolved: false};
       assert.isTrue(element.$$('.resolve input').checked);

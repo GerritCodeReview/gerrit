@@ -36,9 +36,10 @@ components.
 The following endpoints are available to plugins.
 
 === change-view-integration
-This extension point is located between `Files` and `Messages` section on the
-change view page, and it may take full page's width. Primary purpose is to
-enable plugins to display custom CI-related information (build status, etc).
+The `change-view-integration` extension point is located between `Files` and
+`Messages` section on the change view page, and it may take full page's
+width. Primary purpose is to enable plugins to display custom CI-related
+information (build status, etc).
 
 * `change`
 +
@@ -51,9 +52,9 @@ current revision displayed, an instance of
 link:rest-api-changes.html#revision-info[RevisionInfo]
 
 === change-metadata-item
-The change-metadata-item extension point is located on the bottom of the change
-view left panel, under the `Label Status` and `Links` sections. Its width is
-equal to the left panel's, and its primary purpose is to allow plugins to add
+The `change-metadata-item` extension point is located on the bottom of the
+change view left panel, under the `Label Status` and `Links` sections. Its width
+is equal to the left panel's, and its primary purpose is to allow plugins to add
 sections of metadata to the left panel.
 
 In addition to default parameters, the following are available:
@@ -67,3 +68,15 @@ link:rest-api-changes.html#change-info[ChangeInfo]
 +
 current revision displayed, an instance of
 link:rest-api-changes.html#revision-info[RevisionInfo]
+
+=== robot-comment-controls
+The `robot-comment-controls` extension point is located inside each comment
+rendered on the diff page, and is only visible when the comment is a robot
+comment, specifically if the comment has a `robot_id` property.
+
+In addition to default parameters, the following are available:
+
+* `comment`
++
+current comment displayed, an instance of
+link:rest-api-changes.html#comment-info[CommentInfo]

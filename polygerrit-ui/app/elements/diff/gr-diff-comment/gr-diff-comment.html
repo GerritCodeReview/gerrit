@@ -17,7 +17,9 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
-<link rel="import" href="../../shared/gr-textarea/gr-textarea.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
+<link rel="import" href="../../plugins/gr-endpoint-param/gr-endpoint-param.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
@@ -25,9 +27,9 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-storage/gr-storage.html">
+<link rel="import" href="../../shared/gr-textarea/gr-textarea.html">
 <link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
 <link rel="import" href="../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <script src="../../../scripts/rootElement.js"></script>
 
@@ -307,6 +309,10 @@ limitations under the License.
           </div>
         </div>
         <div class="actions robotActions" hidden$="[[!_showRobotActions]]">
+          <gr-endpoint-decorator name="robot-comments-controls">
+            <gr-endpoint-param name="comment" value="[[comment]]">
+            </gr-endpoint-param>
+          </gr-endpoint-decorator>
           <gr-button link class="action fix"
               on-tap="_handleFix"
               disabled="[[robotButtonDisabled]]">

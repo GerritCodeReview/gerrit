@@ -80,7 +80,11 @@ def _bower_archive(ctx):
     "cd bower_components",
     "unzip %s" % ctx.path(download_name),
     "cd ..",
-    "zip -r %s bower_components" % renamed_name,]))
+    "find . -exec touch -t 198001010000 '{}' ';'",
+    "zip -r %s bower_components" % renamed_name,
+    "cd ..",
+    "rm -rf ${TMP}",
+  ]))
 
   dep_version = ctx.attr.semver if ctx.attr.semver else ctx.attr.version
   ctx.file(version_name,

@@ -12,6 +12,14 @@ if [[ -z "$wct_bin" ]]; then
     exit 1
 fi
 
+if [[ -z "${POLYGERRIT_CI}" ]]; then
+    export POLYGERRIT_DISABLE_LOCAL=false
+    export POLYGERRIT_DISABLE_HEADER=true
+else
+    export POLYGERRIT_DISABLE_LOCAL=true
+    export POLYGERRIT_DISABLE_HEADER=false
+fi
+
 # WCT tests are not hermetic, and need extra environment variables.
 # TODO(hanwen): does $DISPLAY even work on OSX?
 bazel test \
@@ -20,6 +28,8 @@ bazel test \
       --test_env="WCT_ARGS=${WCT_ARGS}" \
       --test_env="NPM=${npm_bin}" \
       --test_env="DISPLAY=${DISPLAY}" \
+      --test_env="POLYGERRIT_DISABLE_HEADER=${POLYGERRIT_DISABLE_HEADER}" \
+      --test_env="POLYGERRIT_DISABLE_LOCAL=${POLYGERRIT_DISABLE_LOCAL}" \
       "$@" \
       //polygerrit-ui/app:embed_test \
       //polygerrit-ui/app:wct_test

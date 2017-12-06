@@ -34,7 +34,8 @@ sudo npm install -g \
   typescript \
   fried-twinkie \
   polylint \
-  web-component-tester
+  web-component-tester \
+  wct-headless
 ```
 
 It may complain about a missing `typescript@2.3.4` peer dependency, which is

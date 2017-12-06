@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86c1d4a7_223df725",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-12-06T06:19:16Z",
+      "side": 1,
+      "message": "You mentioned in another change, that vuclanize is deprecated in favor of polymer-bundler: [2]. I guess we havn\u0027t migrated gerrit core from vulcanize to polymer-bundler yet, and that why we still doing this? Sounds fine to me, provided we would imlicitly route the bunlding implementation\nfrom vulcanize to bundler:\n\n  def polygerrit_plugin(*args, **kwargs):\n    _polymer_bundler(...)\n  \n* [2] https://github.com/Polymer/polymer-bundler",
+      "range": {
+        "startLine": 386,
+        "startChar": 2,
+        "endLine": 386,
+        "endChar": 52
+      },
+      "revId": "2e8b4b3a91fd649d5a4df32b16a76830498ffa17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -380,3 +380,7 @@ _vulcanize_rule = rule(
 def vulcanize(*args, **kwargs):
   """Vulcanize runs vulcanize and (optionally) crisper on a set of sources."""
   _vulcanize_rule(*args, pkg=PACKAGE_NAME, **kwargs)
+
+def polygerrit_plugin(*args, **kwargs):
+  """Bundles plugin dependencies for deployment."""
+  _vulcanize_rule(*args, pkg=PACKAGE_NAME, **kwargs)

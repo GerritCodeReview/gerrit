@@ -34,7 +34,8 @@
     },
 
     _updateValue() {
-      if (this.bindValue) {
+      // It's possible to have a value of 0.
+      if (this.bindValue !== undefined) {
         // Set for chrome/safari so it happens instantly
         this.nativeSelect.value = this.bindValue;
         // Async needed for firefox to populate value. It was trying to do it

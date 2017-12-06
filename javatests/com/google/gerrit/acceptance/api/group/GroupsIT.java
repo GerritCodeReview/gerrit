@@ -371,13 +371,6 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createGroupWithoutCapability_Forbidden() throws Exception {
-    setApiUser(user);
-    exception.expect(AuthException.class);
-    gApi.groups().create(name("newGroup"));
-  }
-
-  @Test
   public void createdOnFieldIsPopulatedForNewGroup() throws Exception {
     // NoteDb allows only second precision.
     Timestamp testStartTime = TimeUtil.truncateToSecond(TimeUtil.nowTs());

@@ -86,7 +86,6 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
@@ -328,7 +327,6 @@ class ReceiveCommits {
   private final SubmoduleOp.Factory subOpFactory;
   private final TagCache tagCache;
   private final CreateRefControl createRefControl;
-  private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
 
   // Assisted injected fields.
   private final AllRefsWatcher allRefsWatcher;
@@ -415,7 +413,6 @@ class ReceiveCommits {
       TagCache tagCache,
       CreateRefControl createRefControl,
       DynamicItem<ChangeReportFormatter> changeFormatterProvider,
-      CreateGroupPermissionSyncer createGroupPermissionSyncer,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
       @Assisted ReceivePack rp,
@@ -456,7 +453,6 @@ class ReceiveCommits {
     this.subOpFactory = subOpFactory;
     this.tagCache = tagCache;
     this.createRefControl = createRefControl;
-    this.createGroupPermissionSyncer = createGroupPermissionSyncer;
 
     // Assisted injected fields.
     this.allRefsWatcher = allRefsWatcher;
@@ -2609,13 +2605,6 @@ class ReceiveCommits {
           repo.setGitwebDescription(ps.getProject().getDescription());
         } catch (IOException e) {
           log.warn("cannot update description of " + project.getName(), e);
-        }
-        if (allProjectsName.equals(project.getNameKey())) {
-          try {
-            createGroupPermissionSyncer.syncIfNeeded();
-          } catch (IOException | ConfigInvalidException e) {
-            log.error("Can't sync create group permissions", e);
-          }
         }
       }
     }

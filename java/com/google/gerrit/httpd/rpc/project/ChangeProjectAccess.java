@@ -19,7 +19,6 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -54,7 +53,6 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
   private final GitReferenceUpdated gitRefUpdated;
   private final ProjectAccessFactory.Factory projectAccessFactory;
   private final ProjectCache projectCache;
-  private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
 
   @Inject
   ChangeProjectAccess(
@@ -68,7 +66,6 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
       ContributorAgreementsChecker contributorAgreements,
       Provider<CurrentUser> user,
       PermissionBackend permissionBackend,
-      CreateGroupPermissionSyncer createGroupPermissionSyncer,
       @Assisted("projectName") Project.NameKey projectName,
       @Nullable @Assisted ObjectId base,
       @Assisted List<AccessSection> sectionList,
@@ -91,7 +88,6 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
     this.projectAccessFactory = projectAccessFactory;
     this.projectCache = projectCache;
     this.gitRefUpdated = gitRefUpdated;
-    this.createGroupPermissionSyncer = createGroupPermissionSyncer;
   }
 
   @Override
@@ -109,7 +105,6 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
         user.asIdentifiedUser().getAccount());
 
     projectCache.evict(config.getProject());
-    createGroupPermissionSyncer.syncIfNeeded();
     return projectAccessFactory.create(projectName).call();
   }
 }

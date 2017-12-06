@@ -42,7 +42,6 @@ import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import java.util.HashMap;
-import java.util.Map;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -527,35 +526,10 @@ public class AccessIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void syncCreateGroupPermission() throws Exception {
-    // Grant CREATE_GROUP to Registered Users
-    ProjectAccessInput accessInput = newProjectAccessInput();
-    AccessSectionInfo accessSection = newAccessSectionInfo();
-    PermissionInfo createGroup = newPermissionInfo();
-    PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
-    createGroup.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
-    accessSection.permissions.put(GlobalCapability.CREATE_GROUP, createGroup);
-    accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES, accessSection);
-    gApi.projects().name(allProjects.get()).access(accessInput);
-
-    // Assert that the permission was synced from All-Projects (global) to All-Users (ref)
-    Map<String, AccessSectionInfo> local = gApi.projects().name("All-Users").access().local;
-    assertThat(local).isNotNull();
-    assertThat(local).containsKey(RefNames.REFS_GROUPS + "*");
-    Map<String, PermissionInfo> permissions = local.get(RefNames.REFS_GROUPS + "*").permissions;
-    assertThat(permissions).containsKey(Permission.CREATE);
-    Map<String, PermissionRuleInfo> rules = permissions.get(Permission.CREATE).rules;
-    assertThat(rules.values()).containsExactly(pri);
-
-    // Revoke the permission
-    accessInput.add.clear();
-    accessInput.remove.put(AccessSection.GLOBAL_CAPABILITIES, accessSection);
-    gApi.projects().name(allProjects.get()).access(accessInput);
-
-    // Assert that the permission was synced from All-Projects (global) to All-Users (ref)
-    Map<String, AccessSectionInfo> local2 = gApi.projects().name("All-Users").access().local;
-    assertThat(local2).isNotNull();
-    assertThat(local2).doesNotContainKey(RefNames.REFS_GROUPS + "*");
+  public void createGroupWithoutCapability_Forbidden() throws Exception {
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    gApi.groups().create(name("newGroup"));
   }
 
   private ProjectAccessInput newProjectAccessInput() {

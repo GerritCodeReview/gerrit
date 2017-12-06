@@ -27,7 +27,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -53,7 +52,6 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
   private final ProjectCache projectCache;
   private final Provider<IdentifiedUser> identifiedUser;
   private final SetAccessUtil accessUtil;
-  private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
 
   @Inject
   private SetAccess(
@@ -63,8 +61,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
       ProjectCache projectCache,
       GetAccess getAccess,
       Provider<IdentifiedUser> identifiedUser,
-      SetAccessUtil accessUtil,
-      CreateGroupPermissionSyncer createGroupPermissionSyncer) {
+      SetAccessUtil accessUtil) {
     this.groupBackend = groupBackend;
     this.permissionBackend = permissionBackend;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -72,7 +69,6 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
     this.projectCache = projectCache;
     this.identifiedUser = identifiedUser;
     this.accessUtil = accessUtil;
-    this.createGroupPermissionSyncer = createGroupPermissionSyncer;
   }
 
   @Override
@@ -128,7 +124,6 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
 
       config.commit(md);
       projectCache.evict(config.getProject());
-      createGroupPermissionSyncer.syncIfNeeded();
     } catch (InvalidNameException e) {
       throw new BadRequestException(e.toString());
     } catch (ConfigInvalidException e) {

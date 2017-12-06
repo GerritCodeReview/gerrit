@@ -38,7 +38,9 @@ import java.util.Set;
 /** Caches active {@link GlobalCapability} set for a site. */
 public class CapabilityCollection {
   public interface Factory {
-    CapabilityCollection create(@Nullable AccessSection section);
+    CapabilityCollection create(
+        @Nullable @Assisted("globalCapabilities") AccessSection globalCapabilities,
+        @Nullable @Assisted("refsGroups") AccessSection refsGroups);
   }
 
   private final SystemGroupBackend systemGroupBackend;
@@ -55,15 +57,16 @@ public class CapabilityCollection {
   CapabilityCollection(
       SystemGroupBackend systemGroupBackend,
       @AdministrateServerGroups ImmutableSet<GroupReference> admins,
-      @Assisted @Nullable AccessSection section) {
+      @Assisted("globalCapabilities") @Nullable AccessSection globalCapabilities,
+      @Assisted("refsGroups") @Nullable AccessSection refsGroups) {
     this.systemGroupBackend = systemGroupBackend;
 
-    if (section == null) {
-      section = new AccessSection(AccessSection.GLOBAL_CAPABILITIES);
+    if (globalCapabilities == null) {
+      globalCapabilities = new AccessSection(AccessSection.GLOBAL_CAPABILITIES);
     }
 
     Map<String, List<PermissionRule>> tmp = new HashMap<>();
-    for (Permission permission : section.getPermissions()) {
+    for (Permission permission : globalCapabilities.getPermissions()) {
       for (PermissionRule rule : permission.getRules()) {
         if (!permission.getName().equals(GlobalCapability.EMAIL_REVIEWERS)
             && rule.getAction() == PermissionRule.Action.DENY) {
@@ -78,7 +81,7 @@ public class CapabilityCollection {
         r.add(rule);
       }
     }
-    configureDefaults(tmp, section);
+    configureDefaults(tmp, globalCapabilities);
     if (!tmp.containsKey(GlobalCapability.ADMINISTRATE_SERVER) && !admins.isEmpty()) {
       tmp.put(GlobalCapability.ADMINISTRATE_SERVER, ImmutableList.<PermissionRule>of());
     }
@@ -98,7 +101,13 @@ public class CapabilityCollection {
     emailReviewers = getPermission(GlobalCapability.EMAIL_REVIEWERS);
     priority = getPermission(GlobalCapability.PRIORITY);
     queryLimit = getPermission(GlobalCapability.QUERY_LIMIT);
-    createGroup = getPermission(GlobalCapability.CREATE_GROUP);
+
+    // CREATE_GROUP is determined by Permission.CREATE on refs/groups/*
+    if (refsGroups != null && refsGroups.getPermission(Permission.CREATE) != null) {
+      createGroup = ImmutableList.copyOf(refsGroups.getPermission(Permission.CREATE).getRules());
+    } else {
+      createGroup = ImmutableList.of();
+    }
   }
 
   private static List<PermissionRule> mergeAdmin(

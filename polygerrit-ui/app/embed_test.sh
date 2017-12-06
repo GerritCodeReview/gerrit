@@ -33,7 +33,23 @@ module.exports = {
       },
       'plugins': {
         'local': {
-          'skipSeleniumInstall': true
+          'skipSeleniumInstall': true,
+          'disabled': ${POLYGERRIT_DISABLE_LOCAL},
+        },
+        'headless': {
+          'skipSeleniumInstall': true,
+          'disabled': ${POLYGERRIT_DISABLE_HEADER},
+          'browsers': [
+            'chrome'
+          ],
+          'browsersOptions': {
+            'chrome': [
+              'start-maximized',
+              'headless',
+              'disable-gpu',
+              'no-sandbox'
+            ]
+          }
         },
         'sauce': {
           'disabled': true,

@@ -16,6 +16,24 @@
       "revId": "f6d4a744fd7533eb9b8e01167bbbee1bad6930c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14d541cb_324bf55b",
+        "filename": "java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-12-06T08:29:25Z",
+      "side": 1,
+      "message": "TBH I don\u0027t  think it is. I debugged dozens of messages earlier this year when the feature launched and single tags would not have helped, I almost always needed the entire original message.\n\nWe could add a new log to write out the entire emails we receive for debugging but I found it is easier to just ask the people to attach the original message to the bug they report.",
+      "parentUuid": "8ef20e36_79137b82",
+      "revId": "f6d4a744fd7533eb9b8e01167bbbee1bad6930c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

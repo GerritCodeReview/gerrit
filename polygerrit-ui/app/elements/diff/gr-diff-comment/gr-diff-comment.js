@@ -179,8 +179,15 @@
       return this.$.restAPI.getIsAdmin();
     },
 
-    save() {
-      this.comment.message = this._messageText;
+    /**
+     * @param {*=} opt_comment
+     */
+    save(opt_comment) {
+      let comment = opt_comment;
+      if (!comment) {
+        comment = this.comment;
+        this.comment.message = this._messageText;
+      }
 
       this.disabled = true;
 
@@ -188,21 +195,21 @@
         return this._discardDraft();
       }
 
-      this._xhrPromise = this._saveDraft(this.comment).then(response => {
+      this._xhrPromise = this._saveDraft(comment).then(response => {
         this.disabled = false;
         if (!response.ok) { return response; }
 
         this._eraseDraftComment();
         return this.$.restAPI.getResponseObject(response).then(obj => {
-          const comment = obj;
-          comment.__draft = true;
+          const resComment = obj;
+          resComment.__draft = true;
           // Maintain the ephemeral draft ID for identification by other
           // elements.
           if (this.comment.__draftID) {
-            comment.__draftID = this.comment.__draftID;
+            resComment.__draftID = this.comment.__draftID;
           }
-          comment.__commentSide = this.commentSide;
-          this.comment = comment;
+          resComment.__commentSide = this.commentSide;
+          this.comment = resComment;
           this.editing = false;
           this._fireSave();
           return obj;
@@ -589,7 +596,7 @@
       this.fire('comment-update', payload);
       if (!this.editing) {
         // Save the resolved state immediately.
-        this._saveDraft(payload.comment);
+        this.save(payload.comment);
       }
     },
 

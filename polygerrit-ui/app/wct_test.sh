@@ -21,6 +21,7 @@ cp $TEST_SRCDIR/gerrit/polygerrit-ui/app/test/index.html $t/test/
 # only.  Run it with (saucelabs.com account required; free for open
 # source): WCT_ARGS='--plugin sauce' ./polygerrit-ui/app/run_test.sh
 
+if [[ -z "${POLYGERRIT_CI}" ]]; then
 cat <<EOF > $t/wct.conf.js
 module.exports = {
       'suites': ['test'],
@@ -46,6 +47,48 @@ module.exports = {
       }
     };
 EOF
+else
+cat <<EOF > $t/wct.conf.js
+module.exports = {
+      'suites': ['test'],
+      'webserver': {
+        'pathMappings': [
+          {'/components/bower_components': 'bower_components'}
+        ]
+      },
+      'plugins': {
+        'local': {
+          'skipSeleniumInstall': true,
+          'disable': true,
+        },
+        'headless': {
+          'skipSeleniumInstall': true,
+          'browsers': [
+            'chrome'
+          ],
+          'browsersOptions': {
+            'chrome': [
+              'window-size=1920,1080',
+              'headless',
+              'disable-gpu',
+              'no-sandbox'
+            ]
+          }
+        },
+        'sauce': {
+          'disabled': true,
+          'browsers': [
+            'OS X 10.12/chrome',
+            'Windows 10/chrome',
+            'Linux/firefox',
+            'OS X 10.12/safari',
+            'Windows 10/microsoftedge'
+          ]
+        }
+      }
+    };
+EOF
+fi
 
 export PATH="$(dirname $WCT):$(dirname $NPM):$PATH"
 

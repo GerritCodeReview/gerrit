@@ -141,7 +141,9 @@ public class ProjectState {
     this.configs = new HashMap<>();
     this.capabilities =
         isAllProjects
-            ? limitsFactory.create(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
+            ? limitsFactory.create(
+                config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES),
+                config.getAccessSection(RefNames.REFS_GROUPS + "*"))
             : null;
 
     if (isAllProjects && !Permission.canBeOnAllProjects(AccessSection.ALL, Permission.OWNER)) {

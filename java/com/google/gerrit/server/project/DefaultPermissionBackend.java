@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
@@ -25,6 +26,7 @@ import com.google.gerrit.extensions.api.access.PluginPermission;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.account.CapabilityCollection;
@@ -127,7 +129,6 @@ public class DefaultPermissionBackend extends PermissionBackend {
           return has(perm.permissionName()) || can(GlobalPermission.MAINTAIN_SERVER);
 
         case CREATE_ACCOUNT:
-        case CREATE_GROUP:
         case CREATE_PROJECT:
         case MAINTAIN_SERVER:
         case MODIFY_ACCOUNT:
@@ -136,6 +137,9 @@ public class DefaultPermissionBackend extends PermissionBackend {
         case VIEW_CONNECTIONS:
         case VIEW_PLUGINS:
           return has(perm.permissionName()) || isAdmin();
+
+        case CREATE_GROUP:
+          return canCreateGroup() || isAdmin();
 
         case ACCESS_DATABASE:
         case RUN_AS:
@@ -149,6 +153,14 @@ public class DefaultPermissionBackend extends PermissionBackend {
         admin = computeAdmin();
       }
       return admin;
+    }
+
+    private boolean canCreateGroup() {
+      return projectCache
+          .getAllUsers()
+          .controlFor(user)
+          .controlForRef(RefNames.REFS_GROUPS + "*")
+          .canPerform(Permission.CREATE);
     }
 
     private Boolean computeAdmin() {

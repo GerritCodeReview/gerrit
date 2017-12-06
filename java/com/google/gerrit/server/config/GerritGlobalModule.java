@@ -72,7 +72,6 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.CmdLineParserModule;
-import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.Sequences;
@@ -319,10 +318,6 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), CommentAddedListener.class);
     DynamicSet.setOf(binder(), HashtagsEditedListener.class);
     DynamicSet.setOf(binder(), ChangeMergedListener.class);
-    bind(ChangeMergedListener.class)
-        .annotatedWith(Exports.named("CreateGroupPermissionSyncer"))
-        .to(CreateGroupPermissionSyncer.class);
-
     DynamicSet.setOf(binder(), ChangeRestoredListener.class);
     DynamicSet.setOf(binder(), ChangeRevertedListener.class);
     DynamicSet.setOf(binder(), ReviewerAddedListener.class);

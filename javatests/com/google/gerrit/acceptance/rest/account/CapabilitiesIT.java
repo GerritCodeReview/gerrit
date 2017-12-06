@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.common.data.GlobalCapability.ACCESS_DATABASE;
 import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
 import static com.google.gerrit.common.data.GlobalCapability.BATCH_CHANGES_LIMIT;
+import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
 import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_BATCH_CHANGES_LIMIT;
 import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_LIMIT;
 import static com.google.gerrit.common.data.GlobalCapability.PRIORITY;
@@ -41,7 +42,7 @@ public class CapabilitiesIT extends AbstractDaemonTest {
     Iterable<String> all =
         Iterables.filter(
             GlobalCapability.getAllNames(),
-            c -> !ADMINISTRATE_SERVER.equals(c) && !PRIORITY.equals(c));
+            c -> !ADMINISTRATE_SERVER.equals(c) && !PRIORITY.equals(c) && !CREATE_GROUP.equals(c));
 
     allowGlobalCapabilities(REGISTERED_USERS, all);
     try {

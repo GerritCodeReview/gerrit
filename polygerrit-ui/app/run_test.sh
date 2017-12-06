@@ -20,6 +20,7 @@ bazel test \
       --test_env="WCT_ARGS=${WCT_ARGS}" \
       --test_env="NPM=${npm_bin}" \
       --test_env="DISPLAY=${DISPLAY}" \
+      --test_env="POLYGERRIT_CI=${POLYGERRIT_CI}" \
       "$@" \
       //polygerrit-ui/app:embed_test \
       //polygerrit-ui/app:wct_test

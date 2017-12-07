@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c87bda2f_c6c1d828",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-07T12:53:09Z",
+      "side": 1,
+      "message": "column",
+      "range": {
+        "startLine": 24,
+        "startChar": 56,
+        "endLine": 24,
+        "endChar": 63
+      },
+      "revId": "5122a934bc6ac75d9175530753eef1173cd1abfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41642793_82510fb3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/BaseAccountPathReviewDbMigration.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-07T12:53:09Z",
+      "side": 1,
+      "message": "Missing copyright/license header",
+      "revId": "5122a934bc6ac75d9175530753eef1173cd1abfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

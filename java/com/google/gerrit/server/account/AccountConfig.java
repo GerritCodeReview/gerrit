@@ -100,6 +100,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    * @return loaded account.
    * @throws IllegalStateException if the account was not loaded yet
    */
+  @Nullable
   public Account getAccount() {
     checkLoaded();
     return account;

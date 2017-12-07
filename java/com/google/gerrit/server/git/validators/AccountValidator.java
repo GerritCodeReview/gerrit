@@ -62,6 +62,10 @@ public class AccountValidator {
               newId.name(), AccountConfig.ACCOUNT_CONFIG, accountId.get(), e.getMessage()));
     }
 
+    if (newAccount == null) {
+      return ImmutableList.of(String.format("account '%s' does not exist", accountId.get()));
+    }
+
     List<String> messages = new ArrayList<>();
     if (accountId.equals(self.get().getAccountId()) && !newAccount.isActive()) {
       messages.add("cannot deactivate own account");
@@ -81,6 +85,7 @@ public class AccountValidator {
     return ImmutableList.copyOf(messages);
   }
 
+  @Nullable
   private Account loadAccount(Account.Id accountId, RevWalk rw, ObjectId commit)
       throws IOException, ConfigInvalidException {
     rw.reset();

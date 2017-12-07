@@ -25,6 +25,7 @@ import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -43,7 +44,7 @@ public class AccountValidator {
   public List<String> validate(
       Account.Id accountId, RevWalk rw, @Nullable ObjectId oldId, ObjectId newId)
       throws IOException {
-    Account oldAccount = null;
+    Optional<Account> oldAccount = Optional.empty();
     if (oldId != null && !ObjectId.zeroId().equals(oldId)) {
       try {
         oldAccount = loadAccount(accountId, rw, oldId);
@@ -52,7 +53,7 @@ public class AccountValidator {
       }
     }
 
-    Account newAccount;
+    Optional<Account> newAccount;
     try {
       newAccount = loadAccount(accountId, rw, newId);
     } catch (ConfigInvalidException e) {
@@ -62,35 +63,35 @@ public class AccountValidator {
               newId.name(), AccountConfig.ACCOUNT_CONFIG, accountId.get(), e.getMessage()));
     }
 
-    if (newAccount == null) {
+    if (!newAccount.isPresent()) {
       return ImmutableList.of(String.format("account '%s' does not exist", accountId.get()));
     }
 
     List<String> messages = new ArrayList<>();
-    if (accountId.equals(self.get().getAccountId()) && !newAccount.isActive()) {
+    if (accountId.equals(self.get().getAccountId()) && !newAccount.get().isActive()) {
       messages.add("cannot deactivate own account");
     }
 
-    if (newAccount.getPreferredEmail() != null
-        && (oldAccount == null
-            || !newAccount.getPreferredEmail().equals(oldAccount.getPreferredEmail()))) {
-      if (!emailValidator.isValid(newAccount.getPreferredEmail())) {
+    String newPreferredEmail = newAccount.get().getPreferredEmail();
+    if (newPreferredEmail != null
+        && (!oldAccount.isPresent()
+            || !newPreferredEmail.equals(oldAccount.get().getPreferredEmail()))) {
+      if (!emailValidator.isValid(newPreferredEmail)) {
         messages.add(
             String.format(
                 "invalid preferred email '%s' for account '%s'",
-                newAccount.getPreferredEmail(), accountId.get()));
+                newPreferredEmail, accountId.get()));
       }
     }
 
     return ImmutableList.copyOf(messages);
   }
 
-  @Nullable
-  private Account loadAccount(Account.Id accountId, RevWalk rw, ObjectId commit)
+  private Optional<Account> loadAccount(Account.Id accountId, RevWalk rw, ObjectId commit)
       throws IOException, ConfigInvalidException {
     rw.reset();
     AccountConfig accountConfig = new AccountConfig(null, accountId);
     accountConfig.load(rw, commit);
-    return accountConfig.getAccount();
+    return accountConfig.getLoadedAccount();
   }
 }

@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
@@ -79,7 +80,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   private final String ref;
 
   private boolean isLoaded;
-  private Account account;
+  private Optional<Account> loadedAccount = Optional.empty();
   private Timestamp registeredOn;
   private List<ValidationError> validationErrors;
 
@@ -101,9 +102,9 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    * @throws IllegalStateException if the account was not loaded yet
    */
   @Nullable
-  public Account getAccount() {
+  public Optional<Account> getLoadedAccount() {
     checkLoaded();
-    return account;
+    return loadedAccount;
   }
 
   /**
@@ -116,7 +117,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    */
   public void setAccount(Account account) {
     checkLoaded();
-    this.account = checkNotNull(account);
+    this.loadedAccount = Optional.of(checkNotNull(account));
     this.registeredOn = account.getRegisteredOn();
   }
 
@@ -132,8 +133,8 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
       throw new OrmDuplicateKeyException(String.format("account %s already exists", accountId));
     }
     this.registeredOn = TimeUtil.nowTs();
-    this.account = new Account(accountId, registeredOn);
-    return account;
+    this.loadedAccount = Optional.of(new Account(accountId, registeredOn));
+    return loadedAccount.get();
   }
 
   @Override
@@ -146,14 +147,13 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
 
       Config cfg = readConfig(ACCOUNT_CONFIG);
 
-      account = parse(cfg);
-      account.setMetaId(revision.name());
+      loadedAccount = Optional.of(parse(cfg, revision.name()));
     }
 
     isLoaded = true;
   }
 
-  private Account parse(Config cfg) {
+  private Account parse(Config cfg, String metaId) {
     Account account = new Account(accountId, registeredOn);
     account.setActive(cfg.getBoolean(ACCOUNT, null, KEY_ACTIVE, true));
     account.setFullName(get(cfg, KEY_FULL_NAME));
@@ -167,13 +167,14 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     }
 
     account.setStatus(get(cfg, KEY_STATUS));
+    account.setMetaId(metaId);
     return account;
   }
 
   @Override
   public RevCommit commit(MetaDataUpdate update) throws IOException {
     RevCommit c = super.commit(update);
-    account.setMetaId(c.name());
+    loadedAccount.get().setMetaId(c.name());
     return c;
   }
 
@@ -181,16 +182,20 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
     checkLoaded();
 
+    if (!loadedAccount.isPresent()) {
+      return false;
+    }
+
     if (revision != null) {
       commit.setMessage("Update account\n");
-    } else if (account != null) {
+    } else {
       commit.setMessage("Create account\n");
       commit.setAuthor(new PersonIdent(commit.getAuthor(), registeredOn));
       commit.setCommitter(new PersonIdent(commit.getCommitter(), registeredOn));
     }
 
     Config cfg = readConfig(ACCOUNT_CONFIG);
-    writeToConfig(account, cfg);
+    writeToConfig(loadedAccount.get(), cfg);
     saveConfig(ACCOUNT_CONFIG, cfg);
     return true;
   }

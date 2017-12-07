@@ -519,6 +519,30 @@
       "revId": "e8286e3a28cbe614bc0b6b3a3bac3d53888c7190",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f799bc4b_3bb64560",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-07T10:51:57Z",
+      "side": 1,
+      "message": "Thanks. Much better.",
+      "parentUuid": "d3bd6709_57ff00d7",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 47
+      },
+      "revId": "e8286e3a28cbe614bc0b6b3a3bac3d53888c7190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65ebb931_0c7c213d",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-07T10:51:57Z",
+      "side": 1,
+      "message": "This import statement is unused/unnecessary.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 81
+      },
+      "revId": "cc29ab38610b5f001d341da98e1b4c98f69c1ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f90e4c4_1de72d2a",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-07T10:51:57Z",
+      "side": 1,
+      "message": "The test name \"groupNameNoteIsMissing\" would probably be clearer. The \u0027NoteDataBlob\u0027 part confuses me.",
+      "range": {
+        "startLine": 39,
+        "startChar": 14,
+        "endLine": 39,
+        "endChar": 44
+      },
+      "revId": "cc29ab38610b5f001d341da98e1b4c98f69c1ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85671f65_e018b58b",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-07T10:51:57Z",
+      "side": 1,
+      "message": "Could we maybe use something like:\n\n updateGroupNamesRef(\"g-2\", \"[group]\\n\\tuuid \u003d uuid-2\\n\\tname \u003d g-2\\n\");\n\nhere instead of this more cryptic line?",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 97
+      },
+      "revId": "cc29ab38610b5f001d341da98e1b4c98f69c1ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6e8cce7_3f8950d8",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-07T10:51:57Z",
+      "side": 1,
+      "message": "Line too long.",
+      "range": {
+        "startLine": 66,
+        "startChar": 100,
+        "endLine": 66,
+        "endChar": 111
+      },
+      "revId": "cc29ab38610b5f001d341da98e1b4c98f69c1ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "051642b8_6781a7c6",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-07T10:51:57Z",
+      "side": 1,
+      "message": "Line too long.",
+      "range": {
+        "startLine": 88,
+        "startChar": 100,
+        "endLine": 88,
+        "endChar": 110
+      },
+      "revId": "cc29ab38610b5f001d341da98e1b4c98f69c1ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fb9272b_2a1bb727",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-07T10:51:57Z",
+      "side": 1,
+      "message": "optional: It\u0027s a bit dangerous to depend on the message of an exception we get from JGit. I understand that it would require more complicated code to only verify the first part of the consistency message. Let\u0027s hope that this string of JGit stays stable.",
+      "range": {
+        "startLine": 102,
+        "startChar": 66,
+        "endLine": 102,
+        "endChar": 95
+      },
+      "revId": "cc29ab38610b5f001d341da98e1b4c98f69c1ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

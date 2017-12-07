@@ -622,7 +622,7 @@ limitations under the License.
     suite('plugin endpoints', () => {
       test('endpoint params', done => {
         element.change = {labels: {}};
-        element.currentRevision = {};
+        element.revision = {};
         let hookEl;
         let plugin;
         Gerrit.install(
@@ -637,7 +637,7 @@ limitations under the License.
         flush(() => {
           assert.strictEqual(hookEl.plugin, plugin);
           assert.strictEqual(hookEl.change, element.change);
-          assert.strictEqual(hookEl.revision, element.currentRevision);
+          assert.strictEqual(hookEl.revision, element.revision);
           done();
         });
       });

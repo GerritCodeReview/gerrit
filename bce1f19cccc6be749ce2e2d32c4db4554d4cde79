@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "4221c1d0_0e07801d",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-07T10:03:44Z",
+      "side": 1,
+      "message": "If we have multiple groups with the same UUID in the notes map, there isn\u0027t a perfect way of dealing with it in my opinion. All options (excluding all duplicates, choosing any of the duplicates, returning all duplicates) seem similarly good or bad to me considering advantages/disadvantages of them. I personally feel that excluding all duplicates is the least appealing option to me (but that\u0027s only a small tendency).\n\nIn general, I am not really sure that we should spend many thoughts and efforts on this. If we detect duplicate UUIDs, we have a problem anyway. The system is then definitely in an error state. That\u0027s a state which we try to avoid by great lengths by multiple safety mechanisms in our code. The only thing that really matters to me is that if the system somehow got into that error state, it will still work as best as it can.",
+      "parentUuid": "0fe4304d_6af469cc",
+      "range": {
+        "startLine": 188,
+        "startChar": 8,
+        "endLine": 192,
+        "endChar": 9
+      },
+      "revId": "bce1f19cccc6be749ce2e2d32c4db4554d4cde79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9bfbceb6_e326af2e",
         "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
         "patchSetId": 11

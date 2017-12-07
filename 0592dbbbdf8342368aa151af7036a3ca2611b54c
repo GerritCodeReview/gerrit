@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "732b37c2_33164576",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1057279
+      },
+      "writtenOn": "2017-12-07T20:35:41Z",
+      "side": 1,
+      "message": "This doesn\u0027t look right. `index-as` is correct AFAIK.\n\nDid the linter warn about index-as? If so that\u0027s a linter error.",
+      "revId": "0592dbbbdf8342368aa151af7036a3ca2611b54c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

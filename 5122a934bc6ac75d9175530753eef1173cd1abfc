@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b136ff58_2cfbc24e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-12-07T13:04:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c87bda2f_c6c1d828",
+      "range": {
+        "startLine": 24,
+        "startChar": 56,
+        "endLine": 24,
+        "endChar": 63
+      },
+      "revId": "5122a934bc6ac75d9175530753eef1173cd1abfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "41642793_82510fb3",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/BaseAccountPathReviewDbMigration.java",
         "patchSetId": 4
@@ -39,6 +63,24 @@
       "revId": "5122a934bc6ac75d9175530753eef1173cd1abfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a2d32c2_ad137e71",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/BaseAccountPathReviewDbMigration.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-12-07T13:04:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41642793_82510fb3",
+      "revId": "5122a934bc6ac75d9175530753eef1173cd1abfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

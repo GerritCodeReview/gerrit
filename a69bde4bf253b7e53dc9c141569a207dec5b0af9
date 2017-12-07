@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8e643424_7e8fe346",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T15:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa03a049_897f590a",
+      "range": {
+        "startLine": 9,
+        "startChar": 33,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "a69bde4bf253b7e53dc9c141569a207dec5b0af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "485c6714_c925b4b8",
         "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "07ec2ea3_d2f64f49",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T15:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "485c6714_c925b4b8",
+      "range": {
+        "startLine": 279,
+        "startChar": 21,
+        "endLine": 279,
+        "endChar": 55
+      },
+      "revId": "a69bde4bf253b7e53dc9c141569a207dec5b0af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b4809ed_5fae02ca",
         "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
         "patchSetId": 4
@@ -68,6 +116,30 @@
       "revId": "a69bde4bf253b7e53dc9c141569a207dec5b0af9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1ab28f4_c32d8d9c",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T15:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b4809ed_5fae02ca",
+      "range": {
+        "startLine": 288,
+        "startChar": 58,
+        "endLine": 288,
+        "endChar": 60
+      },
+      "revId": "a69bde4bf253b7e53dc9c141569a207dec5b0af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

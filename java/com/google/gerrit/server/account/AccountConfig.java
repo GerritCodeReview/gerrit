@@ -116,7 +116,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    */
   public void setAccount(Account account) {
     checkLoaded();
-    this.account = account;
+    this.account = checkNotNull(account);
     this.registeredOn = account.getRegisteredOn();
   }
 

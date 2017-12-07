@@ -58,14 +58,18 @@
       this._storage.removeItem(key);
     },
 
+    getEditableContentItem(key) {
+      this._cleanupItems();
+      return this._getObject(this._getEditableContentKey(key));
+    },
+
     setEditableContentItem(key, message) {
       this._setObject(this._getEditableContentKey(key),
           {message, updated: Date.now()});
     },
 
-    getEditableContentItem(key) {
-      this._cleanupItems();
-      return this._getObject(this._getEditableContentKey(key));
+    eraseEditableContentItem(key) {
+      this._storage.removeItem(key);
     },
 
     getPreferences() {

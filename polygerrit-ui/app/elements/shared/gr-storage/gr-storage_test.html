@@ -184,6 +184,10 @@ limitations under the License.
       assert.equal(item.message, 'my content');
       assert.isOk(item.updated);
       assert.isTrue(cleanupStub.called);
+
+      // eraseEditableContentItem performs as expected.
+      element.eraseEditableContentItem(key);
+      assert.isNotOk(element._storage.getItem(key));
     });
   });
 </script>

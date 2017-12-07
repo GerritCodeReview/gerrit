@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "e68837e4_44bd057e",
+        "filename": "java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T16:01:03Z",
+      "side": 1,
+      "message": "Yes. Checking a \"isPresent\" is cheap. Moved to there.",
+      "parentUuid": "7702adb7_72848892",
+      "range": {
+        "startLine": 348,
+        "startChar": 8,
+        "endLine": 354,
+        "endChar": 7
+      },
+      "revId": "bc17de3bc74f5f485bbc8083f07a953929a8eaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c326fed_ca46c8e7",
         "filename": "java/com/google/gerrit/server/group/ListGroups.java",
         "patchSetId": 1

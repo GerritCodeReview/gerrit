@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "eb97bd94_17fe911b",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T10:58:48Z",
+      "side": 1,
+      "message": "Normally, our java formatter will take care of these style things. But it looks sometimes it\u0027s not working as I expect.",
+      "parentUuid": "65ebb931_0c7c213d",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 81
+      },
+      "revId": "cc29ab38610b5f001d341da98e1b4c98f69c1ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f90e4c4_1de72d2a",
         "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "cc29ab38610b5f001d341da98e1b4c98f69c1ba2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a1d78b8_e50f02c2",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T10:58:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f90e4c4_1de72d2a",
+      "range": {
+        "startLine": 39,
+        "startChar": 14,
+        "endLine": 39,
+        "endChar": 44
+      },
+      "revId": "cc29ab38610b5f001d341da98e1b4c98f69c1ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ae63a944_bb20dd57",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T10:58:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85671f65_e018b58b",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 97
+      },
+      "revId": "cc29ab38610b5f001d341da98e1b4c98f69c1ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6e8cce7_3f8950d8",
         "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
         "patchSetId": 8
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "9d90c832_53bf1c55",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T10:58:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6e8cce7_3f8950d8",
+      "range": {
+        "startLine": 66,
+        "startChar": 100,
+        "endLine": 66,
+        "endChar": 111
+      },
+      "revId": "cc29ab38610b5f001d341da98e1b4c98f69c1ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "051642b8_6781a7c6",
         "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
         "patchSetId": 8
@@ -114,6 +210,30 @@
       "revId": "cc29ab38610b5f001d341da98e1b4c98f69c1ba2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0371a063_561002de",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T10:58:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "051642b8_6781a7c6",
+      "range": {
+        "startLine": 88,
+        "startChar": 100,
+        "endLine": 88,
+        "endChar": 110
+      },
+      "revId": "cc29ab38610b5f001d341da98e1b4c98f69c1ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

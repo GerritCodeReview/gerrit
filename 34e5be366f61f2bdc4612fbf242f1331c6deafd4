@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c899bbb7_c57ebc27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-12-07T20:21:22Z",
+      "side": 1,
+      "message": "Can you say more about the bug this fixes? E.g. is something listening on the revision attribute?\n\nIs there a test that could catch this if it regresses?",
+      "revId": "34e5be366f61f2bdc4612fbf242f1331c6deafd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

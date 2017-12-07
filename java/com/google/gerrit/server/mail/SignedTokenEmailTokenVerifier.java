@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail;
 
+import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.reviewdb.client.Account;
@@ -48,6 +49,7 @@ public class SignedTokenEmailTokenVerifier implements EmailTokenVerifier {
 
   @Override
   public String encode(Account.Id accountId, String emailAddress) {
+    checkEmailRegistrationToken();
     try {
       String payload = String.format("%s:%s", accountId, emailAddress);
       byte[] utf8 = payload.getBytes(UTF_8);
@@ -60,6 +62,7 @@ public class SignedTokenEmailTokenVerifier implements EmailTokenVerifier {
 
   @Override
   public ParsedToken decode(String tokenString) throws InvalidTokenException {
+    checkEmailRegistrationToken();
     ValidToken token;
     try {
       token = emailRegistrationToken.checkToken(tokenString, null);
@@ -85,5 +88,10 @@ public class SignedTokenEmailTokenVerifier implements EmailTokenVerifier {
 
     String newEmail = matcher.group(2);
     return new ParsedToken(id, newEmail);
+  }
+
+  private void checkEmailRegistrationToken() {
+    checkState(
+        emailRegistrationToken != null, "'auth.registerEmailPrivateKey' not set in gerrit.config");
   }
 }

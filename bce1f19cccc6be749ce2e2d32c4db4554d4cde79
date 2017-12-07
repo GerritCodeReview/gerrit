@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0fe4304d_6af469cc",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T09:07:46Z",
+      "side": 1,
+      "message": "We could do like what we do for accounts. Alice can make the decision.",
+      "parentUuid": "d7ef2fed_6403dab2",
+      "range": {
+        "startLine": 188,
+        "startChar": 8,
+        "endLine": 192,
+        "endChar": 9
+      },
+      "revId": "bce1f19cccc6be749ce2e2d32c4db4554d4cde79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9bfbceb6_e326af2e",
         "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
         "patchSetId": 11
@@ -93,6 +117,30 @@
       "revId": "bce1f19cccc6be749ce2e2d32c4db4554d4cde79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d138807_d7bca7fd",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T09:07:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa3bbdc6_9c74f75b",
+      "range": {
+        "startLine": 53,
+        "startChar": 30,
+        "endLine": 53,
+        "endChar": 64
+      },
+      "revId": "bce1f19cccc6be749ce2e2d32c4db4554d4cde79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "0592dbbbdf8342368aa151af7036a3ca2611b54c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1658ff94_060b6a00",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-12-07T21:21:43Z",
+      "side": 1,
+      "message": "When I wrote this the linter was wrong. A few months ago you merged my PR to fix it. :)\n\nhttps://github.com/Polymer/polymer-linter/pull/102",
+      "parentUuid": "732b37c2_33164576",
+      "revId": "0592dbbbdf8342368aa151af7036a3ca2611b54c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

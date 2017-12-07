@@ -417,7 +417,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       md.getCommitBuilder().setCommitter(ident);
       AccountConfig accountConfig = new AccountConfig(null, accountId);
       accountConfig.load(repo);
-      accountConfig.getAccount().setFullName(newName);
+      accountConfig.getLoadedAccount().get().setFullName(newName);
       accountConfig.commit(md);
     }
 

@@ -543,7 +543,9 @@ public class AccessIT extends AbstractDaemonTest {
     assertThat(local).isNotNull();
     assertThat(local).containsKey(RefNames.REFS_GROUPS + "*");
     Map<String, PermissionInfo> permissions = local.get(RefNames.REFS_GROUPS + "*").permissions;
-    assertThat(permissions).containsKey(Permission.CREATE);
+    assertThat(permissions).hasSize(2);
+    // READ is the default permission and should be preserved by the syncer
+    assertThat(permissions.keySet()).containsExactly(Permission.READ, Permission.CREATE);
     Map<String, PermissionRuleInfo> rules = permissions.get(Permission.CREATE).rules;
     assertThat(rules.values()).containsExactly(pri);
 
@@ -555,7 +557,11 @@ public class AccessIT extends AbstractDaemonTest {
     // Assert that the permission was synced from All-Projects (global) to All-Users (ref)
     Map<String, AccessSectionInfo> local2 = gApi.projects().name("All-Users").access().local;
     assertThat(local2).isNotNull();
-    assertThat(local2).doesNotContainKey(RefNames.REFS_GROUPS + "*");
+    assertThat(local2).containsKey(RefNames.REFS_GROUPS + "*");
+    Map<String, PermissionInfo> permissions2 = local2.get(RefNames.REFS_GROUPS + "*").permissions;
+    assertThat(permissions2).hasSize(1);
+    // READ is the default permission and should be preserved by the syncer
+    assertThat(permissions2.keySet()).containsExactly(Permission.READ);
   }
 
   private ProjectAccessInput newProjectAccessInput() {

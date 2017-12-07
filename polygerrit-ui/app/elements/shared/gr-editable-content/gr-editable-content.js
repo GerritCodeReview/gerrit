@@ -14,6 +14,8 @@
 (function() {
   'use strict';
 
+  const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
+
   Polymer({
     is: 'gr-editable-content',
 
@@ -45,24 +47,50 @@
         value: false,
       },
       removeZeroWidthSpace: Boolean,
+      // If no storage key is provided, content is not stored.
+      storageKey: String,
       _saveDisabled: {
         computed: '_computeSaveDisabled(disabled, content, _newContent)',
         type: Boolean,
         value: true,
       },
-      _newContent: String,
+      _newContent: {
+        type: String,
+        observer: '_newContentChanged',
+      },
     },
 
     focusTextarea() {
       this.$$('iron-autogrow-textarea').textarea.focus();
     },
 
+    _newContentChanged(newContent, oldContent) {
+      if (this.storageKey) {
+        this.debounce('store', () => {
+          if (newContent.length) {
+            this.$.storage.setEditableContentItem(this.storageKey, newContent);
+          } else {
+            this.$.storage.eraseEditableContentItem(this.storageKey);
+          }
+        }, STORAGE_DEBOUNCE_INTERVAL_MS);
+      }
+    },
+
     _editingChanged(editing) {
       if (!editing) { return; }
 
+      let content;
+      if (this.storageKey) {
+        content = this.$.storage.getEditableContentItem(this.storageKey);
+      }
+      if (!content) {
+        content = this.content;
+      }
+
       // TODO(wyatta) switch linkify sequence, see issue 5526.
       this._newContent = this.removeZeroWidthSpace ?
-          this.content.replace(/^R=\u200B/gm, 'R=') : this.content;
+          content.replace(/^R=\u200B/gm, 'R=') :
+          content;
     },
 
     _computeSaveDisabled(disabled, content, newContent) {

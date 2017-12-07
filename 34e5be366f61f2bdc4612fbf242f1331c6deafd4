@@ -16,6 +16,24 @@
       "revId": "34e5be366f61f2bdc4612fbf242f1331c6deafd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39373652_2e6cdf54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-07T21:39:53Z",
+      "side": 1,
+      "message": "Sorry, I\u0027ve merged the change and noticed the comment after that.\n\nPractically, gr-change-view sets one property and gr-change-metadata uses another one. As a result, unit tests were passing.\nI think there was Becky\u0027s test for usage of undeclared attributes, but it didn\u0027t catch this.\n\nIdeally, this should be covered by an integration test.",
+      "parentUuid": "c899bbb7_c57ebc27",
+      "revId": "34e5be366f61f2bdc4612fbf242f1331c6deafd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "7702adb7_72848892",
+        "filename": "java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-07T15:48:48Z",
+      "side": 1,
+      "message": "To my tastes, this code here is too far away from the original call to Groups#getAllGroupReferences. If the implementation of InternalGroupBackend#suggest changes, nobody will remember this log warning here.\n\nI don\u0027t understand why you\u0027re worried about the performance of InternalGroupBackend#suggest. The only additional call we would make (when the system is consistent) is Optional#isPresent and that should be very cheap. In addition, we really want to have this check for every group.",
+      "parentUuid": "6e0661a8_8e5e79b5",
+      "range": {
+        "startLine": 348,
+        "startChar": 8,
+        "endLine": 354,
+        "endChar": 7
+      },
+      "revId": "bc17de3bc74f5f485bbc8083f07a953929a8eaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c326fed_ca46c8e7",
         "filename": "java/com/google/gerrit/server/group/ListGroups.java",
         "patchSetId": 1

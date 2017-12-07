@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f6da78f_43ebb36d",
+        "filename": ".gitmodules",
+        "patchSetId": 6
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-12-07T13:58:06Z",
+      "side": 1,
+      "message": "Nit: trailing whitespaces.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 1
+      },
+      "revId": "21eef6009dfb935f8e3ce5b6d703762b76d9b48c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "532df129_d5957bbe",
+        "filename": "plugins/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-12-07T13:58:06Z",
+      "side": 1,
+      "message": "Revert all changes in this file.",
+      "revId": "21eef6009dfb935f8e3ce5b6d703762b76d9b48c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1cafffb_3d140a2f",
+        "filename": "tools/bzl/plugins.bzl",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-12-07T13:58:06Z",
+      "side": 1,
+      "message": "We changed this plugin to produce JAR artefact for now, thus this should be vanilla JAR plugin and should be listed in CORE_PLUGINS.",
+      "revId": "21eef6009dfb935f8e3ce5b6d703762b76d9b48c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

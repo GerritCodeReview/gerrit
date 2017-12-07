@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "fd65a915_38077ef8",
+        "filename": "java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-07T14:56:05Z",
+      "side": 1,
+      "message": "Your answer confuses me. In InternalGroupBackend, we call Groups#getAllGroupReferences and map those GroupReferences (which are read originally from GroupNameNotes) to InternalGroups in InternalGroupBackend#isVisible. So, we could split up InternalGroupBackend#isVisible into a part which retrieves the group from the cache and another part which checks the visibility. All groups in InternalGroupBackend are internal groups. In which way can a GroupReference which is checked by InternalGroupBackend#isVisible not be read from the group name notes?",
+      "parentUuid": "f478d24a_bb986f0c",
+      "range": {
+        "startLine": 348,
+        "startChar": 8,
+        "endLine": 354,
+        "endChar": 7
+      },
+      "revId": "bc17de3bc74f5f485bbc8083f07a953929a8eaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c326fed_ca46c8e7",
         "filename": "java/com/google/gerrit/server/group/ListGroups.java",
         "patchSetId": 1

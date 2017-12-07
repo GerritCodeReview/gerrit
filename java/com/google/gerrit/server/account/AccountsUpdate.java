@@ -35,6 +35,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -231,6 +232,7 @@ public class AccountsUpdate {
    * @throws IOException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
+  @Nullable
   public Account update(Account.Id accountId, List<Consumer<Account>> consumers)
       throws IOException, ConfigInvalidException {
     if (consumers.isEmpty()) {
@@ -238,13 +240,13 @@ public class AccountsUpdate {
     }
 
     AccountConfig accountConfig = read(accountId);
-    Account account = accountConfig.getAccount();
-    if (account != null) {
-      consumers.stream().forEach(c -> c.accept(account));
+    Optional<Account> account = accountConfig.getLoadedAccount();
+    if (account.isPresent()) {
+      consumers.stream().forEach(c -> c.accept(account.get()));
       commit(accountConfig);
     }
 
-    return account;
+    return account.orElse(null);
   }
 
   /**

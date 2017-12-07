@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -60,7 +61,7 @@ public class Accounts {
   @Nullable
   public Account get(Account.Id accountId) throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
-      return read(repo, accountId);
+      return read(repo, accountId).orElse(null);
     }
   }
 
@@ -69,7 +70,7 @@ public class Accounts {
     List<Account> accounts = new ArrayList<>(accountIds.size());
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       for (Account.Id accountId : accountIds) {
-        accounts.add(read(repo, accountId));
+        read(repo, accountId).ifPresent(accounts::add);
       }
     }
     return accounts;
@@ -86,7 +87,7 @@ public class Accounts {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       for (Account.Id accountId : accountIds) {
         try {
-          accounts.add(read(repo, accountId));
+          read(repo, accountId).ifPresent(accounts::add);
         } catch (Exception e) {
           log.error(String.format("Ignoring invalid account %s", accountId.get()), e);
         }
@@ -135,12 +136,11 @@ public class Accounts {
     }
   }
 
-  @Nullable
-  private Account read(Repository allUsersRepository, Account.Id accountId)
+  private Optional<Account> read(Repository allUsersRepository, Account.Id accountId)
       throws IOException, ConfigInvalidException {
     AccountConfig accountConfig = new AccountConfig(emailValidator, accountId);
     accountConfig.load(allUsersRepository);
-    return accountConfig.getAccount();
+    return accountConfig.getLoadedAccount();
   }
 
   public static Stream<Account.Id> readUserRefs(Repository repo) throws IOException {

@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "d27eff44_44bda1c7",
+        "filename": "java/com/google/gerrit/server/group/db/Groups.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T10:03:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24b881f5_ee1e55ab",
+      "range": {
+        "startLine": 133,
+        "startChar": 6,
+        "endLine": 136,
+        "endChar": 87
+      },
+      "revId": "e8286e3a28cbe614bc0b6b3a3bac3d53888c7190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "354a8b02_a665389a",
+        "filename": "java/com/google/gerrit/server/group/db/Groups.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T10:03:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b627e30_772b6374",
+      "range": {
+        "startLine": 136,
+        "startChar": 14,
+        "endLine": 136,
+        "endChar": 23
+      },
+      "revId": "e8286e3a28cbe614bc0b6b3a3bac3d53888c7190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0fe9be10_1c818dad",
         "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
         "patchSetId": 7
@@ -119,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "80851a98_482505d7",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T10:03:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6424aef3_7327083a",
+      "range": {
+        "startLine": 231,
+        "startChar": 15,
+        "endLine": 231,
+        "endChar": 40
+      },
+      "revId": "e8286e3a28cbe614bc0b6b3a3bac3d53888c7190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d2b8969_146b8935",
         "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
         "patchSetId": 7
@@ -142,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "7e38197d_ab326a60",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T10:03:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d2b8969_146b8935",
+      "range": {
+        "startLine": 229,
+        "startChar": 6,
+        "endLine": 232,
+        "endChar": 7
+      },
+      "revId": "e8286e3a28cbe614bc0b6b3a3bac3d53888c7190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08ffd74c_0f60a3fc",
         "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
         "patchSetId": 7
@@ -162,6 +258,30 @@
       "revId": "e8286e3a28cbe614bc0b6b3a3bac3d53888c7190",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1534719e_23146472",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T10:03:29Z",
+      "side": 1,
+      "message": "We don\u0027t have clear logic when a consistency should be a \"warning\" or an \"error\". We could log all of the them as warning.",
+      "parentUuid": "08ffd74c_0f60a3fc",
+      "range": {
+        "startLine": 248,
+        "startChar": 12,
+        "endLine": 248,
+        "endChar": 19
+      },
+      "revId": "e8286e3a28cbe614bc0b6b3a3bac3d53888c7190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -260,6 +380,30 @@
     },
     {
       "key": {
+        "uuid": "f1baaff7_b33bf9e3",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyChecker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T10:03:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46e6cf65_0f17ba6f",
+      "range": {
+        "startLine": 258,
+        "startChar": 13,
+        "endLine": 258,
+        "endChar": 24
+      },
+      "revId": "e8286e3a28cbe614bc0b6b3a3bac3d53888c7190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2638a994_611f2884",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsConsistencyIT.java",
         "patchSetId": 7
@@ -351,6 +495,30 @@
       "revId": "e8286e3a28cbe614bc0b6b3a3bac3d53888c7190",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3bd6709_57ff00d7",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupsNoteDbConsistencyCheckerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T10:03:29Z",
+      "side": 1,
+      "message": "Now I know what you were talking about Yesterday. Thanks.",
+      "parentUuid": "710fbcd9_5635ee30",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 47
+      },
+      "revId": "e8286e3a28cbe614bc0b6b3a3bac3d53888c7190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

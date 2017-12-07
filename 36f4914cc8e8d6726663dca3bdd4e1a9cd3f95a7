@@ -23,6 +23,30 @@
       "revId": "36f4914cc8e8d6726663dca3bdd4e1a9cd3f95a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1a14e75_e5e14a75",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-07T08:16:11Z",
+      "side": 1,
+      "message": "This cannot be used everywhere because it results in a too long name and then the email is rejected as invalid. Anyway this should no longer be an issue once we have [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/143830",
+      "parentUuid": "cbeb35e5_9d9d5c55",
+      "range": {
+        "startLine": 607,
+        "startChar": 20,
+        "endLine": 607,
+        "endChar": 29
+      },
+      "revId": "36f4914cc8e8d6726663dca3bdd4e1a9cd3f95a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -195,7 +195,7 @@ public abstract class AbstractDaemonTest {
                 firstTest = description;
               }
               beforeTest(description);
-              try {
+              try (ProjectResetter resetter = resetProjects(projectResetter.builder())) {
                 base.evaluate();
               } finally {
                 afterTest();
@@ -229,6 +229,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
   @Inject protected PatchSetUtil psUtil;
   @Inject protected ProjectCache projectCache;
+  @Inject protected ProjectResetter.Builder.Factory projectResetter;
   @Inject protected Provider<InternalChangeQuery> queryProvider;
   @Inject protected PushOneCommit.Factory pushFactory;
   @Inject protected PluginConfigFactory pluginConfig;
@@ -302,6 +303,25 @@ public abstract class AbstractDaemonTest {
       }
     }
     TempFileUtil.cleanup();
+  }
+
+  /** Controls which project and branches should be reset after each test case. */
+  protected ProjectResetter resetProjects(ProjectResetter.Builder resetter) throws IOException {
+    return resetter
+        // Don't reset all refs so that refs/sequences/changes is not touched and change IDs are
+        // not reused.
+        .reset(allProjects, RefNames.REFS_CONFIG)
+        // Don't reset group branches since this would make the groups inconsistent between
+        // ReviewDb and NoteDb.
+        // Don't reset refs/sequences/accounts so that account IDs are not reused.
+        .reset(
+            allUsers,
+            RefNames.REFS_CONFIG,
+            RefNames.REFS_USERS + "*",
+            RefNames.REFS_EXTERNAL_IDS,
+            RefNames.REFS_STARRED_CHANGES + "*",
+            RefNames.REFS_DRAFT_COMMENTS + "*")
+        .build();
   }
 
   protected static Config submitWholeTopicEnabledConfig() {

@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -48,7 +47,6 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Test;
 
 @NoHttpd
-@Sandboxed
 public class ProjectWatchIT extends AbstractDaemonTest {
   @Inject private WatchConfig.Accessor watchConfig;
 

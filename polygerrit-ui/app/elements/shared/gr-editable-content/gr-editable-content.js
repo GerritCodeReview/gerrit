@@ -68,7 +68,9 @@
       if (this.storageKey) {
         this.debounce('store', () => {
           if (newContent.length) {
-            this.$.storage.setEditableContentItem(this.storageKey, this.draft);
+            this.$.storage.setEditableContentItem(this.storageKey, newContent);
+          } else {
+            this.$.storage.eraseEditableContentItem(this.storageKey);
           }
         }, STORAGE_DEBOUNCE_INTERVAL_MS);
       }
@@ -79,7 +81,7 @@
 
       let content;
       if (this.storageKey) {
-        // Try to load content from localStorage.
+        content = this.$.storage.getEditableContentItem(this.storageKey);
       }
       if (!content) {
         content = this.content;

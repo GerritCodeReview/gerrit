@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../gr-storage/gr-storage.html">
 
 <dom-module id="gr-editable-content">
   <template>
@@ -58,6 +59,7 @@ limitations under the License.
             disabled="[[disabled]]">Cancel</gr-button>
       </div>
     </div>
+    <gr-storage id="storage"></gr-storage>
   </template>
   <script src="gr-editable-content.js"></script>
 </dom-module>

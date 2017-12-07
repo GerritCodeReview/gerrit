@@ -26,6 +26,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.SchemaUtil;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -48,7 +49,7 @@ public class AccountField {
    * External IDs.
    *
    * <p>This field includes secondary emails. Use this field only if the current user is allowed to
-   * see secondary emails (requires the {@link GlobalCapability.MODIFY_ACCOUNT} capability).
+   * see secondary emails (requires the {@link GlobalCapability#MODIFY_ACCOUNT} capability).
    */
   public static final FieldDef<AccountState, Iterable<String>> EXTERNAL_ID =
       exact("external_id")
@@ -58,7 +59,7 @@ public class AccountField {
    * Fuzzy prefix match on name and email parts.
    *
    * <p>This field includes parts from the secondary emails. Use this field only if the current user
-   * is allowed to see secondary emails (requires the {@link GlobalCapability.MODIFY_ACCOUNT}
+   * is allowed to see secondary emails (requires the {@link GlobalCapability#MODIFY_ACCOUNT}
    * capability).
    *
    * <p>Use the {@link AccountField#NAME_PART_NO_SECONDARY_EMAIL} if the current user can't see

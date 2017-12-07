@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.AccessSection;
@@ -101,13 +102,22 @@ public class CreateGroupPermissionSyncer implements ChangeMergedListener {
 
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsers)) {
       ProjectConfig config = ProjectConfig.read(md);
-      AccessSection createGroupAccessSection = new AccessSection(RefNames.REFS_GROUPS + "*");
+      AccessSection createGroupAccessSection =
+          config.getAccessSection(RefNames.REFS_GROUPS + "*", true);
       if (createGroupsGlobal.isEmpty()) {
-        config.remove(createGroupAccessSection);
+        createGroupAccessSection.setPermissions(
+            createGroupAccessSection
+                .getPermissions()
+                .stream()
+                .filter(p -> !Permission.CREATE.equals(p.getName()))
+                .collect(toList()));
+        config.replace(createGroupAccessSection);
       } else {
         Permission createGroupPermission = new Permission(Permission.CREATE);
         createGroupAccessSection.addPermission(createGroupPermission);
         createGroupsGlobal.forEach(pr -> createGroupPermission.add(pr));
+        // The create permission is managed by Gerrit at this point only so there is no concern of
+        // overwriting user-defined permissions here.
         config.replace(createGroupAccessSection);
       }
 

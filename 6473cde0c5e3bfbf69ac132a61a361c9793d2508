@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4d9a9b0d_1c60af7b",
+        "filename": "java/com/google/gerrit/server/account/InternalGroupBackend.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T16:26:31Z",
+      "side": 1,
+      "message": "Need to be more careful.",
+      "parentUuid": "224426ad_2fc982fa",
+      "range": {
+        "startLine": 99,
+        "startChar": 72,
+        "endLine": 99,
+        "endChar": 83
+      },
+      "revId": "6473cde0c5e3bfbf69ac132a61a361c9793d2508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d181cf4_8eb04370",
         "filename": "java/com/google/gerrit/server/account/InternalGroupBackend.java",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ecf4be97_15d97f6a",
+        "filename": "java/com/google/gerrit/server/account/InternalGroupBackend.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T16:26:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d181cf4_8eb04370",
+      "range": {
+        "startLine": 103,
+        "startChar": 11,
+        "endLine": 107,
+        "endChar": 21
+      },
+      "revId": "6473cde0c5e3bfbf69ac132a61a361c9793d2508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ed71f58_b476adda",
         "filename": "java/com/google/gerrit/server/group/ListGroups.java",
         "patchSetId": 5
@@ -68,6 +116,30 @@
       "revId": "6473cde0c5e3bfbf69ac132a61a361c9793d2508",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab01fc30_ac839200",
+        "filename": "java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-07T16:26:31Z",
+      "side": 1,
+      "message": "Then let\u0027s remove this.",
+      "parentUuid": "5ed71f58_b476adda",
+      "range": {
+        "startLine": 394,
+        "startChar": 13,
+        "endLine": 394,
+        "endChar": 17
+      },
+      "revId": "6473cde0c5e3bfbf69ac132a61a361c9793d2508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

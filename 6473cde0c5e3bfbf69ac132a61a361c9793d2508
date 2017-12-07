@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "224426ad_2fc982fa",
+        "filename": "java/com/google/gerrit/server/account/InternalGroupBackend.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-07T16:17:23Z",
+      "side": 1,
+      "message": "This results in a NoSuchElementException as this code is only executed when the Optional doesn\u0027t have an element.",
+      "range": {
+        "startLine": 99,
+        "startChar": 72,
+        "endLine": 99,
+        "endChar": 83
+      },
+      "revId": "6473cde0c5e3bfbf69ac132a61a361c9793d2508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d181cf4_8eb04370",
+        "filename": "java/com/google/gerrit/server/account/InternalGroupBackend.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-07T16:17:23Z",
+      "side": 1,
+      "message": "This code can be simplified as we know at this point that the Optional contains an element.",
+      "range": {
+        "startLine": 103,
+        "startChar": 11,
+        "endLine": 107,
+        "endChar": 21
+      },
+      "revId": "6473cde0c5e3bfbf69ac132a61a361c9793d2508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ed71f58_b476adda",
+        "filename": "java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-07T16:17:23Z",
+      "side": 1,
+      "message": "Stream#peek is a method which should only be used for debugging. We should rather leave out the check here if we need to call Stream#peek for it.",
+      "range": {
+        "startLine": 394,
+        "startChar": 13,
+        "endLine": 394,
+        "endChar": 17
+      },
+      "revId": "6473cde0c5e3bfbf69ac132a61a361c9793d2508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

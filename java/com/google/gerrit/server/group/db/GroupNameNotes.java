@@ -196,6 +196,25 @@ public class GroupNameNotes extends VersionedMetaData {
     }
   }
 
+  public static Optional<GroupReference> loadOneGroupReference(
+      Repository allUsersRepo, String groupName) throws IOException, ConfigInvalidException {
+    Ref ref = allUsersRepo.exactRef(RefNames.REFS_GROUPNAMES);
+    if (ref == null) {
+      return Optional.empty();
+    }
+
+    try (RevWalk revWalk = new RevWalk(allUsersRepo);
+        ObjectReader reader = revWalk.getObjectReader()) {
+      RevCommit notesCommit = revWalk.parseCommit(ref.getObjectId());
+      NoteMap noteMap = NoteMap.read(reader, notesCommit);
+      ObjectId noteDataBlobId = noteMap.get(getNoteKey(new AccountGroup.NameKey(groupName)));
+      if (noteDataBlobId == null) {
+        return Optional.empty();
+      }
+      return Optional.of(getGroupReference(reader, noteDataBlobId));
+    }
+  }
+
   @Override
   protected String getRefName() {
     return RefNames.REFS_GROUPNAMES;

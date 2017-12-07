@@ -124,7 +124,13 @@ public class Groups {
       Repository allUsersRepository, AccountGroup.UUID groupUuid)
       throws IOException, ConfigInvalidException {
     GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersRepository, groupUuid);
-    return groupConfig.getLoadedGroup();
+    Optional<InternalGroup> loadedGroup = groupConfig.getLoadedGroup();
+    if (loadedGroup.isPresent()) {
+      // Check consistency with group name notes.
+      GroupsNoteDbConsistencyChecker.ensureConsistentWithGroupNameNotes(
+          allUsersRepository, loadedGroup.get());
+    }
+    return loadedGroup;
   }
 
   public static InternalGroup asInternalGroup(ReviewDb db, AccountGroup accountGroup)

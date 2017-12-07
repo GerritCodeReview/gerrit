@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Stopwatch;
 import com.google.common.base.Strings;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -31,6 +32,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
@@ -91,12 +93,16 @@ public class MigrateAccountPatchReviewDb extends SiteProgram {
                     + "(?, ?, ?, ?)")) {
       targetCon.setAutoCommit(false);
       long offset = 0;
+      Stopwatch sw = Stopwatch.createStarted();
       List<Row> rows = selectRows(sourceStmt, offset);
       while (!rows.isEmpty()) {
         insertRows(targetCon, targetStmt, rows);
         offset += rows.size();
+        System.out.printf("%8d rows migrated\n", offset);
         rows = selectRows(sourceStmt, offset);
       }
+      double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
+      System.out.printf("Migrated %d rows in %.01fs (%.01f/s)\n", offset, t, offset / t);
     }
     return 0;
   }

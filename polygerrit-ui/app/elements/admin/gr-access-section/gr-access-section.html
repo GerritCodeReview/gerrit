@@ -61,12 +61,13 @@ limitations under the License.
       .editContainer {
         display: none;
       }
-      .deleted #deletedContainer,
+      /* TODO @beckysiegel add back when editing allowed */
+      /* .deleted #deletedContainer,
       #mainContainer,
       .editing #addPermission,
       .editing #updateBtns  {
         display: block;
-      }
+      } */
       .editingRef .editContainer {
         display: flex;
       }
@@ -80,6 +81,7 @@ limitations under the License.
             <h3>[[_computeSectionName(section.id)]]</h3>
           </span>
           <div id="updateBtns">
+            <!-- TODO @beckysiegel add back -->
             <gr-button
                 id="editBtn"
                 class$="[[_computeEditBtnClass(section.id)]]"
@@ -115,7 +117,7 @@ limitations under the License.
           </template>
           <div id="addPermission">
             Add permission:
-            <select id="permissionSelect">
+            <select id="permissionSelect"> -->
               <!-- called with a third parameter so that permissions update
                   after a new section is added. -->
               <template
@@ -125,7 +127,8 @@ limitations under the License.
               </template>
             </select>
             <gr-button id="addBtn" on-tap="_handleAddPermission">Add</gr-button>
-          </div><!-- end addPermission -->
+          </div>
+          <!-- end addPermission -->
         </div><!-- end sectionContent -->
       </div><!-- end mainContainer -->
       <div id="deletedContainer">

@@ -24,6 +24,11 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.group.InternalGroup;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneOffset;
 import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -230,6 +235,30 @@ public class GroupConfigTest {
       expectedException.expectMessage("Owner UUID of the group users-XYZ");
       groupConfig.commit(metaDataUpdate);
     }
+  }
+
+  @Test
+  public void createdOnOfNewGroupMatchesCreatedOnOfReloadedGroup() throws Exception {
+    Timestamp createdOn =
+        Timestamp.from(
+            LocalDateTime.of(2017, Month.DECEMBER, 1, 17, 49, 13, 123)
+                .atOffset(ZoneOffset.UTC)
+                .toInstant());
+
+    InternalGroupCreation groupCreation = getPrefilledGroupCreationBuilder().build();
+    InternalGroupUpdate groupUpdate = InternalGroupUpdate.builder().setUpdatedOn(createdOn).build();
+    GroupConfig groupConfig = GroupConfig.createForNewGroup(repository, groupCreation);
+    groupConfig.setGroupUpdate(groupUpdate, Account.Id::toString, AccountGroup.UUID::get);
+
+    try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
+      groupConfig.commit(metaDataUpdate);
+    }
+
+    InternalGroup createdGroup = groupConfig.getLoadedGroup().get();
+    InternalGroup loadedGroup =
+        GroupConfig.loadForGroup(repository, createdGroup.getGroupUUID()).getLoadedGroup().get();
+
+    assertThat(createdGroup.getCreatedOn()).isEqualTo(loadedGroup.getCreatedOn());
   }
 
   private InternalGroupCreation.Builder getPrefilledGroupCreationBuilder() {

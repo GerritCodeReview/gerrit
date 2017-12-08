@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8952d8f6_fee50345",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1023698
+      },
+      "writtenOn": "2017-12-08T23:09:24Z",
+      "side": 0,
+      "message": "Previously, the timeout would be queued even if this promise loses the race, so we\u0027d always log a \"timeout\" warning even if all the properties were set very quickly.\n\nThis proposed change makes it so that the timeout is queued and rejects with a message, but then if it lost the race, that rejection value is never used and never logged.",
+      "revId": "b5688c67ba4972f6f714e526e06b0e7d09e55211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

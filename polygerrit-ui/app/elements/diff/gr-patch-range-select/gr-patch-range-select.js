@@ -80,6 +80,7 @@
           bottomText: `${this._computePatchSetDescription(
               _sortedRevisions, basePatchNum)}`,
           value: basePatch.num,
+          date: this._computeDateString(basePatchNum, _sortedRevisions),
         });
       }
 
@@ -107,6 +108,14 @@
           `${this._computePatchSetDescription(revisions, patchNum, true)}`;
     },
 
+    _computeDateString(patchNum, _sortedRevisions) {
+      const revision = _sortedRevisions.filter(revision => {
+        return revision._number === patchNum;
+      });
+      if (!revision.length) { return null; }
+      return revision[0].created;
+    },
+
     _computePatchDropdownContent(availablePatches, basePatchNum,
         _sortedRevisions, changeComments) {
       const dropdownContent = [];
@@ -125,6 +134,7 @@
           bottomText: `${this._computePatchSetDescription(
               _sortedRevisions, patchNum)}`,
           value: patchNum,
+          date: this._computeDateString(patchNum, _sortedRevisions),
         });
       }
       return dropdownContent;

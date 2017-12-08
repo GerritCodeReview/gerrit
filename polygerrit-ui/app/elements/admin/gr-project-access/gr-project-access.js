@@ -83,6 +83,76 @@
       });
     },
 
+    _handleEdit() {
+      return this._editing ? this._editing = false : this._editing = true;
+    },
+
+    _editOrCancel(editing) {
+      return editing ? 'Cancel' : 'Edit';
+    },
+
+    _handleSave() {
+      const toSave = {};
+      const toRemove = {};
+
+
+      const sections = Polymer.dom(this.root)
+          .querySelectorAll('gr-access-section');
+      for (const section of sections) {
+        const sectionId = section.section.id;
+        const permissions = Polymer.dom(section.root)
+            .querySelectorAll('gr-permission');
+        for (const permission of permissions) {
+          const permissionId = permission.permission.id;
+          const rules = Polymer.dom(permission.root)
+              .querySelectorAll('gr-rule-editor');
+          for (const rule of rules) {
+            if (rule._modified) {
+              const ruleId = rule.rule.id;
+              const ruleValue = rule.rule.value;
+              if (toRemove[sectionId] && toRemove[sectionId][permissionId]) {
+                toRemove[sectionId][permissionId][ruleId] = {};
+                toAdd[sectionId][permissionId][ruleId] = ruleValue;
+              } else {
+                const ruleObjAdd = {};
+                const ruleObjRemove = {};
+                ruleObjAdd[ruleId] = ruleValue;
+                ruleObjRemove[ruleId] = null;
+                const permissionObjAdd = {};
+                const permissionObjRemove = {};
+                permissionObjAdd[permissionId] = {rules: ruleObjAdd};
+                permissionObjRemove[permissionId] = {rules: ruleObjRemove};
+                toSave[sectionId] = {permissions: permissionObjAdd};
+                toRemove[sectionId] = {permissions: permissionObjRemove};
+              }
+            }
+          }
+        }
+      }
+
+      this.$.restAPI.setProjectAccessRights(this.project, {
+        add: toSave,
+        remove: toRemove,
+      });
+    },
+
+    _computeRemoveValue(section) {
+      for (const permission of Object.keys(section.value.permissions)) {
+        section.value.permissions[permission] = {};
+      }
+      return section.value;
+    },
+
+    _computeShowEditClass(sections) {
+      if (!sections.length) { return ''; }
+      return 'visible';
+    },
+
+    _computeShowSaveClass(editing) {
+      if (!editing) { return ''; }
+      return 'visible';
+    },
+
     _computeAdminClass(isAdmin) {
       return isAdmin ? 'admin' : '';
     },

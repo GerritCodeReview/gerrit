@@ -83,6 +83,30 @@
     },
     {
       "key": {
+        "uuid": "5d9af8fe_b3ea0eaa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 37
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-08T10:47:22Z",
+      "side": 1,
+      "message": "It\u0027s because it was rewritten completly for properties. But yes i can do that seperatly. (I was finding it difficultly in migrating 1.x syntax to 2.x syntax as searching around did find some things but not everything :))",
+      "parentUuid": "ee78068c_4cda57b6",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 19
+      },
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8142d521_a5564e96",
         "filename": "Documentation/cmd-logging-set-level.txt",
         "patchSetId": 37
@@ -433,6 +457,24 @@
       "writtenOn": "2017-12-08T02:02:21Z",
       "side": 1,
       "message": "Why are these updates needed?  I don\u0027t see any declared dependency on jackson from log4j.  The only dep I can see is from elasticsearch.",
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25e8b6e3_677c3c16",
+        "filename": "lib/jackson/BUILD",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-08T10:47:22Z",
+      "side": 1,
+      "message": "Because JsonLayout needs them.\n\nIt uses jackson.\n\nAnd also this is needed for when someone uses JsonLayout in there custom file (including if they use it in SocketAppender).\n\nI was getting class errors when trying to use the json layout. Added these libs fixed it.",
+      "parentUuid": "505708b1_95b7d796",
       "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

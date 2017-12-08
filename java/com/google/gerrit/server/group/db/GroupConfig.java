@@ -199,8 +199,11 @@ public class GroupConfig extends VersionedMetaData {
           String.format("Name of the group %s must be defined", groupUuid.get()));
     }
 
+    // Commit timestamps are internally truncated to seconds. To return the correct 'createdOn' time
+    // for new groups, we explicitly need to truncate the timestamp here.
     Timestamp commitTimestamp =
-        groupUpdate.flatMap(InternalGroupUpdate::getUpdatedOn).orElseGet(TimeUtil::nowTs);
+        TimeUtil.truncateToSecond(
+            groupUpdate.flatMap(InternalGroupUpdate::getUpdatedOn).orElseGet(TimeUtil::nowTs));
     commit.setAuthor(new PersonIdent(commit.getAuthor(), commitTimestamp));
     commit.setCommitter(new PersonIdent(commit.getCommitter(), commitTimestamp));
 

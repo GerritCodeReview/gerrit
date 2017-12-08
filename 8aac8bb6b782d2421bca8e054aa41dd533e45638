@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1509471145 -0400\nnonce ANEgCxfxexYJEcu2u1fDwBFyZ156zwZ/Ymdd9JVINrnkXRylzMHPmvsrnZIlHzKj2sO+AVCFcDI2\n\n0000000000000000000000000000000000000000 8aac8bb6b782d2421bca8e054aa41dd533e45638 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAln4s6kVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMohsQALMlex9bNUPQYz+5XmhjnzfnaZx1\n8BKtaut1V++76wKGN4tCycyseqwp49hhHATFCOI330SBPbVre2pow/TBSVk+Q447\nlFRrAaUHelWTlMa4/Z8/7Xe3A09jabwGnpzn/yXxZspkmzfw92Ly84V+122Ofmi5\nfacByVNg/r/pUsu2z7v+5UJvr7KE4u+pN+n+fQH62vZios3IcE4/pYi04sGcozHU\negK+UfbMCe3rN1t3ZrsABLiDbeBRpE0cj/o1QMxnBeJ6mPiN+MESakXTq4D3DlMr\n1/oruhVEShxB0wceCd4MZFNHLe7XJveKeB34kA75M0si3/n5vjyd/ISc4e2cW5Cy\n6Fj8bNLvaUzeyzTdEvo3k/GLDxKEM/+ia9+s63851rMPQgvjy3NO2bOyLOgF2DSm\nwHCEn5ZjJctkxkHVQqcyw9Mtz3vckDk/iZa32KvQrgB+ypC8/uPNwQi4dv20UHRD\nTwuN1kJKPxeHwbl0YBtcLc/w104EddSZdVC4T9UQha3YKFHFEpM+kziSTkvWSRHh\nFLTfYwZ2gulxtCCj1vAz5MkSWT+zcKhCgfVyh1U9+mXvHzYfjr/eSz0Ez9xE6hhe\nv9bjJmvqUVX5vbpJzJb3ogcMKmJTwM1r4tNPdtnpySCeWKWIv+RwwyBTHHSgdjd4\nxTXJbdZ3p80QBLWJ\n\u003dArKq\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e94f32cd_a5d654a4",
+        "filename": "java/com/google/gerrit/common/FileUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-08T13:47:39Z",
+      "side": 1,
+      "message": "That\u0027s very elegant. I\u0027m just a bit worried that we tie our code even more to Unix systems. What are the chances that we might consider to support another operating system like Windows in the future?",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 79
+      },
+      "revId": "8aac8bb6b782d2421bca8e054aa41dd533e45638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

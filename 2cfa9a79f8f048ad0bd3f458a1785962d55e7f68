@@ -17,6 +17,24 @@
       "revId": "2cfa9a79f8f048ad0bd3f458a1785962d55e7f68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9b1964c_1a6dd7bd",
+        "filename": "java/com/google/gerrit/server/account/AccountConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-08T07:24:41Z",
+      "side": 1,
+      "message": "NPE is fine, we also use checkNotNull in the constructor. I missed that in the next line we would anyway fail with an NPE, but I would still keep this change to make it more clear that the provided account is expected to be non null.",
+      "parentUuid": "ea706ed6_5e75042f",
+      "revId": "2cfa9a79f8f048ad0bd3f458a1785962d55e7f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

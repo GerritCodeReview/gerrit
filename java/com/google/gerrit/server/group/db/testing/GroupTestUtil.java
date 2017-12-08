@@ -99,7 +99,7 @@ public class GroupTestUtil {
       throws Exception {
     try (RevWalk rw = new RevWalk(allUsersRepo)) {
       TestRepository<Repository> testRepository = new TestRepository<>(allUsersRepo, rw);
-      TestRepository.CommitBuilder builder =
+      TestRepository<Repository>.CommitBuilder builder =
           testRepository
               .branch(refName)
               .commit()

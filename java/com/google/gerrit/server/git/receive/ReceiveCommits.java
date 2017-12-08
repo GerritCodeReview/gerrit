@@ -2925,9 +2925,9 @@ class ReceiveCommits {
               .create()
               .update(
                   user.getAccountId(),
-                  a -> {
+                  (a, u) -> {
                     if (Strings.isNullOrEmpty(a.getFullName())) {
-                      a.setFullName(setFullNameTo);
+                      u.setFullName(setFullNameTo);
                     }
                   });
       if (account != null) {

@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.account.AccountsUpdate.AccountUpdater;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
@@ -203,7 +204,7 @@ public class AccountManager {
   private void update(AuthRequest who, ExternalId extId)
       throws OrmException, IOException, ConfigInvalidException {
     IdentifiedUser user = userFactory.create(extId.accountId());
-    List<Consumer<Account>> accountUpdates = new ArrayList<>();
+    List<Consumer<InternalAccountUpdate.Builder>> accountUpdates = new ArrayList<>();
 
     // If the email address was modified by the authentication provider,
     // update our records to match the changed email.
@@ -212,7 +213,7 @@ public class AccountManager {
     String oldEmail = extId.email();
     if (newEmail != null && !newEmail.equals(oldEmail)) {
       if (oldEmail != null && oldEmail.equals(user.getAccount().getPreferredEmail())) {
-        accountUpdates.add(a -> a.setPreferredEmail(newEmail));
+        accountUpdates.add(u -> u.setPreferredEmail(newEmail));
       }
 
       externalIdsUpdateFactory
@@ -224,7 +225,7 @@ public class AccountManager {
     if (!realm.allowsEdit(AccountFieldName.FULL_NAME)
         && !Strings.isNullOrEmpty(who.getDisplayName())
         && !eq(user.getAccount().getFullName(), who.getDisplayName())) {
-      accountUpdates.add(a -> a.setFullName(who.getDisplayName()));
+      accountUpdates.add(u -> u.setFullName(who.getDisplayName()));
     }
 
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)
@@ -236,7 +237,10 @@ public class AccountManager {
     }
 
     if (!accountUpdates.isEmpty()) {
-      Account account = accountsUpdateFactory.create().update(user.getAccountId(), accountUpdates);
+      Account account =
+          accountsUpdateFactory
+              .create()
+              .update(user.getAccountId(), AccountUpdater.joinConsumers(accountUpdates));
       if (account == null) {
         throw new OrmException("Account " + user.getAccountId() + " has been deleted");
       }
@@ -261,11 +265,7 @@ public class AccountManager {
       AccountsUpdate accountsUpdate = accountsUpdateFactory.create();
       account =
           accountsUpdate.insert(
-              newId,
-              a -> {
-                a.setFullName(who.getDisplayName());
-                a.setPreferredEmail(extId.email());
-              });
+              newId, u -> u.setFullName(who.getDisplayName()).setPreferredEmail(extId.email()));
 
       ExternalId existingExtId = externalIds.get(extId.key());
       if (existingExtId != null && !existingExtId.accountId().equals(extId.accountId())) {
@@ -416,9 +416,9 @@ public class AccountManager {
             .create()
             .update(
                 to,
-                a -> {
+                (a, u) -> {
                   if (a.getPreferredEmail() == null) {
-                    a.setPreferredEmail(who.getEmailAddress());
+                    u.setPreferredEmail(who.getEmailAddress());
                   }
                 });
       }
@@ -504,11 +504,11 @@ public class AccountManager {
           .create()
           .update(
               from,
-              a -> {
+              (a, u) -> {
                 if (a.getPreferredEmail() != null) {
                   for (ExternalId extId : extIds) {
                     if (a.getPreferredEmail().equals(extId.email())) {
-                      a.setPreferredEmail(null);
+                      u.setPreferredEmail(null);
                       break;
                     }
                   }

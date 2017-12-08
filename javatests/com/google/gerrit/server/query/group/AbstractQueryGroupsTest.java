@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -410,10 +411,11 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
           .create()
           .update(
               id,
-              a -> {
-                a.setFullName(fullName);
-                a.setPreferredEmail(email);
-                a.setActive(active);
+              u -> {
+                u.update()
+                    .setFullName(Strings.nullToEmpty(fullName))
+                    .setPreferredEmail(Strings.nullToEmpty(email))
+                    .setActive(active);
               });
       return id;
     }

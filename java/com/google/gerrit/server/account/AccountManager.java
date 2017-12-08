@@ -203,7 +203,7 @@ public class AccountManager {
   private void update(AuthRequest who, ExternalId extId)
       throws OrmException, IOException, ConfigInvalidException {
     IdentifiedUser user = userFactory.create(extId.accountId());
-    List<Consumer<Account>> accountUpdates = new ArrayList<>();
+    List<Consumer<AccountUpdate>> accountUpdates = new ArrayList<>();
 
     // If the email address was modified by the authentication provider,
     // update our records to match the changed email.
@@ -212,7 +212,7 @@ public class AccountManager {
     String oldEmail = extId.email();
     if (newEmail != null && !newEmail.equals(oldEmail)) {
       if (oldEmail != null && oldEmail.equals(user.getAccount().getPreferredEmail())) {
-        accountUpdates.add(a -> a.setPreferredEmail(newEmail));
+        accountUpdates.add(u -> u.update().setPreferredEmail(newEmail));
       }
 
       externalIdsUpdateFactory
@@ -224,7 +224,7 @@ public class AccountManager {
     if (!realm.allowsEdit(AccountFieldName.FULL_NAME)
         && !Strings.isNullOrEmpty(who.getDisplayName())
         && !eq(user.getAccount().getFullName(), who.getDisplayName())) {
-      accountUpdates.add(a -> a.setFullName(who.getDisplayName()));
+      accountUpdates.add(u -> u.update().setFullName(who.getDisplayName()));
     }
 
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)
@@ -262,10 +262,10 @@ public class AccountManager {
       account =
           accountsUpdate.insert(
               newId,
-              a -> {
-                a.setFullName(who.getDisplayName());
-                a.setPreferredEmail(extId.email());
-              });
+              u ->
+                  u.update()
+                      .setFullName(Strings.nullToEmpty(who.getDisplayName()))
+                      .setPreferredEmail(Strings.nullToEmpty(extId.email())));
 
       ExternalId existingExtId = externalIds.get(extId.key());
       if (existingExtId != null && !existingExtId.accountId().equals(extId.accountId())) {
@@ -416,9 +416,9 @@ public class AccountManager {
             .create()
             .update(
                 to,
-                a -> {
-                  if (a.getPreferredEmail() == null) {
-                    a.setPreferredEmail(who.getEmailAddress());
+                u -> {
+                  if (u.account().getPreferredEmail() == null) {
+                    u.update().setPreferredEmail(who.getEmailAddress());
                   }
                 });
       }
@@ -504,11 +504,11 @@ public class AccountManager {
           .create()
           .update(
               from,
-              a -> {
-                if (a.getPreferredEmail() != null) {
+              u -> {
+                if (u.account().getPreferredEmail() != null) {
                   for (ExternalId extId : extIds) {
-                    if (a.getPreferredEmail().equals(extId.email())) {
-                      a.setPreferredEmail(null);
+                    if (u.account().getPreferredEmail().equals(extId.email())) {
+                      u.update().setPreferredEmail("");
                       break;
                     }
                   }

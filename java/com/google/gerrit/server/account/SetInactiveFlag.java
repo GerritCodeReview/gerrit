@@ -43,11 +43,11 @@ public class SetInactiveFlag {
             .create()
             .update(
                 accountId,
-                a -> {
-                  if (!a.isActive()) {
+                u -> {
+                  if (!u.account().isActive()) {
                     alreadyInactive.set(true);
                   } else {
-                    a.setActive(false);
+                    u.update().setActive(false);
                   }
                 });
     if (account == null) {
@@ -67,11 +67,11 @@ public class SetInactiveFlag {
             .create()
             .update(
                 accountId,
-                a -> {
-                  if (a.isActive()) {
+                u -> {
+                  if (u.account().isActive()) {
                     alreadyActive.set(true);
                   } else {
-                    a.setActive(true);
+                    u.update().setActive(true);
                   }
                 });
     if (account == null) {

@@ -26,6 +26,7 @@ import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -223,7 +224,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     String email = "user@example.com";
     externalIdsUpdate.create().insert(ExternalId.createEmail(userId, email));
-    accountsUpdate.create().update(userId, a -> a.setPreferredEmail(email));
+    accountsUpdate.create().update(userId, u -> u.update().setPreferredEmail(email));
     user = userFactory.create(userId);
     requestContext.setContext(newRequestContext(userId));
   }
@@ -2729,10 +2730,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
           .create()
           .update(
               id,
-              a -> {
-                a.setFullName(fullName);
-                a.setPreferredEmail(email);
-                a.setActive(active);
+              u -> {
+                u.update()
+                    .setFullName(Strings.nullToEmpty(fullName))
+                    .setPreferredEmail(Strings.nullToEmpty(email))
+                    .setActive(active);
               });
       return id;
     }

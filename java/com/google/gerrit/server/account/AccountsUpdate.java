@@ -194,15 +194,15 @@ public class AccountsUpdate {
    * @throws IOException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public Account insert(Account.Id accountId, Consumer<Account> init)
+  public Account insert(Account.Id accountId, Consumer<AccountUpdate> init)
       throws OrmDuplicateKeyException, IOException, ConfigInvalidException {
     AccountConfig accountConfig = read(accountId);
     Account account = accountConfig.getNewAccount();
-    init.accept(account);
-
-    // Create in NoteDb
+    AccountUpdate accountUpdate = AccountUpdate.create(account);
+    init.accept(accountUpdate);
+    accountConfig.setAccountUpdate(accountUpdate.buildUpdate());
     commitNew(accountConfig);
-    return account;
+    return accountConfig.getLoadedAccount().get();
   }
 
   /**
@@ -216,7 +216,7 @@ public class AccountsUpdate {
    * @throws IOException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public Account update(Account.Id accountId, Consumer<Account> consumer)
+  public Account update(Account.Id accountId, Consumer<AccountUpdate> consumer)
       throws IOException, ConfigInvalidException {
     return update(accountId, ImmutableList.of(consumer));
   }
@@ -233,7 +233,7 @@ public class AccountsUpdate {
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   @Nullable
-  public Account update(Account.Id accountId, List<Consumer<Account>> consumers)
+  public Account update(Account.Id accountId, List<Consumer<AccountUpdate>> consumers)
       throws IOException, ConfigInvalidException {
     if (consumers.isEmpty()) {
       return null;
@@ -242,11 +242,13 @@ public class AccountsUpdate {
     AccountConfig accountConfig = read(accountId);
     Optional<Account> account = accountConfig.getLoadedAccount();
     if (account.isPresent()) {
-      consumers.stream().forEach(c -> c.accept(account.get()));
+      AccountUpdate accountUpdate = AccountUpdate.create(account.get());
+      consumers.stream().forEach(c -> c.accept(accountUpdate));
+      accountConfig.setAccountUpdate(accountUpdate.buildUpdate());
       commit(accountConfig);
     }
 
-    return account.orElse(null);
+    return accountConfig.getLoadedAccount().orElse(null);
   }
 
   /**

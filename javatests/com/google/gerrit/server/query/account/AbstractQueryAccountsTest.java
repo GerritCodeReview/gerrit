@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -46,6 +47,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.InternalAccountUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -417,7 +419,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       md.getCommitBuilder().setCommitter(ident);
       AccountConfig accountConfig = new AccountConfig(null, accountId);
       accountConfig.load(repo);
-      accountConfig.getLoadedAccount().get().setFullName(newName);
+      accountConfig.setAccountUpdate(InternalAccountUpdate.builder().setFullName(newName).build());
       accountConfig.commit(md);
     }
 
@@ -542,10 +544,11 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
           .create()
           .update(
               id,
-              a -> {
-                a.setFullName(fullName);
-                a.setPreferredEmail(email);
-                a.setActive(active);
+              u -> {
+                u.update()
+                    .setFullName(Strings.nullToEmpty(fullName))
+                    .setPreferredEmail(Strings.nullToEmpty(email))
+                    .setActive(active);
               });
       return id;
     }

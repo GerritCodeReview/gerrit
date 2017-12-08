@@ -80,6 +80,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   private final String ref;
 
   private Optional<Account> loadedAccount;
+  private Optional<InternalAccountUpdate> accountUpdate = Optional.empty();
   private Timestamp registeredOn;
   private List<ValidationError> validationErrors;
 
@@ -117,6 +118,14 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   public void setAccount(Account account) {
     checkLoaded();
     this.loadedAccount = Optional.of(account);
+    this.accountUpdate =
+        Optional.of(
+            InternalAccountUpdate.builder()
+                .setActive(account.isActive())
+                .setFullName(Strings.nullToEmpty(account.getFullName()))
+                .setPreferredEmail(Strings.nullToEmpty(account.getPreferredEmail()))
+                .setStatus(Strings.nullToEmpty(account.getStatus()))
+                .build());
     this.registeredOn = account.getRegisteredOn();
   }
 
@@ -134,6 +143,10 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     this.registeredOn = TimeUtil.nowTs();
     this.loadedAccount = Optional.of(new Account(accountId, registeredOn));
     return loadedAccount.get();
+  }
+
+  public void setAccountUpdate(InternalAccountUpdate accountUpdate) {
+    this.accountUpdate = Optional.of(accountUpdate);
   }
 
   @Override
@@ -181,10 +194,6 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
     checkLoaded();
 
-    if (!loadedAccount.isPresent()) {
-      return false;
-    }
-
     if (revision != null) {
       commit.setMessage("Update account\n");
     } else {
@@ -194,16 +203,23 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     }
 
     Config cfg = readConfig(ACCOUNT_CONFIG);
-    writeToConfig(loadedAccount.get(), cfg);
+    if (accountUpdate.isPresent()) {
+      writeToConfig(accountUpdate.get(), cfg);
+    }
     saveConfig(ACCOUNT_CONFIG, cfg);
+
+    // metaId is set in the commit(MetaDataUpdate) method after the commit is created
+    loadedAccount = Optional.of(parse(cfg, null));
     return true;
   }
 
-  public static void writeToConfig(Account account, Config cfg) {
-    setActive(cfg, account.isActive());
-    set(cfg, KEY_FULL_NAME, account.getFullName());
-    set(cfg, KEY_PREFERRED_EMAIL, account.getPreferredEmail());
-    set(cfg, KEY_STATUS, account.getStatus());
+  public static void writeToConfig(InternalAccountUpdate accountUpdate, Config cfg) {
+    accountUpdate.getActive().ifPresent(active -> setActive(cfg, active));
+    accountUpdate.getFullName().ifPresent(fullName -> set(cfg, KEY_FULL_NAME, fullName));
+    accountUpdate
+        .getPreferredEmail()
+        .ifPresent(preferredEmail -> set(cfg, KEY_PREFERRED_EMAIL, preferredEmail));
+    accountUpdate.getStatus().ifPresent(status -> set(cfg, KEY_STATUS, status));
   }
 
   /**

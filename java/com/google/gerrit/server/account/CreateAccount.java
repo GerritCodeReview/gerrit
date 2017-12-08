@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
@@ -174,10 +175,11 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
         .create()
         .insert(
             id,
-            a -> {
-              a.setFullName(input.name);
-              a.setPreferredEmail(input.email);
-            });
+            u ->
+                u.update()
+                    .setFullName(Strings.nullToEmpty(input.name))
+                    .setPreferredEmail(Strings.nullToEmpty(input.email))
+                    .build());
 
     for (AccountGroup.UUID groupUuid : groups) {
       try {

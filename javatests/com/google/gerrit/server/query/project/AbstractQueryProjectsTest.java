@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.api.projects.Projects.QueryRequest;
@@ -265,10 +266,11 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
           .create()
           .update(
               id,
-              a -> {
-                a.setFullName(fullName);
-                a.setPreferredEmail(email);
-                a.setActive(active);
+              u -> {
+                u.update()
+                    .setFullName(Strings.nullToEmpty(fullName))
+                    .setPreferredEmail(Strings.nullToEmpty(email))
+                    .setActive(active);
               });
       return id;
     }

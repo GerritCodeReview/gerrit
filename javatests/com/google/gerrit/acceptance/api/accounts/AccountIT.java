@@ -324,7 +324,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     String status = "OOO";
     Account account =
-        accountsUpdate.create().update(anonymousCoward.getId(), a -> a.setStatus(status));
+        accountsUpdate.create().update(anonymousCoward.getId(), u -> u.update().setStatus(status));
     assertThat(account).isNotNull();
     assertThat(account.getFullName()).isNull();
     assertThat(account.getStatus()).isEqualTo(status);
@@ -854,7 +854,7 @@ public class AccountIT extends AbstractDaemonTest {
     String prefix = "foo.preferred";
     String prefEmail = prefix + "@example.com";
     TestAccount foo = accountCreator.create(name("foo"));
-    accountsUpdate.create().update(foo.id, a -> a.setPreferredEmail(prefEmail));
+    accountsUpdate.create().update(foo.id, u -> u.update().setPreferredEmail(prefEmail));
 
     // verify that the account is still found when using the preferred email to lookup the account
     ImmutableSet<Account.Id> accountsByPrefEmail = emails.getAccountFor(prefEmail);
@@ -1330,7 +1330,7 @@ public class AccountIT extends AbstractDaemonTest {
     String userRef = RefNames.refsUsers(foo.id);
 
     String noEmail = "no.email";
-    accountsUpdate.create().update(foo.id, a -> a.setPreferredEmail(noEmail));
+    accountsUpdate.create().update(foo.id, u -> u.update().setPreferredEmail(noEmail));
     accountIndexedCounter.clear();
 
     grant(allUsers, userRef, Permission.PUSH, false, REGISTERED_USERS);
@@ -1812,11 +1812,11 @@ public class AccountIT extends AbstractDaemonTest {
     // metaId is set when account is created
     AccountsUpdate au = accountsUpdate.create();
     Account.Id accountId = new Account.Id(seq.nextAccountId());
-    Account account = au.insert(accountId, a -> {});
+    Account account = au.insert(accountId, u -> {});
     assertThat(account.getMetaId()).isEqualTo(getMetaId(accountId));
 
     // metaId is set when account is updated
-    Account updatedAccount = au.update(accountId, a -> a.setFullName("foo"));
+    Account updatedAccount = au.update(accountId, u -> u.update().setFullName("foo"));
     assertThat(account.getMetaId()).isNotEqualTo(updatedAccount.getMetaId());
     assertThat(updatedAccount.getMetaId()).isEqualTo(getMetaId(accountId));
   }

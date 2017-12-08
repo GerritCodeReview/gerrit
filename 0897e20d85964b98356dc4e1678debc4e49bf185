@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c65e6e9_6aeb60b8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-08T19:08:04Z",
+      "side": 1,
+      "message": "I think the proper place to do this would be to set the collapsed property to `false` on robot comments.",
+      "revId": "0897e20d85964b98356dc4e1678debc4e49bf185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

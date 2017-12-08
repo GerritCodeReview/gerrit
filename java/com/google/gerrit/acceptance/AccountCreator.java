@@ -117,14 +117,7 @@ public class AccountCreator {
       }
       externalIdsUpdate.create().insert(extIds);
 
-      accountsUpdate
-          .create()
-          .insert(
-              id,
-              a -> {
-                a.setFullName(fullName);
-                a.setPreferredEmail(email);
-              });
+      accountsUpdate.create().insert(id, u -> u.setFullName(fullName).setPreferredEmail(email));
 
       if (groupNames != null) {
         for (String n : groupNames) {

@@ -46,9 +46,10 @@ limitations under the License.
         border: 1px solid #d1d2d3;
         border-bottom: 0;
       }
-      .editing .rules {
+      /* TODO @beckysiegel add back */
+      /* .editing .rules {
         border-bottom: 1px solid #d1d2d3;
-      }
+      } */
       .title {
         margin-bottom: .3em;
       }
@@ -80,9 +81,10 @@ limitations under the License.
       <div id="mainContainer">
         <div class="header">
           <span class="title">[[name]]</span>
-          <gr-button
+          <!-- TODO @beckysiegel add back -->
+          <!-- <gr-button
               id="removeBtn"
-              on-tap="_handleRemovePermission">Remove</gr-button>
+              on-tap="_handleRemovePermission">Remove</gr-button> -->
         </div><!-- end header -->
         <div class="rules">
           <template
@@ -98,14 +100,16 @@ limitations under the License.
                 rule="{{rule}}"
                 section="[[section]]"></gr-rule-editor>
           </template>
-          <div id="addRule">
+          <!-- TODO @beckysiegel add back -->
+          <!-- <div id="addRule">
             <gr-autocomplete
                 text="{{_groupFilter}}"
                 query="[[_query]]"
                 placeholder="Add group"
                 on-commit="_handleAddRuleItem">
             </gr-autocomplete>
-          </div> <!-- end addRule -->
+          </div> -->
+          <!-- end addRule -->
         </div> <!-- end rules -->
       </div><!-- end mainContainer -->
       <div id="deletedContainer">

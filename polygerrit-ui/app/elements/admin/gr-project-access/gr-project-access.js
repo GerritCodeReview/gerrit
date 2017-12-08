@@ -80,7 +80,57 @@
         this._capabilities = capabilities;
         this._labels = labels;
         this._sections = sections;
+        // Create a deep copy of original sections because section values
+        // are two way data bound. These values are used to determine what to
+        // 'remove' and replace with updated values.
+        this._originalSections = JSON.parse(JSON.stringify(sections));
       });
+    },
+
+    _handleEdit() {
+      return this._editing ? this._editing = false : this._editing = true;
+    },
+
+    _editOrCancel(editing) {
+      return editing ? 'Cancel' : 'Edit';
+    },
+
+    _handleSave() {
+      const toSave = {};
+      const toRemove = {};
+
+      for (const section of this._sections) {
+        toSave[section.id] = section.value;
+      }
+
+      // Need to preserve a deep copy before removing data for deletion.
+      for (const section of this._originalSections) {
+        toRemove[section.id] = this._computeRemoveValue(section);
+      }
+
+      this.$.restAPI.setProjectAccessRights(this.project, {
+        add: toSave,
+        remove: toRemove,
+      }).then(() => {
+        this._originalSections = JSON.parse(JSON.stringify(this._sections));
+      });
+    },
+
+    _computeRemoveValue(section) {
+      for (const permission of Object.keys(section.value.permissions)) {
+        section.value.permissions[permission] = {};
+      }
+      return section.value;
+    },
+
+    _computeShowEditClass(sections) {
+      if (!sections.length) { return ''; }
+      return 'visible';
+    },
+
+    _computeShowSaveClass(editing) {
+      if (!editing) { return ''; }
+      return 'visible';
     },
 
     _computeAdminClass(isAdmin) {

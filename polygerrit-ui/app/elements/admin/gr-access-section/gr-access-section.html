@@ -80,13 +80,14 @@ limitations under the License.
             <h3>[[_computeSectionName(section.id)]]</h3>
           </span>
           <div id="updateBtns">
-            <gr-button
+            <!-- TODO @beckysiegel add back -->
+            <!-- <gr-button
                 id="editBtn"
                 class$="[[_computeEditBtnClass(section.id)]]"
                 on-tap="_handleEditReference">Edit Reference</gr-button>
             <gr-button
                 id="deleteBtn"
-                on-tap="_handleRemoveReference">Remove</gr-button>
+                on-tap="_handleRemoveReference">Remove</gr-button> -->
           </div><!-- end updateBtns -->
         </div><!-- end header -->
         <div class="editContainer">
@@ -113,19 +114,21 @@ limitations under the License.
                 groups="[[groups]]">
             </gr-permission>
           </template>
-          <div id="addPermission">
+          <!-- TODO @beckysiegel add back -->
+          <!-- <div id="addPermission">
             Add permission:
-            <select id="permissionSelect">
+            <select id="permissionSelect"> -->
               <!-- called with a third parameter so that permissions update
                   after a new section is added. -->
-              <template
+              <!-- <template
                   is="dom-repeat"
                   items="[[_computePermissions(section.id, capabilities, labels, section.value.permissions.*)]]">
                 <option value="[[item.value.id]]">[[item.value.name]]</option>
               </template>
             </select>
             <gr-button id="addBtn" on-tap="_handleAddPermission">Add</gr-button>
-          </div><!-- end addPermission -->
+          </div> -->
+          <!-- end addPermission -->
         </div><!-- end sectionContent -->
       </div><!-- end mainContainer -->
       <div id="deletedContainer">

@@ -99,6 +99,10 @@
         type: String,
         value: '/login',
       },
+      _registerURL: {
+        type: String,
+        value: '/register',
+      },
       _userLinks: {
         type: Array,
         value() { return []; },
@@ -129,6 +133,28 @@
     },
 
     _handleLocationChange(e) {
+      const baseUrl = this.getBaseUrl();
+
+      this.$.restAPI.getConfig().then(config => {
+        if (config && config.register_url) {
+          this._registerURL = config.register_url;
+        } else {
+          if (baseUrl) {
+            // Strip the canonical path from the path since needing canonical in
+            // the path is uneeded and breaks the url.
+            this._registerURL = baseUrl + '/register/' + encodeURIComponent(
+                '/' + window.location.pathname.substring(baseUrl.length) +
+                window.location.search +
+                window.location.hash);
+          } else {
+            this._registerURL = '/register/' + encodeURIComponent(
+                window.location.pathname +
+                window.location.search +
+                window.location.hash);
+          }
+        }
+      });
+
       const baseUrl = this.getBaseUrl();
       if (baseUrl) {
         // Strip the canonical path from the path since needing canonical in

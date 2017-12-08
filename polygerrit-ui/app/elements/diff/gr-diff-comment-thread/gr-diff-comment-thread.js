@@ -156,18 +156,21 @@
     },
 
     /**
-     * Sets the initial state of the comment thread to have the last
-     * {UNRESOLVED_EXPAND_COUNT} comments expanded by default if the
-     * thread is unresolved.
+     * Sets the initial state of the comment thread.
+     * Expands the thread if one of the following is true:
+     * - last {UNRESOLVED_EXPAND_COUNT} comments expanded by default if the
+     * thread is unresolved,
+     * - it's a robot comment
      */
     _setInitialExpandedState() {
-      let comment;
       if (this._orderedComments) {
         for (let i = 0; i < this._orderedComments.length; i++) {
-          comment = this._orderedComments[i];
-          comment.collapsed =
-              this._orderedComments.length - i - 1 >= UNRESOLVED_EXPAND_COUNT ||
-              !this._unresolved;
+          const comment = this._orderedComments[i];
+          const isRobotComment = !!comment.robot_id;
+          comment.collapsed = !isRobotComment &&
+              (this._orderedComments.length - i - 1 >=
+                  UNRESOLVED_EXPAND_COUNT ||
+              !this._unresolved);
         }
       }
     },

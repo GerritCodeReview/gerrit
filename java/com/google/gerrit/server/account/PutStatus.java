@@ -69,7 +69,7 @@ public class PutStatus implements RestModifyView<AccountResource, StatusInput> {
     Account account =
         accountsUpdate
             .create()
-            .update(user.getAccountId(), a -> a.setStatus(Strings.nullToEmpty(newStatus)));
+            .update(user.getAccountId(), u -> u.setStatus(Strings.nullToEmpty(newStatus)));
     if (account == null) {
       throw new ResourceNotFoundException("account not found");
     }

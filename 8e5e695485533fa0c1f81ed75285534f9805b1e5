@@ -34,6 +34,24 @@
       "revId": "8e5e695485533fa0c1f81ed75285534f9805b1e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03d346fe_46ef0125",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-08T20:01:10Z",
+      "side": 1,
+      "message": "\u003e I\u0027ve moved fetching config to before starting router, let me know what you think about this.\n\nThis seems like the same situation: it only prevents the router from registering the generator function before the config is loaded, but it doesn\u0027t prevent any code from asking for a weblink before the config is loaded.\n\nThe reason I\u0027m so cautious about assuming server configs load is because it\u0027s relatively common (about 1 in 100 page loads at some point) for the it to load very slowly (i.e. take several seconds), and this has caused some page breaking bugs in the past.\n\nCan we pass the config as a parameter to the generating function? That way the generator has all the info it needs as formal parameters.",
+      "parentUuid": "92e43a57_923b209b",
+      "revId": "8e5e695485533fa0c1f81ed75285534f9805b1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -77,14 +77,16 @@
               .then(value => el[paramEl.getAttribute('name')] = value)
       );
       const timeout = new Promise(
-        resolve => setTimeout(() => {
-          console.warn(
-              'Timeout waiting for endpoint properties initialization.' +
-              `plugin ${plugin.getPluginName()}, endpoint ${this.name}`);
-          resolve();
+        (resolve, reject) => setTimeout(() => {
+          reject('Timeout waiting for endpoint properties initialization: ' +
+                 `plugin ${plugin.getPluginName()}, endpoint ${this.name}`);
         }, INIT_PROPERTIES_TIMEOUT_MS));
       return Promise.race([timeout, Promise.all(expectProperties)])
-          .then(() => el);
+          .then(() => el)
+          .catch(timeoutError => {
+            console.warn(timeoutError);
+            return el;
+          });
     },
 
     _appendChild(el) {

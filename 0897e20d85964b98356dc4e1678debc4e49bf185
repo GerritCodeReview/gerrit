@@ -52,6 +52,24 @@
       "revId": "0897e20d85964b98356dc4e1678debc4e49bf185",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29e7e0e2_aee82dc2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-08T22:31:39Z",
+      "side": 1,
+      "message": "Yeah, I can see that making sense. Will let Viktar look into this",
+      "parentUuid": "a58ad885_3e2eb05f",
+      "revId": "0897e20d85964b98356dc4e1678debc4e49bf185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

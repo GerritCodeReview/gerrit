@@ -34,6 +34,24 @@
       "revId": "b5688c67ba4972f6f714e526e06b0e7d09e55211",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0019a8b_ffbae8a7",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1023698
+      },
+      "writtenOn": "2017-12-08T23:57:46Z",
+      "side": 0,
+      "message": "I like that way as well... now changed.\n\nFor my understanding: if an exception is thrown anywhere in any of the promises, then the callback passed to catch will be invoked with the exception value and the exception will stop going up the call stack.\n\nIn general, the catch method of promises serves to both handle exceptions and rejections. Right?",
+      "parentUuid": "597d6593_c5698a40",
+      "revId": "b5688c67ba4972f6f714e526e06b0e7d09e55211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

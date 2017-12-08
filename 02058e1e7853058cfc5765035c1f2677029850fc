@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66bb9d60_894a0043",
+        "filename": "java/com/google/gerrit/server/group/db/testing/GroupTestUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-08T00:01:58Z",
+      "side": 1,
+      "message": "This introduced a warning in Eclipse.  TestRepository should be parameterized.\n\nFixed in https://gerrit-review.googlesource.com/#/c/gerrit/+/147090",
+      "range": {
+        "startLine": 102,
+        "startChar": 6,
+        "endLine": 102,
+        "endChar": 34
+      },
+      "revId": "02058e1e7853058cfc5765035c1f2677029850fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

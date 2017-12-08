@@ -394,7 +394,8 @@ public class GroupsUpdate {
             .collect(toImmutableSet());
 
     if (currentUser != null) {
-      auditService.dispatchAddAccountsToGroup(currentUser.getAccountId(), newMembers, addedOn);
+      auditService.dispatchAddAccountsToGroup(
+          currentUser.getAccountId(), newMemberIds, groupId, addedOn);
     }
     db.accountGroupMembers().insert(newMembers);
   }
@@ -411,7 +412,7 @@ public class GroupsUpdate {
 
     if (currentUser != null) {
       auditService.dispatchDeleteAccountsFromGroup(
-          currentUser.getAccountId(), membersToRemove, removedOn);
+          currentUser.getAccountId(), accountIds, groupId, removedOn);
     }
     db.accountGroupMembers().delete(membersToRemove);
   }
@@ -451,7 +452,8 @@ public class GroupsUpdate {
             .collect(toImmutableSet());
 
     if (currentUser != null) {
-      auditService.dispatchAddGroupsToGroup(currentUser.getAccountId(), newSubgroups, addedOn);
+      auditService.dispatchAddGroupsToGroup(
+          currentUser.getAccountId(), subgroupUuids, parentGroupId, addedOn);
     }
     db.accountGroupById().insert(newSubgroups);
   }
@@ -471,7 +473,7 @@ public class GroupsUpdate {
 
     if (currentUser != null) {
       auditService.dispatchDeleteGroupsFromGroup(
-          currentUser.getAccountId(), subgroupsToRemove, removedOn);
+          currentUser.getAccountId(), subgroupUuids, parentGroupId, removedOn);
     }
     db.accountGroupById().delete(subgroupsToRemove);
   }

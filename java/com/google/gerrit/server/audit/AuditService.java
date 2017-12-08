@@ -16,8 +16,7 @@ package com.google.gerrit.server.audit;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroupById;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.Timestamp;
@@ -47,10 +46,13 @@ public class AuditService {
   }
 
   public void dispatchAddAccountsToGroup(
-      Account.Id actor, Collection<AccountGroupMember> added, Timestamp addedOn) {
+      Account.Id actor,
+      Collection<Account.Id> addedAccounts,
+      AccountGroup.Id groupId,
+      Timestamp addedOn) {
     for (GroupMemberAuditListener auditListener : groupMemberAuditListeners) {
       try {
-        auditListener.onAddAccountsToGroup(actor, added, addedOn);
+        auditListener.onAddAccountsToGroup(actor, addedAccounts, groupId, addedOn);
       } catch (RuntimeException e) {
         log.error("failed to log add accounts to group event", e);
       }
@@ -58,10 +60,13 @@ public class AuditService {
   }
 
   public void dispatchDeleteAccountsFromGroup(
-      Account.Id actor, Collection<AccountGroupMember> removed, Timestamp removedOn) {
+      Account.Id actor,
+      Collection<Account.Id> removedAccounts,
+      AccountGroup.Id groupId,
+      Timestamp removedOn) {
     for (GroupMemberAuditListener auditListener : groupMemberAuditListeners) {
       try {
-        auditListener.onDeleteAccountsFromGroup(actor, removed, removedOn);
+        auditListener.onDeleteAccountsFromGroup(actor, removedAccounts, groupId, removedOn);
       } catch (RuntimeException e) {
         log.error("failed to log delete accounts from group event", e);
       }
@@ -69,10 +74,13 @@ public class AuditService {
   }
 
   public void dispatchAddGroupsToGroup(
-      Account.Id actor, Collection<AccountGroupById> added, Timestamp addedOn) {
+      Account.Id actor,
+      Collection<AccountGroup.UUID> addedSubgroups,
+      AccountGroup.Id groupId,
+      Timestamp addedOn) {
     for (GroupMemberAuditListener auditListener : groupMemberAuditListeners) {
       try {
-        auditListener.onAddGroupsToGroup(actor, added, addedOn);
+        auditListener.onAddGroupsToGroup(actor, addedSubgroups, groupId, addedOn);
       } catch (RuntimeException e) {
         log.error("failed to log add groups to group event", e);
       }
@@ -80,10 +88,13 @@ public class AuditService {
   }
 
   public void dispatchDeleteGroupsFromGroup(
-      Account.Id actor, Collection<AccountGroupById> removed, Timestamp removedOn) {
+      Account.Id actor,
+      Collection<AccountGroup.UUID> removedSubgroups,
+      AccountGroup.Id groupId,
+      Timestamp removedOn) {
     for (GroupMemberAuditListener auditListener : groupMemberAuditListeners) {
       try {
-        auditListener.onDeleteGroupsFromGroup(actor, removed, removedOn);
+        auditListener.onDeleteGroupsFromGroup(actor, removedSubgroups, groupId, removedOn);
       } catch (RuntimeException e) {
         log.error("failed to log delete groups from group event", e);
       }

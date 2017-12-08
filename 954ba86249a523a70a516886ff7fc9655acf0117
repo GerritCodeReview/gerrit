@@ -124,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "e3592c5c_4adbfa80",
+        "filename": "Documentation/cmd-logging-set-level.txt",
+        "patchSetId": 37
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-08T10:49:32Z",
+      "side": 1,
+      "message": "Not sure how you have been doing it in bulk?\n\nAnd yeh, when i tryed, it ending in a full stop failed but when i removed the full stop it worked.",
+      "parentUuid": "8142d521_a5564e96",
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5643999a_66bb46b4",
         "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
         "patchSetId": 37

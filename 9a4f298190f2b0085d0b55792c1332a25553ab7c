@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f35093d2_990af80f",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3334,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-08T13:07:24Z",
+      "side": 1,
+      "message": "optional",
+      "revId": "9a4f298190f2b0085d0b55792c1332a25553ab7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f23a898c_aca25552",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3335,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-08T13:07:24Z",
+      "side": 1,
+      "message": "... and signed",
+      "range": {
+        "startLine": 3335,
+        "startChar": 13,
+        "endLine": 3335,
+        "endChar": 22
+      },
+      "revId": "9a4f298190f2b0085d0b55792c1332a25553ab7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27e63ebb_2af40422",
+        "filename": "java/com/google/gerrit/extensions/api/projects/TagInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-08T13:07:24Z",
+      "side": 1,
+      "message": "Since this is part of the API, keep the old constructors as well?",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 35
+      },
+      "revId": "9a4f298190f2b0085d0b55792c1332a25553ab7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

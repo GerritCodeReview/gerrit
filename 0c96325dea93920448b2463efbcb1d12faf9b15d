@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1512656742 +0100\nnonce ADEcKBpGBNBnOaimQXqrKgvG59HNdvf2EqOGgKqPdl0up3bLfYLS7QRag1fuNxRIGZItEzSf9iie\n\n0000000000000000000000000000000000000000 0c96325dea93920448b2463efbcb1d12faf9b15d refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaKU9mAAoJEFG1/Zeg0O9RJAYIAK6VkSGe/S3WDsmSjhC36LOf\nUY5gtHg9GnUE/+C+wDorWiCdjC/z6m3BK6sSVXjEK6HWlhwFFT19lRSFgXBB/chA\nB1HCQWm4laEJISgz1yEqcsT3Jfbi4TVlv4AfbOMDXjDjHWFUyx7HmP220ZRdDD8f\nAIQGMG+SVeusnVk4ihBN/7MiikcbmQ2CWtZ8CwKE9DR+c2WTN6xsiLtMWbfWJn4v\nAQJCRRzsJz7DJ1t3/ZV2sKnzl4Nzysi94NAbpmMWWlDIJndRvjcb1hQMrT/M42qb\nf6j+ZsR2xnMD6h2DAQdQYT46iiPwmKxFojKUrLI43Tm/N3yWNihk7nC9fMNJvyo\u003d\n\u003d6xAp\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6fc220fc_9a22c77a",
+        "filename": "java/com/google/gerrit/server/account/AccountConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-08T07:48:03Z",
+      "side": 1,
+      "message": "This isn\u0027t really needed any more.  Since the account is now wrapped in an Optional, we can use the isPresent() method to determine if it\u0027s loaded.",
+      "range": {
+        "startLine": 82,
+        "startChar": 2,
+        "endLine": 82,
+        "endChar": 27
+      },
+      "revId": "0c96325dea93920448b2463efbcb1d12faf9b15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "426e7908_3b230105",
+        "filename": "java/com/google/gerrit/server/account/AccountConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-08T07:48:03Z",
+      "side": 1,
+      "message": "This method doesn\u0027t need to be @Nullable any more since loadedAccount is now initialized as an instance of Optional and thus will never be null.",
+      "range": {
+        "startLine": 104,
+        "startChar": 2,
+        "endLine": 104,
+        "endChar": 11
+      },
+      "revId": "0c96325dea93920448b2463efbcb1d12faf9b15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

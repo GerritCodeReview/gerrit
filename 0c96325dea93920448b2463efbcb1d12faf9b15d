@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "1304ae55_1f741141",
+        "filename": "java/com/google/gerrit/server/account/AccountConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-08T08:16:11Z",
+      "side": 1,
+      "message": "We need to represent 3 states:\n\n1. account was loaded and found\n2. account was loaded and doesn\u0027t exist\n3. account was not loaded yet\n\nisPresent() only gives us 2 states (1. and 2.), but we can use loadedAccount \u003d\u003d null to represent the 3rd state.\n\nDone.",
+      "parentUuid": "6fc220fc_9a22c77a",
+      "range": {
+        "startLine": 82,
+        "startChar": 2,
+        "endLine": 82,
+        "endChar": 27
+      },
+      "revId": "0c96325dea93920448b2463efbcb1d12faf9b15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "426e7908_3b230105",
         "filename": "java/com/google/gerrit/server/account/AccountConfig.java",
         "patchSetId": 1
@@ -46,6 +70,30 @@
       "revId": "0c96325dea93920448b2463efbcb1d12faf9b15d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fee82a18_afa86a7a",
+        "filename": "java/com/google/gerrit/server/account/AccountConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-08T08:16:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "426e7908_3b230105",
+      "range": {
+        "startLine": 104,
+        "startChar": 2,
+        "endLine": 104,
+        "endChar": 11
+      },
+      "revId": "0c96325dea93920448b2463efbcb1d12faf9b15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

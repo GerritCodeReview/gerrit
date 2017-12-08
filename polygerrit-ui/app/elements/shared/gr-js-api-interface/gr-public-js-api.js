@@ -18,6 +18,11 @@
     console.warn('Plugin API method ' + (opt_name || '') + ' is not supported');
   };
 
+  /**
+   * Hash of loaded and installed plugins, name to Plugin object.
+   */
+  const plugins = {};
+
   const stubbedMethods = ['_loadedGwt', 'screen', 'settingsScreen', 'panel'];
   const GWT_PLUGIN_STUB = {};
   for (const name of stubbedMethods) {
@@ -76,6 +81,20 @@
   // http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsJSNI.html
   window.$wnd = window;
 
+  function getPluginNameFromUrl(url) {
+    const base = Gerrit.BaseUrlBehavior.getBaseUrl();
+    const pathname = url.pathname.replace(base, '');
+    // Site theme is server from predefined path.
+    if (pathname === '/static/gerrit-theme.html') {
+      return 'gerrit-theme';
+    } else if (!pathname.startsWith('/plugins')) {
+      console.warn('Plugin not being loaded from /plugins base path:',
+          url.href, '— Unable to determine name.');
+      return;
+    }
+    return pathname.split('/')[2];
+  }
+
   function Plugin(opt_url) {
     this._domHooks = new GrDomHooksManager(this);
 
@@ -84,26 +103,14 @@
           'Unable to determine name.');
       return;
     }
-
-    const base = Gerrit.BaseUrlBehavior.getBaseUrl();
-
-    this._url = new URL(opt_url);
-    const pathname = this._url.pathname.replace(base, '');
-    // Site theme is server from predefined path.
-    if (pathname === '/static/gerrit-theme.html') {
-      this._name = 'gerrit-theme';
-    } else if (!pathname.startsWith('/plugins')) {
-      console.warn('Plugin not being loaded from /plugins base path:',
-          this._url.href, '— Unable to determine name.');
-      return;
-    }
-    this._name = pathname.split('/')[2];
-
     this.deprecated = {
       install: deprecatedAPI.install.bind(this),
       popup: deprecatedAPI.popup.bind(this),
       onAction: deprecatedAPI.onAction.bind(this),
     };
+
+    this._url = new URL(opt_url);
+    this._name = getPluginNameFromUrl(this._url);
   }
 
   Plugin._sharedAPIElement = document.createElement('gr-js-api-interface');
@@ -274,6 +281,16 @@
 
   const Gerrit = window.Gerrit || {};
 
+  // Provide reset plugins function to clear installed plugins between tests.
+  const app = document.querySelector('#app');
+  if (!app) { // No gr-app found (running tests)
+    Gerrit._resetPlugins = () => {
+      for (const k of Object.keys(plugins)) {
+        delete plugins[k];
+      }
+    };
+  }
+
   // Number of plugins to initialize, -1 means 'not yet known'.
   Gerrit._pluginsPending = -1;
 
@@ -308,12 +325,13 @@
     // TODO(andybons): Polyfill currentScript for IE10/11 (edge supports it).
     const src = opt_src || (document.currentScript &&
          (document.currentScript.src || document.currentScript.baseURI));
-    const plugin = new Plugin(src);
+    const name = getPluginNameFromUrl(new URL(src));
+    const plugin = plugins[name] || new Plugin(src);
     try {
       callback(plugin);
+      plugins[name] = plugin;
     } catch (e) {
-      console.warn(plugin.getPluginName() + ' install failed: ' +
-          e.name + ': ' + e.message);
+      console.warn(`${name} install failed: ${e.name}: ${e.message}`);
     }
     Gerrit._pluginInstalled();
   };

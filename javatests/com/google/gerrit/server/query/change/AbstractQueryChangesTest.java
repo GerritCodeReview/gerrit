@@ -224,7 +224,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     String email = "user@example.com";
     externalIdsUpdate.create().insert(ExternalId.createEmail(userId, email));
-    accountsUpdate.create().update(userId, a -> a.setPreferredEmail(email));
+    accountsUpdate.create().update(userId, u -> u.setPreferredEmail(email));
     user = userFactory.create(userId);
     requestContext.setContext(newRequestContext(userId));
   }
@@ -2730,10 +2730,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
           .create()
           .update(
               id,
-              a -> {
-                a.setFullName(fullName);
-                a.setPreferredEmail(email);
-                a.setActive(active);
+              u -> {
+                u.setFullName(fullName).setPreferredEmail(email).setActive(active);
               });
       return id;
     }

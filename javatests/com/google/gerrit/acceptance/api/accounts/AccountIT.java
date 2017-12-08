@@ -1819,12 +1819,6 @@ public class AccountIT extends AbstractDaemonTest {
     Account updatedAccount = au.update(accountId, a -> a.setFullName("foo"));
     assertThat(account.getMetaId()).isNotEqualTo(updatedAccount.getMetaId());
     assertThat(updatedAccount.getMetaId()).isEqualTo(getMetaId(accountId));
-
-    // metaId is set when account is replaced
-    Account newAccount = new Account(accountId, TimeUtil.nowTs());
-    au.replace(newAccount);
-    assertThat(updatedAccount.getMetaId()).isNotEqualTo(newAccount.getMetaId());
-    assertThat(newAccount.getMetaId()).isEqualTo(getMetaId(accountId));
   }
 
   private EmailInput newEmailInput(String email, boolean noConfirmation) {

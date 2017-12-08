@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
@@ -84,7 +85,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
 
   public AccountConfig(@Nullable OutgoingEmailValidator emailValidator, Account.Id accountId) {
     this.emailValidator = emailValidator;
-    this.accountId = accountId;
+    this.accountId = checkNotNull(accountId);
     this.ref = RefNames.refsUsers(accountId);
   }
 
@@ -250,7 +251,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   }
 
   private void checkLoaded() {
-    checkState(isLoaded, "account not loaded yet");
+    checkState(isLoaded, "Account %s not loaded yet", accountId.get());
   }
 
   /**

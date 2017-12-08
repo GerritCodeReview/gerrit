@@ -248,29 +248,6 @@ public class AccountsUpdate {
   }
 
   /**
-   * Replaces the account.
-   *
-   * <p>The existing account with the same account ID is overwritten by the given account. Choosing
-   * to overwrite an account means that any updates that were done to the account by a racing
-   * request after the account was read are lost. Updates are also lost if the account was read from
-   * a stale account index. This is why using {@link
-   * #update(com.google.gerrit.reviewdb.client.Account.Id, Consumer)} to do an atomic update is
-   * always preferred.
-   *
-   * <p>Changing the registration date of an account is not supported.
-   *
-   * @param account the new account
-   * @throws IOException if updating the user branch fails
-   * @throws ConfigInvalidException if any of the account fields has an invalid value
-   * @see #update(com.google.gerrit.reviewdb.client.Account.Id, Consumer)
-   */
-  public void replace(Account account) throws IOException, ConfigInvalidException {
-    AccountConfig accountConfig = read(account.getId());
-    accountConfig.setAccount(account);
-    commit(accountConfig);
-  }
-
-  /**
    * Deletes the account.
    *
    * @param account the account that should be deleted

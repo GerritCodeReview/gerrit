@@ -29,8 +29,9 @@ limitations under the License.
 <script>void(0);</script>
 
 <test-fixture id="basic">
-  <template>
-    <gr-diff-comment></gr-diff-comment>
+  <template is="dom-template">
+    <gr-diff-comment comment="{{comment}}">
+    </gr-diff-comment>
   </template>
 </test-fixture>
 
@@ -385,6 +386,11 @@ limitations under the License.
       element.draft = false;
       assert.isTrue(element.$$('.humanActions').hasAttribute('hidden'));
       assert.isFalse(element.$$('.robotActions').hasAttribute('hidden'));
+    });
+
+    test('robot comments expanded by default', () => {
+      element = fixture('basic', {comment: {robot_id: 123}});
+      assert.isFalse(element.collapsed);
     });
 
     test('collapsible drafts', () => {

@@ -143,7 +143,7 @@
     },
 
     attached() {
-      if (this.editing) {
+      if (this.editing || this.isRobotComment) {
         this.collapsed = false;
       } else if (this.comment) {
         this.collapsed = this.comment.collapsed;

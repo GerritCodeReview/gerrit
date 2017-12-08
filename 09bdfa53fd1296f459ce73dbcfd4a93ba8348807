@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "e716caa2_625e1e38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-08T16:32:33Z",
+      "side": 1,
+      "message": "Explain why this is better.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "09bdfa53fd1296f459ce73dbcfd4a93ba8348807",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27f63dcd_d14b1c74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-08T16:32:33Z",
+      "side": 1,
+      "message": "I\u0027m not having any strong opinion here, but as a user I find it surprising that adding a draft patch set to a change turns the whole change private. I understand that this is needed to preserve the privacy of the new patch set, but this is why I prefer creating a change edit. With a change edit the change stays public and only the change edit is private to me. This pretty much matches what I expect from a \"draft\" patch set. But this is just my 2 cents. Maybe the commit message could make it clearer what the differences between the 2 solutions are and why this new solution is preferred over change edits.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 19
+      },
+      "revId": "09bdfa53fd1296f459ce73dbcfd4a93ba8348807",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "48f59db3_5d16a2a2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

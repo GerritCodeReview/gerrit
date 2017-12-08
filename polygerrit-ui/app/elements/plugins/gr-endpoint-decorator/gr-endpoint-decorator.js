@@ -73,8 +73,8 @@
         el.content = opt_content;
       }
       const expectProperties = this._getEndpointParams().map(
-        paramEl => plugin.attributeHelper(paramEl).get('value')
-        .then(value => el[paramEl.getAttribute('name')] = value)
+          paramEl => plugin.attributeHelper(paramEl).get('value')
+              .then(value => el[paramEl.getAttribute('name')] = value)
       );
       const timeout = new Promise(
         (resolve, reject) => setTimeout(() => {
@@ -82,11 +82,11 @@
                  `plugin ${plugin.getPluginName()}, endpoint ${this.name}`);
         }, INIT_PROPERTIES_TIMEOUT_MS));
       return Promise.race([timeout, Promise.all(expectProperties)])
-        .then(() => el)
-        .catch(timeoutError => {
-          console.warn(timeoutError);
-          return el;
-        });
+          .then(() => el)
+          .catch(timeoutError => {
+            console.warn(timeoutError);
+            return el;
+          });
     },
 
     _appendChild(el) {

@@ -129,10 +129,10 @@
 
       promises.push(this.$.restAPI.getProjectConfig(this.project).then(
           config => {
-            this._projectConfig = config;
-            if (!this._projectConfig.state) {
-              this._projectConfig.state = STATES.active.value;
+            if (!config.state) {
+              config.state = STATES.active.value;
             }
+            this._projectConfig = config;
             this._loading = false;
           }));
 

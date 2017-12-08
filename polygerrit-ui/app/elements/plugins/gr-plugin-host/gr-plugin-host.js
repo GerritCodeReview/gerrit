@@ -30,8 +30,9 @@
 
     _configChanged(config) {
       const plugins = config.plugin;
-      const jsPlugins = plugins.js_resource_paths || [];
       const htmlPlugins = plugins.html_resource_paths || [];
+      const jsPlugins = this._handleMigrations(plugins.js_resource_paths || [],
+          htmlPlugins);
       const defaultTheme = config.default_theme;
       if (defaultTheme) {
         // Make theme first to be first to load.
@@ -40,6 +41,17 @@
       Gerrit._setPluginsCount(jsPlugins.length + htmlPlugins.length);
       this._loadJsPlugins(jsPlugins);
       this._importHtmlPlugins(htmlPlugins);
+    },
+
+    /**
+     * Omit .js plugins that have .html counterparts.
+     * For example, if plugin provides foo.js and foo.html, skip foo.js.
+     */
+    _handleMigrations(jsPlugins, htmlPlugins) {
+      return jsPlugins.filter(url => {
+        const counterpart = url.replace(/\.js$/, '.html');
+        return !htmlPlugins.includes(counterpart);
+      });
     },
 
     /**

@@ -1,0 +1,153 @@
+= Gerrit Code Review - PolyGerrit Plugin Development
+
+CAUTION: Work in progress. Hard hat area. Please
+link:https://bugs.chromium.org/p/gerrit/issues/entry?template=PolyGerrit%20plugins[send
+feedback] if something's not right.
+
+[[migration]]
+== Incremental migration of existing GWT UI plugins
+
+link:pg-plugin-dev.html[PolyGerrit plugin API] operates different concepts and
+provides different type of API compared to ones available to GWT
+plugins. Depending on the plugin, it might require significant modifications to
+existing UI scripts to fully take advantage of benefits PolyGerrit API
+provides.
+
+To make migration easier, PolyGerrit recommends incremental migration
+strategy. Starting with a .js file that works for GWT UI, plugin author can
+incrementally migrate deprecated APIs to new plugin API.
+
+The goal for this guide is to provide migration path from .js-based UI script to
+.html-based.
+
+NOTE: Web UI plugins distributed as a single .js file are not covered in this
+guide.
+
+Let's start with a basic plugin that has an UI module. Commonly, file tree
+should look like this:
+
+  ├── BUILD
+  ├── LICENSE
+  └── src
+      └── main
+          ├── java
+          │   └── com
+          │       └── foo
+          │           └── SamplePluginModule.java
+          └── resources
+              └── static
+                  └── sampleplugin.js
+
+For simplicity's sake, let's assume SamplePluginModule.java has following
+content:
+
+``` java
+public class SamplePluginModule extends AbstractModule {
+
+  @Override
+  protected void configure() {
+    DynamicSet.bind(binder(), WebUiPlugin.class)
+        .toInstance(new JavaScriptPlugin("sampleplugin.js"));
+  }
+}
+```
+
+=== Step 1: Create `sampleplugin.html`
+
+As a first step, create starter `sampleplugin.html` and include UI script in the
+module file.
+
+NOTE: GWT UI ignore .html since it's not supported.
+
+``` java
+  @Override
+  protected void configure() {
+    DynamicSet.bind(binder(), WebUiPlugin.class)
+        .toInstance(new JavaScriptPlugin("sampleplugin.js"));
+    DynamicSet.bind(binder(), WebUiPlugin.class)
+        .toInstance(new JavaScriptPlugin("sampleplugin.html"));
+  }
+```
+
+Here's recommended starter code for `sampleplugin.html`:
+
+NOTE: By specification, the `id` attribute of `dom-module` *must* contain a dash
+(-).
+
+``` html
+<dom-module id="sample-plugin">
+  <script>
+    Gerrit.install(plugin => {
+        // Setup block, is executed before sampleplugin.js
+
+        // Install deprecated JS APIs (onAction, popup, etc)
+        plugin.deprecated.install();
+    });
+  </script>
+
+  <script src="./sampleplugin.js"></script>
+
+  <script>
+    Gerrit.install(plugin => {
+        // Cleanup block, is executed after sampleplugin.js
+    });
+  </script>
+</dom-module>
+```
+
+Here's how this works:
+
+- PolyGerrit detects migration scenario because UI scripts have same filename
+and different extensions
+ * PolyGerrit will load `sampleplugin.html` and skip `sampleplugin.js`
+ * PolyGerrit will reuse `plugin` (aka `self`) instance for `Gerrit.install()`
+callbacks
+- `sampleplugin.js` is loaded since it's referenced in `sampleplugin.html`
+- setup script tag code is executed before `sampleplugin.js`
+- cleanup script tag code is executed after `sampleplugin.js`
+- `plugin.deprecated.install()` enables deprecated APIs (onAction(), popup(),
+etc) before `sampleplugin.js` is loaded
+
+So the purpose is to share plugin instance between .html-based and .js-based
+code, making it possible to gradually and incrementally transfer code to new API.
+
+=== Step 2: Create cut-off marker in `sampleplugin.js`
+
+Commonly, window.Polymer is being used to detect in GWT UI script if it's being
+executed inside PolyGerrit. This could be used to separate code that was already
+migrated to new APIs from the one that hasn't been migrated yet.
+
+During incremental migration, some of the UI code will be reimplemented using
+PolyGerrit plugin API. However, old code still could be required for the plugin
+to work in GWT UI.
+
+To handle this case, add following code to be the last thing in installation
+callback in `sampleplugin.js`
+
+``` js
+Gerrit.install(function(self) {
+
+  // Existing code here, not modified.
+
+  if (window.Polymer) { return; } // Cut-off marker
+
+  // Everything below was migrated to PolyGerrit plugin API.
+  // Code below is still needed for the plugin to work in GWT UI.
+});
+```
+
+=== Step 3: Migrate!
+
+The code that uses deprecated APIs should be eventually rewritten using
+non-deprecated counterparts. Duplicated pieces could be kept under cut-off
+marker to work in GWT UI.
+
+If some data or functions needs to be shared between code in .html and .js, it
+could be stored on `plugin` (aka `self`) object that's shared between both
+
+=== Step 4: Cleanup
+
+Once deprecated APIs are migrated, `sampleplugin.js` will only contain
+duplicated code that's required for GWT UI to work. With sudden but inevitable
+GWT code removal from Gerrit that file can be simply deleted, along with script
+tag loading it.

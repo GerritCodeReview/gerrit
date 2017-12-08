@@ -172,12 +172,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
 
     accountsUpdate
         .create()
-        .insert(
-            id,
-            a -> {
-              a.setFullName(input.name);
-              a.setPreferredEmail(input.email);
-            });
+        .insert(id, u -> u.setFullName(input.name).setPreferredEmail(input.email));
 
     for (AccountGroup.UUID groupUuid : groups) {
       try {

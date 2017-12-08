@@ -68,11 +68,11 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
             .create()
             .update(
                 user.getAccountId(),
-                a -> {
+                (a, u) -> {
                   if (email.equals(a.getPreferredEmail())) {
                     alreadyPreferred.set(true);
                   } else {
-                    a.setPreferredEmail(email);
+                    u.setPreferredEmail(email);
                   }
                 });
     if (account == null) {

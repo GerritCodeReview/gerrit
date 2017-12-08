@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.account.InternalAccountUpdate;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import java.io.File;
@@ -69,7 +70,14 @@ public class AccountsOnInit {
                 new GerritPersonIdentProvider(flags.cfg).get(), account.getRegisteredOn());
 
         Config accountConfig = new Config();
-        AccountConfig.writeToConfig(account, accountConfig);
+        AccountConfig.writeToConfig(
+            InternalAccountUpdate.builder()
+                .setActive(account.isActive())
+                .setFullName(account.getFullName())
+                .setPreferredEmail(account.getPreferredEmail())
+                .setStatus(account.getStatus())
+                .build(),
+            accountConfig);
 
         DirCache newTree = DirCache.newInCore();
         DirCacheEditor editor = newTree.editor();

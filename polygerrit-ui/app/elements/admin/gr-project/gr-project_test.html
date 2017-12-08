@@ -247,6 +247,7 @@ limitations under the License.
       test('state gets set correctly', done => {
         element._loadProject().then(() => {
           assert.equal(element._projectConfig.state, 'ACTIVE');
+          assert.equal(element.$.stateSelect.bindValue, 'ACTIVE');
           done();
         });
       });

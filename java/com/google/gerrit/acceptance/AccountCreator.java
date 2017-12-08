@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
@@ -121,10 +122,9 @@ public class AccountCreator {
           .create()
           .insert(
               id,
-              a -> {
-                a.setFullName(fullName);
-                a.setPreferredEmail(email);
-              });
+              u ->
+                  u.setFullName(Strings.nullToEmpty(fullName))
+                      .setPreferredEmail(Strings.nullToEmpty(email)));
 
       if (groupNames != null) {
         for (String n : groupNames) {

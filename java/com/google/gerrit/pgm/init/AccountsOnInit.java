@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.init;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.reviewdb.client.Account;
@@ -24,6 +25,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.account.InternalAccountUpdate;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import java.io.File;
@@ -69,7 +71,14 @@ public class AccountsOnInit {
                 new GerritPersonIdentProvider(flags.cfg).get(), account.getRegisteredOn());
 
         Config accountConfig = new Config();
-        AccountConfig.writeToConfig(account, accountConfig);
+        AccountConfig.writeToConfig(
+            InternalAccountUpdate.builder()
+                .setActive(account.isActive())
+                .setFullName(Strings.nullToEmpty(account.getFullName()))
+                .setPreferredEmail(Strings.nullToEmpty(account.getPreferredEmail()))
+                .setStatus(Strings.nullToEmpty(account.getStatus()))
+                .build(),
+            accountConfig);
 
         DirCache newTree = DirCache.newInCore();
         DirCacheEditor editor = newTree.editor();

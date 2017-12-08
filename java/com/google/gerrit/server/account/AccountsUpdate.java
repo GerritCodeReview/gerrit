@@ -64,6 +64,25 @@ import org.eclipse.jgit.lib.Repository;
 @Singleton
 public class AccountsUpdate {
   /**
+   * Updater for an account.
+   *
+   * <p>Allows to read the current state of an account and to prepare updates to it.
+   */
+  @FunctionalInterface
+  public static interface AccountUpdater {
+    /**
+     * Prepare updates to an account.
+     *
+     * <p>Use the provided account only to read the current state of the account. Don't do updates
+     * to the account. For updates use the provided account update builder.
+     *
+     * @param account the account that is being updated
+     * @param update account update builder
+     */
+    void update(Account account, InternalAccountUpdate.Builder update);
+  }
+
+  /**
    * Factory to create an AccountsUpdate instance for updating accounts by the Gerrit server.
    *
    * <p>The Gerrit server identity will be used as author and committer for all commits that update
@@ -194,15 +213,15 @@ public class AccountsUpdate {
    * @throws IOException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public Account insert(Account.Id accountId, Consumer<Account> init)
+  public Account insert(Account.Id accountId, Consumer<InternalAccountUpdate.Builder> init)
       throws OrmDuplicateKeyException, IOException, ConfigInvalidException {
     AccountConfig accountConfig = read(accountId);
-    Account account = accountConfig.getNewAccount();
-    init.accept(account);
-
-    // Create in NoteDb
+    accountConfig.createNewAccount();
+    InternalAccountUpdate.Builder updateBuilder = InternalAccountUpdate.builder();
+    init.accept(updateBuilder);
+    accountConfig.setAccountUpdate(updateBuilder.build());
     commitNew(accountConfig);
-    return account;
+    return accountConfig.getLoadedAccount().get();
   }
 
   /**
@@ -211,14 +230,14 @@ public class AccountsUpdate {
    * <p>Changing the registration date of an account is not supported.
    *
    * @param accountId ID of the account
-   * @param consumer consumer to update the account, only invoked if the account exists
+   * @param update consumer to update the account, only invoked if the account exists
    * @return the updated account, {@code null} if the account doesn't exist
    * @throws IOException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public Account update(Account.Id accountId, Consumer<Account> consumer)
+  public Account update(Account.Id accountId, Consumer<InternalAccountUpdate.Builder> update)
       throws IOException, ConfigInvalidException {
-    return update(accountId, ImmutableList.of(consumer));
+    return update(accountId, (a, u) -> update.accept(u));
   }
 
   /**
@@ -227,26 +246,44 @@ public class AccountsUpdate {
    * <p>Changing the registration date of an account is not supported.
    *
    * @param accountId ID of the account
-   * @param consumers consumers to update the account, only invoked if the account exists
+   * @param updater updater to update the account, only invoked if the account exists
+   * @return the updated account, {@code null} if the account doesn't exist
+   * @throws IOException if updating the user branch fails
+   * @throws ConfigInvalidException if any of the account fields has an invalid value
+   */
+  public Account update(Account.Id accountId, AccountUpdater updater)
+      throws IOException, ConfigInvalidException {
+    return update(accountId, ImmutableList.of(updater));
+  }
+
+  /**
+   * Gets the account and updates it atomically.
+   *
+   * <p>Changing the registration date of an account is not supported.
+   *
+   * @param accountId ID of the account
+   * @param updater updater to update the account, only invoked if the account exists
    * @return the updated account, {@code null} if the account doesn't exist
    * @throws IOException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   @Nullable
-  public Account update(Account.Id accountId, List<Consumer<Account>> consumers)
+  public Account update(Account.Id accountId, List<AccountUpdater> updater)
       throws IOException, ConfigInvalidException {
-    if (consumers.isEmpty()) {
+    if (updater.isEmpty()) {
       return null;
     }
 
     AccountConfig accountConfig = read(accountId);
     Optional<Account> account = accountConfig.getLoadedAccount();
     if (account.isPresent()) {
-      consumers.stream().forEach(c -> c.accept(account.get()));
+      InternalAccountUpdate.Builder updateBuilder = InternalAccountUpdate.builder();
+      updater.stream().forEach(u -> u.update(account.get(), updateBuilder));
+      accountConfig.setAccountUpdate(updateBuilder.build());
       commit(accountConfig);
     }
 
-    return account.orElse(null);
+    return accountConfig.getLoadedAccount().orElse(null);
   }
 
   /**

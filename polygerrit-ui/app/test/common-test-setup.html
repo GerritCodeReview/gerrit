@@ -44,6 +44,19 @@ limitations under the License.
     return promise;
   };
 </script>
+<script>
+  (function() {
+      if (!Gerrit) { return }
+      if (Gerrit._endpoints) {
+        Gerrit._endpoints = new GrPluginEndpoints();
+      }
+      if (Gerrit._resetPlugins) {
+        Gerrit._resetPlugins();
+      }
+      Gerrit._pluginsPending = -1;
+      Gerrit._allPluginsPromise = undefined;
+  })();
+</script>
 <link rel="import"
     href="../bower_components/iron-test-helpers/iron-test-helpers.html" />
 <link rel="import" href="test-router.html" />

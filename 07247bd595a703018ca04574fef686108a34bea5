@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef33a010_3f9b8343",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-08T20:03:42Z",
+      "side": 1,
+      "message": "Small nit: per the style guide, instead of nesting the remainder of the function in the then, this should be\n\n if (!this.storageKey) { return; }",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 28
+      },
+      "revId": "07247bd595a703018ca04574fef686108a34bea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

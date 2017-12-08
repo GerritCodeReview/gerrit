@@ -34,6 +34,24 @@
       "revId": "0897e20d85964b98356dc4e1678debc4e49bf185",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a58ad885_3e2eb05f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-08T21:41:16Z",
+      "side": 1,
+      "message": "I mean on the comment data model, sorry. \u0027this.comment.collapsed\u0027, which is set in a parent somewhere.",
+      "parentUuid": "049f5a64_0aed5300",
+      "revId": "0897e20d85964b98356dc4e1678debc4e49bf185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

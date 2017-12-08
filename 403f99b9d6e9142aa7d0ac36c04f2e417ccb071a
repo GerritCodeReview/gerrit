@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be70b10a_01441fa0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-12-08T17:04:30Z",
+      "side": 1,
+      "message": "Does this mean googlesource or upstream gerrit? Asking because https://groups.google.com/forum/#!topic/repo-discuss/FvSMpsNFcbk mentions that the automatic migration for upstream gerrit doesn\u0027t appear to have been written yet.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 2
+      },
+      "revId": "403f99b9d6e9142aa7d0ac36c04f2e417ccb071a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58bf2876_5796b7f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-12-08T17:04:30Z",
+      "side": 1,
+      "message": "rid",
+      "range": {
+        "startLine": 10,
+        "startChar": 7,
+        "endLine": 10,
+        "endChar": 11
+      },
+      "revId": "403f99b9d6e9142aa7d0ac36c04f2e417ccb071a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07dc5c6d_41a530b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-12-08T17:04:30Z",
+      "side": 1,
+      "message": "Looks sensible to me --- the listener still is able to obtain all the information it had access to before. Since this is not part of the extension API, we don\u0027t have to worry about API or ABI compatibility, right?",
+      "revId": "403f99b9d6e9142aa7d0ac36c04f2e417ccb071a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

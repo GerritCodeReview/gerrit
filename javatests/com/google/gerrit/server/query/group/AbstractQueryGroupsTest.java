@@ -410,10 +410,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
           .create()
           .update(
               id,
-              a -> {
-                a.setFullName(fullName);
-                a.setPreferredEmail(email);
-                a.setActive(active);
+              u -> {
+                u.setFullName(fullName).setPreferredEmail(email).setActive(active);
               });
       return id;
     }

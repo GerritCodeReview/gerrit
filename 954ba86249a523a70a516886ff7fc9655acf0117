@@ -59,6 +59,30 @@
     },
     {
       "key": {
+        "uuid": "ee78068c_4cda57b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 37
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-12-08T08:57:08Z",
+      "side": 1,
+      "message": "then -\u003e than\nAlso this could be the first time I\u0027ve ever seen XML being the leftmost argument of a \"is more readable than\" comparison. IMO this statement is up for debate, and as David suggests it should be debated in a separate change.",
+      "parentUuid": "ee4c1109_c0569b13",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 19
+      },
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8142d521_a5564e96",
         "filename": "Documentation/cmd-logging-set-level.txt",
         "patchSetId": 37

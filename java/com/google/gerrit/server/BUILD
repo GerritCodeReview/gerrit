@@ -52,6 +52,7 @@ java_library(
         "//lib:guava-retrying",
         "//lib:gwtjsonrpc",
         "//lib:gwtorm",
+        "//lib:javassist",
         "//lib:jsch",
         "//lib:juniversalchardet",
         "//lib:mime-util",

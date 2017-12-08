@@ -46,6 +46,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.InternalAccountUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -417,7 +418,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       md.getCommitBuilder().setCommitter(ident);
       AccountConfig accountConfig = new AccountConfig(null, accountId);
       accountConfig.load(repo);
-      accountConfig.getLoadedAccount().get().setFullName(newName);
+      accountConfig.setAccountUpdate(InternalAccountUpdate.builder().setFullName(newName).build());
       accountConfig.commit(md);
     }
 
@@ -542,10 +543,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
           .create()
           .update(
               id,
-              a -> {
-                a.setFullName(fullName);
-                a.setPreferredEmail(email);
-                a.setActive(active);
+              u -> {
+                u.setFullName(fullName).setPreferredEmail(email).setActive(active);
               });
       return id;
     }

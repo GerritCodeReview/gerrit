@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "8f503bb9_697b35e6",
+        "filename": "Documentation/cmd-logging-set-level.txt",
+        "patchSetId": 37
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-08T11:20:17Z",
+      "side": 1,
+      "message": "Can\u0027t remember exactly.  I might have tried it with a wildcard \".*\" at the end.\n\nAnyway, if this applies to earlier versions please do it as a separate commit.",
+      "parentUuid": "e3592c5c_4adbfa80",
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5643999a_66bb46b4",
         "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
         "patchSetId": 37
@@ -493,6 +511,24 @@
       "side": 1,
       "message": "Because JsonLayout needs them.\n\nIt uses jackson.\n\nAnd also this is needed for when someone uses JsonLayout in there custom file (including if they use it in SocketAppender).\n\nI was getting class errors when trying to use the json layout. Added these libs fixed it.",
       "parentUuid": "505708b1_95b7d796",
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb135af0_44d50ff9",
+        "filename": "lib/jackson/BUILD",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-08T11:20:17Z",
+      "side": 1,
+      "message": "OK, if it\u0027s needed by log4j then it should be referenced as a dependency.",
+      "parentUuid": "25e8b6e3_677c3c16",
       "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

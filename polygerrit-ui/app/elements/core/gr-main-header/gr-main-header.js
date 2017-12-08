@@ -96,6 +96,10 @@
         type: String,
         value: '/login',
       },
+      _registerURL: {
+        type: String,
+        value: '',
+      },
       _userLinks: {
         type: Array,
         value() { return []; },
@@ -126,6 +130,12 @@
     },
 
     _handleLocationChange(e) {
+      this.$.restAPI.getConfig().then(config => {
+        if (config && config.register_url) {
+          this._registerURL = config.register_url;
+        }
+      });
+
       const baseUrl = this.getBaseUrl();
       if (baseUrl) {
         // Strip the canonical path from the path since needing canonical in

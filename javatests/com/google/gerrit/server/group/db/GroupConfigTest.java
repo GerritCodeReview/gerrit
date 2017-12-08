@@ -23,6 +23,9 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.group.InternalGroup;
+import com.google.gwtorm.client.KeyUtil;
+import com.google.gwtorm.server.StandardKeyEncoder;
 import java.util.Optional;
 import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -37,6 +40,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class GroupConfigTest {
+  static {
+    // Necessary so that toString() methods of ReviewDb entities work correctly.
+    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
+  }
+
   @Rule public ExpectedException expectedException = ExpectedException.none();
 
   private Repository repository;
@@ -232,6 +240,21 @@ public class GroupConfigTest {
       expectedException.expectMessage("Owner UUID of the group users-XYZ");
       groupConfig.commit(metaDataUpdate);
     }
+  }
+
+  @Test
+  public void automaticallyLoadedNewGroupDoesNotChangeOnReload() throws Exception {
+    InternalGroupCreation groupCreation = getPrefilledGroupCreationBuilder().build();
+    GroupConfig groupConfig = GroupConfig.createForNewGroup(repository, groupCreation);
+    try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
+      groupConfig.commit(metaDataUpdate);
+    }
+
+    Optional<InternalGroup> createdGroup = groupConfig.getLoadedGroup();
+    Optional<InternalGroup> reloadedGroup =
+        GroupConfig.loadForGroup(repository, groupCreation.getGroupUUID()).getLoadedGroup();
+
+    assertThat(createdGroup).isEqualTo(reloadedGroup);
   }
 
   private InternalGroupCreation.Builder getPrefilledGroupCreationBuilder() {

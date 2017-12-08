@@ -16,6 +16,24 @@
       "revId": "b5688c67ba4972f6f714e526e06b0e7d09e55211",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "597d6593_c5698a40",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-08T23:39:06Z",
+      "side": 0,
+      "message": "Good catch! \n\nI\u0027m clearly overthinking this, but in theory what if some other kind of error would be masked by the .catch()? Maybe, a bit more robust approach would be to clear timeout?\n\n      let timeoutId;\n      const timeout \u003d new Promise(\n        resolve \u003d\u003e timeoutId \u003d setTimeout(() \u003d\u003e {\n          console.warn(\n              \u0027Timeout waiting for endpoint properties initialization.\u0027 +\n              `plugin ${plugin.getPluginName()}, endpoint ${this.name}`);\n          resolve();\n        }, INIT_PROPERTIES_TIMEOUT_MS));\n      return Promise.race([timeout, Promise.all(expectProperties)])\n          .then(() \u003d\u003e {\n            clearTimeout(timeoutId);\n            return el;\n          });",
+      "parentUuid": "8952d8f6_fee50345",
+      "revId": "b5688c67ba4972f6f714e526e06b0e7d09e55211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

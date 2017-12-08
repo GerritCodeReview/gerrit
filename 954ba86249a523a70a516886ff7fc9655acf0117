@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bf0bde11_72c786ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 37
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-08T17:28:47Z",
+      "side": 1,
+      "message": "Thanks, done.\n\nhttps://logging.apache.org/log4j/2.x/manual/garbagefree.html",
+      "parentUuid": "60ceaf33_6fe0724f",
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "703a050f_777bd8e4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 37
@@ -30,6 +48,24 @@
       "writtenOn": "2017-12-08T02:02:21Z",
       "side": 1,
       "message": "Should be a separate bullet",
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed582130_82aed01d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 37
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-08T17:28:47Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "703a050f_777bd8e4",
       "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -160,6 +196,24 @@
     },
     {
       "key": {
+        "uuid": "6d6c3f80_e13a0f7e",
+        "filename": "Documentation/cmd-logging-set-level.txt",
+        "patchSetId": 37
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-08T17:28:47Z",
+      "side": 1,
+      "message": "Thanks, i can test with \n\nssh -p 29418 review.example.com gerrit logging set-level \\\n     debug com.google.*\n\nI\u0027ve fixed this now as log4j2 does not support it ending in . or .*.\n\nBut we can use . or .* to allow us to set the log level for example if we did\n\ncom.google. or com.google.* it will set the log level fro com.google and child loggers.\n\nWhereas if we did it for com.google it will only set it for that and not child loggers.",
+      "parentUuid": "8f503bb9_697b35e6",
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5643999a_66bb46b4",
         "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
         "patchSetId": 37
@@ -171,6 +225,30 @@
       "writtenOn": "2017-12-08T02:02:21Z",
       "side": 1,
       "message": "Doesn\u0027t this accept StandardCharsets.UTF_8?",
+      "range": {
+        "startLine": 70,
+        "startChar": 62,
+        "endLine": 70,
+        "endChar": 86
+      },
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3946725f_497b70f0",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-08T17:28:47Z",
+      "side": 1,
+      "message": "Yep, thanks, done.",
+      "parentUuid": "5643999a_66bb46b4",
       "range": {
         "startLine": 70,
         "startChar": 62,
@@ -206,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "f51a785f_f4a4e933",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogFile.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-08T17:28:47Z",
+      "side": 1,
+      "message": "Ah woops sorry forgot to remove this.\n\nI was trying to add a prettify date to the JsonLayout but then got stuck at how to do it.",
+      "parentUuid": "fb2ff4a1_a2318b66",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 94
+      },
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d920dad8_dd3a55c5",
         "filename": "java/com/google/gerrit/pgm/util/ErrorLogFile.java",
         "patchSetId": 37
@@ -217,6 +319,30 @@
       "writtenOn": "2017-12-08T02:02:21Z",
       "side": 1,
       "message": "Why \"ctxx\"?  Rename it to \"context\"?  Or just \"ctx\"?",
+      "range": {
+        "startLine": 45,
+        "startChar": 24,
+        "endLine": 45,
+        "endChar": 28
+      },
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe9b3d4a_f2b486eb",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogFile.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-08T17:28:47Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d920dad8_dd3a55c5",
       "range": {
         "startLine": 45,
         "startChar": 24,
@@ -252,6 +378,30 @@
     },
     {
       "key": {
+        "uuid": "9151365c_ff010a54",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogFile.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-08T17:28:47Z",
+      "side": 1,
+      "message": "I forgot to un cross these. I\u0027ve un crossed it now, thanks, done.",
+      "parentUuid": "a86342eb_326c26e0",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 9
+      },
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bee5323d_0d316fee",
         "filename": "java/com/google/gerrit/pgm/util/ErrorLogFile.java",
         "patchSetId": 37
@@ -263,6 +413,30 @@
       "writtenOn": "2017-12-08T02:02:21Z",
       "side": 1,
       "message": "Is this needed?",
+      "range": {
+        "startLine": 87,
+        "startChar": 9,
+        "endLine": 87,
+        "endChar": 14
+      },
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb05c833_93478acc",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogFile.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-08T17:28:47Z",
+      "side": 1,
+      "message": "Nope, doint think so. Thanks, done.",
+      "parentUuid": "bee5323d_0d316fee",
       "range": {
         "startLine": 87,
         "startChar": 9,
@@ -298,6 +472,30 @@
     },
     {
       "key": {
+        "uuid": "427b3a58_5d441947",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogFile.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-08T17:28:47Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "13c87481_82984238",
+      "range": {
+        "startLine": 97,
+        "startChar": 50,
+        "endLine": 97,
+        "endChar": 77
+      },
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "13a0abe0_18cc3bbf",
         "filename": "java/com/google/gerrit/pgm/util/ErrorLogFile.java",
         "patchSetId": 37
@@ -309,6 +507,30 @@
       "writtenOn": "2017-12-08T02:02:21Z",
       "side": 1,
       "message": "Import this as static rather than importing the whole StandardCharsets.",
+      "range": {
+        "startLine": 111,
+        "startChar": 26,
+        "endLine": 111,
+        "endChar": 48
+      },
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21f0a26e_96b315fb",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogFile.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-08T17:28:47Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "13a0abe0_18cc3bbf",
       "range": {
         "startLine": 111,
         "startChar": 26,
@@ -344,6 +566,30 @@
     },
     {
       "key": {
+        "uuid": "567db4ef_b449705e",
+        "filename": "java/com/google/gerrit/server/git/GarbageCollectionLogFile.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-08T17:28:47Z",
+      "side": 1,
+      "message": "Nope, doint think so. thanks, done.",
+      "parentUuid": "50067a85_60c745f7",
+      "range": {
+        "startLine": 46,
+        "startChar": 9,
+        "endLine": 46,
+        "endChar": 14
+      },
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "31843deb_88933ca3",
         "filename": "java/com/google/gerrit/server/git/GarbageCollectionLogFile.java",
         "patchSetId": 37
@@ -355,6 +601,30 @@
       "writtenOn": "2017-12-08T02:02:21Z",
       "side": 1,
       "message": "needed?",
+      "range": {
+        "startLine": 54,
+        "startChar": 9,
+        "endLine": 54,
+        "endChar": 14
+      },
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d91babba_25f828a2",
+        "filename": "java/com/google/gerrit/server/git/GarbageCollectionLogFile.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-08T17:28:47Z",
+      "side": 1,
+      "message": "Nope, doint think so. thanks, done.",
+      "parentUuid": "31843deb_88933ca3",
       "range": {
         "startLine": 54,
         "startChar": 9,
@@ -390,6 +660,30 @@
     },
     {
       "key": {
+        "uuid": "d21c3fa2_54d21754",
+        "filename": "java/com/google/gerrit/server/git/GarbageCollectionLogFile.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-08T17:28:47Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ac156880_fdde3279",
+      "range": {
+        "startLine": 58,
+        "startChar": 47,
+        "endLine": 58,
+        "endChar": 67
+      },
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5604fbad_8b6415c8",
         "filename": "java/com/google/gerrit/server/util/PluginLogFile.java",
         "patchSetId": 37
@@ -401,6 +695,30 @@
       "writtenOn": "2017-12-08T02:02:21Z",
       "side": 1,
       "message": "needed?",
+      "range": {
+        "startLine": 58,
+        "startChar": 11,
+        "endLine": 58,
+        "endChar": 16
+      },
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e956923_96f2bd4d",
+        "filename": "java/com/google/gerrit/server/util/PluginLogFile.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-08T17:28:47Z",
+      "side": 1,
+      "message": "Nope, doint think so. Thanks, done.",
+      "parentUuid": "5604fbad_8b6415c8",
       "range": {
         "startLine": 58,
         "startChar": 11,
@@ -436,6 +754,30 @@
     },
     {
       "key": {
+        "uuid": "087e7474_ebdc2491",
+        "filename": "java/com/google/gerrit/server/util/SystemLog.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-08T17:28:47Z",
+      "side": 1,
+      "message": "Nope, doint think so. Thanks, done.",
+      "parentUuid": "7d987d5d_aee7226b",
+      "range": {
+        "startLine": 79,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 11
+      },
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "56623b91_17c0e30d",
         "filename": "java/com/google/gerrit/sshd/SshLog.java",
         "patchSetId": 37
@@ -459,6 +801,30 @@
     },
     {
       "key": {
+        "uuid": "f498fa08_9a7c35b8",
+        "filename": "java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-08T17:28:47Z",
+      "side": 1,
+      "message": "Yep, thanks, done.",
+      "parentUuid": "56623b91_17c0e30d",
+      "range": {
+        "startLine": 79,
+        "startChar": 61,
+        "endLine": 79,
+        "endChar": 85
+      },
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "62a758c5_4edb600f",
         "filename": "java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
         "patchSetId": 37
@@ -470,6 +836,30 @@
       "writtenOn": "2017-12-08T02:02:21Z",
       "side": 1,
       "message": "What is this suppressing?\n\nSame for the existing ones above.  If possible it\u0027s better to fix than suppress.",
+      "range": {
+        "startLine": 82,
+        "startChar": 2,
+        "endLine": 82,
+        "endChar": 32
+      },
+      "revId": "954ba86249a523a70a516886ff7fc9655acf0117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80d03017_09d797f9",
+        "filename": "java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-08T17:28:47Z",
+      "side": 1,
+      "message": "Not really sure, was following how the above does it. I can remove it from this void.\n\nThanks, done.",
+      "parentUuid": "62a758c5_4edb600f",
       "range": {
         "startLine": 82,
         "startChar": 2,

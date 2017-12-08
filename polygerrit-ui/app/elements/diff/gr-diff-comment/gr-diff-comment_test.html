@@ -531,27 +531,25 @@ limitations under the License.
     });
 
     suite('confirm discard', () => {
-      let saveDisabled;
       let discardStub;
       let overlayStub;
       let mockEvent;
 
       setup(() => {
-        sandbox.stub(element, '_computeSaveDisabled', () => saveDisabled);
         discardStub = sandbox.stub(element, '_discardDraft');
         overlayStub = sandbox.stub(element, '_openOverlay');
         mockEvent = {preventDefault: sinon.stub()};
       });
 
-      test('confirms discard of comments that can be saved', () => {
-        saveDisabled = false;
+      test('confirms discard of comments with message text', () => {
+        element._messageText = 'test';
         element._handleDiscard(mockEvent);
         assert.isTrue(overlayStub.calledWith(element.$.confirmDiscardOverlay));
         assert.isFalse(discardStub.called);
       });
 
-      test('no confirmation for comments that cannot be saved', () => {
-        saveDisabled = true;
+      test('no confirmation for comments without message text', () => {
+        element._messageText = '';
         element._handleDiscard(mockEvent);
         assert.isFalse(overlayStub.called);
         assert.isTrue(discardStub.calledOnce);

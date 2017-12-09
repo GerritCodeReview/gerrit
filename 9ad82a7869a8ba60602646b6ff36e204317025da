@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3d4c184_af72939b",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-09T01:30:41Z",
+      "side": 1,
+      "message": "Nit: wrap if-then in curly-braces:\n\n if (!weblinks) { return null; }\n\n.. also belo on l.292.",
+      "range": {
+        "startLine": 290,
+        "startChar": 6,
+        "endLine": 290,
+        "endChar": 33
+      },
+      "revId": "9ad82a7869a8ba60602646b6ff36e204317025da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21e9fb70_b98c59a0",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-09T01:30:41Z",
+      "side": 1,
+      "message": "Nit: Looks like this is here to test for a scheme in the URL to check whether it\u0027s meant to be absolute, but this style of `startsWith` (and below on l.304) would give a false positive on relative URLs starting with \u0027http\u0027, such as ..\n\n httpd-server/foo/Bar.baz\n\nConsider replacing with ..\n\n if (!/^https?\\:\\/\\//.test(webLink)) {",
+      "range": {
+        "startLine": 293,
+        "startChar": 6,
+        "endLine": 293,
+        "endChar": 43
+      },
+      "revId": "9ad82a7869a8ba60602646b6ff36e204317025da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db658d80_c48cf298",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-09T01:30:41Z",
+      "side": 1,
+      "message": "Aside: I think this \"../../\" prefix was first added in Ie66809ce95, which was well before project-relative URLs were added. I suspect this doesn\u0027t even work as intended now that change URLs are so deep.\n\nMaybe these should eventually become ..\n\n return this.getBaseUrl() + \u0027/\u0027 + weblink.url;\n\nAt any rate, it\u0027s not a problem with this change.",
+      "range": {
+        "startLine": 296,
+        "startChar": 8,
+        "endLine": 296,
+        "endChar": 38
+      },
+      "revId": "9ad82a7869a8ba60602646b6ff36e204317025da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d08a0a59_bb083f35",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-09T01:30:41Z",
+      "side": 1,
+      "message": "Nit: wrap then in curly braces:\n\n if (!change.revisions.hasOwnProperty(k)) continue;",
+      "range": {
+        "startLine": 541,
+        "startChar": 10,
+        "endLine": 541,
+        "endChar": 60
+      },
+      "revId": "9ad82a7869a8ba60602646b6ff36e204317025da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8517c063_ae991d8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-12-09T00:10:15Z",
+      "side": 1,
+      "message": "Optional: Add codemirror-editor as Gerrit core plugin\n\nI think that mentioning that we are adding a new Gerrit core plugin is even more accurate reflecting what is actually done here",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "75147c0af3cb764ae16c478c4c389f50eb7f8047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

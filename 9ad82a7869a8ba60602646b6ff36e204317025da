@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "36923fcd_ee1c7d15",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-09T04:20:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3d4c184_af72939b",
+      "range": {
+        "startLine": 290,
+        "startChar": 6,
+        "endLine": 290,
+        "endChar": 33
+      },
+      "revId": "9ad82a7869a8ba60602646b6ff36e204317025da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21e9fb70_b98c59a0",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "9ad82a7869a8ba60602646b6ff36e204317025da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac955a4d_db7e97d6",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-09T04:20:25Z",
+      "side": 1,
+      "message": "Your example doesn\u0027t account for port, for what it\u0027s worth.\nI don\u0027t see harm in a bit better validation, although this is clearly not the only place in the code we do that.",
+      "parentUuid": "21e9fb70_b98c59a0",
+      "range": {
+        "startLine": 293,
+        "startChar": 6,
+        "endLine": 293,
+        "endChar": 43
+      },
+      "revId": "9ad82a7869a8ba60602646b6ff36e204317025da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

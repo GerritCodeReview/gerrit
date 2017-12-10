@@ -3,11 +3,24 @@
 [[installation]]
 == Installation
 
-You need to use Java 8 and Node.js for building gerrit.
+You need to use Java 8 or Java 9 and Node.js for building gerrit.
 
 You can install Bazel from the bazel.io:
 https://www.bazel.io/versions/master/docs/install.html
 
+[[Java 9 support]]
+
+Java 9 is supported through alternative java toolchain Bazel option:
+https://docs.bazel.build/versions/master/toolchains.html. Some changes
+are still pending to be merged, so that this support is considered to
+be experimental. The Java 9 support is backwards compatible. Java 8 is
+still the default. To build Gerrit with Java 9, all is needed is to
+specify JDK 9 java toolchain:
+
+```
+  bazel build :gerrit --host_java_toolchain=@bazel_tools//tools/jdk:jdk9 \
+      --java_toolchain=@bazel_tools//tools/jdk:jdk9
+```
 
 [[build]]
 == Building on the Command Line

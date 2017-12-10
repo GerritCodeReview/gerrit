@@ -3,6 +3,13 @@ package(default_visibility = ["//visibility:public"])
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:pkg_war.bzl", "pkg_war")
 
+config_setting(
+    name = "jdk9",
+    values = {
+        "java_toolchain": "@bazel_tools//tools/jdk:toolchain_jdk9",
+    },
+)
+
 genrule(
     name = "gen_version",
     outs = ["version.txt"],

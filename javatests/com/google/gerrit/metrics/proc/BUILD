@@ -4,6 +4,10 @@ junit_tests(
     name = "proc_tests",
     size = "small",
     srcs = glob(["**/*.java"]),
+    jvm_flags = select({
+        "//:jdk9": ["--add-opens=jdk.management/com.sun.management.internal=ALL-UNNAMED"],
+        "//conditions:default": [],
+    }),
     deps = [
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/lifecycle",

@@ -16,6 +16,9 @@ def acceptance_tests(
       'slow',
     ],
     size = "large",
-    jvm_flags = vm_args,
+    jvm_flags = vm_args + [
+      "--add-modules java.activation",
+      "--add-opens=jdk.management/com.sun.management.internal=ALL-UNNAMED"
+    ],
     **kwargs
   )

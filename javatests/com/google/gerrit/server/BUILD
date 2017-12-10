@@ -54,4 +54,7 @@ junit_tests(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
     ],
+    # Enforce JDK 8 compatibility, see
+    # https://docs.oracle.com/javase/9/intl/internationalization-enhancements-jdk-9.htm#JSINT-GUID-AF5AECA7-07C1-4E7D-BC10-BC7E73DC6C7F
+    jvm_flags = ["-Djava.locale.providers=COMPAT,CLDR,SPI"],
 )

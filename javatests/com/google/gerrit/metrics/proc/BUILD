@@ -13,4 +13,5 @@ junit_tests(
         "//lib/dropwizard:dropwizard-core",
         "//lib/guice",
     ],
+    jvm_flags = ["--add-opens=jdk.management/com.sun.management.internal=ALL-UNNAMED"]
 )

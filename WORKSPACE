@@ -4,6 +4,7 @@ load("//tools/bzl:maven_jar.bzl", "maven_jar", "GERRIT", "MAVEN_LOCAL")
 load("//lib/codemirror:cm.bzl", "CM_VERSION", "DIFF_MATCH_PATCH_VERSION")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 
+# davido's fork with https://github.com/bazelbuild/rules_closure/pull/235 included
 http_archive(
     name = "bazel_skylib",
     sha256 = "bbccf674aa441c266df9894182d80de104cabd19be98be002f6d478aaa31574d",
@@ -13,9 +14,9 @@ http_archive(
 
 http_archive(
     name = "io_bazel_rules_closure",
-    sha256 = "6691c58a2cd30a86776dd9bb34898b041e37136f2dc7e24cadaeaf599c95c657",
-    strip_prefix = "rules_closure-08039ba8ca59f64248bb3b6ae016460fe9c9914f",
-    url = "https://github.com/bazelbuild/rules_closure/archive/08039ba8ca59f64248bb3b6ae016460fe9c9914f.tar.gz",
+    sha256 = "314e4eb701696e267cb911609e2e333e321fe641981a33144f460068ff4e1af3",
+    strip_prefix = "rules_closure-0.11.0",
+    url = "https://github.com/davido/rules_closure/archive/0.11.0.tar.gz",
 )
 
 # File is specific to Polymer and copied from the Closure Github -- should be

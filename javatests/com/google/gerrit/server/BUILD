@@ -23,6 +23,9 @@ junit_tests(
         ["**/*.java"],
         exclude = CUSTOM_TRUTH_SUBJECTS,
     ),
+    # Enforce JDK 8 compatibility, see
+    # https://docs.oracle.com/javase/9/intl/internationalization-enhancements-jdk-9.htm#JSINT-GUID-AF5AECA7-07C1-4E7D-BC10-BC7E73DC6C7F
+    jvm_flags = ["-Djava.locale.providers=COMPAT,CLDR,SPI"],
     resource_strip_prefix = "resources",
     resources = ["//resources/com/google/gerrit/server"],
     visibility = ["//visibility:public"],

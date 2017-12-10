@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3859967d_013ef273",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-12-10T21:25:10Z",
+      "side": 1,
+      "message": "I filed this issue: [1] to track the progress. The errors are here:[2].\n\n[1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7958\n[2] http://paste.openstack.org/show/628554",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 52
+      },
+      "revId": "e7753012f249eea4dc54adf450342da82e580498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

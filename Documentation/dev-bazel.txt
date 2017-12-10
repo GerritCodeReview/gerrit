@@ -10,6 +10,19 @@ To build Gerrit from source, you need:
 * Node.js
 * link:https://www.bazel.io/versions/master/docs/install.html[Bazel]
 
+[[Java 9 support]]
+Java 9 is supported through alternative java toolchain Bazel option:
+https://docs.bazel.build/versions/master/toolchains.html. The Java 9
+support is backwards compatible. Java 8 is still the default. To build
+Gerrit with Java 9, specify JDK 9 java toolchain:
+
+```
+  $ bazel --host_javabase=/usr/lib64/jvm/java-9-openjdk build \
+      --javacopt='--release 9' \
+      --java_toolchain=@bazel_tools//tools/jdk:toolchain_jdk9 \
+      :release
+```
+
 [[build]]
 == Building on the Command Line
 

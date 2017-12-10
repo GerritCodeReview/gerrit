@@ -30,7 +30,14 @@ def polygerrit_bundle(name, srcs, outs, app):
     convention = "GOOGLE",
     # TODO(davido): Clean up these issues: http://paste.openstack.org/show/608548
     # and remove this supression
-    suppress = ["JSC_UNUSED_LOCAL_ASSIGNMENT"],
+    # TODO(davido): Even more suppressions: JSC_UNNECESSARY_ESCAPE,
+    # JSC_JSDOC_MISSING_TYPE_WARNING needed to build against latest closure compiler
+    # version
+    suppress = [
+      "JSC_UNUSED_LOCAL_ASSIGNMENT",
+      "JSC_UNNECESSARY_ESCAPE",
+      "JSC_JSDOC_MISSING_TYPE_WARNING",
+    ],
     deps = [
       "//lib/polymer_externs:polymer_closure",
       "@io_bazel_rules_closure//closure/library",

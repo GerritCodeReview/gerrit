@@ -126,7 +126,7 @@ public class ChangeNoteUtil {
     this.accountCache = accountCache;
     this.serverIdent = serverIdent;
     this.serverId = serverId;
-    this.writeJson = config.getBoolean("notedb", "writeJson", false);
+    this.writeJson = config.getBoolean("notedb", "writeJson", true);
   }
 
   @VisibleForTesting

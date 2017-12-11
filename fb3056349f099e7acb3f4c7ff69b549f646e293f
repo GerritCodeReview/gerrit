@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b496f66_14d71c5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-11T08:18:46Z",
+      "side": 1,
+      "message": "dependency",
+      "range": {
+        "startLine": 29,
+        "startChar": 9,
+        "endLine": 29,
+        "endChar": 19
+      },
+      "revId": "fb3056349f099e7acb3f4c7ff69b549f646e293f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff31ef1c_d20bbba7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-11T08:18:46Z",
+      "side": 1,
+      "message": "j",
+      "range": {
+        "startLine": 29,
+        "startChar": 47,
+        "endLine": 29,
+        "endChar": 48
+      },
+      "revId": "fb3056349f099e7acb3f4c7ff69b549f646e293f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aefb3ac_75f3759e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-11T08:18:46Z",
+      "side": 1,
+      "message": "I\u0027m still not seeing any dependency declared in the build files.",
+      "range": {
+        "startLine": 30,
+        "startChar": 15,
+        "endLine": 31,
+        "endChar": 19
+      },
+      "revId": "fb3056349f099e7acb3f4c7ff69b549f646e293f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35351857_ffb4adef",
+        "filename": "plugins/replication",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-11T08:18:46Z",
+      "side": 1,
+      "message": "Might be better not to update the plugin revision in this commit.  Instead, set both this change and the plugin change with the same topic, and then they will both be submitted together and gerrit will automatically update the revision.",
+      "revId": "fb3056349f099e7acb3f4c7ff69b549f646e293f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

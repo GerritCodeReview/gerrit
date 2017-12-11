@@ -60,7 +60,7 @@ public class PutStatus implements RestModifyView<AccountResource, StatusInput> {
   }
 
   public Response<String> apply(IdentifiedUser user, StatusInput input)
-      throws ResourceNotFoundException, IOException, ConfigInvalidException {
+      throws ResourceNotFoundException, IOException, ConfigInvalidException, OrmException {
     if (input == null) {
       input = new StatusInput();
     }

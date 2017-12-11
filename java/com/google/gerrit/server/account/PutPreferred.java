@@ -61,7 +61,7 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
   }
 
   public Response<String> apply(IdentifiedUser user, String email)
-      throws ResourceNotFoundException, IOException, ConfigInvalidException {
+      throws ResourceNotFoundException, IOException, ConfigInvalidException, OrmException {
     AtomicBoolean alreadyPreferred = new AtomicBoolean(false);
     Account account =
         accountsUpdate

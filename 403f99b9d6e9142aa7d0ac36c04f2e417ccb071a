@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f80787b1_e589c71b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-11T08:15:20Z",
+      "side": 1,
+      "message": "It\u0027s confusing. Most internal work has been done. But not yet for upstream.",
+      "parentUuid": "be70b10a_01441fa0",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 2
+      },
+      "revId": "403f99b9d6e9142aa7d0ac36c04f2e417ccb071a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58bf2876_5796b7f9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7a75e2f3_31bec4bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-11T08:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58bf2876_5796b7f9",
+      "range": {
+        "startLine": 10,
+        "startChar": 7,
+        "endLine": 10,
+        "endChar": 11
+      },
+      "revId": "403f99b9d6e9142aa7d0ac36c04f2e417ccb071a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07dc5c6d_41a530b0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -62,6 +110,24 @@
       "revId": "403f99b9d6e9142aa7d0ac36c04f2e417ccb071a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dcf1e49_679d136c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-11T08:15:20Z",
+      "side": 1,
+      "message": "This listener is annotated by @ExtensionPoint, so it can be implemented by plugins. They have to adjust to the new signature?",
+      "parentUuid": "07dc5c6d_41a530b0",
+      "revId": "403f99b9d6e9142aa7d0ac36c04f2e417ccb071a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

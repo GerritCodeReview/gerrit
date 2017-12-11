@@ -163,6 +163,30 @@
       "revId": "043034e7ffcf497ac56793751a3e7f9fa4e74276",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25e3b68b_7032d419",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-11T22:37:47Z",
+      "side": 1,
+      "message": "To clarify the proposal I was trying to make...\n\nContinue storing Optional\u003cString\u003e within the builder. For the internal Optional field:\n\n* null \u003d\u003e don\u0027t touch it\n* Optional.empty() \u003d\u003e clear the value in the db\n* non-empty \u003d\u003e set to this value\n\nThe interface looks like:\n\n* clearFullName() \u003d\u003e set internal field to Optional.empty()\n* setFullName(null), setFullName(\"\") \u003d\u003e IAE\n* setFullName(\"foo\") \u003d\u003e set to Optional.of(\"foo\")\n\n(The reason I say AutoValue doesn\u0027t really help you here is I don\u0027t know how to have a method called setFullName on the Builder that is not abstract, which is what you would need here.)\n\nIMO this makes the interface semantics clear.\n\nHowever, it doesn\u0027t actually make the callers any clearer, because the callers will have to do:\n\n if (isNullOrEmpty(fullName)) {\n   u.clearFullName();\n } else {\n   u.setFullName(fullName);\n }\n\nwhich times N fields is pretty ugly.\n\nSo I guess I don\u0027t have a better proposal now, but I\u0027ll continue thinking on it.",
+      "parentUuid": "c3b51cd4_eb2a2df3",
+      "range": {
+        "startLine": 63,
+        "startChar": 54,
+        "endLine": 64,
+        "endChar": 51
+      },
+      "revId": "043034e7ffcf497ac56793751a3e7f9fa4e74276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

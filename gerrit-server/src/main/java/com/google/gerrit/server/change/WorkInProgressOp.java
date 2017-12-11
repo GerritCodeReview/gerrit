@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.extensions.events.WorkInProgressStateChanged;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -58,6 +59,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
   private final boolean workInProgress;
   private final Input in;
   private final NotifyHandling notify;
+  private final WorkInProgressStateChanged stateChanged;
 
   private Change change;
   private ChangeNotes notes;
@@ -69,11 +71,13 @@ public class WorkInProgressOp implements BatchUpdateOp {
       ChangeMessagesUtil cmUtil,
       EmailReviewComments.Factory email,
       PatchSetUtil psUtil,
+      WorkInProgressStateChanged stateChanged,
       @Assisted boolean workInProgress,
       @Assisted Input in) {
     this.cmUtil = cmUtil;
     this.email = email;
     this.psUtil = psUtil;
+    this.stateChanged = stateChanged;
     this.workInProgress = workInProgress;
     this.in = in;
     notify =
@@ -121,6 +125,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(Context ctx) {
+    stateChanged.fire(change, ctx.getAccount(), ctx.getWhen(), workInProgress);
     if (workInProgress || notify.ordinal() < NotifyHandling.OWNER_REVIEWERS.ordinal()) {
       return;
     }

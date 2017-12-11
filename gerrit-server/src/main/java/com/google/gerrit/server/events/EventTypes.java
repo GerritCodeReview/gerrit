@@ -26,6 +26,7 @@ public class EventTypes {
     register(ChangeAbandonedEvent.TYPE, ChangeAbandonedEvent.class);
     register(ChangeMergedEvent.TYPE, ChangeMergedEvent.class);
     register(ChangeRestoredEvent.TYPE, ChangeRestoredEvent.class);
+    register(WorkInProgressStateChangedEvent.TYPE, WorkInProgressStateChangedEvent.class);
     register(CommentAddedEvent.TYPE, CommentAddedEvent.class);
     register(CommitReceivedEvent.TYPE, CommitReceivedEvent.class);
     register(HashtagsChangedEvent.TYPE, HashtagsChangedEvent.class);

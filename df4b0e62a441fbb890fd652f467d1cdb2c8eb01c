@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1513007307 +0100\nnonce ADEcKBrubtBZo9x+NmMQOBzoxl78gJouHi3FS58bm68Mw2bsyAVp/hsVIrZClrmyQXQVPQLoH/Z3\n\n0000000000000000000000000000000000000000 df4b0e62a441fbb890fd652f467d1cdb2c8eb01c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaLqjLAAoJEFG1/Zeg0O9RNxcH/jBvNvKY97hRnvpK4ghJjKFw\nTxuOB/YHlbYGnuUjIzc2qPPzeBwsDsLl+Z2zuPuvk/qFxjwzdod4Wp4l4R93obbr\nCWMIs382jBUlvGfRgKjrKufc+I6tB86qzjabENL4wpEq6EaQeA+TEEAzX+Q5jubM\nMsR8s2HgAjnh0qi7/38zwvF0+roGed2tK346jFLKVo9LGtzV2RRSe0ixDiNwnTeL\nDYaZlTPo2ZbFP7Vl6z+dAZx8abnYgUVBvr5Jxcj5ejHEZRjJ/baiaamA8sJYw9jz\nv19L732qM+pqiJQJjZgArG33q2r9yJC9EESY/M4fJj7GhzuQVlt+ZkDY/BhFSI8\u003d\n\u003deLDI\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed39d232_9adac527",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-11T16:46:46Z",
+      "side": 1,
+      "message": "These need to respect the noteDb.retry* config options.\n\nI understand the objection to simply reusing RetryHelper (it depends heavily on UpdateException which ATM is pretty change-specific), but I don\u0027t like the idea of recreating this everywhere. I would prefer to spend some time reworking RetryHelper, or at least some static helper methods, to be more entity-agnostic.",
+      "revId": "df4b0e62a441fbb890fd652f467d1cdb2c8eb01c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -95,6 +95,7 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.LockFailureException;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.account.StalenessChecker;
@@ -192,6 +193,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private OutgoingEmailValidator emailValidator;
 
   @Inject private RetryHelper.Metrics retryMetrics;
+
+  @Inject protected Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
 
   @Inject
   @Named("accounts")
@@ -1902,8 +1905,7 @@ public class AccountIT extends AbstractDaemonTest {
             null,
             allUsers,
             emailValidator,
-            serverIdent.get(),
-            () -> metaDataUpdateFactory.create(allUsers),
+            metaDataUpdateInternalFactory,
             new RetryHelper(
                 cfg,
                 retryMetrics,
@@ -1911,6 +1913,8 @@ public class AccountIT extends AbstractDaemonTest {
                 null,
                 null,
                 r -> r.withBlockStrategy(noSleepBlockStrategy)),
+            serverIdent.get(),
+            serverIdent.get(),
             () -> {
               if (!doneBgUpdate.getAndSet(true)) {
                 try {
@@ -1939,16 +1943,18 @@ public class AccountIT extends AbstractDaemonTest {
             null,
             allUsers,
             emailValidator,
-            serverIdent.get(),
-            () -> metaDataUpdateFactory.create(allUsers),
+            metaDataUpdateInternalFactory,
             new RetryHelper(
                 cfg,
                 retryMetrics,
                 null,
                 null,
                 null,
-                r -> r.withStopStrategy(StopStrategies.stopAfterAttempt(status.size()))
-                    .withBlockStrategy(noSleepBlockStrategy))),
+                r ->
+                    r.withStopStrategy(StopStrategies.stopAfterAttempt(status.size()))
+                        .withBlockStrategy(noSleepBlockStrategy)),
+            serverIdent.get(),
+            serverIdent.get(),
             () -> {
               try {
                 accountsUpdate

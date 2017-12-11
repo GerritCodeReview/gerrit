@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b98a22bc_1b48a103",
+        "filename": "java/com/google/gerrit/server/audit/GroupMemberAuditListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-11T08:49:34Z",
+      "side": 1,
+      "message": "Using AccountGroup.UUID for the subgroups but AccountGroup.Id for the parent group seems to be a bit inconsistent. Should we rather use AccountGroup.UUID for the parent group as well?",
+      "range": {
+        "startLine": 64,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 36
+      },
+      "revId": "a8ea8492394a7c50cc3c296c96da8c1d5307fee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

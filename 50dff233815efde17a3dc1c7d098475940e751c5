@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "d060c4c8_935c2cd5",
+        "filename": "java/com/google/gerrit/server/account/AccountConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-11T16:46:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c00fd600_9323b973",
+      "range": {
+        "startLine": 100,
+        "startChar": 33,
+        "endLine": 101,
+        "endChar": 14
+      },
+      "revId": "50dff233815efde17a3dc1c7d098475940e751c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3d1e57c_675a0d8b",
         "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
         "patchSetId": 3
@@ -40,6 +64,24 @@
       "revId": "50dff233815efde17a3dc1c7d098475940e751c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6acabea_0b5d410b",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-11T16:46:49Z",
+      "side": 1,
+      "message": "Yes, but changing this requires internal updates. This is why I want to make this as a separate change sometime later.",
+      "parentUuid": "f3d1e57c_675a0d8b",
+      "revId": "50dff233815efde17a3dc1c7d098475940e751c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

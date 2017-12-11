@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "b3c9adfb_094fb900",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-11T17:12:26Z",
+      "side": 1,
+      "message": "Similar to this it\u0027s maybe worth to point out that we have\n\n  update(Account.Id accountId, List\u003cAccountUpdater\u003e updater)\n\nbut can\u0027t have a variant for this, since\n\n  update(Account.Id accountId, List\u003cConsumer\u003cInternalAccountUpdate.Builder\u003e\u003e consumers)\n\nwould have the same method signature after erasure.",
+      "parentUuid": "ea14bf20_6bc9ae05",
+      "revId": "043034e7ffcf497ac56793751a3e7f9fa4e74276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17e31918_7edaa592",
         "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
         "patchSetId": 2

@@ -49,6 +49,7 @@ import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.events.PluginEventListener;
+import com.google.gerrit.extensions.events.PrivateStateChangedListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.events.ReviewerAddedListener;
 import com.google.gerrit.extensions.events.ReviewerDeletedListener;
@@ -318,6 +319,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), ChangeMergedListener.class);
     DynamicSet.setOf(binder(), ChangeRestoredListener.class);
     DynamicSet.setOf(binder(), ChangeRevertedListener.class);
+    DynamicSet.setOf(binder(), PrivateStateChangedListener.class);
     DynamicSet.setOf(binder(), ReviewerAddedListener.class);
     DynamicSet.setOf(binder(), ReviewerDeletedListener.class);
     DynamicSet.setOf(binder(), VoteDeletedListener.class);

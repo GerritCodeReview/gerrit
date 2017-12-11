@@ -32,6 +32,7 @@ import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HashtagsEditedListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
+import com.google.gerrit.extensions.events.PrivateStateChangedListener;
 import com.google.gerrit.extensions.events.ReviewerAddedListener;
 import com.google.gerrit.extensions.events.ReviewerDeletedListener;
 import com.google.gerrit.extensions.events.RevisionCreatedListener;
@@ -77,6 +78,7 @@ public class StreamEventsApiListener
         ChangeAbandonedListener,
         ChangeMergedListener,
         ChangeRestoredListener,
+        PrivateStateChangedListener,
         CommentAddedListener,
         GitReferenceUpdatedListener,
         HashtagsEditedListener,
@@ -95,6 +97,8 @@ public class StreamEventsApiListener
       DynamicSet.bind(binder(), ChangeAbandonedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), ChangeMergedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), ChangeRestoredListener.class).to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), PrivateStateChangedListener.class)
+          .to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), CommentAddedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
           .to(StreamEventsApiListener.class);
@@ -455,6 +459,22 @@ public class StreamEventsApiListener
       event.abandoner = accountAttributeSupplier(ev.getWho());
       event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
       event.reason = ev.getReason();
+
+      dispatcher.get().postEvent(change, event);
+    } catch (OrmException | PermissionBackendException e) {
+      log.error("Failed to dispatch event", e);
+    }
+  }
+
+  @Override
+  public void onPrivateStateChanged(PrivateStateChangedListener.Event ev) {
+    try {
+      Change change = getChange(ev.getChange());
+      PrivateStateChangedEvent event = new PrivateStateChangedEvent(change);
+
+      event.change = changeAttributeSupplier(change);
+      event.changer = accountAttributeSupplier(ev.getWho());
+      event.isPrivate = ev.isPrivate();
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException | PermissionBackendException e) {

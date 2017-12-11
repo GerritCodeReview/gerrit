@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1513010792 +0100\nnonce ADEcKBpwowUP/fAdzDP5q7s68jPCmlA62fDfB7RUPur0car/qA3P7HktcjsdRnK75dVu/rqd8Oyv\n\n0000000000000000000000000000000000000000 e9213f85c28da66c4a15fa3361886d8d1826a114 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaLrZoAAoJEFG1/Zeg0O9R0+UH/2U6dm9ZTGFUkz7Uj7Iz7QLt\nOrto16ZxW1zCJsqeKJXNOh0HUidCcmTXHbzTV3izTmVyzUdAHSecfpmaAdd1pBAK\nyAmeY71WhjoAPx4H0qud5w3wmaZcJEBhO7oSPTcNpUtBtWg5Gmad76GVH0iTIhn+\neI0/aBI+fgoyy+llQ3CQHJD1BC9ukgKDpGVt6uG/U6Ws5XXrZlaHaCIz+DHPLq/m\nBmKl+7hbkj7HnuzdSPcxKZToKWwu2UfDmvTxHc/y8oHNiIoDypViV/+CmXq4lyOs\nh1pvdAxav4tCd4SPz5XWq3PjVRCqP0vBiDDdGCL4Cnzr74JoenooGGAHARn67h0\u003d\n\u003dFv+H\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4424a3a5_3663e925",
+        "filename": "java/com/google/gerrit/server/account/AccountConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-11T22:31:33Z",
+      "side": 1,
+      "message": "Please describe what an empty result means",
+      "revId": "eefc6eaa6ebe86e45c38f60debbc9b283392cccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

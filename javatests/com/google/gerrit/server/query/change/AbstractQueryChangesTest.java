@@ -188,11 +188,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   // These queries must be kept in sync with PolyGerrit:
   // polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js
 
-  protected static String DASHBOARD_WORK_IN_PROGRESS_QUERY = "is:open owner:${user} is:wip";
-  protected static String DASHBOARD_OUTGOING_QUERY = "is:open owner:${user} -is:wip -is:ignored";
-  protected static String DASHBOARD_INCOMING_QUERY =
+  protected static final String DASHBOARD_WORK_IN_PROGRESS_QUERY = "is:open owner:${user} is:wip";
+  protected static final String DASHBOARD_OUTGOING_QUERY =
+      "is:open owner:${user} -is:wip -is:ignored";
+  protected static final String DASHBOARD_INCOMING_QUERY =
       "is:open -owner:${user} -is:wip -is:ignored (reviewer:${user} OR assignee:${user})";
-  protected static String DASHBOARD_RECENTLY_CLOSED_QUERY =
+  protected static final String DASHBOARD_RECENTLY_CLOSED_QUERY =
       "is:closed -is:ignored (-is:wip OR owner:self) "
           + "(owner:${user} OR reviewer:${user} OR assignee:${user})";
 

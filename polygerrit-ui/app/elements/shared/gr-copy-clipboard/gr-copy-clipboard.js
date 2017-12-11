@@ -42,11 +42,23 @@
     },
 
     _copyToClipboard(e) {
+      this._copyInput();
+      window.getSelection().removeAllRanges();
+      this.$.icon.icon = 'gr-icons:check';
+      this.async(
+          () => this.$.icon.icon = 'gr-icons:content-copy',
+          COPY_TIMEOUT_MS);
+    },
+
+    _copyInput() {
+      if (this.hideInput) {
+        this.$.input.display = 'block';
+      }
       this.$.input.select();
       document.execCommand('copy');
-      window.getSelection().removeAllRanges();
-      e.target.textContent = 'done';
-      this.async(() => { e.target.textContent = 'copy'; }, COPY_TIMEOUT_MS);
+      if (this.hideInput) {
+        this.$.input.display = 'none';
+      }
     },
   });
 })();

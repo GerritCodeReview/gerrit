@@ -16,9 +16,10 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-icons/gr-icons.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-copy-clipboard">
   <template>
@@ -27,8 +28,6 @@ limitations under the License.
         align-items: center;
         display: flex;
         flex-wrap: wrap;
-        margin-bottom: .5em;
-        width: 60em;
       }
       .text label {
         flex: 0 0 100%;
@@ -44,6 +43,12 @@ limitations under the License.
         font-family: var(--monospace-font-family);
         font-size: inherit;
       }
+      #text {
+        display: none;
+      }
+      #button {
+        padding-left: .5em;
+      }
     </style>
     <div class="text">
         <label>[[title]]</label>
@@ -53,11 +58,12 @@ limitations under the License.
             bind-value="[[text]]"
             on-tap="_handleInputTap"
             readonly>
+        <div id="text">[[text]]</div>
         <gr-button id="button"
             link
             class="copyToClipboard"
             on-tap="_copyToClipboard">
-          copy
+          <iron-icon id="icon" icon="gr-icons:content-copy"></iron-icon>
         </gr-button>
       </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

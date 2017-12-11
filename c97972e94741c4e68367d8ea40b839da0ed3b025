@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5d33de8_29763d79",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1511,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-11T10:21:36Z",
+      "side": 1,
+      "message": "Better make a specific error message for the new case:\n\"the options \u0027draft\u0027 and \u0027remove-private\u0027 are mutually exclusive\"",
+      "range": {
+        "startLine": 1510,
+        "startChar": 4,
+        "endLine": 1511,
+        "endChar": 87
+      },
+      "revId": "c97972e94741c4e68367d8ea40b839da0ed3b025",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b37df777_b6a6da96",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1936,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-11T10:21:36Z",
+      "side": 1,
+      "message": "Outdated comment?",
+      "range": {
+        "startLine": 1936,
+        "startChar": 3,
+        "endLine": 1936,
+        "endChar": 48
+      },
+      "revId": "c97972e94741c4e68367d8ea40b839da0ed3b025",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

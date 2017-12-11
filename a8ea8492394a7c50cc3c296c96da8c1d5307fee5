@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1eb50d83_117a1fa0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-11T09:39:46Z",
+      "side": 1,
+      "message": "Further event types like \"renames\" could be a new method directly and thus will not affect existing methods? e.g.\n\nvoid onRenameGroups(Account.Id actor, String newName, Timestamp renamedOn);\n\nRefactoring like the current change is not good enough if in the future we want to add more properties thourgh the existing interfaces. But what do we want to add? \n\nIf we want to redesign this listener using new Event types, would we have the following new interfaces?\n1- GroupAddAccountsEvent\n2- GroupDeleteAccountsEvent\n3- GroupAddSubgroupsEvent\n4- GroupDeleteSubgroupsEvent\n\nThey will be used by the four methods we have now. In the furture, when we can add \"GroupRenameEvent\". By doing this, we don\u0027t need to change the interfaces, instead we can update these event types to update behaviors, which sounds good to me.\n\nDo I understand the idea you\u0027re expecting correctly?",
+      "parentUuid": "7dd4ba0b_29258f46",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 34
+      },
+      "revId": "a8ea8492394a7c50cc3c296c96da8c1d5307fee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b98a22bc_1b48a103",
         "filename": "java/com/google/gerrit/server/audit/GroupMemberAuditListener.java",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "a8ea8492394a7c50cc3c296c96da8c1d5307fee5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c63a5b1_1ad4d7ea",
+        "filename": "java/com/google/gerrit/server/audit/GroupMemberAuditListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-11T09:39:46Z",
+      "side": 1,
+      "message": "I think we could use UUID here.",
+      "parentUuid": "b98a22bc_1b48a103",
+      "range": {
+        "startLine": 64,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 36
+      },
+      "revId": "a8ea8492394a7c50cc3c296c96da8c1d5307fee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

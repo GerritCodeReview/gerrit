@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "830f1a9a_124c3c98",
+        "filename": "java/com/google/gerrit/extensions/api/projects/TagInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-11T08:14:00Z",
+      "side": 1,
+      "message": "Done.\n\nWe can\u0027t store this as created because it needs to be null when not set. I\u0027ve made it a constant.",
+      "parentUuid": "dfdc8744_d026d76a",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 3
+      },
+      "revId": "d7ef9a93cace1e773933c78e3384c95a8cdbd2da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56004aca_af089612",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/TagsIT.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "d7ef9a93cace1e773933c78e3384c95a8cdbd2da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9f99c19_0d04486d",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-11T08:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56004aca_af089612",
+      "range": {
+        "startLine": 415,
+        "startChar": 8,
+        "endLine": 416,
+        "endChar": 27
+      },
+      "revId": "d7ef9a93cace1e773933c78e3384c95a8cdbd2da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

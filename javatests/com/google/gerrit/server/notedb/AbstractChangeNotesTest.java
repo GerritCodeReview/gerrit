@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -50,6 +51,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeAccountCache;
@@ -173,6 +175,10 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
                 bind(MetricMaker.class).to(DisabledMetricMaker.class);
                 bind(ReviewDb.class).toProvider(Providers.<ReviewDb>of(null));
 
+                // TODO(dborowitz): Only to support CommentJsonMigratorTest; set non-nullable when
+                // that class is removed.
+                bind(PatchListCache.class).toProvider(Providers.of(null));
+
                 MutableNotesMigration migration = MutableNotesMigration.newDisabled();
                 migration.setFrom(NotesMigrationState.FINAL);
                 bind(MutableNotesMigration.class).toInstance(migration);
@@ -230,7 +236,12 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
   }
 
   protected ChangeUpdate newUpdate(Change c, CurrentUser user) throws Exception {
-    ChangeUpdate update = TestChanges.newUpdate(injector, c, user);
+    return newUpdate(c, user, null);
+  }
+
+  protected ChangeUpdate newUpdate(Change c, CurrentUser user, @Nullable Boolean writeJson)
+      throws Exception {
+    ChangeUpdate update = TestChanges.newUpdate(injector, c, user, writeJson);
     update.setPatchSetId(c.currentPatchSetId());
     update.setAllowWriteToNewRef(true);
     return update;

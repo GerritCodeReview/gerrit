@@ -18,7 +18,9 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -66,6 +68,15 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
         PersonIdent authorIdent,
         Date when);
 
+    @VisibleForTesting
+    ChangeDraftUpdate create(
+        ChangeNotes notes,
+        @Assisted("effective") Account.Id accountId,
+        @Assisted("real") Account.Id realAccountId,
+        PersonIdent authorIdent,
+        Date when,
+        @Nullable Boolean writeJson);
+
     ChangeDraftUpdate create(
         Change change,
         @Assisted("effective") Account.Id accountId,
@@ -86,6 +97,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   }
 
   private final AllUsersName draftsProject;
+  private final boolean writeJson;
 
   private List<Comment> put = new ArrayList<>();
   private Set<Key> delete = new HashSet<>();
@@ -102,6 +114,33 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @Assisted("real") Account.Id realAccountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
+    this(
+        cfg,
+        serverIdent,
+        migration,
+        allUsers,
+        noteUtil,
+        notes,
+        accountId,
+        realAccountId,
+        authorIdent,
+        when,
+        null);
+  }
+
+  @AssistedInject
+  private ChangeDraftUpdate(
+      @GerritServerConfig Config cfg,
+      @GerritPersonIdent PersonIdent serverIdent,
+      NotesMigration migration,
+      AllUsersName allUsers,
+      ChangeNoteUtil noteUtil,
+      @Assisted ChangeNotes notes,
+      @Assisted("effective") Account.Id accountId,
+      @Assisted("real") Account.Id realAccountId,
+      @Assisted PersonIdent authorIdent,
+      @Assisted Date when,
+      @Assisted @Nullable Boolean writeJson) {
     super(
         cfg,
         migration,
@@ -114,6 +153,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
         authorIdent,
         when);
     this.draftsProject = allUsers;
+    this.writeJson = firstNonNull(writeJson, noteUtil.getWriteJson());
   }
 
   @AssistedInject
@@ -140,6 +180,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
         authorIdent,
         when);
     this.draftsProject = allUsers;
+    this.writeJson = noteUtil.getWriteJson();
   }
 
   public void putComment(Comment c) {
@@ -178,7 +219,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
       updatedRevs.add(e.getKey());
       ObjectId id = ObjectId.fromString(e.getKey().get());
-      byte[] data = e.getValue().build(noteUtil, noteUtil.getWriteJson());
+      byte[] data = e.getValue().build(noteUtil, writeJson);
       if (!Arrays.equals(data, e.getValue().baseRaw)) {
         touchedAnyRevs = true;
       }

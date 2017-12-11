@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0171f51_a31a4185",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-12-11T06:51:06Z",
+      "side": 1,
+      "message": "Note, that polygerrit part can be easily wiped out from gerrit.wat, with this diff: [1]. Now, running:\n\n  bazel build gerrit\n\nwould only build GWT UI.\n\n* [1] http://paste.openstack.org/show/628574",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 19
+      },
+      "revId": "d4e64e474d5dc2c625548d12fe032dc64d293a8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

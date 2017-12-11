@@ -17,6 +17,24 @@
       "revId": "33267e8593680d0317113f7c3055a9fee5fc26f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a3669f_0ac8bc3f",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-11T15:21:02Z",
+      "side": 1,
+      "message": "Thanks for this suggestion. It sounds like a nice idea. Unfortunately we cannot have both\n\n  public Account update(Account.Id accountId, Consumer\u003cAccountUpdate\u003e consumer)\n\nand\n\n  public Account update(Account.Id accountId, Consumer\u003cInternalAccountUpdate\u003e consumer)\n\nas the compiler dislikes it:\n\n  Erasure of method update(Account.Id, Consumer\u003cInternalAccountUpdate\u003e) is the same as\n  another method in type AccountsUpdate\n\nSo we could offer this method only under a different name :-/\n\nBut I think I found a way to make this nicer.\n\nDone",
+      "parentUuid": "590e72d1_9872ba37",
+      "revId": "33267e8593680d0317113f7c3055a9fee5fc26f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

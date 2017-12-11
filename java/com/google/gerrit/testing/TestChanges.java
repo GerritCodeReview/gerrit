@@ -17,6 +17,7 @@ package com.google.gerrit.testing;
 import static com.google.common.base.MoreObjects.firstNonNull;
 
 import com.google.common.collect.Ordering;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Account;
@@ -79,6 +80,11 @@ public class TestChanges {
 
   public static ChangeUpdate newUpdate(Injector injector, Change c, CurrentUser user)
       throws Exception {
+    return newUpdate(injector, c, user, null);
+  }
+
+  public static ChangeUpdate newUpdate(
+      Injector injector, Change c, CurrentUser user, @Nullable Boolean writeJson) throws Exception {
     injector =
         injector.createChildInjector(
             new FactoryModule() {
@@ -94,7 +100,8 @@ public class TestChanges {
                 new ChangeNotes(injector.getInstance(AbstractChangeNotes.Args.class), c).load(),
                 user,
                 TimeUtil.nowTs(),
-                Ordering.<String>natural());
+                Ordering.<String>natural(),
+                writeJson);
 
     ChangeNotes notes = update.getNotes();
     boolean hasPatchSets = notes.getPatchSets() != null && !notes.getPatchSets().isEmpty();

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bb9221b_34023ac7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-11T19:28:35Z",
+      "side": 1,
+      "message": "Nit: it may be helpful to compute this value with a named variable to make this ternary more legible.",
+      "range": {
+        "startLine": 171,
+        "startChar": 15,
+        "endLine": 173,
+        "endChar": 31
+      },
+      "revId": "12e124f873e60948a50dd77ccf5303d4144b7e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

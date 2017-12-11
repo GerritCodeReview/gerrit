@@ -84,11 +84,20 @@ limitations under the License.
         LOG: 'log',
       },
 
+      WeblinkType: {
+        CHANGE: 'change',
+        FILE: 'file',
+        PATCHSET: 'patchset',
+      },
+
       /** @type {Function} */
       _navigate: uninitialized,
 
       /** @type {Function} */
       _generateUrl: uninitialized,
+
+      /** @type {Function} */
+      _generateWeblinks: uninitialized,
 
       /**
        * @param {number=} patchNum
@@ -104,15 +113,18 @@ limitations under the License.
        * Setup router implementation.
        * @param {Function} navigate
        * @param {Function} generateUrl
+       * @param {Function} generateWeblinks
        */
-      setup(navigate, generateUrl) {
+      setup(navigate, generateUrl, generateWeblinks) {
         this._navigate = navigate;
         this._generateUrl = generateUrl;
+        this._generateWeblinks = generateWeblinks;
       },
 
       destroy() {
         this._navigate = uninitialized;
         this._generateUrl = uninitialized;
+        this._generateWeblinks = uninitialized;
       },
 
       /**
@@ -375,6 +387,60 @@ limitations under the License.
 
       getUrlForSettings() {
         return this._getUrlFor({view: Gerrit.Nav.View.SETTINGS});
+      },
+
+      /**
+       * @param {string} repo
+       * @param {string} commit
+       * @param {string} file
+       * @param {Object=} opt_options
+       * @return {
+       *   Array<{label: string, url: string}>|
+       *   {label: string, url: string}
+       *  }
+       */
+      getFileWebLinks(repo, commit, file, opt_options) {
+        const params = {type: Gerrit.Nav.WeblinkType.FILE, repo, commit, file};
+        if (opt_options) {
+          params.options = opt_options;
+        }
+        return [].concat(this._generateWeblinks(params));
+      },
+
+      /**
+       * @param {string} repo
+       * @param {string} commit
+       * @param {Object=} opt_options
+       * @return {{label: string, url: string}}
+       */
+      getPatchSetWeblink(repo, commit, opt_options) {
+        const params = {type: Gerrit.Nav.WeblinkType.PATCHSET, repo, commit};
+        if (opt_options) {
+          params.options = opt_options;
+        }
+        const result = this._generateWeblinks(params);
+        if (Array.isArray(result)) {
+          return result.pop();
+        } else {
+          return result;
+        }
+      },
+
+      /**
+       * @param {string} repo
+       * @param {string} commit
+       * @param {Object=} opt_options
+       * @return {
+       *   Array<{label: string, url: string}>|
+       *   {label: string, url: string}
+       *  }
+       */
+      getChangeWeblinks(repo, commit, opt_options) {
+        const params = {type: Gerrit.Nav.WeblinkType.CHANGE, repo, commit};
+        if (opt_options) {
+          params.options = opt_options;
+        }
+        return [].concat(this._generateWeblinks(params));
       },
     };
   })(window);

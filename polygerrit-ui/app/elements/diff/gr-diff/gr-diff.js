@@ -73,6 +73,7 @@
         computed: '_computeIsImageDiff(_diff)',
         notify: true,
       },
+      commitRange: Object,
       filesWeblinks: {
         type: Object,
         value() { return {}; },
@@ -636,9 +637,17 @@
           this.patchRange.patchNum,
           this.path,
           this._handleGetDiffError.bind(this)).then(diff => {
+            if (!this.commitRange) {
+              this.filesWeblinks = {};
+              return diff;
+            }
             this.filesWeblinks = {
-              meta_a: diff && diff.meta_a && diff.meta_a.web_links,
-              meta_b: diff && diff.meta_b && diff.meta_b.web_links,
+              meta_a: Gerrit.Nav.getFileWebLinks(
+                  this.projectName, this.commitRange.commit, this.path,
+                  {weblinks: diff && diff.meta_a && diff.meta_a.web_links}),
+              meta_b: Gerrit.Nav.getFileWebLinks(
+                  this.projectName, this.commitRange.baseCommit, this.path,
+                  {weblinks: diff && diff.meta_b && diff.meta_b.web_links}),
             };
             return diff;
           });

@@ -43,17 +43,20 @@ public class PostPrivate
   private final ChangeMessagesUtil cmUtil;
   private final Provider<ReviewDb> dbProvider;
   private final PermissionBackend permissionBackend;
+  private final SetPrivateOp.Factory setPrivateOpFactory;
 
   @Inject
   PostPrivate(
       Provider<ReviewDb> dbProvider,
       RetryHelper retryHelper,
       ChangeMessagesUtil cmUtil,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      SetPrivateOp.Factory setPrivateOpFactory) {
     super(retryHelper);
     this.dbProvider = dbProvider;
     this.cmUtil = cmUtil;
     this.permissionBackend = permissionBackend;
+    this.setPrivateOpFactory = setPrivateOpFactory;
   }
 
   @Override
@@ -68,7 +71,7 @@ public class PostPrivate
       return Response.ok("");
     }
 
-    SetPrivateOp op = new SetPrivateOp(cmUtil, true, input);
+    SetPrivateOp op = setPrivateOpFactory.create(cmUtil, true, input);
     try (BatchUpdate u =
         updateFactory.create(
             dbProvider.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {

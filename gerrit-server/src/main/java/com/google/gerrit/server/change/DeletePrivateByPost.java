@@ -32,8 +32,9 @@ public class DeletePrivateByPost extends DeletePrivate implements UiAction<Chang
       Provider<ReviewDb> dbProvider,
       RetryHelper retryHelper,
       ChangeMessagesUtil cmUtil,
-      PermissionBackend permissionBackend) {
-    super(dbProvider, retryHelper, cmUtil, permissionBackend);
+      PermissionBackend permissionBackend,
+      SetPrivateOp.Factory setPrivateOpFactory) {
+    super(dbProvider, retryHelper, cmUtil, permissionBackend, setPrivateOpFactory);
   }
 
   @Override

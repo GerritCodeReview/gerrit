@@ -261,6 +261,21 @@ oldTopic:: Topic name before it was changed.
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
+=== Private State Changed
+
+Sent when the the private state of the change has changed.
+
+type:: private-state-changed
+
+change:: link:json.html#change[change attribute]
+
+changer:: link:json.html#account[account attribute]
+
+isPrivate:: The new private state.
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
 === Vote Deleted
 
 Sent when a vote was removed from a change.

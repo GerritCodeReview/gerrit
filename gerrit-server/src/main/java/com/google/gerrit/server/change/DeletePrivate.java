@@ -40,17 +40,20 @@ public class DeletePrivate
   private final ChangeMessagesUtil cmUtil;
   private final Provider<ReviewDb> dbProvider;
   private final PermissionBackend permissionBackend;
+  private final SetPrivateOp.Factory setPrivateOpFactory;
 
   @Inject
   DeletePrivate(
       Provider<ReviewDb> dbProvider,
       RetryHelper retryHelper,
       ChangeMessagesUtil cmUtil,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      SetPrivateOp.Factory setPrivateOpFactory) {
     super(retryHelper);
     this.dbProvider = dbProvider;
     this.cmUtil = cmUtil;
     this.permissionBackend = permissionBackend;
+    this.setPrivateOpFactory = setPrivateOpFactory;
   }
 
   @Override
@@ -65,7 +68,7 @@ public class DeletePrivate
       throw new ResourceConflictException("change is not private");
     }
 
-    SetPrivateOp op = new SetPrivateOp(cmUtil, false, input);
+    SetPrivateOp op = setPrivateOpFactory.create(cmUtil, false, input);
     try (BatchUpdate u =
         updateFactory.create(
             dbProvider.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {

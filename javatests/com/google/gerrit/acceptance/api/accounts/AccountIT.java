@@ -95,6 +95,7 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.LockFailureException;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.account.StalenessChecker;
@@ -194,6 +195,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private GitReferenceUpdated gitReferenceUpdated;
 
   @Inject private RetryHelper.Metrics retryMetrics;
+
+  @Inject private Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
 
   @Inject
   @Named("accounts")
@@ -1899,6 +1902,7 @@ public class AccountIT extends AbstractDaemonTest {
     String status = "happy";
     String fullName = "Foo";
     AtomicBoolean doneBgUpdate = new AtomicBoolean(false);
+    PersonIdent ident = serverIdent.get();
     AccountsUpdate update =
         new AccountsUpdate(
             repoManager,
@@ -1906,8 +1910,7 @@ public class AccountIT extends AbstractDaemonTest {
             null,
             allUsers,
             emailValidator,
-            serverIdent.get(),
-            () -> metaDataUpdateFactory.create(allUsers),
+            metaDataUpdateInternalFactory,
             new RetryHelper(
                 cfg,
                 retryMetrics,
@@ -1915,6 +1918,8 @@ public class AccountIT extends AbstractDaemonTest {
                 null,
                 null,
                 r -> r.withBlockStrategy(noSleepBlockStrategy)),
+            ident,
+            ident,
             () -> {
               if (!doneBgUpdate.getAndSet(true)) {
                 try {
@@ -1945,6 +1950,7 @@ public class AccountIT extends AbstractDaemonTest {
     List<String> status = ImmutableList.of("foo", "bar", "baz");
     String fullName = "Foo";
     AtomicInteger bgCounter = new AtomicInteger(0);
+    PersonIdent ident = serverIdent.get();
     AccountsUpdate update =
         new AccountsUpdate(
             repoManager,
@@ -1952,8 +1958,7 @@ public class AccountIT extends AbstractDaemonTest {
             null,
             allUsers,
             emailValidator,
-            serverIdent.get(),
-            () -> metaDataUpdateFactory.create(allUsers),
+            metaDataUpdateInternalFactory,
             new RetryHelper(
                 cfg,
                 retryMetrics,
@@ -1963,6 +1968,8 @@ public class AccountIT extends AbstractDaemonTest {
                 r ->
                     r.withStopStrategy(StopStrategies.stopAfterAttempt(status.size()))
                         .withBlockStrategy(noSleepBlockStrategy)),
+            ident,
+            ident,
             () -> {
               try {
                 accountsUpdate

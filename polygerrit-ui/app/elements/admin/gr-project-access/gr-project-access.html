@@ -39,6 +39,13 @@ limitations under the License.
       .admin .gwtLink {
         display: block;
       }
+      gr-button {
+        display: none;
+      }
+      .admin gr-button.visible {
+        display: inline-block;
+        margin: 1em 0;
+      }
     </style>
     <style include="gr-menu-page-styles"></style>
     <main class$="[[_computeAdminClass(_isAdmin)]]">
@@ -51,6 +58,14 @@ limitations under the License.
               [[_inheritsFrom.name]]</a>
         </h3>
       </template>
+      <gr-button id="editBtn"
+          class$="[[_computeShowEditClass(_sections)]]"
+          on-tap="_handleEdit">[[_editOrCancel(_editing)]]</gr-button>
+      <gr-button id="saveBtn"
+          primary
+          class$="[[_computeShowSaveClass(_editing)]]"
+          on-tap="_handleSave"
+          disabled$="[[_computeSaveDisabled(_modified, _saving)]]">Save</gr-button>
       <template
           is="dom-repeat"
           items="{{_sections}}"

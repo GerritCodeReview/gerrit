@@ -78,5 +78,12 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.equal(getComputedStyle(element.$.input).display, 'none');
     });
+
+    test('_copyText is used when input is hidden', () => {
+      sandbox.spy(element, '_copyText');
+      element.hideInput = true;
+      MockInteractions.tap(element.$$('.copyToClipboard'));
+      assert.isTrue(element._copyText.called);
+    });
   });
 </script>

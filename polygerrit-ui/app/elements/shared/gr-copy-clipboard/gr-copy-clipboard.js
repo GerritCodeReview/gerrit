@@ -42,11 +42,30 @@
     },
 
     _copyToClipboard(e) {
+      if (this.hideInput) {
+        this._copyText();
+      } else {
+        this._copyInput();
+      }
+      window.getSelection().removeAllRanges();
+      this.$.icon.icon = 'gr-icons:check';
+      this.async(
+          () => this.$.icon.icon = 'gr-icons:content-copy',
+          COPY_TIMEOUT_MS);
+    },
+
+    _copyInput() {
       this.$.input.select();
       document.execCommand('copy');
-      window.getSelection().removeAllRanges();
-      e.target.textContent = 'done';
-      this.async(() => { e.target.textContent = 'copy'; }, COPY_TIMEOUT_MS);
+    },
+
+    _copyText() {
+      this.$.text.style.display = 'block';
+      const range = document.createRange();
+      range.selectNode(this.$.text);
+      window.getSelection().addRange(range);
+      document.execCommand('copy');
+      this.$.text.style.display = 'none';
     },
   });
 })();

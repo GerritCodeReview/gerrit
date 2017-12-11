@@ -214,6 +214,12 @@ public class Comment {
   public String serverId;
   public boolean unresolved;
 
+  /**
+   * Whether the comment was parsed from a JSON representation (false) or the legacy custom notes
+   * format (true).
+   */
+  public transient boolean legacyFormat;
+
   public Comment(Comment c) {
     this(
         new Key(c.key),

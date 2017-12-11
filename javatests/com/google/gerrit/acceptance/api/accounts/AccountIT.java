@@ -98,6 +98,7 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.LockFailureException;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.account.StalenessChecker;
@@ -192,6 +193,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private AccountIndexer accountIndexer;
 
   @Inject private OutgoingEmailValidator emailValidator;
+
+  @Inject protected Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
 
   @Inject
   @Named("accounts")
@@ -1913,8 +1916,9 @@ public class AccountIT extends AbstractDaemonTest {
             null,
             allUsers,
             emailValidator,
+            metaDataUpdateInternalFactory,
             serverIdent.get(),
-            () -> metaDataUpdateFactory.create(allUsers),
+            serverIdent.get(),
             () -> {
               if (!doneBgUpdate.getAndSet(true)) {
                 try {
@@ -1944,8 +1948,9 @@ public class AccountIT extends AbstractDaemonTest {
             null,
             allUsers,
             emailValidator,
+            metaDataUpdateInternalFactory,
             serverIdent.get(),
-            () -> metaDataUpdateFactory.create(allUsers),
+            serverIdent.get(),
             () -> {
               try {
                 accountsUpdate

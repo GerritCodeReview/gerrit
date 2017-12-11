@@ -32,6 +32,7 @@ import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HashtagsEditedListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
+import com.google.gerrit.extensions.events.PrivateStateChangedListener;
 import com.google.gerrit.extensions.events.ReviewerAddedListener;
 import com.google.gerrit.extensions.events.ReviewerDeletedListener;
 import com.google.gerrit.extensions.events.RevisionCreatedListener;
@@ -79,6 +80,7 @@ public class StreamEventsApiListener
         ChangeMergedListener,
         ChangeRestoredListener,
         WorkInProgressStateChangedListener,
+        PrivateStateChangedListener,
         CommentAddedListener,
         GitReferenceUpdatedListener,
         HashtagsEditedListener,
@@ -102,6 +104,8 @@ public class StreamEventsApiListener
           .to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), HashtagsEditedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), NewProjectCreatedListener.class).to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), PrivateStateChangedListener.class)
+          .to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), ReviewerAddedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), ReviewerDeletedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), RevisionCreatedListener.class).to(StreamEventsApiListener.class);
@@ -471,6 +475,21 @@ public class StreamEventsApiListener
     try {
       Change change = getChange(ev.getChange());
       WorkInProgressStateChangedEvent event = new WorkInProgressStateChangedEvent(change);
+
+      event.change = changeAttributeSupplier(change);
+      event.changer = accountAttributeSupplier(ev.getWho());
+
+      dispatcher.get().postEvent(change, event);
+    } catch (OrmException | PermissionBackendException e) {
+      log.error("Failed to dispatch event", e);
+    }
+  }
+
+  @Override
+  public void onPrivateStateChanged(PrivateStateChangedListener.Event ev) {
+    try {
+      Change change = getChange(ev.getChange());
+      PrivateStateChangedEvent event = new PrivateStateChangedEvent(change);
 
       event.change = changeAttributeSupplier(change);
       event.changer = accountAttributeSupplier(ev.getWho());

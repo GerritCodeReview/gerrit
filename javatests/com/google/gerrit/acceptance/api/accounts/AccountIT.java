@@ -35,6 +35,8 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.github.rholder.retry.BlockStrategy;
+import com.github.rholder.retry.StopStrategies;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
@@ -92,16 +94,21 @@ import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.account.StalenessChecker;
 import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
+import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender.Message;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
@@ -119,10 +126,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.eclipse.jgit.api.errors.TransportException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -180,6 +189,10 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private StalenessChecker stalenessChecker;
 
   @Inject private AccountIndexer accountIndexer;
+
+  @Inject private OutgoingEmailValidator emailValidator;
+
+  @Inject private RetryHelper.Metrics retryMetrics;
 
   @Inject
   @Named("accounts")
@@ -1878,6 +1891,92 @@ public class AccountIT extends AbstractDaemonTest {
         Permission.READ,
         Permission.PUSH,
         Permission.CREATE);
+  }
+
+  @Test
+  public void retryOnLockFailure() throws Exception {
+    AtomicBoolean doneBgUpdate = new AtomicBoolean(false);
+    AccountsUpdate update =
+        new AccountsUpdate(
+            repoManager,
+            GitReferenceUpdated.DISABLED,
+            null,
+            allUsers,
+            emailValidator,
+            serverIdent.get(),
+            () -> metaDataUpdateFactory.create(allUsers),
+            new RetryHelper(
+                cfg,
+                retryMetrics,
+                null,
+                null,
+                null,
+                r ->
+                    r.withBlockStrategy(
+                        new BlockStrategy() {
+                          @Override
+                          public void block(long sleepTime) {
+                            // Don't sleep in tests.
+                          }
+                        })),
+            () -> {
+              if (!doneBgUpdate.getAndSet(true)) {
+                try {
+                  accountsUpdate.create().update(admin.id, u -> u.setStatus("happy"));
+                } catch (IOException | ConfigInvalidException | OrmException e) {
+                  // Ignore, the successful update of the account is asserted later
+                }
+              }
+            });
+    assertThat(doneBgUpdate.get()).isFalse();
+    Account updatedAccount = update.update(admin.id, u -> u.setFullName("Foo"));
+    assertThat(doneBgUpdate.get()).isTrue();
+
+    assertThat(updatedAccount.getStatus()).isEqualTo("happy");
+    assertThat(updatedAccount.getFullName()).isEqualTo("Foo");
+  }
+
+  @Test
+  public void failAfterRetryerGivesUp() throws Exception {
+    String[] status = {"foo", "bar", "baz"};
+    AtomicInteger bgCounter = new AtomicInteger(0);
+    AccountsUpdate update =
+        new AccountsUpdate(
+            repoManager,
+            GitReferenceUpdated.DISABLED,
+            null,
+            allUsers,
+            emailValidator,
+            serverIdent.get(),
+            () -> metaDataUpdateFactory.create(allUsers),
+            new RetryHelper(
+                cfg,
+                retryMetrics,
+                null,
+                null,
+                null,
+                r -> r.withStopStrategy(StopStrategies.stopAfterAttempt(status.length))),
+            () -> {
+              try {
+                accountsUpdate
+                    .create()
+                    .update(admin.id, u -> u.setStatus(status[bgCounter.getAndAdd(1)]));
+              } catch (IOException | ConfigInvalidException | OrmException e) {
+                // Ignore, the expected exception is asserted later
+              }
+            });
+    assertThat(bgCounter.get()).isEqualTo(0);
+    try {
+      update.update(admin.id, u -> u.setFullName("Foo"));
+      fail("expected LockFailureException");
+    } catch (LockFailureException e) {
+      // Ignore, expected
+    }
+    assertThat(bgCounter.get()).isEqualTo(status.length);
+
+    Account updatedAccount = accounts.get(admin.id);
+    assertThat(updatedAccount.getStatus()).isEqualTo(status[status.length - 1]);
+    assertThat(updatedAccount.getFullName()).isEqualTo(admin.fullName);
   }
 
   @Test

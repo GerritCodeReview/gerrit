@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 
@@ -59,6 +60,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -942,6 +944,23 @@ public class CommentsIT extends AbstractDaemonTest {
       assertMetaBranchCommitsAfterRewriting(commitsBeforeDelete, id, uuid, expectedMsg);
     }
     assertThat(getChangeSortedComments(changeId)).hasSize(3);
+  }
+
+  @Test
+  public void jsonCommentHasLegacyFormatFalse() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    assertThat(noteUtil.getWriteJson()).isTrue();
+
+    PushOneCommit.Result result = createChange();
+    Change.Id changeId = result.getChange().getId();
+    addComment(result.getChangeId(), "comment");
+
+    Collection<com.google.gerrit.reviewdb.client.Comment> comments =
+        notesFactory.createChecked(db, project, changeId).getComments().values();
+    assertThat(comments).hasSize(1);
+    com.google.gerrit.reviewdb.client.Comment comment = comments.iterator().next();
+    assertThat(comment.message).isEqualTo("comment");
+    assertThat(comment.legacyFormat).isFalse();
   }
 
   private List<CommentInfo> getChangeSortedComments(String changeId) throws Exception {

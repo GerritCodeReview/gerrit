@@ -16,12 +16,14 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-copy-clipboard/gr-copy-clipboard.html">
 
 <dom-module id="gr-commit-info">
   <template>
     <style include="shared-styles">
       :host {
-        display: inline-block;
+        align-items: center;
+        display: flex;
       }
     </style>
     <template is="dom-if" if="[[_showWebLink]]">
@@ -31,6 +33,10 @@ limitations under the License.
     <template is="dom-if" if="[[!_showWebLink]]">
       [[_computeShortHash(commitInfo)]]
     </template>
+    <gr-copy-clipboard
+        hide-input
+        text="[[commitInfo.commit]]">
+    </gr-copy-clipboard>
   </template>
   <script src="gr-commit-info.js"></script>
 </dom-module>

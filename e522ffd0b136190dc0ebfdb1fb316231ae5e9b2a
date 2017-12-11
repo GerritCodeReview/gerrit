@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9012c458_88a01ff8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-11T06:48:02Z",
+      "side": 1,
+      "message": "Add a comment that this version requires Eclipse 4.7.2 or later?",
+      "revId": "e522ffd0b136190dc0ebfdb1fb316231ae5e9b2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

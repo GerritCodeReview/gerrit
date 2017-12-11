@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7dd4ba0b_29258f46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-11T09:02:13Z",
+      "side": 1,
+      "message": "The idea was to redefine the GroupMemberAuditListener interface in such a way that future adjustments (for instance further event types like \u0027renames\u0027) can be added without breaking implementations of GroupMemberAuditListener. Such a redefinition would naturally move away from the ReviewDb types. I would very much prefer that we address the redefinition of GroupMemberAuditListener first and avoid changing GroupMemberAuditListener again and again.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 34
+      },
+      "revId": "a8ea8492394a7c50cc3c296c96da8c1d5307fee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b98a22bc_1b48a103",
         "filename": "java/com/google/gerrit/server/audit/GroupMemberAuditListener.java",
         "patchSetId": 3

@@ -782,10 +782,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
               .stream()
               .map(a -> new Account.Id(a._accountId))
               .collect(toSet());
-      int maxLimit = args.indexConfig.maxLimit();
-      if (allMembers.size() > maxLimit) {
+      int maxTerms = args.indexConfig.maxTerms();
+      if (allMembers.size() > maxTerms) {
         // limit the number of query terms otherwise Gerrit will barf
-        accounts = ImmutableSet.copyOf(Iterables.limit(allMembers, maxLimit));
+        accounts = ImmutableSet.copyOf(Iterables.limit(allMembers, maxTerms));
       } else {
         accounts = allMembers;
       }

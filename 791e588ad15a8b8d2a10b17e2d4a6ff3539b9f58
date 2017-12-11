@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "62f6cf15_6bc3b824",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-11T22:50:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88df5a86_5b0e57c3",
+      "revId": "791e588ad15a8b8d2a10b17e2d4a6ff3539b9f58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c86fad6_74a1cf28",
         "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.html",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "791e588ad15a8b8d2a10b17e2d4a6ff3539b9f58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "771feadc_2af4984a",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-11T22:50:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c86fad6_74a1cf28",
+      "range": {
+        "startLine": 36,
+        "startChar": 23,
+        "endLine": 36,
+        "endChar": 33
+      },
+      "revId": "791e588ad15a8b8d2a10b17e2d4a6ff3539b9f58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

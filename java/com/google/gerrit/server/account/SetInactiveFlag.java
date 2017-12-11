@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class SetInactiveFlag {
   }
 
   public Response<?> deactivate(Account.Id accountId)
-      throws RestApiException, IOException, ConfigInvalidException {
+      throws RestApiException, IOException, ConfigInvalidException, OrmException {
     AtomicBoolean alreadyInactive = new AtomicBoolean(false);
     Account account =
         accountsUpdate
@@ -60,7 +61,7 @@ public class SetInactiveFlag {
   }
 
   public Response<String> activate(Account.Id accountId)
-      throws ResourceNotFoundException, IOException, ConfigInvalidException {
+      throws ResourceNotFoundException, IOException, ConfigInvalidException, OrmException {
     AtomicBoolean alreadyActive = new AtomicBoolean(false);
     Account account =
         accountsUpdate

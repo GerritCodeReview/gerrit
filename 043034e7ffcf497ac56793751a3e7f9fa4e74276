@@ -1,4 +1,108 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1513005590 +0100\nnonce ADEcKBqaUBL9Ogcq3YItUODt9B9y3f30/Eaekp2PwWHB++3CdwplVu1j9pcrewtNvvkgZkz90qry\n\n0000000000000000000000000000000000000000 043034e7ffcf497ac56793751a3e7f9fa4e74276 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaLqIWAAoJEFG1/Zeg0O9RohsH/RWVXfFjjWFwcdGY8ci/bZ+V\nlEOfKKSpSlyJyCla3Y2x8E5nbiT1pMCAYyBKj4QkdHcvQhNbaCE2QOQMsKwfq+LN\n384w4wH0uUR/AFaKhx5+/4uuh9OZQbiVoU3pP/vxcHiX67G7ZrjLL0R5fOwrqytc\nYYQ0NbZnMlHCl8fNS3Ahug2WRG1To36/xU6uSOsH5O8n+dFgRNpM7uMRIW1P1O4A\nZkJ3QEXGkYls0JRAHNhtt8MZ8I5h4GdPnIi1/+FgALm9ESLixd63dpLQAXFVwMuH\nuCDUC2kQqtlQbrBNsSftFDQOtq1KfGO2exkpQ/kjhto2PHUUgyPKfUtUDiYGnQ4\u003d\n\u003dCgo8\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a141e06e_f3248358",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-11T16:44:58Z",
+      "side": 1,
+      "message": "Checking my understanding: there is no insert variant that takes an AccountUpdater, because there is no Account yet that could be exposed?",
+      "revId": "043034e7ffcf497ac56793751a3e7f9fa4e74276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17e31918_7edaa592",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-11T16:44:58Z",
+      "side": 1,
+      "message": "\"updaters\" plural. It might also be worth mentioning explicitly that all updaters apply to the same account.",
+      "range": {
+        "startLine": 265,
+        "startChar": 20,
+        "endLine": 265,
+        "endChar": 27
+      },
+      "revId": "043034e7ffcf497ac56793751a3e7f9fa4e74276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79944539_146e3927",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-11T16:44:58Z",
+      "side": 1,
+      "message": "updaters",
+      "range": {
+        "startLine": 271,
+        "startChar": 67,
+        "endLine": 271,
+        "endChar": 74
+      },
+      "revId": "043034e7ffcf497ac56793751a3e7f9fa4e74276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5df35e8b_f7ac27d8",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-11T16:44:58Z",
+      "side": 1,
+      "message": "This class doesn\u0027t actually describe the semantics of any of the fields. I would explicitly mention that setters correspond to fields in the Account type.",
+      "revId": "043034e7ffcf497ac56793751a3e7f9fa4e74276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3bd2dd7_3b175e9f",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-11T16:44:58Z",
+      "side": 1,
+      "message": "TBH I am not the biggest fan of this, particularly given that most callers appear to do setFoo(Strings.nullToEmpty(foo)).\n\nAs a consumer of this interface, I would prefer to have a pair of methods, (kind of like a protobuf message):\n\n setFullName(String fullName); // IAE if fullName is null *or empty*.\n clearFullName();\n\nOTOH, implementing that would probably require more boilerplate in this file, since I\u0027m not sure how much AutoValue can help you here.\n\nWhat do you think?",
+      "range": {
+        "startLine": 63,
+        "startChar": 54,
+        "endLine": 64,
+        "endChar": 51
+      },
+      "revId": "043034e7ffcf497ac56793751a3e7f9fa4e74276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

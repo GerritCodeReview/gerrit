@@ -1138,6 +1138,12 @@
           projectInfo);
     },
 
+    setProjectAccessRightsForReview(projectName, projectInfo) {
+      return this.send(
+          'PUT', `/projects/${encodeURIComponent(projectName)}/access:review`,
+          projectInfo);
+    },
+
     /**
      * @param {string} inputVal
      * @param {number} opt_n

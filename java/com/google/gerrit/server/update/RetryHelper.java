@@ -170,6 +170,7 @@ public class RetryHelper {
     try {
       return execute(input, action, defaults(), t -> t instanceof LockFailureException);
     } catch (Throwable t) {
+      Throwables.throwIfInstanceOf(t, RuntimeException.class);
       Throwables.throwIfInstanceOf(t, IOException.class);
       Throwables.throwIfInstanceOf(t, ConfigInvalidException.class);
       Throwables.throwIfInstanceOf(t, OrmException.class);
@@ -203,6 +204,7 @@ public class RetryHelper {
             return t instanceof LockFailureException;
           });
     } catch (Throwable t) {
+      Throwables.throwIfInstanceOf(t, RuntimeException.class);
       Throwables.throwIfInstanceOf(t, UpdateException.class);
       Throwables.throwIfInstanceOf(t, RestApiException.class);
       throw new UpdateException(t);

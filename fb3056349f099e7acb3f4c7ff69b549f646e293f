@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "82beaf3f_e458ddd9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-11T23:41:15Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ff31ef1c_d20bbba7",
+      "range": {
+        "startLine": 29,
+        "startChar": 47,
+        "endLine": 29,
+        "endChar": 48
+      },
+      "revId": "fb3056349f099e7acb3f4c7ff69b549f646e293f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7118a091_37368e09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-11T23:41:15Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7b496f66_14d71c5f",
+      "range": {
+        "startLine": 29,
+        "startChar": 9,
+        "endLine": 29,
+        "endChar": 19
+      },
+      "revId": "fb3056349f099e7acb3f4c7ff69b549f646e293f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7aefb3ac_75f3759e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 40
@@ -59,6 +107,30 @@
       "writtenOn": "2017-12-11T08:18:46Z",
       "side": 1,
       "message": "I\u0027m still not seeing any dependency declared in the build files.",
+      "range": {
+        "startLine": 30,
+        "startChar": 15,
+        "endLine": 31,
+        "endChar": 19
+      },
+      "revId": "fb3056349f099e7acb3f4c7ff69b549f646e293f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72c40f5b_8d37eb6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-11T23:41:15Z",
+      "side": 1,
+      "message": "See https://github.com/apache/logging-log4j2/search?utf8\u003d%E2%9C%93\u0026q\u003djackson-databind\u0026type\u003d\n\nand https://github.com/apache/logging-log4j2/blob/fa7dd028abb3f3c3dd57c36a9184c1e223dcc97f/log4j-core/src/main/java/org/apache/logging/log4j/core/layout/JsonLayout.java#L130\n\nand https://github.com/apache/logging-log4j2/blob/fa7dd028abb3f3c3dd57c36a9184c1e223dcc97f/log4j-core/src/main/java/org/apache/logging/log4j/core/layout/AbstractJacksonLayout.java",
+      "parentUuid": "7aefb3ac_75f3759e",
       "range": {
         "startLine": 30,
         "startChar": 15,

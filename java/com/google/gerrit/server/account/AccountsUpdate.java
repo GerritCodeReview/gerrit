@@ -16,7 +16,15 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.github.rholder.retry.RetryException;
+import com.github.rholder.retry.Retryer;
+import com.github.rholder.retry.RetryerBuilder;
+import com.github.rholder.retry.StopStrategies;
+import com.github.rholder.retry.WaitStrategies;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
+import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
@@ -26,16 +34,20 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -178,6 +190,19 @@ public class AccountsUpdate {
     }
   }
 
+  @VisibleForTesting
+  public static RetryerBuilder<Account> retryerBuilder() {
+    return RetryerBuilder.<Account>newBuilder()
+        .retryIfException(e -> e instanceof LockFailureException)
+        .withWaitStrategy(
+            WaitStrategies.join(
+                WaitStrategies.exponentialWait(2, TimeUnit.SECONDS),
+                WaitStrategies.randomWait(50, TimeUnit.MILLISECONDS)))
+        .withStopStrategy(StopStrategies.stopAfterDelay(10, TimeUnit.SECONDS));
+  }
+
+  private static final Retryer<Account> RETRYER = retryerBuilder().build();
+
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated gitRefUpdated;
   @Nullable private final IdentifiedUser currentUser;
@@ -185,6 +210,8 @@ public class AccountsUpdate {
   private final OutgoingEmailValidator emailValidator;
   private final PersonIdent committerIdent;
   private final MetaDataUpdateFactory metaDataUpdateFactory;
+  private final Runnable afterReadRevision;
+  private final Retryer<Account> retryer;
 
   private AccountsUpdate(
       GitRepositoryManager repoManager,
@@ -194,6 +221,29 @@ public class AccountsUpdate {
       OutgoingEmailValidator emailValidator,
       PersonIdent committerIdent,
       MetaDataUpdateFactory metaDataUpdateFactory) {
+    this(
+        repoManager,
+        gitRefUpdated,
+        currentUser,
+        allUsersName,
+        emailValidator,
+        committerIdent,
+        metaDataUpdateFactory,
+        Runnables.doNothing(),
+        RETRYER);
+  }
+
+  @VisibleForTesting
+  public AccountsUpdate(
+      GitRepositoryManager repoManager,
+      GitReferenceUpdated gitRefUpdated,
+      @Nullable IdentifiedUser currentUser,
+      AllUsersName allUsersName,
+      OutgoingEmailValidator emailValidator,
+      PersonIdent committerIdent,
+      MetaDataUpdateFactory metaDataUpdateFactory,
+      Runnable afterReadRevision,
+      Retryer<Account> retryer) {
     this.repoManager = checkNotNull(repoManager, "repoManager");
     this.gitRefUpdated = checkNotNull(gitRefUpdated, "gitRefUpdated");
     this.currentUser = currentUser;
@@ -201,6 +251,8 @@ public class AccountsUpdate {
     this.emailValidator = checkNotNull(emailValidator, "emailValidator");
     this.committerIdent = checkNotNull(committerIdent, "committerIdent");
     this.metaDataUpdateFactory = checkNotNull(metaDataUpdateFactory, "metaDataUpdateFactory");
+    this.afterReadRevision = afterReadRevision;
+    this.retryer = retryer;
   }
 
   /**
@@ -210,18 +262,24 @@ public class AccountsUpdate {
    * @param init consumer to populate the new account
    * @return the newly created account
    * @throws OrmDuplicateKeyException if the account already exists
-   * @throws IOException if updating the user branch fails
+   * @throws IOException if creating the user branch fails due to an IO error
+   * @throws OrmException if creating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   public Account insert(Account.Id accountId, Consumer<InternalAccountUpdate.Builder> init)
-      throws OrmDuplicateKeyException, IOException, ConfigInvalidException {
-    AccountConfig accountConfig = read(accountId);
-    accountConfig.createNewAccount();
-    InternalAccountUpdate.Builder updateBuilder = InternalAccountUpdate.builder();
-    init.accept(updateBuilder);
-    accountConfig.setAccountUpdate(updateBuilder.build());
-    commitNew(accountConfig);
-    return accountConfig.getLoadedAccount().get();
+      throws OrmException, IOException, ConfigInvalidException {
+    return updateAccount(
+        () -> {
+          AccountConfig accountConfig = read(accountId);
+          accountConfig.createNewAccount();
+          InternalAccountUpdate.Builder updateBuilder = InternalAccountUpdate.builder();
+          init.accept(updateBuilder);
+          accountConfig.setAccountUpdate(updateBuilder.build());
+
+          UpdatedAccount updatedAccounts = new UpdatedAccount(accountConfig);
+          updatedAccounts.setCreated(true);
+          return updatedAccounts;
+        });
   }
 
   /**
@@ -232,11 +290,12 @@ public class AccountsUpdate {
    * @param accountId ID of the account
    * @param update consumer to update the account, only invoked if the account exists
    * @return the updated account, {@code null} if the account doesn't exist
-   * @throws IOException if updating the user branch fails
+   * @throws IOException if updating the user branch fails due to an IO error
+   * @throws OrmException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   public Account update(Account.Id accountId, Consumer<InternalAccountUpdate.Builder> update)
-      throws IOException, ConfigInvalidException {
+      throws OrmException, IOException, ConfigInvalidException {
     return update(accountId, (a, u) -> update.accept(u));
   }
 
@@ -248,11 +307,12 @@ public class AccountsUpdate {
    * @param accountId ID of the account
    * @param updater updater to update the account, only invoked if the account exists
    * @return the updated account, {@code null} if the account doesn't exist
-   * @throws IOException if updating the user branch fails
+   * @throws IOException if updating the user branch fails due to an IO error
+   * @throws OrmException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   public Account update(Account.Id accountId, AccountUpdater updater)
-      throws IOException, ConfigInvalidException {
+      throws OrmException, IOException, ConfigInvalidException {
     return update(accountId, ImmutableList.of(updater));
   }
 
@@ -264,35 +324,41 @@ public class AccountsUpdate {
    * @param accountId ID of the account
    * @param updater updater to update the account, only invoked if the account exists
    * @return the updated account, {@code null} if the account doesn't exist
-   * @throws IOException if updating the user branch fails
+   * @throws IOException if updating the user branch fails due to an IO error
+   * @throws OrmException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   @Nullable
   public Account update(Account.Id accountId, List<AccountUpdater> updater)
-      throws IOException, ConfigInvalidException {
+      throws OrmException, IOException, ConfigInvalidException {
     if (updater.isEmpty()) {
       return null;
     }
+    return updateAccount(
+        () -> {
+          AccountConfig accountConfig = read(accountId);
+          Optional<Account> account = accountConfig.getLoadedAccount();
+          if (!account.isPresent()) {
+            return null;
+          }
 
-    AccountConfig accountConfig = read(accountId);
-    Optional<Account> account = accountConfig.getLoadedAccount();
-    if (account.isPresent()) {
-      InternalAccountUpdate.Builder updateBuilder = InternalAccountUpdate.builder();
-      updater.stream().forEach(u -> u.update(account.get(), updateBuilder));
-      accountConfig.setAccountUpdate(updateBuilder.build());
-      commit(accountConfig);
-    }
+          InternalAccountUpdate.Builder updateBuilder = InternalAccountUpdate.builder();
+          updater.stream().forEach(u -> u.update(account.get(), updateBuilder));
+          accountConfig.setAccountUpdate(updateBuilder.build());
 
-    return accountConfig.getLoadedAccount().orElse(null);
+          UpdatedAccount updatedAccounts = new UpdatedAccount(accountConfig);
+          return updatedAccounts;
+        });
   }
 
   /**
    * Deletes the account.
    *
    * @param account the account that should be deleted
-   * @throws IOException if updating the user branch fails
+   * @throws IOException if deleting the user branch fails due to an IO error
+   * @throws OrmException if deleting the user branch fails
    */
-  public void delete(Account account) throws IOException {
+  public void delete(Account account) throws IOException, OrmException {
     deleteByKey(account.getId());
   }
 
@@ -300,10 +366,26 @@ public class AccountsUpdate {
    * Deletes the account.
    *
    * @param accountId the ID of the account that should be deleted
-   * @throws IOException if updating the user branch fails
+   * @throws IOException if deleting the user branch fails due to an IO error
+   * @throws OrmException if deleting the user branch fails
    */
-  public void deleteByKey(Account.Id accountId) throws IOException {
-    deleteUserBranch(accountId);
+  public void deleteByKey(Account.Id accountId) throws IOException, OrmException {
+    deleteAccount(accountId);
+  }
+
+  private Account deleteAccount(Account.Id accountId) throws IOException, OrmException {
+    try {
+      return retryer.call(
+          () -> {
+            deleteUserBranch(accountId);
+            return null;
+          });
+    } catch (ExecutionException | RetryException e) {
+      if (e.getCause() != null) {
+        Throwables.throwIfInstanceOf(e.getCause(), IOException.class);
+      }
+      throw new OrmException(e);
+    }
   }
 
   private void deleteUserBranch(Account.Id accountId) throws IOException {
@@ -343,7 +425,41 @@ public class AccountsUpdate {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       AccountConfig accountConfig = new AccountConfig(emailValidator, accountId);
       accountConfig.load(repo);
+
+      afterReadRevision.run();
+
       return accountConfig;
+    }
+  }
+
+  private Account updateAccount(AccountUpdate accountUpdate)
+      throws IOException, ConfigInvalidException, OrmException {
+    try {
+      return retryer.call(
+          () -> {
+            UpdatedAccount updatedAccount = accountUpdate.update();
+            if (updatedAccount == null) {
+              return null;
+            }
+
+            commit(updatedAccount);
+            return updatedAccount.getAccount();
+          });
+    } catch (ExecutionException | RetryException e) {
+      if (e.getCause() != null) {
+        Throwables.throwIfInstanceOf(e.getCause(), IOException.class);
+        Throwables.throwIfInstanceOf(e.getCause(), ConfigInvalidException.class);
+        Throwables.throwIfInstanceOf(e.getCause(), OrmException.class);
+      }
+      throw new OrmException(e);
+    }
+  }
+
+  private void commit(UpdatedAccount updatedAccount) throws IOException {
+    if (updatedAccount.isCreated()) {
+      commitNew(updatedAccount.getAccountConfig());
+    } else {
+      commit(updatedAccount.getAccountConfig());
     }
   }
 
@@ -365,8 +481,39 @@ public class AccountsUpdate {
     }
   }
 
+  @VisibleForTesting
   @FunctionalInterface
-  private static interface MetaDataUpdateFactory {
+  public static interface MetaDataUpdateFactory {
     MetaDataUpdate create() throws IOException;
+  }
+
+  @FunctionalInterface
+  private static interface AccountUpdate {
+    UpdatedAccount update() throws IOException, ConfigInvalidException, OrmException;
+  }
+
+  private static class UpdatedAccount {
+    private final AccountConfig accountConfig;
+    private boolean created;
+
+    private UpdatedAccount(AccountConfig accountConfig) {
+      this.accountConfig = checkNotNull(accountConfig);
+    }
+
+    public void setCreated(boolean created) {
+      this.created = created;
+    }
+
+    public boolean isCreated() {
+      return created;
+    }
+
+    public AccountConfig getAccountConfig() {
+      return accountConfig;
+    }
+
+    public Account getAccount() {
+      return accountConfig.getLoadedAccount().get();
+    }
   }
 }

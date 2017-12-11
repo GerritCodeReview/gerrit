@@ -36,10 +36,14 @@ limitations under the License.
 <script>
   suite('gr-editable-content tests', () => {
     let element;
+    let sandbox;
 
     setup(() => {
       element = fixture('basic');
+      sandbox = sinon.sandbox.create();
     });
+
+    teardown(() => { sandbox.restore(); });
 
     test('save event', done => {
       element._newContent = 'foo';
@@ -92,6 +96,53 @@ limitations under the License.
       test('save button is enabled when content changes', () => {
         element._newContent = 'new content';
         assert.isFalse(element.$$('gr-button[primary]').disabled);
+      });
+    });
+
+    suite('storageKey and related behavior', () => {
+      setup(() => {
+        element.content = 'current content';
+        element.storageKey = 'test';
+      });
+
+      test('editing toggled to true, has stored data', () => {
+        sandbox.stub(element.$.storage, 'getEditableContentItem')
+            .returns('stored content');
+        element.editing = true;
+
+        assert.equal(element._newContent, 'stored content');
+      });
+
+      test('editing toggled to true, has no stored data', () => {
+        sandbox.stub(element.$.storage, 'getEditableContentItem')
+            .returns('');
+        element.editing = true;
+
+        assert.equal(element._newContent, 'current content');
+      });
+
+      test('edits are cached', () => {
+        const storeStub =
+            sandbox.stub(element.$.storage, 'setEditableContentItem');
+        const eraseStub =
+            sandbox.stub(element.$.storage, 'eraseEditableContentItem');
+        element.editing = true;
+
+        element._newContent = 'new content';
+        flushAsynchronousOperations();
+        element.flushDebouncer('store');
+
+        assert.isTrue(storeStub.called);
+        assert.deepEqual(
+            [element.storageKey, element._newContent],
+            storeStub.lastCall.args);
+
+        element._newContent = '';
+        flushAsynchronousOperations();
+        element.flushDebouncer('store');
+
+        assert.isTrue(eraseStub.called);
+        assert.deepEqual([element.storageKey], eraseStub.lastCall.args);
       });
     });
   });

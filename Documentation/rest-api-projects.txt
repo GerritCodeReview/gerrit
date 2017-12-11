@@ -3331,6 +3331,11 @@ tag points.
 the signature.
 |`tagger`|Only set for annotated tags, if present in the tag.|The tagger as a
 link:rest-api-changes.html#git-person-info[GitPersonInfo] entity.
+|`created`|optional|The link:rest-api.html#timestamp[timestamp] of when the tag
+was created. For annotated and signed tags, this is the timestamp of the tag object
+and is the same as the `date` field in the `tagger`. For lightweight tags, it is
+the commit timestamp of the commit to which the tag points, when the object is a
+commit. It is not set when the object is any other type.
 |`can_delete`|not set if `false`|
 Whether the calling user can delete this tag.
 |`web_links` |optional|

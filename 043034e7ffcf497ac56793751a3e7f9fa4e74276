@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "ea14bf20_6bc9ae05",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-11T17:04:00Z",
+      "side": 1,
+      "message": "We could provide a variant with AccountUpdater that provides the newly created account (with all the default values). However I didn\u0027t add it since there would be no user for it.",
+      "parentUuid": "a141e06e_f3248358",
+      "revId": "043034e7ffcf497ac56793751a3e7f9fa4e74276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17e31918_7edaa592",
         "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
         "patchSetId": 2
@@ -94,6 +112,30 @@
       "writtenOn": "2017-12-11T16:44:58Z",
       "side": 1,
       "message": "TBH I am not the biggest fan of this, particularly given that most callers appear to do setFoo(Strings.nullToEmpty(foo)).\n\nAs a consumer of this interface, I would prefer to have a pair of methods, (kind of like a protobuf message):\n\n setFullName(String fullName); // IAE if fullName is null *or empty*.\n clearFullName();\n\nOTOH, implementing that would probably require more boilerplate in this file, since I\u0027m not sure how much AutoValue can help you here.\n\nWhat do you think?",
+      "range": {
+        "startLine": 63,
+        "startChar": 54,
+        "endLine": 64,
+        "endChar": 51
+      },
+      "revId": "043034e7ffcf497ac56793751a3e7f9fa4e74276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3b51cd4_eb2a2df3",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-11T17:04:00Z",
+      "side": 1,
+      "message": "Yes, I\u0027m not too happy with this interface either. \n\nWe somehow need to differentiate between \n\na) no update to full name and\nb) clear fullname\n\nSo with your proposal setFullName(null) and setFullName(\"\") would both clear the fullname (option b)?\nSo to differentiate between a) and b) we would to track explicitly whether setFullName was called (which I think we can\u0027t do with AutoValue)? \n\nAt the moment Optional.empty() is used for a) and Optional.of(\"\") is used for b).\nI followed this approach because this is what InternalGroupUpdate does for the group description.\n\nI don\u0027t mind writing some boilerplate code here if it simplifies the callers.",
+      "parentUuid": "e3bd2dd7_3b175e9f",
       "range": {
         "startLine": 63,
         "startChar": 54,

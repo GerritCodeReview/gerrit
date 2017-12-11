@@ -152,6 +152,30 @@
       "revId": "791e588ad15a8b8d2a10b17e2d4a6ff3539b9f58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57de725b_0d108b0d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-11T23:44:25Z",
+      "side": 1,
+      "message": "I\u0027m not sure why but it didn\u0027t work for me.\nI haven\u0027t tried showing and hiding the input though..",
+      "parentUuid": "3f8a701c_872e5bd1",
+      "range": {
+        "startLine": 57,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 37
+      },
+      "revId": "791e588ad15a8b8d2a10b17e2d4a6ff3539b9f58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

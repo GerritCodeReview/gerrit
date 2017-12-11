@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1512750764 +0100\nnonce ADEcKBoWJF1qZOj4vYFG6jKPLDb724U7XhYBB2SzQKdqXDAKOk+N1WmFqKD8ATysfZyn5U4KWOaa\n\n0000000000000000000000000000000000000000 33267e8593680d0317113f7c3055a9fee5fc26f4 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaKr6sAAoJEFG1/Zeg0O9Rz6cH/ArDCNyzElSUixJbXobvj53c\nFfhDQEY0EcouTk7Xo0O/7Ppu4GU6jIgRa3l6MQuJqktLxZ7bus/8NSGzOWb4Mr00\nyGYFbZYUrCwX5UGMO1xQBLtG9vXtblnE4/8iUCsX8Wck3ZpdGxFc7hpkZ5HahOXx\n9Jah2N3GlhBRK+Awk+e7e4abtMX42uLQ6N7ony3+mRsg/5iqHaaKNRmOepX5ezRF\nAmw84vC3Za9q6tFVEDSaMcLyNPYvW9dOOuBhz+WZvnZPTG1cV4a11FuqkTMhZ+Nn\nMZu9YguFbrf2c6c+iULPzuURvb8OJ29/H4tc0lFlUCMVlroDMimSx1g79i1T/00\u003d\n\u003deDx+\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "590e72d1_9872ba37",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-11T13:32:43Z",
+      "side": 1,
+      "message": "Optional: I notice that the majority of downstream callers don\u0027t need the account() field in the AccountUpdate and are only interested in the update():\n\n update(id, u -\u003e u.update().setFoo(...))\n\nWould it make sense to add an override in this class that takes Consumer\u003cInternalAccountUpdate.Builder\u003e so that callers can instead write:\n\n update(id, u -\u003e u.setFoo(...))\n\n(Could also be done as a future cleanup.)",
+      "revId": "33267e8593680d0317113f7c3055a9fee5fc26f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

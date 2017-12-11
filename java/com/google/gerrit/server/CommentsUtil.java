@@ -139,7 +139,9 @@ public class CommentsUtil {
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
       NotesMigration migration,
-      PatchListCache patchListCache,
+      // TODO(dborowitz): Nullable only to support CommentJsonMigratorTest; set non-nullable when
+      // that class is removed.
+      @Nullable PatchListCache patchListCache,
       PatchSetUtil psUtil,
       @GerritServerId String serverId) {
     this.repoManager = repoManager;

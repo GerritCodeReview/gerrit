@@ -80,7 +80,11 @@ class ChangeRevisionNote extends RevisionNote<Comment> {
     } else {
       pushCert = null;
     }
-    return noteUtil.parseNote(raw, p, changeId);
+    List<Comment> comments = noteUtil.parseNote(raw, p, changeId);
+    if (comments != null) {
+      comments.forEach(c -> c.legacyFormat = true);
+    }
+    return comments;
   }
 
   private static boolean isJson(byte[] raw, int offset) {

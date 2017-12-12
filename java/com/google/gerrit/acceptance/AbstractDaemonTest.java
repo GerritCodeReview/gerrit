@@ -29,6 +29,7 @@ import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
+import com.github.rholder.retry.BlockStrategy;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -253,6 +254,7 @@ public abstract class AbstractDaemonTest {
   protected String resourcePrefix;
   protected Description description;
   protected boolean testRequiresSsh;
+  protected BlockStrategy noSleepBlockStrategy = t -> {}; // Don't sleep in tests.
 
   @Inject private ChangeIndexCollection changeIndexes;
   @Inject private EventRecorder.Factory eventRecorderFactory;

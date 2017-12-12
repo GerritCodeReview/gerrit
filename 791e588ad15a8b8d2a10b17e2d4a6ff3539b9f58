@@ -176,6 +176,30 @@
       "revId": "791e588ad15a8b8d2a10b17e2d4a6ff3539b9f58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "defe3739_eec16023",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-12T00:16:54Z",
+      "side": 1,
+      "message": "Yeah, I think that makes more sense since you have to do the same thing with text anyway. Something like....\n\n\n_copyInput() {\n      if (this.hideInput) {\n        this.$.input.display \u003d \u0027block\u0027;\n      }\n      this.$.input.select();\n      document.execCommand(\u0027copy\u0027);\n      if (this.hideInput) {\n        this.$.input.display \u003d \u0027none\u0027;\n      }\n    },",
+      "parentUuid": "57de725b_0d108b0d",
+      "range": {
+        "startLine": 57,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 37
+      },
+      "revId": "791e588ad15a8b8d2a10b17e2d4a6ff3539b9f58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

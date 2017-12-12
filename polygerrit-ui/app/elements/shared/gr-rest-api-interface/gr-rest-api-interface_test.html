@@ -1181,5 +1181,26 @@ limitations under the License.
           fetchStub.lastCall.args[0],
           '/projects/gerrit%2Fproject/dashboards/default%3Amain');
     });
+
+    test('getFileInChangeEdit', () => {
+      sandbox.stub(element, 'getChangeURLAndSend')
+          .returns(Promise.resolve({
+            ok: 'true',
+            headers: {
+              get(header) {
+                if (header === 'X-FYI-Content-Type') {
+                  return 'text/java';
+                }
+              },
+            },
+          }));
+
+      sandbox.stub(element, 'getResponseObject')
+          .returns(Promise.resolve('new content'));
+
+      return element.getFileInChangeEdit('1', 'test/path').then(res => {
+        assert.deepEqual(res, {content: 'new content', type: 'text/java'});
+      });
+    });
   });
 </script>

@@ -36,6 +36,7 @@
       _changeEditDetail: Object,
       _changeNum: String,
       _path: String,
+      _type: String,
       _content: String,
       _newContent: String,
       _saveDisabled: {
@@ -81,11 +82,7 @@
       const promises = [];
 
       promises.push(this._getChangeDetail(this._changeNum));
-      promises.push(this._getFileContent(this._changeNum, this._path)
-          .then(fileContent => {
-            this._content = fileContent;
-            this._newContent = fileContent;
-          }));
+      promises.push(this._getFileData(this._changeNum, this._path));
       return Promise.all(promises);
     },
 
@@ -109,8 +106,14 @@
       Gerrit.Nav.navigateToChange(this._change, this.EDIT_NAME);
     },
 
-    _getFileContent(changeNum, path) {
-      return this.$.restAPI.getFileInChangeEdit(changeNum, path);
+    _getFileData(changeNum, path) {
+      return this.$.restAPI.getFileInChangeEdit(changeNum, path).then(res => {
+        if (!res.ok) { return; }
+
+        this._type = res.type;
+        this._newContent = res.content;
+        this._content = res.content;
+      });
     },
 
     _saveEdit() {

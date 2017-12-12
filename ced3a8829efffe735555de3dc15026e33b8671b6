@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "7b3efc94_e3ec6e70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-12-12T17:47:25Z",
+      "side": 1,
+      "message": "That is really good :-) One of the red-flag of security is always \"passwords in clear text in application logs\"",
+      "range": {
+        "startLine": 12,
+        "startChar": 27,
+        "endLine": 12,
+        "endChar": 48
+      },
+      "revId": "ced3a8829efffe735555de3dc15026e33b8671b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19c1ca08_7f086edf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-12-12T17:47:25Z",
+      "side": 1,
+      "message": "Depending on how you manage the audit-trail, you may want to keep credentials there.\nAudits storage is pluggable and one could off-load to a secure storage and keep it for audit-trail purposes.\n\nCan we make it configurable? By default keeps it \u0027as-is\u0027 otherwise it will mask it.",
+      "range": {
+        "startLine": 12,
+        "startChar": 53,
+        "endLine": 12,
+        "endChar": 58
+      },
+      "revId": "ced3a8829efffe735555de3dc15026e33b8671b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "05895ac0_69a3b3ed",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
         "patchSetId": 5
@@ -41,6 +87,29 @@
         "startChar": 33,
         "endLine": 391,
         "endChar": 42
+      },
+      "revId": "ced3a8829efffe735555de3dc15026e33b8671b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b9aea6d_d3bf6ef8",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-12-12T17:47:25Z",
+      "side": 1,
+      "message": "Are we going to use reflection for every single invocation?\nCan we do it an initial discovery at startup only?",
+      "range": {
+        "startLine": 122,
+        "startChar": 23,
+        "endLine": 122,
+        "endChar": 57
       },
       "revId": "ced3a8829efffe735555de3dc15026e33b8671b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

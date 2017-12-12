@@ -510,6 +510,13 @@ limitations under the License.
         for (let i = 0; i < element.comments.length; i++) {
           assert.isTrue(element.comments[i].collapsed);
         }
+        for (let i = 0; i < element.comments.length; i++) {
+          element.comments[i].robot_id = 123;
+        }
+        element._setInitialExpandedState();
+        for (let i = 0; i < element.comments.length; i++) {
+          assert.isFalse(element.comments[i].collapsed);
+        }
       });
     });
 

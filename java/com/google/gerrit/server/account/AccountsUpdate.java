@@ -235,10 +235,6 @@ public class AccountsUpdate {
   @Nullable
   public Account update(Account.Id accountId, List<Consumer<Account>> consumers)
       throws IOException, ConfigInvalidException {
-    if (consumers.isEmpty()) {
-      return null;
-    }
-
     AccountConfig accountConfig = read(accountId);
     Optional<Account> account = accountConfig.getLoadedAccount();
     if (account.isPresent()) {

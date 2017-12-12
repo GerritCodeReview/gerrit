@@ -473,16 +473,6 @@ limitations under the License.
       }
     });
 
-    test('_sectionHref', () => {
-      assert.equal(
-          element._sectionHref('is:open owner:self'),
-          '/q/is:open+owner:self');
-      assert.equal(
-          element._sectionHref(
-              'is:open ((reviewer:self -is:ignored) OR assignee:self)'),
-          '/q/is:open+((reviewer:self+-is:ignored)+OR+assignee:self)');
-    });
-
     test('_computeItemAbsoluteIndex', () => {
       sandbox.stub(element, '_computeLabelNames');
       element.sections = [

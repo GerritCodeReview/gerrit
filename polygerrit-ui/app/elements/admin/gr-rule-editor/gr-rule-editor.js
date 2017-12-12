@@ -56,6 +56,7 @@
       editing: {
         type: Boolean,
         value: false,
+        observer: '_handleEditingChanged',
       },
       groupId: String,
       groupName: String,
@@ -87,6 +88,10 @@
       '_handleValueChange(rule.value.*)',
     ],
 
+    listeners: {
+      'access-saved': '_handleAccessSaved',
+    },
+
     ready() {
       // Called on ready rather than the observer because when new rules are
       // added, the observer is triggered prior to being ready.
@@ -112,6 +117,21 @@
 
     _computeGroupPath(group) {
       return `${this.getBaseUrl()}/admin/groups/${this.encodeURL(group, true)}`;
+    },
+
+    _handleAccessSaved() {
+      // Set a new 'original' value to keep track of after the value has been
+      // saved.
+      this._setOriginalRuleValues(this.rule.value);
+    },
+
+    _handleEditingChanged(editing, editingOld) {
+      // Ignore when editing gets set initially.
+      if (!editingOld) { return; }
+      // Restore original values if no longer editing.
+      if (!editing) {
+        this._handleUndoChange();
+      }
     },
 
     _computeSectionClass(editing, deleted) {
@@ -179,6 +199,8 @@
     _handleValueChange() {
       if (!this._originalRuleValues) { return; }
       this._modified = true;
+      // Allows overall access page to know a change has been made.
+      this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
     },
 
     _setOriginalRuleValues(value) {

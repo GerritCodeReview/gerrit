@@ -152,11 +152,23 @@ limitations under the License.
       });
 
       test('_handleValueChange', () => {
+        const modifiedHandler = sandbox.stub();
+        element.addEventListener('access-modified', modifiedHandler);
         element._handleValueChange();
         assert.isFalse(element._modified);
         element._originalRuleValues = {};
         element._handleValueChange();
         assert.isTrue(element._modified);
+        assert.isTrue(modifiedHandler.called);
+      });
+
+      test('_handleAccessSaved', () => {
+        const originalValue = {action: 'DENY'};
+        const newValue = {action: 'ALLOW'};
+        element._originalRuleValues = originalValue;
+        element.rule = {value: newValue};
+        element._handleAccessSaved();
+        assert.deepEqual(element._originalRuleValues, newValue);
       });
 
       test('_setOriginalRuleValues', () => {
@@ -197,6 +209,17 @@ limitations under the License.
         assert.isNotOk(Polymer.dom(element.root).querySelector('#labelMin'));
         assert.isNotOk(Polymer.dom(element.root).querySelector('#labelMax'));
         assert.isFalse(element.$.force.classList.contains('force'));
+      });
+
+      test('modify and cancel restores original values', () => {
+        element.editing = true;
+        assert.isFalse(element._modified);
+        element.$.action.bindValue = 'DENY';
+        assert.isTrue(element._modified);
+        element.editing = false;
+        assert.deepEqual(element._originalRuleValues, element.rule.value);
+        assert.equal(element.$.action.bindValue, 'ALLOW');
+        assert.isFalse(element._modified);
       });
 
       test('modify and undo value', () => {

@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd00b7e2_1f30d97c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-12T08:41:06Z",
+      "side": 1,
+      "message": "systems",
+      "range": {
+        "startLine": 9,
+        "startChar": 37,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "75e09b92ec9b196e160a8a90730cb969eb302397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fcd7a0e_0ed467e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-12T08:41:06Z",
+      "side": 1,
+      "message": "needs",
+      "revId": "75e09b92ec9b196e160a8a90730cb969eb302397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c72b8feb_264082e1",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/WorkInProgressStateChangedListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-12T08:41:06Z",
+      "side": 1,
+      "message": "Missing copyright and license header.",
+      "revId": "75e09b92ec9b196e160a8a90730cb969eb302397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb6532af_84ce675e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/WorkInProgressStateChangedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-12T08:41:06Z",
+      "side": 1,
+      "message": "Missing header",
+      "revId": "75e09b92ec9b196e160a8a90730cb969eb302397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4776b916_59abc3e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/WorkInProgressStateChanged.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-12T08:41:06Z",
+      "side": 1,
+      "message": "Missing header",
+      "revId": "75e09b92ec9b196e160a8a90730cb969eb302397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

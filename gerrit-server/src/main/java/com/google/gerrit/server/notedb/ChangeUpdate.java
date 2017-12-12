@@ -123,6 +123,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     @VisibleForTesting
     ChangeUpdate create(
         ChangeNotes notes, CurrentUser user, Date when, Comparator<String> labelNameComparator);
+
+    @VisibleForTesting
+    ChangeUpdate create(
+        ChangeNotes notes,
+        CurrentUser user,
+        Date when,
+        Comparator<String> labelNameComparator,
+        @Nullable Boolean writeJson);
   }
 
   private final AccountCache accountCache;
@@ -130,6 +138,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final RobotCommentUpdate.Factory robotCommentUpdateFactory;
   private final DeleteCommentRewriter.Factory deleteCommentRewriterFactory;
+  private final boolean writeJson;
 
   private final Table<String, Account.Id, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
@@ -250,6 +259,41 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
       ChangeNoteUtil noteUtil) {
+    this(
+        cfg,
+        serverIdent,
+        anonymousCowardName,
+        migration,
+        accountCache,
+        updateManagerFactory,
+        draftUpdateFactory,
+        robotCommentUpdateFactory,
+        deleteCommentRewriterFactory,
+        notes,
+        user,
+        when,
+        labelNameComparator,
+        null,
+        noteUtil);
+  }
+
+  @AssistedInject
+  private ChangeUpdate(
+      @GerritServerConfig Config cfg,
+      @GerritPersonIdent PersonIdent serverIdent,
+      @AnonymousCowardName String anonymousCowardName,
+      NotesMigration migration,
+      AccountCache accountCache,
+      NoteDbUpdateManager.Factory updateManagerFactory,
+      ChangeDraftUpdate.Factory draftUpdateFactory,
+      RobotCommentUpdate.Factory robotCommentUpdateFactory,
+      DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
+      @Assisted ChangeNotes notes,
+      @Assisted CurrentUser user,
+      @Assisted Date when,
+      @Assisted Comparator<String> labelNameComparator,
+      @Assisted @Nullable Boolean writeJson,
+      ChangeNoteUtil noteUtil) {
     super(cfg, migration, notes, user, serverIdent, anonymousCowardName, noteUtil, when);
     this.accountCache = accountCache;
     this.updateManagerFactory = updateManagerFactory;
@@ -257,6 +301,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
     this.deleteCommentRewriterFactory = deleteCommentRewriterFactory;
     this.approvals = approvals(labelNameComparator);
+    this.writeJson = firstNonNull(writeJson, noteUtil.getWriteJson());
   }
 
   @AssistedInject
@@ -295,6 +340,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.updateManagerFactory = updateManagerFactory;
     this.deleteCommentRewriterFactory = deleteCommentRewriterFactory;
     this.approvals = approvals(labelNameComparator);
+    this.writeJson = noteUtil.getWriteJson();
   }
 
   public ObjectId commit() throws IOException, OrmException {
@@ -418,8 +464,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (draftUpdate == null) {
       ChangeNotes notes = getNotes();
       if (notes != null) {
-        draftUpdate = draftUpdateFactory.create(notes, accountId, realAccountId, authorIdent, when);
+        draftUpdate =
+            draftUpdateFactory.create(
+                notes, accountId, realAccountId, authorIdent, when, writeJson);
       } else {
+        // writeJson isn't passed in this case. It's only set to something other than the value in
+        // ChangeNoteUtil in tests; tests will always take the notes != null path above.
         draftUpdate =
             draftUpdateFactory.create(getChange(), accountId, realAccountId, authorIdent, when);
       }
@@ -544,8 +594,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     checkComments(rnm.revisionNotes, builders);
 
     for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
-      ObjectId data =
-          inserter.insert(OBJ_BLOB, e.getValue().build(noteUtil, noteUtil.getWriteJson()));
+      ObjectId data = inserter.insert(OBJ_BLOB, e.getValue().build(noteUtil, writeJson));
       rnm.noteMap.set(ObjectId.fromString(e.getKey().get()), data);
     }
 

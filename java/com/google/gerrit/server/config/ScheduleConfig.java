@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.config;
 
+import static java.time.ZoneId.systemDefault;
+
 import com.google.common.annotations.VisibleForTesting;
 import java.text.MessageFormat;
 import java.time.DayOfWeek;
@@ -49,12 +51,12 @@ public class ScheduleConfig {
   }
 
   public ScheduleConfig(Config rc, String section, String subsection) {
-    this(rc, section, subsection, ZonedDateTime.now());
+    this(rc, section, subsection, ZonedDateTime.now(systemDefault()));
   }
 
   public ScheduleConfig(
       Config rc, String section, String subsection, String keyInterval, String keyStartTime) {
-    this(rc, section, subsection, keyInterval, keyStartTime, ZonedDateTime.now());
+    this(rc, section, subsection, keyInterval, keyStartTime, ZonedDateTime.now(systemDefault()));
   }
 
   @VisibleForTesting

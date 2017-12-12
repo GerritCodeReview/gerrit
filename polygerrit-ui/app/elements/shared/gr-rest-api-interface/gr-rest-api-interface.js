@@ -1331,10 +1331,7 @@
       const e = '/edit/' + encodeURIComponent(path);
       const headers = {Accept: 'application/json'};
       return this.getChangeURLAndSend(changeNum, 'GET', null, e, null, null,
-          null, null, headers).then(res => {
-            if (!res.ok) { return res; }
-            return this.getResponseObject(res);
-          });
+          null, null, headers);
     },
 
     rebaseChangeEdit(changeNum) {

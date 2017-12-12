@@ -33,6 +33,9 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -41,6 +44,7 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.Test;
 
 @NoHttpd
@@ -196,6 +200,46 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
     assertThat(cd.patchSets()).hasSize(1);
     assertThat(cd.patchSet(psId).getRevision().get()).isEqualTo(c.name());
+  }
+
+  @Test
+  public void mergeOnPushToBranchWithChangeMergedInOther() throws Exception {
+    enableCreateNewChangeForAllNotInTarget();
+    String master = "refs/heads/master";
+    String other = "refs/heads/other";
+    grant(Permission.PUSH, project, master);
+    grant(Permission.CREATE, project, other);
+    grant(Permission.PUSH, project, other);
+    RevCommit masterRev = getRemoteHead();
+    pushCommitTo(masterRev, other);
+    PushOneCommit.Result r = createChange();
+    r.assertOkStatus();
+    RevCommit commit = r.getCommit();
+    pushCommitTo(commit, master);
+    assertCommit(project, master);
+    ChangeData cd =
+        Iterables.getOnlyElement(queryProvider.get().byKey(new Change.Key(r.getChangeId())));
+    assertThat(cd.change().getStatus()).isEqualTo(Change.Status.MERGED);
+
+    RemoteRefUpdate.Status status = pushCommitTo(commit, "refs/for/other");
+    assertThat(status).isEqualTo(RemoteRefUpdate.Status.OK);
+
+    pushCommitTo(commit, other);
+    assertCommit(project, other);
+
+    for (ChangeData c : queryProvider.get().byKey(new Change.Key(r.getChangeId()))) {
+      if (c.change().getDest().get().equals(other)) {
+        assertThat(c.change().getStatus()).isEqualTo(Change.Status.MERGED);
+      }
+    }
+  }
+
+  private RemoteRefUpdate.Status pushCommitTo(RevCommit commit, String ref)
+      throws GitAPIException, InvalidRemoteException, TransportException {
+    return Iterables.getOnlyElement(
+            git().push().setRefSpecs(new RefSpec(commit.name() + ":" + ref)).call())
+        .getRemoteUpdate(ref)
+        .getStatus();
   }
 
   @Test

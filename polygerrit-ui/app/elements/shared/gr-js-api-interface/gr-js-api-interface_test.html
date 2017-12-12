@@ -456,5 +456,33 @@ limitations under the License.
         assert.isFalse(stub.called);
       });
     });
+
+    suite('screen', () => {
+      test('screenUrl()', () => {
+        sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns('/base');
+        assert.equal(plugin.screenUrl(), 'http://test.com/base/x/testplugin');
+        assert.equal(
+            plugin.screenUrl('foo'), 'http://test.com/base/x/testplugin/foo');
+      });
+
+      test('deprecated works', () => {
+        const stub = sandbox.stub();
+        const hookStub = {onAttached: sandbox.stub()};
+        sandbox.stub(plugin, 'hook').returns(hookStub);
+        plugin.deprecated.screen('foo', stub);
+        assert.isTrue(plugin.hook.calledWith('testplugin-screen-foo'));
+        const fakeEl = {style: {display: ''}};
+        hookStub.onAttached.callArgWith(0, fakeEl);
+        assert.isTrue(stub.called);
+        assert.equal(fakeEl.style.display, 'none');
+      });
+
+      test('works', () => {
+        sandbox.stub(plugin, 'registerCustomComponent');
+        plugin.screen('foo', 'some-module');
+        assert.isTrue(plugin.registerCustomComponent.calledWith(
+            'testplugin-screen-foo', 'some-module'));
+      });
+    });
   });
 </script>

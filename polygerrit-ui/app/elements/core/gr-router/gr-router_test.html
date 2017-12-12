@@ -168,6 +168,7 @@ limitations under the License.
         '_handleTagListFilterOffsetRoute',
         '_handleTagListFilterRoute',
         '_handleTagListOffsetRoute',
+        '_handlePluginScreen',
       ];
 
       // Handler names that check authentication themselves, and thus don't need
@@ -1331,6 +1332,16 @@ limitations under the License.
           assert.isFalse(normalizeRangeSpy.lastCall.returnValue);
           assert.deepEqual(setParamsStub.lastCall.args[0], appParams);
         });
+      });
+
+      test('_handlePluginScreen', () => {
+        const ctx = {params: ['foo', 'bar']};
+        assertDataToParams(ctx, '_handlePluginScreen', {
+          view: Gerrit.Nav.View.PLUGIN_SCREEN,
+          plugin: 'foo',
+          screen: 'bar',
+        });
+        assert.isFalse(redirectStub.called);
       });
     });
 

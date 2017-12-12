@@ -161,10 +161,13 @@ Note: TODO
 `plugin.hook(endpointName, opt_options)`
 
 See list of supported link:pg-plugin-endpoints.html[endpoints].
+
 Note: TODO
 
 === registerCustomComponent
 `plugin.registerCustomComponent(endpointName, opt_moduleName, opt_options)`
+
+See list of supported link:pg-plugin-endpoints.html[endpoints].
 
 Note: TODO
 
@@ -238,6 +241,28 @@ Note: TODO
 `plugin.put(url, payload, opt_callback)`
 
 Note: TODO
+
+=== screen
+`plugin.screen(screenName, opt_moduleName)`
+
+.Params:
+- `*string* screenName` URL path fragment of the screen, e.g.
+`/x/pluginname/*screenname*`
+- `*string* opt_moduleName` (Optional) Web component to be instantiated for this
+screen.
+
+.Returns:
+- Instance of GrDomHook.
+
+=== screenUrl
+`plugin.url(opt_screenName)`
+
+.Params:
+- `*string* screenName` (optional) URL path fragment of the screen, e.g.
+`/x/pluginname/*screenname*`
+
+.Returns:
+- Absolute URL for the screen, e.g. `http://localhost/base/x/pluginname/screenname`
 
 === theme
 `plugin.theme()`

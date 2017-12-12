@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb978a33_a65f019f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-12T00:08:24Z",
+      "side": 1,
+      "message": "util.parseDate already creates an date. This change is necessary.",
+      "range": {
+        "startLine": 136,
+        "startChar": 6,
+        "endLine": 136,
+        "endChar": 87
+      },
+      "revId": "ca48149ba74e7cc8999b9e85ad1d77aa3477417b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

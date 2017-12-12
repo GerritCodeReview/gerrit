@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d8efd06_8bc2d774",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-12T17:41:17Z",
+      "side": 1,
+      "message": "Why 0 instead of -1?\n\nI believe there are one or many elements that are children of a change-list-item that are in the tabindex, we may want to consider leaving the whole row out. Thoughts?",
+      "revId": "90a3e6d75f8c11131f8641a8dd778d99799ddf54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a625393d_5dc9fd0f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-12T17:41:17Z",
+      "side": 1,
+      "message": "🙏",
+      "revId": "90a3e6d75f8c11131f8641a8dd778d99799ddf54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1890e25_15e0ed35",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-12T17:41:17Z",
+      "side": 1,
+      "message": "Why flush? Maybe add a comment?",
+      "revId": "90a3e6d75f8c11131f8641a8dd778d99799ddf54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

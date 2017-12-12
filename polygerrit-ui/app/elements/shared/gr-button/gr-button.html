@@ -57,17 +57,19 @@ limitations under the License.
         ), var(--background-color);
       }
 
-      :host([disabled]) {
-        --background-color: #eaeaea;
-        --button-color: #a8a8a8;
-        cursor: default;
-      }
-
       /* Styles for raised buttons specifically */
       :host([primary][raised]),
       :host([secondary][raised]) {
         --background-color: var(--color-link);
         --button-color: #fff;
+      }
+
+      /* Keep below color definition for primary/secondary so that this takes
+       precedence when disabled. */
+      :host([disabled]) {
+        --background-color: #eaeaea;
+        --button-color: #a8a8a8;
+        cursor: default;
       }
 
       /* Styles for link buttons specifically */

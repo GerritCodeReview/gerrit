@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7540fee1_7a72f3c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/ChangeRebuilderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-12-12T08:10:18Z",
+      "side": 1,
+      "message": "I wouldn\u0027t hide the problem but rather finding its root cause. It is way better to fail the migration rather than \"hiding\" inconsistencies in the migrated data.",
+      "parentUuid": "8c39f5d7_b75e5e0a",
+      "revId": "fb88ca188ccff372149bb96cd47e2c21a848f028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "038d78d0_a6aa94d9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/ChangeRebuilderImpl.java",
         "patchSetId": 1

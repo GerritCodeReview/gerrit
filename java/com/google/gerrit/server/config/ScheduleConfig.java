@@ -19,6 +19,7 @@ import java.text.MessageFormat;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -49,12 +50,18 @@ public class ScheduleConfig {
   }
 
   public ScheduleConfig(Config rc, String section, String subsection) {
-    this(rc, section, subsection, ZonedDateTime.now());
+    this(rc, section, subsection, ZonedDateTime.now(ZoneId.systemDefault()));
   }
 
   public ScheduleConfig(
       Config rc, String section, String subsection, String keyInterval, String keyStartTime) {
-    this(rc, section, subsection, keyInterval, keyStartTime, ZonedDateTime.now());
+    this(
+        rc,
+        section,
+        subsection,
+        keyInterval,
+        keyStartTime,
+        ZonedDateTime.now(ZoneId.systemDefault()));
   }
 
   @VisibleForTesting

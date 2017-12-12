@@ -26,8 +26,6 @@ import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.github.rholder.retry.BlockStrategy;
-import com.github.rholder.retry.Retryer;
-import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -51,9 +49,9 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdReader;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate.RefsMetaExternalIdsUpdate;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.LockFailureException;
+import com.google.gerrit.server.update.RetryHelper;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
@@ -89,6 +87,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Inject private ExternalIds externalIds;
   @Inject private ExternalIdReader externalIdReader;
   @Inject private MetricMaker metricMaker;
+  @Inject private RetryHelper.Metrics retryMetrics;
 
   @Test
   public void getExternalIds() throws Exception {
@@ -713,17 +712,6 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void retryOnLockFailure() throws Exception {
-    Retryer<RefsMetaExternalIdsUpdate> retryer =
-        ExternalIdsUpdate.retryerBuilder()
-            .withBlockStrategy(
-                new BlockStrategy() {
-                  @Override
-                  public void block(long sleepTime) {
-                    // Don't sleep in tests.
-                  }
-                })
-            .build();
-
     ExternalId.Key fooId = ExternalId.Key.create("foo", "foo");
     ExternalId.Key barId = ExternalId.Key.create("bar", "bar");
 
@@ -740,6 +728,20 @@ public class ExternalIdIT extends AbstractDaemonTest {
             serverIdent.get(),
             null,
             GitReferenceUpdated.DISABLED,
+            new RetryHelper(
+                cfg,
+                retryMetrics,
+                null,
+                null,
+                null,
+                r ->
+                    r.withBlockStrategy(
+                        new BlockStrategy() {
+                          @Override
+                          public void block(long sleepTime) {
+                            // Don't sleep in tests.
+                          }
+                        })),
             () -> {
               if (!doneBgUpdate.getAndSet(true)) {
                 try {
@@ -748,8 +750,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
                   // Ignore, the successful insertion of the external ID is asserted later
                 }
               }
-            },
-            retryer);
+            });
     assertThat(doneBgUpdate.get()).isFalse();
     update.insert(ExternalId.create(fooId, admin.id));
     assertThat(doneBgUpdate.get()).isTrue();
@@ -778,6 +779,13 @@ public class ExternalIdIT extends AbstractDaemonTest {
             serverIdent.get(),
             null,
             GitReferenceUpdated.DISABLED,
+            new RetryHelper(
+                cfg,
+                retryMetrics,
+                null,
+                null,
+                null,
+                r -> r.withStopStrategy(StopStrategies.stopAfterAttempt(extIdsKeys.length))),
             () -> {
               try {
                 extIdsUpdate
@@ -786,11 +794,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
               } catch (IOException | ConfigInvalidException | OrmException e) {
                 // Ignore, the successful insertion of the external ID is asserted later
               }
-            },
-            RetryerBuilder.<RefsMetaExternalIdsUpdate>newBuilder()
-                .retryIfException(e -> e instanceof LockFailureException)
-                .withStopStrategy(StopStrategies.stopAfterAttempt(extIdsKeys.length))
-                .build());
+            });
     assertThat(bgCounter.get()).isEqualTo(0);
     try {
       update.insert(ExternalId.create(ExternalId.Key.create("abc", "abc"), admin.id));

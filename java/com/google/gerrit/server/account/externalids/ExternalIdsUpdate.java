@@ -24,14 +24,8 @@ import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 
-import com.github.rholder.retry.RetryException;
-import com.github.rholder.retry.Retryer;
-import com.github.rholder.retry.RetryerBuilder;
-import com.github.rholder.retry.StopStrategies;
-import com.github.rholder.retry.WaitStrategies;
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
@@ -50,6 +44,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LockFailureException;
+import com.google.gerrit.server.update.RetryHelper;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -60,8 +55,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -114,6 +107,7 @@ public class ExternalIdsUpdate {
     private final ExternalIdCache externalIdCache;
     private final Provider<PersonIdent> serverIdent;
     private final GitReferenceUpdated gitRefUpdated;
+    private final RetryHelper retryHelper;
 
     @Inject
     public Server(
@@ -124,7 +118,8 @@ public class ExternalIdsUpdate {
         ExternalIds externalIds,
         ExternalIdCache externalIdCache,
         @GerritPersonIdent Provider<PersonIdent> serverIdent,
-        GitReferenceUpdated gitRefUpdated) {
+        GitReferenceUpdated gitRefUpdated,
+        RetryHelper retryHelper) {
       this.repoManager = repoManager;
       this.accountCache = accountCache;
       this.allUsersName = allUsersName;
@@ -133,6 +128,7 @@ public class ExternalIdsUpdate {
       this.externalIdCache = externalIdCache;
       this.serverIdent = serverIdent;
       this.gitRefUpdated = gitRefUpdated;
+      this.retryHelper = retryHelper;
     }
 
     public ExternalIdsUpdate create() {
@@ -147,7 +143,8 @@ public class ExternalIdsUpdate {
           i,
           i,
           null,
-          gitRefUpdated);
+          gitRefUpdated,
+          retryHelper);
     }
   }
 
@@ -169,6 +166,7 @@ public class ExternalIdsUpdate {
     private final ExternalIdCache externalIdCache;
     private final Provider<PersonIdent> serverIdent;
     private final GitReferenceUpdated gitRefUpdated;
+    private final RetryHelper retryHelper;
 
     @Inject
     public ServerNoReindex(
@@ -178,7 +176,8 @@ public class ExternalIdsUpdate {
         ExternalIds externalIds,
         ExternalIdCache externalIdCache,
         @GerritPersonIdent Provider<PersonIdent> serverIdent,
-        GitReferenceUpdated gitRefUpdated) {
+        GitReferenceUpdated gitRefUpdated,
+        RetryHelper retryHelper) {
       this.repoManager = repoManager;
       this.allUsersName = allUsersName;
       this.metricMaker = metricMaker;
@@ -186,6 +185,7 @@ public class ExternalIdsUpdate {
       this.externalIdCache = externalIdCache;
       this.serverIdent = serverIdent;
       this.gitRefUpdated = gitRefUpdated;
+      this.retryHelper = retryHelper;
     }
 
     public ExternalIdsUpdate create() {
@@ -200,7 +200,8 @@ public class ExternalIdsUpdate {
           i,
           i,
           null,
-          gitRefUpdated);
+          gitRefUpdated,
+          retryHelper);
     }
   }
 
@@ -221,6 +222,7 @@ public class ExternalIdsUpdate {
     private final Provider<PersonIdent> serverIdent;
     private final Provider<IdentifiedUser> identifiedUser;
     private final GitReferenceUpdated gitRefUpdated;
+    private final RetryHelper retryHelper;
 
     @Inject
     public User(
@@ -232,7 +234,8 @@ public class ExternalIdsUpdate {
         ExternalIdCache externalIdCache,
         @GerritPersonIdent Provider<PersonIdent> serverIdent,
         Provider<IdentifiedUser> identifiedUser,
-        GitReferenceUpdated gitRefUpdated) {
+        GitReferenceUpdated gitRefUpdated,
+        RetryHelper retryHelper) {
       this.repoManager = repoManager;
       this.accountCache = accountCache;
       this.allUsersName = allUsersName;
@@ -242,6 +245,7 @@ public class ExternalIdsUpdate {
       this.serverIdent = serverIdent;
       this.identifiedUser = identifiedUser;
       this.gitRefUpdated = gitRefUpdated;
+      this.retryHelper = retryHelper;
     }
 
     public ExternalIdsUpdate create() {
@@ -257,26 +261,14 @@ public class ExternalIdsUpdate {
           createPersonIdent(i, user),
           i,
           user,
-          gitRefUpdated);
+          gitRefUpdated,
+          retryHelper);
     }
 
     private PersonIdent createPersonIdent(PersonIdent ident, IdentifiedUser user) {
       return user.newCommitterIdent(ident.getWhen(), ident.getTimeZone());
     }
   }
-
-  @VisibleForTesting
-  public static RetryerBuilder<RefsMetaExternalIdsUpdate> retryerBuilder() {
-    return RetryerBuilder.<RefsMetaExternalIdsUpdate>newBuilder()
-        .retryIfException(e -> e instanceof LockFailureException)
-        .withWaitStrategy(
-            WaitStrategies.join(
-                WaitStrategies.exponentialWait(2, TimeUnit.SECONDS),
-                WaitStrategies.randomWait(50, TimeUnit.MILLISECONDS)))
-        .withStopStrategy(StopStrategies.stopAfterDelay(10, TimeUnit.SECONDS));
-  }
-
-  private static final Retryer<RefsMetaExternalIdsUpdate> RETRYER = retryerBuilder().build();
 
   private final GitRepositoryManager repoManager;
   @Nullable private final AccountCache accountCache;
@@ -287,8 +279,8 @@ public class ExternalIdsUpdate {
   private final PersonIdent authorIdent;
   @Nullable private final IdentifiedUser currentUser;
   private final GitReferenceUpdated gitRefUpdated;
+  private final RetryHelper retryHelper;
   private final Runnable afterReadRevision;
-  private final Retryer<RefsMetaExternalIdsUpdate> retryer;
   private final Counter0 updateCount;
 
   private ExternalIdsUpdate(
@@ -301,7 +293,8 @@ public class ExternalIdsUpdate {
       PersonIdent committerIdent,
       PersonIdent authorIdent,
       @Nullable IdentifiedUser currentUser,
-      GitReferenceUpdated gitRefUpdated) {
+      GitReferenceUpdated gitRefUpdated,
+      RetryHelper retryHelper) {
     this(
         repoManager,
         accountCache,
@@ -313,8 +306,8 @@ public class ExternalIdsUpdate {
         authorIdent,
         currentUser,
         gitRefUpdated,
-        Runnables.doNothing(),
-        RETRYER);
+        retryHelper,
+        Runnables.doNothing());
   }
 
   @VisibleForTesting
@@ -329,8 +322,8 @@ public class ExternalIdsUpdate {
       PersonIdent authorIdent,
       @Nullable IdentifiedUser currentUser,
       GitReferenceUpdated gitRefUpdated,
-      Runnable afterReadRevision,
-      Retryer<RefsMetaExternalIdsUpdate> retryer) {
+      RetryHelper retryHelper,
+      Runnable afterReadRevision) {
     this.repoManager = checkNotNull(repoManager, "repoManager");
     this.accountCache = accountCache;
     this.allUsersName = checkNotNull(allUsersName, "allUsersName");
@@ -340,8 +333,8 @@ public class ExternalIdsUpdate {
     this.authorIdent = checkNotNull(authorIdent, "authorIdent");
     this.currentUser = currentUser;
     this.gitRefUpdated = checkNotNull(gitRefUpdated, "gitRefUpdated");
+    this.retryHelper = checkNotNull(retryHelper, "retryHelper");
     this.afterReadRevision = checkNotNull(afterReadRevision, "afterReadRevision");
-    this.retryer = checkNotNull(retryer, "retryer");
     this.updateCount =
         metricMaker.newCounter(
             "notedb/external_id_update_count",
@@ -738,32 +731,23 @@ public class ExternalIdsUpdate {
 
   private RefsMetaExternalIdsUpdate updateNoteMap(ExternalIdUpdater updater)
       throws IOException, ConfigInvalidException, OrmException {
-    try {
-      return retryer.call(
-          () -> {
-            try (Repository repo = repoManager.openRepository(allUsersName);
-                ObjectInserter ins = repo.newObjectInserter()) {
-              ObjectId rev = readRevision(repo);
+    return retryHelper.execute(
+        updater,
+        i -> {
+          try (Repository repo = repoManager.openRepository(allUsersName);
+              ObjectInserter ins = repo.newObjectInserter()) {
+            ObjectId rev = readRevision(repo);
 
-              afterReadRevision.run();
+            afterReadRevision.run();
 
-              try (RevWalk rw = new RevWalk(repo)) {
-                NoteMap noteMap = readNoteMap(rw, rev);
-                UpdatedExternalIds updatedExtIds =
-                    updater.update(OpenRepo.create(repo, rw, ins, noteMap));
+            try (RevWalk rw = new RevWalk(repo)) {
+              NoteMap noteMap = readNoteMap(rw, rev);
+              UpdatedExternalIds updatedExtIds = i.update(OpenRepo.create(repo, rw, ins, noteMap));
 
-                return commit(repo, rw, ins, rev, noteMap, updatedExtIds);
-              }
+              return commit(repo, rw, ins, rev, noteMap, updatedExtIds);
             }
-          });
-    } catch (ExecutionException | RetryException e) {
-      if (e.getCause() != null) {
-        Throwables.throwIfInstanceOf(e.getCause(), IOException.class);
-        Throwables.throwIfInstanceOf(e.getCause(), ConfigInvalidException.class);
-        Throwables.throwIfInstanceOf(e.getCause(), OrmException.class);
-      }
-      throw new OrmException(e);
-    }
+          }
+        });
   }
 
   private RefsMetaExternalIdsUpdate commit(

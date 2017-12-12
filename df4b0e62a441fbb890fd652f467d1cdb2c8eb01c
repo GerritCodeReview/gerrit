@@ -17,6 +17,24 @@
       "revId": "df4b0e62a441fbb890fd652f467d1cdb2c8eb01c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9209026e_ab9de757",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-12T13:49:30Z",
+      "side": 1,
+      "message": "This follows the example of ExternalIdsUpdate which also doesn\u0027t use RetryHelper.\n\n\u003e These need to respect the noteDb.retry* config options.\nExternalIdsUpdate also doesn\u0027t respect this config parameter :(\n\n\u003e I understand the objection to simply reusing RetryHelper (it depends heavily\n\u003e on UpdateException which ATM is pretty change-specific)\n\nNot only UpdateException, it also assumes that BatchUpdate.Factory is used, but BatchUpdate.Factory is specific to change updates.\n\n\u003e but I don\u0027t like the idea of recreating this everywhere. I would prefer to spend some\n\u003e time reworking RetryHelper, or at least some static helper methods, to be more\n\u003e entity-agnostic.\n\nAgreed, I can have a look at this.",
+      "parentUuid": "ed39d232_9adac527",
+      "revId": "df4b0e62a441fbb890fd652f467d1cdb2c8eb01c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54ecbb05_e6ecf332",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-12T18:27:50Z",
+      "side": 1,
+      "message": "Nit: since this is a param, we can remove the underscore.",
+      "range": {
+        "startLine": 120,
+        "startChar": 43,
+        "endLine": 120,
+        "endChar": 59
+      },
+      "revId": "dc0cd79f84de938e96c3ba330e917eabe617a9db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

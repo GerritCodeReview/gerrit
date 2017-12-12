@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d80e6665_bb103714",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-12T03:58:01Z",
+      "side": 1,
+      "message": "Since it\u0027s a public property, there may be sub-property changes made by the host element.",
+      "parentUuid": "a365f2c9_b9712cf6",
+      "range": {
+        "startLine": 117,
+        "startChar": 24,
+        "endLine": 117,
+        "endChar": 34
+      },
+      "revId": "92f03ad1fc315d72d4a9c647cf36d7fbf3d9d660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c0a85ba_abdc0536",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "45234700_427b55af",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-12T03:58:01Z",
+      "side": 1,
+      "message": "Good catch. Done.",
+      "parentUuid": "2c0a85ba_abdc0536",
+      "range": {
+        "startLine": 321,
+        "startChar": 21,
+        "endLine": 321,
+        "endChar": 22
+      },
+      "revId": "92f03ad1fc315d72d4a9c647cf36d7fbf3d9d660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5157cf39_faeff03e",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 5
@@ -68,6 +116,30 @@
       "revId": "92f03ad1fc315d72d4a9c647cf36d7fbf3d9d660",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc414240_0fd1f5e4",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-12T03:58:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5157cf39_faeff03e",
+      "range": {
+        "startLine": 325,
+        "startChar": 5,
+        "endLine": 327,
+        "endChar": 7
+      },
+      "revId": "92f03ad1fc315d72d4a9c647cf36d7fbf3d9d660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

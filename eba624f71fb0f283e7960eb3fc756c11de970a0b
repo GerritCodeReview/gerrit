@@ -23,6 +23,30 @@
       "revId": "eba624f71fb0f283e7960eb3fc756c11de970a0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74283134_97ecbc69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-12T17:04:31Z",
+      "side": 1,
+      "message": "I will also point out that the CommentJsonMigrator code needs to be written regardless, so this decision won\u0027t affect the bulk of this change. Just whether the wrapper to scan all projects and run the migrator on each one will live in a standalone pgm or a schema upgrade.",
+      "parentUuid": "b71b8b57_3819b085",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "eba624f71fb0f283e7960eb3fc756c11de970a0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

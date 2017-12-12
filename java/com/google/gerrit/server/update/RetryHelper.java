@@ -21,11 +21,14 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.github.rholder.retry.Attempt;
 import com.github.rholder.retry.RetryException;
 import com.github.rholder.retry.RetryListener;
+import com.github.rholder.retry.Retryer;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
 import com.github.rholder.retry.WaitStrategies;
 import com.github.rholder.retry.WaitStrategy;
 import com.google.auto.value.AutoValue;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Predicate;
 import com.google.common.base.Throwables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -36,16 +39,20 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class RetryHelper {
-  public interface Action<T> {
-    T call(BatchUpdate.Factory updateFactory) throws Exception;
+  public interface Action<I, O> {
+    O call(I input) throws Exception;
   }
 
   /**
@@ -80,8 +87,9 @@ public class RetryHelper {
     }
   }
 
+  @VisibleForTesting
   @Singleton
-  private static class Metrics {
+  public static class Metrics {
     final Histogram0 attemptCounts;
     final Counter0 timeoutCount;
 
@@ -108,7 +116,7 @@ public class RetryHelper {
     return new AutoValue_RetryHelper_Options.Builder();
   }
 
-  public static Options defaults() {
+  private static Options defaults() {
     return options().build();
   }
 
@@ -117,6 +125,7 @@ public class RetryHelper {
   private final BatchUpdate.Factory updateFactory;
   private final Duration defaultTimeout;
   private final WaitStrategy waitStrategy;
+  @Nullable private final Consumer<RetryerBuilder<?>> retryerStrategySetup;
 
   @Inject
   RetryHelper(
@@ -125,10 +134,21 @@ public class RetryHelper {
       NotesMigration migration,
       ReviewDbBatchUpdate.AssistedFactory reviewDbBatchUpdateFactory,
       NoteDbBatchUpdate.AssistedFactory noteDbBatchUpdateFactory) {
-    this.metrics = metrics;
+    this(cfg, metrics, migration, reviewDbBatchUpdateFactory, noteDbBatchUpdateFactory, null);
+  }
+
+  @VisibleForTesting
+  public RetryHelper(
+      @GerritServerConfig Config cfg,
+      Metrics metrics,
+      NotesMigration migration,
+      ReviewDbBatchUpdate.AssistedFactory reviewDbBatchUpdateFactory,
+      NoteDbBatchUpdate.AssistedFactory noteDbBatchUpdateFactory,
+      @Nullable Consumer<RetryerBuilder<?>> retryerSetup) {
     this.migration = migration;
     this.updateFactory =
         new BatchUpdate.Factory(migration, reviewDbBatchUpdateFactory, noteDbBatchUpdateFactory);
+    this.metrics = metrics;
     this.defaultTimeout =
         Duration.ofMillis(
             cfg.getTimeUnit("noteDb", null, "retryTimeout", SECONDS.toMillis(20), MILLISECONDS));
@@ -138,73 +158,114 @@ public class RetryHelper {
                 cfg.getTimeUnit("noteDb", null, "retryMaxWait", SECONDS.toMillis(5), MILLISECONDS),
                 MILLISECONDS),
             WaitStrategies.randomWait(50, MILLISECONDS));
+    this.retryerStrategySetup = retryerSetup;
   }
 
   public Duration getDefaultTimeout() {
     return defaultTimeout;
   }
 
-  public <T> T execute(Action<T> action) throws RestApiException, UpdateException {
+  public <I, O> O execute(I input, Action<I, O> action)
+      throws IOException, ConfigInvalidException, OrmException {
+    try {
+      return execute(input, action, defaults(), t -> t instanceof LockFailureException);
+    } catch (Throwable t) {
+      Throwables.throwIfInstanceOf(t, IOException.class);
+      Throwables.throwIfInstanceOf(t, ConfigInvalidException.class);
+      Throwables.throwIfInstanceOf(t, OrmException.class);
+      throw new OrmException(t);
+    }
+  }
+
+  public <T> T execute(Action<BatchUpdate.Factory, T> action)
+      throws RestApiException, UpdateException {
     return execute(action, defaults());
   }
 
-  public <T> T execute(Action<T> action, Options opts) throws RestApiException, UpdateException {
-    MetricListener listener = null;
+  public <T> T execute(Action<BatchUpdate.Factory, T> action, Options opts)
+      throws RestApiException, UpdateException {
     try {
-      RetryerBuilder<T> builder = RetryerBuilder.newBuilder();
-      if (migration.disableChangeReviewDb()) {
-        listener = new MetricListener(opts.listener());
-        builder
-            .withRetryListener(listener)
-            .withStopStrategy(
-                StopStrategies.stopAfterDelay(
-                    firstNonNull(opts.timeout(), defaultTimeout).toMillis(), MILLISECONDS))
-            .withWaitStrategy(waitStrategy)
-            .retryIfException(RetryHelper::isLockFailure);
-      } else {
+      if (!migration.disableChangeReviewDb()) {
         // Either we aren't full-NoteDb, or the underlying ref storage doesn't support atomic
         // transactions. Either way, retrying a partially-failed operation is not idempotent, so
         // don't do it automatically. Let the end user decide whether they want to retry.
+        return execute(updateFactory, action, RetryerBuilder.<T>newBuilder().build());
       }
-      return builder.build().call(() -> action.call(updateFactory));
+
+      return execute(
+          updateFactory,
+          action,
+          opts,
+          t -> {
+            if (t instanceof UpdateException) {
+              t = t.getCause();
+            }
+            return t instanceof LockFailureException;
+          });
+    } catch (Throwable t) {
+      Throwables.throwIfInstanceOf(t, UpdateException.class);
+      Throwables.throwIfInstanceOf(t, RestApiException.class);
+      throw new UpdateException(t);
+    }
+  }
+
+  private <I, O> O execute(
+      I input, Action<I, O> action, Options opts, Predicate<Throwable> exceptionPredicate)
+      throws Throwable {
+    MetricListener listener = new MetricListener();
+    try {
+      RetryerBuilder<O> retryerBuilder = createRetryerBuilder(opts, exceptionPredicate);
+      retryerBuilder.withRetryListener(listener);
+      return execute(input, action, retryerBuilder.build());
+    } finally {
+      metrics.attemptCounts.record(listener.getAttemptCount());
+    }
+  }
+
+  private <I, O> O execute(I input, Action<I, O> action, Retryer<O> retryer) throws Throwable {
+    try {
+      return retryer.call(() -> action.call(input));
     } catch (ExecutionException | RetryException e) {
       if (e instanceof RetryException) {
         metrics.timeoutCount.increment();
       }
       if (e.getCause() != null) {
-        Throwables.throwIfInstanceOf(e.getCause(), UpdateException.class);
-        Throwables.throwIfInstanceOf(e.getCause(), RestApiException.class);
+        throw e.getCause();
       }
-      throw new UpdateException(e);
-    } finally {
-      if (listener != null) {
-        metrics.attemptCounts.record(listener.getAttemptCount());
-      }
+      throw e;
     }
   }
 
-  private static boolean isLockFailure(Throwable t) {
-    if (t instanceof UpdateException) {
-      t = t.getCause();
+  private <O> RetryerBuilder<O> createRetryerBuilder(
+      Options opts, Predicate<Throwable> exceptionPredicate) {
+    RetryerBuilder<O> retryerBuilder =
+        RetryerBuilder.<O>newBuilder().retryIfException(exceptionPredicate);
+    if (opts.listener() != null) {
+      retryerBuilder.withRetryListener(opts.listener());
     }
-    return t instanceof LockFailureException;
+
+    if (retryerStrategySetup != null) {
+      retryerStrategySetup.accept(retryerBuilder);
+      return retryerBuilder;
+    }
+
+    return retryerBuilder
+        .withStopStrategy(
+            StopStrategies.stopAfterDelay(
+                firstNonNull(opts.timeout(), defaultTimeout).toMillis(), MILLISECONDS))
+        .withWaitStrategy(waitStrategy);
   }
 
   private static class MetricListener implements RetryListener {
-    private final RetryListener delegate;
     private long attemptCount;
 
-    MetricListener(@Nullable RetryListener delegate) {
-      this.delegate = delegate;
+    MetricListener() {
       attemptCount = 1;
     }
 
     @Override
     public <V> void onRetry(Attempt<V> attempt) {
       attemptCount = attempt.getAttemptNumber();
-      if (delegate != null) {
-        delegate.onRetry(attempt);
-      }
     }
 
     long getAttemptCount() {

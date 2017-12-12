@@ -944,6 +944,7 @@ public class ChangeData {
     this.mergeable = mergeable;
   }
 
+  @Nullable
   public Boolean isMergeable() throws OrmException {
     if (mergeable == null) {
       Change c = change();

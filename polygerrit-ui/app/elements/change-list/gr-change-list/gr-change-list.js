@@ -113,6 +113,10 @@
       keydown: '_scopedKeydownHandler',
     },
 
+    observers: [
+      '_sectionsChanged(sections.*)',
+    ],
+
     /**
      * Iron-a11y-keys-behavior catches keyboard events globally. Some keyboard
      * events must be scoped to a component level (e.g. `enter`) in order to not
@@ -194,7 +198,7 @@
     },
 
     _sectionHref(query) {
-      return `${this.getBaseUrl()}/q/${this.encodeURL(query, true)}`;
+      return Gerrit.Nav.getUrlForSearchQuery(query);
     },
 
     /**
@@ -234,10 +238,7 @@
           this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      // Compute absolute index of item that would come after final item.
-      const len = this._computeItemAbsoluteIndex(this.sections.length, 0);
-      if (this.selectedIndex === len - 1) { return; }
-      this.selectedIndex += 1;
+      this.$.cursor.next();
     },
 
     _handleKKey(e) {
@@ -245,8 +246,7 @@
           this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      if (this.selectedIndex === 0) { return; }
-      this.selectedIndex -= 1;
+      this.$.cursor.previous();
     },
 
     _handleOKey(e) {
@@ -254,7 +254,7 @@
           this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      Gerrit.Nav.navigateToChange(this._changeForIndex(this.selectedIndex));
+      Gerrit.Nav.navigateToChange(this._changeForIndex(this.$.selectedIndex));
     },
 
     _handleNKey(e) {
@@ -290,7 +290,7 @@
           this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      this._toggleStarForIndex(this.selectedIndex);
+      this._toggleStarForIndex(this.$.selectedIndex);
     },
 
     _toggleStarForIndex(index) {
@@ -316,6 +316,12 @@
 
     _getListItems() {
       return Polymer.dom(this.root).querySelectorAll('gr-change-list-item');
+    },
+
+    _sectionsChanged(r) {
+      Polymer.dom.flush();
+      this.$.cursor.stops = this._getListItems();
+      this.$.cursor.moveToStart();
     },
   });
 })();

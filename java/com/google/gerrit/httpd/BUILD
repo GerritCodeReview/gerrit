@@ -26,7 +26,6 @@ java_library(
         "//lib:guava",
         "//lib:gwtjsonrpc",
         "//lib:gwtorm",
-        "//lib:jsch",
         "//lib:servlet-api-3_1",
         "//lib:soy",
         "//lib/auto:auto-value",

@@ -74,6 +74,24 @@
     },
     {
       "key": {
+        "uuid": "8970267f_1a3886ca",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-12T13:34:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "220443c1_92891ff2",
+      "revId": "043034e7ffcf497ac56793751a3e7f9fa4e74276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17e31918_7edaa592",
         "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
         "patchSetId": 2

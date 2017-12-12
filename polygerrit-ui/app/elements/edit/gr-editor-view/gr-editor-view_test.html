@@ -67,8 +67,11 @@ suite('gr-editor-view tests', () => {
 
     test('good params proceed', () => {
       changeDetailStub.returns(Promise.resolve({}));
-      const fileStub = sandbox.stub(element, '_getFileContent')
-          .returns(Promise.resolve('text'));
+      const fileStub = sandbox.stub(element, '_getFileData', () => {
+        element._content = 'text';
+        element._newContent = 'text';
+        element._type = 'application/octet-stream';
+      });
 
       const promises = element._paramsChanged(
           Object.assign({}, mockParams, {view: Gerrit.Nav.View.EDIT}));
@@ -84,6 +87,7 @@ suite('gr-editor-view tests', () => {
       return promises.then(() => {
         assert.equal(element._content, 'text');
         assert.equal(element._newContent, 'text');
+        assert.equal(element._type, 'application/octet-stream');
       });
     });
   });

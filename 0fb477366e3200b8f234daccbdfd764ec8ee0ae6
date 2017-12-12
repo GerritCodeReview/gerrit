@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9f64a5d_5b5ab211",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-12T01:21:19Z",
+      "side": 1,
+      "message": "Cool! It copies the unshortened SHA.",
+      "range": {
+        "startLine": 38,
+        "startChar": 16,
+        "endLine": 38,
+        "endChar": 33
+      },
+      "revId": "0fb477366e3200b8f234daccbdfd764ec8ee0ae6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f750655a_deccd5d3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-12T01:21:19Z",
+      "side": 1,
+      "message": "When I try this change locally (PS5) it doesn\u0027t copy to the clipboard.",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 14
+      },
+      "revId": "0fb477366e3200b8f234daccbdfd764ec8ee0ae6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dee5580c_c93d1d44",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-12T01:21:19Z",
+      "side": 1,
+      "message": "I wonder if it\u0027d make sense to use the cbn-copy-clipboard Polymer element [1] (or the included behavior). At least then we let that lib handle however many edge cases there may be.\n\n* [1] https://github.com/CBN-IT/cbn-copy-clipboard",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 35
+      },
+      "revId": "0fb477366e3200b8f234daccbdfd764ec8ee0ae6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

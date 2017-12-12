@@ -79,6 +79,30 @@
     },
     {
       "key": {
+        "uuid": "a77b95fb_4000b732",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-12T10:58:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17e31918_7edaa592",
+      "range": {
+        "startLine": 265,
+        "startChar": 20,
+        "endLine": 265,
+        "endChar": 27
+      },
+      "revId": "043034e7ffcf497ac56793751a3e7f9fa4e74276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79944539_146e3927",
         "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
         "patchSetId": 2
@@ -102,6 +126,30 @@
     },
     {
       "key": {
+        "uuid": "2133d7ba_28860b1a",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-12T10:58:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79944539_146e3927",
+      "range": {
+        "startLine": 271,
+        "startChar": 67,
+        "endLine": 271,
+        "endChar": 74
+      },
+      "revId": "043034e7ffcf497ac56793751a3e7f9fa4e74276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5df35e8b_f7ac27d8",
         "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
         "patchSetId": 2
@@ -116,6 +164,24 @@
       "revId": "043034e7ffcf497ac56793751a3e7f9fa4e74276",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5713738_fe0b5ab1",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-12T10:58:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5df35e8b_f7ac27d8",
+      "revId": "043034e7ffcf497ac56793751a3e7f9fa4e74276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -178,6 +244,30 @@
       "side": 1,
       "message": "To clarify the proposal I was trying to make...\n\nContinue storing Optional\u003cString\u003e within the builder. For the internal Optional field:\n\n* null \u003d\u003e don\u0027t touch it\n* Optional.empty() \u003d\u003e clear the value in the db\n* non-empty \u003d\u003e set to this value\n\nThe interface looks like:\n\n* clearFullName() \u003d\u003e set internal field to Optional.empty()\n* setFullName(null), setFullName(\"\") \u003d\u003e IAE\n* setFullName(\"foo\") \u003d\u003e set to Optional.of(\"foo\")\n\n(The reason I say AutoValue doesn\u0027t really help you here is I don\u0027t know how to have a method called setFullName on the Builder that is not abstract, which is what you would need here.)\n\nIMO this makes the interface semantics clear.\n\nHowever, it doesn\u0027t actually make the callers any clearer, because the callers will have to do:\n\n if (isNullOrEmpty(fullName)) {\n   u.clearFullName();\n } else {\n   u.setFullName(fullName);\n }\n\nwhich times N fields is pretty ugly.\n\nSo I guess I don\u0027t have a better proposal now, but I\u0027ll continue thinking on it.",
       "parentUuid": "c3b51cd4_eb2a2df3",
+      "range": {
+        "startLine": 63,
+        "startChar": 54,
+        "endLine": 64,
+        "endChar": 51
+      },
+      "revId": "043034e7ffcf497ac56793751a3e7f9fa4e74276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfe20b3b_82ac2f5c",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-12T10:58:16Z",
+      "side": 1,
+      "message": "\u003e * null \u003d\u003e don\u0027t touch it\n\u003e * Optional.empty() \u003d\u003e clear the value in the db\n\nI think this wouldn\u0027t work with AutoValue since Optional.empty() is the default value if a setter is not invoked. Hence Optional.empty() would need to mean \"don\u0027t touch it\".\n\n\u003e (The reason I say AutoValue doesn\u0027t really help you here is I don\u0027t know how to have\n\u003e a method called setFullName on the Builder that is not abstract, which is what you would\n\u003e need here.)\n\nI think we can achieve what we want if we don\u0027t use AutoValue hfor this class and instead manually implement it, but this would result in quite some boilerplate code...\n\n\u003e However, it doesn\u0027t actually make the callers any clearer, because the callers will have\n\u003e to do:\n\u003e\n\u003e if (isNullOrEmpty(fullName)) {\n\u003e   u.clearFullName();\n\u003e } else {\n\u003e   u.setFullName(fullName);\n\u003e }\n\u003e\n\u003e which times N fields is pretty ugly.\n\nYes, I also think that this is not much clearer. On the contrary if a caller forgets to check for null and calls u.setFullName(null) this will be a no-op now, although the caller would expect to full name to be cleared. With the current implementation this would at least fail with an NPE so we would get aware of these issues.\n\nI think from the callers perspective we really want to just call\n \n  u.setFullName(fullName)\n\nIf fullName is null or empty the fullName should be cleared, otherwise it should be updated to the new value. If setFullName is not invoked the full name should not be updated.\n\nTo get this done we can either implement this class manually (boilerplace code) or do some magic to automatically convert null string args to empty strings. If null string args are converted to empty strings AutoValue is happy:\n\n* Optional.empty() (default value) \u003d\u003e don\u0027t touch it\n* Optional.of(\u003cnon-empty-string\u003e) \u003d\u003e set to this calue\n* Optional.of(\"\") \u003d\u003e clear the value in the db\n\nI think I found a way to convert null string args to empty strings automatically. It\u0027s a little hacky, but maybe it\u0027s less ugly then implementing the classes manually?\nWhat do you think?",
+      "parentUuid": "25e3b68b_7032d419",
       "range": {
         "startLine": 63,
         "startChar": 54,

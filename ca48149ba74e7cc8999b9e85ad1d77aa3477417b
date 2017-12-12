@@ -46,6 +46,30 @@
       "revId": "ca48149ba74e7cc8999b9e85ad1d77aa3477417b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3320c113_257e5b6b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-12T00:34:52Z",
+      "side": 1,
+      "message": "DateStr should not be a date object now (after your other change). It will always be a string. I tried changing this line back and did not see any javascript errors.",
+      "parentUuid": "bc45f43d_3ffa4d07",
+      "range": {
+        "startLine": 136,
+        "startChar": 6,
+        "endLine": 136,
+        "endChar": 87
+      },
+      "revId": "ca48149ba74e7cc8999b9e85ad1d77aa3477417b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

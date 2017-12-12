@@ -48,6 +48,7 @@ limitations under the License.
 <link rel="import" href="./diff/gr-diff-view/gr-diff-view.html">
 <link rel="import" href="./edit/gr-editor-view/gr-editor-view.html">
 <link rel="import" href="./plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
+<link rel="import" href="./plugins/gr-endpoint-param/gr-endpoint-param.html">
 <link rel="import" href="./plugins/gr-external-style/gr-external-style.html">
 <link rel="import" href="./plugins/gr-plugin-host/gr-plugin-host.html">
 <link rel="import" href="./settings/gr-cla-view/gr-cla-view.html">
@@ -171,6 +172,11 @@ limitations under the License.
       <template is="dom-if" if="[[_showAdminView]]" restamp="true">
         <gr-admin-view path="[[_path]]"
             params=[[params]]></gr-admin-view>
+      </template>
+      <template is="dom-if" if="[[_showPluginScreen]]" restamp="true">
+        <gr-endpoint-decorator name="[[_pluginScreenName]]">
+          <gr-endpoint-param name="token" value="[[params.screen]]"></gr-endpoint-param>
+        </gr-endpoint-decorator>
       </template>
       <template is="dom-if" if="[[_showCLAView]]" restamp="true">
         <gr-cla-view path="[[_path]]"></gr-cla-view>

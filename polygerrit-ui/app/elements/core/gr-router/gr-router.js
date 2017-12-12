@@ -130,6 +130,8 @@
     // Matches /c/<changeNum>/ /<URL tail>
     // Catches improperly encoded URLs (context: Issue 7100)
     IMPROPERLY_ENCODED_PLUS: /^\/c\/(.+)\/\ \/(.+)$/,
+
+    PLUGIN_SCREEN: /^\/x\/([\w-]+)\/([\w-]+)\/?/,
   };
 
   /**
@@ -621,6 +623,14 @@
       page((ctx, next) => {
         document.body.scrollTop = 0;
 
+        if (ctx.hash.match(RoutePattern.PLUGIN_SCREEN)) {
+          // Redirect all urls using hash #/x/plugin/screen to /x/plugin/screen
+          // This is needed to allow plugins to add basic #/x/ screen links to
+          // any location.
+          this._redirect(ctx.hash);
+          return;
+        }
+
         // Fire asynchronously so that the URL is changed by the time the event
         // is processed.
         this.async(() => {
@@ -747,6 +757,8 @@
 
       this._mapRoute(RoutePattern.IMPROPERLY_ENCODED_PLUS,
           '_handleImproperlyEncodedPlusRoute');
+
+      this._mapRoute(RoutePattern.PLUGIN_SCREEN, '_handlePluginScreen');
 
       // Note: this route should appear last so it only catches URLs unmatched
       // by other patterns.
@@ -1274,6 +1286,13 @@
       let hash = this._getHashFromCanonicalPath(ctx.canonicalPath);
       if (hash.length) { hash = '#' + hash; }
       this._redirect(`/c/${ctx.params[0]}/+/${ctx.params[1]}${hash}`);
+    },
+
+    _handlePluginScreen(ctx) {
+      const view = Gerrit.Nav.View.PLUGIN_SCREEN;
+      const plugin = ctx.params[0];
+      const screen = ctx.params[1];
+      this._setParams({view, plugin, screen});
     },
 
     /**

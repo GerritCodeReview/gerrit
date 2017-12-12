@@ -23,7 +23,7 @@
    */
   const plugins = {};
 
-  const stubbedMethods = ['_loadedGwt', 'screen', 'settingsScreen', 'panel'];
+  const stubbedMethods = ['_loadedGwt', 'settingsScreen', 'panel'];
   const GWT_PLUGIN_STUB = {};
   for (const name of stubbedMethods) {
     GWT_PLUGIN_STUB[name] = warnNotSupported.bind(null, name);
@@ -92,7 +92,11 @@
           url.href, '— Unable to determine name.');
       return;
     }
-    return pathname.split('/')[2];
+    // Pathname should normally look like this:
+    // /plugins/PLUGINNAME/static/SCRIPTNAME.html
+    // Or, for app/samples:
+    // /plugins/PLUGINNAME.html
+    return pathname.split('/')[2].split('.')[0];
   }
 
   function Plugin(opt_url) {
@@ -105,8 +109,9 @@
     }
     this.deprecated = {
       install: deprecatedAPI.install.bind(this),
-      popup: deprecatedAPI.popup.bind(this),
       onAction: deprecatedAPI.onAction.bind(this),
+      popup: deprecatedAPI.popup.bind(this),
+      screen: deprecatedAPI.screen.bind(this),
     };
 
     this._url = new URL(opt_url);
@@ -157,6 +162,13 @@
     const base = Gerrit.BaseUrlBehavior.getBaseUrl();
     return this._url.origin + base + '/plugins/' +
         this._name + (opt_path || '/');
+  };
+
+  Plugin.prototype.screenUrl = function(opt_screenName) {
+    const origin = this._url.origin;
+    const base = Gerrit.BaseUrlBehavior.getBaseUrl();
+    const tokenPart = opt_screenName ? '/' + opt_screenName : '';
+    return `${origin}${base}/x/${this.getPluginName()}${tokenPart}`;
   };
 
   Plugin.prototype._send = function(method, url, opt_callback, opt_payload) {
@@ -237,6 +249,15 @@
     return api.open();
   };
 
+  Plugin.prototype.screen = function(screenName, opt_moduleName) {
+    if (opt_moduleName && typeof opt_moduleName !== 'string') {
+      throw new Error('deprecated, use deprecated.screen');
+    }
+    return this.registerCustomComponent(
+        Gerrit._getPluginScreenName(this.getPluginName(), screenName),
+        opt_moduleName);
+  };
+
   const deprecatedAPI = {
     install() {
       console.log('Installing deprecated APIs is deprecated!');
@@ -277,6 +298,29 @@
       });
     },
 
+    screen(pattern, callback) {
+      console.warn('plugin.deprecated.screen is deprecated,' +
+          ' use plugin.screen instead!');
+      if (pattern instanceof RegExp) {
+        console.error('deprecated.screen() does not support RegExp. ' +
+            'Please use strings for patterns.');
+        return;
+      }
+      this.hook(Gerrit._getPluginScreenName(this.getPluginName(), pattern))
+          .onAttached(el => {
+            el.style.display = 'none';
+            callback({
+              body: el,
+              token: el.token,
+              onUnload: () => {},
+              setTitle: () => {},
+              setWindowTitle: () => {},
+              show: () => {
+                el.style.display = 'initial';
+              },
+            });
+          });
+    },
   };
 
   const Gerrit = window.Gerrit || {};
@@ -418,6 +462,10 @@
 
   Gerrit._arePluginsLoaded = function() {
     return Gerrit._pluginsPending === 0;
+  };
+
+  Gerrit._getPluginScreenName = function(pluginName, screenName) {
+    return `${pluginName}-screen-${screenName}`;
   };
 
   window.Gerrit = Gerrit;

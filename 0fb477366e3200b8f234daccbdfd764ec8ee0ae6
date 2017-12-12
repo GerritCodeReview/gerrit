@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "1e2b5365_ffed49d5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-12T22:13:23Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "f750655a_deccd5d3",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 14
+      },
+      "revId": "0fb477366e3200b8f234daccbdfd764ec8ee0ae6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dee5580c_c93d1d44",
         "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.js",
         "patchSetId": 5
@@ -59,6 +83,30 @@
       "writtenOn": "2017-12-12T01:21:19Z",
       "side": 1,
       "message": "I wonder if it\u0027d make sense to use the cbn-copy-clipboard Polymer element [1] (or the included behavior). At least then we let that lib handle however many edge cases there may be.\n\n* [1] https://github.com/CBN-IT/cbn-copy-clipboard",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 35
+      },
+      "revId": "0fb477366e3200b8f234daccbdfd764ec8ee0ae6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1a6ca80_2e95fa1b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-12T22:13:23Z",
+      "side": 1,
+      "message": "I\u0027m wary of using non-stock dependencies without a good enough reason, tbh.",
+      "parentUuid": "dee5580c_c93d1d44",
       "range": {
         "startLine": 57,
         "startChar": 6,

@@ -22,6 +22,30 @@
       "revId": "ca48149ba74e7cc8999b9e85ad1d77aa3477417b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc45f43d_3ffa4d07",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1057127
+      },
+      "writtenOn": "2017-12-12T00:28:56Z",
+      "side": 1,
+      "message": "If |dateStr| is a Date object, then util.parseDate() fails, because it attempts to do dateStr.replace(), and Date doesn\u0027t have a replaceStr().",
+      "parentUuid": "cb978a33_a65f019f",
+      "range": {
+        "startLine": 136,
+        "startChar": 6,
+        "endLine": 136,
+        "endChar": 87
+      },
+      "revId": "ca48149ba74e7cc8999b9e85ad1d77aa3477417b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

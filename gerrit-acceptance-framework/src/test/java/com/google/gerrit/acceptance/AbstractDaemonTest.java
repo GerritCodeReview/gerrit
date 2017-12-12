@@ -1383,4 +1383,10 @@ public abstract class AbstractDaemonTest {
     return rw.parseCommit(
         ObjectId.fromString(get(changeId, ListChangesOption.CURRENT_REVISION).currentRevision));
   }
+
+  protected void enableCreateNewChangeForAllNotInTarget() throws Exception {
+    ProjectConfig config = projectCache.checkedGet(project).getConfig();
+    config.getProject().setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
+    saveProjectConfig(project, config);
+  }
 }

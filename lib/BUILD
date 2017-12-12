@@ -83,13 +83,6 @@ java_library(
 )
 
 java_library(
-    name = "jsch",
-    data = ["//lib:LICENSE-jsch"],
-    visibility = ["//visibility:public"],
-    exports = ["@jsch//jar"],
-)
-
-java_library(
     name = "juniversalchardet",
     data = ["//lib:LICENSE-MPL1.1"],
     visibility = ["//visibility:public"],

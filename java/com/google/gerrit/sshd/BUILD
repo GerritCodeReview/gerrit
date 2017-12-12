@@ -20,7 +20,6 @@ java_library(
         "//lib:gson",
         "//lib:guava",
         "//lib:gwtorm",
-        "//lib:jsch",
         "//lib:servlet-api-3_1",
         "//lib/auto:auto-value",
         "//lib/bouncycastle:bcprov-neverlink",

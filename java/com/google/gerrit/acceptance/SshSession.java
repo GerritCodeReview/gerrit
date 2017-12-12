@@ -16,7 +16,7 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import com.jcraft.jsch.ChannelExec;
+import org.apache.sshd.client.channel.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
@@ -36,15 +36,15 @@ public class SshSession {
     this.account = account;
   }
 
-  public void open() throws JSchException {
+  public void open() {
     getSession();
   }
 
   @SuppressWarnings("resource")
   public String exec(String command, InputStream opt) throws JSchException, IOException {
-    ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
+    ChannelExec channel = (ChannelExec) getSession();
     try {
-      channel.setCommand(command);
+      channel.createExecChannel(command);
       channel.setInputStream(opt);
       InputStream in = channel.getInputStream();
       InputStream err = channel.getErrStream();
@@ -60,7 +60,7 @@ public class SshSession {
     }
   }
 
-  public InputStream exec2(String command, InputStream opt) throws JSchException, IOException {
+  public InputStream exec2(String command, InputStream opt) throws IOException {
     ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
     channel.setCommand(command);
     channel.setInputStream(opt);
@@ -69,7 +69,7 @@ public class SshSession {
     return in;
   }
 
-  public String exec(String command) throws JSchException, IOException {
+  public String exec(String command) throws IOException {
     return exec(command, null);
   }
 
@@ -88,14 +88,24 @@ public class SshSession {
     }
   }
 
-  private Session getSession() throws JSchException {
+  private Session getSession() throws Exception {
     if (session == null) {
-      JSch jsch = new JSch();
-      jsch.addIdentity("KeyPair", account.privateKey(), account.sshKey.getPublicKeyBlob(), null);
+      SshClient client = SshClient.setUpDefaultClient();
+      client.start();
+      ClientSession sshClient = client.connect(addr.getAddress().getHostAddress(), addr.getPort()).await().getSession();
+      sshClient.getTransport().addHostKeyVerifier(new PromiscuousVerifier());
       session =
-          jsch.getSession(account.username, addr.getAddress().getHostAddress(), addr.getPort());
+          sshClient.getSession(account.username, addr.getAddress().getHostAddress(), addr.getPort());
       session.setConfig("StrictHostKeyChecking", "no");
-      session.connect();
+      session.connect(addr.getAddress().getHostAddress(), addr.getPort());
+      try {
+        KeyProvider keys = sshClient.loadKeys(account.privateKey(), account.sshKey.getPublicKeyBlob(), null);
+        sshClient.authPublickey(account.username, keys);
+        Session session = sshClient.startSession();
+        session.allocateDefaultPTY();
+      } finally {
+        sshClient.disconnect();
+      }
     }
     return session;
   }

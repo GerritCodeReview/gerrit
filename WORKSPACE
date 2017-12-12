@@ -205,12 +205,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "jsch",
-    artifact = "com.jcraft:jsch:0.1.54",
-    sha1 = "da3584329a263616e277e15462b387addd1b208d",
-)
-
-maven_jar(
     name = "juniversalchardet",
     artifact = "com.github.albfernandez:juniversalchardet:2.0.0",
     sha1 = "28c59f58f5adcc307604602e2aa89e2aca14c554",

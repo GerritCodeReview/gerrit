@@ -226,6 +226,10 @@ limitations under the License.
             '/q/owner:a%2525b+project:c%2525d+branch:e%2525f+' +
             'topic:"g%2525h"+status:op%2525en');
 
+        // The presence of the query param overrides other params.
+        params.query = 'foo bar';
+        assert.equal(element._generateUrl(params), '/q/foo%20bar');
+
         params = {
           view: Gerrit.Nav.View.SEARCH,
           statuses: ['a', 'b', 'c'],

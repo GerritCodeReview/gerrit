@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "cedc8849_439cd1c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-12T10:35:29Z",
+      "side": 1,
+      "message": "I don\u0027t have a finished idea yet, just some suggestions. ;-)\n\nThe first decision is about the methods: Do we want to have just one method which delivers an event or do we want to have several dedicated methods with possibly more general events?\n\nI see advantages and disadvantages for both of them. Because of Java 8, we at least have the possibility to add default methods in the future which don\u0027t break implementations of the listener. If we go that way (that is having one dedicated method for each audit type), we should consider to define the existing methods as default ones as well.\n\nIn my opinion, the events we pass as method parameters should be immutable DTOs. (I know that AccountGroup.UUID is in theory mutable but we can\u0027t do anything about it right now.) So, I would define the event types with the help of AutoValue.\n\nIn addition, we could define an interface GroupAuditEvent, which lists common properties such as the acting user, the affected group, and a timestamp. The specific audit events should implement that interface.\n\nIf we decide to use a dedicated method for each audit type, we don\u0027t need four event types right now. Adding a member doesn\u0027t require any different details from removing a member. As we have two methods for distinguishing the taken action (add or delete), we can just use the same event.\n\nRegarding naming: We should try to be consistent. Accounts which are part of a group are called \u0027members\u0027 throughout Gerrit and groups are called \u0027subgroups\u0027. We should use those terms for the names of the methods and possibly the events. The name of the listener isn\u0027t really adequate either anymore. As we now have the possibility to get it straight, we should take it.",
+      "parentUuid": "1eb50d83_117a1fa0",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 34
+      },
+      "revId": "a8ea8492394a7c50cc3c296c96da8c1d5307fee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b98a22bc_1b48a103",
         "filename": "java/com/google/gerrit/server/audit/GroupMemberAuditListener.java",
         "patchSetId": 3

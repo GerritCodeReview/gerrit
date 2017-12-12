@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51ef38ce_628df161",
+        "filename": "java/com/google/gerrit/server/project/BooleanProjectConfigTransformations.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-12-12T14:27:03Z",
+      "side": 1,
+      "message": "Unfortunately this can\u0027t go into BooleanProjectConfig (like I had it in PS1) because that creates a dependency problem.",
+      "revId": "85f15d130621c3ff7e61d19285dce33644c94b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

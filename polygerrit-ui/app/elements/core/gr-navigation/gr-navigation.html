@@ -26,6 +26,9 @@ limitations under the License.
     //    - `changeNum`, required, String: the numeric ID of the change.
     //
     // - Gerrit.Nav.View.SEARCH:
+    //    - `query`, optional, String: the literal search query. If provided,
+    //        the string will be used as the query, and all other params will be
+    //        ignored.
     //    - `owner`, optional, String: the owner name.
     //    - `project`, optional, String: the project name.
     //    - `branch`, optional, String: the branch name.
@@ -134,6 +137,13 @@ limitations under the License.
        */
       _getUrlFor(params) {
         return this._generateUrl(params);
+      },
+
+      getUrlForSearchQuery(query) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.SEARCH,
+          query,
+        });
       },
 
       /**

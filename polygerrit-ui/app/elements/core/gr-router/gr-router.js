@@ -322,6 +322,10 @@
      * @return {string}
      */
     _generateSearchUrl(params) {
+      if (params.query) {
+        return '/q/' + this.encodeURL(params.query, true);
+      }
+
       const operators = [];
       if (params.owner) {
         operators.push('owner:' + this.encodeURL(params.owner, false));

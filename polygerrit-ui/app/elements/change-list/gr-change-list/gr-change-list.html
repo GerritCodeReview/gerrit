@@ -22,6 +22,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../styles/gr-change-list-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
+<link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-change-list-item/gr-change-list-item.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -101,11 +102,17 @@ limitations under the License.
               visible-change-table-columns="[[visibleChangeTableColumns]]"
               show-number="[[showNumber]]"
               show-star="[[showStar]]"
+              tabindex="0"
               label-names="[[labelNames]]"></gr-change-list-item>
         </template>
       </template>
     </table>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+    <gr-cursor-manager
+        id="cursor"
+        index="{{selectedIndex}}"
+        scroll-behavior="keep-visible"
+        focus-on-move></gr-cursor-manager>
   </template>
   <script src="gr-change-list.js"></script>
 </dom-module>

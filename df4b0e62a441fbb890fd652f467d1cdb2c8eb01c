@@ -35,6 +35,24 @@
       "revId": "df4b0e62a441fbb890fd652f467d1cdb2c8eb01c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29d69652_d4122489",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-12T16:40:18Z",
+      "side": 1,
+      "message": "[1] tries to refactor RetryHelper so that it can also be used for updates to account data.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/147614",
+      "parentUuid": "9209026e_ab9de757",
+      "revId": "df4b0e62a441fbb890fd652f467d1cdb2c8eb01c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

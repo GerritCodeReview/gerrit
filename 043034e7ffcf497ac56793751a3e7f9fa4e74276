@@ -56,6 +56,24 @@
     },
     {
       "key": {
+        "uuid": "220443c1_92891ff2",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-12T12:37:27Z",
+      "side": 1,
+      "message": "I think I\u0027m in favor of removing \n\n  update(Account.Id accountId, List\u003cAccountUpdater\u003e updater)\n\nto make the API simpler. Will follow-up on this with a new patch set.",
+      "parentUuid": "b3c9adfb_094fb900",
+      "revId": "043034e7ffcf497ac56793751a3e7f9fa4e74276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "17e31918_7edaa592",
         "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
         "patchSetId": 2

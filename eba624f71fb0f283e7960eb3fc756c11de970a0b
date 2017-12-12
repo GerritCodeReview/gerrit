@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1513098073 -0500\nnonce ADEcKBrAftRv4pIdAWQPYvMF+vYdhm9P33zL+ftZWLmzYim2UHyudVjrWDYQRBVawx6JSfLjb8Gh\n\n0000000000000000000000000000000000000000 eba624f71fb0f283e7960eb3fc756c11de970a0b refs/for/stable-2.15%r\u003dhanwen@google.com,r\u003dekempin@google.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlowC1kVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiM4QwP/jA+GheH3rQBEJ8Rgb/8auCVbxQw\nwglLD0FAOAmkpM+yFej5rW4lXHjdCAH+oLT45+/ZmWzV9PVkaIhffnV3JoI4Vfqj\nyCLkPew0tETTFvoJgGJpcRm2JFxjl0iL4lLnXO771/nrsDzn34LpfOEcBkt5agpy\nsS3sTm+dv35wBpocsuhUfSKPI4AEEl8PMHZAFBdHsH4eAvpAZDkguu44McKHF80C\nw9Lg8hk1JjNBuRmTp6OQrhAx8UMZfWsw4K9ue9Gkan6Ct6ziMxo4Pmy1wL3rZYrq\n0ys8rlnBC2NbalJpCsPDDQvF9lmdIhczQPCSHfTtWn3MudrprMrIakKIHXx6nabe\nvap1q/MOGoPvzrnku3SYWxGdyRXTWOXqqRM4gBYq4e3XiSxXvNb3TFm59DUzr1ab\nyGklOtMOv4QuhoM6X3Q43yaeCgtqIfhmsI8VTrqrQ/iNoUtL1UIp7cucvsvycMVD\nKu0Td6Ed8LLj1rlDY8SeT6nlFkT3w5eQ4scC7+EjiK1zdvK1DPm9t0pctMxDais7\nB+zsTEWRLyBLxL4APSk1LvV13CV+foG+u1JSZ4yduKqqa8yn3SKJ964Svv4/JtGA\nEu+cTZzAff7wmAaHrDWbRLuYqny6T1fmPmDp8NLc6RD/gRq34WvE1hfPqL5aE8ky\ngqgpWzKAq3Ch17yM\n\u003dZ5Ch\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b71b8b57_3819b085",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-12T17:02:24Z",
+      "side": 1,
+      "message": "Curious how reviewers feel about this. The alternative, as laid out in the prior paragraph, is just to leave the legacy reading code in for a few more months.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "eba624f71fb0f283e7960eb3fc756c11de970a0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -8,7 +8,7 @@ java_import(
 
 genrule2(
     name = "log4j-config__jar",
-    srcs = ["log4j2.properties"],
+    srcs = ["log4j2.xml"],
     outs = ["log4j-config.jar"],
     cmd = "cd resources && zip -9Dqr $$ROOT/$@ .",
 )

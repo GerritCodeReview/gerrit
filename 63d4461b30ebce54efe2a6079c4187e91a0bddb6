@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ec5d745_d9eb729f",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-12T08:07:51Z",
+      "side": 1,
+      "message": "optional: Import this as static",
+      "range": {
+        "startLine": 53,
+        "startChar": 59,
+        "endLine": 53,
+        "endChar": 72
+      },
+      "revId": "63d4461b30ebce54efe2a6079c4187e91a0bddb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61fc1013_ea555133",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-12T08:07:51Z",
+      "side": 1,
+      "message": "If this is imported static does it still need the line reformatting?",
+      "range": {
+        "startLine": 64,
+        "startChar": 33,
+        "endLine": 64,
+        "endChar": 46
+      },
+      "revId": "63d4461b30ebce54efe2a6079c4187e91a0bddb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

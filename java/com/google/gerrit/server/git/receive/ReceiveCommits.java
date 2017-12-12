@@ -2855,17 +2855,20 @@ class ReceiveCommits {
         rw.parseBody(c);
 
         for (Ref ref : byCommit.get(c.copy())) {
-          existingPatchSets++;
           PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
-          bu.addOp(
-              psId.getParentKey(),
-              mergedByPushOpFactory.create(requestScopePropagator, psId, refName));
-          continue COMMIT;
+          Optional<ChangeData> cd = byLegacyId(psId.getParentKey());
+          if (cd.isPresent() && cd.get().change().getDest().equals(branch)) {
+            existingPatchSets++;
+            bu.addOp(
+                psId.getParentKey(),
+                mergedByPushOpFactory.create(requestScopePropagator, psId, refName));
+            continue COMMIT;
+          }
         }
 
         for (String changeId : c.getFooterLines(CHANGE_ID)) {
           if (byKey == null) {
-            byKey = openChangesByBranch(branch);
+            byKey = openChangesByKeyByBranch(branch);
           }
 
           ChangeNotes onto = byKey.get(new Change.Key(changeId.trim()));
@@ -2938,13 +2941,21 @@ class ReceiveCommits {
     }
   }
 
-  private Map<Change.Key, ChangeNotes> openChangesByBranch(Branch.NameKey branch)
+  private Map<Change.Key, ChangeNotes> openChangesByKeyByBranch(Branch.NameKey branch)
       throws OrmException {
     Map<Change.Key, ChangeNotes> r = new HashMap<>();
     for (ChangeData cd : queryProvider.get().byBranchOpen(branch)) {
       r.put(cd.change().getKey(), cd.notes());
     }
     return r;
+  }
+
+  private Optional<ChangeData> byLegacyId(Change.Id legacyId) throws OrmException {
+    List<ChangeData> res = queryProvider.get().byLegacyChangeId(legacyId);
+    if (res.isEmpty()) {
+      return Optional.empty();
+    }
+    return Optional.of(res.get(0));
   }
 
   private Map<String, Ref> allRefs() {

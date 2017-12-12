@@ -1490,7 +1490,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     PushOneCommit.Result r = push1.to("refs/for/master");
     r.assertOkStatus();
 
-    //abandon the change
+    // abandon the change
     String changeId = r.getChangeId();
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
     gApi.changes().id(changeId).abandon();
@@ -2097,12 +2097,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     if (expectedMessage != null) {
       assertThat(refUpdate.getMessage()).contains(expectedMessage);
     }
-  }
-
-  private void enableCreateNewChangeForAllNotInTarget() throws Exception {
-    ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config.getProject().setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
-    saveProjectConfig(project, config);
   }
 
   private void grantSkipValidation(Project.NameKey project, String ref, AccountGroup.UUID groupUuid)

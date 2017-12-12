@@ -1555,4 +1555,10 @@ public abstract class AbstractDaemonTest {
   protected void fail() throws Exception {
     assert_().fail();
   }
+
+  protected void enableCreateNewChangeForAllNotInTarget() throws Exception {
+    ProjectConfig config = projectCache.checkedGet(project).getConfig();
+    config.getProject().setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
+    saveProjectConfig(project, config);
+  }
 }

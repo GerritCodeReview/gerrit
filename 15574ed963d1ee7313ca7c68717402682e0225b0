@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baf10868_56270ba6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-12T08:45:02Z",
+      "side": 1,
+      "message": "systems",
+      "range": {
+        "startLine": 9,
+        "startChar": 37,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "15574ed963d1ee7313ca7c68717402682e0225b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "671b1d42_d2f407f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-12T08:45:02Z",
+      "side": 1,
+      "message": "needs",
+      "range": {
+        "startLine": 13,
+        "startChar": 9,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "15574ed963d1ee7313ca7c68717402682e0225b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60dc1690_46b18cc5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/PrivateStateChangedListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-12T08:45:02Z",
+      "side": 1,
+      "message": "Missing header.",
+      "revId": "15574ed963d1ee7313ca7c68717402682e0225b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb3ca477_cdaecacd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/PrivateStateChangedEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-12T08:45:02Z",
+      "side": 1,
+      "message": "Missing header.",
+      "revId": "15574ed963d1ee7313ca7c68717402682e0225b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90dc2248_7dbebd80",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/PrivateStateChanged.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-12T08:45:02Z",
+      "side": 1,
+      "message": "Missing header.",
+      "revId": "15574ed963d1ee7313ca7c68717402682e0225b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

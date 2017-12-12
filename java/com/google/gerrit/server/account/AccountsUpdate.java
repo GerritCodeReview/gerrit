@@ -237,12 +237,13 @@ public class AccountsUpdate {
       throws IOException, ConfigInvalidException {
     AccountConfig accountConfig = read(accountId);
     Optional<Account> account = accountConfig.getLoadedAccount();
-    if (account.isPresent()) {
-      consumers.stream().forEach(c -> c.accept(account.get()));
-      commit(accountConfig);
+    if (!account.isPresent()) {
+      return null;
     }
 
-    return account.orElse(null);
+    consumers.stream().forEach(c -> c.accept(account.get()));
+    commit(accountConfig);
+    return account.get();
   }
 
   /**

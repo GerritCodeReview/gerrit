@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
@@ -80,19 +79,6 @@ public class AbstractGroupTest extends GerritBaseTests {
       return ref == null
           ? null
           : new Timestamp(rw.parseCommit(ref.getObjectId()).getAuthorIdent().getWhen().getTime());
-    }
-  }
-
-  protected void assertTipCommit(
-      AccountGroup.UUID uuid, String expectedMessage, String expectedName, String expectedEmail)
-      throws Exception {
-    try (RevWalk rw = new RevWalk(allUsersRepo)) {
-      Ref ref = allUsersRepo.exactRef(RefNames.refsGroups(uuid));
-      assertCommit(
-          CommitUtil.toCommitInfo(rw.parseCommit(ref.getObjectId()), rw),
-          expectedMessage,
-          expectedName,
-          expectedEmail);
     }
   }
 

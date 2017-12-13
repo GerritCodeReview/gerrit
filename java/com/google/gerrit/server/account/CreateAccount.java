@@ -172,7 +172,10 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
 
     accountsUpdate
         .create()
-        .insert(id, u -> u.setFullName(input.name).setPreferredEmail(input.email));
+        .insert(
+            "Create Account via API",
+            id,
+            u -> u.setFullName(input.name).setPreferredEmail(input.email));
 
     for (AccountGroup.UUID groupUuid : groups) {
       try {

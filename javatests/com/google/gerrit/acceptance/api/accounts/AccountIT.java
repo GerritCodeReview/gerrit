@@ -325,11 +325,35 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void commitMessageOnAccountUpdates() throws Exception {
+    AccountsUpdate au = accountsUpdate.create();
+    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    au.insert("Create Test Account", accountId, u -> {});
+    assertLastCommitMessageOfUserBranch(accountId, "Create Test Account");
+
+    au.update("Set Status", accountId, u -> u.setStatus("Foo"));
+    assertLastCommitMessageOfUserBranch(accountId, "Set Status");
+  }
+
+  private void assertLastCommitMessageOfUserBranch(Account.Id accountId, String expectedMessage)
+      throws Exception {
+    try (Repository repo = repoManager.openRepository(allUsers);
+        RevWalk rw = new RevWalk(repo)) {
+      Ref exactRef = repo.exactRef(RefNames.refsUsers(accountId));
+      assertThat(rw.parseCommit(exactRef.getObjectId()).getShortMessage())
+          .isEqualTo(expectedMessage);
+    }
+  }
+
+  @Test
   public void updateNonExistingAccount() throws Exception {
     Account.Id nonExistingAccountId = new Account.Id(999999);
     AtomicBoolean consumerCalled = new AtomicBoolean();
     Account account =
-        accountsUpdate.create().update(nonExistingAccountId, a -> consumerCalled.set(true));
+        accountsUpdate
+            .create()
+            .update(
+                "Update Non-Existing Account", nonExistingAccountId, a -> consumerCalled.set(true));
     assertThat(account).isNull();
     assertThat(consumerCalled.get()).isFalse();
   }
@@ -341,7 +365,9 @@ public class AccountIT extends AbstractDaemonTest {
 
     String status = "OOO";
     Account account =
-        accountsUpdate.create().update(anonymousCoward.getId(), u -> u.setStatus(status));
+        accountsUpdate
+            .create()
+            .update("Set status", anonymousCoward.getId(), u -> u.setStatus(status));
     assertThat(account).isNotNull();
     assertThat(account.getFullName()).isNull();
     assertThat(account.getStatus()).isEqualTo(status);
@@ -871,7 +897,9 @@ public class AccountIT extends AbstractDaemonTest {
     String prefix = "foo.preferred";
     String prefEmail = prefix + "@example.com";
     TestAccount foo = accountCreator.create(name("foo"));
-    accountsUpdate.create().update(foo.id, u -> u.setPreferredEmail(prefEmail));
+    accountsUpdate
+        .create()
+        .update("Set Preferred Email", foo.id, u -> u.setPreferredEmail(prefEmail));
 
     // verify that the account is still found when using the preferred email to lookup the account
     ImmutableSet<Account.Id> accountsByPrefEmail = emails.getAccountFor(prefEmail);
@@ -1347,7 +1375,9 @@ public class AccountIT extends AbstractDaemonTest {
     String userRef = RefNames.refsUsers(foo.id);
 
     String noEmail = "no.email";
-    accountsUpdate.create().update(foo.id, u -> u.setPreferredEmail(noEmail));
+    accountsUpdate
+        .create()
+        .update("Set Preferred Email", foo.id, u -> u.setPreferredEmail(noEmail));
     accountIndexedCounter.clear();
 
     grant(allUsers, userRef, Permission.PUSH, false, REGISTERED_USERS);
@@ -1829,11 +1859,11 @@ public class AccountIT extends AbstractDaemonTest {
     // metaId is set when account is created
     AccountsUpdate au = accountsUpdate.create();
     Account.Id accountId = new Account.Id(seq.nextAccountId());
-    Account account = au.insert(accountId, u -> {});
+    Account account = au.insert("Create Test Account", accountId, u -> {});
     assertThat(account.getMetaId()).isEqualTo(getMetaId(accountId));
 
     // metaId is set when account is updated
-    Account updatedAccount = au.update(accountId, u -> u.setFullName("foo"));
+    Account updatedAccount = au.update("Set Full Name", accountId, u -> u.setFullName("foo"));
     assertThat(account.getMetaId()).isNotEqualTo(updatedAccount.getMetaId());
     assertThat(updatedAccount.getMetaId()).isEqualTo(getMetaId(accountId));
   }
@@ -1923,7 +1953,7 @@ public class AccountIT extends AbstractDaemonTest {
             () -> {
               if (!doneBgUpdate.getAndSet(true)) {
                 try {
-                  accountsUpdate.create().update(admin.id, u -> u.setStatus(status));
+                  accountsUpdate.create().update("Set Status", admin.id, u -> u.setStatus(status));
                 } catch (IOException | ConfigInvalidException | OrmException e) {
                   // Ignore, the successful update of the account is asserted later
                 }
@@ -1934,7 +1964,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(accountInfo.status).isNull();
     assertThat(accountInfo.name).isNotEqualTo(fullName);
 
-    Account updatedAccount = update.update(admin.id, u -> u.setFullName(fullName));
+    Account updatedAccount = update.update("Set Full Name", admin.id, u -> u.setFullName(fullName));
     assertThat(doneBgUpdate.get()).isTrue();
 
     assertThat(updatedAccount.getStatus()).isEqualTo(status);
@@ -1974,7 +2004,10 @@ public class AccountIT extends AbstractDaemonTest {
               try {
                 accountsUpdate
                     .create()
-                    .update(admin.id, u -> u.setStatus(status.get(bgCounter.getAndAdd(1))));
+                    .update(
+                        "Set Status",
+                        admin.id,
+                        u -> u.setStatus(status.get(bgCounter.getAndAdd(1))));
               } catch (IOException | ConfigInvalidException | OrmException e) {
                 // Ignore, the expected exception is asserted later
               }
@@ -1985,7 +2018,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(accountInfo.name).isNotEqualTo(fullName);
 
     try {
-      update.update(admin.id, u -> u.setFullName(fullName));
+      update.update("Set Full Name", admin.id, u -> u.setFullName(fullName));
       fail("expected LockFailureException");
     } catch (LockFailureException e) {
       // Ignore, expected

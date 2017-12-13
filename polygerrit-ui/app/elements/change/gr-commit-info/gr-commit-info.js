@@ -19,6 +19,7 @@
 
     properties: {
       change: Object,
+      /** @type {?} */
       commitInfo: Object,
       serverConfig: Object,
       _showWebLink: {

@@ -201,8 +201,8 @@
      * Maps an index local to a particular section to the absolute index
      * across all the changes on the page.
      *
-     * @param sectionIndex {number} index of section
-     * @param localIndex {number} index of row within section
+     * @param {number} sectionIndex index of section
+     * @param {number} localIndex index of row within section
      * @return {number} absolute index of row in the aggregate dashboard
      */
     _computeItemAbsoluteIndex(sectionIndex, localIndex) {

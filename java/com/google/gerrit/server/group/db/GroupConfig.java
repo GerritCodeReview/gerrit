@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
@@ -60,15 +61,14 @@ import org.eclipse.jgit.revwalk.RevSort;
  * <p>TODO(aliceks): expand docs.
  */
 public class GroupConfig extends VersionedMetaData {
-  public static final String GROUP_CONFIG_FILE = "group.config";
-
   static final FooterKey FOOTER_ADD_MEMBER = new FooterKey("Add");
   static final FooterKey FOOTER_REMOVE_MEMBER = new FooterKey("Remove");
   static final FooterKey FOOTER_ADD_GROUP = new FooterKey("Add-group");
   static final FooterKey FOOTER_REMOVE_GROUP = new FooterKey("Remove-group");
 
-  private static final String MEMBERS_FILE = "members";
-  private static final String SUBGROUPS_FILE = "subgroups";
+  @VisibleForTesting public static final String GROUP_CONFIG_FILE = "group.config";
+  @VisibleForTesting static final String MEMBERS_FILE = "members";
+  @VisibleForTesting static final String SUBGROUPS_FILE = "subgroups";
   private static final Pattern LINE_SEPARATOR_PATTERN = Pattern.compile("\\R");
 
   private final AccountGroup.UUID groupUuid;

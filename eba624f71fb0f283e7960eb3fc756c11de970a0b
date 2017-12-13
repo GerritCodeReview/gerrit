@@ -47,6 +47,29 @@
       "revId": "eba624f71fb0f283e7960eb3fc756c11de970a0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48616f98_991f09de",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-13T12:16:05Z",
+      "side": 1,
+      "message": "Did you mean \u0027remove this binding...\u0027?",
+      "range": {
+        "startLine": 178,
+        "startChar": 77,
+        "endLine": 178,
+        "endChar": 93
+      },
+      "revId": "eba624f71fb0f283e7960eb3fc756c11de970a0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

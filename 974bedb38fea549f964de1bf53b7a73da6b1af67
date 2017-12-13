@@ -16,6 +16,24 @@
       "revId": "974bedb38fea549f964de1bf53b7a73da6b1af67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a2d6e5e_15154ab4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1057127
+      },
+      "writtenOn": "2017-12-13T15:40:05Z",
+      "side": 1,
+      "message": "Sorry about that. I did not realize that was the required format. Is there anything I can do to fix now that it has already landed?",
+      "parentUuid": "bc9eabb4_1cda475b",
+      "revId": "974bedb38fea549f964de1bf53b7a73da6b1af67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

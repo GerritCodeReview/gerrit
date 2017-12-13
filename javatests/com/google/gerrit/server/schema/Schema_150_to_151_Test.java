@@ -23,9 +23,8 @@ import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.Id;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.CreateGroup;
-import com.google.gerrit.testing.SchemaUpgradeTestEnvironment;
+import com.google.gerrit.testing.AbstractSchemaUpgradeTest;
 import com.google.gerrit.testing.TestUpdateUI;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.inject.Inject;
@@ -39,17 +38,12 @@ import java.time.Month;
 import java.time.ZoneOffset;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
-public class Schema_150_to_151_Test {
-
-  @Rule public SchemaUpgradeTestEnvironment testEnv = new SchemaUpgradeTestEnvironment();
-
+public class Schema_150_to_151_Test extends AbstractSchemaUpgradeTest {
   @Inject private CreateGroup.Factory createGroupFactory;
   @Inject private Schema_151 schema151;
 
-  private ReviewDb db;
   private Connection connection;
   private PreparedStatement createdOnRetrieval;
   private PreparedStatement createdOnUpdate;
@@ -57,8 +51,6 @@ public class Schema_150_to_151_Test {
 
   @Before
   public void setUp() throws Exception {
-    testEnv.getInjector().injectMembers(this);
-    db = testEnv.getDb();
     assume().that(db instanceof JdbcSchema).isTrue();
 
     connection = ((JdbcSchema) db).getConnection();

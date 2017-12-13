@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -26,7 +25,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.testing.SchemaUpgradeTestEnvironment;
+import com.google.gerrit.testing.AbstractSchemaUpgradeTest;
 import com.google.gerrit.testing.TestUpdateUI;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -35,27 +34,15 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
-public class Schema_161_to_162_Test {
-  @Rule public SchemaUpgradeTestEnvironment testEnv = new SchemaUpgradeTestEnvironment();
-
+public class Schema_161_to_162_Test extends AbstractSchemaUpgradeTest {
   @Inject private AllProjectsName allProjectsName;
   @Inject private AllUsersName allUsersName;
   @Inject private GerritApi gApi;
   @Inject private GitRepositoryManager repoManager;
   @Inject private Schema_162 schema162;
   @Inject @GerritPersonIdent private PersonIdent serverUser;
-
-  private ReviewDb db;
-
-  @Before
-  public void setUp() throws Exception {
-    testEnv.getInjector().injectMembers(this);
-    db = testEnv.getDb();
-  }
 
   @Test
   public void skipCorrectInheritance() throws Exception {

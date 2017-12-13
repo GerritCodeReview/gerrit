@@ -27,13 +27,12 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.VersionedAccountPreferences;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.testing.SchemaUpgradeTestEnvironment;
+import com.google.gerrit.testing.AbstractSchemaUpgradeTest;
 import com.google.gerrit.testing.TestUpdateUI;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -42,12 +41,9 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
-public class Schema_159_to_160_Test {
-  @Rule public SchemaUpgradeTestEnvironment testEnv = new SchemaUpgradeTestEnvironment();
-
+public class Schema_159_to_160_Test extends AbstractSchemaUpgradeTest {
   @Inject private AccountCache accountCache;
   @Inject private AllUsersName allUsersName;
   @Inject private GerritApi gApi;
@@ -55,13 +51,10 @@ public class Schema_159_to_160_Test {
   @Inject private Provider<IdentifiedUser> userProvider;
   @Inject private Schema_160 schema160;
 
-  private ReviewDb db;
   private Account.Id accountId;
 
   @Before
   public void setUp() throws Exception {
-    testEnv.getInjector().injectMembers(this);
-    db = testEnv.getDb();
     accountId = userProvider.get().getAccountId();
   }
 

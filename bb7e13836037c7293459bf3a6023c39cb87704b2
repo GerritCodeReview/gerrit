@@ -70,6 +70,30 @@
       "revId": "bb7e13836037c7293459bf3a6023c39cb87704b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44eba9e8_e3732695",
+        "filename": "java/com/google/gerrit/server/config/rest/CacheResource.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-12-13T21:52:08Z",
+      "side": 1,
+      "message": "restapi sounds reasonable to me too. Dave/David?",
+      "parentUuid": "d23c8763_2062174d",
+      "range": {
+        "startLine": 15,
+        "startChar": 40,
+        "endLine": 15,
+        "endChar": 44
+      },
+      "revId": "bb7e13836037c7293459bf3a6023c39cb87704b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

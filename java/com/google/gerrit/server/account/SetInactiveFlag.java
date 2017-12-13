@@ -43,6 +43,7 @@ public class SetInactiveFlag {
         accountsUpdate
             .create()
             .update(
+                "Deactivate Account via API",
                 accountId,
                 (a, u) -> {
                   if (!a.isActive()) {
@@ -67,6 +68,7 @@ public class SetInactiveFlag {
         accountsUpdate
             .create()
             .update(
+                "Activate Account via API",
                 accountId,
                 (a, u) -> {
                   if (a.isActive()) {

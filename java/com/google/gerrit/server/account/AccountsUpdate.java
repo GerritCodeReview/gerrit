@@ -15,8 +15,10 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Strings;
 import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
@@ -269,6 +271,7 @@ public class AccountsUpdate {
   /**
    * Inserts a new account.
    *
+   * @param message commit message for the account creation, must not be {@code null or empty}
    * @param accountId ID of the new account
    * @param init consumer to populate the new account
    * @return the newly created account
@@ -277,14 +280,16 @@ public class AccountsUpdate {
    * @throws OrmException if creating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public Account insert(Account.Id accountId, Consumer<InternalAccountUpdate.Builder> init)
+  public Account insert(
+      String message, Account.Id accountId, Consumer<InternalAccountUpdate.Builder> init)
       throws OrmException, IOException, ConfigInvalidException {
-    return insert(accountId, AccountUpdater.fromConsumer(init));
+    return insert(message, accountId, AccountUpdater.fromConsumer(init));
   }
 
   /**
    * Inserts a new account.
    *
+   * @param message commit message for the account creation, must not be {@code null or empty}
    * @param accountId ID of the new account
    * @param updater updater to populate the new account
    * @return the newly created account
@@ -293,7 +298,7 @@ public class AccountsUpdate {
    * @throws OrmException if creating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public Account insert(Account.Id accountId, AccountUpdater updater)
+  public Account insert(String message, Account.Id accountId, AccountUpdater updater)
       throws OrmException, IOException, ConfigInvalidException {
     return updateAccount(
         r -> {
@@ -303,7 +308,7 @@ public class AccountsUpdate {
           updater.update(account, updateBuilder);
           accountConfig.setAccountUpdate(updateBuilder.build());
 
-          UpdatedAccount updatedAccounts = new UpdatedAccount(accountConfig);
+          UpdatedAccount updatedAccounts = new UpdatedAccount(message, accountConfig);
           updatedAccounts.setCreated(true);
           return updatedAccounts;
         });
@@ -314,6 +319,7 @@ public class AccountsUpdate {
    *
    * <p>Changing the registration date of an account is not supported.
    *
+   * @param message commit message for the account update, must not be {@code null or empty}
    * @param accountId ID of the account
    * @param update consumer to update the account, only invoked if the account exists
    * @return the updated account, {@code null} if the account doesn't exist
@@ -321,9 +327,10 @@ public class AccountsUpdate {
    * @throws OrmException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public Account update(Account.Id accountId, Consumer<InternalAccountUpdate.Builder> update)
+  public Account update(
+      String message, Account.Id accountId, Consumer<InternalAccountUpdate.Builder> update)
       throws OrmException, IOException, ConfigInvalidException {
-    return update(accountId, AccountUpdater.fromConsumer(update));
+    return update(message, accountId, AccountUpdater.fromConsumer(update));
   }
 
   /**
@@ -331,6 +338,7 @@ public class AccountsUpdate {
    *
    * <p>Changing the registration date of an account is not supported.
    *
+   * @param message commit message for the account update, must not be {@code null or empty}
    * @param accountId ID of the account
    * @param updater updater to update the account, only invoked if the account exists
    * @return the updated account, {@code null} if the account doesn't exist
@@ -339,7 +347,7 @@ public class AccountsUpdate {
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   @Nullable
-  public Account update(Account.Id accountId, AccountUpdater updater)
+  public Account update(String message, Account.Id accountId, AccountUpdater updater)
       throws OrmException, IOException, ConfigInvalidException {
     return updateAccount(
         r -> {
@@ -352,7 +360,7 @@ public class AccountsUpdate {
           InternalAccountUpdate.Builder updateBuilder = InternalAccountUpdate.builder();
           updater.update(account.get(), updateBuilder);
           accountConfig.setAccountUpdate(updateBuilder.build());
-          UpdatedAccount updatedAccounts = new UpdatedAccount(accountConfig);
+          UpdatedAccount updatedAccounts = new UpdatedAccount(message, accountConfig);
           return updatedAccounts;
         });
   }
@@ -455,9 +463,17 @@ public class AccountsUpdate {
   private void commit(Repository allUsersRepo, UpdatedAccount updatedAccount) throws IOException {
     BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
     if (updatedAccount.isCreated()) {
-      commitNewAccountConfig(allUsersRepo, batchRefUpdate, updatedAccount.getAccountConfig());
+      commitNewAccountConfig(
+          updatedAccount.getMessage(),
+          allUsersRepo,
+          batchRefUpdate,
+          updatedAccount.getAccountConfig());
     } else {
-      commitAccountConfig(allUsersRepo, batchRefUpdate, updatedAccount.getAccountConfig());
+      commitAccountConfig(
+          updatedAccount.getMessage(),
+          allUsersRepo,
+          batchRefUpdate,
+          updatedAccount.getAccountConfig());
     }
     RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
     gitRefUpdated.fire(
@@ -465,36 +481,48 @@ public class AccountsUpdate {
   }
 
   private void commitNewAccountConfig(
-      Repository allUsersRepo, BatchRefUpdate batchRefUpdate, AccountConfig accountConfig)
+      String message,
+      Repository allUsersRepo,
+      BatchRefUpdate batchRefUpdate,
+      AccountConfig accountConfig)
       throws IOException {
     // When creating a new account we must allow empty commits so that the user branch gets created
     // with an empty commit when no account properties are set and hence no 'account.config' file
     // will be created.
-    commitAccountConfig(allUsersRepo, batchRefUpdate, accountConfig, true);
+    commitAccountConfig(message, allUsersRepo, batchRefUpdate, accountConfig, true);
   }
 
   private void commitAccountConfig(
-      Repository allUsersRepo, BatchRefUpdate batchRefUpdate, AccountConfig accountConfig)
+      String message,
+      Repository allUsersRepo,
+      BatchRefUpdate batchRefUpdate,
+      AccountConfig accountConfig)
       throws IOException {
-    commitAccountConfig(allUsersRepo, batchRefUpdate, accountConfig, false);
+    commitAccountConfig(message, allUsersRepo, batchRefUpdate, accountConfig, false);
   }
 
   private void commitAccountConfig(
+      String message,
       Repository allUsersRepo,
       BatchRefUpdate batchRefUpdate,
       AccountConfig accountConfig,
       boolean allowEmptyCommit)
       throws IOException {
-    try (MetaDataUpdate md = createMetaDataUpdate(allUsersRepo, batchRefUpdate)) {
+    try (MetaDataUpdate md = createMetaDataUpdate(message, allUsersRepo, batchRefUpdate)) {
       md.setAllowEmpty(allowEmptyCommit);
       accountConfig.commit(md);
     }
   }
 
   private MetaDataUpdate createMetaDataUpdate(
-      Repository allUsersRepo, BatchRefUpdate batchRefUpdate) {
+      String message, Repository allUsersRepo, BatchRefUpdate batchRefUpdate) {
     MetaDataUpdate metaDataUpdate =
         metaDataUpdateInternalFactory.get().create(allUsersName, allUsersRepo, batchRefUpdate);
+    if (!message.endsWith("\n")) {
+      message = message + "\n";
+    }
+
+    metaDataUpdate.getCommitBuilder().setMessage(message);
     metaDataUpdate.getCommitBuilder().setCommitter(committerIdent);
     metaDataUpdate.getCommitBuilder().setAuthor(authorIdent);
     return metaDataUpdate;
@@ -507,19 +535,18 @@ public class AccountsUpdate {
   }
 
   private static class UpdatedAccount {
+    private final String message;
     private final AccountConfig accountConfig;
     private boolean created;
 
-    private UpdatedAccount(AccountConfig accountConfig) {
+    private UpdatedAccount(String message, AccountConfig accountConfig) {
+      checkState(!Strings.isNullOrEmpty(message), "message for account update must be set");
+      this.message = checkNotNull(message);
       this.accountConfig = checkNotNull(accountConfig);
     }
 
-    public void setCreated(boolean created) {
-      this.created = created;
-    }
-
-    public boolean isCreated() {
-      return created;
+    public String getMessage() {
+      return message;
     }
 
     public AccountConfig getAccountConfig() {
@@ -528,6 +555,14 @@ public class AccountsUpdate {
 
     public Account getAccount() {
       return accountConfig.getLoadedAccount().get();
+    }
+
+    public void setCreated(boolean created) {
+      this.created = created;
+    }
+
+    public boolean isCreated() {
+      return created;
     }
   }
 }

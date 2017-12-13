@@ -198,10 +198,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
       return false;
     }
 
-    if (revision != null) {
-      commit.setMessage("Update account\n");
-    } else {
-      commit.setMessage("Create account\n");
+    if (revision == null) {
       commit.setAuthor(new PersonIdent(commit.getAuthor(), registeredOn));
       commit.setCommitter(new PersonIdent(commit.getCommitter(), registeredOn));
     }

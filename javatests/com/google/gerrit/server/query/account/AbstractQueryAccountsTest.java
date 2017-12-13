@@ -542,6 +542,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       accountsUpdate
           .create()
           .update(
+              "Update Test Account",
               id,
               u -> {
                 u.setFullName(fullName).setPreferredEmail(email).setActive(active);

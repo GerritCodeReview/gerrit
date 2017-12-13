@@ -67,7 +67,9 @@ public class PutStatus implements RestModifyView<AccountResource, StatusInput> {
 
     String newStatus = input.status;
     Account account =
-        accountsUpdate.create().update(user.getAccountId(), u -> u.setStatus(newStatus));
+        accountsUpdate
+            .create()
+            .update("Set Status via API", user.getAccountId(), u -> u.setStatus(newStatus));
     if (account == null) {
       throw new ResourceNotFoundException("account not found");
     }

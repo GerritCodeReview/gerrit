@@ -240,7 +240,10 @@ public class AccountManager {
       Account account =
           accountsUpdateFactory
               .create()
-              .update(user.getAccountId(), AccountUpdater.joinConsumers(accountUpdates));
+              .update(
+                  "Update Account on Login",
+                  user.getAccountId(),
+                  AccountUpdater.joinConsumers(accountUpdates));
       if (account == null) {
         throw new OrmException("Account " + user.getAccountId() + " has been deleted");
       }
@@ -265,7 +268,9 @@ public class AccountManager {
       AccountsUpdate accountsUpdate = accountsUpdateFactory.create();
       account =
           accountsUpdate.insert(
-              newId, u -> u.setFullName(who.getDisplayName()).setPreferredEmail(extId.email()));
+              "Create Account on First Login",
+              newId,
+              u -> u.setFullName(who.getDisplayName()).setPreferredEmail(extId.email()));
 
       ExternalId existingExtId = externalIds.get(extId.key());
       if (existingExtId != null && !existingExtId.accountId().equals(extId.accountId())) {
@@ -415,6 +420,10 @@ public class AccountManager {
         accountsUpdateFactory
             .create()
             .update(
+                "Set Preferred Email on Linking External ID\n"
+                    + "\n"
+                    + "An external ID with email was added and the account didn't have a\n"
+                    + "preferred email yet.",
                 to,
                 (a, u) -> {
                   if (a.getPreferredEmail() == null) {
@@ -423,7 +432,6 @@ public class AccountManager {
                 });
       }
     }
-
     return new AuthResult(to, who.getExternalIdKey(), false);
   }
 
@@ -503,6 +511,10 @@ public class AccountManager {
       accountsUpdateFactory
           .create()
           .update(
+              "Clear Preferred Email on Unlinking External ID\n"
+                  + "\n"
+                  + "The preferred email is cleared because the corresponding external ID\n"
+                  + "was removed.",
               from,
               (a, u) -> {
                 if (a.getPreferredEmail() != null) {

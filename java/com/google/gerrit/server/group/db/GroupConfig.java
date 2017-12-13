@@ -233,6 +233,7 @@ public class GroupConfig extends VersionedMetaData {
                 createdOn,
                 null));
     groupCreation = Optional.empty();
+    groupUpdate = Optional.empty();
 
     return true;
   }

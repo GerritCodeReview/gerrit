@@ -34,6 +34,24 @@
       "revId": "974bedb38fea549f964de1bf53b7a73da6b1af67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7a9c32c_2f3ca1a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-13T23:15:12Z",
+      "side": 1,
+      "message": "Once it\u0027s submitted, it can\u0027t be changed.\n\nThis is not a huge problem, I was just mentioning for future reference.",
+      "parentUuid": "4a2d6e5e_15154ab4",
+      "revId": "974bedb38fea549f964de1bf53b7a73da6b1af67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

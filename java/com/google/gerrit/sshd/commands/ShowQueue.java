@@ -60,7 +60,7 @@ final class ShowQueue extends SshCommand {
   @Option(
     name = "--by-queue",
     aliases = {"-q"},
-    usage = "group tasks by queue and print queue info"
+    usage = "account tasks by queue and print queue info"
   )
   private boolean groupByQueue;
 

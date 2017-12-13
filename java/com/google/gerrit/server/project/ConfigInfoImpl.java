@@ -32,6 +32,7 @@ import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.restapi.project.ProjectResource;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;

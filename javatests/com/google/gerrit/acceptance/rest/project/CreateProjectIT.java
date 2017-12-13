@@ -239,7 +239,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   public void createProjectWithNonExistingOwner_UnprocessableEntity() throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = name("newProjectName");
-    in.owners = Collections.singletonList("non-existing-group");
+    in.owners = Collections.singletonList("non-existing-account");
     assertCreateFails(in, UnprocessableEntityException.class);
   }
 

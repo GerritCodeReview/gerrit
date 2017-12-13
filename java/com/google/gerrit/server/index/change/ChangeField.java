@@ -514,7 +514,7 @@ public class ChangeField {
       integer(ChangeQueryBuilder.FIELD_STARBY)
           .buildRepeatable(cd -> Iterables.transform(cd.stars().keySet(), Account.Id::get));
 
-  /** Opaque group identifiers for this change's patch sets. */
+  /** Opaque account identifiers for this change's patch sets. */
   public static final FieldDef<ChangeData, Iterable<String>> GROUP =
       exact(ChangeQueryBuilder.FIELD_GROUP)
           .buildRepeatable(

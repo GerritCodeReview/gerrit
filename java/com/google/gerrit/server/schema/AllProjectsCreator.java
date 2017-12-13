@@ -96,13 +96,13 @@ public class AllProjectsCreator {
     this.owners = systemGroupBackend.getGroup(PROJECT_OWNERS);
   }
 
-  /** If called, grant default permissions to this admin group */
+  /** If called, grant default permissions to this admin account */
   public AllProjectsCreator setAdministrators(GroupReference admin) {
     this.admin = admin;
     return this;
   }
 
-  /** If called, grant stream-events permission and set appropriate priority for this group */
+  /** If called, grant stream-events permission and set appropriate priority for this account */
   public AllProjectsCreator setBatchUsers(GroupReference batch) {
     this.batch = batch;
     return this;

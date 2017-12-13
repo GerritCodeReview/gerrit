@@ -713,7 +713,7 @@ public class Dispatcher {
               Gerrit.display(token, new CreateProjectScreen());
 
             } else if (matchExact(ADMIN_CREATE_GROUP, token)
-                || matchExact("/admin/create-group", token)) {
+                || matchExact("/admin/create-account", token)) {
               Gerrit.display(token, new CreateGroupScreen());
 
             } else {
@@ -756,7 +756,7 @@ public class Dispatcher {
                   @Override
                   public void onSuccess(GroupInfo group) {
                     if (panel == null || panel.isEmpty()) {
-                      // The token does not say which group screen should be shown,
+                      // The token does not say which account screen should be shown,
                       // as default for internal groups show the members, as default
                       // for external and system groups show the info screen (since
                       // for external and system groups the members cannot be

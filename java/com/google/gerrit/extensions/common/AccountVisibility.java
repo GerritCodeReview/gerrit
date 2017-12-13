@@ -19,10 +19,10 @@ public enum AccountVisibility {
   /** All accounts are visible to all users. */
   ALL,
 
-  /** Accounts sharing a group with the given user. */
+  /** Accounts sharing a account with the given user. */
   SAME_GROUP,
 
-  /** Accounts in a group that is visible to the given user. */
+  /** Accounts in a account that is visible to the given user. */
   VISIBLE_GROUP,
 
   /**

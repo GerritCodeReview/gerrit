@@ -23,8 +23,8 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.group.ListGroups;
 import com.google.gerrit.server.ioutil.ColumnFormatter;
+import com.google.gerrit.server.restapi.group.ListGroups;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.util.cli.Options;
@@ -47,8 +47,8 @@ public class ListGroupsCommand extends SshCommand {
     aliases = {"-v"},
     usage =
         "verbose output format with tab-separated columns for the "
-            + "group name, UUID, description, owner group name, "
-            + "owner group UUID, and whether the group is visible to all"
+            + "account name, UUID, description, owner account name, "
+            + "owner account UUID, and whether the account is visible to all"
   )
   private boolean verboseOutput;
 

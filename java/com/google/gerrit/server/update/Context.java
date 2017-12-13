@@ -79,7 +79,7 @@ public interface Context {
    * Get the ReviewDb database.
    *
    * <p>Callers should not manage transactions or call mutating methods on the Changes table.
-   * Mutations on other tables (including other entities in the change entity group) are fine.
+   * Mutations on other tables (including other entities in the change entity account) are fine.
    *
    * @return open database instance.
    */

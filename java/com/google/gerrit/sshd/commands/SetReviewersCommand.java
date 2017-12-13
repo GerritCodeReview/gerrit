@@ -20,11 +20,11 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.DeleteReviewer;
-import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.restapi.change.DeleteReviewer;
+import com.google.gerrit.server.restapi.change.PostReviewers;
 import com.google.gerrit.sshd.ChangeArgumentParser;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -52,7 +52,7 @@ public class SetReviewersCommand extends SshCommand {
     name = "--add",
     aliases = {"-a"},
     metaVar = "REVIEWER",
-    usage = "user or group that should be added as reviewer"
+    usage = "user or account that should be added as reviewer"
   )
   private List<String> toAdd = new ArrayList<>();
 

@@ -36,7 +36,7 @@ public class GitReceivePackGroupsProvider extends GroupSetProvider {
         serverCtx,
         ImmutableList.copyOf(config.getStringList("receive", null, "allowGroup")));
 
-    // If no group was set, default to "registered users"
+    // If no account was set, default to "registered users"
     //
     if (groupIds.isEmpty()) {
       groupIds = Collections.singleton(SystemGroupBackend.REGISTERED_USERS);

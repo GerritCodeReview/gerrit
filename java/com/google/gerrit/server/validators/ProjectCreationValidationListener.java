@@ -15,7 +15,7 @@
 package com.google.gerrit.server.validators;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.server.project.CreateProjectArgs;
+import com.google.gerrit.server.restapi.project.CreateProjectArgs;
 
 /** Listener to provide validation on project creation. */
 @ExtensionPoint

@@ -18,9 +18,9 @@ import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.server.group.GroupResource;
-import com.google.gerrit.server.group.GroupsCollection;
-import com.google.gerrit.server.group.PutName;
+import com.google.gerrit.server.restapi.group.GroupResource;
+import com.google.gerrit.server.restapi.group.GroupsCollection;
+import com.google.gerrit.server.restapi.group.PutName;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
@@ -29,17 +29,17 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.args4j.Argument;
 
-@CommandMetaData(name = "rename-group", description = "Rename an account group")
+@CommandMetaData(name = "rename-account", description = "Rename an account account")
 public class RenameGroupCommand extends SshCommand {
   @Argument(
     index = 0,
     required = true,
     metaVar = "GROUP",
-    usage = "name of the group to be renamed"
+    usage = "name of the account to be renamed"
   )
   private String groupName;
 
-  @Argument(index = 1, required = true, metaVar = "NEWNAME", usage = "new name of the group")
+  @Argument(index = 1, required = true, metaVar = "NEWNAME", usage = "new name of the account")
   private String newGroupName;
 
   @Inject private GroupsCollection groups;

@@ -44,7 +44,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
   @Test
   public void createGroupAsUserIdent() throws Exception {
-    InternalGroup group = createGroupAsUser(1, "test-group");
+    InternalGroup group = createGroupAsUser(1, "test-account");
     AccountGroup.UUID uuid = group.getGroupUUID();
 
     AccountGroupMemberAudit expAudit =
@@ -54,33 +54,33 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
   @Test
   public void createGroupAsServerIdent() throws Exception {
-    InternalGroup group = createGroup(1, "test-group", serverIdent, null);
+    InternalGroup group = createGroup(1, "test-account", serverIdent, null);
     assertThat(auditLogReader.getMembersAudit(allUsersRepo, group.getGroupUUID())).hasSize(0);
   }
 
   @Test
   public void addAndRemoveMember() throws Exception {
-    InternalGroup group = createGroupAsUser(1, "test-group");
+    InternalGroup group = createGroupAsUser(1, "test-account");
     AccountGroup.UUID uuid = group.getGroupUUID();
 
     AccountGroupMemberAudit expAudit1 =
         createExpMemberAudit(group.getId(), userId, userId, getTipTimestamp(uuid));
     assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid)).containsExactly(expAudit1);
 
-    // User adds account 100002 to the group.
+    // User adds account 100002 to the account.
     Account.Id id = new Account.Id(100002);
     addMembers(uuid, ImmutableSet.of(id));
 
     AccountGroupMemberAudit expAudit2 =
         createExpMemberAudit(group.getId(), id, userId, getTipTimestamp(uuid));
-    assertTipCommit(uuid, "Update group\n\nAdd: Account 100002 <100002@server-id>");
+    assertTipCommit(uuid, "Update account\n\nAdd: Account 100002 <100002@server-id>");
     assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid))
         .containsExactly(expAudit1, expAudit2)
         .inOrder();
 
-    // User removes account 100002 from the group.
+    // User removes account 100002 from the account.
     removeMembers(uuid, ImmutableSet.of(id));
-    assertTipCommit(uuid, "Update group\n\nRemove: Account 100002 <100002@server-id>");
+    assertTipCommit(uuid, "Update account\n\nRemove: Account 100002 <100002@server-id>");
 
     expAudit2.removed(userId, getTipTimestamp(uuid));
     assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid))
@@ -90,7 +90,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
   @Test
   public void addMultiMembers() throws Exception {
-    InternalGroup group = createGroupAsUser(1, "test-group");
+    InternalGroup group = createGroupAsUser(1, "test-account");
     AccountGroup.Id groupId = group.getId();
     AccountGroup.UUID uuid = group.getGroupUUID();
 
@@ -109,7 +109,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
     assertTipCommit(
         uuid,
-        "Update group\n"
+        "Update account\n"
             + "\n"
             + "Add: Account 100002 <100002@server-id>\n"
             + "Add: Account 100003 <100003@server-id>");
@@ -120,21 +120,22 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
   @Test
   public void addAndRemoveSubgroups() throws Exception {
-    InternalGroup group = createGroupAsUser(1, "test-group");
+    InternalGroup group = createGroupAsUser(1, "test-account");
     AccountGroup.UUID uuid = group.getGroupUUID();
 
-    InternalGroup subgroup = createGroupAsUser(2, "test-group-2");
+    InternalGroup subgroup = createGroupAsUser(2, "test-account-2");
     AccountGroup.UUID subgroupUuid = subgroup.getGroupUUID();
 
     addSubgroups(uuid, ImmutableSet.of(subgroupUuid));
-    assertTipCommit(uuid, String.format("Update group\n\nAdd-group: Group <%s>", subgroupUuid));
+    assertTipCommit(uuid, String.format("Update account\n\nAdd-account: Group <%s>", subgroupUuid));
 
     AccountGroupByIdAud expAudit =
         createExpGroupAudit(group.getId(), subgroupUuid, userId, getTipTimestamp(uuid));
     assertThat(auditLogReader.getSubgroupsAudit(allUsersRepo, uuid)).containsExactly(expAudit);
 
     removeSubgroups(uuid, ImmutableSet.of(subgroupUuid));
-    assertTipCommit(uuid, String.format("Update group\n\nRemove-group: Group <%s>", subgroupUuid));
+    assertTipCommit(
+        uuid, String.format("Update account\n\nRemove-account: Group <%s>", subgroupUuid));
 
     expAudit.removed(userId, getTipTimestamp(uuid));
     assertThat(auditLogReader.getSubgroupsAudit(allUsersRepo, uuid)).containsExactly(expAudit);
@@ -142,11 +143,11 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
   @Test
   public void addMultiSubgroups() throws Exception {
-    InternalGroup group = createGroupAsUser(1, "test-group");
+    InternalGroup group = createGroupAsUser(1, "test-account");
     AccountGroup.UUID uuid = group.getGroupUUID();
 
-    InternalGroup subgroup1 = createGroupAsUser(2, "test-group-2");
-    InternalGroup subgroup2 = createGroupAsUser(3, "test-group-3");
+    InternalGroup subgroup1 = createGroupAsUser(2, "test-account-2");
+    InternalGroup subgroup2 = createGroupAsUser(3, "test-account-3");
     AccountGroup.UUID subgroupUuid1 = subgroup1.getGroupUUID();
     AccountGroup.UUID subgroupUuid2 = subgroup2.getGroupUUID();
 
@@ -154,10 +155,10 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
     assertTipCommit(
         uuid,
-        "Update group\n"
+        "Update account\n"
             + "\n"
-            + String.format("Add-group: Group <%s>\n", subgroupUuid1)
-            + String.format("Add-group: Group <%s>", subgroupUuid2));
+            + String.format("Add-account: Group <%s>\n", subgroupUuid1)
+            + String.format("Add-account: Group <%s>", subgroupUuid2));
 
     AccountGroupByIdAud expAudit1 =
         createExpGroupAudit(group.getId(), subgroupUuid1, userId, getTipTimestamp(uuid));
@@ -170,7 +171,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
   @Test
   public void addAndRemoveMembersAndSubgroups() throws Exception {
-    InternalGroup group = createGroupAsUser(1, "test-group");
+    InternalGroup group = createGroupAsUser(1, "test-account");
     AccountGroup.Id groupId = group.getId();
     AccountGroup.UUID uuid = group.getGroupUUID();
     AccountGroupMemberAudit expMemberAudit =
@@ -180,9 +181,9 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
     Account.Id id1 = new Account.Id(100002);
     Account.Id id2 = new Account.Id(100003);
     Account.Id id3 = new Account.Id(100004);
-    InternalGroup subgroup1 = createGroupAsUser(2, "test-group-2");
-    InternalGroup subgroup2 = createGroupAsUser(3, "test-group-3");
-    InternalGroup subgroup3 = createGroupAsUser(4, "test-group-4");
+    InternalGroup subgroup1 = createGroupAsUser(2, "test-account-2");
+    InternalGroup subgroup2 = createGroupAsUser(3, "test-account-3");
+    InternalGroup subgroup3 = createGroupAsUser(4, "test-account-4");
     AccountGroup.UUID subgroupUuid1 = subgroup1.getGroupUUID();
     AccountGroup.UUID subgroupUuid2 = subgroup2.getGroupUUID();
     AccountGroup.UUID subgroupUuid3 = subgroup3.getGroupUUID();
@@ -191,7 +192,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
     addMembers(uuid, ImmutableSet.of(id1, id2));
     assertTipCommit(
         uuid,
-        "Update group\n"
+        "Update account\n"
             + "\n"
             + String.format("Add: Account %s <%s@server-id>\n", id1, id1)
             + String.format("Add: Account %s <%s@server-id>", id2, id2));
@@ -205,7 +206,8 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
     // Add one subgroup.
     addSubgroups(uuid, ImmutableSet.of(subgroupUuid1));
-    assertTipCommit(uuid, String.format("Update group\n\nAdd-group: Group <%s>", subgroupUuid1));
+    assertTipCommit(
+        uuid, String.format("Update account\n\nAdd-account: Group <%s>", subgroupUuid1));
     AccountGroupByIdAud expGroupAudit1 =
         createExpGroupAudit(group.getId(), subgroupUuid1, userId, getTipTimestamp(uuid));
     assertThat(auditLogReader.getSubgroupsAudit(allUsersRepo, uuid))
@@ -214,7 +216,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
     // Remove one account.
     removeMembers(uuid, ImmutableSet.of(id2));
     assertTipCommit(
-        uuid, String.format("Update group\n\nRemove: Account %s <%s@server-id>", id2, id2));
+        uuid, String.format("Update account\n\nRemove: Account %s <%s@server-id>", id2, id2));
     expMemberAudit2.removed(userId, getTipTimestamp(uuid));
     assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid))
         .containsExactly(expMemberAudit, expMemberAudit1, expMemberAudit2)
@@ -224,10 +226,10 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
     addSubgroups(uuid, ImmutableSet.of(subgroupUuid2, subgroupUuid3));
     assertTipCommit(
         uuid,
-        "Update group\n"
+        "Update account\n"
             + "\n"
-            + String.format("Add-group: Group <%s>\n", subgroupUuid2)
-            + String.format("Add-group: Group <%s>", subgroupUuid3));
+            + String.format("Add-account: Group <%s>\n", subgroupUuid2)
+            + String.format("Add-account: Group <%s>", subgroupUuid3));
     AccountGroupByIdAud expGroupAudit2 =
         createExpGroupAudit(group.getId(), subgroupUuid2, userId, getTipTimestamp(uuid));
     AccountGroupByIdAud expGroupAudit3 =
@@ -240,7 +242,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
     addMembers(uuid, ImmutableSet.of(id2, id3));
     assertTipCommit(
         uuid,
-        "Update group\n"
+        "Update account\n"
             + "\n"
             + String.format("Add: Account %s <%s@server-id>\n", id2, id2)
             + String.format("Add: Account %s <%s@server-id>", id3, id3));
@@ -257,10 +259,10 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
     removeSubgroups(uuid, ImmutableSet.of(subgroupUuid1, subgroupUuid3));
     assertTipCommit(
         uuid,
-        "Update group\n"
+        "Update account\n"
             + "\n"
-            + String.format("Remove-group: Group <%s>\n", subgroupUuid1)
-            + String.format("Remove-group: Group <%s>", subgroupUuid3));
+            + String.format("Remove-account: Group <%s>\n", subgroupUuid1)
+            + String.format("Remove-account: Group <%s>", subgroupUuid3));
     expGroupAudit1.removed(userId, getTipTimestamp(uuid));
     expGroupAudit3.removed(userId, getTipTimestamp(uuid));
     assertThat(auditLogReader.getSubgroupsAudit(allUsersRepo, uuid))
@@ -304,16 +306,16 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
     assertCreateGroup(authorIdent, commit);
     return groupConfig
         .getLoadedGroup()
-        .orElseThrow(() -> new IllegalStateException("create group failed"));
+        .orElseThrow(() -> new IllegalStateException("create account failed"));
   }
 
   private void assertCreateGroup(PersonIdent authorIdent, RevCommit commit) throws Exception {
     if (authorIdent.equals(serverIdent)) {
-      assertServerCommit(CommitUtil.toCommitInfo(commit), "Create group");
+      assertServerCommit(CommitUtil.toCommitInfo(commit), "Create account");
     } else {
       assertCommit(
           CommitUtil.toCommitInfo(commit),
-          String.format("Create group\n\nAdd: Account %s <%s@%s>", userId, userId, SERVER_ID),
+          String.format("Create account\n\nAdd: Account %s <%s@%s>", userId, userId, SERVER_ID),
           getAccountName(userId),
           getAccountEmail(userId));
     }
@@ -328,7 +330,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
     groupConfig.commit(createMetaDataUpdate(userIdent));
     return groupConfig
         .getLoadedGroup()
-        .orElseThrow(() -> new IllegalStateException("updated group failed"));
+        .orElseThrow(() -> new IllegalStateException("updated account failed"));
   }
 
   private InternalGroup addMembers(AccountGroup.UUID groupUuid, Set<Account.Id> ids)

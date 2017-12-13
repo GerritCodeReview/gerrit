@@ -69,11 +69,11 @@ public class GroupBundleTest extends GerritBaseTests {
     assertThat(GroupBundle.compareWithAudits(reviewDbBundle, noteDbBundle))
         .containsExactly(
             "AccountGroups differ\n"
-                + ("ReviewDb: AccountGroup{name=group, groupId=1, description=null,"
-                    + " visibleToAll=false, groupUUID=group-1, ownerGroupUUID=group-1,"
+                + ("ReviewDb: AccountGroup{name=account, groupId=1, description=null,"
+                    + " visibleToAll=false, groupUUID=account-1, ownerGroupUUID=account-1,"
                     + " createdOn=2009-09-30 17:00:00.0}\n")
-                + ("NoteDb  : AccountGroup{name=group, groupId=1, description=Hello!,"
-                    + " visibleToAll=false, groupUUID=group-1, ownerGroupUUID=group-1,"
+                + ("NoteDb  : AccountGroup{name=account, groupId=1, description=Hello!,"
+                    + " visibleToAll=false, groupUUID=account-1, ownerGroupUUID=account-1,"
                     + " createdOn=2009-09-30 17:00:00.0}"),
             "AccountGroupMembers differ\n"
                 + "ReviewDb: [AccountGroupMember{key=1000,1}]\n"
@@ -126,7 +126,7 @@ public class GroupBundleTest extends GerritBaseTests {
         new AccountGroup(
             new AccountGroup.NameKey("group"),
             new AccountGroup.Id(1),
-            new AccountGroup.UUID("group-1"),
+            new AccountGroup.UUID("account-1"),
             ts);
     AccountGroupMember member =
         new AccountGroupMember(new AccountGroupMember.Key(new Account.Id(1000), group.getId()));

@@ -26,13 +26,13 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.group.AddMembers;
-import com.google.gerrit.server.group.AddSubgroups;
-import com.google.gerrit.server.group.DeleteMembers;
-import com.google.gerrit.server.group.DeleteSubgroups;
-import com.google.gerrit.server.group.GroupResource;
-import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.restapi.group.AddMembers;
+import com.google.gerrit.server.restapi.group.AddSubgroups;
+import com.google.gerrit.server.restapi.group.DeleteMembers;
+import com.google.gerrit.server.restapi.group.DeleteSubgroups;
+import com.google.gerrit.server.restapi.group.GroupResource;
+import com.google.gerrit.server.restapi.group.GroupsCollection;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
@@ -45,7 +45,7 @@ import org.kohsuke.args4j.Option;
 
 @CommandMetaData(
   name = "set-members",
-  description = "Modify members of specific group or number of groups"
+  description = "Modify members of specific account or number of groups"
 )
 public class SetMembersCommand extends SshCommand {
 
@@ -53,7 +53,7 @@ public class SetMembersCommand extends SshCommand {
     name = "--add",
     aliases = {"-a"},
     metaVar = "USER",
-    usage = "users that should be added as group member"
+    usage = "users that should be added as account member"
   )
   private List<Account.Id> accountsToAdd = new ArrayList<>();
 
@@ -61,7 +61,7 @@ public class SetMembersCommand extends SshCommand {
     name = "--remove",
     aliases = {"-r"},
     metaVar = "USER",
-    usage = "users that should be removed from the group"
+    usage = "users that should be removed from the account"
   )
   private List<Account.Id> accountsToRemove = new ArrayList<>();
 
@@ -69,7 +69,7 @@ public class SetMembersCommand extends SshCommand {
     name = "--include",
     aliases = {"-i"},
     metaVar = "GROUP",
-    usage = "group that should be included as group member"
+    usage = "account that should be included as account member"
   )
   private List<AccountGroup.UUID> groupsToInclude = new ArrayList<>();
 
@@ -77,7 +77,7 @@ public class SetMembersCommand extends SshCommand {
     name = "--exclude",
     aliases = {"-e"},
     metaVar = "GROUP",
-    usage = "group that should be excluded from the group"
+    usage = "account that should be excluded from the account"
   )
   private List<AccountGroup.UUID> groupsToRemove = new ArrayList<>();
 
@@ -144,7 +144,7 @@ public class SetMembersCommand extends SshCommand {
                         accountCache.get(accountId).getAccount().getPreferredEmail(), "n/a"))
             .collect(joining(", "));
     out.write(
-        String.format("Members %s group %s: %s\n", action, group.getName(), names).getBytes(ENC));
+        String.format("Members %s account %s: %s\n", action, group.getName(), names).getBytes(ENC));
   }
 
   private void reportGroupsAction(
@@ -157,7 +157,7 @@ public class SetMembersCommand extends SshCommand {
             .flatMap(Streams::stream)
             .collect(joining(", "));
     out.write(
-        String.format("Groups %s group %s: %s\n", action, group.getName(), names).getBytes(ENC));
+        String.format("Groups %s account %s: %s\n", action, group.getName(), names).getBytes(ENC));
   }
 
   private AddSubgroups.Input fromGroups(List<AccountGroup.UUID> accounts) {

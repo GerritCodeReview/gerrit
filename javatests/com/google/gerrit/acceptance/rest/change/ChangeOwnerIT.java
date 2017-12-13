@@ -81,7 +81,7 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> childRepo = cloneProject(child, user);
     String changeId = createMyChange(childRepo);
 
-    // change owner cannot approve because Change-Owner group is blocked on parent
+    // change owner cannot approve because Change-Owner account is blocked on parent
     assertApproveFails(user, changeId);
 
     // other user can approve
@@ -99,7 +99,7 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> childRepo = cloneProject(child, user);
     String changeId = createMyChange(childRepo);
 
-    // change owner cannot approve because Change-Owner group is blocked on parent
+    // change owner cannot approve because Change-Owner account is blocked on parent
     assertApproveFails(user, changeId);
 
     // other user can approve

@@ -71,7 +71,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
       db.accountGroupMembersAudit().insert(auditInserts);
     } catch (OrmException e) {
       logOrmExceptionForAccounts(
-          "Cannot log add accounts to group event performed by user", me, added, e);
+          "Cannot log add accounts to account event performed by user", me, added, e);
     }
   }
 
@@ -104,7 +104,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
       db.accountGroupMembersAudit().insert(auditInserts);
     } catch (OrmException e) {
       logOrmExceptionForAccounts(
-          "Cannot log delete accounts from group event performed by user", me, removed, e);
+          "Cannot log delete accounts from account event performed by user", me, removed, e);
     }
   }
 
@@ -120,7 +120,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
       db.accountGroupByIdAud().insert(includesAudit);
     } catch (OrmException e) {
       logOrmExceptionForGroups(
-          "Cannot log add groups to group event performed by user", me, added, e);
+          "Cannot log add groups to account event performed by user", me, added, e);
     }
   }
 
@@ -147,7 +147,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
       db.accountGroupByIdAud().update(auditUpdates);
     } catch (OrmException e) {
       logOrmExceptionForGroups(
-          "Cannot log delete groups from group event performed by user", me, removed, e);
+          "Cannot log delete groups from account event performed by user", me, removed, e);
     }
   }
 
@@ -162,7 +162,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
 
       descriptions.add(
           MessageFormat.format(
-              "account {0}/{1}, group {2}/{3}", accountId, userName, groupId, groupName));
+              "account {0}/{1}, account {2}/{3}", accountId, userName, groupId, groupName));
     }
     logOrmException(header, me, descriptions, e);
   }
@@ -178,14 +178,14 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
 
       descriptions.add(
           MessageFormat.format(
-              "group {0}/{1}, group {2}/{3}",
+              "account {0}/{1}, account {2}/{3}",
               groupUuid, groupName, targetGroupId, targetGroupName));
     }
     logOrmException(header, me, descriptions, e);
   }
 
   private String getGroupName(AccountGroup.Id groupId) {
-    return groupCache.get(groupId).map(InternalGroup::getName).orElse("Deleted group " + groupId);
+    return groupCache.get(groupId).map(InternalGroup::getName).orElse("Deleted account " + groupId);
   }
 
   private void logOrmException(String header, Account.Id me, Iterable<?> values, OrmException e) {

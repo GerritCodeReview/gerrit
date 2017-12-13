@@ -69,18 +69,12 @@
       const dropdownContent = [];
       for (const basePatch of availablePatches) {
         const basePatchNum = basePatch.num;
-        dropdownContent.push({
+        const entry = this._createDropdownEntry(basePatchNum, 'Patchset ',
+            _sortedRevisions, changeComments);
+        dropdownContent.push(Object.assign({}, entry, {
           disabled: this._computeLeftDisabled(
               basePatch.num, patchNum, _sortedRevisions),
-          triggerText: `Patchset ${basePatchNum}`,
-          text: `Patchset ${basePatchNum}` +
-              this._computePatchSetCommentsString(changeComments, basePatchNum),
-          mobileText: this._computeMobileText(basePatchNum,
-              changeComments, _sortedRevisions),
-          bottomText: `${this._computePatchSetDescription(
-              _sortedRevisions, basePatchNum)}`,
-          value: basePatch.num,
-        });
+        }));
       }
 
       dropdownContent.push({
@@ -112,22 +106,34 @@
       const dropdownContent = [];
       for (const patch of availablePatches) {
         const patchNum = patch.num;
-        dropdownContent.push({
+        const entry = this._createDropdownEntry(
+            patchNum, patchNum === 'edit' ? '' : 'Patchset ', _sortedRevisions,
+            changeComments);
+        dropdownContent.push(Object.assign({}, entry, {
           disabled: this._computeRightDisabled(basePatchNum, patchNum,
               _sortedRevisions),
-          triggerText: `${patchNum === 'edit' ? '': 'Patchset '}` +
-              patchNum,
-          text: `${patchNum === 'edit' ? '': 'Patchset '}${patchNum}` +
-              `${this._computePatchSetCommentsString(
-                  changeComments, patchNum)}`,
-          mobileText: this._computeMobileText(patchNum, changeComments,
-              _sortedRevisions),
-          bottomText: `${this._computePatchSetDescription(
-              _sortedRevisions, patchNum)}`,
-          value: patchNum,
-        });
+        }));
       }
       return dropdownContent;
+    },
+
+    _createDropdownEntry(patchNum, prefix, sortedRevisions, changeComments) {
+      const entry = {
+        triggerText: `${prefix}${patchNum}`,
+        text: `${prefix}${patchNum}` +
+            `${this._computePatchSetCommentsString(
+                changeComments, patchNum)}`,
+        mobileText: this._computeMobileText(patchNum, changeComments,
+            sortedRevisions),
+        bottomText: `${this._computePatchSetDescription(
+            sortedRevisions, patchNum)}`,
+        value: patchNum,
+      };
+      const date = this._computePatchSetDate(sortedRevisions, patchNum);
+      if (date) {
+        entry['date'] = date;
+      }
+      return entry;
     },
 
     _updateSortedRevisions(revisionsRecord) {
@@ -209,6 +215,15 @@
       return (rev && rev.description) ?
           (opt_addFrontSpace ? ' ' : '') +
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
+    },
+
+    /**
+     * @param {!Array} revisions
+     * @param {number|string} patchNum
+     */
+    _computePatchSetDate(revisions, patchNum) {
+      const rev = this.getRevisionByPatchNum(revisions, patchNum);
+      return rev ? rev.created : undefined;
     },
 
     /**

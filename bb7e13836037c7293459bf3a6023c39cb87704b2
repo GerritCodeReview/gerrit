@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c5ab574_0eb1367b",
+        "filename": "java/com/google/gerrit/server/config/rest/CacheResource.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-12-13T16:43:55Z",
+      "side": 1,
+      "message": "I think the name \u0027rest\u0027 isn\u0027t accurate. This code is called both by the java and the rest api. We are a bit inconsistent with this naming in general IMHO:\n\n1) In acceptance tests, we have a package called \u0027rest\u0027 referring to HTTP tests\n2) In the extension API has a subpackage called \u0027restapi\u0027\n3) In httpd we have a subpackage called \u0027restapi\u0027\n\nCan we move these parts into server/api/config instead of creating a new subpackage in config?",
+      "range": {
+        "startLine": 15,
+        "startChar": 40,
+        "endLine": 15,
+        "endChar": 44
+      },
+      "revId": "bb7e13836037c7293459bf3a6023c39cb87704b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

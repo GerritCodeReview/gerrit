@@ -1548,11 +1548,11 @@ public abstract class AbstractDaemonTest {
     saveProjectConfig(project, cfg);
   }
 
-  protected void fail(@Nullable String format, Object... args) throws Exception {
+  protected void fail(@Nullable String format, Object... args) {
     assert_().fail(format, args);
   }
 
-  protected void fail() throws Exception {
+  protected void fail() {
     assert_().fail();
   }
 

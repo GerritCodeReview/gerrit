@@ -22,6 +22,30 @@
       "revId": "bb7e13836037c7293459bf3a6023c39cb87704b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1273a176_8b155c74",
+        "filename": "java/com/google/gerrit/server/config/rest/CacheResource.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-12-13T17:38:08Z",
+      "side": 1,
+      "message": "\u003e Can we move these parts into server/api/config instead of creating\n \u003e a new subpackage in config?\n\n-1. For one, this code has nothing to do with the plugin API, for another I de-coupled the api package from the server package here: [2]. My change is blocked on Blaze build adjustment @Google .\n\n* [2] https://gerrit-review.googlesource.com/#/c/gerrit/+/142150/",
+      "parentUuid": "9c5ab574_0eb1367b",
+      "range": {
+        "startLine": 15,
+        "startChar": 40,
+        "endLine": 15,
+        "endChar": 44
+      },
+      "revId": "bb7e13836037c7293459bf3a6023c39cb87704b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

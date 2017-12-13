@@ -16,7 +16,10 @@ package com.google.gerrit.server.account;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Optional;
@@ -69,6 +72,27 @@ public abstract class InternalAccountUpdate {
   public abstract Optional<String> getStatus();
 
   /**
+   * Returns external IDs that should be newly created for the account.
+   *
+   * @return external IDs that should be newly created for the account
+   */
+  public abstract ImmutableSet<ExternalId> getCreatedExternalIds();
+
+  /**
+   * Returns external IDs that should be updated for the account.
+   *
+   * @return external IDs that should be updated for the account
+   */
+  public abstract ImmutableSet<ExternalId> getUpdatedExternalIds();
+
+  /**
+   * Returns external IDs that should be deleted for the account.
+   *
+   * @return external IDs that should be deleted for the account
+   */
+  public abstract ImmutableSet<ExternalId> getDeletedExternalIds();
+
+  /**
    * Class to build an account update.
    *
    * <p>Account data is only updated if the corresponding setter is invoked. If a setter is not
@@ -112,6 +136,76 @@ public abstract class InternalAccountUpdate {
      * @return the builder
      */
     public abstract Builder setStatus(String status);
+
+    /**
+     * Returns a builder for the set of created external IDs.
+     *
+     * @return builder for the set of created external IDs.
+     */
+    abstract ImmutableSet.Builder<ExternalId> createdExternalIdsBuilder();
+
+    /**
+     * Adds a new external ID for the account.
+     *
+     * <p>The account ID of the external ID must match the account ID of the account that is
+     * updated.
+     *
+     * <p>If an external ID with the same ID already exists the account update will fail with {@link
+     * OrmDuplicateKeyException}.
+     *
+     * @param extId external ID that should be added
+     * @return the builder
+     */
+    public Builder addExternalId(ExternalId extId) {
+      createdExternalIdsBuilder().add(extId);
+      return this;
+    }
+
+    /**
+     * Returns a builder for the set of updated external IDs.
+     *
+     * @return builder for the set of updated external IDs.
+     */
+    abstract ImmutableSet.Builder<ExternalId> updatedExternalIdsBuilder();
+
+    /**
+     * Updates an external ID for the account.
+     *
+     * <p>The account ID of the external ID must match the account ID of the account that is
+     * updated.
+     *
+     * <p>If no external ID with the ID exists the external ID is created.
+     *
+     * @param extId external ID that should be added
+     * @return the builder
+     */
+    public Builder updateExternalId(ExternalId extId) {
+      updatedExternalIdsBuilder().add(extId);
+      return this;
+    }
+
+    /**
+     * Returns a builder for the set of deleted external IDs.
+     *
+     * @return builder for the set of deleted external IDs.
+     */
+    abstract ImmutableSet.Builder<ExternalId> deletedExternalIdsBuilder();
+
+    /**
+     * Deletes an external ID for the account.
+     *
+     * <p>The account ID of the external ID must match the account ID of the account that is
+     * updated.
+     *
+     * <p>If no external ID with the ID exists this is a no-op.
+     *
+     * @param extId external ID that should be added
+     * @return the builder
+     */
+    public Builder deleteExternalId(ExternalId extId) {
+      deletedExternalIdsBuilder().add(extId);
+      return this;
+    }
 
     /**
      * Builds the account update.

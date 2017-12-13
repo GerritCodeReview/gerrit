@@ -199,9 +199,14 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     }
 
     if (revision != null) {
-      commit.setMessage("Update account\n");
+      if (Strings.isNullOrEmpty(commit.getMessage())) {
+        commit.setMessage("Update account\n");
+      }
     } else {
-      commit.setMessage("Create account\n");
+      if (Strings.isNullOrEmpty(commit.getMessage())) {
+        commit.setMessage("Create account\n");
+      }
+
       commit.setAuthor(new PersonIdent(commit.getAuthor(), registeredOn));
       commit.setCommitter(new PersonIdent(commit.getCommitter(), registeredOn));
     }

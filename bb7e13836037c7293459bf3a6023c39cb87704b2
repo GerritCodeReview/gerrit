@@ -46,6 +46,30 @@
       "revId": "bb7e13836037c7293459bf3a6023c39cb87704b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d23c8763_2062174d",
+        "filename": "java/com/google/gerrit/server/config/rest/CacheResource.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-12-13T19:49:17Z",
+      "side": 1,
+      "message": "\"Can we move these parts into server/api/config instead of creating a new subpackage in config?\"\n\nthe dependency goes the other way. server/api/config uses many classes from server/config/rest, so you can never move this into server/api/config (it would create a cycle). \n\nA possible alternative is to keep it in the server package, but that is the one we want to make smaller.",
+      "parentUuid": "1273a176_8b155c74",
+      "range": {
+        "startLine": 15,
+        "startChar": 40,
+        "endLine": 15,
+        "endChar": 44
+      },
+      "revId": "bb7e13836037c7293459bf3a6023c39cb87704b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

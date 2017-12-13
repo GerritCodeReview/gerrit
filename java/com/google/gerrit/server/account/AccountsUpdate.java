@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -41,6 +42,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -118,6 +120,7 @@ public class AccountsUpdate {
     private final Provider<PersonIdent> serverIdentProvider;
     private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
     private final RetryHelper retryHelper;
+    private final ExternalIdNotes.Factory extIdNotesFactory;
 
     @Inject
     public Server(
@@ -127,7 +130,8 @@ public class AccountsUpdate {
         OutgoingEmailValidator emailValidator,
         @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
         Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
-        RetryHelper retryHelper) {
+        RetryHelper retryHelper,
+        ExternalIdNotes.Factory extIdNotesFactory) {
       this.repoManager = repoManager;
       this.gitRefUpdated = gitRefUpdated;
       this.allUsersName = allUsersName;
@@ -135,6 +139,7 @@ public class AccountsUpdate {
       this.serverIdentProvider = serverIdentProvider;
       this.metaDataUpdateInternalFactory = metaDataUpdateInternalFactory;
       this.retryHelper = retryHelper;
+      this.extIdNotesFactory = extIdNotesFactory;
     }
 
     public AccountsUpdate create() {
@@ -147,6 +152,7 @@ public class AccountsUpdate {
           emailValidator,
           metaDataUpdateInternalFactory,
           retryHelper,
+          extIdNotesFactory,
           serverIdent,
           serverIdent);
     }
@@ -168,6 +174,7 @@ public class AccountsUpdate {
     private final Provider<IdentifiedUser> identifiedUser;
     private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
     private final RetryHelper retryHelper;
+    private final ExternalIdNotes.Factory extIdNotesFactory;
 
     @Inject
     public User(
@@ -178,7 +185,8 @@ public class AccountsUpdate {
         @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
         Provider<IdentifiedUser> identifiedUser,
         Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
-        RetryHelper retryHelper) {
+        RetryHelper retryHelper,
+        ExternalIdNotes.Factory extIdNotesFactory) {
       this.repoManager = repoManager;
       this.gitRefUpdated = gitRefUpdated;
       this.allUsersName = allUsersName;
@@ -187,6 +195,7 @@ public class AccountsUpdate {
       this.identifiedUser = identifiedUser;
       this.metaDataUpdateInternalFactory = metaDataUpdateInternalFactory;
       this.retryHelper = retryHelper;
+      this.extIdNotesFactory = extIdNotesFactory;
     }
 
     public AccountsUpdate create() {
@@ -201,6 +210,7 @@ public class AccountsUpdate {
           emailValidator,
           metaDataUpdateInternalFactory,
           retryHelper,
+          extIdNotesFactory,
           serverIdent,
           userIdent);
     }
@@ -217,6 +227,7 @@ public class AccountsUpdate {
   private final OutgoingEmailValidator emailValidator;
   private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
   private final RetryHelper retryHelper;
+  private final ExternalIdNotes.Factory extIdNotesFactory;
   private final PersonIdent committerIdent;
   private final PersonIdent authorIdent;
   private final Runnable afterReadRevision;
@@ -229,6 +240,7 @@ public class AccountsUpdate {
       OutgoingEmailValidator emailValidator,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,
+      ExternalIdNotes.Factory extIdNotesFactory,
       PersonIdent committerIdent,
       PersonIdent authorIdent) {
     this(
@@ -239,6 +251,7 @@ public class AccountsUpdate {
         emailValidator,
         metaDataUpdateInternalFactory,
         retryHelper,
+        extIdNotesFactory,
         committerIdent,
         authorIdent,
         Runnables.doNothing());
@@ -253,6 +266,7 @@ public class AccountsUpdate {
       OutgoingEmailValidator emailValidator,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,
+      ExternalIdNotes.Factory extIdNotesFactory,
       PersonIdent committerIdent,
       PersonIdent authorIdent,
       Runnable afterReadRevision) {
@@ -264,6 +278,7 @@ public class AccountsUpdate {
     this.metaDataUpdateInternalFactory =
         checkNotNull(metaDataUpdateInternalFactory, "metaDataUpdateInternalFactory");
     this.retryHelper = checkNotNull(retryHelper, "retryHelper");
+    this.extIdNotesFactory = checkNotNull(extIdNotesFactory, "extIdNotesFactory");
     this.committerIdent = checkNotNull(committerIdent, "committerIdent");
     this.authorIdent = checkNotNull(authorIdent, "authorIdent");
     this.afterReadRevision = afterReadRevision;
@@ -304,12 +319,15 @@ public class AccountsUpdate {
     return updateAccount(
         r -> {
           AccountConfig accountConfig = read(r, accountId);
-          Account account = accountConfig.getNewAccount();
+          Account account =
+              accountConfig.getNewAccount(new Timestamp(committerIdent.getWhen().getTime()));
           InternalAccountUpdate.Builder updateBuilder = InternalAccountUpdate.builder();
           updater.update(account, updateBuilder);
-          accountConfig.setAccountUpdate(updateBuilder.build());
 
-          UpdatedAccount updatedAccounts = new UpdatedAccount(message, accountConfig);
+          InternalAccountUpdate update = updateBuilder.build();
+          accountConfig.setAccountUpdate(update);
+          ExternalIdNotes extIdNotes = createExternalIdNotes(r, update);
+          UpdatedAccount updatedAccounts = new UpdatedAccount(message, accountConfig, extIdNotes);
           updatedAccounts.setCreated(true);
           return updatedAccounts;
         });
@@ -360,8 +378,11 @@ public class AccountsUpdate {
 
           InternalAccountUpdate.Builder updateBuilder = InternalAccountUpdate.builder();
           updater.update(account.get(), updateBuilder);
-          accountConfig.setAccountUpdate(updateBuilder.build());
-          UpdatedAccount updatedAccounts = new UpdatedAccount(message, accountConfig);
+
+          InternalAccountUpdate update = updateBuilder.build();
+          accountConfig.setAccountUpdate(update);
+          ExternalIdNotes extIdNotes = createExternalIdNotes(r, update);
+          UpdatedAccount updatedAccounts = new UpdatedAccount(message, accountConfig, extIdNotes);
           return updatedAccounts;
         });
   }
@@ -459,6 +480,16 @@ public class AccountsUpdate {
         });
   }
 
+  private ExternalIdNotes createExternalIdNotes(
+      Repository allUsersRepo, InternalAccountUpdate update)
+      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
+    ExternalIdNotes extIdNotes = extIdNotesFactory.load(allUsersRepo);
+    extIdNotes.insert(update.getCreatedExternalIds());
+    extIdNotes.upsert(update.getUpdatedExternalIds());
+    extIdNotes.delete(update.getDeletedExternalIds());
+    return extIdNotes;
+  }
+
   private void commit(Repository allUsersRepo, UpdatedAccount updatedAccount) throws IOException {
     BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
     if (updatedAccount.isCreated()) {
@@ -474,6 +505,12 @@ public class AccountsUpdate {
           batchRefUpdate,
           updatedAccount.getAccountConfig());
     }
+
+    commitExternalIdUpdates(
+        updatedAccount.getMessage(),
+        allUsersRepo,
+        batchRefUpdate,
+        updatedAccount.getExternalIdNotes());
     RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
     gitRefUpdated.fire(
         allUsersName, batchRefUpdate, currentUser != null ? currentUser.getAccount() : null);
@@ -513,6 +550,17 @@ public class AccountsUpdate {
     }
   }
 
+  private void commitExternalIdUpdates(
+      String message,
+      Repository allUsersRepo,
+      BatchRefUpdate batchRefUpdate,
+      ExternalIdNotes extIdNotes)
+      throws IOException {
+    try (MetaDataUpdate md = createMetaDataUpdate(message, allUsersRepo, batchRefUpdate)) {
+      extIdNotes.commit(md);
+    }
+  }
+
   private MetaDataUpdate createMetaDataUpdate(
       String message, Repository allUsersRepo, BatchRefUpdate batchRefUpdate) {
     MetaDataUpdate metaDataUpdate =
@@ -536,12 +584,16 @@ public class AccountsUpdate {
   private static class UpdatedAccount {
     private final String message;
     private final AccountConfig accountConfig;
+    private final ExternalIdNotes extIdNotes;
+
     private boolean created;
 
-    private UpdatedAccount(String message, AccountConfig accountConfig) {
+    private UpdatedAccount(
+        String message, AccountConfig accountConfig, ExternalIdNotes extIdNotes) {
       checkState(!Strings.isNullOrEmpty(message), "message for account update must be set");
       this.message = checkNotNull(message);
       this.accountConfig = checkNotNull(accountConfig);
+      this.extIdNotes = checkNotNull(extIdNotes);
     }
 
     public String getMessage() {
@@ -554,6 +606,10 @@ public class AccountsUpdate {
 
     public Account getAccount() {
       return accountConfig.getLoadedAccount().get();
+    }
+
+    public ExternalIdNotes getExternalIdNotes() {
+      return extIdNotes;
     }
 
     public void setCreated(boolean created) {

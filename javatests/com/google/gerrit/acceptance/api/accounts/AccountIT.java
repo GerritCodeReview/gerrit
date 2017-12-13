@@ -31,6 +31,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPG
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
@@ -65,6 +66,7 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput.CheckAccountsInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
@@ -91,6 +93,7 @@ import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -108,6 +111,7 @@ import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender.Message;
+import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -195,6 +199,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private RetryHelper.Metrics retryMetrics;
 
   @Inject private Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
+
+  @Inject private ExternalIdNotes.Factory extIdNotesFactory;
 
   @Inject
   @Named("accounts")
@@ -340,6 +346,37 @@ public class AccountIT extends AbstractDaemonTest {
       Ref exactRef = repo.exactRef(RefNames.refsUsers(accountId));
       assertThat(rw.parseCommit(exactRef.getObjectId()).getShortMessage())
           .isEqualTo(expectedMessage);
+    }
+  }
+
+  @Test
+  public void createAtomically() throws Exception {
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
+    try {
+      Account.Id accountId = new Account.Id(seq.nextAccountId());
+      String fullName = "Foo";
+      ExternalId extId = ExternalId.createEmail(accountId, "foo@example.com");
+      Account account =
+          accountsUpdate
+              .create()
+              .insert(
+                  "Create Account Atomically",
+                  accountId,
+                  u -> u.setFullName(fullName).addExternalId(extId));
+      assertThat(account.getFullName()).isEqualTo(fullName);
+
+      AccountInfo info = gApi.accounts().id(accountId.get()).get();
+      assertThat(info.name).isEqualTo(fullName);
+
+      List<EmailInfo> emails = gApi.accounts().id(accountId.get()).getEmails();
+      assertThat(emails.stream().map(e -> e.email).collect(toSet())).containsExactly(extId.email());
+
+      RevCommit commitUserBranch = getRemoteHead(allUsers, RefNames.refsUsers(accountId));
+      RevCommit commitRefsMetaExternalIds = getRemoteHead(allUsers, RefNames.REFS_EXTERNAL_IDS);
+      assertThat(commitUserBranch.getCommitTime())
+          .isEqualTo(commitRefsMetaExternalIds.getCommitTime());
+    } finally {
+      TestTimeUtil.useSystemTime();
     }
   }
 
@@ -1943,6 +1980,7 @@ public class AccountIT extends AbstractDaemonTest {
                 null,
                 null,
                 r -> r.withBlockStrategy(noSleepBlockStrategy)),
+            extIdNotesFactory,
             serverIdent.get(),
             serverIdent.get(),
             () -> {
@@ -1983,6 +2021,7 @@ public class AccountIT extends AbstractDaemonTest {
                 r ->
                     r.withStopStrategy(StopStrategies.stopAfterAttempt(status.size()))
                         .withBlockStrategy(noSleepBlockStrategy)),
+            extIdNotesFactory,
             serverIdent.get(),
             serverIdent.get(),
             () -> {

@@ -116,7 +116,8 @@ public class GroupConfig extends VersionedMetaData {
     return loadedGroup;
   }
 
-  void setGroupCreation(InternalGroupCreation groupCreation) throws OrmDuplicateKeyException {
+  private void setGroupCreation(InternalGroupCreation groupCreation)
+      throws OrmDuplicateKeyException {
     checkLoaded();
     if (loadedGroup.isPresent()) {
       throw new OrmDuplicateKeyException(String.format("Group %s already exists", groupUuid.get()));

@@ -595,7 +595,8 @@ public class ExternalIdNotes extends VersionedMetaData {
    *
    * @return the ID of the account to which all specified external IDs belong.
    */
-  static Account.Id checkSameAccount(Iterable<ExternalId> extIds, @Nullable Account.Id accountId) {
+  public static Account.Id checkSameAccount(
+      Iterable<ExternalId> extIds, @Nullable Account.Id accountId) {
     for (ExternalId extId : extIds) {
       if (accountId == null) {
         accountId = extId.accountId();

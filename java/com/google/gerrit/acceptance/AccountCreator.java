@@ -117,7 +117,9 @@ public class AccountCreator {
       }
       externalIdsUpdate.create().insert(extIds);
 
-      accountsUpdate.create().insert(id, u -> u.setFullName(fullName).setPreferredEmail(email));
+      accountsUpdate
+          .create()
+          .insert("Create Test Account", id, u -> u.setFullName(fullName).setPreferredEmail(email));
 
       if (groupNames != null) {
         for (String n : groupNames) {

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f89a0f3d_9d3881b1",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-13T05:20:32Z",
+      "side": 1,
+      "message": "Please update documentation as well.",
+      "revId": "7d420a19778535896f2c450f0944ae0c7b310da0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10e38a81_952cec60",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-13T05:20:32Z",
+      "side": 1,
+      "message": "This method isn\u0027t tested.",
+      "revId": "7d420a19778535896f2c450f0944ae0c7b310da0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b37d5c27_30c0499d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1334,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-13T05:20:32Z",
+      "side": 1,
+      "message": "*sigh*\nduck, duck, goose.",
+      "range": {
+        "startLine": 1333,
+        "startChar": 56,
+        "endLine": 1334,
+        "endChar": 29
+      },
+      "revId": "7d420a19778535896f2c450f0944ae0c7b310da0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

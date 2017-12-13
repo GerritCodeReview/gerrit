@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "0e52265a_8266aa0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-13T13:33:08Z",
+      "side": 1,
+      "message": "Chatted some more with Edwin. We think it is ok to leave the code in master for another release cycle; there is actually not very much downside.\n\nWill rework this as a change on master with a regular schema migration.",
+      "parentUuid": "74283134_97ecbc69",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "eba624f71fb0f283e7960eb3fc756c11de970a0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "48616f98_991f09de",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
         "patchSetId": 1

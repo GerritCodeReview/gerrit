@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58e33aa9_5e69aa37",
+        "filename": "WORKSPACE",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-13T18:30:44Z",
+      "side": 1,
+      "message": "What\u0027s the reason for targeting your fork?\n\nThe maintainers of rules_closure are Googlers, so any change can probably be made upstream and released quickly if need be. It\u0027d be better to do it that way, as we\u0027d avoid the internal and external build processes drifting too far apart.",
+      "revId": "27d624dfc9a3f0562fd6010d9730f462f7aa4f20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

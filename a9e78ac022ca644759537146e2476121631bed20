@@ -16,6 +16,24 @@
       "revId": "a9e78ac022ca644759537146e2476121631bed20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db944565_4084dc17",
+        "filename": "java/com/google/gerrit/acceptance/BUILD",
+        "patchSetId": 13
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-12-13T20:11:51Z",
+      "side": 1,
+      "message": "On second thought, I think this should go into provided so that it is not exported.",
+      "parentUuid": "23527e86_ae3dedc1",
+      "revId": "a9e78ac022ca644759537146e2476121631bed20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

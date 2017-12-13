@@ -15,7 +15,7 @@
 package com.google.gerrit.server.mail.receive;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -29,10 +29,17 @@ import org.jsoup.nodes.Element;
 /** Provides functionality for parsing the HTML part of a {@link MailMessage}. */
 public class HtmlParser {
 
-  private static final ImmutableList<String> MAIL_PROVIDER_EXTRAS =
-      ImmutableList.of(
+  private static final ImmutableSet<String> MAIL_PROVIDER_EXTRAS =
+      ImmutableSet.of(
           "gmail_extra", // "On 01/01/2017 User<user@gmail.com> wrote:"
           "gmail_quote" // Used for quoting original content
+          );
+
+  private static final ImmutableSet<String> WHITELISTED_HTML_TAGS =
+      ImmutableSet.of(
+          "div", // Most user-typed comments are contained in a <div> tag
+          "a", // We allow links to be contained in a comment
+          "font" // Some email clients like nesting input in a new font tag
           );
 
   private HtmlParser() {}
@@ -71,7 +78,12 @@ public class HtmlParser {
     for (Element e : d.body().getAllElements()) {
       String elementName = e.tagName();
       boolean isInBlockQuote =
-          e.parents().stream().filter(p -> p.tagName().equals("blockquote")).findAny().isPresent();
+          e.parents()
+              .stream()
+              .anyMatch(
+                  p ->
+                      p.tagName().equals("blockquote")
+                          || MAIL_PROVIDER_EXTRAS.contains(p.className()));
 
       if (elementName.equals("a")) {
         String href = e.attr("href");
@@ -96,39 +108,63 @@ public class HtmlParser {
             lastEncounteredComment = perspectiveComment;
             iter.next();
           }
+          continue;
         } else if (ParserUtil.isCommentUrl(href, changeUrl, perspectiveComment)) {
           // This is a regular inline comment
           lastEncounteredComment = perspectiveComment;
           iter.next();
+          continue;
         }
-      } else if (!isInBlockQuote
-          && elementName.equals("div")
-          && !MAIL_PROVIDER_EXTRAS.contains(e.className())) {
-        // This is a comment typed by the user
-        // Replace non-breaking spaces and trim string
-        String content = e.ownText().replace('\u00a0', ' ').trim();
-        if (!Strings.isNullOrEmpty(content)) {
-          if (lastEncounteredComment == null && lastEncounteredFileName == null) {
-            // Remove quotation line, email signature and
-            // "Sent from my xyz device"
-            content = ParserUtil.trimQuotation(content);
-            // TODO(hiesel) Add more sanitizer
-            if (!Strings.isNullOrEmpty(content)) {
-              ParserUtil.appendOrAddNewComment(
-                  new MailComment(content, null, null, MailComment.CommentType.CHANGE_MESSAGE),
-                  parsedComments);
-            }
-          } else if (lastEncounteredComment == null) {
+      }
+
+      if (isInBlockQuote) {
+        // There is no user-input in quoted text
+        continue;
+      }
+      if (!WHITELISTED_HTML_TAGS.contains(elementName)) {
+        // We only accept a set of whitelisted tags that can contain user input
+        continue;
+      }
+      if (elementName.equals("a") && e.attr("href").startsWith("mailto:")) {
+        // We don't accept mailto: links in general as they often appear in reply-to lines
+        // (User<user@gmail.com> wrote: ...)
+        continue;
+      }
+
+      // This is a comment typed by the user
+      // Replace non-breaking spaces and trim string
+      String content = e.ownText().replace('\u00a0', ' ').trim();
+      boolean isLink = elementName.equals("a");
+      if (!Strings.isNullOrEmpty(content)) {
+        if (lastEncounteredComment == null && lastEncounteredFileName == null) {
+          // Remove quotation line, email signature and
+          // "Sent from my xyz device"
+          content = ParserUtil.trimQuotation(content);
+          // TODO(hiesel) Add more sanitizer
+          if (!Strings.isNullOrEmpty(content)) {
             ParserUtil.appendOrAddNewComment(
                 new MailComment(
-                    content, lastEncounteredFileName, null, MailComment.CommentType.FILE_COMMENT),
-                parsedComments);
-          } else {
-            ParserUtil.appendOrAddNewComment(
-                new MailComment(
-                    content, null, lastEncounteredComment, MailComment.CommentType.INLINE_COMMENT),
+                    content, null, null, MailComment.CommentType.CHANGE_MESSAGE, isLink),
                 parsedComments);
           }
+        } else if (lastEncounteredComment == null) {
+          ParserUtil.appendOrAddNewComment(
+              new MailComment(
+                  content,
+                  lastEncounteredFileName,
+                  null,
+                  MailComment.CommentType.FILE_COMMENT,
+                  isLink),
+              parsedComments);
+        } else {
+          ParserUtil.appendOrAddNewComment(
+              new MailComment(
+                  content,
+                  null,
+                  lastEncounteredComment,
+                  MailComment.CommentType.INLINE_COMMENT,
+                  isLink),
+              parsedComments);
         }
       }
     }

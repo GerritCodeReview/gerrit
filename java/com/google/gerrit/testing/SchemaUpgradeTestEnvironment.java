@@ -30,11 +30,14 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
+import org.eclipse.jgit.lib.Config;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 public final class SchemaUpgradeTestEnvironment implements TestRule {
+  private final Provider<Config> configProvider;
+
   @Inject private AccountManager accountManager;
   @Inject private IdentifiedUser.GenericFactory userFactory;
   @Inject private SchemaFactory<ReviewDb> schemaFactory;
@@ -46,6 +49,10 @@ public final class SchemaUpgradeTestEnvironment implements TestRule {
   private ReviewDb db;
   private Injector injector;
   private LifecycleManager lifecycle;
+
+  SchemaUpgradeTestEnvironment(Provider<Config> configProvider) {
+    this.configProvider = configProvider;
+  }
 
   @Override
   public Statement apply(Statement statement, Description description) {
@@ -87,7 +94,10 @@ public final class SchemaUpgradeTestEnvironment implements TestRule {
   }
 
   private void setUp() throws Exception {
-    injector = Guice.createInjector(new InMemoryModule());
+    Config cfg = configProvider.get();
+    InMemoryModule.setDefaults(cfg);
+
+    injector = Guice.createInjector(new InMemoryModule(cfg, NoteDbMode.newNotesMigrationFromEnv()));
     injector.injectMembers(this);
     lifecycle = new LifecycleManager();
     lifecycle.add(injector);

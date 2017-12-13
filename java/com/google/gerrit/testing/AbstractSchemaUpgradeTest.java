@@ -15,12 +15,18 @@
 package com.google.gerrit.testing;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Rule;
+import org.junit.runner.RunWith;
 
 /** Base class for tests of schema upgrades. */
+@RunWith(ConfigSuite.class)
 public abstract class AbstractSchemaUpgradeTest {
-  @Rule public SchemaUpgradeTestEnvironment testEnv = new SchemaUpgradeTestEnvironment();
+  @ConfigSuite.Parameter public Config baseConfig;
+
+  @Rule
+  public SchemaUpgradeTestEnvironment testEnv = new SchemaUpgradeTestEnvironment(() -> baseConfig);
 
   protected ReviewDb db;
 

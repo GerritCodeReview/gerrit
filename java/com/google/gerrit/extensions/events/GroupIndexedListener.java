@@ -16,13 +16,13 @@ package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
-/** Notified whenever a group is indexed */
+/** Notified whenever a account is indexed */
 @ExtensionPoint
 public interface GroupIndexedListener {
   /**
-   * Invoked when a group is indexed
+   * Invoked when a account is indexed
    *
-   * @param uuid of the group
+   * @param uuid of the account
    */
   void onGroupIndexed(String uuid);
 }

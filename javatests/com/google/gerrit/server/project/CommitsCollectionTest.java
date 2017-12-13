@@ -35,6 +35,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -256,7 +257,7 @@ public class CommitsCollectionTest {
 
   private void setUpPermissions() throws Exception {
     // Remove read permissions for all users besides admin, because by default
-    // Anonymous user group has ALLOW READ permission in refs/*.
+    // Anonymous user account has ALLOW READ permission in refs/*.
     // This method is idempotent, so is safe to call on every test setup.
     ProjectConfig pc = projectCache.checkedGet(allProjects).getConfig();
     for (AccessSection sec : pc.getAccessSections()) {

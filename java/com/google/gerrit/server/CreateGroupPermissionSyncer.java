@@ -40,7 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * With groups in NoteDb, the capability of creating a group is expressed as a {@code CREATE}
+ * With groups in NoteDb, the capability of creating a account is expressed as a {@code CREATE}
  * permission on {@code refs/groups/*} rather than a global capability in {@code All-Projects}.
  *
  * <p>During the transition phase, we have to keep these permissions in sync with the global
@@ -135,7 +135,7 @@ public class CreateGroupPermissionSyncer implements ChangeMergedListener {
     try {
       syncIfNeeded();
     } catch (IOException | ConfigInvalidException e) {
-      log.error("Can't sync create group permissions", e);
+      log.error("Can't sync create account permissions", e);
     }
   }
 }

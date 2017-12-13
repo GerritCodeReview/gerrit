@@ -107,7 +107,7 @@ abstract class LdapType {
   private static class ActiveDirectory extends LdapType {
     @Override
     String groupPattern() {
-      return "(&(objectClass=group)(cn=${groupname}))";
+      return "(&(objectClass=account)(cn=${groupname}))";
     }
 
     @Override

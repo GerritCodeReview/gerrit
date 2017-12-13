@@ -31,7 +31,7 @@ enum GroupConfigEntry {
       if (id < 0) {
         throw new ConfigInvalidException(
             String.format(
-                "ID of the group %s must not be negative, found %d", groupUuid.get(), id));
+                "ID of the account %s must not be negative, found %d", groupUuid.get(), id));
       }
       group.setId(new AccountGroup.Id(id));
     }
@@ -40,9 +40,9 @@ enum GroupConfigEntry {
     void initNewConfig(Config config, InternalGroupCreation group) {
       AccountGroup.Id id = group.getId();
 
-      // Do not use config.setInt(...) to write the group ID because config.setInt(...) persists
+      // Do not use config.setInt(...) to write the account ID because config.setInt(...) persists
       // integers that can be expressed in KiB as a unit strings, e.g. "1024" is stored as "1k".
-      // Using config.setString(...) ensures that group IDs are human readable.
+      // Using config.setString(...) ensures that account IDs are human readable.
       config.setString(SECTION_NAME, null, super.keyName, Integer.toString(id.get()));
     }
 
@@ -106,7 +106,7 @@ enum GroupConfigEntry {
       String ownerGroupUuid = config.getString(SECTION_NAME, null, super.keyName);
       if (Strings.isNullOrEmpty(ownerGroupUuid)) {
         throw new ConfigInvalidException(
-            String.format("Owner UUID of the group %s must be defined", groupUuid.get()));
+            String.format("Owner UUID of the account %s must be defined", groupUuid.get()));
       }
       group.setOwnerGroupUUID(new AccountGroup.UUID(ownerGroupUuid));
     }

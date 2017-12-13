@@ -83,7 +83,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
     if (!result.isSucceeded()) {
       throw new IOException(
           String.format(
-              "Failed to replace group %s in index %s: %s",
+              "Failed to replace account %s in index %s: %s",
               group.getGroupUUID().get(), indexName, result.getErrorMessage()));
     }
   }

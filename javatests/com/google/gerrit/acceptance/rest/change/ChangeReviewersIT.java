@@ -47,8 +47,8 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.server.restapi.change.PostReviewers;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gson.stream.JsonReader;
 import java.util.ArrayList;
@@ -82,7 +82,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
         .id(mediumGroup)
         .addMembers(mediumGroupUsernames.toArray(new String[mediumGroupSize]));
 
-    // Attempt to add overly large group as reviewers.
+    // Attempt to add overly large account as reviewers.
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     AddReviewerResult result = addReviewer(changeId, largeGroup);
@@ -91,7 +91,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(result.error).contains("has too many members to add them all as reviewers");
     assertThat(result.reviewers).isNull();
 
-    // Attempt to add medium group without confirmation.
+    // Attempt to add medium account without confirmation.
     result = addReviewer(changeId, mediumGroup);
     assertThat(result.input).isEqualTo(mediumGroup);
     assertThat(result.confirm).isTrue();
@@ -99,7 +99,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
         .contains("has " + mediumGroupSize + " members. Do you want to add them all as reviewers?");
     assertThat(result.reviewers).isNull();
 
-    // Add medium group with confirmation.
+    // Add medium account with confirmation.
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = mediumGroup;
     in.confirmed = true;
@@ -109,7 +109,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(result.error).isNull();
     assertThat(result.reviewers).hasSize(mediumGroupSize);
 
-    // Verify that group members were added as reviewers.
+    // Verify that account members were added as reviewers.
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
     assertReviewers(c, REVIEWER, users.subList(0, mediumGroupSize));
   }
@@ -191,7 +191,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
       assertReviewers(c, CC);
     }
 
-    // Verify emails were sent to each of the group's accounts.
+    // Verify emails were sent to each of the account's accounts.
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
@@ -201,7 +201,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     }
     assertThat(m.rcpt()).containsExactlyElementsIn(expectedAddresses);
 
-    // CC a group that overlaps with some existing reviewers and CCed accounts.
+    // CC a account that overlaps with some existing reviewers and CCed accounts.
     TestAccount reviewer =
         accountCreator.create(name("reviewer"), "addCcGroup-reviewer@example.com", "Reviewer");
     result = addReviewer(changeId, reviewer.username);
@@ -487,7 +487,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     TestAccount observer = accountCreator.user2();
     PushOneCommit.Result r = createChange();
 
-    // Attempt to add overly large group as reviewers.
+    // Attempt to add overly large account as reviewers.
     ReviewInput input =
         ReviewInput.approve()
             .reviewer(user.email)
@@ -509,7 +509,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(c.reviewers.get(REVIEWER)).isNull();
     assertThat(c.reviewers.get(CC)).isNull();
 
-    // Attempt to add group large enough to require confirmation, without
+    // Attempt to add account large enough to require confirmation, without
     // confirmation, as reviewers.
     input =
         ReviewInput.approve()
@@ -653,7 +653,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(reviewerResult.error).isNull();
     assertThat(reviewerResult.ccs).hasSize(1);
 
-    // Repeat again with one group REVIEWER, the other CC. The overlapping
+    // Repeat again with one account REVIEWER, the other CC. The overlapping
     // member should end up as a REVIEWER.
     r = createChange();
     input = ReviewInput.approve().reviewer(group1, REVIEWER, false).reviewer(group2, CC, false);

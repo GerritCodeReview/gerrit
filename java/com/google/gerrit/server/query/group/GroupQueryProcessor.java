@@ -34,7 +34,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 /**
- * Query processor for the group index.
+ * Query processor for the account index.
  *
  * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
  * holding on to a single instance.

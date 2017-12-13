@@ -31,12 +31,12 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Group membership checker for the internal group system.
+ * Group membership checker for the internal account system.
  *
  * <p>Groups the user is directly a member of are pulled from the in-memory AccountCache by way of
- * the IdentifiedUser. Transitive group memberhips are resolved on demand starting from the
- * requested group and looking for a path to a group the user is a member of. Other group backends
- * are supported by recursively invoking the universal GroupMembership.
+ * the IdentifiedUser. Transitive account memberhips are resolved on demand starting from the
+ * requested account and looking for a path to a account the user is a member of. Other account
+ * backends are supported by recursively invoking the universal GroupMembership.
  */
 public class IncludingGroupMembership implements GroupMembership {
   public interface Factory {

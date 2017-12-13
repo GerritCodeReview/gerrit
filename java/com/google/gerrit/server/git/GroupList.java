@@ -44,7 +44,7 @@ public class GroupList extends TabFile {
     Map<AccountGroup.UUID, GroupReference> groupsByUUID = new HashMap<>(rows.size());
     for (Row row : rows) {
       if (row.left == null) {
-        log.warn("null field in group list for {}:\n{}", project, text);
+        log.warn("null field in account list for {}:\n{}", project, text);
         continue;
       }
       AccountGroup.UUID uuid = new AccountGroup.UUID(row.left);
@@ -64,7 +64,7 @@ public class GroupList extends TabFile {
   public GroupReference resolve(GroupReference group) {
     if (group != null) {
       if (group.getUUID() == null || group.getUUID().get() == null) {
-        // A GroupReference from ProjectConfig that refers to a group not found
+        // A GroupReference from ProjectConfig that refers to a account not found
         // in this file will have a null UUID. Since there may be multiple
         // different missing references, it's not appropriate to cache the
         // results, nor return null the set from #uuids.

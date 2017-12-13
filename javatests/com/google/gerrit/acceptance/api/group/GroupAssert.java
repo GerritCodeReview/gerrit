@@ -26,7 +26,7 @@ public class GroupAssert {
 
   public static void assertGroups(Iterable<String> expected, Set<String> actual) {
     for (String g : expected) {
-      assertWithMessage("missing group " + g).that(actual.remove(g)).isTrue();
+      assertWithMessage("missing account " + g).that(actual.remove(g)).isTrue();
     }
     assertWithMessage("unexpected groups: " + actual).that(actual).isEmpty();
   }

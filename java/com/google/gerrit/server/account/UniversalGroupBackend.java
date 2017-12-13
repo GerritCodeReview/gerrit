@@ -236,8 +236,8 @@ public class UniversalGroupBackend implements GroupBackend {
       if (!invalid.isEmpty()) {
         throw new StartupException(
             String.format(
-                "Subsections for 'groups' in gerrit.config must be valid group"
-                    + " UUIDs. The following group UUIDs could not be resolved: "
+                "Subsections for 'groups' in gerrit.config must be valid account"
+                    + " UUIDs. The following account UUIDs could not be resolved: "
                     + invalid
                     + " Please remove/fix these 'groups' subsections in"
                     + " gerrit.config."));

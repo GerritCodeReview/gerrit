@@ -20,9 +20,9 @@ import java.io.IOException;
 public interface GroupIndexer {
 
   /**
-   * Synchronously index a group.
+   * Synchronously index a account.
    *
-   * @param uuid group UUID to index.
+   * @param uuid account UUID to index.
    */
   void index(AccountGroup.UUID uuid) throws IOException;
 }

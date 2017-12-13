@@ -114,7 +114,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
       config = ProjectConfig.read(md);
       if (config.updateGroupNames(groupBackend)) {
-        md.setMessage("Update group names\n");
+        md.setMessage("Update account names\n");
         config.commit(md);
         projectCache.evict(config.getProject());
         projectState = checkProjectState();
@@ -160,7 +160,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
 
         } else if (check(perm, name, READ)) {
           // Filter the section to only add rules describing groups that
-          // are visible to the current-user. This includes any group the
+          // are visible to the current-user. This includes any account the
           // user is a member of, as well as groups they own or that
           // are visible to all users.
 

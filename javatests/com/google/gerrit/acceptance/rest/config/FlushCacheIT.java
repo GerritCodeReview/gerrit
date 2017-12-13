@@ -27,7 +27,7 @@ public class FlushCacheIT extends AbstractDaemonTest {
 
   @Test
   public void flushCache() throws Exception {
-    // access the admin group once so that it is loaded into the group cache
+    // access the admin account once so that it is loaded into the account cache
     adminGroup();
 
     RestResponse r = adminRestSession.get("/config/server/caches/groups_byname");

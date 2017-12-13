@@ -37,9 +37,9 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
-/** Grant read on group branches */
+/** Grant read on account branches */
 public class Schema_164 extends SchemaVersion {
-  private static final String COMMIT_MSG = "Grant read permissions on group branches";
+  private static final String COMMIT_MSG = "Grant read permissions on account branches";
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
@@ -79,7 +79,7 @@ public class Schema_164 extends SchemaVersion {
           systemGroupBackend.getGroup(REGISTERED_USERS));
       config.commit(md);
     } catch (IOException | ConfigInvalidException e) {
-      throw new OrmException("Failed to grant read permissions on group branches", e);
+      throw new OrmException("Failed to grant read permissions on account branches", e);
     }
   }
 }

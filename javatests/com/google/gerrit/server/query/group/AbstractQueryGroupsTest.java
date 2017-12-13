@@ -204,8 +204,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     assertQuery("name:" + group.name.toLowerCase(Locale.US));
 
     // only exact match
-    GroupInfo groupWithHyphen = createGroup(name("group-with-hyphen"));
-    createGroup(name("group-no-match-with-hyphen"));
+    GroupInfo groupWithHyphen = createGroup(name("account-with-hyphen"));
+    createGroup(name("account-no-match-with-hyphen"));
     assertQuery("name:" + groupWithHyphen.name, groupWithHyphen);
   }
 
@@ -214,9 +214,9 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     String namePart = getSanitizedMethodName();
     namePart = CharMatcher.is('_').removeFrom(namePart);
 
-    GroupInfo group1 = createGroup("group-" + namePart);
-    GroupInfo group2 = createGroup("group-" + namePart + "-2");
-    GroupInfo group3 = createGroup("group-" + namePart + "3");
+    GroupInfo group1 = createGroup("account-" + namePart);
+    GroupInfo group2 = createGroup("account-" + namePart + "-2");
+    GroupInfo group3 = createGroup("account-" + namePart + "3");
     assertQuery("inname:" + namePart, group1, group2, group3);
     assertQuery("inname:" + namePart.toUpperCase(Locale.US), group1, group2, group3);
     assertQuery("inname:" + namePart.toLowerCase(Locale.US), group1, group2, group3);
@@ -224,7 +224,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
   @Test
   public void byDescription() throws Exception {
-    GroupInfo group1 = createGroupWithDescription(name("group1"), "This is a test group.");
+    GroupInfo group1 = createGroupWithDescription(name("group1"), "This is a test account.");
     GroupInfo group2 = createGroupWithDescription(name("group2"), "ANOTHER TEST GROUP.");
     createGroupWithDescription(name("group3"), "Maintainers of project foo.");
     assertQuery("description:test", group1, group2);
@@ -238,7 +238,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
   @Test
   public void byOwner() throws Exception {
-    GroupInfo ownerGroup = createGroup(name("owner-group"));
+    GroupInfo ownerGroup = createGroup(name("owner-account"));
     GroupInfo group = createGroupWithOwner(name("group"), ownerGroup);
     createGroup(name("group2"));
 
@@ -254,7 +254,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     assertQuery("is:visibletoall");
 
     GroupInfo groupThatIsVisibleToAll =
-        createGroupThatIsVisibleToAll(name("group-that-is-visible-to-all"));
+        createGroupThatIsVisibleToAll(name("account-that-is-visible-to-all"));
     createGroup(name("group"));
 
     assertQuery("is:visibletoall", groupThatIsVisibleToAll);
@@ -265,7 +265,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     if (getSchemaVersion() < 4) {
       assertMissingField(GroupField.MEMBER);
       assertFailingQuery(
-          "member:someName", "'member' operator is not supported by group index version");
+          "member:someName", "'member' operator is not supported by account index version");
       return;
     }
 
@@ -290,7 +290,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     if (getSchemaVersion() < 4) {
       assertMissingField(GroupField.SUBGROUP);
       assertFailingQuery(
-          "subgroup:someGroupName", "'subgroup' operator is not supported by group index version");
+          "subgroup:someGroupName",
+          "'subgroup' operator is not supported by account index version");
       return;
     }
 
@@ -314,7 +315,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
   @Test
   public void byDefaultField() throws Exception {
-    GroupInfo group1 = createGroup(name("foo-group"));
+    GroupInfo group1 = createGroup(name("foo-account"));
     GroupInfo group2 = createGroup(name("group2"));
     GroupInfo group3 =
         createGroupWithDescription(
@@ -364,7 +365,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   public void reindex() throws Exception {
     GroupInfo group1 = createGroupWithDescription(name("group"), "barX");
 
-    // update group in the database so that group index is stale
+    // update account in the database so that account index is stale
     String newDescription = "barY";
     AccountGroup.UUID groupUuid = new AccountGroup.UUID(group1.id);
     InternalGroupUpdate groupUpdate =

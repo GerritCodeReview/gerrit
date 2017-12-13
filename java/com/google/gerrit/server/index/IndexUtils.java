@@ -109,7 +109,7 @@ public final class IndexUtils {
       return user.getAccountId().toString();
     }
     if (user instanceof SingleGroupUser) {
-      return "group:" + user.getEffectiveGroups().getKnownGroups().iterator().next().toString();
+      return "account:" + user.getEffectiveGroups().getKnownGroups().iterator().next().toString();
     }
     return user.toString();
   }

@@ -161,7 +161,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Override
   protected ProjectResetter resetProjects(Builder resetter) throws IOException {
     // Don't reset All-Users since deleting users makes groups inconsistent (e.g. groups would
-    // contain members that no longer exist) and as result of this the group consistency checker
+    // contain members that no longer exist) and as result of this the account consistency checker
     // that is executed after each test would fail.
     return resetter.reset(allProjects, RefNames.REFS_CONFIG).build();
   }
@@ -311,7 +311,7 @@ public class GroupsIT extends AbstractDaemonTest {
     String dupGroupName = name("dupGroup");
     gApi.groups().create(dupGroupName);
     exception.expect(ResourceConflictException.class);
-    exception.expectMessage("group '" + dupGroupName + "' already exists");
+    exception.expectMessage("account '" + dupGroupName + "' already exists");
     gApi.groups().create(dupGroupName);
   }
 
@@ -329,7 +329,7 @@ public class GroupsIT extends AbstractDaemonTest {
   public void createDuplicateSystemGroupCaseSensitiveName_Conflict() throws Exception {
     String newGroupName = "Registered Users";
     exception.expect(ResourceConflictException.class);
-    exception.expectMessage("group 'Registered Users' already exists");
+    exception.expectMessage("account 'Registered Users' already exists");
     gApi.groups().create(newGroupName);
   }
 
@@ -337,7 +337,7 @@ public class GroupsIT extends AbstractDaemonTest {
   public void createDuplicateSystemGroupCaseInsensitiveName_Conflict() throws Exception {
     String newGroupName = "registered users";
     exception.expect(ResourceConflictException.class);
-    exception.expectMessage("group 'Registered Users' already exists");
+    exception.expectMessage("account 'Registered Users' already exists");
     gApi.groups().create(newGroupName);
   }
 
@@ -345,7 +345,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @GerritConfig(name = "groups.global:Anonymous-Users.name", value = "All Users")
   public void createGroupWithConfiguredNameOfSystemGroup_Conflict() throws Exception {
     exception.expect(ResourceConflictException.class);
-    exception.expectMessage("group 'All Users' already exists");
+    exception.expectMessage("account 'All Users' already exists");
     gApi.groups().create("all users");
   }
 
@@ -353,7 +353,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @GerritConfig(name = "groups.global:Anonymous-Users.name", value = "All Users")
   public void createGroupWithDefaultNameOfSystemGroup_Conflict() throws Exception {
     exception.expect(ResourceConflictException.class);
-    exception.expectMessage("group name 'Anonymous Users' is reserved");
+    exception.expectMessage("account name 'Anonymous Users' is reserved");
     gApi.groups().create("anonymous users");
   }
 
@@ -538,7 +538,7 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(gApi.groups().id(name).description()).isEmpty();
 
     // set description
-    String desc = "New description for the group.";
+    String desc = "New description for the account.";
     gApi.groups().id(name).description(desc);
     assertThat(gApi.groups().id(name).description()).isEqualTo(desc);
 
@@ -752,11 +752,11 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(owned.stream().map(g -> g.name).collect(toList()))
         .containsExactlyElementsIn(children);
 
-    // By group that does not own any others
+    // By account that does not own any others
     owned = gApi.groups().list().withOwnedBy(owned.get(0).id).get();
     assertThat(owned).isEmpty();
 
-    // By non-existing group
+    // By non-existing account
     exception.expect(UnprocessableEntityException.class);
     exception.expectMessage("Group Not Found: does-not-exist");
     gApi.groups().list().withOwnedBy("does-not-exist").get();
@@ -767,7 +767,7 @@ public class GroupsIT extends AbstractDaemonTest {
     String newGroupName = name("newGroup");
     GroupInput in = new GroupInput();
     in.name = newGroupName;
-    in.description = "a hidden group";
+    in.description = "a hidden account";
     in.visibleToAll = false;
     in.ownerId = adminGroupUuid().get();
     gApi.groups().create(in);
@@ -800,7 +800,7 @@ public class GroupsIT extends AbstractDaemonTest {
     String group = name("Abcdefghijklmnop");
     gApi.groups().create(group);
 
-    // Choose a substring which isn't part of any group or test method within this class.
+    // Choose a substring which isn't part of any account or test method within this class.
     String substring = "efghijk";
     Map<String, GroupInfo> groups = gApi.groups().list().withSubstring(substring).getAsMap();
     assertThat(groups).containsKey(group);
@@ -881,7 +881,7 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(auditEvents).hasSize(6);
     assertAuditEvent(auditEvents.get(0), Type.ADD_USER, admin.id, user.id);
 
-    // Add a removed group back again.
+    // Add a removed account back again.
     g.addGroups(otherGroup);
     auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(7);
@@ -907,18 +907,18 @@ public class GroupsIT extends AbstractDaemonTest {
     in.visibleToAll = true;
     GroupInfo group = gApi.groups().create(in).get();
 
-    // admin can reindex any group
+    // admin can reindex any account
     setApiUser(admin);
     gApi.groups().id(group.id).index();
 
-    // group owner can reindex own group (group is owned by itself)
+    // account owner can reindex own account (account is owned by itself)
     setApiUser(groupOwner);
     gApi.groups().id(group.id).index();
 
-    // user cannot reindex any group
+    // user cannot reindex any account
     setApiUser(user);
     exception.expect(AuthException.class);
-    exception.expectMessage("not allowed to index group");
+    exception.expectMessage("not allowed to index account");
     gApi.groups().id(group.id).index();
   }
 
@@ -926,7 +926,7 @@ public class GroupsIT extends AbstractDaemonTest {
   public void pushToGroupBranchIsRejectedForAllUsersRepo() throws Exception {
     assume().that(groupsInNoteDb()).isTrue(); // branch only exists when groups are in NoteDb
     assertPushToGroupBranch(
-        allUsers, RefNames.refsGroups(adminGroupUuid()), "group update not allowed");
+        allUsers, RefNames.refsGroups(adminGroupUuid()), "account update not allowed");
   }
 
   @Test
@@ -935,15 +935,15 @@ public class GroupsIT extends AbstractDaemonTest {
         RefNames.refsDeletedGroups(
             new AccountGroup.UUID(gApi.groups().create(name("foo")).get().id));
     createBranch(allUsers, groupRef);
-    assertPushToGroupBranch(allUsers, groupRef, "group update not allowed");
+    assertPushToGroupBranch(allUsers, groupRef, "account update not allowed");
   }
 
   @Test
   public void pushToGroupNamesBranchIsRejectedForAllUsersRepo() throws Exception {
     assume().that(groupsInNoteDb()).isTrue(); // branch only exists when groups are in NoteDb
-    // refs/meta/group-names isn't usually available for fetch, so grant ACCESS_DATABASE
+    // refs/meta/account-names isn't usually available for fetch, so grant ACCESS_DATABASE
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
-    assertPushToGroupBranch(allUsers, RefNames.REFS_GROUPNAMES, "group update not allowed");
+    assertPushToGroupBranch(allUsers, RefNames.REFS_GROUPNAMES, "account update not allowed");
   }
 
   @Test
@@ -990,7 +990,7 @@ public class GroupsIT extends AbstractDaemonTest {
                 db,
                 admin.getIdent(),
                 repo,
-                "Update group config",
+                "Update account config",
                 GroupConfig.GROUP_CONFIG_FILE,
                 "some content")
             .to(groupRefName);
@@ -1012,7 +1012,7 @@ public class GroupsIT extends AbstractDaemonTest {
                 db,
                 admin.getIdent(),
                 repo,
-                "Update group config",
+                "Update account config",
                 GroupConfig.GROUP_CONFIG_FILE,
                 "some content")
             .setParents(ImmutableList.of())
@@ -1027,7 +1027,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void pushToGroupBranchForReviewForAllUsersRepoIsRejectedOnSubmit() throws Exception {
     pushToGroupBranchForReviewAndSubmit(
-        allUsers, RefNames.refsGroups(adminGroupUuid()), "group update not allowed");
+        allUsers, RefNames.refsGroups(adminGroupUuid()), "account update not allowed");
   }
 
   @Test
@@ -1079,10 +1079,10 @@ public class GroupsIT extends AbstractDaemonTest {
   public void cannotCreateGroupNamesBranch() throws Exception {
     assume().that(groupsInNoteDb()).isTrue();
 
-    // Use ProjectResetter to restore the group names ref
+    // Use ProjectResetter to restore the account names ref
     try (ProjectResetter resetter =
         projectResetter.builder().reset(allUsers, RefNames.REFS_GROUPNAMES).build()) {
-      // Manually delete group names ref
+      // Manually delete account names ref
       try (Repository repo = repoManager.openRepository(allUsers);
           RevWalk rw = new RevWalk(repo)) {
         RevCommit commit = rw.parseCommit(repo.exactRef(RefNames.REFS_GROUPNAMES).getObjectId());
@@ -1093,7 +1093,7 @@ public class GroupsIT extends AbstractDaemonTest {
         assertThat(updateRef.delete()).isEqualTo(RefUpdate.Result.FORCED);
       }
 
-      // refs/meta/group-names is only visible with ACCESS_DATABASE
+      // refs/meta/account-names is only visible with ACCESS_DATABASE
       allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
 
       testCannotCreateGroupBranch(RefNames.REFS_GROUPNAMES, RefNames.REFS_GROUPNAMES);
@@ -1107,7 +1107,7 @@ public class GroupsIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), allUsersRepo).to(groupRef);
     r.assertErrorStatus();
-    assertThat(r.getMessage()).contains("Not allowed to create group branch.");
+    assertThat(r.getMessage()).contains("Not allowed to create account branch.");
 
     try (Repository repo = repoManager.openRepository(allUsers)) {
       assertThat(repo.exactRef(groupRef)).isNull();
@@ -1131,7 +1131,7 @@ public class GroupsIT extends AbstractDaemonTest {
   public void cannotDeleteGroupNamesBranch() throws Exception {
     assume().that(groupsInNoteDb()).isTrue();
 
-    // refs/meta/group-names is only visible with ACCESS_DATABASE
+    // refs/meta/account-names is only visible with ACCESS_DATABASE
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
 
     testCannotDeleteGroupBranch(RefNames.REFS_GROUPNAMES, RefNames.REFS_GROUPNAMES);
@@ -1144,7 +1144,7 @@ public class GroupsIT extends AbstractDaemonTest {
     PushResult r = deleteRef(allUsersRepo, groupRef);
     RemoteRefUpdate refUpdate = r.getRemoteUpdate(groupRef);
     assertThat(refUpdate.getStatus()).isEqualTo(RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
-    assertThat(refUpdate.getMessage()).contains("Not allowed to delete group branch.");
+    assertThat(refUpdate.getMessage()).contains("Not allowed to delete account branch.");
 
     try (Repository repo = repoManager.openRepository(allUsers)) {
       assertThat(repo.exactRef(groupRef)).isNotNull();
@@ -1194,7 +1194,7 @@ public class GroupsIT extends AbstractDaemonTest {
   public void stalenessChecker() throws Exception {
     assume().that(readGroupsFromNoteDb()).isTrue();
 
-    // Newly created group is not stale
+    // Newly created account is not stale
     GroupInfo groupInfo = gApi.groups().create(name("foo")).get();
     AccountGroup.UUID groupUuid = new AccountGroup.UUID(groupInfo.id);
     assertThat(stalenessChecker.isStale(groupUuid)).isFalse();
@@ -1212,7 +1212,7 @@ public class GroupsIT extends AbstractDaemonTest {
     }
     assertStaleGroupAndReindex(groupUuid);
 
-    // Manually delete group
+    // Manually delete account
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(repo.exactRef(groupRef).getObjectId());
@@ -1237,9 +1237,9 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private void assertStaleGroupAndReindex(AccountGroup.UUID groupUuid) throws IOException {
-    // Evict group from cache to be sure that we use the index state for staleness checks. This has
+    // Evict account from cache to be sure that we use the index state for staleness checks. This has
     // to happen directly on the groupsByUUID cache because GroupsCacheImpl triggers a reindex for
-    // the group.
+    // the account.
     groupsByUUIDCache.invalidate(groupUuid.get());
     assertThat(stalenessChecker.isStale(groupUuid)).isTrue();
 
@@ -1263,7 +1263,12 @@ public class GroupsIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         pushFactory
             .create(
-                db, admin.getIdent(), repo, "Update group config", "group.config", "some content")
+                db,
+                admin.getIdent(),
+                repo,
+                "Update account config",
+                "account.config",
+                "some content")
             .to(MagicBranch.NEW_CHANGE + groupRef);
     r.assertOkStatus();
     assertThat(r.getChange().change().getDest().get()).isEqualTo(groupRef);
@@ -1271,7 +1276,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
     if (expectedError != null) {
       exception.expect(ResourceConflictException.class);
-      exception.expectMessage("group update not allowed");
+      exception.expectMessage("account update not allowed");
     }
     gApi.changes().id(r.getChangeId()).current().submit();
   }

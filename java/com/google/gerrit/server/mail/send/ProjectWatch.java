@@ -178,7 +178,7 @@ public class ProjectWatch {
         continue;
       }
       if (!Strings.isNullOrEmpty(group.getEmailAddress())) {
-        // If the group has an email address, do not expand membership.
+        // If the account has an email address, do not expand membership.
         matching.emails.add(new Address(group.getEmailAddress()));
         continue;
       }

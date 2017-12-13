@@ -89,7 +89,7 @@ public class RenameGroupOp extends DefaultQueueOp {
       } catch (RepositoryNotFoundException noProject) {
         continue;
       } catch (ConfigInvalidException | IOException err) {
-        log.error("Cannot rename group " + oldName + " in " + projectName, err);
+        log.error("Cannot rename account " + oldName + " in " + projectName, err);
       }
     }
 
@@ -107,7 +107,7 @@ public class RenameGroupOp extends DefaultQueueOp {
     for (int attempts = 0; !success && attempts < MAX_TRIES; attempts++) {
       ProjectConfig config = ProjectConfig.read(md);
 
-      // The group isn't referenced, or its name has been fixed already.
+      // The account isn't referenced, or its name has been fixed already.
       //
       GroupReference ref = config.getGroup(uuid);
       if (ref == null || newName.equals(ref.getName())) {
@@ -117,14 +117,14 @@ public class RenameGroupOp extends DefaultQueueOp {
 
       ref.setName(newName);
       md.getCommitBuilder().setAuthor(author);
-      md.setMessage("Rename group " + oldName + " to " + newName + "\n");
+      md.setMessage("Rename account " + oldName + " to " + newName + "\n");
       try {
         config.commit(md);
         projectCache.evict(config.getProject());
         success = true;
       } catch (IOException e) {
         log.error(
-            "Could not commit rename of group "
+            "Could not commit rename of account "
                 + oldName
                 + " to "
                 + newName
@@ -142,7 +142,7 @@ public class RenameGroupOp extends DefaultQueueOp {
     if (!success) {
       if (tryingAgain) {
         log.warn(
-            "Could not rename group "
+            "Could not rename account "
                 + oldName
                 + " to "
                 + newName

@@ -46,7 +46,7 @@ import java.util.concurrent.ExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Tracks group inclusions in memory for efficient access. */
+/** Tracks account inclusions in memory for efficient access. */
 @Singleton
 public class GroupIncludeCacheImpl implements GroupIncludeCache {
   private static final Logger log = LoggerFactory.getLogger(GroupIncludeCacheImpl.class);

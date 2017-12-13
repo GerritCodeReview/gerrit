@@ -15,7 +15,7 @@
 package com.google.gerrit.server.git.strategy;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.change.Submit.TestSubmitInput;
+import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.util.RequestId;

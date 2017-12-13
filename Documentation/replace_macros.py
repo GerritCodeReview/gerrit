@@ -258,7 +258,7 @@ try:
         out_file.write(last_line)
         last_title = ''
     elif PAT_GET.match(line):
-      # Case of '****\nget::<url>\n****' in rest api
+      # Case of '****\nget::<url>\n****' in change api
       url = PAT_GET.match(line).group(1)
       out_file.write(GET_MACRO.format(url) % last_title)
       ignore_next_line = True

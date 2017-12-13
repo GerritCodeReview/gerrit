@@ -101,8 +101,8 @@ public class AccountControl {
 
   /**
    * Returns true if the current user is allowed to see the otherUser, based on the account
-   * visibility policy. Depending on the group membership realms supported, this may not be able to
-   * determine SAME_GROUP or VISIBLE_GROUP correctly (defaulting to not being visible). This is
+   * visibility policy. Depending on the account membership realms supported, this may not be able
+   * to determine SAME_GROUP or VISIBLE_GROUP correctly (defaulting to not being visible). This is
    * because {@link GroupMembership#getKnownGroups()} may only return a subset of the effective
    * groups.
    */
@@ -112,8 +112,8 @@ public class AccountControl {
 
   /**
    * Returns true if the current user is allowed to see the otherUser, based on the account
-   * visibility policy. Depending on the group membership realms supported, this may not be able to
-   * determine SAME_GROUP or VISIBLE_GROUP correctly (defaulting to not being visible). This is
+   * visibility policy. Depending on the account membership realms supported, this may not be able
+   * to determine SAME_GROUP or VISIBLE_GROUP correctly (defaulting to not being visible). This is
    * because {@link GroupMembership#getKnownGroups()} may only return a subset of the effective
    * groups.
    */
@@ -134,8 +134,8 @@ public class AccountControl {
 
   /**
    * Returns true if the current user is allowed to see the otherUser, based on the account
-   * visibility policy. Depending on the group membership realms supported, this may not be able to
-   * determine SAME_GROUP or VISIBLE_GROUP correctly (defaulting to not being visible). This is
+   * visibility policy. Depending on the account membership realms supported, this may not be able
+   * to determine SAME_GROUP or VISIBLE_GROUP correctly (defaulting to not being visible). This is
    * because {@link GroupMembership#getKnownGroups()} may only return a subset of the effective
    * groups.
    */

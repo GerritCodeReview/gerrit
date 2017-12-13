@@ -770,10 +770,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   /**
-   * Create a resetter to reset the group branches in All-Users. This makes the group data between
-   * ReviewDb and NoteDb inconsistent, but in the context of this test class we only care about refs
-   * and hence this is not an issue. Once groups are no longer in ReviewDb and {@link
-   * AbstractDaemonTest#resetProjects} takes care to reset group branches we no longer need this
+   * Create a resetter to reset the account branches in All-Users. This makes the account data
+   * between ReviewDb and NoteDb inconsistent, but in the context of this test class we only care
+   * about refs and hence this is not an issue. Once groups are no longer in ReviewDb and {@link
+   * AbstractDaemonTest#resetProjects} takes care to reset account branches we no longer need this
    * method.
    */
   private ProjectResetter resetGroups() throws IOException {

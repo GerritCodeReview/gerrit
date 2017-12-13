@@ -65,7 +65,7 @@ import org.eclipse.jgit.lib.Repository;
  * <p>At the moment this class has the following limitations:
  *
  * <ul>
- *   <li>Resetting group branches doesn't evict the corresponding groups from the group cache.
+ *   <li>Resetting account branches doesn't evict the corresponding groups from the account cache.
  *   <li>Changes are not reindexed if change meta refs are reset.
  *   <li>Changes are not reindexed if starred-changes refs in All-Users are reset.
  *   <li>If accounts are deleted changes may still refer to these accounts (e.g. as reviewers).
@@ -247,7 +247,7 @@ public class ProjectResetter implements AutoCloseable {
     evictAndReindexProjects();
     evictAndReindexAccounts();
 
-    // TODO(ekempin): Evict groups from cache if group refs were modified.
+    // TODO(ekempin): Evict groups from cache if account refs were modified.
     // TODO(ekempin): Reindex changes if starred-changes refs in All-Users were modified.
   }
 

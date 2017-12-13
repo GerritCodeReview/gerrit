@@ -259,7 +259,7 @@ public class PermissionRule implements Comparable<PermissionRule> {
       group.setName(groupName);
       rule.setGroup(group);
     } else {
-      throw new IllegalArgumentException("Rule must include group: " + orig);
+      throw new IllegalArgumentException("Rule must include account: " + orig);
     }
 
     return rule;

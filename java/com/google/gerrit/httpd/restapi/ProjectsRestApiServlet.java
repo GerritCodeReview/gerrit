@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.restapi;
 
-import com.google.gerrit.server.project.ProjectsCollection;
+import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

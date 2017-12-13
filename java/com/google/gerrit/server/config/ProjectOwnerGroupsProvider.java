@@ -22,9 +22,9 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 /**
- * Provider of the group(s) which should become owners of a newly created project. The only matching
- * patterns supported are exact match or wildcard matching which can be specified by ending the name
- * with a {@code *}.
+ * Provider of the account(s) which should become owners of a newly created project. The only
+ * matching patterns supported are exact match or wildcard matching which can be specified by ending
+ * the name with a {@code *}.
  *
  * <pre>
  * [repository &quot;*&quot;]

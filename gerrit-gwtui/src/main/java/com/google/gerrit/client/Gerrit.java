@@ -486,7 +486,7 @@ public class Gerrit implements EntryPoint {
                 if (result.accountDiffPref != null) {
                   // TODO: Support options on the GetDetail REST endpoint so that it can
                   // also return the preferences. Then we can fetch everything with a
-                  // single request and we don't need the callback group anymore.
+                  // single request and we don't need the callback account anymore.
                   CallbackGroup cbg = new CallbackGroup();
                   AccountApi.self()
                       .view("detail")
@@ -815,7 +815,8 @@ public class Gerrit implements EntryPoint {
       addDocLink(m, C.menuDocumentationSearch(), "user-search.html");
       addDocLink(m, C.menuDocumentationUpload(), "user-upload.html");
       addDocLink(m, C.menuDocumentationAccess(), "access-control.html");
-      addDocLink(m, C.menuDocumentationAPI(), "rest-api.html");
+      addDocLink(m, C.menuDocumentationAPI(), "change-api.html");
+      addDocLink(m, C.menuDocumentationAPI(), "account-api.html");
       addDocLink(m, C.menuDocumentationProjectOwnerGuide(), "intro-project-owner.html");
       menuLeft.add(m, C.menuDocumentation());
     }

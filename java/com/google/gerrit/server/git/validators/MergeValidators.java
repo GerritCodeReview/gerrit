@@ -324,7 +324,7 @@ public class MergeValidators {
         return;
       }
 
-      throw new MergeValidationException("group update not allowed");
+      throw new MergeValidationException("account update not allowed");
     }
   }
 }

@@ -23,7 +23,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 public class GroupUUID {
   public static AccountGroup.UUID make(String groupName, PersonIdent creator) {
     MessageDigest md = Constants.newMessageDigest();
-    md.update(Constants.encode("group " + groupName + "\n"));
+    md.update(Constants.encode("account " + groupName + "\n"));
     md.update(Constants.encode("creator " + creator.toExternalString() + "\n"));
     md.update(Constants.encode(String.valueOf(Math.random())));
     return new AccountGroup.UUID(ObjectId.fromRaw(md.digest()).name());

@@ -16,6 +16,24 @@
       "revId": "27d624dfc9a3f0562fd6010d9730f462f7aa4f20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3544cd8d_996de6ed",
+        "filename": "WORKSPACE",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-12-13T19:14:04Z",
+      "side": 1,
+      "message": "\u003e What\u0027s the reason for targeting your fork?\n\nIt\u0027s explained in detail in the commit message and the topic name of this series is very obvious, isnt\u0027t?\n\n \u003e The maintainers of rules_closure are Googlers, so any change can\n \u003e probably be made upstream and released quickly if need be. It\u0027d be\n \u003e better to do it that way, as we\u0027d avoid the internal and external\n \u003e build processes drifting too far apart.\n\nUnfortunately, there is a multiple project dependency chain here:\n\n* PG code depends on rules_closure for transpilation: my PR\nis here: [1]\n* rule_closure depends on Dagger 2 dependency injection framework, my PR is here: [2]\n* rules_closure depend on auto-value as transitive dependency, my PR is here: [3]\n\nSo that very first thing, before we can upgrade rules_closure, the other projects need to be updated first. But even then, the rules_closure maintainers pointed out in my PR: [1], that they need to support Java 7, because Google App Engine still doesn\u0027t support Java 8, not to mention Java 9.\n\nBut independently of all this complication in this upgrade chain of number of projects for the reasons I explained above, can we use the opportunity, that I already have done all this upgrade work, and also note, that all these are backwards compatible patches: they all work with Java 8, so can we use the chance and fix the closure compiler warnings, so that I don\u0027t need to introduce new suppressions variables, as explained in the commit message?\n\nTo reproduce, apply this change, remove the suppression, I added and run bazel build :polygerrit\n\n* [1] https://github.com/bazelbuild/rules_closure/pull/235\n* [2] https://github.com/google/dagger/pull/978\n* [3] https://github.com/google/auto/pull/563",
+      "parentUuid": "58e33aa9_5e69aa37",
+      "revId": "27d624dfc9a3f0562fd6010d9730f462f7aa4f20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

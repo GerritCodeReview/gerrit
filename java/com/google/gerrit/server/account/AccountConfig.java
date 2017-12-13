@@ -136,11 +136,21 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    * @throws OrmDuplicateKeyException if the user branch already exists
    */
   public Account getNewAccount() throws OrmDuplicateKeyException {
+    return getNewAccount(TimeUtil.nowTs());
+  }
+
+  /**
+   * Creates a new account.
+   *
+   * @return the new account
+   * @throws OrmDuplicateKeyException if the user branch already exists
+   */
+  Account getNewAccount(Timestamp registeredOn) throws OrmDuplicateKeyException {
     checkLoaded();
     if (revision != null) {
       throw new OrmDuplicateKeyException(String.format("account %s already exists", accountId));
     }
-    this.registeredOn = TimeUtil.nowTs();
+    this.registeredOn = registeredOn;
     this.loadedAccount = Optional.of(new Account(accountId, registeredOn));
     return loadedAccount.get();
   }

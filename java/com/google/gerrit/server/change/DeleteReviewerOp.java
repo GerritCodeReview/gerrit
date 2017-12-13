@@ -60,7 +60,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class DeleteReviewerOp implements BatchUpdateOp {
-  private static final Logger log = LoggerFactory.getLogger(DeleteReviewer.class);
+  private static final Logger log = LoggerFactory.getLogger(DeleteReviewerOp.class);
 
   public interface Factory {
     DeleteReviewerOp create(Account reviewerAccount, DeleteReviewerInput input);

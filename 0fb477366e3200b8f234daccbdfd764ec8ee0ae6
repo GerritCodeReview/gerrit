@@ -116,6 +116,30 @@
       "revId": "0fb477366e3200b8f234daccbdfd764ec8ee0ae6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b497c88_2beeeb30",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-12-13T20:48:47Z",
+      "side": 1,
+      "message": "If/when we experience these edge cases we can evaluate cbn-copy-clipboard as a potential solution.",
+      "parentUuid": "f1a6ca80_2e95fa1b",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 35
+      },
+      "revId": "0fb477366e3200b8f234daccbdfd764ec8ee0ae6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

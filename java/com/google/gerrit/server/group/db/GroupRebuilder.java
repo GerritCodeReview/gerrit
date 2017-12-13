@@ -99,15 +99,15 @@ public class GroupRebuilder {
 
   public void rebuild(Repository allUsersRepo, GroupBundle bundle, @Nullable BatchRefUpdate bru)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
-    GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersRepo, bundle.uuid());
     AccountGroup group = bundle.group();
-    groupConfig.setAllowSaveEmptyName();
-    groupConfig.setGroupCreation(
+    InternalGroupCreation groupCreation =
         InternalGroupCreation.builder()
             .setId(bundle.id())
             .setNameKey(group.getNameKey())
             .setGroupUUID(group.getGroupUUID())
-            .build());
+            .build();
+    GroupConfig groupConfig = GroupConfig.createForNewGroup(allUsersRepo, groupCreation);
+    groupConfig.setAllowSaveEmptyName();
 
     InternalGroupUpdate.Builder updateBuilder =
         InternalGroupUpdate.builder()

@@ -171,7 +171,8 @@ public class InMemoryModule extends FactoryModule {
 
     bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
 
-    // TODO(dborowitz): Use jimfs.
+    // TODO(dborowitz): Use Jimfs. The biggest blocker is that JGit does not support Path-based
+    // Configs, only FileBasedConfig.
     bind(Path.class).annotatedWith(SitePath.class).toInstance(Paths.get("."));
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
     bind(GerritOptions.class).toInstance(new GerritOptions(cfg, false, false, false));

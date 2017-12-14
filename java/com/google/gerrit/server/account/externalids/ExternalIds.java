@@ -43,12 +43,12 @@ public class ExternalIds {
   }
 
   /** Returns all external IDs. */
-  public Set<ExternalId> all() throws IOException {
+  public Set<ExternalId> all() throws IOException, ConfigInvalidException {
     return externalIdReader.all();
   }
 
   /** Returns all external IDs from the specified revision of the refs/meta/external-ids branch. */
-  public Set<ExternalId> all(ObjectId rev) throws IOException {
+  public Set<ExternalId> all(ObjectId rev) throws IOException, ConfigInvalidException {
     return externalIdReader.all(rev);
   }
 

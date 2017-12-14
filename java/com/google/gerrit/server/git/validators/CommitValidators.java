@@ -717,7 +717,7 @@ public class CommitValidators {
             throw new CommitValidationException("invalid external IDs", msgs);
           }
           return msgs;
-        } catch (IOException e) {
+        } catch (IOException | ConfigInvalidException e) {
           String m = "error validating external IDs";
           log.warn(m, e);
           throw new CommitValidationException(m, e);

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -200,8 +201,10 @@ public final class Project {
    * Returns the name key of the parent project.
    *
    * @param allProjectsName name key of the wild project
-   * @return name key of the parent project, {@code null} if this project is the wild project
+   * @return name key of the parent project, {@code null} if this project is the All-Projects
+   *     project
    */
+  @Nullable
   public Project.NameKey getParent(Project.NameKey allProjectsName) {
     if (parent != null) {
       return parent;

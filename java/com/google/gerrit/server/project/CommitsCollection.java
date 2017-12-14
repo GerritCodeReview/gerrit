@@ -20,9 +20,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -31,11 +29,9 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -48,19 +44,19 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
 
   private final DynamicMap<RestView<CommitResource>> views;
   private final GitRepositoryManager repoManager;
-  private final VisibleRefFilter.Factory refFilter;
   private final Provider<InternalChangeQuery> queryProvider;
+  private final Reachable reachable;
 
   @Inject
   public CommitsCollection(
       DynamicMap<RestView<CommitResource>> views,
       GitRepositoryManager repoManager,
-      VisibleRefFilter.Factory refFilter,
-      Provider<InternalChangeQuery> queryProvider) {
+      Provider<InternalChangeQuery> queryProvider,
+      Reachable reachable) {
     this.views = views;
     this.repoManager = repoManager;
-    this.refFilter = refFilter;
     this.queryProvider = queryProvider;
+    this.reachable = reachable;
   }
 
   @Override
@@ -114,21 +110,6 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
       log.error("Cannot look up change for commit " + commit.name() + " in " + project, e);
     }
 
-    return isReachableFrom(state, repo, commit, repo.getAllRefs());
-  }
-
-  public boolean isReachableFrom(
-      ProjectState state, Repository repo, RevCommit commit, Map<String, Ref> refs) {
-    try (RevWalk rw = new RevWalk(repo)) {
-      refs = refFilter.create(state, repo).filter(refs, true);
-      return IncludedInResolver.includedInAny(repo, rw, commit, refs.values());
-    } catch (IOException e) {
-      log.error(
-          String.format(
-              "Cannot verify permissions to commit object %s in repository %s",
-              commit.name(), state.getNameKey()),
-          e);
-      return false;
-    }
+    return reachable.isReachableFrom(state, repo, commit, repo.getAllRefs());
   }
 }

@@ -112,7 +112,7 @@ class ProjectControl {
   private final PermissionBackend.WithUser perm;
   private final CurrentUser user;
   private final ProjectState state;
-  private final CommitsCollection commits;
+  private final Reachable reachable;
   private final ChangeControl.Factory changeControlFactory;
   private final PermissionCollection.Factory permissionFilter;
 
@@ -125,7 +125,7 @@ class ProjectControl {
       @GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
       @GitReceivePackGroups Set<AccountGroup.UUID> receiveGroups,
       PermissionCollection.Factory permissionFilter,
-      CommitsCollection commits,
+      Reachable reachable,
       ChangeControl.Factory changeControlFactory,
       PermissionBackend permissionBackend,
       @Assisted CurrentUser who,
@@ -134,7 +134,7 @@ class ProjectControl {
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
     this.permissionFilter = permissionFilter;
-    this.commits = commits;
+    this.reachable = reachable;
     this.perm = permissionBackend.user(who);
     user = who;
     state = ps;
@@ -361,7 +361,7 @@ class ProjectControl {
       for (Ref r : Iterables.concat(heads, tags)) {
         refs.put(r.getName(), r);
       }
-      return commits.isReachableFrom(state, repo, commit, refs);
+      return reachable.isReachableFrom(state, repo, commit, refs);
     } catch (IOException e) {
       log.error(
           String.format(

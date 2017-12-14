@@ -16,7 +16,6 @@ package com.google.gerrit.server.account.externalids;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static java.util.stream.Collectors.joining;
-import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
@@ -58,31 +57,29 @@ public class ExternalIdsConsistencyChecker {
     this.validator = validator;
   }
 
-  public List<ConsistencyProblemInfo> check() throws IOException {
+  public List<ConsistencyProblemInfo> check() throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      return check(repo, ExternalIdReader.readRevision(repo));
+      return check(ExternalIdNotes.loadReadOnly(repo));
     }
   }
 
-  public List<ConsistencyProblemInfo> check(ObjectId rev) throws IOException {
+  public List<ConsistencyProblemInfo> check(ObjectId rev)
+      throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      return check(repo, rev);
+      return check(ExternalIdNotes.loadReadOnly(repo, rev));
     }
   }
 
-  private List<ConsistencyProblemInfo> check(Repository repo, ObjectId commit) throws IOException {
+  private List<ConsistencyProblemInfo> check(ExternalIdNotes extIdNotes) throws IOException {
     List<ConsistencyProblemInfo> problems = new ArrayList<>();
 
     ListMultimap<String, ExternalId.Key> emails =
         MultimapBuilder.hashKeys().arrayListValues().build();
 
-    try (RevWalk rw = new RevWalk(repo)) {
-      NoteMap noteMap = ExternalIdReader.readNoteMap(rw, commit);
+    try (RevWalk rw = new RevWalk(extIdNotes.getRepository())) {
+      NoteMap noteMap = extIdNotes.getNoteMap();
       for (Note note : noteMap) {
-        byte[] raw =
-            rw.getObjectReader()
-                .open(note.getData(), OBJ_BLOB)
-                .getCachedBytes(ExternalIdReader.MAX_NOTE_SZ);
+        byte[] raw = ExternalIdNotes.readNoteData(rw, note.getData());
         try {
           ExternalId extId = ExternalId.parse(note.getName(), raw, note.getData());
           problems.addAll(validateExternalId(extId));

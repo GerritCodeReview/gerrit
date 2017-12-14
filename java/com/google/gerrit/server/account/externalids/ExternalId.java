@@ -16,11 +16,13 @@ package com.google.gerrit.server.account.externalids;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
@@ -28,6 +30,7 @@ import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.HashedPassword;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -122,6 +125,10 @@ public abstract class ExternalId implements Serializable {
     @Override
     public String toString() {
       return get();
+    }
+
+    public static ImmutableSet<ExternalId.Key> from(Collection<ExternalId> extIds) {
+      return extIds.stream().map(ExternalId::key).collect(toImmutableSet());
     }
   }
 

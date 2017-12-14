@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "85a266a2_73de8e90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-12-14T09:33:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1bb3b267_0a98d87b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 51
+      },
+      "revId": "1c4b101880cecca4dbb0818dd763d1cdbdde2f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c65f1fb_de995982",
         "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "1c4b101880cecca4dbb0818dd763d1cdbdde2f69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "427b5810_c8378de9",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-12-14T09:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c65f1fb_de995982",
+      "range": {
+        "startLine": 240,
+        "startChar": 33,
+        "endLine": 240,
+        "endChar": 48
+      },
+      "revId": "1c4b101880cecca4dbb0818dd763d1cdbdde2f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

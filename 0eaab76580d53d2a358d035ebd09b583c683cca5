@@ -16,6 +16,24 @@
       "revId": "0eaab76580d53d2a358d035ebd09b583c683cca5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b9567c7_3f3ebf83",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-14T22:11:49Z",
+      "side": 1,
+      "message": "Did you explore this solution? Fewer DOM elements is always a nice thing.",
+      "parentUuid": "4122f877_5c22d7b9",
+      "revId": "0eaab76580d53d2a358d035ebd09b583c683cca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -52,6 +52,24 @@
       "revId": "a9e78ac022ca644759537146e2476121631bed20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7858ab5_33463986",
+        "filename": "java/com/google/gerrit/acceptance/BUILD",
+        "patchSetId": 13
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-12-14T09:33:27Z",
+      "side": 1,
+      "message": "True, but the change you made by moving it up into PROVIDED makes it more consistent. Here, we only have //lib dependencies",
+      "parentUuid": "939998e9_ed9bcf19",
+      "revId": "a9e78ac022ca644759537146e2476121631bed20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

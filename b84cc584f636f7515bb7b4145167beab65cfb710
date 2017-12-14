@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "151ef21a_0e114127",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1336,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-14T23:53:26Z",
+      "side": 0,
+      "message": "Is there a a reason not to handle adding the content type to the response here? That way, it\u0027s abstracted away from the editor view, and it seems a bit more intuitive to me than calling getResponseObject from there.",
+      "range": {
+        "startLine": 1336,
+        "startChar": 12,
+        "endLine": 1336,
+        "endChar": 47
+      },
+      "revId": "b84cc584f636f7515bb7b4145167beab65cfb710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

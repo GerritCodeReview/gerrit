@@ -23,6 +23,30 @@
       "revId": "bd1073d81a945508eeb57857fabac44335b9e6e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb70851b_4e4c60d6",
+        "filename": "javatests/com/google/gerrit/server/schema/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-14T16:58:26Z",
+      "side": 1,
+      "message": "Seems reasonable.\n\nActually, what we do internally is we never use globs for Java tests, and we have an additional test rule called all_srcs_are_tests which creates a test that fails if some file in this package is not a dependency of a test target. I would love to have that externally but getting it open-sourced may be nontrivial.",
+      "parentUuid": "c4ee7fc8_5b0e9535",
+      "range": {
+        "startLine": 10,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "bd1073d81a945508eeb57857fabac44335b9e6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

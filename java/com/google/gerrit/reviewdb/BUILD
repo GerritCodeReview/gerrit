@@ -9,6 +9,7 @@ gwt_module(
     srcs = glob(["client/**/*.java"]),
     gwt_xml = "ReviewDB.gwt.xml",
     deps = [
+        "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/extensions:client",
         "//lib:gwtorm_client",
         "//lib:gwtorm_client_src",
@@ -21,6 +22,7 @@ java_library(
     resource_strip_prefix = "resources",
     resources = ["//resources/com/google/gerrit/reviewdb"],
     deps = [
+        "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/extensions:api",
         "//lib:guava",
         "//lib:gwtorm",

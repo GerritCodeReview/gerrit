@@ -137,15 +137,25 @@
       const t = labels[labelName];
       if (!t) { return result; }
       const approvals = t.all || [];
+      const values = Object.keys(t.values);
       for (const label of approvals) {
         if (label.value && label.value != labels[labelName].default_value) {
           let labelClassName;
           let labelValPrefix = '';
           if (label.value > 0) {
             labelValPrefix = '+';
-            labelClassName = 'approved';
+            if (parseInt(label.value, 10) ===
+                parseInt(values[values.length - 1], 10)) {
+              labelClassName = 'max';
+            } else {
+              labelClassName = 'positive';
+            }
           } else if (label.value < 0) {
-            labelClassName = 'notApproved';
+            if (parseInt(label.value, 10) === parseInt(values[0], 10)) {
+              labelClassName = 'min';
+            } else {
+              labelClassName = 'negative';
+            }
           }
           result.push({
             value: labelValPrefix + label.value,

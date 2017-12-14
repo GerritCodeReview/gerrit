@@ -70,6 +70,30 @@
       "revId": "0f6e14bdc434be3d72b57401d806aca59b1d5508",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "247d4c96_9163d36c",
+        "filename": "javatests/com/google/gerrit/server/schema/Schema_161_to_162_Test.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-14T16:07:40Z",
+      "side": 0,
+      "message": "I think I agree with you that too many @Inject fields is a smell, but I\u0027m not sure what you would consider too many. This class has 8 (after @Injecting ReviewDb); is that too many? Do you have any suggestions for how to improve this specific test by redesigning the classes under test? (If your only suggestion would involve a lot of refactoring, that\u0027s ok--I\u0027m not promising to undertake it now, I\u0027m just trying to understand the flavor of what you\u0027re suggesting.)",
+      "parentUuid": "f7d10212_970c3d8f",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 3
+      },
+      "revId": "0f6e14bdc434be3d72b57401d806aca59b1d5508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -42,7 +42,7 @@ public class AbandonUtil {
   private final ChangeCleanupConfig cfg;
   private final Provider<ChangeQueryProcessor> queryProvider;
   private final ChangeQueryBuilder queryBuilder;
-  private final Abandon abandon;
+  private final BatchAbandon batchAbandon;
   private final InternalUser internalUser;
 
   @Inject
@@ -51,11 +51,11 @@ public class AbandonUtil {
       InternalUser.Factory internalUserFactory,
       Provider<ChangeQueryProcessor> queryProvider,
       ChangeQueryBuilder queryBuilder,
-      Abandon abandon) {
+      BatchAbandon batchAbandon) {
     this.cfg = cfg;
     this.queryProvider = queryProvider;
     this.queryBuilder = queryBuilder;
-    this.abandon = abandon;
+    this.batchAbandon = batchAbandon;
     internalUser = internalUserFactory.create();
   }
 
@@ -85,7 +85,7 @@ public class AbandonUtil {
       for (Project.NameKey project : abandons.keySet()) {
         Collection<ChangeData> changes = getValidChanges(abandons.get(project), query);
         try {
-          abandon.batchAbandon(updateFactory, project, internalUser, changes, message);
+          batchAbandon.batchAbandon(updateFactory, project, internalUser, changes, message);
           count += changes.size();
         } catch (Throwable e) {
           StringBuilder msg = new StringBuilder("Failed to auto-abandon inactive change(s):");

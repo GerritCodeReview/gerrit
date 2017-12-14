@@ -114,6 +114,17 @@ suite('gr-editor-view tests', () => {
     });
   });
 
+  test('reacts to content-change event', () => {
+    element._newContent = 'test';
+    element.$.editorEndpoint.dispatchEvent(new CustomEvent('content-change', {
+      bubbles: true,
+      detail: {value: 'new content value'},
+    }));
+    flushAsynchronousOperations();
+
+    assert.equal(element._newContent, 'new content value');
+  });
+
   suite('edit file content', () => {
     const originalText = 'file text';
     const newText = 'file text changed';

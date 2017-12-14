@@ -19,10 +19,10 @@ import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdReader;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
+import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.File;
@@ -31,13 +31,9 @@ import java.nio.file.Path;
 import java.util.Collection;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
-import org.eclipse.jgit.notes.NoteMap;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.FS;
 
 public class ExternalIdsOnInit {
@@ -54,32 +50,20 @@ public class ExternalIdsOnInit {
 
   public synchronized void insert(String commitMessage, Collection<ExternalId> extIds)
       throws OrmException, IOException, ConfigInvalidException {
-
     File path = getPath();
     if (path != null) {
-      try (Repository repo = new FileRepository(path);
-          RevWalk rw = new RevWalk(repo);
-          ObjectInserter ins = repo.newObjectInserter()) {
-        ObjectId rev = ExternalIdReader.readRevision(repo);
-
-        NoteMap noteMap = ExternalIdReader.readNoteMap(rw, rev);
-        for (ExternalId extId : extIds) {
-          ExternalIdsUpdate.insert(rw, ins, noteMap, extId);
+      try (Repository allUsersRepo = new FileRepository(path)) {
+        ExternalIdNotes extIdNotes = ExternalIdNotes.loadNoCacheUpdate(allUsersRepo);
+        extIdNotes.insert(extIds);
+        try (MetaDataUpdate metaDataUpdate =
+            new MetaDataUpdate(
+                GitReferenceUpdated.DISABLED, new Project.NameKey(allUsers), allUsersRepo)) {
+          PersonIdent serverIdent = new GerritPersonIdentProvider(flags.cfg).get();
+          metaDataUpdate.getCommitBuilder().setAuthor(serverIdent);
+          metaDataUpdate.getCommitBuilder().setCommitter(serverIdent);
+          metaDataUpdate.getCommitBuilder().setMessage(commitMessage);
+          extIdNotes.commit(metaDataUpdate);
         }
-
-        PersonIdent serverIdent = new GerritPersonIdentProvider(flags.cfg).get();
-        ExternalIdsUpdate.commit(
-            new Project.NameKey(allUsers),
-            repo,
-            rw,
-            ins,
-            rev,
-            noteMap,
-            commitMessage,
-            serverIdent,
-            serverIdent,
-            null,
-            GitReferenceUpdated.DISABLED);
       }
     }
   }

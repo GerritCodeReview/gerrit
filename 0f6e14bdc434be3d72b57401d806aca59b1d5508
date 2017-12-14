@@ -23,6 +23,30 @@
       "revId": "0f6e14bdc434be3d72b57401d806aca59b1d5508",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4836b294_82a2f072",
+        "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-14T15:06:23Z",
+      "side": 1,
+      "message": "Not currently. I think JGit needs a PathBasedConfig, but I also think a big reason we\u0027ve punted on that upstream is that it\u0027s not clear how to make NIO FileSystems compatible with JGit\u0027s existing FS abstraction. That is a bigger problem than I have time for right now.\n\nI just found myself re-figuring out this problem in the course of writing this series, so I thought I\u0027d leave a note for next time.",
+      "parentUuid": "0710b451_15bb117b",
+      "range": {
+        "startLine": 174,
+        "startChar": 63,
+        "endLine": 175,
+        "endChar": 14
+      },
+      "revId": "0f6e14bdc434be3d72b57401d806aca59b1d5508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

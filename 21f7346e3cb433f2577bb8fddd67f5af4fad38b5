@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd87ced1_1e41af8d",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-14T01:11:30Z",
+      "side": 1,
+      "message": "Move this method further down the class near to the other private methods?",
+      "revId": "21f7346e3cb433f2577bb8fddd67f5af4fad38b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fce6d09b_018aca17",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-14T01:11:30Z",
+      "side": 1,
+      "message": "optional, and unrelated to this change: make these return the GroupConfig so calls can be chained.",
+      "range": {
+        "startLine": 129,
+        "startChar": 2,
+        "endLine": 137,
+        "endChar": 0
+      },
+      "revId": "21f7346e3cb433f2577bb8fddd67f5af4fad38b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

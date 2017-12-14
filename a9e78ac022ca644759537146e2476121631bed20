@@ -34,6 +34,24 @@
       "revId": "a9e78ac022ca644759537146e2476121631bed20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "939998e9_ed9bcf19",
+        "filename": "java/com/google/gerrit/acceptance/BUILD",
+        "patchSetId": 13
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-12-14T09:30:53Z",
+      "side": 1,
+      "message": "list concat (the + above) doesn\u0027t do anything magic, so this is equivalent. I\u0027ll leave fixing the BUILD file for anohter change though.",
+      "parentUuid": "db944565_4084dc17",
+      "revId": "a9e78ac022ca644759537146e2476121631bed20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

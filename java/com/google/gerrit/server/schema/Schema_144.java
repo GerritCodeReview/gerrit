@@ -18,11 +18,11 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdReader;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
+import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -34,12 +34,8 @@ import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.notes.NoteMap;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 public class Schema_144 extends SchemaVersion {
   private static final String COMMIT_MSG = "Import external IDs from ReviewDb";
@@ -83,29 +79,16 @@ public class Schema_144 extends SchemaVersion {
     }
 
     try {
-      try (Repository repo = repoManager.openRepository(allUsersName);
-          RevWalk rw = new RevWalk(repo);
-          ObjectInserter ins = repo.newObjectInserter()) {
-        ObjectId rev = ExternalIdReader.readRevision(repo);
-
-        NoteMap noteMap = ExternalIdReader.readNoteMap(rw, rev);
-
-        for (ExternalId extId : toAdd) {
-          ExternalIdsUpdate.upsert(rw, ins, noteMap, extId);
+      try (Repository repo = repoManager.openRepository(allUsersName)) {
+        ExternalIdNotes extIdNotes = ExternalIdNotes.loadNoCacheUpdate(repo);
+        extIdNotes.upsert(toAdd);
+        try (MetaDataUpdate metaDataUpdate =
+            new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, repo)) {
+          metaDataUpdate.getCommitBuilder().setAuthor(serverIdent);
+          metaDataUpdate.getCommitBuilder().setCommitter(serverIdent);
+          metaDataUpdate.getCommitBuilder().setMessage(COMMIT_MSG);
+          extIdNotes.commit(metaDataUpdate);
         }
-
-        ExternalIdsUpdate.commit(
-            allUsersName,
-            repo,
-            rw,
-            ins,
-            rev,
-            noteMap,
-            COMMIT_MSG,
-            serverIdent,
-            serverIdent,
-            null,
-            GitReferenceUpdated.DISABLED);
       }
     } catch (IOException | ConfigInvalidException e) {
       throw new OrmException("Failed to migrate external IDs to NoteDb", e);

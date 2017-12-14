@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e06e93cd_244f7749",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-12-14T15:37:23Z",
+      "side": 1,
+      "message": "would prefer to stay in pure Java8 land yet still applying your comment from #121 it results in simplified version with no map() method, so thanks for that :)",
+      "parentUuid": "c497fc3a_3f128f32",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 99
+      },
+      "revId": "a5b5e136c23784d078e37dabc64f47cace1cb78d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8e240496_7f156a3e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-12-14T14:29:01Z",
       "side": 1,
       "message": "Why is this not as simple as Map\u003cString, AccountSetter\u003e ?\nMap is a set of key/value pairs.",
+      "range": {
+        "startLine": 121,
+        "startChar": 10,
+        "endLine": 121,
+        "endChar": 47
+      },
+      "revId": "a5b5e136c23784d078e37dabc64f47cace1cb78d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec838d85_811bdf7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-12-14T15:37:23Z",
+      "side": 1,
+      "message": "I am kind of a reluctant to call\ncollect(Collectors.toMap(e -\u003e e.getKey(), e -\u003e e.getValue()))\nbut here we go :)",
+      "parentUuid": "8e240496_7f156a3e",
       "range": {
         "startLine": 121,
         "startChar": 10,

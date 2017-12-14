@@ -52,6 +52,10 @@
       Gerrit.PathListBehavior,
     ],
 
+    listeners: {
+      'content-change': '_handleContentChange',
+    },
+
     attached() {
       this._getEditPrefs().then(prefs => { this._prefs = prefs; });
     },
@@ -128,6 +132,10 @@
     _handleCancelTap() {
       // TODO(kaspern): Add a confirm dialog if there are unsaved changes.
       this._viewEditInChangeView();
+    },
+
+    _handleContentChange(e) {
+      if (e.detail.value) { this.set('_newContent', e.detail.value); }
     },
   });
 })();

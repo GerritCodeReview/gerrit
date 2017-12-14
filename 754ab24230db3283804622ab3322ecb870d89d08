@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6be5c8c5_c1bed26f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-14T22:10:48Z",
+      "side": 1,
+      "message": "Rm blank line.",
+      "revId": "754ab24230db3283804622ab3322ecb870d89d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f13d9933_a58f041d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-14T22:10:48Z",
+      "side": 1,
+      "message": "RM space... Surprised this didnt fail lint 🤔",
+      "range": {
+        "startLine": 116,
+        "startChar": 46,
+        "endLine": 116,
+        "endChar": 47
+      },
+      "revId": "754ab24230db3283804622ab3322ecb870d89d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

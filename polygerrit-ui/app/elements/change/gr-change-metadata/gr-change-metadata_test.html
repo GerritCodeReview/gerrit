@@ -662,5 +662,79 @@ limitations under the License.
         });
       });
     });
+
+    suite('label colors', () => {
+      test('-2 to +2', () => {
+        element.change = {
+          labels: {
+            'Code-Review': {
+              all: [
+                {value: 2, name: 'user 2'},
+                {value: 1, name: 'user 1'},
+                {value: -1, name: 'user 3'},
+                {value: -2, name: 'user 4'},
+              ],
+              values: {
+                '-2': 'Awful',
+                '-1': 'Don\'t submit as-is',
+                ' 0': 'No score',
+                '+1': 'Looks good to me',
+                '+2': 'Ready to submit',
+              },
+            },
+          },
+        };
+        flushAsynchronousOperations();
+        const labels = Polymer.dom(element.root).querySelectorAll('gr-label');
+        assert.isTrue(labels[0].classList.contains('max'));
+        assert.isTrue(labels[1].classList.contains('positive'));
+        assert.isTrue(labels[2].classList.contains('negative'));
+        assert.isTrue(labels[3].classList.contains('min'));
+      });
+
+      test('-1 to +1', () => {
+        element.change = {
+          labels: {
+            CI: {
+              all: [
+                {value: 1, name: 'user 1'},
+                {value: -1, name: 'user 2'},
+              ],
+              values: {
+                '-1': 'Don\'t submit as-is',
+                ' 0': 'No score',
+                '+1': 'Looks good to me',
+              },
+            },
+          },
+        };
+        flushAsynchronousOperations();
+        const labels = Polymer.dom(element.root).querySelectorAll('gr-label');
+        assert.isTrue(labels[0].classList.contains('max'));
+        assert.isTrue(labels[1].classList.contains('min'));
+      });
+
+      test('0 to +2', () => {
+        element.change = {
+          labels: {
+            CI: {
+              all: [
+                {value: 1, name: 'user 2'},
+                {value: 2, name: 'user '},
+              ],
+              values: {
+                ' 0': 'Don\'t submit as-is',
+                '+1': 'No score',
+                '+2': 'Looks good to me',
+              },
+            },
+          },
+        };
+        flushAsynchronousOperations();
+        const labels = Polymer.dom(element.root).querySelectorAll('gr-label');
+        assert.isTrue(labels[0].classList.contains('positive'));
+        assert.isTrue(labels[1].classList.contains('max'));
+      });
+    });
   });
 </script>

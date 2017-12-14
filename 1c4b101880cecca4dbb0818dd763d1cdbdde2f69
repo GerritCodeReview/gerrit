@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bb3b267_0a98d87b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-14T01:18:45Z",
+      "side": 1,
+      "message": "...yet\n\n:)\n\nThis is something that I\u0027ve had on my personal TODO list for some time, as it will be useful for the \"abandon_stale\" script.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 51
+      },
+      "revId": "1c4b101880cecca4dbb0818dd763d1cdbdde2f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c65f1fb_de995982",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-14T01:18:45Z",
+      "side": 1,
+      "message": "rename this to \"batchAbandon\"?",
+      "range": {
+        "startLine": 240,
+        "startChar": 33,
+        "endLine": 240,
+        "endChar": 48
+      },
+      "revId": "1c4b101880cecca4dbb0818dd763d1cdbdde2f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8da74d5c_322426c5",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/LightweightPluginDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-14T05:46:53Z",
+      "side": 1,
+      "message": "This was removed in https://gerrit-review.googlesource.com/c/gerrit/+/113216",
+      "range": {
+        "startLine": 44,
+        "startChar": 12,
+        "endLine": 44,
+        "endChar": 23
+      },
+      "revId": "7e065fc845911ae2a8d54b4bf7121d50e0ef0d92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

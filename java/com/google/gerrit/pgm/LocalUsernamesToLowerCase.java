@@ -17,20 +17,28 @@ package com.google.gerrit.pgm;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.account.externalids.ExternalIdsBatchUpdate;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
-import com.google.inject.AbstractModule;
+import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Locale;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 
 /** Converts the local username for all accounts to lower case */
@@ -38,9 +46,11 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
   private final LifecycleManager manager = new LifecycleManager();
   private final TextProgressMonitor monitor = new TextProgressMonitor();
 
+  @Inject private GitRepositoryManager repoManager;
+  @Inject private AllUsersName allUsersName;
+  @Inject private Provider<MetaDataUpdate.Server> metaDataUpdateServerFactory;
+  @Inject private ExternalIdNotes.FactoryNoReindex externalIdNotesFactory;
   @Inject private ExternalIds externalIds;
-
-  @Inject private ExternalIdsBatchUpdate externalIdsBatchUpdate;
 
   @Override
   public int run() throws Exception {
@@ -49,9 +59,12 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
     manager.start();
     dbInjector
         .createChildInjector(
-            new AbstractModule() {
+            new FactoryModule() {
               @Override
               protected void configure() {
+                bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
+                factory(MetaDataUpdate.InternalFactory.class);
+
                 // The LocalUsernamesToLowerCase program needs to access all external IDs only
                 // once to update them. After the update they are not accessed again. Hence the
                 // LocalUsernamesToLowerCase program doesn't benefit from caching external IDs and
@@ -64,12 +77,18 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
     Collection<ExternalId> todo = externalIds.all();
     monitor.beginTask("Converting local usernames", todo.size());
 
-    for (ExternalId extId : todo) {
-      convertLocalUserToLowerCase(extId);
-      monitor.update(1);
+    try (Repository repo = repoManager.openRepository(allUsersName)) {
+      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(repo);
+      for (ExternalId extId : todo) {
+        convertLocalUserToLowerCase(extIdNotes, extId);
+        monitor.update(1);
+      }
+      try (MetaDataUpdate metaDataUpdate = metaDataUpdateServerFactory.get().create(allUsersName)) {
+        metaDataUpdate.setMessage("Convert local usernames to lower case");
+        extIdNotes.commit(metaDataUpdate);
+      }
     }
 
-    externalIdsBatchUpdate.commit("Convert local usernames to lower case");
     monitor.endTask();
 
     int exitCode = reindexAccounts();
@@ -77,7 +96,8 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
     return exitCode;
   }
 
-  private void convertLocalUserToLowerCase(ExternalId extId) {
+  private void convertLocalUserToLowerCase(ExternalIdNotes extIdNotes, ExternalId extId)
+      throws OrmDuplicateKeyException, IOException {
     if (extId.isScheme(SCHEME_GERRIT)) {
       String localUser = extId.key().id();
       String localUserLowerCase = localUser.toLowerCase(Locale.US);
@@ -89,7 +109,7 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
                 extId.accountId(),
                 extId.email(),
                 extId.password());
-        externalIdsBatchUpdate.replace(extId, extIdLowerCase);
+        extIdNotes.replace(extId, extIdLowerCase);
       }
     }
   }

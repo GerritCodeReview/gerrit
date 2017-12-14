@@ -14,17 +14,15 @@
 
 package com.google.gerrit.server.schema;
 
-import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-
 import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdReader;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
+import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -32,13 +30,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.notes.Note;
-import org.eclipse.jgit.notes.NoteMap;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 public class Schema_148 extends SchemaVersion {
   private static final String COMMIT_MSG = "Make account IDs of external IDs human-readable";
@@ -61,44 +54,22 @@ public class Schema_148 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
-    try (Repository repo = repoManager.openRepository(allUsersName);
-        RevWalk rw = new RevWalk(repo);
-        ObjectInserter ins = repo.newObjectInserter()) {
-      ObjectId rev = ExternalIdReader.readRevision(repo);
-      NoteMap noteMap = ExternalIdReader.readNoteMap(rw, rev);
-      boolean dirty = false;
-      for (Note note : noteMap) {
-        byte[] raw =
-            rw.getObjectReader()
-                .open(note.getData(), OBJ_BLOB)
-                .getCachedBytes(ExternalIdReader.MAX_NOTE_SZ);
-        try {
-          ExternalId extId = ExternalId.parse(note.getName(), raw, note.getData());
-
-          if (needsUpdate(extId)) {
-            ExternalIdsUpdate.upsert(rw, ins, noteMap, extId);
-            dirty = true;
-          }
-        } catch (ConfigInvalidException e) {
-          ui.message(
-              String.format("Warning: Ignoring invalid external ID note %s", note.getName()));
+    try (Repository repo = repoManager.openRepository(allUsersName)) {
+      ExternalIdNotes extIdNotes = ExternalIdNotes.loadNoCacheUpdate(repo);
+      for (ExternalId extId : extIdNotes.all()) {
+        if (needsUpdate(extId)) {
+          extIdNotes.upsert(extId);
         }
       }
-      if (dirty) {
-        ExternalIdsUpdate.commit(
-            allUsersName,
-            repo,
-            rw,
-            ins,
-            rev,
-            noteMap,
-            COMMIT_MSG,
-            serverUser,
-            serverUser,
-            null,
-            GitReferenceUpdated.DISABLED);
+
+      try (MetaDataUpdate metaDataUpdate =
+          new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, repo)) {
+        metaDataUpdate.getCommitBuilder().setAuthor(serverUser);
+        metaDataUpdate.getCommitBuilder().setCommitter(serverUser);
+        metaDataUpdate.getCommitBuilder().setMessage(COMMIT_MSG);
+        extIdNotes.commit(metaDataUpdate);
       }
-    } catch (IOException e) {
+    } catch (IOException | ConfigInvalidException e) {
       throw new OrmException("Failed to update external IDs", e);
     }
   }

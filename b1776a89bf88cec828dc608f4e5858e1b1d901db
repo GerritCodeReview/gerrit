@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "46298e7b_db7fb725",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-14T11:33:21Z",
+      "side": 1,
+      "message": "Any thoughts on this? As mentioned, I can provide further reasons why I don\u0027t want to change it. You just need to ask for them. ;-)\n\nIf you don\u0027t agree with me, I am also willing to change it to a Precondition check.\n\nI just would like some feedback.",
+      "parentUuid": "7a07849e_a7b5148e",
+      "revId": "b1776a89bf88cec828dc608f4e5858e1b1d901db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "40670414_afbff932",
         "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
         "patchSetId": 1

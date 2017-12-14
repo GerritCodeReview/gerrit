@@ -59,7 +59,7 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.StarRef;
-import com.google.gerrit.server.change.GetPureRevert;
+import com.google.gerrit.server.change.CalculatePureRevert;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.TrackingFooters;
@@ -346,7 +346,7 @@ public class ChangeData {
   private final PatchSetUtil psUtil;
   private final ProjectCache projectCache;
   private final TrackingFooters trackingFooters;
-  private final GetPureRevert pureRevert;
+  private final CalculatePureRevert pureRevert;
   private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
   // Required assisted injected fields.
@@ -415,7 +415,7 @@ public class ChangeData {
       PatchSetUtil psUtil,
       ProjectCache projectCache,
       TrackingFooters trackingFooters,
-      GetPureRevert pureRevert,
+      CalculatePureRevert pureRevert,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
@@ -1178,7 +1178,7 @@ public class ChangeData {
       return null;
     }
     try {
-      return pureRevert.getPureRevert(notes()).isPureRevert;
+      return pureRevert.getPureRevert(notes(), null).isPureRevert;
     } catch (IOException | BadRequestException | ResourceConflictException e) {
       throw new OrmException("could not compute pure revert", e);
     }

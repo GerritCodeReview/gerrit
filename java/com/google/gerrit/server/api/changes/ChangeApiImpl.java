@@ -53,6 +53,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
 import com.google.gerrit.server.change.Abandon;
+import com.google.gerrit.server.change.CalculatePureRevert;
 import com.google.gerrit.server.change.ChangeIncludedIn;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
@@ -64,7 +65,6 @@ import com.google.gerrit.server.change.DeletePrivate;
 import com.google.gerrit.server.change.GetAssignee;
 import com.google.gerrit.server.change.GetHashtags;
 import com.google.gerrit.server.change.GetPastAssignees;
-import com.google.gerrit.server.change.GetPureRevert;
 import com.google.gerrit.server.change.GetTopic;
 import com.google.gerrit.server.change.Ignore;
 import com.google.gerrit.server.change.Index;
@@ -147,7 +147,7 @@ class ChangeApiImpl implements ChangeApi {
   private final SetWorkInProgress setWip;
   private final SetReadyForReview setReady;
   private final PutMessage putMessage;
-  private final GetPureRevert getPureRevert;
+  private final CalculatePureRevert calculatePureRevert;
   private final StarredChangesUtil stars;
 
   @Inject
@@ -192,7 +192,7 @@ class ChangeApiImpl implements ChangeApi {
       SetWorkInProgress setWip,
       SetReadyForReview setReady,
       PutMessage putMessage,
-      GetPureRevert getPureRevert,
+      CalculatePureRevert calculatePureRevert,
       StarredChangesUtil stars,
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
@@ -235,7 +235,7 @@ class ChangeApiImpl implements ChangeApi {
     this.setWip = setWip;
     this.setReady = setReady;
     this.putMessage = putMessage;
-    this.getPureRevert = getPureRevert;
+    this.calculatePureRevert = calculatePureRevert;
     this.stars = stars;
     this.change = change;
   }
@@ -702,7 +702,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public PureRevertInfo pureRevert(@Nullable String claimedOriginal) throws RestApiException {
     try {
-      return getPureRevert.setClaimedOriginal(claimedOriginal).apply(change);
+      return calculatePureRevert.getPureRevert(change.getNotes(), claimedOriginal);
     } catch (Exception e) {
       throw asRestApiException("Cannot compute pure revert", e);
     }

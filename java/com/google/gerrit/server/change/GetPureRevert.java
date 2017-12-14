@@ -46,12 +46,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.args4j.Option;
 
 public class GetPureRevert implements RestReadView<ChangeResource> {
-  private final MergeUtil.Factory mergeUtilFactory;
-  private final GitRepositoryManager repoManager;
-  private final ProjectCache projectCache;
-  private final ChangeNotes.Factory notesFactory;
-  private final Provider<ReviewDb> dbProvider;
-  private final PatchSetUtil psUtil;
+
+  private final CalculatePureRevert calculatePureRevert;
 
   @Option(
     name = "--claimed-original",
@@ -62,93 +58,14 @@ public class GetPureRevert implements RestReadView<ChangeResource> {
   private String claimedOriginal;
 
   @Inject
-  GetPureRevert(
-      MergeUtil.Factory mergeUtilFactory,
-      GitRepositoryManager repoManager,
-      ProjectCache projectCache,
-      ChangeNotes.Factory notesFactory,
-      Provider<ReviewDb> dbProvider,
-      PatchSetUtil psUtil) {
-    this.mergeUtilFactory = mergeUtilFactory;
-    this.repoManager = repoManager;
-    this.projectCache = projectCache;
-    this.notesFactory = notesFactory;
-    this.dbProvider = dbProvider;
-    this.psUtil = psUtil;
+  GetPureRevert(CalculatePureRevert calculatePureRevert) {
+    this.calculatePureRevert = calculatePureRevert;
   }
 
   @Override
   public PureRevertInfo apply(ChangeResource rsrc)
       throws ResourceConflictException, IOException, BadRequestException, OrmException,
           AuthException {
-    PatchSet currentPatchSet = psUtil.current(dbProvider.get(), rsrc.getNotes());
-    if (currentPatchSet == null) {
-      throw new ResourceConflictException("current revision is missing");
-    }
-    return getPureRevert(rsrc.getNotes());
-  }
-
-  public PureRevertInfo getPureRevert(ChangeNotes notes)
-      throws OrmException, IOException, BadRequestException, ResourceConflictException {
-    PatchSet currentPatchSet = psUtil.current(dbProvider.get(), notes);
-    if (currentPatchSet == null) {
-      throw new ResourceConflictException("current revision is missing");
-    }
-
-    if (claimedOriginal == null) {
-      if (notes.getChange().getRevertOf() == null) {
-        throw new BadRequestException("no ID was provided and change isn't a revert");
-      }
-      PatchSet ps =
-          psUtil.current(
-              dbProvider.get(),
-              notesFactory.createChecked(
-                  dbProvider.get(), notes.getProjectName(), notes.getChange().getRevertOf()));
-      claimedOriginal = ps.getRevision().get();
-    }
-
-    try (Repository repo = repoManager.openRepository(notes.getProjectName());
-        ObjectInserter oi = repo.newObjectInserter();
-        RevWalk rw = new RevWalk(repo)) {
-      RevCommit claimedOriginalCommit;
-      try {
-        claimedOriginalCommit = rw.parseCommit(ObjectId.fromString(claimedOriginal));
-      } catch (InvalidObjectIdException | MissingObjectException e) {
-        throw new BadRequestException("invalid object ID");
-      }
-      if (claimedOriginalCommit.getParentCount() == 0) {
-        throw new BadRequestException("can't check against initial commit");
-      }
-      RevCommit claimedRevertCommit =
-          rw.parseCommit(ObjectId.fromString(currentPatchSet.getRevision().get()));
-      if (claimedRevertCommit.getParentCount() == 0) {
-        throw new BadRequestException("claimed revert has no parents");
-      }
-      // Rebase claimed revert onto claimed original
-      ThreeWayMerger merger =
-          mergeUtilFactory
-              .create(projectCache.checkedGet(notes.getProjectName()))
-              .newThreeWayMerger(oi, repo.getConfig());
-      merger.setBase(claimedRevertCommit.getParent(0));
-      merger.merge(claimedRevertCommit, claimedOriginalCommit);
-      if (merger.getResultTreeId() == null) {
-        // Merge conflict during rebase
-        return new PureRevertInfo(false);
-      }
-
-      // Any differences between claimed original's parent and the rebase result indicate that the
-      // claimedRevert is not a pure revert but made content changes
-      try (DiffFormatter df = new DiffFormatter(new ByteArrayOutputStream())) {
-        df.setRepository(repo);
-        List<DiffEntry> entries =
-            df.scan(claimedOriginalCommit.getParent(0), merger.getResultTreeId());
-        return new PureRevertInfo(entries.isEmpty());
-      }
-    }
-  }
-
-  public GetPureRevert setClaimedOriginal(String claimedOriginal) {
-    this.claimedOriginal = claimedOriginal;
-    return this;
+    return calculatePureRevert.getPureRevert(rsrc.getNotes(), claimedOriginal);
   }
 }

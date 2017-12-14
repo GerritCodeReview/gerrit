@@ -20,9 +20,8 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ListChildProjects;
+import com.google.gerrit.server.project.ChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Provider;
 import java.util.ArrayList;
@@ -38,16 +37,16 @@ public class ParentProjectPredicate extends OrPredicate<ChangeData> {
 
   public ParentProjectPredicate(
       ProjectCache projectCache,
-      Provider<ListChildProjects> listChildProjects,
+      ChildProjects childProjects,
       Provider<CurrentUser> self,
       String value) {
-    super(predicates(projectCache, listChildProjects, self, value));
+    super(predicates(projectCache, childProjects, self, value));
     this.value = value;
   }
 
   protected static List<Predicate<ChangeData>> predicates(
       ProjectCache projectCache,
-      Provider<ListChildProjects> listChildProjects,
+      ChildProjects childProjects,
       Provider<CurrentUser> self,
       String value) {
     ProjectState projectState = projectCache.get(new Project.NameKey(value));
@@ -58,10 +57,7 @@ public class ParentProjectPredicate extends OrPredicate<ChangeData> {
     List<Predicate<ChangeData>> r = new ArrayList<>();
     r.add(new ProjectPredicate(projectState.getName()));
     try {
-      ProjectResource proj = new ProjectResource(projectState, self.get());
-      ListChildProjects children = listChildProjects.get();
-      children.setRecursive(true);
-      for (ProjectInfo p : children.apply(proj)) {
+      for (ProjectInfo p : childProjects.list(projectState.getNameKey())) {
         r.add(new ProjectPredicate(p.name));
       }
     } catch (PermissionBackendException e) {

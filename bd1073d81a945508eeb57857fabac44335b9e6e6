@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1513268191 -0500\nnonce ADEcKBr6vIMdVc2YXmrm3BLpRelW7KozmX6EFQavfTBQpOUkSLAvl9AulU/hoSnUimleHhNtw147\n\n0000000000000000000000000000000000000000 bd1073d81a945508eeb57857fabac44335b9e6e6 refs/for/master%r\u003daliceks\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAloyo98VHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMBY4P/1SCihzgS8T4Nw9ZzDOaG8HW4gsJ\nSCh3wa449uVTvEk17A1IeoCLk9d1GU0yccpXMypkYgTO/1q4IPcO0ERgPDJFOFP6\nhVmtglKqAK1iH6och/i5WCtO3dD3HpHD6Pt0w7swqXDojFuVswaEuXX72M4aNBvn\naE/JZw+o+KzorYSUCTIyP5YK6fL9JXLfErs3CKRLCA2dL6aeCdW7XYED7I5oNADC\n3ktT/bQDy+PkcudADjB7doPW/YkhH7hpxyh5qd4CDEFgchRlaZnVsaxSIAULvh+i\nKVuKQpmRQZCgdpcxO/0YCCC/2EgaBhqsDQDu9JfbIXRWaDxXiZL1kxEF4sGhwfWB\ni+W01p2yakzz0gThDMPLiH40axFn6DzgGvyZ33udPLCiizyhKnUOkXgBwCJ5BvL1\nThHl552ZhntTkRGpUup+p1ZgPwSA0WG9kluN3GkWzRs9nKjsf1jmMOKjbOr0G4V6\ntMcQkHIljNKiWhNoMuyu7fljqBb2eTr8aH10daxvYCHLvc8rDfpZgPzA6br2JB82\n+U5jiXNDk0RNT+Oc+Zg6T4fYYhp8pWr78ThB0MzvMWgMs8T1r4tLxIxfhS584T53\nU0liNo7BGrpuM1Kthtg7u4iSCKsWts3mut68g2be8ipC/oihPUM8UoDShnUWuLBq\n5wEesLqfUHzHngPy\n\u003dEHVB\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4ee7fc8_5b0e9535",
+        "filename": "javatests/com/google/gerrit/server/schema/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-14T16:53:34Z",
+      "side": 1,
+      "message": "If I add a new Schema_xxx_to_xxx_Test, will it automatically be executed as one of the small_tests if I forget to add it to the SCHEMA_UPGRADE_TEST_SRCS?\n\nIf so, could we maybe introduce a naming schema - e.g. Schema_xxx_to_xxx_IT for schema migration tests and xxxTest for real unit tests - so that we can restrict this rule to xxxTest?",
+      "range": {
+        "startLine": 10,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "bd1073d81a945508eeb57857fabac44335b9e6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

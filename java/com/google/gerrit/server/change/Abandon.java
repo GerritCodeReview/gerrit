@@ -23,18 +23,15 @@ import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -44,7 +41,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collection;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
@@ -130,69 +126,6 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
       u.addOp(notes.getChangeId(), op).execute();
     }
     return op.getChange();
-  }
-
-  /**
-   * If an extension has more than one changes to abandon that belong to the same project, they
-   * should use the batch instead of abandoning one by one.
-   *
-   * <p>It's the caller's responsibility to ensure that all jobs inside the same batch have the
-   * matching project from its ChangeData. Violations will result in a ResourceConflictException.
-   */
-  public void batchAbandon(
-      BatchUpdate.Factory updateFactory,
-      Project.NameKey project,
-      CurrentUser user,
-      Collection<ChangeData> changes,
-      String msgTxt,
-      NotifyHandling notifyHandling,
-      ListMultimap<RecipientType, Account.Id> accountsToNotify)
-      throws RestApiException, UpdateException {
-    if (changes.isEmpty()) {
-      return;
-    }
-    Account account = user.isIdentifiedUser() ? user.asIdentifiedUser().getAccount() : null;
-    try (BatchUpdate u = updateFactory.create(dbProvider.get(), project, user, TimeUtil.nowTs())) {
-      for (ChangeData change : changes) {
-        if (!project.equals(change.project())) {
-          throw new ResourceConflictException(
-              String.format(
-                  "Project name \"%s\" doesn't match \"%s\"",
-                  change.project().get(), project.get()));
-        }
-        u.addOp(
-            change.getId(),
-            abandonOpFactory.create(account, msgTxt, notifyHandling, accountsToNotify));
-      }
-      u.execute();
-    }
-  }
-
-  public void batchAbandon(
-      BatchUpdate.Factory updateFactory,
-      Project.NameKey project,
-      CurrentUser user,
-      Collection<ChangeData> changes,
-      String msgTxt)
-      throws RestApiException, UpdateException {
-    batchAbandon(
-        updateFactory,
-        project,
-        user,
-        changes,
-        msgTxt,
-        NotifyHandling.ALL,
-        ImmutableListMultimap.of());
-  }
-
-  public void batchAbandon(
-      BatchUpdate.Factory updateFactory,
-      Project.NameKey project,
-      CurrentUser user,
-      Collection<ChangeData> changes)
-      throws RestApiException, UpdateException {
-    batchAbandon(
-        updateFactory, project, user, changes, "", NotifyHandling.ALL, ImmutableListMultimap.of());
   }
 
   @Override

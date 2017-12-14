@@ -66,8 +66,7 @@ public class AbandonIT extends AbstractDaemonTest {
     PushOneCommit.Result a = createChange();
     PushOneCommit.Result b = createChange();
     List<ChangeData> list = ImmutableList.of(a.getChange(), b.getChange());
-    changeAbandoner.batchAbandon(
-        batchUpdateFactory, a.getChange().project(), user, list, "deadbeef");
+    batchAbandon.batchAbandon(batchUpdateFactory, a.getChange().project(), user, list, "deadbeef");
 
     ChangeInfo info = get(a.getChangeId(), MESSAGES);
     assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
@@ -96,7 +95,7 @@ public class AbandonIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage(
         String.format("Project name \"%s\" doesn't match \"%s\"", project2Name, project1Name));
-    changeAbandoner.batchAbandon(batchUpdateFactory, new Project.NameKey(project1Name), user, list);
+    batchAbandon.batchAbandon(batchUpdateFactory, new Project.NameKey(project1Name), user, list);
   }
 
   @Test

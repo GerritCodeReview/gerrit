@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0fa4bb0_8d03a0d0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-14T01:07:13Z",
+      "side": 0,
+      "message": "I\u0027m kind of surprised that this worked.  Do we not do any validation of the content that gets added to the groups.config file?",
+      "range": {
+        "startLine": 995,
+        "startChar": 16,
+        "endLine": 995,
+        "endChar": 30
+      },
+      "revId": "21f7346e3cb433f2577bb8fddd67f5af4fad38b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

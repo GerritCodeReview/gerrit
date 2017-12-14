@@ -17,8 +17,6 @@ package com.google.gerrit.server.project;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
@@ -60,9 +58,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.slf4j.Logger;
@@ -112,7 +107,7 @@ class ProjectControl {
   private final PermissionBackend.WithUser perm;
   private final CurrentUser user;
   private final ProjectState state;
-  private final CommitsCollection commits;
+  private final Reachable reachable;
   private final ChangeControl.Factory changeControlFactory;
   private final PermissionCollection.Factory permissionFilter;
 
@@ -125,7 +120,7 @@ class ProjectControl {
       @GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
       @GitReceivePackGroups Set<AccountGroup.UUID> receiveGroups,
       PermissionCollection.Factory permissionFilter,
-      CommitsCollection commits,
+      Reachable reachable,
       ChangeControl.Factory changeControlFactory,
       PermissionBackend permissionBackend,
       @Assisted CurrentUser who,
@@ -134,7 +129,7 @@ class ProjectControl {
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
     this.permissionFilter = permissionFilter;
-    this.commits = commits;
+    this.reachable = reachable;
     this.perm = permissionBackend.user(who);
     user = who;
     state = ps;
@@ -171,6 +166,10 @@ class ProjectControl {
       refControls.put(refName, ctl);
     }
     return ctl;
+  }
+
+  boolean isReachableFromHeadsOrTags(Repository repo, RevCommit commit) {
+    return reachable.fromHeadsOrTags(state, repo, commit);
   }
 
   CurrentUser getUser() {
@@ -349,26 +348,6 @@ class ProjectControl {
       return isChangeOwner;
     } else {
       return user.getEffectiveGroups().contains(uuid);
-    }
-  }
-
-  boolean isReachableFromHeadsOrTags(Repository repo, RevCommit commit) {
-    try {
-      RefDatabase refdb = repo.getRefDatabase();
-      Collection<Ref> heads = refdb.getRefs(Constants.R_HEADS).values();
-      Collection<Ref> tags = refdb.getRefs(Constants.R_TAGS).values();
-      Map<String, Ref> refs = Maps.newHashMapWithExpectedSize(heads.size() + tags.size());
-      for (Ref r : Iterables.concat(heads, tags)) {
-        refs.put(r.getName(), r);
-      }
-      return commits.isReachableFrom(state, repo, commit, refs);
-    } catch (IOException e) {
-      log.error(
-          String.format(
-              "Cannot verify permissions to commit object %s in repository %s",
-              commit.name(), getProject().getNameKey()),
-          e);
-      return false;
     }
   }
 

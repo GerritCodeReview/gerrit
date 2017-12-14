@@ -14,10 +14,7 @@
 
 package com.google.gerrit.server.account.externalids;
 
-import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
@@ -29,17 +26,13 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Class to read external IDs from NoteDb.
@@ -58,10 +51,6 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 public class ExternalIdReader {
-  private static final Logger log = LoggerFactory.getLogger(ExternalIdReader.class);
-
-  public static final int MAX_NOTE_SZ = 1 << 19;
-
   public static ObjectId readRevision(Repository repo) throws IOException {
     Ref ref = repo.exactRef(RefNames.REFS_EXTERNAL_IDS);
     return ref != null ? ref.getObjectId() : ObjectId.zeroId();
@@ -104,11 +93,12 @@ public class ExternalIdReader {
   }
 
   /** Reads and returns all external IDs. */
-  Set<ExternalId> all() throws IOException {
+  Set<ExternalId> all() throws IOException, ConfigInvalidException {
     checkReadEnabled();
 
-    try (Repository repo = repoManager.openRepository(allUsersName)) {
-      return all(repo, readRevision(repo));
+    try (Timer0.Context ctx = readAllLatency.start();
+        Repository repo = repoManager.openRepository(allUsersName)) {
+      return ExternalIdNotes.loadReadOnly(repo).all();
     }
   }
 
@@ -116,34 +106,12 @@ public class ExternalIdReader {
    * Reads and returns all external IDs from the specified revision of the refs/meta/external-ids
    * branch.
    */
-  Set<ExternalId> all(ObjectId rev) throws IOException {
+  Set<ExternalId> all(ObjectId rev) throws IOException, ConfigInvalidException {
     checkReadEnabled();
 
-    try (Repository repo = repoManager.openRepository(allUsersName)) {
-      return all(repo, rev);
-    }
-  }
-
-  /** Reads and returns all external IDs. */
-  private Set<ExternalId> all(Repository repo, ObjectId rev) throws IOException {
-    if (rev.equals(ObjectId.zeroId())) {
-      return ImmutableSet.of();
-    }
-
     try (Timer0.Context ctx = readAllLatency.start();
-        RevWalk rw = new RevWalk(repo)) {
-      NoteMap noteMap = readNoteMap(rw, rev);
-      Set<ExternalId> extIds = new HashSet<>();
-      for (Note note : noteMap) {
-        byte[] raw =
-            rw.getObjectReader().open(note.getData(), OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
-        try {
-          extIds.add(ExternalId.parse(note.getName(), raw, note.getData()));
-        } catch (Exception e) {
-          log.error(String.format("Ignoring invalid external ID note %s", note.getName()), e);
-        }
-      }
-      return extIds;
+        Repository repo = repoManager.openRepository(allUsersName)) {
+      return ExternalIdNotes.loadReadOnly(repo, rev).all();
     }
   }
 
@@ -152,14 +120,8 @@ public class ExternalIdReader {
   ExternalId get(ExternalId.Key key) throws IOException, ConfigInvalidException {
     checkReadEnabled();
 
-    try (Repository repo = repoManager.openRepository(allUsersName);
-        RevWalk rw = new RevWalk(repo)) {
-      ObjectId rev = readRevision(repo);
-      if (rev.equals(ObjectId.zeroId())) {
-        return null;
-      }
-
-      return parse(key, rw, rev);
+    try (Repository repo = repoManager.openRepository(allUsersName)) {
+      return ExternalIdNotes.loadReadOnly(repo).get(key).orElse(null);
     }
   }
 
@@ -168,27 +130,9 @@ public class ExternalIdReader {
   ExternalId get(ExternalId.Key key, ObjectId rev) throws IOException, ConfigInvalidException {
     checkReadEnabled();
 
-    if (rev.equals(ObjectId.zeroId())) {
-      return null;
+    try (Repository repo = repoManager.openRepository(allUsersName)) {
+      return ExternalIdNotes.loadReadOnly(repo, rev).get(key).orElse(null);
     }
-
-    try (Repository repo = repoManager.openRepository(allUsersName);
-        RevWalk rw = new RevWalk(repo)) {
-      return parse(key, rw, rev);
-    }
-  }
-
-  private static ExternalId parse(ExternalId.Key key, RevWalk rw, ObjectId rev)
-      throws IOException, ConfigInvalidException {
-    NoteMap noteMap = readNoteMap(rw, rev);
-    ObjectId noteId = key.sha1();
-    if (!noteMap.contains(noteId)) {
-      return null;
-    }
-
-    ObjectId noteData = noteMap.get(noteId);
-    byte[] raw = rw.getObjectReader().open(noteData, OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
-    return ExternalId.parse(noteId.name(), raw, noteData);
   }
 
   private void checkReadEnabled() throws IOException {

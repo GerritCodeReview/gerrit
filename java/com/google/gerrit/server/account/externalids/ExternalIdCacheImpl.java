@@ -127,7 +127,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
       Collection<ExternalId> toRemove,
       Collection<ExternalId> toAdd)
       throws IOException {
-    ExternalIdsUpdate.checkSameAccount(Iterables.concat(toRemove, toAdd), accountId);
+    ExternalIdNotes.checkSameAccount(Iterables.concat(toRemove, toAdd), accountId);
 
     updateCache(
         oldNotesRev,

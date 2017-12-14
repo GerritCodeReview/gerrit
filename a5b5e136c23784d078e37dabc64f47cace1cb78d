@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7d7f6c86_e5033eba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-12-14T16:29:13Z",
+      "side": 1,
+      "message": "\u003e would prefer to stay in pure Java8 land\n\nCompare this code with:\n\n  String query \u003d \"SELECT ... \" + Joiner.on(\", \").join(fields.keySet()) + \" FROM ...\"\n\nWhy would Java 8 solution be considered better?",
+      "parentUuid": "e06e93cd_244f7749",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 99
+      },
+      "revId": "a5b5e136c23784d078e37dabc64f47cace1cb78d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8e240496_7f156a3e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
         "patchSetId": 2

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97eaee95_82cdfdd5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-12-14T16:29:13Z",
+      "side": 1,
+      "message": "optional: Map.Entry::getKey\n\nsame for the other parameter: Map.Entry::getValue",
+      "range": {
+        "startLine": 129,
+        "startChar": 34,
+        "endLine": 129,
+        "endChar": 49
+      },
+      "revId": "60be5cca7ad56e012804a65686c661c4b3dfdc2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

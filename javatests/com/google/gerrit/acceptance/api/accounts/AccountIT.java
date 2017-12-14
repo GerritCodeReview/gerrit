@@ -1638,7 +1638,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertIteratorSize(2, getOnlyKeyFromStore(key).getUserIDs());
 
     pk = PGPPublicKey.removeCertification(pk, "foo:myId");
-    info = addGpgKey(armor(pk)).get(id);
+    info = addGpgKeyNoReindex(armor(pk)).get(id);
     assertThat(info.userIds).hasSize(1);
     assertIteratorSize(1, getOnlyKeyFromStore(key).getUserIDs());
   }
@@ -2212,6 +2212,10 @@ public class AccountIT extends AbstractDaemonTest {
         gApi.accounts().self().putGpgKeys(ImmutableList.of(armored), ImmutableList.<String>of());
     accountIndexedCounter.assertReindexOf(gApi.accounts().self().get());
     return gpgKeys;
+  }
+
+  private Map<String, GpgKeyInfo> addGpgKeyNoReindex(String armored) throws Exception {
+    return gApi.accounts().self().putGpgKeys(ImmutableList.of(armored), ImmutableList.<String>of());
   }
 
   private void assertUser(AccountInfo info, TestAccount account) throws Exception {

@@ -108,6 +108,9 @@
                   this._groupOwner = isOwner ? true : false;
                 });
 
+            if (config.options.visible_to_all === undefined) {
+              config.options.visible_to_all = false;
+            }
             this._groupConfig = config;
 
             this.fire('title-change', {title: config.name});

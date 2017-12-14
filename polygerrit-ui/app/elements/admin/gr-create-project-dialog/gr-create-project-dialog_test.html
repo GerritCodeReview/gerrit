@@ -48,6 +48,11 @@ limitations under the License.
       sandbox.restore();
     });
 
+    test('default values are populated', () => {
+      assert.isFalse(element.$.initalCommit.bindValue);
+      assert.isFalse(element.$.parentProject.bindValue);
+    });
+
     test('project created', done => {
       const configInputObj = {
         name: 'test-project',

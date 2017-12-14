@@ -118,6 +118,30 @@
       "revId": "0f6e14bdc434be3d72b57401d806aca59b1d5508",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6745e606_25273893",
+        "filename": "javatests/com/google/gerrit/server/schema/Schema_161_to_162_Test.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-14T16:54:36Z",
+      "side": 0,
+      "message": "Thanks for the suggestions. So this is not really about changing the way that we write tests, it\u0027s more about aggregating related bits of functionality (\"opening special repos\") into nicer APIs so that we don\u0027t have to do such low-level things too often in tests. That sounds reasonable.\n\n\u003e It\u0027s probably difficult where to draw exactly the line when deciding how many @Inject fields are too many. For me, it would be more like: 4 fields - we\u0027re good; 11 fields - we should consider whether 11 are really necessary; 20 - we should definitely consider how we can reduce them.\n\nHeh, do people outside the US recognize the quote \"I know it when I see it\"? https://en.wikipedia.org/wiki/I_know_it_when_I_see_it\n\n\u003e For this test class:\n\u003e - I don\u0027t think that the serverUser is really necessary. The test could have used any PersonIdent.\n\nGood point. Actually, this is an issue you\u0027ve previously identified and want to correct: it\u0027s only used in the MetaDataUpdate, and we should instead consider injecting something like a @ServerInitiated ProjectConfigUpdate instead of manually managing ProjectConfig/MetaDataUpdate.\n\n\u003e - We often need to access the All-Users repository in tests. Instead of injecting a GitRepositoryManager and AllUsersName, we should have a simpler/shorter way (e.g. one object which allows to access the All-Users repository in tests).\n\u003e - In addition to the previous suggestion: We could also include an easy way to access the All-Projects repository (and maybe even all of our special repositories). In addition, the names of our special repositories should be made available (which would be necessary for this test class). So all in all, we would have one class which aggregates the knowledge of all of our special repositories and helps to access them.\n\nYes, this sounds great. Probably also useful outside of tests.\n\n\u003e If that works, we will be down to 4 fields.",
+      "parentUuid": "2509c0ea_aefc7275",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 3
+      },
+      "revId": "0f6e14bdc434be3d72b57401d806aca59b1d5508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

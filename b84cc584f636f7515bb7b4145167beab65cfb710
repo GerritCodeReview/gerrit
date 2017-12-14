@@ -22,6 +22,30 @@
       "revId": "b84cc584f636f7515bb7b4145167beab65cfb710",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f0e233e_09d7b38f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1336,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-14T23:59:28Z",
+      "side": 0,
+      "message": "That ends up being much less brief...\n\n      return this.getChangeURLAndSend(changeNum, \u0027GET\u0027, null, e, null, null,\n          null, null, headers).then(res \u003d\u003e {\n            if (!res.ok) { return res; }\n\n            // The file type (used for syntax highlighting) is identified in the\n            // X-FYI-Content-Type header of the response.\n            const type \u003d res.headers.get(\u0027X-FYI-Content-Type\u0027);\n            return this.getResponseObject(res).then(content \u003d\u003e {\n              return {content, type};\n            });\n          });\n        \n...and then there\u0027s some gr-editor-view code that would need to change too. Should I proceed?",
+      "parentUuid": "151ef21a_0e114127",
+      "range": {
+        "startLine": 1336,
+        "startChar": 12,
+        "endLine": 1336,
+        "endChar": 47
+      },
+      "revId": "b84cc584f636f7515bb7b4145167beab65cfb710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

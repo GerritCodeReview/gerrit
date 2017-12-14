@@ -22,6 +22,30 @@
       "revId": "0f6e14bdc434be3d72b57401d806aca59b1d5508",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc1d4914_ab03bc74",
+        "filename": "javatests/com/google/gerrit/server/schema/Schema_161_to_162_Test.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-14T15:41:16Z",
+      "side": 0,
+      "message": "Looks like one answer is to use MethodRule:\n\nhttps://stackoverflow.com/questions/9825310/how-to-access-the-fields-of-a-test-class-with-in-an-rule-in-junit\n\nAlternatively, is there some general approach that doesn\u0027t involve adding a bunch of @Inject fields in the test class? This has been a valuable boilerplate-reduction strategy for us thus far.",
+      "parentUuid": "faf583f4_61311d97",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 3
+      },
+      "revId": "0f6e14bdc434be3d72b57401d806aca59b1d5508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "d84ed427_b90e361a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-12-14T21:45:00Z",
+      "side": 1,
+      "message": "I am not saying it is better ;). It is not bad either though. Guava is less verbose for sure. However, considering migration from guava to java that already happened to Gerrit, I believe that if possible (reasonably possible I mean ;)) we should stay in java land.\n\nOf course reasonably possible means sth different for different people :) so maybe we have somewhere some clear rules when we should stick to java and when not really?",
+      "parentUuid": "7d7f6c86_e5033eba",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 99
+      },
+      "revId": "a5b5e136c23784d078e37dabc64f47cace1cb78d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8e240496_7f156a3e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
         "patchSetId": 2

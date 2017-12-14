@@ -70,7 +70,7 @@ import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.project.ListChildProjects;
+import com.google.gerrit.server.project.ChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -210,7 +210,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final PatchListCache patchListCache;
     final ProjectCache projectCache;
     final Provider<InternalChangeQuery> queryProvider;
-    final Provider<ListChildProjects> listChildProjects;
+    final ChildProjects childProjects;
     final Provider<ListMembers> listMembers;
     final Provider<ReviewDb> db;
     final StarredChangesUtil starredChangesUtil;
@@ -240,7 +240,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         PatchListCache patchListCache,
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
-        Provider<ListChildProjects> listChildProjects,
+        ChildProjects childProjects,
         ChangeIndexCollection indexes,
         SubmitDryRun submitDryRun,
         ConflictsCache conflictsCache,
@@ -269,7 +269,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           patchListCache,
           repoManager,
           projectCache,
-          listChildProjects,
+          childProjects,
           submitDryRun,
           conflictsCache,
           indexes != null ? indexes.getSearchIndex() : null,
@@ -300,7 +300,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         PatchListCache patchListCache,
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
-        Provider<ListChildProjects> listChildProjects,
+        ChildProjects childProjects,
         SubmitDryRun submitDryRun,
         ConflictsCache conflictsCache,
         ChangeIndex index,
@@ -327,7 +327,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.patchListCache = patchListCache;
       this.repoManager = repoManager;
       this.projectCache = projectCache;
-      this.listChildProjects = listChildProjects;
+      this.childProjects = childProjects;
       this.submitDryRun = submitDryRun;
       this.conflictsCache = conflictsCache;
       this.index = index;
@@ -360,7 +360,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           patchListCache,
           repoManager,
           projectCache,
-          listChildProjects,
+          childProjects,
           submitDryRun,
           conflictsCache,
           index,
@@ -653,7 +653,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> parentproject(String name) {
-    return new ParentProjectPredicate(args.projectCache, args.listChildProjects, args.self, name);
+    return new ParentProjectPredicate(args.projectCache, args.childProjects, args.self, name);
   }
 
   @Operator

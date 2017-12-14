@@ -200,7 +200,8 @@ public final class Project {
    * Returns the name key of the parent project.
    *
    * @param allProjectsName name key of the wild project
-   * @return name key of the parent project, {@code null} if this project is the wild project
+   * @return name key of the parent project, {@code null} if this project is the All-Projects
+   *     project
    */
   public Project.NameKey getParent(Project.NameKey allProjectsName) {
     if (parent != null) {

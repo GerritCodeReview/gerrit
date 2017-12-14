@@ -34,6 +34,24 @@
       "revId": "0eaab76580d53d2a358d035ebd09b583c683cca5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "975faba2_8fcc4001",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-14T22:42:59Z",
+      "side": 1,
+      "message": "I don\u0027t think it matters either way (there are the same number of DOM nodes, it\u0027s a matter of where the styling takes place..) but rather than debate this, I\u0027ve just made the change.",
+      "parentUuid": "2b9567c7_3f3ebf83",
+      "revId": "0eaab76580d53d2a358d035ebd09b583c683cca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

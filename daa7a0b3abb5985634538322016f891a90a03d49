@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d898c89_022423b3",
+        "filename": "java/com/google/gerrit/server/change/CalculatePureRevert.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-14T01:20:36Z",
+      "side": 1,
+      "message": "Can we name this simply \"PureRevert\"?",
+      "revId": "daa7a0b3abb5985634538322016f891a90a03d49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ea874a5_1ac157c6",
+        "filename": "java/com/google/gerrit/server/change/CalculatePureRevert.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-14T01:20:36Z",
+      "side": 1,
+      "message": "Just \"get\"?",
+      "range": {
+        "startLine": 69,
+        "startChar": 24,
+        "endLine": 69,
+        "endChar": 37
+      },
+      "revId": "daa7a0b3abb5985634538322016f891a90a03d49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

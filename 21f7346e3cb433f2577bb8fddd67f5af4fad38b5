@@ -22,6 +22,30 @@
       "revId": "21f7346e3cb433f2577bb8fddd67f5af4fad38b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cef549d_402c1fd5",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-14T08:09:54Z",
+      "side": 0,
+      "message": "Pushing to the real group branches in All-Users is completely disabled.\nHence any push to it will fail and the file content doesn\u0027t matter.\nThis method is also used to check that pushing to a \"group branch\" in other repositories works. These are no real group branches, but just branches that happen to have the same name pattern as group branches. Since they don\u0027t represent groups there is no content validation.",
+      "parentUuid": "f0fa4bb0_8d03a0d0",
+      "range": {
+        "startLine": 995,
+        "startChar": 16,
+        "endLine": 995,
+        "endChar": 30
+      },
+      "revId": "21f7346e3cb433f2577bb8fddd67f5af4fad38b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

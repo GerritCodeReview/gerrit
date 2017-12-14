@@ -46,6 +46,30 @@
       "revId": "0f6e14bdc434be3d72b57401d806aca59b1d5508",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7d10212_970c3d8f",
+        "filename": "javatests/com/google/gerrit/server/schema/Schema_161_to_162_Test.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-14T16:00:01Z",
+      "side": 0,
+      "message": "I\u0027d say that if there are too many @Inject fields in a test class, we should either reduce the scope of the test class and/or think about a better design for the involved test/non-test classes.\n\nAs we can\u0027t change the design of all of the involved classes from one day to the other, I think it\u0027s still better that we feel the pain of having a suboptimal design than avoiding that pain and never improving the design because we forget about it.",
+      "parentUuid": "cc1d4914_ab03bc74",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 3
+      },
+      "revId": "0f6e14bdc434be3d72b57401d806aca59b1d5508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

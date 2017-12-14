@@ -84,7 +84,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.change.Abandon;
+import com.google.gerrit.server.change.BatchAbandon;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.change.RevisionResource;
@@ -237,7 +237,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected SystemGroupBackend systemGroupBackend;
   @Inject protected MutableNotesMigration notesMigration;
   @Inject protected ChangeNotes.Factory notesFactory;
-  @Inject protected Abandon changeAbandoner;
+  @Inject protected BatchAbandon changeAbandoner;
 
   protected EventRecorder eventRecorder;
   protected GerritServer server;

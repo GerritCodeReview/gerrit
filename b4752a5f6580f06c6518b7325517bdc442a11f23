@@ -104,6 +104,24 @@
       "revId": "b4752a5f6580f06c6518b7325517bdc442a11f23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46c199bb_0cafb132",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-14T22:48:11Z",
+      "side": 1,
+      "message": "Isn\u0027t this statement just setting the default value of this parameter to false, though?",
+      "parentUuid": "08dd249b_67855981",
+      "revId": "b4752a5f6580f06c6518b7325517bdc442a11f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

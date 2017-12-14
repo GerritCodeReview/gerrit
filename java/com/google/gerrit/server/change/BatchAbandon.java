@@ -48,99 +48,79 @@ import java.util.Collection;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
-public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput, ChangeInfo>
-    implements UiAction<ChangeResource> {
+public class BatchAbandon {
   private final Provider<ReviewDb> dbProvider;
-  private final ChangeJson.Factory json;
   private final AbandonOp.Factory abandonOpFactory;
-  private final NotifyUtil notifyUtil;
 
   @Inject
-  Abandon(
+  BatchAbandon(
       Provider<ReviewDb> dbProvider,
-      ChangeJson.Factory json,
-      RetryHelper retryHelper,
-      AbandonOp.Factory abandonOpFactory,
-      NotifyUtil notifyUtil) {
-    super(retryHelper);
+      AbandonOp.Factory abandonOpFactory) {
     this.dbProvider = dbProvider;
-    this.json = json;
     this.abandonOpFactory = abandonOpFactory;
-    this.notifyUtil = notifyUtil;
   }
 
-  @Override
-  protected ChangeInfo applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource req, AbandonInput input)
-      throws RestApiException, UpdateException, OrmException, PermissionBackendException,
-          IOException, ConfigInvalidException {
-    req.permissions().database(dbProvider).check(ChangePermission.ABANDON);
-
-    NotifyHandling notify = input.notify == null ? defaultNotify(req.getChange()) : input.notify;
-    Change change =
-        abandon(
-            updateFactory,
-            req.getNotes(),
-            req.getUser(),
-            input.message,
-            notify,
-            notifyUtil.resolveAccounts(input.notifyDetails));
-    return json.noOptions().format(change);
-  }
-
-  private NotifyHandling defaultNotify(Change change) {
-    return change.hasReviewStarted() ? NotifyHandling.ALL : NotifyHandling.OWNER;
-  }
-
-  public Change abandon(BatchUpdate.Factory updateFactory, ChangeNotes notes, CurrentUser user)
-      throws RestApiException, UpdateException {
-    return abandon(
-        updateFactory,
-        notes,
-        user,
-        "",
-        defaultNotify(notes.getChange()),
-        ImmutableListMultimap.of());
-  }
-
-  public Change abandon(
-      BatchUpdate.Factory updateFactory, ChangeNotes notes, CurrentUser user, String msgTxt)
-      throws RestApiException, UpdateException {
-    return abandon(
-        updateFactory,
-        notes,
-        user,
-        msgTxt,
-        defaultNotify(notes.getChange()),
-        ImmutableListMultimap.of());
-  }
-
-  public Change abandon(
+  /**
+   * If an extension has more than one changes to abandon that belong to the same project, they
+   * should use the batch instead of abandoning one by one.
+   *
+   * <p>It's the caller's responsibility to ensure that all jobs inside the same batch have the
+   * matching project from its ChangeData. Violations will result in a ResourceConflictException.
+   */
+  public void batchAbandon(
       BatchUpdate.Factory updateFactory,
-      ChangeNotes notes,
+      Project.NameKey project,
       CurrentUser user,
+      Collection<ChangeData> changes,
       String msgTxt,
       NotifyHandling notifyHandling,
       ListMultimap<RecipientType, Account.Id> accountsToNotify)
       throws RestApiException, UpdateException {
-    Account account = user.isIdentifiedUser() ? user.asIdentifiedUser().getAccount() : null;
-    AbandonOp op = abandonOpFactory.create(account, msgTxt, notifyHandling, accountsToNotify);
-    try (BatchUpdate u =
-        updateFactory.create(dbProvider.get(), notes.getProjectName(), user, TimeUtil.nowTs())) {
-      u.addOp(notes.getChangeId(), op).execute();
+    if (changes.isEmpty()) {
+      return;
     }
-    return op.getChange();
+    Account account = user.isIdentifiedUser() ? user.asIdentifiedUser().getAccount() : null;
+    try (BatchUpdate u = updateFactory.create(dbProvider.get(), project, user, TimeUtil.nowTs())) {
+      for (ChangeData change : changes) {
+        if (!project.equals(change.project())) {
+          throw new ResourceConflictException(
+              String.format(
+                  "Project name \"%s\" doesn't match \"%s\"",
+                  change.project().get(), project.get()));
+        }
+        u.addOp(
+            change.getId(),
+            abandonOpFactory.create(account, msgTxt, notifyHandling, accountsToNotify));
+      }
+      u.execute();
+    }
   }
 
-  @Override
-  public UiAction.Description getDescription(ChangeResource rsrc) {
-    Change change = rsrc.getChange();
-    return new UiAction.Description()
-        .setLabel("Abandon")
-        .setTitle("Abandon the change")
-        .setVisible(
-            and(
-                change.getStatus().isOpen(),
-                rsrc.permissions().database(dbProvider).testCond(ChangePermission.ABANDON)));
+  public void batchAbandon(
+      BatchUpdate.Factory updateFactory,
+      Project.NameKey project,
+      CurrentUser user,
+      Collection<ChangeData> changes,
+      String msgTxt)
+      throws RestApiException, UpdateException {
+    batchAbandon(
+        updateFactory,
+        project,
+        user,
+        changes,
+        msgTxt,
+        NotifyHandling.ALL,
+        ImmutableListMultimap.of());
   }
+
+  public void batchAbandon(
+      BatchUpdate.Factory updateFactory,
+      Project.NameKey project,
+      CurrentUser user,
+      Collection<ChangeData> changes)
+      throws RestApiException, UpdateException {
+    batchAbandon(
+        updateFactory, project, user, changes, "", NotifyHandling.ALL, ImmutableListMultimap.of());
+  }
+
 }

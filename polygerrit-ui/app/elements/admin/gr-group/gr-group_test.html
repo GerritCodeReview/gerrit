@@ -68,6 +68,17 @@ limitations under the License.
           .display === 'none');
     });
 
+    test('default values are populated', done => {
+      sandbox.stub(element.$.restAPI, 'getIsGroupOwner', () => {
+        return Promise.resolve(true);
+      });
+      element.groupId = 1;
+      element._loadGroup().then(() => {
+        assert.isFalse(element.$.visibleToAll.bindValue);
+        done();
+      });
+    });
+
     test('rename group', done => {
       const groupName = 'test-group';
       const groupName2 = 'test-group2';

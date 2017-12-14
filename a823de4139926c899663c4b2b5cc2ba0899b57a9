@@ -22,6 +22,30 @@
       "revId": "a823de4139926c899663c4b2b5cc2ba0899b57a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0b23386_aafadd21",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupConfigTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-14T12:36:53Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s important to use the same time zone for every test as long as we use a specific one for deterministic test behavior. (We don\u0027t use the same name for every group we use in tests either as there\u0027s no point in doing so.) As this test doesn\u0027t set the time zone on a system level, it won\u0027t even affect other tests. So, I don\u0027t see a reason why we should use \"US/Eastern\" here.",
+      "parentUuid": "301c677a_d77e0dbc",
+      "range": {
+        "startLine": 75,
+        "startChar": 57,
+        "endLine": 75,
+        "endChar": 78
+      },
+      "revId": "a823de4139926c899663c4b2b5cc2ba0899b57a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

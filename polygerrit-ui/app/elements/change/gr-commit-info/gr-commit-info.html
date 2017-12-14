@@ -21,22 +21,24 @@ limitations under the License.
 <dom-module id="gr-commit-info">
   <template>
     <style include="shared-styles">
-      :host {
+      .container {
         align-items: center;
         display: flex;
       }
     </style>
-    <template is="dom-if" if="[[_showWebLink]]">
-      <a target="_blank" rel="noopener"
-         href$="[[_webLink]]">[[_computeShortHash(commitInfo)]]</a>
-    </template>
-    <template is="dom-if" if="[[!_showWebLink]]">
-      [[_computeShortHash(commitInfo)]]
-    </template>
-    <gr-copy-clipboard
-        hide-input
-        text="[[commitInfo.commit]]">
-    </gr-copy-clipboard>
+    <div class="container">
+      <template is="dom-if" if="[[_showWebLink]]">
+        <a target="_blank" rel="noopener"
+            href$="[[_webLink]]">[[_computeShortHash(commitInfo)]]</a>
+      </template>
+      <template is="dom-if" if="[[!_showWebLink]]">
+        [[_computeShortHash(commitInfo)]]
+      </template>
+      <gr-copy-clipboard
+          hide-input
+          text="[[commitInfo.commit]]">
+      </gr-copy-clipboard>
+    </div>
   </template>
   <script src="gr-commit-info.js"></script>
 </dom-module>

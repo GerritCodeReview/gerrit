@@ -43,6 +43,7 @@ objects needing finalization.
 * `http/server/error_count`: Rate of REST API error responses.
 * `http/server/success_count`: Rate of REST API success responses.
 * `http/server/rest_api/count`: Rate of REST API calls by view.
+* `http/server/rest_api/change_id_type`: Rate of REST API calls by change ID type.
 * `http/server/rest_api/error_count`: Rate of REST API calls by view.
 * `http/server/rest_api/server_latency`: REST API call latency by view.
 * `http/server/rest_api/response_bytes`: Size of REST API response on network

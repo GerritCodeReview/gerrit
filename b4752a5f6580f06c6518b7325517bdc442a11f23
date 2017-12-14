@@ -122,6 +122,24 @@
       "revId": "b4752a5f6580f06c6518b7325517bdc442a11f23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f644ba77_795852b2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-14T23:55:37Z",
+      "side": 1,
+      "message": "It is possible that it gets a value back from the server. If there is no value, it\u0027s assumed to be false. I don\u0027t know if the server would ever return a value as false (vs not returning anything). In the event that it did, the undefined check would not be met, but the falsy one would be. Since the falsy one would just set the value to false (same value it is already), this is ok, but it is slightly different.",
+      "parentUuid": "46c199bb_0cafb132",
+      "revId": "b4752a5f6580f06c6518b7325517bdc442a11f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

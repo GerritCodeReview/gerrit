@@ -7,4 +7,5 @@ acceptance_tests(
         "notedb",
         "server",
     ],
+    deps = ["//java/com/google/gerrit/server/schema"],
 )

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98576e41_61910583",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-14T04:18:12Z",
+      "side": 1,
+      "message": "\"supplied\"",
+      "revId": "b4752a5f6580f06c6518b7325517bdc442a11f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1b933d5_62046e47",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-project-dialog/gr-create-project-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-14T04:18:12Z",
+      "side": 1,
+      "message": "\"default\"",
+      "revId": "b4752a5f6580f06c6518b7325517bdc442a11f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02874388_a644777a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-14T04:18:12Z",
+      "side": 1,
+      "message": "Can this just be if (!config.options.visible_to_all)?",
+      "revId": "b4752a5f6580f06c6518b7325517bdc442a11f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

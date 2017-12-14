@@ -53,15 +53,13 @@ public class Schema_159_to_160_Test {
   @Inject private GerritApi gApi;
   @Inject private GitRepositoryManager repoManager;
   @Inject private Provider<IdentifiedUser> userProvider;
+  @Inject private ReviewDb db;
   @Inject private Schema_160 schema160;
 
-  private ReviewDb db;
   private Account.Id accountId;
 
   @Before
   public void setUp() throws Exception {
-    testEnv.getInjector().injectMembers(this);
-    db = testEnv.getDb();
     accountId = userProvider.get().getAccountId();
   }
 

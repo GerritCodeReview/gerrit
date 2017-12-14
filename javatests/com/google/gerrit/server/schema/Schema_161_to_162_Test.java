@@ -35,7 +35,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -47,15 +46,8 @@ public class Schema_161_to_162_Test {
   @Inject private GerritApi gApi;
   @Inject private GitRepositoryManager repoManager;
   @Inject private Schema_162 schema162;
+  @Inject private ReviewDb db;
   @Inject @GerritPersonIdent private PersonIdent serverUser;
-
-  private ReviewDb db;
-
-  @Before
-  public void setUp() throws Exception {
-    testEnv.getInjector().injectMembers(this);
-    db = testEnv.getDb();
-  }
 
   @Test
   public void skipCorrectInheritance() throws Exception {

@@ -48,8 +48,8 @@ public class Schema_150_to_151_Test {
 
   @Inject private CreateGroup.Factory createGroupFactory;
   @Inject private Schema_151 schema151;
+  @Inject private ReviewDb db;
 
-  private ReviewDb db;
   private Connection connection;
   private PreparedStatement createdOnRetrieval;
   private PreparedStatement createdOnUpdate;
@@ -57,8 +57,6 @@ public class Schema_150_to_151_Test {
 
   @Before
   public void setUp() throws Exception {
-    testEnv.getInjector().injectMembers(this);
-    db = testEnv.getDb();
     assume().that(db instanceof JdbcSchema).isTrue();
 
     connection = ((JdbcSchema) db).getConnection();

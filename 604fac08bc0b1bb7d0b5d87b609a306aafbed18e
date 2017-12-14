@@ -23,6 +23,30 @@
       "revId": "604fac08bc0b1bb7d0b5d87b609a306aafbed18e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c44c27a7_afe06055",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-14T15:30:31Z",
+      "side": 1,
+      "message": "\u003e Now that this is not in master\n\nI of course mean \"this is in master\" or \"this is not in stable-2.15\".",
+      "parentUuid": "d087d04e_40a21257",
+      "range": {
+        "startLine": 71,
+        "startChar": 22,
+        "endLine": 72,
+        "endChar": 29
+      },
+      "revId": "604fac08bc0b1bb7d0b5d87b609a306aafbed18e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

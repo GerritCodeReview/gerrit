@@ -20,6 +20,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.metrics.Counter1;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Field;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -56,11 +60,20 @@ public class ChangeFinder {
     };
   }
 
+  private enum ChangeIdType {
+    TRIPLET,
+    NUMERIC_ID,
+    CHANGE_ID,
+    PROJECT_NUMERIC_ID,
+    COMMIT_HASH
+  }
+
   private final IndexConfig indexConfig;
   private final Cache<Change.Id, String> changeIdProjectCache;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<ReviewDb> reviewDb;
   private final ChangeNotes.Factory changeNotesFactory;
+  private final Counter1<ChangeIdType> changeIdCounter;
 
   @Inject
   ChangeFinder(
@@ -68,12 +81,20 @@ public class ChangeFinder {
       @Named(CACHE_NAME) Cache<Change.Id, String> changeIdProjectCache,
       Provider<InternalChangeQuery> queryProvider,
       Provider<ReviewDb> reviewDb,
-      ChangeNotes.Factory changeNotesFactory) {
+      ChangeNotes.Factory changeNotesFactory,
+      MetricMaker metricMaker) {
     this.indexConfig = indexConfig;
     this.changeIdProjectCache = changeIdProjectCache;
     this.queryProvider = queryProvider;
     this.reviewDb = reviewDb;
     this.changeNotesFactory = changeNotesFactory;
+    this.changeIdCounter =
+        metricMaker.newCounter(
+            "http/server/rest_api/change_id_type",
+            new Description("Total number of API calls per identifier type.")
+                .setRate()
+                .setUnit("requests"),
+            Field.ofEnum(ChangeIdType.class, "change_id_type"));
   }
 
   /**
@@ -94,6 +115,7 @@ public class ChangeFinder {
       // Try project~numericChangeId
       Integer n = Ints.tryParse(id.substring(z + 1));
       if (n != null) {
+        changeIdCounter.increment(ChangeIdType.PROJECT_NUMERIC_ID);
         return fromProjectNumber(id.substring(0, z), n.intValue());
       }
     }
@@ -102,6 +124,7 @@ public class ChangeFinder {
       // Try numeric changeId
       Integer n = Ints.tryParse(id);
       if (n != null) {
+        changeIdCounter.increment(ChangeIdType.NUMERIC_ID);
         return find(new Change.Id(n));
       }
     }
@@ -112,6 +135,7 @@ public class ChangeFinder {
 
     // Try commit hash
     if (id.matches("^([0-9a-fA-F]{" + RevId.ABBREV_LEN + "," + RevId.LEN + "})$")) {
+      changeIdCounter.increment(ChangeIdType.COMMIT_HASH);
       return asChangeNotes(query.byCommit(id));
     }
 
@@ -120,12 +144,17 @@ public class ChangeFinder {
       Optional<ChangeTriplet> triplet = ChangeTriplet.parse(id, y, z);
       if (triplet.isPresent()) {
         ChangeTriplet t = triplet.get();
+        changeIdCounter.increment(ChangeIdType.TRIPLET);
         return asChangeNotes(query.byBranchKey(t.branch(), t.id()));
       }
     }
 
     // Try isolated Ihash... format ("Change-Id: Ihash").
-    return asChangeNotes(query.byKeyPrefix(id));
+    List<ChangeNotes> notes = asChangeNotes(query.byKeyPrefix(id));
+    if (!notes.isEmpty()) {
+      changeIdCounter.increment(ChangeIdType.CHANGE_ID);
+    }
+    return notes;
   }
 
   private List<ChangeNotes> fromProjectNumber(String project, int changeNumber)

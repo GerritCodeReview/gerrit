@@ -1,4 +1,85 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1513166686 +0100\nnonce ADEcKBqNE0OCxjG4gTqNG20BxNOinFRDaJn5LHA9hDHTClWZjkm5Xz/PmDtNG8ZDTkEW6DtQ/nOe\n\n0000000000000000000000000000000000000000 28253e6c456071324e69e962befe3a65a6e8b760 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaMRdeAAoJEFG1/Zeg0O9R+uYH/1PBq1L29YZODYDKnf31wln+\nK50aYc4c4YndJnQ7OORYG3pzKyrF/50iE9QoxEOoIDAXWXl9msPZ9kqko7EKJM2/\nUQw65F85h/xhGMKC94NYJHs/fhNQDAXpGEJAHZmPM/r2VWAXK4h7HgRrss16sSWN\n50Ff2r9EG64r0bck4x3uV/uYpqi8FtrPlIlkBwrNdyngWWOFlApHgggnCx+/umIY\nFqwKY5pSNmEsvwUNXh0mimRMff1pMmfXXcsHApnmy2lNV0Mx6JrQ05xytILXwhlE\nmwOw3lDNsJqMlSzpbY4LCTEKZS/Y9Xjql8UyH6WybpHl3mNC1djmvXx2Rf9mFMc\u003d\n\u003d5MKu\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8cd5da36_a8c00bed",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-15T14:32:40Z",
+      "side": 1,
+      "message": "I don\u0027t see the benefit here of passing this in as an arg as opposed to just referring to the variable from the enclosing scope in the lambda.\n\nFor BatchUpdate.Factory, the reason it is that way is I wanted to make BatchUpdate.Factory non-injectable, forcing users of the BatchUpdate framework to always use RetryHelper. (We haven\u0027t gotten there yet for reasons I don\u0027t recall at the moment.)\n\nI wonder if it makes sense in the long run to do the same thing with ExternalIdUpdater: don\u0027t expose a Guice binding, and force callers to use RetryHelper. But you\u0027re not doing that yet.",
+      "range": {
+        "startLine": 735,
+        "startChar": 8,
+        "endLine": 735,
+        "endChar": 15
+      },
+      "revId": "28253e6c456071324e69e962befe3a65a6e8b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "510c74cf_bc6baddc",
+        "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-15T14:32:40Z",
+      "side": 1,
+      "message": "This is usually not something you want to do, and it took me a minute to convince myself that it was equivalent (enough) to the old behavior. Maybe add a comment that callers are expected to catch and inspect the exception before deciding whether to rethrow it?",
+      "revId": "28253e6c456071324e69e962befe3a65a6e8b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb8aded2_c9b38af1",
+        "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-15T14:32:40Z",
+      "side": 1,
+      "message": "It\u0027s non-obvious from the constructor signatures that there is going to be this default setup if you don\u0027t pass a retryerStrategySetup. Would it work to move this into the constructor, and make the retryerStrategySetup arg non-nullable?",
+      "range": {
+        "startLine": 252,
+        "startChar": 11,
+        "endLine": 256,
+        "endChar": 40
+      },
+      "revId": "28253e6c456071324e69e962befe3a65a6e8b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "037a8262_c0c1663d",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-15T14:32:40Z",
+      "side": 1,
+      "message": "I think this also wants the BlockStrategy? I guess this was an issue with the old test as well.",
+      "revId": "28253e6c456071324e69e962befe3a65a6e8b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

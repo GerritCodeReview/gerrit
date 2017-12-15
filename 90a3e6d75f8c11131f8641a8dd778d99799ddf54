@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "79821c27_3f5e3315",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-15T18:39:43Z",
+      "side": 1,
+      "message": "Because the intent is to add the rows to the tab-order. 0 and -1 have opposite meanings for tabindex. 0 includes the element in the tab order whereas -1 would remove it.\n\nIf the tabindex were -1 or if the attribute were omitted, this change wouldn\u0027t work because the row itself would not be focusable.",
+      "parentUuid": "2d8efd06_8bc2d774",
+      "revId": "90a3e6d75f8c11131f8641a8dd778d99799ddf54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a625393d_5dc9fd0f",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
         "patchSetId": 7
@@ -50,6 +68,24 @@
       "revId": "90a3e6d75f8c11131f8641a8dd778d99799ddf54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0f77247_bc6c180b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-15T18:39:43Z",
+      "side": 1,
+      "message": "I added a comment.",
+      "parentUuid": "b1890e25_15e0ed35",
+      "revId": "90a3e6d75f8c11131f8641a8dd778d99799ddf54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

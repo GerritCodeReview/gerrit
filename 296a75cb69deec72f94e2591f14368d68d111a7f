@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6527b65d_20a283e4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-access/gr-project-access.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-15T17:56:23Z",
+      "side": 1,
+      "message": "Does this just negate the boolean? Looks like there\u0027s no need to `return` either. What about ..\n\n_handleEdit() {\n  this._editing \u003d !this._editing;\n},\n\n.. ?",
+      "revId": "296a75cb69deec72f94e2591f14368d68d111a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e19f382_0f99d862",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-access/gr-project-access.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-15T17:56:23Z",
+      "side": 1,
+      "message": "sp",
+      "range": {
+        "startLine": 252,
+        "startChar": 55,
+        "endLine": 252,
+        "endChar": 58
+      },
+      "revId": "296a75cb69deec72f94e2591f14368d68d111a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a30d69e_87b89995",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-access/gr-project-access_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-15T17:56:23Z",
+      "side": 1,
+      "message": "Nit: exceeds line limit.",
+      "revId": "296a75cb69deec72f94e2591f14368d68d111a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "788af1ff_e7d68d9b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-access/gr-project-access_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-15T17:56:23Z",
+      "side": 1,
+      "message": "Nit: exceeds line limit.",
+      "revId": "296a75cb69deec72f94e2591f14368d68d111a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

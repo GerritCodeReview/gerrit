@@ -16,6 +16,24 @@
       "revId": "be74d32f711735d7a0431385c957d75bfecf7207",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4743c33_ae56f65a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-15T22:21:41Z",
+      "side": 0,
+      "message": "It didn\u0027t get into an infinite loop here. It gets into an infinite loop without this check.  This error is just thrown in the console and it just looks like the diff doesn\u0027t load.",
+      "parentUuid": "7950d032_8a437e64",
+      "revId": "be74d32f711735d7a0431385c957d75bfecf7207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

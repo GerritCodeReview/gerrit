@@ -94,6 +94,30 @@
       "revId": "b84cc584f636f7515bb7b4145167beab65cfb710",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a69885b_750582b8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1336,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-15T19:52:15Z",
+      "side": 0,
+      "message": "Upside of this change is data fetching abstraction\nDownside is adding more specialized logic into gr-rest-api-interface\n\nI don\u0027t have a strong opinion on this though, but generally looks like gr-rest-api-interface tries to put number of hats on, which perhaps is not the best long term strategy.",
+      "parentUuid": "3f159af6_cb023eb9",
+      "range": {
+        "startLine": 1336,
+        "startChar": 12,
+        "endLine": 1336,
+        "endChar": 47
+      },
+      "revId": "b84cc584f636f7515bb7b4145167beab65cfb710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

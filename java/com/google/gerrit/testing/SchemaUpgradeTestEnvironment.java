@@ -30,11 +30,14 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
+import org.eclipse.jgit.lib.Config;
 import org.junit.rules.MethodRule;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
 public final class SchemaUpgradeTestEnvironment implements MethodRule {
+  private final Provider<Config> configProvider;
+
   @Inject private AccountManager accountManager;
   @Inject private IdentifiedUser.GenericFactory userFactory;
   @Inject private SchemaFactory<ReviewDb> schemaFactory;
@@ -45,6 +48,23 @@ public final class SchemaUpgradeTestEnvironment implements MethodRule {
 
   private ReviewDb db;
   private LifecycleManager lifecycle;
+
+  /** Create a test environment using an empty base config. */
+  public SchemaUpgradeTestEnvironment() {
+    this(Config::new);
+  }
+
+  /**
+   * Create a test environment using the specified base config.
+   *
+   * <p>The config is passed as a provider so it can be lazily initialized after this rule is
+   * instantiated, for example using {@link ConfigSuite}.
+   *
+   * @param configProvider possibly-lazy provider for the base config.
+   */
+  public SchemaUpgradeTestEnvironment(Provider<Config> configProvider) {
+    this.configProvider = configProvider;
+  }
 
   @Override
   public Statement apply(Statement base, FrameworkMethod method, Object target) {
@@ -78,7 +98,11 @@ public final class SchemaUpgradeTestEnvironment implements MethodRule {
   }
 
   private void setUp(Object target) throws Exception {
-    Injector injector = Guice.createInjector(new InMemoryModule());
+    Config cfg = configProvider.get();
+    InMemoryModule.setDefaults(cfg);
+
+    Injector injector =
+        Guice.createInjector(new InMemoryModule(cfg, NoteDbMode.newNotesMigrationFromEnv()));
     injector.injectMembers(this);
     lifecycle = new LifecycleManager();
     lifecycle.add(injector);

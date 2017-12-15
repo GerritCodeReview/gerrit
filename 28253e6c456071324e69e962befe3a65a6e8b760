@@ -26,6 +26,29 @@
     },
     {
       "key": {
+        "uuid": "5125e11c_3fabfef9",
+        "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-15T14:49:22Z",
+      "side": 1,
+      "message": "The main reason I introduced UpdateException was to simplify throws clauses in downstream method signatures. You don\u0027t have to do it now, but I would at least consider doing that here as well.\n\nThe thing to think about is: will a caller ever want to catch these exception types separately and do something different, as opposed to just letting it propagate? If the answer is no, then there is no benefit to throwing different exception types, and using a single exception type is less boilerplate.\n\nI guess another consideration is if you have a mixture of read and update operations, then you might actually end up with 4 exception types (UpdateException plus the existing 3). So maybe that is not a net win. Although it opens up new avenues for investigation, introducing a new exception type in VersionedMetaData\u0027s method signatures.",
+      "range": {
+        "startLine": 169,
+        "startChar": 12,
+        "endLine": 169,
+        "endChar": 62
+      },
+      "revId": "28253e6c456071324e69e962befe3a65a6e8b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "510c74cf_bc6baddc",
         "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
         "patchSetId": 4

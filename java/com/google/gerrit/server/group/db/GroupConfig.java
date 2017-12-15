@@ -17,6 +17,7 @@ package com.google.gerrit.server.group.db;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static java.util.stream.Collectors.joining;
 
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
@@ -38,7 +39,6 @@ import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.function.Function;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -307,7 +307,7 @@ public class GroupConfig extends VersionedMetaData {
   private <E> void saveToFile(
       String filePath, ImmutableSet<E> elements, Function<E, String> toStringFunction)
       throws IOException {
-    String fileContent = elements.stream().map(toStringFunction).collect(Collectors.joining("\n"));
+    String fileContent = elements.stream().map(toStringFunction).collect(joining("\n"));
     saveUTF8(filePath, fileContent);
   }
 

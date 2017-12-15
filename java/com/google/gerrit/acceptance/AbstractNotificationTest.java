@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertAbout;
 import static com.google.gerrit.extensions.api.changes.RecipientType.BCC;
 import static com.google.gerrit.extensions.api.changes.RecipientType.CC;
 import static com.google.gerrit.extensions.api.changes.RecipientType.TO;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
@@ -48,7 +49,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import org.eclipse.jgit.junit.TestRepository;
 import org.junit.After;
 import org.junit.Before;
@@ -121,7 +121,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
               .stream()
               .map(Address::getEmail)
               .filter(e -> !recipients.get(TO).contains(e) && !recipients.get(CC).contains(e))
-              .collect(Collectors.toList()));
+              .collect(toList()));
       this.users = users;
       if (!message.headers().containsKey("X-Gerrit-MessageType")) {
         fail("a message was sent with X-Gerrit-MessageType header");
@@ -162,7 +162,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       }
       Truth.assertThat(header).isInstanceOf(AddressList.class);
       AddressList addrList = (AddressList) header;
-      return addrList.getAddressList().stream().map(Address::getEmail).collect(Collectors.toList());
+      return addrList.getAddressList().stream().map(Address::getEmail).collect(toList());
     }
 
     public FakeEmailSenderSubject to(String... emails) {

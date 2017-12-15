@@ -14,13 +14,14 @@
 
 package com.google.gerrit.server.mail;
 
+import static java.util.stream.Collectors.joining;
+
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.receive.MailMessage;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Arrays;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,7 @@ public class ListMailFilter implements MailFilter {
   ListMailFilter(@GerritServerConfig Config cfg) {
     this.mode = cfg.getEnum("receiveemail", "filter", "mode", ListFilterMode.OFF);
     String[] addresses = cfg.getStringList("receiveemail", "filter", "patterns");
-    String concat = Arrays.asList(addresses).stream().collect(Collectors.joining("|"));
+    String concat = Arrays.asList(addresses).stream().collect(joining("|"));
     this.mailPattern = Pattern.compile(concat);
   }
 

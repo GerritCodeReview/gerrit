@@ -18,6 +18,7 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.readEnum;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeEnum;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.CodedEnum;
@@ -30,7 +31,6 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.ReplaceEdit;
 
@@ -109,7 +109,7 @@ public class IntraLineDiff implements Serializable {
         for (int j = 0; j < innerCount; j++) {
           inner[j] = readEdit(in);
         }
-        editArray[i] = new ReplaceEdit(editArray[i], toList(inner));
+        editArray[i] = new ReplaceEdit(editArray[i], asList(inner));
       }
     }
     edits = ImmutableList.copyOf(editArray);
@@ -128,7 +128,7 @@ public class IntraLineDiff implements Serializable {
 
   private static ReplaceEdit copy(ReplaceEdit edit) {
     List<Edit> internalEdits =
-        edit.getInternalEdits().stream().map(IntraLineDiff::copy).collect(Collectors.toList());
+        edit.getInternalEdits().stream().map(IntraLineDiff::copy).collect(toList());
     return new ReplaceEdit(
         edit.getBeginA(), edit.getEndA(), edit.getBeginB(), edit.getEndB(), internalEdits);
   }
@@ -148,7 +148,7 @@ public class IntraLineDiff implements Serializable {
     return new Edit(beginA, endA, beginB, endB);
   }
 
-  private static List<Edit> toList(Edit[] l) {
+  private static List<Edit> asList(Edit[] l) {
     return Collections.unmodifiableList(Arrays.asList(l));
   }
 }

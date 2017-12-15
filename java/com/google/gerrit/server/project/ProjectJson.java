@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import static java.util.stream.Collectors.toMap;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
@@ -28,7 +30,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Singleton
 public class ProjectJson {
@@ -48,9 +49,7 @@ public class ProjectJson {
     for (LabelType t : projectState.getLabelTypes().getLabelTypes()) {
       LabelTypeInfo labelInfo = new LabelTypeInfo();
       labelInfo.values =
-          t.getValues()
-              .stream()
-              .collect(Collectors.toMap(LabelValue::formatValue, LabelValue::getText));
+          t.getValues().stream().collect(toMap(LabelValue::formatValue, LabelValue::getText));
       labelInfo.defaultValue = t.getDefaultValue();
       info.labels.put(t.getName(), labelInfo);
     }

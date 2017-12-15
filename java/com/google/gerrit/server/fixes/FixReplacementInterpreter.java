@@ -15,6 +15,7 @@
 package com.google.gerrit.server.fixes;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.stream.Collectors.groupingBy;
 
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -33,7 +34,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
@@ -73,9 +73,7 @@ public class FixReplacementInterpreter {
     checkNotNull(fixReplacements, "Fix replacements must not be null");
 
     Map<String, List<FixReplacement>> fixReplacementsPerFilePath =
-        fixReplacements
-            .stream()
-            .collect(Collectors.groupingBy(fixReplacement -> fixReplacement.path));
+        fixReplacements.stream().collect(groupingBy(fixReplacement -> fixReplacement.path));
 
     List<TreeModification> treeModifications = new ArrayList<>();
     for (Map.Entry<String, List<FixReplacement>> entry : fixReplacementsPerFilePath.entrySet()) {

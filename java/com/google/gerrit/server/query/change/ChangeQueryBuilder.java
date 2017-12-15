@@ -89,7 +89,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
@@ -1244,7 +1243,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     List<Predicate<ChangeData>> predicates =
-        parts.stream().map(fullPredicateFunc).collect(Collectors.toList());
+        parts.stream().map(fullPredicateFunc).collect(toList());
     return Predicate.and(predicates);
   }
 

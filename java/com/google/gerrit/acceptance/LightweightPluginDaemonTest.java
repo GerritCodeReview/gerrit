@@ -20,11 +20,15 @@ import com.google.gerrit.server.plugins.TestServerPlugin;
 import com.google.inject.Inject;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
+import org.junit.rules.TemporaryFolder;
 
 public class LightweightPluginDaemonTest extends AbstractDaemonTest {
   @Inject private PluginGuiceEnvironment env;
 
   @Inject private PluginUser.Factory pluginUserFactory;
+
+  @Rule public TemporaryFolder tempDataDir = new TemporaryFolder();
 
   private TestServerPlugin plugin;
 
@@ -40,7 +44,8 @@ public class LightweightPluginDaemonTest extends AbstractDaemonTest {
             getClass().getClassLoader(),
             testPlugin.sysModule(),
             testPlugin.httpModule(),
-            testPlugin.sshModule());
+            testPlugin.sshModule(),
+            tempDataDir.getRoot().toPath());
 
     plugin.start(env);
     env.onStartPlugin(plugin);

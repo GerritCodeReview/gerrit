@@ -70,6 +70,30 @@
       "revId": "b84cc584f636f7515bb7b4145167beab65cfb710",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f159af6_cb023eb9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1336,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-15T00:35:58Z",
+      "side": 0,
+      "message": "Your input is totally valid! \n\nTacking the prop on won\u0027t actually work here. The name \"getResponseObject\" is a bit of a misnomer, because the returned value here is the body of the response, which is a string.\n\nI do think that it would be better to put all of this processing here though, in general. Will do!",
+      "parentUuid": "8e58b69e_44a61f5c",
+      "range": {
+        "startLine": 1336,
+        "startChar": 12,
+        "endLine": 1336,
+        "endChar": 47
+      },
+      "revId": "b84cc584f636f7515bb7b4145167beab65cfb710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

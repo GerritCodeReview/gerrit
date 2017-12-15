@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5e6b933_a26ecf31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-12-15T07:13:53Z",
+      "side": 1,
+      "message": "We usually use static import for Collectors methods. I see, though, it is not done consistenly (and should be fixed):\n\n  $ git grep \"Collectors\\.\" | grep -v import | wc -l\n20",
+      "range": {
+        "startLine": 129,
+        "startChar": 17,
+        "endLine": 129,
+        "endChar": 33
+      },
+      "revId": "c8c7cc3e13c3c6205f2f0a636438ac168bec5c9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

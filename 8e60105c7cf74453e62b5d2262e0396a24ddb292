@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ecf56790_85af68ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-12-15T10:27:34Z",
+      "side": 1,
+      "message": "Is this early return actually correct? This is more a theoretical case, but let\u0027s say all optional columns gone, the select on line 101 still specifies (hard coded) account_id and registered_on, so that it is questionable why empty collection is returned here and not set of accounts with only account_id and registered_on set.",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 5
+      },
+      "revId": "8e60105c7cf74453e62b5d2262e0396a24ddb292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

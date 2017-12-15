@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  * override the response http status code.
  */
 public class HttpServletResponseRecorder extends HttpServletResponseWrapper {
-  private static final Logger log = LoggerFactory.getLogger(HttpServletResponseWrapper.class);
+  private static final Logger log = LoggerFactory.getLogger(HttpServletResponseRecorder.class);
   private static final String LOCATION_HEADER = "Location";
 
   private int status;

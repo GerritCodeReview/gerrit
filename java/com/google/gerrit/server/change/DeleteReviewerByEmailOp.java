@@ -33,7 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class DeleteReviewerByEmailOp implements BatchUpdateOp {
-  private static final Logger log = LoggerFactory.getLogger(DeleteReviewer.class);
+  private static final Logger log = LoggerFactory.getLogger(DeleteReviewerByEmailOp.class);
 
   public interface Factory {
     DeleteReviewerByEmailOp create(Address reviewer, DeleteReviewerInput input);

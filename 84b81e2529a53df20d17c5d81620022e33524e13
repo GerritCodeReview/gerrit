@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1969b58_5ff455eb",
+        "filename": "java/com/google/gerrit/acceptance/DisabledChangeIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-15T10:05:36Z",
+      "side": 1,
+      "message": "lose",
+      "range": {
+        "startLine": 32,
+        "startChar": 44,
+        "endLine": 32,
+        "endChar": 49
+      },
+      "revId": "84b81e2529a53df20d17c5d81620022e33524e13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

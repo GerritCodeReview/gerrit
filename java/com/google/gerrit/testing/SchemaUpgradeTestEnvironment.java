@@ -30,11 +30,11 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
-import org.junit.rules.TestRule;
-import org.junit.runner.Description;
+import org.junit.rules.MethodRule;
+import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
-public final class SchemaUpgradeTestEnvironment implements TestRule {
+public final class SchemaUpgradeTestEnvironment implements MethodRule {
   @Inject private AccountManager accountManager;
   @Inject private IdentifiedUser.GenericFactory userFactory;
   @Inject private SchemaFactory<ReviewDb> schemaFactory;
@@ -44,30 +44,21 @@ public final class SchemaUpgradeTestEnvironment implements TestRule {
   @Inject private InMemoryDatabase inMemoryDatabase;
 
   private ReviewDb db;
-  private Injector injector;
   private LifecycleManager lifecycle;
 
   @Override
-  public Statement apply(Statement statement, Description description) {
+  public Statement apply(Statement base, FrameworkMethod method, Object target) {
     return new Statement() {
       @Override
       public void evaluate() throws Throwable {
         try {
-          setUp();
-          statement.evaluate();
+          setUp(target);
+          base.evaluate();
         } finally {
           tearDown();
         }
       }
     };
-  }
-
-  public ReviewDb getDb() {
-    return db;
-  }
-
-  public Injector getInjector() {
-    return injector;
   }
 
   public void setApiUser(Account.Id id) {
@@ -86,8 +77,8 @@ public final class SchemaUpgradeTestEnvironment implements TestRule {
         });
   }
 
-  private void setUp() throws Exception {
-    injector = Guice.createInjector(new InMemoryModule());
+  private void setUp(Object target) throws Exception {
+    Injector injector = Guice.createInjector(new InMemoryModule());
     injector.injectMembers(this);
     lifecycle = new LifecycleManager();
     lifecycle.add(injector);
@@ -98,6 +89,9 @@ public final class SchemaUpgradeTestEnvironment implements TestRule {
     }
     db = schemaFactory.open();
     setApiUser(accountManager.authenticate(AuthRequest.forUser("user")).getAccountId());
+
+    // Inject target members after setting API user, so it can @Inject a ReviewDb if it wants.
+    injector.injectMembers(target);
   }
 
   private void tearDown() {

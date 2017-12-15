@@ -55,11 +55,6 @@
       throw Error('Invalid tab size from preferences.');
     }
 
-    if (isNaN(prefs.line_length) || prefs.line_length <= 0) {
-      throw Error('Invalid line length from preferences.');
-    }
-
-
     for (const layer of this.layers) {
       if (layer.addListener) {
         layer.addListener(this._handleLayerUpdate.bind(this));
@@ -420,6 +415,12 @@
     }
     td.classList.add(line.type);
 
+    // Will go into an infinite loop if 0 is allowed here, but want to set
+    // a reasonable default rather than reject completely.
+    if (isNaN(this._prefs.line_length) || this._prefs.line_length <= 0) {
+      // This should match the default width in gr-diff.html.
+      this._prefs.line_length = 80;
+    }
     const lineLimit =
         !this._prefs.line_wrapping ? this._prefs.line_length : Infinity;
 

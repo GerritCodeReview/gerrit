@@ -169,6 +169,16 @@ limitations under the License.
       assert.equal(result, expected);
     });
 
+    test('line_length default set if line_length is 0', () => {
+      builder._prefs = {line_wrapping: false, tab_size: 4, line_length: 0};
+      const text = 'a'.repeat(81);
+
+      const line = {text, highlights: []};
+      const expected = 'a'.repeat(80) + LINE_FEED_HTML + 'a';
+      const result = builder._createTextEl(line).firstChild.innerHTML;
+      assert.equal(result, expected);
+    });
+
     test('_createTextEl linewrap with tabs', () => {
       const text = '\t'.repeat(7) + '!';
       const line = {text, highlights: []};

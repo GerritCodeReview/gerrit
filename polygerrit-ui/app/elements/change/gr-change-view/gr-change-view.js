@@ -162,10 +162,6 @@
       _patchNum: String,
       _filesExpanded: String,
       _basePatchNum: String,
-      _relatedChangesLoading: {
-        type: Boolean,
-        value: true,
-      },
       _currentRevision: Object,
       _currentRevisionActions: Object,
       _allPatchSets: {
@@ -217,6 +213,11 @@
       _editLoaded: {
         type: Boolean,
         computed: '_computeEditLoaded(_patchRange.*)',
+      },
+      _showRelatedToggle: {
+        type: Boolean,
+        value: false,
+        observer: '_updateToggleContainerClass',
       },
     },
 
@@ -655,6 +656,10 @@
       this.set('_patchRange.patchNum',
           this._patchRange.patchNum ||
               this.computeLatestPatchNum(this._allPatchSets));
+
+      // Reset the related changes toggle in the event it was previously
+      // displayed on an earlier change.
+      this._showRelatedToggle = false;
 
       const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title});
@@ -1120,12 +1125,7 @@
       return collapsed ? 'collapsed' : '';
     },
 
-    _computeRelatedChangesClass(collapsed, loading) {
-      // TODO update to polymer 2.x syntax
-      if (!loading &&
-          !this.getComputedStyleValue('--relation-chain-max-height')) {
-        this._updateRelatedChangeMaxHeight();
-      }
+    _computeRelatedChangesClass(collapsed) {
       return collapsed ? 'collapsed' : '';
     },
 
@@ -1228,14 +1228,33 @@
       this.updateStyles(stylesToUpdate);
     },
 
-    _computeRelatedChangesToggleClass() {
+    _computeShowRelatedToggle() {
+      // Make sure the max height has been applied, since there is now content
+      // to populate.
+      // TODO update to polymer 2.x syntax
+      if (!this.getComputedStyleValue('--relation-chain-max-height')) {
+        this._updateRelatedChangeMaxHeight();
+      }
       // Prevents showMore from showing when click on related change, since the
       // line height would be positive, but related changes height is 0.
-      if (!this._getScrollHeight(this.$.relatedChanges)) { return ''; }
+      if (!this._getScrollHeight(this.$.relatedChanges)) {
+        return this._showRelatedToggle = false;
+      }
 
-      return this._getScrollHeight(this.$.relatedChanges) >
+      if (this._getScrollHeight(this.$.relatedChanges) >
           (this._getOffsetHeight(this.$.relatedChanges) +
-          this._getLineHeight(this.$.relatedChanges)) ? 'showToggle' : '';
+          this._getLineHeight(this.$.relatedChanges))) {
+        return this._showRelatedToggle = true;
+      }
+      this._showRelatedToggle = false;
+    },
+
+    _updateToggleContainerClass(showRelatedToggle) {
+      if (showRelatedToggle) {
+        this.$.relatedChangesToggle.classList.add('showToggle');
+      } else {
+        this.$.relatedChangesToggle.classList.remove('showToggle');
+      }
     },
 
     _startUpdateCheckTimer() {

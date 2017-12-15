@@ -426,16 +426,16 @@ limitations under the License.
             </div>
             <div class="relatedChanges">
               <gr-related-changes-list id="relatedChanges"
-                  class$="[[_computeRelatedChangesClass(_relatedChangesCollapsed, _relatedChangesLoading)]]"
+                  class$="[[_computeRelatedChangesClass(_relatedChangesCollapsed)]]"
                   change="[[_change]]"
                   has-parent="{{hasParent}}"
-                  loading="{{_relatedChangesLoading}}"
                   on-update="_updateRelatedChangeMaxHeight"
-                  patch-num="[[computeLatestPatchNum(_allPatchSets)]]">
+                  patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
+                  on-new-section-loaded="_computeShowRelatedToggle">
               </gr-related-changes-list>
               <div
                   id="relatedChangesToggle"
-                  class$="collapseToggleContainer [[_computeRelatedChangesToggleClass(_relatedChangesLoading)]]">
+                  class="collapseToggleContainer">
                 <gr-button
                     link
                     id="relatedChangesToggleButton"

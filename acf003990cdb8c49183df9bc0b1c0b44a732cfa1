@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "affb012c_02b4bd0c",
+        "filename": "java/com/google/gerrit/server/project/Reachable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-15T00:16:49Z",
+      "side": 1,
+      "message": "It was like this in the original code, but should we really be assigning to the method parameter?  Maybe it\u0027s better to change this to assign a local variable?",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 41,
+        "endChar": 10
+      },
+      "revId": "acf003990cdb8c49183df9bc0b1c0b44a732cfa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

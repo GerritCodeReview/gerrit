@@ -46,6 +46,30 @@
       "revId": "b84cc584f636f7515bb7b4145167beab65cfb710",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e58b69e_44a61f5c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1336,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-15T00:23:34Z",
+      "side": 0,
+      "message": "This is one option. Another is to tack it onto the content, something like:\n\ncontent._type \u003d type;\nreturn content\n\nI don\u0027t think that would require as much code change.\nEither way, I prefer it here, but others can voice their opinions if they feel differently.",
+      "parentUuid": "7f0e233e_09d7b38f",
+      "range": {
+        "startLine": 1336,
+        "startChar": 12,
+        "endLine": 1336,
+        "endChar": 47
+      },
+      "revId": "b84cc584f636f7515bb7b4145167beab65cfb710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

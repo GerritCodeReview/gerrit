@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ca75715_f84095c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-15T21:45:57Z",
+      "side": 1,
+      "message": "Nit: rules are out of order.",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 73,
+        "endChar": 27
+      },
+      "revId": "1e10edb86f9a07d64fa81e17fc3b784933cd1bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56c5e767_bc632ee6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-15T21:45:57Z",
+      "side": 1,
+      "message": "Nit: rules are out of order.",
+      "range": {
+        "startLine": 76,
+        "startChar": 8,
+        "endLine": 78,
+        "endChar": 29
+      },
+      "revId": "1e10edb86f9a07d64fa81e17fc3b784933cd1bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

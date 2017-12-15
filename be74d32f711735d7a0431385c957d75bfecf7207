@@ -34,6 +34,24 @@
       "revId": "be74d32f711735d7a0431385c957d75bfecf7207",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66fe6182_546f95a0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-15T22:42:52Z",
+      "side": 0,
+      "message": "What I meant is why does it continue trying to render the diff if this fails? Why doesn\u0027t this error halt the rendering? Is it swallowed by a try-catch?",
+      "parentUuid": "e4743c33_ae56f65a",
+      "revId": "be74d32f711735d7a0431385c957d75bfecf7207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

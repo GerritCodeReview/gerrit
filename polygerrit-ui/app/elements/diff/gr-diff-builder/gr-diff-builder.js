@@ -56,7 +56,8 @@
     }
 
     if (isNaN(prefs.line_length) || prefs.line_length <= 0) {
-      throw Error('Invalid line length from preferences.');
+      // This should match the default width in gr-diff.html.
+      prefs.line_length = 80;
     }
 
 
@@ -450,6 +451,7 @@
    * @return {HTMLElement}
    */
   GrDiffBuilder.prototype._formatText = function(text, tabSize, lineLimit) {
+    debugger
     const contentText = this._createElement('div', 'contentText');
 
     let columnPos = 0;

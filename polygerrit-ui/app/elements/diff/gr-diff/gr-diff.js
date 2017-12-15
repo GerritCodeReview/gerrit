@@ -579,7 +579,9 @@
         }
       } else {
         this._diffTableClass = '';
-        stylesToUpdate['--content-width'] = prefs.line_length + 'ch';
+        if (prefs.line_length > 0) {
+          stylesToUpdate['--content-width'] = prefs.line_length + 'ch';
+        }
       }
 
       if (prefs.font_size) {

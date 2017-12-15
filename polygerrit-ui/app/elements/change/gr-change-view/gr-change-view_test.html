@@ -1070,7 +1070,8 @@ limitations under the License.
             sandbox.stub(element, '_getScrollHeight', () => 60);
             sandbox.stub(element, '_getLineHeight', () => 5);
             sandbox.stub(window, 'matchMedia', () => ({matches: true}));
-            element._relatedChangesLoading = false;
+            element.$.relatedChanges.dispatchEvent(
+                new CustomEvent('new-section-loaded'));
             assert.isTrue(element.$.relatedChangesToggle.classList
                 .contains('showToggle'));
             assert.equal(updateHeightSpy.callCount, 1);
@@ -1084,7 +1085,8 @@ limitations under the License.
             sandbox.stub(element, '_getScrollHeight', () => 40);
             sandbox.stub(element, '_getLineHeight', () => 5);
             sandbox.stub(window, 'matchMedia', () => ({matches: true}));
-            element._relatedChangesLoading = false;
+            element.$.relatedChanges.dispatchEvent(
+                new CustomEvent('new-section-loaded'));
             assert.isFalse(element.$.relatedChangesToggle.classList
                 .contains('showToggle'));
             assert.equal(updateHeightSpy.callCount, 1);

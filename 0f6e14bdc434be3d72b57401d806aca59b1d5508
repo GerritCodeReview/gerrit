@@ -142,6 +142,30 @@
       "revId": "0f6e14bdc434be3d72b57401d806aca59b1d5508",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e7e8e66_88970883",
+        "filename": "javatests/com/google/gerrit/server/schema/Schema_161_to_162_Test.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-12-15T13:19:02Z",
+      "side": 0,
+      "message": "\u003e Thanks for the suggestions. So this is not really about changing the way that we write tests, it\u0027s more about aggregating related bits of functionality (\"opening special repos\") into nicer APIs so that we don\u0027t have to do such low-level things too often in tests. That sounds reasonable.\n\nIn this case, yes. For the schema migrations, integration tests make totally sense. When I was talking about changing the way we write tests, we would have to look at other test classes.\n\n\u003e \n\u003e \u003e It\u0027s probably difficult where to draw exactly the line when deciding how many @Inject fields are too many. For me, it would be more like: 4 fields - we\u0027re good; 11 fields - we should consider whether 11 are really necessary; 20 - we should definitely consider how we can reduce them.\n\u003e \n\u003e Heh, do people outside the US recognize the quote \"I know it when I see it\"? https://en.wikipedia.org/wiki/I_know_it_when_I_see_it\n\nCool. Thanks for sharing. I remember reading it somewhere but didn\u0027t know about the background story.",
+      "parentUuid": "6745e606_25273893",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 3
+      },
+      "revId": "0f6e14bdc434be3d72b57401d806aca59b1d5508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

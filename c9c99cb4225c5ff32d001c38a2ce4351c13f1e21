@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "4241e314_50f16467",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-15T14:40:20Z",
+      "side": 1,
+      "message": "Optional:\n\n join(Lists.transform(consumers, AccountUpdater::fromConsumer))\n\nNote that Lists.transform is a lazy transformation, which is preferable to materializing a new intermediate ArrayList.",
+      "revId": "c9c99cb4225c5ff32d001c38a2ce4351c13f1e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "78e1fa78_b6f7d00d",
         "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
         "patchSetId": 7

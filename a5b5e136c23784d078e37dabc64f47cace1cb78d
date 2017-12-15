@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "ece12084_1d44829a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-12-15T07:05:59Z",
+      "side": 1,
+      "message": "I agree with Sasa, that this could be simplified, even with native Java 8, e.g.:\n\n     String query \u003d\n         \"SELECT account_id, registered_on, \"\n             + String.join(\", \", fields.keySet())\n             + String.format(\" FROM %s\", TABLE);",
+      "parentUuid": "d84ed427_b90e361a",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 99
+      },
+      "revId": "a5b5e136c23784d078e37dabc64f47cace1cb78d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8e240496_7f156a3e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
         "patchSetId": 2
@@ -141,6 +165,29 @@
       "revId": "a5b5e136c23784d078e37dabc64f47cace1cb78d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41502e8a_e912f709",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-12-15T07:05:59Z",
+      "side": 1,
+      "message": "This should be annotated with @FunctionalInterface",
+      "range": {
+        "startLine": 145,
+        "startChar": 2,
+        "endLine": 145,
+        "endChar": 33
+      },
+      "revId": "a5b5e136c23784d078e37dabc64f47cace1cb78d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

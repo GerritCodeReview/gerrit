@@ -28,7 +28,13 @@
       /** @type {?} */
       _projectConfig: {
         type: Object,
-        value: () => { return {}; },
+        value: () => {
+          // Set default values for dropdowns.
+          return {
+            create_empty_commit: false,
+            permissions_only: false,
+          };
+        },
       },
       _projectCreated: {
         type: Boolean,

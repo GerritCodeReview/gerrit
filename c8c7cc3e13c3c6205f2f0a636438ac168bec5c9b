@@ -22,6 +22,30 @@
       "revId": "c8c7cc3e13c3c6205f2f0a636438ac168bec5c9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "696515dd_ed9906e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-12-15T09:38:38Z",
+      "side": 1,
+      "message": "imported toMap statically\nshould we fix it in the follow up patch for master or for stable-2.15?",
+      "parentUuid": "c5e6b933_a26ecf31",
+      "range": {
+        "startLine": 129,
+        "startChar": 17,
+        "endLine": 129,
+        "endChar": 33
+      },
+      "revId": "c8c7cc3e13c3c6205f2f0a636438ac168bec5c9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

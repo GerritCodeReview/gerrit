@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "3f65f0f9_dbdd15a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-12-15T09:38:38Z",
+      "side": 1,
+      "message": "Thanks David - that is win-win situation :D",
+      "parentUuid": "ece12084_1d44829a",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 99
+      },
+      "revId": "a5b5e136c23784d078e37dabc64f47cace1cb78d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8e240496_7f156a3e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
         "patchSetId": 2
@@ -179,6 +203,30 @@
       "writtenOn": "2017-12-15T07:05:59Z",
       "side": 1,
       "message": "This should be annotated with @FunctionalInterface",
+      "range": {
+        "startLine": 145,
+        "startChar": 2,
+        "endLine": 145,
+        "endChar": 33
+      },
+      "revId": "a5b5e136c23784d078e37dabc64f47cace1cb78d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48dddfad_4942a465",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-12-15T09:38:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41502e8a_e912f709",
       "range": {
         "startLine": 145,
         "startChar": 2,

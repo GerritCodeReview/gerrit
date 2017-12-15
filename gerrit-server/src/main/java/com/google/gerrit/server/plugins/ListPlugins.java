@@ -15,6 +15,7 @@
 package com.google.gerrit.server.plugins;
 
 import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -30,7 +31,6 @@ import java.util.Locale;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.kohsuke.args4j.Option;
 
@@ -137,7 +137,7 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     if (limit > 0) {
       s = s.limit(limit);
     }
-    return new TreeMap<>(s.collect(Collectors.toMap(p -> p.getName(), p -> toPluginInfo(p))));
+    return new TreeMap<>(s.collect(toMap(p -> p.getName(), p -> toPluginInfo(p))));
   }
 
   private void checkMatchOptions(boolean cond) throws BadRequestException {

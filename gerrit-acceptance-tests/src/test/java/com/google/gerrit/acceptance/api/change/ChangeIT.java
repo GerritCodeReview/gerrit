@@ -49,6 +49,7 @@ import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.junit.Assert.fail;
@@ -153,7 +154,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -460,7 +460,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(result.reviewers).isNotEmpty();
     ChangeInfo info = gApi.changes().id(changeId).get();
     Function<Collection<AccountInfo>, Collection<String>> toEmails =
-        ais -> ais.stream().map(ai -> ai.email).collect(Collectors.toSet());
+        ais -> ais.stream().map(ai -> ai.email).collect(toSet());
     assertThat(toEmails.apply(info.pendingReviewers.get(REVIEWER)))
         .containsExactly(
             admin.email, user1.email, user2.email, "byemail1@example.com", "byemail2@example.com");
@@ -3182,7 +3182,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void putTopicExceedLimitFails() throws Exception {
     String changeId = createChange().getChangeId();
-    String topic = Stream.generate(() -> "t").limit(2049).collect(Collectors.joining());
+    String topic = Stream.generate(() -> "t").limit(2049).collect(joining());
 
     exception.expect(BadRequestException.class);
     exception.expectMessage("topic length exceeds the limit");

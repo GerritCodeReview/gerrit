@@ -18,6 +18,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
@@ -68,7 +70,6 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -962,7 +963,7 @@ public class CommentsIT extends AbstractDaemonTest {
         .values()
         .stream()
         .flatMap(List::stream)
-        .collect(Collectors.toList());
+        .collect(toList());
   }
 
   private CommentInput addComment(String changeId, String message) throws Exception {
@@ -976,7 +977,7 @@ public class CommentsIT extends AbstractDaemonTest {
   private void addComments(String changeId, String revision, CommentInput... commentInputs)
       throws Exception {
     ReviewInput input = new ReviewInput();
-    input.comments = Arrays.stream(commentInputs).collect(Collectors.groupingBy(c -> c.path));
+    input.comments = Arrays.stream(commentInputs).collect(groupingBy(c -> c.path));
     gApi.changes().id(changeId).revision(revision).review(input);
   }
 

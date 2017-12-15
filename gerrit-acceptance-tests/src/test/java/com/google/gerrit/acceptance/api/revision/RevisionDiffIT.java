@@ -19,6 +19,8 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.common.DiffInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.FileInfoSubject.assertThat;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toMap;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
@@ -44,7 +46,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javax.imageio.ImageIO;
 import org.eclipse.jgit.lib.Config;
@@ -64,7 +65,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   private static final String FILE_CONTENT =
       IntStream.rangeClosed(1, 100)
           .mapToObj(number -> String.format("Line %d\n", number))
-          .collect(Collectors.joining());
+          .collect(joining());
   private static final String FILE_CONTENT2 = "1st line\n2nd line\n3rd line\n";
 
   private boolean intraline;
@@ -1286,7 +1287,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     testRepo.reset(parentCommit);
     Map<String, String> files =
         Arrays.stream(removedFilePaths)
-            .collect(Collectors.toMap(Function.identity(), path -> "Irrelevant content"));
+            .collect(toMap(Function.identity(), path -> "Irrelevant content"));
     PushOneCommit push =
         pushFactory.create(db, admin.getIdent(), testRepo, "Remove files from repo", files);
     PushOneCommit.Result result = push.rm("refs/for/master");

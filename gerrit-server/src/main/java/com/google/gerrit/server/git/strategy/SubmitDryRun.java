@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git.strategy;
 
+import static java.util.stream.Collectors.toSet;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -31,7 +33,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -68,7 +69,7 @@ public class SubmitDryRun {
             repo.getRefDatabase().getRefs(Constants.R_TAGS).values().stream())
         .map(Ref::getObjectId)
         .filter(o -> o != null)
-        .collect(Collectors.toSet());
+        .collect(toSet());
   }
 
   public static Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw) throws IOException {

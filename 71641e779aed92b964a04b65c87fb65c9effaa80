@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcd70e5d_5106f743",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-15T18:36:25Z",
+      "side": 1,
+      "message": "test",
+      "revId": "71641e779aed92b964a04b65c87fb65c9effaa80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

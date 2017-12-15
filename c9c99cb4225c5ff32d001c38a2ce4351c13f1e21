@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1513239090 +0100\nnonce ADEcKBoAForY60I8VhRRkQgNyQW2wWdLZCt7pRH6q/JlA7SdAH0R4Eq8j90rAWk07QXYRUzfQyAt\n\n0000000000000000000000000000000000000000 d1ecf9087b342d4e2a008c20be8528d065d5c125 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaMjIyAAoJEFG1/Zeg0O9RZ+gIAKrouPWuZBkaZr/bqQvteTUx\nD11BKGNVCAfX5NH2l3hvXT2yz+LfD+S8UlCBttNUu291iZpP3hFMUwJixhEUUBAV\nH5JWL0iZB3hYrDp89/O/YHLKg389/q4sgH0s9B2ChhDpI8NM1yAxszw4A59q/Qxc\nQAITJhS73bFbW8+AGlDpxIGR6THXcK780SAixYqT08FdsCAcFaWyOqi6pzkdrE46\nfm52zYDdMDrhfaQr+N1sOrOyFO6l2JcCSfsogWSGva3/qUd8E+xZvYL+wluFvzYu\n2eXyUcZ8ugj/qjUIeDN5cdibrWEfBId7Vs7YJxTmU7PVRpD4KCqSyHVU0XoeM1k\u003d\n\u003d4ytd\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "78e1fa78_b6f7d00d",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-15T14:35:45Z",
+      "side": 1,
+      "message": "Mention that empty \u003d\u003e unset and the wrapped value will never be null?",
+      "revId": "c9c99cb4225c5ff32d001c38a2ce4351c13f1e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "872be446_f14d4dbd",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-15T14:35:45Z",
+      "side": 1,
+      "message": "I would rather not use reflection here. Can you just hand-write an implementation of the abstract Builder class that delegates to the auto-generated Builder impl?",
+      "revId": "c9c99cb4225c5ff32d001c38a2ce4351c13f1e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

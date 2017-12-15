@@ -162,10 +162,6 @@
       _patchNum: String,
       _filesExpanded: String,
       _basePatchNum: String,
-      _relatedChangesLoading: {
-        type: Boolean,
-        value: true,
-      },
       _currentRevision: Object,
       _currentRevisionActions: Object,
       _allPatchSets: {
@@ -1120,12 +1116,7 @@
       return collapsed ? 'collapsed' : '';
     },
 
-    _computeRelatedChangesClass(collapsed, loading) {
-      // TODO update to polymer 2.x syntax
-      if (!loading &&
-          !this.getComputedStyleValue('--relation-chain-max-height')) {
-        this._updateRelatedChangeMaxHeight();
-      }
+    _computeRelatedChangesClass(collapsed) {
       return collapsed ? 'collapsed' : '';
     },
 
@@ -1228,14 +1219,23 @@
       this.updateStyles(stylesToUpdate);
     },
 
-    _computeRelatedChangesToggleClass() {
+    _updateToggleContainerClass() {
+      // Make sure the max height has been applied, since there is now content
+      // to populate.
+      // TODO update to polymer 2.x syntax
+      if (!this.getComputedStyleValue('--relation-chain-max-height')) {
+        this._updateRelatedChangeMaxHeight();
+      }
       // Prevents showMore from showing when click on related change, since the
       // line height would be positive, but related changes height is 0.
       if (!this._getScrollHeight(this.$.relatedChanges)) { return ''; }
 
-      return this._getScrollHeight(this.$.relatedChanges) >
+      if (this._getScrollHeight(this.$.relatedChanges) >
           (this._getOffsetHeight(this.$.relatedChanges) +
-          this._getLineHeight(this.$.relatedChanges)) ? 'showToggle' : '';
+          this._getLineHeight(this.$.relatedChanges))) {
+        return this.$.relatedChangesToggle.classList.add('showToggle');
+      }
+      this.$.relatedChangesToggle.classList.remove('showToggle');
     },
 
     _startUpdateCheckTimer() {

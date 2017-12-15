@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "8844e1c3_60f9f465",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-15T16:34:10Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t see the benefit here of passing this in as an arg as opposed to just referring\n\u003e to the variable from the enclosing scope in the lambda.\n\nAgreed. I actually came to the same conclusion while I was working on the rest of this series, but then forgot to come back.\n\nDone.\n\n\u003e I wonder if it makes sense in the long run to do the same thing with ExternalIdUpdater:\n\u003e don\u0027t expose a Guice binding, and force callers to use RetryHelper. But you\u0027re not doing\n\u003e that yet.\n\nThis might be a good idea. Let\u0027s reconsider this later when all the refactoring for making account updates atomic are done.",
+      "parentUuid": "8cd5da36_a8c00bed",
+      "range": {
+        "startLine": 735,
+        "startChar": 8,
+        "endLine": 735,
+        "endChar": 15
+      },
+      "revId": "28253e6c456071324e69e962befe3a65a6e8b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5125e11c_3fabfef9",
         "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
         "patchSetId": 4
@@ -37,6 +61,30 @@
       "writtenOn": "2017-12-15T14:49:22Z",
       "side": 1,
       "message": "The main reason I introduced UpdateException was to simplify throws clauses in downstream method signatures. You don\u0027t have to do it now, but I would at least consider doing that here as well.\n\nThe thing to think about is: will a caller ever want to catch these exception types separately and do something different, as opposed to just letting it propagate? If the answer is no, then there is no benefit to throwing different exception types, and using a single exception type is less boilerplate.\n\nI guess another consideration is if you have a mixture of read and update operations, then you might actually end up with 4 exception types (UpdateException plus the existing 3). So maybe that is not a net win. Although it opens up new avenues for investigation, introducing a new exception type in VersionedMetaData\u0027s method signatures.",
+      "range": {
+        "startLine": 169,
+        "startChar": 12,
+        "endLine": 169,
+        "endChar": 62
+      },
+      "revId": "28253e6c456071324e69e962befe3a65a6e8b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3211306_7b31383b",
+        "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-15T16:34:10Z",
+      "side": 1,
+      "message": "\u003e The main reason I introduced UpdateException was to simplify throws clauses in downstream \n\u003e method signatures. You don\u0027t have to do it now, but I would at least consider doing that \n\u003e here as well.\n\nGood point. Let me come back to this later and see how it fits.\n\n\u003e The thing to think about is: will a caller ever want to catch these exception types\n\u003e separately and do something different, as opposed to just letting it propagate? If\n\u003e the answer is no, then there is no benefit to throwing different exception types, and\n\u003e using a single exception type is less boilerplate.\n\nAt the moment some callers handle OrmDuplicateKeyException specifically, but maybe we can get rid of this somehow.",
+      "parentUuid": "5125e11c_3fabfef9",
       "range": {
         "startLine": 169,
         "startChar": 12,
@@ -66,6 +114,24 @@
     },
     {
       "key": {
+        "uuid": "764ce292_6b5df9bf",
+        "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-15T16:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "510c74cf_bc6baddc",
+      "revId": "28253e6c456071324e69e962befe3a65a6e8b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb8aded2_c9b38af1",
         "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
         "patchSetId": 4
@@ -89,6 +155,30 @@
     },
     {
       "key": {
+        "uuid": "766be0e3_285c48c5",
+        "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-15T16:34:10Z",
+      "side": 1,
+      "message": "Unfortunately not, since we need access to the timeout that is passed with the options.\n\nI renamed retryerStrategySetup to overwriteDefaultRetryerStrategySetup to make it more clear.",
+      "parentUuid": "fb8aded2_c9b38af1",
+      "range": {
+        "startLine": 252,
+        "startChar": 11,
+        "endLine": 256,
+        "endChar": 40
+      },
+      "revId": "28253e6c456071324e69e962befe3a65a6e8b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "037a8262_c0c1663d",
         "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
         "patchSetId": 4
@@ -103,6 +193,24 @@
       "revId": "28253e6c456071324e69e962befe3a65a6e8b760",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab367ea0_60455b71",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-15T16:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "037a8262_c0c1663d",
+      "revId": "28253e6c456071324e69e962befe3a65a6e8b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

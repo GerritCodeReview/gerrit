@@ -22,6 +22,30 @@
       "revId": "8e60105c7cf74453e62b5d2262e0396a24ddb292",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6bff9af_c6e6ddb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_154.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-12-15T10:51:21Z",
+      "side": 1,
+      "message": "was wondering about this case too - seems to be pretty edge and would indicate that sth is wrong with instance anyway - still supporting it is not that hard so here we go - I would however worn it to log ;)",
+      "parentUuid": "ecf56790_85af68ca",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 5
+      },
+      "revId": "8e60105c7cf74453e62b5d2262e0396a24ddb292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

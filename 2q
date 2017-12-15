@@ -1,0 +1,28 @@
+Check if "show more" should be displayed after each section is loaded
+
+Previously, the show more button was not ever displayed until all
+related changes sections had finished loading.
+
+Because it's possible for any section loaded to start overflowing
+content, it should be checked after each one completes.
+
+A new event gets fired from gr-related-changes view after each promise
+resolves. The change view can then determine if the content is
+overflowing at that time and add the show more button.  In the event
+that the content overflows after only some sections has loaded, it will
+appear sooner than before.
+
+Bug: Issue 7106
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch master
+# Your branch is up to date with 'origin/master'.
+#
+# Changes to be committed:
+#	modified:   polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html
+#	modified:   polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js
+#	modified:   polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html
+#	modified:   polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js
+#	modified:   polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.html
+#

@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4164dafa_28f99217",
+        "filename": "java/com/google/gerrit/reviewdb/client/BooleanProjectConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-15T15:10:49Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "a2b99dc771b60af82369770e29c998368f97a8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd854c0f_6533b628",
+        "filename": "java/com/google/gerrit/reviewdb/client/BooleanProjectConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-15T15:10:49Z",
+      "side": 1,
+      "message": "Can this be private?",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 22
+      },
+      "revId": "a2b99dc771b60af82369770e29c998368f97a8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31458b5b_4e4061be",
+        "filename": "java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-15T15:10:49Z",
+      "side": 1,
+      "message": "[optional] BooleanProjectConfig.values().stream().forEach(c -\u003e booleanConfigs.put(c, InheritableBoolean.INHERIT));",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 5
+      },
+      "revId": "a2b99dc771b60af82369770e29c998368f97a8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb81e5b0_705e3a36",
+        "filename": "java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-15T15:10:49Z",
+      "side": 1,
+      "message": "Would it be better to return InheritableBoolean.INHERIT for configs that are not contained in booleanConfigs? Then you also wouldn\u0027t need to initialize the map with the default values.",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 34
+      },
+      "revId": "a2b99dc771b60af82369770e29c998368f97a8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fee14690_344ba335",
+        "filename": "java/com/google/gerrit/server/project/BooleanProjectConfigTransformations.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-15T15:10:49Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "a2b99dc771b60af82369770e29c998368f97a8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47c05745_b5cb48cf",
+        "filename": "java/com/google/gerrit/server/project/BooleanProjectConfigTransformations.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-15T15:10:49Z",
+      "side": 1,
+      "message": "Please add some JavaDoc",
+      "revId": "a2b99dc771b60af82369770e29c998368f97a8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b105e0c_d8773704",
+        "filename": "java/com/google/gerrit/server/project/BooleanProjectConfigTransformations.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-15T15:10:49Z",
+      "side": 1,
+      "message": "[Can you write this as:\n\nprivate static ImmutableMap\u003cBooleanProjectConfig, ToApi\u003e TO_API \u003d ImmutableMap.builder()\n        .put(\n            BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS,\n            (i, v) -\u003e i.useContributorAgreements \u003d v)\n        .put(BooleanProjectConfig.USE_SIGNED_OFF_BY, (i, v) -\u003e i.useSignedOffBy \u003d v)\n        .put(BooleanProjectConfig.USE_CONTENT_MERGE, (i, v) -\u003e i.useContentMerge \u003d v)\n        .put(BooleanProjectConfig.REQUIRE_CHANGE_ID, (i, v) -\u003e i.requireChangeId \u003d v)\n        .put(\n            BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,\n            (i, v) -\u003e i.createNewChangeForAllNotInTarget \u003d v)\n        .put(BooleanProjectConfig.ENABLE_SIGNED_PUSH, (i, v) -\u003e i.enableSignedPush \u003d v)\n        .put(BooleanProjectConfig.REQUIRE_SIGNED_PUSH, (i, v) -\u003e i.requireSignedPush \u003d v)\n        .put(BooleanProjectConfig.REJECT_IMPLICIT_MERGES, (i, v) -\u003e i.rejectImplicitMerges \u003d v)\n        .put(BooleanProjectConfig.PRIVATE_BY_DEFAULT, (i, v) -\u003e i.privateByDefault \u003d v)\n        .put(BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL, (i, v) -\u003e i.enableReviewerByEmail \u003d v)\n        .put(\n            BooleanProjectConfig.MATCH_AUTHOR_TO_COMMITTER_DATE,\n            (i, v) -\u003e i.matchAuthorToCommitterDate \u003d v)\n        .build();",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 0
+      },
+      "revId": "a2b99dc771b60af82369770e29c998368f97a8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9deade42_79745f3a",
+        "filename": "java/com/google/gerrit/server/project/BooleanProjectConfigTransformations.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-15T15:10:49Z",
+      "side": 1,
+      "message": "Would it be better to have a converter class that has both toApi and fromApi and then have a single Map from BooleanProjectConfig to this converter class?",
+      "range": {
+        "startLine": 71,
+        "startChar": 2,
+        "endLine": 79,
+        "endChar": 3
+      },
+      "revId": "a2b99dc771b60af82369770e29c998368f97a8fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

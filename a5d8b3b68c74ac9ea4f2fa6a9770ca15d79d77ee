@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f26ebad2_fc96e301",
+        "filename": "java/com/google/gerrit/server/config/ListCapabilities.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-15T13:53:15Z",
+      "side": 1,
+      "message": "I notice this is not exactly the same string as in isPluginNameSane (although it is basically equivalent). Perhaps factor out a class-level constant Pattern to use both here and isPluginNameSane",
+      "range": {
+        "startLine": 64,
+        "startChar": 43,
+        "endLine": 64,
+        "endChar": 56
+      },
+      "revId": "a5d8b3b68c74ac9ea4f2fa6a9770ca15d79d77ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2548bd39_f89773d3",
+        "filename": "java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-15T13:53:15Z",
+      "side": 1,
+      "message": "Factor into a Pattern constant.\n\nActually, what is the reason for this restriction? Is it based on what is a valid git config option name? Is there something from JGit we can use, or at least reference in a comment?",
+      "range": {
+        "startLine": 229,
+        "startChar": 52,
+        "endLine": 229,
+        "endChar": 81
+      },
+      "revId": "a5d8b3b68c74ac9ea4f2fa6a9770ca15d79d77ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

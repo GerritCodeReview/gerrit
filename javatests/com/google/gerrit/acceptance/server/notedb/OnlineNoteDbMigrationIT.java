@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.server.notedb;
 
+import static com.google.common.collect.ImmutableSortedSet.toImmutableSortedSet;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
@@ -24,6 +25,7 @@ import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WIT
 import static com.google.gerrit.server.notedb.NotesMigrationState.REVIEW_DB;
 import static com.google.gerrit.server.notedb.NotesMigrationState.WRITE;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Comparator.naturalOrder;
 import static org.easymock.EasyMock.createStrictMock;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
@@ -31,6 +33,7 @@ import static org.easymock.EasyMock.verify;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -59,16 +62,11 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
-import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -545,22 +543,13 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     addedListeners.add(listeners.add(listener));
   }
 
-  private SortedSet<String> getObjectFiles(Project.NameKey project) throws Exception {
-    SortedSet<String> files = new TreeSet<>();
+  private ImmutableSortedSet<String> getObjectFiles(Project.NameKey project) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
-      Files.walkFileTree(
-          ((FileRepository) repo).getObjectDatabase().getDirectory().toPath(),
-          new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-              String name = file.getFileName().toString();
-              if (!attrs.isDirectory() && !name.endsWith(".pack") && !name.endsWith(".idx")) {
-                files.add(name);
-              }
-              return FileVisitResult.CONTINUE;
-            }
-          });
+      return Files.walk(((FileRepository) repo).getObjectDatabase().getDirectory().toPath())
+          .filter(path -> !Files.isDirectory(path))
+          .map(Path::toString)
+          .filter(name -> !name.endsWith(".pack") && !name.endsWith(".idx"))
+          .collect(toImmutableSortedSet(naturalOrder()));
     }
-    return files;
   }
 }

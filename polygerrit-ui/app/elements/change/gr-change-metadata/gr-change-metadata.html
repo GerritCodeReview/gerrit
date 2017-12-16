@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../../styles/gr-voting-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../plugins/gr-endpoint-param/gr-endpoint-param.html">
@@ -32,6 +33,7 @@ limitations under the License.
 
 <dom-module id="gr-change-metadata">
   <template>
+    <style include="gr-voting-styles"></style>
     <style include="shared-styles">
       .hideDisplay {
         display: none;
@@ -62,21 +64,31 @@ limitations under the License.
       .labelValueContainer:not(:first-of-type) {
         margin-top: .25em;
       }
-      .labelValueContainer .approved,
-      .labelValueContainer .notApproved {
+      .labelValueContainer span {
+        align-items: baseline;
         display: inline-flex;
-        padding: .1em .3em;
+      }
+      .labelValueContainer {
         border-radius: 3px;
+        padding: .1em .3em;
       }
-      .labelValue {
-        display: inline-block;
-        padding-right: .3em;
+      gr-label {
+        margin-right: .3em;
+        padding: .05em .85em;
+        text-align: center;
+        @apply --vote-chip-styles;
       }
-      .approved {
-        background-color: #d4ffd4;
+      .max {
+        background-color: var(--vote-color-max);
       }
-      .notApproved {
-        background-color: #ffd4d4;
+      .min {
+        background-color: var(--vote-color-min);
+      }
+      .positive {
+        background-color: var(--vote-color-positive);
+      }
+      .negative {
+        background-color: var(--vote-color-negative);
       }
       .labelStatus .value {
         max-width: 9em;
@@ -275,11 +287,11 @@ limitations under the License.
                 items="[[_computeLabelValues(labelName, change.labels.*)]]"
                 as="label">
               <div class="labelValueContainer">
-                <span class$="[[label.className]]">
+                <span>
                   <gr-label
                       has-tooltip
                       title="[[_computeValueTooltip(change, label.value, labelName)]]"
-                      class="labelValue">
+                      class$="[[label.className]] voteChip">
                     [[label.value]]
                   </gr-label>
                   <gr-account-chip

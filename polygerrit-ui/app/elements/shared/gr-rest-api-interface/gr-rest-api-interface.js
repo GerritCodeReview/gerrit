@@ -1339,7 +1339,13 @@
       return this.getChangeURLAndSend(changeNum, 'GET', null, e, null, null,
           null, null, headers).then(res => {
             if (!res.ok) { return res; }
-            return this.getResponseObject(res);
+
+            // The file type (used for syntax highlighting) is identified in the
+            // X-FYI-Content-Type header of the response.
+            const type = res.headers.get('X-FYI-Content-Type');
+            return this.getResponseObject(res).then(content => {
+              return {content, type};
+            });
           });
     },
 

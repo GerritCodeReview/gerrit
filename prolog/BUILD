@@ -6,3 +6,11 @@ prolog_cafe_library(
     visibility = ["//visibility:public"],
     deps = ["//java/gerrit:prolog-predicates"],
 )
+
+prolog_cafe_library(
+    name = "gerrit-prolog-common-neverlink",
+    srcs = ["gerrit_common.pl"],
+    neverlink = True,
+    visibility = ["//visibility:public"],
+    deps = ["//java/gerrit:prolog-predicates"],
+)

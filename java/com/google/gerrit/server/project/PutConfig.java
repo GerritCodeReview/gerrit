@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -28,6 +29,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.EnableSignedPush;
@@ -120,39 +122,11 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
 
       p.setDescription(Strings.emptyToNull(input.description));
 
-      if (input.useContributorAgreements != null) {
-        p.setUseContributorAgreements(input.useContributorAgreements);
-      }
-      if (input.useContentMerge != null) {
-        p.setUseContentMerge(input.useContentMerge);
-      }
-      if (input.useSignedOffBy != null) {
-        p.setUseSignedOffBy(input.useSignedOffBy);
-      }
-
-      if (input.createNewChangeForAllNotInTarget != null) {
-        p.setCreateNewChangeForAllNotInTarget(input.createNewChangeForAllNotInTarget);
-      }
-
-      if (input.requireChangeId != null) {
-        p.setRequireChangeID(input.requireChangeId);
-      }
-
-      if (serverEnableSignedPush) {
-        if (input.enableSignedPush != null) {
-          p.setEnableSignedPush(input.enableSignedPush);
+      for (BooleanProjectConfig cfg : BooleanProjectConfig.values()) {
+        InheritableBoolean val = BooleanProjectConfigTransformations.get(cfg, input);
+        if (val != null) {
+          p.setBooleanConfig(cfg, val);
         }
-        if (input.requireSignedPush != null) {
-          p.setRequireSignedPush(input.requireSignedPush);
-        }
-      }
-
-      if (input.rejectImplicitMerges != null) {
-        p.setRejectImplicitMerges(input.rejectImplicitMerges);
-      }
-
-      if (input.privateByDefault != null) {
-        p.setPrivateByDefault(input.privateByDefault);
       }
 
       if (input.maxObjectSizeLimit != null) {
@@ -165,14 +139,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
 
       if (input.state != null) {
         p.setState(input.state);
-      }
-
-      if (input.enableReviewerByEmail != null) {
-        p.setEnableReviewerByEmail(input.enableReviewerByEmail);
-      }
-
-      if (input.matchAuthorToCommitterDate != null) {
-        p.setMatchAuthorToCommitterDate(input.matchAuthorToCommitterDate);
       }
 
       if (input.pluginConfigValues != null) {

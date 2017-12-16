@@ -75,6 +75,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -486,7 +487,8 @@ class ReceiveCommits {
     newChanges = Collections.emptyList();
 
     // Other settings populated during processing.
-    newChangeForAllNotInTarget = projectState.isCreateNewChangeForAllNotInTarget();
+    newChangeForAllNotInTarget =
+        projectState.is(BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET);
 
     // Handles for outputting back over the wire to the end user.
     messageSender = new ReceivePackMessageSender();
@@ -1735,7 +1737,9 @@ class ReceiveCommits {
       int alreadyTracked = 0;
       boolean rejectImplicitMerges =
           start.getParentCount() == 1
-              && projectCache.get(project.getNameKey()).isRejectImplicitMerges()
+              && projectCache
+                  .get(project.getNameKey())
+                  .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES)
               // Don't worry about implicit merges when creating changes for
               // already-merged commits; they're already in history, so it's too
               // late.
@@ -2124,7 +2128,8 @@ class ReceiveCommits {
     }
 
     private void setChangeId(int id) {
-      boolean privateByDefault = projectCache.get(project.getNameKey()).isPrivateByDefault();
+      boolean privateByDefault =
+          projectCache.get(project.getNameKey()).is(BooleanProjectConfig.PRIVATE_BY_DEFAULT);
 
       changeId = new Change.Id(id);
       ins =

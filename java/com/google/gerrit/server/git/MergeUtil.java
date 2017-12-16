@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.LabelId;
@@ -168,7 +169,7 @@ public class MergeUtil {
         approvalsUtil,
         project,
         commitMessageGenerator,
-        project.isUseContentMerge());
+        project.is(BooleanProjectConfig.USE_CONTENT_MERGE));
   }
 
   @AssistedInject
@@ -869,7 +870,7 @@ public class MergeUtil {
   }
 
   private static void matchAuthorToCommitterDate(ProjectState project, CommitBuilder commit) {
-    if (project.isMatchAuthorToCommitterDate()) {
+    if (project.is(BooleanProjectConfig.MATCH_AUTHOR_TO_COMMITTER_DATE)) {
       commit.setAuthor(
           new PersonIdent(
               commit.getAuthor(),

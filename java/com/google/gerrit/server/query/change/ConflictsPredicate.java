@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -115,7 +116,10 @@ public class ConflictsPredicate {
       ObjectId other = ObjectId.fromString(object.currentPatchSet().getRevision().get());
       ConflictKey conflictsKey =
           new ConflictKey(
-              changeDataCache.getTestAgainst(), other, str.type, projectState.isUseContentMerge());
+              changeDataCache.getTestAgainst(),
+              other,
+              str.type,
+              projectState.is(BooleanProjectConfig.USE_CONTENT_MERGE));
       Boolean conflicts = args.conflictsCache.getIfPresent(conflictsKey);
       if (conflicts != null) {
         return conflicts;

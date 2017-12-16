@@ -1364,7 +1364,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     config
         .getProject()
         .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
-    ;
+
     saveProjectConfig(project, config);
     pushForReviewRejected(testRepo, "invalid Change-Id line format in commit message footer");
   }

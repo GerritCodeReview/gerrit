@@ -1170,6 +1170,16 @@ limitations under the License.
         assert.equal(result.getAttribute('data-line-number'), '3');
         assert.equal(result.firstChild, mocbBlameCell);
       });
+
+      test('_handlePrefereceError', () => {
+        builder._outputEl = document.createElement('div');
+        const errorStub = sinon.stub();
+        builder._outputEl.addEventListener('show-alert', errorStub);
+        builder._handlePreferenceError('tab size');
+        assert.equal(errorStub.lastCall.args[0].detail.message,
+          `The value of the 'tab size' user preference is invalid. ` +
+          `Fix in diff preferences`);
+      });
     });
   });
 </script>

@@ -52,13 +52,12 @@
     this.layers = layers || [];
 
     if (isNaN(prefs.tab_size) || prefs.tab_size <= 0) {
-      throw Error('Invalid tab size from preferences.');
+      this._handlePreferenceError('tab size');
     }
 
     if (isNaN(prefs.line_length) || prefs.line_length <= 0) {
-      throw Error('Invalid line length from preferences.');
+      this._handlePreferenceError('diff width');
     }
-
 
     for (const layer of this.layers) {
       if (layer.addListener) {
@@ -664,6 +663,16 @@
       }
     }
     return blameTd;
+  };
+
+  GrDiffBuilder.prototype._handlePreferenceError = function(pref) {
+    if (!this._outputEl) { return; }
+    const message = `The value of the '${pref}' user preference is invalid. ` +
+        `Fix in diff preferences`;
+    this._outputEl.dispatchEvent(new CustomEvent('show-alert', {
+      detail: {
+        message,
+      }, bubbles: true}));
   };
 
   window.GrDiffBuilder = GrDiffBuilder;

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0ac72268_41a2cff2",
+        "filename": "java/com/google/gerrit/server/config/ListCapabilities.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-17T06:03:19Z",
+      "side": 1,
+      "message": "Done\n\nActually isPluginNameSane is only used here.  I\u0027ve removed it and inlined the pattern check here instead.",
+      "parentUuid": "f26ebad2_fc96e301",
+      "range": {
+        "startLine": 64,
+        "startChar": 43,
+        "endLine": 64,
+        "endChar": 56
+      },
+      "revId": "a5d8b3b68c74ac9ea4f2fa6a9770ca15d79d77ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2548bd39_f89773d3",
         "filename": "java/com/google/gerrit/server/project/PutConfig.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-12-15T13:53:15Z",
       "side": 1,
       "message": "Factor into a Pattern constant.\n\nActually, what is the reason for this restriction? Is it based on what is a valid git config option name? Is there something from JGit we can use, or at least reference in a comment?",
+      "range": {
+        "startLine": 229,
+        "startChar": 52,
+        "endLine": 229,
+        "endChar": 81
+      },
+      "revId": "a5d8b3b68c74ac9ea4f2fa6a9770ca15d79d77ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3789af8_09e1b339",
+        "filename": "java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-17T06:03:19Z",
+      "side": 1,
+      "message": "\u003e Factor into a Pattern constant.\n\nDone\n\n\u003e Actually, what is the reason for this restriction? Is it based on what is a valid git config option name? Is there something from JGit we can use, or at least reference in a comment?\n\nI\u0027m not sure. If this needs to be improved I\u0027d rather leave it for a separate commit. For now I\u0027ve added a TODO.",
+      "parentUuid": "2548bd39_f89773d3",
       "range": {
         "startLine": 229,
         "startChar": 52,

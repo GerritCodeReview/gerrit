@@ -17,14 +17,17 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.reviewdb.client.Project;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -70,6 +73,17 @@ public class PrivateByDefaultIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "change.disablePrivateChanges", value = "true")
+  public void createChangeWithPrivateByDefaultAndDisablePrivateChangesTrue() throws Exception {
+    setPrivateByDefault(project2, InheritableBoolean.TRUE);
+
+    ChangeInput input = new ChangeInput(project2.get(), "master", "empty change");
+    exception.expect(MethodNotAllowedException.class);
+    exception.expectMessage("private changes are disabled");
+    gApi.changes().create(input);
+  }
+
+  @Test
   public void pushWithPrivateByDefaultEnabled() throws Exception {
     setPrivateByDefault(project2, InheritableBoolean.TRUE);
     assertThat(createChange(project2).getChange().change().isPrivate()).isEqualTo(true);
@@ -95,6 +109,33 @@ public class PrivateByDefaultIT extends AbstractDaemonTest {
   public void pushBypassPrivateByDefaultInherited() throws Exception {
     setPrivateByDefault(project1, InheritableBoolean.TRUE);
     assertThat(createChange(project2).getChange().change().isPrivate()).isEqualTo(true);
+  }
+
+  @Test
+  @GerritConfig(name = "change.disablePrivateChanges", value = "true")
+  public void pushPrivatesWithPrivateByDefaultAndDisablePrivateChangesTrue() throws Exception {
+    setPrivateByDefault(project2, InheritableBoolean.TRUE);
+
+    TestRepository<InMemoryRepository> testRepo = cloneProject(project2);
+    PushOneCommit.Result result =
+        pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/master%private");
+    result.assertErrorStatus();
+  }
+
+  @Test
+  @GerritConfig(name = "change.disablePrivateChanges", value = "true")
+  public void pushDraftsWithPrivateByDefaultAndDisablePrivateChangesTrue() throws Exception {
+    setPrivateByDefault(project2, InheritableBoolean.TRUE);
+
+    RevCommit initialHead = getRemoteHead();
+    TestRepository<InMemoryRepository> testRepo = cloneProject(project2);
+    PushOneCommit.Result result =
+        pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/master%draft");
+    result.assertErrorStatus();
+
+    testRepo.reset(initialHead);
+    result = pushFactory.create(db, admin.getIdent(), testRepo).to("refs/drafts/master");
+    result.assertErrorStatus();
   }
 
   private void setPrivateByDefault(Project.NameKey proj, InheritableBoolean value)

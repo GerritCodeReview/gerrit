@@ -1252,6 +1252,12 @@ Zero or negative values allow robot comments of unlimited size.
 +
 The default limit is 1024kB.
 
+[[change.disablePrivateChanges]]change.disablePrivateChanges::
++
+If set to true, users are not allowed to create private changes.
++
+The default is false.
+
 [[changeCleanup]]
 === Section changeCleanup
 

@@ -247,6 +247,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.updateDelay =
         (int) ConfigUtil.getTimeUnit(cfg, "change", null, "updateDelay", 300, TimeUnit.SECONDS);
     info.submitWholeTopic = Submit.wholeTopicEnabled(cfg);
+    info.disablePrivateChanges =
+        toBoolean(config.getBoolean("change", null, "disablePrivateChanges", false));
     return info;
   }
 

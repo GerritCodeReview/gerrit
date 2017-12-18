@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ecdc70b_6b94bee0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-18T22:51:04Z",
+      "side": 1,
+      "message": "Would falling back to default value be a viable option?\nError messages could be reported using console.err()",
+      "revId": "d655104c186e3f26079c75baf6caf3a7d9dd89eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

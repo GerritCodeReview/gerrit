@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0386401d_45ff8d67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T10:29:58Z",
+      "side": 1,
+      "message": "What about marking changes as private through the PostPrivate REST endpoint?",
+      "range": {
+        "startLine": 10,
+        "startChar": 43,
+        "endLine": 11,
+        "endChar": 57
+      },
+      "revId": "3b37d2cccbb6aa7d8e1a49b7ef88fec04d965552",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20c45c5c_919f64fc",
+        "filename": "java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T10:29:58Z",
+      "side": 1,
+      "message": "better: disabled",
+      "range": {
+        "startLine": 187,
+        "startChar": 57,
+        "endLine": 187,
+        "endChar": 70
+      },
+      "revId": "3b37d2cccbb6aa7d8e1a49b7ef88fec04d965552",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12851124_3fa6d7f9",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1528,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T10:29:58Z",
+      "side": 1,
+      "message": "better: disabled",
+      "range": {
+        "startLine": 1528,
+        "startChar": 39,
+        "endLine": 1528,
+        "endChar": 52
+      },
+      "revId": "3b37d2cccbb6aa7d8e1a49b7ef88fec04d965552",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fa20b58_f5f07700",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/DisablePrivateChangesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T10:29:58Z",
+      "side": 1,
+      "message": "createPrivateChange\n\nAlso test that a non-private change can be created when private changes are disabled.",
+      "range": {
+        "startLine": 31,
+        "startChar": 14,
+        "endLine": 31,
+        "endChar": 26
+      },
+      "revId": "3b37d2cccbb6aa7d8e1a49b7ef88fec04d965552",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42a99244_57a97215",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/DisablePrivateChangesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T10:29:58Z",
+      "side": 1,
+      "message": "createPrivateChange",
+      "range": {
+        "startLine": 40,
+        "startChar": 14,
+        "endLine": 40,
+        "endChar": 26
+      },
+      "revId": "3b37d2cccbb6aa7d8e1a49b7ef88fec04d965552",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -46,6 +46,10 @@ limitations under the License.
       #button {
         padding-left: .5em;
       }
+      #icon {
+        height: 1em;
+        width: 1em;
+      }
     </style>
     <div class="text">
         <label>[[title]]</label>
@@ -57,7 +61,9 @@ limitations under the License.
             readonly>
         <gr-button id="button"
             link
+            has-tooltip
             class="copyToClipboard"
+            title="Copy full SHA to clipboard"
             on-tap="_copyToClipboard">
           <iron-icon id="icon" icon="gr-icons:content-copy"></iron-icon>
         </gr-button>

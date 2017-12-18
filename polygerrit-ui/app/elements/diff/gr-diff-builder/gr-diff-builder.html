@@ -265,7 +265,27 @@ limitations under the License.
           this.$.syntaxLayer.cancel();
         },
 
+        _handlePreferenceError(pref) {
+          const message = `The value of the '${pref}' user preference is ` +
+              `invalid. Fix in diff preferences`;
+          this.dispatchEvent(new CustomEvent('show-alert', {
+            detail: {
+              message,
+            }, bubbles: true}));
+          throw Error(`Invalid preference value: ${pref}`);
+        },
+
         _getDiffBuilder(diff, comments, prefs) {
+          if (isNaN(prefs.tab_size) || prefs.tab_size <= 0) {
+            this._handlePreferenceError('tab size');
+            return;
+          }
+
+          if (isNaN(prefs.line_length) || prefs.line_length <= 0) {
+            this._handlePreferenceError('diff width');
+            return;
+          }
+
           let builder = null;
           if (this.isImageDiff) {
             builder = new GrDiffBuilderImage(diff, comments, prefs,

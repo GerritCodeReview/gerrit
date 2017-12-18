@@ -108,6 +108,13 @@
                   this._groupOwner = isOwner ? true : false;
                 });
 
+            // If visible to all is undefined, set to false. If it is defined
+            // as false, setting to false is fine. If any optional values
+            // are added with a default of true, then this would need to be an
+            // undefined check and not a truthy/falsy check.
+            if (!config.options.visible_to_all) {
+              config.options.visible_to_all = false;
+            }
             this._groupConfig = config;
 
             this.fire('title-change', {title: config.name});

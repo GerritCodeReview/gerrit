@@ -128,6 +128,7 @@ limitations under the License.
                 </span>
                 <span class="value">
                   <gr-select
+                      id="visibleToAll"
                       bind-value="{{_groupConfig.options.visible_to_all}}">
                     <select disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin)]]">
                       <template is="dom-repeat" items="[[_submitTypes]]">

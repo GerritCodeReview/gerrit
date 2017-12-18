@@ -59,7 +59,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitDryRun;
-import com.google.gerrit.server.group.ListMembers;
+import com.google.gerrit.server.group.GroupMembers;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
@@ -211,7 +211,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final ProjectCache projectCache;
     final Provider<InternalChangeQuery> queryProvider;
     final ChildProjects childProjects;
-    final Provider<ListMembers> listMembers;
+    final GroupMembers groupMembers;
     final Provider<ReviewDb> db;
     final StarredChangesUtil starredChangesUtil;
     final SubmitDryRun submitDryRun;
@@ -245,7 +245,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         SubmitDryRun submitDryRun,
         ConflictsCache conflictsCache,
         IndexConfig indexConfig,
-        Provider<ListMembers> listMembers,
+        GroupMembers groupMembers,
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
         @GerritServerConfig Config cfg,
@@ -274,7 +274,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           conflictsCache,
           indexes != null ? indexes.getSearchIndex() : null,
           indexConfig,
-          listMembers,
+          groupMembers,
           starredChangesUtil,
           accountCache,
           cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true),
@@ -305,7 +305,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ConflictsCache conflictsCache,
         ChangeIndex index,
         IndexConfig indexConfig,
-        Provider<ListMembers> listMembers,
+        GroupMembers groupMembers,
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
         boolean allowsDrafts,
@@ -332,7 +332,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.conflictsCache = conflictsCache;
       this.index = index;
       this.indexConfig = indexConfig;
-      this.listMembers = listMembers;
+      this.groupMembers = groupMembers;
       this.starredChangesUtil = starredChangesUtil;
       this.accountCache = accountCache;
       this.allowsDrafts = allowsDrafts;
@@ -365,7 +365,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           conflictsCache,
           index,
           indexConfig,
-          listMembers,
+          groupMembers,
           starredChangesUtil,
           accountCache,
           allowsDrafts,
@@ -775,8 +775,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     // expand a group predicate into multiple user predicates
     if (group != null) {
       Set<Account.Id> allMembers =
-          args.listMembers
-              .get()
+          args.groupMembers
               .getTransitiveMembers(group)
               .stream()
               .map(a -> new Account.Id(a._accountId))

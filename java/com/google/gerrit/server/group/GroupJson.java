@@ -46,7 +46,7 @@ public class GroupJson {
 
   private final GroupBackend groupBackend;
   private final GroupControl.Factory groupControlFactory;
-  private final Provider<ListMembers> listMembers;
+  private final GroupMembers groupMembers;
   private final Provider<ListSubgroups> listSubgroups;
   private EnumSet<ListGroupsOption> options;
 
@@ -54,11 +54,11 @@ public class GroupJson {
   GroupJson(
       GroupBackend groupBackend,
       GroupControl.Factory groupControlFactory,
-      Provider<ListMembers> listMembers,
+      GroupMembers listMembers,
       Provider<ListSubgroups> listSubgroups) {
     this.groupBackend = groupBackend;
     this.groupControlFactory = groupControlFactory;
-    this.listMembers = listMembers;
+    this.groupMembers = listMembers;
     this.listSubgroups = listSubgroups;
 
     options = EnumSet.noneOf(ListGroupsOption.class);
@@ -123,7 +123,7 @@ public class GroupJson {
     info.createdOn = internalGroup.getCreatedOn();
 
     if (options.contains(MEMBERS)) {
-      info.members = listMembers.get().getDirectMembers(internalGroup, groupControlSupplier.get());
+      info.members = groupMembers.getDirectMembers(internalGroup, groupControlSupplier.get());
     }
 
     if (options.contains(INCLUDES)) {

@@ -20,9 +20,8 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.group.GroupMembers;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.ListMembers;
 import com.google.gerrit.server.ioutil.ColumnFormatter;
@@ -61,11 +60,8 @@ public class ListMembersCommand extends SshCommand {
     private final GroupCache groupCache;
 
     @Inject
-    protected ListMembersCommandImpl(
-        GroupCache groupCache,
-        GroupControl.Factory groupControlFactory,
-        AccountLoader.Factory accountLoaderFactory) {
-      super(groupCache, groupControlFactory, accountLoaderFactory);
+    protected ListMembersCommandImpl(GroupCache groupCache, GroupMembers groupMembers) {
+      super(groupMembers);
       this.groupCache = groupCache;
     }
 
@@ -79,7 +75,7 @@ public class ListMembersCommand extends SshCommand {
         return;
       }
 
-      List<AccountInfo> members = getDirectMembers(group.get());
+      List<AccountInfo> members = groupMembers.getDirectMembers(group.get());
       ColumnFormatter formatter = new ColumnFormatter(writer, '\t');
       formatter.addColumn("id");
       formatter.addColumn("username");

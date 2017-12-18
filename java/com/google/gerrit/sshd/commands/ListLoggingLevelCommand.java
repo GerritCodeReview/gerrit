@@ -23,9 +23,11 @@ import com.google.gerrit.sshd.SshCommand;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.TreeMap;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import java.util.List;
+//import org.apache.log4j.LogManager;
+import ch.qos.logback.classic.Logger;
 import org.kohsuke.args4j.Argument;
+import ch.qos.logback.classic.LoggerContext;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(
@@ -42,10 +44,22 @@ public class ListLoggingLevelCommand extends SshCommand {
   @Override
   protected void run() {
     Map<String, String> logs = new TreeMap<>();
-    for (Enumeration<Logger> logger = LogManager.getCurrentLoggers(); logger.hasMoreElements(); ) {
+    /*for (Enumeration<Logger> logger = LogManager.getCurrentLoggers(); logger.hasMoreElements(); ) {
       Logger log = logger.nextElement();
       if (name == null || log.getName().contains(name)) {
         logs.put(log.getName(), log.getEffectiveLevel().toString());
+      }
+    }
+    for (Map.Entry<String, String> e : logs.entrySet()) {
+      stdout.println(e.getKey() + ": " + e.getValue());
+    }*/
+    LoggerContext loggerContext = (LoggerContext) context;
+    List<Logger> loggerList = loggerContext.getLoggerList();
+    for (Logger l : loggerList) {
+      if (name == null || l.getName().contains(name)) {
+        if (l.getEffectiveLevel() != null) {
+          logs.put(l.getName(), l.getEffectiveLevel().toString());
+        }
       }
     }
     for (Map.Entry<String, String> e : logs.entrySet()) {

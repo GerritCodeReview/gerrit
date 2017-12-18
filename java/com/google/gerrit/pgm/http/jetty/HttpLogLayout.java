@@ -17,10 +17,10 @@ package com.google.gerrit.pgm.http.jetty;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-import org.apache.log4j.Layout;
-import org.apache.log4j.spi.LoggingEvent;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.LayoutBase;
 
-public final class HttpLogLayout extends Layout {
+public final class HttpLogLayout extends LayoutBase<ILoggingEvent> {
   private final SimpleDateFormat dateFormat;
   private long lastTimeMillis;
   private String lastTimeString;
@@ -35,7 +35,7 @@ public final class HttpLogLayout extends Layout {
   }
 
   @Override
-  public String format(LoggingEvent event) {
+  public String doLayout(ILoggingEvent event) {
     final StringBuilder buf = new StringBuilder(128);
 
     opt(buf, event, HttpLog.P_HOST);
@@ -53,15 +53,15 @@ public final class HttpLogLayout extends Layout {
 
     buf.append(' ');
     buf.append('"');
-    buf.append(event.getMDC(HttpLog.P_METHOD));
+    buf.append(event.getMDCPropertyMap().get(HttpLog.P_METHOD));
     buf.append(' ');
-    buf.append(event.getMDC(HttpLog.P_RESOURCE));
+    buf.append(event.getMDCPropertyMap().get(HttpLog.P_RESOURCE));
     buf.append(' ');
-    buf.append(event.getMDC(HttpLog.P_PROTOCOL));
+    buf.append(event.getMDCPropertyMap().get(HttpLog.P_PROTOCOL));
     buf.append('"');
 
     buf.append(' ');
-    buf.append(event.getMDC(HttpLog.P_STATUS));
+    buf.append(event.getMDCPropertyMap().get(HttpLog.P_STATUS));
 
     buf.append(' ');
     opt(buf, event, HttpLog.P_CONTENT_LENGTH);
@@ -76,8 +76,8 @@ public final class HttpLogLayout extends Layout {
     return buf.toString();
   }
 
-  private void opt(StringBuilder buf, LoggingEvent event, String key) {
-    String val = (String) event.getMDC(key);
+  private void opt(StringBuilder buf, ILoggingEvent event, String key) {
+    String val = (String) event.getMDCPropertyMap().get(key);
     if (val == null) {
       buf.append('-');
     } else {
@@ -85,8 +85,8 @@ public final class HttpLogLayout extends Layout {
     }
   }
 
-  private void dq_opt(StringBuilder buf, LoggingEvent event, String key) {
-    String val = (String) event.getMDC(key);
+  private void dq_opt(StringBuilder buf, ILoggingEvent event, String key) {
+    String val = (String) event.getMDCPropertyMap().get(key);
     if (val == null) {
       buf.append('-');
     } else {
@@ -108,12 +108,4 @@ public final class HttpLogLayout extends Layout {
       sbuf.append(lastTimeString);
     }
   }
-
-  @Override
-  public boolean ignoresThrowable() {
-    return true;
-  }
-
-  @Override
-  public void activateOptions() {}
 }

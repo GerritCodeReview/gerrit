@@ -26,18 +26,25 @@ import com.google.gerrit.httpd.GetUserFilter;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.inject.Inject;
 import java.util.Iterator;
-import org.apache.log4j.AsyncAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggingEvent;
+import ch.qos.logback.classic.AsyncAppender;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+import ch.qos.logback.classic.spi.LoggingEvent;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.RequestLog;
 import org.eclipse.jetty.server.Response;
 import org.eclipse.jetty.util.component.AbstractLifeCycle;
+import java.util.HashMap;
+import java.util.Map;
+import ch.qos.logback.classic.LoggerContext;
+
 
 /** Writes the {@code httpd_log} file with per-request data. */
 class HttpLog extends AbstractLifeCycle implements RequestLog {
-  private static final Logger log = Logger.getLogger(HttpLog.class);
+  private static LoggerContext loggerContext = new LoggerContext();
+  private static final Logger log = loggerContext.getLogger(HttpLog.class);
   private static final String LOG_NAME = "httpd_log";
   private static final ImmutableSet<String> REDACT_PARAM = ImmutableSet.of(XD_AUTHORIZATION);
 
@@ -67,7 +74,9 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
 
   @Override
   protected void doStop() throws Exception {
-    async.close();
+    if (async != null) {
+      async.stop();
+    }
   }
 
   @Override
@@ -76,22 +85,21 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
         new LoggingEvent( //
             Logger.class.getName(), // fqnOfCategoryClass
             log, // logger
-            TimeUtil.nowMs(), // when
             Level.INFO, // level
             "", // message text
-            "HTTPD", // thread name
-            null, // exception information
-            null, // current NDC string
-            null, // caller location
-            null // MDC properties
-            );
+            null,
+            null);
+    // thread name
+    event.setThreadName("HTTPD");
 
     String uri = req.getRequestURI();
     uri = redactQueryString(uri, req.getQueryString());
 
     String user = (String) req.getAttribute(GetUserFilter.REQ_ATTR_KEY);
     if (user != null) {
-      event.setProperty(P_USER, user);
+      Map<String, String> map = new HashMap<>();
+      map.put(P_USER, user);
+      event.setMDCPropertyMap(map);
     }
 
     set(event, P_HOST, req.getRemoteAddr());
@@ -103,7 +111,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
     set(event, P_REFERER, req.getHeader("Referer"));
     set(event, P_USER_AGENT, req.getHeader("User-Agent"));
 
-    async.append(event);
+    async.doAppend(event);
   }
 
   @VisibleForTesting
@@ -132,14 +140,18 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
   }
 
   private static void set(LoggingEvent event, String key, String val) {
+    Map<String, String> map = new HashMap<>();
     if (val != null && !val.isEmpty()) {
-      event.setProperty(key, val);
+      map.put(key, val);
+      event.setMDCPropertyMap(map);
     }
   }
 
   private static void set(LoggingEvent event, String key, long val) {
+    Map<String, String> map = new HashMap<>();
     if (0 < val) {
-      event.setProperty(key, String.valueOf(val));
+      map.put(key, String.valueOf(val));
+      event.setMDCPropertyMap(map);
     }
   }
 }

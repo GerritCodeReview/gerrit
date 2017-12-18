@@ -24,24 +24,23 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.Path;
-import org.apache.log4j.Appender;
-import org.apache.log4j.AsyncAppender;
-import org.apache.log4j.DailyRollingFileAppender;
-import org.apache.log4j.FileAppender;
-import org.apache.log4j.Layout;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.helpers.OnlyOnceErrorHandler;
-import org.apache.log4j.spi.ErrorHandler;
-import org.apache.log4j.spi.LoggingEvent;
+import ch.qos.logback.core.Appender;
+import ch.qos.logback.classic.AsyncAppender;
+import ch.qos.logback.core.rolling.RollingFileAppender;
+import ch.qos.logback.core.FileAppender;
+import ch.qos.logback.core.Layout;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.LoggingEvent;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.LoggerFactory;
+import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
+import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 
 @Singleton
 public class SystemLog {
   private static final org.slf4j.Logger log = LoggerFactory.getLogger(SystemLog.class);
 
-  public static final String LOG4J_CONFIGURATION = "log4j.configuration";
+  public static final String LOGBACK_CONFIGURATION = "logback.configurationFile";
 
   private final SitePaths site;
   private final int asyncLoggingBufferSize;
@@ -55,21 +54,21 @@ public class SystemLog {
   }
 
   public static boolean shouldConfigure() {
-    return Strings.isNullOrEmpty(System.getProperty(LOG4J_CONFIGURATION));
+    return Strings.isNullOrEmpty(System.getProperty(LOGBACK_CONFIGURATION));
   }
 
   public static Appender createAppender(Path logdir, String name, Layout layout, boolean rotate) {
-    final FileAppender dst = rotate ? new DailyRollingFileAppender() : new FileAppender();
-    dst.setName(name);
-    dst.setLayout(layout);
-    dst.setEncoding(UTF_8.name());
-    dst.setFile(resolve(logdir).resolve(name).toString());
-    dst.setImmediateFlush(true);
-    dst.setAppend(true);
-    dst.setErrorHandler(new DieErrorHandler());
-    dst.activateOptions();
-    dst.setErrorHandler(new OnlyOnceErrorHandler());
-    return dst;
+    /*Appender dst =
+        rotate ? setDailyFileAppender(logdir, name, layout) : setFileAppender(logdir, name, layout);*/
+    if (rotate) {
+      RollingFileAppender dst = setDailyFileAppender(logdir, name, layout);
+
+      return dst;
+    } /*else {
+      dst = setFileAppender(logdir, name, layout);
+
+      return dst;
+    }*/
   }
 
   public AsyncAppender createAsyncAppender(String name, Layout layout) {
@@ -98,40 +97,43 @@ public class SystemLog {
     return async;
   }
 
+  private static Appender setDailyFileAppender(Path logdir, String name, Layout layout/*, PatternLayoutEncoder patternLayout*/) {
+    LoggerContext logCtx = LoggerFactory.getILoggerFactory();
+
+    /*PatternLayoutEncoder logEncoder = new PatternLayoutEncoder();
+    logEncoder.setContext(logCtx);
+    logEncoder.setPattern('%-12date{YYYY-MM-dd HH:mm:ss.SSS} %-5level - %msg%n');
+    logEncoder.start();*/
+
+    RollingFileAppender dst = new RollingFileAppender();
+    dst.setContext(logCtx);
+    dst.setName(name);
+    /*if (layout == null) {
+      dst.setEncoder(patternLayout);
+    } else {*/
+      dst.setLayout(layout);
+    //}
+    dst.setAppend(true);
+    dst.setFile(resolve(logdir).resolve(name).toString());
+
+    TimeBasedRollingPolicy logFilePolicy = new TimeBasedRollingPolicy();
+    logFilePolicy.setContext(logCtx);
+    logFilePolicy.setParent(dst);
+    logFilePolicy.setFileNamePattern(resolve(logdir).resolve(name).toString() + ".%d{yyyy-MM-dd}.gz");
+    logFilePolicy.setMaxHistory(7);
+    logFilePolicy.start();
+
+    dst.setRollingPolicy(logFilePolicy);
+    dst.start();
+
+    return dst;
+  }
+
   private static Path resolve(Path p) {
     try {
       return p.toRealPath().normalize();
     } catch (IOException e) {
       return p.toAbsolutePath().normalize();
     }
-  }
-
-  private static final class DieErrorHandler implements ErrorHandler {
-    @Override
-    public void error(String message, Exception e, int errorCode, LoggingEvent event) {
-      error(e != null ? e.getMessage() : message);
-    }
-
-    @Override
-    public void error(String message, Exception e, int errorCode) {
-      error(e != null ? e.getMessage() : message);
-    }
-
-    @Override
-    public void error(String message) {
-      throw new Die("Cannot open log file: " + message);
-    }
-
-    @Override
-    public void activateOptions() {}
-
-    @Override
-    public void setAppender(Appender appender) {}
-
-    @Override
-    public void setBackupAppender(Appender appender) {}
-
-    @Override
-    public void setLogger(Logger logger) {}
   }
 }

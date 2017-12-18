@@ -16,10 +16,13 @@ package com.google.gerrit.server.util;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
-import org.apache.log4j.AsyncAppender;
-import org.apache.log4j.Layout;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import ch.qos.logback.classic.AsyncAppender;
+import ch.qos.logback.core.ConsoleAppender;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.core.Layout;
+import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
+import ch.qos.logback.classic.LoggerContext;
 
 public abstract class PluginLogFile implements LifecycleListener {
 
@@ -39,7 +42,8 @@ public abstract class PluginLogFile implements LifecycleListener {
   @Override
   public void start() {
     AsyncAppender asyncAppender = systemLog.createAsyncAppender(logName, layout);
-    Logger logger = LogManager.getLogger(logName);
+    LoggerContext loggerContext = new LoggerContext();
+    Logger logger = loggerContext.getLogger(logName);
     logger.removeAppender(logName);
     logger.addAppender(asyncAppender);
     logger.setAdditivity(false);
@@ -53,7 +57,9 @@ public abstract class PluginLogFile implements LifecycleListener {
     // unload the old one so because loggers are static, the unload of the old
     // plugin would remove the appenders just created by the new plugin.
     if (serverInfo.getState() == ServerInformation.State.SHUTDOWN) {
-      LogManager.getLogger(logName).removeAllAppenders();
+      LoggerContext loggerContext = new LoggerContext();
+      Logger root = loggerContext.getLogger(logName);
+      root.detachAndStopAllAppenders();
     }
   }
 }

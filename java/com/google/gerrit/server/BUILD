@@ -77,7 +77,7 @@ java_library(
         "//lib/jsoup",
         "//lib/log:api",
         "//lib/log:jsonevent-layout",
-        "//lib/log:log4j",
+        "//lib/log:logback",
         "//lib/lucene:lucene-analyzers-common",
         "//lib/lucene:lucene-core-and-backward-codecs",
         "//lib/lucene:lucene-queryparser",

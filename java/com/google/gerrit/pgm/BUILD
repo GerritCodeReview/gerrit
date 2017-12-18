@@ -54,7 +54,7 @@ java_library(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
         "//lib/log:jsonevent-layout",
-        "//lib/log:log4j",
+        "//lib/log:logback",
         "//lib/prolog:cafeteria",
         "//lib/prolog:compiler",
         "//lib/prolog:runtime",

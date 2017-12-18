@@ -20,10 +20,13 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.inject.Inject;
 import java.nio.file.Path;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
 import org.eclipse.jgit.lib.Config;
+import ch.qos.logback.core.ConsoleAppender;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.core.Layout;
+import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
+import ch.qos.logback.classic.LoggerContext;
 
 public class GarbageCollectionLogFile implements LifecycleListener {
   @Inject
@@ -42,11 +45,16 @@ public class GarbageCollectionLogFile implements LifecycleListener {
   }
 
   private static void initLogSystem(Path logdir, boolean rotate) {
-    Logger gcLogger = LogManager.getLogger(GarbageCollection.LOG_NAME);
-    gcLogger.removeAllAppenders();
+    LoggerContext loggerContext = new LoggerContext();
+    Logger gcLogger = loggerContext.getLogger(GarbageCollection.LOG_NAME);
+    gcLogger.detachAndStopAllAppenders();
+    Layout logEncoder = new PatternLayoutEncoder();
+    logEncoder.setContext(ctx);
+    logEncoder.setPattern("[%d] [%t] %-5p %c %x: %m%n");
+    logEncoder.start();
     gcLogger.addAppender(
         SystemLog.createAppender(
-            logdir, GarbageCollection.LOG_NAME, new PatternLayout("[%d] %-5p %x: %m%n"), rotate));
+            logdir, GarbageCollection.LOG_NAME, logEncoder, rotate));
     gcLogger.setAdditivity(false);
   }
 }

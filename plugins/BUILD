@@ -50,7 +50,7 @@ EXPORTS = [
     "//lib/jgit/org.eclipse.jgit.http.server:jgit-servlet",
     "//lib/jgit/org.eclipse.jgit:jgit",
     "//lib/log:api",
-    "//lib/log:log4j",
+    "//lib/log:logback",
     "//lib/mina:sshd",
     "//lib/ow2:ow2-asm",
     "//lib/ow2:ow2-asm-analysis",

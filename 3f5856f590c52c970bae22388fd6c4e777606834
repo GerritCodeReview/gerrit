@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7df593c5_595d587d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-18T23:38:39Z",
+      "side": 1,
+      "message": "This should not be the helper text for all copy clipboard elements.",
+      "range": {
+        "startLine": 66,
+        "startChar": 12,
+        "endLine": 66,
+        "endChar": 46
+      },
+      "revId": "3f5856f590c52c970bae22388fd6c4e777606834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

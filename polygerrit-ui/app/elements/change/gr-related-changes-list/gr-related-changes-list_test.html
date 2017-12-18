@@ -231,6 +231,29 @@ limitations under the License.
           change1, change2).indexOf('thisChange'), -1);
     });
 
+    test('event for section loaded fires for each section ', () => {
+      const loadedStub = sandbox.stub();
+      element.patchNum = 7;
+      element.change = {
+        change_id: 123,
+        status: 'NEW',
+        mergeable: true,
+      };
+      element.addEventListener('new-section-loaded', loadedStub);
+      sandbox.stub(element, '_getRelatedChanges')
+          .returns(Promise.resolve({changes: []}));
+      sandbox.stub(element, '_getSubmittedTogether')
+          .returns(Promise.resolve());
+      sandbox.stub(element, '_getCherryPicks')
+          .returns(Promise.resolve());
+      sandbox.stub(element, '_getConflicts')
+          .returns(Promise.resolve());
+
+      return element.reload().then(() => {
+        assert.equal(loadedStub.callCount, 4);
+      });
+    });
+
     suite('_getConflicts resolves undefined', () => {
       let element;
 
@@ -358,10 +381,8 @@ limitations under the License.
       element._cherryPicks = changes;
       element._sameTopic = changes;
 
-      element.loading = false;
       element.hidden = false;
       element.clear();
-      assert.isTrue(element.loading);
       assert.isTrue(element.hidden);
       assert.equal(element._relatedResponse.changes.length, 0);
       assert.equal(element._submittedTogether.length, 0);

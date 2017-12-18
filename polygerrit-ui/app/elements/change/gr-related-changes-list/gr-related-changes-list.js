@@ -17,6 +17,14 @@
   Polymer({
     is: 'gr-related-changes-list',
 
+    /**
+     * Fired when a new section is loaded so that the change view can determine
+     * a show more button is needed, sometimes before all the sections finish
+     * loading.
+     *
+     * @event new-section-loaded
+     */
+
     properties: {
       change: Object,
       hasParent: {
@@ -92,15 +100,17 @@
       const promises = [
         this._getRelatedChanges().then(response => {
           this._relatedResponse = response;
-
+          this._fireReloadEvent();
           this.hasParent = this._calculateHasParent(this.change.change_id,
               response.changes);
         }),
         this._getSubmittedTogether().then(response => {
           this._submittedTogether = response;
+          this._fireReloadEvent();
         }),
         this._getCherryPicks().then(response => {
           this._cherryPicks = response;
+          this._fireReloadEvent();
         }),
       ];
 
@@ -110,6 +120,7 @@
           // Because the server doesn't always return a response and the
           // template expects an array, always return an array.
           this._conflicts = response ? response : [];
+          this._fireReloadEvent();
         }));
       }
 
@@ -127,6 +138,14 @@
       return Promise.all(promises).then(() => {
         this.loading = false;
       });
+    },
+
+    _fireReloadEvent() {
+      // The listener on the change computes height of the related changes
+      // section, so they have to be rendered first, and inside a dom-repeat,
+      // that requires a flush.
+      Polymer.dom.flush();
+      this.dispatchEvent(new CustomEvent('new-section-loaded'));
     },
 
     /**

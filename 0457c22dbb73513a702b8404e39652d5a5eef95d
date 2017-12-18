@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8fe7d72d_73f5840e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-18T22:28:51Z",
+      "side": 1,
+      "message": "Nit: gr-editor-view or editor view",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "0457c22dbb73513a702b8404e39652d5a5eef95d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a05aabd4_05d9d418",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-18T22:28:51Z",
+      "side": 1,
+      "message": "Can the listener be added here?\non-content-change\u003d\"_handleContentChange\"?\n\nThat way, we know for sure we are only handling content change events for the specified endpoint.",
+      "range": {
+        "startLine": 99,
+        "startChar": 7,
+        "endLine": 99,
+        "endChar": 62
+      },
+      "revId": "0457c22dbb73513a702b8404e39652d5a5eef95d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

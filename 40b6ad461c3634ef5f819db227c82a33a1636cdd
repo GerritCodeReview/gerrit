@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1513606768 +0100\nnonce ADEcKBpclc/ot97okw019jiuipoEHYLO6m1yrApGbm/2Ixw8WAV5FBZTuMKWE1+t0JKjVu44nCgu\n\n0000000000000000000000000000000000000000 b367935959918cf94aa24b50a78bcbdbb8b27337 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaN85wAAoJEFG1/Zeg0O9RRlgH/3ZqO2wWhDUSN20YKeuBrrnr\nsNabav2+zDk3koo9d8JuIDDIfADoTjKN0OVOih74kADsJBtY0/kDPrcLuHgvJWEi\nwlUj4LNmhpQLM3RMQzJ8jY+iryAp83TLNxsG/E0LRjszcQoxFvBV/4vf2ScR1nMT\nNaVBMhWB94ICEdjdmxTJPnYa1OhQwLectKLY9cfApUSj6kjiEPcIr1WUfbrkaYIl\n43iOf+/0Ip6atzreNKakfrTiROgvz5TEqxLVhK2vKW8zXT8GVDqpH8HN6chHk3ZH\nI4WvwGfz/aV3aCmpwoUurFpTrWFsMQ1H/y+yXUui7sebN/0KlLufl+HasUJPz04\u003d\n\u003dek8S\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba14afb3_720d2b8e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1917,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-18T14:21:27Z",
+      "side": 1,
+      "message": "These can have different timestamps, I don\u0027t think that\u0027s intended.",
+      "range": {
+        "startLine": 1916,
+        "startChar": 12,
+        "endLine": 1917,
+        "endChar": 30
+      },
+      "revId": "40b6ad461c3634ef5f819db227c82a33a1636cdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

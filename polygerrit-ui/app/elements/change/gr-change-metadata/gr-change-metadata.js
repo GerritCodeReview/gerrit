@@ -231,7 +231,9 @@
     },
 
     _computeTopicPlaceholder(_topicReadOnly) {
-      return _topicReadOnly ? 'No Topic' : 'Add Topic';
+      // Action items in Material Design are uppercase -- placeholder label text
+      // is sentence case.
+      return _topicReadOnly ? 'No topic' : 'ADD TOPIC';
     },
 
     _computeHashtagPlaceholder(_hashtagReadOnly) {

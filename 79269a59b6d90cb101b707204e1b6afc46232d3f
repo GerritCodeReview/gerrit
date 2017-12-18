@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b04bb9a3_b4bc760a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-18T22:12:13Z",
+      "side": 1,
+      "message": "Nit: insert a space before the +.",
+      "range": {
+        "startLine": 269,
+        "startChar": 73,
+        "endLine": 269,
+        "endChar": 75
+      },
+      "revId": "79269a59b6d90cb101b707204e1b6afc46232d3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af2d53e6_efaa10bd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-18T22:12:13Z",
+      "side": 1,
+      "message": "Nit: because `_handlePreferenceError` doesn\u0027t return a value, this `return` statement seems a bit misleading. Maybe separate it out?\n\n this._handlePreferenceError(\u0027tab size\u0027);\n return; // Unreachable: _handlePreferenceError always throws.",
+      "range": {
+        "startLine": 280,
+        "startChar": 12,
+        "endLine": 280,
+        "endChar": 47
+      },
+      "revId": "79269a59b6d90cb101b707204e1b6afc46232d3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

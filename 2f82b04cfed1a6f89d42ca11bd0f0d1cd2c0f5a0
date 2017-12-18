@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "28b31079_ebd0830c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1256,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-18T23:01:34Z",
+      "side": 1,
+      "message": "Consider separating the `return` statement ..\n\nif (showRelatedToggle) {\n  this.$.relatedChangesToggle.classList.add(\u0027showToggle\u0027);\n  return;\n}\nthis.$.relatedChangesToggle.classList.remove(\u0027showToggle\u0027);\n\n.. or making the remainder of the method an else ..\n\nif (showRelatedToggle) {\n  this.$.relatedChangesToggle.classList.add(\u0027showToggle\u0027);\n} else {\n  this.$.relatedChangesToggle.classList.remove(\u0027showToggle\u0027);\n}\n\n.. or, if we don\u0027t care about IE support, consider the toggle method on classlists ..\n\nthis.$.relatedChangesToggle.classList\n    .toggle(\u0027showToggle\u0027, showRelatedToggle);",
+      "range": {
+        "startLine": 1253,
+        "startChar": 6,
+        "endLine": 1256,
+        "endChar": 65
+      },
+      "revId": "2f82b04cfed1a6f89d42ca11bd0f0d1cd2c0f5a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4190c423_7c3db987",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
         "patchSetId": 5
@@ -18,6 +41,29 @@
         "startChar": 10,
         "endLine": 1066,
         "endChar": 17
+      },
+      "revId": "2f82b04cfed1a6f89d42ca11bd0f0d1cd2c0f5a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e69726a_d7ee8dc7",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-12-18T23:01:34Z",
+      "side": 1,
+      "message": "Looks like this should be\n\n this._fireReloadEvent();",
+      "range": {
+        "startLine": 123,
+        "startChar": 10,
+        "endLine": 123,
+        "endChar": 42
       },
       "revId": "2f82b04cfed1a6f89d42ca11bd0f0d1cd2c0f5a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

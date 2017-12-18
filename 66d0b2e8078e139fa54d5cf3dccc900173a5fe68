@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05cdee5d_732849b8",
+        "filename": "java/com/google/gerrit/server/project/Reachable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-18T23:53:54Z",
+      "side": 1,
+      "message": "Add javadoc as mentioned by Patrick.",
+      "revId": "66d0b2e8078e139fa54d5cf3dccc900173a5fe68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ad85dfa_95b1015d",
+        "filename": "java/com/google/gerrit/server/project/Reachable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-18T23:53:54Z",
+      "side": 1,
+      "message": "And here",
+      "revId": "66d0b2e8078e139fa54d5cf3dccc900173a5fe68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

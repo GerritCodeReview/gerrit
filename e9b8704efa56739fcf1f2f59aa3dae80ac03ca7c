@@ -23,6 +23,30 @@
       "revId": "e9b8704efa56739fcf1f2f59aa3dae80ac03ca7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "712f4a25_8362490b",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T17:44:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b014cbe_b00b4218",
+      "range": {
+        "startLine": 487,
+        "startChar": 4,
+        "endLine": 489,
+        "endChar": 54
+      },
+      "revId": "e9b8704efa56739fcf1f2f59aa3dae80ac03ca7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

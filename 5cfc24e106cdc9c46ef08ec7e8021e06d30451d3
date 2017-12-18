@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "4cdc510f_78e46633",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1931,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-18T14:20:37Z",
+      "side": 1,
+      "message": "l. 1935 asserts that status _is_ \"happy\" _after_ calling update(). I am suggesting adding another assert that status _is not_ \"happy\" _before_ calling update(). IMO having matched before/after assertions makes it clearer what the intended side effects of the update method are.",
+      "parentUuid": "1eed52d2_ef18a4e2",
+      "revId": "5cfc24e106cdc9c46ef08ec7e8021e06d30451d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0452683a_5bcfc878",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 6

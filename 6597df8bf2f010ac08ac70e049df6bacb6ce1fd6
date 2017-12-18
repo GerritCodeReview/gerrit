@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "0b8e07da_11706f1a",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T17:42:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b695facd_1f5d6eba",
+      "revId": "6597df8bf2f010ac08ac70e049df6bacb6ce1fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29a026dc_8842589e",
         "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
         "patchSetId": 9
@@ -31,6 +49,24 @@
       "writtenOn": "2017-12-18T14:18:37Z",
       "side": 1,
       "message": "The only remaining problem I can see here is that this might interfere with a nullness checker, since the delegate has non-nullable arguments, but arguments to this private subclass are nullable.\n\nI\u0027m not worried about this in the near term since we\u0027re not using any nullness checkers, no reason it needs to block this change.",
+      "revId": "6597df8bf2f010ac08ac70e049df6bacb6ce1fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92a31368_9ee19605",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T17:42:12Z",
+      "side": 1,
+      "message": "Hmm, good point, but yeah let\u0027s leave this for latter.",
+      "parentUuid": "29a026dc_8842589e",
       "revId": "6597df8bf2f010ac08ac70e049df6bacb6ce1fd6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

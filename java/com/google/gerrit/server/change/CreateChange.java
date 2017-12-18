@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -111,6 +112,7 @@ public class CreateChange
   private final SubmitType submitType;
   private final NotifyUtil notifyUtil;
   private final ContributorAgreementsChecker contributorAgreements;
+  private final boolean disablePrivateChanges;
 
   @Inject
   CreateChange(
@@ -149,6 +151,7 @@ public class CreateChange
     this.changeFinder = changeFinder;
     this.psUtil = psUtil;
     this.submitType = config.getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
+    this.disablePrivateChanges = config.getBoolean("change", null, "disablePrivateChanges", false);
     this.mergeUtilFactory = mergeUtilFactory;
     this.notifyUtil = notifyUtil;
     this.contributorAgreements = contributorAgreements;
@@ -178,6 +181,13 @@ public class CreateChange
     }
 
     ProjectResource rsrc = projectsCollection.parse(input.project);
+    boolean privateByDefault = rsrc.getProjectState().is(BooleanProjectConfig.PRIVATE_BY_DEFAULT);
+    boolean isPrivate = input.isPrivate == null ? privateByDefault : input.isPrivate;
+
+    if (isPrivate && disablePrivateChanges) {
+      throw new MethodNotAllowedException("private changes are disabled");
+    }
+
     contributorAgreements.check(rsrc.getNameKey(), rsrc.getUser());
 
     Project.NameKey project = rsrc.getNameKey();
@@ -254,7 +264,6 @@ public class CreateChange
         c = newCommit(oi, rw, author, mergeTip, commitMessage);
       }
 
-      boolean privateByDefault = rsrc.getProjectState().is(BooleanProjectConfig.PRIVATE_BY_DEFAULT);
       Change.Id changeId = new Change.Id(seq.nextChangeId());
       ChangeInserter ins = changeInserterFactory.create(changeId, c, refName);
       ins.setMessage(String.format("Uploaded patch set %s.", ins.getPatchSetId().get()));
@@ -263,7 +272,7 @@ public class CreateChange
         topic = Strings.emptyToNull(topic.trim());
       }
       ins.setTopic(topic);
-      ins.setPrivate(input.isPrivate == null ? privateByDefault : input.isPrivate);
+      ins.setPrivate(isPrivate);
       ins.setWorkInProgress(input.workInProgress != null && input.workInProgress);
       ins.setGroups(groups);
       ins.setNotify(input.notify);

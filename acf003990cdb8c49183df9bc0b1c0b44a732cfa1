@@ -86,6 +86,24 @@
     },
     {
       "key": {
+        "uuid": "1369d1cc_bba9949d",
+        "filename": "java/com/google/gerrit/server/project/Reachable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-12-18T14:49:16Z",
+      "side": 1,
+      "message": "Please also add a JavaDoc to the public method.",
+      "parentUuid": "ee48d422_a2b71495",
+      "revId": "acf003990cdb8c49183df9bc0b1c0b44a732cfa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14dd04b6_5ff598b9",
         "filename": "java/com/google/gerrit/server/project/Reachable.java",
         "patchSetId": 3

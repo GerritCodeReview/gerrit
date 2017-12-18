@@ -3,6 +3,160 @@
   "comments": [
     {
       "key": {
+        "uuid": "7c9f58d3_7d6ee387",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-18T14:45:53Z",
+      "side": 1,
+      "message": "Thank you for the clear commit message, this made the change much easier to review.",
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec7b19b5_0d8e5c0b",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-18T14:45:53Z",
+      "side": 1,
+      "message": "Any reason not to just return the specific type ImmutableSet in this signature?",
+      "range": {
+        "startLine": 129,
+        "startChar": 18,
+        "endLine": 129,
+        "endChar": 28
+      },
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68b7309d_266a0a9c",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-18T14:45:53Z",
+      "side": 1,
+      "message": "ArrayList is almost always preferable. Any strong reason you need LinkedList, like removing elements from the head of a very long list?",
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce145d44_36467724",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-18T14:45:53Z",
+      "side": 1,
+      "message": "Maybe document explicitly in a comment that all noteMapUpdates are always executed before any cacheUpdates? I notice several of your implementations generally assume this.",
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c1c8b99_58f775e5",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-18T14:45:53Z",
+      "side": 1,
+      "message": "Use Optional for a public interface?",
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b464abf_bff73a3c",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-18T14:45:53Z",
+      "side": 1,
+      "message": "ITYM Sets.newHashSetWithExpectedSize",
+      "range": {
+        "startLine": 192,
+        "startChar": 38,
+        "endLine": 192,
+        "endChar": 64
+      },
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09b1fca7_536a9eae",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-18T14:45:53Z",
+      "side": 1,
+      "message": "Optional: if you catch (IOException | ... | RuntimeException e), it makes it clearer that you intend to catch RuntimeExceptions and aren\u0027t just trying incorrectly to catch all checked exceptions. (In this case I agree that catching RuntimeException is the right thing to do, since we may have IAEs or whatever in the parsing code.)",
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16cb9af3_c061c9fe",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-18T14:45:53Z",
+      "side": 1,
+      "message": "Does \"cu -\u003e cu.add(newExtIds)\" not work?",
+      "range": {
+        "startLine": 263,
+        "startChar": 8,
+        "endLine": 265,
+        "endChar": 9
+      },
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "46f974f2_81024886",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
         "patchSetId": 6
@@ -20,6 +174,115 @@
         "endLine": 507,
         "endChar": 28
       },
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09d896ab_e2dde8a2",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-18T14:45:53Z",
+      "side": 1,
+      "message": ":(\n\nThis is exactly why BatchUpdate has multiple phases, but you don\u0027t have something analogous for plain BatchRefUpdates.",
+      "parentUuid": "46f974f2_81024886",
+      "range": {
+        "startLine": 507,
+        "startChar": 4,
+        "endLine": 507,
+        "endChar": 28
+      },
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "512f5ac6_edd026c1",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-18T14:45:53Z",
+      "side": 1,
+      "message": "Should this be ISE? It smells more like programmer error than a problem with the underlying storage layer.",
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da919715_a3207382",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-18T14:45:53Z",
+      "side": 1,
+      "message": "I think BlobBasedConfig is intended to make this dance easier.",
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e050b4f4_bd75f892",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-18T14:45:53Z",
+      "side": 1,
+      "message": "readNoteData?",
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5605eab7_c16dadec",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-18T14:45:53Z",
+      "side": 1,
+      "message": "readNoteData?",
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb89a691_32fddc1d",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-18T14:45:53Z",
+      "side": 1,
+      "message": "readNoteData?",
       "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

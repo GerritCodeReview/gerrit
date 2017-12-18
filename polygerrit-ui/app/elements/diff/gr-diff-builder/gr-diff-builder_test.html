@@ -63,6 +63,7 @@ limitations under the License.
 
     setup(() => {
       sandbox = sinon.sandbox.create();
+      element = fixture('basic');
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(false); },
         getProjectConfig() { return Promise.resolve({}); },
@@ -350,6 +351,24 @@ limitations under the License.
       line.afterNumber = 5;
       threadGroupEl = builder._commentThreadGroupForLine(line);
       checkThreadGroupProps(threadGroupEl, '3', false, [l3, r5]);
+    });
+
+
+    test('_handlePreferenceError called with invalid preference', () => {
+      sandbox.stub(element, '_handlePreferenceError');
+      const prefs = {tab_size: 0};
+      element._getDiffBuilder(element.diff, element.comments, prefs);
+      assert.isTrue(element._handlePreferenceError.lastCall
+          .calledWithExactly('tab size'));
+    });
+
+    test('_handlePreferenceError triggers alert and javascript error', () => {
+      const errorStub = sinon.stub();
+      element.addEventListener('show-alert', errorStub);
+      assert.throws(element._handlePreferenceError.bind(element, 'tab size'));
+      assert.equal(errorStub.lastCall.args[0].detail.message,
+          `The value of the 'tab size' user preference is invalid. ` +
+        `Fix in diff preferences`);
     });
 
     suite('_isTotal', () => {

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7d30623_32cbd8a2",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-18T23:51:43Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me why a redirect is needed here. Can you add a comment?",
+      "range": {
+        "startLine": 626,
+        "startChar": 8,
+        "endLine": 629,
+        "endChar": 9
+      },
+      "revId": "27563c3ac1e7b6cd84355eae8cbeb1f12bcec674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86748c7c_618b5e05",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-18T23:51:43Z",
+      "side": 1,
+      "message": "How come this can\u0027t be done like the others?",
+      "range": {
+        "startLine": 168,
+        "startChar": 6,
+        "endLine": 169,
+        "endChar": 43
+      },
+      "revId": "27563c3ac1e7b6cd84355eae8cbeb1f12bcec674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

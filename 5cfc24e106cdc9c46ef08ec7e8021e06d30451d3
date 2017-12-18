@@ -161,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "eca5d143_53d062f6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1931,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T17:42:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cdc510f_78e46633",
+      "revId": "5cfc24e106cdc9c46ef08ec7e8021e06d30451d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0452683a_5bcfc878",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 6

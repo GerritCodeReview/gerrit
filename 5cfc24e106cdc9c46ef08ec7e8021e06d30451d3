@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "a40916b8_254555e0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1916,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T09:23:36Z",
+      "side": 1,
+      "message": "Done.\n\nAlso in https://gerrit-review.googlesource.com/c/gerrit/+/147614",
+      "parentUuid": "2f32454c_e16cc1b5",
+      "revId": "5cfc24e106cdc9c46ef08ec7e8021e06d30451d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a10d51f5_4e317a7a",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 6
@@ -107,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "1eed52d2_ef18a4e2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1931,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T09:23:36Z",
+      "side": 1,
+      "message": "Already done below in l. 1935. \nThe status is only set when background update was executed.",
+      "parentUuid": "a10d51f5_4e317a7a",
+      "revId": "5cfc24e106cdc9c46ef08ec7e8021e06d30451d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0452683a_5bcfc878",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 6
@@ -121,6 +157,24 @@
       "revId": "5cfc24e106cdc9c46ef08ec7e8021e06d30451d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4d7169e_2cdd9e91",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1941,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T09:23:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0452683a_5bcfc878",
+      "revId": "5cfc24e106cdc9c46ef08ec7e8021e06d30451d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -144,6 +198,30 @@
       "revId": "5cfc24e106cdc9c46ef08ec7e8021e06d30451d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af41ffb0_4b0c3d3d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1978,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T09:23:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df2a05b1_97f038c4",
+      "range": {
+        "startLine": 1978,
+        "startChar": 53,
+        "endLine": 1978,
+        "endChar": 78
+      },
+      "revId": "5cfc24e106cdc9c46ef08ec7e8021e06d30451d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

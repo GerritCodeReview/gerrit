@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "401bf8a6_83300e15",
+        "filename": "java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-18T23:55:18Z",
+      "side": 1,
+      "message": "Should be annotated as @Nullable in a separate commit",
+      "revId": "bc43f9728c99178d2a02e95aa82ea7e393a25710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

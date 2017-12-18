@@ -21,31 +21,46 @@ import com.google.gerrit.server.util.SystemLog;
 import java.io.IOException;
 import java.nio.file.Path;
 import net.logstash.log4j.JSONEventLayoutV1;
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
+import ch.qos.logback.core.ConsoleAppender;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.PatternLayout;
 import org.eclipse.jgit.lib.Config;
+import ch.qos.logback.core.Layout;
+import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
+import ch.qos.logback.classic.LoggerContext;
+import org.slf4j.LoggerFactory;
 
 public class ErrorLogFile {
   static final String LOG_NAME = "error_log";
   static final String JSON_SUFFIX = ".json";
 
   public static void errorOnlyConsole() {
-    LogManager.resetConfiguration();
+    // LogManager.resetConfiguration();
 
-    final PatternLayout layout = new PatternLayout();
-    layout.setConversionPattern("%-5p %c %x: %m%n");
+         /*Logger rootLogger = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+
+         LoggerContext loggerContext = rootLogger.getLoggerContext();*/
+    //LoggerContext ctx = (LoggerContext) LoggerFactory.getILoggerFactory();
+    LoggerContext ctx = new LoggerContext();
+
+    //PatternLayoutEncoder logEncoder = new PatternLayoutEncoder();
+    PatternLayout logEncoder = new PatternLayout();
+    logEncoder.setContext(ctx);
+    logEncoder.setPattern("[%d] [%t] %-5p %c %x: %m%n");
+    logEncoder.start();
 
     final ConsoleAppender dst = new ConsoleAppender();
-    dst.setLayout(layout);
+    dst.setContext(ctx);
+    dst.setName("console");
     dst.setTarget("System.err");
-    dst.setThreshold(Level.ERROR);
-    dst.activateOptions();
+    //dst.setEncoder(logEncoder);
+    dst.setLayout(logEncoder);
+    dst.start();
 
-    final Logger root = LogManager.getRootLogger();
-    root.removeAllAppenders();
+    LoggerContext loggerContext = new LoggerContext();
+    Logger root = loggerContext.getLogger(Logger.ROOT_LOGGER_NAME);
+    root.detachAndStopAllAppenders();
     root.addAppender(dst);
   }
 
@@ -62,29 +77,38 @@ public class ErrorLogFile {
 
       @Override
       public void stop() {
-        LogManager.shutdown();
+        //LogManager.shutdown();
       }
     };
   }
 
   private static void initLogSystem(Path logdir, Config config) {
-    final Logger root = LogManager.getRootLogger();
-    root.removeAllAppenders();
+    //LoggerContext ctx = (LoggerContext) LoggerFactory.getILoggerFactory();
+
+    LoggerContext loggerContext = new LoggerContext();
+    Logger root = loggerContext.getLogger(Logger.ROOT_LOGGER_NAME);
+    root.detachAndStopAllAppenders();
 
     boolean json = config.getBoolean("log", "jsonLogging", false);
     boolean text = config.getBoolean("log", "textLogging", true) || !json;
     boolean rotate = config.getBoolean("log", "rotate", true);
 
     if (text) {
+      //PatternLayoutEncoder logEncoder = new PatternLayoutEncoder();
+      PatternLayout logEncoder = new PatternLayout();
+      logEncoder.setContext(loggerContext);
+      logEncoder.setPattern("[%d] [%t] %-5p %c %x: %m%n");
+      logEncoder.start();
+
       root.addAppender(
           SystemLog.createAppender(
-              logdir, LOG_NAME, new PatternLayout("[%d] [%t] %-5p %c %x: %m%n"), rotate));
+              logdir, LOG_NAME, logEncoder, rotate));
     }
 
-    if (json) {
+    /*if (json) {
       root.addAppender(
           SystemLog.createAppender(
               logdir, LOG_NAME + JSON_SUFFIX, new JSONEventLayoutV1(), rotate));
-    }
+    }*/
   }
 }

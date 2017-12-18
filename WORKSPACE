@@ -249,9 +249,21 @@ maven_jar(
 )
 
 maven_jar(
-    name = "log4j",
-    artifact = "log4j:log4j:1.2.17",
-    sha1 = "5af35056b4d257e4b64b9e8069c0746e8b08629f",
+    name = "logback-access",
+    artifact = "ch.qos.logback:logback-access:1.2.3",
+    sha1 = "e8a841cb796f6423c7afd8738df6e0e4052bf24a",
+)
+
+maven_jar(
+    name = "logback-classic",
+    artifact = "ch.qos.logback:logback-classic:1.2.3",
+    sha1 = "7c4f3c474fb2c041d8028740440937705ebb473a",
+)
+
+maven_jar(
+    name = "logback-core",
+    artifact = "ch.qos.logback:logback-core:1.2.3",
+    sha1 = "864344400c3d4d92dfeb0a305dc87d953677c03c",
 )
 
 maven_jar(

@@ -30,15 +30,20 @@ import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import org.apache.log4j.AsyncAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggingEvent;
+import ch.qos.logback.classic.AsyncAppender;
+import ch.qos.logback.core.Layout;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.spi.LoggingEvent;
+import ch.qos.logback.classic.Logger;
 import org.eclipse.jgit.lib.Config;
+import java.util.HashMap;
+import java.util.Map;
+import ch.qos.logback.classic.LoggerContext;
 
 @Singleton
 class SshLog implements LifecycleListener {
-  private static final Logger log = Logger.getLogger(SshLog.class);
+  private static final LoggerContext loggerContext = new LoggerContext();
+  private static final Logger log = loggerContext.getLogger(SshLog.class);
   private static final String LOG_NAME = "sshd_log";
   private static final String P_SESSION = "session";
   private static final String P_USER_NAME = "userName";
@@ -77,14 +82,14 @@ class SshLog implements LifecycleListener {
   @Override
   public void stop() {
     if (async != null) {
-      async.close();
+      async.stop();
     }
   }
 
   void onLogin() {
     LoggingEvent entry = log("LOGIN FROM " + session.get().getRemoteAddressAsString());
     if (async != null) {
-      async.append(entry);
+      async.doAppend(entry);
     }
     audit(context.get(), "0", "LOGIN");
   }
@@ -94,25 +99,28 @@ class SshLog implements LifecycleListener {
         new LoggingEvent( //
             Logger.class.getName(), // fqnOfCategoryClass
             log, // logger
-            TimeUtil.nowMs(), // when
             Level.INFO, // level
             "AUTH FAILURE FROM " + sd.getRemoteAddressAsString(), // message text
-            "SSHD", // thread name
-            null, // exception information
-            null, // current NDC string
-            null, // caller location
-            null // MDC properties
+            null,
+            null
             );
+    // thread name
+    event.setThreadName("SSHD");
 
-    event.setProperty(P_SESSION, id(sd.getSessionId()));
-    event.setProperty(P_USER_NAME, sd.getUsername());
+    Map<String, String> map = new HashMap<>();
+
+    map.put(P_SESSION, id(sd.getSessionId()));
+    map.put(P_USER_NAME, sd.getUsername());
 
     final String error = sd.getAuthenticationError();
     if (error != null) {
-      event.setProperty(P_STATUS, error);
+      map.put(P_STATUS, error);
     }
+
+    event.setMDCPropertyMap(map);
+
     if (async != null) {
-      async.append(event);
+      async.doAppend(event);
     }
     audit(null, "FAIL", "AUTH");
   }
@@ -124,8 +132,10 @@ class SshLog implements LifecycleListener {
     String cmd = extractWhat(dcmd);
 
     final LoggingEvent event = log(cmd);
-    event.setProperty(P_WAIT, (ctx.started - ctx.created) + "ms");
-    event.setProperty(P_EXEC, (ctx.finished - ctx.started) + "ms");
+    Map<String, String> map = new HashMap<>();
+    map.put(P_WAIT, (ctx.started - ctx.created) + "ms");
+    map.put(P_EXEC, (ctx.finished - ctx.started) + "ms");
+    event.setMDCPropertyMap(map);
 
     final String status;
     switch (exitValue) {
@@ -145,14 +155,16 @@ class SshLog implements LifecycleListener {
         status = String.valueOf(exitValue);
         break;
     }
-    event.setProperty(P_STATUS, status);
+    map.put(P_STATUS, status);
     String peerAgent = sshSession.getPeerAgent();
     if (peerAgent != null) {
-      event.setProperty(P_AGENT, peerAgent);
+      map.put(P_AGENT, peerAgent);
     }
 
+    event.setMDCPropertyMap(map);
+
     if (async != null) {
-      async.append(event);
+      async.doAppend(event);
     }
     audit(context.get(), status, dcmd);
   }
@@ -205,7 +217,7 @@ class SshLog implements LifecycleListener {
   void onLogout() {
     LoggingEvent entry = log("LOGOUT");
     if (async != null) {
-      async.append(entry);
+      async.doAppend(entry);
     }
     audit(context.get(), "0", "LOGOUT");
   }
@@ -218,17 +230,17 @@ class SshLog implements LifecycleListener {
         new LoggingEvent( //
             Logger.class.getName(), // fqnOfCategoryClass
             log, // logger
-            TimeUtil.nowMs(), // when
             Level.INFO, // level
             msg, // message text
-            "SSHD", // thread name
-            null, // exception information
-            null, // current NDC string
-            null, // caller location
-            null // MDC properties
+            null,
+            null
             );
+    // thread name
+    event.setThreadName("SSHD");
 
-    event.setProperty(P_SESSION, id(sd.getSessionId()));
+    Map<String, String> map = new HashMap<>();
+
+    map.put(P_SESSION, id(sd.getSessionId()));
 
     String userName = "-";
     String accountId = "-";
@@ -242,8 +254,10 @@ class SshLog implements LifecycleListener {
       userName = PeerDaemonUser.USER_NAME;
     }
 
-    event.setProperty(P_USER_NAME, userName);
-    event.setProperty(P_ACCOUNT_ID, accountId);
+    map.put(P_USER_NAME, userName);
+    map.put(P_ACCOUNT_ID, accountId);
+
+    event.setMDCPropertyMap(map);
 
     return event;
   }

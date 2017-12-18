@@ -24,12 +24,15 @@ import com.google.gerrit.sshd.SshCommand;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-import org.apache.log4j.helpers.Loader;
+import java.util.List;
+import ch.qos.logback.classic.Logger;
 import org.kohsuke.args4j.Argument;
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.core.util.Loader;
+import org.kohsuke.args4j.Argument;
+import ch.qos.logback.classic.joran.JoranConfigurator;
+import ch.qos.logback.core.joran.spi.JoranException;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(
@@ -38,8 +41,8 @@ import org.kohsuke.args4j.Argument;
   runsAt = MASTER_OR_SLAVE
 )
 public class SetLoggingLevelCommand extends SshCommand {
-  private static final String LOG_CONFIGURATION = "log4j.properties";
-  private static final String JAVA_OPTIONS_LOG_CONFIG = "log4j.configuration";
+  private static final String LOG_CONFIGURATION = "logback.xml";
+  private static final String JAVA_OPTIONS_LOG_CONFIG = "logback.configurationFile";
 
   private enum LevelOption {
     ALL,
@@ -61,32 +64,37 @@ public class SetLoggingLevelCommand extends SshCommand {
 
   @SuppressWarnings("unchecked")
   @Override
-  protected void run() throws MalformedURLException {
+  protected void run() throws JoranException, MalformedURLException {
     if (level == LevelOption.RESET) {
       reset();
     } else {
-      for (Enumeration<Logger> logger = LogManager.getCurrentLoggers();
-          logger.hasMoreElements();
-          ) {
-        Logger log = logger.nextElement();
-        if (name == null || log.getName().contains(name)) {
-          log.setLevel(Level.toLevel(level.name()));
+      LoggerContext loggerContext = new LoggerContext();
+      List<Logger> loggerList = loggerContext.getLoggerList();
+      for (Logger l : loggerList) {
+        if (name == null || l.getName().contains(name)) {
+          l.setLevel(Level.toLevel(level.name()));
         }
       }
     }
   }
 
   @SuppressWarnings("unchecked")
-  private static void reset() throws MalformedURLException {
-    for (Enumeration<Logger> logger = LogManager.getCurrentLoggers(); logger.hasMoreElements(); ) {
-      logger.nextElement().setLevel(null);
+  private static void reset() throws JoranException, MalformedURLException {
+    LoggerContext loggerContext = new LoggerContext();
+    List<Logger> loggerList = loggerContext.getLoggerList();
+    for (Logger l : loggerList) {
+      l.setLevel(null);
     }
 
     String path = System.getProperty(JAVA_OPTIONS_LOG_CONFIG);
     if (Strings.isNullOrEmpty(path)) {
-      PropertyConfigurator.configure(Loader.getResource(LOG_CONFIGURATION));
+      JoranConfigurator configurator = new JoranConfigurator();
+      configurator.setContext(loggerContext);
+      configurator.doConfigure(Loader.getResource(LOG_CONFIGURATION, null));
     } else {
-      PropertyConfigurator.configure(new URL(path));
+      JoranConfigurator configurator = new JoranConfigurator();
+      configurator.setContext(loggerContext);
+      configurator.doConfigure(new URL(path));
     }
   }
 }

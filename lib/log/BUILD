@@ -18,7 +18,7 @@ java_library(
     data = ["//lib:LICENSE-slf4j"],
     visibility = ["//visibility:public"],
     exports = ["@impl_log4j//jar"],
-    runtime_deps = [":log4j"],
+    runtime_deps = [":logback"],
 )
 
 java_library(
@@ -29,10 +29,14 @@ java_library(
 )
 
 java_library(
-    name = "log4j",
-    data = ["//lib:LICENSE-Apache2.0"],
+    name = "logback",
+    data = ["//lib:LICENSE-logback"],
     visibility = ["//visibility:public"],
-    exports = ["@log4j//jar"],
+    exports = [
+      "@logback-access//jar",
+      "@logback-classic//jar",
+      "@logback-core//jar",
+    ],
 )
 
 java_library(

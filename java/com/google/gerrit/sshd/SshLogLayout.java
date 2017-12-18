@@ -17,11 +17,13 @@ package com.google.gerrit.sshd;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
-import org.apache.log4j.Layout;
-import org.apache.log4j.spi.LoggingEvent;
 import org.eclipse.jgit.util.QuotedString;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.LayoutBase;
+import java.util.HashMap;
+import java.util.Map;
 
-public final class SshLogLayout extends Layout {
+public final class SshLogLayout extends LayoutBase<ILoggingEvent> {
 
   private static final String P_SESSION = "session";
   private static final String P_USER_NAME = "userName";
@@ -46,7 +48,7 @@ public final class SshLogLayout extends Layout {
   }
 
   @Override
-  public String format(LoggingEvent event) {
+  public String doLayout(ILoggingEvent event) {
     final StringBuffer buf = new StringBuffer(128);
 
     buf.append('[');
@@ -58,7 +60,7 @@ public final class SshLogLayout extends Layout {
     req(P_ACCOUNT_ID, buf, event);
 
     buf.append(' ');
-    buf.append(event.getMessage());
+    buf.append(event.getFormattedMessage());
 
     opt(P_WAIT, buf, event);
     opt(P_EXEC, buf, event);
@@ -104,34 +106,29 @@ public final class SshLogLayout extends Layout {
     return String.format("%02d", input);
   }
 
-  private void req(String key, StringBuffer buf, LoggingEvent event) {
-    Object val = event.getMDC(key);
+  private void req(String key, StringBuffer buf, ILoggingEvent event) {
+    Map<String, String> val = event.getMDCPropertyMap();
     buf.append(' ');
     if (val != null) {
-      String s = val.toString();
-      if (0 <= s.indexOf(' ')) {
-        buf.append(QuotedString.BOURNE.quote(s));
-      } else {
-        buf.append(val);
+      String s = val.get(key).toString();
+      if (s != null) {
+        if (0 <= s.indexOf(' ')) {
+          buf.append(QuotedString.BOURNE.quote(s));
+        } else {
+          buf.append(val);
+        }
       }
     } else {
       buf.append('-');
     }
   }
 
-  private void opt(String key, StringBuffer buf, LoggingEvent event) {
-    Object val = event.getMDC(key);
+  private void opt(String key, StringBuffer buf, ILoggingEvent event) {
+    Map<String, String> val = event.getMDCPropertyMap();
+    String s = val.get(key);
     if (val != null) {
       buf.append(' ');
-      buf.append(val);
+      buf.append(s);
     }
   }
-
-  @Override
-  public boolean ignoresThrowable() {
-    return true;
-  }
-
-  @Override
-  public void activateOptions() {}
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender name="stderr" class="ch.qos.logback.core.ConsoleAppender">
+    <target>System.err</target>
+    <encoder>
+      <pattern>[%d] [%t] %-5p %c %x: %m%n</pattern>
+    </encoder>
+  </appender>
+  <logger name="com.mchange.v2.resourcepool" level="WARN"/>
+  <logger name="com.mchange.v2.sql" level="WARN"/>
+  <logger name="org.openid4java" level="WARN"/>
+  <logger name="eu.medsea.mimeutil" level="WARN"/>
+  <logger name="org.apache.mina" level="WARN"/>
+  <logger name="com.mchange.v2.c3p0" level="WARN"/>
+  <logger name="org.apache.sshd.common" level="WARN"/>
+  <logger name="org.openid4java.message.AuthSuccess" level="ERROR"/>
+  <logger name="org.apache.http" level="WARN"/>
+  <logger name="com.google.gerrit.sshd.GerritServerSession" level="WARN"/>
+  <logger name="org.apache.sshd.server" level="WARN"/>
+  <logger name="org.openid4java.discovery.Discovery" level="ERROR"/>
+  <logger name="org.apache.sshd.common.keyprovider.FileKeyPairProvider" level="INFO"/>
+  <logger name="org.openid4java.consumer.ConsumerManager" level="FATAL"/>
+  <logger name="org.openid4java.server.RealmVerifier" level="ERROR"/>
+  <logger name="org.apache.xml" level="WARN"/>
+  <root level="INFO">
+    <appender-ref ref="stderr"/>
+  </root>
+</configuration>

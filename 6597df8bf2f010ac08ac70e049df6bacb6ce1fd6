@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1513589313 +0100\nnonce ADEcKBoPbFQLCZgZhPts8WmMmT3DAHk0NaKtxPqkItv4qWPZOfdeO91/Ht10CMJWCE0fN2bhDYEa\n\n0000000000000000000000000000000000000000 c6a61340ab4cb530a9d1b457117e7d6a5a6c1a59 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaN4pBAAoJEFG1/Zeg0O9RGycIAJTyfQ8HDp9mHv3O6BM96Ef3\nxPlveL+0o426r4pqphkPmVHg+AxuRbeikIN/6t9hWJdlp9bsN2RAuc1v9R+pNmZD\n1Js1dZrdvkOsNTRkKCsNaNJuvHToop84LCIhZ8ojxt5eLhhwArUlKysl6DT5YXo9\ncDA+te/L78Y/Mb2yaKLxoP8iXNd3yqRYqe0OPWrVEZAvQYUVHUUnwabzFlPjbK+E\nleD7pcsLKd+BAMiYb0hDEDh4LqEODTl5KjaZSuphhI0mFrnCgF+0/IEI7GcXO7Rp\ngeOMfdzjWLV67dN3/T8kKnbnON4A1k1LYxcxrt1+YQDEtVdNqF6Z+vuaJ2tgMys\u003d\n\u003d2Fml\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b695facd_1f5d6eba",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-18T14:18:37Z",
+      "side": 1,
+      "message": "This doesn\u0027t need to be public, there is no reason to have both public InternalAccountUpdate.builder() and InternalAccountUpdate.Builder.create() methods that do exactly the same thing.\n\nIf you really want to keep this method as a delegate, that\u0027s fine, though I would make it private. Personally I would be ok with inlining this in the definition of builder() above, though.",
+      "revId": "6597df8bf2f010ac08ac70e049df6bacb6ce1fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29a026dc_8842589e",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-18T14:18:37Z",
+      "side": 1,
+      "message": "The only remaining problem I can see here is that this might interfere with a nullness checker, since the delegate has non-nullable arguments, but arguments to this private subclass are nullable.\n\nI\u0027m not worried about this in the near term since we\u0027re not using any nullness checkers, no reason it needs to block this change.",
+      "revId": "6597df8bf2f010ac08ac70e049df6bacb6ce1fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -43,6 +43,30 @@
     },
     {
       "key": {
+        "uuid": "ed3484c3_59dcada5",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T17:44:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec7b19b5_0d8e5c0b",
+      "range": {
+        "startLine": 129,
+        "startChar": 18,
+        "endLine": 129,
+        "endChar": 28
+      },
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68b7309d_266a0a9c",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
         "patchSetId": 6
@@ -57,6 +81,24 @@
       "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87758f7d_8d1b854d",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T17:44:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68b7309d_266a0a9c",
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -77,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "a61b2ce3_77481507",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T17:44:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce145d44_36467724",
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c1c8b99_58f775e5",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
         "patchSetId": 6
@@ -91,6 +151,24 @@
       "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "867d99e6_b67f6147",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T17:44:00Z",
+      "side": 1,
+      "message": "Done\n\nI intend to change this for other classes like ExternalIds and ExternalIdReader later (this change is already big enough).",
+      "parentUuid": "3c1c8b99_58f775e5",
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +195,30 @@
     },
     {
       "key": {
+        "uuid": "d02f95d1_166b292a",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T17:44:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b464abf_bff73a3c",
+      "range": {
+        "startLine": 192,
+        "startChar": 38,
+        "endLine": 192,
+        "endChar": 64
+      },
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09b1fca7_536a9eae",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
         "patchSetId": 6
@@ -128,6 +230,24 @@
       "writtenOn": "2017-12-18T14:45:53Z",
       "side": 1,
       "message": "Optional: if you catch (IOException | ... | RuntimeException e), it makes it clearer that you intend to catch RuntimeExceptions and aren\u0027t just trying incorrectly to catch all checked exceptions. (In this case I agree that catching RuntimeException is the right thing to do, since we may have IAEs or whatever in the parsing code.)",
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66b09509_509eaade",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T17:44:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09b1fca7_536a9eae",
       "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -154,6 +274,30 @@
       "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "414d9f3c_e6bf08b5",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T17:44:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16cb9af3_c061c9fe",
+      "range": {
+        "startLine": 263,
+        "startChar": 8,
+        "endLine": 265,
+        "endChar": 9
+      },
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -204,6 +348,30 @@
     },
     {
       "key": {
+        "uuid": "85889549_4dd21b3d",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T17:44:00Z",
+      "side": 1,
+      "message": "Done. Callers must now invoke updateCaches(...) manually after the commit is done.",
+      "parentUuid": "09d896ab_e2dde8a2",
+      "range": {
+        "startLine": 507,
+        "startChar": 4,
+        "endLine": 507,
+        "endChar": 28
+      },
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "512f5ac6_edd026c1",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
         "patchSetId": 6
@@ -218,6 +386,24 @@
       "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e96bc916_cb612766",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T17:44:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "512f5ac6_edd026c1",
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -238,6 +424,24 @@
     },
     {
       "key": {
+        "uuid": "ff45715c_dc2e3a2f",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T17:44:00Z",
+      "side": 1,
+      "message": "Nice.\n\nDone",
+      "parentUuid": "da919715_a3207382",
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e050b4f4_bd75f892",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
         "patchSetId": 6
@@ -252,6 +456,24 @@
       "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b8427bd_b89b4f2d",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T17:44:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e050b4f4_bd75f892",
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -272,6 +494,24 @@
     },
     {
       "key": {
+        "uuid": "1f25517e_6afdfce1",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T17:44:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5605eab7_c16dadec",
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb89a691_32fddc1d",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
         "patchSetId": 6
@@ -286,6 +526,24 @@
       "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e53e9d6b_b1e6fdd5",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-18T17:44:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb89a691_32fddc1d",
+      "revId": "05efd85d0c86faf07c0e5ff943466cf6c4b43bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

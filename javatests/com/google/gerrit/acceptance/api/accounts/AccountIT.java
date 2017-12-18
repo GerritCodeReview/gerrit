@@ -212,8 +212,6 @@ public class AccountIT extends AbstractDaemonTest {
   private RegistrationHandle accountIndexEventCounterHandle;
   private RefUpdateCounter refUpdateCounter;
   private RegistrationHandle refUpdateCounterHandle;
-  private ExternalIdsUpdate externalIdsUpdate;
-  private List<ExternalId> savedExternalIds;
 
   @Before
   public void addAccountIndexEventCounter() {
@@ -238,27 +236,6 @@ public class AccountIT extends AbstractDaemonTest {
   public void removeRefUpdateCounter() {
     if (refUpdateCounterHandle != null) {
       refUpdateCounterHandle.remove();
-    }
-  }
-
-  @Before
-  public void saveExternalIds() throws Exception {
-    externalIdsUpdate = externalIdsUpdateFactory.create();
-
-    savedExternalIds = new ArrayList<>();
-    savedExternalIds.addAll(externalIds.byAccount(admin.id));
-    savedExternalIds.addAll(externalIds.byAccount(user.id));
-  }
-
-  @After
-  public void restoreExternalIds() throws Exception {
-    if (savedExternalIds != null) {
-      // savedExternalIds is null when we don't run SSH tests and the assume in
-      // @Before in AbstractDaemonTest prevents this class' @Before method from
-      // being executed.
-      externalIdsUpdate.delete(externalIds.byAccount(admin.id));
-      externalIdsUpdate.delete(externalIds.byAccount(user.id));
-      externalIdsUpdate.insert(savedExternalIds);
     }
   }
 
@@ -1684,7 +1661,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void addOtherUsersGpgKey_Conflict() throws Exception {
     // Both users have a matching external ID for this key.
     addExternalIdEmail(admin, "test5@example.com");
-    externalIdsUpdate.insert(ExternalId.create("foo", "myId", user.getId()));
+    externalIdsUpdateFactory.create().insert(ExternalId.create("foo", "myId", user.getId()));
     accountIndexedCounter.assertReindexOf(user);
 
     TestKey key = validKeyWithSecondUserId();
@@ -1858,7 +1835,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     // Delete the external ID for the preferred email. This makes the account inconsistent since it
     // now doesn't have an external ID for its preferred email.
-    externalIdsUpdate.delete(ExternalId.createEmail(account.getId(), email));
+    externalIdsUpdateFactory.create().delete(ExternalId.createEmail(account.getId(), email));
     expectedProblems.add(
         new ConsistencyProblemInfo(
             ConsistencyProblemInfo.Status.ERROR,
@@ -2240,8 +2217,9 @@ public class AccountIT extends AbstractDaemonTest {
 
   private void addExternalIdEmail(TestAccount account, String email) throws Exception {
     checkNotNull(email);
-    externalIdsUpdate.insert(
-        ExternalId.createWithEmail(name("test"), email, account.getId(), email));
+    externalIdsUpdateFactory
+        .create()
+        .insert(ExternalId.createWithEmail(name("test"), email, account.getId(), email));
     accountIndexedCounter.assertReindexOf(account);
     setApiUser(account);
   }

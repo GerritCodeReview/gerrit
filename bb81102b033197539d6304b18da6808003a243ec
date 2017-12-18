@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "861e3741_4e484e01",
+        "filename": "java/com/google/gerrit/server/schema/SchemaCreator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-18T14:55:58Z",
+      "side": 1,
+      "message": "If they should never be called, is it worth throwing UnsupportedOperationException from this AuditLogFormatter implementation to indicate the programmer error?",
+      "range": {
+        "startLine": 243,
+        "startChar": 86,
+        "endLine": 244,
+        "endChar": 17
+      },
+      "revId": "bb81102b033197539d6304b18da6808003a243ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

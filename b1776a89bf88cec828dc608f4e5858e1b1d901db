@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "43e7fc59_cb8c1322",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-18T14:55:58Z",
+      "side": 1,
+      "message": "I would like to hear both your specific and general reasons, for the edification of people reading this code review.\n\nI am fine with leaving the orElseThrow in, but I would slightly prefer if it were factored into a method with a name like requireAuditLogFormatter(), to reduce boilerplate and duplication of string constants. Unless you have additional reasons why that is bad idea.",
+      "parentUuid": "46298e7b_db7fb725",
+      "revId": "b1776a89bf88cec828dc608f4e5858e1b1d901db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "40670414_afbff932",
         "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
         "patchSetId": 1

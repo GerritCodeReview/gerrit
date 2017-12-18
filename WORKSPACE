@@ -4,6 +4,13 @@ load("//:version.bzl", "check_version")
 
 check_version("0.5.3")
 
+load("//:bazlets.bzl", "load_bazlets")
+
+load_bazlets(
+    commit = "4f3e1b6a4938dd3d390e0badbc9e033ccfaaabc5",
+    local_path = "/home/<user>/projects/bazlets",
+)
+
 load("//tools/bzl:maven_jar.bzl", "maven_jar", "GERRIT", "MAVEN_LOCAL")
 load("//lib/codemirror:cm.bzl", "CM_VERSION", "DIFF_MATCH_PATCH_VERSION")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")

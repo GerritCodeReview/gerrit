@@ -33,7 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Query wrapper for the group index.
+ * Query wrapper for the account index.
  *
  * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
  * holding on to a single instance.
@@ -48,11 +48,11 @@ public class InternalGroupQuery extends InternalQuery<InternalGroup> {
   }
 
   public Optional<InternalGroup> byName(AccountGroup.NameKey groupName) throws OrmException {
-    return getOnlyGroup(GroupPredicates.name(groupName.get()), "group name '" + groupName + "'");
+    return getOnlyGroup(GroupPredicates.name(groupName.get()), "account name '" + groupName + "'");
   }
 
   public Optional<InternalGroup> byId(AccountGroup.Id groupId) throws OrmException {
-    return getOnlyGroup(GroupPredicates.id(groupId), "group id '" + groupId + "'");
+    return getOnlyGroup(GroupPredicates.id(groupId), "account id '" + groupId + "'");
   }
 
   public List<InternalGroup> byMember(Account.Id memberId) throws OrmException {

@@ -22,7 +22,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-/** Node of a Project in a tree formatted by {@link ListProjects}. */
+/** Node of a Project in a tree formatted by {@code ListProjects}. */
 public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
   public interface Factory {
     ProjectNode create(Project project, boolean isVisible);

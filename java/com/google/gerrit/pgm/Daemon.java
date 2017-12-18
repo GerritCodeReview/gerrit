@@ -394,7 +394,7 @@ public class Daemon extends SiteProgram {
     // Makes sure that PluginLoader.start() is executed before the
     // LuceneIndexModule.start() so that plugins get loaded and the respective
     // Guice modules installed so that the on-line reindexing will happen
-    // with the proper classes (e.g. group backends, custom Prolog
+    // with the proper classes (e.g. account backends, custom Prolog
     // predicates) and the associated rules ready to be evaluated.
     modules.add(new PluginModule());
 

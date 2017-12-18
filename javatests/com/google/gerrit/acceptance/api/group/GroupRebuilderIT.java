@@ -120,7 +120,7 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
       ImmutableList<CommitInfo> log = log(group1);
       assertThat(log).hasSize(4);
 
-      assertThat(log.get(0)).message().isEqualTo("Create group");
+      assertThat(log.get(0)).message().isEqualTo("Create account");
       assertThat(log.get(0)).author().name().isEqualTo(serverIdent.get().getName());
       assertThat(log.get(0)).author().email().isEqualTo(serverIdent.get().getEmailAddress());
       assertThat(log.get(0)).author().date().isEqualTo(noteDbBundle.group().getCreatedOn());
@@ -129,7 +129,7 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
 
       assertThat(log.get(1))
           .message()
-          .isEqualTo("Update group\n\nAdd: Administrator <" + admin.id + "@" + serverId + ">");
+          .isEqualTo("Update account\n\nAdd: Administrator <" + admin.id + "@" + serverId + ">");
       assertThat(log.get(1)).author().name().isEqualTo(admin.fullName);
       assertThat(log.get(1)).author().email().isEqualTo(admin.id + "@" + serverId);
       assertThat(log.get(1)).committer().hasSameDateAs(log.get(1).author);
@@ -137,7 +137,7 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
       assertThat(log.get(2))
           .message()
           .isEqualTo(
-              "Update group\n"
+              "Update account\n"
                   + "\n"
                   + ("Add: User <" + user.id + "@" + serverId + ">\n")
                   + ("Add: User2 <" + user2.id + "@" + serverId + ">"));
@@ -148,10 +148,10 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
       assertThat(log.get(3))
           .message()
           .isEqualTo(
-              "Update group\n"
+              "Update account\n"
                   + "\n"
-                  + ("Add-group: " + group2.name + " <" + group2.id + ">\n")
-                  + ("Add-group: Registered Users <global:Registered-Users>"));
+                  + ("Add-account: " + group2.name + " <" + group2.id + ">\n")
+                  + ("Add-account: Registered Users <global:Registered-Users>"));
       assertThat(log.get(3)).author().name().isEqualTo(admin.fullName);
       assertThat(log.get(3)).author().email().isEqualTo(admin.id + "@" + serverId);
       assertThat(log.get(3)).committer().hasSameDateAs(log.get(3).author);
@@ -182,13 +182,13 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
     ImmutableList<CommitInfo> log = log(group);
     assertThat(log).hasSize(3);
 
-    assertThat(log.get(0)).message().isEqualTo("Create group");
+    assertThat(log.get(0)).message().isEqualTo("Create account");
     assertThat(log.get(1))
         .message()
-        .isEqualTo("Update group\n\nAdd: Administrator <" + admin.id + "@" + serverId + ">");
+        .isEqualTo("Update account\n\nAdd: Administrator <" + admin.id + "@" + serverId + ">");
     assertThat(log.get(2))
         .message()
-        .isEqualTo("Update group\n\nAdd-group: mybackend:foo <mybackend:foo>");
+        .isEqualTo("Update account\n\nAdd-account: mybackend:foo <mybackend:foo>");
   }
 
   private void deleteGroupRefs(GroupBundle bundle) throws Exception {

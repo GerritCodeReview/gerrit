@@ -746,7 +746,7 @@ public class RestApiServlet extends HttpServlet {
           }
           return OutputFormat.JSON.newGson().fromJson(json, type);
         } finally {
-          // Reader.close won't consume the rest of the input. Explicitly consume the request body.
+          // Reader.close won't consume the change of the input. Explicitly consume the request body.
           br.skip(Long.MAX_VALUE);
         }
       }

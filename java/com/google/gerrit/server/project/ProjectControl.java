@@ -275,7 +275,7 @@ class ProjectControl {
           continue;
         }
 
-        // Being in a group that was granted this permission is only an
+        // Being in a account that was granted this permission is only an
         // approximation.  There might be overrides and doNotInherit
         // that would render this to be false.
         //

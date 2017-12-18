@@ -23,7 +23,7 @@ import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.account.CreateAccount;
+import com.google.gerrit.server.restapi.account.CreateAccount;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
@@ -42,7 +42,7 @@ import org.kohsuke.args4j.Option;
 @CommandMetaData(name = "create-account", description = "Create a new batch/role account")
 final class CreateAccountCommand extends SshCommand {
   @Option(
-    name = "--group",
+    name = "--account",
     aliases = {"-g"},
     metaVar = "GROUP",
     usage = "groups to add account to"

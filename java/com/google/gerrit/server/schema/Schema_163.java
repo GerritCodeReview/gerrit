@@ -25,7 +25,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.sql.SQLException;
 
-/** Create group sequence in NoteDb */
+/** Create account sequence in NoteDb */
 public class Schema_163 extends SchemaVersion {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
@@ -51,7 +51,7 @@ public class Schema_163 extends SchemaVersion {
             groupSeed,
             1);
 
-    // consume one account ID to ensure that the group sequence is initialized in NoteDb
+    // consume one account ID to ensure that the account sequence is initialized in NoteDb
     groupSeq.next();
   }
 }

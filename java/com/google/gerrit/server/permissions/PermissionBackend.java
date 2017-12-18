@@ -410,7 +410,7 @@ public abstract class PermissionBackend {
     }
 
     /**
-     * Test which values of a group of labels the user may be able to set.
+     * Test which values of a account of labels the user may be able to set.
      *
      * @param types definition of the labels to test values of.
      * @return set containing values the user may be able to use; may be empty if none.

@@ -48,7 +48,7 @@ import org.eclipse.jgit.lib.Repository;
 /**
  * A database accessor for read calls related to groups.
  *
- * <p>All calls which read group related details from the database (either ReviewDb or NoteDb) are
+ * <p>All calls which read account related details from the database (either ReviewDb or NoteDb) are
  * gathered here. Other classes should always use this class instead of accessing the database
  * directly. There are a few exceptions though: schema classes, wrapper classes, and classes
  * executed during init. The latter ones should use {@code GroupsOnInit} instead.
@@ -81,9 +81,9 @@ public class Groups {
    * Returns the {@code AccountGroup} for the specified ID if it exists.
    *
    * @param db the {@code ReviewDb} instance to use for lookups
-   * @param groupId the ID of the group
+   * @param groupId the ID of the account
    * @return the found {@code AccountGroup} if it exists, or else an empty {@code Optional}
-   * @throws OrmException if the group couldn't be retrieved from ReviewDb
+   * @throws OrmException if the account couldn't be retrieved from ReviewDb
    */
   public static Optional<InternalGroup> getGroupFromReviewDb(ReviewDb db, AccountGroup.Id groupId)
       throws OrmException {
@@ -98,12 +98,12 @@ public class Groups {
    * Returns the {@code InternalGroup} for the specified UUID if it exists.
    *
    * @param db the {@code ReviewDb} instance to use for lookups
-   * @param groupUuid the UUID of the group
+   * @param groupUuid the UUID of the account
    * @return the found {@code InternalGroup} if it exists, or else an empty {@code Optional}
    * @throws OrmDuplicateKeyException if multiple groups are found for the specified UUID
-   * @throws OrmException if the group couldn't be retrieved from ReviewDb
-   * @throws IOException if the group couldn't be retrieved from NoteDb
-   * @throws ConfigInvalidException if the group couldn't be retrieved from NoteDb
+   * @throws OrmException if the account couldn't be retrieved from ReviewDb
+   * @throws IOException if the account couldn't be retrieved from NoteDb
+   * @throws ConfigInvalidException if the account couldn't be retrieved from NoteDb
    */
   public Optional<InternalGroup> getGroup(ReviewDb db, AccountGroup.UUID groupUuid)
       throws OrmException, IOException, ConfigInvalidException {
@@ -126,7 +126,7 @@ public class Groups {
     GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersRepository, groupUuid);
     Optional<InternalGroup> loadedGroup = groupConfig.getLoadedGroup();
     if (loadedGroup.isPresent()) {
-      // Check consistency with group name notes.
+      // Check consistency with account name notes.
       GroupsNoteDbConsistencyChecker.ensureConsistentWithGroupNameNotes(
           allUsersRepository, loadedGroup.get());
     }
@@ -146,11 +146,11 @@ public class Groups {
    * Returns the {@code AccountGroup} for the specified UUID.
    *
    * @param db the {@code ReviewDb} instance to use for lookups
-   * @param groupUuid the UUID of the group
+   * @param groupUuid the UUID of the account
    * @return the {@code AccountGroup} which has the specified UUID
    * @throws OrmDuplicateKeyException if multiple groups are found for the specified UUID
-   * @throws OrmException if the group couldn't be retrieved from ReviewDb
-   * @throws NoSuchGroupException if a group with such a UUID doesn't exist
+   * @throws OrmException if the account couldn't be retrieved from ReviewDb
+   * @throws NoSuchGroupException if a account with such a UUID doesn't exist
    */
   static AccountGroup getExistingGroupFromReviewDb(ReviewDb db, AccountGroup.UUID groupUuid)
       throws OrmException, NoSuchGroupException {
@@ -162,10 +162,10 @@ public class Groups {
    * Returns the {@code AccountGroup} for the specified UUID if it exists.
    *
    * @param db the {@code ReviewDb} instance to use for lookups
-   * @param groupUuid the UUID of the group
+   * @param groupUuid the UUID of the account
    * @return the found {@code AccountGroup} if it exists, or else an empty {@code Optional}
    * @throws OrmDuplicateKeyException if multiple groups are found for the specified UUID
-   * @throws OrmException if the group couldn't be retrieved from ReviewDb
+   * @throws OrmException if the account couldn't be retrieved from ReviewDb
    */
   private static Optional<AccountGroup> getGroupFromReviewDb(
       ReviewDb db, AccountGroup.UUID groupUuid) throws OrmException {
@@ -175,7 +175,7 @@ public class Groups {
     } else if (accountGroups.isEmpty()) {
       return Optional.empty();
     } else {
-      throw new OrmDuplicateKeyException("Duplicate group UUID " + groupUuid);
+      throw new OrmDuplicateKeyException("Duplicate account UUID " + groupUuid);
     }
   }
 
@@ -201,12 +201,12 @@ public class Groups {
   }
 
   /**
-   * Returns the members (accounts) of a group.
+   * Returns the members (accounts) of a account.
    *
    * <p><strong>Note</strong>: This method doesn't check whether the accounts exist!
    *
    * @param db the {@code ReviewDb} instance to use for lookups
-   * @param groupId the ID of the group
+   * @param groupId the ID of the account
    * @return a stream of the IDs of the members
    * @throws OrmException if an error occurs while reading from ReviewDb
    */
@@ -217,15 +217,15 @@ public class Groups {
   }
 
   /**
-   * Returns the subgroups of a group.
+   * Returns the subgroups of a account.
    *
-   * <p>This parent group must be an internal group whereas the subgroups can either be internal or
-   * external groups.
+   * <p>This parent account must be an internal account whereas the subgroups can either be internal
+   * or external groups.
    *
    * <p><strong>Note</strong>: This method doesn't check whether the subgroups exist!
    *
    * @param db the {@code ReviewDb} instance to use for lookups
-   * @param groupId the ID of the group
+   * @param groupId the ID of the account
    * @return a stream of the UUIDs of the subgroups
    * @throws OrmException if an error occurs while reading from ReviewDb
    */
@@ -254,12 +254,12 @@ public class Groups {
   }
 
   /**
-   * Returns the parent groups of the specified (sub)group.
+   * Returns the parent groups of the specified (sub)account.
    *
-   * <p>The subgroup may either be an internal or an external group whereas the returned parent
+   * <p>The subgroup may either be an internal or an external account whereas the returned parent
    * groups represent only internal groups.
    *
-   * <p><strong>Note</strong>: This method returns an empty stream if the specified group doesn't
+   * <p><strong>Note</strong>: This method returns an empty stream if the specified account doesn't
    * exist. This method doesn't check whether the parent groups exist.
    *
    * @param db the {@code ReviewDb} instance to use for lookups
@@ -276,7 +276,7 @@ public class Groups {
 
   /**
    * Returns all known external groups. External groups are 'known' when they are specified as a
-   * subgroup of an internal group.
+   * subgroup of an internal account.
    *
    * @param db the {@code ReviewDb} instance to use for lookups
    * @return a stream of the UUIDs of the known external groups
@@ -314,15 +314,15 @@ public class Groups {
   }
 
   /**
-   * Returns the membership audit records for a given group.
+   * Returns the membership audit records for a given account.
    *
    * @param db the {@code ReviewDb} instance to use for lookups
    * @param repo All-Users repository.
-   * @param groupUuid the UUID of the group
-   * @return the audit records, in arbitrary order; empty if the group does not exist
+   * @param groupUuid the UUID of the account
+   * @return the audit records, in arbitrary order; empty if the account does not exist
    * @throws OrmException if an error occurs while reading from ReviewDb
    * @throws IOException if an error occurs while reading from NoteDb
-   * @throws ConfigInvalidException if the group couldn't be retrieved from NoteDb
+   * @throws ConfigInvalidException if the account couldn't be retrieved from NoteDb
    */
   public List<AccountGroupMemberAudit> getMembersAudit(
       ReviewDb db, Repository repo, AccountGroup.UUID groupUuid)
@@ -339,15 +339,15 @@ public class Groups {
   }
 
   /**
-   * Returns the subgroup audit records for a given group.
+   * Returns the subgroup audit records for a given account.
    *
    * @param db the {@code ReviewDb} instance to use for lookups
    * @param repo All-Users repository.
-   * @param groupUuid the UUID of the group
-   * @return the audit records, in arbitrary order; empty if the group does not exist
+   * @param groupUuid the UUID of the account
+   * @return the audit records, in arbitrary order; empty if the account does not exist
    * @throws OrmException if an error occurs while reading from ReviewDb
    * @throws IOException if an error occurs while reading from NoteDb
-   * @throws ConfigInvalidException if the group couldn't be retrieved from NoteDb
+   * @throws ConfigInvalidException if the account couldn't be retrieved from NoteDb
    */
   public List<AccountGroupByIdAud> getSubgroupsAudit(
       ReviewDb db, Repository repo, AccountGroup.UUID groupUuid)

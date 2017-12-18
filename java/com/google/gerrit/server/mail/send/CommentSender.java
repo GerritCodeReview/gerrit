@@ -91,7 +91,7 @@ public class CommentSender extends ReplyToChangeSender {
     }
 
     /**
-     * @return A title for the group, i.e. "Commit Message", "Merge List", or "File [[filename]]".
+     * @return A title for the account, i.e. "Commit Message", "Merge List", or "File [[filename]]".
      */
     public String getTitle() {
       if (Patch.COMMIT_MSG.equals(filename)) {
@@ -212,7 +212,7 @@ public class CommentSender extends ReplyToChangeSender {
     // location of the comment.
     FileCommentGroup currentGroup = null;
     for (Comment c : inlineComments) {
-      // If it's a new group:
+      // If it's a new account:
       if (currentGroup == null
           || !c.key.filename.equals(currentGroup.filename)
           || c.key.patchSetId != currentGroup.patchSetId) {

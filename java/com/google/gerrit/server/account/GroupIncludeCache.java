@@ -18,7 +18,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import java.util.Collection;
 
-/** Tracks group inclusions in memory for efficient access. */
+/** Tracks account inclusions in memory for efficient access. */
 public interface GroupIncludeCache {
 
   /**

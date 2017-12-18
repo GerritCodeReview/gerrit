@@ -151,9 +151,9 @@ public class RefOperationValidators {
 
         if (RefNames.isGroupRef(refEvent.command.getRefName())) {
           if (refEvent.command.getType().equals(ReceiveCommand.Type.CREATE)) {
-            throw new ValidationException("Not allowed to create group branch.");
+            throw new ValidationException("Not allowed to create account branch.");
           } else if (refEvent.command.getType().equals(ReceiveCommand.Type.DELETE)) {
-            throw new ValidationException("Not allowed to delete group branch.");
+            throw new ValidationException("Not allowed to delete account branch.");
           }
         }
       }

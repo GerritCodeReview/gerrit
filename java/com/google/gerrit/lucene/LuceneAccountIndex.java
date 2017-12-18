@@ -124,7 +124,7 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
     Account.Id id = new Account.Id(doc.getField(ID.getName()).numericValue().intValue());
     // Use the AccountCache rather than depending on any stored fields in the
     // document (of which there shouldn't be any). The most expensive part to
-    // compute anyway is the effective group IDs, and we don't have a good way
+    // compute anyway is the effective account IDs, and we don't have a good way
     // to reindex when those change.
     return accountCache.get().get(id);
   }

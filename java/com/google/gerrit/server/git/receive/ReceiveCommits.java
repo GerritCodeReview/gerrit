@@ -133,13 +133,13 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.CreateRefControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.restapi.project.CreateRefControl;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -721,7 +721,7 @@ class ReceiveCommits {
         create.addOps(bu);
       }
 
-      logDebug("Adding {} group update requests", newChanges.size());
+      logDebug("Adding {} account update requests", newChanges.size());
       updateGroups.forEach(r -> r.addOps(bu));
 
       logDebug("Adding {} additional ref updates", actualCommands.size());
@@ -1770,8 +1770,8 @@ class ReceiveCommits {
         boolean commitAlreadyTracked = !existingRefs.isEmpty();
         if (commitAlreadyTracked) {
           alreadyTracked++;
-          // Corner cases where an existing commit might need a new group:
-          // A) Existing commit has a null group; wasn't assigned during schema
+          // Corner cases where an existing commit might need a new account:
+          // A) Existing commit has a null account; wasn't assigned during schema
           //    upgrade, or schema upgrade is performed on a running server.
           // B) Let A<-B<-C, then:
           //      1. Push A to refs/heads/master
@@ -1779,8 +1779,8 @@ class ReceiveCommits {
           //      3. Force push A~ to refs/heads/master
           //      4. Push C to refs/for/master.
           //      B will be in existing so we aren't replacing the patch set. It
-          //      used to have its own group, but now needs to to be changed to
-          //      A's group.
+          //      used to have its own account, but now needs to to be changed to
+          //      A's account.
           // C) Commit is a PatchSet of a pre-existing change uploaded with a
           //    different target branch.
           for (Ref ref : existingRefs) {
@@ -2619,7 +2619,7 @@ class ReceiveCommits {
           try {
             createGroupPermissionSyncer.syncIfNeeded();
           } catch (IOException | ConfigInvalidException e) {
-            log.error("Can't sync create group permissions", e);
+            log.error("Can't sync create account permissions", e);
           }
         }
       }

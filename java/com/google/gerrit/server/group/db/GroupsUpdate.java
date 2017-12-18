@@ -74,7 +74,7 @@ import org.eclipse.jgit.lib.Repository;
 /**
  * A database accessor for write calls related to groups.
  *
- * <p>All calls which write group related details to the database (either ReviewDb or NoteDb) are
+ * <p>All calls which write account related details to the database (either ReviewDb or NoteDb) are
  * gathered here. Other classes should always use this class instead of accessing the database
  * directly. There are a few exceptions though: schema classes, wrapper classes, and classes
  * executed during init. The latter ones should use {@code GroupsOnInit} instead.
@@ -188,16 +188,16 @@ public class GroupsUpdate {
   }
 
   /**
-   * Creates the specified group for the specified members (accounts).
+   * Creates the specified account for the specified members (accounts).
    *
    * @param db the {@code ReviewDb} instance to update
    * @param groupCreation an {@code InternalGroupCreation} which specifies all mandatory properties
-   *     of the group
+   *     of the account
    * @param groupUpdate an {@code InternalGroupUpdate} which specifies optional properties of the
-   *     group. If this {@code InternalGroupUpdate} updates a property which was already specified
+   *     account. If this {@code InternalGroupUpdate} updates a property which was already specified
    *     by the {@code InternalGroupCreation}, the value of this {@code InternalGroupUpdate} wins.
    * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
-   * @throws OrmDuplicateKeyException if a group with the chosen name already exists
+   * @throws OrmDuplicateKeyException if a account with the chosen name already exists
    * @throws IOException if indexing fails, or an error occurs while reading/writing from/to NoteDb
    * @return the created {@code InternalGroup}
    */
@@ -227,17 +227,17 @@ public class GroupsUpdate {
   }
 
   /**
-   * Updates the specified group.
+   * Updates the specified account.
    *
    * @param db the {@code ReviewDb} instance to update
-   * @param groupUuid the UUID of the group to update
+   * @param groupUuid the UUID of the account to update
    * @param groupUpdate an {@code InternalGroupUpdate} which indicates the desired updates on the
-   *     group
+   *     account
    * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
-   * @throws com.google.gwtorm.server.OrmDuplicateKeyException if the new name of the group is used
-   *     by another group
+   * @throws com.google.gwtorm.server.OrmDuplicateKeyException if the new name of the account is
+   *     used by another account
    * @throws IOException if indexing fails, or an error occurs while reading/writing from/to NoteDb
-   * @throws NoSuchGroupException if the specified group doesn't exist
+   * @throws NoSuchGroupException if the specified account doesn't exist
    */
   public void updateGroup(ReviewDb db, AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
       throws OrmException, IOException, NoSuchGroupException, ConfigInvalidException {
@@ -276,8 +276,8 @@ public class GroupsUpdate {
     checkIfReviewDbUpdatesAreBlocked();
 
     AccountGroupName gn = new AccountGroupName(groupCreation.getNameKey(), groupCreation.getId());
-    // first insert the group name to validate that the group name hasn't
-    // already been used to create another group
+    // first insert the account name to validate that the account name hasn't
+    // already been used to create another account
     db.accountGroupNames().insert(ImmutableList.of(gn));
 
     Timestamp createdOn = groupUpdate.getUpdatedOn().orElseGet(TimeUtil::nowTs);
@@ -492,7 +492,7 @@ public class GroupsUpdate {
       return groupConfig
           .getLoadedGroup()
           .orElseThrow(
-              () -> new IllegalStateException("Created group wasn't automatically loaded"));
+              () -> new IllegalStateException("Created account wasn't automatically loaded"));
     }
   }
 
@@ -524,7 +524,7 @@ public class GroupsUpdate {
           groupConfig
               .getLoadedGroup()
               .orElseThrow(
-                  () -> new IllegalStateException("Updated group wasn't automatically loaded"));
+                  () -> new IllegalStateException("Updated account wasn't automatically loaded"));
       return Optional.of(getUpdateResult(originalGroup, updatedGroup));
     }
   }

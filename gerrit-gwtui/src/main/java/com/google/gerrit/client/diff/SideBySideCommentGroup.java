@@ -24,8 +24,8 @@ import net.codemirror.lib.CodeMirror;
 /**
  * LineWidget attached to a CodeMirror container.
  *
- * <p>When a comment is placed on a line a CommentWidget is created on both sides. The group tracks
- * all comment boxes on that same line, and also includes an empty padding element to keep
+ * <p>When a comment is placed on a line a CommentWidget is created on both sides. The account
+ * tracks all comment boxes on that same line, and also includes an empty padding element to keep
  * subsequent lines vertically aligned.
  */
 class SideBySideCommentGroup extends CommentGroup implements Comparable<SideBySideCommentGroup> {

@@ -32,8 +32,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.restapi.group.CreateGroup;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
@@ -153,7 +153,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     reviewers = suggestReviewers(changeId, user2.username, 2);
     assertThat(reviewers).isEmpty();
 
-    setApiUser(user1); // Clear cached group info.
+    setApiUser(user1); // Clear cached account info.
     allowGlobalCapabilities(group1.getGroupUUID(), GlobalCapability.VIEW_ALL_ACCOUNTS);
     reviewers = suggestReviewers(changeId, user2.username, 2);
     assertThat(reviewers).hasSize(1);
@@ -237,7 +237,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     InternalGroup mediumGroup = newGroup("medium");
 
     // Both groups have Administrator as a member. Add two users to large
-    // group to push it past maxAllowed, and one to medium group to push it
+    // account to push it past maxAllowed, and one to medium account to push it
     // past maxWithoutConfirmation.
     user("individual 0", "Test0 Last0", largeGroup, mediumGroup);
     user("individual 1", "Test1 Last1", largeGroup);
@@ -253,11 +253,11 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertThat(reviewer.count).isEqualTo(1);
     assertThat(reviewer.confirm).isNull();
 
-    // Large group should never be suggested.
+    // Large account should never be suggested.
     reviewers = suggestReviewers(changeId, largeGroup.getName(), 10);
     assertThat(reviewers).isEmpty();
 
-    // Medium group should be suggested with appropriate count and confirm.
+    // Medium account should be suggested with appropriate count and confirm.
     reviewers = suggestReviewers(changeId, mediumGroup.getName(), 10);
     assertThat(reviewers).hasSize(1);
     reviewer = reviewers.get(0);

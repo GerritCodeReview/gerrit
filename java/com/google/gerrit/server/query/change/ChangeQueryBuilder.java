@@ -59,7 +59,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitDryRun;
-import com.google.gerrit.server.group.ListMembers;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
@@ -72,6 +71,7 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.restapi.group.ListMembers;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -723,7 +723,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     // Parse for:
     // label:CodeReview=1,user=jsmith or
     // label:CodeReview=1,jsmith or
-    // label:CodeReview=1,group=android_approvers or
+    // label:CodeReview=1,account=android_approvers or
     // label:CodeReview=1,android_approvers
     // user/groups without a label will first attempt to match user
     // Special case: votes by owners can be tracked with ",owner":
@@ -733,7 +733,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     name = splitReviewer[0]; // remove all but the vote piece, e.g.'CodeReview=1'
 
     if (splitReviewer.length == 2) {
-      // process the user/group piece
+      // process the user/account piece
       PredicateArgs lblArgs = new PredicateArgs(splitReviewer[1]);
 
       for (Map.Entry<String, String> pair : lblArgs.keyValue.entrySet()) {
@@ -752,7 +752,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
       for (String value : lblArgs.positional) {
         if (accounts != null || group != null) {
-          throw new QueryParseException("more than one user/group specified (" + value + ")");
+          throw new QueryParseException("more than one user/account specified (" + value + ")");
         }
         try {
           if (value.equals(ARG_ID_OWNER)) {
@@ -761,18 +761,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
             accounts = parseAccount(value);
           }
         } catch (QueryParseException qpex) {
-          // If it doesn't match an account, see if it matches a group
+          // If it doesn't match an account, see if it matches a account
           // (accounts get precedence)
           try {
             group = parseGroup(value).getUUID();
           } catch (QueryParseException e) {
-            throw error("Neither user nor group " + value + " found", e);
+            throw error("Neither user nor account " + value + " found", e);
           }
         }
       }
     }
 
-    // expand a group predicate into multiple user predicates
+    // expand a account predicate into multiple user predicates
     if (group != null) {
       Set<Account.Id> allMembers =
           args.listMembers
@@ -905,7 +905,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return Predicate.or(p);
     }
 
-    // If its not an account, maybe its a group?
+    // If its not an account, maybe its a account?
     //
     Collection<GroupReference> suggestions = args.groupBackend.suggest(who, null);
     if (!suggestions.isEmpty()) {
@@ -916,7 +916,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return visibleto(new SingleGroupUser(ids));
     }
 
-    throw error("No user or group matches \"" + who + "\".");
+    throw error("No user or account matches \"" + who + "\".");
   }
 
   public Predicate<ChangeData> visibleto(CurrentUser user) {

@@ -49,7 +49,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Check the referential integrity of NoteDb group storage. */
+/** Check the referential integrity of NoteDb account storage. */
 @Singleton
 public class GroupsNoteDbConsistencyChecker {
   private static final Logger log = LoggerFactory.getLogger(GroupsNoteDbConsistencyChecker.class);
@@ -78,7 +78,7 @@ public class GroupsNoteDbConsistencyChecker {
 
     BiMap<AccountGroup.UUID, String> uuidNameBiMap = HashBiMap.create();
 
-    // Get all refs in an attempt to avoid seeing half committed group updates.
+    // Get all refs in an attempt to avoid seeing half committed account updates.
     Map<String, Ref> refs = repo.getAllRefs();
     readGroups(repo, refs, result);
     readGroupNames(repo, refs, result, uuidNameBiMap);
@@ -111,7 +111,7 @@ public class GroupsNoteDbConsistencyChecker {
             GroupConfig.loadForGroupSnapshot(repo, uuid, entry.getValue().getObjectId());
         result.uuidToGroupMap.put(uuid, cfg.getLoadedGroup().get());
       } catch (ConfigInvalidException e) {
-        result.problems.add(error("group %s does not parse: %s", uuid, e.getMessage()));
+        result.problems.add(error("account %s does not parse: %s", uuid, e.getMessage()));
       }
     }
   }
@@ -160,7 +160,7 @@ public class GroupsNoteDbConsistencyChecker {
     }
   }
 
-  /** Check invariants of the group refs with the group name refs. */
+  /** Check invariants of the account refs with the account name refs. */
   private List<ConsistencyProblemInfo> checkGlobalConsistency(
       Map<AccountGroup.UUID, InternalGroup> uuidToGroupMap,
       BiMap<AccountGroup.UUID, String> uuidNameBiMap) {
@@ -169,7 +169,7 @@ public class GroupsNoteDbConsistencyChecker {
     // Check consistency between the data coming from different refs.
     for (AccountGroup.UUID uuid : uuidToGroupMap.keySet()) {
       if (!uuidNameBiMap.containsKey(uuid)) {
-        problems.add(error("group %s has no entry in name map", uuid));
+        problems.add(error("account %s has no entry in name map", uuid));
         continue;
       }
 
@@ -178,7 +178,7 @@ public class GroupsNoteDbConsistencyChecker {
       if (!Objects.equals(noteName, groupRefName)) {
         problems.add(
             error(
-                "inconsistent name for group %s (name map %s vs. group ref %s)",
+                "inconsistent name for account %s (name map %s vs. account ref %s)",
                 uuid, noteName, groupRefName));
       }
     }
@@ -187,7 +187,7 @@ public class GroupsNoteDbConsistencyChecker {
       if (!uuidToGroupMap.containsKey(uuid)) {
         problems.add(
             error(
-                "name map has entry (%s, %s), entry missing as group ref",
+                "name map has entry (%s, %s), entry missing as account ref",
                 uuid, uuidNameBiMap.get(uuid)));
       }
     }
@@ -200,7 +200,7 @@ public class GroupsNoteDbConsistencyChecker {
         if (before != null) {
           problems.add(
               error(
-                  "shared group id %s for %s (%s) and %s (%s)",
+                  "shared account id %s for %s (%s) and %s (%s)",
                   g.getId(),
                   before.getName(),
                   before.getGroupUUID(),
@@ -223,11 +223,11 @@ public class GroupsNoteDbConsistencyChecker {
   }
 
   /**
-   * Check group 'uuid' and 'name' read from 'group.config' with group name notes.
+   * Check account 'uuid' and 'name' read from 'account.config' with account name notes.
    *
    * @param allUsersRepo 'All-Users' repository.
-   * @param groupName the name of the group to be checked.
-   * @param groupUUID the {@code AccountGroup.UUID} of the group to be checked.
+   * @param groupName the name of the account to be checked.
+   * @param groupUUID the {@code AccountGroup.UUID} of the account to be checked.
    * @return a list of {@code ConsistencyProblemInfo} containing the problem details.
    */
   @VisibleForTesting
@@ -249,18 +249,18 @@ public class GroupsNoteDbConsistencyChecker {
       if (!Objects.equals(groupUUID, uuid)) {
         problems.add(
             warning(
-                "group with name '%s' has UUID '%s' in 'group.config' but '%s' in group name notes",
+                "account with name '%s' has UUID '%s' in 'account.config' but '%s' in account name notes",
                 groupName, groupUUID, uuid));
       }
 
       if (!Objects.equals(groupName, name)) {
         problems.add(
-            warning("group note of name '%s' claims to represent name of '%s'", groupName, name));
+            warning("account note of name '%s' claims to represent name of '%s'", groupName, name));
       }
       return problems;
     } catch (ConfigInvalidException e) {
       return ImmutableList.of(
-          warning("fail to check consistency with group name notes: %s", e.getMessage()));
+          warning("fail to check consistency with account name notes: %s", e.getMessage()));
     }
   }
 
@@ -278,6 +278,7 @@ public class GroupsNoteDbConsistencyChecker {
 
   public static void logFailToLoadFromGroupRefAsWarning(AccountGroup.UUID uuid) {
     logConsistencyProblem(
-        warning("Group with UUID %s from group name notes failed to load from group ref", uuid));
+        warning(
+            "Group with UUID %s from account name notes failed to load from account ref", uuid));
   }
 }

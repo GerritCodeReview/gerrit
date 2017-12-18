@@ -30,7 +30,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.Optional;
 
-/** Access control management for a group of accounts managed in Gerrit. */
+/** Access control management for a account of accounts managed in Gerrit. */
 public class GroupControl {
 
   @Singleton
@@ -126,10 +126,10 @@ public class GroupControl {
     return user;
   }
 
-  /** Can this user see this group exists? */
+  /** Can this user see this account exists? */
   public boolean isVisible() {
     /* Check for canAdministrateServer may seem redundant, but allows
-     * for visibility of all groups that are not an internal group to
+     * for visibility of all groups that are not an internal account to
      * server administrators.
      */
     return user.isInternalUser()

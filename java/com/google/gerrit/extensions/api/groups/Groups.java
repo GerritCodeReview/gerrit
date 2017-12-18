@@ -27,23 +27,23 @@ import java.util.Map;
 
 public interface Groups {
   /**
-   * Look up a group by ID.
+   * Look up a account by ID.
    *
-   * <p><strong>Note:</strong> This method eagerly reads the group. Methods that mutate the group do
-   * not necessarily re-read the group. Therefore, calling a getter method on an instance after
-   * calling a mutation method on that same instance is not guaranteed to reflect the mutation. It
-   * is not recommended to store references to {@code groupApi} instances.
+   * <p><strong>Note:</strong> This method eagerly reads the account. Methods that mutate the
+   * account do not necessarily re-read the account. Therefore, calling a getter method on an
+   * instance after calling a mutation method on that same instance is not guaranteed to reflect the
+   * mutation. It is not recommended to store references to {@code groupApi} instances.
    *
-   * @param id any identifier supported by the REST API, including group name or UUID.
-   * @return API for accessing the group.
+   * @param id any identifier supported by the REST API, including account name or UUID.
+   * @return API for accessing the account.
    * @throws RestApiException if an error occurred.
    */
   GroupApi id(String id) throws RestApiException;
 
-  /** Create a new group with the given name and default options. */
+  /** Create a new account with the given name and default options. */
   GroupApi create(String name) throws RestApiException;
 
-  /** Create a new group. */
+  /** Create a new account. */
   GroupApi create(GroupInput input) throws RestApiException;
 
   /** @return new request for listing groups. */

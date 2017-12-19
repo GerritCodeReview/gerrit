@@ -107,6 +107,24 @@
       "revId": "66d0b2e8078e139fa54d5cf3dccc900173a5fe68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc121cfe_e18f9b5a",
+        "filename": "java/com/google/gerrit/server/project/Reachable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-12-19T07:48:15Z",
+      "side": 1,
+      "message": "It is not strictly required here [1] (only on public and protected methods and on public classes) but I agree it is good to have.\n\n[1] https://google.github.io/styleguide/javaguide.html#s7.3-javadoc-where-required",
+      "parentUuid": "e7837dbe_fdd86623",
+      "revId": "66d0b2e8078e139fa54d5cf3dccc900173a5fe68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

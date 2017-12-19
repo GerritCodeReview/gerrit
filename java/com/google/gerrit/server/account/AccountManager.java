@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountsUpdate.AccountUpdater;
+import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
@@ -266,25 +267,23 @@ public class AccountManager {
 
     Account account;
     try {
-      AccountsUpdate accountsUpdate = accountsUpdateFactory.create();
       account =
-          accountsUpdate.insert(
-              "Create Account on First Login",
-              newId,
-              u -> u.setFullName(who.getDisplayName()).setPreferredEmail(extId.email()));
-
-      ExternalId existingExtId = externalIds.get(extId.key());
-      if (existingExtId != null && !existingExtId.accountId().equals(extId.accountId())) {
-        // external ID is assigned to another account, do not overwrite
-        accountsUpdate.delete(account);
-        throw new AccountException(
-            "Cannot assign external ID \""
-                + extId.key().get()
-                + "\" to account "
-                + newId
-                + "; external ID already in use.");
-      }
-      externalIdsUpdateFactory.create().upsert(extId);
+          accountsUpdateFactory
+              .create()
+              .insert(
+                  "Create Account on First Login",
+                  newId,
+                  u ->
+                      u.setFullName(who.getDisplayName())
+                          .setPreferredEmail(extId.email())
+                          .addExternalId(extId));
+    } catch (DuplicateExternalIdKeyException e) {
+      throw new AccountException(
+          "Cannot assign external ID \""
+              + e.getDuplicateKey().get()
+              + "\" to account "
+              + newId
+              + "; external ID already in use.");
     } finally {
       // If adding the account failed, it may be that it actually was the
       // first account. So we reset the 'check for first account'-guard, as

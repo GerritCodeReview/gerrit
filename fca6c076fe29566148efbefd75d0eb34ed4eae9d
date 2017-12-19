@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "6a875652_f514f001",
+        "filename": "java/com/google/gerrit/server/account/externalids/DuplicateExternalIdKeyException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-19T16:08:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53c23635_ab89855c",
+      "range": {
+        "startLine": 20,
+        "startChar": 73,
+        "endLine": 20,
+        "endChar": 76
+      },
+      "revId": "fca6c076fe29566148efbefd75d0eb34ed4eae9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0caeaf48_b8fafc20",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 2

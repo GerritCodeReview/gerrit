@@ -78,5 +78,12 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.equal(getComputedStyle(element.$.input).display, 'none');
     });
+
+    test('hideLabel', () => {
+      assert.notEqual(getComputedStyle(element.$$('label')).display, 'none');
+      element.hideLabel = true;
+      flushAsynchronousOperations();
+      assert.equal(getComputedStyle(element.$$('label')).display, 'none');
+    });
   });
 </script>

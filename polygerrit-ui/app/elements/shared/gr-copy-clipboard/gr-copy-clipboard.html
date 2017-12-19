@@ -36,18 +36,20 @@ limitations under the License.
         flex-grow: 1;
         margin-right: .3em;
       }
-      .hideInput {
+      .hideInput,
+      .hideLabel label {
         display: none;
       }
       input {
         font-family: var(--monospace-font-family);
         font-size: inherit;
       }
-      #button {
-        padding-left: .5em;
+      #icon {
+        height: 1.2em;
+        width: 1.2em;
       }
     </style>
-    <div class="text">
+    <div class$="text [[_computeLabelClass(hideLabel)]]">
         <label>[[title]]</label>
         <input id="input" is="iron-input"
             class$="copyText [[_computeInputClass(hideInput)]]"
@@ -57,7 +59,9 @@ limitations under the License.
             readonly>
         <gr-button id="button"
             link
+            has-tooltip="[[hasTooltip]]"
             class="copyToClipboard"
+            title="[[buttonTitle]]"
             on-tap="_copyToClipboard">
           <iron-icon id="icon" icon="gr-icons:content-copy"></iron-icon>
         </gr-button>

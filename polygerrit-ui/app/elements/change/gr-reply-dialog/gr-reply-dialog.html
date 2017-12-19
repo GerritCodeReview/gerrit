@@ -164,7 +164,8 @@ limitations under the License.
               change="[[change]]"
               filter="[[filterReviewerSuggestion]]"
               pending-confirmation="{{_reviewerPendingConfirmation}}"
-              placeholder="Add reviewer...">
+              placeholder="Add reviewer..."
+              on-account-text-changed="_handleAccountTextEntry">
           </gr-account-list>
         </div>
         <template is="dom-if" if="[[serverConfig.note_db_enabled]]">
@@ -177,7 +178,8 @@ limitations under the License.
                 filter="[[filterCCSuggestion]]"
                 pending-confirmation="{{_ccPendingConfirmation}}"
                 allow-any-input
-                placeholder="Add CC...">
+                placeholder="Add CC..."
+                on-account-text-changed="_handleAccountTextEntry">
             </gr-account-list>
           </div>
         </template>

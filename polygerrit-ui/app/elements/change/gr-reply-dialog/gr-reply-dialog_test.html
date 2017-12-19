@@ -407,6 +407,17 @@ limitations under the License.
       assert.equal(actual.path, '@change');
     });
 
+    test.only('_reviewersMutated when account-text-change is fired from ccs', () => {
+      element.serverConfig = {note_db_enabled: true};
+      flushAsynchronousOperations();
+      assert.isFalse(element._reviewersMutated);
+      assert.isTrue(element.$$('#ccs').allowAnyInput);
+      assert.isFalse(element.$$('#reviewers').allowAnyInput);
+      element.$$('#ccs').dispatchEvent(new CustomEvent('account-text-changed',
+          {bubbles: true}));
+      assert.isTrue(element._reviewersMutated);
+    });
+
     test('gets draft from storage on open', () => {
       const storedDraft = 'hello world';
       getDraftCommentStub.returns({message: storedDraft});

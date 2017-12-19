@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3206a0dc_64a9478b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-19T01:10:03Z",
+      "side": 1,
+      "message": "Have you tested this with a host that has super long label names? E.g. some android host or something.",
+      "revId": "dca5e68825c695693ff1f3e41ba81f6d16c952b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

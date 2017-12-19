@@ -313,7 +313,7 @@ public class AccountManager {
       // Only set if the name hasn't been used yet, but was given to us.
       //
       try {
-        changeUserNameFactory.create(user, who.getUserName()).call();
+        changeUserNameFactory.create("Set Username on Login", user, who.getUserName()).call();
       } catch (NameAlreadyUsedException e) {
         String message =
             "Cannot assign user name \""

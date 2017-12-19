@@ -22,6 +22,30 @@
       "revId": "364fb8180ce4c1f12c1ac30f33612d889a03d4dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dac6ad1_e2c96ae8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/WorkInProgressStateChangedEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-19T11:21:26Z",
+      "side": 1,
+      "message": "I would rebase this change on top of the other change and remove this.",
+      "parentUuid": "3ad68c3c_bfeb7a0d",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 23
+      },
+      "revId": "364fb8180ce4c1f12c1ac30f33612d889a03d4dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -23,11 +23,16 @@
    */
   const plugins = {};
 
-  const stubbedMethods = ['_loadedGwt', 'settingsScreen', 'panel'];
+  const stubbedMethods = ['_loadedGwt', 'settingsScreen'];
   const GWT_PLUGIN_STUB = {};
   for (const name of stubbedMethods) {
     GWT_PLUGIN_STUB[name] = warnNotSupported.bind(null, name);
   }
+
+  const PANEL_ENDPOINTS_MAPPING = {
+    CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK: 'change-view-integration',
+    CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK: 'change-metadata-item',
+  };
 
   let _restAPI;
   const getRestAPI = () => {
@@ -110,6 +115,7 @@
     this.deprecated = {
       install: deprecatedAPI.install.bind(this),
       onAction: deprecatedAPI.onAction.bind(this),
+      panel: deprecatedAPI.panel.bind(this),
       popup: deprecatedAPI.popup.bind(this),
       screen: deprecatedAPI.screen.bind(this),
     };
@@ -249,6 +255,11 @@
     return api.open();
   };
 
+  Plugin.prototype.panel = function() {
+    console.error('.panel() is deprecated! ' +
+        'Use registerCustomComponent() instead.');
+  };
+
   Plugin.prototype.screen = function(screenName, opt_moduleName) {
     if (opt_moduleName && typeof opt_moduleName !== 'string') {
       throw new Error('deprecated, use deprecated.screen');
@@ -320,6 +331,23 @@
               },
             });
           });
+    },
+
+    panel(extensionpoint, callback) {
+      console.warn('.panel() is deprecated! ' +
+          'Use registerCustomComponent() instead.');
+      const endpoint = PANEL_ENDPOINTS_MAPPING[extensionpoint];
+      if (!endpoint) {
+        console.warn(`.panel ${extensionpoint} not supported!`);
+        return;
+      }
+      this.hook(endpoint).onAttached(el => callback({
+        body: el,
+        p: {
+          CHANGE_INFO: el.change,
+          REVISION_INFO: el.revision,
+        },
+      }));
     },
   };
 

@@ -484,5 +484,39 @@ limitations under the License.
             'testplugin-screen-foo', 'some-module'));
       });
     });
+
+    suite('panel', () => {
+      let fakeEl;
+      let emulateAttached;
+
+      setup(()=> {
+        fakeEl = {change: {}, revision: {}};
+        const hookStub = {onAttached: sandbox.stub()};
+        sandbox.stub(plugin, 'hook').returns(hookStub);
+        emulateAttached = () => hookStub.onAttached.callArgWith(0, fakeEl);
+      });
+
+      test('plugin.panel is deprecated', () => {
+        plugin.panel('rubbish');
+        assert.isTrue(console.error.called);
+      });
+
+      [
+        ['CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK', 'change-view-integration'],
+        ['CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK', 'change-metadata-item'],
+      ].forEach(([panelName, endpointName]) => {
+        test(`deprecated.panel works for ${panelName}`, () => {
+          const callback = sandbox.stub();
+          plugin.deprecated.panel(panelName, callback);
+          assert.isTrue(plugin.hook.calledWith(endpointName));
+          emulateAttached();
+          assert.isTrue(callback.called);
+          const args = callback.args[0][0];
+          assert.strictEqual(args.body, fakeEl);
+          assert.strictEqual(args.p.CHANGE_INFO, fakeEl.change);
+          assert.strictEqual(args.p.REVISION_INFO, fakeEl.revision);
+        });
+      });
+    });
   });
 </script>

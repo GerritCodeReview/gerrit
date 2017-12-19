@@ -216,10 +216,11 @@ public class AccountManager {
         accountUpdates.add(u -> u.setPreferredEmail(newEmail));
       }
 
-      externalIdsUpdateFactory
-          .create()
-          .replace(
-              extId, ExternalId.create(extId.key(), extId.accountId(), newEmail, extId.password()));
+      accountUpdates.add(
+          u ->
+              u.replaceExternalId(
+                  extId,
+                  ExternalId.create(extId.key(), extId.accountId(), newEmail, extId.password())));
     }
 
     if (!realm.allowsEdit(AccountFieldName.FULL_NAME)

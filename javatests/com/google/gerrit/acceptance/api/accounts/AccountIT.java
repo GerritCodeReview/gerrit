@@ -97,7 +97,6 @@ import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -177,8 +176,6 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private AccountsUpdate.Server accountsUpdate;
 
   @Inject private ExternalIds externalIds;
-
-  @Inject private ExternalIdsUpdate.User externalIdsUpdateFactory;
 
   @Inject private DynamicSet<AccountIndexedListener> accountIndexedListeners;
 
@@ -849,11 +846,16 @@ public class AccountIT extends AbstractDaemonTest {
     String email = "foo.bar@example.com";
     String extId1 = "foo:bar";
     String extId2 = "foo:baz";
-    List<ExternalId> extIds =
-        ImmutableList.of(
-            ExternalId.createWithEmail(ExternalId.Key.parse(extId1), admin.id, email),
-            ExternalId.createWithEmail(ExternalId.Key.parse(extId2), admin.id, email));
-    externalIdsUpdateFactory.create().insert(extIds);
+    accountsUpdate
+        .create()
+        .update(
+            "Add External IDs",
+            admin.id,
+            u ->
+                u.addExternalId(
+                        ExternalId.createWithEmail(ExternalId.Key.parse(extId1), admin.id, email))
+                    .addExternalId(
+                        ExternalId.createWithEmail(ExternalId.Key.parse(extId2), admin.id, email)));
     accountIndexedCounter.assertReindexOf(admin);
     assertThat(
             gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))
@@ -905,9 +907,14 @@ public class AccountIT extends AbstractDaemonTest {
 
     // exact match with other scheme
     String email = "foo.bar@example.com";
-    externalIdsUpdateFactory
+    accountsUpdate
         .create()
-        .insert(ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), admin.id, email));
+        .update(
+            "Add Email",
+            admin.id,
+            u ->
+                u.addExternalId(
+                    ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), admin.id, email)));
     assertEmail(emails.getAccountFor(email), admin);
 
     // wrong case doesn't match
@@ -1682,7 +1689,12 @@ public class AccountIT extends AbstractDaemonTest {
   public void addOtherUsersGpgKey_Conflict() throws Exception {
     // Both users have a matching external ID for this key.
     addExternalIdEmail(admin, "test5@example.com");
-    externalIdsUpdateFactory.create().insert(ExternalId.create("foo", "myId", user.getId()));
+    accountsUpdate
+        .create()
+        .update(
+            "Add External ID",
+            user.getId(),
+            u -> u.addExternalId(ExternalId.create("foo", "myId", user.getId())));
     accountIndexedCounter.assertReindexOf(user);
 
     TestKey key = validKeyWithSecondUserId();
@@ -1856,7 +1868,12 @@ public class AccountIT extends AbstractDaemonTest {
 
     // Delete the external ID for the preferred email. This makes the account inconsistent since it
     // now doesn't have an external ID for its preferred email.
-    externalIdsUpdateFactory.create().delete(ExternalId.createEmail(account.getId(), email));
+    accountsUpdate
+        .create()
+        .update(
+            "Delete External ID",
+            account.getId(),
+            u -> u.deleteExternalId(ExternalId.createEmail(account.getId(), email)));
     expectedProblems.add(
         new ConsistencyProblemInfo(
             ConsistencyProblemInfo.Status.ERROR,
@@ -2249,9 +2266,14 @@ public class AccountIT extends AbstractDaemonTest {
 
   private void addExternalIdEmail(TestAccount account, String email) throws Exception {
     checkNotNull(email);
-    externalIdsUpdateFactory
+    accountsUpdate
         .create()
-        .insert(ExternalId.createWithEmail(name("test"), email, account.getId(), email));
+        .update(
+            "Add Email",
+            account.getId(),
+            u ->
+                u.addExternalId(
+                    ExternalId.createWithEmail(name("test"), email, account.getId(), email)));
     accountIndexedCounter.assertReindexOf(account);
     setApiUser(account);
   }

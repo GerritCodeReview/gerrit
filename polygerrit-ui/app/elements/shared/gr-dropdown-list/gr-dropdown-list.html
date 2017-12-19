@@ -31,7 +31,7 @@ limitations under the License.
       :host {
         display: inline-block;
       }
-      #trigger {
+      #triggerText {
         -moz-user-select: text;
         -ms-user-select: text;
         -webkit-user-select: text;
@@ -131,7 +131,7 @@ limitations under the License.
         class="dropdown-trigger"
         on-tap="_showDropdownTapHandler"
         slot="dropdown-trigger">
-      <span>[[text]]</span>
+      <span id="triggerText">[[text]]</span>
     </gr-button>
     <iron-dropdown
         id="dropdown"

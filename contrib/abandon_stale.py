@@ -186,6 +186,9 @@ def _main():
         abandon_message += "\n\n" + options.message
     for change in stale_changes:
         number = change["_number"]
+        project = ""
+        if len(options.projects) != 1:
+            project = "%s: " % change["project"]
         owner = ""
         if options.verbose:
             try:
@@ -197,7 +200,7 @@ def _main():
         if len(subject) > 70:
             subject = subject[:65] + " [...]"
         change_id = change["id"]
-        logging.info("%s%s: %s", number, owner, subject)
+        logging.info("%s%s: %s%s", number, owner, project, subject)
         if options.dry_run:
             continue
 

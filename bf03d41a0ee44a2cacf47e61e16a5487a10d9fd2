@@ -1,4 +1,56 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1513692761 +0100\nnonce ADEcKBoib35lZNFlPpIC4oPpJ9UEDkT1C0KRHUMas9SGHjkV/ZcJ4l9zEpUaIHnP+Ll6QWHKT7HJ\n\n0000000000000000000000000000000000000000 d54e99d79b2f67ee5d1322fd335418118c18bb4f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaOR5ZAAoJEFG1/Zeg0O9Re9sH/RtcRoWOYxiQcthAe8l2Zr86\n8qrGcmekQBplifwRwFF0HQp2u4O/brnJkMc7UmwI27zB8Up+5LqhGoF9f/K6R+/Q\nenQpOVztQhGoJhwkXvLX4WPvyD4WxSUC6UTWaHNzI5o1degn8+4SF5/eKbWTQFeU\nOTOvOc+BTHCqyhDqazf1/Eyb9buMb8laaf7QyTVxkccE3AZZLQXRt50cuptE+nuK\nAryV9fsPSWkpjPT+Cre5Kuql7oQfSwoCatjFcNEPrj9wezk9rbgAeceW8HqcCyOw\n1Wnui1/ekWRfTqYgp+jmgReXTMXB8NIKvRBqcnBsIbhsRQ9Td3bTqQuyxB0D5gE\u003d\n\u003dTFAG\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "263f7c65_87cd7ecb",
+        "filename": "java/com/google/gerrit/server/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-19T14:32:55Z",
+      "side": 1,
+      "message": "Would it make the code clearer if you moved the createEmail/extIds.add calls into the if block on line 124 instead?",
+      "revId": "bf03d41a0ee44a2cacf47e61e16a5487a10d9fd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87310a8a_6fa97336",
+        "filename": "java/com/google/gerrit/server/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-19T14:32:55Z",
+      "side": 1,
+      "message": "I think you can just use e.getDuplicateKey().isScheme(SCHEME_USERNAME) and then you don\u0027t have to hold on to a reference to extUser. Same with the other ID types.",
+      "revId": "bf03d41a0ee44a2cacf47e61e16a5487a10d9fd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d972123_7ff5b9cd",
+        "filename": "java/com/google/gerrit/server/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-19T14:32:55Z",
+      "side": 1,
+      "message": "Why are 2/3 of these cases ResourceConflictException and the other one is UnprocessableEntityException? Is the idea to preserve the existing exception behavior (assuming the OrmDuplicateKeyExceptionw as previously caught and translated to RCE)? If so, is it actually necessary to preserve the existing behavior, or can we take this opportunity to unify them?",
+      "revId": "bf03d41a0ee44a2cacf47e61e16a5487a10d9fd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

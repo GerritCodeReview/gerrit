@@ -35,6 +35,8 @@ public class ChangeAttribute {
   public Boolean open;
   public Change.Status status;
   public List<MessageAttribute> comments;
+  public Boolean wip;
+  public Boolean isPrivate;
 
   public List<TrackingIdAttribute> trackingIds;
   public PatchSetAttribute currentPatchSet;

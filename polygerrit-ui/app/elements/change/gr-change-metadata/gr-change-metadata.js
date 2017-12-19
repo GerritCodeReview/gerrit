@@ -134,10 +134,21 @@
     _computeLabelValues(labelName, _labels) {
       const result = [];
       const labels = _labels.base;
-      const t = labels[labelName];
-      if (!t) { return result; }
-      const approvals = t.all || [];
-      const values = Object.keys(t.values);
+      const labelInfo = labels[labelName];
+      if (!labelInfo) { return result; }
+      if (!labelInfo.values) {
+        if (labelInfo.rejected || labelInfo.approved) {
+          const ok = labelInfo.approved || !labelInfo.rejected;
+          return [{
+            value: ok ? '👍️' : '👎️',
+            className: ok ? 'positive' : 'negative',
+            account: ok ? labelInfo.approved : labelInfo.rejected,
+          }];
+        }
+        return result;
+      }
+      const approvals = labelInfo.all || [];
+      const values = Object.keys(labelInfo.values);
       for (const label of approvals) {
         if (label.value && label.value != labels[labelName].default_value) {
           let labelClassName;

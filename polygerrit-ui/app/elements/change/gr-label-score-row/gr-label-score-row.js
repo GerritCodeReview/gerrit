@@ -142,7 +142,9 @@
     },
 
     _computeLabelValueTitle(labels, label, value) {
-      return labels[label] && labels[label].values[value];
+      return labels[label] &&
+        labels[label].values &&
+        labels[label].values[value];
     },
   });
 })();

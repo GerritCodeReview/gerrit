@@ -104,7 +104,7 @@ public class GroupTestUtil {
               .branch(refName)
               .commit()
               .add(fileName, contents)
-              .message("update group file")
+              .message("update account file")
               .author(serverIdent)
               .committer(serverIdent);
 

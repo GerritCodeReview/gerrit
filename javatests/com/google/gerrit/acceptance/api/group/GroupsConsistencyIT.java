@@ -46,9 +46,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Checks that invalid group configurations are flagged. Since the inconsistencies are global to the
- * test server configuration, and leak from one test method into the next one, there is no way for
- * this test to not be sandboxed.
+ * Checks that invalid account configurations are flagged. Since the inconsistencies are global to
+ * the test server configuration, and leak from one test method into the next one, there is no way
+ * for this test to not be sandboxed.
  */
 @Sandboxed
 @NoHttpd
@@ -105,7 +105,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
       assertThat(result).isEqualTo(Result.FORCED);
     }
 
-    assertError("refs/meta/group-names does not exist");
+    assertError("refs/meta/account-names does not exist");
   }
 
   @Test
@@ -118,7 +118,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
       assertThat(result).isEqualTo(Result.FORCED);
     }
 
-    assertError("missing as group ref");
+    assertError("missing as account ref");
   }
 
   @Test
@@ -147,7 +147,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
       assertThat(result).isEqualTo(Result.RENAMED);
     }
 
-    assertError("group " + BOGUS_UUID + " has no entry in name map");
+    assertError("account " + BOGUS_UUID + " has no entry in name map");
   }
 
   @Test
@@ -193,7 +193,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
         RefNames.refsGroups(new AccountGroup.UUID(g1.id)),
         GroupConfig.GROUP_CONFIG_FILE,
         cfg.toText());
-    assertError("shared group id");
+    assertError("shared account id");
   }
 
   @Test
@@ -207,7 +207,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
         RefNames.refsGroups(new AccountGroup.UUID(g1.id)),
         GroupConfig.GROUP_CONFIG_FILE,
         cfg.toText());
-    assertError("nonexistent owner group");
+    assertError("nonexistent owner account");
   }
 
   @Test
@@ -221,7 +221,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
         RefNames.REFS_GROUPNAMES,
         GroupNameNotes.getNoteKey(new AccountGroup.NameKey(bogusName)).getName(),
         config.toText());
-    assertError("entry missing as group ref");
+    assertError("entry missing as account ref");
   }
 
   @Test

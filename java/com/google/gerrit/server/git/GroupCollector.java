@@ -51,20 +51,20 @@ import org.slf4j.LoggerFactory;
  * Helper for assigning groups to commits during {@code ReceiveCommits}.
  *
  * <p>For each commit encountered along a walk between the branch tip and the tip of the push, the
- * group of a commit is defined as follows:
+ * account of a commit is defined as follows:
  *
  * <ul>
- *   <li>If the commit is an existing patch set of a change, the group is read from the group field
- *       in the corresponding {@link PatchSet} record.
- *   <li>If all of a commit's parents are merged into the branch, then its group is its own SHA-1.
- *   <li>If the commit has a single parent that is not yet merged into the branch, then its group is
- *       the same as the parent's group.
+ *   <li>If the commit is an existing patch set of a change, the account is read from the account
+ *       field in the corresponding {@link PatchSet} record.
+ *   <li>If all of a commit's parents are merged into the branch, then its account is its own SHA-1.
+ *   <li>If the commit has a single parent that is not yet merged into the branch, then its account
+ *       is the same as the parent's account.
  *   <li>
- *   <li>For a merge commit, choose a parent and use that parent's group. If one of the parents has
- *       a group from a patch set, use that group, otherwise, use the group from the first parent.
- *       In addition to setting this merge commit's group, use the chosen group for all commits that
- *       would otherwise use a group from the parents that were not chosen.
- *   <li>If a merge commit has multiple parents whose group comes from separate patch sets,
+ *   <li>For a merge commit, choose a parent and use that parent's account. If one of the parents
+ *       has a account from a patch set, use that account, otherwise, use the account from the first
+ *       parent. In addition to setting this merge commit's account, use the chosen account for all
+ *       commits that would otherwise use a account from the parents that were not chosen.
+ *   <li>If a merge commit has multiple parents whose account comes from separate patch sets,
  *       concatenate the groups from those parents together. This indicates two side branches were
  *       pushed separately, followed by the merge.
  *   <li>
@@ -170,13 +170,13 @@ public class GroupCollector {
 
     if (interestingParents.size() == 0) {
       // All parents are uninteresting: treat this commit as the root of a new
-      // group of related changes.
+      // account of related changes.
       groups.put(c, c.name());
       return;
     } else if (interestingParents.size() == 1) {
       // Only one parent is new in this push. If it is the only parent, just use
-      // that parent's group. If there are multiple parents, perhaps this commit
-      // is a merge of a side branch. This commit belongs in that parent's group
+      // that parent's account. If there are multiple parents, perhaps this commit
+      // is a merge of a side branch. This commit belongs in that parent's account
       // in that case.
       groups.putAll(c, groups.get(interestingParents.iterator().next()));
       return;
@@ -191,16 +191,16 @@ public class GroupCollector {
       Collection<String> parentGroups = groups.get(p);
       if (parentGroups.isEmpty()) {
         throw new IllegalStateException(
-            String.format("no group assigned to parent %s of commit %s", p.name(), c.name()));
+            String.format("no account assigned to parent %s of commit %s", p.name(), c.name()));
       }
 
       for (String parentGroup : parentGroups) {
         if (isGroupFromExistingPatchSet(p, parentGroup)) {
-          // This parent's group is from an existing patch set, i.e. the parent
-          // not new in this push. Use this group for the commit.
+          // This parent's account is from an existing patch set, i.e. the parent
+          // not new in this push. Use this account for the commit.
           thisCommitGroups.add(parentGroup);
         } else {
-          // This parent's group is new in this push.
+          // This parent's account is new in this push.
           parentGroupsNewInThisPush.add(parentGroup);
         }
       }
@@ -214,8 +214,8 @@ public class GroupCollector {
       thisCommitGroups = ImmutableSet.of(firstParentGroup);
       toAlias = Iterables.skip(parentGroupsNewInThisPush, 1);
     } else {
-      // For each parent group that was new in this push, alias it to the actual
-      // computed group(s) for this commit.
+      // For each parent account that was new in this push, alias it to the actual
+      // computed account(s) for this commit.
       toAlias = parentGroupsNewInThisPush;
     }
     groups.putAll(c, thisCommitGroups);
@@ -281,7 +281,7 @@ public class GroupCollector {
       return ObjectId.fromString(group);
     } catch (IllegalArgumentException e) {
       // Shouldn't happen; some sort of corruption or manual tinkering?
-      log.warn("group for commit {} is not a SHA-1: {}", forCommit.name(), group);
+      log.warn("account for commit {} is not a SHA-1: {}", forCommit.name(), group);
       return null;
     }
   }
@@ -292,7 +292,7 @@ public class GroupCollector {
       PatchSet.Id psId = Iterables.getFirst(patchSetsBySha.get(id), null);
       if (psId != null) {
         List<String> groups = groupLookup.lookup(psId);
-        // Group for existing patch set may be missing, e.g. if group has not
+        // Group for existing patch set may be missing, e.g. if account has not
         // been migrated yet.
         if (groups != null && !groups.isEmpty()) {
           return groups;

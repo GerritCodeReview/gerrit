@@ -47,8 +47,6 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.change.AllowedFormats;
 import com.google.gerrit.server.change.ArchiveFormat;
-import com.google.gerrit.server.change.Submit;
-import com.google.gerrit.server.config.AgreementJson;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -59,6 +57,7 @@ import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
+import com.google.gerrit.server.git.MergeSuperSet;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -247,7 +246,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
         Optional.ofNullable(cfg.getString("change", null, "replyLabel")).orElse("Reply") + "\u2026";
     info.updateDelay =
         (int) ConfigUtil.getTimeUnit(cfg, "change", null, "updateDelay", 300, TimeUnit.SECONDS);
-    info.submitWholeTopic = Submit.wholeTopicEnabled(cfg);
+    info.submitWholeTopic = MergeSuperSet.wholeTopicEnabled(cfg);
     return info;
   }
 

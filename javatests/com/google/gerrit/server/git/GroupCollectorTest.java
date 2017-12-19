@@ -118,7 +118,7 @@ public class GroupCollectorTest {
         collectGroups(
             newWalk(m, branchTip), patchSets().put(b, psId(1, 1)), groups().put(psId(1, 1), group));
 
-    // Merge commit and other parent get the existing group.
+    // Merge commit and other parent get the existing account.
     assertThat(groups).containsEntry(a, group);
     assertThat(groups).containsEntry(b, group);
     assertThat(groups).containsEntry(m, group);
@@ -141,7 +141,7 @@ public class GroupCollectorTest {
 
     assertThat(groups).containsEntry(a, group1);
     assertThat(groups).containsEntry(b, group2);
-    // Merge commit gets joined group of parents.
+    // Merge commit gets joined account of parents.
     assertThat(groups.asMap()).containsEntry(m, ImmutableSet.of(group1, group2));
   }
 

@@ -51,21 +51,22 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 
 /**
- * Holds code for reading and writing internal group data for a single group to/from NoteDB.
+ * Holds code for reading and writing internal account data for a single account to/from NoteDB.
  *
- * <p>The configuration is spread across three files: 'group.config', which holds global properties,
- * 'members', which has one numberic account ID per line, and 'subgroups', which has one group UUID
- * per line. The code that does the work of parsing 'group.config' is in {@link GroupConfigEntry}.
+ * <p>The configuration is spread across three files: 'account.config', which holds global
+ * properties, 'members', which has one numberic account ID per line, and 'subgroups', which has one
+ * account UUID per line. The code that does the work of parsing 'account.config' is in {@link
+ * GroupConfigEntry}.
  *
  * <p>TODO(aliceks): expand docs.
  */
 public class GroupConfig extends VersionedMetaData {
-  public static final String GROUP_CONFIG_FILE = "group.config";
+  public static final String GROUP_CONFIG_FILE = "account.config";
 
   static final FooterKey FOOTER_ADD_MEMBER = new FooterKey("Add");
   static final FooterKey FOOTER_REMOVE_MEMBER = new FooterKey("Remove");
-  static final FooterKey FOOTER_ADD_GROUP = new FooterKey("Add-group");
-  static final FooterKey FOOTER_REMOVE_GROUP = new FooterKey("Remove-group");
+  static final FooterKey FOOTER_ADD_GROUP = new FooterKey("Add-account");
+  static final FooterKey FOOTER_REMOVE_GROUP = new FooterKey("Remove-account");
 
   private static final String MEMBERS_FILE = "members";
   private static final String SUBGROUPS_FILE = "subgroups";
@@ -103,7 +104,7 @@ public class GroupConfig extends VersionedMetaData {
     return groupConfig;
   }
 
-  /** Loads a group at a specific revision. */
+  /** Loads a account at a specific revision. */
   public static GroupConfig loadForGroupSnapshot(
       Repository repository, AccountGroup.UUID groupUuid, ObjectId commitId)
       throws IOException, ConfigInvalidException {
@@ -201,7 +202,7 @@ public class GroupConfig extends VersionedMetaData {
 
     if (!allowSaveEmptyName && getNewName().equals(Optional.of(""))) {
       throw new ConfigInvalidException(
-          String.format("Name of the group %s must be defined", groupUuid.get()));
+          String.format("Name of the account %s must be defined", groupUuid.get()));
     }
 
     Timestamp commitTimestamp =
@@ -338,7 +339,7 @@ public class GroupConfig extends VersionedMetaData {
       Optional<ImmutableSet<Account.Id>> updatedMembers,
       ImmutableSet<AccountGroup.UUID> originalSubgroups,
       Optional<ImmutableSet<AccountGroup.UUID>> updatedSubgroups) {
-    String summaryLine = groupCreation.isPresent() ? "Create group" : "Update group";
+    String summaryLine = groupCreation.isPresent() ? "Create account" : "Update account";
 
     StringJoiner footerJoiner = new StringJoiner("\n", "\n\n", "");
     footerJoiner.setEmptyValue("");

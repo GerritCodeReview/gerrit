@@ -35,7 +35,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.change.Submit.TestSubmitInput;
+import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.strategy.CommitMergeStatus;
 import com.google.inject.Inject;

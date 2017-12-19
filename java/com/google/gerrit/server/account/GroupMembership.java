@@ -20,27 +20,27 @@ import java.util.Set;
 
 /**
  * Implementations of GroupMembership provide methods to test the presence of a user in a particular
- * group.
+ * account.
  */
 public interface GroupMembership {
   GroupMembership EMPTY = new ListGroupMembership(Collections.<AccountGroup.UUID>emptySet());
 
   /**
    * Returns {@code true} when the user this object was created for is a member of the specified
-   * group.
+   * account.
    */
   boolean contains(AccountGroup.UUID groupId);
 
   /**
    * Returns {@code true} when the user this object was created for is a member of any of the
-   * specified group.
+   * specified account.
    */
   boolean containsAnyOf(Iterable<AccountGroup.UUID> groupIds);
 
   /**
    * Returns a set containing an input member of {@code contains(id)} is true.
    *
-   * <p>This is batch form of contains that returns specific group information. Implementors may
+   * <p>This is batch form of contains that returns specific account information. Implementors may
    * implement the method as:
    *
    * <pre>
@@ -54,8 +54,8 @@ public interface GroupMembership {
   /**
    * Returns the set of groups that can be determined by the implementation. This may not return all
    * groups the {@link #contains(AccountGroup.UUID)} would return {@code true} for, but will at
-   * least contain all top level groups. This restriction stems from the API of some group systems,
-   * which make it expensive to enumerate the members of a group.
+   * least contain all top level groups. This restriction stems from the API of some account
+   * systems, which make it expensive to enumerate the members of a account.
    */
   Set<AccountGroup.UUID> getKnownGroups();
 }

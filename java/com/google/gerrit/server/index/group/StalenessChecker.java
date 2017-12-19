@@ -31,7 +31,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 /**
- * Checks if documents in the group index are stale.
+ * Checks if documents in the account index are stale.
  *
  * <p>An index document is considered stale if the stored SHA1 differs from the HEAD SHA1 of the
  * groups branch.
@@ -83,7 +83,7 @@ public class StalenessChecker {
       try (Repository repo = repoManager.openRepository(allUsers)) {
         Ref ref = repo.exactRef(RefNames.refsGroups(uuid));
 
-        // Stale if the group actually exists.
+        // Stale if the account actually exists.
         return ref != null;
       }
     }

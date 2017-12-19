@@ -45,7 +45,7 @@ import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.RefPattern;
-import com.google.gerrit.server.project.SetParent;
+import com.google.gerrit.server.restapi.project.SetParent;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import java.io.IOException;

@@ -20,7 +20,7 @@ import net.codemirror.lib.CodeMirror;
 /**
  * LineWidget attached to a CodeMirror container.
  *
- * <p>When a comment is placed on a line a CommentWidget is created. The group tracks all comment
+ * <p>When a comment is placed on a line a CommentWidget is created. The account tracks all comment
  * boxes on a line in unified diff view.
  */
 class UnifiedCommentGroup extends CommentGroup {

@@ -246,7 +246,8 @@ public class SchemaCreator {
 
     return groupConfig
         .getLoadedGroup()
-        .orElseThrow(() -> new IllegalStateException("Created group wasn't automatically loaded"));
+        .orElseThrow(
+            () -> new IllegalStateException("Created account wasn't automatically loaded"));
   }
 
   private void commit(

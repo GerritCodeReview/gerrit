@@ -89,7 +89,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(1);
-    assertCommit(log.get(0), "Create group", SERVER_NAME, SERVER_EMAIL);
+    assertCommit(log.get(0), "Create account", SERVER_NAME, SERVER_EMAIL);
     assertThat(logGroupNames()).isEmpty();
   }
 
@@ -106,7 +106,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(1);
-    assertServerCommit(log.get(0), "Create group");
+    assertServerCommit(log.get(0), "Create account");
   }
 
   @Test
@@ -164,15 +164,15 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(2);
-    assertServerCommit(log.get(0), "Create group");
+    assertServerCommit(log.get(0), "Create account");
     assertServerCommit(
         log.get(1),
-        "Update group\n"
+        "Update account\n"
             + "\n"
             + "Add: Account 1 <1@server-id>\n"
             + "Add: Account 2 <2@server-id>\n"
-            + "Add-group: Group <x>\n"
-            + "Add-group: Group <y>");
+            + "Add-account: Group <x>\n"
+            + "Add-account: Group <y>");
   }
 
   @Test
@@ -193,13 +193,16 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(4);
-    assertServerCommit(log.get(0), "Create group");
+    assertServerCommit(log.get(0), "Create account");
     assertCommit(
-        log.get(1), "Update group\n\nAdd: Account 2 <2@server-id>", "Account 8", "8@server-id");
+        log.get(1), "Update account\n\nAdd: Account 2 <2@server-id>", "Account 8", "8@server-id");
     assertCommit(
-        log.get(2), "Update group\n\nAdd: Account 1 <1@server-id>", "Account 8", "8@server-id");
+        log.get(2), "Update account\n\nAdd: Account 1 <1@server-id>", "Account 8", "8@server-id");
     assertCommit(
-        log.get(3), "Update group\n\nRemove: Account 2 <2@server-id>", "Account 9", "9@server-id");
+        log.get(3),
+        "Update account\n\nRemove: Account 2 <2@server-id>",
+        "Account 9",
+        "9@server-id");
   }
 
   @Test
@@ -219,13 +222,16 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(4);
-    assertServerCommit(log.get(0), "Create group");
+    assertServerCommit(log.get(0), "Create account");
     assertCommit(
-        log.get(1), "Update group\n\nAdd: Account 1 <1@server-id>", "Account 8", "8@server-id");
+        log.get(1), "Update account\n\nAdd: Account 1 <1@server-id>", "Account 8", "8@server-id");
     assertCommit(
-        log.get(2), "Update group\n\nRemove: Account 1 <1@server-id>", "Account 8", "8@server-id");
+        log.get(2),
+        "Update account\n\nRemove: Account 1 <1@server-id>",
+        "Account 8",
+        "8@server-id");
     assertCommit(
-        log.get(3), "Update group\n\nAdd: Account 2 <2@server-id>", "Account 8", "8@server-id");
+        log.get(3), "Update account\n\nAdd: Account 2 <2@server-id>", "Account 8", "8@server-id");
   }
 
   @Test
@@ -243,11 +249,11 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(3);
-    assertServerCommit(log.get(0), "Create group");
+    assertServerCommit(log.get(0), "Create account");
     assertCommit(
-        log.get(1), "Update group\n\nAdd: Account 1 <1@server-id>", "Account 8", "8@server-id");
+        log.get(1), "Update account\n\nAdd: Account 1 <1@server-id>", "Account 8", "8@server-id");
     assertServerCommit(
-        log.get(2), "Update group\n\nAdd: Account 2 <2@server-id>\nAdd: Account 3 <3@server-id>");
+        log.get(2), "Update account\n\nAdd: Account 2 <2@server-id>\nAdd: Account 3 <3@server-id>");
   }
 
   @Test
@@ -268,10 +274,13 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(4);
-    assertServerCommit(log.get(0), "Create group");
-    assertCommit(log.get(1), "Update group\n\nAdd-group: Group <y>", "Account 8", "8@server-id");
-    assertCommit(log.get(2), "Update group\n\nAdd-group: Group <x>", "Account 8", "8@server-id");
-    assertCommit(log.get(3), "Update group\n\nRemove-group: Group <y>", "Account 9", "9@server-id");
+    assertServerCommit(log.get(0), "Create account");
+    assertCommit(
+        log.get(1), "Update account\n\nAdd-account: Group <y>", "Account 8", "8@server-id");
+    assertCommit(
+        log.get(2), "Update account\n\nAdd-account: Group <x>", "Account 8", "8@server-id");
+    assertCommit(
+        log.get(3), "Update account\n\nRemove-account: Group <y>", "Account 9", "9@server-id");
   }
 
   @Test
@@ -289,9 +298,11 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(3);
-    assertServerCommit(log.get(0), "Create group");
-    assertCommit(log.get(1), "Update group\n\nAdd-group: Group <x>", "Account 8", "8@server-id");
-    assertServerCommit(log.get(2), "Update group\n\nAdd-group: Group <y>\nAdd-group: Group <z>");
+    assertServerCommit(log.get(0), "Create account");
+    assertCommit(
+        log.get(1), "Update account\n\nAdd-account: Group <x>", "Account 8", "8@server-id");
+    assertServerCommit(
+        log.get(2), "Update account\n\nAdd-account: Group <y>\nAdd-account: Group <z>");
   }
 
   @Test
@@ -319,10 +330,10 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(5);
-    assertServerCommit(log.get(0), "Create group");
+    assertServerCommit(log.get(0), "Create account");
     assertCommit(
         log.get(1),
-        "Update group\n"
+        "Update account\n"
             + "\n"
             + "Add: Account 1 <1@server-id>\n"
             + "Add: Account 2 <2@server-id>\n"
@@ -330,17 +341,21 @@ public class GroupRebuilderTest extends AbstractGroupTest {
         "Account 8",
         "8@server-id");
     assertCommit(
-        log.get(2), "Update group\n\nRemove: Account 3 <3@server-id>", "Account 8", "8@server-id");
-    assertCommit(
-        log.get(3),
-        "Update group\n"
-            + "\n"
-            + "Add-group: Group <x>\n"
-            + "Add-group: Group <y>\n"
-            + "Add-group: Group <z>",
+        log.get(2),
+        "Update account\n\nRemove: Account 3 <3@server-id>",
         "Account 8",
         "8@server-id");
-    assertCommit(log.get(4), "Update group\n\nRemove-group: Group <z>", "Account 8", "8@server-id");
+    assertCommit(
+        log.get(3),
+        "Update account\n"
+            + "\n"
+            + "Add-account: Group <x>\n"
+            + "Add-account: Group <y>\n"
+            + "Add-account: Group <z>",
+        "Account 8",
+        "8@server-id");
+    assertCommit(
+        log.get(4), "Update account\n\nRemove-account: Group <z>", "Account 8", "8@server-id");
   }
 
   @Test
@@ -366,20 +381,24 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(5);
-    assertServerCommit(log.get(0), "Create group");
+    assertServerCommit(log.get(0), "Create account");
     assertCommit(
         log.get(1),
-        "Update group\n" + "\n" + "Add: Account 1 <1@server-id>\n" + "Add: Account 3 <3@server-id>",
+        "Update account\n"
+            + "\n"
+            + "Add: Account 1 <1@server-id>\n"
+            + "Add: Account 3 <3@server-id>",
         "Account 8",
         "8@server-id");
     assertCommit(
         log.get(2),
-        "Update group\n\nAdd-group: Group <x>\nAdd-group: Group <z>",
+        "Update account\n\nAdd-account: Group <x>\nAdd-account: Group <z>",
         "Account 8",
         "8@server-id");
     assertCommit(
-        log.get(3), "Update group\n\nAdd: Account 2 <2@server-id>", "Account 9", "9@server-id");
-    assertCommit(log.get(4), "Update group\n\nAdd-group: Group <y>", "Account 9", "9@server-id");
+        log.get(3), "Update account\n\nAdd: Account 2 <2@server-id>", "Account 9", "9@server-id");
+    assertCommit(
+        log.get(4), "Update account\n\nAdd-account: Group <y>", "Account 9", "9@server-id");
   }
 
   @Test
@@ -401,9 +420,11 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(3);
-    assertServerCommit(log.get(0), "Create group");
-    assertCommit(log.get(1), "Update group\n\nAdd-group: Group <x>", "Account 8", "8@server-id");
-    assertServerCommit(log.get(2), "Update group\n\nAdd-group: Group <y>\nAdd-group: Group <z>");
+    assertServerCommit(log.get(0), "Create account");
+    assertCommit(
+        log.get(1), "Update account\n\nAdd-account: Group <x>", "Account 8", "8@server-id");
+    assertServerCommit(
+        log.get(2), "Update account\n\nAdd-account: Group <y>\nAdd-account: Group <z>");
 
     assertThat(log.stream().map(c -> c.committer.date).collect(toImmutableList()))
         .named("%s", log)
@@ -440,18 +461,24 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(5);
-    assertServerCommit(log.get(0), "Create group");
+    assertServerCommit(log.get(0), "Create account");
     assertCommit(
         log.get(1),
-        "Update group\n\nAdd: Account 1 <1@server-id>\nAdd: Account 2 <2@server-id>",
+        "Update account\n\nAdd: Account 1 <1@server-id>\nAdd: Account 2 <2@server-id>",
         "Account 8",
         "8@server-id");
     assertCommit(
-        log.get(2), "Update group\n\nRemove: Account 2 <2@server-id>", "Account 9", "9@server-id");
+        log.get(2),
+        "Update account\n\nRemove: Account 2 <2@server-id>",
+        "Account 9",
+        "9@server-id");
     assertCommit(
-        log.get(3), "Update group\n\nAdd: Account 2 <2@server-id>", "Account 9", "9@server-id");
+        log.get(3), "Update account\n\nAdd: Account 2 <2@server-id>", "Account 9", "9@server-id");
     assertCommit(
-        log.get(4), "Update group\n\nRemove: Account 1 <1@server-id>", "Account 9", "9@server-id");
+        log.get(4),
+        "Update account\n\nRemove: Account 1 <1@server-id>",
+        "Account 9",
+        "9@server-id");
   }
 
   @Test
@@ -479,17 +506,23 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(6);
-    assertServerCommit(log.get(0), "Create group");
+    assertServerCommit(log.get(0), "Create account");
     assertCommit(
-        log.get(1), "Update group\n\nAdd: Account 1 <1@server-id>", "Account 8", "8@server-id");
+        log.get(1), "Update account\n\nAdd: Account 1 <1@server-id>", "Account 8", "8@server-id");
     assertCommit(
-        log.get(2), "Update group\n\nRemove: Account 1 <1@server-id>", "Account 8", "8@server-id");
+        log.get(2),
+        "Update account\n\nRemove: Account 1 <1@server-id>",
+        "Account 8",
+        "8@server-id");
     assertCommit(
-        log.get(3), "Update group\n\nAdd: Account 1 <1@server-id>", "Account 10", "10@server-id");
+        log.get(3), "Update account\n\nAdd: Account 1 <1@server-id>", "Account 10", "10@server-id");
     assertCommit(
-        log.get(4), "Update group\n\nRemove: Account 1 <1@server-id>", "Account 9", "9@server-id");
+        log.get(4),
+        "Update account\n\nRemove: Account 1 <1@server-id>",
+        "Account 9",
+        "9@server-id");
     assertCommit(
-        log.get(5), "Update group\n\nAdd: Account 1 <1@server-id>", "Account 8", "8@server-id");
+        log.get(5), "Update account\n\nAdd: Account 1 <1@server-id>", "Account 8", "8@server-id");
   }
 
   @Test
@@ -516,9 +549,11 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     assertMigratedCleanly(reload(g), b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(3);
-    assertServerCommit(log.get(0), "Create group");
-    assertCommit(log.get(1), "Update group\n\nAdd-group: Group <x>", "Account 8", "8@server-id");
-    assertCommit(log.get(2), "Update group\n\nRemove-group: Group <x>", "Account 9", "9@server-id");
+    assertServerCommit(log.get(0), "Create account");
+    assertCommit(
+        log.get(1), "Update account\n\nAdd-account: Group <x>", "Account 8", "8@server-id");
+    assertCommit(
+        log.get(2), "Update account\n\nRemove-account: Group <x>", "Account 9", "9@server-id");
   }
 
   @Test

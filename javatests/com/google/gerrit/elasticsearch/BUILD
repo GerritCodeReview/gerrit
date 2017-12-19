@@ -23,7 +23,7 @@ java_library(
 ELASTICSEARCH_TESTS = {i: "ElasticQuery" + i.capitalize() + "sTest.java" for i in [
     "account",
     "change",
-    "group",
+    "account",
     "project",
 ]}
 

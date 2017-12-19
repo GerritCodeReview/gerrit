@@ -44,7 +44,7 @@ import org.eclipse.jgit.util.RawParseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** NoteDb reader for group audit log. */
+/** NoteDb reader for account audit log. */
 @Singleton
 class AuditLogReader {
   private static final Logger log = LoggerFactory.getLogger(AuditLogReader.class);
@@ -185,7 +185,7 @@ class AuditLogReader {
 
   private static void logInvalid(AccountGroup.UUID uuid, RevCommit c, FooterLine line) {
     log.debug(
-        "Invalid footer line in commit {} while parsing audit log for group {}: {}",
+        "Invalid footer line in commit {} while parsing audit log for account {}: {}",
         c.name(),
         uuid,
         line);

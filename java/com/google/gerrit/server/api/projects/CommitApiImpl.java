@@ -21,8 +21,8 @@ import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.projects.CommitApi;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.change.CherryPickCommit;
-import com.google.gerrit.server.project.CommitResource;
+import com.google.gerrit.server.restapi.change.CherryPickCommit;
+import com.google.gerrit.server.restapi.project.CommitResource;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

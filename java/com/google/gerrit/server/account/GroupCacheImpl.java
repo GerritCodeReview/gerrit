@@ -38,7 +38,7 @@ import java.util.function.BooleanSupplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Tracks group objects in memory for efficient access. */
+/** Tracks account objects in memory for efficient access. */
 @Singleton
 public class GroupCacheImpl implements GroupCache {
   private static final Logger log = LoggerFactory.getLogger(GroupCacheImpl.class);
@@ -91,7 +91,7 @@ public class GroupCacheImpl implements GroupCache {
     try {
       return byId.get(groupId);
     } catch (ExecutionException e) {
-      log.warn("Cannot load group " + groupId, e);
+      log.warn("Cannot load account " + groupId, e);
       return Optional.empty();
     }
   }
@@ -127,7 +127,7 @@ public class GroupCacheImpl implements GroupCache {
     try {
       return byName.get(name.get());
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot look up group %s by name", name.get()), e);
+      log.warn(String.format("Cannot look up account %s by name", name.get()), e);
       return Optional.empty();
     }
   }
@@ -141,7 +141,7 @@ public class GroupCacheImpl implements GroupCache {
     try {
       return byUUID.get(groupUuid.get());
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot look up group %s by uuid", groupUuid.get()), e);
+      log.warn(String.format("Cannot look up account %s by uuid", groupUuid.get()), e);
       return Optional.empty();
     }
   }

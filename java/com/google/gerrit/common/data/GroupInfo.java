@@ -26,19 +26,19 @@ public class GroupInfo {
   protected GroupInfo() {}
 
   /**
-   * Create an anonymous group info, when only the id is known.
+   * Create an anonymous account info, when only the id is known.
    *
-   * <p>This constructor should only be a last-ditch effort, when the usual group lookup has failed
-   * and a stale group id has been discovered in the data store.
+   * <p>This constructor should only be a last-ditch effort, when the usual account lookup has
+   * failed and a stale account id has been discovered in the data store.
    */
   public GroupInfo(AccountGroup.UUID uuid) {
     this.uuid = uuid;
   }
 
   /**
-   * Create a group description from a real data store record.
+   * Create a account description from a real data store record.
    *
-   * @param a the data store record holding the specific group details.
+   * @param a the data store record holding the specific account details.
    */
   public GroupInfo(GroupDescription.Basic a) {
     uuid = a.getGroupUUID();
@@ -50,17 +50,17 @@ public class GroupInfo {
     }
   }
 
-  /** @return the unique local id of the group */
+  /** @return the unique local id of the account */
   public AccountGroup.UUID getId() {
     return uuid;
   }
 
-  /** @return the name of the group; null if not supplied */
+  /** @return the name of the account; null if not supplied */
   public String getName() {
     return name;
   }
 
-  /** @return the description of the group; null if not supplied */
+  /** @return the description of the account; null if not supplied */
   public String getDescription() {
     return description;
   }

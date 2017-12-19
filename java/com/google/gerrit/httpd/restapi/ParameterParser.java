@@ -235,7 +235,7 @@ public class ParameterParser {
    *
    * <p>Conversion assumes any field name that does not contain {@code "."} will be a property of
    * the top level input object. Any field with a dot will use the first segment as the top level
-   * property name naming an object, and the rest of the field name as a property in the nested
+   * property name naming an object, and the change of the field name as a property in the nested
    * object.
    *
    * @param req request to parse form input from and create JSON tree.

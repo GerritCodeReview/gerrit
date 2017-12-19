@@ -46,6 +46,30 @@
       "revId": "3f5856f590c52c970bae22388fd6c4e777606834",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "612b85e1_b1be8734",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-19T00:09:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b85b3a2_d4135aeb",
+      "range": {
+        "startLine": 66,
+        "startChar": 12,
+        "endLine": 66,
+        "endChar": 46
+      },
+      "revId": "3f5856f590c52c970bae22388fd6c4e777606834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

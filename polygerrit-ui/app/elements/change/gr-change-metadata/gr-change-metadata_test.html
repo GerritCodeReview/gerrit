@@ -664,6 +664,32 @@ limitations under the License.
     });
 
     suite('label colors', () => {
+      test('valueless label rejected', () => {
+        element.change = {
+          labels: {
+            'Do-Not-Submit': {
+              rejected: {name: 'someone'},
+            },
+          },
+        };
+        flushAsynchronousOperations();
+        const labels = Polymer.dom(element.root).querySelectorAll('gr-label');
+        assert.isTrue(labels[0].classList.contains('negative'));
+      });
+
+      test('valueless label approved', () => {
+        element.change = {
+          labels: {
+            'To-The-Infinity': {
+              approved: {name: 'someone'},
+            },
+          },
+        };
+        flushAsynchronousOperations();
+        const labels = Polymer.dom(element.root).querySelectorAll('gr-label');
+        assert.isTrue(labels[0].classList.contains('positive'));
+      });
+
       test('-2 to +2', () => {
         element.change = {
           labels: {

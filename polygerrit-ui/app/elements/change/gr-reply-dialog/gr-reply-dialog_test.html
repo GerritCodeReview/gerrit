@@ -1083,21 +1083,20 @@ limitations under the License.
 
     test('_computeSendButtonDisabled', () => {
       const fn = element._computeSendButtonDisabled.bind(element);
-      assert.isTrue(fn('not-latest'));
-      assert.isFalse(fn('latest', 'Start review'));
-      assert.isTrue(fn('latest', 'Send', {}, '', false, false, false));
+      assert.isFalse(fn('Start review'));
+      assert.isTrue(fn('Send', {}, '', false, false, false));
       // Mock nonempty comment draft array, with seding comments.
-      assert.isFalse(fn('latest', 'Send', {file: ['draft']}, '', false, false,
+      assert.isFalse(fn('Send', {file: ['draft']}, '', false, false,
           true));
       // Mock nonempty comment draft array, without seding comments.
-      assert.isTrue(fn('latest', 'Send', {file: ['draft']}, '', false, false,
+      assert.isTrue(fn('Send', {file: ['draft']}, '', false, false,
           false));
       // Mock nonempty change message.
-      assert.isFalse(fn('latest', 'Send', {}, 'test', false, false, false));
+      assert.isFalse(fn('Send', {}, 'test', false, false, false));
       // Mock reviewers mutated.
-      assert.isFalse(fn('latest', 'Send', {}, '', true, false, false));
+      assert.isFalse(fn('Send', {}, '', true, false, false));
       // Mock labels changed.
-      assert.isFalse(fn('latest', 'Send', {}, '', false, true, false));
+      assert.isFalse(fn('Send', {}, '', false, true, false));
     });
   });
 </script>

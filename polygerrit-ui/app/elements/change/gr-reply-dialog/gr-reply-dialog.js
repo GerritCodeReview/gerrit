@@ -406,12 +406,6 @@
     },
 
     send(includeComments, startReview) {
-      if (this.knownLatestState === 'not-latest') {
-        this.fire('show-alert',
-            {message: 'Cannot reply to non-latest patch.'});
-        return Promise.resolve({});
-      }
-
       const labels = this.$.labelScores.getLabelValues();
 
       const obj = {
@@ -835,16 +829,21 @@
       return savingComments ? 'saving' : '';
     },
 
-    _computeSendButtonDisabled(knownLatestState, buttonLabel, drafts, text,
-        reviewersMutated, labelsChanged, includeComments) {
-      if (this._isState(knownLatestState, LatestPatchState.NOT_LATEST)) {
-        return true;
-      }
+    _computeSendButtonDisabled(buttonLabel, drafts, text, reviewersMutated,
+        labelsChanged, includeComments) {
       if (buttonLabel === ButtonLabels.START_REVIEW) {
         return false;
       }
       const hasDrafts = includeComments && Object.keys(drafts).length;
       return !hasDrafts && !text.length && !reviewersMutated && !labelsChanged;
+    },
+
+    _computePatchSetWarning(patchNum, labelsChanged) {
+      let str = `Patch ${patchNum} is not latest.`;
+      if (labelsChanged) {
+        str += ' Voting on a non-latest patch will have no effect.';
+      }
+      return str;
     },
   });
 })();

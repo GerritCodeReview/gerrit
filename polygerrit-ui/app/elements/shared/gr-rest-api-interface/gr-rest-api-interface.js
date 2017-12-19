@@ -1344,7 +1344,7 @@
             // X-FYI-Content-Type header of the response.
             const type = res.headers.get('X-FYI-Content-Type');
             return this.getResponseObject(res).then(content => {
-              return {content, type};
+              return {content, type, ok: true};
             });
           });
     },

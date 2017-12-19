@@ -412,25 +412,18 @@ public class AccountManager {
       }
       update(who, extId);
     } else {
-      externalIdsUpdateFactory
+      accountsUpdateFactory
           .create()
-          .insert(ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress()));
-
-      if (who.getEmailAddress() != null) {
-        accountsUpdateFactory
-            .create()
-            .update(
-                "Set Preferred Email on Linking External ID\n"
-                    + "\n"
-                    + "An external ID with email was added and the account didn't have a\n"
-                    + "preferred email yet.",
-                to,
-                (a, u) -> {
-                  if (a.getPreferredEmail() == null) {
-                    u.setPreferredEmail(who.getEmailAddress());
-                  }
-                });
-      }
+          .update(
+              "Link External ID",
+              to,
+              (a, u) -> {
+                u.addExternalId(
+                    ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress()));
+                if (who.getEmailAddress() != null && a.getPreferredEmail() == null) {
+                  u.setPreferredEmail(who.getEmailAddress());
+                }
+              });
     }
     return new AuthResult(to, who.getExternalIdKey(), false);
   }

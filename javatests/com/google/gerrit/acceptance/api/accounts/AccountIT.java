@@ -266,8 +266,8 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void create() throws Exception {
-    Account.Id accountId = create(2); // account creation + external ID creation
+  public void createByAccountCreator() throws Exception {
+    Account.Id accountId = createByAccountCreator(2); // account creation + external ID creation
     refUpdateCounter.assertRefUpdateFor(
         RefUpdateCounter.projectRef(allUsers, RefNames.refsUsers(accountId)),
         RefUpdateCounter.projectRef(allUsers, RefNames.REFS_EXTERNAL_IDS),
@@ -276,8 +276,9 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   @UseSsh
-  public void createWithSshKeys() throws Exception {
-    Account.Id accountId = create(3); // account creation + external ID creation + adding SSH keys
+  public void createWithSshKeysByAccountCreator() throws Exception {
+    Account.Id accountId =
+        createByAccountCreator(3); // account creation + external ID creation + adding SSH keys
     refUpdateCounter.assertRefUpdateFor(
         ImmutableMap.of(
             RefUpdateCounter.projectRef(allUsers, RefNames.refsUsers(accountId)),
@@ -289,7 +290,7 @@ public class AccountIT extends AbstractDaemonTest {
             1));
   }
 
-  private Account.Id create(int expectedAccountReindexCalls) throws Exception {
+  private Account.Id createByAccountCreator(int expectedAccountReindexCalls) throws Exception {
     String name = "foo";
     TestAccount foo = accountCreator.create(name);
     AccountInfo info = gApi.accounts().id(foo.id.get()).get();
@@ -298,6 +299,34 @@ public class AccountIT extends AbstractDaemonTest {
     accountIndexedCounter.assertReindexOf(foo, expectedAccountReindexCalls);
     assertUserBranch(foo.getId(), name, null);
     return foo.getId();
+  }
+
+  @Test
+  public void createAnonymousCowardByAccountCreator() throws Exception {
+    TestAccount anonymousCoward = accountCreator.create();
+    accountIndexedCounter.assertReindexOf(anonymousCoward);
+    assertUserBranchWithoutAccountConfig(anonymousCoward.getId());
+  }
+
+  @Test
+  public void create() throws Exception {
+    AccountInput input = new AccountInput();
+    input.username = "foo";
+    input.name = "Foo";
+    input.email = "foo@example.com";
+    AccountInfo accountInfo = gApi.accounts().create(input).get();
+    assertThat(accountInfo._accountId).isNotNull();
+    assertThat(accountInfo.username).isEqualTo(input.username);
+    assertThat(accountInfo.name).isEqualTo(input.name);
+    assertThat(accountInfo.email).isEqualTo(input.email);
+    assertThat(accountInfo.status).isNull();
+
+    Account.Id accountId = new Account.Id(accountInfo._accountId);
+    accountIndexedCounter.assertReindexOf(accountId, 2); // account creation + external ID creation
+    assertThat(externalIds.byAccount(accountId))
+        .containsExactly(
+            ExternalId.createUsername(input.username, accountId, null),
+            ExternalId.createEmail(accountId, input.email));
   }
 
   @Test
@@ -319,13 +348,6 @@ public class AccountIT extends AbstractDaemonTest {
     exception.expect(UnprocessableEntityException.class);
     exception.expectMessage("email '" + admin.email + "' already exists");
     gApi.accounts().create(input);
-  }
-
-  @Test
-  public void createAnonymousCoward() throws Exception {
-    TestAccount anonymousCoward = accountCreator.create();
-    accountIndexedCounter.assertReindexOf(anonymousCoward);
-    assertUserBranchWithoutAccountConfig(anonymousCoward.getId());
   }
 
   @Test

@@ -178,8 +178,6 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Inject private ExternalIdsUpdate.User externalIdsUpdateFactory;
 
-  @Inject private ExternalIdsUpdate.ServerNoReindex externalIdsUpdateNoReindexFactory;
-
   @Inject private DynamicSet<AccountIndexedListener> accountIndexedListeners;
 
   @Inject private DynamicSet<GitReferenceUpdatedListener> refUpdateListeners;
@@ -2082,17 +2080,28 @@ public class AccountIT extends AbstractDaemonTest {
 
     // Manually inserting/updating/deleting an external ID of the user makes the index document
     // stale.
-    ExternalIdsUpdate externalIdsUpdateNoReindex = externalIdsUpdateNoReindexFactory.create();
-    ExternalId.Key key = ExternalId.Key.create("foo", "foo");
-    externalIdsUpdateNoReindex.insert(ExternalId.create(key, accountId));
-    assertStaleAccountAndReindex(accountId);
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      ExternalIdNotes extIdNotes = ExternalIdNotes.loadNoCacheUpdate(repo);
 
-    externalIdsUpdateNoReindex.upsert(
-        ExternalId.createWithEmail(key, accountId, "foo@example.com"));
-    assertStaleAccountAndReindex(accountId);
+      ExternalId.Key key = ExternalId.Key.create("foo", "foo");
+      extIdNotes.insert(ExternalId.create(key, accountId));
+      try (MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
+        extIdNotes.commit(update);
+      }
+      assertStaleAccountAndReindex(accountId);
 
-    externalIdsUpdateNoReindex.delete(accountId, key);
-    assertStaleAccountAndReindex(accountId);
+      extIdNotes.upsert(ExternalId.createWithEmail(key, accountId, "foo@example.com"));
+      try (MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
+        extIdNotes.commit(update);
+      }
+      assertStaleAccountAndReindex(accountId);
+
+      extIdNotes.delete(accountId, key);
+      try (MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
+        extIdNotes.commit(update);
+      }
+      assertStaleAccountAndReindex(accountId);
+    }
 
     // Manually delete account
     try (Repository repo = repoManager.openRepository(allUsers);

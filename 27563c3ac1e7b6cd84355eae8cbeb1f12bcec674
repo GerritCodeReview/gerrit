@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a5f23c82_778a01de",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-19T00:03:48Z",
+      "side": 1,
+      "message": "Done.\n\nBasically, this allows plugins to use trivial \u003ca href\u003d\"#/x/foo/bar\"\u003e without writing JS code.",
+      "parentUuid": "d7d30623_32cbd8a2",
+      "range": {
+        "startLine": 626,
+        "startChar": 8,
+        "endLine": 629,
+        "endChar": 9
+      },
+      "revId": "27563c3ac1e7b6cd84355eae8cbeb1f12bcec674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86748c7c_618b5e05",
         "filename": "polygerrit-ui/app/elements/gr-app.js",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "27563c3ac1e7b6cd84355eae8cbeb1f12bcec674",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a2d34d2_b8e2236d",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-19T00:03:48Z",
+      "side": 1,
+      "message": "Because gr-endpoint-decorator needs to be re-created (restamped) when navigation from one plugin screen to another.\n\nI was hoping comment on L170 clarifies that. Is there a way it could be improved?",
+      "parentUuid": "86748c7c_618b5e05",
+      "range": {
+        "startLine": 168,
+        "startChar": 6,
+        "endLine": 169,
+        "endChar": 43
+      },
+      "revId": "27563c3ac1e7b6cd84355eae8cbeb1f12bcec674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

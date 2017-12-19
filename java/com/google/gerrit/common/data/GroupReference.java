@@ -17,12 +17,12 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
-/** Describes a group within a projects {@link AccessSection}s. */
+/** Describes a account within a projects {@link AccessSection}s. */
 public class GroupReference implements Comparable<GroupReference> {
 
-  private static final String PREFIX = "group ";
+  private static final String PREFIX = "account ";
 
-  /** @return a new reference to the given group description. */
+  /** @return a new reference to the given account description. */
   public static GroupReference forGroup(AccountGroup group) {
     return new GroupReference(group.getGroupUUID(), group.getName());
   }

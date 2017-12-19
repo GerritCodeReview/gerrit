@@ -779,7 +779,7 @@ public class CommitValidators {
     }
   }
 
-  /** Rejects updates to group branches. */
+  /** Rejects updates to account branches. */
   public static class GroupCommitValidator implements CommitValidationListener {
     private final AllUsersName allUsers;
 
@@ -802,7 +802,7 @@ public class CommitValidators {
       }
 
       if (RefNames.isGroupRef(receiveEvent.command.getRefName())) {
-        throw new CommitValidationException("group update not allowed");
+        throw new CommitValidationException("account update not allowed");
       }
       return Collections.emptyList();
     }

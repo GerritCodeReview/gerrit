@@ -61,7 +61,7 @@ import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
-/** Helper for rebuilding an entire group's NoteDb refs. */
+/** Helper for rebuilding an entire account's NoteDb refs. */
 @Singleton
 public class GroupRebuilder {
   private final Provider<PersonIdent> serverIdent;
@@ -144,7 +144,7 @@ public class GroupRebuilder {
     md.getCommitBuilder().setAuthor(created);
     md.getCommitBuilder().setCommitter(created);
 
-    // Rebuild group ref.
+    // Rebuild account ref.
     try (BatchMetaDataUpdate batch = groupConfig.openUpdate(md)) {
       batch.write(groupConfig, md.getCommitBuilder());
 
@@ -177,7 +177,7 @@ public class GroupRebuilder {
     for (AccountGroupMemberAudit a : bundle.memberAudit()) {
       checkArgument(
           a.getKey().getGroupId().equals(bundle.id()),
-          "key %s does not match group %s",
+          "key %s does not match account %s",
           a.getKey(),
           bundle.id());
       Account.Id accountId = a.getKey().getParentKey();
@@ -192,7 +192,7 @@ public class GroupRebuilder {
     for (AccountGroupByIdAud a : bundle.byIdAudit()) {
       checkArgument(
           a.getKey().getParentKey().equals(bundle.id()),
-          "key %s does not match group %s",
+          "key %s does not match account %s",
           a.getKey(),
           bundle.id());
       AccountGroup.UUID uuid = a.getKey().getIncludeUUID();

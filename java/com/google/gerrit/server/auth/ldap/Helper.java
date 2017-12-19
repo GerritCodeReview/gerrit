@@ -296,7 +296,7 @@ class Helper {
             }
           }
         } catch (NamingException e) {
-          LdapRealm.log.warn("Could not find group " + groupDN, e);
+          LdapRealm.log.warn("Could not find account " + groupDN, e);
         }
         cachedParentsDNs = dns.build();
         parentGroups.put(groupDN, cachedParentsDNs);

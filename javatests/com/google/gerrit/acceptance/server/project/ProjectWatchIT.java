@@ -546,7 +546,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   public void watchProjectNotifyOnPrivateChange() throws Exception {
     String watchedProject = createProject("watchedProject").get();
 
-    // create group that can view all private changes
+    // create account that can view all private changes
     GroupInfo groupThatCanViewPrivateChanges =
         gApi.groups().create("groupThatCanViewPrivateChanges").get();
     grant(

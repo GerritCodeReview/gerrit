@@ -110,7 +110,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
         new Branch.NameKey(allUsers, RefNames.refsGroups(new AccountGroup.UUID("foo"))),
         RefNames.refsGroups(adminGroupUuid()),
         ResourceConflictException.class,
-        "Not allowed to create group branch.");
+        "Not allowed to create account branch.");
   }
 
   private void blockCreateReference() throws Exception {

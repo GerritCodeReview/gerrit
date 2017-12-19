@@ -37,7 +37,7 @@ import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 
-/** Implementation of GroupBackend for the internal group system. */
+/** Implementation of GroupBackend for the internal account system. */
 @Singleton
 public class InternalGroupBackend implements GroupBackend {
   private final GroupControl.Factory groupControlFactory;
@@ -95,7 +95,7 @@ public class InternalGroupBackend implements GroupBackend {
   private boolean isVisible(GroupReference groupReference) {
     Optional<InternalGroup> group = groupCache.get(groupReference.getUUID());
     if (!group.isPresent()) {
-      // groupRefs are read from group name notes. There is an inconsistency if this lookup fails.
+      // groupRefs are read from account name notes. There is an inconsistency if this lookup fails.
       GroupsNoteDbConsistencyChecker.logFailToLoadFromGroupRefAsWarning(groupReference.getUUID());
       return false;
     }

@@ -54,8 +54,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
- * Holds code for reading and writing group names for a single group as NoteDb data. The data is
- * stored in a refs/meta/group-names branch. The data is stored as SHA1(name) => config file with
+ * Holds code for reading and writing account names for a single account as NoteDb data. The data is
+ * stored in a refs/meta/account-names branch. The data is stored as SHA1(name) => config file with
  * the config file holding UUID and Name.
  *
  * <p>TODO(aliceks): more javadoc.
@@ -103,7 +103,7 @@ public class GroupNameNotes extends VersionedMetaData {
       cb.setAuthor(ident);
       cb.setCommitter(ident);
       int n = groupReferences.size();
-      cb.setMessage("Store " + n + " group name" + (n != 1 ? "s" : ""));
+      cb.setMessage("Store " + n + " account name" + (n != 1 ? "s" : ""));
       ObjectId newId = inserter.insert(cb).copy();
 
       ObjectId oldId = oldCommit != null ? oldCommit.copy() : ObjectId.zeroId();
@@ -187,7 +187,7 @@ public class GroupNameNotes extends VersionedMetaData {
         boolean result = groupReferences.add(groupReference);
         if (!result) {
           GroupsNoteDbConsistencyChecker.logConsistencyProblemAsWarning(
-              "The UUID of group %s (%s) is duplicate in group name notes",
+              "The UUID of account %s (%s) is duplicate in account name notes",
               groupReference.getName(), groupReference.getUUID());
         }
       }
@@ -325,7 +325,8 @@ public class GroupNameNotes extends VersionedMetaData {
     String uuid = config.getString(SECTION_NAME, null, UUID_PARAM);
     String name = Strings.nullToEmpty(config.getString(SECTION_NAME, null, NAME_PARAM));
     if (uuid == null) {
-      throw new ConfigInvalidException(String.format("UUID for group '%s' must be defined", name));
+      throw new ConfigInvalidException(
+          String.format("UUID for account '%s' must be defined", name));
     }
 
     return new GroupReference(new AccountGroup.UUID(uuid), name);
@@ -334,13 +335,13 @@ public class GroupNameNotes extends VersionedMetaData {
   private String getCommitMessage() {
     if (oldGroupName.isPresent() && newGroupName.isPresent()) {
       return String.format(
-          "Rename group from '%s' to '%s'", oldGroupName.get(), newGroupName.get());
+          "Rename account from '%s' to '%s'", oldGroupName.get(), newGroupName.get());
     }
     if (newGroupName.isPresent()) {
-      return String.format("Create group '%s'", newGroupName.get());
+      return String.format("Create account '%s'", newGroupName.get());
     }
     if (oldGroupName.isPresent()) {
-      return String.format("Delete group '%s'", oldGroupName.get());
+      return String.format("Delete account '%s'", oldGroupName.get());
     }
     return "No-op";
   }

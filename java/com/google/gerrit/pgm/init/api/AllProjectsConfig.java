@@ -78,7 +78,7 @@ public class AllProjectsConfig extends VersionedMetaDataOnInit {
   protected void save(PersonIdent ident, String msg) throws IOException, ConfigInvalidException {
     super.save(ident, msg);
 
-    // we need to invalidate the JGit cache if the group list is invalidated in
+    // we need to invalidate the JGit cache if the account list is invalidated in
     // an unattended init step
     RepositoryCache.clear();
   }

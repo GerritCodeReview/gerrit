@@ -314,7 +314,7 @@ public abstract class AbstractDaemonTest {
         // Don't reset all refs so that refs/sequences/changes is not touched and change IDs are
         // not reused.
         .reset(allProjects, RefNames.REFS_CONFIG)
-        // Don't reset group branches since this would make the groups inconsistent between
+        // Don't reset account branches since this would make the groups inconsistent between
         // ReviewDb and NoteDb.
         // Don't reset refs/sequences/accounts so that account IDs are not reused.
         .reset(
@@ -365,9 +365,9 @@ public abstract class AbstractDaemonTest {
     db = reviewDbProvider.open();
 
     // All groups which were added during the server start (e.g. in SchemaCreator) aren't contained
-    // in the instance of the group index which is available here and in tests. There are two
+    // in the instance of the account index which is available here and in tests. There are two
     // reasons:
-    // 1) No group index is available in SchemaCreator when using an in-memory database. (This could
+    // 1) No account index is available in SchemaCreator when using an in-memory database. (This could
     // be fixed by using the IndexManagerOnInit in InMemoryDatabase similar as BaseInit uses it.)
     // 2) During the on-init part of the server start, we use another instance of the index than
     // later on. As test indexes are non-permanent, closing an instance and opening another one
@@ -456,7 +456,7 @@ public abstract class AbstractDaemonTest {
    * <p>Test methods in a single class by default share a running server. For any resource name you
    * require to be unique to a test method, wrap it in a call to this method.
    *
-   * @param name resource name (group, project, topic, etc.)
+   * @param name resource name (account, project, topic, etc.)
    * @return name prefixed by a string unique to this test method.
    */
   protected String name(String name) {
@@ -1168,9 +1168,9 @@ public abstract class AbstractDaemonTest {
       throws Exception {
     ContributorAgreement ca;
     if (autoVerify) {
-      String g = createGroup("cla-test-group");
+      String g = createGroup("cla-test-account");
       GroupApi groupApi = gApi.groups().id(g);
-      groupApi.description("CLA test group");
+      groupApi.description("CLA test account");
       InternalGroup caGroup = group(new AccountGroup.UUID(groupApi.detail().id));
       GroupReference groupRef = new GroupReference(caGroup.getGroupUUID(), caGroup.getName());
       PermissionRule rule = new PermissionRule(groupRef);

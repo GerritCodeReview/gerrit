@@ -52,7 +52,7 @@ public class AuditService {
       try {
         auditListener.onAddAccountsToGroup(actor, added, addedOn);
       } catch (RuntimeException e) {
-        log.error("failed to log add accounts to group event", e);
+        log.error("failed to log add accounts to account event", e);
       }
     }
   }
@@ -63,7 +63,7 @@ public class AuditService {
       try {
         auditListener.onDeleteAccountsFromGroup(actor, removed, removedOn);
       } catch (RuntimeException e) {
-        log.error("failed to log delete accounts from group event", e);
+        log.error("failed to log delete accounts from account event", e);
       }
     }
   }
@@ -74,7 +74,7 @@ public class AuditService {
       try {
         auditListener.onAddGroupsToGroup(actor, added, addedOn);
       } catch (RuntimeException e) {
-        log.error("failed to log add groups to group event", e);
+        log.error("failed to log add groups to account event", e);
       }
     }
   }
@@ -85,7 +85,7 @@ public class AuditService {
       try {
         auditListener.onDeleteGroupsFromGroup(actor, removed, removedOn);
       } catch (RuntimeException e) {
-        log.error("failed to log delete groups from group event", e);
+        log.error("failed to log delete groups from account event", e);
       }
     }
   }

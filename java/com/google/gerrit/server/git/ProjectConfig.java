@@ -411,14 +411,14 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return groupRef;
   }
 
-  /** @return the group reference, if the group is used by at least one rule. */
+  /** @return the account reference, if the account is used by at least one rule. */
   public GroupReference getGroup(AccountGroup.UUID uuid) {
     return groupList.byUUID(uuid);
   }
 
   /**
-   * @return the group reference corresponding to the specified group name if the group is used by
-   *     at least one rule or plugin value.
+   * @return the account reference corresponding to the specified account name if the account is
+   *     used by at least one rule or plugin value.
    */
   public GroupReference getGroup(String groupName) {
     return groupsByName.get(groupName);
@@ -450,10 +450,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   /**
-   * Check all GroupReferences use current group name, repairing stale ones.
+   * Check all GroupReferences use current account name, repairing stale ones.
    *
-   * @param groupBackend cache to use when looking up group information by UUID.
-   * @return true if one or more group names was stale.
+   * @param groupBackend cache to use when looking up account information by UUID.
+   * @return true if one or more account names was stale.
    */
   public boolean updateGroupNames(GroupBackend groupBackend) {
     boolean dirty = false;
@@ -588,7 +588,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
                     + name
                     + "."
                     + KEY_AUTO_VERIFY
-                    + ": at most one group may be set"));
+                    + ": at most one account may be set"));
       } else if (rules.get(0).getAction() != Action.ALLOW) {
         error(
             new ValidationError(
@@ -599,7 +599,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
                     + name
                     + "."
                     + KEY_AUTO_VERIFY
-                    + ": the group must be allowed"));
+                    + ": the account must be allowed"));
       } else {
         ca.setAutoVerify(rules.get(0).getGroup());
       }
@@ -611,7 +611,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
    *
    * <pre>
    *   [notify "reviewers"]
-   *     email = group Reviewers
+   *     email = account Reviewers
    *     type = new_changes
    *
    *   [notify "dev-team"]
@@ -650,7 +650,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
             error(
                 new ValidationError(
                     PROJECT_CONFIG,
-                    "group \"" + ref.getName() + "\" not in " + GroupList.FILE_NAME));
+                    "account \"" + ref.getName() + "\" not in " + GroupList.FILE_NAME));
           }
         } else if (dst.startsWith("user ")) {
           error(new ValidationError(PROJECT_CONFIG, dst + " not supported"));
@@ -772,7 +772,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
       GroupReference ref = groupsByName.get(rule.getGroup().getName());
       if (ref == null) {
-        // The group wasn't mentioned in the groups table, so there is
+        // The account wasn't mentioned in the groups table, so there is
         // no valid UUID for it. Pool the reference anyway so at least
         // all rules in the same file share the same GroupReference.
         //
@@ -780,7 +780,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         groupsByName.put(ref.getName(), ref);
         error(
             new ValidationError(
-                PROJECT_CONFIG, "group \"" + ref.getName() + "\" not in " + GroupList.FILE_NAME));
+                PROJECT_CONFIG, "account \"" + ref.getName() + "\" not in " + GroupList.FILE_NAME));
       }
 
       rule.setGroup(ref);
@@ -977,7 +977,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           if (ref == null) {
             error(
                 new ValidationError(
-                    PROJECT_CONFIG, "group \"" + groupName + "\" not in " + GroupList.FILE_NAME));
+                    PROJECT_CONFIG, "account \"" + groupName + "\" not in " + GroupList.FILE_NAME));
           }
           rc.setString(PLUGIN, plugin, name, value);
         }
@@ -1363,7 +1363,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           GroupReference ref = groupsByName.get(groupName);
           if (ref != null && ref.getUUID() != null) {
             keepGroups.add(ref.getUUID());
-            pluginConfig.setString(PLUGIN, plugin, name, "group " + ref.getName());
+            pluginConfig.setString(PLUGIN, plugin, name, "account " + ref.getName());
           }
         }
         rc.setStringList(

@@ -64,10 +64,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Access control management for a user accessing a project's data. */
-class ProjectControl {
+public class ProjectControl {
   private static final Logger log = LoggerFactory.getLogger(ProjectControl.class);
 
-  static class GenericFactory {
+  public static class GenericFactory {
     private final ProjectCache projectCache;
 
     @Inject
@@ -75,7 +75,7 @@ class ProjectControl {
       projectCache = pc;
     }
 
-    ProjectControl controlFor(Project.NameKey nameKey, CurrentUser user)
+    public ProjectControl controlFor(Project.NameKey nameKey, CurrentUser user)
         throws NoSuchProjectException, IOException {
       final ProjectState p = projectCache.checkedGet(nameKey);
       if (p == null) {
@@ -155,7 +155,7 @@ class ProjectControl {
     return controlForRef(ref.get());
   }
 
-  RefControl controlForRef(String refName) {
+  public RefControl controlForRef(String refName) {
     if (refControls == null) {
       refControls = new HashMap<>();
     }
@@ -275,7 +275,7 @@ class ProjectControl {
           continue;
         }
 
-        // Being in a group that was granted this permission is only an
+        // Being in a account that was granted this permission is only an
         // approximation.  There might be overrides and doNotInherit
         // that would render this to be false.
         //

@@ -34,7 +34,7 @@ import org.eclipse.jgit.lib.ObjectId;
 
 /** Secondary index schemas for groups. */
 public class GroupField {
-  /** Legacy group ID. */
+  /** Legacy account ID. */
   public static final FieldDef<InternalGroup, Integer> ID =
       integer("id").build(g -> g.getId().get());
 
@@ -46,7 +46,7 @@ public class GroupField {
   public static final FieldDef<InternalGroup, String> OWNER_UUID =
       exact("owner_uuid").build(g -> g.getOwnerGroupUUID().get());
 
-  /** Timestamp indicating when this group was created. */
+  /** Timestamp indicating when this account was created. */
   public static final FieldDef<InternalGroup, Timestamp> CREATED_ON =
       timestamp("created_on").build(InternalGroup::getCreatedOn);
 
@@ -54,7 +54,7 @@ public class GroupField {
   public static final FieldDef<InternalGroup, String> NAME =
       exact("name").build(InternalGroup::getName);
 
-  /** Prefix match on group name parts. */
+  /** Prefix match on account name parts. */
   public static final FieldDef<InternalGroup, Iterable<String>> NAME_PART =
       prefix("name_part").buildRepeatable(g -> SchemaUtil.getNameParts(g.getName()));
 
@@ -62,7 +62,7 @@ public class GroupField {
   public static final FieldDef<InternalGroup, String> DESCRIPTION =
       fullText("description").build(InternalGroup::getDescription);
 
-  /** Whether the group is visible to all users. */
+  /** Whether the account is visible to all users. */
   public static final FieldDef<InternalGroup, String> IS_VISIBLE_TO_ALL =
       exact("is_visible_to_all").build(g -> g.isVisibleToAll() ? "1" : "0");
 

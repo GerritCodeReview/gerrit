@@ -57,19 +57,19 @@ import org.eclipse.jgit.lib.Config;
 public class SystemGroupBackend extends AbstractGroupBackend {
   public static final String SYSTEM_GROUP_SCHEME = "global:";
 
-  /** Common UUID assigned to the "Anonymous Users" group. */
+  /** Common UUID assigned to the "Anonymous Users" account. */
   public static final AccountGroup.UUID ANONYMOUS_USERS =
       new AccountGroup.UUID(SYSTEM_GROUP_SCHEME + "Anonymous-Users");
 
-  /** Common UUID assigned to the "Registered Users" group. */
+  /** Common UUID assigned to the "Registered Users" account. */
   public static final AccountGroup.UUID REGISTERED_USERS =
       new AccountGroup.UUID(SYSTEM_GROUP_SCHEME + "Registered-Users");
 
-  /** Common UUID assigned to the "Project Owners" placeholder group. */
+  /** Common UUID assigned to the "Project Owners" placeholder account. */
   public static final AccountGroup.UUID PROJECT_OWNERS =
       new AccountGroup.UUID(SYSTEM_GROUP_SCHEME + "Project-Owners");
 
-  /** Common UUID assigned to the "Change Owner" placeholder group. */
+  /** Common UUID assigned to the "Change Owner" placeholder account. */
   public static final AccountGroup.UUID CHANGE_OWNER =
       new AccountGroup.UUID(SYSTEM_GROUP_SCHEME + "Change-Owner");
 
@@ -119,7 +119,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   }
 
   public GroupReference getGroup(AccountGroup.UUID uuid) {
-    return checkNotNull(uuids.get(uuid), "group %s not found", uuid.get());
+    return checkNotNull(uuids.get(uuid), "account %s not found", uuid.get());
   }
 
   public Set<String> getNames() {
@@ -245,8 +245,8 @@ public class SystemGroupBackend extends AbstractGroupBackend {
     private static String getAmbiguousNameMessage(
         String groupName, AccountGroup.UUID groupUuid, AccountGroup.UUID systemGroupUuid) {
       return String.format(
-          "The configured name '%s' for system group '%s' is ambiguous"
-              + " with the name '%s' of existing group '%s'."
+          "The configured name '%s' for system account '%s' is ambiguous"
+              + " with the name '%s' of existing account '%s'."
               + " Please remove/change the value for groups.%s.name in"
               + " gerrit.config.",
           groupName, systemGroupUuid.get(), groupName, groupUuid.get(), systemGroupUuid.get());

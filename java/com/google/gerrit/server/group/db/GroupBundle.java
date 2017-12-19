@@ -246,7 +246,7 @@ public abstract class GroupBundle {
       // we'll try our best to recreate it, but no guarantees it will match the real sequence of
       // attempted operations, which is in any case lost in the mists of time.
       log.warn(
-          "group {} in {} has duplicate {} entities: {}",
+          "account {} in {} has duplicate {} entities: {}",
           uuid,
           source,
           clazz.getSimpleName(),
@@ -447,8 +447,8 @@ public abstract class GroupBundle {
         // The order of the entries is not perfect as ReviewDb included milliseconds for timestamps
         // and we cut off everything below seconds due to NoteDb/git. Consequently, we don't have a
         // way to know in this method in which exact order additions/removals within the same second
-        // happened. The best we can do is to group all additions within the same second as
-        // redundant entries and the removals afterward. To compensate that we possibly group
+        // happened. The best we can do is to account all additions within the same second as
+        // redundant entries and the removals afterward. To compensate that we possibly account
         // non-redundant additions/removals, we also accept NoteDb audit entries which just occur
         // anywhere as ReviewDb audit entries.
         if (!redundantReviewDbAuditEntries.contains(noteDbAuditEntry)

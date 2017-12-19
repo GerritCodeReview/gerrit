@@ -176,7 +176,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
           result.put(name, ref);
         }
       } else if ((accountGroupUuid = AccountGroup.UUID.fromRef(name)) != null) {
-        // Group ref is visible only to the corresponding owner group.
+        // Group ref is visible only to the corresponding owner account.
         InternalGroup group = groupCache.get(accountGroupUuid).orElse(null);
         if (viewMetadata
             || (group != null
@@ -196,7 +196,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
         }
       } else if (projectState.isAllUsers()
           && (name.equals(RefNames.REFS_EXTERNAL_IDS) || name.equals(RefNames.REFS_GROUPNAMES))) {
-        // The notes branches with the external IDs / group names must not be exposed to normal
+        // The notes branches with the external IDs / account names must not be exposed to normal
         // users.
         if (viewMetadata) {
           result.put(name, ref);

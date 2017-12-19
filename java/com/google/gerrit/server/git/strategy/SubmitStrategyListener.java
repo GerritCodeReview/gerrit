@@ -19,7 +19,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.change.Submit.TestSubmitInput;
+import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeOp.CommitStatus;

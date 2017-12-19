@@ -53,7 +53,7 @@ public class AccountLimits {
 
   /** @return which priority queue the user's tasks should be submitted to. */
   public QueueProvider.QueueType getQueueType() {
-    // If a non-generic group (that is not Anonymous Users or Registered Users)
+    // If a non-generic account (that is not Anonymous Users or Registered Users)
     // grants us INTERACTIVE permission, use the INTERACTIVE queue even if
     // BATCH was otherwise granted. This allows site administrators to grant
     // INTERACTIVE to Registered Users, and BATCH to 'CI Servers' and have

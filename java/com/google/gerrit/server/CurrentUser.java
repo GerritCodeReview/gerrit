@@ -81,7 +81,7 @@ public abstract class CurrentUser {
    * Get the set of groups the user is currently a member of.
    *
    * <p>The returned set may be a subset of the user's actual groups; if the user's account is
-   * currently deemed to be untrusted then the effective group set is only the anonymous and
+   * currently deemed to be untrusted then the effective account set is only the anonymous and
    * registered user groups. To enable additional groups (and gain their granted permissions) the
    * user must update their account to use only trusted authentication providers.
    *

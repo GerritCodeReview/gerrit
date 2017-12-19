@@ -28,7 +28,7 @@ import java.util.Set;
 
 /** A collection of static methods which work on the Gerrit REST API for specific groups. */
 public class GroupApi {
-  /** Create a new group */
+  /** Create a new account */
   public static void createGroup(String groupName, AsyncCallback<GroupInfo> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
     new RestApi("/groups/").id(groupName).ifNoneMatch().put(in, cb);
@@ -38,12 +38,12 @@ public class GroupApi {
     group(group).view("detail").get(cb);
   }
 
-  /** Get the name of a group */
+  /** Get the name of a account */
   public static void getGroupName(AccountGroup.UUID group, AsyncCallback<NativeString> cb) {
     group(group).view("name").get(cb);
   }
 
-  /** Check if the current user is owner of a group */
+  /** Check if the current user is owner of a account */
   public static void isGroupOwner(String groupName, AsyncCallback<Boolean> cb) {
     GroupMap.myOwned(
         groupName,
@@ -60,7 +60,7 @@ public class GroupApi {
         });
   }
 
-  /** Rename a group */
+  /** Rename a account */
   public static void renameGroup(
       AccountGroup.UUID group, String newName, AsyncCallback<VoidResult> cb) {
     GroupInput in = GroupInput.create();
@@ -68,7 +68,7 @@ public class GroupApi {
     group(group).view("name").put(in, cb);
   }
 
-  /** Set description for a group */
+  /** Set description for a account */
   public static void setGroupDescription(
       AccountGroup.UUID group, String description, AsyncCallback<VoidResult> cb) {
     RestApi call = group(group).view("description");
@@ -81,7 +81,7 @@ public class GroupApi {
     }
   }
 
-  /** Set owner for a group */
+  /** Set owner for a account */
   public static void setGroupOwner(
       AccountGroup.UUID group, String owner, AsyncCallback<GroupInfo> cb) {
     GroupInput in = GroupInput.create();
@@ -89,7 +89,7 @@ public class GroupApi {
     group(group).view("owner").put(in, cb);
   }
 
-  /** Set the options for a group */
+  /** Set the options for a account */
   public static void setGroupOptions(
       AccountGroup.UUID group, boolean isVisibleToAll, AsyncCallback<VoidResult> cb) {
     GroupOptionsInput in = GroupOptionsInput.create();
@@ -97,13 +97,13 @@ public class GroupApi {
     group(group).view("options").put(in, cb);
   }
 
-  /** Add member to a group. */
+  /** Add member to a account. */
   public static void addMember(
       AccountGroup.UUID group, String member, AsyncCallback<AccountInfo> cb) {
     members(group).id(member).put(cb);
   }
 
-  /** Add members to a group. */
+  /** Add members to a account. */
   public static void addMembers(
       AccountGroup.UUID group, Set<String> members, AsyncCallback<JsArray<AccountInfo>> cb) {
     if (members.size() == 1) {
@@ -130,7 +130,7 @@ public class GroupApi {
     }
   }
 
-  /** Remove members from a group. */
+  /** Remove members from a account. */
   public static void removeMembers(
       AccountGroup.UUID group, Set<Integer> ids, AsyncCallback<VoidResult> cb) {
     if (ids.size() == 1) {
@@ -144,13 +144,13 @@ public class GroupApi {
     }
   }
 
-  /** Include a group into a group. */
+  /** Include a account into a account. */
   public static void addIncludedGroup(
       AccountGroup.UUID group, String include, AsyncCallback<GroupInfo> cb) {
     groups(group).id(include).put(cb);
   }
 
-  /** Include groups into a group. */
+  /** Include groups into a account. */
   public static void addIncludedGroups(
       AccountGroup.UUID group,
       Set<String> includedGroups,
@@ -179,7 +179,7 @@ public class GroupApi {
     }
   }
 
-  /** Remove included groups from a group. */
+  /** Remove included groups from a account. */
   public static void removeIncludedGroups(
       AccountGroup.UUID group, Set<AccountGroup.UUID> ids, AsyncCallback<VoidResult> cb) {
     if (ids.size() == 1) {
@@ -194,7 +194,7 @@ public class GroupApi {
     }
   }
 
-  /** Get audit log of a group. */
+  /** Get audit log of a account. */
   public static void getAuditLog(
       AccountGroup.UUID group, AsyncCallback<JsArray<GroupAuditEventInfo>> cb) {
     group(group).view("log.audit").get(cb);

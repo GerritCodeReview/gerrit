@@ -308,7 +308,7 @@ public class EventFactory {
       return;
     }
     String rev = currentPs.getRevision().get();
-    // Find changes in the same related group as this patch set, having a patch
+    // Find changes in the same related account as this patch set, having a patch
     // set whose parent matches this patch set's revision.
     for (ChangeData cd :
         queryProvider.get().byProjectGroups(change.getProject(), currentPs.getGroups())) {

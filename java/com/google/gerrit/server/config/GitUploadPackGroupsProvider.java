@@ -36,7 +36,7 @@ public class GitUploadPackGroupsProvider extends GroupSetProvider {
         serverCtx,
         ImmutableList.copyOf(config.getStringList("upload", null, "allowGroup")));
 
-    // If no group was set, default to "registered users" and "anonymous"
+    // If no account was set, default to "registered users" and "anonymous"
     //
     if (groupIds.isEmpty()) {
       groupIds =

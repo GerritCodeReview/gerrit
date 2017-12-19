@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "31b8f7ec_6f44ea59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-19T23:33:37Z",
+      "side": 1,
+      "message": "There\u0027s no individual bug for this.",
+      "parentUuid": "f3a66d54_b9da9c9f",
+      "revId": "67c4faedb97bf9cc99db8bfb8735b14511a94aff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e146a5eb_00e05255",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "67c4faedb97bf9cc99db8bfb8735b14511a94aff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0872d08_01fd821d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-19T23:33:37Z",
+      "side": 1,
+      "message": "I assumed pagejs required it. Looks like null isn\u0027t needed.",
+      "parentUuid": "e146a5eb_00e05255",
+      "revId": "67c4faedb97bf9cc99db8bfb8735b14511a94aff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

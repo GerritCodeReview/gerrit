@@ -19,7 +19,7 @@ import com.google.gerrit.common.Nullable;
 /**
  * Thrown when {@link PermissionBackend} cannot compute the result.
  *
- * <p>This is typically a transient failure, such as a required group backend not responding to
+ * <p>This is typically a transient failure, such as a required account backend not responding to
  * membership requests.
  */
 public class PermissionBackendException extends Exception {

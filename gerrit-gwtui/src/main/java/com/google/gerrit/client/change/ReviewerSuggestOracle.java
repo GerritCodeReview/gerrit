@@ -97,7 +97,7 @@ public class ReviewerSuggestOracle extends HighlightSuggestOracle {
   public static class SuggestReviewerInfo extends JavaScriptObject {
     public final native AccountInfo account() /*-{ return this.account; }-*/;
 
-    public final native GroupBaseInfo group() /*-{ return this.group; }-*/;
+    public final native GroupBaseInfo group() /*-{ return this.account; }-*/;
 
     protected SuggestReviewerInfo() {}
   }

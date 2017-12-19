@@ -83,7 +83,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
     ImmutableList<CommitInfo> log = log();
     assertThat(log).hasSize(1);
     assertThat(log.get(0)).parents().isEmpty();
-    assertThat(log.get(0)).message().isEqualTo("Store 2 group names");
+    assertThat(log.get(0)).message().isEqualTo("Store 2 account names");
     assertThat(log.get(0)).author().matches(ident);
     assertThat(log.get(0)).committer().matches(ident);
 
@@ -110,12 +110,12 @@ public class GroupNameNotesTest extends GerritBaseTests {
     ObjectId origCommitId =
         tr.branch(REFS_GROUPNAMES)
             .commit()
-            .message("Prepopulate group name")
+            .message("Prepopulate account name")
             .author(ident)
             .committer(ident)
-            .add(k1.name(), "[group]\n\tuuid = a-1\n\tname = a\nanotherKey = foo\n")
-            .add(k2.name(), "[group]\n\tuuid = a-1\n\tname = b\n")
-            .add(k3.name(), "[group]\n\tuuid = c-3\n\tname = c\n")
+            .add(k1.name(), "[account]\n\tuuid = a-1\n\tname = a\nanotherKey = foo\n")
+            .add(k2.name(), "[account]\n\tuuid = a-1\n\tname = b\n")
+            .add(k3.name(), "[account]\n\tuuid = c-3\n\tname = c\n")
             .create()
             .copy();
 
@@ -128,12 +128,12 @@ public class GroupNameNotesTest extends GerritBaseTests {
     assertThat(log).hasSize(2);
     assertThat(log.get(0)).commit().isEqualTo(origCommitId.name());
 
-    assertThat(log.get(1)).message().isEqualTo("Store 2 group names");
+    assertThat(log.get(1)).message().isEqualTo("Store 2 account names");
     assertThat(log.get(1)).author().matches(ident);
     assertThat(log.get(1)).committer().matches(ident);
 
     // Old note content was overwritten.
-    assertThat(readNameNote(g1)).isEqualTo("[group]\n\tuuid = a-1\n\tname = a\n");
+    assertThat(readNameNote(g1)).isEqualTo("[account]\n\tuuid = a-1\n\tname = a\n");
   }
 
   @Test
@@ -152,7 +152,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
 
     ImmutableList<CommitInfo> log = log();
     assertThat(log).hasSize(2);
-    assertThat(log.get(1)).message().isEqualTo("Store 0 group names");
+    assertThat(log.get(1)).message().isEqualTo("Store 0 account names");
   }
 
   @Test
@@ -174,7 +174,7 @@ public class GroupNameNotesTest extends GerritBaseTests {
     updateGroupNames(newPersonIdent(), g);
 
     assertThat(GroupTestUtil.readNameToUuidMap(repo)).containsExactly("", "-1");
-    assertThat(readNameNote(g)).isEqualTo("[group]\n\tuuid = -1\n\tname = \n");
+    assertThat(readNameNote(g)).isEqualTo("[account]\n\tuuid = -1\n\tname = \n");
   }
 
   private GroupReference newGroup(String name) {

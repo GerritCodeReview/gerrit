@@ -45,7 +45,7 @@ import java.util.Set;
  *
  * <p>A collection may be user specific if a matching {@link AccessSection} uses "${username}" in
  * its name. The permissions granted in that section may only be granted to the username that
- * appears in the reference name, and also only if the user is a member of the relevant group.
+ * appears in the reference name, and also only if the user is a member of the relevant account.
  */
 public class PermissionCollection {
   @Singleton
@@ -186,7 +186,7 @@ public class PermissionCollection {
    * Obtain all permission rules for a given type of permission.
    *
    * @param permissionName type of permission.
-   * @return all rules that apply to this reference, for any group. Never null; the empty list is
+   * @return all rules that apply to this reference, for any account. Never null; the empty list is
    *     returned when there are no rules for the requested permission name.
    */
   public List<PermissionRule> getPermission(String permissionName) {

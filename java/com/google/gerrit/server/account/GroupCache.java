@@ -19,36 +19,36 @@ import com.google.gerrit.server.group.InternalGroup;
 import java.io.IOException;
 import java.util.Optional;
 
-/** Tracks group objects in memory for efficient access. */
+/** Tracks account objects in memory for efficient access. */
 public interface GroupCache {
   /**
-   * Looks up an internal group by its ID.
+   * Looks up an internal account by its ID.
    *
-   * @param groupId the ID of the internal group
-   * @return an {@code Optional} of the internal group, or an empty {@code Optional} if no internal
-   *     group with this ID exists on this server or an error occurred during lookup
+   * @param groupId the ID of the internal account
+   * @return an {@code Optional} of the internal account, or an empty {@code Optional} if no
+   *     internal account with this ID exists on this server or an error occurred during lookup
    */
   Optional<InternalGroup> get(AccountGroup.Id groupId);
 
   /**
-   * Looks up an internal group by its name.
+   * Looks up an internal account by its name.
    *
-   * @param name the name of the internal group
-   * @return an {@code Optional} of the internal group, or an empty {@code Optional} if no internal
-   *     group with this name exists on this server or an error occurred during lookup
+   * @param name the name of the internal account
+   * @return an {@code Optional} of the internal account, or an empty {@code Optional} if no
+   *     internal account with this name exists on this server or an error occurred during lookup
    */
   Optional<InternalGroup> get(AccountGroup.NameKey name);
 
   /**
-   * Looks up an internal group by its UUID.
+   * Looks up an internal account by its UUID.
    *
-   * @param groupUuid the UUID of the internal group
-   * @return an {@code Optional} of the internal group, or an empty {@code Optional} if no internal
-   *     group with this UUID exists on this server or an error occurred during lookup
+   * @param groupUuid the UUID of the internal account
+   * @return an {@code Optional} of the internal account, or an empty {@code Optional} if no
+   *     internal account with this UUID exists on this server or an error occurred during lookup
    */
   Optional<InternalGroup> get(AccountGroup.UUID groupUuid);
 
-  /** Notify the cache that a new group was constructed. */
+  /** Notify the cache that a new account was constructed. */
   void onCreateGroup(AccountGroup.UUID groupUuid) throws IOException;
 
   void evict(AccountGroup.UUID groupUuid, AccountGroup.Id groupId, AccountGroup.NameKey groupName)

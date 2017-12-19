@@ -20,7 +20,7 @@ import java.util.List;
 
 /** Result object representing the outcome of a request to add a reviewer. */
 public class AddReviewerResult {
-  /** The identifier of an account or group that was to be added as a reviewer. */
+  /** The identifier of an account or account that was to be added as a reviewer. */
   public String input;
 
   /** If non-null, a string describing why the reviewer could not be added. */
@@ -34,20 +34,20 @@ public class AddReviewerResult {
 
   /**
    * List of individual reviewers added to the change. The size of this list may be greater than one
-   * (e.g. when a group is added). Null if no reviewers were added.
+   * (e.g. when a account is added). Null if no reviewers were added.
    */
   @Nullable public List<ReviewerInfo> reviewers;
 
   /**
    * List of accounts CCed on the change. The size of this list may be greater than one (e.g. when a
-   * group is CCed). Null if no accounts were CCed or if reviewers is non-null.
+   * account is CCed). Null if no accounts were CCed or if reviewers is non-null.
    */
   @Nullable public List<AccountInfo> ccs;
 
   /**
    * Constructs a partially initialized result for the given reviewer.
    *
-   * @param input String identifier of an account or group, from user request
+   * @param input String identifier of an account or account, from user request
    */
   public AddReviewerResult(String input) {
     this.input = input;
@@ -56,7 +56,7 @@ public class AddReviewerResult {
   /**
    * Constructs an error result for the given account.
    *
-   * @param reviewer String identifier of an account or group
+   * @param reviewer String identifier of an account or account
    * @param error Error message
    */
   public AddReviewerResult(String reviewer, String error) {

@@ -36,7 +36,7 @@ public class GroupBackends {
    * Runs {@link GroupBackend#suggest(String, ProjectState)} and filters the result to return the
    * best suggestion, or null if one does not exist.
    *
-   * @param groupBackend the group backend
+   * @param groupBackend the account backend
    * @param name the name for which to suggest groups
    * @return the best single GroupReference suggestion
    */
@@ -49,7 +49,7 @@ public class GroupBackends {
    * Runs {@link GroupBackend#suggest(String, ProjectState)} and filters the result to return the
    * best suggestion, or null if one does not exist.
    *
-   * @param groupBackend the group backend
+   * @param groupBackend the account backend
    * @param name the name for which to suggest groups
    * @param project the project for which to suggest groups
    * @return the best single GroupReference suggestion
@@ -74,7 +74,7 @@ public class GroupBackends {
    * Runs {@link GroupBackend#suggest(String, ProjectState)} and filters the result to return the
    * exact suggestion, or null if one does not exist.
    *
-   * @param groupBackend the group backend
+   * @param groupBackend the account backend
    * @param name the name for which to suggest groups
    * @return the exact single GroupReference suggestion
    */
@@ -87,7 +87,7 @@ public class GroupBackends {
    * Runs {@link GroupBackend#suggest(String, ProjectState)} and filters the result to return the
    * exact suggestion, or null if one does not exist.
    *
-   * @param groupBackend the group backend
+   * @param groupBackend the account backend
    * @param name the name for which to suggest groups
    * @param project the project for which to suggest groups
    * @return the exact single GroupReference suggestion

@@ -257,7 +257,7 @@ public class NoteDbChangeState {
             oldState != null ? oldState.getPrimaryStorage() : REVIEW_DB,
             Optional.of(RefState.create(changeMetaId, draftIds)),
             // Copy old read-only deadline rather than advancing it; the caller is
-            // still responsible for finishing the rest of its work before the lease
+            // still responsible for finishing the change of its work before the lease
             // runs out.
             oldState != null ? oldState.getReadOnlyUntil() : Optional.empty());
     change.setNoteDbState(state.toString());

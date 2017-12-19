@@ -25,7 +25,7 @@ import org.eclipse.jgit.internal.storage.file.FileSnapshot;
  * <p>Allows to load one plugin from one external file or one directory by declaring the ability to
  * handle it.
  *
- * <p>In order to load multiple files into a single plugin, group them into a directory tree and
+ * <p>In order to load multiple files into a single plugin, account them into a directory tree and
  * then load the directory root as a single plugin.
  */
 @ExtensionPoint

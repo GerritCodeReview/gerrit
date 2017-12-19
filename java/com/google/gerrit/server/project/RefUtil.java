@@ -120,7 +120,7 @@ public class RefUtil {
   }
 
   /** Error indicating the revision is invalid as supplied. */
-  static class InvalidRevisionException extends Exception {
+  public static class InvalidRevisionException extends Exception {
     private static final long serialVersionUID = 1L;
 
     public static final String MESSAGE = "Invalid Revision";

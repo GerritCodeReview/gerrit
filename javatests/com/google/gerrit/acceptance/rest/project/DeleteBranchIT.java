@@ -144,7 +144,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.PUSH, REGISTERED_USERS);
 
     exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Not allowed to delete group branch.");
+    exception.expectMessage("Not allowed to delete account branch.");
     branch(new Branch.NameKey(allUsers, RefNames.refsGroups(adminGroupUuid()))).delete();
   }
 

@@ -59,7 +59,7 @@ public class GroupConfigTest {
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       expectedException.expectCause(instanceOf(ConfigInvalidException.class));
-      expectedException.expectMessage("Name of the group users-XYZ");
+      expectedException.expectMessage("Name of the account users-XYZ");
       groupConfig.commit(metaDataUpdate);
     }
   }
@@ -72,7 +72,7 @@ public class GroupConfigTest {
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       expectedException.expectCause(instanceOf(ConfigInvalidException.class));
-      expectedException.expectMessage("Name of the group users-XYZ");
+      expectedException.expectMessage("Name of the account users-XYZ");
       groupConfig.commit(metaDataUpdate);
     }
   }
@@ -85,7 +85,7 @@ public class GroupConfigTest {
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       expectedException.expectCause(instanceOf(ConfigInvalidException.class));
-      expectedException.expectMessage("ID of the group users-XYZ");
+      expectedException.expectMessage("ID of the account users-XYZ");
       groupConfig.commit(metaDataUpdate);
     }
   }
@@ -100,7 +100,7 @@ public class GroupConfigTest {
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       expectedException.expectCause(instanceOf(ConfigInvalidException.class));
-      expectedException.expectMessage("Owner UUID of the group users-XYZ");
+      expectedException.expectMessage("Owner UUID of the account users-XYZ");
       groupConfig.commit(metaDataUpdate);
     }
   }
@@ -115,14 +115,14 @@ public class GroupConfigTest {
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       expectedException.expectCause(instanceOf(ConfigInvalidException.class));
-      expectedException.expectMessage("Owner UUID of the group users-XYZ");
+      expectedException.expectMessage("Owner UUID of the account users-XYZ");
       groupConfig.commit(metaDataUpdate);
     }
   }
 
   @Test
   public void nameInConfigMayBeUndefined() throws Exception {
-    populateGroupConfig(groupUuid, "[group]\n\tid = 42\n\townerGroupUuid = owners\n");
+    populateGroupConfig(groupUuid, "[account]\n\tid = 42\n\townerGroupUuid = owners\n");
 
     GroupConfig groupConfig = GroupConfig.loadForGroup(repository, groupUuid);
     assertThat(groupConfig.getLoadedGroup().get().getName()).isEmpty();
@@ -130,7 +130,7 @@ public class GroupConfigTest {
 
   @Test
   public void nameInConfigMayBeEmpty() throws Exception {
-    populateGroupConfig(groupUuid, "[group]\n\tname=\n\tid = 42\n\townerGroupUuid = owners\n");
+    populateGroupConfig(groupUuid, "[account]\n\tname=\n\tid = 42\n\townerGroupUuid = owners\n");
 
     GroupConfig groupConfig = GroupConfig.loadForGroup(repository, groupUuid);
     assertThat(groupConfig.getLoadedGroup().get().getName()).isEmpty();
@@ -138,36 +138,36 @@ public class GroupConfigTest {
 
   @Test
   public void idInConfigMustBeDefined() throws Exception {
-    populateGroupConfig(groupUuid, "[group]\n\tname = users\n\townerGroupUuid = owners\n");
+    populateGroupConfig(groupUuid, "[account]\n\tname = users\n\townerGroupUuid = owners\n");
 
     expectedException.expect(ConfigInvalidException.class);
-    expectedException.expectMessage("ID of the group users-XYZ");
+    expectedException.expectMessage("ID of the account users-XYZ");
     GroupConfig.loadForGroup(repository, groupUuid);
   }
 
   @Test
   public void idInConfigMustNotBeNegative() throws Exception {
     populateGroupConfig(
-        groupUuid, "[group]\n\tname = users\n\tid = -5\n\townerGroupUuid = owners\n");
+        groupUuid, "[account]\n\tname = users\n\tid = -5\n\townerGroupUuid = owners\n");
 
     expectedException.expect(ConfigInvalidException.class);
-    expectedException.expectMessage("ID of the group users-XYZ");
+    expectedException.expectMessage("ID of the account users-XYZ");
     GroupConfig.loadForGroup(repository, groupUuid);
   }
 
   @Test
   public void ownerUuidInConfigMustBeDefined() throws Exception {
-    populateGroupConfig(groupUuid, "[group]\n\tname = users\n\tid = 42\n");
+    populateGroupConfig(groupUuid, "[account]\n\tname = users\n\tid = 42\n");
 
     expectedException.expect(ConfigInvalidException.class);
-    expectedException.expectMessage("Owner UUID of the group users-XYZ");
+    expectedException.expectMessage("Owner UUID of the account users-XYZ");
     GroupConfig.loadForGroup(repository, groupUuid);
   }
 
   @Test
   public void nameCannotBeUpdatedToNull() throws Exception {
     populateGroupConfig(
-        groupUuid, "[group]\n\tname = users\n\tid = 42\n\townerGroupUuid = owners\n");
+        groupUuid, "[account]\n\tname = users\n\tid = 42\n\townerGroupUuid = owners\n");
 
     GroupConfig groupConfig = GroupConfig.loadForGroup(repository, groupUuid);
     InternalGroupUpdate groupUpdate =
@@ -176,7 +176,7 @@ public class GroupConfigTest {
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       expectedException.expectCause(instanceOf(ConfigInvalidException.class));
-      expectedException.expectMessage("Name of the group users-XYZ");
+      expectedException.expectMessage("Name of the account users-XYZ");
       groupConfig.commit(metaDataUpdate);
     }
   }
@@ -184,7 +184,7 @@ public class GroupConfigTest {
   @Test
   public void nameCannotBeUpdatedToEmptyString() throws Exception {
     populateGroupConfig(
-        groupUuid, "[group]\n\tname = users\n\tid = 42\n\townerGroupUuid = owners\n");
+        groupUuid, "[account]\n\tname = users\n\tid = 42\n\townerGroupUuid = owners\n");
 
     GroupConfig groupConfig = GroupConfig.loadForGroup(repository, groupUuid);
     InternalGroupUpdate groupUpdate =
@@ -193,7 +193,7 @@ public class GroupConfigTest {
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       expectedException.expectCause(instanceOf(ConfigInvalidException.class));
-      expectedException.expectMessage("Name of the group users-XYZ");
+      expectedException.expectMessage("Name of the account users-XYZ");
       groupConfig.commit(metaDataUpdate);
     }
   }
@@ -201,7 +201,7 @@ public class GroupConfigTest {
   @Test
   public void ownerUuidCannotBeUpdatedToNull() throws Exception {
     populateGroupConfig(
-        groupUuid, "[group]\n\tname = users\n\tid = 42\n\townerGroupUuid = owners\n");
+        groupUuid, "[account]\n\tname = users\n\tid = 42\n\townerGroupUuid = owners\n");
 
     GroupConfig groupConfig = GroupConfig.loadForGroup(repository, groupUuid);
     InternalGroupUpdate groupUpdate =
@@ -210,7 +210,7 @@ public class GroupConfigTest {
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       expectedException.expectCause(instanceOf(ConfigInvalidException.class));
-      expectedException.expectMessage("Owner UUID of the group users-XYZ");
+      expectedException.expectMessage("Owner UUID of the account users-XYZ");
       groupConfig.commit(metaDataUpdate);
     }
   }
@@ -218,7 +218,7 @@ public class GroupConfigTest {
   @Test
   public void ownerUuidCannotBeUpdatedToEmptyString() throws Exception {
     populateGroupConfig(
-        groupUuid, "[group]\n\tname = users\n\tid = 42\n\townerGroupUuid = owners\n");
+        groupUuid, "[account]\n\tname = users\n\tid = 42\n\townerGroupUuid = owners\n");
 
     GroupConfig groupConfig = GroupConfig.loadForGroup(repository, groupUuid);
     InternalGroupUpdate groupUpdate =
@@ -227,7 +227,7 @@ public class GroupConfigTest {
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       expectedException.expectCause(instanceOf(ConfigInvalidException.class));
-      expectedException.expectMessage("Owner UUID of the group users-XYZ");
+      expectedException.expectMessage("Owner UUID of the account users-XYZ");
       groupConfig.commit(metaDataUpdate);
     }
   }
@@ -243,7 +243,7 @@ public class GroupConfigTest {
     testRepository
         .branch(RefNames.refsGroups(uuid))
         .commit()
-        .message("Prepopulate group.config")
+        .message("Prepopulate account.config")
         .add(GroupConfig.GROUP_CONFIG_FILE, fileContent)
         .create();
   }

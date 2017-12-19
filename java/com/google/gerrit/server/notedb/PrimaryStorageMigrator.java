@@ -306,7 +306,7 @@ public class PrimaryStorageMigrator {
       return testEnsureRebuiltRetryer;
     }
     // Retry the ensureRebuilt step with backoff until half the timeout has
-    // expired, leaving the remaining half for the rest of the steps.
+    // expired, leaving the remaining half for the change of the steps.
     long remainingNanos = (MILLISECONDS.toNanos(timeoutMs) / 2) - sw.elapsed(NANOSECONDS);
     remainingNanos = Math.max(remainingNanos, 0);
     return RetryerBuilder.<NoteDbChangeState>newBuilder()

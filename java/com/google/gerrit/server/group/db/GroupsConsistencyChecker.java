@@ -68,7 +68,7 @@ public class GroupsConsistencyChecker {
     this.groupsMigration = groupsMigration;
   }
 
-  /** Checks that all internal group references exist, and that no groups have cycles. */
+  /** Checks that all internal account references exist, and that no groups have cycles. */
   public List<ConsistencyProblemInfo> check() throws IOException {
     if (!groupsMigration.writeToNoteDb()) {
       return new ArrayList<>();
@@ -88,7 +88,7 @@ public class GroupsConsistencyChecker {
     }
   }
 
-  /** Checks the metadata for a single group for problems. */
+  /** Checks the metadata for a single account for problems. */
   private List<ConsistencyProblemInfo> checkGroup(
       InternalGroup g, Map<AccountGroup.UUID, InternalGroup> byUUID) throws IOException {
     List<ConsistencyProblemInfo> problems = new ArrayList<>();
@@ -99,7 +99,7 @@ public class GroupsConsistencyChecker {
         && groupBackend.get(g.getOwnerGroupUUID()) == null) {
       problems.add(
           error(
-              "group %s (%s) has nonexistent owner group %s",
+              "account %s (%s) has nonexistent owner account %s",
               g.getName(), g.getGroupUUID(), g.getOwnerGroupUUID()));
     }
 
@@ -107,7 +107,7 @@ public class GroupsConsistencyChecker {
       if (byUUID.get(subUuid) == null && groupBackend.get(subUuid) == null) {
         problems.add(
             error(
-                "group %s (%s) has nonexistent subgroup %s",
+                "account %s (%s) has nonexistent subgroup %s",
                 g.getName(), g.getGroupUUID(), subUuid));
       }
     }
@@ -119,13 +119,13 @@ public class GroupsConsistencyChecker {
       } catch (ConfigInvalidException e) {
         problems.add(
             error(
-                "group %s (%s) has member %s with invalid configuration: %s",
+                "account %s (%s) has member %s with invalid configuration: %s",
                 g.getName(), g.getGroupUUID(), id, e.getMessage()));
         continue;
       }
       if (account == null) {
         problems.add(
-            error("group %s (%s) has nonexistent member %s", g.getName(), g.getGroupUUID(), id));
+            error("account %s (%s) has nonexistent member %s", g.getName(), g.getGroupUUID(), id));
       }
     }
     return problems;
@@ -158,7 +158,7 @@ public class GroupsConsistencyChecker {
         if (Objects.equals(g, root)) {
           problems.add(
               warning(
-                  "group %s (%s) contains a cycle: %s (%s) points to it as subgroup.",
+                  "account %s (%s) contains a cycle: %s (%s) points to it as subgroup.",
                   root.getName(), root.getGroupUUID(), t.getName(), t.getGroupUUID()));
         }
 

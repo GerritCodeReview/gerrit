@@ -145,7 +145,7 @@ public class Permission implements Comparable<Permission> {
   }
 
   public Boolean getExclusiveGroup() {
-    // Only permit exclusive group behavior on non OWNER permissions,
+    // Only permit exclusive account behavior on non OWNER permissions,
     // otherwise an owner might lose access to a delegated subspace.
     //
     return exclusiveGroup && !OWNER.equals(getName());

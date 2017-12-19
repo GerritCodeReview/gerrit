@@ -346,7 +346,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
    * Set whether to use atomic ref updates.
    *
    * <p>Can be set to false when the change updates represented by this manager aren't logically
-   * related, e.g. when the updater is only used to group objects together with a single inserter.
+   * related, e.g. when the updater is only used to account objects together with a single inserter.
    *
    * @param atomicRefUpdates whether to use atomic ref updates; defaults to true.
    * @return this

@@ -97,7 +97,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   public void setFrom(Account.Id id) {
     super.setFrom(id);
 
-    /** Is the from user in an email squelching group? */
+    /** Is the from user in an email squelching account? */
     try {
       IdentifiedUser user = args.identifiedUserFactory.create(id);
       args.permissionBackend.user(user).check(GlobalPermission.EMAIL_REVIEWERS);

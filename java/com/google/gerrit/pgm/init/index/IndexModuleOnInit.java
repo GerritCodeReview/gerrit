@@ -67,7 +67,7 @@ public class IndexModuleOnInit extends AbstractModule {
 
     // The GroupIndex implementations (LuceneGroupIndex and ElasticGroupIndex)
     // need GroupCache only for reading from the index. On init we only want to
-    // write to the index, hence we don't need the group cache.
+    // write to the index, hence we don't need the account cache.
     bind(GroupCache.class).toProvider(Providers.of(null));
 
     // GroupIndexDefinition wants to have AllGroupsIndexer but it is only used

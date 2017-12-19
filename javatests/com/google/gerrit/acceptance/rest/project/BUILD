@@ -3,7 +3,7 @@ load("//javatests/com/google/gerrit/acceptance:tests.bzl", "acceptance_tests")
 acceptance_tests(
     srcs = glob(["*IT.java"]),
     group = "rest_project",
-    labels = ["rest"],
+    labels = ["change"],
     deps = [
         ":project",
         ":push_tag_util",

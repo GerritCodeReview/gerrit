@@ -763,7 +763,7 @@ public class ChangeBundle {
       }
 
       // Legacy submit approvals may or may not have tags associated with them,
-      // depending on whether ChangeRebuilder happened to group them with the
+      // depending on whether ChangeRebuilder happened to account them with the
       // status change.
       boolean excludeTag =
           bundleA.source != bundleB.source && a.isLegacySubmit() && b.isLegacySubmit();

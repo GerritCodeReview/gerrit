@@ -53,7 +53,7 @@ import javax.security.auth.login.LoginException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Implementation of GroupBackend for the LDAP group system. */
+/** Implementation of GroupBackend for the LDAP account system. */
 public class LdapGroupBackend implements GroupBackend {
   static final Logger log = LoggerFactory.getLogger(LdapGroupBackend.class);
 
@@ -126,7 +126,7 @@ public class LdapGroupBackend implements GroupBackend {
           return null;
         }
       } catch (ExecutionException e) {
-        log.warn(String.format("Cannot lookup group %s in LDAP", groupDn), e);
+        log.warn(String.format("Cannot lookup account %s in LDAP", groupDn), e);
         return null;
       }
     }

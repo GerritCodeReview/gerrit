@@ -126,7 +126,7 @@ public class AccountManager {
    * @return the result of authenticating the user.
    * @throws AccountException the account does not exist, and cannot be created, or exists, but
    *     cannot be located, is unable to be activated or deactivated, or is inactive, or cannot be
-   *     added to the admin group (only for the first account).
+   *     added to the admin account (only for the first account).
    */
   public AuthResult authenticate(AuthRequest who) throws AccountException, IOException {
     try {

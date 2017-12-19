@@ -909,7 +909,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("label:Code-Review=+1,user", reviewPlus1Change);
     assertQuery("label:Code-Review=+1,user=user", reviewPlus1Change);
     assertQuery("label:Code-Review=+1,Administrators", reviewPlus1Change);
-    assertQuery("label:Code-Review=+1,group=Administrators", reviewPlus1Change);
+    assertQuery("label:Code-Review=+1,account=Administrators", reviewPlus1Change);
     assertQuery("label:Code-Review=+1,user=owner", reviewPlus1Change);
     assertQuery("label:Code-Review=+1,owner", reviewPlus1Change);
     assertQuery("label:Code-Review=+2,owner", reviewPlus2Change);
@@ -962,7 +962,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     createAccount("user2");
     TestRepository<Repo> repo = createProject("repo");
 
-    // create group and add users
+    // create account and add users
     String g1 = createGroup("group1", "Administrators");
     String g2 = createGroup("group2", "Administrators");
     gApi.groups().id(g1).addMembers("user1");
@@ -981,10 +981,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // verify that query with user1 will return results.
     requestContext.setContext(newRequestContext(userId));
     assertQuery("label:Code-Review=+1,group1", change1);
-    assertQuery("label:Code-Review=+1,group=group1", change1);
+    assertQuery("label:Code-Review=+1,account=group1", change1);
     assertQuery("label:Code-Review=+1,user=user1", change1);
     assertQuery("label:Code-Review=+1,user=user2");
-    assertQuery("label:Code-Review=+1,group=group2");
+    assertQuery("label:Code-Review=+1,account=group2");
   }
 
   @Test
@@ -1867,7 +1867,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("label:CodE-RevieW=ok", change1);
     assertQuery("label:CodE-RevieW=ok,user=user", change1);
     assertQuery("label:CodE-RevieW=ok,Administrators", change1);
-    assertQuery("label:CodE-RevieW=ok,group=Administrators", change1);
+    assertQuery("label:CodE-RevieW=ok,account=Administrators", change1);
     assertQuery("label:CodE-RevieW=ok,owner", change1);
     assertQuery("label:CodE-RevieW=ok,user1");
     assertQuery("label:CodE-RevieW=need", change2);

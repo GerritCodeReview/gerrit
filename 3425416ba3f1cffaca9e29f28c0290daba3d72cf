@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4d7b1c9_f76c6b87",
+        "filename": "polygerrit-ui/app/elements/edit/gr-default-editor/gr-default-editor_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-19T23:38:14Z",
+      "side": 1,
+      "message": "+2 spaces I believe.",
+      "revId": "3425416ba3f1cffaca9e29f28c0290daba3d72cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8db9c2c_fcc30d74",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-19T23:38:14Z",
+      "side": 1,
+      "message": "Why not _newContent?",
+      "range": {
+        "startLine": 90,
+        "startChar": 53,
+        "endLine": 90,
+        "endChar": 61
+      },
+      "revId": "3425416ba3f1cffaca9e29f28c0290daba3d72cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

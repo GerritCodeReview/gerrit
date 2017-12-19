@@ -131,7 +131,7 @@ public class ChangeNoteUtil {
     this.serverIdent = serverIdent;
     this.anonymousCowardName = anonymousCowardName;
     this.serverId = serverId;
-    this.writeJson = config.getBoolean("notedb", "writeJson", false);
+    this.writeJson = config.getBoolean("notedb", "writeJson", true);
   }
 
   @VisibleForTesting

@@ -22,6 +22,30 @@
       "revId": "aef77ff06f298038418341622ff05abbd08b2f36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03d991f9_80f03f4f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-19T01:26:49Z",
+      "side": 1,
+      "message": "It\u0027s still used in at least one test.",
+      "parentUuid": "c4f3a600_df761af1",
+      "range": {
+        "startLine": 130,
+        "startChar": 8,
+        "endLine": 130,
+        "endChar": 20
+      },
+      "revId": "aef77ff06f298038418341622ff05abbd08b2f36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

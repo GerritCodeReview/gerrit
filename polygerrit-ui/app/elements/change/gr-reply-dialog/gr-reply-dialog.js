@@ -780,6 +780,14 @@
       return draft ? draft.message : '';
     },
 
+    _handleAccountTextEntry() {
+      // When either of the account entries has input added to the autocomplete,
+      // it should trigger the save button to enable/
+      //
+      // Note: if the text is removed, the save button will not get disabled.
+      this._reviewersMutated = true;
+    },
+
     _draftChanged(newDraft, oldDraft) {
       this.debounce('store', () => {
         if (!newDraft.length && oldDraft) {

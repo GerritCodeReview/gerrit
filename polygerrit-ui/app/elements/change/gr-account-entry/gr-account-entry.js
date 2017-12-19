@@ -22,6 +22,14 @@
      *
      * @event add
      */
+
+    /**
+     * When allowAnyInput is true, account-text-changed is fired when input text
+     * changed. This is needed so that the reply dialog's save button can be
+     * enabled for arbitrary cc's, which don't need a 'commit'.
+     *
+     * @event account-text-changed
+     */
     properties: {
       allowAnyInput: Boolean,
       borderless: Boolean,
@@ -53,6 +61,11 @@
       },
 
       _config: Object,
+      /** The value of the autocomplete entry. */
+      _inputText: {
+        type: String,
+        observer: '_inputTextChanged',
+      },
     },
 
     behaviors: [
@@ -92,6 +105,13 @@
 
     _accountOrAnon(reviewer) {
       return this.getUserName(this._config, reviewer, false);
+    },
+
+    _inputTextChanged(text) {
+      if (text.length && this.allowAnyInput) {
+        this.dispatchEvent(new CustomEvent('account-text-changed',
+            {bubbles: true}));
+      }
     },
 
     _makeSuggestion(reviewer) {

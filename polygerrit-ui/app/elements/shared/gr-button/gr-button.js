@@ -59,7 +59,7 @@
     },
 
     listeners: {
-      tap: '_handleAction',
+      tap: '_handleTap',
       click: '_handleAction',
       keydown: '_handleKeydown',
     },
@@ -80,6 +80,12 @@
 
     _isRaised(isLink) {
       return !isLink;
+    },
+
+    _handleTap(e) {
+      this._handleAction();
+      if (this.disabled) { return; }
+      this.$.reporting.reportInteraction(`${this.id} button click`);
     },
 
     _handleAction(e) {

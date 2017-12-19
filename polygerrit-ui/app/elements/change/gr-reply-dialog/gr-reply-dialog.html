@@ -56,6 +56,13 @@ limitations under the License.
         padding: .5em 1.5em;
         width: 100%;
       }
+      .actions {
+        display: flex;
+        justify-content: space-between;
+      }
+      .actions .right gr-button {
+        margin-left: 1em;
+      }
       .peopleContainer,
       .labelsContainer {
         flex-shrink: 0;
@@ -65,13 +72,16 @@ limitations under the License.
       }
       .peopleList {
         display: flex;
-        align-items: center;
         padding-top: .1em;
       }
       .peopleListLabel {
         color: #666;
+        margin-top: .2em;
         min-width: 7em;
         padding-right: .5em;
+      }
+      .ownerContainer {
+        margin: .2em 0;
       }
       gr-account-list {
         display: flex;
@@ -137,9 +147,6 @@ limitations under the License.
       #savingLabel.saving {
         display: inline;
       }
-      #cancelButton {
-        float: right;
-      }
       @media screen and (max-width: 50em) {
         :host {
           max-height: none;
@@ -153,7 +160,9 @@ limitations under the License.
       <section class="peopleContainer">
         <div class="peopleList">
           <div class="peopleListLabel">Owner</div>
-          <gr-account-chip account="[[_owner]]"></gr-account-chip>
+          <div class="ownerContainer">
+            <gr-account-chip account="[[_owner]]"></gr-account-chip>
+          </div>
         </div>
       </section>
       <section class="peopleContainer">
@@ -261,33 +270,45 @@ limitations under the License.
           Saving comments...
         </span>
       </section>
-      <section>
-        <gr-button
-            primary
-            disabled="[[_computeSendButtonDisabled(knownLatestState, _sendButtonLabel, diffDrafts, draft, _reviewersMutated, _labelsChanged, _includeComments)]]"
-            class="action send"
-            on-tap="_sendTapHandler">[[_sendButtonLabel]]</gr-button>
-        <template is="dom-if" if="[[canBeStarted]]">
+      <section class="actions">
+        <div class="left">
+          <template is="dom-if" if="[[canBeStarted]]">
+            <gr-button
+                link
+                tertiary
+                disabled="[[_isState(knownLatestState, 'not-latest')]]"
+                class="action save"
+                has-tooltip
+                title="[[_saveTooltip]]"
+                on-tap="_saveTapHandler">Save</gr-button>
+          </template>
+          <span
+              id="checkingStatusLabel"
+              hidden$="[[!_isState(knownLatestState, 'checking')]]">
+            Checking whether patch [[patchNum]] is latest...
+          </span>
+          <span
+              id="notLatestLabel"
+              hidden$="[[!_isState(knownLatestState, 'not-latest')]]">
+            [[_computePatchSetWarning(patchNum, _labelsChanged)]]
+            <gr-button link on-tap="_reload">Reload</gr-button>
+          </span>
+        </div>
+        <div class="right">
           <gr-button
-              disabled="[[_isState(knownLatestState, 'not-latest')]]"
-              class="action save"
-              on-tap="_saveTapHandler">Save</gr-button>
-        </template>
-        <span
-            id="checkingStatusLabel"
-            hidden$="[[!_isState(knownLatestState, 'checking')]]">
-          Checking whether patch [[patchNum]] is latest...
-        </span>
-        <span
-            id="notLatestLabel"
-            hidden$="[[!_isState(knownLatestState, 'not-latest')]]">
-          Patch [[patchNum]] is not latest.
-          <gr-button link on-tap="_reload">Reload</gr-button>
-        </span>
-        <gr-button
-            id="cancelButton"
-            class="action cancel"
-            on-tap="_cancelTapHandler">Cancel</gr-button>
+              link
+              id="cancelButton"
+              class="action cancel"
+              on-tap="_cancelTapHandler">Cancel</gr-button>
+          <gr-button
+              link
+              primary
+              disabled="[[_computeSendButtonDisabled(_sendButtonLabel, diffDrafts, draft, _reviewersMutated, _labelsChanged, _includeComments)]]"
+              class="action send"
+              has-tooltip
+              title$="[[_computeSendButtonTooltip(canBeStarted)]]"
+              on-tap="_sendTapHandler">[[_sendButtonLabel]]</gr-button>
+        </div>
       </section>
     </div>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>

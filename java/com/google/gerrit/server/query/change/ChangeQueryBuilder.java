@@ -51,6 +51,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
+import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.account.VersionedAccountDestinations;
 import com.google.gerrit.server.account.VersionedAccountQueries;
 import com.google.gerrit.server.change.ChangeTriplet;
@@ -59,7 +60,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitDryRun;
-import com.google.gerrit.server.group.ListMembers;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
@@ -211,11 +211,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final ProjectCache projectCache;
     final Provider<InternalChangeQuery> queryProvider;
     final ChildProjects childProjects;
-    final Provider<ListMembers> listMembers;
     final Provider<ReviewDb> db;
     final StarredChangesUtil starredChangesUtil;
     final SubmitDryRun submitDryRun;
     final boolean allowsDrafts;
+    final GroupMembers groupMembers;
 
     private final Provider<CurrentUser> self;
 
@@ -245,11 +245,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         SubmitDryRun submitDryRun,
         ConflictsCache conflictsCache,
         IndexConfig indexConfig,
-        Provider<ListMembers> listMembers,
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
         @GerritServerConfig Config cfg,
-        NotesMigration notesMigration) {
+        NotesMigration notesMigration,
+        GroupMembers groupMembers) {
       this(
           db,
           queryProvider,
@@ -274,11 +274,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           conflictsCache,
           indexes != null ? indexes.getSearchIndex() : null,
           indexConfig,
-          listMembers,
           starredChangesUtil,
           accountCache,
           cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true),
-          notesMigration);
+          notesMigration,
+          groupMembers);
     }
 
     private Arguments(
@@ -305,11 +305,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ConflictsCache conflictsCache,
         ChangeIndex index,
         IndexConfig indexConfig,
-        Provider<ListMembers> listMembers,
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
         boolean allowsDrafts,
-        NotesMigration notesMigration) {
+        NotesMigration notesMigration,
+        GroupMembers groupMembers) {
       this.db = db;
       this.queryProvider = queryProvider;
       this.rewriter = rewriter;
@@ -332,12 +332,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.conflictsCache = conflictsCache;
       this.index = index;
       this.indexConfig = indexConfig;
-      this.listMembers = listMembers;
       this.starredChangesUtil = starredChangesUtil;
       this.accountCache = accountCache;
       this.allowsDrafts = allowsDrafts;
       this.hasOperands = hasOperands;
       this.notesMigration = notesMigration;
+      this.groupMembers = groupMembers;
     }
 
     Arguments asUser(CurrentUser otherUser) {
@@ -365,11 +365,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           conflictsCache,
           index,
           indexConfig,
-          listMembers,
           starredChangesUtil,
           accountCache,
           allowsDrafts,
-          notesMigration);
+          notesMigration,
+          groupMembers);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -775,12 +775,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     // expand a group predicate into multiple user predicates
     if (group != null) {
       Set<Account.Id> allMembers =
-          args.listMembers
-              .get()
-              .getTransitiveMembers(group)
-              .stream()
-              .map(a -> new Account.Id(a._accountId))
-              .collect(toSet());
+          args.groupMembers.listAccounts(group).stream().map(a -> a.getId()).collect(toSet());
+
       int maxTerms = args.indexConfig.maxTerms();
       if (allMembers.size() > maxTerms) {
         // limit the number of query terms otherwise Gerrit will barf

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.change;
+package com.google.gerrit.server.ioutil;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -20,7 +20,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-class LimitedByteArrayOutputStream extends OutputStream {
+/** A stream that throws an exception if it consumes data beyond a configured byte count. */
+public class LimitedByteArrayOutputStream extends OutputStream {
 
   private final int maxSize;
   private final ByteArrayOutputStream buffer;
@@ -32,7 +33,7 @@ class LimitedByteArrayOutputStream extends OutputStream {
    * @param max the maximum size in bytes which may be stored.
    * @param initial the initial size. It must be smaller than the max size.
    */
-  LimitedByteArrayOutputStream(int max, int initial) {
+  public LimitedByteArrayOutputStream(int max, int initial) {
     checkArgument(initial <= max);
     maxSize = max;
     buffer = new ByteArrayOutputStream(initial);
@@ -61,7 +62,7 @@ class LimitedByteArrayOutputStream extends OutputStream {
     return buffer.toByteArray();
   }
 
-  static class LimitExceededException extends IOException {
+  public static class LimitExceededException extends IOException {
     private static final long serialVersionUID = 1L;
   }
 }

@@ -56,6 +56,10 @@ limitations under the License.
         width: 100%;
       }
       .patchInfo-left {
+        align-items: baseline;
+        display: flex;
+      }
+      .patchInfoContent {
         align-items: center;
         display: flex;
         flex-wrap: wrap;
@@ -148,51 +152,53 @@ limitations under the License.
       <div class="patchInfo-header-wrapper">
         <div class="patchInfo-left">
           <h3 class="label">Files</h3>
-          <gr-patch-range-select
-              id="rangeSelect"
-              change-comments="[[changeComments]]"
-              change-num="[[changeNum]]"
-              patch-num="[[patchNum]]"
-              base-patch-num="[[basePatchNum]]"
-              available-patches="[[allPatchSets]]"
-              revisions="[[change.revisions]]"
-              revision-info="[[_revisionInfo]]"
-              on-patch-range-change="_handlePatchChange">
-          </gr-patch-range-select>
-          <span class="separator"></span>
-          <gr-commit-info
-              change="[[change]]"
-              server-config="[[serverConfig]]"
-              commit-info="[[commitInfo]]"></gr-commit-info>
-          <span class="container latestPatchContainer">
+          <div class="patchInfoContent">
+            <gr-patch-range-select
+                id="rangeSelect"
+                change-comments="[[changeComments]]"
+                change-num="[[changeNum]]"
+                patch-num="[[patchNum]]"
+                base-patch-num="[[basePatchNum]]"
+                available-patches="[[allPatchSets]]"
+                revisions="[[change.revisions]]"
+                revision-info="[[_revisionInfo]]"
+                on-patch-range-change="_handlePatchChange">
+            </gr-patch-range-select>
             <span class="separator"></span>
-            <a href$="[[changeUrl]]">Go to latest patch set</a>
-          </span>
-          <span class="container descriptionContainer hideOnEdit">
-            <span class="separator"></span>
-            <template
-                is="dom-if"
-                if="[[_patchsetDescription]]">
-              <gr-linked-chip
-                  id="descriptionChip"
-                  text="[[_patchsetDescription]]"
-                  removable="[[!_descriptionReadOnly]]"
-                  on-remove="_handleDescriptionRemoved"></gr-linked-chip>
-            </template>
-            <template
-                is="dom-if"
-                if="[[!_patchsetDescription]]">
-              <gr-editable-label
-                  id="descriptionLabel"
-                  uppercase
-                  class="descriptionLabel"
-                  label-text="Add patchset description"
-                  value="[[_patchsetDescription]]"
-                  placeholder="[[_computeDescriptionPlaceholder(_descriptionReadOnly)]]"
-                  read-only="[[_descriptionReadOnly]]"
-                  on-changed="_handleDescriptionChanged"></gr-editable-label>
-            </template>
-          </span>
+            <gr-commit-info
+                change="[[change]]"
+                server-config="[[serverConfig]]"
+                commit-info="[[commitInfo]]"></gr-commit-info>
+            <span class="container latestPatchContainer">
+              <span class="separator"></span>
+              <a href$="[[changeUrl]]">Go to latest patch set</a>
+            </span>
+            <span class="container descriptionContainer hideOnEdit">
+              <span class="separator"></span>
+              <template
+                  is="dom-if"
+                  if="[[_patchsetDescription]]">
+                <gr-linked-chip
+                    id="descriptionChip"
+                    text="[[_patchsetDescription]]"
+                    removable="[[!_descriptionReadOnly]]"
+                    on-remove="_handleDescriptionRemoved"></gr-linked-chip>
+              </template>
+              <template
+                  is="dom-if"
+                  if="[[!_patchsetDescription]]">
+                <gr-editable-label
+                    id="descriptionLabel"
+                    uppercase
+                    class="descriptionLabel"
+                    label-text="Add patchset description"
+                    value="[[_patchsetDescription]]"
+                    placeholder="[[_computeDescriptionPlaceholder(_descriptionReadOnly)]]"
+                    read-only="[[_descriptionReadOnly]]"
+                    on-changed="_handleDescriptionChanged"></gr-editable-label>
+              </template>
+            </span>
+          </div>
         </div>
         <div class$="rightControls [[_computeExpandedClass(filesExpanded)]]">
           <span class="showOnEdit flexContainer">

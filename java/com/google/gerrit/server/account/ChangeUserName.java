@@ -30,7 +30,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -71,8 +70,7 @@ public class ChangeUserName implements Callable<VoidResult> {
   public VoidResult call()
       throws OrmException, NameAlreadyUsedException, InvalidUserNameException, IOException,
           ConfigInvalidException {
-    Collection<ExternalId> old = externalIds.byAccount(user.getAccountId(), SCHEME_USERNAME);
-    if (!old.isEmpty()) {
+    if (!externalIds.byAccount(user.getAccountId(), SCHEME_USERNAME).isEmpty()) {
       throw new IllegalStateException(USERNAME_CANNOT_BE_CHANGED);
     }
 
@@ -84,13 +82,7 @@ public class ChangeUserName implements Callable<VoidResult> {
 
       ExternalId.Key key = ExternalId.Key.create(SCHEME_USERNAME, newUsername);
       try {
-        String password = null;
-        for (ExternalId i : old) {
-          if (i.password() != null) {
-            password = i.password();
-          }
-        }
-        externalIdsUpdate.insert(ExternalId.create(key, user.getAccountId(), null, password));
+        externalIdsUpdate.insert(ExternalId.create(key, user.getAccountId(), null, null));
       } catch (OrmDuplicateKeyException dupeErr) {
         // If we are using this identity, don't report the exception.
         //
@@ -103,13 +95,6 @@ public class ChangeUserName implements Callable<VoidResult> {
         //
         throw new NameAlreadyUsedException(newUsername);
       }
-    }
-
-    // If we have any older user names, remove them.
-    //
-    externalIdsUpdate.delete(old);
-    for (ExternalId extId : old) {
-      sshKeyCache.evict(extId.key().id());
     }
 
     sshKeyCache.evict(newUsername);

@@ -34,6 +34,24 @@
       "revId": "bc43f9728c99178d2a02e95aa82ea7e393a25710",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28494d20_aafc8c6c",
+        "filename": "java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-19T04:35:42Z",
+      "side": 1,
+      "message": "I meant in a follow-up commit, but OK.",
+      "parentUuid": "ece8cdd4_a707b995",
+      "revId": "bc43f9728c99178d2a02e95aa82ea7e393a25710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

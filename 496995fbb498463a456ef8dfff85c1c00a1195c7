@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1512633084 +0100\nnonce ADEcKBqOJnM8v9A8Jd76B4ZUeDON7YoiOzUq2VnQYwibyd1clWRMIWi3MVO/OmGBi20nD0S3jBP1\n\n0000000000000000000000000000000000000000 496995fbb498463a456ef8dfff85c1c00a1195c7 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaKPL8AAoJEFG1/Zeg0O9RsToH/iJngDxzfULzRKt05ghRpB6v\nF6xNgBtYxrvnFTDNIaCMcYi976fJkiYgw922QSzGt5SJLIRjpmzQMC+EI9Scr2Vf\nz6EDAQ3VILHSDAjm1JXj6K9PUIt87Wrv7QMMrYreVNMlw9jsUg6Lm9eYjICMBFea\nGi1Ly3I/6Bx3VspJi8SPivtnWrooFmqss0eGk1ZQqMeNSvZa3MZtx4jjjG1U3mv+\nIM+UY3oqhsEGPnTJbtx5OeESOY73neS2J0K3/vvn+Vn0Mhqu6Z19JsgJEWTtaQxE\n5h5c3r54D9oPWWtRVmCcslU4w3J83Yl9ZPvw9ETQQ/Ee/6muwWGebuAqDkoFySk\u003d\n\u003d7UzZ\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "82102f71_4f4c8b4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-19T18:16:38Z",
+      "side": 1,
+      "message": "Why not viewAllAccounts? It\u0027s fine if there\u0027s a reason for this, but I didn\u0027t see it mentioned in this commit message.",
+      "revId": "496995fbb498463a456ef8dfff85c1c00a1195c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cb621a6_ddf50959",
+        "filename": "java/com/google/gerrit/server/account/QueryAccounts.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-19T18:16:38Z",
+      "side": 1,
+      "message": "It would be nice to avoid this call if we already did check() on this permission.",
+      "revId": "496995fbb498463a456ef8dfff85c1c00a1195c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

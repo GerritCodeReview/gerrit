@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c2a22c9c_9db35b3b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-19T23:50:18Z",
+      "side": 1,
+      "message": "Good suggestion. done.",
+      "parentUuid": "9fe42a65_b3ff21db",
+      "revId": "afd6aaa2a178cd13b8f97b6dc7ed23e6bdfbf3ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6ef0ebc_c41591fa",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
         "patchSetId": 1

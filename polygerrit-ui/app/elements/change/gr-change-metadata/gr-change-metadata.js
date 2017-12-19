@@ -136,6 +136,17 @@
       const labels = _labels.base;
       const t = labels[labelName];
       if (!t) { return result; }
+      if (!t.values) {
+        if (t.rejected || t.approved) {
+          const ok = t.approved || !t.rejected;
+          return [{
+            value: ok ? '👍️' : '👎️',
+            className: ok ? 'positive' : 'negative',
+            account: ok ? t.approved : t.rejected,
+          }];
+        }
+        return result;
+      }
       const approvals = t.all || [];
       const values = Object.keys(t.values);
       for (const label of approvals) {

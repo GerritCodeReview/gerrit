@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "a0240c2b_d381cfb6",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-12-19T15:38:26Z",
+      "side": 1,
+      "message": "the only other Boolean value is \"open\" which does not have the \"is\" prefix, should we name this one \"private\" to be consistent?",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 9
+      },
+      "revId": "9118c0969b6681d0fbf858b613451f1b96d40e62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a564cbf_b8c425b2",
         "filename": "Documentation/json.txt",
         "patchSetId": 2
@@ -45,6 +68,29 @@
       "revId": "9118c0969b6681d0fbf858b613451f1b96d40e62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "921aa1a2_ebc92bbb",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-12-19T15:38:26Z",
+      "side": 1,
+      "message": "and that one would be named \"wip\"",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 5
+      },
+      "revId": "9118c0969b6681d0fbf858b613451f1b96d40e62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

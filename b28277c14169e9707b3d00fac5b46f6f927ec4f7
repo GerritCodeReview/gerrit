@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d1b7d3b_95a9449a",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-19T23:02:30Z",
+      "side": 1,
+      "message": "Should this happen only if allowAnyUser is true?",
+      "revId": "b28277c14169e9707b3d00fac5b46f6f927ec4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a709b49e_43571332",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-19T23:02:30Z",
+      "side": 1,
+      "message": "I don\u0027t believe we allow arbitrary entries in reviewers, do we?",
+      "revId": "b28277c14169e9707b3d00fac5b46f6f927ec4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

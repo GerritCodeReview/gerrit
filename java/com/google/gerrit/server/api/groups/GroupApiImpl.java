@@ -26,25 +26,25 @@ import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.group.AddMembers;
-import com.google.gerrit.server.group.AddSubgroups;
-import com.google.gerrit.server.group.DeleteMembers;
-import com.google.gerrit.server.group.DeleteSubgroups;
-import com.google.gerrit.server.group.GetAuditLog;
-import com.google.gerrit.server.group.GetDescription;
-import com.google.gerrit.server.group.GetDetail;
-import com.google.gerrit.server.group.GetGroup;
-import com.google.gerrit.server.group.GetName;
-import com.google.gerrit.server.group.GetOptions;
-import com.google.gerrit.server.group.GetOwner;
-import com.google.gerrit.server.group.GroupResource;
-import com.google.gerrit.server.group.Index;
-import com.google.gerrit.server.group.ListMembers;
-import com.google.gerrit.server.group.ListSubgroups;
-import com.google.gerrit.server.group.PutDescription;
-import com.google.gerrit.server.group.PutName;
-import com.google.gerrit.server.group.PutOptions;
-import com.google.gerrit.server.group.PutOwner;
+import com.google.gerrit.server.restapi.group.AddMembers;
+import com.google.gerrit.server.restapi.group.AddSubgroups;
+import com.google.gerrit.server.restapi.group.DeleteMembers;
+import com.google.gerrit.server.restapi.group.DeleteSubgroups;
+import com.google.gerrit.server.restapi.group.GetAuditLog;
+import com.google.gerrit.server.restapi.group.GetDescription;
+import com.google.gerrit.server.restapi.group.GetDetail;
+import com.google.gerrit.server.restapi.group.GetGroup;
+import com.google.gerrit.server.restapi.group.GetName;
+import com.google.gerrit.server.restapi.group.GetOptions;
+import com.google.gerrit.server.restapi.group.GetOwner;
+import com.google.gerrit.server.restapi.group.GroupResource;
+import com.google.gerrit.server.restapi.group.Index;
+import com.google.gerrit.server.restapi.group.ListMembers;
+import com.google.gerrit.server.restapi.group.ListSubgroups;
+import com.google.gerrit.server.restapi.group.PutDescription;
+import com.google.gerrit.server.restapi.group.PutName;
+import com.google.gerrit.server.restapi.group.PutOptions;
+import com.google.gerrit.server.restapi.group.PutOwner;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Arrays;
@@ -122,7 +122,7 @@ class GroupApiImpl implements GroupApi {
     try {
       return getGroup.apply(rsrc);
     } catch (Exception e) {
-      throw asRestApiException("Cannot retrieve group", e);
+      throw asRestApiException("Cannot retrieve account", e);
     }
   }
 
@@ -131,7 +131,7 @@ class GroupApiImpl implements GroupApi {
     try {
       return getDetail.apply(rsrc);
     } catch (Exception e) {
-      throw asRestApiException("Cannot retrieve group", e);
+      throw asRestApiException("Cannot retrieve account", e);
     }
   }
 
@@ -147,7 +147,7 @@ class GroupApiImpl implements GroupApi {
     try {
       putName.apply(rsrc, in);
     } catch (Exception e) {
-      throw asRestApiException("Cannot put group name", e);
+      throw asRestApiException("Cannot put account name", e);
     }
   }
 
@@ -156,7 +156,7 @@ class GroupApiImpl implements GroupApi {
     try {
       return getOwner.apply(rsrc);
     } catch (Exception e) {
-      throw asRestApiException("Cannot get group owner", e);
+      throw asRestApiException("Cannot get account owner", e);
     }
   }
 
@@ -167,7 +167,7 @@ class GroupApiImpl implements GroupApi {
     try {
       putOwner.apply(rsrc, in);
     } catch (Exception e) {
-      throw asRestApiException("Cannot put group owner", e);
+      throw asRestApiException("Cannot put account owner", e);
     }
   }
 
@@ -183,7 +183,7 @@ class GroupApiImpl implements GroupApi {
     try {
       putDescription.apply(rsrc, in);
     } catch (Exception e) {
-      throw asRestApiException("Cannot put group description", e);
+      throw asRestApiException("Cannot put account description", e);
     }
   }
 
@@ -197,7 +197,7 @@ class GroupApiImpl implements GroupApi {
     try {
       putOptions.apply(rsrc, options);
     } catch (Exception e) {
-      throw asRestApiException("Cannot put group options", e);
+      throw asRestApiException("Cannot put account options", e);
     }
   }
 
@@ -212,7 +212,7 @@ class GroupApiImpl implements GroupApi {
     try {
       return listMembers.apply(rsrc);
     } catch (Exception e) {
-      throw asRestApiException("Cannot list group members", e);
+      throw asRestApiException("Cannot list account members", e);
     }
   }
 
@@ -221,7 +221,7 @@ class GroupApiImpl implements GroupApi {
     try {
       addMembers.apply(rsrc, AddMembers.Input.fromMembers(Arrays.asList(members)));
     } catch (Exception e) {
-      throw asRestApiException("Cannot add group members", e);
+      throw asRestApiException("Cannot add account members", e);
     }
   }
 
@@ -230,7 +230,7 @@ class GroupApiImpl implements GroupApi {
     try {
       deleteMembers.apply(rsrc, AddMembers.Input.fromMembers(Arrays.asList(members)));
     } catch (Exception e) {
-      throw asRestApiException("Cannot remove group members", e);
+      throw asRestApiException("Cannot remove account members", e);
     }
   }
 
@@ -275,7 +275,7 @@ class GroupApiImpl implements GroupApi {
     try {
       index.apply(rsrc, new Input());
     } catch (Exception e) {
-      throw asRestApiException("Cannot index group", e);
+      throw asRestApiException("Cannot index account", e);
     }
   }
 }

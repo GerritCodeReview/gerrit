@@ -18,7 +18,7 @@ import java.util.EnumSet;
 
 /** Output options available when using {@code /groups/} RPCs. */
 public enum ListGroupsOption {
-  /** Return information on the direct group members. */
+  /** Return information on the direct account members. */
   MEMBERS(0),
 
   /** Return information on the directly included groups. */

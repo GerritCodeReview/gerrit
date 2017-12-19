@@ -16,7 +16,7 @@ package com.google.gerrit.common.errors;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
-/** Indicates the account group does not exist. */
+/** Indicates the account account does not exist. */
 public class NoSuchGroupException extends Exception {
   private static final long serialVersionUID = 1L;
 

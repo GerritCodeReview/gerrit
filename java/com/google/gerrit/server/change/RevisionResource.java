@@ -90,11 +90,11 @@ public class RevisionResource implements RestResource, HasETag {
     change.prepareETag(h, user);
   }
 
-  Account.Id getAccountId() {
+  public Account.Id getAccountId() {
     return getUser().getAccountId();
   }
 
-  CurrentUser getUser() {
+  public CurrentUser getUser() {
     return getChangeResource().getUser();
   }
 

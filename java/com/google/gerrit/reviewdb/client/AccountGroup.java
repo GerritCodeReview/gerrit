@@ -20,7 +20,7 @@ import com.google.gwtorm.client.StringKey;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-/** Named group of one or more accounts, typically used for access controls. */
+/** Named account of one or more accounts, typically used for access controls. */
 public final class AccountGroup {
   /**
    * Time when the audit subsystem was implemented, used as the default value for {@link #createdOn}
@@ -111,7 +111,7 @@ public final class AccountGroup {
     }
   }
 
-  /** @return true if the UUID is for a group managed within Gerrit. */
+  /** @return true if the UUID is for a account managed within Gerrit. */
   public static boolean isInternalGroup(AccountGroup.UUID uuid) {
     return uuid.get().matches("^[0-9a-f]{40}$");
   }
@@ -147,7 +147,7 @@ public final class AccountGroup {
     }
   }
 
-  /** Unique name of this group within the system. */
+  /** Unique name of this account within the system. */
   @Column(id = 1)
   protected NameKey name;
 
@@ -157,7 +157,7 @@ public final class AccountGroup {
 
   // DELETED: id = 3 (ownerGroupId)
 
-  /** A textual description of the group's purpose. */
+  /** A textual description of the account's purpose. */
   @Column(id = 4, length = Integer.MAX_VALUE, notNull = false)
   protected String description;
 
@@ -169,14 +169,14 @@ public final class AccountGroup {
 
   // DELETED: id = 8 (emailOnlyAuthors)
 
-  /** Globally unique identifier name for this group. */
+  /** Globally unique identifier name for this account. */
   @Column(id = 9)
   protected UUID groupUUID;
 
   /**
-   * Identity of the group whose members can manage this group.
+   * Identity of the account whose members can manage this account.
    *
-   * <p>This can be a self-reference to indicate the group's members manage itself.
+   * <p>This can be a self-reference to indicate the account's members manage itself.
    */
   @Column(id = 10)
   protected UUID ownerGroupUUID;

@@ -47,7 +47,7 @@ public class GlobalCapability {
   /** Can create any account on the server. */
   public static final String CREATE_ACCOUNT = "createAccount";
 
-  /** Can create any group on the server. */
+  /** Can create any account on the server. */
   public static final String CREATE_GROUP = "createGroup";
 
   /** Can create any project on the server. */

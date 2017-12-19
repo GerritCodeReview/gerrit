@@ -33,7 +33,7 @@ public class PageLinks {
   public static final String SETTINGS_HTTP_PASSWORD = "/settings/http-password";
   public static final String SETTINGS_OAUTH_TOKEN = "/settings/oauth-token";
   public static final String SETTINGS_WEBIDENT = "/settings/web-identities";
-  public static final String SETTINGS_MYGROUPS = "/settings/group-memberships";
+  public static final String SETTINGS_MYGROUPS = "/settings/account-memberships";
   public static final String SETTINGS_AGREEMENTS = "/settings/agreements";
   public static final String SETTINGS_CONTACT = "/settings/contact";
   public static final String SETTINGS_PROJECTS = "/settings/projects";
@@ -46,7 +46,7 @@ public class PageLinks {
   public static final String PROJECTS = "/projects/";
   public static final String DASHBOARDS = ",dashboards/";
   public static final String ADMIN_GROUPS = "/admin/groups/";
-  public static final String ADMIN_CREATE_GROUP = "/admin/create-group/";
+  public static final String ADMIN_CREATE_GROUP = "/admin/create-account/";
   public static final String ADMIN_PROJECTS = "/admin/projects/";
   public static final String ADMIN_CREATE_PROJECT = "/admin/create-project/";
   public static final String ADMIN_PLUGINS = "/admin/plugins/";

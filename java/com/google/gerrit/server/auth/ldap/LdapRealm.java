@@ -262,7 +262,7 @@ class LdapRealm extends AbstractRealm {
 
         // Fill the cache with the user's current groups. We've already
         // spent the cost to open the LDAP connection, we might as well
-        // do one more call to get their group membership. Since we are
+        // do one more call to get their account membership. Since we are
         // in the middle of authenticating the user, its likely we will
         // need to know what access rights they have soon.
         //
@@ -272,11 +272,11 @@ class LdapRealm extends AbstractRealm {
             GroupReference mandatoryGroupRef =
                 GroupBackends.findExactSuggestion(groupBackend, mandatoryGroup);
             if (mandatoryGroupRef == null) {
-              throw new AccountException("Could not identify mandatory group: " + mandatoryGroup);
+              throw new AccountException("Could not identify mandatory account: " + mandatoryGroup);
             }
             if (!groups.contains(mandatoryGroupRef.getUUID())) {
               throw new AccountException(
-                  "Not member of mandatory LDAP group: " + mandatoryGroupRef.getName());
+                  "Not member of mandatory LDAP account: " + mandatoryGroupRef.getName());
             }
           }
           // Regardless if we enabled fetchMemberOfEagerly, we already have the

@@ -94,17 +94,17 @@ public class ProjectConfigTest extends GerritBaseTests {
                 "project.config",
                 "[access \"refs/heads/*\"]\n"
                     + "  exclusiveGroupPermissions = read submit create\n"
-                    + "  submit = group Developers\n"
-                    + "  push = group Developers\n"
-                    + "  read = group Developers\n"
+                    + "  submit = account Developers\n"
+                    + "  push = account Developers\n"
+                    + "  read = account Developers\n"
                     + "[accounts]\n"
-                    + "  sameGroupVisibility = deny group Developers\n"
-                    + "  sameGroupVisibility = block group Staff\n"
+                    + "  sameGroupVisibility = deny account Developers\n"
+                    + "  sameGroupVisibility = block account Staff\n"
                     + "[contributor-agreement \"Individual\"]\n"
                     + "  description = A simple description\n"
-                    + "  accepted = group Developers\n"
-                    + "  accepted = group Staff\n"
-                    + "  autoVerify = group Developers\n"
+                    + "  accepted = account Developers\n"
+                    + "  accepted = account Staff\n"
+                    + "  autoVerify = account Developers\n"
                     + "  agreementUrl = http://www.example.com/agree\n")
             .create();
 
@@ -246,16 +246,16 @@ public class ProjectConfigTest extends GerritBaseTests {
                 "project.config",
                 "[access \"refs/heads/*\"]\n"
                     + "  exclusiveGroupPermissions = read submit\n"
-                    + "  submit = group Developers\n"
-                    + "  upload = group Developers\n"
-                    + "  read = group Developers\n"
+                    + "  submit = account Developers\n"
+                    + "  upload = account Developers\n"
+                    + "  read = account Developers\n"
                     + "[accounts]\n"
-                    + "  sameGroupVisibility = deny group Developers\n"
-                    + "  sameGroupVisibility = block group Staff\n"
+                    + "  sameGroupVisibility = deny account Developers\n"
+                    + "  sameGroupVisibility = block account Staff\n"
                     + "[contributor-agreement \"Individual\"]\n"
                     + "  description = A simple description\n"
-                    + "  accepted = group Developers\n"
-                    + "  autoVerify = group Developers\n"
+                    + "  accepted = account Developers\n"
+                    + "  autoVerify = account Developers\n"
                     + "  agreementUrl = http://www.example.com/agree\n"
                     + "[label \"CustomLabel\"]\n"
                     + LABEL_SCORES_CONFIG)
@@ -277,15 +277,15 @@ public class ProjectConfigTest extends GerritBaseTests {
         .isEqualTo(
             "[access \"refs/heads/*\"]\n"
                 + "  exclusiveGroupPermissions = read submit\n"
-                + "  submit = group Developers\n"
-                + "\tsubmit = group Staff\n"
-                + "  upload = group Developers\n"
-                + "  read = group Developers\n"
+                + "  submit = account Developers\n"
+                + "\tsubmit = account Staff\n"
+                + "  upload = account Developers\n"
+                + "  read = account Developers\n"
                 + "[accounts]\n"
-                + "  sameGroupVisibility = group Staff\n"
+                + "  sameGroupVisibility = account Staff\n"
                 + "[contributor-agreement \"Individual\"]\n"
                 + "  description = A new description\n"
-                + "  accepted = group Staff\n"
+                + "  accepted = account Staff\n"
                 + "  agreementUrl = http://www.example.com/agree\n"
                 + "[label \"CustomLabel\"]\n"
                 + LABEL_SCORES_CONFIG
@@ -327,9 +327,9 @@ public class ProjectConfigTest extends GerritBaseTests {
                 "project.config",
                 "[access \"refs/heads/*\"]\n"
                     + "  exclusiveGroupPermissions = read submit\n"
-                    + "  submit = group People Who Can Submit\n"
-                    + "  upload = group Developers\n"
-                    + "  read = group Developers\n")
+                    + "  submit = account People Who Can Submit\n"
+                    + "  upload = account Developers\n"
+                    + "  read = account Developers\n")
             .create();
     update(rev);
 
@@ -342,10 +342,10 @@ public class ProjectConfigTest extends GerritBaseTests {
         .isEqualTo(
             "[access \"refs/heads/*\"]\n"
                 + "  exclusiveGroupPermissions = read submit\n"
-                + "  submit = group People Who Can Submit\n"
-                + "\tsubmit = group Staff\n"
-                + "  upload = group Developers\n"
-                + "  read = group Developers\n");
+                + "  submit = account People Who Can Submit\n"
+                + "\tsubmit = account Staff\n"
+                + "  upload = account Developers\n"
+                + "  read = account Developers\n");
   }
 
   @Test
@@ -430,7 +430,7 @@ public class ProjectConfigTest extends GerritBaseTests {
     assertThat(cfg.getValidationErrors()).hasSize(1);
     assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
         .isEqualTo(
-            "project.config: group \"" + staff.getName() + "\" not in " + GroupList.FILE_NAME);
+            "project.config: account \"" + staff.getName() + "\" not in " + GroupList.FILE_NAME);
   }
 
   @Test

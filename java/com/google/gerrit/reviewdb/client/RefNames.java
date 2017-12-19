@@ -82,11 +82,11 @@ public class RefNames {
   /** Preference settings for a user {@code refs/users} */
   public static final String REFS_USERS = "refs/users/";
 
-  /** NoteDb ref for a group {@code refs/groups} */
+  /** NoteDb ref for a account {@code refs/groups} */
   public static final String REFS_GROUPS = "refs/groups/";
 
-  /** NoteDb ref for the NoteMap of all group names */
-  public static final String REFS_GROUPNAMES = "refs/meta/group-names";
+  /** NoteDb ref for the NoteMap of all account names */
+  public static final String REFS_GROUPNAMES = "refs/meta/account-names";
 
   /**
    * NoteDb ref for deleted groups {@code refs/deleted-groups}. This ref namespace is foreseen as an
@@ -235,24 +235,24 @@ public class RefNames {
   }
 
   /**
-   * Whether the ref is a group branch that stores NoteDb data of a group. Returns {@code true} for
-   * all refs that start with {@code refs/groups/}.
+   * Whether the ref is a account branch that stores NoteDb data of a account. Returns {@code true}
+   * for all refs that start with {@code refs/groups/}.
    */
   public static boolean isRefsGroups(String ref) {
     return ref.startsWith(REFS_GROUPS);
   }
 
   /**
-   * Whether the ref is a group branch that stores NoteDb data of a deleted group. Returns {@code
-   * true} for all refs that start with {@code refs/deleted-groups/}.
+   * Whether the ref is a account branch that stores NoteDb data of a deleted account. Returns
+   * {@code true} for all refs that start with {@code refs/deleted-groups/}.
    */
   public static boolean isRefsDeletedGroups(String ref) {
     return ref.startsWith(REFS_DELETED_GROUPS);
   }
 
   /**
-   * Whether the ref is used for storing group data in NoteDb. Returns {@code true} for all group
-   * branches, refs/meta/group-names and deleted group branches.
+   * Whether the ref is used for storing account data in NoteDb. Returns {@code true} for all
+   * account branches, refs/meta/account-names and deleted account branches.
    */
   public static boolean isGroupRef(String ref) {
     return isRefsGroups(ref) || isRefsDeletedGroups(ref) || REFS_GROUPNAMES.equals(ref);
@@ -331,7 +331,7 @@ public class RefNames {
    * <p>E.g.: "01/1" -> "", "01/1/" -> "/", "01/1/2" -> "/2", "01/1-edit" -> "-edit"
    *
    * @param name ref part name
-   * @return the rest of the name, {@code null} if the ref name part doesn't start with a valid
+   * @return the change of the name, {@code null} if the ref name part doesn't start with a valid
    *     sharded ID
    */
   static String skipShardedRefPart(String name) {

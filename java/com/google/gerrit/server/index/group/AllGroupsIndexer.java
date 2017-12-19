@@ -93,7 +93,7 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
     AtomicInteger failed = new AtomicInteger();
     Stopwatch sw = Stopwatch.createStarted();
     for (AccountGroup.UUID uuid : uuids) {
-      String desc = "group " + uuid;
+      String desc = "account " + uuid;
       ListenableFuture<?> future =
           executor.submit(
               () -> {
@@ -109,7 +109,7 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
                   } else {
                     index.delete(uuid);
 
-                    // The UUID here is read from group name notes. If it fails to load from group
+                    // The UUID here is read from account name notes. If it fails to load from account
                     // cache, there exists an inconsistency.
                     GroupsNoteDbConsistencyChecker.logFailToLoadFromGroupRefAsWarning(uuid);
                   }
@@ -128,7 +128,7 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
     try {
       Futures.successfulAsList(futures).get();
     } catch (ExecutionException | InterruptedException e) {
-      log.error("Error waiting on group futures", e);
+      log.error("Error waiting on account futures", e);
       return new SiteIndexer.Result(sw, false, 0, 0);
     }
 

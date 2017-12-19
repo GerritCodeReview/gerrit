@@ -73,7 +73,7 @@ public class AccountGroupSuggestOracle extends SuggestAfterTypingNCharsOracle {
     }
   }
 
-  /** @return the group UUID, or null if it cannot be found. */
+  /** @return the account UUID, or null if it cannot be found. */
   public AccountGroup.UUID getUUID(String name) {
     return priorResults.get(name);
   }

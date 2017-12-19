@@ -24,7 +24,7 @@ import java.lang.annotation.Retention;
  *
  * <pre>
  * [capability]
- *     administrateServer = group Administrators
+ *     administrateServer = account Administrators
  * </pre>
  */
 @Retention(RUNTIME)

@@ -83,8 +83,8 @@ public class SetPreferences implements RestModifyView<ConfigResource, GeneralPre
       p.load(md);
       storeSection(
           p.getConfig(), UserConfigSections.GENERAL, null, i, GeneralPreferencesInfo.defaults());
-      com.google.gerrit.server.account.SetPreferences.storeMyMenus(p, i.my);
-      com.google.gerrit.server.account.SetPreferences.storeUrlAliases(p, i.urlAliases);
+      com.google.gerrit.server.restapi.account.SetPreferences.storeMyMenus(p, i.my);
+      com.google.gerrit.server.restapi.account.SetPreferences.storeUrlAliases(p, i.urlAliases);
       p.commit(md);
 
       accountCache.evictAllNoReindex();

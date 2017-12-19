@@ -48,7 +48,7 @@ public class DownloadUrlPanel extends FlowPanel {
     }
 
     // If none matched the requested type, select the first in the
-    // group as that will at least give us an initial baseline.
+    // account as that will at least give us an initial baseline.
     if (first != null) {
       first.select();
     }

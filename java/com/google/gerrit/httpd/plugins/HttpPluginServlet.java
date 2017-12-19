@@ -448,7 +448,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
         cmds.add(entry);
       } else if (name.startsWith("servlet-")) {
         servlets.add(entry);
-      } else if (name.startsWith("rest-api-")) {
+      } else if (name.startsWith("change-api-")) {
         restApis.add(entry);
       } else if (name.startsWith("about.")) {
         if (about == null) {
@@ -496,7 +496,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
 
     appendEntriesSection(scanner, docs, "Documentation", md, prefix, 0);
     appendEntriesSection(scanner, servlets, "Servlets", md, prefix, "servlet-".length());
-    appendEntriesSection(scanner, restApis, "REST APIs", md, prefix, "rest-api-".length());
+    appendEntriesSection(scanner, restApis, "REST APIs", md, prefix, "change-api-".length());
     appendEntriesSection(scanner, cmds, "Commands", md, prefix, "cmd-".length());
 
     sendMarkdownAsHtml(md.toString(), pluginName, cacheKey, res, lastModifiedTime);

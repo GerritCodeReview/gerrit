@@ -62,7 +62,7 @@ import org.eclipse.jgit.util.FS;
 /**
  * A database accessor for calls related to groups.
  *
- * <p>All calls which read or write group related details to the database <strong>during
+ * <p>All calls which read or write account related details to the database <strong>during
  * init</strong> (either ReviewDb or NoteDb) are gathered here. For non-init cases, use {@code
  * Groups} or {@code GroupsUpdate} instead.
  *
@@ -87,12 +87,12 @@ public class GroupsOnInit {
    * Returns the {@code AccountGroup} for the specified {@code GroupReference}.
    *
    * @param db the {@code ReviewDb} instance to use for lookups
-   * @param groupReference the {@code GroupReference} of the group
+   * @param groupReference the {@code GroupReference} of the account
    * @return the {@code InternalGroup} represented by the {@code GroupReference}
-   * @throws OrmException if the group couldn't be retrieved from ReviewDb
+   * @throws OrmException if the account couldn't be retrieved from ReviewDb
    * @throws IOException if an error occurs while reading from NoteDb
    * @throws ConfigInvalidException if the data in NoteDb is in an incorrect format
-   * @throws NoSuchGroupException if a group with such a name doesn't exist
+   * @throws NoSuchGroupException if a account with such a name doesn't exist
    */
   public InternalGroup getExistingGroup(ReviewDb db, GroupReference groupReference)
       throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
@@ -161,17 +161,17 @@ public class GroupsOnInit {
   }
 
   /**
-   * Adds an account as member to a group. The account is only added as a new member if it isn't
-   * already a member of the group.
+   * Adds an account as member to a account. The account is only added as a new member if it isn't
+   * already a member of the account.
    *
    * <p><strong>Note</strong>: This method doesn't check whether the account exists! It also doesn't
    * update the account index!
    *
    * @param db the {@code ReviewDb} instance to update
-   * @param groupUuid the UUID of the group
+   * @param groupUuid the UUID of the account
    * @param account the account to add
    * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
-   * @throws NoSuchGroupException if the specified group doesn't exist
+   * @throws NoSuchGroupException if the specified account doesn't exist
    */
   public void addGroupMember(ReviewDb db, AccountGroup.UUID groupUuid, Account account)
       throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
@@ -206,7 +206,7 @@ public class GroupsOnInit {
     } else if (accountGroups.isEmpty()) {
       throw new NoSuchGroupException(groupUuid);
     } else {
-      throw new OrmDuplicateKeyException("Duplicate group UUID " + groupUuid);
+      throw new OrmDuplicateKeyException("Duplicate account UUID " + groupUuid);
     }
   }
 

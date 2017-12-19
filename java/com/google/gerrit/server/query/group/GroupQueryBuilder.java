@@ -43,7 +43,7 @@ import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
-/** Parses a query string meant to be applied to group objects. */
+/** Parses a query string meant to be applied to account objects. */
 public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
   public static final String FIELD_UUID = "uuid";
   public static final String FIELD_DESCRIPTION = "description";
@@ -179,7 +179,7 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
 
   private static QueryParseException getExceptionForUnsupportedOperator(String operatorName) {
     return new QueryParseException(
-        String.format("'%s' operator is not supported by group index version", operatorName));
+        String.format("'%s' operator is not supported by account index version", operatorName));
   }
 
   private Set<Account.Id> parseAccount(String nameOrEmail)

@@ -25,11 +25,11 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.group.AddMembers;
-import com.google.gerrit.server.group.AddSubgroups;
-import com.google.gerrit.server.group.CreateGroup;
-import com.google.gerrit.server.group.GroupResource;
-import com.google.gerrit.server.group.GroupsCollection;
+import com.google.gerrit.server.restapi.group.AddMembers;
+import com.google.gerrit.server.restapi.group.AddSubgroups;
+import com.google.gerrit.server.restapi.group.CreateGroup;
+import com.google.gerrit.server.restapi.group.GroupResource;
+import com.google.gerrit.server.restapi.group.GroupsCollection;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
@@ -42,18 +42,18 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
 /**
- * Creates a new group.
+ * Creates a new account.
  *
- * <p>Optionally, puts an initial set of user in the newly created group.
+ * <p>Optionally, puts an initial set of user in the newly created account.
  */
 @RequiresCapability(GlobalCapability.CREATE_GROUP)
-@CommandMetaData(name = "create-group", description = "Create a new account group")
+@CommandMetaData(name = "create-account", description = "Create a new account account")
 final class CreateGroupCommand extends SshCommand {
   @Option(
     name = "--owner",
     aliases = {"-o"},
     metaVar = "GROUP",
-    usage = "owning group, if not specified the group will be self-owning"
+    usage = "owning account, if not specified the account will be self-owning"
   )
   private AccountGroup.Id ownerGroupId;
 
@@ -61,11 +61,11 @@ final class CreateGroupCommand extends SshCommand {
     name = "--description",
     aliases = {"-d"},
     metaVar = "DESC",
-    usage = "description of group"
+    usage = "description of account"
   )
   private String groupDescription = "";
 
-  @Argument(index = 0, required = true, metaVar = "GROUP", usage = "name of group to be created")
+  @Argument(index = 0, required = true, metaVar = "GROUP", usage = "name of account to be created")
   private String groupName;
 
   private final Set<Account.Id> initialMembers = new HashSet<>();
@@ -74,22 +74,22 @@ final class CreateGroupCommand extends SshCommand {
     name = "--member",
     aliases = {"-m"},
     metaVar = "USERNAME",
-    usage = "initial set of users to become members of the group"
+    usage = "initial set of users to become members of the account"
   )
   void addMember(Account.Id id) {
     initialMembers.add(id);
   }
 
-  @Option(name = "--visible-to-all", usage = "to make the group visible to all registered users")
+  @Option(name = "--visible-to-all", usage = "to make the account visible to all registered users")
   private boolean visibleToAll;
 
   private final Set<AccountGroup.UUID> initialGroups = new HashSet<>();
 
   @Option(
-    name = "--group",
+    name = "--account",
     aliases = "-g",
     metaVar = "GROUP",
-    usage = "initial set of groups to be included in the group"
+    usage = "initial set of groups to be included in the account"
   )
   void addGroup(AccountGroup.UUID id) {
     initialGroups.add(id);

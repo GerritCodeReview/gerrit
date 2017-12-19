@@ -108,8 +108,9 @@ java_library2(
     visibility = ["//visibility:public"],
     deps = PROVIDED + [
         # We want these deps to be exported_deps
-        "//lib/greenmail:greenmail",
+        "//lib:guava-retrying",
         "//lib:gwtorm",
+        "//lib/greenmail:greenmail",
         "//lib/guice:guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",

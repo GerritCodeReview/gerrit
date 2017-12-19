@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.VersionedMetaData;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -259,9 +258,9 @@ public class ExternalIdNotes extends VersionedMetaData {
    * Inserts a new external ID.
    *
    * @throws IOException on IO error while checking if external ID already exists
-   * @throws OrmDuplicateKeyException if the external ID already exists
+   * @throws DuplicateExternalIdKeyException if the external ID already exists
    */
-  public void insert(ExternalId extId) throws IOException, OrmDuplicateKeyException {
+  public void insert(ExternalId extId) throws IOException, DuplicateExternalIdKeyException {
     insert(Collections.singleton(extId));
   }
 
@@ -269,9 +268,10 @@ public class ExternalIdNotes extends VersionedMetaData {
    * Inserts new external IDs.
    *
    * @throws IOException on IO error while checking if external IDs already exist
-   * @throws OrmDuplicateKeyException if any of the external ID already exists
+   * @throws DuplicateExternalIdKeyException if any of the external ID already exists
    */
-  public void insert(Collection<ExternalId> extIds) throws IOException, OrmDuplicateKeyException {
+  public void insert(Collection<ExternalId> extIds)
+      throws IOException, DuplicateExternalIdKeyException {
     checkLoaded();
     checkExternalIdsDontExist(extIds);
 
@@ -404,7 +404,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    */
   public void replace(
       Account.Id accountId, Collection<ExternalId.Key> toDelete, Collection<ExternalId> toAdd)
-      throws IOException, OrmDuplicateKeyException {
+      throws IOException, DuplicateExternalIdKeyException {
     checkLoaded();
     checkSameAccount(toAdd, accountId);
     checkExternalIdKeysDontExist(ExternalId.Key.from(toAdd), toDelete);
@@ -439,7 +439,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    * <p>The external IDs are replaced regardless of which account they belong to.
    */
   public void replaceByKeys(Collection<ExternalId.Key> toDelete, Collection<ExternalId> toAdd)
-      throws IOException, OrmDuplicateKeyException {
+      throws IOException, DuplicateExternalIdKeyException {
     checkLoaded();
     checkExternalIdKeysDontExist(ExternalId.Key.from(toAdd), toDelete);
 
@@ -467,7 +467,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    *     accounts.
    */
   public void replace(ExternalId toDelete, ExternalId toAdd)
-      throws IOException, OrmDuplicateKeyException {
+      throws IOException, DuplicateExternalIdKeyException {
     replace(Collections.singleton(toDelete), Collections.singleton(toAdd));
   }
 
@@ -483,7 +483,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    *     accounts.
    */
   public void replace(Collection<ExternalId> toDelete, Collection<ExternalId> toAdd)
-      throws IOException, OrmDuplicateKeyException {
+      throws IOException, DuplicateExternalIdKeyException {
     Account.Id accountId = checkSameAccount(Iterables.concat(toDelete, toAdd));
     if (accountId == null) {
       // toDelete and toAdd are empty -> nothing to do
@@ -563,7 +563,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       for (NoteMapUpdate noteMapUpdate : noteMapUpdates) {
         try {
           noteMapUpdate.execute(rw, noteMap);
-        } catch (OrmDuplicateKeyException e) {
+        } catch (DuplicateExternalIdKeyException e) {
           throw new IOException(e);
         }
       }
@@ -696,24 +696,23 @@ public class ExternalIdNotes extends VersionedMetaData {
   }
 
   private void checkExternalIdsDontExist(Collection<ExternalId> extIds)
-      throws OrmDuplicateKeyException, IOException {
+      throws DuplicateExternalIdKeyException, IOException {
     checkExternalIdKeysDontExist(ExternalId.Key.from(extIds));
   }
 
   private void checkExternalIdKeysDontExist(
       Collection<ExternalId.Key> extIdKeysToAdd, Collection<ExternalId.Key> extIdKeysToDelete)
-      throws OrmDuplicateKeyException, IOException {
+      throws DuplicateExternalIdKeyException, IOException {
     HashSet<ExternalId.Key> newKeys = new HashSet<>(extIdKeysToAdd);
     newKeys.removeAll(extIdKeysToDelete);
     checkExternalIdKeysDontExist(newKeys);
   }
 
   private void checkExternalIdKeysDontExist(Collection<ExternalId.Key> extIdKeys)
-      throws IOException, OrmDuplicateKeyException {
+      throws IOException, DuplicateExternalIdKeyException {
     for (ExternalId.Key extIdKey : extIdKeys) {
       if (noteMap.contains(extIdKey.sha1())) {
-        throw new OrmDuplicateKeyException(
-            String.format("external id %s already exists", extIdKey.get()));
+        throw new DuplicateExternalIdKeyException(extIdKey);
       }
     }
   }
@@ -725,7 +724,7 @@ public class ExternalIdNotes extends VersionedMetaData {
   @FunctionalInterface
   private interface NoteMapUpdate {
     void execute(RevWalk rw, NoteMap noteMap)
-        throws IOException, ConfigInvalidException, OrmDuplicateKeyException;
+        throws IOException, ConfigInvalidException, DuplicateExternalIdKeyException;
   }
 
   @FunctionalInterface

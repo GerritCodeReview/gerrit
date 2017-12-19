@@ -56,6 +56,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -78,6 +79,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.testing.TestKey;
@@ -296,6 +298,27 @@ public class AccountIT extends AbstractDaemonTest {
     accountIndexedCounter.assertReindexOf(foo, expectedAccountReindexCalls);
     assertUserBranch(foo.getId(), name, null);
     return foo.getId();
+  }
+
+  @Test
+  public void createAccountUsernameAlreadyTaken() throws Exception {
+    AccountInput input = new AccountInput();
+    input.username = admin.username;
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("username '" + admin.username + "' already exists");
+    gApi.accounts().create(input);
+  }
+
+  @Test
+  public void createAccountEmailAlreadyTaken() throws Exception {
+    AccountInput input = new AccountInput();
+    input.username = "foo";
+    input.email = admin.email;
+
+    exception.expect(UnprocessableEntityException.class);
+    exception.expectMessage("email '" + admin.email + "' already exists");
+    gApi.accounts().create(input);
   }
 
   @Test

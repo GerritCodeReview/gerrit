@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0a2e2ba_a2e65633",
+        "filename": "java/com/google/gerrit/acceptance/DisabledChangeIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-19T09:01:48Z",
+      "side": 1,
+      "message": "Just \u0027index\u0027? Seems this class in not only used as search index, but also for write indexes?",
+      "range": {
+        "startLine": 30,
+        "startChar": 22,
+        "endLine": 30,
+        "endChar": 34
+      },
+      "revId": "c17acc9fd8e791267b884acce82e57cad92a94af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

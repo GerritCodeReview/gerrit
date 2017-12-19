@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2130e6cc_29945edf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-19T20:09:01Z",
+      "side": 1,
+      "message": "What is \u0027t\u0027? Can we give it a better name?",
+      "revId": "6a7f8ec1ef759eabcbb54fcc38293bf890dcba42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

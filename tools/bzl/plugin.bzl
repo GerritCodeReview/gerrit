@@ -44,10 +44,7 @@ def gerrit_plugin(
 
   native.java_binary(
     name = '%s__non_stamped' % name,
-    deploy_manifest_lines = manifest_entries + [
-      "Gerrit-ApiType: plugin",
-      "Implementation-Vendor: Gerrit Code Review",
-    ],
+    deploy_manifest_lines = manifest_entries + ["Gerrit-ApiType: plugin"],
     main_class = 'Dummy',
     runtime_deps = [
       ':%s__plugin' % name,

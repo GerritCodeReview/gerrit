@@ -138,7 +138,7 @@ suite('gr-editor-view tests', () => {
     });
 
     test('initial load', () => {
-      assert.equal(element.$.file.value, originalText);
+      assert.equal(element.$.file.fileContent, originalText);
       assert.isTrue(element.$.save.hasAttribute('disabled'));
     });
 
@@ -148,7 +148,6 @@ suite('gr-editor-view tests', () => {
       element._newContent = newText;
       flushAsynchronousOperations();
 
-      assert.equal(element.$.file.value, newText);
       assert.isFalse(element.$.save.hasAttribute('disabled'));
 
       MockInteractions.tap(element.$.save);
@@ -168,7 +167,6 @@ suite('gr-editor-view tests', () => {
       element._newContent = newText;
       flushAsynchronousOperations();
 
-      assert.equal(element.$.file.value, newText);
       assert.isFalse(element.$.save.hasAttribute('disabled'));
 
       MockInteractions.tap(element.$.save);
@@ -185,7 +183,6 @@ suite('gr-editor-view tests', () => {
       element._newContent = newText;
       flushAsynchronousOperations();
 
-      assert.equal(element.$.file.value, newText);
       assert.isFalse(element.$.save.hasAttribute('disabled'));
 
       MockInteractions.tap(element.$.cancel);

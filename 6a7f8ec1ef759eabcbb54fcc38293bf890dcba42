@@ -16,6 +16,24 @@
       "revId": "6a7f8ec1ef759eabcbb54fcc38293bf890dcba42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1155b9be_a9cb5350",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-19T20:15:20Z",
+      "side": 1,
+      "message": "A suggestion would be helpful.\nLooks like it\u0027s an instance of LabelInfo:\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#label-info",
+      "parentUuid": "2130e6cc_29945edf",
+      "revId": "6a7f8ec1ef759eabcbb54fcc38293bf890dcba42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

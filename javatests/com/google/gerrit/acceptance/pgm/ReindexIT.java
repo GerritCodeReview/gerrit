@@ -66,7 +66,7 @@ public class ReindexIT extends StandaloneSiteTest {
       // Query account index
       assertThat(gApi.accounts().query("admin").get().stream().map(a -> a._accountId))
           .containsExactly(adminId.get());
-      // Query group index
+      // Query account index
       assertThat(
               gApi.groups()
                   .query("Group")

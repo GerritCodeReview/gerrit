@@ -12,7 +12,7 @@ OTHER_TESTS = glob(
 acceptance_tests(
     srcs = OTHER_TESTS,
     group = "rest_change_other",
-    labels = ["rest"],
+    labels = ["change"],
     deps = [
         ":submit_util",
     ],
@@ -21,7 +21,7 @@ acceptance_tests(
 acceptance_tests(
     srcs = SUBMIT_TESTS,
     group = "rest_change_submit",
-    labels = ["rest"],
+    labels = ["change"],
     deps = [
         ":submit_util",
     ],

@@ -37,7 +37,7 @@ public class GroupsNoteDbConsistencyCheckerTest extends AbstractGroupTest {
 
   @Test
   public void groupNameNoteIsMissing() throws Exception {
-    updateGroupNamesRef("g-2", "[group]\n\tuuid = uuid-2\n\tname = g-2\n");
+    updateGroupNamesRef("g-2", "[account]\n\tuuid = uuid-2\n\tname = g-2\n");
     List<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
             allUsersRepo, "g-1", new AccountGroup.UUID("uuid-1"));
@@ -47,7 +47,7 @@ public class GroupsNoteDbConsistencyCheckerTest extends AbstractGroupTest {
 
   @Test
   public void groupNameNoteIsConsistent() throws Exception {
-    updateGroupNamesRef("g-1", "[group]\n\tuuid = uuid-1\n\tname = g-1\n");
+    updateGroupNamesRef("g-1", "[account]\n\tuuid = uuid-1\n\tname = g-1\n");
     List<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
             allUsersRepo, "g-1", new AccountGroup.UUID("uuid-1"));
@@ -56,39 +56,39 @@ public class GroupsNoteDbConsistencyCheckerTest extends AbstractGroupTest {
 
   @Test
   public void groupNameNoteHasDifferentUUID() throws Exception {
-    updateGroupNamesRef("g-1", "[group]\n\tuuid = uuid-2\n\tname = g-1\n");
+    updateGroupNamesRef("g-1", "[account]\n\tuuid = uuid-2\n\tname = g-1\n");
     List<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
             allUsersRepo, "g-1", new AccountGroup.UUID("uuid-1"));
     assertThat(problems)
         .containsExactly(
             warning(
-                "group with name 'g-1' has UUID 'uuid-1' in 'group.config' but 'uuid-2' in group "
+                "account with name 'g-1' has UUID 'uuid-1' in 'account.config' but 'uuid-2' in account "
                     + "name notes"));
   }
 
   @Test
   public void groupNameNoteHasDifferentName() throws Exception {
-    updateGroupNamesRef("g-1", "[group]\n\tuuid = uuid-1\n\tname = g-2\n");
+    updateGroupNamesRef("g-1", "[account]\n\tuuid = uuid-1\n\tname = g-2\n");
     List<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
             allUsersRepo, "g-1", new AccountGroup.UUID("uuid-1"));
     assertThat(problems)
-        .containsExactly(warning("group note of name 'g-1' claims to represent name of 'g-2'"));
+        .containsExactly(warning("account note of name 'g-1' claims to represent name of 'g-2'"));
   }
 
   @Test
   public void groupNameNoteHasDifferentNameAndUUID() throws Exception {
-    updateGroupNamesRef("g-1", "[group]\n\tuuid = uuid-2\n\tname = g-2\n");
+    updateGroupNamesRef("g-1", "[account]\n\tuuid = uuid-2\n\tname = g-2\n");
     List<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
             allUsersRepo, "g-1", new AccountGroup.UUID("uuid-1"));
     assertThat(problems)
         .containsExactly(
             warning(
-                "group with name 'g-1' has UUID 'uuid-1' in 'group.config' but 'uuid-2' in group "
+                "account with name 'g-1' has UUID 'uuid-1' in 'account.config' but 'uuid-2' in account "
                     + "name notes"),
-            warning("group note of name 'g-1' claims to represent name of 'g-2'"))
+            warning("account note of name 'g-1' claims to represent name of 'g-2'"))
         .inOrder();
   }
 
@@ -101,7 +101,7 @@ public class GroupsNoteDbConsistencyCheckerTest extends AbstractGroupTest {
     assertThat(problems)
         .containsExactly(
             warning(
-                "fail to check consistency with group name notes: Unexpected end of config file"));
+                "fail to check consistency with account name notes: Unexpected end of config file"));
   }
 
   private void updateGroupNamesRef(String groupName, String content) throws Exception {

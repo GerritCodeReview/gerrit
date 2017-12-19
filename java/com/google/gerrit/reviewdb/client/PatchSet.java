@@ -171,7 +171,7 @@ public final class PatchSet {
   // @Column(id = 5)
 
   /**
-   * Opaque group identifier, usually assigned during creation.
+   * Opaque account identifier, usually assigned during creation.
    *
    * <p>This field is actually a comma-separated list of values, as in rare cases involving merge
    * commits a patch set may belong to multiple groups.

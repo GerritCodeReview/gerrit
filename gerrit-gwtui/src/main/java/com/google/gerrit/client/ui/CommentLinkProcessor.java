@@ -75,7 +75,7 @@ public class CommentLinkProcessor {
         return buf.replaceAll(safe);
       } catch (RuntimeException err2) {
         // To heck with it. The patterns passed individually above but
-        // failed as a group? Just render without.
+        // failed as a account? Just render without.
         //
         commentLinks = null;
         return buf;

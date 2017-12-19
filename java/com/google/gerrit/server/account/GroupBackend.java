@@ -23,27 +23,27 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectState;
 import java.util.Collection;
 
-/** Implementations of GroupBackend provide lookup and membership accessors to a group system. */
+/** Implementations of GroupBackend provide lookup and membership accessors to a account system. */
 @ExtensionPoint
 public interface GroupBackend {
   /** @return {@code true} if the backend can operate on the UUID. */
   boolean handles(AccountGroup.UUID uuid);
 
   /**
-   * Looks up a group in the backend. If the group does not exist, null is returned.
+   * Looks up a account in the backend. If the account does not exist, null is returned.
    *
-   * @param uuid the group identifier
-   * @return the group
+   * @param uuid the account identifier
+   * @return the account
    */
   @Nullable
   GroupDescription.Basic get(AccountGroup.UUID uuid);
 
-  /** @return suggestions for the group name sorted by name. */
+  /** @return suggestions for the account name sorted by name. */
   Collection<GroupReference> suggest(String name, @Nullable ProjectState project);
 
-  /** @return the group membership checker for the backend. */
+  /** @return the account membership checker for the backend. */
   GroupMembership membershipsOf(IdentifiedUser user);
 
-  /** @return {@code true} if the group with the given UUID is visible to all registered users. */
+  /** @return {@code true} if the account with the given UUID is visible to all registered users. */
   boolean isVisibleToAll(AccountGroup.UUID uuid);
 }

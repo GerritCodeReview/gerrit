@@ -27,7 +27,7 @@ import org.eclipse.jgit.lib.Config;
  * Current low-level settings of the NoteDb migration for changes.
  *
  * <p>This class only describes the migration state of the {@link
- * com.google.gerrit.reviewdb.client.Change Change} entity group, since it is possible for a given
+ * com.google.gerrit.reviewdb.client.Change Change} entity account, since it is possible for a given
  * site to be in different states of the Change NoteDb migration process while staying at the same
  * ReviewDb schema version. It does <em>not</em> describe the migration state of non-Change tables;
  * those are automatically migrated using the ReviewDb schema migration process, so the NoteDb

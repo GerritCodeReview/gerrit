@@ -34,9 +34,9 @@ public enum GroupNoteDbMode {
   READ_WRITE(new GroupsMigration(true, true, false)),
 
   /**
-   * All group tables in ReviewDb are entirely disabled. Trying to read groups from ReviewDb throws
-   * an exception. Reading groups through an unwrapped ReviewDb instance writing groups to ReviewDb
-   * is a No-Op.
+   * All account tables in ReviewDb are entirely disabled. Trying to read groups from ReviewDb
+   * throws an exception. Reading groups through an unwrapped ReviewDb instance writing groups to
+   * ReviewDb is a No-Op.
    */
   ON(new GroupsMigration(true, true, true));
 

@@ -133,7 +133,7 @@ public class Schema<T> {
    *
    * @param first the preferred field to look up.
    * @param rest additional fields to look up.
-   * @return the first field in the schema matching {@code first} or {@code rest}, in order, or
+   * @return the first field in the schema matching {@code first} or {@code change}, in order, or
    *     absent if no field matches.
    */
   @SafeVarargs

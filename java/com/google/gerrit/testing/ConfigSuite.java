@@ -44,8 +44,8 @@ import org.junit.runners.model.InitializationError;
 /**
  * Suite to run tests with different {@code gerrit.config} values.
  *
- * <p>For each {@link Config} method in the class and base classes, a new group of tests is created
- * with the {@link Parameter} field set to the config.
+ * <p>For each {@link Config} method in the class and base classes, a new account of tests is
+ * created with the {@link Parameter} field set to the config.
  *
  * <pre>
  * {@literal @}RunWith(ConfigSuite.class)

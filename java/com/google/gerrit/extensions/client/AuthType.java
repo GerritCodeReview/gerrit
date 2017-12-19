@@ -39,7 +39,7 @@ public enum AuthType {
    * unique identity.
    *
    * <p>After the authentication is done Gerrit will obtain basic user registration (name and
-   * email), and some group memberships, from LDP. Hence the "_LDAP" suffix in the name of this
+   * email), and some account memberships, from LDP. Hence the "_LDAP" suffix in the name of this
    * authentication type.
    *
    * <p>Gerrit will NOT authenticate the user via LDAP.
@@ -55,7 +55,7 @@ public enum AuthType {
    * the &lt;review-site&gt;/etc/keystore.
    *
    * <p>After the authentication is done Gerrit will obtain basic user registration (name and
-   * email), and some group memberships, from LDP. Hence the "_LDAP" suffix in the name of this
+   * email), and some account memberships, from LDP. Hence the "_LDAP" suffix in the name of this
    * authentication type.
    *
    * <p>Gerrit will NOT authenticate the user via LDAP.

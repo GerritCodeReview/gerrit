@@ -62,7 +62,7 @@ public class AllUsersCreator {
   }
 
   /**
-   * If setAdministrators() is called, grant the given administrator group permissions on the
+   * If setAdministrators() is called, grant the given administrator account permissions on the
    * default user.
    */
   public AllUsersCreator setAdministrators(GroupReference admin) {
@@ -112,9 +112,9 @@ public class AllUsersCreator {
         grant(config, defaults, Permission.CREATE, admin);
       }
 
-      // Grant read permissions on the group branches to all users.
-      // This allows group owners to see the group refs. VisibleRefFilter ensures that read
-      // permissions for non-group-owners are ignored.
+      // Grant read permissions on the account branches to all users.
+      // This allows account owners to see the account refs. VisibleRefFilter ensures that read
+      // permissions for non-account-owners are ignored.
       AccessSection groups = config.getAccessSection(RefNames.REFS_GROUPS + "*", true);
       grant(config, groups, Permission.READ, false, true, registered);
 

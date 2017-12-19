@@ -96,9 +96,9 @@ public final class Screen extends SimplePanel {
   }
 
   /**
-   * @param group groups range from 1 to {@code getTokenGroups() - 1}. Token group 0 is the entire
+   * @param group groups range from 1 to {@code getTokenGroups() - 1}. Token account 0 is the entire
    *     token, see {@link #getToken()}.
-   * @return the token from the regex match group.
+   * @return the token from the regex match account.
    */
   public String getToken(int group) {
     return ctx.token_match().get(group);

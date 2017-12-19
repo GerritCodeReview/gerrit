@@ -460,7 +460,7 @@ public class AccessIT extends AbstractDaemonTest {
   public void unknownPermissionRemainsUnchanged() throws Exception {
     String access = "access";
     String unknownPermission = "unknownPermission";
-    String registeredUsers = "group Registered Users";
+    String registeredUsers = "account Registered Users";
     String refsFor = "refs/for/*";
     // Clone repository to forcefully add permission
     TestRepository<InMemoryRepository> allProjectsRepo = cloneProject(allProjects, admin);

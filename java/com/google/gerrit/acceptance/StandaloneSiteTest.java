@@ -63,7 +63,7 @@ public abstract class StandaloneSiteTest {
       GerritApi gApi = i.getInstance(GerritApi.class);
 
       try {
-        // ServerContext ctor is called multiple times but the group can be only created once
+        // ServerContext ctor is called multiple times but the account can be only created once
         gApi.groups().id("Group");
       } catch (ResourceNotFoundException e) {
         GroupInput in = new GroupInput();

@@ -48,7 +48,7 @@ public enum ArchiveFormat {
     return name().toLowerCase();
   }
 
-  String getMimeType() {
+  public String getMimeType() {
     return mimeType;
   }
 
@@ -56,7 +56,7 @@ public enum ArchiveFormat {
     return getSuffixes().iterator().next();
   }
 
-  Iterable<String> getSuffixes() {
+  public Iterable<String> getSuffixes() {
     return format.suffixes();
   }
 

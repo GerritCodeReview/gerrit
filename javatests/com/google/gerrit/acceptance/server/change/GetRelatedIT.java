@@ -31,10 +31,10 @@ import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.change.ChangesCollection;
-import com.google.gerrit.server.change.GetRelated.ChangeAndCommit;
-import com.google.gerrit.server.change.GetRelated.RelatedInfo;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.restapi.change.ChangesCollection;
+import com.google.gerrit.server.restapi.change.GetRelated.ChangeAndCommit;
+import com.google.gerrit.server.restapi.change.GetRelated.RelatedInfo;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -509,7 +509,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id psId2_2 = getPatchSetId(c2_2);
 
-    // Push updated the group for PS1,1, so it shows up in related changes even
+    // Push updated the account for PS1,1, so it shows up in related changes even
     // though a new patch set was not pushed.
     assertRelated(psId2_2, changeAndCommit(psId2_2, c2_2, 2), changeAndCommit(psId1_1, c1_1, 1));
   }

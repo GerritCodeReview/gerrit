@@ -23,12 +23,12 @@ import java.util.Set;
 /**
  * Class for grouping together callbacks and calling them in order.
  *
- * <p>Callbacks are added to the group with {@link #add(AsyncCallback)}, which returns a wrapped
+ * <p>Callbacks are added to the account with {@link #add(AsyncCallback)}, which returns a wrapped
  * callback suitable for passing to an asynchronous RPC call. The last callback must be added using
  * {@link #addFinal(AsyncCallback)} or {@link #done()} must be invoked.
  *
- * <p>The enclosing group buffers returned results and ensures that {@code onSuccess} is called
- * exactly once for each callback in the group, in the same order that callbacks were added. This
+ * <p>The enclosing account buffers returned results and ensures that {@code onSuccess} is called
+ * exactly once for each callback in the account, in the same order that callbacks were added. This
  * allows callers to, for example, use a {@link ScreenLoadCallback} as the last callback in the list
  * and only display the screen once all callbacks have succeeded.
  *

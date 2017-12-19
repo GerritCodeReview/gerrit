@@ -93,6 +93,30 @@
       "revId": "27563c3ac1e7b6cd84355eae8cbeb1f12bcec674",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad763838_2e94f2c1",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-19T23:08:35Z",
+      "side": 1,
+      "message": "I think your comment is describing _what_ is happening, but not _why_. Maybe that would be an improvement?",
+      "parentUuid": "5a2d34d2_b8e2236d",
+      "range": {
+        "startLine": 168,
+        "startChar": 6,
+        "endLine": 169,
+        "endChar": 43
+      },
+      "revId": "27563c3ac1e7b6cd84355eae8cbeb1f12bcec674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

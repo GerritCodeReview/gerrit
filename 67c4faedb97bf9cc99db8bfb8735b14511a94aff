@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3a66d54_b9da9c9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-19T23:08:35Z",
+      "side": 1,
+      "message": "Bug?",
+      "revId": "67c4faedb97bf9cc99db8bfb8735b14511a94aff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e146a5eb_00e05255",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-19T23:08:35Z",
+      "side": 1,
+      "message": "`return null`? Why?",
+      "revId": "67c4faedb97bf9cc99db8bfb8735b14511a94aff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

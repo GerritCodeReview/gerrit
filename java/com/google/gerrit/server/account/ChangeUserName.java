@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -42,13 +41,17 @@ public class ChangeUserName implements Callable<VoidResult> {
 
   /** Generic factory to change any user's username. */
   public interface Factory {
-    ChangeUserName create(IdentifiedUser user, String newUsername);
+    ChangeUserName create(
+        @Assisted("message") String message,
+        IdentifiedUser user,
+        @Assisted("newUsername") String newUsername);
   }
 
   private final SshKeyCache sshKeyCache;
   private final ExternalIds externalIds;
-  private final ExternalIdsUpdate.Server externalIdsUpdateFactory;
+  private final AccountsUpdate.Server accountsUpdate;
 
+  private final String message;
   private final IdentifiedUser user;
   private final String newUsername;
 
@@ -56,12 +59,14 @@ public class ChangeUserName implements Callable<VoidResult> {
   ChangeUserName(
       SshKeyCache sshKeyCache,
       ExternalIds externalIds,
-      ExternalIdsUpdate.Server externalIdsUpdateFactory,
+      AccountsUpdate.Server accountsUpdate,
+      @Assisted("message") String message,
       @Assisted IdentifiedUser user,
-      @Nullable @Assisted String newUsername) {
+      @Nullable @Assisted("newUsername") String newUsername) {
     this.sshKeyCache = sshKeyCache;
     this.externalIds = externalIds;
-    this.externalIdsUpdateFactory = externalIdsUpdateFactory;
+    this.accountsUpdate = accountsUpdate;
+    this.message = message;
     this.user = user;
     this.newUsername = newUsername;
   }
@@ -74,7 +79,6 @@ public class ChangeUserName implements Callable<VoidResult> {
       throw new IllegalStateException(USERNAME_CANNOT_BE_CHANGED);
     }
 
-    ExternalIdsUpdate externalIdsUpdate = externalIdsUpdateFactory.create();
     if (newUsername != null && !newUsername.isEmpty()) {
       if (!USER_NAME_PATTERN.matcher(newUsername).matches()) {
         throw new InvalidUserNameException();
@@ -82,7 +86,12 @@ public class ChangeUserName implements Callable<VoidResult> {
 
       ExternalId.Key key = ExternalId.Key.create(SCHEME_USERNAME, newUsername);
       try {
-        externalIdsUpdate.insert(ExternalId.create(key, user.getAccountId(), null, null));
+        accountsUpdate
+            .create()
+            .update(
+                message,
+                user.getAccountId(),
+                u -> u.addExternalId(ExternalId.create(key, user.getAccountId(), null, null)));
       } catch (OrmDuplicateKeyException dupeErr) {
         // If we are using this identity, don't report the exception.
         //

@@ -70,7 +70,7 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
     }
 
     try {
-      changeUserNameFactory.create(rsrc.getUser(), input.username).call();
+      changeUserNameFactory.create("Set Username via API", rsrc.getUser(), input.username).call();
     } catch (IllegalStateException e) {
       if (ChangeUserName.USERNAME_CANNOT_BE_CHANGED.equals(e.getMessage())) {
         throw new MethodNotAllowedException(e.getMessage());

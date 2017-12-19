@@ -3,6 +3,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "ee1c477f_17940338",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-19T14:42:40Z",
+      "side": 1,
+      "message": "atomically",
+      "range": {
+        "startLine": 7,
+        "startChar": 47,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "bf03d41a0ee44a2cacf47e61e16a5487a10d9fd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "590e847b_52f7ebf2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-19T14:42:40Z",
+      "side": 1,
+      "message": "\"checks were\" or \"check was\"",
+      "range": {
+        "startLine": 28,
+        "startChar": 32,
+        "endLine": 28,
+        "endChar": 42
+      },
+      "revId": "bf03d41a0ee44a2cacf47e61e16a5487a10d9fd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "263f7c65_87cd7ecb",
         "filename": "java/com/google/gerrit/server/account/CreateAccount.java",
         "patchSetId": 2

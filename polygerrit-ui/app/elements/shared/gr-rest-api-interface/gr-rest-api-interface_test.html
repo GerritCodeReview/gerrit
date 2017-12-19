@@ -1199,7 +1199,8 @@ limitations under the License.
           .returns(Promise.resolve('new content'));
 
       return element.getFileInChangeEdit('1', 'test/path').then(res => {
-        assert.deepEqual(res, {content: 'new content', type: 'text/java'});
+        assert.deepEqual(res,
+            {content: 'new content', type: 'text/java', ok: true});
       });
     });
   });

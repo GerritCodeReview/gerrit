@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4bcfaba_5b06b017",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-19T01:17:42Z",
+      "side": 1,
+      "message": "This function is not tested.",
+      "revId": "cbb473c61e4888e40c009f2b0cac965b3af66fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -38,7 +38,7 @@ limitations under the License.
     <style include="shared-styles">
       :host {
         display: block;
-        max-height: 90vh;
+        max-height: 100%;
       }
       :host([disabled]) {
         pointer-events: none;
@@ -49,16 +49,20 @@ limitations under the License.
       .container {
         display: flex;
         flex-direction: column;
-        max-height: 90vh;
+        max-height: 100%;
       }
       section {
         border-top: 1px solid #cdcdcd;
+        flex-shrink: 0;
         padding: .5em 1.5em;
         width: 100%;
       }
       .actions {
+        background-color: var(--view-background-color);
+        bottom: 0;
         display: flex;
         justify-content: space-between;
+        position: sticky;
       }
       .actions .right gr-button {
         margin-left: 1em;
@@ -85,10 +89,6 @@ limitations under the License.
         flex-wrap: wrap;
         flex: 1;
         min-height: 1.8em;
-        --account-list-style: {
-          max-height: 12em;
-          overflow-y: auto;
-        }
       }
       #reviewerConfirmationOverlay {
         padding: 1em;
@@ -104,7 +104,7 @@ limitations under the License.
         font-style: italic;
       }
       .textareaContainer {
-        min-height: 6em;
+        min-height: 12em;
         position: relative;
       }
       .textareaContainer,
@@ -115,13 +115,7 @@ limitations under the License.
       }
       .previewContainer gr-formatted-text {
         background: #f6f6f6;
-        max-height: 20vh;
-        overflow-y: scroll;
         padding: 1em;
-      }
-      .draftsContainer {
-        flex: 1;
-        overflow-y: auto;
       }
       .draftsContainer h3 {
         margin-top: .25em;
@@ -143,14 +137,6 @@ limitations under the License.
       }
       #savingLabel.saving {
         display: inline;
-      }
-      @media screen and (max-width: 60em) {
-        :host {
-          max-height: none;
-        }
-        .container {
-          max-height: none;
-        }
       }
     </style>
     <div class="container" tabindex="-1">
@@ -218,7 +204,6 @@ limitations under the License.
               monospace="true"
               disabled="{{disabled}}"
               rows="4"
-              max-rows="15"
               text="{{draft}}"
               on-bind-value-changed="_handleHeightChanged">
           </gr-textarea>

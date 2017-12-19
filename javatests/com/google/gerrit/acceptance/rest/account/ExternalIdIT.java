@@ -44,6 +44,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
@@ -56,7 +57,6 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -89,7 +89,7 @@ import org.eclipse.jgit.util.MutableInteger;
 import org.junit.Test;
 
 public class ExternalIdIT extends AbstractDaemonTest {
-  @Inject private ExternalIdsUpdate.Server extIdsUpdate;
+  @Inject private AccountsUpdate.Server accountsUpdate;
   @Inject private ExternalIds externalIds;
   @Inject private ExternalIdReader externalIdReader;
   @Inject private MetricMaker metricMaker;
@@ -462,31 +462,28 @@ public class ExternalIdIT extends AbstractDaemonTest {
     return new ConsistencyProblemInfo(ConsistencyProblemInfo.Status.ERROR, message);
   }
 
-  private void insertValidExternalIds() throws IOException, ConfigInvalidException, OrmException {
+  private void insertValidExternalIds() throws Exception {
     MutableInteger i = new MutableInteger();
     String scheme = "valid";
-    ExternalIdsUpdate u = extIdsUpdate.create();
 
     // create valid external IDs
-    u.insert(
+    insertExtId(
         ExternalId.createWithPassword(
             ExternalId.Key.parse(nextId(scheme, i)),
             admin.id,
             "admin.other@example.com",
             "secret-password"));
-    u.insert(createExternalIdWithOtherCaseEmail(nextId(scheme, i)));
+    insertExtId(createExternalIdWithOtherCaseEmail(nextId(scheme, i)));
   }
 
-  private Set<ConsistencyProblemInfo> insertInvalidButParsableExternalIds()
-      throws IOException, ConfigInvalidException, OrmException {
+  private Set<ConsistencyProblemInfo> insertInvalidButParsableExternalIds() throws Exception {
     MutableInteger i = new MutableInteger();
     String scheme = "invalid";
-    ExternalIdsUpdate u = extIdsUpdate.create();
 
     Set<ConsistencyProblemInfo> expectedProblems = new HashSet<>();
     ExternalId extIdForNonExistingAccount =
         createExternalIdForNonExistingAccount(nextId(scheme, i));
-    u.insert(extIdForNonExistingAccount);
+    insertExtIdForNonExistingAccount(extIdForNonExistingAccount);
     expectedProblems.add(
         consistencyError(
             "External ID '"
@@ -495,7 +492,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
                 + extIdForNonExistingAccount.accountId().get()));
 
     ExternalId extIdWithInvalidEmail = createExternalIdWithInvalidEmail(nextId(scheme, i));
-    u.insert(extIdWithInvalidEmail);
+    insertExtId(extIdWithInvalidEmail);
     expectedProblems.add(
         consistencyError(
             "External ID '"
@@ -504,7 +501,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
                 + extIdWithInvalidEmail.email()));
 
     ExternalId extIdWithDuplicateEmail = createExternalIdWithDuplicateEmail(nextId(scheme, i));
-    u.insert(extIdWithDuplicateEmail);
+    insertExtId(extIdWithDuplicateEmail);
     expectedProblems.add(
         consistencyError(
             "Email '"
@@ -516,7 +513,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
                 + "'"));
 
     ExternalId extIdWithBadPassword = createExternalIdWithBadPassword("admin-username");
-    u.insert(extIdWithBadPassword);
+    insertExtId(extIdWithBadPassword);
     expectedProblems.add(
         consistencyError(
             "External ID '"
@@ -742,8 +739,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
             () -> {
               if (!doneBgUpdate.getAndSet(true)) {
                 try {
-                  extIdsUpdate.create().insert(ExternalId.create(barId, admin.id));
-                } catch (IOException | ConfigInvalidException | OrmException e) {
+                  insertExtId(ExternalId.create(barId, admin.id));
+                } catch (Exception e) {
                   // Ignore, the successful insertion of the external ID is asserted later
                 }
               }
@@ -784,10 +781,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
                         .withBlockStrategy(noSleepBlockStrategy)),
             () -> {
               try {
-                extIdsUpdate
-                    .create()
-                    .insert(ExternalId.create(extIdsKeys[bgCounter.getAndAdd(1)], admin.id));
-              } catch (IOException | ConfigInvalidException | OrmException e) {
+                insertExtId(ExternalId.create(extIdsKeys[bgCounter.getAndAdd(1)], admin.id));
+              } catch (Exception e) {
                 // Ignore, the successful insertion of the external ID is asserted later
               }
             });
@@ -808,7 +803,12 @@ public class ExternalIdIT extends AbstractDaemonTest {
   public void readExternalIdWithAccountIdThatCanBeExpressedInKiB() throws Exception {
     ExternalId.Key extIdKey = ExternalId.Key.parse("foo:bar");
     Account.Id accountId = new Account.Id(1024 * 100);
-    extIdsUpdate.create().insert(ExternalId.create(extIdKey, accountId));
+    accountsUpdate
+        .create()
+        .insert(
+            "Create Account with Bad External ID",
+            accountId,
+            u -> u.addExternalId(ExternalId.create(extIdKey, accountId)));
     ExternalId extId = externalIds.get(extIdKey);
     assertThat(extId.accountId()).isEqualTo(accountId);
   }
@@ -819,20 +819,24 @@ public class ExternalIdIT extends AbstractDaemonTest {
     try (AutoCloseable ctx = createFailOnLoadContext()) {
       // insert external ID
       ExternalId extId = ExternalId.create("foo", "bar", admin.id);
-      extIdsUpdate.create().insert(extId);
+      insertExtId(extId);
       expectedExtIds.add(extId);
       assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExtIds);
 
       // update external ID
       expectedExtIds.remove(extId);
-      extId = ExternalId.createWithEmail("foo", "bar", admin.id, "foo.bar@example.com");
-      extIdsUpdate.create().upsert(extId);
-      expectedExtIds.add(extId);
+      ExternalId extId2 = ExternalId.createWithEmail("foo", "bar", admin.id, "foo.bar@example.com");
+      accountsUpdate
+          .create()
+          .update("Update External ID", admin.id, u -> u.updateExternalId(extId2));
+      expectedExtIds.add(extId2);
       assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExtIds);
 
       // delete external ID
-      extIdsUpdate.create().delete(extId);
-      expectedExtIds.remove(extId);
+      accountsUpdate
+          .create()
+          .update("Delete External ID", admin.id, u -> u.deleteExternalId(extId));
+      expectedExtIds.remove(extId2);
       assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExtIds);
     }
   }
@@ -866,6 +870,23 @@ public class ExternalIdIT extends AbstractDaemonTest {
     insertExtIdBehindGerritsBack(newExtId);
     expectedExternalIds.add(newExtId);
     assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExternalIds);
+  }
+
+  private void insertExtId(ExternalId extId) throws Exception {
+    accountsUpdate
+        .create()
+        .update("Add External ID", extId.accountId(), u -> u.addExternalId(extId));
+  }
+
+  private void insertExtIdForNonExistingAccount(ExternalId extId) throws Exception {
+    // Cannot use AccountsUpdate to insert an external ID for a non-existing account.
+    try (Repository repo = repoManager.openRepository(allUsers);
+        MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
+      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(repo);
+      extIdNotes.insert(extId);
+      extIdNotes.commit(update);
+      extIdNotes.updateCaches();
+    }
   }
 
   private void insertExtIdBehindGerritsBack(ExternalId extId) throws Exception {

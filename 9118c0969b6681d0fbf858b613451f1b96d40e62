@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e96a1a22_576a7c64",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-19T11:20:22Z",
+      "side": 1,
+      "message": "private",
+      "range": {
+        "startLine": 48,
+        "startChar": 48,
+        "endLine": 48,
+        "endChar": 57
+      },
+      "revId": "9118c0969b6681d0fbf858b613451f1b96d40e62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a564cbf_b8c425b2",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-19T11:20:22Z",
+      "side": 1,
+      "message": "\"work in progress\"?\n\nOr add a link to the documentation of WIP?",
+      "range": {
+        "startLine": 50,
+        "startChar": 44,
+        "endLine": 50,
+        "endChar": 47
+      },
+      "revId": "9118c0969b6681d0fbf858b613451f1b96d40e62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

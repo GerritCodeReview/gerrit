@@ -162,7 +162,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
         externalIdsUpdate.insert(ExternalId.createEmail(id, input.email));
       } catch (OrmDuplicateKeyException duplicateKey) {
         try {
-          externalIdsUpdate.delete(extUser);
+          externalIdsUpdate.delete(extIds);
         } catch (IOException | ConfigInvalidException cleanupError) {
           // Ignored
         }

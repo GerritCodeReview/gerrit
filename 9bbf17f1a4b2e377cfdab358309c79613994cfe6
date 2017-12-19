@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d542849_a6d1b4a2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-19T01:12:07Z",
+      "side": 1,
+      "message": "Is this comment poorly indented?\n\n(definitely non-critical and non-blocking, lol)",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 107,
+        "endChar": 18
+      },
+      "revId": "9bbf17f1a4b2e377cfdab358309c79613994cfe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

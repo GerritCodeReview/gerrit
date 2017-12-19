@@ -18,8 +18,8 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -151,7 +151,7 @@ public abstract class InternalAccountUpdate {
      * updated.
      *
      * <p>If an external ID with the same ID already exists the account update will fail with {@link
-     * OrmDuplicateKeyException}.
+     * DuplicateExternalIdKeyException}.
      *
      * @param extId external ID that should be added
      * @return the builder
@@ -167,7 +167,7 @@ public abstract class InternalAccountUpdate {
      * updated.
      *
      * <p>If any of the external ID keys already exists, the insert fails with {@link
-     * OrmDuplicateKeyException}.
+     * DuplicateExternalIdKeyException}.
      *
      * @param extIds external IDs that should be added
      * @return the builder

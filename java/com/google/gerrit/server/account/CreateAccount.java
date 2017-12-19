@@ -37,6 +37,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
@@ -46,7 +47,6 @@ import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.ssh.SshKeyCache;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -153,14 +153,14 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     ExternalIdsUpdate externalIdsUpdate = externalIdsUpdateFactory.create();
     try {
       externalIdsUpdate.insert(extIds);
-    } catch (OrmDuplicateKeyException duplicateKey) {
+    } catch (DuplicateExternalIdKeyException duplicateKey) {
       throw new ResourceConflictException("username '" + username + "' already exists");
     }
 
     if (input.email != null) {
       try {
         externalIdsUpdate.insert(ExternalId.createEmail(id, input.email));
-      } catch (OrmDuplicateKeyException duplicateKey) {
+      } catch (DuplicateExternalIdKeyException duplicateKey) {
         try {
           externalIdsUpdate.delete(extIds);
         } catch (IOException | ConfigInvalidException cleanupError) {

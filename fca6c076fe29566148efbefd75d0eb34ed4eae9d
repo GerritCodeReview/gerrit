@@ -46,6 +46,30 @@
       "revId": "fca6c076fe29566148efbefd75d0eb34ed4eae9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ed15259_2ebc738b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-19T14:43:33Z",
+      "side": 1,
+      "message": "This is the same question I had here:\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/148857/2/java/com/google/gerrit/server/account/CreateAccount.java#151\n\nI am guessing this test was added here to ensure that the followup change doesn\u0027t alter existing behavior.",
+      "parentUuid": "0caeaf48_b8fafc20",
+      "range": {
+        "startLine": 319,
+        "startChar": 21,
+        "endLine": 319,
+        "endChar": 49
+      },
+      "revId": "fca6c076fe29566148efbefd75d0eb34ed4eae9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "cae114e9_5f10ee75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-19T16:10:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee1c477f_17940338",
+      "range": {
+        "startLine": 7,
+        "startChar": 47,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "bf03d41a0ee44a2cacf47e61e16a5487a10d9fd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "590e847b_52f7ebf2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "4982c753_e9853b77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-19T16:10:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "590e847b_52f7ebf2",
+      "range": {
+        "startLine": 28,
+        "startChar": 32,
+        "endLine": 28,
+        "endChar": 42
+      },
+      "revId": "bf03d41a0ee44a2cacf47e61e16a5487a10d9fd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "263f7c65_87cd7ecb",
         "filename": "java/com/google/gerrit/server/account/CreateAccount.java",
         "patchSetId": 2
@@ -63,6 +111,24 @@
       "revId": "bf03d41a0ee44a2cacf47e61e16a5487a10d9fd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e2a3327_12a45a79",
+        "filename": "java/com/google/gerrit/server/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-19T16:10:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "263f7c65_87cd7ecb",
+      "revId": "bf03d41a0ee44a2cacf47e61e16a5487a10d9fd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -83,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "0488a655_101d1155",
+        "filename": "java/com/google/gerrit/server/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-19T16:10:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87310a8a_6fa97336",
+      "revId": "bf03d41a0ee44a2cacf47e61e16a5487a10d9fd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d972123_7ff5b9cd",
         "filename": "java/com/google/gerrit/server/account/CreateAccount.java",
         "patchSetId": 2
@@ -97,6 +181,24 @@
       "revId": "bf03d41a0ee44a2cacf47e61e16a5487a10d9fd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35ceda2c_fe0c24c9",
+        "filename": "java/com/google/gerrit/server/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-19T16:10:03Z",
+      "side": 1,
+      "message": "Yes, the existing behavior should be preserved. See also my explanation on [1]. This probably means that returning \u0027409 Conflict\u0027 in case of duplicate external IDs that were requested by AccountExternalIdCreator is not good. I\u0027m changing this to just \u0027500 Internal Server Error\u0027.\n\nDone.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/148856/2/javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+      "parentUuid": "4d972123_7ff5b9cd",
+      "revId": "bf03d41a0ee44a2cacf47e61e16a5487a10d9fd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

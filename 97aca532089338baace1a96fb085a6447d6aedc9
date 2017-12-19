@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1513699621 +0100\nnonce ADEcKBpj8zYTMUrGfz2XBHa0bNfuIqiMqcSGdDI0LtD0veva6Fr13pR6xf+tITY57V1KHqPmpUHn\n\n0000000000000000000000000000000000000000 80ef94a8b814295b6d5fc247184e56aabd431148 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaOTklAAoJEFG1/Zeg0O9R0w0H/0pXQk1mL+jf5POk3HsQ0uRg\nAl4evf2tpB34M4zVvPZYXTsjy3NOoXitkZ8Ov8rqzT2h3jO51Kws+q2shErFGWN4\niNQFJLzFZAssm+ZFlfXNAueIShAL2iyUEI6Zb7jggBXfeRw74n3eoTtVpHKzeWaM\nbvVIuhU3OzH98l56r4vus+rhsxEoeu6la2FyzxNnOvVBjnUez95WdzyMGmSkFfbh\nge+mgwcBloqLshLmnEC4XanOeoxLVLFIbacjJ5K3r4rIxhd61Sfkbl1Z44Bv7TcF\nqgwrAIMRBUHHijX2H1eJC/3MvRAr7CYX41CbRiSIqX4zjtHPFNKz97DQlvTJEUg\u003d\n\u003dE7Nf\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c006a9f_f1eeb964",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-19T16:10:03Z",
+      "side": 1,
+      "message": "Although now this is one transaction we still evict that account twice from the cache (and hence it is twice reindexed). I plan to address this later.",
+      "revId": "97aca532089338baace1a96fb085a6447d6aedc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

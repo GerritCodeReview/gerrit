@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07a93d46_2ef74d52",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-19T23:13:16Z",
+      "side": 1,
+      "message": "I don\u0027t think so, since we want to allow the send button to handle the final commit, which it can\u0027t if it\u0027s disabled.",
+      "parentUuid": "3d1b7d3b_95a9449a",
+      "revId": "b28277c14169e9707b3d00fac5b46f6f927ec4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a709b49e_43571332",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-12-19T23:02:30Z",
       "side": 1,
       "message": "I don\u0027t believe we allow arbitrary entries in reviewers, do we?",
+      "revId": "b28277c14169e9707b3d00fac5b46f6f927ec4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2f22955_e43dcbfc",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-19T23:13:16Z",
+      "side": 1,
+      "message": "We don\u0027t allow arbitrary entries, but we do allow you to *not* commit the final entry and let the \u0027send\u0027 button handle that.  If it\u0027s invalid then it fails.",
+      "parentUuid": "a709b49e_43571332",
       "revId": "b28277c14169e9707b3d00fac5b46f6f927ec4f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

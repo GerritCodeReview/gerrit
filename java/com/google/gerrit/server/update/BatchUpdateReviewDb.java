@@ -17,6 +17,7 @@ package com.google.gerrit.server.update;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ChangeAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
 import com.google.gwtorm.server.AtomicUpdate;
 
@@ -26,6 +27,14 @@ public class BatchUpdateReviewDb extends ReviewDbWrapper {
   BatchUpdateReviewDb(ReviewDb delegate) {
     super(delegate);
     changesWrapper = new BatchUpdateChanges(delegate.changes());
+  }
+
+  /** @return the underlying delegate. Supports BatchUpdateReviewDb too. */
+  public static ReviewDb unwrap(ReviewDb db) {
+    if (db instanceof BatchUpdateReviewDb) {
+      db = ((BatchUpdateReviewDb) db).unsafeGetDelegate();
+    }
+    return ReviewDbUtil.unwrapDb(db);
   }
 
   public ReviewDb unsafeGetDelegate() {

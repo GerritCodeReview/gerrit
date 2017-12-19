@@ -189,6 +189,18 @@ limitations under the License.
       });
     });
 
+    test('account-text-changed fired when input text changed', () => {
+      // Spy on query, as that is called when _updateSuggestions proceeds.
+      const changeStub = sandbox.stub();
+      sandbox.stub(element.$.restAPI, 'getChangeSuggestedReviewers')
+          .returns(Promise.resolve([]));
+      element.addEventListener('account-text-changed', changeStub);
+      element.$.input.text = 'a';
+      assert.isTrue(changeStub.calledOnce);
+      element.$.input.text = 'ab';
+      assert.isTrue(changeStub.calledTwice);
+    });
+
     test('setText', () => {
       // Spy on query, as that is called when _updateSuggestions proceeds.
       const suggestSpy = sandbox.spy(element.$.input, 'query');

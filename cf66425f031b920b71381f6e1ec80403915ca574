@@ -46,6 +46,30 @@
       "revId": "cf66425f031b920b71381f6e1ec80403915ca574",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654a8c1_fcf0ff9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-20T08:16:25Z",
+      "side": 1,
+      "message": "Not that I know, but I don\u0027t know if PolyGerrit respects the UI actions to decide if the buttons should be displayed or not.",
+      "parentUuid": "0964e074_ae57c0be",
+      "range": {
+        "startLine": 10,
+        "startChar": 43,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "cf66425f031b920b71381f6e1ec80403915ca574",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

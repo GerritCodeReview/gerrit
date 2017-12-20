@@ -13,7 +13,7 @@ Create a project command in the admin panel.
 - *checkVisibleCallback* function to configure command visibility.
 
 .Returns
-- GrProjectApi for chainging.
+- GrProjectApi for chaining.
 
 `checkVisibleCallback(projectName, projectConfig)`
 

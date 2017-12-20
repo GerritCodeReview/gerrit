@@ -17,9 +17,9 @@ package com.google.gerrit.sshd.commands;
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
 
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
-import com.google.gerrit.server.project.Index;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.restapi.project.Index;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;

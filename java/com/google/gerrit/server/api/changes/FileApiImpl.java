@@ -20,9 +20,9 @@ import com.google.gerrit.extensions.api.changes.FileApi;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.change.FileResource;
-import com.google.gerrit.server.change.GetContent;
-import com.google.gerrit.server.change.GetDiff;
+import com.google.gerrit.server.restapi.change.FileResource;
+import com.google.gerrit.server.restapi.change.GetContent;
+import com.google.gerrit.server.restapi.change.GetDiff;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

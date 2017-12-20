@@ -18,7 +18,7 @@ import com.google.gerrit.extensions.api.projects.HeadInput;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.SetHead;
+import com.google.gerrit.server.restapi.project.SetHead;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;

@@ -18,12 +18,10 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.index.query.OrPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,16 +36,14 @@ public class ParentProjectPredicate extends OrPredicate<ChangeData> {
   public ParentProjectPredicate(
       ProjectCache projectCache,
       ChildProjects childProjects,
-      Provider<CurrentUser> self,
       String value) {
-    super(predicates(projectCache, childProjects, self, value));
+    super(predicates(projectCache, childProjects, value));
     this.value = value;
   }
 
   protected static List<Predicate<ChangeData>> predicates(
       ProjectCache projectCache,
       ChildProjects childProjects,
-      Provider<CurrentUser> self,
       String value) {
     ProjectState projectState = projectCache.get(new Project.NameKey(value));
     if (projectState == null) {

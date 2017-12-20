@@ -22,6 +22,30 @@
       "revId": "cf66425f031b920b71381f6e1ec80403915ca574",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0964e074_ae57c0be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-20T08:15:00Z",
+      "side": 1,
+      "message": "Yes. We should do that. Is there any other code I need to update?",
+      "parentUuid": "edc9f2a5_f64bb3dc",
+      "range": {
+        "startLine": 10,
+        "startChar": 43,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "cf66425f031b920b71381f6e1ec80403915ca574",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

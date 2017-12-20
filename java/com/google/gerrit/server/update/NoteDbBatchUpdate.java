@@ -61,8 +61,8 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * <p>Used when {@code noteDb.changes.disableReviewDb=true}, at which point ReviewDb is not
  * consulted during updates.
  */
-class NoteDbBatchUpdate extends BatchUpdate {
-  interface AssistedFactory {
+public class NoteDbBatchUpdate extends BatchUpdate {
+  public interface AssistedFactory {
     NoteDbBatchUpdate create(
         ReviewDb db, Project.NameKey project, CurrentUser user, Timestamp when);
   }

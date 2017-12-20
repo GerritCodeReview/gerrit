@@ -100,10 +100,10 @@ import org.slf4j.LoggerFactory;
  * The implementation in this class is well-tested, and it is strongly recommended that you not
  * attempt to reimplement this logic. Use {@code BatchUpdate} if at all possible.
  */
-class ReviewDbBatchUpdate extends BatchUpdate {
+public class ReviewDbBatchUpdate extends BatchUpdate {
   private static final Logger log = LoggerFactory.getLogger(ReviewDbBatchUpdate.class);
 
-  interface AssistedFactory {
+  public interface AssistedFactory {
     ReviewDbBatchUpdate create(
         ReviewDb db, Project.NameKey project, CurrentUser user, Timestamp when);
   }

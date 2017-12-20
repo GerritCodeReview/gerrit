@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GroupReference;
@@ -39,6 +40,7 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.SuggestReviewers;
+import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectState;
@@ -194,6 +196,7 @@ public class ReviewersUtil {
         QueryResult<AccountState> result =
             queryProvider
                 .get()
+                .setRequestedFields(ImmutableSet.of(AccountField.ID.getName()))
                 .setUserProvidedLimit(suggestReviewers.getLimit() * CANDIDATE_LIST_MULTIPLIER)
                 .query(
                     AccountPredicates.andActive(

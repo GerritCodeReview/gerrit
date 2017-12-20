@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c43dd81d_607939a1",
+        "filename": "Documentation/pg-plugin-project-api.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-20T08:19:45Z",
+      "side": 1,
+      "message": "Are you sure that it\u0027s not supposed to mean \"chaining\" (as for chaining calls)?",
+      "range": {
+        "startLine": 16,
+        "startChar": 19,
+        "endLine": 16,
+        "endChar": 27
+      },
+      "revId": "deebfa929e5ca67fe98e0705e882d5baa19b8a28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

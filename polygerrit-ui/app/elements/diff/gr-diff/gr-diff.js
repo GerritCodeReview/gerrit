@@ -176,7 +176,7 @@
       this.clearBlame();
       this._safetyBypass = null;
       this._showWarning = false;
-      this._clearDiffContent();
+      this.clearDiffContent();
 
       const promises = [];
 
@@ -615,7 +615,7 @@
       return this.prefs;
     },
 
-    _clearDiffContent() {
+    clearDiffContent() {
       this.$.diffTable.innerHTML = null;
     },
 

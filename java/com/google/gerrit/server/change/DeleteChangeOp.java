@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -45,16 +44,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 class DeleteChangeOp implements BatchUpdateOp {
   static boolean allowDrafts(Config cfg) {
     return cfg.getBoolean("change", "allowDrafts", true);
-  }
-
-  static ReviewDb unwrap(ReviewDb db) {
-    // This is special. We want to delete exactly the rows that are present in
-    // the database, even when reading everything else from NoteDb, so we need
-    // to bypass the write-only wrapper.
-    if (db instanceof BatchUpdateReviewDb) {
-      db = ((BatchUpdateReviewDb) db).unsafeGetDelegate();
-    }
-    return ReviewDbUtil.unwrapDb(db);
   }
 
   private final PatchSetUtil psUtil;
@@ -123,7 +112,11 @@ class DeleteChangeOp implements BatchUpdateOp {
   private void deleteChangeElementsFromDb(ChangeContext ctx, Change.Id id) throws OrmException {
     // Only delete from ReviewDb here; deletion from NoteDb is handled in
     // BatchUpdate.
-    ReviewDb db = unwrap(ctx.getDb());
+    //
+    // This is special. We want to delete exactly the rows that are present in
+    // the database, even when reading everything else from NoteDb, so we need
+    // to bypass the write-only wrapper.
+    ReviewDb db = BatchUpdateReviewDb.unwrap(ctx.getDb());
     db.patchComments().delete(db.patchComments().byChange(id));
     db.patchSetApprovals().delete(db.patchSetApprovals().byChange(id));
     db.patchSets().delete(db.patchSets().byChange(id));

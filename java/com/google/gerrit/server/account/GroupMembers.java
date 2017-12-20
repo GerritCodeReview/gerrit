@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
@@ -52,6 +53,25 @@ public class GroupMembers {
     this.projectCache = projectCache;
   }
 
+  /**
+   * Recursively enumerate the members of the given group. Should not be used with the
+   * PROJECT_OWNERS magical group.
+   */
+  public Set<Account> listAccounts(AccountGroup.UUID groupUUID) throws IOException {
+    if (SystemGroupBackend.PROJECT_OWNERS.equals(groupUUID)) {
+      throw new IllegalStateException("listAccounts called with PROJECT_OWNERS argument");
+    }
+    try {
+      return listAccounts(groupUUID, null, new HashSet<AccountGroup.UUID>());
+    } catch (NoSuchProjectException e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
+  /**
+   * Recursively enumerate the members of the given group. The project should be specified so the
+   * PROJECT_OWNERS magical group can be expanded.
+   */
   public Set<Account> listAccounts(AccountGroup.UUID groupUUID, Project.NameKey project)
       throws NoSuchProjectException, IOException {
     return listAccounts(groupUUID, project, new HashSet<AccountGroup.UUID>());
@@ -59,7 +79,7 @@ public class GroupMembers {
 
   private Set<Account> listAccounts(
       final AccountGroup.UUID groupUUID,
-      final Project.NameKey project,
+      @Nullable final Project.NameKey project,
       final Set<AccountGroup.UUID> seen)
       throws NoSuchProjectException, IOException {
     if (SystemGroupBackend.PROJECT_OWNERS.equals(groupUUID)) {
@@ -94,7 +114,7 @@ public class GroupMembers {
   }
 
   private Set<Account> getGroupMembers(
-      InternalGroup group, Project.NameKey project, Set<AccountGroup.UUID> seen)
+      InternalGroup group, @Nullable Project.NameKey project, Set<AccountGroup.UUID> seen)
       throws NoSuchProjectException, IOException {
     seen.add(group.getGroupUUID());
     GroupControl groupControl = groupControlFactory.controlFor(new InternalGroupDescription(group));

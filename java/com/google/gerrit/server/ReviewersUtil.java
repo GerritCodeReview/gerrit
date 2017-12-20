@@ -18,36 +18,41 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.common.GroupBaseInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.QueryOptions;
+import com.google.gerrit.index.query.FieldBundle;
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountLoader;
-import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.SuggestReviewers;
+import com.google.gerrit.server.index.account.AccountField;
+import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.account.AccountPredicates;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
-import com.google.gerrit.server.query.account.AccountQueryProcessor;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -108,30 +113,36 @@ public class ReviewersUtil {
 
   private final AccountLoader accountLoader;
   private final AccountQueryBuilder accountQueryBuilder;
-  private final Provider<AccountQueryProcessor> queryProvider;
   private final GroupBackend groupBackend;
   private final GroupMembers groupMembers;
   private final ReviewerRecommender reviewerRecommender;
   private final Metrics metrics;
+  private final AccountIndexCollection accountIndexes;
+  private final IndexConfig indexConfig;
+  private final AccountControl.Factory accountControlFactory;
 
   @Inject
   ReviewersUtil(
       AccountLoader.Factory accountLoaderFactory,
       AccountQueryBuilder accountQueryBuilder,
-      Provider<AccountQueryProcessor> queryProvider,
       GroupBackend groupBackend,
       GroupMembers groupMembers,
       ReviewerRecommender reviewerRecommender,
-      Metrics metrics) {
+      Metrics metrics,
+      AccountIndexCollection accountIndexes,
+      IndexConfig indexConfig,
+      AccountControl.Factory accountControlFactory) {
     Set<FillOptions> fillOptions = EnumSet.of(FillOptions.SECONDARY_EMAILS);
     fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
     this.accountLoader = accountLoaderFactory.create(fillOptions);
     this.accountQueryBuilder = accountQueryBuilder;
-    this.queryProvider = queryProvider;
     this.groupBackend = groupBackend;
     this.groupMembers = groupMembers;
     this.reviewerRecommender = reviewerRecommender;
     this.metrics = metrics;
+    this.accountIndexes = accountIndexes;
+    this.indexConfig = indexConfig;
+    this.accountControlFactory = accountControlFactory;
   }
 
   public interface VisibilityControl {
@@ -167,7 +178,9 @@ public class ReviewersUtil {
         if (filteredRecommendations.size() >= limit) {
           break;
         }
-        if (visibilityControl.isVisibleTo(reviewer)) {
+        // Check if change is visible to reviewer and if the current user can see reviewer
+        if (visibilityControl.isVisibleTo(reviewer)
+            && accountControlFactory.get().canSee(reviewer)) {
           filteredRecommendations.add(reviewer);
         }
       }
@@ -191,14 +204,27 @@ public class ReviewersUtil {
   private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers) throws OrmException {
     try (Timer0.Context ctx = metrics.queryAccountsLatency.start()) {
       try {
-        QueryResult<AccountState> result =
-            queryProvider
-                .get()
-                .setUserProvidedLimit(suggestReviewers.getLimit() * CANDIDATE_LIST_MULTIPLIER)
-                .query(
-                    AccountPredicates.andActive(
-                        accountQueryBuilder.defaultQuery(suggestReviewers.getQuery())));
-        return result.entities().stream().map(a -> a.getAccount().getId()).collect(toList());
+        // For performance reasons we don't use AccountQueryProvider as it would always load the
+        // complete account from the cache (or worse from NoteDb) even though we only need the ID
+        // which we can directly get from the returned results.
+        ResultSet<FieldBundle> result =
+            accountIndexes
+                .getSearchIndex()
+                .getSource(
+                    Predicate.and(
+                        AccountPredicates.isActive(),
+                        accountQueryBuilder.defaultQuery(suggestReviewers.getQuery())),
+                    QueryOptions.create(
+                        indexConfig,
+                        0,
+                        suggestReviewers.getLimit() * CANDIDATE_LIST_MULTIPLIER,
+                        ImmutableSet.of(AccountField.ID.getName())))
+                .readRaw();
+        return result
+            .toList()
+            .stream()
+            .map(f -> new Account.Id(f.getValue(AccountField.ID).intValue()))
+            .collect(toList());
       } catch (QueryParseException e) {
         return ImmutableList.of();
       }

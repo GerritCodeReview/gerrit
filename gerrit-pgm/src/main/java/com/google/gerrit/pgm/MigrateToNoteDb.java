@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.IndexModule;
+import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -149,7 +150,12 @@ public class MigrateToNoteDb extends SiteProgram {
     // their server is offline.
     List<String> reindexArgs =
         ImmutableList.of(
-            "--site-path", getSitePath().toString(), "--threads", Integer.toString(threads));
+            "--site-path",
+            getSitePath().toString(),
+            "--threads",
+            Integer.toString(threads),
+            "--index",
+            ChangeSchemaDefinitions.NAME);
     System.out.println("Migration complete, reindexing changes with:");
     System.out.println("  reindex " + reindexArgs.stream().collect(joining(" ")));
     Reindex reindexPgm = new Reindex();

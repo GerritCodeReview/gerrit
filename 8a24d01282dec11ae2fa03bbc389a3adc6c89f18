@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "176ba022_e8a4e718",
+        "filename": "java/com/google/gerrit/server/query/change/ParentProjectPredicate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-20T08:21:34Z",
+      "side": 1,
+      "message": "this is now unused.  removed in  https://gerrit-review.googlesource.com/#/c/gerrit/+/149150",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 41,
+        "endChar": 33
+      },
+      "revId": "8a24d01282dec11ae2fa03bbc389a3adc6c89f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -17,7 +17,7 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.change.TestSubmitRule;
+import com.google.gerrit.server.restapi.change.TestSubmitRule;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.inject.Inject;
 

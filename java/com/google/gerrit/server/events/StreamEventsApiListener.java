@@ -31,11 +31,13 @@ import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HashtagsEditedListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
+import com.google.gerrit.extensions.events.PrivateStateChangedListener;
 import com.google.gerrit.extensions.events.ReviewerAddedListener;
 import com.google.gerrit.extensions.events.ReviewerDeletedListener;
 import com.google.gerrit.extensions.events.RevisionCreatedListener;
 import com.google.gerrit.extensions.events.TopicEditedListener;
 import com.google.gerrit.extensions.events.VoteDeletedListener;
+import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
@@ -76,6 +78,8 @@ public class StreamEventsApiListener
         ChangeAbandonedListener,
         ChangeMergedListener,
         ChangeRestoredListener,
+        WorkInProgressStateChangedListener,
+        PrivateStateChangedListener,
         CommentAddedListener,
         GitReferenceUpdatedListener,
         HashtagsEditedListener,
@@ -99,11 +103,15 @@ public class StreamEventsApiListener
           .to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), HashtagsEditedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), NewProjectCreatedListener.class).to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), PrivateStateChangedListener.class)
+          .to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), ReviewerAddedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), ReviewerDeletedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), RevisionCreatedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), TopicEditedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), VoteDeletedListener.class).to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), WorkInProgressStateChangedListener.class)
+          .to(StreamEventsApiListener.class);
     }
   }
 
@@ -454,6 +462,36 @@ public class StreamEventsApiListener
       event.abandoner = accountAttributeSupplier(ev.getWho());
       event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
       event.reason = ev.getReason();
+
+      dispatcher.get().postEvent(change, event);
+    } catch (OrmException | PermissionBackendException e) {
+      log.error("Failed to dispatch event", e);
+    }
+  }
+
+  @Override
+  public void onWorkInProgressStateChanged(WorkInProgressStateChangedListener.Event ev) {
+    try {
+      Change change = getChange(ev.getChange());
+      WorkInProgressStateChangedEvent event = new WorkInProgressStateChangedEvent(change);
+
+      event.change = changeAttributeSupplier(change);
+      event.changer = accountAttributeSupplier(ev.getWho());
+
+      dispatcher.get().postEvent(change, event);
+    } catch (OrmException | PermissionBackendException e) {
+      log.error("Failed to dispatch event", e);
+    }
+  }
+
+  @Override
+  public void onPrivateStateChanged(PrivateStateChangedListener.Event ev) {
+    try {
+      Change change = getChange(ev.getChange());
+      PrivateStateChangedEvent event = new PrivateStateChangedEvent(change);
+
+      event.change = changeAttributeSupplier(change);
+      event.changer = accountAttributeSupplier(ev.getWho());
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException | PermissionBackendException e) {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f44d4cd_23fcf390",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-20T23:14:56Z",
+      "side": 1,
+      "message": "How would the change\u0027s status get transitioned if it\u0027s been deleted?\n\nI\u0027m assuming deleted means it\u0027s not in the database any more.\n\nDoes this rather mean that any subsequent changes in the query would not be correctly updated?",
+      "range": {
+        "startLine": 11,
+        "startChar": 58,
+        "endLine": 12,
+        "endChar": 23
+      },
+      "revId": "d8102d8f880f72394e404b9808283d51012005aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

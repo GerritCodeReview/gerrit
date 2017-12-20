@@ -60,13 +60,9 @@ import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Access control management for a user accessing a project's data. */
 class ProjectControl {
-  private static final Logger log = LoggerFactory.getLogger(ProjectControl.class);
-
   static class GenericFactory {
     private final ProjectCache projectCache;
 

@@ -1291,6 +1291,28 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(newPs3.getCreatedOn()).isGreaterThan(ps1.getCreatedOn());
   }
 
+  @Test
+  public void ignoreNoteDbStateWithNoCorrespondingRefWhenWritesAndReadsDisabled() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getChange().getId();
+    ReviewDb db = getUnwrappedDb();
+    Change c = db.changes().get(id);
+    c.setNoteDbState("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+    db.changes().update(Collections.singleton(c));
+    c = db.changes().get(id);
+
+    String refName = RefNames.changeMetaRef(id);
+    assertThat(getMetaRef(project, refName)).isNull();
+
+    ChangeNotes notes = notesFactory.create(dbProvider.get(), project, id);
+    assertThat(notes.getChange().getRowVersion()).isEqualTo(c.getRowVersion());
+
+    notes = notesFactory.createChecked(dbProvider.get(), project, id);
+    assertThat(notes.getChange().getRowVersion()).isEqualTo(c.getRowVersion());
+
+    assertThat(getMetaRef(project, refName)).isNull();
+  }
+
   private void assertChangesReadOnly(RestApiException e) throws Exception {
     Throwable cause = e.getCause();
     assertThat(cause).isInstanceOf(UpdateException.class);

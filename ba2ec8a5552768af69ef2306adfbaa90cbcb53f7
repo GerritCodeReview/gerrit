@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "499f14fe_57dc007a",
+        "filename": "Documentation/pg-plugin-dev.txt",
+        "patchSetId": 35
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-20T17:57:10Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8114f8d3_60d329aa",
+      "range": {
+        "startLine": 227,
+        "startChar": 8,
+        "endLine": 227,
+        "endChar": 15
+      },
+      "revId": "ba2ec8a5552768af69ef2306adfbaa90cbcb53f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d7c9b3e6_5ff5024b",
         "filename": "Documentation/pg-plugin-repo-api.txt",
         "patchSetId": 35
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a688fbc4_b672372a",
+        "filename": "Documentation/pg-plugin-repo-api.txt",
+        "patchSetId": 35
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-20T17:57:10Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d7c9b3e6_5ff5024b",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 28,
+        "endChar": 11
+      },
+      "revId": "ba2ec8a5552768af69ef2306adfbaa90cbcb53f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f78aaea8_cb64f21d",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 35
@@ -59,6 +107,30 @@
       "writtenOn": "2017-12-20T17:50:18Z",
       "side": 1,
       "message": "Looks like we\u0027ve missed a few on this page.",
+      "range": {
+        "startLine": 42,
+        "startChar": 33,
+        "endLine": 42,
+        "endChar": 46
+      },
+      "revId": "ba2ec8a5552768af69ef2306adfbaa90cbcb53f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c53a97f2_d4c96d27",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 35
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-20T17:57:10Z",
+      "side": 1,
+      "message": "That\u0027s from the rest api so we carn\u0027t change that yet. Once it\u0027s changed on the backend we can change it here.",
+      "parentUuid": "f78aaea8_cb64f21d",
       "range": {
         "startLine": 42,
         "startChar": 33,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92619e7d_34927c3c",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-20T04:00:30Z",
+      "side": 0,
+      "message": "Is this intentionally changed?  Same in other places below.  It looks like a find/replace gone wrong?",
+      "range": {
+        "startLine": 726,
+        "startChar": 26,
+        "endLine": 726,
+        "endChar": 31
+      },
+      "revId": "8a24d01282dec11ae2fa03bbc389a3adc6c89f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

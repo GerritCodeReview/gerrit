@@ -518,5 +518,49 @@ limitations under the License.
         });
       });
     });
+
+    suite('settingsScreen', () => {
+      test('plugin.settingsScreen is deprecated', () => {
+        plugin.settingsScreen('rubbish');
+        assert.isTrue(console.error.called);
+      });
+
+      test('plugin.settings() returns GrSettingsApi', () => {
+        assert.isOk(plugin.settings());
+        assert.isTrue(plugin.settings() instanceof GrSettingsApi);
+      });
+
+      test('plugin.deprecated.settingsScreen() works', () => {
+        const hookStub = {onAttached: sandbox.stub()};
+        sandbox.stub(plugin, 'hook').returns(hookStub);
+        const fakeSettings = {};
+        fakeSettings.title = sandbox.stub().returns(fakeSettings);
+        fakeSettings.token = sandbox.stub().returns(fakeSettings);
+        fakeSettings.module = sandbox.stub().returns(fakeSettings);
+        fakeSettings.build = sandbox.stub().returns(hookStub);
+        sandbox.stub(plugin, 'settings').returns(fakeSettings);
+        const callback = sandbox.stub();
+
+        plugin.deprecated.settingsScreen('path', 'menu', callback);
+        assert.isTrue(fakeSettings.title.calledWith('menu'));
+        assert.isTrue(fakeSettings.token.calledWith('path'));
+        assert.isTrue(fakeSettings.module.calledWith('div'));
+        assert.equal(fakeSettings.build.callCount, 1);
+
+        const fakeBody = {};
+        const fakeEl = {
+          style: {
+            display: '',
+          },
+          querySelector: sandbox.stub().returns(fakeBody),
+        };
+        // Emulate settings screen attached
+        hookStub.onAttached.callArgWith(0, fakeEl);
+        assert.isTrue(callback.called);
+        const args = callback.args[0][0];
+        assert.strictEqual(args.body, fakeBody);
+        assert.equal(fakeEl.style.display, 'none');
+      });
+    });
   });
 </script>

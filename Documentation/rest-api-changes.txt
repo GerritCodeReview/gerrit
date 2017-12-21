@@ -5381,11 +5381,12 @@ request:
 
 [[change-id]]
 === \{change-id\}
-Identifier that uniquely identifies one change.
+Identifier that uniquely identifies one change. It contains the URL-encoded
+project name as well as the change number: "'$$<project>~<numericId>$$'"
 
-This can be:
+Gerrit still supports the following deprecated identifiers. These will be
+removed in a future release:
 
-* an ID of the change in the format "'$$<project>~<numericId>$$'"
 * an ID of the change in the format "'$$<project>~<branch>~<Change-Id>$$'",
   where for the branch the `refs/heads/` prefix can be omitted
   ("$$myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940$$")

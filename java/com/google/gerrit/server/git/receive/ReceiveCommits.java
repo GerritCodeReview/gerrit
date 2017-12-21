@@ -2950,7 +2950,11 @@ class ReceiveCommits {
       throws OrmException {
     Map<Change.Key, ChangeNotes> r = new HashMap<>();
     for (ChangeData cd : queryProvider.get().byBranchOpen(branch)) {
-      r.put(cd.change().getKey(), cd.notes());
+      try {
+        r.put(cd.change().getKey(), cd.notes());
+      } catch (NoSuchChangeException e) {
+        //Ignore deleted change
+      }
     }
     return r;
   }

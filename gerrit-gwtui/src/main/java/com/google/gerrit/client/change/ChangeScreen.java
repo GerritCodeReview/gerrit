@@ -26,6 +26,7 @@ import com.google.gerrit.client.api.ExtensionPanel;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.changes.CommentInfo;
+import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.changes.RevisionInfoCache;
 import com.google.gerrit.client.changes.StarredChanges;
 import com.google.gerrit.client.changes.Util;
@@ -282,11 +283,44 @@ public class ChangeScreen extends Screen {
   @Override
   protected void onLoad() {
     super.onLoad();
+    loadChangeScreen();
+  }
+
+  private void loadChangeScreen() {
+    if (project == null) {
+      // Load the project if it is not already present. This is the case when the user used a URL
+      // that doesn't include the project. Setting it here will rewrite the URL token to include the
+      // project (visible to the user) and all future API calls made from the change screen will use
+      // project/+/changeId to identify the change.
+      String query = "change:" + changeId.get();
+      ChangeList.query(
+          query,
+          Collections.emptySet(),
+          new AsyncCallback<ChangeList>() {
+            @Override
+            public void onSuccess(ChangeList result) {
+              if (result.length() == 0) {
+                Gerrit.display(getToken(), new NotFoundScreen());
+              } else if (result.length() > 1) {
+                Gerrit.display(PageLinks.toChangeQuery(query), QueryScreen.forQuery(query));
+              } else {
+                // Initialize current screen with newly obtained project
+                project = result.get(0).projectNameKey();
+                loadChangeScreen();
+              }
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {}
+          });
+
+      return;
+    }
     CallbackGroup group = new CallbackGroup();
     if (Gerrit.isSignedIn()) {
       ChangeList.query(
           "change:" + changeId.get() + " has:draft",
-          Collections.<ListChangesOption>emptySet(),
+          Collections.emptySet(),
           group.add(
               new AsyncCallback<ChangeList>() {
                 @Override
@@ -318,15 +352,6 @@ public class ChangeScreen extends Screen {
               @Override
               public void onSuccess(ChangeInfo info) {
                 info.init();
-                if (project == null) {
-                  // Update Project when the first API call succeeded if it wasn't already present.
-                  // This is the case when the user used a URL that doesn't include the project.
-                  // Setting it here will rewrite the URL token to include the project (visible to
-                  // the user) and all future API calls made from the change screen will use
-                  // project/+/changeId to identify the change.
-                  project = info.projectNameKey();
-                }
-
                 initCurrentRevision(info);
                 final RevisionInfo rev = info.revision(revision);
                 CallbackGroup group = new CallbackGroup();

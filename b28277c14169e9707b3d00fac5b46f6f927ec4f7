@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "3232b7ad_ed8a965e",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-12-21T23:40:19Z",
+      "side": 1,
+      "message": "I think Kasper means allowAnyInput, not allowAnyUser. If so, then I agree, either reply dialog should take allowAnyInput into account, or we should not fire the event here when it\u0027s false. (I lean toward the former if practical).",
+      "parentUuid": "07a93d46_2ef74d52",
+      "revId": "b28277c14169e9707b3d00fac5b46f6f927ec4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a709b49e_43571332",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 1

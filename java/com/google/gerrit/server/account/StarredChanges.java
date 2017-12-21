@@ -72,7 +72,7 @@ public class StarredChanges
 
   @Override
   public AccountResource.StarredChange parse(AccountResource parent, IdString id)
-      throws ResourceNotFoundException, OrmException, PermissionBackendException {
+      throws RestApiException, OrmException, PermissionBackendException {
     IdentifiedUser user = parent.getUser();
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
     if (starredChangesUtil
@@ -103,7 +103,7 @@ public class StarredChanges
 
   @Override
   public RestModifyView<AccountResource, EmptyInput> create(AccountResource parent, IdString id)
-      throws UnprocessableEntityException {
+      throws RestApiException {
     try {
       return createProvider.get().setChange(changes.parse(TopLevelResource.INSTANCE, id));
     } catch (ResourceNotFoundException e) {

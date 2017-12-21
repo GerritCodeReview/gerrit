@@ -16,6 +16,24 @@
       "revId": "54e19d305def4b9d1969248e0c2a93d457176411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69751ef6_033d326d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-21T07:44:06Z",
+      "side": 1,
+      "message": "Oh, maybe it prevents loading the stored_only fields?\nIf yes, we rather want to exclude them for all account queries, except the ones from the staleness checker?",
+      "parentUuid": "ca989a0b_fb6e9d32",
+      "revId": "54e19d305def4b9d1969248e0c2a93d457176411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

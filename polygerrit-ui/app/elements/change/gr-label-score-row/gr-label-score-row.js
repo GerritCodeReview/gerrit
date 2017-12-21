@@ -62,7 +62,7 @@
     },
 
     _computeBlankItems(permittedLabels, label, side) {
-      if (!permittedLabels || !permittedLabels[label] ||
+      if (!permittedLabels || !permittedLabels[label] || !this.labelValues ||
           !Object.keys(this.labelValues).length) {
         return [];
       }

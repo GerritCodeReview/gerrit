@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff10dcc9_06526ed4",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1343,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-21T18:32:10Z",
+      "side": 0,
+      "message": "These were failing in CI because I\u0027m guessing somehow it was running with a small window, and we have no way of specifying viewport size. Ideally in our new integration tests, we can test things like this. I\u0027m not sure how to fix it in this case, and feel it\u0027s more important to include this change.",
+      "range": {
+        "startLine": 1342,
+        "startChar": 7,
+        "endLine": 1343,
+        "endChar": 58
+      },
+      "revId": "8255929a7d4a0fee65d1e5b36be32e1eb7391f52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

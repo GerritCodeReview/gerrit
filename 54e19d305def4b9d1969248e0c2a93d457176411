@@ -34,6 +34,24 @@
       "revId": "54e19d305def4b9d1969248e0c2a93d457176411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "333c7177_f7512123",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-12-21T07:45:35Z",
+      "side": 1,
+      "message": "Yikes. You are correct. It doesn\u0027t make a difference for the fact that LuceneAccountIndex#fromDocument always uses the loading cache to load the complete account state irrespective of what was specified. In the case of only requesting the ID, that step (and the potential hop to NoteDb if the entity is not cached) should be skipped completely.",
+      "parentUuid": "ca989a0b_fb6e9d32",
+      "revId": "54e19d305def4b9d1969248e0c2a93d457176411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

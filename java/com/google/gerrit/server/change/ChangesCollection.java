@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.DeprecatedIdentifierException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -81,8 +82,9 @@ public class ChangesCollection
 
   @Override
   public ChangeResource parse(TopLevelResource root, IdString id)
-      throws ResourceNotFoundException, OrmException, PermissionBackendException {
-    List<ChangeNotes> notes = changeFinder.find(id.encoded());
+      throws ResourceNotFoundException, OrmException, PermissionBackendException,
+          DeprecatedIdentifierException {
+    List<ChangeNotes> notes = changeFinder.find(id.encoded(), true);
     if (notes.isEmpty()) {
       throw new ResourceNotFoundException(id);
     } else if (notes.size() != 1) {

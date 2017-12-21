@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
+import com.google.gerrit.extensions.restapi.DeprecatedIdentifierException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -72,7 +73,8 @@ public class StarredChanges
 
   @Override
   public AccountResource.StarredChange parse(AccountResource parent, IdString id)
-      throws ResourceNotFoundException, OrmException, PermissionBackendException {
+      throws ResourceNotFoundException, OrmException, PermissionBackendException,
+          DeprecatedIdentifierException {
     IdentifiedUser user = parent.getUser();
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
     if (starredChangesUtil
@@ -103,7 +105,7 @@ public class StarredChanges
 
   @Override
   public RestModifyView<AccountResource, EmptyInput> create(AccountResource parent, IdString id)
-      throws UnprocessableEntityException {
+      throws UnprocessableEntityException, DeprecatedIdentifierException {
     try {
       return createProvider.get().setChange(changes.parse(TopLevelResource.INSTANCE, id));
     } catch (ResourceNotFoundException e) {

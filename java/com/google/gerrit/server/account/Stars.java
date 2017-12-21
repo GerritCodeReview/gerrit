@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
+import com.google.gerrit.extensions.restapi.DeprecatedIdentifierException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -66,7 +67,8 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
 
   @Override
   public Star parse(AccountResource parent, IdString id)
-      throws ResourceNotFoundException, OrmException, PermissionBackendException {
+      throws ResourceNotFoundException, OrmException, PermissionBackendException,
+          DeprecatedIdentifierException {
     IdentifiedUser user = parent.getUser();
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
     Set<String> labels = starredChangesUtil.getLabels(user.getAccountId(), change.getId());

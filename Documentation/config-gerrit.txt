@@ -1133,6 +1133,16 @@ deleted or published.
 +
 Default is true.
 
+[[change.api.allowedIdentifiers]]change.api.allowedIdentifiers::
++
+Lists all change identifiers that are allowed on the API. See
+link:rest-api-changes.html#change-id[Change Id] for more information.
++
+Possible values are TRIPLET, NUMERIC_ID, I_HASH, PROJECT_NUMERIC_ID
+and COMMIT_HASH or any combination of those as a string list.
++
+Default is to allow all change identifiers.
+
 [[change.cacheAutomerge]]change.cacheAutomerge::
 +
 When reviewing diff commits, the left-hand side shows the output of the

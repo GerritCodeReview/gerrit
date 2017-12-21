@@ -47,8 +47,8 @@ limitations under the License.
             _account_id: 12,
           },
         };
-        assert.deepEqual(
-            element._getNameForMember(account.member, false), 'test-user');
+        assert.equal(element._getNameForMember(account.member, false),
+            'test-user');
 
         account = {
           member: {
@@ -56,8 +56,14 @@ limitations under the License.
             _account_id: 12,
           },
         };
-        assert.deepEqual(
-            element._getNameForMember(account.member), 'test-name');
+        assert.equal(element._getNameForMember(account.member), 'test-name');
+
+        account = {
+          user: {
+            email: 'test-email@gmail.com',
+          },
+        };
+        assert.equal(element._getNameForMember(account.user), 'test-email');
       });
     });
 
@@ -69,8 +75,7 @@ limitations under the License.
             _account_id: 12,
           },
         };
-        assert.deepEqual(
-            element._getNameForUser(account.user), 'test-user (12)');
+        assert.equal(element._getNameForUser(account.user), 'test-user (12)');
 
         account = {
           user: {
@@ -78,8 +83,15 @@ limitations under the License.
             _account_id: 12,
           },
         };
-        assert.deepEqual(
-            element._getNameForUser(account.user), 'test-name (12)');
+        assert.equal(element._getNameForUser(account.user), 'test-name (12)');
+
+        account = {
+          user: {
+            email: 'test-email@gmail.com',
+            _account_id: 12,
+          },
+        };
+        assert.equal(element._getNameForUser(account.user), 'test-email (12)');
       });
 
       test('test _account_id not present', () => {
@@ -88,14 +100,21 @@ limitations under the License.
             username: 'test-user',
           },
         };
-        assert.deepEqual(element._getNameForUser(account.user), 'test-user');
+        assert.equal(element._getNameForUser(account.user), 'test-user');
 
         account = {
           user: {
             name: 'test-name',
           },
         };
-        assert.deepEqual(element._getNameForUser(account.user), 'test-name');
+        assert.equal(element._getNameForUser(account.user), 'test-name');
+
+        account = {
+          user: {
+            email: 'test-email@gmail.com',
+          },
+        };
+        assert.equal(element._getNameForUser(account.user), 'test-email');
       });
     });
   });

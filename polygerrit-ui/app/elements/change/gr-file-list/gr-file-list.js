@@ -819,6 +819,12 @@
      * @param {!Array} record The splice record in the expanded paths list.
      */
     _expandedPathsChanged(record) {
+      // Clear content for any diffs that are not open so if they get re-opened
+      // the stale content does not flash before it is cleared and reloaded.
+      const collapsedDiffs = this.diffs.filter(diff =>
+          this._expandedFilePaths.indexOf(diff.path) === -1);
+      this._clearCollapsedDiffs(collapsedDiffs);
+
       if (!record) { return; }
 
       this.filesExpanded = this._computeExpandedFiles(
@@ -841,6 +847,12 @@
       this._renderInOrder(newPaths, this.diffs, newPaths.length, timerName);
       this._updateDiffCursor();
       this.$.diffCursor.handleDiffUpdate();
+    },
+
+    _clearCollapsedDiffs(collapsedDiffs) {
+      for (const diff of collapsedDiffs) {
+        diff.clearDiffContent();
+      }
     },
 
     /**

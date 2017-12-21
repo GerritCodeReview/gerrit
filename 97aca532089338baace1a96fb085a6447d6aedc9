@@ -17,6 +17,24 @@
       "revId": "97aca532089338baace1a96fb085a6447d6aedc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6be81c16_9753e8e6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-21T15:15:14Z",
+      "side": 1,
+      "message": "Ack, not necessary to fix at the moment, account creation doesn\u0027t happen so often that this will swamp the index.",
+      "parentUuid": "6c006a9f_f1eeb964",
+      "revId": "97aca532089338baace1a96fb085a6447d6aedc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

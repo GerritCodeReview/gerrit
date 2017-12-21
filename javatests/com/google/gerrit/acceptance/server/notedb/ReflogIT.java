@@ -51,7 +51,7 @@ public class ReflogIT extends AbstractDaemonTest {
       gApi.changes().id(id.get()).topic("foo");
       ReflogEntry last = repo.getReflogReader(changeMetaRef(id)).getLastEntry();
       assertThat(last).named("last RefLogEntry").isNotNull();
-      assertThat(last.getComment()).isEqualTo("change.PutTopic");
+      assertThat(last.getComment()).isEqualTo("restapi.change.PutTopic");
     }
   }
 }

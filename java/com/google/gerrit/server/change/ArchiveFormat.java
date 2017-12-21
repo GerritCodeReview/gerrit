@@ -48,15 +48,15 @@ public enum ArchiveFormat {
     return name().toLowerCase();
   }
 
-  String getMimeType() {
+  public String getMimeType() {
     return mimeType;
   }
 
-  String getDefaultSuffix() {
+  public String getDefaultSuffix() {
     return getSuffixes().iterator().next();
   }
 
-  Iterable<String> getSuffixes() {
+  public Iterable<String> getSuffixes() {
     return format.suffixes();
   }
 

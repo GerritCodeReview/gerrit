@@ -37,9 +37,9 @@ public interface AccountPatchReviewStore {
   /** Represents patch set id with reviewed files. */
   @AutoValue
   abstract class PatchSetWithReviewedFiles {
-    abstract PatchSet.Id patchSetId();
+    public abstract PatchSet.Id patchSetId();
 
-    abstract ImmutableSet<String> files();
+    public abstract ImmutableSet<String> files();
 
     public static PatchSetWithReviewedFiles create(PatchSet.Id id, ImmutableSet<String> files) {
       return new AutoValue_AccountPatchReviewStore_PatchSetWithReviewedFiles(id, files);

@@ -62,8 +62,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 /** Access control management for a user accessing a project's data. */
-class ProjectControl {
-  static class GenericFactory {
+public class ProjectControl {
+  public static class GenericFactory {
     private final ProjectCache projectCache;
 
     @Inject
@@ -71,7 +71,7 @@ class ProjectControl {
       projectCache = pc;
     }
 
-    ProjectControl controlFor(Project.NameKey nameKey, CurrentUser user)
+    public ProjectControl controlFor(Project.NameKey nameKey, CurrentUser user)
         throws NoSuchProjectException, IOException {
       final ProjectState p = projectCache.checkedGet(nameKey);
       if (p == null) {
@@ -151,7 +151,7 @@ class ProjectControl {
     return controlForRef(ref.get());
   }
 
-  RefControl controlForRef(String refName) {
+  public RefControl controlForRef(String refName) {
     if (refControls == null) {
       refControls = new HashMap<>();
     }

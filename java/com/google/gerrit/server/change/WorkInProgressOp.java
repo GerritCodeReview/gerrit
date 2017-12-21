@@ -38,9 +38,9 @@ import com.google.inject.assistedinject.Assisted;
 /* Set work in progress or ready for review state on a change */
 public class WorkInProgressOp implements BatchUpdateOp {
   public static class Input {
-    @Nullable String message;
+    @Nullable public String message;
 
-    @Nullable NotifyHandling notify;
+    @Nullable public NotifyHandling notify;
 
     public Input() {}
 

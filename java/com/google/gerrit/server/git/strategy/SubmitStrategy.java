@@ -33,7 +33,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.change.RebaseChangeOp;
-import com.google.gerrit.server.change.Submit.TestSubmitInput;
+import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;

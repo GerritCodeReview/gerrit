@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,19 +37,19 @@ public class CommentResource implements RestResource {
     return rev.getPatchSet();
   }
 
-  Comment getComment() {
+  public Comment getComment() {
     return comment;
   }
 
-  String getId() {
+  public String getId() {
     return comment.key.uuid;
   }
 
-  Account.Id getAuthorId() {
+  public Account.Id getAuthorId() {
     return comment.author.getId();
   }
 
-  RevisionResource getRevisionResource() {
+  public RevisionResource getRevisionResource() {
     return rev;
   }
 }

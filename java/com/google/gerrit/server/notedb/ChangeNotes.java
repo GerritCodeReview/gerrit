@@ -737,6 +737,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         if (state == null) {
           return super.openHandle(repo, id);
         } else if (shouldExist) {
+          // TODO(dborowitz): This means we have a state recorded in noteDbState but the ref doesn't
+          // exist for whatever reason. Doesn't this mean we should trigger an auto-rebuild, rather
+          // than throwing?
           throw new NoSuchChangeException(getChangeId());
         }
       }

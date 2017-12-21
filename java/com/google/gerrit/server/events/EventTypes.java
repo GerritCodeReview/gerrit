@@ -30,6 +30,7 @@ public class EventTypes {
     register(CommitReceivedEvent.TYPE, CommitReceivedEvent.class);
     register(HashtagsChangedEvent.TYPE, HashtagsChangedEvent.class);
     register(PatchSetCreatedEvent.TYPE, PatchSetCreatedEvent.class);
+    register(PrivateStateChangedEvent.TYPE, PrivateStateChangedEvent.class);
     register(ProjectCreatedEvent.TYPE, ProjectCreatedEvent.class);
     register(RefReceivedEvent.TYPE, RefReceivedEvent.class);
     register(RefUpdatedEvent.TYPE, RefUpdatedEvent.class);
@@ -37,6 +38,7 @@ public class EventTypes {
     register(ReviewerDeletedEvent.TYPE, ReviewerDeletedEvent.class);
     register(TopicChangedEvent.TYPE, TopicChangedEvent.class);
     register(VoteDeletedEvent.TYPE, VoteDeletedEvent.class);
+    register(WorkInProgressStateChangedEvent.TYPE, WorkInProgressStateChangedEvent.class);
   }
 
   /**

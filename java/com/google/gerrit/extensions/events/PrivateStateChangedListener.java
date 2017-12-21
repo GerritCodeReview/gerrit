@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.extensions.events;
 
-public class ChangeConfigInfo {
-  public Boolean allowBlame;
-  public Boolean showAssigneeInChangesTable;
-  public Boolean allowDrafts;
-  public int largeChange;
-  public String replyLabel;
-  public String replyTooltip;
-  public int updateDelay;
-  public Boolean submitWholeTopic;
+public interface PrivateStateChangedListener {
+  interface Event extends ChangeEvent {}
+
+  void onPrivateStateChanged(Event event);
 }

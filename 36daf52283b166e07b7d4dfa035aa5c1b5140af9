@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29776de0_a765b463",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5391,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-21T13:13:00Z",
+      "side": 1,
+      "message": "Maybe the deprecation hint should be also added in stable-2.15?",
+      "range": {
+        "startLine": 5390,
+        "startChar": 41,
+        "endLine": 5391,
+        "endChar": 66
+      },
+      "revId": "36daf52283b166e07b7d4dfa035aa5c1b5140af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

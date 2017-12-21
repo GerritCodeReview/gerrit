@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d2e5490_00e451c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-21T07:34:01Z",
+      "side": 1,
+      "message": "Due to an issue in Eclipse [1] this version of auto-value requires\nEclipse version 4.7.2 or later to work properly.\n\nThis also fixes a problem where generated code included an unused\nimport of java.util.Arrays [2].\n\n[1] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d526288\n[2] https://github.com/google/auto/issues/373",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "278400ecfc556104db6f17ad07741dc1ce6a170a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

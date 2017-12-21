@@ -143,6 +143,30 @@
       "revId": "518e0ecf4eb50d69cd7bf3d274aecc3dff7d9f1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74d67e4c_a3c56bcf",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-21T00:17:29Z",
+      "side": 1,
+      "message": "Meh, I guess it wouldn\u0027t make too much of a difference.\n\nI was coming at it from an optimization perspective, better to iterate over the array once than twice, but no biggie.",
+      "parentUuid": "209cc85e_12956af5",
+      "range": {
+        "startLine": 853,
+        "startChar": 0,
+        "endLine": 857,
+        "endChar": 6
+      },
+      "revId": "518e0ecf4eb50d69cd7bf3d274aecc3dff7d9f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1333,19 +1333,12 @@ limitations under the License.
     });
 
     suite('editLoaded behavior', () => {
-      const isVisible = el => {
-        assert.ok(el);
-        return getComputedStyle(el).getPropertyValue('display') !== 'none';
-      };
-
       test('reviewed checkbox', () => {
         const alertStub = sandbox.stub();
         const saveReviewStub = sandbox.stub(element, '_saveReviewedState');
 
         element.addEventListener('show-alert', alertStub);
         element.editLoaded = false;
-        // Reviewed checkbox should be shown.
-        assert.isTrue(isVisible(element.$$('.reviewed')));
         MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
         assert.isFalse(alertStub.called);
         assert.isTrue(saveReviewStub.calledOnce);
@@ -1353,7 +1346,6 @@ limitations under the License.
         element.editLoaded = true;
         flushAsynchronousOperations();
 
-        assert.isFalse(isVisible(element.$$('.reviewed')));
         MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
         assert.isTrue(alertStub.called);
         assert.isTrue(saveReviewStub.calledOnce);

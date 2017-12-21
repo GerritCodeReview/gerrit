@@ -31,7 +31,7 @@ import java.net.InetSocketAddress;
 
 /** Initialize the {@code sshd} configuration section. */
 @Singleton
-class InitSshd implements InitStep {
+public class InitSshd implements InitStep {
   private final ConsoleUI ui;
   private final SitePaths site;
   private final Section sshd;
@@ -73,7 +73,7 @@ class InitSshd implements InitStep {
     remover.remove("bc(pg|pkix|prov)-.*[.]jar");
   }
 
-  private static boolean isOff(String listenHostname) {
+  public static boolean isOff(String listenHostname) {
     return "off".equalsIgnoreCase(listenHostname)
         || "none".equalsIgnoreCase(listenHostname)
         || "no".equalsIgnoreCase(listenHostname);

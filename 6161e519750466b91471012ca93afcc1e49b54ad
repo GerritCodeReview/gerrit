@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76cb2426_701d2a1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-12-21T14:40:42Z",
+      "side": 1,
+      "message": "other\u0027s",
+      "range": {
+        "startLine": 11,
+        "startChar": 58,
+        "endLine": 11,
+        "endChar": 64
+      },
+      "revId": "6161e519750466b91471012ca93afcc1e49b54ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be5db85e_7a52101c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-12-21T14:40:42Z",
+      "side": 1,
+      "message": "I would he highly in favor of just moving them as well and updating the top-N plugins (N \u003c 10), eventually.",
+      "revId": "6161e519750466b91471012ca93afcc1e49b54ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -18,7 +18,7 @@ import com.google.gerrit.extensions.api.projects.ChildProjectApi;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.ChildProjectResource;
-import com.google.gerrit.server.project.GetChildProject;
+import com.google.gerrit.server.restapi.project.GetChildProject;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

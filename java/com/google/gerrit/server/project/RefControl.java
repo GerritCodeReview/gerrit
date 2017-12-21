@@ -45,7 +45,7 @@ import java.util.Map;
 import java.util.Set;
 
 /** Manages access control for Git references (aka branches, tags). */
-class RefControl {
+public class RefControl {
   private final ProjectControl projectControl;
   private final String refName;
 
@@ -377,7 +377,7 @@ class RefControl {
   }
 
   /** True if the user has this permission. Works only for non labels. */
-  boolean canPerform(String permissionName) {
+  public boolean canPerform(String permissionName) {
     return canPerform(permissionName, false);
   }
 

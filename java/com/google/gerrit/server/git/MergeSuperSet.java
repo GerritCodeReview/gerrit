@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -96,6 +95,10 @@ public class MergeSuperSet {
     this.permissionBackend = permissionBackend;
   }
 
+  public static boolean wholeTopicEnabled(Config config) {
+    return config.getBoolean("change", null, "submitWholeTopic", false);
+  }
+
   public MergeSuperSet setMergeOpRepoManager(MergeOpRepoManager orm) {
     checkState(this.orm == null);
     this.orm = checkNotNull(orm);
@@ -115,7 +118,7 @@ public class MergeSuperSet {
       ChangeSet changeSet =
           new ChangeSet(
               cd, permissionBackend.user(user).change(cd).database(db).test(ChangePermission.READ));
-      if (Submit.wholeTopicEnabled(cfg)) {
+      if (wholeTopicEnabled(cfg)) {
         return completeChangeSetIncludingTopics(db, changeSet, user);
       }
       return mergeSuperSetComputation.get().completeWithoutTopic(db, orm, changeSet, user);

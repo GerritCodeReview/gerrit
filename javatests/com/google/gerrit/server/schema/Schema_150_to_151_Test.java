@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.Id;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.group.CreateGroup;
+import com.google.gerrit.server.restapi.group.CreateGroup;
 import com.google.gerrit.testing.SchemaUpgradeTestEnvironment;
 import com.google.gerrit.testing.TestUpdateUI;
 import com.google.gwtorm.jdbc.JdbcSchema;

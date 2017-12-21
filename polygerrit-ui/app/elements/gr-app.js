@@ -36,7 +36,7 @@
 
     properties: {
       /**
-       * @type {{ query: string, view: string }}
+       * @type {{ query: string, view: string, screen: string }}
        */
       params: Object,
       keyEventTarget: {
@@ -72,6 +72,7 @@
       _showAdminView: Boolean,
       _showCLAView: Boolean,
       _showEditorView: Boolean,
+      _showPluginScreen: Boolean,
       /** @type {?} */
       _viewState: Object,
       /** @type {?} */
@@ -79,6 +80,10 @@
       _lastSearchPage: String,
       _path: String,
       _isShadowDom: Boolean,
+      _pluginScreenName: {
+        type: String,
+        computed: '_computePluginScreenName(params)',
+      },
     },
 
     listeners: {
@@ -160,6 +165,14 @@
           view === Gerrit.Nav.View.GROUP);
       this.set('_showCLAView', view === Gerrit.Nav.View.AGREEMENTS);
       this.set('_showEditorView', view === Gerrit.Nav.View.EDIT);
+      const isPluginScreen = view === Gerrit.Nav.View.PLUGIN_SCREEN;
+      this.set('_showPluginScreen', false);
+      // Navigation within plugin screens does not restamp gr-endpoint-decorator
+      // because _showPluginScreen value does not change. To force restamp,
+      // change _showPluginScreen value between true and false.
+      if (isPluginScreen) {
+        this.async(() => this.set('_showPluginScreen', true), 1);
+      }
       if (this.params.justRegistered) {
         this.$.registration.open();
       }
@@ -281,6 +294,10 @@
       if (status !== null) {
         Gerrit.Nav.navigateToStatusSearch(status);
       }
+    },
+
+    _computePluginScreenName({plugin, screen}) {
+      return Gerrit._getPluginScreenName(plugin, screen);
     },
   });
 })();

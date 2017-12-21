@@ -15,12 +15,12 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-
 <link rel="import" href="../../../behaviors/docs-url-behavior/docs-url-behavior.html">
-<link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/gr-menu-page-styles.html">
 <link rel="import" href="../../../styles/gr-page-nav-styles.html">
-<link rel="import" href="../../../styles/gr-form-styles.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../settings/gr-change-table-editor/gr-change-table-editor.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
@@ -79,6 +79,8 @@ limitations under the License.
             </li>
           </template>
           <li><a href="#MailFilters">Mail Filters</a></li>
+          <gr-endpoint-decorator name="settings-menu-item">
+          </gr-endpoint-decorator>
         </ul>
       </gr-page-nav>
       <main class="gr-form-styles">
@@ -480,6 +482,8 @@ limitations under the License.
             </tbody>
           </table>
         </fieldset>
+        <gr-endpoint-decorator name="settings-screen">
+        </gr-endpoint-decorator>
       </main>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

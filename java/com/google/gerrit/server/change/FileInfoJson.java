@@ -41,24 +41,25 @@ public class FileInfoJson {
     this.patchListCache = patchListCache;
   }
 
-  Map<String, FileInfo> toFileInfoMap(Change change, PatchSet patchSet)
+  public Map<String, FileInfo> toFileInfoMap(Change change, PatchSet patchSet)
       throws PatchListNotAvailableException {
     return toFileInfoMap(change, patchSet.getRevision(), null);
   }
 
-  Map<String, FileInfo> toFileInfoMap(Change change, RevId revision, @Nullable PatchSet base)
+  public Map<String, FileInfo> toFileInfoMap(Change change, RevId revision, @Nullable PatchSet base)
       throws PatchListNotAvailableException {
     ObjectId objectId = ObjectId.fromString(revision.get());
     return toFileInfoMap(change, objectId, base);
   }
 
-  Map<String, FileInfo> toFileInfoMap(Change change, ObjectId objectId, @Nullable PatchSet base)
+  public Map<String, FileInfo> toFileInfoMap(
+      Change change, ObjectId objectId, @Nullable PatchSet base)
       throws PatchListNotAvailableException {
     ObjectId a = (base == null) ? null : ObjectId.fromString(base.getRevision().get());
     return toFileInfoMap(change, PatchListKey.againstCommit(a, objectId, Whitespace.IGNORE_NONE));
   }
 
-  Map<String, FileInfo> toFileInfoMap(Change change, RevId revision, int parent)
+  public Map<String, FileInfo> toFileInfoMap(Change change, RevId revision, int parent)
       throws PatchListNotAvailableException {
     ObjectId b = ObjectId.fromString(revision.get());
     return toFileInfoMap(

@@ -137,7 +137,6 @@ import com.google.gerrit.server.git.validators.RefOperationValidationListener;
 import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.git.validators.UploadValidationListener;
 import com.google.gerrit.server.git.validators.UploadValidators;
-import com.google.gerrit.server.group.GroupModule;
 import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.ListMailFilter;
@@ -176,6 +175,7 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.query.change.ConflictsCacheImpl;
 import com.google.gerrit.server.restapi.config.ConfigRestModule;
+import com.google.gerrit.server.restapi.group.GroupModule;
 import com.google.gerrit.server.rules.PrologModule;
 import com.google.gerrit.server.rules.RulesCache;
 import com.google.gerrit.server.ssh.SshAddressesModule;
@@ -305,12 +305,13 @@ public class GerritGlobalModule extends FactoryModule {
 
     install(new AuditModule());
     bind(UiActions.class);
-    install(new com.google.gerrit.server.access.Module());
-    install(new com.google.gerrit.server.account.Module());
-    install(new com.google.gerrit.server.change.Module());
+    install(new com.google.gerrit.server.restapi.access.Module());
     install(new ConfigRestModule());
+    install(new com.google.gerrit.server.restapi.change.Module());
     install(new com.google.gerrit.server.group.Module(groupsMigration));
-    install(new com.google.gerrit.server.project.Module());
+    install(new com.google.gerrit.server.restapi.account.Module());
+    install(new com.google.gerrit.server.restapi.project.Module());
+    install(new com.google.gerrit.server.restapi.group.Module());
 
     bind(GitReferenceUpdated.class);
     DynamicMap.mapOf(binder(), new TypeLiteral<Cache<?, ?>>() {});

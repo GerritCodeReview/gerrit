@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d19cfbeb_98e7d113",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-12-21T15:36:37Z",
+      "side": 1,
+      "message": "Maybe add a note that you should commit the change that does this? Otherwise the git version embedded in the war will be reported as dirty.",
+      "revId": "9e56a2b316a58ac8ca3324119c32fe647159798c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

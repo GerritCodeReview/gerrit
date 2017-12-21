@@ -83,11 +83,7 @@
     _getNameForUser(account) {
       const accountId = account._account_id ? ' (' +
         account._account_id + ')' : '';
-      if (account && account.username) {
-        return account.username + accountId;
-      } else if (account && account.name) {
-        return account.name + accountId;
-      }
+      return this._getNameForMember(account) + accountId;
     },
 
     _getNameForMember(account) {
@@ -95,6 +91,8 @@
         return account.name;
       } else if (account && account.username) {
         return account.username;
+      } else if (account && account.email) {
+        return account.email.split('@')[0];
       }
     },
   });

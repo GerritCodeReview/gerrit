@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d059f79f_e8e9723b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-21T22:46:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e9e7017_d2d9c445",
+      "revId": "0ecf64e59fbd295d45a0ca4d66aa1f7b4467104a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a8d448c_3cb70b97",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "0ecf64e59fbd295d45a0ca4d66aa1f7b4467104a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b98de035_19c1878d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-21T22:46:29Z",
+      "side": 1,
+      "message": "I chatted with @logan about this yesterday, and he thought the reason may be partially due to privacy concerns (not having a full email address) so thought we would keep this the same as before.",
+      "parentUuid": "6a8d448c_3cb70b97",
+      "revId": "0ecf64e59fbd295d45a0ca4d66aa1f7b4467104a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

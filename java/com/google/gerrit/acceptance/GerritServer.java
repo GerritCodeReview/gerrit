@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
+import com.google.gerrit.pgm.init.InitSshd;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.ssh.NoSshModule;
@@ -376,7 +377,10 @@ public class GerritServer implements AutoCloseable {
     String url = "http://" + forceEphemeralPort + "/";
     cfg.setString("gerrit", null, "canonicalWebUrl", url);
     cfg.setString("httpd", null, "listenUrl", url);
-    cfg.setString("sshd", null, "listenAddress", forceEphemeralPort);
+
+    if (cfg.getString("sshd", null, "listenAddress") == null) {
+      cfg.setString("sshd", null, "listenAddress", forceEphemeralPort);
+    }
     cfg.setBoolean("sshd", null, "testUseInsecureRandom", true);
     cfg.unset("cache", null, "directory");
     cfg.setString("gerrit", null, "basePath", "git");
@@ -452,7 +456,10 @@ public class GerritServer implements AutoCloseable {
     url = cfg.getString("gerrit", null, "canonicalWebUrl");
     URI uri = URI.create(url);
 
-    sshdAddress = SocketUtil.resolve(cfg.getString("sshd", null, "listenAddress"), 0);
+    String addr = cfg.getString("sshd", null, "listenAddress");
+    if (!InitSshd.isOff(addr)) {
+      sshdAddress = SocketUtil.resolve(cfg.getString("sshd", null, "listenAddress"), 0);
+    }
     httpAddress = new InetSocketAddress(uri.getHost(), uri.getPort());
   }
 

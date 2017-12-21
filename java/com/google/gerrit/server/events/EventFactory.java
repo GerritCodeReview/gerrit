@@ -158,6 +158,8 @@ public class EventFactory {
     a.assignee = asAccountAttribute(change.getAssignee());
     a.status = change.getStatus();
     a.createdOn = change.getCreatedOn().getTime() / 1000L;
+    a.wip = change.isWorkInProgress() ? true : null;
+    a.isPrivate = change.isPrivate() ? true : null;
     return a;
   }
 

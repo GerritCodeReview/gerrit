@@ -145,7 +145,12 @@ public class MigrateToNoteDb extends SiteProgram {
     // their server is offline.
     List<String> reindexArgs =
         ImmutableList.of(
-            "--site-path", getSitePath().toString(), "--threads", Integer.toString(threads));
+            "--site-path",
+            getSitePath().toString(),
+            "--threads",
+            Integer.toString(threads),
+            "--index",
+            ChangeSchemaDefinitions.NAME);
     System.out.println("Migration complete, reindexing changes with:");
     System.out.println("  reindex " + reindexArgs.stream().collect(joining(" ")));
     Reindex reindexPgm = new Reindex();

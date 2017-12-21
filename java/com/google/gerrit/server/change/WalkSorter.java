@@ -62,7 +62,7 @@ import org.slf4j.LoggerFactory;
  * timestamp, as it will not unexpectedly reorder large groups of changes on subsequent calls if one
  * of the changes was updated.
  */
-class WalkSorter {
+public class WalkSorter {
   private static final Logger log = LoggerFactory.getLogger(WalkSorter.class);
 
   private static final Ordering<List<PatchSetData>> PROJECT_LIST_SORTER =
@@ -254,13 +254,13 @@ class WalkSorter {
   }
 
   @AutoValue
-  abstract static class PatchSetData {
+  public abstract static class PatchSetData {
     @VisibleForTesting
     static PatchSetData create(ChangeData cd, PatchSet ps, RevCommit commit) {
       return new AutoValue_WalkSorter_PatchSetData(cd, ps, commit);
     }
 
-    abstract ChangeData data();
+    public abstract ChangeData data();
 
     abstract PatchSet patchSet();
 

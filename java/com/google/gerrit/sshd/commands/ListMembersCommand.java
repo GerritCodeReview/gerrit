@@ -24,8 +24,8 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.group.ListMembers;
 import com.google.gerrit.server.ioutil.ColumnFormatter;
+import com.google.gerrit.server.restapi.group.ListMembers;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Optional;
 import org.kohsuke.args4j.Argument;
 
-/** Implements a command that allows the user to see the members of a group. */
+/** Implements a command that allows the user to see the members of a account. */
 @CommandMetaData(
   name = "ls-members",
   description = "List the members of a given group",

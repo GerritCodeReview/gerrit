@@ -18,12 +18,12 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.server.change.AllowedFormats;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.project.CommitsCollection;
+import com.google.gerrit.server.restapi.change.AllowedFormats;
+import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.inject.Inject;
 import java.io.IOException;

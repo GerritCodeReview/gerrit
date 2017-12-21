@@ -33,5 +33,6 @@ java_library(
     srcs = SUBMIT_UTIL_SRCS,
     deps = [
         "//java/com/google/gerrit/acceptance:lib",
+        "//java/com/google/gerrit/server/restapi",
     ],
 )

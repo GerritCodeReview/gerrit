@@ -1361,7 +1361,7 @@ public class ChangeJson {
     return out;
   }
 
-  CommitInfo toCommit(
+  public CommitInfo toCommit(
       Project.NameKey project, RevWalk rw, RevCommit commit, boolean addLinks, boolean fillCommit)
       throws IOException {
     CommitInfo info = new CommitInfo();

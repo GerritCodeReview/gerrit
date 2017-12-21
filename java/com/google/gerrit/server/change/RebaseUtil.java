@@ -78,7 +78,7 @@ public class RebaseUtil {
   }
 
   @AutoValue
-  abstract static class Base {
+  public abstract static class Base {
     private static Base create(ChangeNotes notes, PatchSet ps) {
       if (notes == null) {
         return null;
@@ -86,12 +86,12 @@ public class RebaseUtil {
       return new AutoValue_RebaseUtil_Base(notes, ps);
     }
 
-    abstract ChangeNotes notes();
+    public abstract ChangeNotes notes();
 
-    abstract PatchSet patchSet();
+    public abstract PatchSet patchSet();
   }
 
-  Base parseBase(RevisionResource rsrc, String base) throws OrmException {
+  public Base parseBase(RevisionResource rsrc, String base) throws OrmException {
     ReviewDb db = dbProvider.get();
 
     // Try parsing the base as a ref string.
@@ -152,7 +152,7 @@ public class RebaseUtil {
    * @throws IOException if accessing the repository fails.
    * @throws OrmException if accessing the database fails.
    */
-  ObjectId findBaseRevision(
+  public ObjectId findBaseRevision(
       PatchSet patchSet, Branch.NameKey destBranch, Repository git, RevWalk rw)
       throws RestApiException, IOException, OrmException {
     String baseRev = null;

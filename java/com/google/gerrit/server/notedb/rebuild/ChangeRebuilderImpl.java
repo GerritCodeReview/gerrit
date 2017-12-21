@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb.rebuild;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
@@ -228,9 +229,16 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       throw new NoSuchChangeException(changeId);
     }
 
-    final String oldNoteDbState = change.getNoteDbState();
+    String oldNoteDbStateStr = change.getNoteDbState();
     Result r = manager.stageAndApplyDelta(change);
-    final String newNoteDbState = change.getNoteDbState();
+    String newNoteDbStateStr = change.getNoteDbState();
+    if (newNoteDbStateStr == null) {
+      throw new OrmException(
+          "Rebuilding change %s produced no writes to NoteDb: "
+              + bundleReader.fromReviewDb(db, changeId));
+    }
+    NoteDbChangeState newNoteDbState =
+        checkNotNull(NoteDbChangeState.parse(changeId, newNoteDbStateStr));
     try {
       db.changes()
           .atomicUpdate(
@@ -241,15 +249,15 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
                   if (checkReadOnly) {
                     NoteDbChangeState.checkNotReadOnly(change, skewMs);
                   }
-                  String currNoteDbState = change.getNoteDbState();
-                  if (Objects.equals(currNoteDbState, newNoteDbState)) {
+                  String currNoteDbStateStr = change.getNoteDbState();
+                  if (Objects.equals(currNoteDbStateStr, newNoteDbStateStr)) {
                     // Another thread completed the same rebuild we were about to.
                     throw new AbortUpdateException();
-                  } else if (!Objects.equals(oldNoteDbState, currNoteDbState)) {
+                  } else if (!Objects.equals(oldNoteDbStateStr, currNoteDbStateStr)) {
                     // Another thread updated the state to something else.
-                    throw new ConflictingUpdateRuntimeException(change, oldNoteDbState);
+                    throw new ConflictingUpdateRuntimeException(change, oldNoteDbStateStr);
                   }
-                  change.setNoteDbState(newNoteDbState);
+                  change.setNoteDbState(newNoteDbStateStr);
                   return change;
                 }
               });
@@ -259,10 +267,9 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       // rebuild had executed before the other thread.
       throw new ConflictingUpdateException(e);
     } catch (AbortUpdateException e) {
-      if (NoteDbChangeState.parse(changeId, newNoteDbState)
-          .isUpToDate(
-              manager.getChangeRepo().cmds.getRepoRefCache(),
-              manager.getAllUsersRepo().cmds.getRepoRefCache())) {
+      if (newNoteDbState.isUpToDate(
+          manager.getChangeRepo().cmds.getRepoRefCache(),
+          manager.getAllUsersRepo().cmds.getRepoRefCache())) {
         // If the state in ReviewDb matches NoteDb at this point, it means another thread
         // successfully completed this rebuild. It's ok to not execute the update in this case,
         // since the object referenced in the Result was flushed to the repo by whatever thread won

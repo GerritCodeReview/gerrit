@@ -147,7 +147,10 @@ public abstract class AbstractChangeNotes<T> {
       throw new OrmException("NoteDb is required to read change " + changeId);
     }
     boolean readOrWrite = read || args.migration.rawWriteChangesSetting();
-    if (!readOrWrite && !autoRebuild) {
+    if (!readOrWrite) {
+      // Don't even open the repo if we neither write to nor read from NoteDb. It's possible that
+      // there is some garbage in the noteDbState field and/or the repo, but at this point NoteDb is
+      // completely off so it's none of our business.
       loadDefaults();
       return self();
     }

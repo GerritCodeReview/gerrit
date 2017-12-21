@@ -45,6 +45,12 @@ status:: Current state of this change.
 
   ABANDONED;; Change was abandoned by its owner or administrator.
 
+private:: Boolean indicating if the change is
+link:intro-user.html#private-changes[private].
+
+wip:: Boolean indicating if the change is
+link:intro-user.html#wip[work in progress].
+
 comments:: All inline/file comments for this change in <<message,message attributes>>.
 
 trackingIds:: Issue tracking system links in

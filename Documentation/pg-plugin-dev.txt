@@ -311,6 +311,21 @@ screen.
 .Returns:
 - Absolute URL for the screen, e.g. `http://localhost/base/x/pluginname/screenname`
 
+[[plugin-settings]]
+=== settings
+`plugin.settings()`
+
+.Params:
+- none
+
+.Returns:
+- Instance of link:pg-plugin-settings-api.html[GrSettingsApi].
+
+=== settingsScreen
+`plugin.settingsScreen(path, menu, callback)`
+
+Deprecated. Use link:#plugin-settings[`plugin.settings()`] instead.
+
 === theme
 `plugin.theme()`
 
@@ -373,6 +388,19 @@ Support is limited:
  * CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK
 
 See link:js-api.html#self_panel[self.panel] for more info.
+
+=== settingsScreen
+`plugin.deprecated.settingsScreent(path, menu, callback)`
+
+.Params:
+- `*string* path` URL path fragment of the screen for direct link.
+- `*string* menu` Menu item title.
+- `*function(settingsScreenContext)* callback`
+
+Adds a settings menu item and a section in the settings screen that is provided
+to plugin for setup.
+
+See link:js-api.html#self_settingsScreen[self.settingsScreen] for more info.
 
 [[deprecated-action-context]]
 === Action Context (deprecated)

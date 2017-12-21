@@ -23,7 +23,7 @@
    */
   const plugins = {};
 
-  const stubbedMethods = ['_loadedGwt', 'settingsScreen'];
+  const stubbedMethods = ['_loadedGwt'];
   const GWT_PLUGIN_STUB = {};
   for (const name of stubbedMethods) {
     GWT_PLUGIN_STUB[name] = warnNotSupported.bind(null, name);
@@ -118,6 +118,7 @@
       panel: deprecatedAPI.panel.bind(this),
       popup: deprecatedAPI.popup.bind(this),
       screen: deprecatedAPI.screen.bind(this),
+      settingsScreen: deprecatedAPI.settingsScreen.bind(this),
     };
 
     this._url = new URL(opt_url);
@@ -228,6 +229,10 @@
     return new GrRepoApi(this);
   };
 
+  Plugin.prototype.settings = function() {
+    return new GrSettingsApi(this);
+  };
+
   /**
    * To make REST requests for plugin-provided endpoints, use
    * @example
@@ -258,6 +263,11 @@
   Plugin.prototype.panel = function() {
     console.error('.panel() is deprecated! ' +
         'Use registerCustomComponent() instead.');
+  };
+
+  Plugin.prototype.settingsScreen = function() {
+    console.error('.settingsScreen() is deprecated! ' +
+        'Use .settings() instead.');
   };
 
   Plugin.prototype.screen = function(screenName, opt_moduleName) {
@@ -331,6 +341,28 @@
               },
             });
           });
+    },
+
+    settingsScreen(path, menu, callback) {
+      console.warn('.settingsScreen() is deprecated! Use .settings() instead.');
+      const hook = this.settings()
+          .title(menu)
+          .token(path)
+          .module('div')
+          .build();
+      hook.onAttached(el => {
+        el.style.display = 'none';
+        const body = el.querySelector('div');
+        callback({
+          body,
+          onUnload: () => {},
+          setTitle: () => {},
+          setWindowTitle: () => {},
+          show: () => {
+            el.style.display = 'initial';
+          },
+        });
+      });
     },
 
     panel(extensionpoint, callback) {

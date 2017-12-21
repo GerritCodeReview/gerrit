@@ -91,6 +91,7 @@ import java.util.function.Predicate;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.PackInserter;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -748,9 +749,12 @@ public class NoteDbMigrator implements AutoCloseable {
   }
 
   private static ObjectInserter newPackInserter(Repository repo) {
-    return repo instanceof FileRepository
-        ? ((FileRepository) repo).getObjectDatabase().newPackInserter()
-        : repo.newObjectInserter();
+    if (!(repo instanceof FileRepository)) {
+      return repo.newObjectInserter();
+    }
+    PackInserter ins = ((FileRepository) repo).getObjectDatabase().newPackInserter();
+    ins.checkExisting(false);
+    return ins;
   }
 
   private boolean rebuildProject(

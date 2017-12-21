@@ -1165,12 +1165,14 @@ As result a link:#project-access-info[ProjectAccessInfo] entity is returned.
 
   {
     "remove": [
-      "refs/*": {
-        "permissions": {
-          "read": {
-            "rules": {
-              "c2ce4749a32ceb82cd6adcce65b8216e12afb41c": {
-                "action": "ALLOW"
+      {
+        "refs/*": {
+          "permissions": {
+            "read": {
+              "rules": {
+                "c2ce4749a32ceb82cd6adcce65b8216e12afb41c": {
+                  "action": "ALLOW"
+                }
               }
             }
           }

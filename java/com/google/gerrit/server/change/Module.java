@@ -177,6 +177,7 @@ public class Module extends RestApiModule {
     factory(ReviewerResource.Factory.class);
     factory(SetAssigneeOp.Factory.class);
     factory(SetHashtagsOp.Factory.class);
+    factory(SetPrivateOp.Factory.class);
     factory(WorkInProgressOp.Factory.class);
   }
 }

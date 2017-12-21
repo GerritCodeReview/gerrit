@@ -102,7 +102,7 @@ limitations under the License.
 
     test('getPlugins', () => {
       assert.deepEqual(
-          instance.getPlugins('a-place'), [pluginFoo._url, pluginBar._url]);
+          instance.getPlugins('a-place'), [pluginFoo._url]);
     });
 
     test('onNewEndpoint', () => {
@@ -117,6 +117,27 @@ limitations under the License.
         type: 'replace',
         domHook,
       });
+    });
+
+    test('reuse dom hooks', () => {
+      instance.registerModule(
+          pluginFoo, 'a-place', 'decorate', 'foo-module', domHook);
+      assert.deepEqual(instance.getDetails('a-place'), [
+        {
+          moduleName: 'foo-module',
+          plugin: pluginFoo,
+          pluginUrl: pluginFoo._url,
+          type: 'decorate',
+          domHook,
+        },
+        {
+          moduleName: 'bar-module',
+          plugin: pluginBar,
+          pluginUrl: pluginBar._url,
+          type: 'style',
+          domHook,
+        },
+      ]);
     });
   });
 </script>

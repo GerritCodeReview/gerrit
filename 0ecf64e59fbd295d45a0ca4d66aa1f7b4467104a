@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e9e7017_d2d9c445",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-21T19:04:00Z",
+      "side": 1,
+      "message": "Period at the end of the sentence.",
+      "revId": "0ecf64e59fbd295d45a0ca4d66aa1f7b4467104a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a8d448c_3cb70b97",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-21T19:04:00Z",
+      "side": 1,
+      "message": "We may want to leave in the whole email. I know GWT doesn\u0027t, but I don\u0027t really think that\u0027s proper. Thoughts?",
+      "revId": "0ecf64e59fbd295d45a0ca4d66aa1f7b4467104a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -42,6 +42,13 @@ that get saved to the `.project` file, for example adding Resource
 Filters on a folder, they will be overwritten the next time you run
 `tools/eclipse/project.py`.
 
+=== Eclipse project with custom plugins ===
+
+To add custom plugins to the eclipse project add them to `tools/bzl/plugins.bzl`
+the same way you would when
+link:dev-build-plugins.html#_bundle_custom_plugin_in_release_war[bundling in release.war]
+and run `tools/eclipse/project.py`.
+
 
 [[Formatting]]
 == Code Formatter Settings

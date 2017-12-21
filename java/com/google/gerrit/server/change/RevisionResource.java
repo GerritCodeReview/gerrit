@@ -84,21 +84,22 @@ public class RevisionResource implements RestResource, HasETag {
     return h.hash().toString();
   }
 
-  void prepareETag(Hasher h, CurrentUser user) {
+  public void prepareETag(Hasher h, CurrentUser user) {
     // Conservative estimate: refresh the revision if its parent change has changed, so we don't
     // have to check whether a given modification affected this revision specifically.
     change.prepareETag(h, user);
   }
 
-  Account.Id getAccountId() {
+  public Account.Id getAccountId() {
     return getUser().getAccountId();
   }
 
-  CurrentUser getUser() {
+  public CurrentUser getUser() {
     return getChangeResource().getUser();
   }
 
-  RevisionResource doNotCache() {
+  public RevisionResource doNotCache() {
+    // TODO(hanwen): return a copy so cacheable can be final.
     cacheable = false;
     return this;
   }

@@ -12,41 +12,42 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.restapi.config;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.config.CapabilityResource;
+import com.google.gerrit.server.config.ConfigResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class ConfigCollection implements RestCollection<TopLevelResource, ConfigResource> {
-  private final DynamicMap<RestView<ConfigResource>> views;
+public class CapabilitiesCollection implements ChildCollection<ConfigResource, CapabilityResource> {
+  private final DynamicMap<RestView<CapabilityResource>> views;
+  private final ListCapabilities list;
 
   @Inject
-  ConfigCollection(DynamicMap<RestView<ConfigResource>> views) {
+  CapabilitiesCollection(DynamicMap<RestView<CapabilityResource>> views, ListCapabilities list) {
     this.views = views;
+    this.list = list;
   }
 
   @Override
-  public RestView<TopLevelResource> list() throws ResourceNotFoundException {
-    throw new ResourceNotFoundException();
+  public RestView<ConfigResource> list() throws ResourceNotFoundException {
+    return list;
   }
 
   @Override
-  public DynamicMap<RestView<ConfigResource>> views() {
-    return views;
-  }
-
-  @Override
-  public ConfigResource parse(TopLevelResource root, IdString id) throws ResourceNotFoundException {
-    if (id.get().equals("server")) {
-      return new ConfigResource();
-    }
+  public CapabilityResource parse(ConfigResource parent, IdString id)
+      throws ResourceNotFoundException {
     throw new ResourceNotFoundException(id);
+  }
+
+  @Override
+  public DynamicMap<RestView<CapabilityResource>> views() {
+    return views;
   }
 }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b3e2308_31c45d3a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-21T00:08:55Z",
+      "side": 1,
+      "message": "Strict equality.",
+      "range": {
+        "startLine": 825,
+        "startChar": 58,
+        "endLine": 825,
+        "endChar": 60
+      },
+      "revId": "518e0ecf4eb50d69cd7bf3d274aecc3dff7d9f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "726f480d_fe11b33a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-21T00:08:55Z",
+      "side": 1,
+      "message": "You can remove the brackets and the return statement here.",
+      "range": {
+        "startLine": 824,
+        "startChar": 29,
+        "endLine": 826,
+        "endChar": 9
+      },
+      "revId": "518e0ecf4eb50d69cd7bf3d274aecc3dff7d9f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "356b905d_4a3b13af",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-21T00:08:55Z",
+      "side": 1,
+      "message": "Maybe instead of filtering the array, and then iterating over that array, we could do this all in one loop.\n\n\n    _clearCollapsedDiffs(diffs) {\n      for (const diff of diffs) {\n        if (!this._expandedFilePaths.includes(diff.path)) {\n          diff.clearDiffContent();\n        }\n      }\n    },\n\n\n...and then we can just call this function on #822 with `this.diffs`.",
+      "range": {
+        "startLine": 853,
+        "startChar": 0,
+        "endLine": 857,
+        "endChar": 6
+      },
+      "revId": "518e0ecf4eb50d69cd7bf3d274aecc3dff7d9f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

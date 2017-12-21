@@ -166,9 +166,7 @@ name as in the parent.
 [[label_layout]]
 === Layout
 
-Labels are laid out in the order they are specified in project.config,
-with inherited labels appearing first, providing some layout control to
-the administrator.
+Labels are laid out in alphabetical order.
 
 [[label_name]]
 === `label.Label-Name`

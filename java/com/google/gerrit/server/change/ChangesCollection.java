@@ -81,8 +81,8 @@ public class ChangesCollection
 
   @Override
   public ChangeResource parse(TopLevelResource root, IdString id)
-      throws ResourceNotFoundException, OrmException, PermissionBackendException {
-    List<ChangeNotes> notes = changeFinder.find(id.encoded());
+      throws RestApiException, OrmException, PermissionBackendException {
+    List<ChangeNotes> notes = changeFinder.find(id.encoded(), true);
     if (notes.isEmpty()) {
       throw new ResourceNotFoundException(id);
     } else if (notes.size() != 1) {

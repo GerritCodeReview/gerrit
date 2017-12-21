@@ -95,6 +95,38 @@ def external_plugin_deps():
   )
 ----
 
+=== Bundle custom plugin in release.war ===
+
+To bundle custom plugin(s) in the link:dev-bazel.html#release[release.war] artifact,
+add them to the CUSTOM_PLUGINS list in `tools/bzl/plugins.bzl`.
+
+Example of `tools/bzl/plugins.bzl` with custom plugin `my-plugin`:
+
+----
+CORE_PLUGINS = [
+    "commit-message-length-validator",
+    "download-commands",
+    "hooks",
+    "replication",
+    "reviewnotes",
+    "singleusergroup",
+]
+
+CUSTOM_PLUGINS = [
+    "my-plugin",
+]
+
+CUSTOM_PLUGINS_TEST_DEPS = [
+    # Add custom core plugins with tests deps here
+]
+----
+
+[NOTE]
+Since `tools/bzl/plugins.bzl` is part of Gerrit's source code and the version
+of the war is based on the state of the git repository that is built; you should
+commit this change before building, otherwise the version will be marked as
+'dirty'.
+
 == Bazel standalone driven
 
 Only few plugins support that mode for now:

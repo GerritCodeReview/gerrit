@@ -24,6 +24,7 @@ import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_NO_
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY;
 import static com.google.gerrit.server.notedb.NotesMigrationState.WRITE;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.joining;
@@ -73,21 +74,7 @@ import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
+
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
@@ -103,6 +90,23 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /** One stop shop for migrating a site's change storage from ReviewDb to NoteDb. */
 public class NoteDbMigrator implements AutoCloseable {
@@ -748,9 +752,18 @@ public class NoteDbMigrator implements AutoCloseable {
   }
 
   private static ObjectInserter newPackInserter(Repository repo) {
-    return repo instanceof FileRepository
-        ? ((FileRepository) repo).getObjectDatabase().newPackInserter()
-        : repo.newObjectInserter();
+    if (!(repo instanceof FileRepository)) {
+      return repo.newObjectInserter();
+    }
+    ObjectInserter ins = ((FileRepository) repo).getObjectDatabase().newPackInserter();
+    try {
+      Method m = ins.getClass().getMethod("checkExisting", boolean.class);
+      m.setAccessible(true);
+      m.invoke(ins, false);
+    } catch (Exception e) {
+      throw new IllegalStateException(e);
+    }
+    return ins;
   }
 
   private boolean rebuildProject(

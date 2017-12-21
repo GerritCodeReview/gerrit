@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6dc44169_85d383aa",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-12-21T07:34:00Z",
+      "side": 1,
+      "message": "This is stale. Bazel@HEAD fully supports Java 9.",
+      "range": {
+        "startLine": 14,
+        "startChar": 58,
+        "endLine": 16,
+        "endChar": 16
+      },
+      "revId": "211a5909031858a56c127c5bc98ee03bfefe154a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9db63d8f_756fbd5b",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-12-21T07:34:00Z",
+      "side": 1,
+      "message": "This command is now stale and shoud reflect jdk9 toolchaned name on Bazel@HEAD.",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 51
+      },
+      "revId": "211a5909031858a56c127c5bc98ee03bfefe154a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79b7d74d_e50916d8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1136,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-21T12:09:07Z",
+      "side": 1,
+      "message": "Although it ends up as a list of strings when reading the config in the code, IIRC each one has to be listed separately in the config file, so it might be better to make this singular i.e.\n\n [change \"api\"]\n    allowedIdentifier \u003d TRIPLET\n    allowedIdentifier \u003d I_HASH\n    ...",
+      "range": {
+        "startLine": 1136,
+        "startChar": 44,
+        "endLine": 1136,
+        "endChar": 62
+      },
+      "revId": "c9f8b7980e44aecb15488a5771da9895bb900a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81a66146_439cd751",
+        "filename": "java/com/google/gerrit/extensions/restapi/DeprecatedIdentifierException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-21T12:09:07Z",
+      "side": 1,
+      "message": "2017",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "c9f8b7980e44aecb15488a5771da9895bb900a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71658cac_9bb691f7",
+        "filename": "java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-21T12:09:07Z",
+      "side": 1,
+      "message": "Use ConfigUtil.getEnumList?",
+      "range": {
+        "startLine": 109,
+        "startChar": 4,
+        "endLine": 116,
+        "endChar": 0
+      },
+      "revId": "c9f8b7980e44aecb15488a5771da9895bb900a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0644e45_a8c0c714",
+        "filename": "java/com/google/gerrit/server/account/StarredChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-21T12:09:07Z",
+      "side": 1,
+      "message": "Optional: Fold ResourceNotFound and the new one into RestApiException",
+      "revId": "c9f8b7980e44aecb15488a5771da9895bb900a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17bd9c35_a0b22829",
+        "filename": "java/com/google/gerrit/server/account/StarredChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-12-21T12:09:07Z",
+      "side": 1,
+      "message": "Same here and in other places in the other files.",
+      "revId": "c9f8b7980e44aecb15488a5771da9895bb900a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

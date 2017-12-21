@@ -16,6 +16,24 @@
       "revId": "9e56a2b316a58ac8ca3324119c32fe647159798c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e515e287_e991b3c8",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-12-21T17:16:00Z",
+      "side": 1,
+      "message": "I thought that goes without saying, but you\u0027re right, it probably doesn\u0027t...\nDone",
+      "parentUuid": "d19cfbeb_98e7d113",
+      "revId": "9e56a2b316a58ac8ca3324119c32fe647159798c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

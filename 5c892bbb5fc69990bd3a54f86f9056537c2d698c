@@ -22,6 +22,30 @@
       "revId": "5c892bbb5fc69990bd3a54f86f9056537c2d698c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2af4a465_ca9aeb9a",
+        "filename": "Documentation/pg-plugin-dev.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-12-22T17:01:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e196f144_3243ee0b",
+      "range": {
+        "startLine": 223,
+        "startChar": 0,
+        "endLine": 223,
+        "endChar": 59
+      },
+      "revId": "5c892bbb5fc69990bd3a54f86f9056537c2d698c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

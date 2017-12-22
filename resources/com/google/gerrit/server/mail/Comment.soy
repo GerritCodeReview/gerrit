@@ -38,18 +38,18 @@
     {\n}
   {/if}
 
-  {foreach $group in $commentFiles}
+  {for $group in $commentFiles}
     {$group.link}{\n}
     {$group.title}:{\n}
     {\n}
 
-    {foreach $comment in $group.comments}
+    {for $comment in $group.comments}
       {if $comment.isRobotComment}
         Robot Comment from {$comment.robotId} (run ID {$comment.robotRunId}):
         {\n}
       {/if}
 
-      {foreach $line in $comment.lines}
+      {for $line in $comment.lines}
         {if isFirst($line)}
           {if $comment.startLine != 0}
             {$comment.link}
@@ -59,7 +59,7 @@
           {$comment.linePrefixEmpty}
         {/if}
         {$line}{\n}
-      {/foreach}
+      {/for}
       {if length($comment.lines) == 0}
         {$comment.linePrefix}{\n}
       {/if}
@@ -70,7 +70,7 @@
       {$comment.message}{\n}
       {\n}
       {\n}
-    {/foreach}
-  {/foreach}
+    {/for}
+  {/for}
   {\n}
 {/template}

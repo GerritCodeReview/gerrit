@@ -28,12 +28,12 @@
   <p>
     {if $email.reviewerNames}
       {$fromName} would like{sp}
-      {foreach $reviewerName in $email.reviewerNames}
+      {for $reviewerName in $email.reviewerNames}
         {if not isFirst($reviewerName)}
           {if isLast($reviewerName)}{sp}and{else},{/if}{sp}
         {/if}
         {$reviewerName}
-      {/foreach}{sp}
+      {/for}{sp}
       to <strong>review</strong> this change.
     {else}
       {$ownerName} has uploaded this change for <strong>review</strong>.

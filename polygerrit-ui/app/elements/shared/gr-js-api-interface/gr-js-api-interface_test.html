@@ -346,19 +346,15 @@ limitations under the License.
 
     test('installGwt calls _pluginInstalled', () => {
       sandbox.stub(Gerrit, '_pluginInstalled');
-      Gerrit.installGwt();
+      Gerrit.installGwt('http://test.com/plugins/testplugin/static/test.js');
       assert.isTrue(Gerrit._pluginInstalled.calledOnce);
     });
 
-    test('installGwt returns a stub object', () => {
-      const plugin = Gerrit.installGwt();
-      sandbox.stub(console, 'warn');
-      assert.isAbove(Object.keys(plugin).length, 0);
-      for (const name of Object.keys(plugin)) {
-        console.warn.reset();
-        plugin[name]();
-        assert.isTrue(console.warn.calledOnce);
-      }
+    test('installGwt returns a plugin', () => {
+      const plugin = Gerrit.installGwt(
+          'http://test.com/plugins/testplugin/static/test.js');
+      assert.isOk(plugin);
+      assert.isOk(plugin._loadedGwt);
     });
 
     test('attributeHelper', () => {
@@ -391,9 +387,8 @@ limitations under the License.
 
     suite('popup', () => {
       test('popup(element) is deprecated', () => {
-        assert.throws(() => {
-          plugin.popup(document.createElement('div'));
-        });
+        plugin.popup(document.createElement('div'));
+        assert.isTrue(console.error.calledOnce);
       });
 
       test('popup(moduleName) creates popup with component', () => {

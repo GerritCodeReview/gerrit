@@ -14,20 +14,10 @@
 (function(window) {
   'use strict';
 
-  const warnNotSupported = function(opt_name) {
-    console.warn('Plugin API method ' + (opt_name || '') + ' is not supported');
-  };
-
   /**
    * Hash of loaded and installed plugins, name to Plugin object.
    */
   const plugins = {};
-
-  const stubbedMethods = ['_loadedGwt'];
-  const GWT_PLUGIN_STUB = {};
-  for (const name of stubbedMethods) {
-    GWT_PLUGIN_STUB[name] = warnNotSupported.bind(null, name);
-  }
 
   const PANEL_ENDPOINTS_MAPPING = {
     CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK: 'change-view-integration',
@@ -113,6 +103,7 @@
       return;
     }
     this.deprecated = {
+      _loadedGwt: deprecatedAPI._loadedGwt.bind(this),
       install: deprecatedAPI.install.bind(this),
       onAction: deprecatedAPI.onAction.bind(this),
       panel: deprecatedAPI.panel.bind(this),
@@ -254,7 +245,8 @@
 
   Plugin.prototype.popup = function(moduleName) {
     if (typeof moduleName !== 'string') {
-      throw new Error('deprecated, use deprecated.popup');
+      console.error('.popup(element) deprecated, use .popup(moduleName)!');
+      return;
     }
     const api = new GrPopupInterface(this, moduleName);
     return api.open();
@@ -272,7 +264,9 @@
 
   Plugin.prototype.screen = function(screenName, opt_moduleName) {
     if (opt_moduleName && typeof opt_moduleName !== 'string') {
-      throw new Error('deprecated, use deprecated.screen');
+      console.error('.screen(pattern, callback) deprecated, use ' +
+          '.screen(screenName, opt_moduleName)!');
+      return;
     }
     return this.registerCustomComponent(
         Gerrit._getPluginScreenName(this.getPluginName(), screenName),
@@ -280,6 +274,8 @@
   };
 
   const deprecatedAPI = {
+    _loadedGwt: ()=> {},
+
     install() {
       console.log('Installing deprecated APIs is deprecated!');
       for (const method in this.deprecated) {
@@ -379,6 +375,7 @@
           CHANGE_INFO: el.change,
           REVISION_INFO: el.revision,
         },
+        onUnload: () => {},
       }));
     },
   };
@@ -481,13 +478,20 @@
   };
 
   /**
-   * Polyfill GWT API dependencies to avoid runtime exceptions when loading
-   * GWT-compiled plugins.
-   * @deprecated Not supported in PolyGerrit.
+   * Install "stepping stones" API for GWT-compiled plugins by default.
+   * @deprecated best effort support, will be removed with GWT UI.
    */
-  Gerrit.installGwt = function() {
+  Gerrit.installGwt = function(url) {
     Gerrit._pluginInstalled();
-    return GWT_PLUGIN_STUB;
+    const name = getPluginNameFromUrl(new URL(url));
+    let plugin;
+    try {
+      plugin = plugins[name] || new Plugin(url);
+      plugin.deprecated.install();
+    } catch (e) {
+      console.warn(`${name} install failed: ${e.name}: ${e.message}`);
+    }
+    return plugin;
   };
 
   Gerrit._allPluginsPromise = null;

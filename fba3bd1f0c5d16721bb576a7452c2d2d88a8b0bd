@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aabe70e_9f108665",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-22T20:07:38Z",
+      "side": 1,
+      "message": "- indentation is off\n- don\u0027t need braces or return",
+      "range": {
+        "startLine": 31,
+        "startChar": 58,
+        "endLine": 35,
+        "endChar": 5
+      },
+      "revId": "fba3bd1f0c5d16721bb576a7452c2d2d88a8b0bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

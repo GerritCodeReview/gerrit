@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e330d796_5b2e1ce1",
+        "filename": "java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-22T16:21:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e024f72a_10d3610d",
+      "range": {
+        "startLine": 187,
+        "startChar": 16,
+        "endLine": 187,
+        "endChar": 35
+      },
+      "revId": "1100e91961af2d7bb391821a96dd2e9cc749f112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b5e5bf72_e866d9f5",
         "filename": "java/com/google/gerrit/server/change/PostPrivate.java",
         "patchSetId": 4
@@ -95,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0f21c6de_7c9690cd",
+        "filename": "java/com/google/gerrit/server/change/PostPrivate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-22T16:21:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5e5bf72_e866d9f5",
+      "range": {
+        "startLine": 70,
+        "startChar": 16,
+        "endLine": 70,
+        "endChar": 35
+      },
+      "revId": "1100e91961af2d7bb391821a96dd2e9cc749f112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c17a12f2_3bae99d7",
         "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
         "patchSetId": 4
@@ -115,6 +163,30 @@
       "revId": "1100e91961af2d7bb391821a96dd2e9cc749f112",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6ca5a71_4fb9c302",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-22T16:21:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c17a12f2_3bae99d7",
+      "range": {
+        "startLine": 251,
+        "startChar": 33,
+        "endLine": 251,
+        "endChar": 98
+      },
+      "revId": "1100e91961af2d7bb391821a96dd2e9cc749f112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

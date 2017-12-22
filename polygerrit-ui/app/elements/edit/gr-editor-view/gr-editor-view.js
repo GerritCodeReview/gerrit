@@ -14,6 +14,10 @@
 (function() {
   'use strict';
 
+  const SAVING_MESSAGE = 'Saving changes...';
+  const SAVED_MESSAGE = 'All changes saved';
+  const SAVE_FAILED_MSG = 'Failed to save changes';
+
   Polymer({
     is: 'gr-editor-view',
 
@@ -21,6 +25,12 @@
      * Fired when the title of the page should change.
      *
      * @event title-change
+     */
+
+    /**
+     * Fired to notify the user of
+     *
+     * @event show-alert
      */
 
     properties: {
@@ -39,10 +49,14 @@
       _type: String,
       _content: String,
       _newContent: String,
+      _saving: {
+        type: Boolean,
+        value: false,
+      },
       _saveDisabled: {
         type: Boolean,
         value: true,
-        computed: '_computeSaveDisabled(_content, _newContent)',
+        computed: '_computeSaveDisabled(_content, _newContent, _saving)',
       },
       _prefs: Object,
     },
@@ -121,14 +135,24 @@
     },
 
     _saveEdit() {
+      this._saving = true;
+      this._showAlert(SAVING_MESSAGE);
       return this.$.restAPI.saveChangeEdit(this._changeNum, this._path,
           this._newContent).then(res => {
-            if (!res.ok) { return; }
-            this._viewEditInChangeView();
+            this._saving = false;
+            this._showAlert(res.ok ? SAVED_MESSAGE : SAVE_FAILED_MSG);
           });
     },
 
-    _computeSaveDisabled(content, newContent) {
+    _showAlert(message) {
+      this.dispatchEvent(new CustomEvent('show-alert', {
+        detail: {message},
+        bubbles: true,
+      }));
+    },
+
+    _computeSaveDisabled(content, newContent, saving) {
+      if (saving) { return true; }
       return content === newContent;
     },
 

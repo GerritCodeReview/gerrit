@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a85a2295_4ce63187",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-12-22T17:47:43Z",
+      "side": 1,
+      "message": "Should there be some kind of UI hint that saving is complete? Similar to the saving of a comment?",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 125,
+        "endChar": 28
+      },
+      "revId": "5aac79053b6b807070250071841e6b018cff9553",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

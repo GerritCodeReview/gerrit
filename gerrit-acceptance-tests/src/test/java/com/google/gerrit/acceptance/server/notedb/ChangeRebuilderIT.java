@@ -1313,6 +1313,36 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(getMetaRef(project, refName)).isNull();
   }
 
+  @Test
+  public void autoRebuildMissingRefWriteOnly() throws Exception {
+    setNotesMigration(true, false);
+    testAutoRebuildMissingRef();
+  }
+
+  @Test
+  public void autoRebuildMissingRefReadWrite() throws Exception {
+    setNotesMigration(true, true);
+    testAutoRebuildMissingRef();
+  }
+
+  private void testAutoRebuildMissingRef() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getChange().getId();
+
+    assertChangeUpToDate(true, id);
+    notesFactory.createChecked(db, project, id);
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      RefUpdate ru = repo.updateRef(RefNames.changeMetaRef(id));
+      ru.setForceUpdate(true);
+      assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
+    }
+    assertChangeUpToDate(false, id);
+
+    notesFactory.createChecked(db, project, id);
+    assertChangeUpToDate(true, id);
+  }
+
   private void assertChangesReadOnly(RestApiException e) throws Exception {
     Throwable cause = e.getCause();
     assertThat(cause).isInstanceOf(UpdateException.class);
@@ -1336,8 +1366,10 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
       Change c = getUnwrappedDb().changes().get(id);
       assertThat(c).isNotNull();
       assertThat(c.getNoteDbState()).isNotNull();
-      assertThat(NoteDbChangeState.parse(c).isChangeUpToDate(new RepoRefCache(repo)))
-          .isEqualTo(expected);
+      NoteDbChangeState state = NoteDbChangeState.parse(c);
+      assertThat(state).isNotNull();
+      assertThat(state.getPrimaryStorage()).isEqualTo(PrimaryStorage.REVIEW_DB);
+      assertThat(state.isChangeUpToDate(new RepoRefCache(repo))).isEqualTo(expected);
     }
   }
 

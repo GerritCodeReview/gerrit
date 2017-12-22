@@ -734,14 +734,22 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       NoteDbChangeState state = NoteDbChangeState.parse(change);
       ObjectId id = readRef(repo);
       if (id == null) {
+        // Meta ref doesn't exist in NoteDb.
+
         if (state == null) {
+          // Either ReviewDb change is being newly created, or it exists in ReviewDb but has not yet
+          // been rebuilt for the first time, e.g. because we just turned on write-only mode. In
+          // both cases, we don't want to auto-rebuild, just proceed with an empty ChangeNotes.
+          //
+          // (Note that we can't get here in full-NoteDb mode because the state in a
+          // newNoteDbOnlyChange is never null.)
           return super.openHandle(repo, id);
-        } else if (shouldExist) {
-          // TODO(dborowitz): This means we have a state recorded in noteDbState but the ref doesn't
-          // exist for whatever reason. Doesn't this mean we should trigger an auto-rebuild, rather
-          // than throwing?
+        } else if (shouldExist && state.getPrimaryStorage() == PrimaryStorage.NOTE_DB) {
           throw new NoSuchChangeException(getChangeId());
         }
+
+        // ReviewDb claims NoteDb state exists, but meta ref isn't present: fall through and
+        // auto-rebuild if necessary.
       }
       RefCache refs = this.refs != null ? this.refs : new RepoRefCache(repo);
       if (!NoteDbChangeState.isChangeUpToDate(state, refs, getChangeId())) {

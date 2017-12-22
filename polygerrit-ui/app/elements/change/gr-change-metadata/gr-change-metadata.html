@@ -313,17 +313,17 @@ limitations under the License.
             <div hidden$="[[!_isWip]]">
               Work in progress
             </div>
-            <div hidden$="[[!_showMissingLabels(change.labels)]]">
-              [[_computeMissingLabelsHeader(change.labels)]]
+            <div hidden$="[[!_showMissingLabels(missingLabels)]]">
+              [[_computeMissingLabelsHeader(missingLabels)]]
               <ul id="missingLabels">
                 <template
                     is="dom-repeat"
-                    items="[[_computeMissingLabels(change.labels)]]">
+                    items="[[missingLabels]]">
                   <li>[[item]]</li>
                 </template>
               </ul>
             </div>
-            <div hidden$="[[_showMissingRequirements(change.labels, _isWip)]]">
+            <div hidden$="[[_showMissingRequirements(missingLabels, _isWip)]]">
               Ready to submit
             </div>
           </span>

@@ -40,6 +40,7 @@
       /** @type {?} */
       revision: Object,
       commitInfo: Object,
+      missingLabels: Array,
       mutable: Boolean,
       /**
        * @type {{ note_db_enabled: string }}
@@ -311,29 +312,17 @@
       return isNewChange && hasLabels;
     },
 
-    _computeMissingLabels(labels) {
-      const missingLabels = [];
-      for (const label in labels) {
-        if (!labels.hasOwnProperty(label)) { continue; }
-        const obj = labels[label];
-        if (!obj.optional && !obj.approved) {
-          missingLabels.push(label);
-        }
-      }
-      return missingLabels;
-    },
-
-    _computeMissingLabelsHeader(labels) {
+    _computeMissingLabelsHeader(missingLabels) {
       return 'Needs label' +
-          (this._computeMissingLabels(labels).length > 1 ? 's' : '') + ':';
+          (missingLabels.length > 1 ? 's' : '') + ':';
     },
 
-    _showMissingLabels(labels) {
-      return !!this._computeMissingLabels(labels).length;
+    _showMissingLabels(missingLabels) {
+      return !!missingLabels.length;
     },
 
-    _showMissingRequirements(labels, workInProgress) {
-      return workInProgress || this._showMissingLabels(labels);
+    _showMissingRequirements(missingLabels, workInProgress) {
+      return workInProgress || this._showMissingLabels(missingLabels);
     },
 
     _computeProjectURL(project) {

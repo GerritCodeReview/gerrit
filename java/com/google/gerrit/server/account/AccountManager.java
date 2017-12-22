@@ -29,6 +29,8 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.account.AccountsUpdate.AccountUpdater;
+import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
@@ -203,7 +205,7 @@ public class AccountManager {
   private void update(AuthRequest who, ExternalId extId)
       throws OrmException, IOException, ConfigInvalidException {
     IdentifiedUser user = userFactory.create(extId.accountId());
-    List<Consumer<Account>> accountUpdates = new ArrayList<>();
+    List<Consumer<InternalAccountUpdate.Builder>> accountUpdates = new ArrayList<>();
 
     // If the email address was modified by the authentication provider,
     // update our records to match the changed email.
@@ -212,19 +214,20 @@ public class AccountManager {
     String oldEmail = extId.email();
     if (newEmail != null && !newEmail.equals(oldEmail)) {
       if (oldEmail != null && oldEmail.equals(user.getAccount().getPreferredEmail())) {
-        accountUpdates.add(a -> a.setPreferredEmail(newEmail));
+        accountUpdates.add(u -> u.setPreferredEmail(newEmail));
       }
 
-      externalIdsUpdateFactory
-          .create()
-          .replace(
-              extId, ExternalId.create(extId.key(), extId.accountId(), newEmail, extId.password()));
+      accountUpdates.add(
+          u ->
+              u.replaceExternalId(
+                  extId,
+                  ExternalId.create(extId.key(), extId.accountId(), newEmail, extId.password())));
     }
 
     if (!realm.allowsEdit(AccountFieldName.FULL_NAME)
         && !Strings.isNullOrEmpty(who.getDisplayName())
         && !eq(user.getAccount().getFullName(), who.getDisplayName())) {
-      accountUpdates.add(a -> a.setFullName(who.getDisplayName()));
+      accountUpdates.add(u -> u.setFullName(who.getDisplayName()));
     }
 
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)
@@ -236,7 +239,13 @@ public class AccountManager {
     }
 
     if (!accountUpdates.isEmpty()) {
-      Account account = accountsUpdateFactory.create().update(user.getAccountId(), accountUpdates);
+      Account account =
+          accountsUpdateFactory
+              .create()
+              .update(
+                  "Update Account on Login",
+                  user.getAccountId(),
+                  AccountUpdater.joinConsumers(accountUpdates));
       if (account == null) {
         throw new OrmException("Account " + user.getAccountId() + " has been deleted");
       }
@@ -258,27 +267,23 @@ public class AccountManager {
 
     Account account;
     try {
-      AccountsUpdate accountsUpdate = accountsUpdateFactory.create();
       account =
-          accountsUpdate.insert(
-              newId,
-              a -> {
-                a.setFullName(who.getDisplayName());
-                a.setPreferredEmail(extId.email());
-              });
-
-      ExternalId existingExtId = externalIds.get(extId.key());
-      if (existingExtId != null && !existingExtId.accountId().equals(extId.accountId())) {
-        // external ID is assigned to another account, do not overwrite
-        accountsUpdate.delete(account);
-        throw new AccountException(
-            "Cannot assign external ID \""
-                + extId.key().get()
-                + "\" to account "
-                + newId
-                + "; external ID already in use.");
-      }
-      externalIdsUpdateFactory.create().upsert(extId);
+          accountsUpdateFactory
+              .create()
+              .insert(
+                  "Create Account on First Login",
+                  newId,
+                  u ->
+                      u.setFullName(who.getDisplayName())
+                          .setPreferredEmail(extId.email())
+                          .addExternalId(extId));
+    } catch (DuplicateExternalIdKeyException e) {
+      throw new AccountException(
+          "Cannot assign external ID \""
+              + e.getDuplicateKey().get()
+              + "\" to account "
+              + newId
+              + "; external ID already in use.");
     } finally {
       // If adding the account failed, it may be that it actually was the
       // first account. So we reset the 'check for first account'-guard, as
@@ -308,7 +313,7 @@ public class AccountManager {
       // Only set if the name hasn't been used yet, but was given to us.
       //
       try {
-        changeUserNameFactory.create(user, who.getUserName()).call();
+        changeUserNameFactory.create("Set Username on Login", user, who.getUserName()).call();
       } catch (NameAlreadyUsedException e) {
         String message =
             "Cannot assign user name \""
@@ -407,23 +412,19 @@ public class AccountManager {
       }
       update(who, extId);
     } else {
-      externalIdsUpdateFactory
+      accountsUpdateFactory
           .create()
-          .insert(ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress()));
-
-      if (who.getEmailAddress() != null) {
-        accountsUpdateFactory
-            .create()
-            .update(
-                to,
-                a -> {
-                  if (a.getPreferredEmail() == null) {
-                    a.setPreferredEmail(who.getEmailAddress());
-                  }
-                });
-      }
+          .update(
+              "Link External ID",
+              to,
+              (a, u) -> {
+                u.addExternalId(
+                    ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress()));
+                if (who.getEmailAddress() != null && a.getPreferredEmail() == null) {
+                  u.setPreferredEmail(who.getEmailAddress());
+                }
+              });
     }
-
     return new AuthResult(to, who.getExternalIdKey(), false);
   }
 
@@ -503,12 +504,16 @@ public class AccountManager {
       accountsUpdateFactory
           .create()
           .update(
+              "Clear Preferred Email on Unlinking External ID\n"
+                  + "\n"
+                  + "The preferred email is cleared because the corresponding external ID\n"
+                  + "was removed.",
               from,
-              a -> {
+              (a, u) -> {
                 if (a.getPreferredEmail() != null) {
                   for (ExternalId extId : extIds) {
                     if (a.getPreferredEmail().equals(extId.email())) {
-                      a.setPreferredEmail(null);
+                      u.setPreferredEmail(null);
                       break;
                     }
                   }

@@ -60,7 +60,7 @@ public class PutStatus implements RestModifyView<AccountResource, StatusInput> {
   }
 
   public Response<String> apply(IdentifiedUser user, StatusInput input)
-      throws ResourceNotFoundException, IOException, ConfigInvalidException {
+      throws ResourceNotFoundException, IOException, ConfigInvalidException, OrmException {
     if (input == null) {
       input = new StatusInput();
     }
@@ -69,7 +69,7 @@ public class PutStatus implements RestModifyView<AccountResource, StatusInput> {
     Account account =
         accountsUpdate
             .create()
-            .update(user.getAccountId(), a -> a.setStatus(Strings.nullToEmpty(newStatus)));
+            .update("Set Status via API", user.getAccountId(), u -> u.setStatus(newStatus));
     if (account == null) {
       throw new ResourceNotFoundException("account not found");
     }

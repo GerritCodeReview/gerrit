@@ -119,12 +119,7 @@ public class AccountCreator {
 
       accountsUpdate
           .create()
-          .insert(
-              id,
-              a -> {
-                a.setFullName(fullName);
-                a.setPreferredEmail(email);
-              });
+          .insert("Create Test Account", id, u -> u.setFullName(fullName).setPreferredEmail(email));
 
       if (groupNames != null) {
         for (String n : groupNames) {

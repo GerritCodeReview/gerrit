@@ -84,7 +84,6 @@ import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.PatchSetInserter;
@@ -172,7 +171,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected ThreadLocalRequestContext requestContext;
   @Inject protected ProjectCache projectCache;
   @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
-  @Inject protected ExternalIdsUpdate.Server externalIdsUpdate;
 
   // Only for use in setting up/tearing down injector; other users should use schemaFactory.
   @Inject private InMemoryDatabase inMemoryDatabase;
@@ -223,8 +221,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     String email = "user@example.com";
-    externalIdsUpdate.create().insert(ExternalId.createEmail(userId, email));
-    accountsUpdate.create().update(userId, a -> a.setPreferredEmail(email));
+    accountsUpdate
+        .create()
+        .update(
+            "Add Email",
+            userId,
+            u -> u.addExternalId(ExternalId.createEmail(userId, email)).setPreferredEmail(email));
     user = userFactory.create(userId);
     requestContext.setContext(newRequestContext(userId));
   }
@@ -2729,11 +2731,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       accountsUpdate
           .create()
           .update(
+              "Update Test Account",
               id,
-              a -> {
-                a.setFullName(fullName);
-                a.setPreferredEmail(email);
-                a.setActive(active);
+              u -> {
+                u.setFullName(fullName).setPreferredEmail(email).setActive(active);
               });
       return id;
     }

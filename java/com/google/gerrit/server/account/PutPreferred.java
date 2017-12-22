@@ -61,18 +61,19 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
   }
 
   public Response<String> apply(IdentifiedUser user, String email)
-      throws ResourceNotFoundException, IOException, ConfigInvalidException {
+      throws ResourceNotFoundException, IOException, ConfigInvalidException, OrmException {
     AtomicBoolean alreadyPreferred = new AtomicBoolean(false);
     Account account =
         accountsUpdate
             .create()
             .update(
+                "Set Preferred Email via API",
                 user.getAccountId(),
-                a -> {
+                (a, u) -> {
                   if (email.equals(a.getPreferredEmail())) {
                     alreadyPreferred.set(true);
                   } else {
-                    a.setPreferredEmail(email);
+                    u.setPreferredEmail(email);
                   }
                 });
     if (account == null) {

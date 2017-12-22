@@ -2932,16 +2932,17 @@ class ReceiveCommits {
           accountsUpdate
               .create()
               .update(
+                  "Set Full Name on Receive Commits",
                   user.getAccountId(),
-                  a -> {
+                  (a, u) -> {
                     if (Strings.isNullOrEmpty(a.getFullName())) {
-                      a.setFullName(setFullNameTo);
+                      u.setFullName(setFullNameTo);
                     }
                   });
       if (account != null) {
         user.getAccount().setFullName(account.getFullName());
       }
-    } catch (IOException | ConfigInvalidException e) {
+    } catch (OrmException | IOException | ConfigInvalidException e) {
       logWarn("Failed to update full name of caller", e);
     }
   }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -37,16 +38,14 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.group.UserInitiated;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.ssh.SshKeyCache;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -72,8 +71,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
   private final AccountsUpdate.User accountsUpdate;
   private final AccountLoader.Factory infoLoader;
   private final DynamicSet<AccountExternalIdCreator> externalIdCreators;
-  private final ExternalIds externalIds;
-  private final ExternalIdsUpdate.User externalIdsUpdateFactory;
   private final Provider<GroupsUpdate> groupsUpdate;
   private final OutgoingEmailValidator validator;
   private final String username;
@@ -88,8 +85,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       AccountsUpdate.User accountsUpdate,
       AccountLoader.Factory infoLoader,
       DynamicSet<AccountExternalIdCreator> externalIdCreators,
-      ExternalIds externalIds,
-      ExternalIdsUpdate.User externalIdsUpdateFactory,
       @UserInitiated Provider<GroupsUpdate> groupsUpdate,
       OutgoingEmailValidator validator,
       @Assisted String username) {
@@ -101,8 +96,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     this.accountsUpdate = accountsUpdate;
     this.infoLoader = infoLoader;
     this.externalIdCreators = externalIdCreators;
-    this.externalIds = externalIds;
-    this.externalIdsUpdateFactory = externalIdsUpdateFactory;
     this.groupsUpdate = groupsUpdate;
     this.validator = validator;
     this.username = username;
@@ -130,54 +123,39 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     Set<AccountGroup.UUID> groups = parseGroups(input.groups);
 
     Account.Id id = new Account.Id(seq.nextAccountId());
+    List<ExternalId> extIds = new ArrayList<>();
 
-    ExternalId extUser = ExternalId.createUsername(username, id, input.httpPassword);
-    if (externalIds.get(extUser.key()) != null) {
-      throw new ResourceConflictException("username '" + username + "' already exists");
-    }
     if (input.email != null) {
-      if (externalIds.get(ExternalId.Key.create(SCHEME_MAILTO, input.email)) != null) {
-        throw new UnprocessableEntityException("email '" + input.email + "' already exists");
-      }
       if (!validator.isValid(input.email)) {
         throw new BadRequestException("invalid email address");
       }
+      extIds.add(ExternalId.createEmail(id, input.email));
     }
 
-    List<ExternalId> extIds = new ArrayList<>();
-    extIds.add(extUser);
+    extIds.add(ExternalId.createUsername(username, id, input.httpPassword));
     for (AccountExternalIdCreator c : externalIdCreators) {
       extIds.addAll(c.create(id, username, input.email));
     }
 
-    ExternalIdsUpdate externalIdsUpdate = externalIdsUpdateFactory.create();
     try {
-      externalIdsUpdate.insert(extIds);
-    } catch (OrmDuplicateKeyException duplicateKey) {
-      throw new ResourceConflictException("username '" + username + "' already exists");
-    }
-
-    if (input.email != null) {
-      try {
-        externalIdsUpdate.insert(ExternalId.createEmail(id, input.email));
-      } catch (OrmDuplicateKeyException duplicateKey) {
-        try {
-          externalIdsUpdate.delete(extUser);
-        } catch (IOException | ConfigInvalidException cleanupError) {
-          // Ignored
-        }
-        throw new UnprocessableEntityException("email '" + input.email + "' already exists");
+      accountsUpdate
+          .create()
+          .insert(
+              "Create Account via API",
+              id,
+              u -> u.setFullName(input.name).setPreferredEmail(input.email).addExternalIds(extIds));
+    } catch (DuplicateExternalIdKeyException e) {
+      if (e.getDuplicateKey().isScheme(SCHEME_USERNAME)) {
+        throw new ResourceConflictException(
+            "username '" + e.getDuplicateKey().id() + "' already exists");
+      } else if (e.getDuplicateKey().isScheme(SCHEME_MAILTO)) {
+        throw new UnprocessableEntityException(
+            "email '" + e.getDuplicateKey().id() + "' already exists");
+      } else {
+        // AccountExternalIdCreator returned an external ID that already exists
+        throw e;
       }
     }
-
-    accountsUpdate
-        .create()
-        .insert(
-            id,
-            a -> {
-              a.setFullName(input.name);
-              a.setPreferredEmail(input.email);
-            });
 
     for (AccountGroup.UUID groupUuid : groups) {
       try {

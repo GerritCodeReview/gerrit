@@ -66,7 +66,7 @@ public class PutName implements RestModifyView<AccountResource, NameInput> {
 
   public Response<String> apply(IdentifiedUser user, NameInput input)
       throws MethodNotAllowedException, ResourceNotFoundException, IOException,
-          ConfigInvalidException {
+          ConfigInvalidException, OrmException {
     if (input == null) {
       input = new NameInput();
     }
@@ -77,7 +77,9 @@ public class PutName implements RestModifyView<AccountResource, NameInput> {
 
     String newName = input.name;
     Account account =
-        accountsUpdate.create().update(user.getAccountId(), a -> a.setFullName(newName));
+        accountsUpdate
+            .create()
+            .update("Set Full Name via API", user.getAccountId(), u -> u.setFullName(newName));
     if (account == null) {
       throw new ResourceNotFoundException("account not found");
     }

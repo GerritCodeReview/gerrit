@@ -174,6 +174,11 @@
       },
       _loading: Boolean,
       /** @type {?} */
+      _missingLabels: {
+        type: Array,
+        computed: '_computeMissingLabels(_change.labels)',
+      },
+      /** @type {?} */
       _projectConfig: Object,
       _rebaseOnCurrent: Boolean,
       _replyButtonLabel: {
@@ -198,7 +203,7 @@
       },
       _changeStatuses: {
         type: String,
-        computed: '_computeChangeStatusChips(_change)',
+        computed: '_computeChangeStatusChips(_change, _missingLabels)',
       },
       _commitCollapsed: {
         type: Boolean,
@@ -340,8 +345,28 @@
       this._editingCommitMessage = false;
     },
 
-    _computeChangeStatusChips(change) {
-      return this.changeStatuses(change);
+    _computeMissingLabels(labels) {
+      const missingLabels = [];
+      for (const label in labels) {
+        if (!labels.hasOwnProperty(label)) { continue; }
+        const obj = labels[label];
+        if (!obj.optional && !obj.approved) {
+          missingLabels.push(label);
+        }
+      }
+      return missingLabels;
+    },
+
+    _readyToSubmit(missingLabels) {
+      return missingLabels.length === 0;
+    },
+
+    _computeChangeStatusChips(change, missingLabels) {
+      const options = {
+        readyToSubmit: this._readyToSubmit(missingLabels),
+        includeDerived: true,
+      };
+      return this.changeStatuses(change, options);
     },
 
     _computeHideEditCommitMessage(loggedIn, editing, change) {

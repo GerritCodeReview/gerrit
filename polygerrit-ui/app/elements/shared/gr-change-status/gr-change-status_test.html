@@ -80,6 +80,20 @@ limitations under the License.
       assert.isTrue(element.classList.contains('private'));
     });
 
+    test('active', () => {
+      element.status = 'Active';
+      assert.equal(element.$$('.chip').innerText, element.status);
+      assert.isUndefined(element.tooltipText);
+      assert.isTrue(element.classList.contains('active'));
+    });
+
+    test('ready to submit', () => {
+      element.status = 'Ready to submit';
+      assert.equal(element.$$('.chip').innerText, element.status);
+      assert.isUndefined(element.tooltipText);
+      assert.isTrue(element.classList.contains('ready-to-submit'));
+    });
+
     test('updating status removes the previous class', () => {
       element.status = 'Private';
       assert.isTrue(element.classList.contains('private'));

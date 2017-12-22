@@ -87,10 +87,20 @@ limitations under the License.
         labels: {},
         mergeable: true,
       };
-      const statuses = element.changeStatuses(change);
-      const statusString = element.changeStatusString(change);
+      let statuses = element.changeStatuses(change);
+      let statusString = element.changeStatusString(change);
       assert.deepEqual(statuses, []);
       assert.equal(statusString, '');
+
+      statuses = element.changeStatuses(change,
+          {readyToSubmit: false, includeDerived: true});
+      assert.deepEqual(statuses, ['Active']);
+
+      // With no missing labels
+      statuses = element.changeStatuses(change,
+          {readyToSubmit: true, includeDerived: true});
+      statusString = element.changeStatusString(change);
+      assert.deepEqual(statuses, ['Ready to submit']);
     });
 
     test('Merge conflict', () => {

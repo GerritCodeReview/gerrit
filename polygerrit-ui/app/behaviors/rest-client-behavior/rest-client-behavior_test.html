@@ -87,10 +87,16 @@ limitations under the License.
         labels: {},
         mergeable: true,
       };
-      const statuses = element.changeStatuses(change);
-      const statusString = element.changeStatusString(change);
-      assert.deepEqual(statuses, []);
-      assert.equal(statusString, '');
+      let statuses = element.changeStatuses(change);
+      let statusString = element.changeStatusString(change);
+      assert.deepEqual(statuses, ['Active']);
+      assert.equal(statusString, 'Active');
+
+      // With no missing labels
+      statuses = element.changeStatuses(change, true);
+      statusString = element.changeStatusString(change, true);
+      assert.deepEqual(statuses, ['Ready to submit']);
+      assert.equal(statusString, 'Ready to submit');
     });
 
     test('Merge conflict', () => {
@@ -122,8 +128,8 @@ limitations under the License.
       };
       const statuses = element.changeStatuses(change);
       const statusString = element.changeStatusString(change);
-      assert.deepEqual(statuses, []);
-      assert.equal(statusString, '');
+      assert.deepEqual(statuses, ['Active']);
+      assert.equal(statusString, 'Active');
     });
 
     test('Merged status', () => {

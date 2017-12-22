@@ -25,12 +25,12 @@
     {$fromName}{sp}
     <strong>
       removed{sp}
-      {foreach $reviewerName in $email.reviewerNames}
+      {for $reviewerName in $email.reviewerNames}
         {if not isFirst($reviewerName)}
           {if isLast($reviewerName)}{sp}and{else},{/if}{sp}
         {/if}
         {$reviewerName}
-      {/foreach}
+      {/for}
     </strong>{sp}
     from this change.
   </p>

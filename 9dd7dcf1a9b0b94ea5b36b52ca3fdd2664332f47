@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "54c43604_4f213f31",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshCommandDetailCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2017-12-22T20:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9119974c_6c415599",
+      "range": {
+        "startLine": 20,
+        "startChar": 17,
+        "endLine": 20,
+        "endChar": 38
+      },
+      "revId": "9dd7dcf1a9b0b94ea5b36b52ca3fdd2664332f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91200477_ce48dd2c",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshCommandDetailCacheImpl.java",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2017-12-22T16:54:18Z",
       "side": 1,
       "message": "when config.getBoolean(\"audit\", \"maskSensitiveData\", false) maintaining cache is just a waste of time\nconsider adding NO_OP implementation to SshCommandDetailCache and instantiate it in module() when condition is met",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 38
+      },
+      "revId": "9dd7dcf1a9b0b94ea5b36b52ca3fdd2664332f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60609602_83274ec3",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshCommandDetailCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2017-12-22T20:13:38Z",
+      "side": 1,
+      "message": "We have to mask the log regardless.",
+      "parentUuid": "91200477_ce48dd2c",
       "range": {
         "startLine": 29,
         "startChar": 13,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "168c15d5_1c3e40e8",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2017-12-22T20:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e408140_b5022d35",
+      "range": {
+        "startLine": 189,
+        "startChar": 8,
+        "endLine": 191,
+        "endChar": 72
+      },
+      "revId": "9dd7dcf1a9b0b94ea5b36b52ca3fdd2664332f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb81cf94_e645d5b3",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshPluginStarterCallback.java",
         "patchSetId": 7
@@ -91,6 +163,30 @@
       "revId": "9dd7dcf1a9b0b94ea5b36b52ca3fdd2664332f47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fc1ff1e_b1083356",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshPluginStarterCallback.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2017-12-22T20:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb81cf94_e645d5b3",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 21
+      },
+      "revId": "9dd7dcf1a9b0b94ea5b36b52ca3fdd2664332f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

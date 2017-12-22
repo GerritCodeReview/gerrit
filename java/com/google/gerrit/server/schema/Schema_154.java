@@ -51,7 +51,7 @@ import org.slf4j.LoggerFactory;
 public class Schema_154 extends SchemaVersion {
   private static final Logger log = LoggerFactory.getLogger(Schema_154.class);
   private static final String TABLE = "accounts";
-  private static final Map<String, AccountSetter> ACCOUNT_FIELDS_MAP =
+  private static final ImmutableMap<String, AccountSetter> ACCOUNT_FIELDS_MAP =
       ImmutableMap.<String, AccountSetter>builder()
           .put("full_name", (a, rs, field) -> a.setFullName(rs.getString(field)))
           .put("preferred_email", (a, rs, field) -> a.setPreferredEmail(rs.getString(field)))

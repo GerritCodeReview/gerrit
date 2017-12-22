@@ -205,7 +205,7 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
   private void assertNoSuchChangeException(Callable<?> callable) throws Exception {
     try {
       callable.call();
-      assert_().fail("expected NoSuchChangeException");
+      fail("expected NoSuchChangeException");
     } catch (NoSuchChangeException e) {
       // Expected.
     }

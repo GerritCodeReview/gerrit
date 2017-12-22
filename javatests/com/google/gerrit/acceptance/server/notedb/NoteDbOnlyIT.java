@@ -28,6 +28,7 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateListener;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -40,6 +41,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -189,6 +191,22 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
           .containsExactly(
               ConcurrentWritingListener.MSG_PREFIX + "1", UpdateRefAndAddMessageOp.COMMIT_MESSAGE)
           .inOrder();
+    }
+  }
+
+  @Test
+  public void missingChange() throws Exception {
+    Change.Id changeId = new Change.Id(1234567);
+    assertNoSuchChangeException(() -> notesFactory.create(db, project, changeId));
+    assertNoSuchChangeException(() -> notesFactory.createChecked(db, project, changeId));
+  }
+
+  private void assertNoSuchChangeException(Callable<?> callable) throws Exception {
+    try {
+      callable.call();
+      assert_().fail("expected NoSuchChangeException");
+    } catch (NoSuchChangeException e) {
+      // Expected.
     }
   }
 

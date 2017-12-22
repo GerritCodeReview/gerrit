@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9119974c_6c415599",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshCommandDetailCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-12-22T16:54:18Z",
+      "side": 1,
+      "message": "Cache contains info about command sensitive fields would consider renaming it to for instance SshCommandSensitiveFieldsCache",
+      "range": {
+        "startLine": 20,
+        "startChar": 17,
+        "endLine": 20,
+        "endChar": 38
+      },
+      "revId": "9dd7dcf1a9b0b94ea5b36b52ca3fdd2664332f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91200477_ce48dd2c",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshCommandDetailCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-12-22T16:54:18Z",
+      "side": 1,
+      "message": "when config.getBoolean(\"audit\", \"maskSensitiveData\", false) maintaining cache is just a waste of time\nconsider adding NO_OP implementation to SshCommandDetailCache and instantiate it in module() when condition is met",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 38
+      },
+      "revId": "9dd7dcf1a9b0b94ea5b36b52ca3fdd2664332f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e408140_b5022d35",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-12-22T16:54:18Z",
+      "side": 1,
+      "message": "in case config.getBoolean(\"audit\", \"maskSensitiveData\", false) \u003d\u003d false\nmask \u003d value\nisSensitiveParameter() will be checked so that clear value will be placed eventually anyway\nhow about:\nparms.put(parm, secure \u0026\u0026 dcmd.isSensitiveParameter(parm) ? mask : value)",
+      "range": {
+        "startLine": 189,
+        "startChar": 8,
+        "endLine": 191,
+        "endChar": 72
+      },
+      "revId": "9dd7dcf1a9b0b94ea5b36b52ca3fdd2664332f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb81cf94_e645d5b3",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshPluginStarterCallback.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-12-22T16:54:18Z",
+      "side": 1,
+      "message": "why do we need to evict cache onStartPlugin?\nit shouldn\u0027t affect existing entries but only add new (upon command call)",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 21
+      },
+      "revId": "9dd7dcf1a9b0b94ea5b36b52ca3fdd2664332f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "1100e91961af2d7bb391821a96dd2e9cc749f112",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f308c072_d01efbb0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1243,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-12-22T08:29:19Z",
+      "side": 1,
+      "message": "\u0027disablePrivateChanges\u0027 has a benefit that by default it\u0027s \"false\" and will not be contained the \u0027ServerInfo\u0027, so users will not notice about it.",
+      "parentUuid": "6fc54b93_57277ea3",
+      "range": {
+        "startLine": 1243,
+        "startChar": 39,
+        "endLine": 1243,
+        "endChar": 60
+      },
+      "revId": "1100e91961af2d7bb391821a96dd2e9cc749f112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

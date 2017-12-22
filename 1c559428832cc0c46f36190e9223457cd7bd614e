@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6371bb5_d68ec2c0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-12-22T07:36:38Z",
+      "side": 1,
+      "message": "I think in this place we shouldn\u0027t ignore the failure:\n\nGerritCallback.showFailure(caught);",
+      "range": {
+        "startLine": 314,
+        "startChar": 12,
+        "endLine": 314,
+        "endChar": 54
+      },
+      "revId": "1c559428832cc0c46f36190e9223457cd7bd614e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

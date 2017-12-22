@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b8a166f_f49dadc1",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-12-22T00:28:59Z",
+      "side": 1,
+      "message": "Add detail about interaction with allowAnyInput here.",
+      "revId": "199a462a0909e79ffbad6d6cdf83d35643fcf456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

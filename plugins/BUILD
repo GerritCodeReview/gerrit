@@ -47,6 +47,7 @@ EXPORTS = [
     "//lib/guice:multibindings",
     "//lib/httpcomponents:httpclient",
     "//lib/httpcomponents:httpcore",
+    "//lib/jackson:jackson-core",
     "//lib/jgit/org.eclipse.jgit.http.server:jgit-servlet",
     "//lib/jgit/org.eclipse.jgit:jgit",
     "//lib/log:api",

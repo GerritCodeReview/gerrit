@@ -173,7 +173,7 @@ suite('gr-editor-view tests', () => {
       assert.isTrue(saveSpy.called);
       saveSpy.lastCall.returnValue.then(() => {
         assert.isTrue(saveFileStub.called);
-        assert.isTrue(navigateStub.called);
+        assert.isFalse(navigateStub.called);
         done();
       });
     });

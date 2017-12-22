@@ -122,10 +122,7 @@
 
     _saveEdit() {
       return this.$.restAPI.saveChangeEdit(this._changeNum, this._path,
-          this._newContent).then(res => {
-            if (!res.ok) { return; }
-            this._viewEditInChangeView();
-          });
+          this._newContent);
     },
 
     _computeSaveDisabled(content, newContent) {

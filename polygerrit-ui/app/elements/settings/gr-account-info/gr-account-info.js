@@ -41,18 +41,9 @@
             '_hasUsernameChange, _hasStatusChange)',
       },
 
-      _hasNameChange: {
-        type: Boolean,
-        value: false,
-      },
-      _hasUsernameChange: {
-        type: Boolean,
-        value: false,
-      },
-      _hasStatusChange: {
-        type: Boolean,
-        value: false,
-      },
+      _hasNameChange: Boolean,
+      _hasUsernameChange: Boolean,
+      _hasStatusChange: Boolean,
       _loading: {
         type: Boolean,
         value: false,
@@ -85,6 +76,9 @@
       }));
 
       promises.push(this.$.restAPI.getAccount().then(account => {
+        this._hasNameChange = false;
+        this._hasUsernameChange = false;
+        this._hasStatusChange = false;
         // Provide predefined value for username to trigger computation of
         // username mutability.
         account.username = account.username || '';
@@ -154,8 +148,9 @@
     },
 
     _usernameChanged() {
-      if (this._loading) { return; }
-      this._hasUsernameChange = true;
+      if (this._loading || !this._account) { return; }
+      this._hasUsernameChange =
+          (this._account.username || '') !== (this._username || '');
     },
 
     _nameChanged() {

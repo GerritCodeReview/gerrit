@@ -217,6 +217,53 @@ Note: TODO
 
 Note: TODO
 
+=== panel
+`plugin.panel(extensionpoint, callback)`
+
+Deprecated. Use `plugin.registerCustomComponent()` instead.
+
+``` js
+Gerrit.install(function(self) {
+  self.panel('CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK', function(context) {
+    context.body.innerHTML =
+      'Sample link: <a href="http://some.com/foo">Foo</a>';
+    context.show();
+  });
+});
+```
+
+Here's the recommended approach that uses Polymer for generating custom elements:
+
+``` html
+<dom-module id="some-plugin">
+  <script>
+    Gerrit.install(plugin => {
+      plugin.registerCustomComponent(
+        'change-view-integration', 'some-ci-module');
+    });
+  </script>
+</dom-module>
+
+<dom-module id="some-ci-module">
+  <template>
+    Sample link: <a href="http://some.com/foo">Foo</a>
+  </template>
+  <script>
+    Polymer({is: 'some-ci-module'});
+  </script>
+</dom-module>
+```
+
+Here's a minimal example that uses low-level DOM Hooks API for the same purpose:
+
+``` js
+Gerrit.install(plugin => {
+  plugin.hook('change-view-integration', el => {
+    el.innerHTML = 'Sample link: <a href="http://some.com/foo">Foo</a>';
+  });
+});
+```
+
 === popup
 `plugin.popup(moduleName)`
 
@@ -273,3 +320,77 @@ Note: TODO
 `plugin.url(opt_path)`
 
 Note: TODO
+
+[[deprecated-api]]
+== Deprecated APIs
+
+Some of the deprecated APIs have limited implementation in PolyGerrit to serve
+as a "stepping stone" to allow gradual migration.
+
+=== install
+`plugin.deprecated.install()`
+
+.Params:
+- none
+
+Replaces plugin APIs with a deprecated version. This allows use of deprecated
+APIs without changing JS code. For example, `onAction` is not available by
+default, and after `plugin.deprecated.install()` it's accessible via
+`self.onAction()`.
+
+=== onAction
+`plugin.deprecated.onAction(type, view_name, callback)`
+
+.Params:
+- `*string* type` Action type.
+- `*string* view_name` REST API action.
+- `*function(actionContext)* callback` Callback invoked on action button click.
+
+Adds a button to the UI with a click callback. Exact button location depends on
+parameters. Callback is triggered with an instance of
+link:#deprecated-action-context[action context].
+
+Support is limited:
+
+- type is either `change` or `revision`.
+
+See link:js-api.html#self_onAction[self.onAction] for more info.
+
+=== panel
+`plugin.deprecated.panel(extensionpoint, callback)`
+
+.Params:
+- `*string* extensionpoint`
+- `*function(screenContext)* callback`
+
+Adds a UI DOM element and triggers a callback with context to allow direct DOM
+access.
+
+Support is limited:
+
+- extensionpoint is one of the following:
+ * CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK
+ * CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK
+
+See link:js-api.html#self_panel[self.panel] for more info.
+
+[[deprecated-action-context]]
+=== Action Context (deprecated)
+Instance of Action Context is passed to `onAction()` callback.
+
+Support is limited:
+
+- `popup()`
+- `hide()`
+- `refresh()`
+- `textfield()`
+- `br()`
+- `msg()`
+- `div()`
+- `button()`
+- `checkbox()`
+- `label()`
+- `prependLabel()`
+- `call()`
+
+See link:js-api.html#ActionContext[Action Context] for more info.

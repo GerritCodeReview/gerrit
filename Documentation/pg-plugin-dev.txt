@@ -274,15 +274,15 @@ Note: TODO
 
 Note: TODO
 
-[plugin-project]
-=== project
-`plugin.project()`
+[plugin-repo]
+=== repo
+`plugin.repo()`
 
 .Params:
 - none
 
 .Returns:
-- Instance of link:pg-plugin-project-api.html[GrProjectApi].
+- Instance of link:pg-plugin-repo-api.html[GrRepoApi].
 
 === put
 `plugin.put(url, payload, opt_callback)`

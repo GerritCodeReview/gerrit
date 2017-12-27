@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09962508_07e60f7c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-12-27T21:31:05Z",
+      "side": 1,
+      "message": "Repository",
+      "range": {
+        "startLine": 48,
+        "startChar": 21,
+        "endLine": 48,
+        "endChar": 25
+      },
+      "revId": "47d95f5fedc438b05660e8094d382d359645e834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

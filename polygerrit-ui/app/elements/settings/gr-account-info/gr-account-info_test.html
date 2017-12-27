@@ -311,5 +311,23 @@ limitations under the License.
         });
       });
     });
+
+    test('_usernameChanged compares usernames with loose equality', () => {
+      element._account = {};
+      element._username = '';
+      element._hasUsernameChange = false;
+      element._loading = false;
+      // _usernameChanged is an observer, but call it here after setting
+      // _hasUsernameChange in the test to force recomputation.
+      element._usernameChanged();
+      flushAsynchronousOperations();
+
+      assert.isFalse(element._hasUsernameChange);
+
+      element.set('_username', 'test');
+      flushAsynchronousOperations();
+
+      assert.isTrue(element._hasUsernameChange);
+    });
   });
 </script>

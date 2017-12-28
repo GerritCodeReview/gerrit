@@ -19,9 +19,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -105,8 +103,7 @@ public class DocIndexer {
         }
 
         String title;
-        try (BufferedReader titleReader =
-            new BufferedReader(new InputStreamReader(Files.newInputStream(file.toPath()), UTF_8))) {
+        try (BufferedReader titleReader = Files.newBufferedReader(file.toPath(), UTF_8)) {
           title = titleReader.readLine();
           if (title != null && title.startsWith("[[")) {
             // Generally the first line of the txt is the title. In a few cases the
@@ -120,7 +117,7 @@ public class DocIndexer {
         }
 
         String outputFile = AsciiDoctor.mapInFileToOutFile(inputFile, inExt, outExt);
-        try (FileReader reader = new FileReader(file)) {
+        try (BufferedReader reader = Files.newBufferedReader(file.toPath(), UTF_8)) {
           Document doc = new Document();
           doc.add(new TextField(Constants.DOC_FIELD, reader));
           doc.add(new StringField(Constants.URL_FIELD, prefix + outputFile, Field.Store.YES));

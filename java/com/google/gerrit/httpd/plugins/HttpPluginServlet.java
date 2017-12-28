@@ -696,8 +696,8 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
 
   private void writeToResponse(HttpServletResponse res, InputStream inputStream)
       throws IOException {
-    try (OutputStream out = res.getOutputStream();
-        InputStream in = inputStream) {
+    try (InputStream in = inputStream;
+        OutputStream out = res.getOutputStream()) {
       ByteStreams.copy(in, out);
     }
   }

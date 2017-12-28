@@ -23,14 +23,23 @@ limitations under the License.
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <link rel="import" href="../../change/gr-change-actions/gr-change-actions.html">
 
+<test-fixture id="basic">
+  <template>
+    <span hidden id="annotation-span">
+      <label for="annotation-checkbox" id="annotation-label"></label>
+      <input is="iron-input" type="checkbox" id="annotation-checkbox" disabled>
+    </span>
+  </template>
+</test-fixture>
+
 <script>
   suite('gr-annotation-actions-js-api tests', () => {
     let annotationActions;
     let sandbox;
+    let plugin;
 
     setup(() => {
       sandbox = sinon.sandbox.create();
-      let plugin;
       Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
       annotationActions = plugin.annotationApi();
@@ -99,6 +108,45 @@ limitations under the License.
       notify(path2, 0, 20, 'left');
       assert.isFalse(layer1Spy.called);
       assert.isTrue(layer2Spy.called);
+    });
+
+    test('toggle checkbox', () => {
+      fakeEl = {content: fixture('basic')};
+      const hookStub = {onAttached: sandbox.stub()};
+      sandbox.stub(plugin, 'hook').returns(hookStub);
+
+      let checkbox;
+      let onAttachedFuncCalled = false;
+      const onAttachedFunc = c => {
+        checkbox = c;
+        onAttachedFuncCalled = true;
+      };
+      annotationActions.enableToggleCheckbox('test label', onAttachedFunc);
+      emulateAttached = () => hookStub.onAttached.callArgWith(0, fakeEl);
+      emulateAttached();
+
+      // Assert that onAttachedFunc is called and HTML elements have the
+      // expected state.
+      assert.isTrue(onAttachedFuncCalled);
+      assert.equal(checkbox.id, 'annotation-checkbox');
+      assert.isTrue(checkbox.disabled);
+      assert.equal(document.getElementById('annotation-label').textContent,
+          'test label');
+      assert.isFalse(document.getElementById('annotation-span').hidden);
+
+      // Assert that error is shown if we try to enable checkbox again.
+      onAttachedFuncCalled = false;
+      annotationActions.enableToggleCheckbox('test label2', onAttachedFunc);
+      const errorStub = sandbox.stub(
+          console, 'error', (msg, err) => undefined);
+      emulateAttached();
+      assert.isTrue(
+          errorStub.calledWith(
+              'annotation-span is already enabled. Cannot re-enable.'));
+      // Assert that onAttachedFunc is not called and the label has not changed.
+      assert.isFalse(onAttachedFuncCalled);
+      assert.equal(document.getElementById('annotation-label').textContent,
+          'test label');
     });
 
     test('layer notify listeners', () => {

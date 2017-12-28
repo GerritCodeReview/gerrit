@@ -52,6 +52,44 @@
   };
 
   /**
+   * Returns a checkbox HTMLElement that can be used to toggle annotations
+   * on/off. The checkbox will be initially disabled. Plugins should enable it
+   * when data is ready and should add a click handler to toggle CSS on/off.
+   *
+   * Note1: Calling this method from multiple plugins will only work for the
+   *        1st call. It will print an error message for all subsequent calls
+   *        and will not invoke their onAttached functions.
+   * Note2: This method will be deprecated and eventually removed when
+   *        https://bugs.chromium.org/p/gerrit/issues/detail?id=8077 is
+   *        implemented.
+   *
+   * @param {String} checkboxLabel Will be used as the label for the checkbox.
+   #     Optional. "Enable" is used if this is not specified.
+   * @param {Function<HTMLElement>} onAttached The function that will be called
+   *     when the checkbox is attached to the page.
+   */
+  GrAnnotationActionsInterface.prototype.enableToggleCheckbox = function(
+      checkboxLabel, onAttached) {
+    this.plugin.hook('annotation-toggler').onAttached(element => {
+      const label = element.content.querySelector('#annotation-label');
+      if (!label.hidden) {
+        console.error(label.id + ' is already enabled. Cannot re-enable.');
+        return;
+      }
+      label.removeAttribute('hidden');
+      if (checkboxLabel) {
+        label.textContent = checkboxLabel;
+      } else {
+        label.textContent = 'Enable';
+      }
+      const checkbox = element.content.querySelector('#annotation-checkbox');
+      checkbox.removeAttribute('hidden');
+      onAttached(checkbox);
+    });
+    return this;
+  };
+
+  /**
    * The notify function will call the listeners of all required annotation
    * layers. Intended to be called by the plugin when all required data for
    * annotation is available.

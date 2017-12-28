@@ -265,6 +265,12 @@ limitations under the License.
                   on-tap="_handlePrefsTap">Preferences</gr-button>
             </span>
           </span>
+          <gr-endpoint-decorator name="annotation-toggler">
+            <span>
+              <label for="annotation-checkbox" id="annotation-label" hidden></label>
+              <input is="iron-input" type="checkbox" id="annotation-checkbox" disabled hidden>
+            </span>
+          </gr-endpoint-decorator>
           <span class$="blameLoader [[_computeBlameLoaderClass(_isImageDiff, _isBlameSupported)]]">
             <span class="separator">/</span>
             <gr-button

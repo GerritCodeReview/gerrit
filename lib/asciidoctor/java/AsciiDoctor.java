@@ -15,7 +15,6 @@
 import com.google.common.io.ByteStreams;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -150,7 +149,7 @@ public class AsciiDoctor {
     }
 
     if (revnumberFile != null) {
-      try (BufferedReader reader = new BufferedReader(new FileReader(revnumberFile))) {
+      try (BufferedReader reader = Files.newBufferedReader(revnumberFile.toPath())) {
         revnumber = reader.readLine();
       }
     }

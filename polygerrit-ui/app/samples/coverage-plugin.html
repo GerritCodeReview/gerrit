@@ -20,35 +20,53 @@
         changeNum: 77001,
         patchNum: 1,
       };
+      coverageData['go/sklog/sklog.go'] = {
+        linesMissingCoverage: [3, 322, 323, 324],
+        totalLines: 350,
+        changeNum: 85963,
+        patchNum: 13,
+      };
     }
 
     Gerrit.install(plugin => {
       const coverageData = {};
-      plugin.annotationApi().addNotifier(notifyFunc => {
-        new Promise(resolve => setTimeout(resolve, 3000)).then(
-            () => {
-              populateWithDummyData(coverageData);
+      let displayCoverage = false;
+      const annotationApi = plugin.annotationApi();
+      annotationApi.addLayer(context => {
+          if (Object.keys(coverageData).length === 0) {
+           // Coverage data is not ready yet.
+           return;
+          }
+          const path = context.path;
+          const line = context.line;
+          // Highlight lines missing coverage with this background color if
+          // coverage should be displayed, else do nothing.
+          const cssClass = displayCoverage
+                         ? Gerrit.css('background-color: #EF9B9B')
+                         : Gerrit.css('');
+          if (coverageData[path] &&
+              coverageData[path].changeNum === context.changeNum &&
+              coverageData[path].patchNum === context.patchNum) {
+            const linesMissingCoverage = coverageData[path].linesMissingCoverage;
+            if (linesMissingCoverage.includes(line.afterNumber)) {
+              context.annotateRange(0, line.text.length, cssClass, 'right');
+            }
+          }
+      }).enableToggleCheckbox('Display Coverage', checkbox => {
+        // Checkbox is attached so now add the notifier that will be controlled
+        // by the checkbox.
+        annotationApi.addNotifier(notifyFunc => {
+          new Promise(resolve => setTimeout(resolve, 3000)).then(() => {
+            populateWithDummyData(coverageData);
+            checkbox.disabled = false;
+            checkbox.onclick = e => {
+              displayCoverage = e.target.checked;
               Object.keys(coverageData).forEach(file => {
                 notifyFunc(file, 0, coverageData[file].totalLines, 'right');
               });
-            });
-      }).addLayer(context => {
-        if (Object.keys(coverageData).length === 0) {
-          // Coverage data is not ready yet.
-          return;
-        }
-        const path = context.path;
-        const line = context.line;
-        // Highlight lines missing coverage with this background color.
-        const cssClass = Gerrit.css('background-color: #EF9B9B');
-        if (coverageData[path] &&
-            coverageData[path].changeNum === context.changeNum &&
-            coverageData[path].patchNum === context.patchNum) {
-          const linesMissingCoverage = coverageData[path].linesMissingCoverage;
-          if (linesMissingCoverage.includes(line.afterNumber)) {
-            context.annotateRange(0, line.text.length, cssClass, 'right');
-          }
-        }
+            };
+          });
+        });
       });
     });
   </script>

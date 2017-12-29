@@ -55,9 +55,12 @@ limitations under the License.
         },
       });
       element = fixture('basic');
-      element.repoName = 'test-repo';
+      element.repoName = 'test-repo',
       element._repoConfig = {
-        private_by_default: {},
+        private_by_default: {
+          configured_value: 'FALSE',
+          inherited_value: false,
+        },
       };
     });
 
@@ -65,18 +68,57 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('new change created with private', () => {
+    test('new change created with default', done => {
+      const configInputObj = {
+        branch: 'test-branch',
+        subject: 'first change created with polygerrit ui',
+        topic: 'test-topic',
+        is_private: false,
+        work_in_progress: true,
+      };
+
+      const saveStub = sandbox.stub(element.$.restAPI,
+          'createChange', () => {
+            return Promise.resolve({});
+          });
+
+      element.branch = 'test-branch';
+      element.topic = 'test-topic';
+      element.subject = 'first change created with polygerrit ui';
+      assert.isFalse(element.$.privateChangeCheckBox.checked);
+
+      element.$.branchInput.bindValue = configInputObj.branch;
+      element.$.tagNameInput.bindValue = configInputObj.topic;
+      element.$.messageInput.bindValue = configInputObj.subject;
+
+      element.handleCreateChange().then(() => {
+        // Private change
+        assert.isFalse(saveStub.lastCall.args[4]);
+        // WIP Change
+        assert.isTrue(saveStub.lastCall.args[5]);
+        assert.isTrue(saveStub.called);
+        done();
+      });
+    });
+
+    test('new change created with private', done => {
       element._repoConfig = {
         private_by_default: {
-          inherited_value: true,
+          configured_value: 'TRUE',
+          inherited_value: false,
         },
       };
+      sandbox.stub(element, '_formatBooleanString', () => {
+        return Promise.resolve(true);
+      });
+      flushAsynchronousOperations();
 
       const configInputObj = {
         branch: 'test-branch',
-        topic: 'test-topic',
         subject: 'first change created with polygerrit ui',
-        work_in_progress: false,
+        topic: 'test-topic',
+        is_private: true,
+        work_in_progress: true,
       };
 
       const saveStub = sandbox.stub(element.$.restAPI,
@@ -94,34 +136,12 @@ limitations under the License.
       element.$.messageInput.bindValue = configInputObj.subject;
 
       element.handleCreateChange().then(() => {
-        assert.isTrue(saveStub.lastCall.calledWithExactly(configInputObj));
-      });
-    });
-
-    test('new change created with wip', () => {
-      const configInputObj = {
-        branch: 'test-branch',
-        topic: 'test-topic',
-        subject: 'first change created with polygerrit ui',
-      };
-
-      const saveStub = sandbox.stub(element.$.restAPI,
-          'createChange', () => {
-            return Promise.resolve({});
-          });
-
-      element.branch = 'test-branch';
-      element.topic = 'test-topic';
-      element.subject = 'first change created with polygerrit ui';
-      element.$.wipChangeCheckBox.checked = true;
-      assert.isFalse(element.$.privateChangeCheckBox.checked);
-
-      element.$.branchInput.bindValue = configInputObj.branch;
-      element.$.tagNameInput.bindValue = configInputObj.topic;
-      element.$.messageInput.bindValue = configInputObj.subject;
-
-      element.handleCreateChange().then(() => {
-        assert.isTrue(saveStub.lastCall.calledWithExactly(configInputObj));
+        // Private change
+        assert.isTrue(saveStub.lastCall.args[4]);
+        // WIP Change
+        assert.isTrue(saveStub.lastCall.args[5]);
+        assert.isTrue(saveStub.called);
+        done();
       });
     });
 

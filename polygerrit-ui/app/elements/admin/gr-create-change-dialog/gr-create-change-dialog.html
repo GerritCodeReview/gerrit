@@ -24,7 +24,6 @@ limitations under the License.
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 
@@ -102,17 +101,7 @@ limitations under the License.
             <input
                 type="checkbox"
                 id="privateChangeCheckBox"
-                checked$="[[_repoConfig.private_by_default.inherited_value]]">
-          </span>
-        </section>
-        <section>
-          <label
-              class="title"
-              for="wipChangeCheckBox">WIP Change</label>
-          <span class="value">
-            <input
-                type="checkbox"
-                id="wipChangeCheckBox">
+                checked$="[[_formatBooleanString(_repoConfig.private_by_default)]]">
           </span>
         </section>
       </div>

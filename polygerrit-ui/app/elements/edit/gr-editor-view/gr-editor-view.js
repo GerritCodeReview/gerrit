@@ -114,9 +114,9 @@
       return this.$.restAPI.getFileInChangeEdit(changeNum, path).then(res => {
         if (!res.ok) { return; }
 
-        this._type = res.type;
-        this._newContent = res.content;
-        this._content = res.content;
+        this._type = res.type || '';
+        this._newContent = res.content || '';
+        this._content = res.content || '';
       });
     },
 

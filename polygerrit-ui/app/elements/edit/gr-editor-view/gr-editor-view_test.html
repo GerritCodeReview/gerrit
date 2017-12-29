@@ -226,6 +226,35 @@ suite('gr-editor-view tests', () => {
         assert.equal(element._type, 'initial');
       });
     });
+
+    test('content is undefined', () => {
+      sandbox.stub(element.$.restAPI, 'getFileInChangeEdit')
+          .returns(Promise.resolve({
+            ok: true,
+            type: 'text/javascript',
+          }));
+
+      // Ensure no data is set with a bad response.
+      return element._getFileData('1', 'test/path').then(() => {
+        assert.equal(element._newContent, '');
+        assert.equal(element._content, '');
+        assert.equal(element._type, 'text/javascript');
+      });
+    });
+
+    test('content and type is undefined', () => {
+      sandbox.stub(element.$.restAPI, 'getFileInChangeEdit')
+          .returns(Promise.resolve({
+            ok: true,
+          }));
+
+      // Ensure no data is set with a bad response.
+      return element._getFileData('1', 'test/path').then(() => {
+        assert.equal(element._newContent, '');
+        assert.equal(element._content, '');
+        assert.equal(element._type, '');
+      });
+    });
   });
 });
 </script>

@@ -398,6 +398,30 @@ build --experimental_strict_action_env
 unfortunately not supported yet. This is also the reason why we can't activate this
 feature by default yet (by adjusting tools/bazel.rc file).
 
+[[repository_cache]]
+
+To accelerate fetches, local repository cache can be activated. This cache is
+only used for rules_closure external repository and transitive dependendcies.
+That's because rules_closure uses standard Bazel download facility. For all
+other gerrit dependencies, the download_artifacts repository cache is used
+already.
+
+To activate the local repository cache, create accessible cache directory:
+
+----
+ mkdir -p ~/.gerritcodereview/bazel-cache/repository
+----
+
+and add this line to your `~/.bazelrc` file:
+
+----
+build --experimental_repository_cache=/home/<user>/.gerritcodereview/bazel-cache/repository
+----
+
+[NOTE] `experimental_repository_cache` must be absolute path. Expansion of `~` is
+unfortunately not supported yet. This is also the reason why we can't activate this
+feature by default yet (by adjusting tools/bazel.rc file).
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

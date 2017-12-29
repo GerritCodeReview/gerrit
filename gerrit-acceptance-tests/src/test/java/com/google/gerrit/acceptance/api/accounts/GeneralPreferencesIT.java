@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.ReviewCategoryStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
 import com.google.gerrit.extensions.client.MenuItem;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.inject.Inject;
@@ -167,5 +168,27 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     a = gApi.accounts().id(admin.getId().toString()).getPreferences();
     assertThat(a.changesPerPage).isEqualTo(d.changesPerPage);
     assertPrefs(a, d, "my", "changeTable", "changesPerPage");
+  }
+
+  @Test
+  public void rejectMyMenuWithoutName() throws Exception {
+    GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
+    i.my = new ArrayList<>();
+    i.my.add(new MenuItem(null, "url"));
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("name for menu item is required");
+    gApi.accounts().id(user42.getId().toString()).setPreferences(i);
+  }
+
+  @Test
+  public void rejectMyMenuWithoutUrl() throws Exception {
+    GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
+    i.my = new ArrayList<>();
+    i.my.add(new MenuItem("name", null));
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("URL for menu item is required");
+    gApi.accounts().id(user42.getId().toString()).setPreferences(i);
   }
 }

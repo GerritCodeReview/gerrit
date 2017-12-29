@@ -75,7 +75,7 @@ public class SetPreferences implements RestModifyView<ConfigResource, GeneralPre
   }
 
   private GeneralPreferencesInfo writeToGit(GeneralPreferencesInfo i)
-      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
+      throws RepositoryNotFoundException, IOException, ConfigInvalidException, BadRequestException {
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
       VersionedAccountPreferences p = VersionedAccountPreferences.forDefault();
       p.load(md);

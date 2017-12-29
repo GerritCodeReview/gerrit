@@ -100,7 +100,7 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
   }
 
   private void writeToGit(Account.Id id, GeneralPreferencesInfo i)
-      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
+      throws RepositoryNotFoundException, IOException, ConfigInvalidException, BadRequestException {
     VersionedAccountPreferences prefs;
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
       prefs = VersionedAccountPreferences.forUser(id);
@@ -121,11 +121,15 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
     }
   }
 
-  public static void storeMyMenus(VersionedAccountPreferences prefs, List<MenuItem> my) {
+  public static void storeMyMenus(VersionedAccountPreferences prefs, List<MenuItem> my)
+      throws BadRequestException {
     Config cfg = prefs.getConfig();
     if (my != null) {
       unsetSection(cfg, UserConfigSections.MY);
       for (MenuItem item : my) {
+        checkRequiredMenuItemField(item.name, "name");
+        checkRequiredMenuItemField(item.url, "URL");
+
         set(cfg, item.name, KEY_URL, item.url);
         set(cfg, item.name, KEY_TARGET, item.target);
         set(cfg, item.name, KEY_ID, item.id);
@@ -171,6 +175,13 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
         cfg.setString(URL_ALIAS, URL_ALIAS + i, KEY_TOKEN, e.getValue());
         i++;
       }
+    }
+  }
+
+  private static void checkRequiredMenuItemField(String value, String name)
+      throws BadRequestException {
+    if (Strings.isNullOrEmpty(value)) {
+      throw new BadRequestException(name + " for menu item is required");
     }
   }
 

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7255ff10_60a5dbb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 43
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-29T01:48:38Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "62199c63_4e7b4c58",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "0d5a44b57960ad53ef925bf823df7683f2f50f04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9eb26adf_0207c058",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog_test.html",
         "patchSetId": 43
@@ -36,6 +60,24 @@
       "writtenOn": "2017-12-15T22:02:25Z",
       "side": 1,
       "message": "Should add a test to make sure WIP is default.",
+      "revId": "0d5a44b57960ad53ef925bf823df7683f2f50f04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c03c720e_ef9165aa",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog_test.html",
+        "patchSetId": 43
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-29T01:48:38Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9eb26adf_0207c058",
       "revId": "0d5a44b57960ad53ef925bf823df7683f2f50f04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

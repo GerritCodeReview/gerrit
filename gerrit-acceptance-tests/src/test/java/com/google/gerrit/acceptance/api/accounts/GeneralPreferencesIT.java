@@ -73,7 +73,14 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
   public void getAndSetPreferences() throws Exception {
     GeneralPreferencesInfo o = gApi.accounts().id(user42.id.toString()).getPreferences();
     assertPrefs(o, GeneralPreferencesInfo.defaults(), "my", "changeTable");
-    assertThat(o.my).hasSize(6);
+    assertThat(o.my)
+        .containsExactly(
+            new MenuItem("Changes", "#/dashboard/self", null),
+            new MenuItem("Draft Comments", "#/q/has:draft", null),
+            new MenuItem("Edits", "#/q/has:edit", null),
+            new MenuItem("Watched Changes", "#/q/is:watched+is:open", null),
+            new MenuItem("Starred Changes", "#/q/is:starred", null),
+            new MenuItem("Groups", "#/groups/self", null));
     assertThat(o.changeTable).isEmpty();
 
     GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
@@ -106,8 +113,8 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
 
     o = gApi.accounts().id(user42.getId().toString()).setPreferences(i);
     assertPrefs(o, i, "my");
-    assertThat(o.my).hasSize(1);
-    assertThat(o.changeTable).hasSize(1);
+    assertThat(o.my).containsExactlyElementsIn(i.my);
+    assertThat(o.changeTable).containsExactlyElementsIn(i.changeTable);
   }
 
   @Test

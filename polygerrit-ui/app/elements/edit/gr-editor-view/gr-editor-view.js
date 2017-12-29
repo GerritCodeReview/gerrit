@@ -117,6 +117,10 @@
         this._type = res.type;
         this._newContent = res.content;
         this._content = res.content;
+      }).catch(() => {
+        // If a inline edit for that file does not exist, use a empty
+        // String that will prevent it from erroring out in plugins.
+        this._newContent = '';
       });
     },
 

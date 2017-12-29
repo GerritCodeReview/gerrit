@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8387fe1_5d453bba",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-12-29T22:36:51Z",
+      "side": 1,
+      "message": "Im not sure if we need this?",
+      "range": {
+        "startLine": 120,
+        "startChar": 8,
+        "endLine": 123,
+        "endChar": 9
+      },
+      "revId": "81d19f3e5b38f06b70cd524d5335841551193d67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

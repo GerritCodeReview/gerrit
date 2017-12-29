@@ -191,4 +191,14 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     exception.expectMessage("URL for menu item is required");
     gApi.accounts().id(user42.getId().toString()).setPreferences(i);
   }
+
+  @Test
+  public void trimMyMenuInput() throws Exception {
+    GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
+    i.my = new ArrayList<>();
+    i.my.add(new MenuItem(" name\t", " url\t", " _blank\t", " id\t"));
+
+    GeneralPreferencesInfo o = gApi.accounts().id(user42.getId().toString()).setPreferences(i);
+    assertThat(o.my).containsExactly(new MenuItem("name", "url", "_blank", "id"));
+  }
 }

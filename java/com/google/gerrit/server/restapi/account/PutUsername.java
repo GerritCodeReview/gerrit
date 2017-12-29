@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import com.google.gerrit.common.errors.NameAlreadyUsedException;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
+
+import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.accounts.UsernameInput;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -22,14 +24,18 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
-import com.google.gerrit.server.account.ChangeUserName;
-import com.google.gerrit.server.account.InvalidUserNameException;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.ssh.SshKeyCache;
+import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -40,19 +46,25 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class PutUsername implements RestModifyView<AccountResource, UsernameInput> {
   private final Provider<CurrentUser> self;
-  private final ChangeUserName.Factory changeUserNameFactory;
   private final PermissionBackend permissionBackend;
+  private final ExternalIds externalIds;
+  private final AccountsUpdate.Server accountsUpdate;
+  private final SshKeyCache sshKeyCache;
   private final Realm realm;
 
   @Inject
   PutUsername(
       Provider<CurrentUser> self,
-      ChangeUserName.Factory changeUserNameFactory,
       PermissionBackend permissionBackend,
+      ExternalIds externalIds,
+      AccountsUpdate.Server accountsUpdate,
+      SshKeyCache sshKeyCache,
       Realm realm) {
     this.self = self;
-    this.changeUserNameFactory = changeUserNameFactory;
     this.permissionBackend = permissionBackend;
+    this.externalIds = externalIds;
+    this.accountsUpdate = accountsUpdate;
+    this.sshKeyCache = sshKeyCache;
     this.realm = realm;
   }
 
@@ -73,19 +85,39 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
       input = new UsernameInput();
     }
 
-    try {
-      changeUserNameFactory.create("Set Username via API", rsrc.getUser(), input.username).call();
-    } catch (IllegalStateException e) {
-      if (ChangeUserName.USERNAME_CANNOT_BE_CHANGED.equals(e.getMessage())) {
-        throw new MethodNotAllowedException(e.getMessage());
-      }
-      throw e;
-    } catch (InvalidUserNameException e) {
+    Account.Id accountId = rsrc.getUser().getAccountId();
+    if (!externalIds.byAccount(accountId, SCHEME_USERNAME).isEmpty()) {
+      throw new MethodNotAllowedException("Username cannot be changed.");
+    }
+
+    if (Strings.isNullOrEmpty(input.username)) {
+      return input.username;
+    }
+
+    if (!ExternalId.isValidUsername(input.username)) {
       throw new UnprocessableEntityException("invalid username");
-    } catch (NameAlreadyUsedException e) {
+    }
+
+    ExternalId.Key key = ExternalId.Key.create(SCHEME_USERNAME, input.username);
+    try {
+      accountsUpdate
+          .create()
+          .update(
+              "Set Username via API",
+              accountId,
+              u -> u.addExternalId(ExternalId.create(key, accountId, null, null)));
+    } catch (OrmDuplicateKeyException dupeErr) {
+      // If we are using this identity, don't report the exception.
+      ExternalId other = externalIds.get(key);
+      if (other != null && other.accountId().equals(accountId)) {
+        return input.username;
+      }
+
+      // Otherwise, someone else has this identity.
       throw new ResourceConflictException("username already used");
     }
 
+    sshKeyCache.evict(input.username);
     return input.username;
   }
 }

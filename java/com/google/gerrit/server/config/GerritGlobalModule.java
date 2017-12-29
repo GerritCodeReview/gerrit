@@ -86,7 +86,6 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityCollection;
-import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupControl;
@@ -419,7 +418,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(VersionedAuthorizedKeys.Factory.class);
 
     bind(AccountManager.class);
-    factory(ChangeUserName.Factory.class);
 
     bind(new TypeLiteral<List<CommentLinkInfo>>() {})
         .toProvider(CommentLinkProvider.class)

@@ -33,6 +33,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -40,6 +41,12 @@ import org.eclipse.jgit.lib.ObjectId;
 
 @AutoValue
 public abstract class ExternalId implements Serializable {
+  private static final Pattern USER_NAME_PATTERN = Pattern.compile(Account.USER_NAME_PATTERN);
+
+  public static boolean isValidUsername(String username) {
+    return USER_NAME_PATTERN.matcher(username).matches();
+  }
+
   private static final long serialVersionUID = 1L;
 
   private static final String EXTERNAL_ID_SECTION = "externalId";

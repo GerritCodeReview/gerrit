@@ -24,6 +24,7 @@ import static com.google.gerrit.server.git.UserConfigSections.KEY_URL;
 import static com.google.gerrit.server.git.UserConfigSections.URL_ALIAS;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.config.DownloadScheme;
@@ -146,11 +147,11 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
     }
   }
 
-  private static void set(Config cfg, String section, String key, String val) {
-    if (Strings.isNullOrEmpty(val)) {
-      cfg.unset(UserConfigSections.MY, section, key);
+  private static void set(Config cfg, String section, String key, @Nullable String val) {
+    if (val == null || val.trim().isEmpty()) {
+      cfg.unset(UserConfigSections.MY, section.trim(), key);
     } else {
-      cfg.setString(UserConfigSections.MY, section, key, val);
+      cfg.setString(UserConfigSections.MY, section.trim(), key, val.trim());
     }
   }
 
@@ -180,7 +181,7 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
 
   private static void checkRequiredMenuItemField(String value, String name)
       throws BadRequestException {
-    if (Strings.isNullOrEmpty(value)) {
+    if (value == null || value.trim().isEmpty()) {
       throw new BadRequestException(name + " for menu item is required");
     }
   }

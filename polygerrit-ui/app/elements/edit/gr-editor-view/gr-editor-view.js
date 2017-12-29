@@ -115,8 +115,11 @@
         if (!res.ok) { return; }
 
         this._type = res.type;
-        this._newContent = res.content;
-        this._content = res.content;
+        this._newContent = res.content ? res.content : '';
+        this._content = res.content ? res.content : '';
+      }).catch(() => {
+        this._newContent = '';
+        this._content = '';
       });
     },
 

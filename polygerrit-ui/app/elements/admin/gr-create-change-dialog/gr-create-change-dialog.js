@@ -61,13 +61,11 @@
 
     handleCreateChange() {
       const isPrivate = this.$.privateChangeCheckBox.checked;
-      const isWip = this.$.wipChangeCheckBox.checked;
+      const isWip = true;
       return this.$.restAPI.createChange(this.repoName, this.branch,
           this.subject, this.topic, isPrivate, isWip)
           .then(changeCreated => {
-            if (!changeCreated) {
-              return;
-            }
+            if (!changeCreated) { return; }
             Gerrit.Nav.navigateToChange(changeCreated);
           });
     },
@@ -93,6 +91,22 @@
             }
             return branches;
           });
+    },
+
+    _formatBooleanString(config) {
+      if (config && config.configured_value === 'TRUE') {
+        return true;
+      } else if (config && config.configured_value === 'FALSE') {
+        return false;
+      } else if (config && config.configured_value === 'INHERIT') {
+        if (config && config.inherited_value) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
     },
   });
 })();

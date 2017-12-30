@@ -235,10 +235,10 @@ limitations under the License.
             <span class="title">Fit to screen</span>
             <span class="value">
               <input
-                  id="lineWrapping"
+                  id="diffLineWrapping"
                   type="checkbox"
                   checked$="[[_diffPrefs.line_wrapping]]"
-                  on-change="_handleLineWrappingChanged">
+                  on-change="_handleDiffLineWrappingChanged">
             </span>
           </section>
           <section id="columnsPref" hidden$="[[_diffPrefs.line_wrapping]]">
@@ -278,10 +278,10 @@ limitations under the License.
             <span class="title">Show tabs</span>
             <span class="value">
               <input
-                  id="showTabs"
+                  id="diffShowTabs"
                   type="checkbox"
                   checked$="[[_diffPrefs.show_tabs]]"
-                  on-change="_handleShowTabsChanged">
+                  on-change="_handleDiffShowTabsChanged">
             </span>
           </section>
           <section>
@@ -298,16 +298,242 @@ limitations under the License.
             <span class="title">Syntax highlighting</span>
             <span class="value">
               <input
-                  id="syntaxHighlighting"
+                  id="diffSyntaxHighlighting"
                   type="checkbox"
                   checked$="[[_diffPrefs.syntax_highlighting]]"
-                  on-change="_handleSyntaxHighlightingChanged">
+                  on-change="_handleDiffSyntaxHighlightingChanged">
             </span>
           </section>
           <gr-button
               id="saveDiffPrefs"
               on-tap="_handleSaveDiffPreferences"
               disabled$="[[!_diffPrefsChanged]]">Save changes</gr-button>
+        </fieldset>
+        <h2
+            id="EditPreferences"
+            class$="[[_computeHeaderClass(_editPrefsChanged)]]">
+          Edit Preferences
+        </h2>
+        <fieldset id="editPreferences">
+          <section>
+            <span class="title">Theme</span>
+            <span class="value">
+              <gr-select bind-value="{{_editPrefs.theme}}">
+                <select>
+                  <option value="DEFAULT">default</option>
+                  <option value="DAY_3024">day_3024</option>
+                  <option value="DUOTONE_LIGHT">duotone_light</option>
+                  <option value="BASE16_LIGHT">base16_light</option>
+                  <option value="ECLIPSE">eclipse</option>
+                  <option value="ELEGANT">elegant</option>
+                  <option value="MDN_LIKE">mdn_like</option>
+                  <option value="NEAT">neat</option>
+                  <option value="NEO">neo</option>
+                  <option value="PARAISO_LIGHT">paraiso_light</option>
+                  <option value="SOLARIZED">solarized</option>
+                  <option value="TTCN">ttcn</option>
+                  <option value="XQ_LIGHT">xq_light</option>
+                  <option value="YETI">yeti</option>
+
+                  <!-- Dark themes -->
+                  <option value="NIGHT_3024">night_3024</option>
+                  <option value="ABCDEF">abcdef</option>
+                  <option value="AMBIANCE">ambiance</option>
+                  <option value="BASE16_DARK">base16_dark</option>
+                  <option value="BESPIN">bespin</option>
+                  <option value="BLACKBOARD">blackboard</option>
+                  <option value="COBALT">cobalt</option>
+                  <option value="COLORFORTH">colorforth</option>
+                  <option value="DRACULA">dracula</option>
+                  <option value="DUOTONE_DARK">duotone_dark</option>
+                  <option value="ERLANG_DARK">erlang_dark</option>
+                  <option value="HOPSCOTCH">hopscotch</option>
+                  <option value="ICECODER">icecoder</option>
+                  <option value="ISOTOPE">isotope</option>
+                  <option value="LESSER_DARK">lesser_dark</option>
+                  <option value="LIQUIBYTE">liquibyte</option>
+                  <option value="MATERIAL">material</option>
+                  <option value="MBO">mbo</option>
+                  <option value="MIDNIGHT">midnight</option>
+                  <option value="MONOKAI">monokai</option>
+                  <option value="NIGHT">night</option>
+                  <option value="PARAISO_DARK">paraiso_dark</option>
+                  <option value="PASTEL_ON_DARK">pastel_on_dark</option>
+                  <option value="RAILSCASTS">railscasts</option>
+                  <option value="RUBYBLUE">rubyblue</option>
+                  <option value="SETI">seti</option>
+                  <option value="THE_MATRIX">the_matrix</option>
+                  <option value="TOMORROW_NIGHT_BRIGHT">tomorrow_night_bright</option>
+                  <option value="TOMORROW_NIGHT_EIGHTIES">tomorrow_night_eighties</option>
+                  <option value="TWILIGHT">twilight</option>
+                  <option value="VIBRANT_INK">vibrant_ink</option>
+                  <option value="XQ_DARK">xq_dark</option>
+                  <option value="ZENBURN">zenburn</option>
+                </select>
+              </gr-select>
+            </span>
+          </section>
+          <section>
+            <span class="title">Key Map</span>
+            <span class="value">
+              <gr-select bind-value="{{_editPrefs.key_map_type}}">
+                <select>
+                  <option value="DEFAULT">default</option>
+                  <option value="EMACS">emacs</option>
+                  <option value="SUBLIME">sublime</option>
+                  <option value="VIM">vim</option>
+                </select>
+              </gr-select>
+            </span>
+          </section>
+          <section>
+            <span class="title">Tab width</span>
+            <span class="value">
+              <input
+                  is="iron-input"
+                  type="number"
+                  prevent-invalid-input
+                  allowed-pattern="[0-9]"
+                  bind-value="{{_editPrefs.tab_size}}">
+            </span>
+          </section>
+          <section>
+            <span class="title">Columns</span>
+            <span class="value">
+              <input
+                  is="iron-input"
+                  type="number"
+                  prevent-invalid-input
+                  allowed-pattern="[0-9]"
+                  bind-value="{{_editPrefs.line_length}}">
+            </span>
+          </section>
+          <section>
+            <span class="title">Indent Unit</span>
+            <span class="value">
+              <input
+                  is="iron-input"
+                  type="number"
+                  prevent-invalid-input
+                  allowed-pattern="[0-9]"
+                  bind-value="{{_editPrefs.indent_unit}}">
+            </span>
+          </section>
+          <section>
+            <span class="title">Cursor Blink Rate</span>
+            <span class="value">
+              <input
+                  is="iron-input"
+                  type="number"
+                  prevent-invalid-input
+                  allowed-pattern="[0-9]"
+                  bind-value="{{_editPrefs.cursor_blink_rate}}">
+            </span>
+          </section>
+          <section>
+            <span class="title">Top Menu</span>
+            <span class="value">
+              <input
+                  id="showTopMenu"
+                  type="checkbox"
+                  checked$="[[_editPrefs.hide_top_menu]]"
+                  on-change="_handleTopMenuChanged">
+            </span>
+          </section>
+          <section>
+            <span class="title">Syntax Highlighting</span>
+            <span class="value">
+              <input
+                  id="editShowSyntaxHighlighting"
+                  type="checkbox"
+                  checked$="[[_editPrefs.syntax_highlighting]]"
+                  on-change="_handleEditSyntaxHighlightingChanged">
+            </span>
+          </section>
+          <section>
+            <span class="title">Show Tabs</span>
+            <span class="value">
+              <input
+                  id="editShowTabs"
+                  type="checkbox"
+                  checked$="[[_editPrefs.show_tabs]]"
+                  on-change="_handleEditShowTabsChanged">
+            </span>
+          </section>
+          <section>
+            <span class="title">Whitespace Errors</span>
+            <span class="value">
+              <input
+                  id="whitespaceErrors"
+                  type="checkbox"
+                  checked$="[[_editPrefs.show_whitespace_errors]]"
+                  on-change="_handleWhitespaceErrorsChanged">
+            </span>
+          </section>
+          <section>
+            <span class="title">Line Numbers</span>
+            <span class="value">
+              <input
+                  id="showLineNumbers"
+                  type="checkbox"
+                  checked$="[[_editPrefs.hide_line_numbers]]"
+                  on-change="_handleLineNumbersChanged">
+            </span>
+          </section>
+          <section>
+            <span class="title">Match Brackets</span>
+            <span class="value">
+              <input
+                  id="showMatchBrackets"
+                  type="checkbox"
+                  checked$="[[_editPrefs.match_brackets]]"
+                  on-change="_handleMatchBracketsChanged">
+            </span>
+          </section>
+          <section>
+            <span class="title">Line Wrapping</span>
+            <span class="value">
+              <input
+                  id="editShowLineWrapping"
+                  type="checkbox"
+                  checked$="[[_editPrefs.line_wrapping]]"
+                  on-change="_handleEditLineWrappingChanged">
+            </span>
+          </section>
+          <section>
+            <span class="title">Indent With Tabs</span>
+            <span class="value">
+              <input
+                  id="showIndentWithTabs"
+                  type="checkbox"
+                  checked$="[[_editPrefs.indent_with_tabs]]"
+                  on-change="_handleIndentWithTabsChanged">
+            </span>
+          </section>
+          <section>
+            <span class="title">Auto Close Brackets</span>
+            <span class="value">
+              <input
+                  id="showAutoCloseBrackets"
+                  type="checkbox"
+                  checked$="[[_editPrefs.auto_close_brackets]]"
+                  on-change="_handleAutoCloseBracketsChanged">
+            </span>
+          </section>
+          <section>
+            <span class="title">Show Base Version</span>
+            <span class="value">
+              <input
+                  id="showShowBaseVersion"
+                  type="checkbox"
+                  checked$="[[_editPrefs.show_base]]"
+                  on-change="_handleShowBaseVersionChanged">
+            </span>
+          </section>
+          <gr-button
+              id="saveEditPrefs"
+              on-tap="_handleSaveEditPreferences"
+              disabled$="[[!_editPrefsChanged]]">Save changes</gr-button>
         </fieldset>
         <h2 id="Menu" class$="[[_computeHeaderClass(_menuChanged)]]">Menu</h2>
         <fieldset id="menu">

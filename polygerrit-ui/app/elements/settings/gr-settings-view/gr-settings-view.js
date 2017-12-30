@@ -60,6 +60,8 @@
       _accountInfoChanged: Boolean,
       /** @type {?} */
       _diffPrefs: Object,
+      /** @type {?} */
+      _editPrefs: Object,
       _changeTableColumnsNotDisplayed: Array,
       /** @type {?} */
       _localPrefs: {
@@ -87,6 +89,10 @@
         value: false,
       },
       _diffPrefsChanged: {
+        type: Boolean,
+        value: false,
+      },
+      _editPrefsChanged: {
         type: Boolean,
         value: false,
       },
@@ -133,6 +139,7 @@
     observers: [
       '_handlePrefsChanged(_localPrefs.*)',
       '_handleDiffPrefsChanged(_diffPrefs.*)',
+      '_handleEditPrefsChanged(_editPrefs.*)',
       '_handleMenuChanged(_localMenu.splices)',
       '_handleChangeTableChanged(_localChangeTableColumns, _showNumber)',
     ],
@@ -158,6 +165,10 @@
 
       promises.push(this.$.restAPI.getDiffPreferences().then(prefs => {
         this._diffPrefs = prefs;
+      }));
+
+      promises.push(this.$.restAPI.getEditPreferences().then(prefs => {
+        this._editPrefs = prefs;
       }));
 
       promises.push(this.$.restAPI.getConfig().then(config => {
@@ -256,6 +267,11 @@
       this._diffPrefsChanged = true;
     },
 
+    _handleEditPrefsChanged() {
+      if (this._isLoading()) { return; }
+      this._editPrefsChanged = true;
+    },
+
     _handleExpandInlineDiffsChanged() {
       this.set('_localPrefs.expand_inline_diffs',
           this.$.expandInlineDiffs.checked);
@@ -287,12 +303,12 @@
       });
     },
 
-    _handleLineWrappingChanged() {
-      this.set('_diffPrefs.line_wrapping', this.$.lineWrapping.checked);
+    _handleDiffLineWrappingChanged() {
+      this.set('_diffPrefs.line_wrapping', this.$.diffLineWrapping.checked);
     },
 
-    _handleShowTabsChanged() {
-      this.set('_diffPrefs.show_tabs', this.$.showTabs.checked);
+    _handleDiffShowTabsChanged() {
+      this.set('_diffPrefs.show_tabs', this.$.diffShowTabs.checked);
     },
 
     _handleShowTrailingWhitespaceChanged() {
@@ -300,9 +316,9 @@
           this.$.showTrailingWhitespace.checked);
     },
 
-    _handleSyntaxHighlightingChanged() {
+    _handleDiffSyntaxHighlightingChanged() {
       this.set('_diffPrefs.syntax_highlighting',
-          this.$.syntaxHighlighting.checked);
+          this.$.diffSyntaxHighlighting.checked);
     },
 
     _handleSaveChangeTable() {
@@ -318,6 +334,58 @@
       return this.$.restAPI.saveDiffPreferences(this._diffPrefs)
           .then(() => {
             this._diffPrefsChanged = false;
+          });
+    },
+
+    _handleEditSyntaxHighlightingChanged() {
+      this.set('_editPrefs.syntax_highlighting',
+          this.$.editSyntaxHighlighting.checked);
+    },
+
+    _handleEditShowTabsChanged() {
+      this.set('_editPrefs.show_tabs',
+          this.$.editShowTabs.checked);
+    },
+
+    _handleWhitespaceErrorsChanged() {
+      this.set('_editPrefs.show_whitespace_errors',
+          this.$.whitespaceErrors.checked);
+    },
+
+    _handleLineNumbersChanged() {
+      this.set('_editPrefs.hide_line_numbers',
+          this.$.showLineNumbers.checked);
+    },
+
+    _handleMatchBracketsChanged() {
+      this.set('_editPrefs.match_brackets',
+          this.$.showMatchBrackets.checked);
+    },
+
+    _handleEditLineWrappingChanged() {
+      this.set('_editPrefs.line_wrapping',
+          this.$.editShowLineWrapping.checked);
+    },
+
+    _handleIndentWithTabsChanged() {
+      this.set('_editPrefs.indent_with_tabs',
+          this.$.showIndentWithTabs.checked);
+    },
+
+    _handleAutoCloseBracketsChanged() {
+      this.set('_editPrefs.auto_close_brackets',
+          this.$.showAutoCloseBrackets.checked);
+    },
+
+    _handleShowBaseVersionChanged() {
+      this.set('_editPrefs.show_base',
+          this.$.showShowBaseVersion.checked);
+    },
+
+    _handleSaveEditPreferences() {
+      return this.$.restAPI.saveEditPreferences(this._diffPrefs)
+          .then(() => {
+            this._editPrefsChanged = false;
           });
     },
 

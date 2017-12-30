@@ -89,10 +89,20 @@
   function getPluginNameFromUrl(url) {
     const base = Gerrit.BaseUrlBehavior.getBaseUrl();
     const pathname = url.pathname.replace(base, '');
+
+    let pathNameDecode;
+    if (decodeURIComponent(pathname).replace(/(\r\n|\n|\r)/gm, '')
+        .trim().indexOf('sourceURL=') !== -1) {
+      pathNameDecode = '/plugins' + decodeURIComponent(pathname)
+          .replace(/(\r\n|\n|\r)/gm, '').trim().split('/plugins').pop();
+    } else {
+      pathNameDecode = pathname;
+    }
+
     // Site theme is server from predefined path.
-    if (pathname === '/static/gerrit-theme.html') {
+    if (pathNameDecode === '/static/gerrit-theme.html') {
       return 'gerrit-theme';
-    } else if (!pathname.startsWith('/plugins')) {
+    } else if (!pathNameDecode.startsWith('/plugins')) {
       console.warn('Plugin not being loaded from /plugins base path:',
           url.href, '— Unable to determine name.');
       return;
@@ -101,7 +111,7 @@
     // /plugins/PLUGINNAME/static/SCRIPTNAME.html
     // Or, for app/samples:
     // /plugins/PLUGINNAME.html
-    return pathname.split('/')[2].split('.')[0];
+    return pathNameDecode.split('/')[2].split('.')[0];
   }
 
   function Plugin(opt_url) {

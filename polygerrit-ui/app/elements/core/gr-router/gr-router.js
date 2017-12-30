@@ -101,17 +101,18 @@
      */
     QUERY_LEGACY_SUFFIX: /^\/q\/.+,n,z$/,
 
-    // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>][/].
-    CHANGE_LEGACY: /^\/c\/(\d+)\/?(((-?\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
+    // Matches /c/<changeNum>[,edit][/][<basePatchNum|edit>..][<patchNum|edit>][/].
+    // eslint-disable-next-line max-len
+    CHANGE_LEGACY: /^\/c\/(\d+)(,edit)?\/?(((-?\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
     CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
 
     // Matches
-    // /c/<project>/+/<changeNum>/
+    // /c/<project>/+/<changeNum>[/]
     //     [<basePatchNum|edit>..][<patchNum|edit>]/[path].
     // TODO(kaspern): Migrate completely to project based URLs, with backwards
     // compatibility for change-only.
     // eslint-disable-next-line max-len
-    CHANGE_OR_DIFF: /^\/c\/(.+)\/\+\/(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?(\/(.+))?))?\/?$/,
+    CHANGE_OR_DIFF: /^\/c\/(.+)\/\+\/(\d+)(,edit)?(\/?((-?\d+|edit)(\.\.(\d+|edit))?(\/(.+))?))?\/?$/,
 
     // Matches /c/<project>/+/<changeNum>/edit/<path>,edit
     // eslint-disable-next-line max-len
@@ -1177,9 +1178,9 @@
       const params = {
         project: ctx.params[0],
         changeNum: ctx.params[1],
-        basePatchNum: ctx.params[4],
-        patchNum: ctx.params[6],
-        path: ctx.params[8],
+        basePatchNum: ctx.params[5],
+        patchNum: ctx.params[7],
+        path: ctx.params[9],
         view: isDiffView ? Gerrit.Nav.View.DIFF : Gerrit.Nav.View.CHANGE,
       };
 
@@ -1198,8 +1199,8 @@
       // Parameter order is based on the regex group number matched.
       const params = {
         changeNum: ctx.params[0],
-        basePatchNum: ctx.params[3],
-        patchNum: ctx.params[5],
+        basePatchNum: ctx.params[4],
+        patchNum: ctx.params[6],
         view: Gerrit.Nav.View.CHANGE,
         querystring: ctx.querystring,
       };

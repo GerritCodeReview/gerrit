@@ -22,13 +22,22 @@ def _npm_binary_impl(ctx):
     url = 'http://gerrit-maven.storage.googleapis.com/npm-packages/%s' % filename
   elif repository == NPMJS:
     url = 'http://registry.npmjs.org/%s/-/%s' % (name, filename)
+  elif repository == "NPMJS_BINARY":
+    """blank to prevent error below"""
   else:
     fail('repository %s not in {%s,%s}' % (repository, GERRIT, NPMJS))
 
-  python = ctx.which("python")
-  script = ctx.path(ctx.attr._download_script)
+  if repository == "NPMJS_BINARY":
+    npm = ctx.which("npm")
+    script = ctx.path(ctx.attr._download_script)
 
-  args = [python, script, "-o", dest, "-u", url, "-v", sha1]
+    args = [npm, script, "-o", dest, "-u", url, "-v", sha1]
+  else:
+    python = ctx.which("python")
+    script = ctx.path(ctx.attr._download_script)
+
+    args = [python, script, "-o", dest, "-u", url, "-v", sha1]
+
   out = ctx.execute(args)
   if out.return_code:
     fail("failed %s: %s" % (args, out.stderr))

@@ -485,6 +485,34 @@ be recomputed often, which is slow for projects with big trees.
     }
   ]
 ----
+[[index-changes]]
+=== Index changes
+--
+'POST changes/index'
+
+Index a group of changes defined by a query.
+
+The query input, link:#change-query-input [ChangesQueryInput] entity,
+must be passed as a JSON object in the request body.
+
+The changes are indexed in background.
+
+.Request
+----
+  POST /changes/index HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "query" : "status:open"
+  }
+----
+
+
+.Response
+----
+  HTTP/1.1 202 Accepted
+----
+
 
 [[get-change]]
 === Get Change
@@ -5818,6 +5846,17 @@ NOTE: To apply different tags on on different votes/comments multiple
 invocations of the REST call are required.
 |`_revision_number`    |optional|
 Which patchset (if any) generated this message.
+|==================================
+
+[[change-query-input]]
+=== ChangeQueryInput
+The `ChangeQueryInput` entity contains the query used to filter the
+group of changes to be indexed.
+
+[options="header",cols="1,^1,5"]
+|==================================
+|Field Name           ||Description
+|`query`              ||Query to filter the changes.
 |==================================
 
 [[cherrypick-input]]

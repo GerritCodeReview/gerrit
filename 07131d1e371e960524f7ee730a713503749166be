@@ -39,6 +39,30 @@
       "revId": "07131d1e371e960524f7ee730a713503749166be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "681055e1_1cec271d",
+        "filename": "java/com/google/gerrit/server/git/SystemReaderInstaller.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-01-01T21:42:08Z",
+      "side": 1,
+      "message": "it\u0027s called by the constructor FileRepository(BaseRepositoryBuilder options)",
+      "parentUuid": "e1e40d25_2d2af575",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 7
+      },
+      "revId": "07131d1e371e960524f7ee730a713503749166be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

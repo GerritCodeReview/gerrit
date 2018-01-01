@@ -268,9 +268,9 @@ public class RestApiServlet extends HttpServlet {
     int status = SC_OK;
     long responseBytes = -1;
     Object result = null;
-    QueryParams qp = null;
+    QueryParams queryParams = null;
     Object inputRequestBody = null;
-    RestResource rsrc = TopLevelResource.INSTANCE;
+    RestResource restRsrc = TopLevelResource.INSTANCE;
     ViewData viewData = null;
 
     try {
@@ -279,77 +279,77 @@ public class RestApiServlet extends HttpServlet {
         return;
       }
 
-      qp = ParameterParser.getQueryParams(req);
-      checkCors(req, res, qp.hasXdOverride());
-      if (qp.hasXdOverride()) {
-        req = applyXdOverrides(req, qp);
+      queryParams = ParameterParser.getQueryParams(req);
+      checkCors(req, res, queryParams.hasXdOverride());
+      if (queryParams.hasXdOverride()) {
+        req = applyXdOverrides(req, queryParams);
       }
       checkUserSession(req);
 
       List<IdString> path = splitPath(req);
-      RestCollection<RestResource, RestResource> rc = members.get();
+      RestCollection<RestResource, RestResource> restCollection = members.get();
       globals
           .permissionBackend
           .user(globals.currentUser)
-          .checkAny(GlobalPermission.fromAnnotation(rc.getClass()));
+          .checkAny(GlobalPermission.fromAnnotation(restCollection.getClass()));
 
       viewData = new ViewData(null, null);
 
       if (path.isEmpty()) {
-        if (rc instanceof NeedsParams) {
-          ((NeedsParams) rc).setParams(qp.params());
+        if (restCollection instanceof NeedsParams) {
+          ((NeedsParams) restCollection).setParams(queryParams.params());
         }
 
         if (isRead(req)) {
-          viewData = new ViewData(null, rc.list());
-        } else if (rc instanceof AcceptsPost && "POST".equals(req.getMethod())) {
+          viewData = new ViewData(null, restCollection.list());
+        } else if (restCollection instanceof AcceptsPost && "POST".equals(req.getMethod())) {
           @SuppressWarnings("unchecked")
-          AcceptsPost<RestResource> ac = (AcceptsPost<RestResource>) rc;
-          viewData = new ViewData(null, ac.post(rsrc));
+          AcceptsPost<RestResource> acceptPost = (AcceptsPost<RestResource>) restCollection;
+          viewData = new ViewData(null, acceptPost.post(restRsrc));
         } else {
           throw new MethodNotAllowedException();
         }
       } else {
         IdString id = path.remove(0);
         try {
-          rsrc = rc.parse(rsrc, id);
+          restRsrc = restCollection.parse(restRsrc, id);
           if (path.isEmpty()) {
             checkPreconditions(req);
           }
         } catch (ResourceNotFoundException e) {
-          if (rc instanceof AcceptsCreate
+          if (restCollection instanceof AcceptsCreate
               && path.isEmpty()
               && ("POST".equals(req.getMethod()) || "PUT".equals(req.getMethod()))) {
             @SuppressWarnings("unchecked")
-            AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) rc;
-            viewData = new ViewData(null, ac.create(rsrc, id));
+            AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) restCollection;
+            viewData = new ViewData(null, ac.create(restRsrc, id));
             status = SC_CREATED;
           } else {
             throw e;
           }
         }
         if (viewData.view == null) {
-          viewData = view(rsrc, rc, req.getMethod(), path);
+          viewData = view(restRsrc, restCollection, req.getMethod(), path);
         }
       }
       checkRequiresCapability(viewData);
 
       while (viewData.view instanceof RestCollection<?, ?>) {
         @SuppressWarnings("unchecked")
-        RestCollection<RestResource, RestResource> c =
+        RestCollection<RestResource, RestResource> restCollect =
             (RestCollection<RestResource, RestResource>) viewData.view;
 
         if (path.isEmpty()) {
           if (isRead(req)) {
-            viewData = new ViewData(null, c.list());
-          } else if (c instanceof AcceptsPost && "POST".equals(req.getMethod())) {
+            viewData = new ViewData(null, restCollect.list());
+          } else if (restCollect instanceof AcceptsPost && "POST".equals(req.getMethod())) {
             @SuppressWarnings("unchecked")
-            AcceptsPost<RestResource> ac = (AcceptsPost<RestResource>) c;
-            viewData = new ViewData(null, ac.post(rsrc));
-          } else if (c instanceof AcceptsDelete && "DELETE".equals(req.getMethod())) {
+            AcceptsPost<RestResource> acceptP = (AcceptsPost<RestResource>) restCollect;
+            viewData = new ViewData(null, acceptP.post(restRsrc));
+          } else if (restCollect instanceof AcceptsDelete && "DELETE".equals(req.getMethod())) {
             @SuppressWarnings("unchecked")
-            AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) c;
-            viewData = new ViewData(null, ac.delete(rsrc, null));
+            AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) restCollect;
+            viewData = new ViewData(null, ac.delete(restRsrc, null));
           } else {
             throw new MethodNotAllowedException();
           }
@@ -357,53 +357,53 @@ public class RestApiServlet extends HttpServlet {
         }
         IdString id = path.remove(0);
         try {
-          rsrc = c.parse(rsrc, id);
+          restRsrc = restCollect.parse(restRsrc, id);
           checkPreconditions(req);
           viewData = new ViewData(null, null);
         } catch (ResourceNotFoundException e) {
-          if (c instanceof AcceptsCreate
+          if (restCollect instanceof AcceptsCreate
               && path.isEmpty()
               && ("POST".equals(req.getMethod()) || "PUT".equals(req.getMethod()))) {
             @SuppressWarnings("unchecked")
-            AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) c;
-            viewData = new ViewData(viewData.pluginName, ac.create(rsrc, id));
+            AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) restCollect;
+            viewData = new ViewData(viewData.pluginName, ac.create(restRsrc, id));
             status = SC_CREATED;
-          } else if (c instanceof AcceptsDelete
+          } else if (restCollect instanceof AcceptsDelete
               && path.isEmpty()
               && "DELETE".equals(req.getMethod())) {
             @SuppressWarnings("unchecked")
-            AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) c;
-            viewData = new ViewData(viewData.pluginName, ac.delete(rsrc, id));
+            AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) restCollect;
+            viewData = new ViewData(viewData.pluginName, ac.delete(restRsrc, id));
             status = SC_NO_CONTENT;
           } else {
             throw e;
           }
         }
         if (viewData.view == null) {
-          viewData = view(rsrc, c, req.getMethod(), path);
+          viewData = view(restRsrc, restCollect, req.getMethod(), path);
         }
         checkRequiresCapability(viewData);
       }
 
-      if (notModified(req, rsrc, viewData.view)) {
+      if (notModified(req, restRsrc, viewData.view)) {
         res.sendError(SC_NOT_MODIFIED);
         return;
       }
 
-      if (!globals.paramParser.get().parse(viewData.view, qp.params(), req, res)) {
+      if (!globals.paramParser.get().parse(viewData.view, queryParams.params(), req, res)) {
         return;
       }
 
       if (viewData.view instanceof RestReadView<?> && isRead(req)) {
-        result = ((RestReadView<RestResource>) viewData.view).apply(rsrc);
+        result = ((RestReadView<RestResource>) viewData.view).apply(restRsrc);
       } else if (viewData.view instanceof RestModifyView<?, ?>) {
         @SuppressWarnings("unchecked")
-        RestModifyView<RestResource, Object> m =
+        RestModifyView<RestResource, Object> restModifyView =
             (RestModifyView<RestResource, Object>) viewData.view;
 
-        Type type = inputType(m);
+        Type type = inputType(restModifyView);
         inputRequestBody = parseRequest(req, type);
-        result = m.apply(rsrc, inputRequestBody);
+        result = restModifyView.apply(restRsrc, inputRequestBody);
         consumeRawInputRequestBody(req, type);
       } else {
         throw new ResourceNotFoundException();
@@ -413,7 +413,7 @@ public class RestApiServlet extends HttpServlet {
         @SuppressWarnings("rawtypes")
         Response<?> r = (Response) result;
         status = r.statusCode();
-        configureCaching(req, res, rsrc, viewData.view, r.caching());
+        configureCaching(req, res, restRsrc, viewData.view, r.caching());
       } else if (result instanceof Response.Redirect) {
         CacheHeaders.setNotCacheable(res);
         res.sendRedirect(((Response.Redirect) result).location());
@@ -433,7 +433,7 @@ public class RestApiServlet extends HttpServlet {
         if (result instanceof BinaryResult) {
           responseBytes = replyBinaryResult(req, res, (BinaryResult) result);
         } else {
-          responseBytes = replyJson(req, res, qp.config(), result);
+          responseBytes = replyJson(req, res, queryParams.config(), result);
         }
       }
     } catch (MalformedJsonException e) {
@@ -508,11 +508,11 @@ public class RestApiServlet extends HttpServlet {
               globals.currentUser.get(),
               req,
               auditStartTs,
-              qp != null ? qp.params() : ImmutableListMultimap.of(),
+              queryParams != null ? queryParams.params() : ImmutableListMultimap.of(),
               inputRequestBody,
               status,
               result,
-              rsrc,
+              restRsrc,
               viewData == null ? null : viewData.view));
     }
   }

@@ -26,6 +26,7 @@ import com.google.gerrit.httpd.raw.SshInfoServlet;
 import com.google.gerrit.httpd.raw.ToolServlet;
 import com.google.gerrit.httpd.restapi.AccessRestApiServlet;
 import com.google.gerrit.httpd.restapi.AccountsRestApiServlet;
+import com.google.gerrit.httpd.restapi.ChangesIndexRestApiServlet;
 import com.google.gerrit.httpd.restapi.ChangesRestApiServlet;
 import com.google.gerrit.httpd.restapi.ConfigRestApiServlet;
 import com.google.gerrit.httpd.restapi.GroupsRestApiServlet;
@@ -107,7 +108,8 @@ class UrlModule extends ServletModule {
     // this means that plugins can't add REST views on PLUGIN_KIND.
     serveRegex("^/(?:a/)?access/(.*)$").with(AccessRestApiServlet.class);
     serveRegex("^/(?:a/)?accounts/(.*)$").with(AccountsRestApiServlet.class);
-    serveRegex("^/(?:a/)?changes/(.*)$").with(ChangesRestApiServlet.class);
+    serveRegex("^/(?:a/)?changes/index$").with(ChangesIndexRestApiServlet.class);
+    serveRegex("^/(?:a/)?changes/(?!index)(.*)$").with(ChangesRestApiServlet.class);
     serveRegex("^/(?:a/)?config/(.*)$").with(ConfigRestApiServlet.class);
     serveRegex("^/(?:a/)?groups/(.*)?$").with(GroupsRestApiServlet.class);
     serveRegex("^/(?:a/)?projects/(.*)?$").with(ProjectsRestApiServlet.class);

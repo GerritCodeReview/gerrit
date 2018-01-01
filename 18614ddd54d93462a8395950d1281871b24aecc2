@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1bc9bec_6c1a1a3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-01-01T23:45:53Z",
+      "side": 1,
+      "message": "this commit message doesn\u0027t comply to the commit message rules in\nhttps://gerrit-review.googlesource.com/Documentation/dev-contributing.html#commit-message",
+      "revId": "18614ddd54d93462a8395950d1281871b24aecc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d8ca879_fc20ff66",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2470,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-02T06:42:16Z",
+      "side": 1,
+      "message": "Can you please add some more details about where the base version is shown? I think it\u0027s only about the edit screen?",
+      "range": {
+        "startLine": 2470,
+        "startChar": 0,
+        "endLine": 2470,
+        "endChar": 41
+      },
+      "revId": "d4da79af301919924dcc4ea0edb86625f5f1ef9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7330ed2c_11662744",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-02T18:35:53Z",
+      "side": 1,
+      "message": "It looks like this comment is invalid.",
+      "revId": "c0b3e9579505174d0b8b33c749d80c0d9d02cf5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86740cf6_c6a15952",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-02T18:35:53Z",
+      "side": 1,
+      "message": "It looks like this comment is invalid.",
+      "revId": "c0b3e9579505174d0b8b33c749d80c0d9d02cf5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1514550694 +0100\nnonce ADEcKBrAl6Q0US5+c0QzU5c9hCyFIGDNFCThc80pf8DqNX5DIpuNa3uqanwkEfWVo7p3pK2AFE6n\n\n0000000000000000000000000000000000000000 de026b601b8778042e79ab920340ee1ef7e9808d refs/for/stable-2.15\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaRjWnAAoJEFG1/Zeg0O9RuGYIALyCvga++QYzV7qFKbf6bUaT\nHgBxpr1YP49YaLHuZNBljMmFoC0gfJm3WowddGTihf22aj1yzhKhCkmsoFU1bIUD\nD8Qa/7Y9s2+RhRoXvTpBl/DMaZ35qFVgHvEMT/FN6AQE1trojZV2LoYjpU1wgFaX\neZWzunG/yu27/vvo6MMLOgIRFeVwHInzKEY35GKSObu1KK8RlLxBTxQHSVUVJT1z\nf1FqZykurgnZy+aMtEzIuDGg3ljaF7mSQaJhdL/+YjlBrwUGXZo7HerlPkoYmLDR\n+y00phoihC4xL5DwFlWjB6I4yFDuVwMAWabqf+8Y22/bopnrYCasBYTETVAIZn0\u003d\n\u003dXOCC\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcfe5d47_00edad2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-01-02T22:37:58Z",
+      "side": 1,
+      "message": "Bug: Issue 8050",
+      "revId": "de026b601b8778042e79ab920340ee1ef7e9808d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

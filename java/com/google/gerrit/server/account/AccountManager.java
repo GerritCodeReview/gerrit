@@ -460,27 +460,17 @@ public class AccountManager {
       }
     }
 
-    externalIdsUpdateFactory.create().delete(extIds);
-
-    if (extIds.stream().anyMatch(e -> e.email() != null)) {
-      accountsUpdateFactory
-          .create()
-          .update(
-              "Clear Preferred Email on Unlinking External ID\n"
-                  + "\n"
-                  + "The preferred email is cleared because the corresponding external ID\n"
-                  + "was removed.",
-              from,
-              (a, u) -> {
-                if (a.getPreferredEmail() != null) {
-                  for (ExternalId extId : extIds) {
-                    if (a.getPreferredEmail().equals(extId.email())) {
-                      u.setPreferredEmail(null);
-                      break;
-                    }
-                  }
-                }
-              });
-    }
+    accountsUpdateFactory
+        .create()
+        .update(
+            "Unlink External ID" + (extIds.size() > 1 ? "s" : ""),
+            from,
+            (a, u) -> {
+              u.deleteExternalIds(extIds);
+              if (a.getPreferredEmail() != null
+                  && extIds.stream().anyMatch(e -> a.getPreferredEmail().equals(e.email()))) {
+                u.setPreferredEmail(null);
+              }
+            });
   }
 }

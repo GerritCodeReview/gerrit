@@ -67,12 +67,12 @@
         notify: true,
       },
       section: String,
-      _modified: {
+      modified: {
         type: Boolean,
         value: false,
       },
       _originalRuleValues: Object,
-      _deleted: {
+      deleted: {
         type: Boolean,
         value: false,
       },
@@ -182,33 +182,29 @@
     },
 
     _handleRemoveRule() {
-      this._deleted = true;
-      this.set('rule.value.deleted', true);
+      this.deleted = true;
+      this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
     },
 
     _handleUndoRemove() {
-      this._deleted = false;
-      delete this.rule.value.deleted;
+      this.deleted = false;
     },
 
     _handleUndoChange() {
       this.set('rule.value', Object.assign({}, this._originalRuleValues));
-      this._modified = false;
+      this.deleted = false;
+      this.modified = false;
     },
 
     _handleValueChange() {
       if (!this._originalRuleValues) { return; }
-      this._modified = true;
+      this.modified = true;
       // Allows overall access page to know a change has been made.
       this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
     },
 
     _setOriginalRuleValues(value) {
       this._originalRuleValues = Object.assign({}, value);
-    },
-
-    _computeModifiedClass(modified) {
-      return modified ? 'modified' : '';
     },
   });
 })();

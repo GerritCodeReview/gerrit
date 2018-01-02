@@ -101,6 +101,29 @@ limitations under the License.
       },
     };
 
+    const repoAccessInputRemoved = {
+      add: {
+        'refs/*': {
+          permissions: {
+            owner: {
+              rules: {},
+            },
+          },
+        },
+      },
+      remove: {
+        'refs/*': {
+          permissions: {
+            owner: {
+              rules: {
+                123: null,
+              },
+            },
+          },
+        },
+      },
+    };
+
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
@@ -312,8 +335,11 @@ limitations under the License.
         // With nothing modified
         assert.deepEqual(element._computeAddAndRemove(), {add: {}, remove: {}});
         const rules = element._getAllRules();
-        rules[0]._modified = true;
+        rules[0].modified = true;
         assert.deepEqual(element._computeAddAndRemove(), repoAccessInput);
+        rules[0].modified = false;
+        rules[0].deleted = true;
+        assert.deepEqual(element._computeAddAndRemove(), repoAccessInputRemoved);
       });
 
       test('_handleSaveForReview', done => {

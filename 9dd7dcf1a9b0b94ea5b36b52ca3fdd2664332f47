@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "4472ffb7_0f9e3548",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshCommandDetailCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-01-02T08:39:37Z",
+      "side": 1,
+      "message": "AFAIU masking is disabled by default. That means it shouldn\u0027t be masked in logs too, right?",
+      "parentUuid": "60609602_83274ec3",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 38
+      },
+      "revId": "9dd7dcf1a9b0b94ea5b36b52ca3fdd2664332f47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7e408140_b5022d35",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
         "patchSetId": 7

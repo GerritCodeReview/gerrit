@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5e698554_04a5ede2",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-02T18:17:34Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "913f4fe5_fb9637f0",
+      "revId": "81d19f3e5b38f06b70cd524d5335841551193d67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3d9076b2_6a77b4df",
         "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.js",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2018-01-02T17:59:32Z",
       "side": 1,
       "message": "Make these two ternaries just...\n  \n  ...\u003d res.content || \u0027\u0027;",
+      "range": {
+        "startLine": 118,
+        "startChar": 8,
+        "endLine": 119,
+        "endChar": 55
+      },
+      "revId": "81d19f3e5b38f06b70cd524d5335841551193d67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72fbcc46_bf693c60",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-02T18:17:34Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3d9076b2_6a77b4df",
       "range": {
         "startLine": 118,
         "startChar": 8,
@@ -77,6 +119,30 @@
       "side": 1,
       "message": "We do not.",
       "parentUuid": "f8387fe1_5d453bba",
+      "range": {
+        "startLine": 120,
+        "startChar": 8,
+        "endLine": 123,
+        "endChar": 9
+      },
+      "revId": "81d19f3e5b38f06b70cd524d5335841551193d67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a333983_83dea83c",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-02T18:17:34Z",
+      "side": 1,
+      "message": "Thanks, i\u0027ve removed it now.",
+      "parentUuid": "984f7207_bb070c09",
       "range": {
         "startLine": 120,
         "startChar": 8,

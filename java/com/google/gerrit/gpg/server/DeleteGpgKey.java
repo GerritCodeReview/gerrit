@@ -24,8 +24,9 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -41,16 +42,19 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
 
   private final Provider<PersonIdent> serverIdent;
   private final Provider<PublicKeyStore> storeProvider;
-  private final ExternalIdsUpdate.User externalIdsUpdateFactory;
+  private final AccountsUpdate.User accountsUpdateFactory;
+  private final ExternalIds externalIds;
 
   @Inject
   DeleteGpgKey(
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       Provider<PublicKeyStore> storeProvider,
-      ExternalIdsUpdate.User externalIdsUpdateFactory) {
+      AccountsUpdate.User accountsUpdateFactory,
+      ExternalIds externalIds) {
     this.serverIdent = serverIdent;
     this.storeProvider = storeProvider;
-    this.externalIdsUpdateFactory = externalIdsUpdateFactory;
+    this.accountsUpdateFactory = accountsUpdateFactory;
+    this.externalIds = externalIds;
   }
 
   @Override
@@ -58,12 +62,16 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
       throws ResourceConflictException, PGPException, OrmException, IOException,
           ConfigInvalidException {
     PGPPublicKey key = rsrc.getKeyRing().getPublicKey();
-    externalIdsUpdateFactory
-        .create()
-        .delete(
-            rsrc.getUser().getAccountId(),
+    ExternalId extId =
+        externalIds.get(
             ExternalId.Key.create(
                 SCHEME_GPGKEY, BaseEncoding.base16().encode(key.getFingerprint())));
+    accountsUpdateFactory
+        .create()
+        .update(
+            "Delete GPG Key via API",
+            rsrc.getUser().getAccountId(),
+            u -> u.deleteExternalId(extId));
 
     try (PublicKeyStore store = storeProvider.get()) {
       store.remove(rsrc.getKeyRing().getPublicKey().getFingerprint());

@@ -91,11 +91,6 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
   public GpgKey parse(AccountResource parent, IdString id)
       throws ResourceNotFoundException, PGPException, OrmException, IOException {
     checkVisible(self, parent);
-    String str = CharMatcher.whitespace().removeFrom(id.get()).toUpperCase();
-    if ((str.length() != 8 && str.length() != 40)
-        || !CharMatcher.anyOf("0123456789ABCDEF").matchesAllOf(str)) {
-      throw new ResourceNotFoundException(id);
-    }
 
     byte[] fp = parseFingerprint(id.get(), getGpgExtIds(parent));
     try (PublicKeyStore store = storeProvider.get()) {

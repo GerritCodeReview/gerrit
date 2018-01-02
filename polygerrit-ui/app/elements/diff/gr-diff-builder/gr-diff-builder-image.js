@@ -138,7 +138,7 @@
     if (image) {
       const type = image.type || image._expectedType;
       if (image._width && image._height) {
-        return image._width + '⨉' + image._height + ' ' + type;
+        return image._width + '×' + image._height + ' ' + type;
       } else {
         return type;
       }

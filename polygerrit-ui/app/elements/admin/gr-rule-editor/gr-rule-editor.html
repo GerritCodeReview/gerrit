@@ -32,13 +32,12 @@ limitations under the License.
         padding: .7em;
         display: block;
       }
-      .buttons {
+      #removeBtn {
         display: none;
       }
-      /* TODO @beckysiegel add back */
-      /* .editing .buttons {
+      .editing #removeBtn  {
         display: flex;
-      } */
+      }
       #options {
         align-items: baseline;
         display: flex;
@@ -52,9 +51,10 @@ limitations under the License.
         flex-wrap: nowrap;
         justify-content: space-between;
       }
-      .buttons gr-button {
-        float: left;
-        margin-left: .3em;
+      #deletedContainer.deleted {
+        align-items: baseline;
+        display: flex;
+        justify-content: space-between;
       }
       #undoBtn,
       #force,
@@ -63,8 +63,7 @@ limitations under the License.
         display: none;
       }
       #undoBtn.modified,
-      #force.force,
-      #deletedContainer.deleted {
+      #force.force {
         display: block;
       }
       .groupPath {
@@ -73,7 +72,7 @@ limitations under the License.
     </style>
     <style include="gr-form-styles"></style>
     <div id="mainContainer"
-        class$="gr-form-styles [[_computeSectionClass(editing, _deleted)]]">
+        class$="gr-form-styles [[_computeSectionClass(editing, deleted)]]">
       <div id="options">
         <gr-select id="action"
             bind-value="{{rule.value.action}}"
@@ -123,19 +122,17 @@ limitations under the License.
           </select>
         </gr-select>
       </div>
-      <div class="buttons">
-        <gr-button
-            id="undoBtn"
-            on-tap="_handleUndoChange"
-            class$="[[_computeModifiedClass(_modified)]]">Undo</gr-button>
-        <gr-button id="removeBtn" on-tap="_handleRemoveRule">Remove</gr-button>
-      </div>
+      <gr-button
+          link
+          id="removeBtn"
+          on-tap="_handleRemoveRule">Remove</gr-button>
     </div>
     <div
         id="deletedContainer"
-        class$="gr-form-styles [[_computeSectionClass(editing, _deleted)]]">
+        class$="gr-form-styles [[_computeSectionClass(editing, deleted)]]">
       [[groupName]] was deleted
-      <gr-button id="undoRemoveBtn" on-tap="_handleUndoRemove">Undo</gr-button>
+      <gr-button link
+          id="undoRemoveBtn" on-tap="_handleUndoRemove">Undo</gr-button>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

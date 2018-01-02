@@ -24,8 +24,6 @@ import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
@@ -51,11 +49,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -444,74 +438,6 @@ public class AccountsUpdate {
           UpdatedAccount updatedAccounts = new UpdatedAccount(message, accountConfig, extIdNotes);
           return updatedAccounts;
         });
-  }
-
-  /**
-   * Deletes the account.
-   *
-   * @param account the account that should be deleted
-   * @throws IOException if deleting the user branch fails due to an IO error
-   * @throws OrmException if deleting the user branch fails
-   * @throws ConfigInvalidException
-   */
-  public void delete(Account account) throws IOException, OrmException, ConfigInvalidException {
-    deleteByKey(account.getId());
-  }
-
-  /**
-   * Deletes the account.
-   *
-   * @param accountId the ID of the account that should be deleted
-   * @throws IOException if deleting the user branch fails due to an IO error
-   * @throws OrmException if deleting the user branch fails
-   * @throws ConfigInvalidException
-   */
-  public void deleteByKey(Account.Id accountId)
-      throws IOException, OrmException, ConfigInvalidException {
-    deleteAccount(accountId);
-  }
-
-  private Account deleteAccount(Account.Id accountId)
-      throws IOException, OrmException, ConfigInvalidException {
-    return retryHelper.execute(
-        ActionType.ACCOUNT_UPDATE,
-        () -> {
-          deleteUserBranch(accountId);
-          return null;
-        });
-  }
-
-  private void deleteUserBranch(Account.Id accountId) throws IOException {
-    try (Repository repo = repoManager.openRepository(allUsersName)) {
-      deleteUserBranch(repo, allUsersName, gitRefUpdated, currentUser, authorIdent, accountId);
-    }
-  }
-
-  public static void deleteUserBranch(
-      Repository repo,
-      Project.NameKey project,
-      GitReferenceUpdated gitRefUpdated,
-      @Nullable IdentifiedUser user,
-      PersonIdent refLogIdent,
-      Account.Id accountId)
-      throws IOException {
-    String refName = RefNames.refsUsers(accountId);
-    Ref ref = repo.exactRef(refName);
-    if (ref == null) {
-      return;
-    }
-
-    RefUpdate ru = repo.updateRef(refName);
-    ru.setExpectedOldObjectId(ref.getObjectId());
-    ru.setNewObjectId(ObjectId.zeroId());
-    ru.setForceUpdate(true);
-    ru.setRefLogIdent(refLogIdent);
-    ru.setRefLogMessage("Delete Account", true);
-    Result result = ru.delete();
-    if (result != Result.FORCED) {
-      throw new IOException(String.format("Failed to delete ref %s: %s", refName, result.name()));
-    }
-    gitRefUpdated.fire(project, ru, user != null ? user.getAccount() : null);
   }
 
   private AccountConfig read(Repository allUsersRepo, Account.Id accountId)

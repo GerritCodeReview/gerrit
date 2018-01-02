@@ -38,7 +38,8 @@ limitations under the License.
         allow-non-suggested-values="[[allowAnyInput]]"
         on-commit="_handleInputCommit"
         clear-on-commit
-        warn-uncommitted>
+        warn-uncommitted
+        text="{{_inputText}}">
     </gr-autocomplete>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

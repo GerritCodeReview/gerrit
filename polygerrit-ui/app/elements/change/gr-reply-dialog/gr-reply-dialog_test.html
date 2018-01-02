@@ -249,8 +249,8 @@ limitations under the License.
 
     test('getlabelValue when no score is selected', done => {
       flush(() => {
-        element.$$('gr-label-scores').$$(`gr-label-score-row[name="Code-Review"]`)
-            .setSelectedValue(-1);
+        element.$$('gr-label-scores')
+            .$$(`gr-label-score-row[name="Code-Review"]`).setSelectedValue(-1);
         assert.strictEqual(element.getLabelValue('Verified'), ' 0');
         done();
       });
@@ -405,6 +405,17 @@ limitations under the License.
       assert.equal(actual.changeNum, changeNum);
       assert.equal(actual.patchNum, '@change');
       assert.equal(actual.path, '@change');
+    });
+
+    test('_reviewersMutated when account-text-change is fired from ccs', () => {
+      element.serverConfig = {note_db_enabled: true};
+      flushAsynchronousOperations();
+      assert.isFalse(element._reviewersMutated);
+      assert.isTrue(element.$$('#ccs').allowAnyInput);
+      assert.isFalse(element.$$('#reviewers').allowAnyInput);
+      element.$$('#ccs').dispatchEvent(new CustomEvent('account-text-changed',
+          {bubbles: true}));
+      assert.isTrue(element._reviewersMutated);
     });
 
     test('gets draft from storage on open', () => {

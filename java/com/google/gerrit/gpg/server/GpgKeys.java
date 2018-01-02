@@ -92,7 +92,8 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
       throws ResourceNotFoundException, PGPException, OrmException, IOException {
     checkVisible(self, parent);
 
-    byte[] fp = parseFingerprint(id.get(), getGpgExtIds(parent));
+    ExternalId gpgKeyExtId = findGpgKey(id.get(), getGpgExtIds(parent));
+    byte[] fp = parseFingerprint(gpgKeyExtId);
     try (PublicKeyStore store = storeProvider.get()) {
       long keyId = keyId(fp);
       for (PGPPublicKeyRing keyRing : store.get(keyId)) {
@@ -106,30 +107,34 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
     throw new ResourceNotFoundException(id);
   }
 
-  static byte[] parseFingerprint(String str, Iterable<ExternalId> existingExtIds)
+  static ExternalId findGpgKey(String str, Iterable<ExternalId> existingExtIds)
       throws ResourceNotFoundException {
     str = CharMatcher.whitespace().removeFrom(str).toUpperCase();
     if ((str.length() != 8 && str.length() != 40)
         || !CharMatcher.anyOf("0123456789ABCDEF").matchesAllOf(str)) {
       throw new ResourceNotFoundException(str);
     }
-    byte[] fp = null;
+    ExternalId gpgKeyExtId = null;
     for (ExternalId extId : existingExtIds) {
       String fpStr = extId.key().id();
       if (!fpStr.endsWith(str)) {
         continue;
-      } else if (fp != null) {
+      } else if (gpgKeyExtId != null) {
         throw new ResourceNotFoundException("Multiple keys found for " + str);
       }
-      fp = BaseEncoding.base16().decode(fpStr);
+      gpgKeyExtId = extId;
       if (str.length() == 40) {
         break;
       }
     }
-    if (fp == null) {
+    if (gpgKeyExtId == null) {
       throw new ResourceNotFoundException(str);
     }
-    return fp;
+    return gpgKeyExtId;
+  }
+
+  static byte[] parseFingerprint(ExternalId gpgKeyExtId) {
+    return BaseEncoding.base16().decode(gpgKeyExtId.key().id());
   }
 
   @Override
@@ -145,8 +150,7 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
       Map<String, GpgKeyInfo> keys = new HashMap<>();
       try (PublicKeyStore store = storeProvider.get()) {
         for (ExternalId extId : getGpgExtIds(rsrc)) {
-          String fpStr = extId.key().id();
-          byte[] fp = BaseEncoding.base16().decode(fpStr);
+          byte[] fp = parseFingerprint(extId);
           boolean found = false;
           for (PGPPublicKeyRing keyRing : store.get(keyId(fp))) {
             if (Arrays.equals(keyRing.getPublicKey().getFingerprint(), fp)) {

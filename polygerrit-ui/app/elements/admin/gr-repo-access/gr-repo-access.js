@@ -244,7 +244,7 @@
           for (const rule of rules) {
             // Find all rules that are changed. In the event that it has been
             // modified.
-            if (!rule._modified) { continue; }
+            if (!rule.modified && !rule.deleted) { continue; }
             const ruleId = rule.rule.id;
             const ruleValue = rule.rule.value;
 
@@ -261,9 +261,12 @@
             // Remove the rule with a value of null
             addRemoveObj.remove[sectionId].permissions[permissionId]
                 .rules[ruleId] = null;
-            // Add the rule with a value of the updated rule value.
-            addRemoveObj.add[sectionId].permissions[permissionId]
+            // Add the rule with a value of the updated rule value, unless the
+            // rule has been removed.
+            if (!rule.deleted) {
+              addRemoveObj.add[sectionId].permissions[permissionId]
                 .rules[ruleId] = ruleValue;
+            }
           }
         }
       }

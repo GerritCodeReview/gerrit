@@ -155,10 +155,10 @@ limitations under the License.
         const modifiedHandler = sandbox.stub();
         element.addEventListener('access-modified', modifiedHandler);
         element._handleValueChange();
-        assert.isFalse(element._modified);
+        assert.isFalse(element.modified);
         element._originalRuleValues = {};
         element._handleValueChange();
-        assert.isTrue(element._modified);
+        assert.isTrue(element.modified);
         assert.isTrue(modifiedHandler.called);
       });
 
@@ -213,31 +213,25 @@ limitations under the License.
 
       test('modify and cancel restores original values', () => {
         element.editing = true;
-        assert.isFalse(element._modified);
+        assert.notEqual(getComputedStyle(element.$.removeBtn).display, 'none');
+        assert.isFalse(element.modified);
         element.$.action.bindValue = 'DENY';
-        assert.isTrue(element._modified);
+        assert.isTrue(element.modified);
         element.editing = false;
+        assert.equal(getComputedStyle(element.$.removeBtn).display, 'none');
         assert.deepEqual(element._originalRuleValues, element.rule.value);
         assert.equal(element.$.action.bindValue, 'ALLOW');
-        assert.isFalse(element._modified);
+        assert.isFalse(element.modified);
       });
 
-      test('modify and undo value', () => {
-        assert.isFalse(element._modified);
-        assert.isFalse(element.$.undoBtn.classList.contains('modified'));
+      test('modify value', () => {
+        assert.isFalse(element.modified);
         element.$.action.bindValue = 'DENY';
         flushAsynchronousOperations();
-        assert.isTrue(element._modified);
-        assert.isTrue(element.$.undoBtn.classList.contains('modified'));
+        assert.isTrue(element.modified);
 
         // The original value should now differ from the rule values.
         assert.notDeepEqual(element._originalRuleValues, element.rule.value);
-
-        // After undoing the change, the original value should get reset.
-        MockInteractions.tap(element.$.undoBtn);
-        assert.deepEqual(element._originalRuleValues, element.rule.value);
-        assert.equal(element.$.action.bindValue, 'ALLOW');
-        assert.isFalse(element._modified);
       });
 
       test('all selects are disabled when not in edit mode', () => {
@@ -258,10 +252,32 @@ limitations under the License.
             element.$.deletedContainer.classList.contains('deleted'));
         MockInteractions.tap(element.$.removeBtn);
         assert.isTrue(element.$.deletedContainer.classList.contains('deleted'));
-        assert.isTrue(element.rule.value.deleted);
+        assert.isTrue(element.deleted);
 
         MockInteractions.tap(element.$.undoRemoveBtn);
-        assert.isNotOk(element.rule.value.deleted);
+        assert.isNotOk(element.deleted);
+      });
+
+      test('remove rule and cancel', () => {
+        element.editing = true;
+        assert.notEqual(getComputedStyle(element.$.removeBtn).display, 'none');
+        assert.equal(getComputedStyle(element.$.deletedContainer).display,
+            'none');
+
+        element.rule = {id: 123, value: {action: 'ALLOW'}};
+        MockInteractions.tap(element.$.removeBtn);
+        assert.notEqual(getComputedStyle(element.$.removeBtn).display, 'none');
+        assert.notEqual(getComputedStyle(element.$.deletedContainer).display,
+            'none');
+        assert.isTrue(element.deleted);
+
+        element.editing = false;
+        assert.isFalse(element.deleted);
+        assert.isFalse(element.modified);
+        assert.deepEqual(element._originalRuleValues, element.rule.value);
+        assert.equal(getComputedStyle(element.$.removeBtn).display, 'none');
+        assert.equal(getComputedStyle(element.$.deletedContainer).display,
+            'none');
       });
 
       test('_computeGroupPath', () => {
@@ -286,7 +302,7 @@ limitations under the License.
       test('_ruleValues and _originalRuleValues are set correctly', () => {
         // Since the element does not already have default values, they should
         // be set. The original values should be set to those too.
-        assert.isFalse(element._modified);
+        assert.isFalse(element.modified);
         const expectedRuleValue = {
           action: 'ALLOW',
           force: false,
@@ -299,20 +315,14 @@ limitations under the License.
         });
       });
 
-      test('modify and undo value', () => {
-        assert.isFalse(element._modified);
-        assert.isFalse(element.$.undoBtn.classList.contains('modified'));
+      test('modify value', () => {
+        assert.isFalse(element.modified);
         element.$.force.bindValue = true;
         flushAsynchronousOperations();
-        assert.isTrue(element._modified);
-        assert.isTrue(element.$.undoBtn.classList.contains('modified'));
+        assert.isTrue(element.modified);
 
         // The original value should now differ from the rule values.
         assert.notDeepEqual(element._originalRuleValues, element.rule.value);
-
-        // After undoing the change, the original value should get reset.
-        MockInteractions.tap(element.$.undoBtn);
-        assert.deepEqual(element._originalRuleValues, element.rule.value);
       });
     });
 
@@ -356,20 +366,14 @@ limitations under the License.
         assert.isFalse(element.$.force.classList.contains('force'));
       });
 
-      test('modify and undo value', () => {
-        assert.isFalse(element._modified);
-        assert.isFalse(element.$.undoBtn.classList.contains('modified'));
+      test('modify value', () => {
+        assert.isFalse(element.modified);
         Polymer.dom(element.root).querySelector('#labelMin').bindValue = 1;
         flushAsynchronousOperations();
-        assert.isTrue(element._modified);
-        assert.isTrue(element.$.undoBtn.classList.contains('modified'));
+        assert.isTrue(element.modified);
 
         // The original value should now differ from the rule values.
         assert.notDeepEqual(element._originalRuleValues, element.rule.value);
-
-        // After undoing the change, the original value should get reset.
-        MockInteractions.tap(element.$.undoBtn);
-        assert.deepEqual(element._originalRuleValues, element.rule.value);
       });
     });
 
@@ -396,7 +400,7 @@ limitations under the License.
       test('_ruleValues and _originalRuleValues are set correctly', () => {
         // Since the element does not already have default values, they should
         // be set. The original values should be set to those too.
-        assert.isFalse(element._modified);
+        assert.isFalse(element.modified);
         assert.isTrue(element._setDefaultRuleValues.called);
 
         const expectedRuleValue = {
@@ -419,20 +423,14 @@ limitations under the License.
         });
       });
 
-      test('modify and undo value', () => {
-        assert.isFalse(element._modified);
-        assert.isFalse(element.$.undoBtn.classList.contains('modified'));
+      test('modify value', () => {
+        assert.isFalse(element.modified);
         Polymer.dom(element.root).querySelector('#labelMin').bindValue = 1;
         flushAsynchronousOperations();
-        assert.isTrue(element._modified);
-        assert.isTrue(element.$.undoBtn.classList.contains('modified'));
+        assert.isTrue(element.modified);
 
         // The original value should now differ from the rule values.
         assert.notDeepEqual(element._originalRuleValues, element.rule.value);
-
-        // After undoing the change, the original value should get reset.
-        MockInteractions.tap(element.$.undoBtn);
-        assert.deepEqual(element._originalRuleValues, element.rule.value);
       });
     });
 
@@ -466,20 +464,14 @@ limitations under the License.
         assert.isNotOk(Polymer.dom(element.root).querySelector('#labelMax'));
       });
 
-      test('modify and undo value', () => {
-        assert.isFalse(element._modified);
-        assert.isFalse(element.$.undoBtn.classList.contains('modified'));
+      test('modify value', () => {
+        assert.isFalse(element.modified);
         element.$.action.bindValue = false;
         flushAsynchronousOperations();
-        assert.isTrue(element._modified);
-        assert.isTrue(element.$.undoBtn.classList.contains('modified'));
+        assert.isTrue(element.modified);
 
         // The original value should now differ from the rule values.
         assert.notDeepEqual(element._originalRuleValues, element.rule.value);
-
-        // After undoing the change, the original value should get reset.
-        MockInteractions.tap(element.$.undoBtn);
-        assert.deepEqual(element._originalRuleValues, element.rule.value);
       });
     });
 
@@ -498,7 +490,7 @@ limitations under the License.
       test('_ruleValues and _originalRuleValues are set correctly', () => {
         // Since the element does not already have default values, they should
         // be set. The original values should be set to those too.
-        assert.isFalse(element._modified);
+        assert.isFalse(element.modified);
         const expectedRuleValue = {
           action: 'ALLOW',
           force: false,
@@ -511,20 +503,14 @@ limitations under the License.
         });
       });
 
-      test('modify and undo value', () => {
-        assert.isFalse(element._modified);
-        assert.isFalse(element.$.undoBtn.classList.contains('modified'));
+      test('modify value', () => {
+        assert.isFalse(element.modified);
         element.$.force.bindValue = true;
         flushAsynchronousOperations();
-        assert.isTrue(element._modified);
-        assert.isTrue(element.$.undoBtn.classList.contains('modified'));
+        assert.isTrue(element.modified);
 
         // The original value should now differ from the rule values.
         assert.notDeepEqual(element._originalRuleValues, element.rule.value);
-
-        // After undoing the change, the original value should get reset.
-        MockInteractions.tap(element.$.undoBtn);
-        assert.deepEqual(element._originalRuleValues, element.rule.value);
       });
     });
 
@@ -558,20 +544,14 @@ limitations under the License.
         assert.isNotOk(Polymer.dom(element.root).querySelector('#labelMax'));
       });
 
-      test('modify and undo value', () => {
-        assert.isFalse(element._modified);
-        assert.isFalse(element.$.undoBtn.classList.contains('modified'));
+      test('modify value', () => {
+        assert.isFalse(element.modified);
         element.$.action.bindValue = false;
         flushAsynchronousOperations();
-        assert.isTrue(element._modified);
-        assert.isTrue(element.$.undoBtn.classList.contains('modified'));
+        assert.isTrue(element.modified);
 
         // The original value should now differ from the rule values.
         assert.notDeepEqual(element._originalRuleValues, element.rule.value);
-
-        // After undoing the change, the original value should get reset.
-        MockInteractions.tap(element.$.undoBtn);
-        assert.deepEqual(element._originalRuleValues, element.rule.value);
       });
     });
 
@@ -590,7 +570,7 @@ limitations under the License.
       test('_ruleValues and _originalRuleValues are set correctly', () => {
         // Since the element does not already have default values, they should
         // be set. The original values should be set to those too.
-        assert.isFalse(element._modified);
+        assert.isFalse(element.modified);
         const expectedRuleValue = {
           action: 'ALLOW',
           force: false,
@@ -603,20 +583,14 @@ limitations under the License.
         });
       });
 
-      test('modify and undo value', () => {
-        assert.isFalse(element._modified);
-        assert.isFalse(element.$.undoBtn.classList.contains('modified'));
+      test('modify value', () => {
+        assert.isFalse(element.modified);
         element.$.force.bindValue = true;
         flushAsynchronousOperations();
-        assert.isTrue(element._modified);
-        assert.isTrue(element.$.undoBtn.classList.contains('modified'));
+        assert.isTrue(element.modified);
 
         // The original value should now differ from the rule values.
         assert.notDeepEqual(element._originalRuleValues, element.rule.value);
-
-        // After undoing the change, the original value should get reset.
-        MockInteractions.tap(element.$.undoBtn);
-        assert.deepEqual(element._originalRuleValues, element.rule.value);
       });
     });
   });

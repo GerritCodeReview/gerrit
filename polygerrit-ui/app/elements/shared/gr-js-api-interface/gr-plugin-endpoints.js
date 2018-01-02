@@ -26,19 +26,35 @@
     this._callbacks[endpoint].push(callback);
   };
 
+  GrPluginEndpoints.prototype._getOrCreateModuleInfo = function(plugin,
+      endpoint, type, moduleName, domHook) {
+    const existingModule = this._endpoints[endpoint].find(info =>
+        info.plugin === plugin &&
+        info.moduleName === moduleName &&
+        info.domHook === domHook
+    );
+    if (existingModule) {
+      return existingModule;
+    } else {
+      const newModule = {
+        moduleName,
+        plugin,
+        pluginUrl: plugin._url,
+        type,
+        domHook,
+      };
+      this._endpoints[endpoint].push(newModule);
+      return newModule;
+    }
+  };
+
   GrPluginEndpoints.prototype.registerModule = function(plugin, endpoint, type,
       moduleName, domHook) {
     if (!this._endpoints[endpoint]) {
       this._endpoints[endpoint] = [];
     }
-    const moduleInfo = {
-      moduleName,
-      plugin,
-      pluginUrl: plugin._url,
-      type,
-      domHook,
-    };
-    this._endpoints[endpoint].push(moduleInfo);
+    const moduleInfo = this._getOrCreateModuleInfo(plugin, endpoint, type,
+        moduleName, domHook);
     if (Gerrit._arePluginsLoaded() && this._callbacks[endpoint]) {
       this._callbacks[endpoint].forEach(callback => callback(moduleInfo));
     }

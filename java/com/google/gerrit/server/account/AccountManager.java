@@ -35,7 +35,6 @@ import com.google.gerrit.server.account.AccountsUpdate.AccountUpdater;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.db.GroupsUpdate;
@@ -74,7 +73,6 @@ public class AccountManager {
   private final ProjectCache projectCache;
   private final AtomicBoolean awaitsFirstAccountCheck;
   private final ExternalIds externalIds;
-  private final ExternalIdsUpdate.Server externalIdsUpdateFactory;
   private final GroupsUpdate.Factory groupsUpdateFactory;
   private final boolean autoUpdateAccountActiveStatus;
   private final SetInactiveFlag setInactiveFlag;
@@ -92,7 +90,6 @@ public class AccountManager {
       SshKeyCache sshKeyCache,
       ProjectCache projectCache,
       ExternalIds externalIds,
-      ExternalIdsUpdate.Server externalIdsUpdateFactory,
       GroupsUpdate.Factory groupsUpdateFactory,
       SetInactiveFlag setInactiveFlag) {
     this.schema = schema;
@@ -107,7 +104,6 @@ public class AccountManager {
     this.awaitsFirstAccountCheck =
         new AtomicBoolean(cfg.getBoolean("capability", "makeFirstUserAdmin", true));
     this.externalIds = externalIds;
-    this.externalIdsUpdateFactory = externalIdsUpdateFactory;
     this.groupsUpdateFactory = groupsUpdateFactory;
     this.autoUpdateAccountActiveStatus =
         cfg.getBoolean("auth", "autoUpdateAccountActiveStatus", false);
@@ -415,7 +411,12 @@ public class AccountManager {
                 .filter(e -> e.key().equals(who.getExternalIdKey()))
                 .findAny()
                 .isPresent())) {
-      externalIdsUpdateFactory.create().delete(filteredExtIdsByScheme);
+      accountsUpdateFactory
+          .create()
+          .update(
+              "Delete External IDs on Update Link",
+              to,
+              u -> u.deleteExternalIds(filteredExtIdsByScheme));
     }
     return link(to, who);
   }

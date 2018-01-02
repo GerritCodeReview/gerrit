@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3d3d47ad_3d164c4d",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-02T18:44:10Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7330ed2c_11662744",
+      "revId": "c0b3e9579505174d0b8b33c749d80c0d9d02cf5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "86740cf6_c6a15952",
         "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view_test.html",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2018-01-02T18:35:53Z",
       "side": 1,
       "message": "It looks like this comment is invalid.",
+      "revId": "c0b3e9579505174d0b8b33c749d80c0d9d02cf5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70f331bf_a21b84a5",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-02T18:44:10Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "86740cf6_c6a15952",
       "revId": "c0b3e9579505174d0b8b33c749d80c0d9d02cf5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

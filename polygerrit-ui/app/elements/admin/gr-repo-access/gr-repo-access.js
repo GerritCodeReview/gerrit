@@ -274,7 +274,7 @@
       // Use saving rather than editing here because rules have to handle
       // save prior to toggling editing.
       const addRemoveObj = this._computeAddAndRemove();
-      return this.$.restAPI.setProjectAccessRightsForReview(this.project, {
+      return this.$.restAPI.setProjectAccessRightsForReview(this.repo, {
         add: addRemoveObj.add,
         remove: addRemoveObj.remove,
       }).then(change => {

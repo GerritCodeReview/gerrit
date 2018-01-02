@@ -142,39 +142,55 @@ suite('gr-editor-view tests', () => {
       assert.isTrue(element.$.save.hasAttribute('disabled'));
     });
 
-    test('file modification and save, !ok response', done => {
+    test('file modification and save, !ok response', () => {
       const saveSpy = sandbox.spy(element, '_saveEdit');
+      const alertStub = sandbox.stub(element, '_showAlert');
       saveFileStub.returns(Promise.resolve({ok: false}));
       element._newContent = newText;
       flushAsynchronousOperations();
 
       assert.isFalse(element.$.save.hasAttribute('disabled'));
+      assert.isFalse(element._saving);
 
       MockInteractions.tap(element.$.save);
-      assert(saveSpy.called);
-      saveSpy.lastCall.returnValue.then(() => {
+      assert.isTrue(saveSpy.called);
+      assert.equal(alertStub.lastCall.args[0], 'Saving changes...');
+      assert.isTrue(element._saving);
+      assert.isTrue(element.$.save.hasAttribute('disabled'));
+
+      return saveSpy.lastCall.returnValue.then(() => {
         assert.isTrue(saveFileStub.called);
+        assert.isFalse(element._saving);
+        assert.equal(alertStub.lastCall.args[0], 'Failed to save changes');
         assert.deepEqual(saveFileStub.lastCall.args,
             [mockParams.changeNum, mockParams.path, newText]);
         assert.isFalse(navigateStub.called);
-        done();
+        assert.isFalse(element.$.save.hasAttribute('disabled'));
       });
     });
 
-    test('file modification and save', done => {
+    test('file modification and save', () => {
       const saveSpy = sandbox.spy(element, '_saveEdit');
+      const alertStub = sandbox.stub(element, '_showAlert');
       saveFileStub.returns(Promise.resolve({ok: true}));
       element._newContent = newText;
       flushAsynchronousOperations();
 
+      assert.isFalse(element._saving);
       assert.isFalse(element.$.save.hasAttribute('disabled'));
 
       MockInteractions.tap(element.$.save);
       assert.isTrue(saveSpy.called);
-      saveSpy.lastCall.returnValue.then(() => {
+      assert.equal(alertStub.lastCall.args[0], 'Saving changes...');
+      assert.isTrue(element._saving);
+      assert.isTrue(element.$.save.hasAttribute('disabled'));
+
+      return saveSpy.lastCall.returnValue.then(() => {
         assert.isTrue(saveFileStub.called);
-        assert.isTrue(navigateStub.called);
-        done();
+        assert.isFalse(element._saving);
+        assert.equal(alertStub.lastCall.args[0], 'All changes saved');
+        assert.isFalse(navigateStub.called);
+        assert.isFalse(element.$.save.hasAttribute('disabled'));
       });
     });
 
@@ -253,6 +269,16 @@ suite('gr-editor-view tests', () => {
         assert.equal(element._type, '');
       });
     });
+  });
+
+  test('_showAlert', done => {
+    element.addEventListener('show-alert', e => {
+      assert.deepEqual(e.detail, {message: 'test message'});
+      assert.isTrue(e.bubbles);
+      done();
+    });
+
+    element._showAlert('test message');
   });
 });
 </script>

@@ -41,7 +41,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequences;
-import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ConsistencyChecker;
 import com.google.gerrit.server.change.PatchSetInserter;
@@ -67,7 +66,10 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
@@ -89,8 +91,6 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   @Inject @AnonymousCowardName private String anonymousCowardName;
 
   @Inject private Sequences sequences;
-
-  @Inject private AccountsUpdate.Server accountsUpdate;
 
   private RevCommit tip;
   private Account.Id adminId;
@@ -126,7 +126,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   public void missingOwner() throws Exception {
     TestAccount owner = accountCreator.create("missing");
     ChangeNotes notes = insertChange(owner);
-    accountsUpdate.create().deleteByKey(owner.getId());
+    deleteUserBranch(owner.getId());
 
     assertProblems(notes, null, problem("Missing change owner: " + owner.getId()));
   }
@@ -957,5 +957,24 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
 
   private void assertNoProblems(ChangeNotes notes, @Nullable FixInput fix) throws Exception {
     assertThat(checker.check(notes, fix).problems()).isEmpty();
+  }
+
+  private void deleteUserBranch(Account.Id accountId) throws IOException {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      String refName = RefNames.refsUsers(accountId);
+      Ref ref = repo.exactRef(refName);
+      if (ref == null) {
+        return;
+      }
+
+      RefUpdate ru = repo.updateRef(refName);
+      ru.setExpectedOldObjectId(ref.getObjectId());
+      ru.setNewObjectId(ObjectId.zeroId());
+      ru.setForceUpdate(true);
+      Result result = ru.delete();
+      if (result != Result.FORCED) {
+        throw new IOException(String.format("Failed to delete ref %s: %s", refName, result.name()));
+      }
+    }
   }
 }

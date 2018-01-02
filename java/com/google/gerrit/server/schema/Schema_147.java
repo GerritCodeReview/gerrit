@@ -19,10 +19,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -34,25 +31,23 @@ import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 
 /** Delete user branches for which no account exists. */
 public class Schema_147 extends SchemaVersion {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
-  private final PersonIdent serverIdent;
 
   @Inject
   Schema_147(
-      Provider<Schema_146> prior,
-      GitRepositoryManager repoManager,
-      AllUsersName allUsersName,
-      @GerritPersonIdent PersonIdent serverIdent) {
+      Provider<Schema_146> prior, GitRepositoryManager repoManager, AllUsersName allUsersName) {
     super(prior);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
-    this.serverIdent = serverIdent;
   }
 
   @Override
@@ -69,8 +64,7 @@ public class Schema_147 extends SchemaVersion {
               .collect(toSet());
       accountIdsFromUserBranches.removeAll(accountIdsFromReviewDb);
       for (Account.Id accountId : accountIdsFromUserBranches) {
-        AccountsUpdate.deleteUserBranch(
-            repo, allUsersName, GitReferenceUpdated.DISABLED, null, serverIdent, accountId);
+        deleteUserBranch(repo, accountId);
       }
     } catch (IOException e) {
       throw new OrmException("Failed to delete user branches for non-existing accounts.", e);
@@ -85,6 +79,23 @@ public class Schema_147 extends SchemaVersion {
         ids.add(new Account.Id(rs.getInt(1)));
       }
       return ids;
+    }
+  }
+
+  private void deleteUserBranch(Repository allUsersRepo, Account.Id accountId) throws IOException {
+    String refName = RefNames.refsUsers(accountId);
+    Ref ref = allUsersRepo.exactRef(refName);
+    if (ref == null) {
+      return;
+    }
+
+    RefUpdate ru = allUsersRepo.updateRef(refName);
+    ru.setExpectedOldObjectId(ref.getObjectId());
+    ru.setNewObjectId(ObjectId.zeroId());
+    ru.setForceUpdate(true);
+    Result result = ru.delete();
+    if (result != Result.FORCED) {
+      throw new IOException(String.format("Failed to delete ref %s: %s", refName, result.name()));
     }
   }
 }

@@ -214,6 +214,11 @@
     for (let i = 0; i < lines.length; i++) {
       line = lines[i];
       el = elements[i];
+      if (!el) {
+        // Cannot re-render an element if it does not exist. This can happen
+        // if lines are collapsed and not visible on the page yet.
+        continue;
+      }
       el.parentElement.replaceChild(this._createTextEl(line, side).firstChild,
           el);
     }

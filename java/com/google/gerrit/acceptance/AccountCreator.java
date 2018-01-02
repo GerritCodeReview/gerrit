@@ -29,7 +29,6 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.group.db.GroupsUpdate;
@@ -65,7 +64,6 @@ public class AccountCreator {
   private final GroupCache groupCache;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
   private final SshKeyCache sshKeyCache;
-  private final ExternalIdsUpdate.Server externalIdsUpdate;
   private final boolean sshEnabled;
 
   @Inject
@@ -77,7 +75,6 @@ public class AccountCreator {
       GroupCache groupCache,
       @ServerInitiated Provider<GroupsUpdate> groupsUpdateProvider,
       SshKeyCache sshKeyCache,
-      ExternalIdsUpdate.Server externalIdsUpdate,
       @SshEnabled boolean sshEnabled) {
     accounts = new HashMap<>();
     reviewDbProvider = schema;
@@ -87,7 +84,6 @@ public class AccountCreator {
     this.groupCache = groupCache;
     this.groupsUpdateProvider = groupsUpdateProvider;
     this.sshKeyCache = sshKeyCache;
-    this.externalIdsUpdate = externalIdsUpdate;
     this.sshEnabled = sshEnabled;
   }
 
@@ -115,11 +111,13 @@ public class AccountCreator {
       if (email != null) {
         extIds.add(ExternalId.createEmail(id, email));
       }
-      externalIdsUpdate.create().insert(extIds);
 
       accountsUpdate
           .create()
-          .insert("Create Test Account", id, u -> u.setFullName(fullName).setPreferredEmail(email));
+          .insert(
+              "Create Test Account",
+              id,
+              u -> u.setFullName(fullName).setPreferredEmail(email).addExternalIds(extIds));
 
       if (groupNames != null) {
         for (String n : groupNames) {

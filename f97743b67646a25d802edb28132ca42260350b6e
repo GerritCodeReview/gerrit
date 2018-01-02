@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77ff3738_35ebd3fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-02T06:34:52Z",
+      "side": 1,
+      "message": "What\u0027s the reason for reverting this? Please describe it in the commit message.",
+      "revId": "f97743b67646a25d802edb28132ca42260350b6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

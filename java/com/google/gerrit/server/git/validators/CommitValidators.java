@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -415,34 +414,6 @@ public class CommitValidators {
                   + receiveEvent.project,
               e);
           throw new CommitValidationException("invalid project configuration", messages);
-        }
-      }
-
-      if (allUsers.equals(branch.getParentKey()) && RefNames.isRefsUsers(branch.get())) {
-        List<CommitValidationMessage> messages = new ArrayList<>();
-        Account.Id accountId = Account.Id.fromRef(branch.get());
-        if (accountId != null) {
-          try {
-            WatchConfig wc = new WatchConfig(accountId);
-            wc.load(rw, receiveEvent.command.getNewId());
-            if (!wc.getValidationErrors().isEmpty()) {
-              addError("Invalid project configuration:", messages);
-              for (ValidationError err : wc.getValidationErrors()) {
-                addError("  " + err.getMessage(), messages);
-              }
-              throw new ConfigInvalidException("invalid watch configuration");
-            }
-          } catch (IOException | ConfigInvalidException e) {
-            log.error(
-                "User "
-                    + user.getUserName()
-                    + " tried to push an invalid watch configuration "
-                    + receiveEvent.command.getNewId().name()
-                    + " for account "
-                    + accountId.get(),
-                e);
-            throw new CommitValidationException("invalid watch configuration", messages);
-          }
         }
       }
 

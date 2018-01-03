@@ -61,11 +61,7 @@ limitations under the License.
         justify-content: flex-end
       }
     </style>
-    <gr-fixed-panel
-        class$="[[_computeContainerClass(_editLoaded)]]"
-        floating-disabled="[[_panelFloatingDisabled]]"
-        keep-on-scroll
-        ready-for-measure="[[!_loading]]">
+    <gr-fixed-panel keep-on-scroll>
       <header>
         <gr-editable-label
             label-text="File path"

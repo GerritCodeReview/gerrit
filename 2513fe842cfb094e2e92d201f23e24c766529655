@@ -72,6 +72,29 @@
     },
     {
       "key": {
+        "uuid": "0cccd0c2_97268a1b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-01-03T10:06:15Z",
+      "side": 1,
+      "message": "why it gets increased here? it will be increased by for loop anyway...",
+      "range": {
+        "startLine": 308,
+        "startChar": 8,
+        "endLine": 308,
+        "endChar": 12
+      },
+      "revId": "2513fe842cfb094e2e92d201f23e24c766529655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "58b07b2d_4bb6a0a3",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
         "patchSetId": 10

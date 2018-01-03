@@ -239,15 +239,13 @@ limitations under the License.
       test('_handleRemovePermission', () => {
         element.permission = {value: {rules: {}}};
         element._handleRemovePermission();
-        assert.isTrue(element._deleted);
-        assert.isTrue(element.permission.value.deleted);
+        assert.isTrue(element.deleted);
       });
 
       test('_handleUndoRemove', () => {
         element.permission = {value: {deleted: true, rules: {}}};
         element._handleUndoRemove();
-        assert.isFalse(element._deleted);
-        assert.isNotOk(element.permission.value.deleted);
+        assert.isFalse(element.deleted);
       });
     });
 
@@ -318,13 +316,13 @@ limitations under the License.
         element.section = 'refs/*';
 
         assert.isFalse(element.$.permission.classList.contains('deleted'));
-        assert.isFalse(element._deleted);
+        assert.isFalse(element.deleted);
         MockInteractions.tap(element.$.removeBtn);
         assert.isTrue(element.$.permission.classList.contains('deleted'));
-        assert.isTrue(element._deleted);
+        assert.isTrue(element.deleted);
         MockInteractions.tap(element.$.undoRemoveBtn);
         assert.isFalse(element.$.permission.classList.contains('deleted'));
-        assert.isFalse(element._deleted);
+        assert.isFalse(element.deleted);
       });
     });
   });

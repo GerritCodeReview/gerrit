@@ -14,6 +14,12 @@
 (function() {
   'use strict';
 
+  /**
+   * Fired when the rule has been modified or removed.
+   *
+   * @event access-modified
+   */
+
   const PRIORITY_OPTIONS = [
     'BATCH',
     'INTERACTIVE',
@@ -71,11 +77,11 @@
         type: Boolean,
         value: false,
       },
-      _originalRuleValues: Object,
       deleted: {
         type: Boolean,
         value: false,
       },
+      _originalRuleValues: Object,
     },
 
     behaviors: [

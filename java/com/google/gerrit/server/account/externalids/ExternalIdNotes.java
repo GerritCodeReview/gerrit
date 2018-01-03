@@ -78,8 +78,12 @@ public class ExternalIdNotes extends VersionedMetaData {
 
   private static final int MAX_NOTE_SZ = 1 << 19;
 
+  public interface ExternalIdNotesLoader {
+    ExternalIdNotes load(Repository allUsersRepo) throws IOException, ConfigInvalidException;
+  }
+
   @Singleton
-  public static class Factory {
+  public static class Factory implements ExternalIdNotesLoader {
     private final ExternalIdCache externalIdCache;
     private final AccountCache accountCache;
 
@@ -89,6 +93,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       this.accountCache = accountCache;
     }
 
+    @Override
     public ExternalIdNotes load(Repository allUsersRepo)
         throws IOException, ConfigInvalidException {
       return new ExternalIdNotes(externalIdCache, accountCache, allUsersRepo).load();
@@ -96,7 +101,7 @@ public class ExternalIdNotes extends VersionedMetaData {
   }
 
   @Singleton
-  public static class FactoryNoReindex {
+  public static class FactoryNoReindex implements ExternalIdNotesLoader {
     private final ExternalIdCache externalIdCache;
 
     @Inject
@@ -104,6 +109,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       this.externalIdCache = externalIdCache;
     }
 
+    @Override
     public ExternalIdNotes load(Repository allUsersRepo)
         throws IOException, ConfigInvalidException {
       return new ExternalIdNotes(externalIdCache, null, allUsersRepo).load();

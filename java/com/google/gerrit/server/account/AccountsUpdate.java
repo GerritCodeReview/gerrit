@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
+import com.google.gerrit.server.account.externalids.ExternalIdNotes.ExternalIdNotesLoader;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -160,6 +161,62 @@ public class AccountsUpdate {
   }
 
   /**
+   * Factory to create an AccountsUpdate instance for updating accounts by the Gerrit server.
+   *
+   * <p>Using this class no reindex will be performed for the affected accounts and they will also
+   * not be evicted from the account cache.
+   *
+   * <p>The Gerrit server identity will be used as author and committer for all commits that update
+   * the accounts.
+   */
+  @Singleton
+  public static class ServerNoReindex {
+    private final GitRepositoryManager repoManager;
+    private final GitReferenceUpdated gitRefUpdated;
+    private final AllUsersName allUsersName;
+    private final OutgoingEmailValidator emailValidator;
+    private final Provider<PersonIdent> serverIdentProvider;
+    private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
+    private final RetryHelper retryHelper;
+    private final ExternalIdNotes.FactoryNoReindex extIdNotesFactory;
+
+    @Inject
+    public ServerNoReindex(
+        GitRepositoryManager repoManager,
+        GitReferenceUpdated gitRefUpdated,
+        AllUsersName allUsersName,
+        OutgoingEmailValidator emailValidator,
+        @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
+        Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
+        RetryHelper retryHelper,
+        ExternalIdNotes.FactoryNoReindex extIdNotesFactory) {
+      this.repoManager = repoManager;
+      this.gitRefUpdated = gitRefUpdated;
+      this.allUsersName = allUsersName;
+      this.emailValidator = emailValidator;
+      this.serverIdentProvider = serverIdentProvider;
+      this.metaDataUpdateInternalFactory = metaDataUpdateInternalFactory;
+      this.retryHelper = retryHelper;
+      this.extIdNotesFactory = extIdNotesFactory;
+    }
+
+    public AccountsUpdate create() {
+      PersonIdent serverIdent = serverIdentProvider.get();
+      return new AccountsUpdate(
+          repoManager,
+          gitRefUpdated,
+          null,
+          allUsersName,
+          emailValidator,
+          metaDataUpdateInternalFactory,
+          retryHelper,
+          extIdNotesFactory,
+          serverIdent,
+          serverIdent);
+    }
+  }
+
+  /**
    * Factory to create an AccountsUpdate instance for updating accounts by the current user.
    *
    * <p>The identity of the current user will be used as author for all commits that update the
@@ -228,7 +285,7 @@ public class AccountsUpdate {
   private final OutgoingEmailValidator emailValidator;
   private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
   private final RetryHelper retryHelper;
-  private final ExternalIdNotes.Factory extIdNotesFactory;
+  private final ExternalIdNotesLoader extIdNotesLoader;
   private final PersonIdent committerIdent;
   private final PersonIdent authorIdent;
   private final Runnable afterReadRevision;
@@ -241,7 +298,7 @@ public class AccountsUpdate {
       OutgoingEmailValidator emailValidator,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,
-      ExternalIdNotes.Factory extIdNotesFactory,
+      ExternalIdNotesLoader extIdNotesLoader,
       PersonIdent committerIdent,
       PersonIdent authorIdent) {
     this(
@@ -252,7 +309,7 @@ public class AccountsUpdate {
         emailValidator,
         metaDataUpdateInternalFactory,
         retryHelper,
-        extIdNotesFactory,
+        extIdNotesLoader,
         committerIdent,
         authorIdent,
         Runnables.doNothing());
@@ -267,7 +324,7 @@ public class AccountsUpdate {
       OutgoingEmailValidator emailValidator,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,
-      ExternalIdNotes.Factory extIdNotesFactory,
+      ExternalIdNotesLoader extIdNotesLoader,
       PersonIdent committerIdent,
       PersonIdent authorIdent,
       Runnable afterReadRevision) {
@@ -279,7 +336,7 @@ public class AccountsUpdate {
     this.metaDataUpdateInternalFactory =
         checkNotNull(metaDataUpdateInternalFactory, "metaDataUpdateInternalFactory");
     this.retryHelper = checkNotNull(retryHelper, "retryHelper");
-    this.extIdNotesFactory = checkNotNull(extIdNotesFactory, "extIdNotesFactory");
+    this.extIdNotesLoader = checkNotNull(extIdNotesLoader, "extIdNotesLoader");
     this.committerIdent = checkNotNull(committerIdent, "committerIdent");
     this.authorIdent = checkNotNull(authorIdent, "authorIdent");
     this.afterReadRevision = afterReadRevision;
@@ -491,7 +548,7 @@ public class AccountsUpdate {
             update.getDeletedExternalIds()),
         accountId);
 
-    ExternalIdNotes extIdNotes = extIdNotesFactory.load(allUsersRepo);
+    ExternalIdNotes extIdNotes = extIdNotesLoader.load(allUsersRepo);
     extIdNotes.replace(update.getDeletedExternalIds(), update.getCreatedExternalIds());
     extIdNotes.upsert(update.getUpdatedExternalIds());
     return extIdNotes;

@@ -104,7 +104,6 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.account.StalenessChecker;
 import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
@@ -190,8 +189,6 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private StalenessChecker stalenessChecker;
 
   @Inject private AccountIndexer accountIndexer;
-
-  @Inject private OutgoingEmailValidator emailValidator;
 
   @Inject private GitReferenceUpdated gitReferenceUpdated;
 
@@ -2013,7 +2010,6 @@ public class AccountIT extends AbstractDaemonTest {
             gitReferenceUpdated,
             null,
             allUsers,
-            emailValidator,
             metaDataUpdateInternalFactory,
             new RetryHelper(
                 cfg,
@@ -2062,7 +2058,6 @@ public class AccountIT extends AbstractDaemonTest {
             gitReferenceUpdated,
             null,
             allUsers,
-            emailValidator,
             metaDataUpdateInternalFactory,
             new RetryHelper(
                 cfg,

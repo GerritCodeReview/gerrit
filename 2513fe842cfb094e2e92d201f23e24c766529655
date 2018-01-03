@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6b7a72f_57129ba1",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-01-03T09:14:08Z",
+      "side": 1,
+      "message": "when param is NOT sensitive its value will not be printed, right? was that intentional?",
+      "range": {
+        "startLine": 302,
+        "startChar": 8,
+        "endLine": 304,
+        "endChar": 9
+      },
+      "revId": "2513fe842cfb094e2e92d201f23e24c766529655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58b07b2d_4bb6a0a3",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-01-03T09:14:08Z",
+      "side": 1,
+      "message": "consider extracting functionality that is responsible for masking sensitive data to separate method so that hideSensitive doesn\u0027t have to be checked over and over again and for look gets simplified",
+      "range": {
+        "startLine": 293,
+        "startChar": 4,
+        "endLine": 311,
+        "endChar": 5
+      },
+      "revId": "2513fe842cfb094e2e92d201f23e24c766529655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

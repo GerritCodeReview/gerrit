@@ -82,7 +82,7 @@ limitations under the License.
           permissions: {
             owner: {
               rules: {
-                123: {action: 'DENY'},
+                123: {action: 'DENY', modified: true},
               },
             },
           },
@@ -102,15 +102,7 @@ limitations under the License.
     };
 
     const repoAccessInputRemoved = {
-      add: {
-        'refs/*': {
-          permissions: {
-            owner: {
-              rules: {},
-            },
-          },
-        },
-      },
+      add: {},
       remove: {
         'refs/*': {
           permissions: {
@@ -256,20 +248,6 @@ limitations under the License.
         flushAsynchronousOperations();
       });
 
-      test('_getAllRules', () => {
-        assert.equal(element._getAllRules().length, 3);
-      });
-
-      test('_getSections, _getPermissionsForSection, _getRulesForPermission',
-          () => {
-            const sections = element._getSections();
-            assert.equal(sections.length, 1);
-            const permissions = element._getPermissionsForSection(sections[0]);
-            assert.equal(permissions.length, 2);
-            assert.equal(element._getRulesForPermission(permissions[0]).length,
-                2);
-          });
-
       test('button visibility for non admin', () => {
         assert.equal(getComputedStyle(element.$.saveBtn).display, 'none');
         assert.equal(getComputedStyle(element.$.editBtn).display, 'none');
@@ -302,44 +280,15 @@ limitations under the License.
         assert.isTrue(element._handleAccessModified.called);
       });
 
-      test('_permissionInRemove', () => {
-        let toRemove = {};
-        assert.isFalse(element._permissionInRemove(toRemove, 'refs/*',
-            'owner'));
-        toRemove = {
-          'refs/*': {
-            permissions: {
-              owner: {},
-            },
-          },
-        };
-        assert.isTrue(element._permissionInRemove(toRemove, 'refs/*', 'owner'));
-      });
-
-      test('_generatePermissionObject', () => {
-        const addRemoveObj = {add: {}, remove: {}};
-
-        const expectedResult = {
-          add: {'refs/*': {
-            permissions: {owner: {rules: {}}}},
-          },
-          remove: {'refs/*': {
-            permissions: {owner: {rules: {}}}},
-          },
-        };
-        assert.deepEqual(element._generatePermissionObject(
-            addRemoveObj, 'refs/*', 'owner'), expectedResult);
-      });
-
       test('_computeAddAndRemove', () => {
         // With nothing modified
+        element._local = accessRes.local;
         assert.deepEqual(element._computeAddAndRemove(), {add: {}, remove: {}});
-        const rules = element._getAllRules();
-        rules[0].modified = true;
-        assert.deepEqual(element._computeAddAndRemove(), repoAccessInput);
-        rules[0].modified = false;
-        rules[0].deleted = true;
+        element._local['refs/*'].permissions.owner.rules[123].deleted = true;
         assert.deepEqual(element._computeAddAndRemove(), repoAccessInputRemoved);
+        delete element._local['refs/*'].permissions.owner.rules[123].deleted;
+        element._local['refs/*'].permissions.owner.rules[123].modified = true;
+        assert.deepEqual(element._computeAddAndRemove(), repoAccessInput);
       });
 
       test('_handleSaveForReview', done => {

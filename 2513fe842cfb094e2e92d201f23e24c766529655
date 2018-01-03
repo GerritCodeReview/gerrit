@@ -25,6 +25,53 @@
     },
     {
       "key": {
+        "uuid": "de180001_ecd8d3b8",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-01-03T10:02:29Z",
+      "side": 1,
+      "message": "as pointed out by Ardo it gets printed in line #310",
+      "parentUuid": "c6b7a72f_57129ba1",
+      "range": {
+        "startLine": 302,
+        "startChar": 8,
+        "endLine": 304,
+        "endChar": 9
+      },
+      "revId": "2513fe842cfb094e2e92d201f23e24c766529655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c54d174_36763070",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-01-03T10:02:29Z",
+      "side": 1,
+      "message": "here it gets printed without masking and later in #310 it gets printed again after masking...",
+      "range": {
+        "startLine": 306,
+        "startChar": 8,
+        "endLine": 306,
+        "endChar": 44
+      },
+      "revId": "2513fe842cfb094e2e92d201f23e24c766529655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "58b07b2d_4bb6a0a3",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
         "patchSetId": 10

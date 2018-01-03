@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1af47f82_e35f162e",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-settings-api/gr-settings-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-03T21:22:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "193dc4ed_53d5eac4",
+      "range": {
+        "startLine": 20,
+        "startChar": 31,
+        "endLine": 20,
+        "endChar": 68
+      },
+      "revId": "ed8eac79f777df09439debe400a69339a0b2e686",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ed3afab_44288f19",
         "filename": "polygerrit-ui/app/elements/plugins/gr-settings-api/gr-settings-api.js",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "ed8eac79f777df09439debe400a69339a0b2e686",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f200144e_c0123865",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-settings-api/gr-settings-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-03T21:22:04Z",
+      "side": 1,
+      "message": "This would probably change the API style in general - this would need to be added to other methods as well.\n\nI don\u0027t feel strongly, but this is marginally more inline with other new APIs.",
+      "parentUuid": "8ed3afab_44288f19",
+      "range": {
+        "startLine": 24,
+        "startChar": 26,
+        "endLine": 24,
+        "endChar": 31
+      },
+      "revId": "ed8eac79f777df09439debe400a69339a0b2e686",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "425c534d_dee83061",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-settings-api/gr-settings-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-03T21:22:04Z",
+      "side": 1,
+      "message": "For chaining, here\u0027s usage example:\n\nplugin.settings().title(\u0027foo\u0027).module(\u0027bar\u0027).build();",
+      "parentUuid": "2285bf4c_a4c561d4",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 16
+      },
+      "revId": "ed8eac79f777df09439debe400a69339a0b2e686",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "611443d2_0ddef7f9",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-menu-item.html",
         "patchSetId": 4
@@ -91,6 +163,30 @@
       "revId": "ed8eac79f777df09439debe400a69339a0b2e686",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0790587d_a5b7ad19",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-menu-item.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-03T21:22:04Z",
+      "side": 1,
+      "message": "Mmm, good point, but doesn\u0027t polymer-resin do sanitation for us here?",
+      "parentUuid": "611443d2_0ddef7f9",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 29
+      },
+      "revId": "ed8eac79f777df09439debe400a69339a0b2e686",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

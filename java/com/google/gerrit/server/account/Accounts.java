@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -46,16 +45,11 @@ public class Accounts {
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
-  private final OutgoingEmailValidator emailValidator;
 
   @Inject
-  Accounts(
-      GitRepositoryManager repoManager,
-      AllUsersName allUsersName,
-      OutgoingEmailValidator emailValidator) {
+  Accounts(GitRepositoryManager repoManager, AllUsersName allUsersName) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
-    this.emailValidator = emailValidator;
   }
 
   @Nullable
@@ -138,7 +132,7 @@ public class Accounts {
 
   private Optional<Account> read(Repository allUsersRepository, Account.Id accountId)
       throws IOException, ConfigInvalidException {
-    AccountConfig accountConfig = new AccountConfig(emailValidator, accountId);
+    AccountConfig accountConfig = new AccountConfig(accountId);
     accountConfig.load(allUsersRepository);
     return accountConfig.getLoadedAccount();
   }

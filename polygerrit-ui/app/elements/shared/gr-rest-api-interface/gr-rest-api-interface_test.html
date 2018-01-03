@@ -892,6 +892,8 @@ limitations under the License.
 
       test('_getChangeDetail calls errFn on 500', () => {
         const errFn = sinon.stub();
+        sandbox.stub(element, 'getChangeActionURL')
+            .returns(Promise.resolve(''));
         sandbox.stub(element, '_fetchRawJSON')
             .returns(Promise.resolve({ok: false, status: 500}));
         return element._getChangeDetail(123, {}, errFn).then(() => {
@@ -900,6 +902,8 @@ limitations under the License.
       });
 
       test('_getChangeDetail populates _projectLookup', () => {
+        sandbox.stub(element, 'getChangeActionURL')
+            .returns(Promise.resolve(''));
         sandbox.stub(element, '_fetchRawJSON')
             .returns(Promise.resolve({ok: true}));
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "300c35de_ffd15bcb",
+        "filename": "plugins/codemirror-editor",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-03T21:26:20Z",
+      "side": 1,
+      "message": "Is this intended?",
+      "revId": "6d64bcf74e9d371ed28421b5d70633976ec0d7ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

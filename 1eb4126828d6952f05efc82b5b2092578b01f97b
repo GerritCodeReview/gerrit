@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68a86126_e46bd89c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-03T18:20:13Z",
+      "side": 1,
+      "message": "I\u0027m not too sure if this behavior is the best one. Do we want commit message edits to be keyed by change _and_ revision, or just change?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 38
+      },
+      "revId": "1eb4126828d6952f05efc82b5b2092578b01f97b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -254,7 +254,7 @@ limitations under the License.
       const showTabsCheckbox = valueOf('Show tabs', 'diffPreferences')
           .firstElementChild;
       showTabsCheckbox.checked = false;
-      element._handleShowTabsChanged();
+      element._handleDiffShowTabsChanged();
 
       assert.isTrue(element._diffPrefsChanged);
 
@@ -275,10 +275,10 @@ limitations under the License.
     test('columns input is hidden with fit to scsreen is selected', () => {
       assert.isFalse(element.$.columnsPref.hidden);
 
-      MockInteractions.tap(element.$.lineWrapping);
+      MockInteractions.tap(element.$.diffLineWrapping);
       assert.isTrue(element.$.columnsPref.hidden);
 
-      MockInteractions.tap(element.$.lineWrapping);
+      MockInteractions.tap(element.$.diffLineWrapping);
       assert.isFalse(element.$.columnsPref.hidden);
     });
 

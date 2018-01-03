@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a0dd3e4d_adb5636a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-01-03T10:48:01Z",
+      "side": 1,
+      "message": "logic in extractWhat is OK but we agreed that comments will be added to explain why particular steps are being performed",
+      "revId": "2513fe842cfb094e2e92d201f23e24c766529655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6b7a72f_57129ba1",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
         "patchSetId": 10

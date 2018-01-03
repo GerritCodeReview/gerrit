@@ -14,6 +14,12 @@
 (function() {
   'use strict';
 
+  /**
+   * Fired when the permission has been modified or removed.
+   *
+   * @event access-modified
+   */
+
   const MAX_AUTOCOMPLETE_RESULTS = 20;
 
   Polymer({
@@ -33,6 +39,7 @@
       editing: {
         type: Boolean,
         value: false,
+        observer: '_handleEditingChanged',
       },
       _label: {
         type: Object,
@@ -47,7 +54,7 @@
       },
       _rules: Array,
       _groupsWithRules: Object,
-      _deleted: {
+      deleted: {
         type: Boolean,
         value: false,
       },
@@ -66,13 +73,22 @@
       this._groupsWithRules = this._computeGroupsWithRules(this._rules);
     },
 
+    _handleEditingChanged(editing, editingOld) {
+      // Ignore when editing gets set initially.
+      if (!editingOld) { return; }
+      // Restore original values if no longer editing.
+      if (!editing) {
+        this.deleted = false;
+      }
+    },
+
     _sortPermission(permission) {
       this._rules = this.toSortedArray(permission.value.rules);
     },
 
     _handleRemovePermission() {
-      this._deleted = true;
-      this.set('permission.value.deleted', true);
+      this.deleted = true;
+      this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
     },
 
     _computeSectionClass(editing, deleted) {
@@ -87,8 +103,7 @@
     },
 
     _handleUndoRemove() {
-      this._deleted = false;
-      delete this.permission.value.deleted;
+      this.deleted = false;
     },
 
     _computeLabel(permission, labels) {

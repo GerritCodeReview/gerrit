@@ -143,6 +143,30 @@
       "revId": "48da938979a56826a522c3387ca80e5463d6d7b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6461205e_070cabe0",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-03T18:23:46Z",
+      "side": 1,
+      "message": "SGTM.",
+      "parentUuid": "a2912003_64d6ccac",
+      "range": {
+        "startLine": 161,
+        "startChar": 31,
+        "endLine": 161,
+        "endChar": 48
+      },
+      "revId": "48da938979a56826a522c3387ca80e5463d6d7b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

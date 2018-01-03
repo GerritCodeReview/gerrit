@@ -517,8 +517,9 @@ submit_rule(submit(Author)) :-
     Author = label('Author-is-John-Doe', need(_)).
 
 submit_rule(submit(Author)) :-
-    gerrit:commit_author(A, _, 'john.doe@example.com'),
-    Author = label('Author-is-John-Doe', ok(A)).
+    gerrit:commit_author(_, _, 'john.doe@example.com'),
+    gerrit:uploader(U),
+    Author = label('Author-is-John-Doe', ok(U)).
 ----
 
 or by user id (assuming it is `1000000`):
@@ -544,8 +545,9 @@ submit_rule(submit(Author)) :-
     Author = label('Author-is-John-Doe', need(_)).
 
 submit_rule(submit(Author)) :-
-    gerrit:commit_author(A, 'John Doe', 'john.doe@example.com'),
-    Author = label('Author-is-John-Doe', ok(A)).
+    gerrit:commit_author(_, 'John Doe', 'john.doe@example.com'),
+    gerrit:uploader(U),
+    Author = label('Author-is-John-Doe', ok(U)).
 ----
 
 === Example 7: Make change submittable if commit message starts with "Fix "
@@ -571,8 +573,8 @@ submit_rule(submit(Fix)) :-
 
 submit_rule(submit(Fix)) :-
     gerrit:commit_message(M), name(M, L), starts_with(L, "Fix "),
-    gerrit:commit_author(A),
-    Fix = label('Commit-Message-starts-with-Fix', ok(A)).
+    gerrit:uploader(U),
+    Fix = label('Commit-Message-starts-with-Fix', ok(U)).
 
 starts_with(L, []).
 starts_with([H|T1], [H|T2]) :- starts_with(T1, T2).
@@ -597,8 +599,8 @@ submit_rule(submit(Fix)) :-
 
 submit_rule(submit(Fix)) :-
     gerrit:commit_message_matches('^Fix '),
-    gerrit:commit_author(A),
-    Fix = label('Commit-Message-starts-with-Fix', ok(A)).
+    gerrit:uploader(U),
+    Fix = label('Commit-Message-starts-with-Fix', ok(U)).
 ----
 
 The previous example could also be written so that it first checks if the commit
@@ -610,8 +612,8 @@ further backtracking by using the cut `!` operator:
 ----
 submit_rule(submit(Fix)) :-
     gerrit:commit_message_matches('^Fix '),
-    gerrit:commit_author(A),
-    Fix = label('Commit-Message-starts-with-Fix', ok(A)),
+    gerrit:uploader(U),
+    Fix = label('Commit-Message-starts-with-Fix', ok(U)),
     !.
 
 % Message does not start with 'Fix ' so Fix is needed to submit
@@ -1009,8 +1011,8 @@ unresolved comments. Basically, it can be achieved by the following rules:
 submit_rule(submit(R)) :-
     gerrit:unresolved_comments_count(0),
     !,
-    gerrit:commit_author(A),
-    R = label('All-Comments-Resolved', ok(A)).
+    gerrit:uploader(U),
+    R = label('All-Comments-Resolved', ok(U)).
 
 submit_rule(submit(R)) :-
     gerrit:unresolved_comments_count(U),
@@ -1029,8 +1031,8 @@ submit_rule(submit(CR, V, R)) :-
     base(CR, V),
     gerrit:unresolved_comments_count(0),
     !,
-    gerrit:commit_author(A),
-    R = label('All-Comments-Resolved', ok(A)).
+    gerrit:uploader(U),
+    R = label('All-Comments-Resolved', ok(U)).
 
 submit_rule(submit(CR, V, R)) :-
     base(CR, V),
@@ -1059,8 +1061,8 @@ pure revert. Basically, it can be achieved by the following rules:
 submit_rule(submit(R)) :-
     gerrit:pure_revert(1),
     !,
-    gerrit:commit_author(A),
-    R = label('Is-Pure-Revert', ok(A)).
+    gerrit:uploader(U),
+    R = label('Is-Pure-Revert', ok(U)).
 
 submit_rule(submit(R)) :-
     gerrit:pure_revert(U),
@@ -1079,8 +1081,8 @@ submit_rule(submit(CR, V, R)) :-
     base(CR, V),
     gerrit:pure_revert(1),
     !,
-    gerrit:commit_author(A),
-    R = label('Is-Pure-Revert', ok(A)).
+    gerrit:uploader(U),
+    R = label('Is-Pure-Revert', ok(U)).
 
 submit_rule(submit(CR, V, R)) :-
     base(CR, V),

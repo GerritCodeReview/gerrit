@@ -1335,7 +1335,7 @@ public class AccountIT extends AbstractDaemonTest {
             WatchConfig.WATCH_CONFIG,
             wc.toText());
     PushOneCommit.Result r = push.to(RefNames.REFS_USERS_SELF);
-    r.assertErrorStatus("invalid watch configuration");
+    r.assertErrorStatus("invalid account configuration");
     r.assertMessage(
         String.format(
             "%s: Invalid project watch of account %d for project %s: %s",

@@ -15,7 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -23,7 +23,6 @@ import com.google.common.base.Enums;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
@@ -31,17 +30,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ValidationError;
-import com.google.gerrit.server.git.VersionedMetaData;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -49,10 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Repository;
 
 /**
  * ‘watch.config’ file in the user branch in the All-Users repository that contains the watch
@@ -85,91 +71,7 @@ import org.eclipse.jgit.lib.Repository;
  *
  * <p>Unknown notify types are ignored and removed on save.
  */
-public class WatchConfig extends VersionedMetaData implements ValidationError.Sink {
-  @Singleton
-  public static class Accessor {
-    private final GitRepositoryManager repoManager;
-    private final AllUsersName allUsersName;
-    private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
-    private final IdentifiedUser.GenericFactory userFactory;
-
-    @Inject
-    Accessor(
-        GitRepositoryManager repoManager,
-        AllUsersName allUsersName,
-        Provider<MetaDataUpdate.User> metaDataUpdateFactory,
-        IdentifiedUser.GenericFactory userFactory) {
-      this.repoManager = repoManager;
-      this.allUsersName = allUsersName;
-      this.metaDataUpdateFactory = metaDataUpdateFactory;
-      this.userFactory = userFactory;
-    }
-
-    public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches(Account.Id accountId)
-        throws IOException, ConfigInvalidException {
-      try (Repository git = repoManager.openRepository(allUsersName)) {
-        WatchConfig watchConfig = new WatchConfig(accountId);
-        watchConfig.load(git);
-        return watchConfig.getProjectWatches();
-      }
-    }
-
-    public synchronized void upsertProjectWatches(
-        Account.Id accountId, Map<ProjectWatchKey, Set<NotifyType>> newProjectWatches)
-        throws IOException, ConfigInvalidException {
-      WatchConfig watchConfig = read(accountId);
-      Map<ProjectWatchKey, Set<NotifyType>> projectWatches = watchConfig.getProjectWatches();
-      projectWatches.putAll(newProjectWatches);
-      commit(watchConfig);
-    }
-
-    public synchronized void deleteProjectWatches(
-        Account.Id accountId, Collection<ProjectWatchKey> projectWatchKeys)
-        throws IOException, ConfigInvalidException {
-      WatchConfig watchConfig = read(accountId);
-      Map<ProjectWatchKey, Set<NotifyType>> projectWatches = watchConfig.getProjectWatches();
-      boolean commit = false;
-      for (ProjectWatchKey key : projectWatchKeys) {
-        if (projectWatches.remove(key) != null) {
-          commit = true;
-        }
-      }
-      if (commit) {
-        commit(watchConfig);
-      }
-    }
-
-    public synchronized void deleteAllProjectWatches(Account.Id accountId)
-        throws IOException, ConfigInvalidException {
-      WatchConfig watchConfig = read(accountId);
-      boolean commit = false;
-      if (!watchConfig.getProjectWatches().isEmpty()) {
-        watchConfig.getProjectWatches().clear();
-        commit = true;
-      }
-      if (commit) {
-        commit(watchConfig);
-      }
-    }
-
-    private WatchConfig read(Account.Id accountId) throws IOException, ConfigInvalidException {
-      try (Repository git = repoManager.openRepository(allUsersName)) {
-        WatchConfig watchConfig = new WatchConfig(accountId);
-        watchConfig.load(git);
-        return watchConfig;
-      }
-    }
-
-    private void commit(WatchConfig watchConfig) throws IOException {
-      try (MetaDataUpdate md =
-          metaDataUpdateFactory
-              .get()
-              .create(allUsersName, userFactory.create(watchConfig.accountId))) {
-        watchConfig.commit(md);
-      }
-    }
-  }
-
+public class WatchConfig {
   @AutoValue
   public abstract static class ProjectWatchKey {
     public static ProjectWatchKey create(Project.NameKey project, @Nullable String filter) {
@@ -199,25 +101,26 @@ public class WatchConfig extends VersionedMetaData implements ValidationError.Si
   public static final String KEY_NOTIFY = "notify";
 
   private final Account.Id accountId;
-  private final String ref;
+  private final Config cfg;
+  private final ValidationError.Sink validationErrorSink;
 
   private Map<ProjectWatchKey, Set<NotifyType>> projectWatches;
-  private List<ValidationError> validationErrors;
 
-  public WatchConfig(Account.Id accountId) {
-    this.accountId = accountId;
-    this.ref = RefNames.refsUsers(accountId);
+  public WatchConfig(Account.Id accountId, Config cfg, ValidationError.Sink validationErrorSink) {
+    this.accountId = checkNotNull(accountId, "accountId");
+    this.cfg = checkNotNull(cfg, "cfg");
+    this.validationErrorSink = checkNotNull(validationErrorSink, "validationErrorSink");
   }
 
-  @Override
-  protected String getRefName() {
-    return ref;
+  public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches() {
+    if (projectWatches == null) {
+      parse();
+    }
+    return projectWatches;
   }
 
-  @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
-    Config cfg = readConfig(WATCH_CONFIG);
-    projectWatches = parse(accountId, cfg, this);
+  public void parse() {
+    projectWatches = parse(accountId, cfg, validationErrorSink);
   }
 
   @VisibleForTesting
@@ -248,24 +151,8 @@ public class WatchConfig extends VersionedMetaData implements ValidationError.Si
     return projectWatches;
   }
 
-  Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches() {
-    checkLoaded();
-    return projectWatches;
-  }
-
-  public void setProjectWatches(Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
+  public Config save(Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
     this.projectWatches = projectWatches;
-  }
-
-  @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
-    checkLoaded();
-
-    if (Strings.isNullOrEmpty(commit.getMessage())) {
-      commit.setMessage("Updated watch configuration\n");
-    }
-
-    Config cfg = readConfig(WATCH_CONFIG);
 
     for (String projectName : cfg.getSubsections(PROJECT)) {
       cfg.unsetSection(PROJECT, projectName);
@@ -282,32 +169,7 @@ public class WatchConfig extends VersionedMetaData implements ValidationError.Si
       cfg.setStringList(PROJECT, e.getKey(), KEY_NOTIFY, new ArrayList<>(e.getValue()));
     }
 
-    saveConfig(WATCH_CONFIG, cfg);
-    return true;
-  }
-
-  private void checkLoaded() {
-    checkState(projectWatches != null, "project watches not loaded yet");
-  }
-
-  @Override
-  public void error(ValidationError error) {
-    if (validationErrors == null) {
-      validationErrors = new ArrayList<>(4);
-    }
-    validationErrors.add(error);
-  }
-
-  /**
-   * Get the validation errors, if any were discovered during load.
-   *
-   * @return list of errors; empty list if there are no errors.
-   */
-  public List<ValidationError> getValidationErrors() {
-    if (validationErrors != null) {
-      return ImmutableList.copyOf(validationErrors);
-    }
-    return ImmutableList.of();
+    return cfg;
   }
 
   @AutoValue
@@ -356,7 +218,7 @@ public class WatchConfig extends VersionedMetaData implements ValidationError.Si
       return create(filter, notifyTypes);
     }
 
-    public static NotifyValue create(@Nullable String filter, Set<NotifyType> notifyTypes) {
+    public static NotifyValue create(@Nullable String filter, Collection<NotifyType> notifyTypes) {
       return new AutoValue_WatchConfig_NotifyValue(
           Strings.emptyToNull(filter), Sets.immutableEnumSet(notifyTypes));
     }

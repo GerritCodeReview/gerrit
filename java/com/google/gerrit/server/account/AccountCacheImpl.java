@@ -137,7 +137,6 @@ public class AccountCacheImpl implements AccountCache {
     private final AllUsersName allUsersName;
     private final Accounts accounts;
     private final GeneralPreferencesLoader loader;
-    private final Provider<WatchConfig.Accessor> watchConfig;
     private final ExternalIds externalIds;
 
     @Inject
@@ -145,12 +144,10 @@ public class AccountCacheImpl implements AccountCache {
         AllUsersName allUsersName,
         Accounts accounts,
         GeneralPreferencesLoader loader,
-        Provider<WatchConfig.Accessor> watchConfig,
         ExternalIds externalIds) {
       this.allUsersName = allUsersName;
       this.accounts = accounts;
       this.loader = loader;
-      this.watchConfig = watchConfig;
       this.externalIds = externalIds;
     }
 
@@ -170,10 +167,7 @@ public class AccountCacheImpl implements AccountCache {
 
       return Optional.of(
           new AccountState(
-              allUsersName,
-              account,
-              externalIds.byAccount(who),
-              watchConfig.get().getProjectWatches(who)));
+              allUsersName, account, externalIds.byAccount(who), accounts.getProjectWatches(who)));
     }
   }
 }

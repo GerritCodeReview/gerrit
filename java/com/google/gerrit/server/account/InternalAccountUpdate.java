@@ -16,12 +16,17 @@ package com.google.gerrit.server.account;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.account.WatchConfig.NotifyType;
+import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Class to prepare updates to an account.
@@ -91,6 +96,20 @@ public abstract class InternalAccountUpdate {
    * @return external IDs that should be deleted for the account
    */
   public abstract ImmutableSet<ExternalId> getDeletedExternalIds();
+
+  /**
+   * Returns external IDs that should be updated for the account.
+   *
+   * @return external IDs that should be updated for the account
+   */
+  public abstract ImmutableMap<ProjectWatchKey, Set<NotifyType>> getUpdatedProjectWatches();
+
+  /**
+   * Returns project watches that should be deleted for the account.
+   *
+   * @return project watches that should be deleted for the account
+   */
+  public abstract ImmutableSet<ProjectWatchKey> getDeletedProjectWatches();
 
   /**
    * Class to build an account update.
@@ -239,7 +258,7 @@ public abstract class InternalAccountUpdate {
     }
 
     /**
-     * Delete external IDs for the account.
+     * Deletes external IDs for the account.
      *
      * <p>The account IDs of the external IDs must match the account ID of the account that is
      * updated.
@@ -275,6 +294,73 @@ public abstract class InternalAccountUpdate {
     public Builder replaceExternalIds(
         Collection<ExternalId> extIdsToDelete, Collection<ExternalId> extIdsToAdd) {
       return deleteExternalIds(extIdsToDelete).addExternalIds(extIdsToAdd);
+    }
+
+    /**
+     * Returns a builder for the map of updated project watches.
+     *
+     * @return builder for the map of updated project watches.
+     */
+    abstract ImmutableMap.Builder<ProjectWatchKey, Set<NotifyType>> updatedProjectWatchesBuilder();
+
+    /**
+     * Updates a project watch for the account.
+     *
+     * <p>If no project watch with the key exists the project watch is created.
+     *
+     * @param projectWatchKey key of the project watch that should be updated
+     * @param notifyTypes the notify types that should be set for the project watch
+     * @return the builder
+     */
+    public Builder updateProjectWatch(
+        ProjectWatchKey projectWatchKey, Set<NotifyType> notifyTypes) {
+      return updateProjectWatches(ImmutableMap.of(projectWatchKey, notifyTypes));
+    }
+
+    /**
+     * Updates project watches for the account.
+     *
+     * <p>If any of the project watches already exists, it is overwritten. New project watches are
+     * inserted.
+     *
+     * @param projectWatches project watches that should be updated
+     * @return the builder
+     */
+    public Builder updateProjectWatches(Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
+      updatedProjectWatchesBuilder().putAll(projectWatches);
+      return this;
+    }
+
+    /**
+     * Returns a builder for the set of deleted project watches.
+     *
+     * @return builder for the set of deleted project watches.
+     */
+    abstract ImmutableSet.Builder<ProjectWatchKey> deletedProjectWatchesBuilder();
+
+    /**
+     * Deletes a project watch for the account.
+     *
+     * <p>If no project watch with the ID exists this is a no-op.
+     *
+     * @param projectWatch project watch that should be deleted
+     * @return the builder
+     */
+    public Builder deleteProjectWatch(ProjectWatchKey projectWatch) {
+      return deleteProjectWatches(ImmutableSet.of(projectWatch));
+    }
+
+    /**
+     * Deletes project watches for the account.
+     *
+     * <p>For non-existing project watches this is a no-op.
+     *
+     * @param projectWatches project watches that should be deleted
+     * @return the builder
+     */
+    public Builder deleteProjectWatches(Collection<ProjectWatchKey> projectWatches) {
+      deletedProjectWatchesBuilder().addAll(projectWatches);
+      return this;
     }
 
     /**
@@ -383,6 +469,28 @@ public abstract class InternalAccountUpdate {
       @Override
       public Builder deleteExternalIds(Collection<ExternalId> extIds) {
         delegate.deleteExternalIds(extIds);
+        return this;
+      }
+
+      @Override
+      ImmutableMap.Builder<ProjectWatchKey, Set<NotifyType>> updatedProjectWatchesBuilder() {
+        return delegate.updatedProjectWatchesBuilder();
+      }
+
+      @Override
+      public Builder updateProjectWatches(Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
+        delegate.updateProjectWatches(projectWatches);
+        return this;
+      }
+
+      @Override
+      ImmutableSet.Builder<ProjectWatchKey> deletedProjectWatchesBuilder() {
+        return delegate.deletedProjectWatchesBuilder();
+      }
+
+      @Override
+      public Builder deleteProjectWatches(Collection<ProjectWatchKey> projectWatches) {
+        delegate.deleteProjectWatches(projectWatches);
         return this;
       }
     }

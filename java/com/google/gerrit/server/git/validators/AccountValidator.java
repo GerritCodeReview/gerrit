@@ -14,11 +14,14 @@
 
 package com.google.gerrit.server.git.validators;
 
+import static java.util.stream.Collectors.toSet;
+
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountConfig;
+import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -47,15 +50,16 @@ public class AccountValidator {
     Optional<Account> oldAccount = Optional.empty();
     if (oldId != null && !ObjectId.zeroId().equals(oldId)) {
       try {
-        oldAccount = loadAccount(accountId, rw, oldId);
+        oldAccount = loadAccount(accountId, rw, oldId, null);
       } catch (ConfigInvalidException e) {
         // ignore, maybe the new commit is repairing it now
       }
     }
 
+    List<String> messages = new ArrayList<>();
     Optional<Account> newAccount;
     try {
-      newAccount = loadAccount(accountId, rw, newId);
+      newAccount = loadAccount(accountId, rw, newId, messages);
     } catch (ConfigInvalidException e) {
       return ImmutableList.of(
           String.format(
@@ -67,7 +71,6 @@ public class AccountValidator {
       return ImmutableList.of(String.format("account '%s' does not exist", accountId.get()));
     }
 
-    List<String> messages = new ArrayList<>();
     if (accountId.equals(self.get().getAccountId()) && !newAccount.get().isActive()) {
       messages.add("cannot deactivate own account");
     }
@@ -87,11 +90,20 @@ public class AccountValidator {
     return ImmutableList.copyOf(messages);
   }
 
-  private Optional<Account> loadAccount(Account.Id accountId, RevWalk rw, ObjectId commit)
+  private Optional<Account> loadAccount(
+      Account.Id accountId, RevWalk rw, ObjectId commit, @Nullable List<String> messages)
       throws IOException, ConfigInvalidException {
     rw.reset();
     AccountConfig accountConfig = new AccountConfig(accountId);
-    accountConfig.load(rw, commit);
+    accountConfig.setEagerParsing(true).load(rw, commit);
+    if (messages != null) {
+      messages.addAll(
+          accountConfig
+              .getValidationErrors()
+              .stream()
+              .map(ValidationError::getMessage)
+              .collect(toSet()));
+    }
     return accountConfig.getLoadedAccount();
   }
 }

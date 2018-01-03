@@ -19,10 +19,9 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
@@ -49,8 +48,7 @@ public class PostWatchedProjects
   private final PermissionBackend permissionBackend;
   private final GetWatchedProjects getWatchedProjects;
   private final ProjectsCollection projectsCollection;
-  private final AccountCache accountCache;
-  private final WatchConfig.Accessor watchConfig;
+  private final AccountsUpdate.User accountsUpdate;
 
   @Inject
   public PostWatchedProjects(
@@ -58,14 +56,12 @@ public class PostWatchedProjects
       PermissionBackend permissionBackend,
       GetWatchedProjects getWatchedProjects,
       ProjectsCollection projectsCollection,
-      AccountCache accountCache,
-      WatchConfig.Accessor watchConfig) {
+      AccountsUpdate.User accountsUpdate) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.getWatchedProjects = getWatchedProjects;
     this.projectsCollection = projectsCollection;
-    this.accountCache = accountCache;
-    this.watchConfig = watchConfig;
+    this.accountsUpdate = accountsUpdate;
   }
 
   @Override
@@ -76,9 +72,13 @@ public class PostWatchedProjects
       permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 
-    Account.Id accountId = rsrc.getUser().getAccountId();
-    watchConfig.upsertProjectWatches(accountId, asMap(input));
-    accountCache.evict(accountId);
+    Map<ProjectWatchKey, Set<NotifyType>> projectWatches = asMap(input);
+    accountsUpdate
+        .create()
+        .update(
+            "Update Project Watches via API",
+            rsrc.getUser().getAccountId(),
+            u -> u.updateProjectWatches(projectWatches));
     return getWatchedProjects.apply(rsrc);
   }
 

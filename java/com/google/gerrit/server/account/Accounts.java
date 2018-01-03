@@ -21,6 +21,8 @@ import static java.util.stream.Collectors.toSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.account.WatchConfig.NotifyType;
+import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
@@ -29,6 +31,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -122,6 +125,15 @@ public class Accounts {
 
   public static boolean hasAnyAccount(Repository repo) throws IOException {
     return readUserRefs(repo).findAny().isPresent();
+  }
+
+  public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches(Account.Id accountId)
+      throws IOException, ConfigInvalidException {
+    try (Repository repo = repoManager.openRepository(allUsersName)) {
+      AccountConfig accountConfig = new AccountConfig(accountId);
+      accountConfig.load(repo);
+      return accountConfig.getProjectWatches();
+    }
   }
 
   private Stream<Account.Id> readUserRefs() throws IOException {

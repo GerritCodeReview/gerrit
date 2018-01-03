@@ -18,20 +18,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.VersionedMetaData;
-import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -67,7 +61,7 @@ import org.eclipse.jgit.revwalk.RevSort;
  * account. The first commit may be an empty commit (if no properties were set and 'account.config'
  * doesn't exist).
  */
-public class AccountConfig extends VersionedMetaData implements ValidationError.Sink {
+public class AccountConfig extends VersionedMetaData {
   public static final String ACCOUNT_CONFIG = "account.config";
   public static final String ACCOUNT = "account";
   public static final String KEY_ACTIVE = "active";
@@ -75,17 +69,14 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_PREFERRED_EMAIL = "preferredEmail";
   public static final String KEY_STATUS = "status";
 
-  @Nullable private final OutgoingEmailValidator emailValidator;
   private final Account.Id accountId;
   private final String ref;
 
   private Optional<Account> loadedAccount;
   private Optional<InternalAccountUpdate> accountUpdate = Optional.empty();
   private Timestamp registeredOn;
-  private List<ValidationError> validationErrors;
 
-  public AccountConfig(@Nullable OutgoingEmailValidator emailValidator, Account.Id accountId) {
-    this.emailValidator = emailValidator;
+  public AccountConfig(Account.Id accountId) {
     this.accountId = checkNotNull(accountId);
     this.ref = RefNames.refsUsers(accountId);
   }
@@ -182,11 +173,6 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
 
     String preferredEmail = get(cfg, KEY_PREFERRED_EMAIL);
     account.setPreferredEmail(preferredEmail);
-    if (emailValidator != null && !emailValidator.isValid(preferredEmail)) {
-      error(
-          new ValidationError(
-              ACCOUNT_CONFIG, String.format("Invalid preferred email: %s", preferredEmail)));
-    }
 
     account.setStatus(get(cfg, KEY_STATUS));
     account.setMetaId(metaId);
@@ -295,25 +281,5 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
 
   private void checkLoaded() {
     checkState(loadedAccount != null, "Account %s not loaded yet", accountId.get());
-  }
-
-  /**
-   * Get the validation errors, if any were discovered during load.
-   *
-   * @return list of errors; empty list if there are no errors.
-   */
-  public List<ValidationError> getValidationErrors() {
-    if (validationErrors != null) {
-      return ImmutableList.copyOf(validationErrors);
-    }
-    return ImmutableList.of();
-  }
-
-  @Override
-  public void error(ValidationError error) {
-    if (validationErrors == null) {
-      validationErrors = new ArrayList<>(4);
-    }
-    validationErrors.add(error);
   }
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de20b469_b4b6df90",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-03T21:24:28Z",
+      "side": 1,
+      "message": "Indentation is off.",
+      "revId": "fa96ba7f94e6e2b76a80dfbf90e4f9d456a9a88e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68440aa1_f880d032",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-03T21:24:28Z",
+      "side": 1,
+      "message": "A bit better might be to add event listener instead of stubbing dispatchEvent.",
+      "revId": "fa96ba7f94e6e2b76a80dfbf90e4f9d456a9a88e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

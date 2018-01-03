@@ -1061,6 +1061,29 @@ limitations under the License.
         });
       });
 
+      test('_renderContentByRange notexistent elements', () => {
+        const spy = sandbox.spy(builder, '_createTextEl');
+
+        sandbox.stub(builder, 'findLinesByRange',
+            (s, e, d, lines, elements) => {
+              // Add a line and a corresponding element.
+              lines.push(new GrDiffLine(GrDiffLine.Type.BOTH));
+              const parEl = document.createElement('div');
+              const el = document.createElement('div');
+              parEl.appendChild(el);
+              elements.push(el);
+
+              // Add 2 lines without corresponding elements.
+              lines.push(new GrDiffLine(GrDiffLine.Type.BOTH));
+              lines.push(new GrDiffLine(GrDiffLine.Type.BOTH));
+            });
+
+        builder._renderContentByRange(1, 10, 'left');
+        // Should be called only once because only one line had a corresponding
+        // element.
+        assert.equal(spy.callCount, 1);
+      });
+
       test('_getNextContentOnSide side-by-side left', () => {
         const startElem = builder.getContentByLine(5, 'left',
             element.$.diffTable);

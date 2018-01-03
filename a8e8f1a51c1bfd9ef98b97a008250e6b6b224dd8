@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a821ed5_0c550f9d",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-03T00:38:24Z",
+      "side": 1,
+      "message": "Capitalize.",
+      "revId": "a8e8f1a51c1bfd9ef98b97a008250e6b6b224dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8d059cd_2ea751dd",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-03T00:38:24Z",
+      "side": 1,
+      "message": "Capitalize.",
+      "revId": "a8e8f1a51c1bfd9ef98b97a008250e6b6b224dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1c9b854_d9c11343",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-03T00:38:24Z",
+      "side": 1,
+      "message": "This is no longer valid code -- should be an object.",
+      "range": {
+        "startLine": 162,
+        "startChar": 41,
+        "endLine": 162,
+        "endChar": 58
+      },
+      "revId": "a8e8f1a51c1bfd9ef98b97a008250e6b6b224dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b700fd9b_afadb80d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-03T00:38:24Z",
+      "side": 1,
+      "message": "Derived has one r.",
+      "range": {
+        "startLine": 367,
+        "startChar": 8,
+        "endLine": 367,
+        "endChar": 23
+      },
+      "revId": "a8e8f1a51c1bfd9ef98b97a008250e6b6b224dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

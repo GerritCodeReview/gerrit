@@ -71,6 +71,24 @@
       "revId": "fa96ba7f94e6e2b76a80dfbf90e4f9d456a9a88e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab602e4e_68bd46a3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-03T23:07:39Z",
+      "side": 1,
+      "message": "\u003e In one test, I need to ensure an event _isn\u0027t_ fired\n\nDoes this suffice?\n\nconst stub \u003d sandbox.stub();\nelement.addEventListener(\u0027show-alert\u0027, stub);\n// do the thing\nassert.isFalse(stub.called);\n\n\u003e This also allows me to write these tests synchronously instead of adding the listener.\n\nThat\u0027s a valid point, but this adds an implicit dependency.\nIf later sending alerts is refactored into child component, this test would break while nothing actually changes.\n\nNot a big deal, just some room for improvement.",
+      "parentUuid": "3ba4d9df_e54aa3b7",
+      "revId": "fa96ba7f94e6e2b76a80dfbf90e4f9d456a9a88e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

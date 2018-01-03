@@ -90,7 +90,7 @@
       if (this.storageKey) {
         const storedContent =
             this.$.storage.getEditableContentItem(this.storageKey);
-        if (storedContent.message) {
+        if (storedContent && storedContent.message) {
           content = storedContent.message;
           this.dispatchEvent(new CustomEvent('show-alert',
               {detail: {message: RESTORED_MESSAGE}, bubbles: true}));

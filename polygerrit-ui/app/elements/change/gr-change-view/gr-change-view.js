@@ -1348,5 +1348,10 @@
           break;
       }
     },
+
+    _computeCommitMessageKey(number, revision) {
+      console.log(`c${number}_rev${revision}`);
+      return `c${number}_rev${revision}`;
+    },
   });
 })();

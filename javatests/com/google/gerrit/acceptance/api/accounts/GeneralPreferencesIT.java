@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.ReviewCategoryStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
 import com.google.gerrit.extensions.client.MenuItem;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.RefNames;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,7 +68,14 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
   public void getAndSetPreferences() throws Exception {
     GeneralPreferencesInfo o = gApi.accounts().id(user42.id.toString()).getPreferences();
     assertPrefs(o, GeneralPreferencesInfo.defaults(), "my", "changeTable");
-    assertThat(o.my).hasSize(6);
+    assertThat(o.my)
+        .containsExactly(
+            new MenuItem("Changes", "#/dashboard/self", null),
+            new MenuItem("Draft Comments", "#/q/has:draft", null),
+            new MenuItem("Edits", "#/q/has:edit", null),
+            new MenuItem("Watched Changes", "#/q/is:watched+is:open", null),
+            new MenuItem("Starred Changes", "#/q/is:starred", null),
+            new MenuItem("Groups", "#/groups/self", null));
     assertThat(o.changeTable).isEmpty();
 
     GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
@@ -100,8 +108,8 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
 
     o = gApi.accounts().id(user42.getId().toString()).setPreferences(i);
     assertPrefs(o, i, "my");
-    assertThat(o.my).hasSize(1);
-    assertThat(o.changeTable).hasSize(1);
+    assertThat(o.my).containsExactlyElementsIn(i.my);
+    assertThat(o.changeTable).containsExactlyElementsIn(i.changeTable);
   }
 
   @Test
@@ -154,5 +162,37 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     a = gApi.accounts().id(admin.getId().toString()).getPreferences();
     assertThat(a.changesPerPage).isEqualTo(d.changesPerPage);
     assertPrefs(a, d, "my", "changeTable", "changesPerPage");
+  }
+
+  @Test
+  public void rejectMyMenuWithoutName() throws Exception {
+    GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
+    i.my = new ArrayList<>();
+    i.my.add(new MenuItem(null, "url"));
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("name for menu item is required");
+    gApi.accounts().id(user42.getId().toString()).setPreferences(i);
+  }
+
+  @Test
+  public void rejectMyMenuWithoutUrl() throws Exception {
+    GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
+    i.my = new ArrayList<>();
+    i.my.add(new MenuItem("name", null));
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("URL for menu item is required");
+    gApi.accounts().id(user42.getId().toString()).setPreferences(i);
+  }
+
+  @Test
+  public void trimMyMenuInput() throws Exception {
+    GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
+    i.my = new ArrayList<>();
+    i.my.add(new MenuItem(" name\t", " url\t", " _blank\t", " id\t"));
+
+    GeneralPreferencesInfo o = gApi.accounts().id(user42.getId().toString()).setPreferences(i);
+    assertThat(o.my).containsExactly(new MenuItem("name", "url", "_blank", "id"));
   }
 }

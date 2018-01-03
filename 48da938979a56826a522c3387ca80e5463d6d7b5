@@ -95,6 +95,30 @@
       "revId": "48da938979a56826a522c3387ca80e5463d6d7b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89ecd8bb_81fd0131",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-03T00:39:41Z",
+      "side": 1,
+      "message": "Hmm, I\u0027m not sure I agree with this change.\n\nAdding an object parameter with an undefined schema is kind of similar to adding more optional parameters, except less easily testable. What\u0027s the reason for not just flattening this object?",
+      "parentUuid": "804610e5_82671e8a",
+      "range": {
+        "startLine": 161,
+        "startChar": 31,
+        "endLine": 161,
+        "endChar": 48
+      },
+      "revId": "48da938979a56826a522c3387ca80e5463d6d7b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -119,6 +119,30 @@
       "revId": "48da938979a56826a522c3387ca80e5463d6d7b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2912003_64d6ccac",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-03T01:06:59Z",
+      "side": 1,
+      "message": "I don\u0027t like having multiple optional parameters (and have been wanting to slowly remove this elsewhere in the app), it gets really confusing, when you have to pass null values, and I think it\u0027s a better practice to have an optional object as a final parameter in general.\n\nI\u0027m not sure how it is less testable? As long as we test all of the options that we are using in the app, it\u0027s the same number of combinations as having multiple optional params.\n\nWe can define typedefs to show what values are possible.",
+      "parentUuid": "89ecd8bb_81fd0131",
+      "range": {
+        "startLine": 161,
+        "startChar": 31,
+        "endLine": 161,
+        "endChar": 48
+      },
+      "revId": "48da938979a56826a522c3387ca80e5463d6d7b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

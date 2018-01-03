@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1d93dac8_770f4e14",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-01-03T15:20:27Z",
+      "side": 1,
+      "message": "Done, but the logic is refactored anyway.",
+      "parentUuid": "a0dd3e4d_adb5636a",
+      "revId": "2513fe842cfb094e2e92d201f23e24c766529655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6b7a72f_57129ba1",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
         "patchSetId": 10
@@ -66,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "09cc4536_dafedffb",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-01-03T15:20:27Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "de180001_ecd8d3b8",
+      "range": {
+        "startLine": 302,
+        "startChar": 8,
+        "endLine": 304,
+        "endChar": 9
+      },
+      "revId": "2513fe842cfb094e2e92d201f23e24c766529655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c54d174_36763070",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
         "patchSetId": 10
@@ -86,6 +128,30 @@
       "revId": "2513fe842cfb094e2e92d201f23e24c766529655",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c445c126_621bda12",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-01-03T15:20:27Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4c54d174_36763070",
+      "range": {
+        "startLine": 306,
+        "startChar": 8,
+        "endLine": 306,
+        "endChar": 44
+      },
+      "revId": "2513fe842cfb094e2e92d201f23e24c766529655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -112,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "355c1fc2_52d9e163",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-01-03T15:20:27Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0cccd0c2_97268a1b",
+      "range": {
+        "startLine": 308,
+        "startChar": 8,
+        "endLine": 308,
+        "endChar": 12
+      },
+      "revId": "2513fe842cfb094e2e92d201f23e24c766529655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58b07b2d_4bb6a0a3",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
         "patchSetId": 10
@@ -132,6 +222,30 @@
       "revId": "2513fe842cfb094e2e92d201f23e24c766529655",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "177ea171_3b9cfbd3",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-01-03T15:20:27Z",
+      "side": 1,
+      "message": "Done, separate between masked and unmasked.",
+      "parentUuid": "58b07b2d_4bb6a0a3",
+      "range": {
+        "startLine": 293,
+        "startChar": 4,
+        "endLine": 311,
+        "endChar": 5
+      },
+      "revId": "2513fe842cfb094e2e92d201f23e24c766529655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

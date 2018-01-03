@@ -391,6 +391,7 @@ limitations under the License.
                 <gr-editable-content id="commitMessageEditor"
                     editing="[[_editingCommitMessage]]"
                     content="{{_latestCommitMessage}}"
+                    storage-key="[[_computeCommitMessageKey(_change._number, _change.current_revision)]]"
                     remove-zero-width-space>
                   <gr-linked-text pre
                       content="[[_latestCommitMessage]]"

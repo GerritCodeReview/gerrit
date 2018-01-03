@@ -33,7 +33,6 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
-import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -112,7 +111,6 @@ public class AccountsUpdate {
     private final GitRepositoryManager repoManager;
     private final GitReferenceUpdated gitRefUpdated;
     private final AllUsersName allUsersName;
-    private final OutgoingEmailValidator emailValidator;
     private final Provider<PersonIdent> serverIdentProvider;
     private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
     private final RetryHelper retryHelper;
@@ -123,7 +121,6 @@ public class AccountsUpdate {
         GitRepositoryManager repoManager,
         GitReferenceUpdated gitRefUpdated,
         AllUsersName allUsersName,
-        OutgoingEmailValidator emailValidator,
         @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
         Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
         RetryHelper retryHelper,
@@ -131,7 +128,6 @@ public class AccountsUpdate {
       this.repoManager = repoManager;
       this.gitRefUpdated = gitRefUpdated;
       this.allUsersName = allUsersName;
-      this.emailValidator = emailValidator;
       this.serverIdentProvider = serverIdentProvider;
       this.metaDataUpdateInternalFactory = metaDataUpdateInternalFactory;
       this.retryHelper = retryHelper;
@@ -145,7 +141,6 @@ public class AccountsUpdate {
           gitRefUpdated,
           null,
           allUsersName,
-          emailValidator,
           metaDataUpdateInternalFactory,
           retryHelper,
           extIdNotesFactory,
@@ -168,7 +163,6 @@ public class AccountsUpdate {
     private final GitRepositoryManager repoManager;
     private final GitReferenceUpdated gitRefUpdated;
     private final AllUsersName allUsersName;
-    private final OutgoingEmailValidator emailValidator;
     private final Provider<PersonIdent> serverIdentProvider;
     private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
     private final RetryHelper retryHelper;
@@ -179,7 +173,6 @@ public class AccountsUpdate {
         GitRepositoryManager repoManager,
         GitReferenceUpdated gitRefUpdated,
         AllUsersName allUsersName,
-        OutgoingEmailValidator emailValidator,
         @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
         Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
         RetryHelper retryHelper,
@@ -187,7 +180,6 @@ public class AccountsUpdate {
       this.repoManager = repoManager;
       this.gitRefUpdated = gitRefUpdated;
       this.allUsersName = allUsersName;
-      this.emailValidator = emailValidator;
       this.serverIdentProvider = serverIdentProvider;
       this.metaDataUpdateInternalFactory = metaDataUpdateInternalFactory;
       this.retryHelper = retryHelper;
@@ -201,7 +193,6 @@ public class AccountsUpdate {
           gitRefUpdated,
           null,
           allUsersName,
-          emailValidator,
           metaDataUpdateInternalFactory,
           retryHelper,
           extIdNotesFactory,
@@ -221,7 +212,6 @@ public class AccountsUpdate {
     private final GitRepositoryManager repoManager;
     private final GitReferenceUpdated gitRefUpdated;
     private final AllUsersName allUsersName;
-    private final OutgoingEmailValidator emailValidator;
     private final Provider<PersonIdent> serverIdentProvider;
     private final Provider<IdentifiedUser> identifiedUser;
     private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
@@ -233,7 +223,6 @@ public class AccountsUpdate {
         GitRepositoryManager repoManager,
         GitReferenceUpdated gitRefUpdated,
         AllUsersName allUsersName,
-        OutgoingEmailValidator emailValidator,
         @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
         Provider<IdentifiedUser> identifiedUser,
         Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
@@ -243,7 +232,6 @@ public class AccountsUpdate {
       this.gitRefUpdated = gitRefUpdated;
       this.allUsersName = allUsersName;
       this.serverIdentProvider = serverIdentProvider;
-      this.emailValidator = emailValidator;
       this.identifiedUser = identifiedUser;
       this.metaDataUpdateInternalFactory = metaDataUpdateInternalFactory;
       this.retryHelper = retryHelper;
@@ -259,7 +247,6 @@ public class AccountsUpdate {
           gitRefUpdated,
           user,
           allUsersName,
-          emailValidator,
           metaDataUpdateInternalFactory,
           retryHelper,
           extIdNotesFactory,
@@ -276,7 +263,6 @@ public class AccountsUpdate {
   private final GitReferenceUpdated gitRefUpdated;
   @Nullable private final IdentifiedUser currentUser;
   private final AllUsersName allUsersName;
-  private final OutgoingEmailValidator emailValidator;
   private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
   private final RetryHelper retryHelper;
   private final ExternalIdNotesLoader extIdNotesLoader;
@@ -289,7 +275,6 @@ public class AccountsUpdate {
       GitReferenceUpdated gitRefUpdated,
       @Nullable IdentifiedUser currentUser,
       AllUsersName allUsersName,
-      OutgoingEmailValidator emailValidator,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,
       ExternalIdNotesLoader extIdNotesLoader,
@@ -300,7 +285,6 @@ public class AccountsUpdate {
         gitRefUpdated,
         currentUser,
         allUsersName,
-        emailValidator,
         metaDataUpdateInternalFactory,
         retryHelper,
         extIdNotesLoader,
@@ -315,7 +299,6 @@ public class AccountsUpdate {
       GitReferenceUpdated gitRefUpdated,
       @Nullable IdentifiedUser currentUser,
       AllUsersName allUsersName,
-      OutgoingEmailValidator emailValidator,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,
       ExternalIdNotesLoader extIdNotesLoader,
@@ -326,7 +309,6 @@ public class AccountsUpdate {
     this.gitRefUpdated = checkNotNull(gitRefUpdated, "gitRefUpdated");
     this.currentUser = currentUser;
     this.allUsersName = checkNotNull(allUsersName, "allUsersName");
-    this.emailValidator = checkNotNull(emailValidator, "emailValidator");
     this.metaDataUpdateInternalFactory =
         checkNotNull(metaDataUpdateInternalFactory, "metaDataUpdateInternalFactory");
     this.retryHelper = checkNotNull(retryHelper, "retryHelper");
@@ -441,7 +423,7 @@ public class AccountsUpdate {
 
   private AccountConfig read(Repository allUsersRepo, Account.Id accountId)
       throws IOException, ConfigInvalidException {
-    AccountConfig accountConfig = new AccountConfig(emailValidator, accountId);
+    AccountConfig accountConfig = new AccountConfig(accountId);
     accountConfig.load(allUsersRepo);
 
     afterReadRevision.run();

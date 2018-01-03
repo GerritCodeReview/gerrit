@@ -18,15 +18,23 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.account.WatchConfig.NotifyType;
+import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
@@ -61,7 +69,7 @@ import org.eclipse.jgit.revwalk.RevSort;
  * account. The first commit may be an empty commit (if no properties were set and 'account.config'
  * doesn't exist).
  */
-public class AccountConfig extends VersionedMetaData {
+public class AccountConfig extends VersionedMetaData implements ValidationError.Sink {
   public static final String ACCOUNT_CONFIG = "account.config";
   public static final String ACCOUNT = "account";
   public static final String KEY_ACTIVE = "active";
@@ -73,12 +81,30 @@ public class AccountConfig extends VersionedMetaData {
   private final String ref;
 
   private Optional<Account> loadedAccount;
+  private WatchConfig watchConfig;
   private Optional<InternalAccountUpdate> accountUpdate = Optional.empty();
   private Timestamp registeredOn;
+  private boolean eagerParsing;
+  private List<ValidationError> validationErrors;
 
   public AccountConfig(Account.Id accountId) {
     this.accountId = checkNotNull(accountId);
     this.ref = RefNames.refsUsers(accountId);
+  }
+
+  /**
+   * Sets whether all account data should be eagerly parsed.
+   *
+   * <p>Eager parsing should only be used if the caller is interested in validation errors for all
+   * account data (see {@link #getValidationErrors()}.
+   *
+   * @param eagerParsing whether all account data should be eagerly parsed
+   * @return this AccountConfig instance for chaining
+   */
+  public AccountConfig setEagerParsing(boolean eagerParsing) {
+    checkState(loadedAccount == null, "Account %s already loaded", accountId.get());
+    this.eagerParsing = eagerParsing;
+    return this;
   }
 
   @Override
@@ -96,6 +122,16 @@ public class AccountConfig extends VersionedMetaData {
   public Optional<Account> getLoadedAccount() {
     checkLoaded();
     return loadedAccount;
+  }
+
+  /**
+   * Get the project watches of the loaded account.
+   *
+   * @return the project watches of the loaded account
+   */
+  public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches() {
+    checkLoaded();
+    return watchConfig.getProjectWatches();
   }
 
   /**
@@ -158,9 +194,13 @@ public class AccountConfig extends VersionedMetaData {
       rw.sort(RevSort.REVERSE);
       registeredOn = new Timestamp(rw.next().getCommitTime() * 1000L);
 
-      Config cfg = readConfig(ACCOUNT_CONFIG);
+      Config accountConfig = readConfig(ACCOUNT_CONFIG);
+      loadedAccount = Optional.of(parse(accountConfig, revision.name()));
 
-      loadedAccount = Optional.of(parse(cfg, revision.name()));
+      watchConfig = new WatchConfig(accountId, readConfig(WatchConfig.WATCH_CONFIG), this);
+      if (eagerParsing) {
+        watchConfig.parse();
+      }
     } else {
       loadedAccount = Optional.empty();
     }
@@ -207,27 +247,47 @@ public class AccountConfig extends VersionedMetaData {
       commit.setCommitter(new PersonIdent(commit.getCommitter(), registeredOn));
     }
 
-    Config cfg = readConfig(ACCOUNT_CONFIG);
-    if (accountUpdate.isPresent()) {
-      writeToConfig(accountUpdate.get(), cfg);
-    }
-    saveConfig(ACCOUNT_CONFIG, cfg);
+    Config accountConfig = saveAccount();
+    saveProjectWatches();
 
     // metaId is set in the commit(MetaDataUpdate) method after the commit is created
-    loadedAccount = Optional.of(parse(cfg, null));
+    loadedAccount = Optional.of(parse(accountConfig, null));
 
     accountUpdate = Optional.empty();
 
     return true;
   }
 
-  public static void writeToConfig(InternalAccountUpdate accountUpdate, Config cfg) {
+  private Config saveAccount() throws IOException, ConfigInvalidException {
+    Config accountConfig = readConfig(ACCOUNT_CONFIG);
+    if (accountUpdate.isPresent()) {
+      writeToAccountConfig(accountUpdate.get(), accountConfig);
+    }
+    saveConfig(ACCOUNT_CONFIG, accountConfig);
+    return accountConfig;
+  }
+
+  public static void writeToAccountConfig(InternalAccountUpdate accountUpdate, Config cfg) {
     accountUpdate.getActive().ifPresent(active -> setActive(cfg, active));
     accountUpdate.getFullName().ifPresent(fullName -> set(cfg, KEY_FULL_NAME, fullName));
     accountUpdate
         .getPreferredEmail()
         .ifPresent(preferredEmail -> set(cfg, KEY_PREFERRED_EMAIL, preferredEmail));
     accountUpdate.getStatus().ifPresent(status -> set(cfg, KEY_STATUS, status));
+  }
+
+  private void saveProjectWatches() throws IOException {
+    if (accountUpdate.isPresent()
+        && (!accountUpdate.get().getDeletedProjectWatches().isEmpty()
+            || !accountUpdate.get().getUpdatedProjectWatches().isEmpty())) {
+      Map<ProjectWatchKey, Set<NotifyType>> projectWatches = watchConfig.getProjectWatches();
+      accountUpdate.get().getDeletedProjectWatches().forEach(pw -> projectWatches.remove(pw));
+      accountUpdate
+          .get()
+          .getUpdatedProjectWatches()
+          .forEach((pw, nt) -> projectWatches.put(pw, nt));
+      saveConfig(WatchConfig.WATCH_CONFIG, watchConfig.save(projectWatches));
+    }
   }
 
   /**
@@ -281,5 +341,28 @@ public class AccountConfig extends VersionedMetaData {
 
   private void checkLoaded() {
     checkState(loadedAccount != null, "Account %s not loaded yet", accountId.get());
+  }
+
+  /**
+   * Get the validation errors, if any were discovered during parsing the account data.
+   *
+   * <p>To get validation errors for all account data request eager parsing before loading the
+   * account (see {@link #setEagerParsing(boolean)}).
+   *
+   * @return list of errors; empty list if there are no errors.
+   */
+  public List<ValidationError> getValidationErrors() {
+    if (validationErrors != null) {
+      return ImmutableList.copyOf(validationErrors);
+    }
+    return ImmutableList.of();
+  }
+
+  @Override
+  public void error(ValidationError error) {
+    if (validationErrors == null) {
+      validationErrors = new ArrayList<>(4);
+    }
+    validationErrors.add(error);
   }
 }

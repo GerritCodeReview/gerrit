@@ -876,6 +876,11 @@ limitations under the License.
     });
 
     suite('_getChangeDetail', () => {
+      setup(() => {
+        sandbox.stub(element, 'getChangeActionUrl')
+            .returns(Promise.resolve(''));
+      });
+
       test('_getChangeDetail passes params to ETags decorator', () => {
         const changeNum = 4321;
         element._projectLookup[changeNum] = 'test';

@@ -921,7 +921,7 @@
                 if (!payload) { return null; }
 
                 this._etags.collect(urlWithParams, response, payload.raw);
-                this._maybeInsertInLookup(payload);
+                this._maybeInsertInLookup(payload.parsed);
 
                 return payload.parsed;
               });

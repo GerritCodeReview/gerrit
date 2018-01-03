@@ -183,22 +183,27 @@
 
     _handleRemoveRule() {
       this.deleted = true;
+      this.rule.value.deleted = true;
       this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
     },
 
     _handleUndoRemove() {
       this.deleted = false;
+      delete this.rule.value.deleted;
     },
 
     _handleUndoChange() {
       this.set('rule.value', Object.assign({}, this._originalRuleValues));
       this.deleted = false;
+      delete this.rule.value.deleted;
       this.modified = false;
+      delete this.rule.value.modified;
     },
 
     _handleValueChange() {
       if (!this._originalRuleValues) { return; }
       this.modified = true;
+      this.rule.value.modified = true;
       // Allows overall access page to know a change has been made.
       this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
     },

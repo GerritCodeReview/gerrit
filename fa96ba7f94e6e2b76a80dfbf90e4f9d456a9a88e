@@ -89,6 +89,24 @@
       "revId": "fa96ba7f94e6e2b76a80dfbf90e4f9d456a9a88e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bea369d0_28652a3e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-03T23:23:10Z",
+      "side": 1,
+      "message": "I don\u0027t think so.\n\nTraditionally, when we add an event listener for a test, we have to do the test asynchronously to ensure there are no false negatives.\n\n    test(\u0027the thing\u0027, done \u003d\u003e {\n      const listener \u003d () \u003d\u003e {\n        done();\n      };\n      element.addEventListener(\u0027event\u0027, listener);\n      // Do the thing to fire the event.\n    })\n\n...but with this methodology, we can\u0027t do the thing to _not_ fire the event, and call done() when the event is _not_ fired.",
+      "parentUuid": "ab602e4e_68bd46a3",
+      "revId": "fa96ba7f94e6e2b76a80dfbf90e4f9d456a9a88e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

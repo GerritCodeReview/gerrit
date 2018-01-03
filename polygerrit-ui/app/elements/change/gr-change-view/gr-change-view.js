@@ -1348,5 +1348,9 @@
           break;
       }
     },
+
+    _computeCommitMessageKey(number, revision) {
+      return `c${number}_rev${revision}`;
+    },
   });
 })();

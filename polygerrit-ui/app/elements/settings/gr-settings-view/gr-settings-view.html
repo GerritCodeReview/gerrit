@@ -29,6 +29,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../gr-account-info/gr-account-info.html">
 <link rel="import" href="../gr-agreements-list/gr-agreements-list.html">
+<link rel="import" href="../gr-edit-preferences/gr-edit-preferences.html">
 <link rel="import" href="../gr-email-editor/gr-email-editor.html">
 <link rel="import" href="../gr-group-list/gr-group-list.html">
 <link rel="import" href="../gr-http-password/gr-http-password.html">
@@ -63,6 +64,7 @@ limitations under the License.
           <li><a href="#Profile">Profile</a></li>
           <li><a href="#Preferences">Preferences</a></li>
           <li><a href="#DiffPreferences">Diff Preferences</a></li>
+          <li><a href="#EditPreferences">Edit Preferences</a></li>
           <li><a href="#Menu">Menu</a></li>
           <li><a href="#ChangeTableColumns">Change Table Columns</a></li>
           <li><a href="#Notifications">Notifications</a></li>
@@ -237,10 +239,10 @@ limitations under the License.
             <span class="title">Fit to screen</span>
             <span class="value">
               <input
-                  id="lineWrapping"
+                  id="diffLineWrapping"
                   type="checkbox"
                   checked$="[[_diffPrefs.line_wrapping]]"
-                  on-change="_handleLineWrappingChanged">
+                  on-change="_handleDiffLineWrappingChanged">
             </span>
           </section>
           <section id="columnsPref" hidden$="[[_diffPrefs.line_wrapping]]">
@@ -280,10 +282,10 @@ limitations under the License.
             <span class="title">Show tabs</span>
             <span class="value">
               <input
-                  id="showTabs"
+                  id="diffShowTabs"
                   type="checkbox"
                   checked$="[[_diffPrefs.show_tabs]]"
-                  on-change="_handleShowTabsChanged">
+                  on-change="_handleDiffShowTabsChanged">
             </span>
           </section>
           <section>
@@ -300,16 +302,30 @@ limitations under the License.
             <span class="title">Syntax highlighting</span>
             <span class="value">
               <input
-                  id="syntaxHighlighting"
+                  id="diffSyntaxHighlighting"
                   type="checkbox"
                   checked$="[[_diffPrefs.syntax_highlighting]]"
-                  on-change="_handleSyntaxHighlightingChanged">
+                  on-change="_handleDiffSyntaxHighlightingChanged">
             </span>
           </section>
           <gr-button
               id="saveDiffPrefs"
               on-tap="_handleSaveDiffPreferences"
               disabled$="[[!_diffPrefsChanged]]">Save changes</gr-button>
+        </fieldset>
+        <h2
+            id="EditPreferences"
+            class$="[[_computeHeaderClass(_editPrefsChanged)]]">
+          Edit Preferences
+        </h2>
+        <fieldset id="editPreferences">
+          <gr-edit-preferences
+              id="editPrefs"
+              has-unsaved-changes="{{_editPrefsChanged}}"></gr-edit-preferences>
+          <gr-button
+              id="saveEditPrefs"
+              on-tap="_handleSaveEditPreferences"
+              disabled$="[[!_editPrefsChanged]]">Save changes</gr-button>
         </fieldset>
         <h2 id="Menu" class$="[[_computeHeaderClass(_menuChanged)]]">Menu</h2>
         <fieldset id="menu">

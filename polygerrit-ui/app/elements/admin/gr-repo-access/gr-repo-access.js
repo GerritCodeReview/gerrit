@@ -210,15 +210,19 @@
      * @param {!Defs.projectAccessInput} addRemoveObj
      * @param {string} sectionId
      * @param {string} permissionId
+     * @param {boolean=} opt_remove
      *
      * @return {!Defs.projectAccessInput}
      */
-    _generatePermissionObject(addRemoveObj, sectionId, permissionId) {
+    _generatePermissionObject(addRemoveObj, sectionId, permissionId,
+        opt_remove) {
       const permissionObjAdd = {};
       const permissionObjRemove = {};
-      permissionObjAdd[permissionId] = {rules: {}};
       permissionObjRemove[permissionId] = {rules: {}};
-      addRemoveObj.add[sectionId] = {permissions: permissionObjAdd};
+      if (!opt_remove) {
+        permissionObjAdd[permissionId] = {rules: {}};
+        addRemoveObj.add[sectionId] = {permissions: permissionObjAdd};
+      }
       addRemoveObj.remove[sectionId] = {permissions: permissionObjRemove};
       return addRemoveObj;
     },
@@ -240,6 +244,11 @@
         const permissions = this._getPermissionsForSection(section);
         for (const permission of permissions) {
           const permissionId = permission.permission.id;
+          if (permission.deleted) {
+            addRemoveObj = this._generatePermissionObject(addRemoveObj,
+                sectionId, permissionId, true);
+            continue;
+          }
           const rules = this._getRulesForPermission(permission);
           for (const rule of rules) {
             // Find all rules that are changed. In the event that it has been
@@ -256,6 +265,7 @@
                 permissionId)) {
               addRemoveObj = this._generatePermissionObject(addRemoveObj,
                   sectionId, permissionId);
+              continue;
             }
 
             // Remove the rule with a value of null

@@ -100,25 +100,30 @@ limitations under the License.
     });
 
     suite('storageKey and related behavior', () => {
+      let dispatchSpy;
       setup(() => {
         element.content = 'current content';
         element.storageKey = 'test';
+        dispatchSpy = sandbox.spy(element, 'dispatchEvent');
       });
 
       test('editing toggled to true, has stored data', () => {
         sandbox.stub(element.$.storage, 'getEditableContentItem')
-            .returns('stored content');
+            .returns({message: 'stored content'});
         element.editing = true;
 
         assert.equal(element._newContent, 'stored content');
+        assert.isTrue(dispatchSpy.called);
+        assert.equal(dispatchSpy.lastCall.args[0].type, 'show-alert');
       });
 
       test('editing toggled to true, has no stored data', () => {
         sandbox.stub(element.$.storage, 'getEditableContentItem')
-            .returns('');
+            .returns({});
         element.editing = true;
 
         assert.equal(element._newContent, 'current content');
+        assert.isFalse(dispatchSpy.called);
       });
 
       test('edits are cached', () => {

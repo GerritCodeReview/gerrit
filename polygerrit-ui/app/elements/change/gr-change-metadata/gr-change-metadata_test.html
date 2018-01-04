@@ -103,21 +103,12 @@ limitations under the License.
     });
 
     test('show missing labels', () => {
-      let labels = {};
-      assert.isFalse(element._showMissingLabels(labels));
-      labels = {test: {}};
-      assert.isTrue(element._showMissingLabels(labels));
-      assert.deepEqual(element._computeMissingLabels(labels), ['test']);
-      labels.test.approved = true;
-      assert.isFalse(element._showMissingLabels(labels));
-      labels.test.approved = false;
-      labels.test.optional = true;
-      assert.isFalse(element._showMissingLabels(labels));
-      labels.test.optional = false;
-      labels.test2 = {};
-      assert.isTrue(element._showMissingLabels(labels));
-      assert.deepEqual(element._computeMissingLabels(labels),
-          ['test', 'test2']);
+      let missingLabels = [];
+      assert.isFalse(element._showMissingLabels(missingLabels));
+      missingLabels = ['test'];
+      assert.isTrue(element._showMissingLabels(missingLabels));
+      missingLabels.push('test2');
+      assert.isTrue(element._showMissingLabels(missingLabels));
     });
 
     test('weblinks use Gerrit.Nav interface', () => {
@@ -178,6 +169,7 @@ limitations under the License.
 
     test('determines whether to show "Ready to Submit" label', () => {
       const showMissingSpy = sandbox.spy(element, '_showMissingRequirements');
+      element.missingLabels = ['bojack'];
       element.change = {status: 'NEW', submit_type: 'CHERRY_PICK', labels: {
         test: {
           all: [{_account_id: 1, name: 'bojack', value: 1}],

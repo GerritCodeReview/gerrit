@@ -156,7 +156,14 @@
       for (const item of path) {
         if (!curPos[item]) {
           if (item === path[path.length - 1] && type === 'remove') {
-            curPos[item] = null;
+            // TODO(beckysiegel) figure out why this is not consistent, perhaps
+            // needs to be a backend change as to whether a deletion can use an
+            // empty object or null.
+            if (path[path.length - 2] === 'permissions') {
+              curPos[item] = {rules: {}};
+            } else {
+              curPos[item] = null;
+            }
           } else if (item === path[path.length - 1] && type === 'add') {
             curPos[item] = opt_value;
           } else {

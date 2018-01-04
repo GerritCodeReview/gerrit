@@ -68,7 +68,7 @@
     word-wrap: break-word;
   {/let}
 
-  {foreach $block in $content}
+  {for $block in $content}
     {if $block.type == 'paragraph'}
       <p style="{$pStyle}">{$block.text|changeNewlineToBr}</p>
     {elseif $block.type == 'quote'}
@@ -79,12 +79,12 @@
       {call .Pre}{param content: $block.text /}{/call}
     {elseif $block.type == 'list'}
       <ul>
-        {foreach $item in $block.items}
+        {for $item in $block.items}
           <li>{$item}</li>
-        {/foreach}
+        {/for}
       </ul>
     {/if}
-  {/foreach}
+  {/for}
 {/template}
 
 /**
@@ -106,7 +106,7 @@
   {/let}
 
   <pre style="{$preStyle}">
-    {foreach $line in $diffLines}
+    {for $line in $diffLines}
       {if $line.type == 'add'}
         <span style="{$addStyle}">
       {elseif $line.type == 'remove'}
@@ -116,6 +116,6 @@
       {/if}
         {$line.text}
       </span><br>
-    {/foreach}
+    {/for}
   </pre>
 {/template}

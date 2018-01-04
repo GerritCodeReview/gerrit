@@ -28,10 +28,10 @@
 {template .NewChange kind="text"}
   {if $email.reviewerNames}
     Hello{sp}
-    {foreach $reviewerName in $email.reviewerNames}
+    {for $reviewerName in $email.reviewerNames}
       {if not isFirst($reviewerName)},{sp}{/if}
       {$reviewerName}
-    {/foreach},
+    {/for},
 
     {\n}
     {\n}

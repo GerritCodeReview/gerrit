@@ -29,9 +29,9 @@
 {template .ReplacePatchSet kind="text"}
   {if $email.reviewerNames and $fromEmail == $change.ownerEmail}
     Hello{sp}
-    {foreach $reviewerName in $email.reviewerNames}
+    {for $reviewerName in $email.reviewerNames}
       {$reviewerName},{sp}
-    {/foreach}{\n}
+    {/for}{\n}
     {\n}
     I'd like you to reexamine a change.
     {if $email.changeUrl}

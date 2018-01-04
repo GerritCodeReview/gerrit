@@ -320,6 +320,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String url = canonicalWebUrl.get() + "#/c/" + project.get() + "/+/" + r.getChange().getId();
     r = amendChange(r.getChangeId(), "refs/for/master");
     r.assertErrorStatus("change " + url + " closed");
+
+    // Check change message that was added on auto-close
+    ChangeInfo change = gApi.changes().id(r.getChange().getId().get()).get();
+    assertThat(Iterables.getLast(change.messages).message)
+        .isEqualTo("Change has been successfully pushed.");
   }
 
   @Test

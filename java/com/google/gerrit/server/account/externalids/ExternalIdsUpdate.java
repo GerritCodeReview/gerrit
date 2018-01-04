@@ -28,6 +28,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryHelper.ActionType;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -427,6 +428,7 @@ public class ExternalIdsUpdate {
   private void updateNoteMap(ExternalIdUpdater updater)
       throws IOException, ConfigInvalidException, OrmException {
     retryHelper.execute(
+        ActionType.ACCOUNT_UPDATE,
         () -> {
           try (Repository repo = repoManager.openRepository(allUsersName)) {
             ExternalIdNotes extIdNotes =

@@ -307,7 +307,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void autoclose() throws Exception {
+  public void autocloseByCommit() throws Exception {
     // Create a change
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
@@ -320,6 +320,32 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String url = canonicalWebUrl.get() + "#/c/" + project.get() + "/+/" + r.getChange().getId();
     r = amendChange(r.getChangeId(), "refs/for/master");
     r.assertErrorStatus("change " + url + " closed");
+  }
+
+  @Test
+  public void autocloseByChangeId() throws Exception {
+    // Create a change
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+
+    // Amend the commit locally
+    RevCommit c = testRepo.amend(r.getCommit()).create();
+    assertThat(c).isNotEqualTo(r.getCommit());
+    testRepo.reset(c);
+
+    // Force push it, closing it
+    String master = "refs/heads/master";
+    assertPushOk(pushHead(testRepo, master, false), master);
+
+    // Attempt to push amended commit to same change
+    String url = canonicalWebUrl.get() + "#/c/" + project.get() + "/+/" + r.getChange().getId();
+    r = amendChange(r.getChangeId(), "refs/for/master");
+    r.assertErrorStatus("change " + url + " closed");
+
+    // Check that new commit was added as patch set
+    ChangeInfo change = gApi.changes().id(r.getChange().getId().get()).get();
+    assertThat(change.revisions).hasSize(2);
+    assertThat(change.currentRevision).isEqualTo(c.name());
   }
 
   @Test

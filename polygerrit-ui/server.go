@@ -35,7 +35,7 @@ var (
 	port     = flag.String("port", ":8081", "Port to serve HTTP requests on")
 	prod     = flag.Bool("prod", false, "Serve production assets")
 	scheme   = flag.String("scheme", "https", "URL scheme")
-	plugins  = flag.String("plugins", "", "Path to local plugins folder")
+	plugins  = flag.String("plugins", "", "comma seperated plugin paths to serve")
 )
 
 func main() {
@@ -54,8 +54,8 @@ func main() {
 	http.HandleFunc("/accounts/self/detail", handleAccountDetail)
 	if len(*plugins) > 0 {
 		http.Handle("/plugins/", http.StripPrefix("/plugins/",
-			http.FileServer(http.Dir(*plugins))))
-		log.Println("Local plugins from", *plugins)
+			http.FileServer(http.Dir("../plugins"))))
+		log.Println("Local plugins from", "../plugins")
 	} else {
 		http.HandleFunc("/plugins/", handleRESTProxy)
 	}
@@ -144,19 +144,23 @@ func injectLocalPlugins(r io.Reader) io.Reader {
 	}
 
 	// Configuration path in the JSON server response
-	pluginsPath := []string{"plugin", "html_resource_paths"}
+	jsPluginsPath := []string{"plugin", "js_resource_paths"}
+	htmlPluginsPath := []string{"plugin", "html_resource_paths"}
+	htmlResources := getJsonPropByPath(response, htmlPluginsPath).([]interface{})
+	jsResources := getJsonPropByPath(response, jsPluginsPath).([]interface{})
 
-	htmlResources := getJsonPropByPath(response, pluginsPath).([]interface{})
-	files, err := ioutil.ReadDir(*plugins)
-	if err != nil {
-		log.Fatal(err)
-	}
-	for _, f := range files {
-		if strings.HasSuffix(f.Name(), ".html") {
-			htmlResources = append(htmlResources, "plugins/"+f.Name())
+	for _, p := range strings.Split(*plugins, ",") {
+		if strings.HasSuffix(p, ".html") {
+			htmlResources = append(htmlResources, p)
+		}
+
+		if strings.HasSuffix(p, ".js") {
+			jsResources = append(jsResources, p)
 		}
 	}
-	setJsonPropByPath(response, pluginsPath, htmlResources)
+
+	setJsonPropByPath(response, jsPluginsPath, jsResources)
+	setJsonPropByPath(response, htmlPluginsPath, htmlResources)
 
 	reader, writer := io.Pipe()
 	go func() {

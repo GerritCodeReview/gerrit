@@ -16,6 +16,12 @@
 
   const MAX_AUTOCOMPLETE_RESULTS = 20;
 
+  /**
+   * Fired when the permission has been modified or removed.
+   *
+   * @event access-modified
+   */
+
   Polymer({
     is: 'gr-permission',
 
@@ -33,6 +39,7 @@
       editing: {
         type: Boolean,
         value: false,
+        observer: '_handleEditingChanged',
       },
       _label: {
         type: Object,
@@ -61,6 +68,21 @@
       '_handleRulesChanged(_rules.splices)',
     ],
 
+    _handleEditingChanged(editing, editingOld) {
+      // Ignore when editing gets set initially.
+      if (!editingOld) { return; }
+      // Restore original values if no longer editing.
+      if (!editing) {
+        this._deleted = false;
+      }
+    },
+
+    _handleRemovePermission() {
+      this._deleted = true;
+      this.permission.value.deleted = true;
+      this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
+    },
+
     _handleRulesChanged(changeRecord) {
       // Update the groups to exclude in the autocomplete.
       this._groupsWithRules = this._computeGroupsWithRules(this._rules);
@@ -68,11 +90,6 @@
 
     _sortPermission(permission) {
       this._rules = this.toSortedArray(permission.value.rules);
-    },
-
-    _handleRemovePermission() {
-      this._deleted = true;
-      this.set('permission.value.deleted', true);
     },
 
     _computeSectionClass(editing, deleted) {

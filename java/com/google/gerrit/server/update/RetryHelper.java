@@ -64,6 +64,7 @@ public class RetryHelper {
 
   public enum ActionType {
     ACCOUNT_UPDATE,
+    CHANGE_QUERY,
     CHANGE_UPDATE
   }
 
@@ -183,8 +184,14 @@ public class RetryHelper {
 
   public <T> T execute(ActionType actionType, Action<T> action)
       throws IOException, ConfigInvalidException, OrmException {
+    return execute(actionType, action, t -> t instanceof LockFailureException);
+  }
+
+  public <T> T execute(
+      ActionType actionType, Action<T> action, Predicate<Throwable> exceptionPredicate)
+      throws IOException, ConfigInvalidException, OrmException {
     try {
-      return execute(actionType, action, defaults(), t -> t instanceof LockFailureException);
+      return execute(actionType, action, defaults(), exceptionPredicate);
     } catch (Throwable t) {
       Throwables.throwIfUnchecked(t);
       Throwables.throwIfInstanceOf(t, IOException.class);

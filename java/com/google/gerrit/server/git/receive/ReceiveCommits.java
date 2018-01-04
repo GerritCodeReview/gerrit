@@ -2917,8 +2917,10 @@ class ReceiveCommits {
       bu.execute();
     } catch (RestApiException e) {
       logError("Can't insert patchset", e);
-    } catch (IOException | OrmException | UpdateException | PermissionBackendException e) {
+    } catch (OrmException e) {
       logError("Can't scan for changes to close", e);
+    } catch (IOException | UpdateException | PermissionBackendException e) {
+      logError("Failed to auto-close changes", e);
     }
   }
 

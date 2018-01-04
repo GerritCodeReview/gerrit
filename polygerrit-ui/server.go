@@ -26,6 +26,8 @@ import (
 	"net"
 	"net/http"
 	"net/url"
+	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 )
@@ -144,19 +146,34 @@ func injectLocalPlugins(r io.Reader) io.Reader {
 	}
 
 	// Configuration path in the JSON server response
-	pluginsPath := []string{"plugin", "html_resource_paths"}
+	htmlPluginsPath := []string{"plugin", "html_resource_paths"}
+	jsPluginsPath := []string{"plugin", "js_resource_paths"}
 
-	htmlResources := getJsonPropByPath(response, pluginsPath).([]interface{})
-	files, err := ioutil.ReadDir(*plugins)
+	htmlResources := getJsonPropByPath(response, htmlPluginsPath).([]interface{})
+	jsResources := getJsonPropByPath(response, jsPluginsPath).([]interface{})
+
+	// Walk the plugin folders
+	err = filepath.Walk(*plugins, func(p string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		log.Println("Walking ", p)
+
+		if strings.HasSuffix(p, ".html") {
+			htmlResources = append(htmlResources, "plugins/"+p)
+		} else if strings.HasSuffix(p, ".js") {
+			jsResources = append(jsResources, "plugins/"+p)
+		}
+
+		return nil
+	})
+
 	if err != nil {
 		log.Fatal(err)
 	}
-	for _, f := range files {
-		if strings.HasSuffix(f.Name(), ".html") {
-			htmlResources = append(htmlResources, "plugins/"+f.Name())
-		}
-	}
-	setJsonPropByPath(response, pluginsPath, htmlResources)
+
+	setJsonPropByPath(response, htmlPluginsPath, htmlResources)
+	setJsonPropByPath(response, jsPluginsPath, jsResources)
 
 	reader, writer := io.Pipe()
 	go func() {

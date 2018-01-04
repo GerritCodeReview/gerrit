@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6af09185_1a9f2d6e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-04T01:09:53Z",
+      "side": 1,
+      "message": "What happens if a change is \u0027ready to submit\u0027, but one of its parents isnt?",
+      "revId": "020e1be4565af0977fa3b05c76f16dd5b796ae7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

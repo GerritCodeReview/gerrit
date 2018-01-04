@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f5697d4_732f9c94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-04T23:45:15Z",
+      "side": 1,
+      "message": "But why? Please make sure commit message answers that too.",
+      "revId": "707f454f9aa4e37ace8faabfaec6285f060b8051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

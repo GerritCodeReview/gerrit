@@ -187,6 +187,30 @@
       "revId": "ed8eac79f777df09439debe400a69339a0b2e686",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6edabb5f_c9e41071",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-menu-item.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-04T21:01:52Z",
+      "side": 1,
+      "message": "Hopefully :)",
+      "parentUuid": "0790587d_a5b7ad19",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 29
+      },
+      "revId": "ed8eac79f777df09439debe400a69339a0b2e686",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

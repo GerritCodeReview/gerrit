@@ -37,10 +37,6 @@ limitations under the License.
         justify-content: space-between;
         margin: .3em .7em;
       }
-      #deletedContainer {
-        border: 1px solid #d1d2d3;
-        padding: .7em;
-      }
       .rules {
         background: #fafafa;
         border: 1px solid #d1d2d3;
@@ -57,11 +53,11 @@ limitations under the License.
       #removeBtn {
         display: none;
       }
-      /* TODO @beckysiegel add back */
-      /* .editing #removeBtn {
+      .editing #removeBtn {
         display: block;
       }
-      .editing #addRule {
+      /* TODO @beckysiegel add back */
+      /* .editing #addRule {
         display: block;
         padding: .7em;
       } */
@@ -69,7 +65,13 @@ limitations under the License.
       .deleted #mainContainer {
         display: none;
       }
-      .deleted #deletedContainer,
+      .deleted #deletedContainer {
+        align-items: baseline;
+        border: 1px solid #d1d2d3;
+        display: flex;
+        justify-content: space-between;
+        padding: .7em;
+      }
       #mainContainer {
         display: block;
       }
@@ -83,6 +85,7 @@ limitations under the License.
         <div class="header">
           <span class="title">[[name]]</span>
           <gr-button
+              link
               id="removeBtn"
               on-tap="_handleRemovePermission">Remove</gr-button>
         </div><!-- end header -->
@@ -112,8 +115,9 @@ limitations under the License.
         </div> <!-- end rules -->
       </div><!-- end mainContainer -->
       <div id="deletedContainer">
-        [[name]] was deleted
+        <span>[[name]] was deleted</span>
         <gr-button
+            link
             id="undoRemoveBtn"
             on-tap="_handleUndoRemove">Undo</gr-button>
       </div><!-- end deletedContainer -->

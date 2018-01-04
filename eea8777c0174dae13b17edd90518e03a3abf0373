@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edeedc2e_bfcdee32",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-04T17:40:17Z",
+      "side": 0,
+      "message": "Does this mean we no longer have any way of testing whether retries are working? Or do we have an analogous test of AccountsUpdate?",
+      "revId": "eea8777c0174dae13b17edd90518e03a3abf0373",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

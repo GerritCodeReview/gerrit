@@ -26,10 +26,10 @@
  */
 {template .DeleteReviewer kind="text"}
   {$fromName} has removed{sp}
-  {foreach $reviewerName in $email.reviewerNames}
+  {for $reviewerName in $email.reviewerNames}
     {if not isFirst($reviewerName)},{sp}{/if}
     {$reviewerName}
-  {/foreach}{sp}
+  {/for}{sp}
   from this change.{sp}
   {if $email.changeUrl} ( {$email.changeUrl} ){/if}{\n}
   {\n}

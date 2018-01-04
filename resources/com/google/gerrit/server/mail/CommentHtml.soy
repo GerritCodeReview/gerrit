@@ -79,7 +79,7 @@
   {if length($labels) > 0}
     <p>
       Patch set {$patchSet.patchSetId}:
-      {foreach $label in $labels}
+      {for $label in $labels}
         {if $label.value > 0}
           <span style="{$positiveVoteStyle}">
             {$label.label}{sp}+{$label.value}
@@ -93,7 +93,7 @@
             -{$label.label}
           </span>
         {/if}
-      {/foreach}
+      {/for}
     </p>
   {/if}
 
@@ -110,14 +110,14 @@
   {/if}
 
   <ul style="{$ulStyle}">
-    {foreach $group in $commentFiles}
+    {for $group in $commentFiles}
       <li style="{$fileLiStyle}">
         <p>
           <a href="{$group.link}">{$group.title}:</a>
         </p>
 
         <ul style="{$ulStyle}">
-          {foreach $comment in $group.comments}
+          {for $comment in $group.comments}
             <li style="{$commentLiStyle}">
               {if $comment.isRobotComment}
                 <p style="{$commentHeaderStyle}">
@@ -149,9 +149,9 @@
                 <p>
                   <blockquote style="{$blockquoteStyle}">
                     {call .Pre}{param content kind="html"}
-                      {foreach $line in $comment.lines}
+                      {for $line in $comment.lines}
                         {$line}{\n}
-                      {/foreach}
+                      {/for}
                     {/param}{/call}
                   </blockquote>
                 </p>
@@ -167,9 +167,9 @@
 
               {call .WikiFormat}{param content: $comment.messageBlocks /}{/call}
             </li>
-          {/foreach}
+          {/for}
         </ul>
       </li>
-    {/foreach}
+    {/for}
   </ul>
 {/template}

@@ -16,6 +16,24 @@
       "revId": "020e1be4565af0977fa3b05c76f16dd5b796ae7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dc9bdbc_2df5f71c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-04T19:54:46Z",
+      "side": 1,
+      "message": "It would still say \u0027Ready to Submit\u0027, as that is currently what is in the Label Status. \n\nExample: \nhttps://gerrit-review.googlesource.com/c/gerrit/+/149930",
+      "parentUuid": "6af09185_1a9f2d6e",
+      "revId": "020e1be4565af0977fa3b05c76f16dd5b796ae7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

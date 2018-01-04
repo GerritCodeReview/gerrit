@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1514889986 +0100\nnonce ADEcKBowKYIlfWaLfG20KLb99zs4qmkeaZwyKy2/DSlaS7ErJgn43iDWFLezksKPZkZ2KxCNmAlJ\n\n0000000000000000000000000000000000000000 0f70baa6ad07d4a18aafb213b16f19daecda8292 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaS2MCAAoJEHFVO370GiZWwAkIAKGt+2aIlH0NpO6pJbpnEDof\nggO5pepvJMrlRb+tZ+1+YAlzK2y3X9FVT9sixOWwrYMeaBvAXsFpE1DR7F1wyU7W\n7S6co/6ioFRZIFVHXhBDZfGiI8pFlQ5RcCdCG6Ak7uCOWbSgvMJPiYQvEuQoIuE0\nTNQYkzNu3/06WcrXgkHtxBGW5qML4hm/07YgkfsxoSQppPrgQj/MbBpp0pDo3qZS\nG7TRG7VC79bFKBqJyXUV5/v1rOpdjGqb30zra35WLn5/i31TOYUTKoZsNd/muzyl\nCfN5X7+SxclRQf5wfkrU8g1uu/DCLbpedaFl//9rWZmQvbZtzE7hL6Klnl1uoI0\u003d\n\u003dEs/1\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aa3305f_ef011458",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-04T17:28:35Z",
+      "side": 1,
+      "message": "Optional: It\u0027s not obvious from the var name or the method name that this is nullable. I might find it clearer if the isNullOrEmpty check is pushed into this method:\n\n ExternalId userNameExtId \u003d !Strings.isNullOrEmpty(who.getUserName()) ? createUsername(newId, who.getUserName()) : null;\n\nThen add a checkArgument(!Strings.isNullOrEmpty(username)) or something in createUsername.\n\nPossibly there is a bit more redundancy, but it makes it clearer IMO that userNameExtId may be null.\n\nThat, or else rename the createUsername method.",
+      "revId": "5e95b064b5197e95afe3beeae5e34bba15faf806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

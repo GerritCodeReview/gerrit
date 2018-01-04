@@ -172,9 +172,15 @@ public class RetryHelper {
   }
 
   public <T> T execute(Action<T> action) throws IOException, ConfigInvalidException, OrmException {
+    RetryerBuilder<T> retryerBuilder =
+        createRetryerBuilder(defaults(), t -> t instanceof LockFailureException);
     try {
-      return execute(action, defaults(), t -> t instanceof LockFailureException);
-    } catch (Throwable t) {
+      return retryerBuilder.build().call(() -> action.call());
+    } catch (ExecutionException | RetryException e) {
+      Throwable t = e;
+      if (e.getCause() != null) {
+        t = e.getCause();
+      }
       Throwables.throwIfUnchecked(t);
       Throwables.throwIfInstanceOf(t, IOException.class);
       Throwables.throwIfInstanceOf(t, ConfigInvalidException.class);
@@ -194,19 +200,25 @@ public class RetryHelper {
         // Either we aren't full-NoteDb, or the underlying ref storage doesn't support atomic
         // transactions. Either way, retrying a partially-failed operation is not idempotent, so
         // don't do it automatically. Let the end user decide whether they want to retry.
-        return execute(
-            () -> changeAction.call(updateFactory), RetryerBuilder.<T>newBuilder().build());
+        return execute(changeAction, RetryerBuilder.<T>newBuilder().build());
       }
 
-      return execute(
-          () -> changeAction.call(updateFactory),
-          opts,
-          t -> {
-            if (t instanceof UpdateException) {
-              t = t.getCause();
-            }
-            return t instanceof LockFailureException;
-          });
+      MetricListener listener = new MetricListener();
+      try {
+        RetryerBuilder<T> retryerBuilder =
+            createRetryerBuilder(
+                opts,
+                t -> {
+                  if (t instanceof UpdateException) {
+                    t = t.getCause();
+                  }
+                  return t instanceof LockFailureException;
+                });
+        retryerBuilder.withRetryListener(listener);
+        return execute(changeAction, retryerBuilder.build());
+      } finally {
+        metrics.attemptCounts.record(listener.getAttemptCount());
+      }
     } catch (Throwable t) {
       Throwables.throwIfUnchecked(t);
       Throwables.throwIfInstanceOf(t, UpdateException.class);
@@ -216,39 +228,17 @@ public class RetryHelper {
   }
 
   /**
-   * Executes an action with a given retryer.
+   * Executes a change action with a given retryer.
    *
-   * @param action the action which should be executed and retried on failure
-   * @param opts options for retrying the action on failure
-   * @param exceptionPredicate predicate to control on which exception the action should be retried
-   * @return the result of executing the action
-   * @throws Throwable any error or exception that made the action fail, callers are expected to
-   *     catch and inspect this Throwable to decide carefully whether it should be re-thrown
-   */
-  private <T> T execute(Action<T> action, Options opts, Predicate<Throwable> exceptionPredicate)
-      throws Throwable {
-    MetricListener listener = new MetricListener();
-    try {
-      RetryerBuilder<T> retryerBuilder = createRetryerBuilder(opts, exceptionPredicate);
-      retryerBuilder.withRetryListener(listener);
-      return execute(action, retryerBuilder.build());
-    } finally {
-      metrics.attemptCounts.record(listener.getAttemptCount());
-    }
-  }
-
-  /**
-   * Executes an action with a given retryer.
-   *
-   * @param action the action which should be executed and retried on failure
+   * @param changeAction the action which should be executed and retried on failure
    * @param retryer the retryer
    * @return the result of executing the action
    * @throws Throwable any error or exception that made the action fail, callers are expected to
    *     catch and inspect this Throwable to decide carefully whether it should be re-thrown
    */
-  private <T> T execute(Action<T> action, Retryer<T> retryer) throws Throwable {
+  private <T> T execute(ChangeAction<T> changeAction, Retryer<T> retryer) throws Throwable {
     try {
-      return retryer.call(() -> action.call());
+      return retryer.call(() -> changeAction.call(updateFactory));
     } catch (ExecutionException | RetryException e) {
       if (e instanceof RetryException) {
         metrics.timeoutCount.increment();

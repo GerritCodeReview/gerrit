@@ -100,7 +100,9 @@ public class SetAccessUtil {
             if (pri.min != null) {
               r.setMin(pri.min);
             }
-            r.setAction(GetAccess.ACTION_TYPE.inverse().get(pri.action));
+            if (pri.action != null) {
+              r.setAction(GetAccess.ACTION_TYPE.inverse().get(pri.action));
+            }
             if (pri.force != null) {
               r.setForce(pri.force);
             }

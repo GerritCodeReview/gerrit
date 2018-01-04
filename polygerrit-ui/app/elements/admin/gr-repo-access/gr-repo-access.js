@@ -156,7 +156,14 @@
       for (const item of path) {
         if (!curPos[item]) {
           if (item === path[path.length - 1] && type === 'remove') {
-            curPos[item] = null;
+            // TODO(beckysiegel) This if statement should bre removed when
+            // https://gerrit-review.googlesource.com/c/gerrit/+/150851
+            // is merged.
+            if (path[path.length - 2] === 'permissions') {
+              curPos[item] = {rules: {}};
+            } else {
+              curPos[item] = null;
+            }
           } else if (item === path[path.length - 1] && type === 'add') {
             curPos[item] = opt_value;
           } else {

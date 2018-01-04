@@ -145,7 +145,7 @@ limitations under the License.
             {name: 'section 2', query: '${project} query 2'},
           ],
         }));
-        return element._getProjectDashboard('project', '').then(dashboard => {
+        return element._getProjectDashboard('Repository', '').then(dashboard => {
           assert.deepEqual(
               dashboard,
               {
@@ -169,7 +169,7 @@ limitations under the License.
             {name: 'section 2', query: '${project} query 2'},
           ],
         }));
-        return element._getProjectDashboard('project', '').then(dashboard => {
+        return element._getProjectDashboard('Repository', '').then(dashboard => {
           assert.deepEqual(
               dashboard,
               {
@@ -252,7 +252,7 @@ limitations under the License.
       });
       element.params = {
         view: Gerrit.Nav.View.DASHBOARD,
-        project: 'project',
+        project: 'Repository',
         dashboard: 'dashboard',
       };
     });

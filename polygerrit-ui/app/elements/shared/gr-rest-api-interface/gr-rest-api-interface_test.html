@@ -963,8 +963,8 @@ limitations under the License.
     });
 
     test('setInProjectLookup', () => {
-      element.setInProjectLookup('test', 'project');
-      assert.deepEqual(element._projectLookup, {test: 'project'});
+      element.setInProjectLookup('test', 'Repository');
+      assert.deepEqual(element._projectLookup, {test: 'Repository'});
     });
 
     suite('getFromProjectLookup', () => {
@@ -987,10 +987,10 @@ limitations under the License.
 
       test('getChange succeeds with project', () => {
         sandbox.stub(element, 'getChange')
-            .returns(Promise.resolve({project: 'project'}));
+            .returns(Promise.resolve({project: 'Repository'}));
         return element.getFromProjectLookup('test').then(val => {
-          assert.equal(val, 'project');
-          assert.deepEqual(element._projectLookup, {test: 'project'});
+          assert.equal(val, 'Repository');
+          assert.deepEqual(element._projectLookup, {test: 'Repository'});
         });
       });
     });

@@ -450,7 +450,7 @@ limitations under the License.
 
       test('other actions', () => {
         const stub = sandbox.stub();
-        plugin.deprecated.onAction('project', 'foo', stub);
+        plugin.deprecated.onAction('Repository', 'foo', stub);
         plugin.deprecated.onAction('edit', 'foo', stub);
         plugin.deprecated.onAction('branch', 'foo', stub);
         assert.isFalse(stub.called);

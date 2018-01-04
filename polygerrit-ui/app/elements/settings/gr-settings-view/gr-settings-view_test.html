@@ -387,7 +387,7 @@ limitations under the License.
     });
 
     test('_handleSaveChangeTable', () => {
-      let newColumns = ['Owner', 'Project', 'Branch'];
+      let newColumns = ['Owner', 'Repository', 'Branch'];
       element._localChangeTableColumns = newColumns.slice(0);
       element._showNumber = false;
       const cloneStub = sandbox.stub(element, '_cloneChangeTableColumns');

@@ -229,7 +229,7 @@
     /**
      * Fetch from the API the predicted projects.
      * @param {string} predicate - The first part of the search term, e.g.
-     *     'project'
+     *     'Repository'
      * @param {string} expression - The second part of the search term, e.g.
      *     'gerr'
      * @return {!Promise} This returns a promise that resolves to an array of
@@ -266,7 +266,7 @@
           return this._fetchGroups(predicate, expression);
 
         case 'parentproject':
-        case 'project':
+        case 'Repository':
           // Fetch projects.
           return this._fetchProjects(predicate, expression);
 

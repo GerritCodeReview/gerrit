@@ -120,7 +120,7 @@ limitations under the License.
         'Status',
         'Owner',
         'Assignee',
-        'Project',
+        'Repository',
         'Branch',
         'Updated',
         'Size',
@@ -140,7 +140,7 @@ limitations under the License.
         'Status',
         'Owner',
         'Assignee',
-        'Project',
+        'Repository',
         'Branch',
         'Updated',
         'Size',
@@ -169,7 +169,7 @@ limitations under the License.
 
       for (const column of element.columnNames) {
         const elementClass = '.' + column.toLowerCase();
-        if (column === 'Project') {
+        if (column === 'Repository') {
           assert.isTrue(element.$$(elementClass).hidden);
         } else {
           assert.isFalse(element.$$(elementClass).hidden);

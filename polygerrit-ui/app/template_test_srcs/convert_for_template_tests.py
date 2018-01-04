@@ -30,6 +30,7 @@ def generateStubBehavior(behaviorName):
 
 def replacePolymerElement (fileIn, fileOut, root):
   with open(fileIn) as f:
+    key = fileOut.split('.')[0]
     # Removed self invoked function
     file_str = f.read()
     file_str_no_fn = fnCompiledRegex.search(file_str)
@@ -46,24 +47,25 @@ def replacePolymerElement (fileIn, fileOut, root):
           "goog.module('polygerrit." + package + "')\n\n" + mainFileContents)
 
       # Add package and javascript to files object.
-      elements[root]["js"] = "polygerrit-ui/temp/" + fileOut
-      elements[root]["package"] = package
+      elements[key]["js"] = "polygerrit-ui/temp/" + fileOut
+      elements[key]["package"] = package
 
 def writeTempFile(file, root):
   # This is included in an extern because it is directly on the window object.
   # (for now at least).
   if "gr-reporting" in file:
     return
-  if not root in elements:
+  key = file.split('.')[0]
+  if not key in elements:
     # gr-app doesn't have an additional level
-    elements[root] = {"directory": 'gr-app' if len(root.split("/")) < 4 else root.split("/")[3]}
+    elements[key] = {"directory": 'gr-app' if len(root.split("/")) < 4 else root.split("/")[3]}
   if file.endswith(".html") and not file.endswith("_test.html"):
     # gr-navigation is treated like a behavior rather than a standard element
     # because of the way it added to the Gerrit object.
     if file.endswith("gr-navigation.html"):
       replaceBehaviorLikeHTML(os.path.join(root, file), file)
     else:
-      elements[root]["html"] = os.path.join(root, file)
+      elements[key]["html"] = os.path.join(root, file)
   if file.endswith(".js"):
     replacePolymerElement(os.path.join(root, file), file, root)
 

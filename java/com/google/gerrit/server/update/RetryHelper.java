@@ -172,8 +172,12 @@ public class RetryHelper {
   }
 
   public <T> T execute(Action<T> action) throws IOException, ConfigInvalidException, OrmException {
-    RetryerBuilder<T> retryerBuilder =
-        createRetryerBuilder(defaults(), t -> t instanceof LockFailureException);
+    return execute(action, t -> t instanceof LockFailureException);
+  }
+
+  public <T> T execute(Action<T> action, Predicate<Throwable> exceptionPredicate)
+      throws IOException, ConfigInvalidException, OrmException {
+    RetryerBuilder<T> retryerBuilder = createRetryerBuilder(defaults(), exceptionPredicate);
     try {
       return retryerBuilder.build().call(() -> action.call());
     } catch (ExecutionException | RetryException e) {

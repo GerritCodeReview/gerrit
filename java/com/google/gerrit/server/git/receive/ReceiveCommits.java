@@ -2868,7 +2868,9 @@ class ReceiveCommits {
 
                 for (Ref ref : byCommit.get(c.copy())) {
                   PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
-                  Optional<ChangeData> cd = byLegacyId(psId.getParentKey());
+                  Optional<ChangeData> cd =
+                      retryHelper.execute(
+                          () -> byLegacyId(psId.getParentKey()), t -> t instanceof OrmException);
                   if (cd.isPresent() && cd.get().change().getDest().equals(branch)) {
                     existingPatchSets++;
                     bu.addOp(
@@ -2880,7 +2882,9 @@ class ReceiveCommits {
 
                 for (String changeId : c.getFooterLines(CHANGE_ID)) {
                   if (byKey == null) {
-                    byKey = openChangesByKeyByBranch(branch);
+                    byKey =
+                        retryHelper.execute(
+                            () -> openChangesByKeyByBranch(branch), t -> t instanceof OrmException);
                   }
 
                   ChangeNotes onto = byKey.get(new Change.Key(changeId.trim()));

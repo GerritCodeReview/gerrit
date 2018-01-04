@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1515073040 +0100\nnonce AGjzz3+U3uVnaFjhH+x7psgSZgnI6LMOouNdGpqRuyWR9oTbIqIEYmrjHlxPmup1i1Cfj3wb47DX\n\n0000000000000000000000000000000000000000 cd800bf03411b7999abb9e3254f27a34bbae291a refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaTi4QAAoJEFG1/Zeg0O9RqA4IAKLJ1fOeiyt2ll5x13GG8Fm2\nyykk+SPDi2CgMsoEZzsPseKsEseCl1oAVksWGpi4Pmsj6rfeDJJY68ySMOiyzudO\n5EPbwQRfBrOC+CpwsWU6wvjdsxavs9RMv7ga9+vACM6XeQe88NXZFVdaioySHKiS\nt3EP6XRA49sFX0ZsZx2EY3WgZCzLntHY+Q5opVaRmrr2shLo6rDrg4nOZ9wSqIZ5\nZsqeBdOpdM6GS1Kvntt8P0xa3ORdcE5U16XMFYwI3hDyubfU/bKuDEYVmaGDfH1b\n+yNUxFN4oClz9ezAcTRNpuWgiMPiEZPX26Xk0Ht1E6NPUKH+UyzLz3nU7tNVTwI\u003d\n\u003dkJ8+\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b5679d1_40e54a6a",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2873,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-04T23:42:41Z",
+      "side": 1,
+      "message": "When you retry within a retry like this, the inner retry can eat up the whole timeout so the outer block never actually gets retried. Is that likely to be a problem here?",
+      "revId": "cd800bf03411b7999abb9e3254f27a34bbae291a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

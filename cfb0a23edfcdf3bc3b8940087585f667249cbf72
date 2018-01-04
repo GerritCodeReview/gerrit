@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1515073040 +0100\nnonce AGjzz3+U3uVnaFjhH+x7psgSZgnI6LMOouNdGpqRuyWR9oTbIqIEYmrjHlxPmup1i1Cfj3wb47DX\n\n0000000000000000000000000000000000000000 cd800bf03411b7999abb9e3254f27a34bbae291a refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaTi4QAAoJEFG1/Zeg0O9RqA4IAKLJ1fOeiyt2ll5x13GG8Fm2\nyykk+SPDi2CgMsoEZzsPseKsEseCl1oAVksWGpi4Pmsj6rfeDJJY68ySMOiyzudO\n5EPbwQRfBrOC+CpwsWU6wvjdsxavs9RMv7ga9+vACM6XeQe88NXZFVdaioySHKiS\nt3EP6XRA49sFX0ZsZx2EY3WgZCzLntHY+Q5opVaRmrr2shLo6rDrg4nOZ9wSqIZ5\nZsqeBdOpdM6GS1Kvntt8P0xa3ORdcE5U16XMFYwI3hDyubfU/bKuDEYVmaGDfH1b\n+yNUxFN4oClz9ezAcTRNpuWgiMPiEZPX26Xk0Ht1E6NPUKH+UyzLz3nU7tNVTwI\u003d\n\u003dkJ8+\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c03b275_1e587796",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2922,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-04T23:28:44Z",
+      "side": 1,
+      "message": "An IOException can definitely indicate a failure to scan for changes to close, e.g. during rw.next() on line 2859.\n\nIf you want to separate these cases I think you need to separate the logic into multiple try blocks. But I\u0027m not convinced that would be better than simply changing the log message for all exceptions to \"Failed to auto-close changes\". I think that is sufficiently general to include both scanning for changes and closing the changes that were found.",
+      "range": {
+        "startLine": 2922,
+        "startChar": 13,
+        "endLine": 2922,
+        "endChar": 24
+      },
+      "revId": "cfb0a23edfcdf3bc3b8940087585f667249cbf72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

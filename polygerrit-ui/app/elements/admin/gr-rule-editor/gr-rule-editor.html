@@ -72,7 +72,7 @@ limitations under the License.
     </style>
     <style include="gr-form-styles"></style>
     <div id="mainContainer"
-        class$="gr-form-styles [[_computeSectionClass(editing, deleted)]]">
+        class$="gr-form-styles [[_computeSectionClass(editing, _deleted)]]">
       <div id="options">
         <gr-select id="action"
             bind-value="{{rule.value.action}}"
@@ -129,7 +129,7 @@ limitations under the License.
     </div>
     <div
         id="deletedContainer"
-        class$="gr-form-styles [[_computeSectionClass(editing, deleted)]]">
+        class$="gr-form-styles [[_computeSectionClass(editing, _deleted)]]">
       [[groupName]] was deleted
       <gr-button link
           id="undoRemoveBtn" on-tap="_handleUndoRemove">Undo</gr-button>

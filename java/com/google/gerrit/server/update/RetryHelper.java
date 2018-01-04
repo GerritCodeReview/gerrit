@@ -32,9 +32,10 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Throwables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.metrics.Counter0;
+import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Description;
-import com.google.gerrit.metrics.Histogram0;
+import com.google.gerrit.metrics.Field;
+import com.google.gerrit.metrics.Histogram1;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.LockFailureException;
@@ -59,6 +60,11 @@ public class RetryHelper {
   @FunctionalInterface
   public interface Action<T> {
     T call() throws Exception;
+  }
+
+  public enum ActionType {
+    ACCOUNT_UPDATE,
+    CHANGE_UPDATE
   }
 
   /**
@@ -96,25 +102,29 @@ public class RetryHelper {
   @VisibleForTesting
   @Singleton
   public static class Metrics {
-    final Histogram0 attemptCounts;
-    final Counter0 timeoutCount;
+    final Histogram1<ActionType> attemptCounts;
+    final Counter1<ActionType> timeoutCount;
 
     @Inject
     Metrics(MetricMaker metricMaker) {
+      Field<ActionType> view = Field.ofEnum(ActionType.class, "action_type");
       attemptCounts =
           metricMaker.newHistogram(
-              "batch_update/retry_attempt_counts",
+              "action/retry_attempt_counts",
               new Description(
-                      "Distribution of number of attempts made by RetryHelper"
+                      "Distribution of number of attempts made by RetryHelper to execute an action"
                           + " (1 == single attempt, no retry)")
                   .setCumulative()
-                  .setUnit("attempts"));
+                  .setUnit("attempts"),
+              view);
       timeoutCount =
           metricMaker.newCounter(
-              "batch_update/retry_timeout_count",
-              new Description("Number of executions of RetryHelper that ultimately timed out")
+              "action/retry_timeout_count",
+              new Description(
+                      "Number of action executions of RetryHelper that ultimately timed out")
                   .setCumulative()
-                  .setUnit("timeouts"));
+                  .setUnit("timeouts"),
+              view);
     }
   }
 
@@ -171,9 +181,10 @@ public class RetryHelper {
     return defaultTimeout;
   }
 
-  public <T> T execute(Action<T> action) throws IOException, ConfigInvalidException, OrmException {
+  public <T> T execute(ActionType actionType, Action<T> action)
+      throws IOException, ConfigInvalidException, OrmException {
     try {
-      return execute(action, defaults(), t -> t instanceof LockFailureException);
+      return execute(actionType, action, defaults(), t -> t instanceof LockFailureException);
     } catch (Throwable t) {
       Throwables.throwIfUnchecked(t);
       Throwables.throwIfInstanceOf(t, IOException.class);
@@ -195,10 +206,13 @@ public class RetryHelper {
         // transactions. Either way, retrying a partially-failed operation is not idempotent, so
         // don't do it automatically. Let the end user decide whether they want to retry.
         return execute(
-            () -> changeAction.call(updateFactory), RetryerBuilder.<T>newBuilder().build());
+            ActionType.CHANGE_UPDATE,
+            () -> changeAction.call(updateFactory),
+            RetryerBuilder.<T>newBuilder().build());
       }
 
       return execute(
+          ActionType.CHANGE_UPDATE,
           () -> changeAction.call(updateFactory),
           opts,
           t -> {
@@ -218,6 +232,7 @@ public class RetryHelper {
   /**
    * Executes an action with a given retryer.
    *
+   * @param actionType the type of the action
    * @param action the action which should be executed and retried on failure
    * @param opts options for retrying the action on failure
    * @param exceptionPredicate predicate to control on which exception the action should be retried
@@ -225,33 +240,39 @@ public class RetryHelper {
    * @throws Throwable any error or exception that made the action fail, callers are expected to
    *     catch and inspect this Throwable to decide carefully whether it should be re-thrown
    */
-  private <T> T execute(Action<T> action, Options opts, Predicate<Throwable> exceptionPredicate)
+  private <T> T execute(
+      ActionType actionType,
+      Action<T> action,
+      Options opts,
+      Predicate<Throwable> exceptionPredicate)
       throws Throwable {
     MetricListener listener = new MetricListener();
     try {
       RetryerBuilder<T> retryerBuilder = createRetryerBuilder(opts, exceptionPredicate);
       retryerBuilder.withRetryListener(listener);
-      return execute(action, retryerBuilder.build());
+      return execute(actionType, action, retryerBuilder.build());
     } finally {
-      metrics.attemptCounts.record(listener.getAttemptCount());
+      metrics.attemptCounts.record(actionType, listener.getAttemptCount());
     }
   }
 
   /**
    * Executes an action with a given retryer.
    *
+   * @param actionType the type of the action
    * @param action the action which should be executed and retried on failure
    * @param retryer the retryer
    * @return the result of executing the action
    * @throws Throwable any error or exception that made the action fail, callers are expected to
    *     catch and inspect this Throwable to decide carefully whether it should be re-thrown
    */
-  private <T> T execute(Action<T> action, Retryer<T> retryer) throws Throwable {
+  private <T> T execute(ActionType actionType, Action<T> action, Retryer<T> retryer)
+      throws Throwable {
     try {
       return retryer.call(() -> action.call());
     } catch (ExecutionException | RetryException e) {
       if (e instanceof RetryException) {
-        metrics.timeoutCount.increment();
+        metrics.timeoutCount.increment(actionType);
       }
       if (e.getCause() != null) {
         throw e.getCause();

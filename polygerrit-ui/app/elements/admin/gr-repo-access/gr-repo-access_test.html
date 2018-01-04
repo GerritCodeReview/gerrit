@@ -100,22 +100,6 @@ limitations under the License.
         },
       },
     };
-
-    const repoAccessInputRemoved = {
-      add: {},
-      remove: {
-        'refs/*': {
-          permissions: {
-            owner: {
-              rules: {
-                123: null,
-              },
-            },
-          },
-        },
-      },
-    };
-
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
@@ -280,15 +264,110 @@ limitations under the License.
         assert.isTrue(element._handleAccessModified.called);
       });
 
-      test('_computeAddAndRemove', () => {
-        // With nothing modified
-        element._local = accessRes.local;
+      test('_computeAddAndRemove rules', () => {
+        element._local = JSON.parse(JSON.stringify(accessRes.local));
         assert.deepEqual(element._computeAddAndRemove(), {add: {}, remove: {}});
         element._local['refs/*'].permissions.owner.rules[123].deleted = true;
-        assert.deepEqual(element._computeAddAndRemove(), repoAccessInputRemoved);
+        const expectedInput = {
+          add: {},
+          remove: {
+            'refs/*': {
+              permissions: {
+                owner: {
+                  rules: {
+                    123: null,
+                  },
+                },
+              },
+            },
+          },
+        };
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
         delete element._local['refs/*'].permissions.owner.rules[123].deleted;
         element._local['refs/*'].permissions.owner.rules[123].modified = true;
         assert.deepEqual(element._computeAddAndRemove(), repoAccessInput);
+      });
+
+      test('_computeAddAndRemove permissions', () => {
+        element._local = JSON.parse(JSON.stringify(accessRes.local));
+        assert.deepEqual(element._computeAddAndRemove(), {add: {}, remove: {}});
+        element._local['refs/*'].permissions.owner.deleted = true;
+        const expectedInput = {
+          add: {},
+          remove: {
+            'refs/*': {
+              permissions: {
+                owner: {rules: {}},
+              },
+            },
+          },
+        };
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+      });
+
+      test('_computeAddAndRemove permissions', () => {
+        element._local = JSON.parse(JSON.stringify(accessRes.local));
+        assert.deepEqual(element._computeAddAndRemove(), {add: {}, remove: {}});
+        element._local['refs/*'].permissions.owner.deleted = true;
+        const expectedInput = {
+          add: {},
+          remove: {
+            'refs/*': {
+              permissions: {
+                owner: {rules: {}},
+              },
+            },
+          },
+        };
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+      });
+
+      test('_computeAddAndRemove combinations', () => {
+        // Modify rule and delete permission that it is inside of.
+        element._local = JSON.parse(JSON.stringify(accessRes.local));
+        element._local['refs/*'].permissions.owner.rules[123].modified = true;
+        element._local['refs/*'].permissions.owner.deleted = true;
+        let expectedInput = {
+          add: {},
+          remove: {
+            'refs/*': {
+              permissions: {
+                owner: {rules: {}},
+              },
+            },
+          },
+        };
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+        // Delete rule and delete permission that it is inside of.
+        element._local['refs/*'].permissions.owner.rules[123].modified = false;
+        element._local['refs/*'].permissions.owner.rules[123].deleted = true;
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+        // Also modify a different rule inside of another permission.
+        element._local['refs/*'].permissions.read.modified = true;
+        expectedInput = {
+          add: {
+            'refs/*': {
+              permissions: {
+                read: {
+                  modified: true,
+                  rules: {
+                    234: {action: 'ALLOW'},
+                  },
+                },
+              },
+            },
+          },
+          remove: {
+            'refs/*': {
+              permissions: {
+                owner: {rules: {}},
+                read: {rules: {}},
+              },
+            },
+          },
+        };
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
       });
 
       test('_handleSaveForReview', done => {

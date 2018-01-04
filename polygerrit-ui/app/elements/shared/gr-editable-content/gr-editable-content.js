@@ -14,6 +14,7 @@
 (function() {
   'use strict';
 
+  const RESTORED_MESSAGE = 'Content restored from a previous edit.';
   const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
   Polymer({
@@ -29,6 +30,12 @@
      * Fired when the cancel button is pressed.
      *
      * @event editable-content-cancel
+     */
+
+    /**
+     * Fired when content is restored from storage.
+     *
+     * @event show-alert
      */
 
     properties: {
@@ -81,10 +88,16 @@
 
       let content;
       if (this.storageKey) {
-        content = this.$.storage.getEditableContentItem(this.storageKey);
+        const storedContent =
+            this.$.storage.getEditableContentItem(this.storageKey);
+        if (storedContent && storedContent.message) {
+          content = storedContent.message;
+          this.dispatchEvent(new CustomEvent('show-alert',
+              {detail: {message: RESTORED_MESSAGE}, bubbles: true}));
+        }
       }
       if (!content) {
-        content = this.content;
+        content = this.content || '';
       }
 
       // TODO(wyatta) switch linkify sequence, see issue 5526.

@@ -66,6 +66,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -650,7 +651,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
             RefNames.refsGroups(nonInteractiveUsers),
             RefNames.REFS_SEQUENCES + Sequences.NAME_ACCOUNTS,
             RefNames.REFS_SEQUENCES + Sequences.NAME_GROUPS,
-            RefNames.REFS_CONFIG);
+            RefNames.REFS_CONFIG,
+            Constants.HEAD);
 
     List<String> expectedMetaRefs =
         new ArrayList<>(ImmutableList.of(mr.getPatchSetId().toRefName()));

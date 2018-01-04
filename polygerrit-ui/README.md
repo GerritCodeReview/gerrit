@@ -97,6 +97,20 @@ bazel build polygerrit &&
   -d ../gerrit_testsite --console-log --show-stack-trace
 ```
 
+Serving plugins
+
+Loading a single plugin file:
+
+```sh
+./run-server.sh --plugins=plugins/my_plugin/static/my_plugin.js
+```
+
+Loading multiple plugin files:
+
+```sh
+./run-server.sh --plugins=plugins/my_plugin/static/my_plugin.js,plugins/my_plugin/static/my_plugin.html
+```
+
 ## Running Tests
 
 This step requires the `web-component-tester` npm module.

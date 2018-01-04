@@ -14,6 +14,12 @@
 (function() {
   'use strict';
 
+  /**
+   * Fired when the rule has been modified or removed.
+   *
+   * @event access-modified
+   */
+
   const PRIORITY_OPTIONS = [
     'BATCH',
     'INTERACTIVE',
@@ -67,15 +73,16 @@
         notify: true,
       },
       section: String,
-      modified: {
+      _modified: {
         type: Boolean,
         value: false,
       },
+      _deleted: {
+        type: Boolean,
+        value: false,
+      },
+
       _originalRuleValues: Object,
-      deleted: {
-        type: Boolean,
-        value: false,
-      },
     },
 
     behaviors: [
@@ -182,23 +189,28 @@
     },
 
     _handleRemoveRule() {
-      this.deleted = true;
+      this._deleted = true;
+      this.rule.value.deleted = true;
       this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
     },
 
     _handleUndoRemove() {
-      this.deleted = false;
+      this._deleted = false;
+      delete this.rule.value.deleted;
     },
 
     _handleUndoChange() {
       this.set('rule.value', Object.assign({}, this._originalRuleValues));
-      this.deleted = false;
-      this.modified = false;
+      this._deleted = false;
+      delete this.rule.value.deleted;
+      this._modified = false;
+      delete this.rule.value.modified;
     },
 
     _handleValueChange() {
       if (!this._originalRuleValues) { return; }
-      this.modified = true;
+      this._modified = true;
+      this.rule.value.modified = true;
       // Allows overall access page to know a change has been made.
       this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
     },

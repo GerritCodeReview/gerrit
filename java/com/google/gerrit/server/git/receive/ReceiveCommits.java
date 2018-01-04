@@ -305,8 +305,11 @@ class ReceiveCommits {
   private final ChangeIndexer indexer;
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeNotes.Factory notesFactory;
+  private final ChangeReportFormatter changeFormatter;
   private final CmdLineParser.Factory optionParserFactory;
   private final CommitValidators.Factory commitValidatorsFactory;
+  private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
+  private final CreateRefControl createRefControl;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final DynamicSet<ReceivePackInitializer> initializers;
   private final MergedByPushOp.Factory mergedByPushOpFactory;
@@ -328,8 +331,6 @@ class ReceiveCommits {
   private final SshInfo sshInfo;
   private final SubmoduleOp.Factory subOpFactory;
   private final TagCache tagCache;
-  private final CreateRefControl createRefControl;
-  private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
 
   // Assisted injected fields.
   private final AllRefsWatcher allRefsWatcher;
@@ -379,7 +380,6 @@ class ReceiveCommits {
   private Task closeProgress;
   private Task commandProgress;
   private MessageSender messageSender;
-  private final ChangeReportFormatter changeFormatter;
 
   @Inject
   ReceiveCommits(
@@ -391,8 +391,11 @@ class ReceiveCommits {
       ChangeIndexer indexer,
       ChangeInserter.Factory changeInserterFactory,
       ChangeNotes.Factory notesFactory,
+      DynamicItem<ChangeReportFormatter> changeFormatterProvider,
       CmdLineParser.Factory optionParserFactory,
       CommitValidators.Factory commitValidatorsFactory,
+      CreateGroupPermissionSyncer createGroupPermissionSyncer,
+      CreateRefControl createRefControl,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       DynamicSet<ReceivePackInitializer> initializers,
       MergedByPushOp.Factory mergedByPushOpFactory,
@@ -414,9 +417,6 @@ class ReceiveCommits {
       SshInfo sshInfo,
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
-      CreateRefControl createRefControl,
-      DynamicItem<ChangeReportFormatter> changeFormatterProvider,
-      CreateGroupPermissionSyncer createGroupPermissionSyncer,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
       @Assisted ReceivePack rp,
@@ -428,9 +428,11 @@ class ReceiveCommits {
     this.accountsUpdate = accountsUpdate;
     this.allProjectsName = allProjectsName;
     this.batchUpdateFactory = batchUpdateFactory;
+    this.changeFormatter = changeFormatterProvider.get();
     this.changeInserterFactory = changeInserterFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
-    this.changeFormatter = changeFormatterProvider.get();
+    this.createRefControl = createRefControl;
+    this.createGroupPermissionSyncer = createGroupPermissionSyncer;
     this.db = db;
     this.editUtil = editUtil;
     this.hashtagsFactory = hashtagsFactory;
@@ -456,8 +458,6 @@ class ReceiveCommits {
     this.sshInfo = sshInfo;
     this.subOpFactory = subOpFactory;
     this.tagCache = tagCache;
-    this.createRefControl = createRefControl;
-    this.createGroupPermissionSyncer = createGroupPermissionSyncer;
 
     // Assisted injected fields.
     this.allRefsWatcher = allRefsWatcher;

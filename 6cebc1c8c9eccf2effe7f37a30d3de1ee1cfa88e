@@ -22,6 +22,30 @@
       "revId": "6cebc1c8c9eccf2effe7f37a30d3de1ee1cfa88e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61761f82_bc79ba41",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2018-01-04T17:22:30Z",
+      "side": 1,
+      "message": "I agree... this file has a few existing lint errors that I am happy to follow up on if that sounds good to you?",
+      "parentUuid": "3a85aedb_c3b3b5fb",
+      "range": {
+        "startLine": 175,
+        "startChar": 1,
+        "endLine": 175,
+        "endChar": 18
+      },
+      "revId": "6cebc1c8c9eccf2effe7f37a30d3de1ee1cfa88e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

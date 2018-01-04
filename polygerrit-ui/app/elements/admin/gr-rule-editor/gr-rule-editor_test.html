@@ -153,12 +153,13 @@ limitations under the License.
 
       test('_handleValueChange', () => {
         const modifiedHandler = sandbox.stub();
+        element.rule = {value: {}};
         element.addEventListener('access-modified', modifiedHandler);
         element._handleValueChange();
-        assert.isFalse(element.modified);
+        assert.isNotOk(element.rule.value.modified);
         element._originalRuleValues = {};
         element._handleValueChange();
-        assert.isTrue(element.modified);
+        assert.isTrue(element.rule.value.modified);
         assert.isTrue(modifiedHandler.called);
       });
 
@@ -214,21 +215,21 @@ limitations under the License.
       test('modify and cancel restores original values', () => {
         element.editing = true;
         assert.notEqual(getComputedStyle(element.$.removeBtn).display, 'none');
-        assert.isFalse(element.modified);
+        assert.isNotOk(element.rule.value.modified);
         element.$.action.bindValue = 'DENY';
-        assert.isTrue(element.modified);
+        assert.isTrue(element.rule.value.modified);
         element.editing = false;
         assert.equal(getComputedStyle(element.$.removeBtn).display, 'none');
         assert.deepEqual(element._originalRuleValues, element.rule.value);
         assert.equal(element.$.action.bindValue, 'ALLOW');
-        assert.isFalse(element.modified);
+        assert.isNotOk(element.rule.value.modified);
       });
 
       test('modify value', () => {
-        assert.isFalse(element.modified);
+        assert.isNotOk(element.rule.value.modified);
         element.$.action.bindValue = 'DENY';
         flushAsynchronousOperations();
-        assert.isTrue(element.modified);
+        assert.isTrue(element.rule.value.modified);
 
         // The original value should now differ from the rule values.
         assert.notDeepEqual(element._originalRuleValues, element.rule.value);
@@ -252,10 +253,12 @@ limitations under the License.
             element.$.deletedContainer.classList.contains('deleted'));
         MockInteractions.tap(element.$.removeBtn);
         assert.isTrue(element.$.deletedContainer.classList.contains('deleted'));
-        assert.isTrue(element.deleted);
+        assert.isTrue(element._deleted);
+        assert.isTrue(element.rule.value.deleted);
 
         MockInteractions.tap(element.$.undoRemoveBtn);
-        assert.isNotOk(element.deleted);
+        assert.isFalse(element._deleted);
+        assert.isNotOk(element.rule.value.deleted);
       });
 
       test('remove rule and cancel', () => {
@@ -269,11 +272,14 @@ limitations under the License.
         assert.notEqual(getComputedStyle(element.$.removeBtn).display, 'none');
         assert.notEqual(getComputedStyle(element.$.deletedContainer).display,
             'none');
-        assert.isTrue(element.deleted);
+        assert.isTrue(element._deleted);
+        assert.isTrue(element.rule.value.deleted);
 
         element.editing = false;
-        assert.isFalse(element.deleted);
-        assert.isFalse(element.modified);
+        assert.isFalse(element._deleted);
+        assert.isNotOk(element.rule.value.deleted);
+        assert.isNotOk(element.rule.value.modified);
+
         assert.deepEqual(element._originalRuleValues, element.rule.value);
         assert.equal(getComputedStyle(element.$.removeBtn).display, 'none');
         assert.equal(getComputedStyle(element.$.deletedContainer).display,
@@ -302,7 +308,7 @@ limitations under the License.
       test('_ruleValues and _originalRuleValues are set correctly', () => {
         // Since the element does not already have default values, they should
         // be set. The original values should be set to those too.
-        assert.isFalse(element.modified);
+        assert.isNotOk(element.rule.value.modified);
         const expectedRuleValue = {
           action: 'ALLOW',
           force: false,
@@ -316,10 +322,10 @@ limitations under the License.
       });
 
       test('modify value', () => {
-        assert.isFalse(element.modified);
+        assert.isNotOk(element.rule.value.modified);
         element.$.force.bindValue = true;
         flushAsynchronousOperations();
-        assert.isTrue(element.modified);
+        assert.isTrue(element.rule.value.modified);
 
         // The original value should now differ from the rule values.
         assert.notDeepEqual(element._originalRuleValues, element.rule.value);
@@ -367,10 +373,10 @@ limitations under the License.
       });
 
       test('modify value', () => {
-        assert.isFalse(element.modified);
+        assert.isNotOk(element.rule.value.modified);
         Polymer.dom(element.root).querySelector('#labelMin').bindValue = 1;
         flushAsynchronousOperations();
-        assert.isTrue(element.modified);
+        assert.isTrue(element.rule.value.modified);
 
         // The original value should now differ from the rule values.
         assert.notDeepEqual(element._originalRuleValues, element.rule.value);
@@ -400,7 +406,7 @@ limitations under the License.
       test('_ruleValues and _originalRuleValues are set correctly', () => {
         // Since the element does not already have default values, they should
         // be set. The original values should be set to those too.
-        assert.isFalse(element.modified);
+        assert.isNotOk(element.rule.value.modified);
         assert.isTrue(element._setDefaultRuleValues.called);
 
         const expectedRuleValue = {
@@ -424,10 +430,10 @@ limitations under the License.
       });
 
       test('modify value', () => {
-        assert.isFalse(element.modified);
+        assert.isNotOk(element.rule.value.modified);
         Polymer.dom(element.root).querySelector('#labelMin').bindValue = 1;
         flushAsynchronousOperations();
-        assert.isTrue(element.modified);
+        assert.isTrue(element.rule.value.modified);
 
         // The original value should now differ from the rule values.
         assert.notDeepEqual(element._originalRuleValues, element.rule.value);
@@ -465,10 +471,10 @@ limitations under the License.
       });
 
       test('modify value', () => {
-        assert.isFalse(element.modified);
+        assert.isNotOk(element.rule.value.modified);
         element.$.action.bindValue = false;
         flushAsynchronousOperations();
-        assert.isTrue(element.modified);
+        assert.isTrue(element.rule.value.modified);
 
         // The original value should now differ from the rule values.
         assert.notDeepEqual(element._originalRuleValues, element.rule.value);
@@ -490,7 +496,7 @@ limitations under the License.
       test('_ruleValues and _originalRuleValues are set correctly', () => {
         // Since the element does not already have default values, they should
         // be set. The original values should be set to those too.
-        assert.isFalse(element.modified);
+        assert.isNotOk(element.rule.value.modified);
         const expectedRuleValue = {
           action: 'ALLOW',
           force: false,
@@ -504,10 +510,10 @@ limitations under the License.
       });
 
       test('modify value', () => {
-        assert.isFalse(element.modified);
+        assert.isNotOk(element.rule.value.modified);
         element.$.force.bindValue = true;
         flushAsynchronousOperations();
-        assert.isTrue(element.modified);
+        assert.isTrue(element.rule.value.modified);
 
         // The original value should now differ from the rule values.
         assert.notDeepEqual(element._originalRuleValues, element.rule.value);
@@ -545,10 +551,10 @@ limitations under the License.
       });
 
       test('modify value', () => {
-        assert.isFalse(element.modified);
+        assert.isNotOk(element.rule.value.modified);
         element.$.action.bindValue = false;
         flushAsynchronousOperations();
-        assert.isTrue(element.modified);
+        assert.isTrue(element.rule.value.modified);
 
         // The original value should now differ from the rule values.
         assert.notDeepEqual(element._originalRuleValues, element.rule.value);
@@ -570,7 +576,7 @@ limitations under the License.
       test('_ruleValues and _originalRuleValues are set correctly', () => {
         // Since the element does not already have default values, they should
         // be set. The original values should be set to those too.
-        assert.isFalse(element.modified);
+        assert.isNotOk(element.rule.value.modified);
         const expectedRuleValue = {
           action: 'ALLOW',
           force: false,
@@ -584,10 +590,10 @@ limitations under the License.
       });
 
       test('modify value', () => {
-        assert.isFalse(element.modified);
+        assert.isNotOk(element.rule.value.modified);
         element.$.force.bindValue = true;
         flushAsynchronousOperations();
-        assert.isTrue(element.modified);
+        assert.isTrue(element.rule.value.modified);
 
         // The original value should now differ from the rule values.
         assert.notDeepEqual(element._originalRuleValues, element.rule.value);

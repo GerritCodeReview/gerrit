@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1514991341 +0100\nnonce ADEcKBqHnpipQrKfLZxMq7AUU8xUsFs7h+zcoUNIA/okWiQJ+lG2vKbit51JbvqabAzxS1OzBM3s\n\n0000000000000000000000000000000000000000 5ec80ca9c92f214d2bd0b662a3067d303baf3d9a refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaTO7tAAoJEHFVO370GiZWde0IAJsyReGPsnpBfJ3MowZeH8FN\nWbbON/W5xqMSYXWNLYVvwgDx9UCUEc6e5f3CBxDQIffEV6kmrIAGlsw8hqW8mUcs\nOLwECtnWTkHLNLyGa7nT0upW6NxhcF65iAYuhMkFoc+0qKsdJVnYKYhXd3LJ/iLf\nkuLL1N4SPHdLfyxBijFbhUSIMpznKgxv9hB4/CH2gAhFK8u/OwHIvNJ7yoS1ZcG9\nFGS1jQ1Fesd8alFuTxN710iVis6SSXYQ1cBNhymoUNhh+bFPyG7zcr2aLzMNNwbD\nHXqDf6EgteUOI8fnmCtQK6yKZgbJqq+ZIJPLC+0q/IZjzDLokuvDTEc3Q3t06NU\u003d\n\u003dDtcT\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "206defb4_fb5bf4b8",
+        "filename": "java/com/google/gerrit/server/account/AccountConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-04T23:47:06Z",
+      "side": 1,
+      "message": "IIUC, this is the only place watchConfig.parse() is called. That means that there is no way to lazily/manually parse the WatchConfig in the case where eagerLoading \u003d\u003d false. Is that intended?\n\nOne side effect of the current behavior is getProjectWatches() always returns an empty map when eagerLoading \u003d\u003d false. This doesn\u0027t appear to be documented, which is one reason I\u0027m wondering if it\u0027s intended.",
+      "revId": "5ec80ca9c92f214d2bd0b662a3067d303baf3d9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3b42769_cecc8336",
+        "filename": "java/com/google/gerrit/server/account/AccountConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-04T23:47:06Z",
+      "side": 1,
+      "message": "Didn\u0027t the previous change remove this method?",
+      "revId": "5ec80ca9c92f214d2bd0b662a3067d303baf3d9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

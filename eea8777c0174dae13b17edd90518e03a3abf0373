@@ -16,6 +16,24 @@
       "revId": "eea8777c0174dae13b17edd90518e03a3abf0373",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5bf12ff_940e1076",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-05T09:45:28Z",
+      "side": 0,
+      "message": "We have exactly the same tests for AccountsUpdate, see AccountIT#retryOnLockFailure and AccountIT#failAfterRetryerGivesUp",
+      "parentUuid": "edeedc2e_bfcdee32",
+      "revId": "eea8777c0174dae13b17edd90518e03a3abf0373",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

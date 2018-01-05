@@ -41,6 +41,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.BanCommit;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -84,6 +85,7 @@ public class CommitValidators {
     private final PersonIdent gerritIdent;
     private final String canonicalWebUrl;
     private final DynamicSet<CommitValidationListener> pluginValidators;
+    private final GitRepositoryManager repoManager;
     private final AllUsersName allUsers;
     private final AllProjectsName allProjects;
     private final ExternalIdsConsistencyChecker externalIdsConsistencyChecker;
@@ -97,6 +99,7 @@ public class CommitValidators {
         @CanonicalWebUrl @Nullable String canonicalWebUrl,
         @GerritServerConfig Config cfg,
         DynamicSet<CommitValidationListener> pluginValidators,
+        GitRepositoryManager repoManager,
         AllUsersName allUsers,
         AllProjectsName allProjects,
         ExternalIdsConsistencyChecker externalIdsConsistencyChecker,
@@ -105,6 +108,7 @@ public class CommitValidators {
       this.gerritIdent = gerritIdent;
       this.canonicalWebUrl = canonicalWebUrl;
       this.pluginValidators = pluginValidators;
+      this.repoManager = repoManager;
       this.allUsers = allUsers;
       this.allProjects = allProjects;
       this.externalIdsConsistencyChecker = externalIdsConsistencyChecker;
@@ -137,7 +141,7 @@ public class CommitValidators {
               new BannedCommitsValidator(rejectCommits),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
-              new AccountCommitValidator(allUsers, accountValidator),
+              new AccountCommitValidator(repoManager, allUsers, accountValidator),
               new GroupCommitValidator(allUsers)));
     }
 
@@ -163,7 +167,7 @@ public class CommitValidators {
               new ConfigValidator(branch, user, rw, allUsers, allProjects),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
-              new AccountCommitValidator(allUsers, accountValidator),
+              new AccountCommitValidator(repoManager, allUsers, accountValidator),
               new GroupCommitValidator(allUsers)));
     }
 
@@ -700,10 +704,15 @@ public class CommitValidators {
   }
 
   public static class AccountCommitValidator implements CommitValidationListener {
+    private final GitRepositoryManager repoManager;
     private final AllUsersName allUsers;
     private final AccountValidator accountValidator;
 
-    public AccountCommitValidator(AllUsersName allUsers, AccountValidator accountValidator) {
+    public AccountCommitValidator(
+        GitRepositoryManager repoManager,
+        AllUsersName allUsers,
+        AccountValidator accountValidator) {
+      this.repoManager = repoManager;
       this.allUsers = allUsers;
       this.accountValidator = accountValidator;
     }
@@ -726,10 +735,11 @@ public class CommitValidators {
         return Collections.emptyList();
       }
 
-      try {
+      try (Repository repo = repoManager.openRepository(allUsers)) {
         List<String> errorMessages =
             accountValidator.validate(
                 accountId,
+                repo,
                 receiveEvent.revWalk,
                 receiveEvent.command.getOldId(),
                 receiveEvent.commit);

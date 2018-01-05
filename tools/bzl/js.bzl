@@ -177,10 +177,10 @@ def _js_component(ctx):
 
 js_component = rule(
     _js_component,
-    attrs = _common_attrs + {
+    attrs = dict(_common_attrs.items() + {
         "srcs": attr.label_list(allow_files = [".js"]),
         "license": attr.label(allow_single_file = True),
-    },
+    }.items()),
     outputs = {
         "zip": "%{name}.zip",
     },
@@ -188,14 +188,14 @@ js_component = rule(
 
 _bower_component = rule(
     _bower_component_impl,
-    attrs = _common_attrs + {
+    attrs = dict(_common_attrs.items() + {
         "zipfile": attr.label(allow_single_file = [".zip"]),
         "license": attr.label(allow_single_file = True),
         "version_json": attr.label(allow_files = [".json"]),
 
         # If set, define by hand, and don't regenerate this entry in bower2bazel.
         "seed": attr.bool(default = False),
-    },
+    }.items()),
 )
 
 # TODO(hanwen): make license mandatory.

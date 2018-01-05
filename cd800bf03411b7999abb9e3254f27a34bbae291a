@@ -17,6 +17,24 @@
       "revId": "cd800bf03411b7999abb9e3254f27a34bbae291a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9eb99211_91c9005d",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2873,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-05T12:32:30Z",
+      "side": 1,
+      "message": "Good point. Likely it\u0027s not a real problem because the outer retry is for concurrent NoteDb updates and the inner retry is for ST-BTI issues, and it\u0027s rather unlikely that we hit both issues at the same time. Nevertheless let\u0027s better increase the timeout for the outer retry.\n\nDone.",
+      "parentUuid": "5b5679d1_40e54a6a",
+      "revId": "cd800bf03411b7999abb9e3254f27a34bbae291a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

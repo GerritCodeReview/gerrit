@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7b7cfb4_af57bfb8",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-05T17:40:56Z",
+      "side": 1,
+      "message": "_editPrefs should be a public property. In general, this component should closely follow the design of gr-diff-preferences.",
+      "revId": "952f4358edb9644f9398ed02427c96b7913cdb2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d2f7f88_116f1ed7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-05T17:40:56Z",
+      "side": 1,
+      "message": "The change to the rest-api should also be split into its own change. The order of these changes should be:\n\n1. Rest API module change\n2. Introduce gr-edit-preferences component\n3. Use gr-edit-preferences component in settings\n4. Use gr-edit-preferences component in editor view",
+      "revId": "952f4358edb9644f9398ed02427c96b7913cdb2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

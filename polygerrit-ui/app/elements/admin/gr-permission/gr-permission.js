@@ -74,6 +74,8 @@
       // Restore original values if no longer editing.
       if (!editing) {
         this._deleted = false;
+        this._groupFilter = '';
+        this._rules = this._rules.filter(rule => !rule.value.added);
       }
     },
 
@@ -194,8 +196,10 @@
       // back to the section. Since the rule is inside a dom-repeat, a flush
       // is needed.
       Polymer.dom.flush();
-      this.set(['permission', 'value', 'rules', e.detail.value.id],
-          this._rules[this._rules.length - 1].value);
+      const value = this._rules[this._rules.length - 1].value;
+      value.added = true;
+      this.set(['permission', 'value', 'rules', e.detail.value.id], value);
+      this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
     },
   });
 })();

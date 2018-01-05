@@ -196,6 +196,9 @@
     },
 
     _handleUndoChange() {
+      // gr-permission will take care of removing rules that were added but
+      // unsaved. We need to keep the added bit for the filter.
+      if (this.rule.value.added) { return }
       this.set('rule.value', Object.assign({}, this._originalRuleValues));
       this._deleted = false;
       delete this.rule.value.deleted;

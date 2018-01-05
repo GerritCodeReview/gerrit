@@ -15,6 +15,7 @@ java_library(
         "//java/com/google/gerrit/extensions/restapi/testing:restapi-test-util",
         "//java/com/google/gerrit/gpg/testing:gpg-test-util",
         "//java/com/google/gerrit/httpd",
+        "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/launcher",
         "//java/com/google/gerrit/lucene",
         "//java/com/google/gerrit/metrics",

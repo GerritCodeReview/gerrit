@@ -14,11 +14,15 @@
 
 package com.google.gerrit.server.change;
 
+import static java.util.stream.Collectors.toSet;
+
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -38,7 +42,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -50,17 +53,20 @@ public class GetRelated implements RestReadView<RevisionResource> {
   private final Provider<InternalChangeQuery> queryProvider;
   private final PatchSetUtil psUtil;
   private final RelatedChangesSorter sorter;
+  private final IndexConfig indexConfig;
 
   @Inject
   GetRelated(
       Provider<ReviewDb> db,
       Provider<InternalChangeQuery> queryProvider,
       PatchSetUtil psUtil,
-      RelatedChangesSorter sorter) {
+      RelatedChangesSorter sorter,
+      IndexConfig indexConfig) {
     this.db = db;
     this.queryProvider = queryProvider;
     this.psUtil = psUtil;
     this.sorter = sorter;
+    this.indexConfig = indexConfig;
   }
 
   @Override
@@ -74,16 +80,14 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   private List<ChangeAndCommit> getRelated(RevisionResource rsrc)
       throws OrmException, IOException, PermissionBackendException {
-    Set<String> groups = getAllGroups(rsrc.getNotes());
+    Set<String> groups = getAllGroups(rsrc.getNotes(), db.get(), psUtil);
     if (groups.isEmpty()) {
       return Collections.emptyList();
     }
 
     List<ChangeData> cds =
-        queryProvider
-            .get()
-            .enforceVisibility(true)
-            .byProjectGroups(rsrc.getChange().getProject(), groups);
+        InternalChangeQuery.byProjectGroups(
+            queryProvider, indexConfig, rsrc.getChange().getProject(), groups);
     if (cds.isEmpty()) {
       return Collections.emptyList();
     }
@@ -119,12 +123,14 @@ public class GetRelated implements RestReadView<RevisionResource> {
     return result;
   }
 
-  private Set<String> getAllGroups(ChangeNotes notes) throws OrmException {
-    Set<String> result = new HashSet<>();
-    for (PatchSet ps : psUtil.byChange(db.get(), notes)) {
-      result.addAll(ps.getGroups());
-    }
-    return result;
+  @VisibleForTesting
+  public static Set<String> getAllGroups(ChangeNotes notes, ReviewDb db, PatchSetUtil psUtil)
+      throws OrmException {
+    return psUtil
+        .byChange(db, notes)
+        .stream()
+        .flatMap(ps -> ps.getGroups().stream())
+        .collect(toSet());
   }
 
   private void reloadChangeIfStale(List<ChangeData> cds, PatchSet wantedPs) throws OrmException {

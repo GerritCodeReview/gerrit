@@ -22,6 +22,7 @@ import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.index.FieldDef;
@@ -37,10 +38,12 @@ import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
@@ -275,12 +278,39 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
     return query(new SubmissionIdPredicate(cs));
   }
 
-  public List<ChangeData> byProjectGroups(Project.NameKey project, Collection<String> groups)
+  private List<ChangeData> byProjectGroups(Project.NameKey project, Collection<String> groups)
       throws OrmException {
+    int n = indexConfig.maxTerms() - 1;
+    checkArgument(groups.size() <= n, "cannot exceed %s groups", n);
     List<GroupPredicate> groupPredicates = new ArrayList<>(groups.size());
     for (String g : groups) {
       groupPredicates.add(new GroupPredicate(g));
     }
     return query(and(project(project), or(groupPredicates)));
+  }
+
+  // Batching via multiple queries requires passing in a Provider since the underlying
+  // QueryProcessor instance is not reusable.
+  public static List<ChangeData> byProjectGroups(
+      Provider<InternalChangeQuery> queryProvider,
+      IndexConfig indexConfig,
+      Project.NameKey project,
+      Collection<String> groups)
+      throws OrmException {
+    int batchSize = indexConfig.maxTerms() - 1;
+    if (groups.size() <= batchSize) {
+      return queryProvider.get().enforceVisibility(true).byProjectGroups(project, groups);
+    }
+    Set<Change.Id> seen = new HashSet<>();
+    List<ChangeData> result = new ArrayList<>();
+    for (List<String> part : Iterables.partition(groups, batchSize)) {
+      for (ChangeData cd :
+          queryProvider.get().enforceVisibility(true).byProjectGroups(project, part)) {
+        if (!seen.add(cd.getId())) {
+          result.add(cd);
+        }
+      }
+    }
+    return result;
   }
 }

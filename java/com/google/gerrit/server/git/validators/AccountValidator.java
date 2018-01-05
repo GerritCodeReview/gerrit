@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 public class AccountValidator {
@@ -45,12 +46,12 @@ public class AccountValidator {
   }
 
   public List<String> validate(
-      Account.Id accountId, RevWalk rw, @Nullable ObjectId oldId, ObjectId newId)
+      Account.Id accountId, Repository repo, RevWalk rw, @Nullable ObjectId oldId, ObjectId newId)
       throws IOException {
     Optional<Account> oldAccount = Optional.empty();
     if (oldId != null && !ObjectId.zeroId().equals(oldId)) {
       try {
-        oldAccount = loadAccount(accountId, rw, oldId, null);
+        oldAccount = loadAccount(accountId, repo, rw, oldId, null);
       } catch (ConfigInvalidException e) {
         // ignore, maybe the new commit is repairing it now
       }
@@ -59,7 +60,7 @@ public class AccountValidator {
     List<String> messages = new ArrayList<>();
     Optional<Account> newAccount;
     try {
-      newAccount = loadAccount(accountId, rw, newId, messages);
+      newAccount = loadAccount(accountId, repo, rw, newId, messages);
     } catch (ConfigInvalidException e) {
       return ImmutableList.of(
           String.format(
@@ -91,10 +92,14 @@ public class AccountValidator {
   }
 
   private Optional<Account> loadAccount(
-      Account.Id accountId, RevWalk rw, ObjectId commit, @Nullable List<String> messages)
+      Account.Id accountId,
+      Repository repo,
+      RevWalk rw,
+      ObjectId commit,
+      @Nullable List<String> messages)
       throws IOException, ConfigInvalidException {
     rw.reset();
-    AccountConfig accountConfig = new AccountConfig(accountId);
+    AccountConfig accountConfig = new AccountConfig(accountId, repo);
     accountConfig.setEagerParsing(true).load(rw, commit);
     if (messages != null) {
       messages.addAll(

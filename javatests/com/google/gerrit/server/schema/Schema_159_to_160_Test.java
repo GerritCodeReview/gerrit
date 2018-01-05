@@ -106,7 +106,7 @@ public class Schema_159_to_160_Test {
     assertThat(myMenusFromApi(accountId).keySet()).containsExactlyElementsIn(newNames).inOrder();
   }
 
-  // Raw config values, bypassing the defaults set by GeneralPreferencesLoader.
+  // Raw config values, bypassing the defaults set by PreferencesConfig.
   private ImmutableMap<String, String> myMenusFromNoteDb(Account.Id id) throws Exception {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       VersionedAccountPreferences prefs = VersionedAccountPreferences.forUser(id);

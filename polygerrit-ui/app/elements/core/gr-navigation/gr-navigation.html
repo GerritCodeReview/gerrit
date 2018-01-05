@@ -55,6 +55,12 @@ limitations under the License.
     //    - `groupId`, required, String, the ID of the group.
     //    - `detail`, optional, String, the name of the group detail view.
     //      Takes any value from Gerrit.Nav.GroupDetailView.
+    //
+    //  - Gerrit.Nav.View.REPO:
+    //    - `repoName`, required, String, the name of the repo
+    //    - `detail`, optional, String, the name of the repo detail view.
+    //      Takes any value from Gerrit.Nav.RepoDetailView.
+
 
     window.Gerrit = window.Gerrit || {};
 
@@ -79,6 +85,7 @@ limitations under the License.
         EDIT: 'edit',
         GROUP: 'group',
         PLUGIN_SCREEN: 'plugin-screen',
+        REPO: 'repo',
         SEARCH: 'search',
         SETTINGS: 'settings',
       },
@@ -86,6 +93,13 @@ limitations under the License.
       GroupDetailView: {
         MEMBERS: 'members',
         LOG: 'log',
+      },
+
+      RepoDetailView: {
+        ACCESS: 'access',
+        BRANCHES: 'branches',
+        COMMANDS: 'commands',
+        TAGS: 'tags',
       },
 
       WeblinkType: {
@@ -359,6 +373,65 @@ limitations under the License.
           throw new Error('navigateToRelativeUrl with non-relative URL');
         }
         this._navigate(relativeUrl);
+      },
+
+      /**
+       * @param {string} repoName
+       * @return {string}
+       */
+      getUrlForRepo(repoName) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.REPO,
+          repoName,
+        });
+      },
+
+      /**
+       * @param {string} repoName
+       * @return {string}
+       */
+      getUrlForRepoTags(repoName) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.REPO,
+          repoName,
+          detail: Gerrit.Nav.RepoDetailView.TAGS,
+        });
+      },
+
+      /**
+       * @param {string} repoName
+       * @return {string}
+       */
+      getUrlForRepoBranches(repoName) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.REPO,
+          repoName,
+          detail: Gerrit.Nav.RepoDetailView.BRANCHES,
+        });
+      },
+
+      /**
+       * @param {string} repoName
+       * @return {string}
+       */
+      getUrlForRepoAccess(repoName) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.REPO,
+          repoName,
+          detail: Gerrit.Nav.RepoDetailView.ACCESS,
+        });
+      },
+
+      /**
+       * @param {string} repoName
+       * @return {string}
+       */
+      getUrlForRepoCommands(repoName) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.REPO,
+          repoName,
+          detail: Gerrit.Nav.RepoDetailView.COMMANDS,
+        });
       },
 
       /**

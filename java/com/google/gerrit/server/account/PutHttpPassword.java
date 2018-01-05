@@ -27,7 +27,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -55,18 +54,18 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final ExternalIds externalIds;
-  private final ExternalIdsUpdate.User externalIdsUpdate;
+  private final AccountsUpdate.User accountsUpdate;
 
   @Inject
   PutHttpPassword(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
       ExternalIds externalIds,
-      ExternalIdsUpdate.User externalIdsUpdate) {
+      AccountsUpdate.User accountsUpdate) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.externalIds = externalIds;
-    this.externalIdsUpdate = externalIdsUpdate;
+    this.accountsUpdate = accountsUpdate;
   }
 
   @Override
@@ -106,9 +105,15 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
     if (extId == null) {
       throw new ResourceNotFoundException();
     }
-    ExternalId newExtId =
-        ExternalId.createWithPassword(extId.key(), extId.accountId(), extId.email(), newPassword);
-    externalIdsUpdate.create().upsert(newExtId);
+    accountsUpdate
+        .create()
+        .update(
+            "Set HTTP Password via API",
+            extId.accountId(),
+            u ->
+                u.updateExternalId(
+                    ExternalId.createWithPassword(
+                        extId.key(), extId.accountId(), extId.email(), newPassword)));
 
     return Strings.isNullOrEmpty(newPassword) ? Response.<String>none() : Response.ok(newPassword);
   }

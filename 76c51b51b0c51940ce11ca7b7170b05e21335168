@@ -122,6 +122,24 @@
     },
     {
       "key": {
+        "uuid": "a1e077fc_7ee38643",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-05T23:53:32Z",
+      "side": 1,
+      "message": "I see - sounds good.",
+      "parentUuid": "2938a67b_255e8b31",
+      "revId": "76c51b51b0c51940ce11ca7b7170b05e21335168",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9bb3f0f8_7c3bc0c8",
         "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
         "patchSetId": 4

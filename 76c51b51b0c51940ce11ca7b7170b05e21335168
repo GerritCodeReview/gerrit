@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ceabadc5_f214de2e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-05T21:29:15Z",
+      "side": 1,
+      "message": "This probably isn\u0027t needed because typeof null or typeof undefined is not object",
+      "range": {
+        "startLine": 174,
+        "startChar": 41,
+        "endLine": 174,
+        "endChar": 56
+      },
+      "revId": "76c51b51b0c51940ce11ca7b7170b05e21335168",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98d48007_3141c031",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-05T21:29:15Z",
+      "side": 1,
+      "message": "Do you need to recurse after this?",
+      "revId": "76c51b51b0c51940ce11ca7b7170b05e21335168",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73f7b26d_d5801a93",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-05T21:29:15Z",
+      "side": 1,
+      "message": "I suggest adding more tests, and doing that with as little private properties/methods access as possible.\n\nSuggested scenarios:\n- deleting a rule with children\n- updating a rule with children\n- multi-level updates\n- update a rule and delete a child from it\n- delete a child from rule and update it",
+      "revId": "76c51b51b0c51940ce11ca7b7170b05e21335168",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bb3f0f8_7c3bc0c8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-05T21:29:15Z",
+      "side": 1,
+      "message": "Do you need this one? Isn\u0027t this.rule.value.modified enough?",
+      "revId": "76c51b51b0c51940ce11ca7b7170b05e21335168",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94c69d54_baa658b8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-05T21:29:15Z",
+      "side": 1,
+      "message": "Do you need this one? Isn\u0027t this.rule.value.deleted enough?",
+      "revId": "76c51b51b0c51940ce11ca7b7170b05e21335168",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

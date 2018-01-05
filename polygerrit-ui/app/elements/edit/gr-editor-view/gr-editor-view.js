@@ -80,7 +80,7 @@
     },
 
     _getEditPrefs() {
-      return this.$.restAPI.getEditPrefs();
+      return this.$.restAPI.getEditPreferences();
     },
 
     _paramsChanged(value) {

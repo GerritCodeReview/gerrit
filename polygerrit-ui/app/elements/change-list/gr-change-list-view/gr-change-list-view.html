@@ -20,7 +20,9 @@ limitations under the License.
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-change-list/gr-change-list.html">
+<link rel="import" href="../gr-repo-header/gr-repo-header.html">
 <link rel="import" href="../gr-user-header/gr-user-header.html">
+
 <link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-change-list-view">
@@ -59,9 +61,12 @@ limitations under the License.
     </style>
     <div class="loading" hidden$="[[!_loading]]" hidden>Loading...</div>
     <div hidden$="[[_loading]]" hidden>
+      <gr-repo-header
+          repo="[[_repo]]"
+          class$="[[_computeHeaderClass(_repo)]]"></gr-repo-header>
       <gr-user-header
           user-id="[[_userId]]"
-          class$="[[_computeUserHeaderClass(_userId)]]"></gr-user-header>
+          class$="[[_computeHeaderClass(_userId)]]"></gr-user-header>
       <gr-change-list
           changes="{{_changes}}"
           selected-index="{{viewState.selectedChangeIndex}}"

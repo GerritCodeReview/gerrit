@@ -117,40 +117,32 @@
         if (linkCopy.name === 'Repositories' && this._repoName) {
           linkCopy.subsection = {
             name: this._repoName,
-            view: 'gr-repo',
+            view: Gerrit.Nav.View.REPO,
             noBaseUrl: true,
-            url: `/admin/repos/${this.encodeURL(this._repoName, true)}`,
+            url: Gerrit.Nav.getUrlForRepo(this._repoName),
             children: [{
               name: 'Access',
-              detailType: 'access',
-              view: 'gr-repo-access',
-              noBaseUrl: true,
-              url: `/admin/repos/` +
-                  `${this.encodeURL(this._repoName, true)},access`,
+              view: Gerrit.Nav.View.REPO,
+              detailType: Gerrit.Nav.RepoDetailView.ACCESS,
+              url: Gerrit.Nav.getUrlForRepoAccess(this._repoName),
             },
             {
               name: 'Commands',
-              detailType: 'commands',
-              view: 'gr-repo-commands',
-              noBaseUrl: true,
-              url: `/admin/repos/` +
-                  `${this.encodeURL(this._repoName, true)},commands`,
+              view: Gerrit.Nav.View.REPO,
+              detailType: Gerrit.Nav.RepoDetailView.COMMANDS,
+              url: Gerrit.Nav.getUrlForRepoCommands(this._repoName),
             },
             {
               name: 'Branches',
-              detailType: 'branches',
-              view: 'gr-repo-detail-list',
-              noBaseUrl: true,
-              url: `/admin/repos/` +
-                  `${this.encodeURL(this._repoName, true)},branches`,
+              view: Gerrit.Nav.View.REPO,
+              detailType: Gerrit.Nav.RepoDetailView.BRANCHES,
+              url: Gerrit.Nav.getUrlForRepoBranches(this._repoName),
             },
             {
               name: 'Tags',
-              detailType: 'tags',
-              view: 'gr-repo-detail-list',
-              noBaseUrl: true,
-              url: `/admin/repos/` +
-                  `${this.encodeURL(this._repoName, true)},tags`,
+              view: Gerrit.Nav.View.REPO,
+              detailType: Gerrit.Nav.RepoDetailView.TAGS,
+              url: Gerrit.Nav.getUrlForRepoTags(this._repoName),
             }],
           };
         }
@@ -263,6 +255,13 @@
       // TODO(wyatta): Simplify this when all routes work like group params.
       if (params.view === Gerrit.Nav.View.GROUP &&
           itemView === Gerrit.Nav.View.GROUP) {
+        if (!params.detail && !opt_detailType) { return 'selected'; }
+        if (params.detail === opt_detailType) { return 'selected'; }
+        return '';
+      }
+
+      if (params.view === Gerrit.Nav.View.REPO &&
+          itemView === Gerrit.Nav.View.REPO) {
         if (!params.detail && !opt_detailType) { return 'selected'; }
         if (params.detail === opt_detailType) { return 'selected'; }
         return '';

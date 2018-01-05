@@ -233,6 +233,8 @@
         url = this._generateDiffOrEditUrl(params);
       } else if (params.view === Views.GROUP) {
         url = this._generateGroupUrl(params);
+      } else if (params.view === Views.REPO) {
+        url = this._generateRepoUrl(params);
       } else if (params.view === Views.SETTINGS) {
         url = this._generateSettingsUrl(params);
       } else {
@@ -440,6 +442,24 @@
         url += ',members';
       } else if (params.detail === Gerrit.Nav.GroupDetailView.LOG) {
         url += ',audit-log';
+      }
+      return url;
+    },
+
+    /**
+     * @param {!Object} params
+     * @return {string}
+     */
+    _generateRepoUrl(params) {
+      let url = `/admin/repos/${this.encodeURL(params.repoName + '', true)}`;
+      if (params.detail === Gerrit.Nav.RepoDetailView.ACCESS) {
+        url += ',access';
+      } else if (params.detail === Gerrit.Nav.RepoDetailView.BRANCHES) {
+        url += ',branches';
+      } else if (params.detail === Gerrit.Nav.RepoDetailView.TAGS) {
+        url += ',tags';
+      } else if (params.detail === Gerrit.Nav.RepoDetailView.COMMANDS) {
+        url += ',commands';
       }
       return url;
     },

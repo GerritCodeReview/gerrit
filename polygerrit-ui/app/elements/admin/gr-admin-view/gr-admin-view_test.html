@@ -258,9 +258,8 @@ limitations under the License.
 
         test('repo', done => {
           element.params = {
-            view: Gerrit.Nav.View.ADMIN,
-            project: 'foo',
-            adminView: 'gr-repo',
+            view: Gerrit.Nav.View.REPO,
+            repoName: 'foo',
           };
           element._repoName = 'foo';
           element.reload().then(() => {
@@ -275,10 +274,9 @@ limitations under the License.
 
         test('repo access', done => {
           element.params = {
-            view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-repo-access',
-            detailType: 'access',
-            repo: 'foo',
+            view: Gerrit.Nav.View.REPO,
+            detail: Gerrit.Nav.RepoDetailView.ACCESS,
+            repoName: 'foo',
           };
           element._repoName = 'foo';
           element.reload().then(() => {

@@ -74,6 +74,8 @@
       // Restore original values if no longer editing.
       if (!editing) {
         this._deleted = false;
+        this._groupFilter = '';
+        this._rules = this._rules.filter(rule => !rule.value.added);
       }
     },
 
@@ -181,21 +183,26 @@
      * gr-rule-editor handles setting the default values.
      */
     _handleAddRuleItem(e) {
-      this.set(['permission', 'value', 'rules', e.detail.value.id], {});
+      // The group id is encoded, but have to decode in order for the access
+      // API to work as expected.
+      const groupId = decodeURIComponent(e.detail.value.id);
+      this.set(['permission', 'value', 'rules', groupId], {});
 
       // Purposely don't recompute sorted array so that the newly added rule
       // is the last item of the array.
       this.push('_rules', {
-        id: e.detail.value.id,
+        id: groupId,
       });
 
-      // Wait for new rule to get value populated via gr-rule editor, and then
+      // Wait for new rule to get value populated via gr-rule-editor, and then
       // add to permission values as well, so that the change gets propogated
       // back to the section. Since the rule is inside a dom-repeat, a flush
       // is needed.
       Polymer.dom.flush();
-      this.set(['permission', 'value', 'rules', e.detail.value.id],
-          this._rules[this._rules.length - 1].value);
+      const value = this._rules[this._rules.length - 1].value;
+      value.added = true;
+      this.set(['permission', 'value', 'rules', groupId], value);
+      this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
     },
   });
 })();

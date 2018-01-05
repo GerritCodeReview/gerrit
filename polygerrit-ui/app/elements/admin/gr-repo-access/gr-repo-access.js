@@ -188,6 +188,9 @@
                 path.concat(k), 'remove');
             this._updateAddRemoveObj(addRemoveObj,
                 path.concat(k), 'add', obj[k]);
+          } else if (obj[k].added) {
+            this._updateAddRemoveObj(addRemoveObj,
+                path.concat(k), 'add', obj[k]);
           }
           this._recursivelyUpdateAddRemoveObj(obj[k], addRemoveObj,
               path.concat(k));

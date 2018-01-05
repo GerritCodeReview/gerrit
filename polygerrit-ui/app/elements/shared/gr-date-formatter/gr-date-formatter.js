@@ -37,6 +37,10 @@
         value: null,
         notify: true,
       },
+      showDateAndTime: {
+        type: Boolean,
+        value: false,
+      },
 
       /**
        * When true, the detailed date appears in a GR-TOOLTIP rather than in the
@@ -131,7 +135,7 @@
           diff < 180 * Duration.DAY;
     },
 
-    _computeDateStr(dateStr, timeFormat, relative) {
+    _computeDateStr(dateStr, timeFormat, relative, showDateAndTime) {
       if (!dateStr) { return ''; }
       const date = moment(util.parseDate(dateStr));
       if (!date.isValid()) { return ''; }
@@ -147,8 +151,13 @@
       let format = TimeFormats.MONTH_DAY_YEAR;
       if (this._isWithinDay(now, date)) {
         format = timeFormat;
-      } else if (this._isWithinHalfYear(now, date)) {
-        format = TimeFormats.MONTH_DAY;
+      } else {
+        if (this._isWithinHalfYear(now, date)) {
+          format = TimeFormats.MONTH_DAY;
+        }
+        if (this.showDateAndTime) {
+          format = `${format} ${timeFormat}`;
+        }
       }
       return date.format(format);
     },

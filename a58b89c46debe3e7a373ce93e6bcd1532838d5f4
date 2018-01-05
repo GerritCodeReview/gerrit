@@ -16,6 +16,24 @@
       "revId": "a58b89c46debe3e7a373ce93e6bcd1532838d5f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5646eb4_f5382185",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-05T19:12:01Z",
+      "side": 1,
+      "message": "Im not sure how these tests will work as i see none for getDiffPreferences so i carn\u0027t follow that one.",
+      "parentUuid": "ea26ff5f_2198c184",
+      "revId": "a58b89c46debe3e7a373ce93e6bcd1532838d5f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

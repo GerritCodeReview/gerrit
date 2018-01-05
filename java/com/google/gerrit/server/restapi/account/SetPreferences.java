@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import static com.google.gerrit.server.config.ConfigUtil.storeSection;
 import static com.google.gerrit.server.git.UserConfigSections.CHANGE_TABLE_COLUMN;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_ID;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_MATCH;
@@ -36,14 +35,14 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
-import com.google.gerrit.server.account.GeneralPreferencesLoader;
+import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.PreferencesConfig;
 import com.google.gerrit.server.account.VersionedAccountPreferences;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.UserConfigSections;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -52,7 +51,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -60,9 +58,7 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
   private final Provider<CurrentUser> self;
   private final AccountCache cache;
   private final PermissionBackend permissionBackend;
-  private final GeneralPreferencesLoader loader;
-  private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
-  private final AllUsersName allUsersName;
+  private final AccountsUpdate.User accountsUpdate;
   private final DynamicMap<DownloadScheme> downloadSchemes;
 
   @Inject
@@ -70,60 +66,31 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
       Provider<CurrentUser> self,
       AccountCache cache,
       PermissionBackend permissionBackend,
-      GeneralPreferencesLoader loader,
-      Provider<MetaDataUpdate.User> metaDataUpdateFactory,
-      AllUsersName allUsersName,
+      AccountsUpdate.User accountsUpdate,
       DynamicMap<DownloadScheme> downloadSchemes) {
     this.self = self;
-    this.loader = loader;
     this.cache = cache;
     this.permissionBackend = permissionBackend;
-    this.metaDataUpdateFactory = metaDataUpdateFactory;
-    this.allUsersName = allUsersName;
+    this.accountsUpdate = accountsUpdate;
     this.downloadSchemes = downloadSchemes;
   }
 
   @Override
-  public GeneralPreferencesInfo apply(AccountResource rsrc, GeneralPreferencesInfo i)
+  public GeneralPreferencesInfo apply(AccountResource rsrc, GeneralPreferencesInfo input)
       throws AuthException, BadRequestException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+          PermissionBackendException, OrmException {
     if (self.get() != rsrc.getUser()) {
       permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
 
-    checkDownloadScheme(i.downloadScheme);
+    checkDownloadScheme(input.downloadScheme);
+    PreferencesConfig.validateMy(input.my);
     Account.Id id = rsrc.getUser().getAccountId();
-    GeneralPreferencesInfo n = loader.merge(id, i);
 
-    n.changeTable = i.changeTable;
-    n.my = i.my;
-    n.urlAliases = i.urlAliases;
-
-    writeToGit(id, n);
-
+    accountsUpdate
+        .create()
+        .update("Set Preferences via API", id, u -> u.setGeneralPreferences(input));
     return cache.get(id).getAccount().getGeneralPreferencesInfo();
-  }
-
-  private void writeToGit(Account.Id id, GeneralPreferencesInfo i)
-      throws RepositoryNotFoundException, IOException, ConfigInvalidException, BadRequestException {
-    VersionedAccountPreferences prefs;
-    try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
-      prefs = VersionedAccountPreferences.forUser(id);
-      prefs.load(md);
-
-      storeSection(
-          prefs.getConfig(),
-          UserConfigSections.GENERAL,
-          null,
-          i,
-          loader.readDefaultsFromGit(md.getRepository(), null));
-
-      storeMyChangeTableColumns(prefs, i.changeTable);
-      storeMyMenus(prefs, i.my);
-      storeUrlAliases(prefs, i.urlAliases);
-      prefs.commit(md);
-      cache.evict(id);
-    }
   }
 
   public static void storeMyMenus(VersionedAccountPreferences prefs, List<MenuItem> my)

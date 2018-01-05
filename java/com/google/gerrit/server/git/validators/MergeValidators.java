@@ -285,7 +285,7 @@ public class MergeValidators {
       }
 
       try (RevWalk rw = new RevWalk(repo)) {
-        List<String> errorMessages = accountValidator.validate(accountId, rw, null, commit);
+        List<String> errorMessages = accountValidator.validate(accountId, repo, rw, null, commit);
         if (!errorMessages.isEmpty()) {
           throw new MergeValidationException(
               "invalid account configuration: " + Joiner.on("; ").join(errorMessages));

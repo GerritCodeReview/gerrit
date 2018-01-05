@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
@@ -110,6 +111,16 @@ public abstract class InternalAccountUpdate {
    * @return project watches that should be deleted for the account
    */
   public abstract ImmutableSet<ProjectWatchKey> getDeletedProjectWatches();
+
+  /**
+   * Returns the new value for the general preferences.
+   *
+   * <p>Only preferences that are non-null in the returned GeneralPreferencesInfo should be updated.
+   *
+   * @return the new value for the general preferences, {@code Optional#empty()} if the general
+   *     preferences are not being updated, the wrapped value is never {@code null}
+   */
+  public abstract Optional<GeneralPreferencesInfo> getGeneralPreferences();
 
   /**
    * Class to build an account update.
@@ -364,6 +375,16 @@ public abstract class InternalAccountUpdate {
     }
 
     /**
+     * Sets the general preferences for the account.
+     *
+     * <p>Updates any preference that is non-null in the provided GeneralPreferencesInfo.
+     *
+     * @param generalPreferences the general preferences that should be set
+     * @return the builder
+     */
+    public abstract Builder setGeneralPreferences(GeneralPreferencesInfo generalPreferences);
+
+    /**
      * Builds the account update.
      *
      * @return the account update
@@ -491,6 +512,12 @@ public abstract class InternalAccountUpdate {
       @Override
       public Builder deleteProjectWatches(Collection<ProjectWatchKey> projectWatches) {
         delegate.deleteProjectWatches(projectWatches);
+        return this;
+      }
+
+      @Override
+      public Builder setGeneralPreferences(GeneralPreferencesInfo generalPreferences) {
+        delegate.setGeneralPreferences(generalPreferences);
         return this;
       }
     }

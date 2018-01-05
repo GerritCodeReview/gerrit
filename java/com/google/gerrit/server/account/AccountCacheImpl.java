@@ -136,18 +136,12 @@ public class AccountCacheImpl implements AccountCache {
   static class ByIdLoader extends CacheLoader<Account.Id, Optional<AccountState>> {
     private final AllUsersName allUsersName;
     private final Accounts accounts;
-    private final GeneralPreferencesLoader loader;
     private final ExternalIds externalIds;
 
     @Inject
-    ByIdLoader(
-        AllUsersName allUsersName,
-        Accounts accounts,
-        GeneralPreferencesLoader loader,
-        ExternalIds externalIds) {
+    ByIdLoader(AllUsersName allUsersName, Accounts accounts, ExternalIds externalIds) {
       this.allUsersName = allUsersName;
       this.accounts = accounts;
-      this.loader = loader;
       this.externalIds = externalIds;
     }
 
@@ -159,7 +153,7 @@ public class AccountCacheImpl implements AccountCache {
       }
 
       try {
-        account.setGeneralPreferences(loader.load(who));
+        account.setGeneralPreferences(accounts.getGeneralPreferences(who));
       } catch (IOException | ConfigInvalidException e) {
         log.warn("Cannot load GeneralPreferences for " + who + " (using default)", e);
         account.setGeneralPreferences(GeneralPreferencesInfo.defaults());

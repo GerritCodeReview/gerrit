@@ -416,10 +416,10 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       PersonIdent ident = serverIdent.get();
       md.getCommitBuilder().setAuthor(ident);
       md.getCommitBuilder().setCommitter(ident);
-      AccountConfig accountConfig = new AccountConfig(accountId);
-      accountConfig.load(repo);
-      accountConfig.setAccountUpdate(InternalAccountUpdate.builder().setFullName(newName).build());
-      accountConfig.commit(md);
+      new AccountConfig(accountId, repo)
+          .load()
+          .setAccountUpdate(InternalAccountUpdate.builder().setFullName(newName).build())
+          .commit(md);
     }
 
     assertQuery("name:" + quote(user1.name), user1);

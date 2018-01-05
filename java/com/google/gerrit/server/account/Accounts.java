@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
@@ -130,9 +131,14 @@ public class Accounts {
   public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches(Account.Id accountId)
       throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
-      AccountConfig accountConfig = new AccountConfig(accountId);
-      accountConfig.load(repo);
-      return accountConfig.getProjectWatches();
+      return new AccountConfig(accountId, repo).load().getProjectWatches();
+    }
+  }
+
+  public GeneralPreferencesInfo getGeneralPreferences(Account.Id accountId)
+      throws IOException, ConfigInvalidException {
+    try (Repository repo = repoManager.openRepository(allUsersName)) {
+      return new AccountConfig(accountId, repo).load().getGeneralPreferences();
     }
   }
 
@@ -144,9 +150,7 @@ public class Accounts {
 
   private Optional<Account> read(Repository allUsersRepository, Account.Id accountId)
       throws IOException, ConfigInvalidException {
-    AccountConfig accountConfig = new AccountConfig(accountId);
-    accountConfig.load(allUsersRepository);
-    return accountConfig.getLoadedAccount();
+    return new AccountConfig(accountId, allUsersRepository).load().getLoadedAccount();
   }
 
   public static Stream<Account.Id> readUserRefs(Repository repo) throws IOException {

@@ -122,9 +122,9 @@ _asciidoc_attrs = {
 }
 
 _asciidoc = rule(
-    attrs = _asciidoc_attrs + {
+    attrs = dict(_asciidoc_attrs.items() + {
         "outs": attr.output_list(mandatory = True),
-    },
+    }.items()),
     implementation = _asciidoc_impl,
 )
 

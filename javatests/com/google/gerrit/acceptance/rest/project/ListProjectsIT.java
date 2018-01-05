@@ -182,8 +182,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
   public void listProjectWithType() throws Exception {
     Map<String, ProjectInfo> result =
         gApi.projects().list().withType(FilterType.PERMISSIONS).getAsMap();
-    assertThat(result).hasSize(1);
-    assertThat(result).containsKey(allProjects.get());
+    assertThat(result.keySet()).containsExactly(allProjects.get(), allUsers.get());
 
     assertThatNameList(filter(gApi.projects().list().withType(FilterType.ALL).get()))
         .containsExactly(allProjects, allUsers, project)

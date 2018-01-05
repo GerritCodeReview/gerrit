@@ -35,6 +35,24 @@
       "revId": "cf328133701cde5d8dd160d7cd060a862a4893e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11983a17_92521423",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-05T06:47:30Z",
+      "side": 1,
+      "message": "IIRC I created the core plugins project when I was trying to make them all inherit some setting that turned out to be not inheritable, so abandoned the idea.",
+      "parentUuid": "4f63358e_a2308e18",
+      "revId": "cf328133701cde5d8dd160d7cd060a862a4893e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
@@ -39,6 +40,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 
@@ -78,17 +80,20 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_STATUS = "status";
 
   private final Account.Id accountId;
+  private final Repository repo;
   private final String ref;
 
   private Optional<Account> loadedAccount;
   private WatchConfig watchConfig;
+  private PreferencesConfig prefConfig;
   private Optional<InternalAccountUpdate> accountUpdate = Optional.empty();
   private Timestamp registeredOn;
   private boolean eagerParsing;
   private List<ValidationError> validationErrors;
 
-  public AccountConfig(Account.Id accountId) {
-    this.accountId = checkNotNull(accountId);
+  public AccountConfig(Account.Id accountId, Repository allUsersRepo) {
+    this.accountId = checkNotNull(accountId, "accountId");
+    this.repo = checkNotNull(allUsersRepo, "allUsersRepo");
     this.ref = RefNames.refsUsers(accountId);
   }
 
@@ -110,6 +115,11 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   @Override
   protected String getRefName() {
     return ref;
+  }
+
+  public AccountConfig load() throws IOException, ConfigInvalidException {
+    load(repo);
+    return this;
   }
 
   /**
@@ -135,6 +145,16 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   }
 
   /**
+   * Get the general preferences of the loaded account.
+   *
+   * @return the general preferences of the loaded account
+   */
+  public GeneralPreferencesInfo getGeneralPreferences() {
+    checkLoaded();
+    return prefConfig.getGeneralPreferences();
+  }
+
+  /**
    * Sets the account. This means the loaded account will be overwritten with the given account.
    *
    * <p>Changing the registration date of an account is not supported.
@@ -142,7 +162,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    * @param account account that should be set
    * @throws IllegalStateException if the account was not loaded yet
    */
-  public void setAccount(Account account) {
+  public AccountConfig setAccount(Account account) {
     checkLoaded();
     this.loadedAccount = Optional.of(account);
     this.accountUpdate =
@@ -154,6 +174,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
                 .setStatus(account.getStatus())
                 .build());
     this.registeredOn = account.getRegisteredOn();
+    return this;
   }
 
   /**
@@ -182,8 +203,9 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     return loadedAccount.get();
   }
 
-  public void setAccountUpdate(InternalAccountUpdate accountUpdate) {
+  public AccountConfig setAccountUpdate(InternalAccountUpdate accountUpdate) {
     this.accountUpdate = Optional.of(accountUpdate);
+    return this;
   }
 
   @Override
@@ -198,8 +220,17 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
       loadedAccount = Optional.of(parse(accountConfig, revision.name()));
 
       watchConfig = new WatchConfig(accountId, readConfig(WatchConfig.WATCH_CONFIG), this);
+
+      prefConfig =
+          new PreferencesConfig(
+              accountId,
+              readConfig(PreferencesConfig.PREFERENCES_CONFIG),
+              PreferencesConfig.readDefaultConfig(repo),
+              this);
+
       if (eagerParsing) {
         watchConfig.parse();
+        prefConfig.parse();
       }
     } else {
       loadedAccount = Optional.empty();
@@ -249,6 +280,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
 
     Config accountConfig = saveAccount();
     saveProjectWatches();
+    saveGeneralPreferences();
 
     // metaId is set in the commit(MetaDataUpdate) method after the commit is created
     loadedAccount = Optional.of(parse(accountConfig, null));
@@ -287,6 +319,14 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
           .getUpdatedProjectWatches()
           .forEach((pw, nt) -> projectWatches.put(pw, nt));
       saveConfig(WatchConfig.WATCH_CONFIG, watchConfig.save(projectWatches));
+    }
+  }
+
+  private void saveGeneralPreferences() throws IOException, ConfigInvalidException {
+    if (accountUpdate.isPresent() && accountUpdate.get().getGeneralPreferences().isPresent()) {
+      saveConfig(
+          PreferencesConfig.PREFERENCES_CONFIG,
+          prefConfig.saveGeneralPreferences(accountUpdate.get().getGeneralPreferences().get()));
     }
   }
 

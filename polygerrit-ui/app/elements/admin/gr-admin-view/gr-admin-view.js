@@ -122,35 +122,31 @@
             url: `/admin/repos/${this.encodeURL(this._repoName, true)}`,
             children: [{
               name: 'Access',
-              detailType: 'access',
-              view: 'gr-repo-access',
+              view: Gerrit.Nav.View.REPO,
+              detailType: Gerrit.Nav.RepoDetailView.ACCESS,
               noBaseUrl: true,
-              url: `/admin/repos/` +
-                  `${this.encodeURL(this._repoName, true)},access`,
+              url: Gerrit.Nav.getUrlForRepoAccess(this._repoName),
             },
             {
               name: 'Commands',
-              detailType: 'commands',
-              view: 'gr-repo-commands',
+              view: Gerrit.Nav.View.REPO,
+              detailType: Gerrit.Nav.RepoDetailView.COMMANDS,
               noBaseUrl: true,
-              url: `/admin/repos/` +
-                  `${this.encodeURL(this._repoName, true)},commands`,
+              url: Gerrit.Nav.getUrlForRepoCommands(this._repoName),
             },
             {
               name: 'Branches',
-              detailType: 'branches',
-              view: 'gr-repo-detail-list',
+              view: Gerrit.Nav.View.REPO,
+              detailType: Gerrit.Nav.RepoDetailView.BRANCHES,
               noBaseUrl: true,
-              url: `/admin/repos/` +
-                  `${this.encodeURL(this._repoName, true)},branches`,
+              url: Gerrit.Nav.getUrlForRepoBranches(this._repoName),
             },
             {
               name: 'Tags',
-              detailType: 'tags',
-              view: 'gr-repo-detail-list',
+              view: Gerrit.Nav.View.REPO,
+              detailType: Gerrit.Nav.RepoDetailView.TAGS,
               noBaseUrl: true,
-              url: `/admin/repos/` +
-                  `${this.encodeURL(this._repoName, true)},tags`,
+              url: Gerrit.Nav.getUrlForRepoTags(this._repoName),
             }],
           };
         }

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.extensions.common.testing.EditInfoSubject.assertThat;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -29,20 +30,26 @@ import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.ChangesCollection;
+import com.google.gerrit.server.change.GetRelated;
 import com.google.gerrit.server.change.GetRelated.ChangeAndCommit;
 import com.google.gerrit.server.change.GetRelated.RelatedInfo;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.After;
@@ -50,6 +57,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class GetRelatedIT extends AbstractDaemonTest {
+  private static final int MAX_TERMS = 10;
+
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    cfg.setInt("index", null, "maxTerms", MAX_TERMS);
+    return cfg;
+  }
+
   private String systemTimeZone;
 
   @Before
@@ -64,6 +80,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     System.setProperty("user.timezone", systemTimeZone);
   }
 
+  @Inject private IndexConfig indexConfig;
   @Inject private ChangesCollection changes;
 
   @Test
@@ -537,6 +554,27 @@ public class GetRelatedIT extends AbstractDaemonTest {
     PatchSet.Id psId2_2 = new PatchSet.Id(psId2_1.changeId, psId2_1.get() + 1);
 
     assertRelated(psId2_2, changeAndCommit(psId2_2, c2_2, 2), changeAndCommit(psId1_1, c1_1, 1));
+  }
+
+  @Test
+  public void getRelatedManyGroups() throws Exception {
+    List<RevCommit> commits = new ArrayList<>();
+    RevCommit last = null;
+    int n = 2 * MAX_TERMS;
+    assertThat(n).isGreaterThan(indexConfig.maxTerms());
+    for (int i = 1; i <= n; i++) {
+      TestRepository<?>.CommitBuilder cb = last != null ? amendBuilder() : commitBuilder();
+      last = cb.add("a.txt", Integer.toString(i)).message("subject: " + i).create();
+      testRepo.reset(last);
+      assertPushOk(pushHead(testRepo, "refs/for/master", false), "refs/for/master");
+      commits.add(last);
+    }
+
+    ChangeData cd = getChange(last);
+    assertThat(cd.patchSets().size()).isEqualTo(n);
+    assertThat(GetRelated.getAllGroups(cd.notes(), db, psUtil).size()).isEqualTo(n);
+
+    assertRelated(cd.change().currentPatchSetId());
   }
 
   private List<ChangeAndCommit> getRelated(PatchSet.Id ps) throws Exception {

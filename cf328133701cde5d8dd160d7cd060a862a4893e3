@@ -53,6 +53,24 @@
       "revId": "cf328133701cde5d8dd160d7cd060a862a4893e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d85c8cf_ecee5464",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-05T14:06:46Z",
+      "side": 1,
+      "message": "[projects:plugins/] would work, but limiting to the core plugins may be nicer.",
+      "parentUuid": "11983a17_92521423",
+      "revId": "cf328133701cde5d8dd160d7cd060a862a4893e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

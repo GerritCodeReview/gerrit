@@ -103,10 +103,14 @@ public class ExternalIdReader {
   }
 
   /**
-   * Reads and returns all external IDs from the specified revision of the refs/meta/external-ids
-   * branch.
+   * Reads and returns all external IDs from the specified revision of the {@code
+   * refs/meta/external-ids} branch.
+   *
+   * @param rev the revision from which the external IDs should be read, if {@code null} the
+   *     external IDs are read from the current HEAD revision
+   * @return all external IDs that were read from the specified revision
    */
-  Set<ExternalId> all(ObjectId rev) throws IOException, ConfigInvalidException {
+  Set<ExternalId> all(@Nullable ObjectId rev) throws IOException, ConfigInvalidException {
     checkReadEnabled();
 
     try (Timer0.Context ctx = readAllLatency.start();

@@ -110,6 +110,12 @@ public class ExternalIdNotes extends VersionedMetaData {
     }
   }
 
+  /**
+   * Loads the external ID notes for reading only. The external ID notes are loaded from the current
+   * HEAD revision of the {@code refs/meta/external-ids} branch.
+   *
+   * @return read-only {@link ExternalIdNotes} instance
+   */
   public static ExternalIdNotes loadReadOnly(Repository allUsersRepo)
       throws IOException, ConfigInvalidException {
     return new ExternalIdNotes(new DisabledExternalIdCache(), null, allUsersRepo)
@@ -117,13 +123,27 @@ public class ExternalIdNotes extends VersionedMetaData {
         .load();
   }
 
-  public static ExternalIdNotes loadReadOnly(Repository allUsersRepo, ObjectId rev)
+  /**
+   * Loads the external ID notes for reading only. The external ID notes are loaded from the
+   * specified revision of the {@code refs/meta/external-ids} branch.
+   *
+   * @param rev the revision from which the external ID notes should be loaded, if {@code null} the
+   *     external ID notes are loaded from the current HEAD revision
+   * @return read-only {@link ExternalIdNotes} instance
+   */
+  public static ExternalIdNotes loadReadOnly(Repository allUsersRepo, @Nullable ObjectId rev)
       throws IOException, ConfigInvalidException {
     return new ExternalIdNotes(new DisabledExternalIdCache(), null, allUsersRepo)
         .setReadOnly()
         .load(rev);
   }
 
+  /**
+   * Loads the external ID notes for updates without cache evictions. The external ID notes are
+   * loaded from the current HEAD revision of the {@code refs/meta/external-ids} branch.
+   *
+   * @return {@link ExternalIdNotes} instance that doesn't updates caches on save
+   */
   public static ExternalIdNotes loadNoCacheUpdate(Repository allUsersRepo)
       throws IOException, ConfigInvalidException {
     return new ExternalIdNotes(new DisabledExternalIdCache(), null, allUsersRepo).load();
@@ -173,12 +193,29 @@ public class ExternalIdNotes extends VersionedMetaData {
     return RefNames.REFS_EXTERNAL_IDS;
   }
 
+  /**
+   * Loads the external ID notes from the current HEAD revision of the {@code
+   * refs/meta/external-ids} branch.
+   *
+   * @return {@link ExternalIdNotes} instance for chaining
+   */
   ExternalIdNotes load() throws IOException, ConfigInvalidException {
     load(repo);
     return this;
   }
 
-  ExternalIdNotes load(ObjectId rev) throws IOException, ConfigInvalidException {
+  /**
+   * Loads the external ID notes from the specified revision of the {@code refs/meta/external-ids}
+   * branch.
+   *
+   * @param rev the revision from which the external ID notes should be loaded, if {@code null} the
+   *     external ID notes are loaded from the current HEAD revision
+   * @return {@link ExternalIdNotes} instance for chaining
+   */
+  ExternalIdNotes load(@Nullable ObjectId rev) throws IOException, ConfigInvalidException {
+    if (rev == null) {
+      return load();
+    }
     load(repo, rev);
     return this;
   }

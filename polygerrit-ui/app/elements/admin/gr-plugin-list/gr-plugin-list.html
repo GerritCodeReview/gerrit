@@ -45,7 +45,12 @@ limitations under the License.
           <template is="dom-repeat" items="[[_shownPlugins]]">
             <tr class="table">
               <td class="name">
-                <a href$="[[_computePluginUrl(item.index_url)]]">[[item.id]]</a>
+                <template is="dom-if" if="[[item.index_url]]">
+                  <a href$="[[_computePluginUrl(item.index_url)]]">[[item.id]]</a>
+                </template>
+                <template is="dom-if" if="[[!item.index_url]]">
+                  [[item.id]]
+                </template>
               </td>
               <td class="version">[[item.version]]</td>
               <td class="status">[[_status(item)]]</td>

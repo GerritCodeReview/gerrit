@@ -20,35 +20,13 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-avatar/gr-avatar.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../../styles/dashboard-header-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-user-header">
   <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
-        height: 9em;
-        width: 100%;
-      }
-      gr-avatar {
-        display: inline-block;
-        height: 7em;
-        left: 1em;
-        margin: 1em;
-        top: 1em;
-        width: 7em;
-      }
-      .info {
-        display: inline-block;
-        padding: 1em;
-        vertical-align: top;
-      }
-      .info > div > span {
-        display: inline-block;
-        font-weight: bold;
-        text-align: right;
-        width: 4em;
-      }
+    <style include="shared-styles"></style>
+    <style include="dashboard-header-styles">
       .name {
         display: inline-block;
       }

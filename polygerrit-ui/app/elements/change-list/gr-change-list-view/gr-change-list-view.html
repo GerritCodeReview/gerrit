@@ -22,6 +22,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-icons/gr-icons.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-change-list/gr-change-list.html">
+<link rel="import" href="../gr-repo-header/gr-repo-header.html">
 <link rel="import" href="../gr-user-header/gr-user-header.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -39,7 +40,8 @@ limitations under the License.
       gr-change-list {
         width: 100%;
       }
-      gr-user-header {
+      gr-user-header,
+      gr-repo-header {
         border-bottom: 1px solid #ddd;
       }
       nav {
@@ -71,11 +73,14 @@ limitations under the License.
     </style>
     <div class="loading" hidden$="[[!_loading]]" hidden>Loading...</div>
     <div hidden$="[[_loading]]" hidden>
+      <gr-repo-header
+          repo="[[_repo]]"
+          class$="[[_computeHeaderClass(_repo)]]"></gr-repo-header>
       <gr-user-header
           user-id="[[_userId]]"
           show-dashboard-link
           logged-in="[[_loggedIn]]"
-          class$="[[_computeUserHeaderClass(_userId)]]"></gr-user-header>
+          class$="[[_computeHeaderClass(_userId)]]"></gr-user-header>
       <gr-change-list
           account="[[account]]"
           changes="{{_changes}}"

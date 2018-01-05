@@ -195,6 +195,7 @@ limitations under the License.
           <span class="date">
             <gr-date-formatter
                 has-tooltip
+                show-date-and-time
                 date-str="[[message.date]]"></gr-date-formatter>
           </span>
         </template>
@@ -202,6 +203,7 @@ limitations under the License.
           <a class="date" href$="[[_computeMessageHash(message)]]" on-tap="_handleLinkTap">
             <gr-date-formatter
                 has-tooltip
+                show-date-and-time
                 date-str="[[message.date]]"></gr-date-formatter>
           </a>
         </template>

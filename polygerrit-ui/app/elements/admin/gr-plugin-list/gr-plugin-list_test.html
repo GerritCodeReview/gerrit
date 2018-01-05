@@ -35,12 +35,16 @@ limitations under the License.
 <script>
   let counter;
   const pluginGenerator = () => {
-    return {
+    const plugin = {
       id: `test${++counter}`,
-      index_url: `plugins/test${counter}/`,
       version: '3.0-SNAPSHOT',
       disabled: false,
     };
+
+    if (counter !== 2) {
+      plugin.index_url = `plugins/test${counter}/`;
+    }
+    return plugin;
   };
 
   suite('gr-plugin-list tests', () => {
@@ -78,6 +82,17 @@ limitations under the License.
           assert.equal(element._plugins[2].index_url, 'plugins/test3/');
           assert.equal(element._plugins[2].version, '3.0-SNAPSHOT');
           assert.equal(element._plugins[2].disabled, false);
+          done();
+        });
+      });
+
+      test('with and without urls', done => {
+        flush(() => {
+          const names = Polymer.dom(element.root).querySelectorAll('.name');
+          assert.isOk(names[1].querySelector('a'));
+          assert.equal(names[1].querySelector('a').innerText, 'test1');
+          assert.isNotOk(names[2].querySelector('a'));
+          assert.equal(names[2].innerText, 'test2');
           done();
         });
       });

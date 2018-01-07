@@ -117,30 +117,30 @@
         if (linkCopy.name === 'Repositories' && this._repoName) {
           linkCopy.subsection = {
             name: this._repoName,
-            view: Gerrit.Nav.View.REPO,
+            view: 'gr-repo',
             noBaseUrl: true,
             url: Gerrit.Nav.getUrlForRepo(this._repoName),
             children: [{
               name: 'Access',
-              view: Gerrit.Nav.View.REPO,
+              view: 'gr-repo-access',
               detailType: Gerrit.Nav.RepoDetailView.ACCESS,
               url: Gerrit.Nav.getUrlForRepoAccess(this._repoName),
             },
             {
               name: 'Commands',
-              view: Gerrit.Nav.View.REPO,
+              view: 'gr-repo-commands',
               detailType: Gerrit.Nav.RepoDetailView.COMMANDS,
               url: Gerrit.Nav.getUrlForRepoCommands(this._repoName),
             },
             {
               name: 'Branches',
-              view: Gerrit.Nav.View.REPO,
+              view: 'gr-repo-detail-list',
               detailType: Gerrit.Nav.RepoDetailView.BRANCHES,
               url: Gerrit.Nav.getUrlForRepoBranches(this._repoName),
             },
             {
               name: 'Tags',
-              view: Gerrit.Nav.View.REPO,
+              view: 'gr-repo-detail-list',
               detailType: Gerrit.Nav.RepoDetailView.TAGS,
               url: Gerrit.Nav.getUrlForRepoTags(this._repoName),
             }],

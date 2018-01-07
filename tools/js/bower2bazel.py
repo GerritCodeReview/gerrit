@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 # Copyright (C) 2015 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +15,7 @@
 
 """Suggested call sequence:
 
-python tools/js/bower2bazel.py -w lib/js/bower_archives.bzl -b lib/js/bower_components.bzl
+python2 tools/js/bower2bazel.py -w lib/js/bower_archives.bzl -b lib/js/bower_components.bzl
 """
 
 from __future__ import print_function
@@ -121,7 +121,7 @@ def bower_command(args):
   exp = os.path.join(base, "external", "bower", "*npm_binary.tgz")
   fs = sorted(glob.glob(exp))
   assert len(fs) == 1, "bower tarball not found or have multiple versions %s" % fs
-  return ["python", os.getcwd() + "/tools/js/run_npm_binary.py", sorted(fs)[0]] + args
+  return ["python2", os.getcwd() + "/tools/js/run_npm_binary.py", sorted(fs)[0]] + args
 
 
 def main(args):

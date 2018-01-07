@@ -25,7 +25,7 @@ def _npm_binary_impl(ctx):
   else:
     fail('repository %s not in {%s,%s}' % (repository, GERRIT, NPMJS))
 
-  python = ctx.which("python")
+  python = ctx.which("python2")
   script = ctx.path(ctx.attr._download_script)
 
   args = [python, script, "-o", dest, "-u", url, "-v", sha1]
@@ -46,7 +46,7 @@ npm_binary = repository_rule(
 
 # for use in repo rules.
 def _run_npm_binary_str(ctx, tarball, args):
-  python_bin = ctx.which("python")
+  python_bin = ctx.which("python2")
   return " ".join([
     python_bin,
     ctx.path(ctx.attr._run_npm),
@@ -59,7 +59,7 @@ def _bower_archive(ctx):
   version_name = '%s__version.json' % ctx.name
 
   cmd = [
-      ctx.which("python"),
+      ctx.which("python2"),
       ctx.path(ctx.attr._download_bower),
       '-b', '%s' % _run_npm_binary_str(ctx, ctx.attr._bower_archive, []),
       '-n', ctx.name,
@@ -283,7 +283,7 @@ def _vulcanize_impl(ctx):
   zips =  [z for d in ctx.attr.deps for z in d.transitive_zipfiles ]
 
   hermetic_npm_binary = " ".join([
-    'python',
+    'python2',
     "$p/" + ctx.file._run_npm.path,
     "$p/" + ctx.file._vulcanize_archive.path,
     '--inline-scripts',
@@ -325,7 +325,7 @@ def _vulcanize_impl(ctx):
 
   if ctx.attr.split:
     hermetic_npm_command = "export PATH && " + " ".join([
-      'python',
+      'python2',
       ctx.file._run_npm.path,
       ctx.file._crisper_archive.path,
       "--always-write-script",

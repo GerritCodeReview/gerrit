@@ -162,7 +162,7 @@
       this.set('_showDiffView', view === Gerrit.Nav.View.DIFF);
       this.set('_showSettingsView', view === Gerrit.Nav.View.SETTINGS);
       this.set('_showAdminView', view === Gerrit.Nav.View.ADMIN ||
-          view === Gerrit.Nav.View.GROUP);
+          view === Gerrit.Nav.View.GROUP || view === Gerrit.Nav.View.REPO);
       this.set('_showCLAView', view === Gerrit.Nav.View.AGREEMENTS);
       this.set('_showEditorView', view === Gerrit.Nav.View.EDIT);
       const isPluginScreen = view === Gerrit.Nav.View.PLUGIN_SCREEN;

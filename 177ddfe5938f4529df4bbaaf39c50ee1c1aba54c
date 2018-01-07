@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "c8298585_0d061a50",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
+        "patchSetId": 137
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-07T00:30:31Z",
+      "side": 1,
+      "message": "Actually this needs to use two way binding i found otherwise it was showing the save button.",
+      "parentUuid": "4359157a_76398ac6",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 125
+      },
+      "revId": "177ddfe5938f4529df4bbaaf39c50ee1c1aba54c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f47bdc83_b972544d",
         "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
         "patchSetId": 137

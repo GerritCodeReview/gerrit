@@ -1014,27 +1014,24 @@
 
     _handleRepoCommandsRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-repo-commands',
-        detailType: 'commands',
+        view: Gerrit.Nav.View.REPO,
+        detail: Gerrit.Nav.RepoDetailView.COMMANDS,
         repo: data.params[0],
       });
     },
 
     _handleRepoAccessRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-repo-access',
-        detailType: 'access',
+        view: Gerrit.Nav.View.REPO,
+        detail: Gerrit.Nav.RepoDetailView.ACCESS,
         repo: data.params[0],
       });
     },
 
     _handleBranchListOffsetRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-repo-detail-list',
-        detailType: 'branches',
+        view: Gerrit.Nav.View.REPO,
+        detail: Gerrit.Nav.RepoDetailView.BRANCHES,
         repo: data.params[0],
         offset: data.params[2] || 0,
         filter: null,
@@ -1043,9 +1040,8 @@
 
     _handleBranchListFilterOffsetRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-repo-detail-list',
-        detailType: 'branches',
+        view: Gerrit.Nav.View.REPO,
+        detail: Gerrit.Nav.RepoDetailView.BRANCHES,
         repo: data.params.repo,
         offset: data.params.offset,
         filter: data.params.filter,
@@ -1054,9 +1050,8 @@
 
     _handleBranchListFilterRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-repo-detail-list',
-        detailType: 'branches',
+        view: Gerrit.Nav.View.REPO,
+        detail: Gerrit.Nav.RepoDetailView.BRANCHES,
         repo: data.params.repo,
         filter: data.params.filter || null,
       });
@@ -1064,9 +1059,8 @@
 
     _handleTagListOffsetRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-repo-detail-list',
-        detailType: 'tags',
+        view: Gerrit.Nav.View.REPO,
+        detail: Gerrit.Nav.RepoDetailView.TAGS,
         repo: data.params[0],
         offset: data.params[2] || 0,
         filter: null,
@@ -1075,9 +1069,8 @@
 
     _handleTagListFilterOffsetRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-repo-detail-list',
-        detailType: 'tags',
+        view: Gerrit.Nav.View.REPO,
+        detail: Gerrit.Nav.RepoDetailView.TAGS,
         repo: data.params.repo,
         offset: data.params.offset,
         filter: data.params.filter,
@@ -1086,9 +1079,8 @@
 
     _handleTagListFilterRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-repo-detail-list',
-        detailType: 'tags',
+        view: Gerrit.Nav.View.REPO,
+        detail: Gerrit.Nav.RepoDetailView.TAGS,
         repo: data.params.repo,
         filter: data.params.filter || null,
       });

@@ -22,6 +22,30 @@
       "revId": "70f04b619d7d3556d7a4b985d5f5e3e60643a06c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0077ee26_0a6a35b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2018-01-07T21:29:02Z",
+      "side": 1,
+      "message": "The build instruction says `bazel build release`. Does it work?",
+      "parentUuid": "6fbc6313_5596254e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "70f04b619d7d3556d7a4b985d5f5e3e60643a06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

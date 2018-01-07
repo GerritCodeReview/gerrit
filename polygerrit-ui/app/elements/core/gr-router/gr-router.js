@@ -1014,7 +1014,7 @@
 
     _handleRepoCommandsRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
+        view: Gerrit.Nav.View.REPO,
         adminView: 'gr-repo-commands',
         detailType: 'commands',
         repo: data.params[0],
@@ -1023,7 +1023,7 @@
 
     _handleRepoAccessRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
+        view: Gerrit.Nav.View.REPO,
         adminView: 'gr-repo-access',
         detailType: 'access',
         repo: data.params[0],
@@ -1032,7 +1032,7 @@
 
     _handleBranchListOffsetRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
+        view: Gerrit.Nav.View.REPO,
         adminView: 'gr-repo-detail-list',
         detailType: 'branches',
         repo: data.params[0],
@@ -1043,7 +1043,7 @@
 
     _handleBranchListFilterOffsetRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
+        view: Gerrit.Nav.View.REPO,
         adminView: 'gr-repo-detail-list',
         detailType: 'branches',
         repo: data.params.repo,
@@ -1054,7 +1054,7 @@
 
     _handleBranchListFilterRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
+        view: Gerrit.Nav.View.REPO,
         adminView: 'gr-repo-detail-list',
         detailType: 'branches',
         repo: data.params.repo,
@@ -1064,7 +1064,7 @@
 
     _handleTagListOffsetRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
+        view: Gerrit.Nav.View.REPO,
         adminView: 'gr-repo-detail-list',
         detailType: 'tags',
         repo: data.params[0],
@@ -1075,7 +1075,7 @@
 
     _handleTagListFilterOffsetRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
+        view: Gerrit.Nav.View.REPO,
         adminView: 'gr-repo-detail-list',
         detailType: 'tags',
         repo: data.params.repo,
@@ -1086,7 +1086,7 @@
 
     _handleTagListFilterRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
+        view: Gerrit.Nav.View.REPO,
         adminView: 'gr-repo-detail-list',
         detailType: 'tags',
         repo: data.params.repo,

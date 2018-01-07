@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 # Copyright (C) 2013 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +18,7 @@ from util import resolve_url
 
 class TestResolveUrl(unittest.TestCase):
   """ run to test:
-    python -m unittest -v util_test
+    python2 -m unittest -v util_test
   """
 
   def testKnown(self):

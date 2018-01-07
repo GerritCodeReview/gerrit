@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "eb934a09_33fbf71c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
+        "patchSetId": 137
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-07T00:29:40Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "203ae5b7_21dd8963",
+      "range": {
+        "startLine": 89,
+        "startChar": 40,
+        "endLine": 89,
+        "endChar": 55
+      },
+      "revId": "177ddfe5938f4529df4bbaaf39c50ee1c1aba54c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d508473_6befb897",
         "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
         "patchSetId": 137
@@ -36,6 +60,30 @@
       "writtenOn": "2018-01-03T00:27:30Z",
       "side": 1,
       "message": "I don\u0027t think we should use two way data binding here.  Regular input should suffice. You can still access the value property of a native input to get the value/reset.",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 125
+      },
+      "revId": "177ddfe5938f4529df4bbaaf39c50ee1c1aba54c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4359157a_76398ac6",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
+        "patchSetId": 137
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-07T00:29:40Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4d508473_6befb897",
       "range": {
         "startLine": 97,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "1cbc4995_58e9aac2",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
+        "patchSetId": 137
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-07T00:29:40Z",
+      "side": 1,
+      "message": "I doint think this will show if you have one that links just to the html file (ie you do it externally instead of if you have it locally on the gerrit instance).\n\nThis way is what GWTUI does or at least how i had to do it when i did a cla thing for google when using gerrit-review.",
+      "parentUuid": "f47bdc83_b972544d",
+      "range": {
+        "startLine": 95,
+        "startChar": 8,
+        "endLine": 101,
+        "endChar": 14
+      },
+      "revId": "177ddfe5938f4529df4bbaaf39c50ee1c1aba54c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "378fca78_919deced",
         "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
         "patchSetId": 137
@@ -82,6 +154,30 @@
       "writtenOn": "2018-01-03T00:27:30Z",
       "side": 1,
       "message": "It would be nice to have another notification to show \u0027Agreements are Saving\u0027 prior to the success/failure message.",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 39
+      },
+      "revId": "177ddfe5938f4529df4bbaaf39c50ee1c1aba54c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03d75589_322b29a4",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
+        "patchSetId": 137
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-07T00:29:40Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "378fca78_919deced",
       "range": {
         "startLine": 78,
         "startChar": 6,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "2c9b5fc3_3e0eeae3",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
+        "patchSetId": 137
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-07T00:29:40Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a5dfb9ff_bba66f55",
+      "range": {
+        "startLine": 80,
+        "startChar": 8,
+        "endLine": 80,
+        "endChar": 20
+      },
+      "revId": "177ddfe5938f4529df4bbaaf39c50ee1c1aba54c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a311a7f0_44e32feb",
         "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
         "patchSetId": 137
@@ -128,6 +248,30 @@
       "writtenOn": "2018-01-03T00:27:30Z",
       "side": 1,
       "message": "can be removed",
+      "range": {
+        "startLine": 83,
+        "startChar": 10,
+        "endLine": 85,
+        "endChar": 9
+      },
+      "revId": "177ddfe5938f4529df4bbaaf39c50ee1c1aba54c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0df288a1_a4d65b30",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
+        "patchSetId": 137
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-07T00:29:40Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a311a7f0_44e32feb",
       "range": {
         "startLine": 83,
         "startChar": 10,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "cb6a1b79_77f0e0f3",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
+        "patchSetId": 137
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-07T00:29:40Z",
+      "side": 1,
+      "message": "Oh i see.\n\nYeh",
+      "parentUuid": "6effc423_da547f82",
+      "range": {
+        "startLine": 86,
+        "startChar": 8,
+        "endLine": 90,
+        "endChar": 36
+      },
+      "revId": "177ddfe5938f4529df4bbaaf39c50ee1c1aba54c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "28614c3e_8e9da8a7",
         "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
         "patchSetId": 137
@@ -174,6 +342,30 @@
       "writtenOn": "2018-01-03T00:27:30Z",
       "side": 1,
       "message": "return this._disableAggreements(item, groups) ? \u0027\u0027 : \u0027agreementsSubmitted\u0027;",
+      "range": {
+        "startLine": 117,
+        "startChar": 6,
+        "endLine": 121,
+        "endChar": 7
+      },
+      "revId": "177ddfe5938f4529df4bbaaf39c50ee1c1aba54c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e239bb29_09e1290b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
+        "patchSetId": 137
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-07T00:29:40Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "28614c3e_8e9da8a7",
       "range": {
         "startLine": 117,
         "startChar": 6,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "65b62429_c3e268ee",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
+        "patchSetId": 137
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-07T00:29:40Z",
+      "side": 1,
+      "message": "Thanks, done.\n\nThough i need to make this return false or true so i used ternery expression.",
+      "parentUuid": "e05400bc_a1297ce3",
+      "range": {
+        "startLine": 125,
+        "startChar": 6,
+        "endLine": 129,
+        "endChar": 18
+      },
+      "revId": "177ddfe5938f4529df4bbaaf39c50ee1c1aba54c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e01dfb9f_9dddc781",
         "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
         "patchSetId": 137
@@ -229,6 +445,30 @@
       "revId": "177ddfe5938f4529df4bbaaf39c50ee1c1aba54c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6985ae7e_6affc3d0",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
+        "patchSetId": 137
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-07T00:29:40Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e01dfb9f_9dddc781",
+      "range": {
+        "startLine": 138,
+        "startChar": 27,
+        "endLine": 138,
+        "endChar": 38
+      },
+      "revId": "177ddfe5938f4529df4bbaaf39c50ee1c1aba54c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -255,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "506a2f81_f0b8190c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 137
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-07T00:29:40Z",
+      "side": 1,
+      "message": "Because we need to always have a current update on /config/server/info otherwise it will not refresh after pressing enter aftter typing I AGREE.\n\nso when i was calling this.loadData() after saving it was using the cache, which would then still show that we didnt agree to one of the listed agreements when we have.",
+      "parentUuid": "5b958276_d8c0f8d9",
+      "range": {
+        "startLine": 234,
+        "startChar": 5,
+        "endLine": 236,
+        "endChar": 7
+      },
+      "revId": "177ddfe5938f4529df4bbaaf39c50ee1c1aba54c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "81f595c8_13b0ece7",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 137
@@ -266,6 +530,30 @@
       "writtenOn": "2018-01-03T00:27:30Z",
       "side": 1,
       "message": "Same question here.. \n\nMaybe we should not fetch a cached version of this ever.\nalso, I think we should just fetchJSON",
+      "range": {
+        "startLine": 643,
+        "startChar": 5,
+        "endLine": 648,
+        "endChar": 62
+      },
+      "revId": "177ddfe5938f4529df4bbaaf39c50ee1c1aba54c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56c890b3_1c5813ce",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 137
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-07T00:29:40Z",
+      "side": 1,
+      "message": "Yeh, i can move this to fetchJSON and not cache this.\n\nThanks, done.",
+      "parentUuid": "81f595c8_13b0ece7",
       "range": {
         "startLine": 643,
         "startChar": 5,

@@ -96,6 +96,30 @@
       "revId": "aab878ad4db436c84d4402df6e21f8978f287697",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0fdb73e_90269b57",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-08T14:27:09Z",
+      "side": 1,
+      "message": "Ah now I see, enforceVisibility is set to false in the constructor of InternalQuery. Missed that.",
+      "parentUuid": "cec1fec9_b186b4da",
+      "range": {
+        "startLine": 302,
+        "startChar": 32,
+        "endLine": 302,
+        "endChar": 56
+      },
+      "revId": "aab878ad4db436c84d4402df6e21f8978f287697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

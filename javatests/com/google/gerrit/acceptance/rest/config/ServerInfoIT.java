@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.client.AuthType;
@@ -32,6 +33,7 @@ import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import org.junit.Test;
 
 @NoHttpd
+@UseSsh
 public class ServerInfoIT extends AbstractDaemonTest {
   private static final byte[] JS_PLUGIN_CONTENT =
       "Gerrit.install(function(self){});\n".getBytes(UTF_8);

@@ -348,6 +348,11 @@ public abstract class AbstractDaemonTest {
     GerritServer.Description methodDesc =
         GerritServer.Description.forTestMethod(description, configName);
 
+    testRequiresSsh = classDesc.useSshAnnotation() || methodDesc.useSshAnnotation();
+    if (!testRequiresSsh) {
+      baseConfig.setString("sshd", null, "listenAddress", "off");
+    }
+
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
     if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
       if (commonServer == null) {
@@ -388,7 +393,6 @@ public abstract class AbstractDaemonTest {
     adminRestSession = new RestSession(server, admin);
     userRestSession = new RestSession(server, user);
 
-    testRequiresSsh = classDesc.useSshAnnotation() || methodDesc.useSshAnnotation();
     if (testRequiresSsh
         && SshMode.useSsh()
         && (adminSshSession == null || userSshSession == null)) {

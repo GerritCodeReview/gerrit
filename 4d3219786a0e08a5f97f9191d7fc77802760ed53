@@ -22,6 +22,30 @@
       "revId": "4d3219786a0e08a5f97f9191d7fc77802760ed53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11ffbe2f_4d3ef62a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1035,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-08T18:08:20Z",
+      "side": 1,
+      "message": "this isen\u0027t use by router but is used by gr-repo-detail-list (and the create branch and tags file).",
+      "parentUuid": "568644e0_8ce920b2",
+      "range": {
+        "startLine": 1035,
+        "startChar": 8,
+        "endLine": 1035,
+        "endChar": 31
+      },
+      "revId": "4d3219786a0e08a5f97f9191d7fc77802760ed53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

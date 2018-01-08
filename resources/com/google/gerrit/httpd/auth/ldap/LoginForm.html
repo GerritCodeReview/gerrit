@@ -21,7 +21,7 @@
     <div id="gerrit_body" class="gerritBody">
       <h1>Sign In to Gerrit Code Review at <span id="hostName">example.com</span></h1>
       <div id="error_message">Invalid username or password.</div>
-      <form method="POST" action="#" id="login_form">
+      <form method="POST" action="#" id="login_form" onsubmit="return shouldSubmit()">
         <table style="border: 0;">
         <tr>
           <th>Username</th>
@@ -50,7 +50,7 @@
         <tr>
           <td></td>
           <td>
-            <input type="submit" value="Sign In" tabindex="4"/>
+            <input id="b_signin" type="submit" value="Sign In" tabindex="4"/>
             <a href="../" id="cancel_link">Cancel</a>
           </td>
         </tr>
@@ -62,6 +62,17 @@
     </div>
 
     <script type="text/javascript">
+    <![CDATA[
+      var submitted = false;
+      function shouldSubmit() {
+        if(!submitted) {
+          submitted = true;
+          document.getElementById('b_signin').disabled=true;
+          return true;
+        }
+        return false;
+      }
+
       var login_form = document.getElementById('login_form');
       var f_user = document.getElementById('f_user');
       var f_pass = document.getElementById('f_pass');
@@ -75,12 +86,13 @@
         }
       }
       f_pass.onkeyup = function(e) {
-        if (e.keyCode == 13) {
+        if (e.keyCode == 13 && shouldSubmit()) {
           login_form.submit();
           return false;
         }
       }
       f_user.focus();
+    ]]>
     </script>
   </body>
 </html>

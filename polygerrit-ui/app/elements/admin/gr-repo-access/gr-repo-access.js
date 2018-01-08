@@ -97,52 +97,6 @@
       'access-modified': '_handleAccessModified',
     },
 
-    /**
-     * Gets an array of gr-acces-section Polymer elements.
-     *
-     * @return {!Array}
-     */
-    _getSections() {
-      return Polymer.dom(this.root).querySelectorAll('gr-access-section');
-    },
-
-    /**
-     * Gets an array of the gr-permission polymer elements for a particular
-     * access section.
-     *
-     * @param {!Object} section
-     * @return {!Array}
-     */
-    _getPermissionsForSection(section) {
-      return Polymer.dom(section.root).querySelectorAll('gr-permission');
-    },
-
-    /**
-     * Gets an array of the gr-rule-editor polymer elements for a particular
-     * permission (within a section).
-     *
-     * @param {!Object} permission
-     * @return {!Array}
-     */
-    _getRulesForPermission(permission) {
-      return Polymer.dom(permission.root).querySelectorAll('gr-rule-editor');
-    },
-
-    /**
-     * Gets an array of all rules for the entire project access.
-     *
-     * @return {!Array}
-     */
-    _getAllRules() {
-      let rules = [];
-      for (const section of this._getSections()) {
-        for (const permission of this._getPermissionsForSection(section)) {
-          rules = rules.concat(this._getRulesForPermission(permission));
-        }
-      }
-      return rules;
-    },
-
     _handleAccessModified() {
       this._modified = true;
     },
@@ -191,36 +145,47 @@
     },
 
     /**
-     * Returns whether or not a given permission exists in the remove object
-     *
-     * @param {!Object} remove
-     * @param {string} sectionId
-     * @param {string} permissionId
-     * @return {boolean}
-     */
-    _permissionInRemove(remove, sectionId, permissionId) {
-      return !!(remove[sectionId] &&
-          remove[sectionId].permissions[permissionId]);
-    },
-
-    /**
-     * Returns a projectAccessInput object that contains new permission Objects
-     * for a given permission in a section.
-     *
      * @param {!Defs.projectAccessInput} addRemoveObj
-     * @param {string} sectionId
-     * @param {string} permissionId
-     *
+     * @param {!Array} path
+     * @param {string} type add or remove
+     * @param {!Object=} opt_value value to add if the type is 'add'
      * @return {!Defs.projectAccessInput}
      */
-    _generatePermissionObject(addRemoveObj, sectionId, permissionId) {
-      const permissionObjAdd = {};
-      const permissionObjRemove = {};
-      permissionObjAdd[permissionId] = {rules: {}};
-      permissionObjRemove[permissionId] = {rules: {}};
-      addRemoveObj.add[sectionId] = {permissions: permissionObjAdd};
-      addRemoveObj.remove[sectionId] = {permissions: permissionObjRemove};
+    _updateAddRemoveObj(addRemoveObj, path, type, opt_value) {
+      let curPos = addRemoveObj[type];
+      for (const item of path) {
+        if (!curPos[item]) {
+          if (item === path[path.length - 1] && type === 'remove') {
+            curPos[item] = null;
+          } else if (item === path[path.length - 1] && type === 'add') {
+            curPos[item] = opt_value;
+          } else {
+            curPos[item] = {};
+          }
+        }
+        curPos = curPos[item];
+      }
       return addRemoveObj;
+    },
+
+    _recursivelyUpdateAddRemoveObj(obj, addRemoveObj, path = []) {
+      for (const k in obj) {
+        if (!obj.hasOwnProperty(k)) { return; }
+        if (typeof obj[k] == 'object') {
+          if (obj[k].deleted) {
+            this._updateAddRemoveObj(addRemoveObj,
+                path.concat(k), 'remove');
+            continue;
+          } else if (obj[k].modified) {
+            this._updateAddRemoveObj(addRemoveObj,
+                path.concat(k), 'remove');
+            this._updateAddRemoveObj(addRemoveObj,
+                path.concat(k), 'add', obj[k]);
+          }
+          this._recursivelyUpdateAddRemoveObj(obj[k], addRemoveObj,
+              path.concat(k));
+        }
+      }
     },
 
     /**
@@ -230,46 +195,12 @@
      * @return {!Defs.projectAccessInput}
      */
     _computeAddAndRemove() {
-      let addRemoveObj = {
+      const addRemoveObj = {
         add: {},
         remove: {},
       };
-      const sections = this._getSections();
-      for (const section of sections) {
-        const sectionId = section.section.id;
-        const permissions = this._getPermissionsForSection(section);
-        for (const permission of permissions) {
-          const permissionId = permission.permission.id;
-          const rules = this._getRulesForPermission(permission);
-          for (const rule of rules) {
-            // Find all rules that are changed. In the event that it has been
-            // modified.
-            if (!rule.modified && !rule.deleted) { continue; }
-            const ruleId = rule.rule.id;
-            const ruleValue = rule.rule.value;
 
-            // If the rule's parent permission has already been added to the
-            // remove object (don't need to check add, as they are always
-            // done to both at the same time). If it doesn't exist yet, it needs
-            // to be created.
-            if (!this._permissionInRemove(addRemoveObj.remove, sectionId,
-                permissionId)) {
-              addRemoveObj = this._generatePermissionObject(addRemoveObj,
-                  sectionId, permissionId);
-            }
-
-            // Remove the rule with a value of null
-            addRemoveObj.remove[sectionId].permissions[permissionId]
-                .rules[ruleId] = null;
-            // Add the rule with a value of the updated rule value, unless the
-            // rule has been removed.
-            if (!rule.deleted) {
-              addRemoveObj.add[sectionId].permissions[permissionId]
-                .rules[ruleId] = ruleValue;
-            }
-          }
-        }
-      }
+      this._recursivelyUpdateAddRemoveObj(this._local, addRemoveObj);
       return addRemoveObj;
     },
 

@@ -22,6 +22,7 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -388,6 +389,7 @@ public class FromAddressGeneratorProviderTest {
         new AllUsersName(AllUsersNameProvider.DEFAULT),
         account,
         Collections.emptySet(),
-        new HashMap<>());
+        new HashMap<>(),
+        GeneralPreferencesInfo.defaults());
   }
 }

@@ -50,6 +50,6 @@ public class GetPreferences implements RestReadView<AccountResource> {
     }
 
     Account.Id id = rsrc.getUser().getAccountId();
-    return accountCache.get(id).getAccount().getGeneralPreferencesInfo();
+    return accountCache.get(id).getGeneralPreferences();
   }
 }

@@ -100,5 +100,6 @@ public class Module extends RestApiModule {
     put(PROJECT_KIND, "config").to(PutConfig.class);
 
     factory(DeleteRef.Factory.class);
+    factory(ProjectNode.Factory.class);
   }
 }

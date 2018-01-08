@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.project;
+package com.google.gerrit.server.restapi.project;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -23,8 +23,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /** Node of a Project in a tree formatted by {@link ListProjects}. */
-public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
-  public interface Factory {
+class ProjectNode implements TreeNode, Comparable<ProjectNode> {
+  interface Factory {
     ProjectNode create(Project project, boolean isVisible);
   }
 
@@ -49,15 +49,15 @@ public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
    *
    * @return Project parent name, {@code null} for the 'All-Projects' root project
    */
-  public Project.NameKey getParentName() {
+  Project.NameKey getParentName() {
     return project.getParent(allProjectsName);
   }
 
-  public boolean isAllProjects() {
+  boolean isAllProjects() {
     return allProjectsName.equals(project.getNameKey());
   }
 
-  public Project getProject() {
+  Project getProject() {
     return project;
   }
 
@@ -76,7 +76,7 @@ public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
     return children;
   }
 
-  public void addChild(ProjectNode child) {
+  void addChild(ProjectNode child) {
     children.add(child);
   }
 

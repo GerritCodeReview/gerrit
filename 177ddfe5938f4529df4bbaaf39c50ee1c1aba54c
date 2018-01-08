@@ -215,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "149cae32_9774d5e8",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
+        "patchSetId": 137
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-08T17:59:41Z",
+      "side": 1,
+      "message": "My config is:\n\n[contributor-agreement \"Individual\"]\n        description \u003d If you are going to be contributing code on your own, this is the one you want. You can sign this one online.\n        agreementUrl \u003d static/cla_individual.html",
+      "parentUuid": "0c3e4004_c739fe9f",
+      "range": {
+        "startLine": 95,
+        "startChar": 8,
+        "endLine": 101,
+        "endChar": 14
+      },
+      "revId": "177ddfe5938f4529df4bbaaf39c50ee1c1aba54c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "378fca78_919deced",
         "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
         "patchSetId": 137

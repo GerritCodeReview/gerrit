@@ -18,12 +18,11 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.account.WatchConfig.NotifyType;
-import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
@@ -32,7 +31,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -49,23 +47,25 @@ public class Accounts {
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
+  private final ExternalIds externalIds;
 
   @Inject
-  Accounts(GitRepositoryManager repoManager, AllUsersName allUsersName) {
+  Accounts(GitRepositoryManager repoManager, AllUsersName allUsersName, ExternalIds externalIds) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
+    this.externalIds = externalIds;
   }
 
   @Nullable
-  public Account get(Account.Id accountId) throws IOException, ConfigInvalidException {
+  public AccountState get(Account.Id accountId) throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       return read(repo, accountId).orElse(null);
     }
   }
 
-  public List<Account> get(Collection<Account.Id> accountIds)
+  public List<AccountState> get(Collection<Account.Id> accountIds)
       throws IOException, ConfigInvalidException {
-    List<Account> accounts = new ArrayList<>(accountIds.size());
+    List<AccountState> accounts = new ArrayList<>(accountIds.size());
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       for (Account.Id accountId : accountIds) {
         read(repo, accountId).ifPresent(accounts::add);
@@ -79,9 +79,9 @@ public class Accounts {
    *
    * @return all accounts
    */
-  public List<Account> all() throws IOException {
+  public List<AccountState> all() throws IOException {
     Set<Account.Id> accountIds = allIds();
-    List<Account> accounts = new ArrayList<>(accountIds.size());
+    List<AccountState> accounts = new ArrayList<>(accountIds.size());
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       for (Account.Id accountId : accountIds) {
         try {
@@ -128,29 +128,28 @@ public class Accounts {
     return readUserRefs(repo).findAny().isPresent();
   }
 
-  public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches(Account.Id accountId)
-      throws IOException, ConfigInvalidException {
-    try (Repository repo = repoManager.openRepository(allUsersName)) {
-      return new AccountConfig(accountId, repo).load().getProjectWatches();
-    }
-  }
-
-  public GeneralPreferencesInfo getGeneralPreferences(Account.Id accountId)
-      throws IOException, ConfigInvalidException {
-    try (Repository repo = repoManager.openRepository(allUsersName)) {
-      return new AccountConfig(accountId, repo).load().getGeneralPreferences();
-    }
-  }
-
   private Stream<Account.Id> readUserRefs() throws IOException {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       return readUserRefs(repo);
     }
   }
 
-  private Optional<Account> read(Repository allUsersRepository, Account.Id accountId)
+  private Optional<AccountState> read(Repository allUsersRepository, Account.Id accountId)
       throws IOException, ConfigInvalidException {
-    return new AccountConfig(accountId, allUsersRepository).load().getLoadedAccount();
+    AccountConfig accountConfig = new AccountConfig(accountId, allUsersRepository).load();
+    if (!accountConfig.getLoadedAccount().isPresent()) {
+      return Optional.empty();
+    }
+    Account account = accountConfig.getLoadedAccount().get();
+    account.setGeneralPreferences(accountConfig.getGeneralPreferences());
+    return Optional.of(
+        new AccountState(
+            allUsersName,
+            account,
+            accountConfig.getExternalIdsRev().isPresent()
+                ? externalIds.byAccount(accountId, accountConfig.getExternalIdsRev().get())
+                : ImmutableSet.of(),
+            accountConfig.getProjectWatches()));
   }
 
   public static Stream<Account.Id> readUserRefs(Repository repo) throws IOException {

@@ -1005,7 +1005,7 @@ Project owners can edit the project configuration by fetching the
 pushing the commit back.
 
 Plugin configuration values that are stored in the `project.config`
-file can be exposed in the ProjectInfoScreen to allow project owners
+file can be exposed in the RepositoryInfoScreen to allow repository owners
 to see and edit them from the UI.
 
 For this an instance of `ProjectConfigEntry` needs to be bound for each

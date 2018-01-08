@@ -73,7 +73,7 @@ public class InitSshd implements InitStep {
     remover.remove("bc(pg|pkix|prov)-.*[.]jar");
   }
 
-  public static boolean isOff(String listenHostname) {
+  static boolean isOff(String listenHostname) {
     return "off".equalsIgnoreCase(listenHostname)
         || "none".equalsIgnoreCase(listenHostname)
         || "no".equalsIgnoreCase(listenHostname);

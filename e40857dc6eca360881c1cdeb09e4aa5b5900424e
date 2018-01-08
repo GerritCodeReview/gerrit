@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1515432389 +0100\nnonce AGjzz3/Od1Czgnzd3gGlLKkdCz+SIv75juQT6O5a3/IR91OEbNt3pm6i0GqX9u4CvoDf11ZvghZG\n\n0000000000000000000000000000000000000000 7db1f8d6e512d90825f04aad290f44c23fb34713 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaU6nFAAoJEFG1/Zeg0O9RWskH/3L19HkGwqKW027N2wzBsQCz\nV9se9KdZraab1reL9kyR8/vQQvXFP6ihdW5CmI40haZPxuJldV3tR8Q/DpyDc2/m\nUvhguHtvd0fmef6VHa4nMkbwz+67242luA+4j7I1Ofrjow9HDqnqHPmHmZ6hqvBS\nFpdH/R+Y+NtHrZpyHqiQyn039RFhAbMWa60YSaQKhpPOHDCgYUZo01xPQMz+l0Ww\nZhBkgi4EBaSWqGXJ/+bphsrhefTgV6MNx0HG5+/r2to3+ptyOIglGT2ygt4T5zyK\nvKKo7wSyJqoJaplAU7a4KqPLjIdM7ZApCC+dDTjTQpzpg3XzCFhXehbu620X/cQ\u003d\n\u003dczoG\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "598aa251_60a71ad8",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-08T17:40:26Z",
+      "side": 1,
+      "message": "Needs to be\n\ncom.google.gerrit.server.restapi.account.PutUsername;",
+      "range": {
+        "startLine": 44,
+        "startChar": 7,
+        "endLine": 44,
+        "endChar": 59
+      },
+      "revId": "e40857dc6eca360881c1cdeb09e4aa5b5900424e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

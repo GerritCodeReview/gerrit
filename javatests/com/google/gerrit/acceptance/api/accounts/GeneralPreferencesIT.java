@@ -31,12 +31,8 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo.ReviewCategory
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
 import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.reviewdb.client.RefNames;
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,20 +44,6 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     String name = name("user42");
     user42 = accountCreator.create(name, name + "@example.com", "User 42");
-  }
-
-  @After
-  public void cleanUp() throws Exception {
-    gApi.accounts().id(user42.getId().toString()).setPreferences(GeneralPreferencesInfo.defaults());
-
-    try (Repository git = repoManager.openRepository(allUsers)) {
-      if (git.exactRef(RefNames.REFS_USERS_DEFAULT) != null) {
-        RefUpdate u = git.updateRef(RefNames.REFS_USERS_DEFAULT);
-        u.setForceUpdate(true);
-        assertThat(u.delete()).isEqualTo(RefUpdate.Result.FORCED);
-      }
-    }
-    accountCache.evictAllNoReindex();
   }
 
   @Test

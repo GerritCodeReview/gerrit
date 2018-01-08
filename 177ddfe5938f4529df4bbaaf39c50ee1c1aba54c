@@ -263,6 +263,30 @@
     },
     {
       "key": {
+        "uuid": "432bc315_324914f4",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
+        "patchSetId": 137
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-08T23:31:43Z",
+      "side": 1,
+      "message": "This is how GWTUI does it too. Switch to GWTUI to see it.",
+      "parentUuid": "4f3d9ef7_bdcb1567",
+      "range": {
+        "startLine": 95,
+        "startChar": 8,
+        "endLine": 101,
+        "endChar": 14
+      },
+      "revId": "177ddfe5938f4529df4bbaaf39c50ee1c1aba54c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "378fca78_919deced",
         "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
         "patchSetId": 137

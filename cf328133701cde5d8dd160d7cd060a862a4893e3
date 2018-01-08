@@ -71,6 +71,24 @@
       "revId": "cf328133701cde5d8dd160d7cd060a862a4893e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbb21c88_cbba72f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-08T20:00:50Z",
+      "side": 1,
+      "message": "\u003e IIRC I created the core plugins project when I was trying to make them all inherit some setting that turned out to be not inheritable, so abandoned the idea.\n\nCurious what setting. It wasn\u0027t submit type, was it? https://gerrit-review.googlesource.com/c/gerrit/+/135830 :)\n\n\u003e [projects:plugins/] would work, but limiting to the core plugins may be nicer.\n\nThanks for the opinion.",
+      "parentUuid": "8d85c8cf_ecee5464",
+      "revId": "cf328133701cde5d8dd160d7cd060a862a4893e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

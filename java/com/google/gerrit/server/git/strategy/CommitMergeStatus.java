@@ -60,7 +60,12 @@ public enum CommitMergeStatus {
   NOT_FAST_FORWARD(
       "Project policy requires all submissions to be a fast-forward.\n"
           + "\n"
-          + "Please rebase the change locally and upload again for review.");
+          + "Please rebase the change locally and upload again for review."),
+
+  EMPTY_COMMIT(
+      "Change could not be merged because the commit is empty.\n"
+          + "\n"
+          + "Project policy requires all commits to contain modifications to at least one file.");
 
   private final String message;
 

@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.git.strategy;
 
+import static com.google.gerrit.server.git.strategy.CommitMergeStatus.EMPTY_COMMIT;
+
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.update.RepoContext;
@@ -25,6 +28,12 @@ class FastForwardOp extends SubmitStrategyOp {
 
   @Override
   protected void updateRepoImpl(RepoContext ctx) throws IntegrationException {
+    if (args.project.is(BooleanProjectConfig.REJECT_EMPTY_COMMIT)
+        && toMerge.getTree().equals(toMerge.getParent(0).getTree())) {
+      toMerge.setStatusCode(EMPTY_COMMIT);
+      return;
+    }
+
     args.mergeTip.moveTipTo(toMerge, toMerge);
   }
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git.strategy;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.git.strategy.CommitMergeStatus.EMPTY_COMMIT;
 import static com.google.gerrit.server.git.strategy.CommitMergeStatus.SKIPPED_IDENTICAL_TREE;
 
 import com.google.common.collect.ImmutableList;
@@ -124,6 +125,12 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
       if (args.mergeUtil.canFastForward(
           args.mergeSorter, args.mergeTip.getCurrentTip(), args.rw, toMerge)) {
         if (!rebaseAlways) {
+          if (args.project.is(BooleanProjectConfig.REJECT_EMPTY_COMMIT)
+              && toMerge.getTree().equals(toMerge.getParent(0).getTree())) {
+            toMerge.setStatusCode(EMPTY_COMMIT);
+            return;
+          }
+
           args.mergeTip.moveTipTo(amendGitlink(toMerge), toMerge);
           toMerge.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
           acceptMergeTip(args.mergeTip);
@@ -191,6 +198,11 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         }
         newCommit = args.rw.parseCommit(rebaseOp.getRebasedCommit());
         newPatchSetId = rebaseOp.getPatchSetId();
+      }
+      if (args.project.is(BooleanProjectConfig.REJECT_EMPTY_COMMIT)
+          && newCommit.getTree().equals(newCommit.getParent(0).getTree())) {
+        toMerge.setStatusCode(EMPTY_COMMIT);
+        return;
       }
       newCommit = amendGitlink(newCommit);
       newCommit.copyFrom(toMerge);

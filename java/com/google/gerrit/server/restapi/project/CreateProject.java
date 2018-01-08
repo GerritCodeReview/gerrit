@@ -197,6 +197,8 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
             input.createNewChangeForAllNotInTarget, InheritableBoolean.INHERIT);
     args.changeIdRequired =
         MoreObjects.firstNonNull(input.requireChangeId, InheritableBoolean.INHERIT);
+    args.rejectEmptyCommit =
+        MoreObjects.firstNonNull(input.rejectEmptyCommit, InheritableBoolean.INHERIT);
     try {
       args.maxObjectSizeLimit = ProjectConfig.validMaxObjectSizeLimit(input.maxObjectSizeLimit);
     } catch (ConfigInvalidException e) {
@@ -287,6 +289,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
           BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
           args.newChangeForAllNotInTarget);
       newProject.setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, args.changeIdRequired);
+      newProject.setBooleanConfig(BooleanProjectConfig.REJECT_EMPTY_COMMIT, args.rejectEmptyCommit);
       newProject.setMaxObjectSizeLimit(args.maxObjectSizeLimit);
       if (args.newParent != null) {
         newProject.setParentName(args.newParent);

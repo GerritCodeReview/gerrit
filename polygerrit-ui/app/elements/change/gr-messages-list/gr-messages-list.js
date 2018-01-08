@@ -175,12 +175,6 @@
       this.handleExpandCollapse(!this._expanded);
     },
 
-    _handleAutomatedMessageToggleTap(e) {
-      e.preventDefault();
-
-      this._hideAutomated = !this._hideAutomated;
-    },
-
     _handleScrollTo(e) {
       this.scrollToMessage(e.detail.message.id);
     },
@@ -197,10 +191,6 @@
 
     _computeExpandCollapseMessage(expanded) {
       return expanded ? 'Collapse all' : 'Expand all';
-    },
-
-    _computeAutomatedToggleText(hideAutomated) {
-      return hideAutomated ? 'Show all messages' : 'Show comments only';
     },
 
     /**

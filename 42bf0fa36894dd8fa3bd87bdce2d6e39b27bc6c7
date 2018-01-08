@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a8a6da22_bfedc5de",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-08T20:10:04Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e721fbdf_2e350d65",
+      "revId": "42bf0fa36894dd8fa3bd87bdce2d6e39b27bc6c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ec8e1f13_ef6f9d5a",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "ed1a9568_191d2b5d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-08T20:10:04Z",
+      "side": 1,
+      "message": "Nope this is not duplicate if you compare lines 630-643 and 661-676 some are different :).",
+      "parentUuid": "ec8e1f13_ef6f9d5a",
+      "revId": "42bf0fa36894dd8fa3bd87bdce2d6e39b27bc6c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4ac4596c_becfd957",
         "filename": "polygerrit-ui/app/test/index.html",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2018-01-08T18:20:38Z",
       "side": 1,
       "message": "This is already in the array.",
+      "revId": "42bf0fa36894dd8fa3bd87bdce2d6e39b27bc6c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b69f983_421148a6",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-08T20:10:04Z",
+      "side": 1,
+      "message": "Ah sorry, this was for my testing and i forgot to remove this after.\n\nThis was so i wasent waiting miniutes to find out something failed.",
+      "parentUuid": "4ac4596c_becfd957",
       "revId": "42bf0fa36894dd8fa3bd87bdce2d6e39b27bc6c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

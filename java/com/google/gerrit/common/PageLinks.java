@@ -47,8 +47,10 @@ public class PageLinks {
   public static final String DASHBOARDS = ",dashboards/";
   public static final String ADMIN_GROUPS = "/admin/groups/";
   public static final String ADMIN_CREATE_GROUP = "/admin/create-group/";
-  public static final String ADMIN_PROJECTS = "/admin/projects/";
-  public static final String ADMIN_CREATE_PROJECT = "/admin/create-project/";
+  public static final String ADMIN_OLD_PROJECTS = "/admin/projects/";
+  public static final String ADMIN_PROJECTS = "/admin/repos/";
+  public static final String ADMIN_CREATE_OLD_PROJECT = "/admin/create-project/";
+  public static final String ADMIN_CREATE_PROJECT = "/admin/create-repo/";
   public static final String ADMIN_PLUGINS = "/admin/plugins/";
   public static final String MY_GROUPS = "/groups/self";
   public static final String DOCUMENTATION = "/Documentation/";
@@ -91,15 +93,15 @@ public class PageLinks {
   }
 
   public static String toProjectAcceess(Project.NameKey p) {
-    return "/admin/projects/" + p.get() + ",access";
+    return ADMIN_PROJECTS + p.get() + ",access";
   }
 
   public static String toProjectBranches(Project.NameKey p) {
-    return "/admin/projects/" + p.get() + ",branches";
+    return ADMIN_PROJECTS + p.get() + ",branches";
   }
 
   public static String toProjectTags(Project.NameKey p) {
-    return "/admin/projects/" + p.get() + ",tags";
+    return ADMIN_PROJECTS + p.get() + ",tags";
   }
 
   public static String toAccountQuery(String fullname, Status status) {

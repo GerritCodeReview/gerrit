@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1515425351 +0100\nnonce AGjzz3+YQ+HskQu708Ib3HMgHgM4CQTq4hGuh7F8B8aLiWQtcfmfGYU8gpOMr0+146+BTax3tmbl\n\n0000000000000000000000000000000000000000 f2f383d2cffdc067a033cbc711f78a31db3a1e06 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaU45HAAoJEFG1/Zeg0O9RgLMH/3Xe0x//8Dl3lpep17HV0stH\nTMa0i9vfKYQSKnpAHeokUDAqZiAfx3dZ/JBJO3SHeRqns1SE3VPlWjBmOg2YSUmc\nymUOZEUP3rrRiBo6Dwh52eNV1i3hZNznsXJJ+WWNlgN7bIP4aZfXkGsIZVL54vCc\n+TpWQ0pM58RSrfojuYYXfltOTy26MrgQTI+hzrClBEJ1yzP8tQ7w7j3/fR1praML\nZ41aHOJ5bNnGfi2TTNcHL1m6pVeRmsWZTCwP5Ah3pG1AqyPeRaYtKjDugvkNNrRJ\n/pnWUjf8JY7LbR+4t3QGEkcFYQjPVhAaFPuzOTtkfGsOKxKiJHGVOrFNz8cnePw\u003d\n\u003dTbtN\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1328612a_97deacd0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-08T15:33:58Z",
+      "side": 1,
+      "message": "It\u0027s not obvious to me why this is better. What is the definition of \"extra account information\"?",
+      "revId": "f2f383d2cffdc067a033cbc711f78a31db3a1e06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

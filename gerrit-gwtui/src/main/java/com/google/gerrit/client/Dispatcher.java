@@ -15,8 +15,10 @@
 package com.google.gerrit.client;
 
 import static com.google.gerrit.common.PageLinks.ADMIN_CREATE_GROUP;
+import static com.google.gerrit.common.PageLinks.ADMIN_CREATE_OLD_PROJECT;
 import static com.google.gerrit.common.PageLinks.ADMIN_CREATE_PROJECT;
 import static com.google.gerrit.common.PageLinks.ADMIN_GROUPS;
+import static com.google.gerrit.common.PageLinks.ADMIN_OLD_PROJECTS;
 import static com.google.gerrit.common.PageLinks.ADMIN_PLUGINS;
 import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
 import static com.google.gerrit.common.PageLinks.DASHBOARDS;
@@ -105,6 +107,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtorm.client.KeyUtil;
 
@@ -688,8 +691,26 @@ public class Dispatcher {
                 Gerrit.display(token, new GroupListScreen(rest.substring(1)));
               }
 
-            } else if (matchExact(ADMIN_PROJECTS, token) || matchExact("/admin/projects", token)) {
+            } else if (matchExact(ADMIN_OLD_PROJECTS, token)
+                || matchExact("/admin/projects", token)) {
+              if (token.startsWith("/admin/projects")) {
+                Location.assign(
+                    Gerrit.selfRedirect(token.replace("/admin/projects", "/admin/repos")));
+              } else {
+                Location.assign(Gerrit.selfRedirect(token));
+              }
+
+            } else if (matchExact(ADMIN_PROJECTS, token) || matchExact("/admin/repos", token)) {
               Gerrit.display(token, new ProjectListScreen());
+
+            } else if (matchPrefix(ADMIN_OLD_PROJECTS, token)) {
+              // Redirects /admin/projects[/][*] to /admin/repos[/][*]
+              if (token.startsWith("/admin/projects")) {
+                Location.assign(
+                    Gerrit.selfRedirect(token.replace("/admin/projects", "/admin/repos")));
+              } else {
+                Location.assign(Gerrit.selfRedirect(token));
+              }
 
             } else if (matchPrefix(ADMIN_PROJECTS, token)) {
               String rest = skip(token);
@@ -699,7 +720,7 @@ public class Dispatcher {
                 Gerrit.display(token, selectProject());
               }
 
-            } else if (matchPrefix("/admin/projects", token)) {
+            } else if (matchPrefix("/admin/repos", token)) {
               String rest = skip(token);
               if (rest.startsWith("?")) {
                 Gerrit.display(token, new ProjectListScreen(rest.substring(1)));
@@ -708,8 +729,14 @@ public class Dispatcher {
             } else if (matchPrefix(ADMIN_PLUGINS, token) || matchExact("/admin/plugins", token)) {
               Gerrit.display(token, new PluginListScreen());
 
-            } else if (matchExact(ADMIN_CREATE_PROJECT, token)
+            } else if (matchExact(ADMIN_CREATE_OLD_PROJECT, token)
                 || matchExact("/admin/create-project", token)) {
+              Location.assign(
+                  Gerrit.selfRedirect(
+                      token.replace("/admin/create-project", "/admin/create-repo")));
+
+            } else if (matchExact(ADMIN_CREATE_PROJECT, token)
+                || matchExact("/admin/create-repo", token)) {
               Gerrit.display(token, new CreateProjectScreen());
 
             } else if (matchExact(ADMIN_CREATE_GROUP, token)

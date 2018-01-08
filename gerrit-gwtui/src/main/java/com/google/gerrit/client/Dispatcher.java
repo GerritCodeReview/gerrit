@@ -688,7 +688,7 @@ public class Dispatcher {
                 Gerrit.display(token, new GroupListScreen(rest.substring(1)));
               }
 
-            } else if (matchExact(ADMIN_PROJECTS, token) || matchExact("/admin/projects", token)) {
+            } else if (matchExact(ADMIN_PROJECTS, token) || matchExact("/admin/repos", token)) {
               Gerrit.display(token, new ProjectListScreen());
 
             } else if (matchPrefix(ADMIN_PROJECTS, token)) {
@@ -699,7 +699,7 @@ public class Dispatcher {
                 Gerrit.display(token, selectProject());
               }
 
-            } else if (matchPrefix("/admin/projects", token)) {
+            } else if (matchPrefix("/admin/repos", token)) {
               String rest = skip(token);
               if (rest.startsWith("?")) {
                 Gerrit.display(token, new ProjectListScreen(rest.substring(1)));

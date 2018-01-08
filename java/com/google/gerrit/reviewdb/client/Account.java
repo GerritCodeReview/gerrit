@@ -19,7 +19,6 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_STARRED_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS;
 
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import java.sql.Timestamp;
@@ -180,9 +179,6 @@ public final class Account {
   /** <i>computed</i> the username selected from the identities. */
   protected String userName;
 
-  /** <i>stored in git, used for caching</i> the user's preferences. */
-  private GeneralPreferencesInfo generalPreferences;
-
   /**
    * ID of the user branch from which the account was read, {@code null} if the account was read
    * from ReviewDb.
@@ -284,14 +280,6 @@ public final class Account {
   /** Get the date and time the user first registered. */
   public Timestamp getRegisteredOn() {
     return registeredOn;
-  }
-
-  public GeneralPreferencesInfo getGeneralPreferencesInfo() {
-    return generalPreferences;
-  }
-
-  public void setGeneralPreferences(GeneralPreferencesInfo p) {
-    generalPreferences = p;
   }
 
   public String getMetaId() {

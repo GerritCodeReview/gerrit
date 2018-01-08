@@ -46,6 +46,30 @@
       "revId": "b47a0a55bfe768232b39a01dc3775c71dbd344b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9baef115_60475fd3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-08T21:18:52Z",
+      "side": 1,
+      "message": "We can\u0027t omit it from the response because the REST API has to be stable. Among other things, it would break old UI clients talking to new backends.\n\nIt\u0027s equivalent to \u0027value\u0027 and documented as such:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/135830/7/Documentation/rest-api-projects.txt#2863\n\n(grumble grumble brittle mocks)",
+      "parentUuid": "24a3b162_e080840e",
+      "range": {
+        "startLine": 101,
+        "startChar": 12,
+        "endLine": 101,
+        "endChar": 46
+      },
+      "revId": "b47a0a55bfe768232b39a01dc3775c71dbd344b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

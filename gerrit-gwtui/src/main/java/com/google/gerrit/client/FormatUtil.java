@@ -83,17 +83,6 @@ public class FormatUtil {
     return createAccountFormatter().name(info);
   }
 
-  public static AccountInfo asInfo(com.google.gerrit.common.data.AccountInfo acct) {
-    if (acct == null) {
-      return AccountInfo.create(0, null, null, null);
-    }
-    return AccountInfo.create(
-        acct.getId() != null ? acct.getId().get() : 0,
-        acct.getFullName(),
-        acct.getPreferredEmail(),
-        acct.getUsername());
-  }
-
   private static AccountFormatter createAccountFormatter() {
     return new AccountFormatter(Gerrit.info().user().anonymousCowardName());
   }

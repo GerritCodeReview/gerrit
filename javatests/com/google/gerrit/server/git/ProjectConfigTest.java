@@ -290,7 +290,9 @@ public class ProjectConfigTest extends GerritBaseTests {
                 + "[label \"CustomLabel\"]\n"
                 + LABEL_SCORES_CONFIG
                 + "\tfunction = MaxWithBlock\n" // label gets this function when it is created
-                + "\tdefaultValue = 0\n"); //  label gets this value when it is created
+                + "\tdefaultValue = 0\n" //  label gets this value when it is created
+                + "[submit]\n"
+                + "\taction = inherit\n");
   }
 
   @Test
@@ -310,7 +312,9 @@ public class ProjectConfigTest extends GerritBaseTests {
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
         .isEqualTo(
-            "[label \"My-Label\"]\n"
+            "[submit]\n"
+                + "\taction = inherit\n"
+                + "[label \"My-Label\"]\n"
                 + "\tfunction = MaxWithBlock\n"
                 + "\tdefaultValue = 0\n"
                 + "\tvalue = -1 Negative\n"
@@ -340,7 +344,9 @@ public class ProjectConfigTest extends GerritBaseTests {
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
         .isEqualTo(
-            "[access \"refs/heads/*\"]\n"
+            "[submit]\n"
+                + "\taction = inherit\n"
+                + "[access \"refs/heads/*\"]\n"
                 + "  exclusiveGroupPermissions = read submit\n"
                 + "  submit = group People Who Can Submit\n"
                 + "\tsubmit = group Staff\n"
@@ -396,7 +402,9 @@ public class ProjectConfigTest extends GerritBaseTests {
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
         .isEqualTo(
-            "[plugin \"somePlugin\"]\n"
+            "[submit]\n"
+                + "\taction = inherit\n"
+                + "[plugin \"somePlugin\"]\n"
                 + "\tkey1 = updatedValue1\n"
                 + "\tkey2 = updatedValue2a\n"
                 + "\tkey2 = updatedValue2b\n");
@@ -450,7 +458,11 @@ public class ProjectConfigTest extends GerritBaseTests {
     pluginCfg.setGroupReference("key1", staff);
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
-        .isEqualTo("[plugin \"somePlugin\"]\n\tkey1 = " + staff.toConfigValue() + "\n");
+        .isEqualTo(
+            "[submit]\n"
+                + "\taction = inherit\n"
+                + "[plugin \"somePlugin\"]\n"
+                + ("\tkey1 = " + staff.toConfigValue() + "\n"));
     assertThat(text(rev, "groups"))
         .isEqualTo(
             "# UUID\tGroup Name\n"

@@ -82,7 +82,6 @@ public class InitSshd implements InitStep {
   private void generateSshHostKeys() throws InterruptedException, IOException {
     if (!exists(site.ssh_key)
         && (!exists(site.ssh_rsa)
-            || !exists(site.ssh_dsa)
             || !exists(site.ssh_ed25519)
             || !exists(site.ssh_ecdsa_256)
             || !exists(site.ssh_ecdsa_384)
@@ -110,26 +109,6 @@ public class InitSshd implements InitStep {
                 comment,
                 "-f",
                 site.ssh_rsa.toAbsolutePath().toString())
-            .redirectError(Redirect.INHERIT)
-            .redirectOutput(Redirect.INHERIT)
-            .start()
-            .waitFor();
-      }
-
-      if (!exists(site.ssh_dsa)) {
-        System.err.print(" dsa...");
-        System.err.flush();
-        new ProcessBuilder(
-                "ssh-keygen",
-                "-q" /* quiet */,
-                "-t",
-                "dsa",
-                "-P",
-                emptyPassphraseArg,
-                "-C",
-                comment,
-                "-f",
-                site.ssh_dsa.toAbsolutePath().toString())
             .redirectError(Redirect.INHERIT)
             .redirectOutput(Redirect.INHERIT)
             .start()

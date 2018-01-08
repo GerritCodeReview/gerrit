@@ -38,6 +38,7 @@ import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryHelper.ActionType;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -473,6 +474,7 @@ public class AccountsUpdate {
   private Account deleteAccount(Account.Id accountId)
       throws IOException, OrmException, ConfigInvalidException {
     return retryHelper.execute(
+        ActionType.ACCOUNT_UPDATE,
         () -> {
           deleteUserBranch(accountId);
           return null;
@@ -525,6 +527,7 @@ public class AccountsUpdate {
   private Account updateAccount(AccountUpdate accountUpdate)
       throws IOException, ConfigInvalidException, OrmException {
     return retryHelper.execute(
+        ActionType.ACCOUNT_UPDATE,
         () -> {
           try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
             UpdatedAccount updatedAccount = accountUpdate.update(allUsersRepo);

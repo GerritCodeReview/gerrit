@@ -148,6 +148,7 @@ import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.RepoOnlyOp;
 import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryHelper.ActionType;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.MagicBranch;
@@ -2868,7 +2869,11 @@ class ReceiveCommits {
 
                 for (Ref ref : byCommit.get(c.copy())) {
                   PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
-                  Optional<ChangeData> cd = byLegacyId(psId.getParentKey());
+                  Optional<ChangeData> cd =
+                      retryHelper.execute(
+                          ActionType.CHANGE_QUERY,
+                          () -> byLegacyId(psId.getParentKey()),
+                          t -> t instanceof OrmException);
                   if (cd.isPresent() && cd.get().change().getDest().equals(branch)) {
                     existingPatchSets++;
                     bu.addOp(
@@ -2880,7 +2885,11 @@ class ReceiveCommits {
 
                 for (String changeId : c.getFooterLines(CHANGE_ID)) {
                   if (byKey == null) {
-                    byKey = openChangesByKeyByBranch(branch);
+                    byKey =
+                        retryHelper.execute(
+                            ActionType.CHANGE_QUERY,
+                            () -> openChangesByKeyByBranch(branch),
+                            t -> t instanceof OrmException);
                   }
 
                   ChangeNotes onto = byKey.get(new Change.Key(changeId.trim()));
@@ -2926,7 +2935,10 @@ class ReceiveCommits {
               logError("Failed to auto-close changes", e);
             }
             return null;
-          });
+          },
+          // Use a multiple of the default timeout to account for inner retries that may otherwise
+          // eat up the whole timeout so that no time is left to retry this outer action.
+          RetryHelper.options().timeout(retryHelper.getDefaultTimeout().multipliedBy(5)).build());
     } catch (RestApiException e) {
       logError("Can't insert patchset", e);
     } catch (UpdateException e) {

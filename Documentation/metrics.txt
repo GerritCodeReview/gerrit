@@ -13,6 +13,13 @@ The following metrics are reported.
 * `build/label`: Version of Gerrit server software.
 * `events`: Triggered events.
 
+=== Actions
+
+* `action/retry_attempt_counts`: Distribution of number of attempts made
+by RetryHelper to execute an action (1 == single attempt, no retry)
+* `action/retry_timeout_count`: Number of action executions of RetryHelper
+that ultimately timed out
+
 === Process
 
 * `proc/birth_timestamp`: Time at which the Gerrit process started.
@@ -87,10 +94,6 @@ topic submissions that concluded successfully.
 
 * `batch_update/execute_change_ops`: BatchUpdate change update latency,
 excluding reindexing
-* `batch_update/retry_attempt_counts`: Distribution of number of attempts made
-by RetryHelper (1 == single attempt, no retry)
-* `batch_update/retry_timeout_count`: Number of executions of RetryHelper that
-ultimately timed out
 
 === NoteDb
 

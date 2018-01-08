@@ -90,7 +90,7 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
     accountsUpdate
         .create()
         .update("Set Preferences via API", id, u -> u.setGeneralPreferences(input));
-    return cache.get(id).getAccount().getGeneralPreferencesInfo();
+    return cache.get(id).getGeneralPreferences();
   }
 
   public static void storeMyMenus(VersionedAccountPreferences prefs, List<MenuItem> my)

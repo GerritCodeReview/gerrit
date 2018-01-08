@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b99d8677_ea25e525",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-08T21:29:52Z",
+      "side": 1,
+      "message": "Let\u0027s hide \"Theme\" and \"Key map\" while they still are unsupported.",
+      "revId": "ac912626872b183907852b9f7acaa8a9d6027e8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f96234e9_94cc1812",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-08T21:29:52Z",
+      "side": 1,
+      "message": "All of these titles should be sentence case -- i.e. \"Key map\" instead of \"Key Map\".",
+      "revId": "ac912626872b183907852b9f7acaa8a9d6027e8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bed08726_14e9e55a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-08T21:29:52Z",
+      "side": 1,
+      "message": "Should be \"editSyntaxHighlighting\"",
+      "range": {
+        "startLine": 161,
+        "startChar": 18,
+        "endLine": 161,
+        "endChar": 44
+      },
+      "revId": "ac912626872b183907852b9f7acaa8a9d6027e8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad214b05_a619c4f3",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-08T21:29:52Z",
+      "side": 1,
+      "message": "Hide this, as it is unsupported right now.",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 245,
+        "endChar": 15
+      },
+      "revId": "ac912626872b183907852b9f7acaa8a9d6027e8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

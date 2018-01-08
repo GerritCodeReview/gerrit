@@ -61,6 +61,7 @@ package_licenses = {
   "paper-input": "polymer",
   "paper-item": "polymer",
   "paper-listbox": "polymer",
+  "paper-toggle-button": "polymer",
   "paper-styles": "polymer",
   "polymer": "polymer",
   "polymer-resin": "polymer",

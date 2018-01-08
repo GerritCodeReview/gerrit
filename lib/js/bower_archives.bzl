@@ -23,11 +23,6 @@ def load_bower_archives():
     version = "3.5.0",
     sha1 = "849ad3ee7c77506548b7b5db603a4e150b9431aa")
   bower_archive(
-    name = "codemirror-minified",
-    package = "Dominator008/codemirror-minified",
-    version = "5.28.0",
-    sha1 = "51ba8d9256c63ce95238253c5b2eb7d5b12d6ed3")
-  bower_archive(
     name = "font-roboto",
     package = "PolymerElements/font-roboto",
     version = "1.0.3",
@@ -44,7 +39,7 @@ def load_bower_archives():
     sha1 = "f58358ee652c67e6e721364ba50fb77a2ece1465")
   bower_archive(
     name = "iron-behaviors",
-    package = "PolymerElements/iron-behaviors",
+    package = "polymerelements/iron-behaviors",
     version = "1.0.18",
     sha1 = "e231a1a02b090f5183db917639fdb96cdd0dca18")
   bower_archive(
@@ -59,7 +54,7 @@ def load_bower_archives():
     sha1 = "01c485fbf898307029bbb72ac7e132db1570a842")
   bower_archive(
     name = "iron-flex-layout",
-    package = "PolymerElements/iron-flex-layout",
+    package = "polymerelements/iron-flex-layout",
     version = "1.3.7",
     sha1 = "4d4cf3232cf750a17a7df0a37476117f831ac633")
   bower_archive(

@@ -16,6 +16,24 @@
       "revId": "3f0d980e0e8a44f674cfdf9e0388e21dc61a2bca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02e0f819_933730f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-08T23:43:02Z",
+      "side": 1,
+      "message": "Good catch. I was even the one who wrote that comment in the bug.\n\nHowever, at this point, I don\u0027t see a nice way to prevent voting on non-latest patches (at least, in the way I suggested in the bug):\n* Do we only disable the [Send] button when voting on a non-latest patch? Even if all the other carefully crafted comments are totally fine to post? Feels mean to disable the [Send] button until you un-vote.\n* Would vote buttons be disabled _while_ it\u0027s checking for latest? That check can be very slow sometimes.\n* Or would vote buttons be disabled _after_ checking latest. Feels mean to take away buttons that were available for a brief time.\n\nWhat I\u0027ve done instead (in PS2) is specialize the wording of the warning message when a vote is selected. IMO, this does a better job of communicating the risk of such a vote to the user.\n\nLet me know what you think.",
+      "parentUuid": "45eb98fe_24d7b965",
+      "revId": "3f0d980e0e8a44f674cfdf9e0388e21dc61a2bca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

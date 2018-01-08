@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "735811bc_436b457b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-08T21:40:19Z",
+      "side": 1,
+      "message": "Ok, can i do \u003c!-- --\u003e?\n\nSince this will make it easier to re enable later.",
+      "parentUuid": "b99d8677_ea25e525",
+      "revId": "ac912626872b183907852b9f7acaa8a9d6027e8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f96234e9_94cc1812",
         "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.html",
         "patchSetId": 19
@@ -30,6 +48,24 @@
       "writtenOn": "2018-01-08T21:29:52Z",
       "side": 1,
       "message": "All of these titles should be sentence case -- i.e. \"Key map\" instead of \"Key Map\".",
+      "revId": "ac912626872b183907852b9f7acaa8a9d6027e8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abde9fb0_602957dc",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-08T21:40:19Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f96234e9_94cc1812",
       "revId": "ac912626872b183907852b9f7acaa8a9d6027e8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "2c7000a9_571a72b9",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-08T21:40:19Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "bed08726_14e9e55a",
+      "range": {
+        "startLine": 161,
+        "startChar": 18,
+        "endLine": 161,
+        "endChar": 44
+      },
+      "revId": "ac912626872b183907852b9f7acaa8a9d6027e8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ad214b05_a619c4f3",
         "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.html",
         "patchSetId": 19
@@ -70,6 +130,30 @@
       "writtenOn": "2018-01-08T21:29:52Z",
       "side": 1,
       "message": "Hide this, as it is unsupported right now.",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 245,
+        "endChar": 15
+      },
+      "revId": "ac912626872b183907852b9f7acaa8a9d6027e8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67660f18_ca059564",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-08T21:40:19Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ad214b05_a619c4f3",
       "range": {
         "startLine": 238,
         "startChar": 0,

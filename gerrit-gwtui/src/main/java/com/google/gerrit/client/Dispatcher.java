@@ -15,8 +15,10 @@
 package com.google.gerrit.client;
 
 import static com.google.gerrit.common.PageLinks.ADMIN_CREATE_GROUP;
+import static com.google.gerrit.common.PageLinks.ADMIN_CREATE_OLD_PROJECT;
 import static com.google.gerrit.common.PageLinks.ADMIN_CREATE_PROJECT;
 import static com.google.gerrit.common.PageLinks.ADMIN_GROUPS;
+import static com.google.gerrit.common.PageLinks.ADMIN_OLD_PROJECTS;
 import static com.google.gerrit.common.PageLinks.ADMIN_PLUGINS;
 import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
 import static com.google.gerrit.common.PageLinks.DASHBOARDS;
@@ -688,7 +690,15 @@ public class Dispatcher {
                 Gerrit.display(token, new GroupListScreen(rest.substring(1)));
               }
 
-            } else if (matchExact(ADMIN_PROJECTS, token) || matchExact("/admin/projects", token)) {
+            } else if (matchExact(ADMIN_OLD_PROJECTS, token) || matchExact("/admin/projects", token)) {
+              if (token.startsWith("/admin/projects/")) {
+                Gerrit.selfRedirect(token.replace("/admin/projects/", "/admin/repos/"));
+              } else if (token.startsWith("/admin/projects")) {
+                Gerrit.selfRedirect(token.replace("/admin/projects", "/admin/repos"));
+              } else {
+                Gerrit.selfRedirect("/admin/repos/" + token);
+              }
+            } else if (matchExact(ADMIN_PROJECTS, token) || matchExact("/admin/repos", token)) {
               Gerrit.display(token, new ProjectListScreen());
 
             } else if (matchPrefix(ADMIN_PROJECTS, token)) {
@@ -699,7 +709,7 @@ public class Dispatcher {
                 Gerrit.display(token, selectProject());
               }
 
-            } else if (matchPrefix("/admin/projects", token)) {
+            } else if (matchPrefix("/admin/repos", token)) {
               String rest = skip(token);
               if (rest.startsWith("?")) {
                 Gerrit.display(token, new ProjectListScreen(rest.substring(1)));
@@ -709,6 +719,8 @@ public class Dispatcher {
               Gerrit.display(token, new PluginListScreen());
 
             } else if (matchExact(ADMIN_CREATE_PROJECT, token)
+                || matchExact(ADMIN_CREATE_OLD_PROJECT, token)
+                || matchExact("/admin/create-repo", token)
                 || matchExact("/admin/create-project", token)) {
               Gerrit.display(token, new CreateProjectScreen());
 

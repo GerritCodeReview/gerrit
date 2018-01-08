@@ -201,9 +201,11 @@ public class UploadArchive extends AbstractGitCommand {
             .call();
         sidebandOut.flush();
       } catch (GitAPIException e) {
+        System.err.println("API exception" + e);
         throw new Failure(7, "fatal: git api exception, " + e);
       }
     } catch (Failure f) {
+      System.err.println("Failure: " + f);
       // Report the error in ERROR sideband channel
       try (SideBandOutputStream sidebandError =
           new SideBandOutputStream(

@@ -27,6 +27,7 @@ import com.google.gerrit.testing.NoteDbMode;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.util.Set;
 import java.util.TreeSet;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
@@ -51,7 +52,7 @@ public class UploadArchiveIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "download.archive", value = "off")
   public void archiveFeatureOff() throws Exception {
-    archiveNotPermitted();
+    assertArchiveNotPermitted();
   }
 
   @Test
@@ -60,14 +61,14 @@ public class UploadArchiveIT extends AbstractDaemonTest {
     values = {"tar", "tbz2", "tgz", "txz"}
   )
   public void zipFormatDisabled() throws Exception {
-    archiveNotPermitted();
+    assertArchiveNotPermitted();
   }
 
   @Test
   public void zipFormat() throws Exception {
     PushOneCommit.Result r = createChange();
     String abbreviated = r.getCommit().abbreviate(8).name();
-    String c = command(r, abbreviated);
+    String c = command(r, "zip", abbreviated);
 
     InputStream out =
         adminSshSession.exec2("git-upload-archive " + project.get(), argumentsToInputStream(c));
@@ -99,10 +100,33 @@ public class UploadArchiveIT extends AbstractDaemonTest {
         .inOrder();
   }
 
-  private String command(PushOneCommit.Result r, String abbreviated) {
+  // Make sure we have coverage for the dependency on xz.
+  @Test
+  @GerritConfig(
+    name = "download.archive",
+    values = {"txz"}
+  )
+  public void txzFormat() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String abbreviated = r.getCommit().abbreviate(8).name();
+    String c = command(r, "tar.xz", abbreviated);
+
+    InputStream out =
+        adminSshSession.exec2("git-upload-archive " + project.get(), argumentsToInputStream(c));
+
+    // Wrap with PacketLineIn to read ACK bytes from output stream
+    PacketLineIn in = new PacketLineIn(out);
+    String tmp = in.readString();
+    assertThat(tmp).isEqualTo("ACK");
+    ByteBuffer buf = IO.readWholeStream(out, 1024);
+    System.err.println(new String(buf.array()));
+  }
+
+  private String command(PushOneCommit.Result r, String format, String abbreviated) {
     String c =
-        "-f=zip "
-            + "-9 "
+        "-f="
+            + format
+            + " "
             + "--prefix="
             + abbreviated
             + "/ "
@@ -112,10 +136,10 @@ public class UploadArchiveIT extends AbstractDaemonTest {
     return c;
   }
 
-  private void archiveNotPermitted() throws Exception {
+  private void assertArchiveNotPermitted() throws Exception {
     PushOneCommit.Result r = createChange();
     String abbreviated = r.getCommit().abbreviate(8).name();
-    String c = command(r, abbreviated);
+    String c = command(r, "zip", abbreviated);
 
     InputStream out =
         adminSshSession.exec2("git-upload-archive " + project.get(), argumentsToInputStream(c));

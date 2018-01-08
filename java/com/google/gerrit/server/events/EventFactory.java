@@ -23,6 +23,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -93,6 +94,7 @@ public class EventFactory {
   private final ChangeKindCache changeKindCache;
   private final Provider<InternalChangeQuery> queryProvider;
   private final SchemaFactory<ReviewDb> schema;
+  private final IndexConfig indexConfig;
 
   @Inject
   EventFactory(
@@ -105,7 +107,8 @@ public class EventFactory {
       ApprovalsUtil approvalsUtil,
       ChangeKindCache changeKindCache,
       Provider<InternalChangeQuery> queryProvider,
-      SchemaFactory<ReviewDb> schema) {
+      SchemaFactory<ReviewDb> schema,
+      IndexConfig indexConfig) {
     this.accountCache = accountCache;
     this.emails = emails;
     this.urlProvider = urlProvider;
@@ -116,6 +119,7 @@ public class EventFactory {
     this.changeKindCache = changeKindCache;
     this.queryProvider = queryProvider;
     this.schema = schema;
+    this.indexConfig = indexConfig;
   }
 
   /**
@@ -313,7 +317,8 @@ public class EventFactory {
     // Find changes in the same related group as this patch set, having a patch
     // set whose parent matches this patch set's revision.
     for (ChangeData cd :
-        queryProvider.get().byProjectGroups(change.getProject(), currentPs.getGroups())) {
+        InternalChangeQuery.byProjectGroups(
+            queryProvider, indexConfig, change.getProject(), currentPs.getGroups())) {
       PATCH_SETS:
       for (PatchSet ps : cd.patchSets()) {
         RevCommit commit = rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));

@@ -15,10 +15,12 @@
 package com.google.gerrit.server.git.strategy;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.server.git.strategy.CommitMergeStatus.EMPTY_COMMIT;
 import static com.google.gerrit.server.git.strategy.CommitMergeStatus.SKIPPED_IDENTICAL_TREE;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.server.ChangeUtil;
@@ -123,6 +125,10 @@ public class CherryPick extends SubmitStrategy {
         toMerge.setStatusCode(CommitMergeStatus.PATH_CONFLICT);
         return;
       } catch (MergeIdenticalTreeException mie) {
+        if (args.project.is(BooleanProjectConfig.REJECT_EMPTY_COMMIT)) {
+          toMerge.setStatusCode(EMPTY_COMMIT);
+          return;
+        }
         toMerge.setStatusCode(SKIPPED_IDENTICAL_TREE);
         return;
       }

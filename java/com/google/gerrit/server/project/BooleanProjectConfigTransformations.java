@@ -65,6 +65,9 @@ public class BooleanProjectConfigTransformations {
               BooleanProjectConfig.MATCH_AUTHOR_TO_COMMITTER_DATE,
               new Mapper(
                   i -> i.matchAuthorToCommitterDate, (i, v) -> i.matchAuthorToCommitterDate = v))
+          .put(
+              BooleanProjectConfig.REJECT_EMPTY_COMMIT,
+              new Mapper(i -> i.rejectEmptyCommit, (i, v) -> i.rejectEmptyCommit = v))
           .build();
 
   static {

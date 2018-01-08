@@ -100,6 +100,9 @@ final class CreateProjectCommand extends SshCommand {
   @Option(name = "--change-id", usage = "if change-id is required")
   private InheritableBoolean requireChangeID = InheritableBoolean.INHERIT;
 
+  @Option(name = "--reject-empty-commit", usage = "if empty commits should be rejected on submit")
+  private InheritableBoolean rejectEmptyCommit = InheritableBoolean.INHERIT;
+
   @Option(
     name = "--new-change-for-all-not-in-target",
     usage = "if a new change will be created for every commit not in target branch"
@@ -201,6 +204,7 @@ final class CreateProjectCommand extends SshCommand {
         input.branches = branch;
         input.createEmptyCommit = createEmptyCommit;
         input.maxObjectSizeLimit = maxObjectSizeLimit;
+        input.rejectEmptyCommit = rejectEmptyCommit;
         if (pluginConfigValues != null) {
           input.pluginConfigValues = parsePluginConfigValues(pluginConfigValues);
         }

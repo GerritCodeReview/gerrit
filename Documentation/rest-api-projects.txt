@@ -2872,6 +2872,9 @@ entities.
 |`actions`                                 |optional|
 Actions the caller might be able to perform on this project. The
 information is a map of view names to
+|`reject_empty_commit`                     |optional|
+link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
+empty commits should be rejected when a change is merged.
 link:rest-api-changes.html#action-info[ActionInfo] entities.
 |=======================================================
 
@@ -2936,6 +2939,10 @@ If not set, the project state is not updated.
 |`plugin_config_values`                    |optional|
 Plugin configuration values as map which maps the plugin name to a map
 of parameter names to values.
+|`reject_empty_commit`                     |optional|
+Whether empty commits should be rejected when a change is merged.
+Can be `TRUE`, `FALSE` or `INHERIT`. +
+If not set, this setting is not updated.
 |======================================================
 
 [[config-parameter-info]]
@@ -3269,6 +3276,9 @@ Common unit suffixes of 'k', 'm', or 'g' are supported.
 |`plugin_config_values`      |optional|
 Plugin configuration values as map which maps the plugin name to a map
 of parameter names to values.
+|`reject_empty_commit`       |optional|
+Whether empty commits should be rejected when a change is merged
+(`TRUE`, `FALSE`, `INHERIT`).
 |=========================================
 
 [[project-parent-input]]

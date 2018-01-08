@@ -35,6 +35,7 @@ public class ConfigInfo {
   public InheritedBooleanInfo privateByDefault;
   public InheritedBooleanInfo enableReviewerByEmail;
   public InheritedBooleanInfo matchAuthorToCommitterDate;
+  public InheritedBooleanInfo rejectEmptyCommit;
 
   public MaxObjectSizeLimitInfo maxObjectSizeLimit;
   public SubmitType submitType;

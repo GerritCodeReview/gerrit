@@ -34,6 +34,7 @@ public class CreateProjectArgs {
   public InheritableBoolean contentMerge;
   public InheritableBoolean newChangeForAllNotInTarget;
   public InheritableBoolean changeIdRequired;
+  public InheritableBoolean rejectEmptyCommit;
   public boolean createEmptyCommit;
   public String maxObjectSizeLimit;
 

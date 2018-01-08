@@ -31,6 +31,7 @@ import com.google.gerrit.server.account.AccountUserNameException;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -55,17 +56,20 @@ class LdapLoginServlet extends HttpServlet {
   private final DynamicItem<WebSession> webSession;
   private final CanonicalWebUrl urlProvider;
   private final SiteHeaderFooter headers;
+  private final Config config;
 
   @Inject
   LdapLoginServlet(
       AccountManager accountManager,
       DynamicItem<WebSession> webSession,
       CanonicalWebUrl urlProvider,
-      SiteHeaderFooter headers) {
+      SiteHeaderFooter headers,
+      @GerritServerConfig Config config) {
     this.accountManager = accountManager;
     this.webSession = webSession;
     this.urlProvider = urlProvider;
     this.headers = headers;
+    this.config = config;
   }
 
   private void sendForm(
@@ -86,6 +90,15 @@ class LdapLoginServlet extends HttpServlet {
     } else {
       emsg.setTextContent(errorMessage);
     }
+
+    Strings forgottenMessage = config.getString("gerrit", null, "loginForgottenPasswordText");
+    Element fmsg = HtmlDomUtil.find(doc, "forgotten_message");
+    if (Strings.isNullOrEmpty(forgottenMessage)) {
+      fmsg.getParentNode().removeChild(emsg);
+    } else {
+      fmsg.setTextContent(forgottenMessage);
+    }
+
 
     byte[] bin = HtmlDomUtil.toUTF8(doc);
     res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

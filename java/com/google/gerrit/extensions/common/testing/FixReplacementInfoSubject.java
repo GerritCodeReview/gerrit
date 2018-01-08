@@ -20,7 +20,6 @@ import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.common.truth.Truth;
-import com.google.gerrit.extensions.client.testing.RangeSubject;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 
 public class FixReplacementInfoSubject

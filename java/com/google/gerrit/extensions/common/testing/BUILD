@@ -5,7 +5,6 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/extensions:api",
-        "//java/com/google/gerrit/extensions/client/testing:client-test-util",
         "//java/com/google/gerrit/truth",
         "//lib:truth",
         "//lib/jgit/org.eclipse.jgit:jgit",

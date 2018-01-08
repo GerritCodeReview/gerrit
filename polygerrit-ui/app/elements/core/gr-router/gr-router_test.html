@@ -927,8 +927,7 @@ limitations under the License.
         test('_handleRepoRoute', () => {
           const data = {params: {0: 4321}};
           assertDataToParams(data, '_handleRepoRoute', {
-            view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-repo',
+            view: Gerrit.Nav.View.REPO,
             repo: 4321,
           });
         });
@@ -936,9 +935,8 @@ limitations under the License.
         test('_handleRepoCommandsRoute', () => {
           const data = {params: {0: 4321}};
           assertDataToParams(data, '_handleRepoCommandsRoute', {
-            view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-repo-commands',
-            detailType: 'commands',
+            view: Gerrit.Nav.View.REPO,
+            detail: Gerrit.Nav.RepoDetailView.COMMANDS,
             repo: 4321,
           });
         });
@@ -946,9 +944,8 @@ limitations under the License.
         test('_handleRepoAccessRoute', () => {
           const data = {params: {0: 4321}};
           assertDataToParams(data, '_handleRepoAccessRoute', {
-            view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-repo-access',
-            detailType: 'access',
+            view: Gerrit.Nav.View.REPO,
+            detail: Gerrit.Nav.RepoDetailView.ACCESS,
             repo: 4321,
           });
         });
@@ -957,8 +954,8 @@ limitations under the License.
           test('_handleBranchListOffsetRoute', () => {
             const data = {params: {0: 4321}};
             assertDataToParams(data, '_handleBranchListOffsetRoute', {
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-repo-detail-list',
+              view: Gerrit.Nav.View.REPO,
+              detail: Gerrit.Nav.RepoDetailView.BRANCHES,
               detailType: 'branches',
               repo: 4321,
               offset: 0,
@@ -967,8 +964,8 @@ limitations under the License.
 
             data.params[2] = 42;
             assertDataToParams(data, '_handleBranchListOffsetRoute', {
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-repo-detail-list',
+              view: Gerrit.Nav.View.REPO,
+              detail: Gerrit.Nav.RepoDetailView.BRANCHES,
               detailType: 'branches',
               repo: 4321,
               offset: 42,
@@ -979,8 +976,8 @@ limitations under the License.
           test('_handleBranchListFilterOffsetRoute', () => {
             const data = {params: {repo: 4321, filter: 'foo', offset: 42}};
             assertDataToParams(data, '_handleBranchListFilterOffsetRoute', {
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-repo-detail-list',
+              view: Gerrit.Nav.View.REPO,
+              detail: Gerrit.Nav.RepoDetailView.BRANCHES,
               detailType: 'branches',
               repo: 4321,
               offset: 42,
@@ -991,8 +988,8 @@ limitations under the License.
           test('_handleBranchListFilterRoute', () => {
             const data = {params: {repo: 4321, filter: 'foo'}};
             assertDataToParams(data, '_handleBranchListFilterRoute', {
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-repo-detail-list',
+              view: Gerrit.Nav.View.REPO,
+              detail: Gerrit.Nav.RepoDetailView.BRANCHES,
               detailType: 'branches',
               repo: 4321,
               filter: 'foo',
@@ -1004,8 +1001,8 @@ limitations under the License.
           test('_handleTagListOffsetRoute', () => {
             const data = {params: {0: 4321}};
             assertDataToParams(data, '_handleTagListOffsetRoute', {
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-repo-detail-list',
+              view: Gerrit.Nav.View.REPO,
+              detail: Gerrit.Nav.RepoDetailView.TAGS,
               detailType: 'tags',
               repo: 4321,
               offset: 0,
@@ -1016,8 +1013,8 @@ limitations under the License.
           test('_handleTagListFilterOffsetRoute', () => {
             const data = {params: {repo: 4321, filter: 'foo', offset: 42}};
             assertDataToParams(data, '_handleTagListFilterOffsetRoute', {
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-repo-detail-list',
+              view: Gerrit.Nav.View.REPO,
+              detail: Gerrit.Nav.RepoDetailView.TAGS,
               detailType: 'tags',
               repo: 4321,
               offset: 42,
@@ -1028,8 +1025,8 @@ limitations under the License.
           test('_handleTagListFilterRoute', () => {
             const data = {params: {repo: 4321}};
             assertDataToParams(data, '_handleTagListFilterRoute', {
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-repo-detail-list',
+              view: Gerrit.Nav.View.REPO,
+              detail: Gerrit.Nav.RepoDetailView.TAGS,
               detailType: 'tags',
               repo: 4321,
               filter: null,
@@ -1037,8 +1034,8 @@ limitations under the License.
 
             data.params.filter = 'foo';
             assertDataToParams(data, '_handleTagListFilterRoute', {
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-repo-detail-list',
+              view: Gerrit.Nav.View.REPO,
+              detail: Gerrit.Nav.RepoDetailView.TAGS,
               detailType: 'tags',
               repo: 4321,
               filter: 'foo',

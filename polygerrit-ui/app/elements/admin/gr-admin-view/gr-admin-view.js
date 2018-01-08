@@ -118,7 +118,6 @@
           linkCopy.subsection = {
             name: this._repoName,
             view: Gerrit.Nav.View.REPO,
-            noBaseUrl: true,
             url: Gerrit.Nav.getUrlForRepo(this._repoName),
             children: [{
               name: 'Access',
@@ -188,6 +187,7 @@
 
     _paramsChanged(params) {
       const isGroupView = params.view === Gerrit.Nav.View.GROUP;
+      const isRepoView = params.view === Gerrit.Nav.View.REPO;
       const isAdminView = params.view === Gerrit.Nav.View.ADMIN;
 
       this.set('_showGroup', isGroupView && !params.detail);
@@ -199,16 +199,18 @@
       this.set('_showGroupList', isAdminView &&
           params.adminView === 'gr-admin-group-list');
 
-      this.set('_showRepoAccess', isAdminView &&
-          params.adminView === 'gr-repo-access');
-      this.set('_showRepoCommands', isAdminView &&
-          params.adminView === 'gr-repo-commands');
-      this.set('_showRepoDetailList', isAdminView &&
-          params.adminView === 'gr-repo-detail-list');
-      this.set('_showRepoMain', isAdminView &&
-          params.adminView === 'gr-repo');
+      this.set('_showRepoAccess', isRepoView &&
+          params.detail === Gerrit.Nav.RepoDetailView.ACCESS);
+      this.set('_showRepoCommands', isRepoView &&
+          params.detail === Gerrit.Nav.RepoDetailView.COMMANDS);
+      this.set('_showRepoDetailList', isRepoView &&
+          (params.detail === Gerrit.Nav.RepoDetailView.BRANCHES ||
+           params.detail === Gerrit.Nav.RepoDetailView.TAGS));
+      this.set('_showRepoMain', isRepoView && !params.detail);
+
       this.set('_showRepoList', isAdminView &&
           params.adminView === 'gr-repo-list');
+
       this.set('_showPluginList', isAdminView &&
           params.adminView === 'gr-plugin-list');
 

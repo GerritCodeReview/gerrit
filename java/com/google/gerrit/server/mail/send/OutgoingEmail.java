@@ -121,34 +121,38 @@ public abstract class OutgoingEmail {
     Set<Address> smtpRcptToPlaintextOnly = new HashSet<>();
     if (shouldSendMessage()) {
       if (fromId != null) {
-        final Account fromUser = args.accountCache.get(fromId).getAccount();
-        GeneralPreferencesInfo senderPrefs = fromUser.getGeneralPreferencesInfo();
-
-        if (senderPrefs != null && senderPrefs.getEmailStrategy() == CC_ON_OWN_COMMENTS) {
-          // If we are impersonating a user, make sure they receive a CC of
-          // this message so they can always review and audit what we sent
-          // on their behalf to others.
-          //
-          add(RecipientType.CC, fromId);
-        } else if (!accountsToNotify.containsValue(fromId) && rcptTo.remove(fromId)) {
-          // If they don't want a copy, but we queued one up anyway,
-          // drop them from the recipient lists.
-          //
-          removeUser(fromUser);
+        AccountState fromUser = args.accountCache.get(fromId);
+        if (fromUser != null) {
+          GeneralPreferencesInfo senderPrefs = fromUser.getGeneralPreferences();
+          if (senderPrefs != null && senderPrefs.getEmailStrategy() == CC_ON_OWN_COMMENTS) {
+            // If we are impersonating a user, make sure they receive a CC of
+            // this message so they can always review and audit what we sent
+            // on their behalf to others.
+            //
+            add(RecipientType.CC, fromId);
+          } else if (!accountsToNotify.containsValue(fromId) && rcptTo.remove(fromId)) {
+            // If they don't want a copy, but we queued one up anyway,
+            // drop them from the recipient lists.
+            //
+            removeUser(fromUser.getAccount());
+          }
         }
       }
       // Check the preferences of all recipients. If any user has disabled
       // his email notifications then drop him from recipients' list.
       // In addition, check if users only want to receive plaintext email.
       for (Account.Id id : rcptTo) {
-        Account thisUser = args.accountCache.get(id).getAccount();
-        GeneralPreferencesInfo prefs = thisUser.getGeneralPreferencesInfo();
-        if (prefs == null || prefs.getEmailStrategy() == DISABLED) {
-          removeUser(thisUser);
-        } else if (useHtml() && prefs.getEmailFormat() == EmailFormat.PLAINTEXT) {
-          removeUser(thisUser);
-          smtpRcptToPlaintextOnly.add(
-              new Address(thisUser.getFullName(), thisUser.getPreferredEmail()));
+        AccountState thisUser = args.accountCache.get(id);
+        if (thisUser != null) {
+          Account thisUserAccount = thisUser.getAccount();
+          GeneralPreferencesInfo prefs = thisUser.getGeneralPreferences();
+          if (prefs == null || prefs.getEmailStrategy() == DISABLED) {
+            removeUser(thisUserAccount);
+          } else if (useHtml() && prefs.getEmailFormat() == EmailFormat.PLAINTEXT) {
+            removeUser(thisUserAccount);
+            smtpRcptToPlaintextOnly.add(
+                new Address(thisUserAccount.getFullName(), thisUserAccount.getPreferredEmail()));
+          }
         }
         if (smtpRcptTo.isEmpty() && smtpRcptToPlaintextOnly.isEmpty()) {
           return;

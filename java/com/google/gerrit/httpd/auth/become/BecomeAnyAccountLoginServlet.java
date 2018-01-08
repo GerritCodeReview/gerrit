@@ -183,9 +183,9 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     return HtmlDomUtil.toUTF8(doc);
   }
 
-  private AuthResult auth(Account account) {
+  private AuthResult auth(AccountState account) {
     if (account != null) {
-      return new AuthResult(account.getId(), null, false);
+      return new AuthResult(account.getAccount().getId(), null, false);
     }
     return null;
   }
@@ -218,13 +218,8 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
 
   private AuthResult byPreferredEmail(String email) {
     try (ReviewDb db = schema.open()) {
-      Optional<Account> match =
-          queryProvider
-              .get()
-              .byPreferredEmail(email)
-              .stream()
-              .map(AccountState::getAccount)
-              .findFirst();
+      Optional<AccountState> match =
+          queryProvider.get().byPreferredEmail(email).stream().findFirst();
       return match.isPresent() ? auth(match.get()) : null;
     } catch (OrmException e) {
       getServletContext().log("cannot query database", e);

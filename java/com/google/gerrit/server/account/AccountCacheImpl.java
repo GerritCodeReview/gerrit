@@ -20,7 +20,6 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -134,34 +133,16 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   static class ByIdLoader extends CacheLoader<Account.Id, Optional<AccountState>> {
-    private final AllUsersName allUsersName;
     private final Accounts accounts;
-    private final ExternalIds externalIds;
 
     @Inject
-    ByIdLoader(AllUsersName allUsersName, Accounts accounts, ExternalIds externalIds) {
-      this.allUsersName = allUsersName;
+    ByIdLoader(Accounts accounts) {
       this.accounts = accounts;
-      this.externalIds = externalIds;
     }
 
     @Override
     public Optional<AccountState> load(Account.Id who) throws Exception {
-      Account account = accounts.get(who);
-      if (account == null) {
-        return Optional.empty();
-      }
-
-      try {
-        account.setGeneralPreferences(accounts.getGeneralPreferences(who));
-      } catch (IOException | ConfigInvalidException e) {
-        log.warn("Cannot load GeneralPreferences for " + who + " (using default)", e);
-        account.setGeneralPreferences(GeneralPreferencesInfo.defaults());
-      }
-
-      return Optional.of(
-          new AccountState(
-              allUsersName, account, externalIds.byAccount(who), accounts.getProjectWatches(who)));
+      return Optional.ofNullable(accounts.get(who));
     }
   }
 }

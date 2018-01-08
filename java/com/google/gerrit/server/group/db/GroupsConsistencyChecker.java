@@ -20,6 +20,7 @@ import static com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.Consi
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllUsersName;
@@ -113,7 +114,7 @@ public class GroupsConsistencyChecker {
     }
 
     for (Account.Id id : g.getMembers().asList()) {
-      Account account;
+      AccountState account;
       try {
         account = accounts.get(id);
       } catch (ConfigInvalidException e) {

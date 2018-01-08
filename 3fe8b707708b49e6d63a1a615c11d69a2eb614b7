@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1515422140 +0100\nnonce AGjzz380XtjGsUjeuvigsDTd1WSkv/AuQjcobEMDyK1nRLip733LnAWAvAFhqnlbY0usAtuCriCU\n\n0000000000000000000000000000000000000000 478a738a1794eebe26e58a1c7f88aa194379cacb refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaU4G8AAoJEFG1/Zeg0O9R34QIAKZe9mtcHjr3e+kkIGSAw38p\nLsUEjd4GSZ3nBdX7RfELzzQS9OywHJPKnfKpwbjJS92T/7LXvo+JS8CZilaxnjRI\nK81blg5UmrdhkNIbE+mskbpFbXGlrSsGKteq7WUOzTTNtl+mDI66A+9xiI55myLT\nH91N0GJkOAiSEipTl8B3CQtLY9albEKCa8S5qpwl3kMKMKSrDNbRp5Nv62tOByWa\n54uzpKMsOEesLxyK9AYMMeRGElPYuAfeyUJPEh2LUuN4zwr+JPH5oXnc8mQ5HGfb\nfH4cOfRX2BQkJgkyjErXe89Vn4M3S6fJl1frMTGjkrN72g8m2r6cwOzdtBpUcyM\u003d\n\u003d/WLG\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ed31435_a3365f97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-08T15:24:51Z",
+      "side": 1,
+      "message": "I\u0027m a little curious who these \"most callers\" are. ISTM the most common way of getting an account is via the AccountCache, which does load preferences (but of course this cost is amortized because it\u0027s a cache). How many other places do we really load an AcccountConfig?\n\nMostly just curious, I think this change is most likely still a good idea regardless.",
+      "range": {
+        "startLine": 16,
+        "startChar": 6,
+        "endLine": 17,
+        "endChar": 11
+      },
+      "revId": "3fe8b707708b49e6d63a1a615c11d69a2eb614b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d3e258c_07806250",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-08T15:24:51Z",
+      "side": 1,
+      "message": "This is fine for now, but longer term, I wonder if we should move towards a builder pattern here as well. Right now in SetPreferences we merge the input preferences into a fully-populated GeneralPreferencesInfo, but maybe we could push that logic into AccountUpdate instead. What do you think?",
+      "revId": "3fe8b707708b49e6d63a1a615c11d69a2eb614b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

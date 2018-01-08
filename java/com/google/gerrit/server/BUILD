@@ -59,7 +59,6 @@ java_library(
         "//lib:protobuf",
         "//lib:servlet-api-3_1",
         "//lib:soy",
-        "//lib:tukaani-xz",
         "//lib/auto:auto-value",
         "//lib/bouncycastle:bcpkix-neverlink",
         "//lib/bouncycastle:bcprov-neverlink",

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "4a52af2a_1c50f79c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-08T15:31:59Z",
+      "side": 1,
+      "message": "Yeah, almost everything goes through the account cache. There are only a few other callers which load accounts directly from NoteDb (they can be seen in [1] where I change the Accounts#get method to return an AccountState). There are also a few special cases that use AccountConfig directly (init and tests).\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/151032",
+      "parentUuid": "5ed31435_a3365f97",
+      "range": {
+        "startLine": 16,
+        "startChar": 6,
+        "endLine": 17,
+        "endChar": 11
+      },
+      "revId": "3fe8b707708b49e6d63a1a615c11d69a2eb614b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d3e258c_07806250",
         "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2018-01-08T15:24:51Z",
       "side": 1,
       "message": "This is fine for now, but longer term, I wonder if we should move towards a builder pattern here as well. Right now in SetPreferences we merge the input preferences into a fully-populated GeneralPreferencesInfo, but maybe we could push that logic into AccountUpdate instead. What do you think?",
+      "revId": "3fe8b707708b49e6d63a1a615c11d69a2eb614b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "860cd727_a733a4ea",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-08T15:31:59Z",
+      "side": 1,
+      "message": "I would also prefer a builder pattern here, but didn\u0027t want to change too much at once.",
+      "parentUuid": "6d3e258c_07806250",
       "revId": "3fe8b707708b49e6d63a1a615c11d69a2eb614b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -23,6 +23,8 @@ limitations under the License.
     <style include="shared-styles">
       :host {
         display: block;
+        max-height: 100vh;
+        overflow-y: auto;
       }
       header{
         padding: 1em;
@@ -259,6 +261,23 @@ limitations under the License.
           <tr>
             <td><span class="key">z</span></td>
             <td>Collapse all messages</td>
+          </tr>
+          <tr>
+            <td></td><td class="header">Reply dialog</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="key modifier">Ctrl</span>
+              <span class="key">Enter</span><br/>
+            </td>
+            <td>Send reply</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="key modifier">Meta</span>
+              <span class="key">Enter</span>
+            </td>
+            <td>Send reply</td>
           </tr>
           <tr>
             <td></td><td class="header">File list</td>

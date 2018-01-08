@@ -2170,6 +2170,15 @@ Example:
   installModule = com.example.abc.OurSpecialSauceModule
 ----
 
+[[gerrit.loginForgottenPasswordText]]gerrit.loginForgottenPasswordText::
++
+Allows you to specify text for resetting the users password.
+This can include a link for the user to go to.
++
+Note this will only work on ldap.
++
+Defaults to null.
+
 [[gerrit.reportBugUrl]]gerrit.reportBugUrl::
 +
 URL to direct users to when they need to report a bug.
@@ -2673,12 +2682,12 @@ org.anyorg.MySecureIPFilter that performs source IP security filtering:
 
 ----
 [auth]
-	type = HTTP
-	httpHeader = TRUSTED_USER
+  type = HTTP
+  httpHeader = TRUSTED_USER
 
 [httpd]
-	filterClass = org.anyorg.MySecureHeaderFilter
-	filterClass = org.anyorg.MySecureIPFilter
+  filterClass = org.anyorg.MySecureHeaderFilter
+  filterClass = org.anyorg.MySecureIPFilter
 ----
 
 [[httpd.idleTimeout]]httpd.idleTimeout::

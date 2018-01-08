@@ -23,6 +23,30 @@
       "revId": "e40857dc6eca360881c1cdeb09e4aa5b5900424e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09101562_255b49bc",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-08T17:40:50Z",
+      "side": 1,
+      "message": "Was changed in https://github.com/GerritCodeReview/gerrit/commit/36d5aac2071bcd6389a0cef0b1b9afc8720647d8 today.",
+      "parentUuid": "598aa251_60a71ad8",
+      "range": {
+        "startLine": 44,
+        "startChar": 7,
+        "endLine": 44,
+        "endChar": 59
+      },
+      "revId": "e40857dc6eca360881c1cdeb09e4aa5b5900424e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "568644e0_8ce920b2",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1035,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-08T17:33:41Z",
+      "side": 1,
+      "message": "detailType should be removed now (here and below)",
+      "range": {
+        "startLine": 1035,
+        "startChar": 8,
+        "endLine": 1035,
+        "endChar": 31
+      },
+      "revId": "4d3219786a0e08a5f97f9191d7fc77802760ed53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

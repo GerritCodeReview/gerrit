@@ -621,6 +621,68 @@ limitations under the License.
       assert.equal(element.send.lastCall.args[2].download_scheme, 'http');
     });
 
+    test('getDiffPreferences returns correct defaults', done => {
+      sandbox.stub(element, 'getLoggedIn', () => Promise.resolve(false));
+
+      element.getDiffPreferences().then(obj => {
+        assert.equal(obj.auto_hide_diff_table_header, true);
+        assert.equal(obj.context, 10);
+        assert.equal(obj.cursor_blink_rate, 0);
+        assert.equal(obj.font_size, 12);
+        assert.equal(obj.ignore_whitespace, 'IGNORE_NONE');
+        assert.equal(obj.intraline_difference, true);
+        assert.equal(obj.line_length, 100);
+        assert.equal(obj.line_wrapping, false);
+        assert.equal(obj.show_line_endings, true);
+        assert.equal(obj.show_tabs, true);
+        assert.equal(obj.show_whitespace_errors, true);
+        assert.equal(obj.syntax_highlighting, true);
+        assert.equal(obj.tab_size, 8);
+        assert.equal(obj.theme, 'DEFAULT');
+        done();
+      });
+    });
+
+    test('saveDiffPreferences set show_tabs to false', () => {
+      sandbox.stub(element, 'send');
+      element.saveDiffPreferences({show_tabs: false});
+      assert.isTrue(element.send.called);
+      assert.equal(element.send.lastCall.args[2].show_tabs, false);
+    });
+
+    test('getEditPreferences returns correct defaults', done => {
+      sandbox.stub(element, 'getLoggedIn', () => {
+        return Promise.resolve(false);
+      });
+
+      element.getEditPreferences().then(obj => {
+        assert.equal(obj.auto_close_brackets, false);
+        assert.equal(obj.cursor_blink_rate, 0);
+        assert.equal(obj.hide_line_numbers, false);
+        assert.equal(obj.hide_top_menu, false);
+        assert.equal(obj.indent_unit, 2);
+        assert.equal(obj.indent_with_tabs, false);
+        assert.equal(obj.key_map_type, 'DEFAULT');
+        assert.equal(obj.line_length, 100);
+        assert.equal(obj.line_wrapping, false);
+        assert.equal(obj.match_brackets, true);
+        assert.equal(obj.show_base, false);
+        assert.equal(obj.show_tabs, true);
+        assert.equal(obj.show_whitespace_errors, true);
+        assert.equal(obj.syntax_highlighting, true);
+        assert.equal(obj.tab_size, 8);
+        assert.equal(obj.theme, 'DEFAULT');
+        done();
+      });
+    });
+
+    test('saveEditPreferences set show_tabs to false', () => {
+      sandbox.stub(element, 'send');
+      element.saveEditPreferences({show_tabs: false});
+      assert.isTrue(element.send.called);
+      assert.equal(element.send.lastCall.args[2].show_tabs, false);
+    });
+
     test('confirmEmail', () => {
       sandbox.spy(element, 'send');
       element.confirmEmail('foo');

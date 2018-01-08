@@ -458,7 +458,7 @@
           return this._fetchSharedCacheURL('/accounts/self/preferences.diff');
         }
         // These defaults should match the defaults in
-        // jcg/gerrit/extensions/client/DiffPreferencesInfo.java
+        // java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java
         // NOTE: There are some settings that don't apply to PolyGerrit
         // (Render mode being at least one of them).
         return Promise.resolve({
@@ -471,6 +471,34 @@
           line_length: 100,
           line_wrapping: false,
           show_line_endings: true,
+          show_tabs: true,
+          show_whitespace_errors: true,
+          syntax_highlighting: true,
+          tab_size: 8,
+          theme: 'DEFAULT',
+        });
+      });
+    },
+
+    getEditPreferences() {
+      return this.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          return this._fetchSharedCacheURL('/accounts/self/preferences.edit');
+        }
+        // These defaults should match the defaults in
+        // java/com/google/gerrit/extensions/client/EditPreferencesInfo.java
+        return Promise.resolve({
+          auto_close_brackets: false,
+          cursor_blink_rate: 0,
+          hide_line_numbers: false,
+          hide_top_menu: false,
+          indent_unit: 2,
+          indent_with_tabs: false,
+          key_map_type: 'DEFAULT',
+          line_length: 100,
+          line_wrapping: false,
+          match_brackets: true,
+          show_base: false,
           show_tabs: true,
           show_whitespace_errors: true,
           syntax_highlighting: true,
@@ -505,6 +533,18 @@
       // Invalidate the cache.
       this._cache['/accounts/self/preferences.diff'] = undefined;
       return this.send('PUT', '/accounts/self/preferences.diff', prefs,
+          opt_errFn, opt_ctx);
+    },
+
+    /**
+     * @param {?Object} prefs
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?=} opt_ctx
+     */
+    saveEditPreferences(prefs, opt_errFn, opt_ctx) {
+      // Invalidate the cache.
+      this._cache['/accounts/self/preferences.edit'] = undefined;
+      return this.send('PUT', '/accounts/self/preferences.edit', prefs,
           opt_errFn, opt_ctx);
     },
 
@@ -1413,10 +1453,6 @@
     publishChangeEdit(changeNum) {
       return this.getChangeURLAndSend(changeNum, 'POST', null,
           '/edit:publish');
-    },
-
-    getEditPrefs() {
-      return this._fetchSharedCacheURL('/accounts/self/preferences.edit');
     },
 
     putChangeCommitMessage(changeNum, message) {

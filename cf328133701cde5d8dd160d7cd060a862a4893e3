@@ -89,6 +89,24 @@
       "revId": "cf328133701cde5d8dd160d7cd060a862a4893e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c069218_0d16231f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-08T23:47:09Z",
+      "side": 1,
+      "message": "\u003e \u003e IIRC I created the core plugins project when I was trying to make them all inherit some setting that turned out to be not inheritable, so abandoned the idea.\n\u003e \n\u003e Curious what setting. It wasn\u0027t submit type, was it? https://gerrit-review.googlesource.com/c/gerrit/+/135830 :)\n\u003e \n\nYes.  There was a discussion about it on the maintainers\u0027 mailing list:  \"Make the core plugins\u0027 merge strategy \"Fast-Forward Only\"?\"\n\nSo if your change gets merged, we can revisit that plan to change the core plugins\u0027 parent to Core-Plugins and make the merge strategy inherited.",
+      "parentUuid": "bbb21c88_cbba72f2",
+      "revId": "cf328133701cde5d8dd160d7cd060a862a4893e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

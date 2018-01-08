@@ -141,7 +141,6 @@ public class Accounts {
       return Optional.empty();
     }
     Account account = accountConfig.getLoadedAccount().get();
-    account.setGeneralPreferences(accountConfig.getGeneralPreferences());
     return Optional.of(
         new AccountState(
             allUsersName,
@@ -149,7 +148,8 @@ public class Accounts {
             accountConfig.getExternalIdsRev().isPresent()
                 ? externalIds.byAccount(accountId, accountConfig.getExternalIdsRev().get())
                 : ImmutableSet.of(),
-            accountConfig.getProjectWatches()));
+            accountConfig.getProjectWatches(),
+            accountConfig.getGeneralPreferences()));
   }
 
   public static Stream<Account.Id> readUserRefs(Repository repo) throws IOException {

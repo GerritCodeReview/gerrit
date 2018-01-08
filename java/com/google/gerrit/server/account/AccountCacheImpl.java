@@ -20,6 +20,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -129,7 +130,12 @@ public class AccountCacheImpl implements AccountCache {
   private AccountState missing(Account.Id accountId) {
     Account account = new Account(accountId, TimeUtil.nowTs());
     account.setActive(false);
-    return new AccountState(allUsersName, account, Collections.emptySet(), new HashMap<>());
+    return new AccountState(
+        allUsersName,
+        account,
+        Collections.emptySet(),
+        new HashMap<>(),
+        GeneralPreferencesInfo.defaults());
   }
 
   static class ByIdLoader extends CacheLoader<Account.Id, Optional<AccountState>> {

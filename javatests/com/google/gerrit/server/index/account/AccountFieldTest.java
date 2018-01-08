@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountState;
@@ -44,7 +45,12 @@ public class AccountFieldTest extends GerritBaseTests {
     List<String> values =
         toStrings(
             AccountField.REF_STATE.get(
-                new AccountState(allUsersName, account, ImmutableSet.of(), ImmutableMap.of())));
+                new AccountState(
+                    allUsersName,
+                    account,
+                    ImmutableSet.of(),
+                    ImmutableMap.of(),
+                    GeneralPreferencesInfo.defaults())));
     assertThat(values).hasSize(1);
     String expectedValue =
         allUsersName.get() + ":" + RefNames.refsUsers(account.getId()) + ":" + metaId;
@@ -73,7 +79,11 @@ public class AccountFieldTest extends GerritBaseTests {
         toStrings(
             AccountField.EXTERNAL_ID_STATE.get(
                 new AccountState(
-                    null, account, ImmutableSet.of(extId1, extId2), ImmutableMap.of())));
+                    null,
+                    account,
+                    ImmutableSet.of(extId1, extId2),
+                    ImmutableMap.of(),
+                    GeneralPreferencesInfo.defaults())));
     String expectedValue1 = extId1.key().sha1().name() + ":" + extId1.blobId().name();
     String expectedValue2 = extId2.key().sha1().name() + ":" + extId2.blobId().name();
     assertThat(values).containsExactly(expectedValue1, expectedValue2);

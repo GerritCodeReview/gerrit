@@ -75,6 +75,20 @@ public class ExternalIds {
     return byAccount(accountId).stream().filter(e -> e.key().isScheme(scheme)).collect(toSet());
   }
 
+  /** Returns the external IDs of the specified account. */
+  public Set<ExternalId> byAccount(Account.Id accountId, ObjectId rev) throws IOException {
+    return externalIdCache.byAccount(accountId, rev);
+  }
+
+  /** Returns the external IDs of the specified account that have the given scheme. */
+  public Set<ExternalId> byAccount(Account.Id accountId, String scheme, ObjectId rev)
+      throws IOException {
+    return byAccount(accountId, rev)
+        .stream()
+        .filter(e -> e.key().isScheme(scheme))
+        .collect(toSet());
+  }
+
   /** Returns all external IDs by account. */
   public ImmutableSetMultimap<Account.Id, ExternalId> allByAccount() throws IOException {
     return externalIdCache.allByAccount();

@@ -39,7 +39,9 @@ import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
@@ -84,6 +86,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   private final String ref;
 
   private Optional<Account> loadedAccount;
+  private Optional<ObjectId> externalIdsRev;
   private WatchConfig watchConfig;
   private PreferencesConfig prefConfig;
   private Optional<InternalAccountUpdate> accountUpdate = Optional.empty();
@@ -132,6 +135,17 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   public Optional<Account> getLoadedAccount() {
     checkLoaded();
     return loadedAccount;
+  }
+
+  /**
+   * Returns the revision of the {@code refs/meta/external-ids} branch.
+   *
+   * @return revision of the {@code refs/meta/external-ids} branch, {@link Optional#empty()} if no
+   *     {@code refs/meta/external-ids} branch exists
+   */
+  public Optional<ObjectId> getExternalIdsRev() {
+    checkLoaded();
+    return externalIdsRev;
   }
 
   /**
@@ -218,6 +232,10 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
 
       Config accountConfig = readConfig(ACCOUNT_CONFIG);
       loadedAccount = Optional.of(parse(accountConfig, revision.name()));
+
+      Ref externalIdsRef = repo.exactRef(RefNames.REFS_EXTERNAL_IDS);
+      externalIdsRev =
+          externalIdsRef != null ? Optional.of(externalIdsRef.getObjectId()) : Optional.empty();
 
       watchConfig = new WatchConfig(accountId, readConfig(WatchConfig.WATCH_CONFIG), this);
 

@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ComparisonChain;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
@@ -58,15 +59,18 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
   @Override
   public List<ProjectWatchInfo> apply(AccountResource rsrc)
       throws OrmException, AuthException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+          PermissionBackendException, ResourceNotFoundException {
     if (self.get() != rsrc.getUser()) {
       permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 
     Account.Id accountId = rsrc.getUser().getAccountId();
+    AccountState account = accounts.get(accountId);
+    if (account == null) {
+      throw new ResourceNotFoundException();
+    }
     List<ProjectWatchInfo> projectWatchInfos = new ArrayList<>();
-    for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e :
-        accounts.getProjectWatches(accountId).entrySet()) {
+    for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e : account.getProjectWatches().entrySet()) {
       ProjectWatchInfo pwi = new ProjectWatchInfo();
       pwi.filter = e.getKey().filter();
       pwi.project = e.getKey().project().get();

@@ -55,6 +55,8 @@ interface ExternalIdCache {
 
   ImmutableSet<ExternalId> byAccount(Account.Id accountId) throws IOException;
 
+  ImmutableSet<ExternalId> byAccount(Account.Id accountId, ObjectId rev) throws IOException;
+
   ImmutableSetMultimap<Account.Id, ExternalId> allByAccount() throws IOException;
 
   ImmutableSetMultimap<String, ExternalId> byEmails(String... emails) throws IOException;

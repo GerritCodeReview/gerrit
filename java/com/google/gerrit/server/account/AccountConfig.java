@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.VersionedMetaData;
@@ -139,6 +140,9 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
 
   /**
    * Returns the revision of the {@code refs/meta/external-ids} branch.
+   *
+   * <p>This revision can be used to load the external IDs of the loaded account lazily via {@link
+   * ExternalIds#byAccount(com.google.gerrit.reviewdb.client.Account.Id, ObjectId)}.
    *
    * @return revision of the {@code refs/meta/external-ids} branch, {@link Optional#empty()} if no
    *     {@code refs/meta/external-ids} branch exists

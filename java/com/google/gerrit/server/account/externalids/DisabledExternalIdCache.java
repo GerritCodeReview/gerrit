@@ -64,6 +64,11 @@ public class DisabledExternalIdCache implements ExternalIdCache {
   }
 
   @Override
+  public ImmutableSet<ExternalId> byAccount(Account.Id accountId, ObjectId rev) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
   public ImmutableSetMultimap<Account.Id, ExternalId> allByAccount() throws IOException {
     throw new UnsupportedOperationException();
   }

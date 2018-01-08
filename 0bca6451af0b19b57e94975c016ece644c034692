@@ -34,6 +34,24 @@
       "revId": "0bca6451af0b19b57e94975c016ece644c034692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebe05008_059cc452",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-08T19:56:39Z",
+      "side": 1,
+      "message": "One idea: don\u0027t change the default when unset, leave that as MERGE_IF_NECESSARY. We can still make the default for projects created through Gerrit default to INHERIT, which will hopefully be the vast majority of new projects. The downside is potential confusion for the minority of projects that are created outside of Gerrit, where admins might be confused why they don\u0027t have the same config as projects created within Gerrit.\n\nOr we can just leave the default as MERGE_IF_NECESSARY even for new projects created within Gerrit. Admins can still use INHERIT, they just have to explicitly choose it, which is a little unfriendly.\n\nNow that I think about it we should definitely introduce INHERIT without changing the default at first, if for no other reason then it will make it easier to review the code.",
+      "parentUuid": "131d8325_1be12a83",
+      "revId": "0bca6451af0b19b57e94975c016ece644c034692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

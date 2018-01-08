@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1515443310 -0500\nnonce AGjzz38xCepO8ew/TKZAesXjovfLET2nwNmxlQNOWaNotYn+/HgewM4oDHdp2/uTPde0oRrtIC6j\n\n0000000000000000000000000000000000000000 b47a0a55bfe768232b39a01dc3775c71dbd344b4 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlpT1G4VHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMmxwQAM5nE/D4g6yP7sEGko6nozCjV0WK\nKoN2U77/SqjW4MHe7KBloGxF94k5WnjGLb8tZzOmpzbIE61woZTs84G+yUStNZLw\nk1XS2hJ/DwPIdm7gB4DY0A49dE5kwt9e7m4UM2KBFUcUDPG59b1g56Oph3hIqQMm\nwJdm/13eOFuei3ROk1JUaof1fkgH8Ka+wuWIhFuQqA1QpMDVjU9a4ZdC2ZyWT6A+\ni1EvEzBjzRV+ce47p0EN/2jBJlrynw4gCAbVU1N5UbDARsX/H8zc+Gs9Kc5M2rOE\nnon8tXmAMosNzGrWcgS/GYmIp6FpKyspHXdjtWQbfW1/pIs99DV6oUWtKuZ+d1i3\n029cmzirGDBP71ydvDrZwxGZuzOyjA0UqmjSKtge+eD6ZcOHZLUGFzBkc1lX+Y/x\ntVqxS6+GPBepD8cGsvTTDuA2o+QxljrwpH+Yg5UQn684O0mFLliJsfEMrVDNgUTS\n4uIWRo+KeRvIBpnpqj6/cNG7ST8C5wSNnaG1W3px7uOU42PlIa2FwjVz98wST8g4\nwJXYJU0oYVR641+dVuAdAY6Iny54OaVdrIoZXH38cIvMnQwtxlhlKEAktrSm0mOS\nCsFh6e+Nm/0wn33t9Qm7992l9UPdTuPiUFG1WzW00Xp+UrmDAXuGdeJBODg/tP72\nYtLxHhRrthpOpQyD\n\u003dSXzF\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "afa455dc_b21809a2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-08T21:14:56Z",
+      "side": 1,
+      "message": "This is not supported in IE:\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/values#Description\n\nIt\u0027s probably safer to get the values by getting the keys and then extracting the values in a loop.",
+      "range": {
+        "startLine": 198,
+        "startChar": 23,
+        "endLine": 198,
+        "endChar": 52
+      },
+      "revId": "b47a0a55bfe768232b39a01dc3775c71dbd344b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24a3b162_e080840e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-08T21:14:56Z",
+      "side": 1,
+      "message": "Would this still be included in the response? It seems if nothing else, it should match the \u0027configured_value\u0027?",
+      "range": {
+        "startLine": 101,
+        "startChar": 12,
+        "endLine": 101,
+        "endChar": 46
+      },
+      "revId": "b47a0a55bfe768232b39a01dc3775c71dbd344b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

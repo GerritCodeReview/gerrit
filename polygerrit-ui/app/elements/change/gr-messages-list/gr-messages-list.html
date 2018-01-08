@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../gr-message/gr-message.html">
@@ -70,6 +71,10 @@ limitations under the License.
         align-items: center;
         display: flex;
       }
+      paper-toggle-button {
+        --paper-toggle-button-checked-bar-color: var(--color-link);
+        --paper-toggle-button-checked-button-color: var(--color-link);
+      }
     </style>
     <div class="header">
       <h3>Messages</h3>
@@ -78,12 +83,9 @@ limitations under the License.
             id="automatedMessageToggleContainer"
             class="container"
             hidden$="[[!_hasAutomatedMessages(messages)]]">
-          <gr-button
+          <paper-toggle-button
               id="automatedMessageToggle"
-              link
-              on-tap="_handleAutomatedMessageToggleTap">
-            [[_computeAutomatedToggleText(_hideAutomated)]]
-          </gr-button>
+              checked="{{_hideAutomated}}"></paper-toggle-button>Only comments
           <span class="transparent separator"></span>
         </span>
         <gr-button

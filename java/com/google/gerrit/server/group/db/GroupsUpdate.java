@@ -136,7 +136,7 @@ public class GroupsUpdate {
     this.gitRefUpdated = gitRefUpdated;
     this.currentUser = currentUser;
 
-    auditLogFormatter = new AuditLogFormatter(accountCache, groupBackend, serverId);
+    auditLogFormatter = AuditLogFormatter.createBackedBy(accountCache, groupBackend, serverId);
     metaDataUpdateFactory =
         getMetaDataUpdateFactory(
             metaDataUpdateInternalFactory, currentUser, serverIdent, auditLogFormatter);

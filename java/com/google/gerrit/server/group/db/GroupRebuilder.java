@@ -82,7 +82,7 @@ public class GroupRebuilder {
         metaDataUpdateFactory,
 
         // TODO(dborowitz): These probably won't work during init.
-        new AuditLogFormatter(accountCache, groupBackend, serverId));
+        AuditLogFormatter.createBackedBy(accountCache, groupBackend, serverId));
   }
 
   @VisibleForTesting

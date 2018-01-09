@@ -4336,19 +4336,9 @@ Supported ciphers:
 * `aes128-ctr`
 * `aes192-ctr`
 * `aes256-ctr`
-* `aes128-cbc`
-* `aes192-cbc`
-* `aes256-cbc`
-* `blowfish-cbc`
-* `3des-cbc`
 * `arcfour128`
 * `arcfour256`
-* `none`
 +
-By default, all supported ciphers except `none` are available.
-+
-If your setup allows for it, it's recommended to disable all ciphers except
-the AES-CTR modes.
 
 [[sshd.mac]]sshd.mac::
 +
@@ -4360,8 +4350,6 @@ are enabled in addition to the default MACs, MAC names starting with
 +
 Supported MACs:
 +
-* `hmac-md5`
-* `hmac-md5-96`
 * `hmac-sha1`
 * `hmac-sha1-96`
 * `hmac-sha2-256`
@@ -4380,32 +4368,21 @@ algorithms, key exchange algorithm names starting with `-` are
 removed from the default key exchange algorithms.
 
 In the following example configuration, support for the 1024-bit
-`diffie-hellman-group1-sha1` key exchange is disabled while leaving
+`diffie-hellman-group14-sha1` key exchange is disabled while leaving
 all of the other default algorithms enabled:
 
 ----
 [sshd]
-  kex = -diffie-hellman-group1-sha1
+  kex = -diffie-hellman-group14-sha1
 ----
 
 Supported key exchange algorithms:
 
-* `ecdh-sha2-nistp521`
-* `ecdh-sha2-nistp384`
 * `ecdh-sha2-nistp256`
-* `diffie-hellman-group-exchange-sha256`
-* `diffie-hellman-group-exchange-sha1`
 * `diffie-hellman-group14-sha1`
-* `diffie-hellman-group1-sha1`
 
 By default, all supported key exchange algorithms are available.
-Without Bouncy Castle, `diffie-hellman-group1-sha1` is the only
-available algorithm.
 
-It is strongly recommended to disable at least `diffie-hellman-group1-sha1`
-as it's known to be vulnerable (logjam attack). Additionally, if your setup
-allows for it, it is recommended to disable the remaining two `sha1` key
-exchange algorithms.
 --
 
 [[sshd.kerberosKeytab]]sshd.kerberosKeytab::

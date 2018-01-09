@@ -64,9 +64,9 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.mina.transport.socket.SocketSessionConfig;
-import org.apache.sshd.common.BaseBuilder;
 import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.channel.RequestHandler;
+import org.apache.sshd.common.cipher.BuiltinCiphers;
 import org.apache.sshd.common.cipher.Cipher;
 import org.apache.sshd.common.compression.BuiltinCompressions;
 import org.apache.sshd.common.compression.Compression;
@@ -82,13 +82,16 @@ import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.io.mina.MinaServiceFactoryFactory;
 import org.apache.sshd.common.io.mina.MinaSession;
 import org.apache.sshd.common.io.nio2.Nio2ServiceFactoryFactory;
+import org.apache.sshd.common.kex.BuiltinDHFactories;
 import org.apache.sshd.common.kex.KeyExchange;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
+import org.apache.sshd.common.mac.BuiltinMacs;
 import org.apache.sshd.common.mac.Mac;
 import org.apache.sshd.common.random.Random;
 import org.apache.sshd.common.random.SingletonRandomFactory;
 import org.apache.sshd.common.session.ConnectionService;
 import org.apache.sshd.common.session.Session;
+import org.apache.sshd.common.signature.BuiltinSignatures;
 import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
@@ -448,7 +451,13 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   @SuppressWarnings("unchecked")
   private void initKeyExchanges(Config cfg) {
-    List<NamedFactory<KeyExchange>> a = ServerBuilder.setUpDefaultKeyExchanges(true);
+    List<NamedFactory<KeyExchange>> a =
+        NamedFactory.setUpTransformedFactories(
+            true,
+            Collections.unmodifiableList(
+                Arrays.asList(BuiltinDHFactories.ecdhp256, BuiltinDHFactories.dhg14)),
+            ServerBuilder.DH2KEX);
+
     setKeyExchangeFactories(
         filter(cfg, "kex", (NamedFactory<KeyExchange>[]) a.toArray(new NamedFactory<?>[a.size()])));
   }
@@ -529,7 +538,16 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   @SuppressWarnings("unchecked")
   private void initCiphers(Config cfg) {
-    final List<NamedFactory<Cipher>> a = BaseBuilder.setUpDefaultCiphers(true);
+    final List<NamedFactory<Cipher>> a =
+        NamedFactory.setUpBuiltinFactories(
+            true,
+            Collections.unmodifiableList(
+                Arrays.asList(
+                    BuiltinCiphers.aes128ctr,
+                    BuiltinCiphers.aes192ctr,
+                    BuiltinCiphers.aes256ctr,
+                    BuiltinCiphers.arcfour256,
+                    BuiltinCiphers.arcfour128)));
 
     for (Iterator<NamedFactory<Cipher>> i = a.iterator(); i.hasNext(); ) {
       final NamedFactory<Cipher> f = i.next();
@@ -559,7 +577,15 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   @SuppressWarnings("unchecked")
   private void initMacs(Config cfg) {
-    List<NamedFactory<Mac>> m = BaseBuilder.setUpDefaultMacs(true);
+    List<NamedFactory<Mac>> m =
+        NamedFactory.setUpBuiltinFactories(
+            true,
+            Collections.unmodifiableList(
+                Arrays.asList(
+                    BuiltinMacs.hmacsha256,
+                    BuiltinMacs.hmacsha512,
+                    BuiltinMacs.hmacsha196,
+                    BuiltinMacs.hmacsha1)));
     setMacFactories(
         filter(cfg, "mac", (NamedFactory<Mac>[]) m.toArray(new NamedFactory<?>[m.size()])));
   }
@@ -632,7 +658,16 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initSignatures() {
-    setSignatureFactories(BaseBuilder.setUpDefaultSignatures(true));
+    setSignatureFactories(
+        NamedFactory.setUpBuiltinFactories(
+            true,
+            Collections.unmodifiableList(
+                Arrays.asList(
+                    BuiltinSignatures.nistp256,
+                    BuiltinSignatures.nistp384,
+                    BuiltinSignatures.nistp521,
+                    BuiltinSignatures.ed25519,
+                    BuiltinSignatures.rsa))));
   }
 
   private void initCompression(boolean enableCompression) {

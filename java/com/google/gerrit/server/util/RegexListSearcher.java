@@ -16,9 +16,6 @@ package com.google.gerrit.server.util;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.base.Function;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Chars;
 import dk.brics.automaton.Automaton;
@@ -26,26 +23,26 @@ import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
-/** Helper to search sorted lists for elements matching a regex. */
-public abstract class RegexListSearcher<T> implements Function<T, String> {
+/** Helper to search sorted lists for elements matching a {@link RegExp}. */
+public final class RegexListSearcher<T> {
   public static RegexListSearcher<String> ofStrings(String re) {
-    return new RegexListSearcher<String>(re) {
-      @Override
-      public String apply(String in) {
-        return in;
-      }
-    };
+    return new RegexListSearcher<>(re, in -> in);
   }
 
   private final RunAutomaton pattern;
+  private final Function<T, String> toStringFunc;
 
   private final String prefixBegin;
   private final String prefixEnd;
   private final int prefixLen;
   private final boolean prefixOnly;
 
-  public RegexListSearcher(String re) {
+  public RegexListSearcher(String re, Function<T, String> toStringFunc) {
+    this.toStringFunc = checkNotNull(toStringFunc);
+
     if (re.startsWith("^")) {
       re = re.substring(1);
     }
@@ -70,34 +67,35 @@ public abstract class RegexListSearcher<T> implements Function<T, String> {
     pattern = prefixOnly ? null : new RunAutomaton(automaton);
   }
 
-  public Iterable<T> search(List<T> list) {
+  public Stream<T> search(List<T> list) {
     checkNotNull(list);
     int begin;
     int end;
 
     if (0 < prefixLen) {
-      // Assumes many consecutive elements may have the same prefix, so the cost
-      // of two binary searches is less than iterating to find the endpoints.
-      begin = find(list, prefixBegin);
-      end = find(list, prefixEnd);
+      // Assumes many consecutive elements may have the same prefix, so the cost of two binary
+      // searches is less than iterating linearly and running the regexp find the endpoints.
+      List<String> strings =
+          Lists.transform(list, (com.google.common.base.Function<T, String>) toStringFunc::apply);
+      begin = find(strings, prefixBegin);
+      end = find(strings, prefixEnd);
     } else {
       begin = 0;
       end = list.size();
     }
-
-    if (prefixOnly) {
-      return begin < end ? list.subList(begin, end) : ImmutableList.<T>of();
+    if (begin >= end) {
+      return Stream.empty();
     }
 
-    return Iterables.filter(list.subList(begin, end), x -> pattern.run(apply(x)));
+    Stream<T> result = list.subList(begin, end).stream();
+    if (!prefixOnly) {
+      result = result.filter(x -> pattern.run(toStringFunc.apply(x)));
+    }
+    return result;
   }
 
-  public boolean hasMatch(List<T> list) {
-    return !Iterables.isEmpty(search(list));
-  }
-
-  private int find(List<T> list, String p) {
-    int r = Collections.binarySearch(Lists.transform(list, this), p);
+  private static int find(List<String> list, String p) {
+    int r = Collections.binarySearch(list, p);
     return r < 0 ? -(r + 1) : r;
   }
 }

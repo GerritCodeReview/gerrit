@@ -14,12 +14,10 @@
 
 package com.google.gerrit.server.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Ordering;
 import java.util.List;
 import org.junit.Test;
 
@@ -29,13 +27,6 @@ public class RegexListSearcherTest {
   @Test
   public void emptyList() {
     assertSearchReturns(EMPTY, "pat", EMPTY);
-  }
-
-  @Test
-  public void hasMatch() {
-    List<String> list = ImmutableList.of("bar", "foo", "quux");
-    assertTrue(RegexListSearcher.ofStrings("foo").hasMatch(list));
-    assertFalse(RegexListSearcher.ofStrings("xyz").hasMatch(list));
   }
 
   @Test
@@ -66,7 +57,9 @@ public class RegexListSearcherTest {
   }
 
   private void assertSearchReturns(List<?> expected, String re, List<String> inputs) {
-    assertTrue(Ordering.natural().isOrdered(inputs));
-    assertEquals(expected, ImmutableList.copyOf(RegexListSearcher.ofStrings(re).search(inputs)));
+    assertThat(inputs).isOrdered();
+    assertThat(RegexListSearcher.ofStrings(re).search(inputs))
+        .containsExactlyElementsIn(expected)
+        .inOrder();
   }
 }

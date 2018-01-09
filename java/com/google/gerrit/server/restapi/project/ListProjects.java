@@ -21,7 +21,6 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -64,16 +63,16 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
+import java.util.Objects;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -515,31 +514,37 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
   private Collection<Project.NameKey> filter(PermissionBackend.WithUser perm)
       throws BadRequestException, PermissionBackendException {
-    Collection<Project.NameKey> matches = Lists.newArrayList(scan());
+    Stream<Project.NameKey> matches = scan();
     if (type == FilterType.PARENT_CANDIDATES) {
       matches = parentsOf(matches);
     }
-    return perm.filter(ProjectPermission.ACCESS, matches).stream().sorted().collect(toList());
+    // TODO(dborowitz): Streamified PermissionBackend#filter.
+    return perm.filter(ProjectPermission.ACCESS, matches.collect(toList()))
+        .stream()
+        .sorted()
+        .collect(toList());
   }
 
-  private Collection<Project.NameKey> parentsOf(Collection<Project.NameKey> matches) {
-    Set<Project.NameKey> parents = new HashSet<>();
-    for (Project.NameKey p : matches) {
-      ProjectState ps = projectCache.get(p);
-      if (ps != null) {
-        Project.NameKey parent = ps.getProject().getParent();
-        if (parent != null) {
-          if (projectCache.get(parent) != null) {
-            parents.add(parent);
-          } else {
-            log.warn(
-                String.format(
-                    "parent project %s of project %s not found", parent.get(), ps.getName()));
-          }
-        }
-      }
-    }
-    return parents;
+  private Stream<Project.NameKey> parentsOf(Stream<Project.NameKey> matches) {
+    return matches
+        .map(
+            p -> {
+              ProjectState ps = projectCache.get(p);
+              if (ps != null) {
+                Project.NameKey parent = ps.getProject().getParent();
+                if (parent != null) {
+                  if (projectCache.get(parent) != null) {
+                    return parent;
+                  }
+                  log.warn(
+                      String.format(
+                          "parent project %s of project %s not found", parent.get(), ps.getName()));
+                }
+              }
+              return null;
+            })
+        .filter(Objects::nonNull)
+        .distinct();
   }
 
   private boolean isParentAccessible(
@@ -559,32 +564,28 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     return b;
   }
 
-  private Iterable<Project.NameKey> scan() throws BadRequestException {
+  private Stream<Project.NameKey> scan() throws BadRequestException {
     if (matchPrefix != null) {
       checkMatchOptions(matchSubstring == null && matchRegex == null);
-      return projectCache.byName(matchPrefix);
+      return projectCache.byName(matchPrefix).stream();
     } else if (matchSubstring != null) {
       checkMatchOptions(matchPrefix == null && matchRegex == null);
-      return Iterables.filter(
-          projectCache.all(),
-          p -> p.get().toLowerCase(Locale.US).contains(matchSubstring.toLowerCase(Locale.US)));
+      return projectCache
+          .all()
+          .stream()
+          .filter(
+              p -> p.get().toLowerCase(Locale.US).contains(matchSubstring.toLowerCase(Locale.US)));
     } else if (matchRegex != null) {
       checkMatchOptions(matchPrefix == null && matchSubstring == null);
       RegexListSearcher<Project.NameKey> searcher;
       try {
-        searcher =
-            new RegexListSearcher<Project.NameKey>(matchRegex) {
-              @Override
-              public String apply(Project.NameKey in) {
-                return in.get();
-              }
-            };
+        searcher = new RegexListSearcher<>(matchRegex, Project.NameKey::get);
       } catch (IllegalArgumentException e) {
         throw new BadRequestException(e.getMessage());
       }
       return searcher.search(ImmutableList.copyOf(projectCache.all()));
     } else {
-      return projectCache.all();
+      return projectCache.all().stream();
     }
   }
 

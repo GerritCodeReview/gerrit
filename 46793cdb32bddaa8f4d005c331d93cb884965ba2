@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7860563_9ce83b3e",
+        "filename": "java/com/google/gerrit/extensions/api/projects/ConfigInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-09T12:26:32Z",
+      "side": 1,
+      "message": "Please document this new field in the REST API documentation.",
+      "revId": "46793cdb32bddaa8f4d005c331d93cb884965ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50a3a148_9a1933c6",
+        "filename": "java/com/google/gerrit/extensions/api/projects/ConfigInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-09T12:26:32Z",
+      "side": 1,
+      "message": "Please document this new field in the REST API documentation.",
+      "revId": "46793cdb32bddaa8f4d005c331d93cb884965ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81f84945_a6fc6540",
+        "filename": "java/com/google/gerrit/extensions/api/projects/ProjectInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-09T12:26:32Z",
+      "side": 1,
+      "message": "Please document this new field in the REST API documentation.",
+      "revId": "46793cdb32bddaa8f4d005c331d93cb884965ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afe37ab4_cef1332e",
+        "filename": "java/com/google/gerrit/reviewdb/client/BooleanProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-09T12:26:32Z",
+      "side": 1,
+      "message": "Is this correct? [1] says that the name is \"rejectEmptyCommit\"\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/151331/1/Documentation/config-project-config.txt#239",
+      "range": {
+        "startLine": 43,
+        "startChar": 33,
+        "endLine": 43,
+        "endChar": 44
+      },
+      "revId": "46793cdb32bddaa8f4d005c331d93cb884965ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45787cf3_1f26c557",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 994,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-09T12:26:32Z",
+      "side": 1,
+      "message": "Maybe also add tests for rejectEmptyCommit \u003d InheritableBoolean.FALSE to verify that submitting empty commits works in this case.",
+      "range": {
+        "startLine": 994,
+        "startChar": 2,
+        "endLine": 994,
+        "endChar": 64
+      },
+      "revId": "46793cdb32bddaa8f4d005c331d93cb884965ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81a176f3_6f7bb320",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1019,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-09T12:26:32Z",
+      "side": 1,
+      "message": "Why don\u0027t we need a \n\n  assume().that(getSubmitType()).isEqualTo(SubmitType.FAST_FORWARD_ONLY);\n\nfor this test?\n\nI guess it\u0027s maybe just the test name that is confusing??",
+      "revId": "46793cdb32bddaa8f4d005c331d93cb884965ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

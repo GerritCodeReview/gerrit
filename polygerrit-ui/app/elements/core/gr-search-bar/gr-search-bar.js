@@ -19,6 +19,7 @@
     'added:',
     'age:',
     'age:1week', // Give an example age
+    'assignee:',
     'author:',
     'branch:',
     'bug:',
@@ -44,6 +45,7 @@
     'intopic:',
     'is:',
     'is:abandoned',
+    'is:assigned',
     'is:closed',
     'is:ignored',
     'is:mergeable',

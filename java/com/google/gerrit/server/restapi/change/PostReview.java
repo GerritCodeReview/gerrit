@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
@@ -27,7 +28,6 @@ import static java.util.stream.Collectors.toSet;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -1118,8 +1118,7 @@ public class PostReview
 
     private boolean updateLabels(ProjectState projectState, ChangeContext ctx)
         throws OrmException, ResourceConflictException, IOException {
-      Map<String, Short> inLabels =
-          MoreObjects.firstNonNull(in.labels, Collections.<String, Short>emptyMap());
+      Map<String, Short> inLabels = firstNonNull(in.labels, Collections.emptyMap());
 
       // If no labels were modified and change is closed, abort early.
       // This avoids trying to record a modified label caused by a user

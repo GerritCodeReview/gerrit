@@ -139,6 +139,24 @@
       "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "679e4736_9ccd590a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/UpdateAccountPatchReviewDb.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-01-09T14:18:53Z",
+      "side": 1,
+      "message": "my fault, thanks",
+      "parentUuid": "b71c8eaa_20172bc3",
+      "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

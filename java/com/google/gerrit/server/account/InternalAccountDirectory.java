@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -95,7 +97,7 @@ public class InternalAccountDirectory extends AccountDirectory {
       info.secondaryEmails = externalIds != null ? getSecondaryEmails(account, externalIds) : null;
     }
     if (options.contains(FillOptions.USERNAME)) {
-      info.username = externalIds != null ? AccountState.getUserName(externalIds) : null;
+      info.username = externalIds != null ? ExternalId.getUserName(externalIds).orElse(null) : null;
     }
 
     if (options.contains(FillOptions.STATUS)) {
@@ -125,12 +127,10 @@ public class InternalAccountDirectory extends AccountDirectory {
   }
 
   public List<String> getSecondaryEmails(Account account, Collection<ExternalId> externalIds) {
-    List<String> emails = new ArrayList<>(AccountState.getEmails(externalIds));
-    if (account.getPreferredEmail() != null) {
-      emails.remove(account.getPreferredEmail());
-    }
-    Collections.sort(emails);
-    return emails;
+    return ExternalId.getEmails(externalIds)
+        .filter(e -> !e.equals(account.getPreferredEmail()))
+        .sorted()
+        .collect(toList());
   }
 
   private static void addAvatar(

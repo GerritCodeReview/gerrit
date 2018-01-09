@@ -20,26 +20,10 @@ import static com.google.gerrit.acceptance.AssertUtil.assertPrefs;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
-import com.google.gerrit.reviewdb.client.RefNames;
-import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
-import org.junit.After;
 import org.junit.Test;
 
 @NoHttpd
 public class GeneralPreferencesIT extends AbstractDaemonTest {
-  @After
-  public void cleanUp() throws Exception {
-    try (Repository git = repoManager.openRepository(allUsers)) {
-      if (git.exactRef(RefNames.REFS_USERS_DEFAULT) != null) {
-        RefUpdate u = git.updateRef(RefNames.REFS_USERS_DEFAULT);
-        u.setForceUpdate(true);
-        assertThat(u.delete()).isEqualTo(RefUpdate.Result.FORCED);
-      }
-    }
-    accountCache.evictAllNoReindex();
-  }
-
   @Test
   public void getGeneralPreferences() throws Exception {
     GeneralPreferencesInfo result = gApi.config().server().getDefaultPreferences();

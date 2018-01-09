@@ -16,51 +16,16 @@ package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.AssertUtil.assertPrefs;
-import static com.google.gerrit.acceptance.GitUtil.fetch;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
-import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.Theme;
-import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.account.VersionedAccountPreferences;
-import org.eclipse.jgit.api.errors.TransportException;
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
-import org.eclipse.jgit.junit.TestRepository;
-import org.junit.After;
 import org.junit.Test;
 
 @NoHttpd
 public class DiffPreferencesIT extends AbstractDaemonTest {
-  @After
-  public void cleanUp() throws Exception {
-    gApi.accounts().id(admin.getId().toString()).setDiffPreferences(DiffPreferencesInfo.defaults());
-
-    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
-    try {
-      fetch(allUsersRepo, RefNames.REFS_USERS_DEFAULT + ":defaults");
-    } catch (TransportException e) {
-      if (e.getMessage()
-          .equals(
-              "Remote does not have " + RefNames.REFS_USERS_DEFAULT + " available for fetch.")) {
-        return;
-      }
-      throw e;
-    }
-    allUsersRepo.reset("defaults");
-    PushOneCommit push =
-        pushFactory.create(
-            db,
-            admin.getIdent(),
-            allUsersRepo,
-            "Delete default preferences",
-            VersionedAccountPreferences.PREFERENCES,
-            "");
-    push.rm(RefNames.REFS_USERS_DEFAULT).assertOkStatus();
-  }
-
   @Test
   public void getDiffPreferences() throws Exception {
     DiffPreferencesInfo d = DiffPreferencesInfo.defaults();

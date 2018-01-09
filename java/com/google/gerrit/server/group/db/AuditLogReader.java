@@ -143,13 +143,13 @@ class AuditLogReader {
     List<AccountGroup.UUID> removedSubgroups = new ArrayList<>();
 
     for (FooterLine line : c.getFooterLines()) {
-      if (line.matches(GroupConfig.FOOTER_ADD_MEMBER)) {
+      if (line.matches(GroupConfigCommitMessage.FOOTER_ADD_MEMBER)) {
         parseAccount(uuid, c, line).ifPresent(addedMembers::add);
-      } else if (line.matches(GroupConfig.FOOTER_REMOVE_MEMBER)) {
+      } else if (line.matches(GroupConfigCommitMessage.FOOTER_REMOVE_MEMBER)) {
         parseAccount(uuid, c, line).ifPresent(removedMembers::add);
-      } else if (line.matches(GroupConfig.FOOTER_ADD_GROUP)) {
+      } else if (line.matches(GroupConfigCommitMessage.FOOTER_ADD_GROUP)) {
         parseGroup(uuid, c, line).ifPresent(addedSubgroups::add);
-      } else if (line.matches(GroupConfig.FOOTER_REMOVE_GROUP)) {
+      } else if (line.matches(GroupConfigCommitMessage.FOOTER_REMOVE_GROUP)) {
         parseGroup(uuid, c, line).ifPresent(removedSubgroups::add);
       }
     }

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "7e87e488_550e1334",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-09T00:04:14Z",
+      "side": 1,
+      "message": "Is the blue activated state for this toggle the right one?",
+      "revId": "a51a564f83fbd6bcb46e8f5d5d9d002529cb4630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b6447bb8_fce038a6",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
         "patchSetId": 3
@@ -46,6 +63,23 @@
       "revId": "a51a564f83fbd6bcb46e8f5d5d9d002529cb4630",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76154f9c_c57380e6",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-09T00:04:14Z",
+      "side": 1,
+      "message": "Spacing is off for these comments.",
+      "revId": "a51a564f83fbd6bcb46e8f5d5d9d002529cb4630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

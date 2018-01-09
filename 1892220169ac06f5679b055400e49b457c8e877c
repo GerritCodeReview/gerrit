@@ -16,6 +16,24 @@
       "revId": "1892220169ac06f5679b055400e49b457c8e877c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "906cb7ab_9864b242",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-09T10:34:50Z",
+      "side": 1,
+      "message": "3517 is unrelated to this, but 3517 is fixed because of another change.",
+      "parentUuid": "2536d105_4b4a63b8",
+      "revId": "1892220169ac06f5679b055400e49b457c8e877c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

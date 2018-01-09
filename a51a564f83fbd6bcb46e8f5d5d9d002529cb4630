@@ -74,6 +74,24 @@
     },
     {
       "key": {
+        "uuid": "db1d81a7_8281b75c",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-09T00:53:16Z",
+      "side": 1,
+      "message": "+1 to using blue (or any non gray color) for activated, at least for the time being.\n\nWith both states looking gray it\u0027s kinda unclear which toggle state is active.",
+      "parentUuid": "58614033_97de661e",
+      "revId": "a51a564f83fbd6bcb46e8f5d5d9d002529cb4630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6447bb8_fce038a6",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
         "patchSetId": 3

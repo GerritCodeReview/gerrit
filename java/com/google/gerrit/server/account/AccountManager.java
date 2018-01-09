@@ -378,7 +378,7 @@ public class AccountManager {
               (a, u) -> {
                 u.addExternalId(
                     ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress()));
-                if (who.getEmailAddress() != null && a.getPreferredEmail() == null) {
+                if (who.getEmailAddress() != null && a.getAccount().getPreferredEmail() == null) {
                   u.setPreferredEmail(who.getEmailAddress());
                 }
               });
@@ -468,8 +468,10 @@ public class AccountManager {
             from,
             (a, u) -> {
               u.deleteExternalIds(extIds);
-              if (a.getPreferredEmail() != null
-                  && extIds.stream().anyMatch(e -> a.getPreferredEmail().equals(e.email()))) {
+              if (a.getAccount().getPreferredEmail() != null
+                  && extIds
+                      .stream()
+                      .anyMatch(e -> a.getAccount().getPreferredEmail().equals(e.email()))) {
                 u.setPreferredEmail(null);
               }
             });

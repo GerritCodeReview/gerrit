@@ -23,7 +23,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
@@ -37,17 +36,14 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.StringJoiner;
 import java.util.function.Function;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 
@@ -61,11 +57,6 @@ import org.eclipse.jgit.revwalk.RevSort;
  * <p>TODO(aliceks): expand docs.
  */
 public class GroupConfig extends VersionedMetaData {
-  static final FooterKey FOOTER_ADD_MEMBER = new FooterKey("Add");
-  static final FooterKey FOOTER_REMOVE_MEMBER = new FooterKey("Remove");
-  static final FooterKey FOOTER_ADD_GROUP = new FooterKey("Add-group");
-  static final FooterKey FOOTER_REMOVE_GROUP = new FooterKey("Remove-group");
-
   @VisibleForTesting public static final String GROUP_CONFIG_FILE = "group.config";
   @VisibleForTesting static final String MEMBERS_FILE = "members";
   @VisibleForTesting static final String SUBGROUPS_FILE = "subgroups";
@@ -208,31 +199,12 @@ public class GroupConfig extends VersionedMetaData {
     commit.setAuthor(new PersonIdent(commit.getAuthor(), commitTimestamp));
     commit.setCommitter(new PersonIdent(commit.getCommitter(), commitTimestamp));
 
-    Config config = updateGroupProperties();
+    InternalGroup updatedGroup = updateGroup(commitTimestamp);
 
-    ImmutableSet<Account.Id> originalMembers =
-        loadedGroup.map(InternalGroup::getMembers).orElseGet(ImmutableSet::of);
-    Optional<ImmutableSet<Account.Id>> updatedMembers = updateMembers(originalMembers);
-
-    ImmutableSet<AccountGroup.UUID> originalSubgroups =
-        loadedGroup.map(InternalGroup::getSubgroups).orElseGet(ImmutableSet::of);
-    Optional<ImmutableSet<AccountGroup.UUID>> updatedSubgroups = updateSubgroups(originalSubgroups);
-
-    Timestamp createdOn = loadedGroup.map(InternalGroup::getCreatedOn).orElse(commitTimestamp);
-
-    String commitMessage =
-        createCommitMessage(originalMembers, updatedMembers, originalSubgroups, updatedSubgroups);
+    String commitMessage = createCommitMessage(loadedGroup, updatedGroup);
     commit.setMessage(commitMessage);
 
-    loadedGroup =
-        Optional.of(
-            createFrom(
-                groupUuid,
-                config,
-                updatedMembers.orElse(originalMembers),
-                updatedSubgroups.orElse(originalSubgroups),
-                createdOn,
-                null));
+    loadedGroup = Optional.of(updatedGroup);
     groupCreation = Optional.empty();
     groupUpdate = Optional.empty();
 
@@ -251,6 +223,29 @@ public class GroupConfig extends VersionedMetaData {
       return Optional.of(Strings.nullToEmpty(groupCreation.get().getNameKey().get()));
     }
     return Optional.empty();
+  }
+
+  private InternalGroup updateGroup(Timestamp commitTimestamp)
+      throws IOException, ConfigInvalidException {
+    Config config = updateGroupProperties();
+
+    ImmutableSet<Account.Id> originalMembers =
+        loadedGroup.map(InternalGroup::getMembers).orElseGet(ImmutableSet::of);
+    Optional<ImmutableSet<Account.Id>> updatedMembers = updateMembers(originalMembers);
+
+    ImmutableSet<AccountGroup.UUID> originalSubgroups =
+        loadedGroup.map(InternalGroup::getSubgroups).orElseGet(ImmutableSet::of);
+    Optional<ImmutableSet<AccountGroup.UUID>> updatedSubgroups = updateSubgroups(originalSubgroups);
+
+    Timestamp createdOn = loadedGroup.map(InternalGroup::getCreatedOn).orElse(commitTimestamp);
+
+    return createFrom(
+        groupUuid,
+        config,
+        updatedMembers.orElse(originalMembers),
+        updatedSubgroups.orElse(originalSubgroups),
+        createdOn,
+        null);
   }
 
   private Config updateGroupProperties() throws IOException, ConfigInvalidException {
@@ -334,70 +329,10 @@ public class GroupConfig extends VersionedMetaData {
   }
 
   private String createCommitMessage(
-      ImmutableSet<Account.Id> originalMembers,
-      Optional<ImmutableSet<Account.Id>> updatedMembers,
-      ImmutableSet<AccountGroup.UUID> originalSubgroups,
-      Optional<ImmutableSet<AccountGroup.UUID>> updatedSubgroups) {
-    String summaryLine = groupCreation.isPresent() ? "Create group" : "Update group";
-
-    StringJoiner footerJoiner = new StringJoiner("\n", "\n\n", "");
-    footerJoiner.setEmptyValue("");
-    getCommitFooterForRename().ifPresent(footerJoiner::add);
-    updatedMembers.ifPresent(
-        newMembers ->
-            getCommitFootersForMemberModifications(originalMembers, newMembers)
-                .forEach(footerJoiner::add));
-    updatedSubgroups.ifPresent(
-        newSubgroups ->
-            getCommitFootersForSubgroupModifications(originalSubgroups, newSubgroups)
-                .forEach(footerJoiner::add));
-    String footer = footerJoiner.toString();
-
-    return summaryLine + footer;
-  }
-
-  private Optional<String> getCommitFooterForRename() {
-    if (!loadedGroup.isPresent()
-        || !groupUpdate.isPresent()
-        || !groupUpdate.get().getName().isPresent()) {
-      return Optional.empty();
-    }
-
-    String originalName = loadedGroup.get().getName();
-    String newName = groupUpdate.get().getName().get().get();
-    if (originalName.equals(newName)) {
-      return Optional.empty();
-    }
-    return Optional.of("Rename from " + originalName + " to " + newName);
-  }
-
-  private Stream<String> getCommitFootersForMemberModifications(
-      ImmutableSet<Account.Id> oldMembers, ImmutableSet<Account.Id> newMembers) {
-    Stream<String> removedMembers =
-        Sets.difference(oldMembers, newMembers)
-            .stream()
-            .map(auditLogFormatter::getParsableAccount)
-            .map((FOOTER_REMOVE_MEMBER.getName() + ": ")::concat);
-    Stream<String> addedMembers =
-        Sets.difference(newMembers, oldMembers)
-            .stream()
-            .map(auditLogFormatter::getParsableAccount)
-            .map((FOOTER_ADD_MEMBER.getName() + ": ")::concat);
-    return Stream.concat(removedMembers, addedMembers);
-  }
-
-  private Stream<String> getCommitFootersForSubgroupModifications(
-      ImmutableSet<AccountGroup.UUID> oldSubgroups, ImmutableSet<AccountGroup.UUID> newSubgroups) {
-    Stream<String> removedMembers =
-        Sets.difference(oldSubgroups, newSubgroups)
-            .stream()
-            .map(auditLogFormatter::getParsableGroup)
-            .map((FOOTER_REMOVE_GROUP.getName() + ": ")::concat);
-    Stream<String> addedMembers =
-        Sets.difference(newSubgroups, oldSubgroups)
-            .stream()
-            .map(auditLogFormatter::getParsableGroup)
-            .map((FOOTER_ADD_GROUP.getName() + ": ")::concat);
-    return Stream.concat(removedMembers, addedMembers);
+      Optional<InternalGroup> originalGroup, InternalGroup updatedGroup) {
+    GroupConfigCommitMessage commitMessage =
+        new GroupConfigCommitMessage(auditLogFormatter, updatedGroup);
+    originalGroup.ifPresent(commitMessage::setOriginalGroup);
+    return commitMessage.create();
   }
 }

@@ -3,6 +3,92 @@
   "comments": [
     {
       "key": {
+        "uuid": "d8de5d5e_31dc28ba",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3746,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-09T01:54:23Z",
+      "side": 1,
+      "message": "This documentation could be improved with a bit more detail about how the \u0027name\u0027 part is used, i.e. that it supports pattern matching.\n\n(In a separate commit)",
+      "revId": "b47a0a55bfe768232b39a01dc3775c71dbd344b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f94a7c6d_55b7278a",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-09T01:54:23Z",
+      "side": 1,
+      "message": "optional: this clarification applies even without the new support for inheritance, right? If so, this could be done as a separate improvement on the stable branch.",
+      "range": {
+        "startLine": 79,
+        "startChar": 36,
+        "endLine": 80,
+        "endChar": 86
+      },
+      "revId": "b47a0a55bfe768232b39a01dc3775c71dbd344b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc808248_501883b2",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 940,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-09T01:54:23Z",
+      "side": 1,
+      "message": "Should this be \"INHERIT\"?",
+      "range": {
+        "startLine": 940,
+        "startChar": 20,
+        "endLine": 940,
+        "endChar": 39
+      },
+      "revId": "b47a0a55bfe768232b39a01dc3775c71dbd344b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e1d4e98_e4a0c46f",
+        "filename": "java/com/google/gerrit/extensions/client/SubmitType.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-09T01:54:23Z",
+      "side": 1,
+      "message": "nit: Is this needed? We don\u0027t have it on other enums (at least the few that I just checked).",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 14
+      },
+      "revId": "b47a0a55bfe768232b39a01dc3775c71dbd344b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "afa455dc_b21809a2",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
         "patchSetId": 7

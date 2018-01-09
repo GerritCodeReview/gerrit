@@ -51,10 +51,22 @@ opts.add_option('--plugins', help='create eclipse projects for plugins',
                 action='store_true')
 opts.add_option('--name', help='name of the generated project',
                 action='store', default='gerrit', dest='project_name')
+opts.add_option('-b', '--batch', action='store_true',
+                default=False, dest='batch', help='Bazel batch option')
 args, _ = opts.parse_args()
 
+batch_option = '--batch' if args.batch else None
+
+def _build_bazel_cmd(*args):
+  cmd = ['bazel']
+  if batch_option is not None:
+    cmd.append('--batch')
+  for arg in args:
+    cmd.append(arg)
+  return cmd
+
 def retrieve_ext_location():
-  return check_output(['bazel', 'info', 'output_base']).strip()
+  return check_output(_build_bazel_cmd('info', 'output_base')).strip()
 
 def gen_bazel_path():
   bazel = check_output(['which', 'bazel']).strip()
@@ -66,7 +78,7 @@ def _query_classpath(target):
   deps = []
   t = cp_targets[target]
   try:
-    check_call(['bazel', 'build', t])
+    check_call(_build_bazel_cmd('build', t))
   except CalledProcessError:
     exit(1)
   name = 'bazel-bin/tools/eclipse/' + t.split(':')[1] + '.runtime_classpath'
@@ -277,7 +289,7 @@ try:
     makedirs(path.join(ROOT, gwt_working_dir))
 
   try:
-    check_call(['bazel', 'build', MAIN, GWT, '//java/org/eclipse/jgit:libEdit-src.jar'])
+    check_call(_build_bazel_cmd('build', MAIN, GWT, '//java/org/eclipse/jgit:libEdit-src.jar'))
   except CalledProcessError:
     exit(1)
 except KeyboardInterrupt:

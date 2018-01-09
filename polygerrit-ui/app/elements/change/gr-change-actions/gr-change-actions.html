@@ -132,6 +132,7 @@ limitations under the License.
     <gr-overlay id="overlay" with-backdrop>
       <gr-confirm-rebase-dialog id="confirmRebase"
           class="confirmDialog"
+          change-number="[[change._number]]"
           on-confirm="_handleRebaseConfirm"
           on-cancel="_handleConfirmDialogCancel"
           branch="[[change.branch]]"

@@ -90,6 +90,8 @@
         type: Boolean,
         value: false,
       },
+      /** @type {?} */
+      _editPrefsChanged: Boolean,
       _menuChanged: {
         type: Boolean,
         value: false,
@@ -146,6 +148,7 @@
         this.$.groupList.loadData(),
         this.$.httpPass.loadData(),
         this.$.identities.loadData(),
+        this.$.editPrefs.loadData(),
       ];
 
       promises.push(this.$.restAPI.getPreferences().then(prefs => {
@@ -287,12 +290,12 @@
       });
     },
 
-    _handleLineWrappingChanged() {
-      this.set('_diffPrefs.line_wrapping', this.$.lineWrapping.checked);
+    _handleDiffLineWrappingChanged() {
+      this.set('_diffPrefs.line_wrapping', this.$.diffLineWrapping.checked);
     },
 
-    _handleShowTabsChanged() {
-      this.set('_diffPrefs.show_tabs', this.$.showTabs.checked);
+    _handleDiffShowTabsChanged() {
+      this.set('_diffPrefs.show_tabs', this.$.diffShowTabs.checked);
     },
 
     _handleShowTrailingWhitespaceChanged() {
@@ -300,9 +303,9 @@
           this.$.showTrailingWhitespace.checked);
     },
 
-    _handleSyntaxHighlightingChanged() {
+    _handleDiffSyntaxHighlightingChanged() {
       this.set('_diffPrefs.syntax_highlighting',
-          this.$.syntaxHighlighting.checked);
+          this.$.diffSyntaxHighlighting.checked);
     },
 
     _handleSaveChangeTable() {
@@ -319,6 +322,10 @@
           .then(() => {
             this._diffPrefsChanged = false;
           });
+    },
+
+    _handleSaveEditPreferences() {
+      this.$.editPrefs.save();
     },
 
     _handleSaveMenu() {

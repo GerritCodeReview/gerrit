@@ -56,6 +56,24 @@
     },
     {
       "key": {
+        "uuid": "58614033_97de661e",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-09T00:31:04Z",
+      "side": 1,
+      "message": "Ack. Might be a safe bet to just use the blues we\u0027ve been using throughout, like in the text, but up to you.",
+      "parentUuid": "834c4519_678d3bce",
+      "revId": "a51a564f83fbd6bcb46e8f5d5d9d002529cb4630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6447bb8_fce038a6",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
         "patchSetId": 3

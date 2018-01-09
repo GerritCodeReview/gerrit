@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c3e63d7_33cdf0dd",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
+        "patchSetId": 140
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-09T00:12:12Z",
+      "side": 1,
+      "message": "This should say \u0027Submit\u0027",
+      "range": {
+        "startLine": 99,
+        "startChar": 12,
+        "endLine": 99,
+        "endChar": 24
+      },
+      "revId": "13a1870836f4774f84dd79cc74098de777cf5245",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60272bd2_4b8475c5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
+        "patchSetId": 140
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-09T00:12:12Z",
+      "side": 1,
+      "message": "Nit: remove extra space",
+      "revId": "13a1870836f4774f84dd79cc74098de777cf5245",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b446a3d_215d6bae",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
+        "patchSetId": 140
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-09T00:12:12Z",
+      "side": 1,
+      "message": "This sentence doesn\u0027t make sense, can you read through it and re-write? Also capitalize the first letter.",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 60
+      },
+      "revId": "13a1870836f4774f84dd79cc74098de777cf5245",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

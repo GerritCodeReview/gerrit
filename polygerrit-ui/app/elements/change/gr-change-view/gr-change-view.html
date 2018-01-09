@@ -104,7 +104,7 @@ limitations under the License.
          https://github.com/Polymer/polymer/issues/2531 */
       .container section.changeInfo {
         display: flex;
-        padding: 1em var(--default-horizontal-margin);
+        padding: 0 var(--default-horizontal-margin);
       }
       .changeId {
         color: #666;
@@ -116,7 +116,9 @@ limitations under the License.
         padding-right: 1em;
       }
       .changeMetadata {
+        border-right: 1px solid #ddd;
         font-size: .95em;
+        padding: 1em 0;
       }
       /* Prevent plugin text from overflowing. */
       #change_plugins {
@@ -164,6 +166,7 @@ limitations under the License.
       .relatedChanges {
         flex: 1 1 auto;
         overflow: hidden;
+        padding: 1em 0;
       }
       .mobile {
         display: none;
@@ -193,6 +196,7 @@ limitations under the License.
         display: flex;
         flex-direction: column;
         flex-shrink: 0;
+        margin: 1em 0;
       }
       .collapseToggleContainer {
         display: flex;

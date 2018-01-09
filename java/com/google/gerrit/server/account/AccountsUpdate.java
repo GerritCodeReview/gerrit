@@ -19,15 +19,19 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes.ExternalIdNotesLoader;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -82,10 +86,10 @@ public class AccountsUpdate {
      * <p>Use the provided account only to read the current state of the account. Don't do updates
      * to the account. For updates use the provided account update builder.
      *
-     * @param account the account that is being updated
+     * @param accountState the account that is being updated
      * @param update account update builder
      */
-    void update(Account account, InternalAccountUpdate.Builder update);
+    void update(AccountState accountState, InternalAccountUpdate.Builder update);
 
     static AccountUpdater join(List<AccountUpdater> updaters) {
       return (a, u) -> updaters.stream().forEach(updater -> updater.update(a, u));
@@ -111,6 +115,7 @@ public class AccountsUpdate {
     private final GitRepositoryManager repoManager;
     private final GitReferenceUpdated gitRefUpdated;
     private final AllUsersName allUsersName;
+    private final ExternalIds externalIds;
     private final Provider<PersonIdent> serverIdentProvider;
     private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
     private final RetryHelper retryHelper;
@@ -121,6 +126,7 @@ public class AccountsUpdate {
         GitRepositoryManager repoManager,
         GitReferenceUpdated gitRefUpdated,
         AllUsersName allUsersName,
+        ExternalIds externalIds,
         @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
         Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
         RetryHelper retryHelper,
@@ -128,6 +134,7 @@ public class AccountsUpdate {
       this.repoManager = repoManager;
       this.gitRefUpdated = gitRefUpdated;
       this.allUsersName = allUsersName;
+      this.externalIds = externalIds;
       this.serverIdentProvider = serverIdentProvider;
       this.metaDataUpdateInternalFactory = metaDataUpdateInternalFactory;
       this.retryHelper = retryHelper;
@@ -141,6 +148,7 @@ public class AccountsUpdate {
           gitRefUpdated,
           null,
           allUsersName,
+          externalIds,
           metaDataUpdateInternalFactory,
           retryHelper,
           extIdNotesFactory,
@@ -163,6 +171,7 @@ public class AccountsUpdate {
     private final GitRepositoryManager repoManager;
     private final GitReferenceUpdated gitRefUpdated;
     private final AllUsersName allUsersName;
+    private final ExternalIds externalIds;
     private final Provider<PersonIdent> serverIdentProvider;
     private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
     private final RetryHelper retryHelper;
@@ -173,6 +182,7 @@ public class AccountsUpdate {
         GitRepositoryManager repoManager,
         GitReferenceUpdated gitRefUpdated,
         AllUsersName allUsersName,
+        ExternalIds externalIds,
         @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
         Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
         RetryHelper retryHelper,
@@ -180,6 +190,7 @@ public class AccountsUpdate {
       this.repoManager = repoManager;
       this.gitRefUpdated = gitRefUpdated;
       this.allUsersName = allUsersName;
+      this.externalIds = externalIds;
       this.serverIdentProvider = serverIdentProvider;
       this.metaDataUpdateInternalFactory = metaDataUpdateInternalFactory;
       this.retryHelper = retryHelper;
@@ -193,6 +204,7 @@ public class AccountsUpdate {
           gitRefUpdated,
           null,
           allUsersName,
+          externalIds,
           metaDataUpdateInternalFactory,
           retryHelper,
           extIdNotesFactory,
@@ -212,6 +224,7 @@ public class AccountsUpdate {
     private final GitRepositoryManager repoManager;
     private final GitReferenceUpdated gitRefUpdated;
     private final AllUsersName allUsersName;
+    private final ExternalIds externalIds;
     private final Provider<PersonIdent> serverIdentProvider;
     private final Provider<IdentifiedUser> identifiedUser;
     private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
@@ -223,6 +236,7 @@ public class AccountsUpdate {
         GitRepositoryManager repoManager,
         GitReferenceUpdated gitRefUpdated,
         AllUsersName allUsersName,
+        ExternalIds externalIds,
         @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
         Provider<IdentifiedUser> identifiedUser,
         Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
@@ -231,6 +245,7 @@ public class AccountsUpdate {
       this.repoManager = repoManager;
       this.gitRefUpdated = gitRefUpdated;
       this.allUsersName = allUsersName;
+      this.externalIds = externalIds;
       this.serverIdentProvider = serverIdentProvider;
       this.identifiedUser = identifiedUser;
       this.metaDataUpdateInternalFactory = metaDataUpdateInternalFactory;
@@ -247,6 +262,7 @@ public class AccountsUpdate {
           gitRefUpdated,
           user,
           allUsersName,
+          externalIds,
           metaDataUpdateInternalFactory,
           retryHelper,
           extIdNotesFactory,
@@ -263,6 +279,7 @@ public class AccountsUpdate {
   private final GitReferenceUpdated gitRefUpdated;
   @Nullable private final IdentifiedUser currentUser;
   private final AllUsersName allUsersName;
+  private final ExternalIds externalIds;
   private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
   private final RetryHelper retryHelper;
   private final ExternalIdNotesLoader extIdNotesLoader;
@@ -275,6 +292,7 @@ public class AccountsUpdate {
       GitReferenceUpdated gitRefUpdated,
       @Nullable IdentifiedUser currentUser,
       AllUsersName allUsersName,
+      ExternalIds externalIds,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,
       ExternalIdNotesLoader extIdNotesLoader,
@@ -285,6 +303,7 @@ public class AccountsUpdate {
         gitRefUpdated,
         currentUser,
         allUsersName,
+        externalIds,
         metaDataUpdateInternalFactory,
         retryHelper,
         extIdNotesLoader,
@@ -299,6 +318,7 @@ public class AccountsUpdate {
       GitReferenceUpdated gitRefUpdated,
       @Nullable IdentifiedUser currentUser,
       AllUsersName allUsersName,
+      ExternalIds externalIds,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,
       ExternalIdNotesLoader extIdNotesLoader,
@@ -309,6 +329,7 @@ public class AccountsUpdate {
     this.gitRefUpdated = checkNotNull(gitRefUpdated, "gitRefUpdated");
     this.currentUser = currentUser;
     this.allUsersName = checkNotNull(allUsersName, "allUsersName");
+    this.externalIds = checkNotNull(externalIds, "externalIds");
     this.metaDataUpdateInternalFactory =
         checkNotNull(metaDataUpdateInternalFactory, "metaDataUpdateInternalFactory");
     this.retryHelper = checkNotNull(retryHelper, "retryHelper");
@@ -355,8 +376,15 @@ public class AccountsUpdate {
           AccountConfig accountConfig = read(r, accountId);
           Account account =
               accountConfig.getNewAccount(new Timestamp(committerIdent.getWhen().getTime()));
+          AccountState accountState =
+              new AccountState(
+                  allUsersName,
+                  account,
+                  ImmutableSet.of(),
+                  ImmutableMap.of(),
+                  GeneralPreferencesInfo.defaults());
           InternalAccountUpdate.Builder updateBuilder = InternalAccountUpdate.builder();
-          updater.update(account, updateBuilder);
+          updater.update(accountState, updateBuilder);
 
           InternalAccountUpdate update = updateBuilder.build();
           accountConfig.setAccountUpdate(update);
@@ -405,7 +433,8 @@ public class AccountsUpdate {
     return updateAccount(
         r -> {
           AccountConfig accountConfig = read(r, accountId);
-          Optional<Account> account = accountConfig.getLoadedAccount();
+          Optional<AccountState> account =
+              AccountState.fromAccountConfig(allUsersName, externalIds, accountConfig);
           if (!account.isPresent()) {
             return null;
           }

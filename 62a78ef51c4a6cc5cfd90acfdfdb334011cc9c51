@@ -33,6 +33,24 @@
       "revId": "62a78ef51c4a6cc5cfd90acfdfdb334011cc9c51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5830e60a_603caaeb",
+        "filename": "polygerrit-ui/app/samples/coverage-plugin.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2018-01-09T16:04:31Z",
+      "side": 1,
+      "message": "Gave this a shot. PTAL.",
+      "parentUuid": "e2e73567_7196f555",
+      "revId": "62a78ef51c4a6cc5cfd90acfdfdb334011cc9c51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

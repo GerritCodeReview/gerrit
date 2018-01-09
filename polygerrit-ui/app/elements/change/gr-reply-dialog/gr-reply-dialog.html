@@ -266,7 +266,7 @@ limitations under the License.
           <span
               id="notLatestLabel"
               hidden$="[[!_isState(knownLatestState, 'not-latest')]]">
-            Patch [[patchNum]] is not latest.
+            [[_computePatchSetWarning(patchNum, _labelsChanged)]]
             <gr-button link on-tap="_reload">Reload</gr-button>
           </span>
         </div>
@@ -279,7 +279,7 @@ limitations under the License.
           <gr-button
               link
               primary
-              disabled="[[_computeSendButtonDisabled(knownLatestState, _sendButtonLabel, diffDrafts, draft, _reviewersMutated, _labelsChanged, _includeComments)]]"
+              disabled="[[_computeSendButtonDisabled(_sendButtonLabel, diffDrafts, draft, _reviewersMutated, _labelsChanged, _includeComments)]]"
               class="action send"
               has-tooltip
               title$="[[_computeSendButtonTooltip(canBeStarted)]]"

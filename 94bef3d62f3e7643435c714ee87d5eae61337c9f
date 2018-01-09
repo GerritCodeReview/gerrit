@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "084fa2e2_e4ea2338",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2470,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-09T00:59:12Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "65e88584_7e863f04",
+      "range": {
+        "startLine": 2470,
+        "startChar": 0,
+        "endLine": 2470,
+        "endChar": 8
+      },
+      "revId": "94bef3d62f3e7643435c714ee87d5eae61337c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "29a102d1_114fc2c2",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2018-01-09T00:53:22Z",
       "side": 1,
       "message": "It would be better to make this part of the previous sentence.\n\nSomething like \"Whether to show the inline edit base version or not\"",
+      "range": {
+        "startLine": 2471,
+        "startChar": 0,
+        "endLine": 2471,
+        "endChar": 50
+      },
+      "revId": "94bef3d62f3e7643435c714ee87d5eae61337c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88e5e9f4_c1b2fdef",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2471,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-09T00:59:12Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "29a102d1_114fc2c2",
       "range": {
         "startLine": 2471,
         "startChar": 0,

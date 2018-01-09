@@ -265,6 +265,21 @@ limitations under the License.
                   </gr-select>
                 </span>
               </section>
+              <section>
+                <span class="title">Reject empty commit upon submit</span>
+                <span class="value">
+                  <gr-select
+                      id="rejectEmptyCommitSelect"
+                      bind-value="{{_repoConfig.reject_empty_commit.configured_value}}">
+                    <select disabled$="[[_readOnly]]">
+                      <template is="dom-repeat"
+                                items="[[_formatBooleanSelect(_repoConfig.reject_empty_commit)]]">
+                        <option value="[[item.value]]">[[item.label]]</option>
+                      </template>
+                  </select>
+                  </gr-select>
+                </span>
+              </section>
             </fieldset>
             <h3 id="Options">Contributor Agreements</h3>
             <fieldset id="agreements">

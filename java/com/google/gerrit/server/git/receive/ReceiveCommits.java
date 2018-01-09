@@ -376,6 +376,7 @@ class ReceiveCommits {
   private MagicBranchInput magicBranch;
   private boolean newChangeForAllNotInTarget;
   private String setFullNameTo;
+  private boolean setChangeAsPrivate;
 
   // Handles for outputting back over the wire to the end user.
   private Task newProgress;
@@ -1521,6 +1522,18 @@ class ReceiveCommits {
       return;
     }
 
+    boolean privateByDefault =
+        projectCache.get(project.getNameKey()).is(BooleanProjectConfig.PRIVATE_BY_DEFAULT);
+    setChangeAsPrivate =
+        magicBranch.draft
+            || magicBranch.isPrivate
+            || (privateByDefault && !magicBranch.removePrivate);
+
+    if (receiveConfig.disablePrivateChanges && setChangeAsPrivate) {
+      reject(cmd, "private changes are disabled");
+      return;
+    }
+
     if (magicBranch.workInProgress && magicBranch.ready) {
       reject(cmd, "the options 'wip' and 'ready' are mutually exclusive");
       return;
@@ -2133,18 +2146,13 @@ class ReceiveCommits {
     }
 
     private void setChangeId(int id) {
-      boolean privateByDefault =
-          projectCache.get(project.getNameKey()).is(BooleanProjectConfig.PRIVATE_BY_DEFAULT);
 
       changeId = new Change.Id(id);
       ins =
           changeInserterFactory
               .create(changeId, commit, refName)
               .setTopic(magicBranch.topic)
-              .setPrivate(
-                  magicBranch.draft
-                      || magicBranch.isPrivate
-                      || (privateByDefault && !magicBranch.removePrivate))
+              .setPrivate(setChangeAsPrivate)
               .setWorkInProgress(magicBranch.workInProgress)
               // Changes already validated in validateNewCommits.
               .setValidate(false);

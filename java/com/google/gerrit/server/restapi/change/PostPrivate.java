@@ -20,6 +20,7 @@ import static com.google.gerrit.extensions.conditions.BooleanCondition.or;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
@@ -27,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -36,6 +38,7 @@ import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class PostPrivate
@@ -45,6 +48,7 @@ public class PostPrivate
   private final Provider<ReviewDb> dbProvider;
   private final PermissionBackend permissionBackend;
   private final SetPrivateOp.Factory setPrivateOpFactory;
+  private final boolean disablePrivateChanges;
 
   @Inject
   PostPrivate(
@@ -52,18 +56,24 @@ public class PostPrivate
       RetryHelper retryHelper,
       ChangeMessagesUtil cmUtil,
       PermissionBackend permissionBackend,
-      SetPrivateOp.Factory setPrivateOpFactory) {
+      SetPrivateOp.Factory setPrivateOpFactory,
+      @GerritServerConfig Config config) {
     super(retryHelper);
     this.dbProvider = dbProvider;
     this.cmUtil = cmUtil;
     this.permissionBackend = permissionBackend;
     this.setPrivateOpFactory = setPrivateOpFactory;
+    this.disablePrivateChanges = config.getBoolean("change", null, "disablePrivateChanges", false);
   }
 
   @Override
   public Response<String> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, SetPrivateOp.Input input)
       throws RestApiException, UpdateException {
+    if (disablePrivateChanges) {
+      throw new MethodNotAllowedException("private changes are disabled");
+    }
+
     if (!canSetPrivate(rsrc).value()) {
       throw new AuthException("not allowed to mark private");
     }
@@ -88,7 +98,7 @@ public class PostPrivate
     return new UiAction.Description()
         .setLabel("Mark private")
         .setTitle("Mark change as private")
-        .setVisible(and(!change.isPrivate(), canSetPrivate(rsrc)));
+        .setVisible(and(!disablePrivateChanges && !change.isPrivate(), canSetPrivate(rsrc)));
   }
 
   private BooleanCondition canSetPrivate(ChangeResource rsrc) {

@@ -32,6 +32,7 @@ public class ConfigInput {
   public InheritableBoolean privateByDefault;
   public InheritableBoolean enableReviewerByEmail;
   public InheritableBoolean matchAuthorToCommitterDate;
+  public InheritableBoolean rejectEmptyCommit;
   public String maxObjectSizeLimit;
   public SubmitType submitType;
   public ProjectState state;

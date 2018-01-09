@@ -38,6 +38,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
@@ -47,6 +48,7 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
@@ -986,6 +988,78 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
     submit(change2.getChangeId());
     assertAuthorAndCommitDateEquals(getRemoteHead());
+  }
+
+  @Test
+  @TestProjectInput(rejectEmptyCommit = InheritableBoolean.FALSE)
+  public void submitEmptyCommitPatchSetCanNotFastForward_emptyCommitAllowed() throws Exception {
+    assume().that(getSubmitType()).isNotEqualTo(SubmitType.FAST_FORWARD_ONLY);
+
+    PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
+    submit(change.getChangeId());
+
+    ChangeApi revert1 = gApi.changes().id(change.getChangeId()).revert();
+    approve(revert1.id());
+    revert1.current().submit();
+
+    ChangeApi revert2 = gApi.changes().id(change.getChangeId()).revert();
+    approve(revert2.id());
+    revert2.current().submit();
+  }
+
+  @Test
+  @TestProjectInput(rejectEmptyCommit = InheritableBoolean.TRUE)
+  public void submitEmptyCommitPatchSetCanNotFastForward_emptyCommitNotAllowed() throws Exception {
+    assume().that(getSubmitType()).isNotEqualTo(SubmitType.FAST_FORWARD_ONLY);
+
+    PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
+    submit(change.getChangeId());
+
+    ChangeApi revert1 = gApi.changes().id(change.getChangeId()).revert();
+    approve(revert1.id());
+    revert1.current().submit();
+
+    ChangeApi revert2 = gApi.changes().id(change.getChangeId()).revert();
+    approve(revert2.id());
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage(
+        "Change "
+            + revert2.get()._number
+            + ": Change could not be merged because the commit is empty. "
+            + "Project policy requires all commits to contain modifications to at least one file.");
+    revert2.current().submit();
+  }
+
+  @Test
+  @TestProjectInput(rejectEmptyCommit = InheritableBoolean.FALSE)
+  public void submitEmptyCommitPatchSetCanFastForward_emptyCommitAllowed() throws Exception {
+    ChangeInput ci = new ChangeInput();
+    ci.subject = "Empty change";
+    ci.project = project.get();
+    ci.branch = "master";
+    ChangeApi change = gApi.changes().create(ci);
+    approve(change.id());
+    change.current().submit();
+  }
+
+  @Test
+  @TestProjectInput(rejectEmptyCommit = InheritableBoolean.TRUE)
+  public void submitEmptyCommitPatchSetCanFastForward_emptyCommitNotAllowed() throws Exception {
+    ChangeInput ci = new ChangeInput();
+    ci.subject = "Empty change";
+    ci.project = project.get();
+    ci.branch = "master";
+    ChangeApi change = gApi.changes().create(ci);
+    approve(change.id());
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage(
+        "Change "
+            + change.get()._number
+            + ": Change could not be merged because the commit is empty. "
+            + "Project policy requires all commits to contain modifications to at least one file.");
+    change.current().submit();
   }
 
   private void setChangeStatusToNew(PushOneCommit.Result... changes) throws Exception {

@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.git.strategy;
 
+import static com.google.gerrit.server.git.strategy.CommitMergeStatus.EMPTY_COMMIT;
+
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.update.RepoContext;
@@ -47,6 +50,11 @@ class MergeOneOp extends SubmitStrategyOp {
             args.destBranch,
             args.mergeTip.getCurrentTip(),
             toMerge);
+    if (args.project.is(BooleanProjectConfig.REJECT_EMPTY_COMMIT)
+        && merged.getTree().equals(merged.getParent(0).getTree())) {
+      toMerge.setStatusCode(EMPTY_COMMIT);
+      return;
+    }
     args.mergeTip.moveTipTo(amendGitlink(merged), toMerge);
   }
 }

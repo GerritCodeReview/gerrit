@@ -89,6 +89,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("ownerin:");
     suggestions.add("author:");
     suggestions.add("committer:");
+    suggestions.add("assignee:");
 
     suggestions.add("reviewer:");
     suggestions.add("reviewer:self");
@@ -136,6 +137,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("is:mergeable");
     suggestions.add("is:ignored");
     suggestions.add("is:wip");
+    suggestions.add("is:assigned");
 
     suggestions.add("status:");
     suggestions.add("status:open");

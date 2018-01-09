@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0aae49ec_4e15d65d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-01-09T07:04:16Z",
+      "side": 1,
+      "message": "Perhaps you could describe the feature in some detail. IMHO the fact that it is not included in GWT UI is not that relevant since fairly soon there will be no GWT UI :)",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "3560e97220558ad5afdf7f000ddfa35f5489adab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

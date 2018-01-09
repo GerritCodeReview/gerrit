@@ -20,6 +20,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
@@ -28,9 +29,12 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import org.apache.commons.codec.DecoderException;
 import org.slf4j.Logger;
@@ -45,6 +49,24 @@ public class AccountState {
 
   public static final Function<AccountState, Account.Id> ACCOUNT_ID_FUNCTION =
       a -> a.getAccount().getId();
+
+  public static Optional<AccountState> fromAccountConfig(
+      AllUsersName allUsersName, ExternalIds externalIds, AccountConfig accountConfig)
+      throws IOException {
+    if (!accountConfig.getLoadedAccount().isPresent()) {
+      return Optional.empty();
+    }
+    Account account = accountConfig.getLoadedAccount().get();
+    return Optional.of(
+        new AccountState(
+            allUsersName,
+            account,
+            accountConfig.getExternalIdsRev().isPresent()
+                ? externalIds.byAccount(account.getId(), accountConfig.getExternalIdsRev().get())
+                : ImmutableSet.of(),
+            accountConfig.getProjectWatches(),
+            accountConfig.getGeneralPreferences()));
+  }
 
   private final AllUsersName allUsersName;
   private final Account account;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e7e7dd7_bbd93e76",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-09T06:10:47Z",
+      "side": 1,
+      "message": "This is a change in behaviour.  Previously \"no\" or \"none\" would also be considered as off.\n\nCan we split the isOff method out of InitSshd to a common location, so the same implementation can be used both here and in InitSshd?",
+      "range": {
+        "startLine": 460,
+        "startChar": 4,
+        "endLine": 460,
+        "endChar": 40
+      },
+      "revId": "15dd82dd5b824b2c9fc971b5411e263aea8de764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

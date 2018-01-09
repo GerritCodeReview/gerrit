@@ -47,6 +47,30 @@
       "revId": "e40857dc6eca360881c1cdeb09e4aa5b5900424e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50098673_ca935b07",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-09T08:20:17Z",
+      "side": 1,
+      "message": "It already was com.google.gerrit.server.restapi.account.PutUsername. The problem was that the server package can no longer depend on the REST API classes.\n\nFixed with the new patch set.",
+      "parentUuid": "09101562_255b49bc",
+      "range": {
+        "startLine": 44,
+        "startChar": 7,
+        "endLine": 44,
+        "endChar": 59
+      },
+      "revId": "e40857dc6eca360881c1cdeb09e4aa5b5900424e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

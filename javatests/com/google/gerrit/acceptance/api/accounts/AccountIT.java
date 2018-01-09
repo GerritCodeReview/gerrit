@@ -2021,6 +2021,7 @@ public class AccountIT extends AbstractDaemonTest {
             gitReferenceUpdated,
             null,
             allUsers,
+            externalIds,
             metaDataUpdateInternalFactory,
             new RetryHelper(
                 cfg,
@@ -2069,6 +2070,7 @@ public class AccountIT extends AbstractDaemonTest {
             gitReferenceUpdated,
             null,
             allUsers,
+            externalIds,
             metaDataUpdateInternalFactory,
             new RetryHelper(
                 cfg,

@@ -33,7 +33,7 @@ public class RegexPathPredicate extends ChangeRegexPredicate {
     } catch (IOException e) {
       throw new OrmException(e);
     }
-    return RegexListSearcher.ofStrings(getValue()).hasMatch(files);
+    return RegexListSearcher.ofStrings(getValue()).search(files).findAny().isPresent();
   }
 
   @Override

@@ -14,6 +14,11 @@
 
 package com.google.gerrit.server.group.db;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
+import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -35,22 +40,14 @@ import org.eclipse.jgit.lib.PersonIdent;
 public class AuditLogFormatter {
   private final Function<Account.Id, Optional<Account>> accountRetriever;
   private final Function<AccountGroup.UUID, Optional<GroupDescription.Basic>> groupRetriever;
-  private final String serverId;
+  @Nullable private final String serverId;
 
-  public AuditLogFormatter(AccountCache accountCache, GroupBackend groupBackend, String serverId) {
-    this(
+  public static AuditLogFormatter createBackedBy(
+      AccountCache accountCache, GroupBackend groupBackend, String serverId) {
+    return create(
         accountId -> getAccount(accountCache, accountId),
         groupUuid -> getGroup(groupBackend, groupUuid),
         serverId);
-  }
-
-  public AuditLogFormatter(
-      Function<Account.Id, Optional<Account>> accountRetriever,
-      Function<AccountGroup.UUID, Optional<GroupDescription.Basic>> groupRetriever,
-      String serverId) {
-    this.accountRetriever = accountRetriever;
-    this.groupRetriever = groupRetriever;
-    this.serverId = serverId;
   }
 
   private static Optional<Account> getAccount(AccountCache accountCache, Account.Id accountId) {
@@ -61,6 +58,50 @@ public class AuditLogFormatter {
   private static Optional<GroupDescription.Basic> getGroup(
       GroupBackend groupBackend, AccountGroup.UUID groupUuid) {
     return Optional.ofNullable(groupBackend.get(groupUuid));
+  }
+
+  public static AuditLogFormatter createBackedBy(
+      ImmutableSet<Account> allAccounts,
+      ImmutableSet<GroupDescription.Basic> allGroups,
+      String serverId) {
+    return create(id -> getAccount(allAccounts, id), uuid -> getGroup(allGroups, uuid), serverId);
+  }
+
+  private static Optional<GroupDescription.Basic> getGroup(
+      ImmutableSet<GroupDescription.Basic> groups, AccountGroup.UUID uuid) {
+    return groups.stream().filter(group -> group.getGroupUUID().equals(uuid)).findAny();
+  }
+
+  private static Optional<Account> getAccount(ImmutableSet<Account> accounts, Account.Id id) {
+    return accounts.stream().filter(account -> account.getId().equals(id)).findAny();
+  }
+
+  public static AuditLogFormatter createPartiallyWorkingFallBack() {
+    return new AuditLogFormatter(id -> Optional.empty(), uuid -> Optional.empty());
+  }
+
+  public static AuditLogFormatter create(
+      Function<Account.Id, Optional<Account>> accountRetriever,
+      Function<AccountGroup.UUID, Optional<GroupDescription.Basic>> groupRetriever,
+      String serverId) {
+    return new AuditLogFormatter(accountRetriever, groupRetriever, serverId);
+  }
+
+  private AuditLogFormatter(
+      Function<Account.Id, Optional<Account>> accountRetriever,
+      Function<AccountGroup.UUID, Optional<GroupDescription.Basic>> groupRetriever,
+      String serverId) {
+    this.accountRetriever = checkNotNull(accountRetriever);
+    this.groupRetriever = checkNotNull(groupRetriever);
+    this.serverId = checkNotNull(serverId);
+  }
+
+  private AuditLogFormatter(
+      Function<Account.Id, Optional<Account>> accountRetriever,
+      Function<AccountGroup.UUID, Optional<GroupDescription.Basic>> groupRetriever) {
+    this.accountRetriever = checkNotNull(accountRetriever);
+    this.groupRetriever = checkNotNull(groupRetriever);
+    serverId = null;
   }
 
   /**
@@ -140,6 +181,10 @@ public class AuditLogFormatter {
   }
 
   private String getEmailForAuditLog(Account.Id accountId) {
+    // If we ever switch to UUIDs for accounts, consider to remove the serverId and to use a similar
+    // approach as for group UUIDs.
+    checkState(
+        serverId != null, "serverId must be defined; fall-back AuditLogFormatter isn't sufficient");
     return accountId.get() + "@" + serverId;
   }
 

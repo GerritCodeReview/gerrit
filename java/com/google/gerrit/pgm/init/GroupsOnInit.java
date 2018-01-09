@@ -52,7 +52,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
@@ -258,10 +257,7 @@ public class GroupsOnInit {
   private AuditLogFormatter getAuditLogFormatter(Account account)
       throws IOException, ConfigInvalidException {
     String serverId = new GerritServerIdProvider(flags.cfg, site).get();
-    return new AuditLogFormatter(
-        accountId -> account.getId().equals(accountId) ? Optional.of(account) : Optional.empty(),
-        uuid -> Optional.empty(),
-        serverId);
+    return AuditLogFormatter.createBackedBy(ImmutableSet.of(account), ImmutableSet.of(), serverId);
   }
 
   private void commit(Repository repository, GroupConfig groupConfig, Timestamp groupCreatedOn)

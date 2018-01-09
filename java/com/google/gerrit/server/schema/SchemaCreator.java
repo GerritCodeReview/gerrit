@@ -56,7 +56,6 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collections;
-import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
@@ -240,10 +239,9 @@ public class SchemaCreator {
   private InternalGroup createGroupInNoteDb(
       Repository allUsersRepo, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws ConfigInvalidException, IOException, OrmDuplicateKeyException {
-    // We don't add any initial members or subgroups and hence the provided functions should never
-    // be called.
+    // This method is only executed on a new server which doesn't have any accounts or groups.
     AuditLogFormatter auditLogFormatter =
-        new AuditLogFormatter(id -> Optional.empty(), uuid -> Optional.empty(), serverId);
+        AuditLogFormatter.createBackedBy(ImmutableSet.of(), ImmutableSet.of(), serverId);
 
     GroupConfig groupConfig = GroupConfig.createForNewGroup(allUsersRepo, groupCreation);
     groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);

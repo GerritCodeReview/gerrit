@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.base.Throwables;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -39,7 +40,6 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -62,7 +62,7 @@ public class ProjectCacheImpl implements ProjectCache {
       protected void configure() {
         cache(CACHE_NAME, String.class, ProjectState.class).loader(Loader.class);
 
-        cache(CACHE_LIST, ListKey.class, new TypeLiteral<SortedSet<Project.NameKey>>() {})
+        cache(CACHE_LIST, ListKey.class, new TypeLiteral<ImmutableSortedSet<Project.NameKey>>() {})
             .maximumWeight(1)
             .loader(Lister.class);
 
@@ -84,7 +84,7 @@ public class ProjectCacheImpl implements ProjectCache {
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
   private final LoadingCache<String, ProjectState> byName;
-  private final LoadingCache<ListKey, SortedSet<Project.NameKey>> list;
+  private final LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list;
   private final Lock listLock;
   private final ProjectCacheClock clock;
   private final Provider<ProjectIndexer> indexer;
@@ -94,7 +94,7 @@ public class ProjectCacheImpl implements ProjectCache {
       final AllProjectsName allProjectsName,
       final AllUsersName allUsersName,
       @Named(CACHE_NAME) LoadingCache<String, ProjectState> byName,
-      @Named(CACHE_LIST) LoadingCache<ListKey, SortedSet<Project.NameKey>> list,
+      @Named(CACHE_LIST) LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list,
       ProjectCacheClock clock,
       Provider<ProjectIndexer> indexer) {
     this.allProjectsName = allProjectsName;
@@ -176,9 +176,10 @@ public class ProjectCacheImpl implements ProjectCache {
   public void remove(Project p) throws IOException {
     listLock.lock();
     try {
-      SortedSet<Project.NameKey> n = Sets.newTreeSet(list.get(ListKey.ALL));
-      n.remove(p.getNameKey());
-      list.put(ListKey.ALL, Collections.unmodifiableSortedSet(n));
+      list.put(
+          ListKey.ALL,
+          ImmutableSortedSet.copyOf(
+              Sets.difference(list.get(ListKey.ALL), Collections.singleton(p.getNameKey()))));
     } catch (ExecutionException e) {
       log.warn("Cannot list available projects", e);
     } finally {
@@ -191,9 +192,10 @@ public class ProjectCacheImpl implements ProjectCache {
   public void onCreateProject(Project.NameKey newProjectName) throws IOException {
     listLock.lock();
     try {
-      SortedSet<Project.NameKey> n = Sets.newTreeSet(list.get(ListKey.ALL));
-      n.add(newProjectName);
-      list.put(ListKey.ALL, Collections.unmodifiableSortedSet(n));
+      list.put(
+          ListKey.ALL,
+          ImmutableSortedSet.copyOf(
+              Sets.union(list.get(ListKey.ALL), Collections.singleton(newProjectName))));
     } catch (ExecutionException e) {
       log.warn("Cannot list available projects", e);
     } finally {
@@ -203,12 +205,12 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
-  public SortedSet<Project.NameKey> all() {
+  public ImmutableSortedSet<Project.NameKey> all() {
     try {
       return list.get(ListKey.ALL);
     } catch (ExecutionException e) {
       log.warn("Cannot list available projects", e);
-      return Collections.emptySortedSet();
+      return ImmutableSortedSet.of();
     }
   }
 
@@ -226,7 +228,7 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
-  public Iterable<Project.NameKey> byName(String pfx) {
+  public ImmutableSortedSet<Project.NameKey> byName(String pfx) {
     Project.NameKey start = new Project.NameKey(pfx);
     Project.NameKey end = new Project.NameKey(pfx + Character.MAX_VALUE);
     try {
@@ -234,7 +236,7 @@ public class ProjectCacheImpl implements ProjectCache {
       return list.get(ListKey.ALL).subSet(start, end);
     } catch (ExecutionException e) {
       log.warn("Cannot look up projects for prefix " + pfx, e);
-      return Collections.emptyList();
+      return ImmutableSortedSet.of();
     }
   }
 
@@ -271,7 +273,7 @@ public class ProjectCacheImpl implements ProjectCache {
     private ListKey() {}
   }
 
-  static class Lister extends CacheLoader<ListKey, SortedSet<Project.NameKey>> {
+  static class Lister extends CacheLoader<ListKey, ImmutableSortedSet<Project.NameKey>> {
     private final GitRepositoryManager mgr;
 
     @Inject
@@ -280,8 +282,8 @@ public class ProjectCacheImpl implements ProjectCache {
     }
 
     @Override
-    public SortedSet<Project.NameKey> load(ListKey key) throws Exception {
-      return mgr.list();
+    public ImmutableSortedSet<Project.NameKey> load(ListKey key) throws Exception {
+      return ImmutableSortedSet.copyOf(mgr.list());
     }
   }
 }

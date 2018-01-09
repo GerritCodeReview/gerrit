@@ -34,6 +34,7 @@ import static com.google.gerrit.testing.InMemoryRepositoryManager.newRepository;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.PermissionRange;
@@ -235,13 +236,13 @@ public class RefControlTest {
           public void remove(Project p) {}
 
           @Override
-          public Iterable<Project.NameKey> all() {
-            return Collections.emptySet();
+          public ImmutableSortedSet<Project.NameKey> all() {
+            return ImmutableSortedSet.of();
           }
 
           @Override
-          public Iterable<Project.NameKey> byName(String prefix) {
-            return Collections.emptySet();
+          public ImmutableSortedSet<Project.NameKey> byName(String prefix) {
+            return ImmutableSortedSet.of();
           }
 
           @Override

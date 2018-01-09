@@ -95,7 +95,7 @@ public class InternalAccountDirectory extends AccountDirectory {
       info.secondaryEmails = externalIds != null ? getSecondaryEmails(account, externalIds) : null;
     }
     if (options.contains(FillOptions.USERNAME)) {
-      info.username = externalIds != null ? AccountState.getUserName(externalIds) : null;
+      info.username = externalIds != null ? ExternalId.getUserName(externalIds) : null;
     }
 
     if (options.contains(FillOptions.STATUS)) {
@@ -125,7 +125,7 @@ public class InternalAccountDirectory extends AccountDirectory {
   }
 
   public List<String> getSecondaryEmails(Account account, Collection<ExternalId> externalIds) {
-    List<String> emails = new ArrayList<>(AccountState.getEmails(externalIds));
+    List<String> emails = new ArrayList<>(ExternalId.getEmails(externalIds));
     if (account.getPreferredEmail() != null) {
       emails.remove(account.getPreferredEmail());
     }

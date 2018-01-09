@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.base.Function;
@@ -31,7 +30,6 @@ import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AllUsersName;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.codec.DecoderException;
@@ -66,7 +64,7 @@ public class AccountState {
     this.externalIds = externalIds;
     this.projectWatches = projectWatches;
     this.generalPreferences = generalPreferences;
-    this.account.setUserName(getUserName(externalIds));
+    this.account.setUserName(ExternalId.getUserName(externalIds));
   }
 
   public AllUsersName getAllUsersNameForIndexing() {
@@ -124,25 +122,6 @@ public class AccountState {
   /** The general preferences of the account. */
   public GeneralPreferencesInfo getGeneralPreferences() {
     return generalPreferences;
-  }
-
-  public static String getUserName(Collection<ExternalId> ids) {
-    for (ExternalId extId : ids) {
-      if (extId.isScheme(SCHEME_USERNAME)) {
-        return extId.key().id();
-      }
-    }
-    return null;
-  }
-
-  public static Set<String> getEmails(Collection<ExternalId> ids) {
-    Set<String> emails = new HashSet<>();
-    for (ExternalId extId : ids) {
-      if (extId.isScheme(SCHEME_MAILTO)) {
-        emails.add(extId.key().id());
-      }
-    }
-    return emails;
   }
 
   /**

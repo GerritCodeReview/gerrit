@@ -47,6 +47,39 @@ public abstract class ExternalId implements Serializable {
     return USER_NAME_PATTERN.matcher(username).matches();
   }
 
+  /**
+   * Returns the ID of the first external ID from the provided external IDs that has the {@link
+   * ExternalId#SCHEME_USERNAME} scheme.
+   *
+   * @param extIds external IDs
+   * @return the ID of the first external ID from the provided external IDs that has the {@link
+   *     ExternalId#SCHEME_USERNAME} scheme
+   */
+  public static String getUserName(Collection<ExternalId> extIds) {
+    return extIds
+        .stream()
+        .filter(e -> e.isScheme(SCHEME_USERNAME))
+        .map(e -> e.key().id())
+        .findFirst()
+        .orElse(null);
+  }
+
+  /**
+   * Returns all IDs of the provided external IDs that have the {@link ExternalId#SCHEME_MAILTO}
+   * scheme.
+   *
+   * @param extIds external IDs
+   * @return all IDs of the provided external IDs that have the {@link ExternalId#SCHEME_MAILTO}
+   *     scheme
+   */
+  public static ImmutableSet<String> getEmails(Collection<ExternalId> extIds) {
+    return extIds
+        .stream()
+        .filter(e -> e.isScheme(SCHEME_MAILTO))
+        .map(e -> e.key().id())
+        .collect(toImmutableSet());
+  }
+
   private static final long serialVersionUID = 1L;
 
   private static final String EXTERNAL_ID_SECTION = "externalId";

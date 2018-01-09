@@ -62,21 +62,6 @@ public class GroupConfig extends VersionedMetaData {
   @VisibleForTesting static final String SUBGROUPS_FILE = "subgroups";
   private static final Pattern LINE_SEPARATOR_PATTERN = Pattern.compile("\\R");
 
-  private final AccountGroup.UUID groupUuid;
-  private final String ref;
-
-  private Optional<InternalGroup> loadedGroup = Optional.empty();
-  private Optional<InternalGroupCreation> groupCreation = Optional.empty();
-  private Optional<InternalGroupUpdate> groupUpdate = Optional.empty();
-  private AuditLogFormatter auditLogFormatter = AuditLogFormatter.createPartiallyWorkingFallBack();
-  private boolean isLoaded = false;
-  private boolean allowSaveEmptyName;
-
-  private GroupConfig(AccountGroup.UUID groupUuid) {
-    this.groupUuid = checkNotNull(groupUuid);
-    ref = RefNames.refsGroups(groupUuid);
-  }
-
   public static GroupConfig createForNewGroup(
       Repository repository, InternalGroupCreation groupCreation)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
@@ -102,9 +87,33 @@ public class GroupConfig extends VersionedMetaData {
     return groupConfig;
   }
 
+  private final AccountGroup.UUID groupUuid;
+  private final String ref;
+
+  private Optional<InternalGroup> loadedGroup = Optional.empty();
+  private Optional<InternalGroupCreation> groupCreation = Optional.empty();
+  private Optional<InternalGroupUpdate> groupUpdate = Optional.empty();
+  private AuditLogFormatter auditLogFormatter = AuditLogFormatter.createPartiallyWorkingFallBack();
+  private boolean isLoaded = false;
+  private boolean allowSaveEmptyName;
+
+  private GroupConfig(AccountGroup.UUID groupUuid) {
+    this.groupUuid = checkNotNull(groupUuid);
+    ref = RefNames.refsGroups(groupUuid);
+  }
+
   public Optional<InternalGroup> getLoadedGroup() {
     checkLoaded();
     return loadedGroup;
+  }
+
+  public void setGroupUpdate(InternalGroupUpdate groupUpdate, AuditLogFormatter auditLogFormatter) {
+    this.groupUpdate = Optional.of(groupUpdate);
+    this.auditLogFormatter = auditLogFormatter;
+  }
+
+  void setAllowSaveEmptyName() {
+    this.allowSaveEmptyName = true;
   }
 
   private void setGroupCreation(InternalGroupCreation groupCreation)
@@ -115,15 +124,6 @@ public class GroupConfig extends VersionedMetaData {
     }
 
     this.groupCreation = Optional.of(groupCreation);
-  }
-
-  void setAllowSaveEmptyName() {
-    this.allowSaveEmptyName = true;
-  }
-
-  public void setGroupUpdate(InternalGroupUpdate groupUpdate, AuditLogFormatter auditLogFormatter) {
-    this.groupUpdate = Optional.of(groupUpdate);
-    this.auditLogFormatter = auditLogFormatter;
   }
 
   @Override
@@ -149,26 +149,6 @@ public class GroupConfig extends VersionedMetaData {
     }
 
     isLoaded = true;
-  }
-
-  private static InternalGroup createFrom(
-      AccountGroup.UUID groupUuid,
-      Config config,
-      ImmutableSet<Account.Id> members,
-      ImmutableSet<AccountGroup.UUID> subgroups,
-      Timestamp createdOn,
-      ObjectId refState)
-      throws ConfigInvalidException {
-    InternalGroup.Builder group = InternalGroup.builder();
-    group.setGroupUUID(groupUuid);
-    for (GroupConfigEntry configEntry : GroupConfigEntry.values()) {
-      configEntry.readFromConfig(groupUuid, group, config);
-    }
-    group.setMembers(members);
-    group.setSubgroups(subgroups);
-    group.setCreatedOn(createdOn);
-    group.setRefState(refState);
-    return group.build();
   }
 
   @Override
@@ -326,6 +306,26 @@ public class GroupConfig extends VersionedMetaData {
       throw new ConfigInvalidException(
           String.format("Invalid file %s for commit %s", filePath, revision.name()), e);
     }
+  }
+
+  private static InternalGroup createFrom(
+      AccountGroup.UUID groupUuid,
+      Config config,
+      ImmutableSet<Account.Id> members,
+      ImmutableSet<AccountGroup.UUID> subgroups,
+      Timestamp createdOn,
+      ObjectId refState)
+      throws ConfigInvalidException {
+    InternalGroup.Builder group = InternalGroup.builder();
+    group.setGroupUUID(groupUuid);
+    for (GroupConfigEntry configEntry : GroupConfigEntry.values()) {
+      configEntry.readFromConfig(groupUuid, group, config);
+    }
+    group.setMembers(members);
+    group.setSubgroups(subgroups);
+    group.setCreatedOn(createdOn);
+    group.setRefState(refState);
+    return group.build();
   }
 
   private String createCommitMessage(

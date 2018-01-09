@@ -22,6 +22,30 @@
       "revId": "5682627ce2b78417f638366d341c2eb8d3acdfee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0c58ad7_9380fac7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-09T15:41:14Z",
+      "side": 1,
+      "message": "OpenSSH has removed arcfour from the default (including the more secure arcfour128/arcfour256), so that is an argument in favor of dropping.\n\nIn the Go SSH library, arcfour is 2x faster than hardware accelerated AES. Without h/w support, AES is 7x slower. AFAIK, Gerrit and BouncyCastle implement AES in software, so the server will be impacted too. \n\nIt would be nice if mina supported something newer such as Salsa20-poly1305.",
+      "parentUuid": "a21d05eb_cf018540",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 24
+      },
+      "revId": "5682627ce2b78417f638366d341c2eb8d3acdfee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

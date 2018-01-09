@@ -334,6 +334,11 @@ default. Optional fields are:
   server.
 --
 
+[[reverts]]
+--
+* `REVERTS`: include changes that revert this change.
+--
+
 [[tracking-ids]]
 --
 * `TRACKING_IDS`: include references to external tracking systems
@@ -5741,6 +5746,10 @@ When present, change is marked as Work In Progress.
 When present, change has been marked Ready at some point in time.
 |`revert_of`          |optional|
 The numeric Change-Id of the change that this change reverts.
+|`reverts`            |optional|
+A list of link:#change-info[ChangeInfo]s of changes that revert this change. +
+Only non-optional fields are populated. +
+Only set if link:#reverts[reverts] are requested.
 |==================================
 
 [[change-input]]

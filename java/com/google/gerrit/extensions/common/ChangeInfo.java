@@ -48,7 +48,6 @@ public class ChangeInfo {
   public Boolean isPrivate;
   public Boolean workInProgress;
   public Boolean hasReviewStarted;
-  public Integer revertOf;
 
   public int _number;
 
@@ -70,4 +69,7 @@ public class ChangeInfo {
   public List<ProblemInfo> problems;
   public List<PluginDefinedInfo> plugins;
   public Collection<TrackingIdInfo> trackingIds;
+
+  public Integer revertOf;
+  public List<ChangeInfo> reverts;
 }

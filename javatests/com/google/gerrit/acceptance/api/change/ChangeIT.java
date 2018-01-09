@@ -34,6 +34,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LAB
 import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFICATES;
+import static com.google.gerrit.extensions.client.ListChangesOption.REVERTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
@@ -657,6 +658,11 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(revertChange.messages).hasSize(1);
     assertThat(revertChange.messages.iterator().next().message).isEqualTo("Uploaded patch set 1.");
     assertThat(revertChange.revertOf).isEqualTo(gApi.changes().id(r.getChangeId()).get()._number);
+
+    List<ChangeInfo> reverts = gApi.changes().id(r.getChangeId()).get(REVERTS).reverts;
+    assertThat(reverts).hasSize(1);
+    ChangeInfo onlyRevert = reverts.get(0);
+    assertThat(onlyRevert._number).isEqualTo(revertChange._number);
   }
 
   @Test
@@ -3248,6 +3254,9 @@ public class ChangeIT extends AbstractDaemonTest {
     configLabel("Label", LabelFunction.ANY_WITH_BLOCK);
     submittableAfterLosingPermissions("Label");
   }
+
+  @Test
+  public void reverts() throws Exception {}
 
   public void submittableAfterLosingPermissions(String label) throws Exception {
     String codeReviewLabel = "Code-Review";

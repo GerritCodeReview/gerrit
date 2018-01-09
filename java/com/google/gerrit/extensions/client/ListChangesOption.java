@@ -75,7 +75,10 @@ public enum ListChangesOption {
   SUBMITTABLE(20),
 
   /** If tracking Ids are included, include detailed tracking Ids info. */
-  TRACKING_IDS(21);
+  TRACKING_IDS(21),
+
+  /** If changes that revert this change should be included in 'reverts'. */
+  REVERTS(22);
 
   private final int value;
 

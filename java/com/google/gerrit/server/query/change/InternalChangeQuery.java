@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.index.query.Predicate.and;
 import static com.google.gerrit.index.query.Predicate.not;
 import static com.google.gerrit.index.query.Predicate.or;
@@ -276,6 +277,12 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
       return Collections.emptyList();
     }
     return query(new SubmissionIdPredicate(cs));
+  }
+
+  public List<ChangeData> byRevertOf(Project.NameKey project, Change.Id revertOf)
+      throws OrmException {
+    checkNotNull(revertOf, "changeId is required");
+    return query(and(project(project), new RevertOfPredicate(Integer.toString(revertOf.id))));
   }
 
   private List<ChangeData> byProjectGroups(Project.NameKey project, Collection<String> groups)

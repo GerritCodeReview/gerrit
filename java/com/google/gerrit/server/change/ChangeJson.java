@@ -31,6 +31,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DOWNLOAD_COM
 import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFICATES;
+import static com.google.gerrit.extensions.client.ListChangesOption.REVERTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWER_UPDATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
@@ -128,6 +129,7 @@ import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.query.change.PluginDefinedAttributesFactory;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -227,6 +229,7 @@ public class ChangeJson {
   private final ApprovalsUtil approvalsUtil;
   private final RemoveReviewerControl removeReviewerControl;
   private final TrackingFooters trackingFooters;
+  private final Provider<InternalChangeQuery> internalChangeQuery;
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
   private FixInput fix;
@@ -259,6 +262,7 @@ public class ChangeJson {
       ApprovalsUtil approvalsUtil,
       RemoveReviewerControl removeReviewerControl,
       TrackingFooters trackingFooters,
+      Provider<InternalChangeQuery> internalChangeQuery,
       @Assisted Iterable<ListChangesOption> options) {
     this.db = db;
     this.userProvider = user;
@@ -284,6 +288,7 @@ public class ChangeJson {
     this.indexes = indexes;
     this.approvalsUtil = approvalsUtil;
     this.removeReviewerControl = removeReviewerControl;
+    this.internalChangeQuery = internalChangeQuery;
     this.options = Sets.immutableEnumSet(options);
     this.trackingFooters = trackingFooters;
   }
@@ -490,7 +495,7 @@ public class ChangeJson {
   private ChangeInfo toChangeInfo(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
       throws PatchListNotAvailableException, GpgException, OrmException, IOException,
           PermissionBackendException, NoSuchProjectException {
-    ChangeInfo out = new ChangeInfo();
+    ChangeInfo out = formatMandatoryOnly(cd);
     CurrentUser user = userProvider.get();
 
     if (has(CHECK)) {
@@ -499,6 +504,7 @@ public class ChangeJson {
       for (ProblemInfo p : out.problems) {
         if (p.status == ProblemInfo.Status.FIXED) {
           cd = changeDataFactory.create(cd.db(), cd.project(), cd.getId());
+          out = formatMandatoryOnly(cd);
           break;
         }
       }
@@ -506,16 +512,12 @@ public class ChangeJson {
 
     PermissionBackend.ForChange perm = permissionBackendForChange(user, cd);
     Change in = cd.change();
-    out.project = in.getProject().get();
-    out.branch = in.getDest().getShortName();
-    out.topic = in.getTopic();
     if (indexes.getSearchIndex().getSchema().hasField(ChangeField.ASSIGNEE)) {
       if (in.getAssignee() != null) {
         out.assignee = accountLoader.get(in.getAssignee());
       }
     }
     out.hashtags = cd.hashtags();
-    out.changeId = in.getKey().get();
     if (in.getStatus().isOpen()) {
       SubmitTypeRecord str = cd.submitTypeRecord();
       if (str.isOk()) {
@@ -534,12 +536,7 @@ public class ChangeJson {
     out.isPrivate = in.isPrivate() ? true : null;
     out.workInProgress = in.isWorkInProgress() ? true : null;
     out.hasReviewStarted = in.hasReviewStarted();
-    out.subject = in.getSubject();
-    out.status = in.getStatus().asChangeStatus();
     out.owner = accountLoader.get(in.getOwner());
-    out.created = in.getCreatedOn();
-    out.updated = in.getLastUpdatedOn();
-    out._number = in.getId().get();
     out.unresolvedCommentCount = cd.unresolvedCommentCount();
 
     if (user.isIdentifiedUser()) {
@@ -575,7 +572,20 @@ public class ChangeJson {
     setSubmitter(cd, out);
     out.plugins =
         pluginDefinedAttributesFactory != null ? pluginDefinedAttributesFactory.create(cd) : null;
-    out.revertOf = cd.change().getRevertOf() != null ? cd.change().getRevertOf().get() : null;
+
+    if (cd.change().getRevertOf() != null) {
+      out.revertOf = cd.change().getRevertOf().get();
+    }
+
+    if (has(REVERTS)) {
+      List<ChangeInfo> reverts = new ArrayList<>();
+      for (ChangeData revert : internalChangeQuery.get().byRevertOf(cd.project(), cd.getId())) {
+        reverts.add(formatMandatoryOnly(revert));
+      }
+      if (!reverts.isEmpty()) {
+        out.reverts = reverts;
+      }
+    }
 
     if (has(REVIEWER_UPDATES)) {
       out.reviewerUpdates = reviewerUpdates(cd);
@@ -1476,6 +1486,21 @@ public class ChangeJson {
     } catch (AuthException ae) {
       return false;
     }
+  }
+
+  private static ChangeInfo formatMandatoryOnly(ChangeData cd) throws OrmException {
+    ChangeInfo out = new ChangeInfo();
+    Change in = cd.change();
+    out.project = in.getProject().get();
+    out.branch = in.getDest().getShortName();
+    out.changeId = in.getKey().get();
+    out._number = in.getChangeId();
+    out.topic = in.getTopic();
+    out.subject = in.getSubject();
+    out.status = in.getStatus().asChangeStatus();
+    out.created = in.getCreatedOn();
+    out.updated = in.getLastUpdatedOn();
+    return out;
   }
 
   @AutoValue

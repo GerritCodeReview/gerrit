@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import java.io.IOException;
 import java.util.Set;
+import java.util.SortedSet;
 
 /** Cache of project information, including access rights. */
 public interface ProjectCache {
@@ -68,7 +69,7 @@ public interface ProjectCache {
   void remove(Project p) throws IOException;
 
   /** @return sorted iteration of projects. */
-  Iterable<Project.NameKey> all();
+  SortedSet<Project.NameKey> all();
 
   /**
    * @return estimated set of relevant groups extracted from hot project access rules. If the cache
@@ -82,7 +83,7 @@ public interface ProjectCache {
    * @param prefix common prefix.
    * @return sorted iteration of projects sharing the same prefix.
    */
-  Iterable<Project.NameKey> byName(String prefix);
+  SortedSet<Project.NameKey> byName(String prefix);
 
   /** Notify the cache that a new project was constructed. */
   void onCreateProject(Project.NameKey newProjectName) throws IOException;

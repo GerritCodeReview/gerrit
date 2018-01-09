@@ -78,6 +78,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.Repository;
@@ -235,13 +236,13 @@ public class RefControlTest {
           public void remove(Project p) {}
 
           @Override
-          public Iterable<Project.NameKey> all() {
-            return Collections.emptySet();
+          public SortedSet<Project.NameKey> all() {
+            return Collections.emptySortedSet();
           }
 
           @Override
-          public Iterable<Project.NameKey> byName(String prefix) {
-            return Collections.emptySet();
+          public SortedSet<Project.NameKey> byName(String prefix) {
+            return Collections.emptySortedSet();
           }
 
           @Override

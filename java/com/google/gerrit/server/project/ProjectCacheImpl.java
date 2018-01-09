@@ -226,7 +226,7 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
-  public Iterable<Project.NameKey> byName(String pfx) {
+  public SortedSet<Project.NameKey> byName(String pfx) {
     Project.NameKey start = new Project.NameKey(pfx);
     Project.NameKey end = new Project.NameKey(pfx + Character.MAX_VALUE);
     try {
@@ -234,7 +234,7 @@ public class ProjectCacheImpl implements ProjectCache {
       return list.get(ListKey.ALL).subSet(start, end);
     } catch (ExecutionException e) {
       log.warn("Cannot look up projects for prefix " + pfx, e);
-      return Collections.emptyList();
+      return Collections.emptySortedSet();
     }
   }
 

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1c3a940b_18a33fa2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-09T21:48:51Z",
+      "side": 1,
+      "message": "There\u0027s no need to, and it adds more characters.",
+      "parentUuid": "7933f016_296ed20e",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "ee33acaa54edf869e55f24e84044cf04d7ca234f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5cd2ae0f_f4f24129",
         "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.html",
         "patchSetId": 22

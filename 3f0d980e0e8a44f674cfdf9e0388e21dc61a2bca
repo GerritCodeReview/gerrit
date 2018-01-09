@@ -34,6 +34,24 @@
       "revId": "3f0d980e0e8a44f674cfdf9e0388e21dc61a2bca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "300d2dd4_3becf052",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-09T00:15:26Z",
+      "side": 1,
+      "message": "I like the solution you\u0027ve come up with to this issue. IMO as long as we inform the user that there may be changes, we\u0027ve done our job.",
+      "parentUuid": "02e0f819_933730f1",
+      "revId": "3f0d980e0e8a44f674cfdf9e0388e21dc61a2bca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

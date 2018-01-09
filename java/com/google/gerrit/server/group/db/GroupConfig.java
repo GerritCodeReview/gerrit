@@ -77,7 +77,7 @@ public class GroupConfig extends VersionedMetaData {
   private Optional<InternalGroup> loadedGroup = Optional.empty();
   private Optional<InternalGroupCreation> groupCreation = Optional.empty();
   private Optional<InternalGroupUpdate> groupUpdate = Optional.empty();
-  private Optional<AuditLogFormatter> auditLogFormatter = Optional.empty();
+  private AuditLogFormatter auditLogFormatter = AuditLogFormatter.createPartiallyWorkingFallBack();
   private boolean isLoaded = false;
   private boolean allowSaveEmptyName;
 
@@ -131,7 +131,7 @@ public class GroupConfig extends VersionedMetaData {
 
   public void setGroupUpdate(InternalGroupUpdate groupUpdate, AuditLogFormatter auditLogFormatter) {
     this.groupUpdate = Optional.of(groupUpdate);
-    this.auditLogFormatter = Optional.of(auditLogFormatter);
+    this.auditLogFormatter = auditLogFormatter;
   }
 
   @Override
@@ -368,38 +368,30 @@ public class GroupConfig extends VersionedMetaData {
 
   private Stream<String> getCommitFootersForMemberModifications(
       ImmutableSet<Account.Id> oldMembers, ImmutableSet<Account.Id> newMembers) {
-    AuditLogFormatter formatter =
-        auditLogFormatter.orElseThrow(
-            () -> new IllegalStateException("AuditLogFormatter is necessary but missing"));
-
     Stream<String> removedMembers =
         Sets.difference(oldMembers, newMembers)
             .stream()
-            .map(formatter::getParsableAccount)
+            .map(auditLogFormatter::getParsableAccount)
             .map((FOOTER_REMOVE_MEMBER.getName() + ": ")::concat);
     Stream<String> addedMembers =
         Sets.difference(newMembers, oldMembers)
             .stream()
-            .map(formatter::getParsableAccount)
+            .map(auditLogFormatter::getParsableAccount)
             .map((FOOTER_ADD_MEMBER.getName() + ": ")::concat);
     return Stream.concat(removedMembers, addedMembers);
   }
 
   private Stream<String> getCommitFootersForSubgroupModifications(
       ImmutableSet<AccountGroup.UUID> oldSubgroups, ImmutableSet<AccountGroup.UUID> newSubgroups) {
-    AuditLogFormatter formatter =
-        auditLogFormatter.orElseThrow(
-            () -> new IllegalStateException("AuditLogFormatter is necessary but missing"));
-
     Stream<String> removedMembers =
         Sets.difference(oldSubgroups, newSubgroups)
             .stream()
-            .map(formatter::getParsableGroup)
+            .map(auditLogFormatter::getParsableGroup)
             .map((FOOTER_REMOVE_GROUP.getName() + ": ")::concat);
     Stream<String> addedMembers =
         Sets.difference(newSubgroups, oldSubgroups)
             .stream()
-            .map(formatter::getParsableGroup)
+            .map(auditLogFormatter::getParsableGroup)
             .map((FOOTER_ADD_GROUP.getName() + ": ")::concat);
     return Stream.concat(removedMembers, addedMembers);
   }

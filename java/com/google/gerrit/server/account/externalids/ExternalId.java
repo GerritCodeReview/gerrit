@@ -32,8 +32,10 @@ import com.google.gerrit.server.account.HashedPassword;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -45,6 +47,34 @@ public abstract class ExternalId implements Serializable {
 
   public static boolean isValidUsername(String username) {
     return USER_NAME_PATTERN.matcher(username).matches();
+  }
+
+  /**
+   * Returns the ID of the first external ID from the provided external IDs that has the {@link
+   * ExternalId#SCHEME_USERNAME} scheme.
+   *
+   * @param extIds external IDs
+   * @return the ID of the first external ID from the provided external IDs that has the {@link
+   *     ExternalId#SCHEME_USERNAME} scheme
+   */
+  public static Optional<String> getUserName(Collection<ExternalId> extIds) {
+    return extIds
+        .stream()
+        .filter(e -> e.isScheme(SCHEME_USERNAME))
+        .map(e -> e.key().id())
+        .findFirst();
+  }
+
+  /**
+   * Returns all IDs of the provided external IDs that have the {@link ExternalId#SCHEME_MAILTO}
+   * scheme as a distinct stream.
+   *
+   * @param extIds external IDs
+   * @return distinct stream of all IDs of the provided external IDs that have the {@link
+   *     ExternalId#SCHEME_MAILTO} scheme
+   */
+  public static Stream<String> getEmails(Collection<ExternalId> extIds) {
+    return extIds.stream().filter(e -> e.isScheme(SCHEME_MAILTO)).map(e -> e.key().id()).distinct();
   }
 
   private static final long serialVersionUID = 1L;

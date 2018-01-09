@@ -20,6 +20,29 @@
     },
     {
       "key": {
+        "uuid": "a9a40469_1c8c8106",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3749,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-09T11:58:33Z",
+      "side": 1,
+      "message": "I guess \u0027INHERIT\u0027 would also work and it should be mentioned here?",
+      "range": {
+        "startLine": 3748,
+        "startChar": 4,
+        "endLine": 3749,
+        "endChar": 50
+      },
+      "revId": "b47a0a55bfe768232b39a01dc3775c71dbd344b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f94a7c6d_55b7278a",
         "filename": "Documentation/project-configuration.txt",
         "patchSetId": 7
@@ -59,6 +82,29 @@
         "startChar": 20,
         "endLine": 940,
         "endChar": 39
+      },
+      "revId": "b47a0a55bfe768232b39a01dc3775c71dbd344b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef3b21bb_8636df63",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2859,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-09T11:58:33Z",
+      "side": 1,
+      "message": "[optional] don\u0027t have \u0027inherited\u0027 in the name, maybe a better name could be \u0027default_submit_type\u0027? But I\u0027m not feeling strongly about this.",
+      "range": {
+        "startLine": 2859,
+        "startChar": 2,
+        "endLine": 2859,
+        "endChar": 23
       },
       "revId": "b47a0a55bfe768232b39a01dc3775c71dbd344b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

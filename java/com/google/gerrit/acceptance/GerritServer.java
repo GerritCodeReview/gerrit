@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
-import com.google.gerrit.pgm.init.InitSshd;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.ssh.NoSshModule;
@@ -457,7 +456,8 @@ public class GerritServer implements AutoCloseable {
     URI uri = URI.create(url);
 
     String addr = cfg.getString("sshd", null, "listenAddress");
-    if (!InitSshd.isOff(addr)) {
+    // We do not use InitSshd.isOff to avoid coupling GerritServer to the SSH code.
+    if (!"off".equalsIgnoreCase(addr)) {
       sshdAddress = SocketUtil.resolve(cfg.getString("sshd", null, "listenAddress"), 0);
     }
     httpAddress = new InetSocketAddress(uri.getHost(), uri.getPort());

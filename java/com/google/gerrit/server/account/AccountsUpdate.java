@@ -24,8 +24,6 @@ import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
@@ -35,7 +33,6 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
-import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryHelper.ActionType;
@@ -51,11 +48,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -119,7 +112,6 @@ public class AccountsUpdate {
     private final GitRepositoryManager repoManager;
     private final GitReferenceUpdated gitRefUpdated;
     private final AllUsersName allUsersName;
-    private final OutgoingEmailValidator emailValidator;
     private final Provider<PersonIdent> serverIdentProvider;
     private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
     private final RetryHelper retryHelper;
@@ -130,7 +122,6 @@ public class AccountsUpdate {
         GitRepositoryManager repoManager,
         GitReferenceUpdated gitRefUpdated,
         AllUsersName allUsersName,
-        OutgoingEmailValidator emailValidator,
         @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
         Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
         RetryHelper retryHelper,
@@ -138,7 +129,6 @@ public class AccountsUpdate {
       this.repoManager = repoManager;
       this.gitRefUpdated = gitRefUpdated;
       this.allUsersName = allUsersName;
-      this.emailValidator = emailValidator;
       this.serverIdentProvider = serverIdentProvider;
       this.metaDataUpdateInternalFactory = metaDataUpdateInternalFactory;
       this.retryHelper = retryHelper;
@@ -152,7 +142,6 @@ public class AccountsUpdate {
           gitRefUpdated,
           null,
           allUsersName,
-          emailValidator,
           metaDataUpdateInternalFactory,
           retryHelper,
           extIdNotesFactory,
@@ -175,7 +164,6 @@ public class AccountsUpdate {
     private final GitRepositoryManager repoManager;
     private final GitReferenceUpdated gitRefUpdated;
     private final AllUsersName allUsersName;
-    private final OutgoingEmailValidator emailValidator;
     private final Provider<PersonIdent> serverIdentProvider;
     private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
     private final RetryHelper retryHelper;
@@ -186,7 +174,6 @@ public class AccountsUpdate {
         GitRepositoryManager repoManager,
         GitReferenceUpdated gitRefUpdated,
         AllUsersName allUsersName,
-        OutgoingEmailValidator emailValidator,
         @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
         Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
         RetryHelper retryHelper,
@@ -194,7 +181,6 @@ public class AccountsUpdate {
       this.repoManager = repoManager;
       this.gitRefUpdated = gitRefUpdated;
       this.allUsersName = allUsersName;
-      this.emailValidator = emailValidator;
       this.serverIdentProvider = serverIdentProvider;
       this.metaDataUpdateInternalFactory = metaDataUpdateInternalFactory;
       this.retryHelper = retryHelper;
@@ -208,7 +194,6 @@ public class AccountsUpdate {
           gitRefUpdated,
           null,
           allUsersName,
-          emailValidator,
           metaDataUpdateInternalFactory,
           retryHelper,
           extIdNotesFactory,
@@ -228,7 +213,6 @@ public class AccountsUpdate {
     private final GitRepositoryManager repoManager;
     private final GitReferenceUpdated gitRefUpdated;
     private final AllUsersName allUsersName;
-    private final OutgoingEmailValidator emailValidator;
     private final Provider<PersonIdent> serverIdentProvider;
     private final Provider<IdentifiedUser> identifiedUser;
     private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
@@ -240,7 +224,6 @@ public class AccountsUpdate {
         GitRepositoryManager repoManager,
         GitReferenceUpdated gitRefUpdated,
         AllUsersName allUsersName,
-        OutgoingEmailValidator emailValidator,
         @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
         Provider<IdentifiedUser> identifiedUser,
         Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
@@ -250,7 +233,6 @@ public class AccountsUpdate {
       this.gitRefUpdated = gitRefUpdated;
       this.allUsersName = allUsersName;
       this.serverIdentProvider = serverIdentProvider;
-      this.emailValidator = emailValidator;
       this.identifiedUser = identifiedUser;
       this.metaDataUpdateInternalFactory = metaDataUpdateInternalFactory;
       this.retryHelper = retryHelper;
@@ -266,7 +248,6 @@ public class AccountsUpdate {
           gitRefUpdated,
           user,
           allUsersName,
-          emailValidator,
           metaDataUpdateInternalFactory,
           retryHelper,
           extIdNotesFactory,
@@ -283,7 +264,6 @@ public class AccountsUpdate {
   private final GitReferenceUpdated gitRefUpdated;
   @Nullable private final IdentifiedUser currentUser;
   private final AllUsersName allUsersName;
-  private final OutgoingEmailValidator emailValidator;
   private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
   private final RetryHelper retryHelper;
   private final ExternalIdNotesLoader extIdNotesLoader;
@@ -296,7 +276,6 @@ public class AccountsUpdate {
       GitReferenceUpdated gitRefUpdated,
       @Nullable IdentifiedUser currentUser,
       AllUsersName allUsersName,
-      OutgoingEmailValidator emailValidator,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,
       ExternalIdNotesLoader extIdNotesLoader,
@@ -307,7 +286,6 @@ public class AccountsUpdate {
         gitRefUpdated,
         currentUser,
         allUsersName,
-        emailValidator,
         metaDataUpdateInternalFactory,
         retryHelper,
         extIdNotesLoader,
@@ -322,7 +300,6 @@ public class AccountsUpdate {
       GitReferenceUpdated gitRefUpdated,
       @Nullable IdentifiedUser currentUser,
       AllUsersName allUsersName,
-      OutgoingEmailValidator emailValidator,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,
       ExternalIdNotesLoader extIdNotesLoader,
@@ -333,7 +310,6 @@ public class AccountsUpdate {
     this.gitRefUpdated = checkNotNull(gitRefUpdated, "gitRefUpdated");
     this.currentUser = currentUser;
     this.allUsersName = checkNotNull(allUsersName, "allUsersName");
-    this.emailValidator = checkNotNull(emailValidator, "emailValidator");
     this.metaDataUpdateInternalFactory =
         checkNotNull(metaDataUpdateInternalFactory, "metaDataUpdateInternalFactory");
     this.retryHelper = checkNotNull(retryHelper, "retryHelper");
@@ -446,77 +422,9 @@ public class AccountsUpdate {
         });
   }
 
-  /**
-   * Deletes the account.
-   *
-   * @param account the account that should be deleted
-   * @throws IOException if deleting the user branch fails due to an IO error
-   * @throws OrmException if deleting the user branch fails
-   * @throws ConfigInvalidException
-   */
-  public void delete(Account account) throws IOException, OrmException, ConfigInvalidException {
-    deleteByKey(account.getId());
-  }
-
-  /**
-   * Deletes the account.
-   *
-   * @param accountId the ID of the account that should be deleted
-   * @throws IOException if deleting the user branch fails due to an IO error
-   * @throws OrmException if deleting the user branch fails
-   * @throws ConfigInvalidException
-   */
-  public void deleteByKey(Account.Id accountId)
-      throws IOException, OrmException, ConfigInvalidException {
-    deleteAccount(accountId);
-  }
-
-  private Account deleteAccount(Account.Id accountId)
-      throws IOException, OrmException, ConfigInvalidException {
-    return retryHelper.execute(
-        ActionType.ACCOUNT_UPDATE,
-        () -> {
-          deleteUserBranch(accountId);
-          return null;
-        });
-  }
-
-  private void deleteUserBranch(Account.Id accountId) throws IOException {
-    try (Repository repo = repoManager.openRepository(allUsersName)) {
-      deleteUserBranch(repo, allUsersName, gitRefUpdated, currentUser, authorIdent, accountId);
-    }
-  }
-
-  public static void deleteUserBranch(
-      Repository repo,
-      Project.NameKey project,
-      GitReferenceUpdated gitRefUpdated,
-      @Nullable IdentifiedUser user,
-      PersonIdent refLogIdent,
-      Account.Id accountId)
-      throws IOException {
-    String refName = RefNames.refsUsers(accountId);
-    Ref ref = repo.exactRef(refName);
-    if (ref == null) {
-      return;
-    }
-
-    RefUpdate ru = repo.updateRef(refName);
-    ru.setExpectedOldObjectId(ref.getObjectId());
-    ru.setNewObjectId(ObjectId.zeroId());
-    ru.setForceUpdate(true);
-    ru.setRefLogIdent(refLogIdent);
-    ru.setRefLogMessage("Delete Account", true);
-    Result result = ru.delete();
-    if (result != Result.FORCED) {
-      throw new IOException(String.format("Failed to delete ref %s: %s", refName, result.name()));
-    }
-    gitRefUpdated.fire(project, ru, user != null ? user.getAccount() : null);
-  }
-
   private AccountConfig read(Repository allUsersRepo, Account.Id accountId)
       throws IOException, ConfigInvalidException {
-    AccountConfig accountConfig = new AccountConfig(emailValidator, accountId);
+    AccountConfig accountConfig = new AccountConfig(accountId);
     accountConfig.load(allUsersRepo);
 
     afterReadRevision.run();

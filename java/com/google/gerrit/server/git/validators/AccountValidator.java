@@ -90,7 +90,7 @@ public class AccountValidator {
   private Optional<Account> loadAccount(Account.Id accountId, RevWalk rw, ObjectId commit)
       throws IOException, ConfigInvalidException {
     rw.reset();
-    AccountConfig accountConfig = new AccountConfig(null, accountId);
+    AccountConfig accountConfig = new AccountConfig(accountId);
     accountConfig.load(rw, commit);
     return accountConfig.getLoadedAccount();
   }

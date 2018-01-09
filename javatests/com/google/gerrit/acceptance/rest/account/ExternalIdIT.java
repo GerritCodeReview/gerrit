@@ -26,7 +26,6 @@ import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 
-import com.github.rholder.retry.StopStrategies;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -41,20 +40,15 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInput.CheckAccoun
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountsUpdate;
-import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIdReader;
 import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.update.RetryHelper;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.inject.Inject;
@@ -67,8 +61,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -92,8 +84,6 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Inject private AccountsUpdate.Server accountsUpdate;
   @Inject private ExternalIds externalIds;
   @Inject private ExternalIdReader externalIdReader;
-  @Inject private MetricMaker metricMaker;
-  @Inject private RetryHelper.Metrics retryMetrics;
   @Inject private ExternalIdNotes.Factory externalIdNotesFactory;
 
   @Test
@@ -712,91 +702,6 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   private static String nextId(String scheme, MutableInteger i) {
     return scheme + ":foo" + ++i.value;
-  }
-
-  @Test
-  public void retryOnLockFailure() throws Exception {
-    ExternalId.Key fooId = ExternalId.Key.create("foo", "foo");
-    ExternalId.Key barId = ExternalId.Key.create("bar", "bar");
-
-    final AtomicBoolean doneBgUpdate = new AtomicBoolean(false);
-    ExternalIdsUpdate update =
-        new ExternalIdsUpdate(
-            repoManager,
-            () -> metaDataUpdateFactory.create(allUsers),
-            accountCache,
-            allUsers,
-            metricMaker,
-            externalIds,
-            new DisabledExternalIdCache(),
-            new RetryHelper(
-                cfg,
-                retryMetrics,
-                null,
-                null,
-                null,
-                r -> r.withBlockStrategy(noSleepBlockStrategy)),
-            () -> {
-              if (!doneBgUpdate.getAndSet(true)) {
-                try {
-                  insertExtId(ExternalId.create(barId, admin.id));
-                } catch (Exception e) {
-                  // Ignore, the successful insertion of the external ID is asserted later
-                }
-              }
-            });
-    assertThat(doneBgUpdate.get()).isFalse();
-    update.insert(ExternalId.create(fooId, admin.id));
-    assertThat(doneBgUpdate.get()).isTrue();
-
-    assertThat(externalIds.get(fooId)).isNotNull();
-    assertThat(externalIds.get(barId)).isNotNull();
-  }
-
-  @Test
-  public void failAfterRetryerGivesUp() throws Exception {
-    ExternalId.Key[] extIdsKeys = {
-      ExternalId.Key.create("foo", "foo"),
-      ExternalId.Key.create("bar", "bar"),
-      ExternalId.Key.create("baz", "baz")
-    };
-    final AtomicInteger bgCounter = new AtomicInteger(0);
-    ExternalIdsUpdate update =
-        new ExternalIdsUpdate(
-            repoManager,
-            () -> metaDataUpdateFactory.create(allUsers),
-            accountCache,
-            allUsers,
-            metricMaker,
-            externalIds,
-            new DisabledExternalIdCache(),
-            new RetryHelper(
-                cfg,
-                retryMetrics,
-                null,
-                null,
-                null,
-                r ->
-                    r.withStopStrategy(StopStrategies.stopAfterAttempt(extIdsKeys.length))
-                        .withBlockStrategy(noSleepBlockStrategy)),
-            () -> {
-              try {
-                insertExtId(ExternalId.create(extIdsKeys[bgCounter.getAndAdd(1)], admin.id));
-              } catch (Exception e) {
-                // Ignore, the successful insertion of the external ID is asserted later
-              }
-            });
-    assertThat(bgCounter.get()).isEqualTo(0);
-    try {
-      update.insert(ExternalId.create(ExternalId.Key.create("abc", "abc"), admin.id));
-      fail("expected LockFailureException");
-    } catch (LockFailureException e) {
-      // Ignore, expected
-    }
-    assertThat(bgCounter.get()).isEqualTo(extIdsKeys.length);
-    for (ExternalId.Key extIdKey : extIdsKeys) {
-      assertThat(externalIds.get(extIdKey)).isNotNull();
-    }
   }
 
   @Test

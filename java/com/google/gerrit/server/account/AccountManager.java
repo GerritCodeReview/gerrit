@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -21,7 +24,6 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.Account;
@@ -33,12 +35,12 @@ import com.google.gerrit.server.account.AccountsUpdate.AccountUpdater;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -67,11 +69,10 @@ public class AccountManager {
   private final AccountCache byIdCache;
   private final Realm realm;
   private final IdentifiedUser.GenericFactory userFactory;
-  private final ChangeUserName.Factory changeUserNameFactory;
+  private final SshKeyCache sshKeyCache;
   private final ProjectCache projectCache;
   private final AtomicBoolean awaitsFirstAccountCheck;
   private final ExternalIds externalIds;
-  private final ExternalIdsUpdate.Server externalIdsUpdateFactory;
   private final GroupsUpdate.Factory groupsUpdateFactory;
   private final boolean autoUpdateAccountActiveStatus;
   private final SetInactiveFlag setInactiveFlag;
@@ -86,10 +87,9 @@ public class AccountManager {
       AccountCache byIdCache,
       Realm accountMapper,
       IdentifiedUser.GenericFactory userFactory,
-      ChangeUserName.Factory changeUserNameFactory,
+      SshKeyCache sshKeyCache,
       ProjectCache projectCache,
       ExternalIds externalIds,
-      ExternalIdsUpdate.Server externalIdsUpdateFactory,
       GroupsUpdate.Factory groupsUpdateFactory,
       SetInactiveFlag setInactiveFlag) {
     this.schema = schema;
@@ -99,12 +99,11 @@ public class AccountManager {
     this.byIdCache = byIdCache;
     this.realm = accountMapper;
     this.userFactory = userFactory;
-    this.changeUserNameFactory = changeUserNameFactory;
+    this.sshKeyCache = sshKeyCache;
     this.projectCache = projectCache;
     this.awaitsFirstAccountCheck =
         new AtomicBoolean(cfg.getBoolean("capability", "makeFirstUserAdmin", true));
     this.externalIds = externalIds;
-    this.externalIdsUpdateFactory = externalIdsUpdateFactory;
     this.groupsUpdateFactory = groupsUpdateFactory;
     this.autoUpdateAccountActiveStatus =
         cfg.getBoolean("auth", "autoUpdateAccountActiveStatus", false);
@@ -262,6 +261,8 @@ public class AccountManager {
 
     ExternalId extId =
         ExternalId.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());
+    ExternalId userNameExtId =
+        !Strings.isNullOrEmpty(who.getUserName()) ? createUsername(newId, who.getUserName()) : null;
 
     boolean isFirstAccount = awaitsFirstAccountCheck.getAndSet(false) && !accounts.hasAnyAccount();
 
@@ -273,10 +274,14 @@ public class AccountManager {
               .insert(
                   "Create Account on First Login",
                   newId,
-                  u ->
-                      u.setFullName(who.getDisplayName())
-                          .setPreferredEmail(extId.email())
-                          .addExternalId(extId));
+                  u -> {
+                    u.setFullName(who.getDisplayName())
+                        .setPreferredEmail(extId.email())
+                        .addExternalId(extId);
+                    if (userNameExtId != null) {
+                      u.addExternalId(userNameExtId);
+                    }
+                  });
     } catch (DuplicateExternalIdKeyException e) {
       throw new AccountException(
           "Cannot assign external ID \""
@@ -289,6 +294,10 @@ public class AccountManager {
       // first account. So we reset the 'check for first account'-guard, as
       // otherwise the first account would not get administration permissions.
       awaitsFirstAccountCheck.set(isFirstAccount);
+    }
+
+    if (userNameExtId != null) {
+      sshKeyCache.evict(who.getUserName());
     }
 
     IdentifiedUser user = userFactory.create(newId);
@@ -309,35 +318,21 @@ public class AccountManager {
       addGroupMember(db, adminGroupUuid, user);
     }
 
-    if (who.getUserName() != null) {
-      // Only set if the name hasn't been used yet, but was given to us.
-      //
-      try {
-        changeUserNameFactory.create("Set Username on Login", user, who.getUserName()).call();
-      } catch (NameAlreadyUsedException e) {
-        String message =
-            "Cannot assign user name \""
-                + who.getUserName()
-                + "\" to account "
-                + newId
-                + "; name already in use.";
-        handleSettingUserNameFailure(account, extId, message, e, false);
-      } catch (InvalidUserNameException e) {
-        String message =
-            "Cannot assign user name \""
-                + who.getUserName()
-                + "\" to account "
-                + newId
-                + "; name does not conform.";
-        handleSettingUserNameFailure(account, extId, message, e, false);
-      } catch (OrmException e) {
-        String message = "Cannot assign user name";
-        handleSettingUserNameFailure(account, extId, message, e, true);
-      }
-    }
-
     realm.onCreateAccount(who, account);
     return new AuthResult(newId, extId.key(), true);
+  }
+
+  private ExternalId createUsername(Account.Id accountId, String username)
+      throws AccountUserNameException {
+    checkArgument(!Strings.isNullOrEmpty(username));
+
+    if (!ExternalId.isValidUsername(username)) {
+      throw new AccountUserNameException(
+          String.format(
+              "Cannot assign user name \"%s\" to account %s; name does not conform.",
+              username, accountId));
+    }
+    return ExternalId.create(SCHEME_USERNAME, username, accountId);
   }
 
   private void addGroupMember(ReviewDb db, AccountGroup.UUID groupUuid, IdentifiedUser user)
@@ -353,43 +348,6 @@ public class AccountManager {
       groupsUpdate.updateGroup(db, groupUuid, groupUpdate);
     } catch (NoSuchGroupException e) {
       throw new AccountException(String.format("Group %s not found", groupUuid));
-    }
-  }
-
-  /**
-   * This method handles an exception that occurred during the setting of the user name for a newly
-   * created account. If the realm does not allow the user to set a user name manually this method
-   * deletes the newly created account and throws an {@link AccountUserNameException}. In any case
-   * the error message is logged.
-   *
-   * @param account the newly created account
-   * @param extId the newly created external id
-   * @param errorMessage the error message
-   * @param e the exception that occurred during the setting of the user name for the new account
-   * @param logException flag that decides whether the exception should be included into the log
-   * @throws AccountUserNameException thrown if the realm does not allow the user to manually set
-   *     the user name
-   * @throws OrmException thrown if cleaning the database failed
-   */
-  private void handleSettingUserNameFailure(
-      Account account, ExternalId extId, String errorMessage, Exception e, boolean logException)
-      throws AccountUserNameException, OrmException, IOException, ConfigInvalidException {
-    if (logException) {
-      log.error(errorMessage, e);
-    } else {
-      log.error(errorMessage);
-    }
-    if (!realm.allowsEdit(AccountFieldName.USER_NAME)) {
-      // setting the given user name has failed, but the realm does not
-      // allow the user to manually set a user name,
-      // this means we would end with an account without user name
-      // (without 'username:<USERNAME>' external ID),
-      // such an account cannot be used for uploading changes,
-      // this is why the best we can do here is to fail early and cleanup
-      // the database
-      accountsUpdateFactory.create().delete(account);
-      externalIdsUpdateFactory.create().delete(extId);
-      throw new AccountUserNameException(errorMessage, e);
     }
   }
 
@@ -453,7 +411,12 @@ public class AccountManager {
                 .filter(e -> e.key().equals(who.getExternalIdKey()))
                 .findAny()
                 .isPresent())) {
-      externalIdsUpdateFactory.create().delete(filteredExtIdsByScheme);
+      accountsUpdateFactory
+          .create()
+          .update(
+              "Delete External IDs on Update Link",
+              to,
+              u -> u.deleteExternalIds(filteredExtIdsByScheme));
     }
     return link(to, who);
   }
@@ -498,27 +461,17 @@ public class AccountManager {
       }
     }
 
-    externalIdsUpdateFactory.create().delete(extIds);
-
-    if (extIds.stream().anyMatch(e -> e.email() != null)) {
-      accountsUpdateFactory
-          .create()
-          .update(
-              "Clear Preferred Email on Unlinking External ID\n"
-                  + "\n"
-                  + "The preferred email is cleared because the corresponding external ID\n"
-                  + "was removed.",
-              from,
-              (a, u) -> {
-                if (a.getPreferredEmail() != null) {
-                  for (ExternalId extId : extIds) {
-                    if (a.getPreferredEmail().equals(extId.email())) {
-                      u.setPreferredEmail(null);
-                      break;
-                    }
-                  }
-                }
-              });
-    }
+    accountsUpdateFactory
+        .create()
+        .update(
+            "Unlink External ID" + (extIds.size() > 1 ? "s" : ""),
+            from,
+            (a, u) -> {
+              u.deleteExternalIds(extIds);
+              if (a.getPreferredEmail() != null
+                  && extIds.stream().anyMatch(e -> a.getPreferredEmail().equals(e.email()))) {
+                u.setPreferredEmail(null);
+              }
+            });
   }
 }

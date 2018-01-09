@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "55696b86_9ecc03e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-01-09T13:25:39Z",
+      "side": 1,
+      "message": "Even with the limit of 3072 bytes it wouldn\u0027t work as the file_name column is of type varchar(4096) as it must support max path length on Linux.",
+      "parentUuid": "859e57f4_c57e7470",
+      "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "da69d1eb_e6522b90",
         "filename": "Documentation/pgm-UpdateAccountPatchReviewDb.txt",
         "patchSetId": 6
@@ -65,6 +83,30 @@
     },
     {
       "key": {
+        "uuid": "7e7b7236_68e35590",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/UpdateAccountPatchReviewDb.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-01-09T13:25:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ed994323_1c46a03d",
+      "range": {
+        "startLine": 47,
+        "startChar": 81,
+        "endLine": 47,
+        "endChar": 92
+      },
+      "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5f820e4_6f619138",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/UpdateAccountPatchReviewDb.java",
         "patchSetId": 6
@@ -76,6 +118,24 @@
       "writtenOn": "2017-12-18T09:15:40Z",
       "side": 1,
       "message": "the sha1 column was just added, doesn\u0027t that mean its column index would be 5 ?\nLooking at https://gerrit-review.googlesource.com/c/gerrit/+/142192/6/gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java\nit looks like the sha1 column index is 4 ? Also see the markReviewed() method there.",
+      "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b71c8eaa_20172bc3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/UpdateAccountPatchReviewDb.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-01-09T13:25:39Z",
+      "side": 1,
+      "message": "The index is defined by the position of this column in the update statement (lines 64 - 69).",
+      "parentUuid": "f5f820e4_6f619138",
       "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

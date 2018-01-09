@@ -306,6 +306,9 @@ limitations under the License.
 
     test('rebase change', done => {
       const fireActionStub = sandbox.stub(element, '_fireAction');
+      const fetchChangesStub = sandbox.stub(element.$.confirmRebase,
+          'fetchRecentChanges').returns(Promise.resolve([]));
+      element._hasKnownChainState = true;
       flush(() => {
         const rebaseButton = element.$$('gr-button[data-action-key="rebase"]');
         MockInteractions.tap(rebaseButton);
@@ -318,6 +321,7 @@ limitations under the License.
           method: 'POST',
           title: 'Rebase onto tip of branch or parent change',
         };
+        assert.isTrue(fetchChangesStub.called);
         // rebase on other
         element.$.confirmRebase.base = '1234';
         element._handleRebaseConfirm();
@@ -336,6 +340,22 @@ limitations under the License.
         assert.deepEqual(fireActionStub.lastCall.args,
           ['/rebase', rebaseAction, true, {base: ''}]);
 
+        done();
+      });
+    });
+
+    test(`rebase dialog gets recent changes each time it's opened`, done => {
+      const fetchChangesStub = sandbox.stub(element.$.confirmRebase,
+          'fetchRecentChanges').returns(Promise.resolve([]));
+      element._hasKnownChainState = true;
+      const rebaseButton = element.$$('gr-button[data-action-key="rebase"]');
+      MockInteractions.tap(rebaseButton);
+      assert.isTrue(fetchChangesStub.calledOnce);
+
+      flush(() => {
+        element.$.confirmRebase.fire('cancel');
+        MockInteractions.tap(rebaseButton);
+        assert.isTrue(fetchChangesStub.calledTwice);
         done();
       });
     });

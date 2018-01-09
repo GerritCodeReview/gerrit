@@ -219,13 +219,13 @@ public class ProjectIT extends AbstractDaemonTest {
     RevCommit initialHead = getRemoteHead(project, RefNames.REFS_CONFIG);
 
     ConfigInfo info = gApi.projects().name(project.get()).config();
-    assertThat(info.submitType).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+    assertThat(info.defaultSubmitType.value).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
     ConfigInput input = new ConfigInput();
     input.submitType = SubmitType.CHERRY_PICK;
     info = gApi.projects().name(project.get()).config(input);
-    assertThat(info.submitType).isEqualTo(SubmitType.CHERRY_PICK);
+    assertThat(info.defaultSubmitType.value).isEqualTo(SubmitType.CHERRY_PICK);
     info = gApi.projects().name(project.get()).config();
-    assertThat(info.submitType).isEqualTo(SubmitType.CHERRY_PICK);
+    assertThat(info.defaultSubmitType.value).isEqualTo(SubmitType.CHERRY_PICK);
 
     RevCommit updatedHead = getRemoteHead(project, RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(
@@ -233,6 +233,7 @@ public class ProjectIT extends AbstractDaemonTest {
   }
 
   @Test
+  @SuppressWarnings("deprecation")
   public void setConfig() throws Exception {
     ConfigInput input = createTestConfigInput();
     ConfigInfo info = gApi.projects().name(project.get()).config(input);
@@ -250,9 +251,13 @@ public class ProjectIT extends AbstractDaemonTest {
         .isEqualTo(input.createNewChangeForAllNotInTarget);
     assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo(input.maxObjectSizeLimit);
     assertThat(info.submitType).isEqualTo(input.submitType);
+    assertThat(info.defaultSubmitType.value).isEqualTo(input.submitType);
+    assertThat(info.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+    assertThat(info.defaultSubmitType.configuredValue).isEqualTo(input.submitType);
     assertThat(info.state).isEqualTo(input.state);
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void setPartialConfig() throws Exception {
     ConfigInput input = createTestConfigInput();
@@ -276,6 +281,9 @@ public class ProjectIT extends AbstractDaemonTest {
         .isEqualTo(input.createNewChangeForAllNotInTarget);
     assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo(input.maxObjectSizeLimit);
     assertThat(info.submitType).isEqualTo(input.submitType);
+    assertThat(info.defaultSubmitType.value).isEqualTo(input.submitType);
+    assertThat(info.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+    assertThat(info.defaultSubmitType.configuredValue).isEqualTo(input.submitType);
     assertThat(info.state).isEqualTo(input.state);
   }
 

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
@@ -42,6 +43,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class ConfigInfoImpl extends ConfigInfo {
+  @SuppressWarnings("deprecation")
   public ConfigInfoImpl(
       boolean serverEnableSignedPush,
       ProjectState projectState,
@@ -79,7 +81,18 @@ public class ConfigInfoImpl extends ConfigInfo {
     maxObjectSizeLimit.inheritedValue = config.getFormattedMaxObjectSizeLimit();
     this.maxObjectSizeLimit = maxObjectSizeLimit;
 
-    this.submitType = p.getSubmitType();
+    this.defaultSubmitType = new SubmitTypeInfo();
+    this.defaultSubmitType.value = projectState.getSubmitType();
+    this.defaultSubmitType.configuredValue =
+        MoreObjects.firstNonNull(
+            projectState.getConfig().getProject().getConfiguredSubmitType(),
+            Project.DEFAULT_SUBMIT_TYPE);
+    ProjectState parent =
+        projectState.isAllProjects() ? projectState : projectState.parents().get(0);
+    this.defaultSubmitType.inheritedValue = parent.getSubmitType();
+
+    this.submitType = this.defaultSubmitType.value;
+
     this.state =
         p.getState() != com.google.gerrit.extensions.client.ProjectState.ACTIVE
             ? p.getState()

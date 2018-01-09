@@ -99,6 +99,11 @@ limitations under the License.
             },
             max_object_size_limit: {},
             submit_type: 'MERGE_IF_NECESSARY',
+            default_submit_type: {
+              value: 'MERGE_IF_NECESSARY',
+              configured_value: 'INHERIT',
+              inherited_value: 'MERGE_IF_NECESSARY',
+            },
           });
         },
         getConfig() {
@@ -252,7 +257,16 @@ limitations under the License.
         });
       });
 
-      test('fields update and save correctly', done => {
+      test('inherited submit type value is calculated correctly', () => {
+        return element._loadRepo().then(() => {
+          const sel = element.$.submitTypeSelect;
+          assert.equal(sel.bindValue, 'INHERIT');
+          assert.equal(
+              sel.nativeSelect.options[0].text, 'Inherit (Merge if necessary)');
+        });
+      });
+
+      test('fields update and save correctly', () => {
         // test notedb
         element._noteDbEnabled = false;
 
@@ -289,7 +303,7 @@ limitations under the License.
 
         const button = Polymer.dom(element.root).querySelector('gr-button');
 
-        element._loadRepo().then(() => {
+        return element._loadRepo().then(() => {
           assert.isTrue(button.hasAttribute('disabled'));
           assert.isFalse(element.$.Title.classList.contains('edited'));
           element.$.descriptionInput.bindValue = configInputObj.description;
@@ -327,12 +341,11 @@ limitations under the License.
               element._formatRepoConfigForSave(element._repoConfig);
           assert.deepEqual(formattedObj, configInputObj);
 
-          element._handleSaveRepoConfig().then(() => {
+          return element._handleSaveRepoConfig().then(() => {
             assert.isTrue(button.hasAttribute('disabled'));
             assert.isFalse(element.$.Title.classList.contains('edited'));
             assert.isTrue(saveStub.lastCall.calledWithExactly(REPO,
                 configInputObj));
-            done();
           });
         });
       });

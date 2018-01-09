@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7933f016_296ed20e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-09T18:31:40Z",
+      "side": 1,
+      "message": "Why?",
+      "parentUuid": "5d68201d_6f58387b",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "ee33acaa54edf869e55f24e84044cf04d7ca234f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5cd2ae0f_f4f24129",
         "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.html",
         "patchSetId": 22
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "639fb27c_e29eb9c0",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.html",
+        "patchSetId": 22
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-09T18:31:40Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5cd2ae0f_f4f24129",
+      "revId": "ee33acaa54edf869e55f24e84044cf04d7ca234f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "112888b5_800309a9",
         "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.html",
         "patchSetId": 22
@@ -53,6 +95,24 @@
       "writtenOn": "2018-01-09T00:25:43Z",
       "side": 1,
       "message": "Please delete instead of commenting out.",
+      "revId": "ee33acaa54edf869e55f24e84044cf04d7ca234f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c788082_d6f8374e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.html",
+        "patchSetId": 22
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-09T18:31:40Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "112888b5_800309a9",
       "revId": "ee33acaa54edf869e55f24e84044cf04d7ca234f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

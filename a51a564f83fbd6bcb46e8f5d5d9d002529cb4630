@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6447bb8_fce038a6",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-09T00:03:13Z",
+      "side": 1,
+      "message": "Is this meant to be out here or inside paper-toggle-button?",
+      "range": {
+        "startLine": 84,
+        "startChar": 65,
+        "endLine": 84,
+        "endChar": 78
+      },
+      "revId": "a51a564f83fbd6bcb46e8f5d5d9d002529cb4630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

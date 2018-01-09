@@ -30,7 +30,10 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
+import java.io.IOException;
+import java.util.Optional;
 import java.util.Set;
 import org.apache.commons.codec.DecoderException;
 import org.slf4j.Logger;
@@ -39,12 +42,33 @@ import org.slf4j.LoggerFactory;
 /**
  * Superset of all information related to an Account. This includes external IDs, project watches,
  * and properties from the account config file. AccountState maps one-to-one to Account.
+ *
+ * <p>Most callers should not construct AccountStates directly but rather lookup accounts via the
+ * account cache (see {@link AccountCache#get(Account.Id)}).
  */
 public class AccountState {
   private static final Logger logger = LoggerFactory.getLogger(AccountState.class);
 
   public static final Function<AccountState, Account.Id> ACCOUNT_ID_FUNCTION =
       a -> a.getAccount().getId();
+
+  public static Optional<AccountState> fromAccountConfig(
+      AllUsersName allUsersName, ExternalIds externalIds, AccountConfig accountConfig)
+      throws IOException {
+    if (!accountConfig.getLoadedAccount().isPresent()) {
+      return Optional.empty();
+    }
+    Account account = accountConfig.getLoadedAccount().get();
+    return Optional.of(
+        new AccountState(
+            allUsersName,
+            account,
+            accountConfig.getExternalIdsRev().isPresent()
+                ? externalIds.byAccount(account.getId(), accountConfig.getExternalIdsRev().get())
+                : ImmutableSet.of(),
+            accountConfig.getProjectWatches(),
+            accountConfig.getGeneralPreferences()));
+  }
 
   private final AllUsersName allUsersName;
   private final Account account;

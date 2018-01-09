@@ -2958,7 +2958,7 @@ class ReceiveCommits {
                   "Set Full Name on Receive Commits",
                   user.getAccountId(),
                   (a, u) -> {
-                    if (Strings.isNullOrEmpty(a.getFullName())) {
+                    if (Strings.isNullOrEmpty(a.getAccount().getFullName())) {
                       u.setFullName(setFullNameTo);
                     }
                   });

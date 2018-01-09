@@ -291,6 +291,17 @@ def define_bower_components():
     ],
   )
   bower_component(
+    name = "paper-toggle-button",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":iron-checked-element-behavior",
+      ":paper-behaviors",
+      ":paper-styles",
+      ":polymer",
+    ],
+    seed = True,
+  )
+  bower_component(
     name = "polymer-resin",
     license = "//lib:LICENSE-polymer",
     deps = [

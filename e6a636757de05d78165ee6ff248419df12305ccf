@@ -16,6 +16,24 @@
       "revId": "e6a636757de05d78165ee6ff248419df12305ccf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d71fa665_4ba7767c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-09T00:48:09Z",
+      "side": 1,
+      "message": "I changed ..\n\n s/may/will/\n\nSince we previously disallowed votes of this kind, it seems true enough. If not we can always change the wording later.",
+      "parentUuid": "4a6be4bb_96e10555",
+      "revId": "e6a636757de05d78165ee6ff248419df12305ccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

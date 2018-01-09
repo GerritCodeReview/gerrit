@@ -6709,12 +6709,11 @@ to a list of link:#robot-comment-input[RobotCommentInput] entities.
 Draft handling that defines how draft comments are handled that are
 already in the database but that were not also described in this
 input. +
-Allowed values are `DELETE`, `PUBLISH`, `PUBLISH_ALL_REVISIONS` and
-`KEEP`. All values except `PUBLISH_ALL_REVISIONS` operate only on drafts
-for a single revision. +
+Allowed values are `PUBLISH`, `PUBLISH_ALL_REVISIONS` and `KEEP`. All values
+except `PUBLISH_ALL_REVISIONS` operate only on drafts for a single revision. +
 Only `KEEP` is allowed when used in conjunction with `on_behalf_of`. +
-If not set, the default is `DELETE`, unless `on_behalf_of` is set, in
-which case the default is `KEEP` and any other value is disallowed.
+If not set, the default is `KEEP`. If `on_behalf_of` is set, then no other value
+besides `KEEP` is allowed.
 |`notify`                 |optional|
 Notify handling that defines to whom email notifications should be sent
 after the review is stored. +

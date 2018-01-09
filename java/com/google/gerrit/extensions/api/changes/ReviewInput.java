@@ -48,8 +48,8 @@ public class ReviewInput {
    * How to process draft comments already in the database that were not also described in this
    * input request.
    *
-   * <p>Defaults to DELETE, unless {@link #onBehalfOf} is set, in which case it defaults to KEEP and
-   * any other value is disallowed.
+   * <p>If not set, the default is {@link DraftHandling#KEEP}. If {@link #onBehalfOf} is set, then
+   * no other value besides {@code KEEP} is allowed.
    */
   public DraftHandling drafts;
 
@@ -87,14 +87,11 @@ public class ReviewInput {
   public boolean ready;
 
   public enum DraftHandling {
-    /** Delete pending drafts on this revision only. */
-    DELETE,
+    /** Leave pending drafts alone. */
+    KEEP,
 
     /** Publish pending drafts on this revision only. */
     PUBLISH,
-
-    /** Leave pending drafts alone. */
-    KEEP,
 
     /** Publish pending drafts on all revisions. */
     PUBLISH_ALL_REVISIONS

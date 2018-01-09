@@ -232,10 +232,9 @@ public class PostReview
     }
     ProjectState projectState = projectCache.checkedGet(revision.getProject());
     LabelTypes labelTypes = projectState.getLabelTypes(revision.getNotes(), revision.getUser());
+    input.drafts = firstNonNull(input.drafts, DraftHandling.KEEP);
     if (input.onBehalfOf != null) {
       revision = onBehalfOf(revision, labelTypes, input);
-    } else if (input.drafts == null) {
-      input.drafts = DraftHandling.DELETE;
     }
     if (input.labels != null) {
       checkLabels(revision, labelTypes, input.labels);
@@ -434,9 +433,6 @@ public class PostReview
     if (in.labels == null || in.labels.isEmpty()) {
       throw new AuthException(
           String.format("label required to post review on behalf of \"%s\"", in.onBehalfOf));
-    }
-    if (in.drafts == null) {
-      in.drafts = DraftHandling.KEEP;
     }
     if (in.drafts != DraftHandling.KEEP) {
       throw new AuthException("not allowed to modify other user's drafts");
@@ -900,7 +896,6 @@ public class PostReview
         }
       }
 
-      List<Comment> toDel = new ArrayList<>();
       List<Comment> toPublish = new ArrayList<>();
 
       Set<CommentSetEntry> existingIds =
@@ -934,9 +929,6 @@ public class PostReview
         case KEEP:
         default:
           break;
-        case DELETE:
-          toDel.addAll(drafts.values());
-          break;
         case PUBLISH:
         case PUBLISH_ALL_REVISIONS:
           commentsUtil.publish(ctx, psId, drafts.values(), in.tag);
@@ -944,10 +936,9 @@ public class PostReview
           break;
       }
       ChangeUpdate u = ctx.getUpdate(psId);
-      commentsUtil.deleteComments(ctx.getDb(), u, toDel);
       commentsUtil.putComments(ctx.getDb(), u, Status.PUBLISHED, toPublish);
       comments.addAll(toPublish);
-      return !toDel.isEmpty() || !toPublish.isEmpty();
+      return !toPublish.isEmpty();
     }
 
     private boolean insertRobotComments(ChangeContext ctx) throws OrmException {

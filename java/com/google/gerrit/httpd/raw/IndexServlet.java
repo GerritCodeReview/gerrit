@@ -57,6 +57,7 @@ public class IndexServlet extends HttpServlet {
     rsp.setCharacterEncoding(UTF_8.name());
     rsp.setContentType("text/html");
     rsp.setStatus(SC_OK);
+    rsp.setHeader("content-security-policy", "object-src 'none'; script-src 'nonce-foobar' 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https: http:; base-uri 'self';");
     try (OutputStream w = rsp.getOutputStream()) {
       w.write(indexSource);
     }

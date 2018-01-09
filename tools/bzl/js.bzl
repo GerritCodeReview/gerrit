@@ -328,6 +328,7 @@ def _vulcanize_impl(ctx):
       'python',
       ctx.file._run_npm.path,
       ctx.file._crisper_archive.path,
+      "--only-split",
       "--always-write-script",
       "--source", vulcanized.path,
       "--html", ctx.outputs.html.path,

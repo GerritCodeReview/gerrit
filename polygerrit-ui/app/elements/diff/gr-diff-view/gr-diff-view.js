@@ -307,17 +307,30 @@
     },
 
     _moveToPreviousFileWithComment() {
-      if (this._commentSkips && this._commentSkips.previous) {
-        Gerrit.Nav.navigateToDiff(this._change, this._commentSkips.previous,
-            this._patchRange.patchNum, this._patchRange.basePatchNum);
+      if (!this._commentSkips) { return; }
+
+      // If there is no previous diff with comments, then return to the change
+      // view.
+      if (!this._commentSkips.previous) {
+        this._navToChangeView();
+        return;
       }
+
+      Gerrit.Nav.navigateToDiff(this._change, this._commentSkips.previous,
+          this._patchRange.patchNum, this._patchRange.basePatchNum);
     },
 
     _moveToNextFileWithComment() {
-      if (this._commentSkips && this._commentSkips.next) {
-        Gerrit.Nav.navigateToDiff(this._change, this._commentSkips.next,
-            this._patchRange.patchNum, this._patchRange.basePatchNum);
+      if (!this._commentSkips) { return; }
+
+      // If there is no next diff with comments, then return to the change view.
+      if (!this._commentSkips.next) {
+        this._navToChangeView();
+        return;
       }
+
+      Gerrit.Nav.navigateToDiff(this._change, this._commentSkips.next,
+          this._patchRange.patchNum, this._patchRange.basePatchNum);
     },
 
     _handleCKey(e) {

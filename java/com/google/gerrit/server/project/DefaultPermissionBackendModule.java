@@ -30,8 +30,7 @@ public class DefaultPermissionBackendModule extends AbstractModule {
     @Override
     protected void configure() {
       // TODO(sop) Hide ProjectControl, RefControl, ChangeControl related bindings.
-      bind(ProjectControl.GenericFactory.class);
-      factory(ProjectControl.AssistedFactory.class);
+      factory(ProjectControl.Factory.class);
       bind(ChangeControl.Factory.class);
     }
   }

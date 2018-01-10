@@ -1,4 +1,56 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1515596596 +0100\nnonce AGjzz387ug9p2wa4TJ4GhjLEPN/aFP9ibp6xH0ecJbqVftDRpNMfOBcwi8CGgCRdoLE6wTobfywx\n\n0000000000000000000000000000000000000000 0121d79a62d4caa93301afa60621bdb9f2f5ed3d refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaVis0AAoJEFG1/Zeg0O9RbwEH/iFInuDrwdrjhEgVzuzPpQb5\nlswUv7178SkXiOos5CfoFasETjVQEmPqWQy4nFJkH8IecVmFQqrfzkJWNEdJONZv\nDlgJGpD5kd9xbgfvsjFjc74WqRQNB5d5mJseV+8w4aVroLhGwdaIt6ZYIaFExq0N\nldlYEMeHYrXyl3K9oHGDQ2O0JDVkBD8kvcPP+A6ZLoAcM7BsQZHQ+KdlVqO7EWOC\nX7lazUg4B+8FXkuIhycRMiS5Z6ATSJOaknjrOIPp3qfoxC+nhHCkneroSS4G7Odw\nVbEaP6o7ueHxZ6OIRCePLoMyI19WFdXdedAmt41hqBGVE8q8nbzPyqUuFnd0l7g\u003d\n\u003dVqc7\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "63720f46_8f846a57",
+        "filename": "java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-10T15:09:56Z",
+      "side": 1,
+      "message": "While we\u0027re here, was there some specific reason to use Map instead of SetMultimap? I.e. does the empty set have meaning? Maybe that could be documented.",
+      "revId": "561ae1232038e4199bb1bc858f761ea6202b3f03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ba6061e_091bac1c",
+        "filename": "java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-10T15:09:56Z",
+      "side": 1,
+      "message": "Use ImmutableMap.Builder? That has the (admittedly very minor) benefit of preserving order.",
+      "revId": "561ae1232038e4199bb1bc858f761ea6202b3f03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3c24cef_e084666b",
+        "filename": "java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-10T15:09:56Z",
+      "side": 1,
+      "message": "For this one I would probably allow the caller to pass a Map and then call copyOf on the next line.",
+      "revId": "561ae1232038e4199bb1bc858f761ea6202b3f03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

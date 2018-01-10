@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1dff1459_596c76c9",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/UploadArchiveIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-01-10T16:08:31Z",
+      "side": 1,
+      "message": "optional: You can use singular and write\n\n   value \u003d \"txz\"",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 20
+      },
+      "revId": "c30a75b58727e0d88c6d08887fc5063b2ac7d899",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b906902_8ebfe837",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/UploadArchiveIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-01-10T16:08:31Z",
+      "side": 1,
+      "message": "InputStream implements AutoClosable, so it would be nice to leverage that:\n\ntry (InputStream out \u003d ...) {\n  // all other code\n}\n\n(I know we aren\u0027t super concerned with resource leaks in tests, but it\u0027s a good practice IMHO).",
+      "revId": "c30a75b58727e0d88c6d08887fc5063b2ac7d899",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff35855f_8285f9b1",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/UploadArchiveIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-01-10T16:08:31Z",
+      "side": 1,
+      "message": "optional: Inline in.readString()",
+      "range": {
+        "startLine": 120,
+        "startChar": 15,
+        "endLine": 120,
+        "endChar": 18
+      },
+      "revId": "c30a75b58727e0d88c6d08887fc5063b2ac7d899",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -40,3 +40,8 @@ bower_component(
     name = "codemirror-minified",
     license = "//lib:LICENSE-codemirror-minified",
 )
+
+bower_component(
+  name = "google-diff-match-patch",
+  license = "//lib:LICENSE-google-diff-match-patch",
+)

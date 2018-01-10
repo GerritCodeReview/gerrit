@@ -20,6 +20,8 @@ import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
@@ -29,9 +31,6 @@ import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AllUsersName;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
 import org.apache.commons.codec.DecoderException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,16 +47,16 @@ public class AccountState {
 
   private final AllUsersName allUsersName;
   private final Account account;
-  private final Collection<ExternalId> externalIds;
-  private final Map<ProjectWatchKey, Set<NotifyType>> projectWatches;
+  private final ImmutableSet<ExternalId> externalIds;
+  private final ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches;
   private final GeneralPreferencesInfo generalPreferences;
   private Cache<IdentifiedUser.PropertyKey<Object>, Object> properties;
 
   public AccountState(
       AllUsersName allUsersName,
       Account account,
-      Collection<ExternalId> externalIds,
-      Map<ProjectWatchKey, Set<NotifyType>> projectWatches,
+      ImmutableSet<ExternalId> externalIds,
+      ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches,
       GeneralPreferencesInfo generalPreferences) {
     this.allUsersName = allUsersName;
     this.account = account;
@@ -110,12 +109,12 @@ public class AccountState {
   }
 
   /** The external identities that identify the account holder. */
-  public Collection<ExternalId> getExternalIds() {
+  public ImmutableSet<ExternalId> getExternalIds() {
     return externalIds;
   }
 
   /** The project watches of the account. */
-  public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches() {
+  public ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> getProjectWatches() {
     return projectWatches;
   }
 

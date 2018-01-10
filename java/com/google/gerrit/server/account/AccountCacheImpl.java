@@ -18,6 +18,8 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -34,8 +36,6 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -134,8 +134,8 @@ public class AccountCacheImpl implements AccountCache {
     return new AccountState(
         allUsersName,
         account,
-        Collections.emptySet(),
-        new HashMap<>(),
+        ImmutableSet.of(),
+        ImmutableMap.of(),
         GeneralPreferencesInfo.defaults());
   }
 

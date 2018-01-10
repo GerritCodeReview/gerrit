@@ -17,6 +17,8 @@ package com.google.gerrit.pgm.init;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -45,7 +47,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -155,8 +156,8 @@ public class InitAdminUser implements InitStep {
               new AccountState(
                   new AllUsersName(allUsers.get()),
                   a,
-                  extIds,
-                  new HashMap<>(),
+                  ImmutableSet.copyOf(extIds),
+                  ImmutableMap.of(),
                   GeneralPreferencesInfo.defaults());
           for (AccountIndex accountIndex : accountIndexCollection.getWriteIndexes()) {
             accountIndex.replace(as);

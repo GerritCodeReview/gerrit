@@ -46,6 +46,30 @@
       "revId": "5682627ce2b78417f638366d341c2eb8d3acdfee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f6a8dea_0a86cb01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-10T14:08:54Z",
+      "side": 1,
+      "message": "AFAICT, the code here sets not just what is the default, but what ciphers are available to be configured. For that reason, I\u0027d like to propose keeping arcfour{128,256}, as they\u0027re the only software ciphers available.",
+      "parentUuid": "a0c58ad7_9380fac7",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 24
+      },
+      "revId": "5682627ce2b78417f638366d341c2eb8d3acdfee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

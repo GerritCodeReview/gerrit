@@ -34,6 +34,10 @@ def define_bower_components():
     license = "//lib:LICENSE-polymer",
   )
   bower_component(
+    name = "google-diff-match-patch",
+    license = "//lib:LICENSE-google-diff-match-patch",
+  )
+  bower_component(
     name = "iron-a11y-announcer",
     license = "//lib:LICENSE-polymer",
     deps = [ ":polymer" ],

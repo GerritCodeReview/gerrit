@@ -240,10 +240,6 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
       Config accountConfig = readConfig(ACCOUNT_CONFIG);
       loadedAccount = Optional.of(parse(accountConfig, revision.name()));
 
-      Ref externalIdsRef = repo.exactRef(RefNames.REFS_EXTERNAL_IDS);
-      externalIdsRev =
-          externalIdsRef != null ? Optional.of(externalIdsRef.getObjectId()) : Optional.empty();
-
       watchConfig = new WatchConfig(accountId, readConfig(WatchConfig.WATCH_CONFIG), this);
 
       prefConfig =
@@ -259,7 +255,16 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
       }
     } else {
       loadedAccount = Optional.empty();
+
+      watchConfig = new WatchConfig(accountId, new Config(), this);
+
+      prefConfig =
+          new PreferencesConfig(
+              accountId, new Config(), PreferencesConfig.readDefaultConfig(repo), this);
     }
+
+    Ref externalIdsRef = repo.exactRef(RefNames.REFS_EXTERNAL_IDS);
+    externalIdsRev = Optional.ofNullable(externalIdsRef).map(Ref::getObjectId);
   }
 
   private Account parse(Config cfg, String metaId) {

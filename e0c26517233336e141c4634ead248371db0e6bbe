@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9070430d_8667ed1c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-10T18:35:25Z",
+      "side": 1,
+      "message": "Optional wording nit: \"deployed to main\" isn\u0027t an upstream concept. I\u0027d prefer something vague like \"live\".",
+      "range": {
+        "startLine": 161,
+        "startChar": 18,
+        "endLine": 161,
+        "endChar": 34
+      },
+      "revId": "e0c26517233336e141c4634ead248371db0e6bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

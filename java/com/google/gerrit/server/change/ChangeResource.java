@@ -103,7 +103,7 @@ public class ChangeResource implements RestResource, HasETag {
   }
 
   public PermissionBackend.ForChange permissions() {
-    return permissionBackend.user(user).change(notes);
+    return permissionBackend.user(user).database(db).change(notes);
   }
 
   public CurrentUser getUser() {

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.index.query.Predicate;
@@ -69,7 +70,8 @@ public class ProjectWatch {
 
     for (AccountState a : args.accountQueryProvider.get().byWatchedProject(project)) {
       Account.Id accountId = a.getAccount().getId();
-      for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e : a.getProjectWatches().entrySet()) {
+      for (Map.Entry<ProjectWatchKey, ImmutableSet<NotifyType>> e :
+          a.getProjectWatches().entrySet()) {
         if (project.equals(e.getKey().project())
             && add(matching, accountId, e.getKey(), e.getValue(), type)) {
           // We only want to prevent matching All-Projects if this filter hits
@@ -79,7 +81,8 @@ public class ProjectWatch {
     }
 
     for (AccountState a : args.accountQueryProvider.get().byWatchedProject(args.allProjectsName)) {
-      for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e : a.getProjectWatches().entrySet()) {
+      for (Map.Entry<ProjectWatchKey, ImmutableSet<NotifyType>> e :
+          a.getProjectWatches().entrySet()) {
         if (args.allProjectsName.equals(e.getKey().project())) {
           Account.Id accountId = a.getAccount().getId();
           if (!projectWatchers.contains(accountId)) {

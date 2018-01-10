@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1515513017 +0100\nnonce AGjzz38xQoCzV6SXdiAZBCmHT2/JFO4C/30eca5ZDO1onJkj9tf4CfMUE8gWpibEdnc7wYhDPHJ8\n\n0000000000000000000000000000000000000000 1445400b8a538aeed139c12f99c6a2422bc3d089 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaVOS5AAoJEFG1/Zeg0O9R0Y8H/RaywTpkNCiVr5idj87lDHlZ\nMMNu+sXhX5jxsGECUE0zpswDArtuG5sGqHf9cbBiuAZ1sqrmde2MU+C4UZdy0YBn\nQeFUON4jPjxO+kWWVCGn0kjfVDfMMCIdI4oqYI/wbwis2Lm7AvzCqhHxeVF2qm4Z\nzkxRYMpAXA6sHrUU8YlDWVrHEmE8sY7Gde+qAYzJWuL0QhvE+aStondIs8cDfo7D\nPQPd9SMDQBJwp6Jms2ZD2C6mSw6LKretkJ73GzsOqaKD1px4XmadnRodebaknZ1v\npEF3LneQ2l1JRtnhpzHXHMiSpRx7rUyE8HbVBf9s82VYVsbG7TgXh7zSMae/Azo\u003d\n\u003dP68p\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a029339b_82fbc1bb",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-10T12:52:28Z",
+      "side": 1,
+      "message": "Would it make sense to have getEmails return a Stream? Then this could just be:\n\n ExternalId.getEmails(externalIds)\n     .filter(e -\u003e account.getPreferredEmail() \u003d\u003d null || !e.equals(account.getPreferredEmail())\n     .sorted();\n\n(Assuming the result of getEmails is documented to already be distinct())",
+      "revId": "1445400b8a538aeed139c12f99c6a2422bc3d089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aec33360_709bc795",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-10T12:52:28Z",
+      "side": 1,
+      "message": "Maybe just return Optional from this method?",
+      "revId": "1445400b8a538aeed139c12f99c6a2422bc3d089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

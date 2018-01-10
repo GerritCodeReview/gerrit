@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8982bce7_19aac38b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-10T23:40:17Z",
+      "side": 1,
+      "message": "Ah yeh. Thanks for catching :).",
+      "parentUuid": "1ef4521f_b50945d4",
+      "range": {
+        "startLine": 15,
+        "startChar": 29,
+        "endLine": 15,
+        "endChar": 36
+      },
+      "revId": "aa27d57aa5d696ff42abb751b058474253feb099",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7275fc4a_7b67f414",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminMessages.properties",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2018-01-10T23:36:15Z",
       "side": 1,
       "message": "repository",
+      "range": {
+        "startLine": 9,
+        "startChar": 108,
+        "endLine": 9,
+        "endChar": 115
+      },
+      "revId": "aa27d57aa5d696ff42abb751b058474253feb099",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a914a816_330f7609",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminMessages.properties",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-10T23:40:17Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7275fc4a_7b67f414",
       "range": {
         "startLine": 9,
         "startChar": 108,

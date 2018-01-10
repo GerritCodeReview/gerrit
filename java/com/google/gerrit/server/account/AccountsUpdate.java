@@ -361,7 +361,7 @@ public class AccountsUpdate {
    * @throws OrmException if creating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public Account insert(
+  public AccountState insert(
       String message, Account.Id accountId, Consumer<InternalAccountUpdate.Builder> init)
       throws OrmException, IOException, ConfigInvalidException {
     return insert(message, accountId, AccountUpdater.fromConsumer(init));
@@ -379,7 +379,7 @@ public class AccountsUpdate {
    * @throws OrmException if creating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public Account insert(String message, Account.Id accountId, AccountUpdater updater)
+  public AccountState insert(String message, Account.Id accountId, AccountUpdater updater)
       throws OrmException, IOException, ConfigInvalidException {
     return updateAccount(
         r -> {
@@ -400,7 +400,8 @@ public class AccountsUpdate {
           accountConfig.setAccountUpdate(update);
           ExternalIdNotes extIdNotes =
               createExternalIdNotes(r, accountConfig.getExternalIdsRev(), accountId, update);
-          UpdatedAccount updatedAccounts = new UpdatedAccount(message, accountConfig, extIdNotes);
+          UpdatedAccount updatedAccounts =
+              new UpdatedAccount(allUsersName, externalIds, message, accountConfig, extIdNotes);
           updatedAccounts.setCreated(true);
           return updatedAccounts;
         });
@@ -419,7 +420,7 @@ public class AccountsUpdate {
    * @throws OrmException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public Account update(
+  public AccountState update(
       String message, Account.Id accountId, Consumer<InternalAccountUpdate.Builder> update)
       throws OrmException, IOException, ConfigInvalidException {
     return update(message, accountId, AccountUpdater.fromConsumer(update));
@@ -439,7 +440,7 @@ public class AccountsUpdate {
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   @Nullable
-  public Account update(String message, Account.Id accountId, AccountUpdater updater)
+  public AccountState update(String message, Account.Id accountId, AccountUpdater updater)
       throws OrmException, IOException, ConfigInvalidException {
     return updateAccount(
         r -> {
@@ -457,7 +458,8 @@ public class AccountsUpdate {
           accountConfig.setAccountUpdate(update);
           ExternalIdNotes extIdNotes =
               createExternalIdNotes(r, accountConfig.getExternalIdsRev(), accountId, update);
-          UpdatedAccount updatedAccounts = new UpdatedAccount(message, accountConfig, extIdNotes);
+          UpdatedAccount updatedAccounts =
+              new UpdatedAccount(allUsersName, externalIds, message, accountConfig, extIdNotes);
           return updatedAccounts;
         });
   }
@@ -469,7 +471,7 @@ public class AccountsUpdate {
     return accountConfig;
   }
 
-  private Account updateAccount(AccountUpdate accountUpdate)
+  private AccountState updateAccount(AccountUpdate accountUpdate)
       throws IOException, ConfigInvalidException, OrmException {
     return retryHelper.execute(
         ActionType.ACCOUNT_UPDATE,
@@ -509,6 +511,7 @@ public class AccountsUpdate {
     beforeCommit.run();
 
     BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
+
     if (updatedAccount.isCreated()) {
       commitNewAccountConfig(
           updatedAccount.getMessage(),
@@ -528,6 +531,7 @@ public class AccountsUpdate {
         allUsersRepo,
         batchRefUpdate,
         updatedAccount.getExternalIdNotes());
+
     RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
     updatedAccount.getExternalIdNotes().updateCaches();
     gitRefUpdated.fire(
@@ -600,6 +604,8 @@ public class AccountsUpdate {
   }
 
   private static class UpdatedAccount {
+    private final AllUsersName allUsersName;
+    private final ExternalIds externalIds;
     private final String message;
     private final AccountConfig accountConfig;
     private final ExternalIdNotes extIdNotes;
@@ -607,8 +613,14 @@ public class AccountsUpdate {
     private boolean created;
 
     private UpdatedAccount(
-        String message, AccountConfig accountConfig, ExternalIdNotes extIdNotes) {
+        AllUsersName allUsersName,
+        ExternalIds externalIds,
+        String message,
+        AccountConfig accountConfig,
+        ExternalIdNotes extIdNotes) {
       checkState(!Strings.isNullOrEmpty(message), "message for account update must be set");
+      this.allUsersName = checkNotNull(allUsersName);
+      this.externalIds = checkNotNull(externalIds);
       this.message = checkNotNull(message);
       this.accountConfig = checkNotNull(accountConfig);
       this.extIdNotes = checkNotNull(extIdNotes);
@@ -622,8 +634,16 @@ public class AccountsUpdate {
       return accountConfig;
     }
 
-    public Account getAccount() {
-      return accountConfig.getLoadedAccount().get();
+    public AccountState getAccount() throws IOException {
+      Account account = accountConfig.getLoadedAccount().get();
+      return new AccountState(
+          allUsersName,
+          account,
+          extIdNotes.getRevision() != null
+              ? externalIds.byAccount(account.getId(), extIdNotes.getRevision())
+              : ImmutableSet.of(),
+          accountConfig.getProjectWatches(),
+          accountConfig.getGeneralPreferences());
     }
 
     public ExternalIdNotes getExternalIdNotes() {

@@ -87,7 +87,7 @@ class ChangeControl {
   private final ChangeNotes notes;
   private final PatchSetUtil patchSetUtil;
 
-  ChangeControl(
+  private ChangeControl(
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
       RefControl refControl,
@@ -100,32 +100,28 @@ class ChangeControl {
     this.patchSetUtil = patchSetUtil;
   }
 
-  ChangeControl forUser(CurrentUser who) {
+  ForChange asForChange(@Nullable ChangeData cd, @Nullable Provider<ReviewDb> db) {
+    return new ForChangeImpl(cd, db);
+  }
+
+  private ChangeControl forUser(CurrentUser who) {
     if (getUser().equals(who)) {
       return this;
     }
     return new ChangeControl(
-        changeDataFactory, approvalsUtil, getRefControl().forUser(who), notes, patchSetUtil);
-  }
-
-  private RefControl getRefControl() {
-    return refControl;
+        changeDataFactory, approvalsUtil, refControl.forUser(who), notes, patchSetUtil);
   }
 
   private CurrentUser getUser() {
-    return getRefControl().getUser();
+    return refControl.getUser();
   }
 
   private ProjectControl getProjectControl() {
-    return getRefControl().getProjectControl();
+    return refControl.getProjectControl();
   }
 
   private Change getChange() {
     return notes.getChange();
-  }
-
-  private ChangeNotes getNotes() {
-    return notes;
   }
 
   /** Can this user see this change? */
@@ -133,20 +129,15 @@ class ChangeControl {
     if (getChange().isPrivate() && !isPrivateVisible(db, cd)) {
       return false;
     }
-    return isRefVisible();
-  }
-
-  /** Can the user see this change? Does not account for draft status */
-  private boolean isRefVisible() {
-    return getRefControl().isVisible();
+    return refControl.isVisible();
   }
 
   /** Can this user abandon this change? */
   private boolean canAbandon(ReviewDb db) throws OrmException {
     return (isOwner() // owner (aka creator) of the change can abandon
-            || getRefControl().isOwner() // branch owner can abandon
+            || refControl.isOwner() // branch owner can abandon
             || getProjectControl().isOwner() // project owner can abandon
-            || getRefControl().canAbandon() // user can abandon a specific ref
+            || refControl.canAbandon() // user can abandon a specific ref
             || getProjectControl().isAdmin())
         && !isPatchSetLocked(db);
   }
@@ -156,8 +147,7 @@ class ChangeControl {
     switch (status) {
       case NEW:
       case ABANDONED:
-        return (isOwner() && getRefControl().canDeleteOwnChanges())
-            || getProjectControl().isAdmin();
+        return (isOwner() && refControl.canDeleteOwnChanges()) || getProjectControl().isAdmin();
       case MERGED:
       default:
         return false;
@@ -166,7 +156,7 @@ class ChangeControl {
 
   /** Can this user rebase this change? */
   private boolean canRebase(ReviewDb db) throws OrmException {
-    return (isOwner() || getRefControl().canSubmit(isOwner()) || getRefControl().canRebase())
+    return (isOwner() || refControl.canSubmit(isOwner()) || refControl.canRebase())
         && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)
         && !isPatchSetLocked(db);
   }
@@ -179,7 +169,7 @@ class ChangeControl {
 
   /** The range of permitted values associated with a label permission. */
   private PermissionRange getRange(String permission) {
-    return getRefControl().getRange(permission, isOwner());
+    return refControl.getRange(permission, isOwner());
   }
 
   /** Can this user add a patch set to this change? */
@@ -190,7 +180,7 @@ class ChangeControl {
     if (isOwner()) {
       return true;
     }
-    return getRefControl().canAddPatchSet();
+    return refControl.canAddPatchSet();
   }
 
   /** Is the current patch set locked against state changes? */
@@ -201,11 +191,11 @@ class ChangeControl {
 
     for (PatchSetApproval ap :
         approvalsUtil.byPatchSet(
-            db, getNotes(), getUser(), getChange().currentPatchSetId(), null, null)) {
+            db, notes, getUser(), getChange().currentPatchSetId(), null, null)) {
       LabelType type =
           getProjectControl()
               .getProjectState()
-              .getLabelTypes(getNotes(), getUser())
+              .getLabelTypes(notes, getUser())
               .byLabel(ap.getLabel());
       if (type != null
           && ap.getValue() == 1
@@ -238,7 +228,8 @@ class ChangeControl {
   /** Is this user a reviewer for the change? */
   private boolean isReviewer(ReviewDb db, @Nullable ChangeData cd) throws OrmException {
     if (getUser().isIdentifiedUser()) {
-      Collection<Account.Id> results = changeData(db, cd).reviewers().all();
+      cd = cd != null ? cd : changeDataFactory.create(db, notes);
+      Collection<Account.Id> results = cd.reviewers().all();
       return results.contains(getUser().getAccountId());
     }
     return false;
@@ -248,19 +239,19 @@ class ChangeControl {
   private boolean canEditTopicName() {
     if (getChange().getStatus().isOpen()) {
       return isOwner() // owner (aka creator) of the change can edit topic
-          || getRefControl().isOwner() // branch owner can edit topic
+          || refControl.isOwner() // branch owner can edit topic
           || getProjectControl().isOwner() // project owner can edit topic
-          || getRefControl().canEditTopicName() // user can edit topic on a specific ref
+          || refControl.canEditTopicName() // user can edit topic on a specific ref
           || getProjectControl().isAdmin();
     }
-    return getRefControl().canForceEditTopicName();
+    return refControl.canForceEditTopicName();
   }
 
   /** Can this user edit the description? */
   private boolean canEditDescription() {
     if (getChange().getStatus().isOpen()) {
       return isOwner() // owner (aka creator) of the change can edit desc
-          || getRefControl().isOwner() // branch owner can edit desc
+          || refControl.isOwner() // branch owner can edit desc
           || getProjectControl().isOwner() // project owner can edit desc
           || getProjectControl().isAdmin();
     }
@@ -270,32 +261,24 @@ class ChangeControl {
   private boolean canEditAssignee() {
     return isOwner()
         || getProjectControl().isOwner()
-        || getRefControl().canEditAssignee()
+        || refControl.canEditAssignee()
         || isAssignee();
   }
 
   /** Can this user edit the hashtag name? */
   private boolean canEditHashtags() {
     return isOwner() // owner (aka creator) of the change can edit hashtags
-        || getRefControl().isOwner() // branch owner can edit hashtags
+        || refControl.isOwner() // branch owner can edit hashtags
         || getProjectControl().isOwner() // project owner can edit hashtags
-        || getRefControl().canEditHashtags() // user can edit hashtag on a specific ref
+        || refControl.canEditHashtags() // user can edit hashtag on a specific ref
         || getProjectControl().isAdmin();
-  }
-
-  private ChangeData changeData(ReviewDb db, @Nullable ChangeData cd) {
-    return cd != null ? cd : changeDataFactory.create(db, getNotes());
   }
 
   private boolean isPrivateVisible(ReviewDb db, ChangeData cd) throws OrmException {
     return isOwner()
         || isReviewer(db, cd)
-        || getRefControl().canViewPrivateChanges()
+        || refControl.canViewPrivateChanges()
         || getUser().isInternalUser();
-  }
-
-  ForChange asForChange(@Nullable ChangeData cd, @Nullable Provider<ReviewDb> db) {
-    return new ForChangeImpl(cd, db);
   }
 
   private class ForChangeImpl extends ForChange {
@@ -321,7 +304,7 @@ class ChangeControl {
       if (cd == null) {
         ReviewDb reviewDb = db();
         checkState(reviewDb != null, "need ReviewDb");
-        cd = changeDataFactory.create(reviewDb, getNotes());
+        cd = changeDataFactory.create(reviewDb, notes);
       }
       return cd;
     }
@@ -391,11 +374,11 @@ class ChangeControl {
           case RESTORE:
             return canRestore(db());
           case SUBMIT:
-            return getRefControl().canSubmit(isOwner());
+            return refControl.canSubmit(isOwner());
 
           case REMOVE_REVIEWER:
           case SUBMIT_AS:
-            return getRefControl().canPerform(perm.permissionName().get());
+            return refControl.canPerform(perm.permissionName().get());
         }
       } catch (OrmException e) {
         throw new PermissionBackendException("unavailable", e);
@@ -428,7 +411,7 @@ class ChangeControl {
     }
   }
 
-  static <T extends ChangePermissionOrLabel> Set<T> newSet(Collection<T> permSet) {
+  private static <T extends ChangePermissionOrLabel> Set<T> newSet(Collection<T> permSet) {
     if (permSet instanceof EnumSet) {
       @SuppressWarnings({"unchecked", "rawtypes"})
       Set<T> s = ((EnumSet) permSet).clone();

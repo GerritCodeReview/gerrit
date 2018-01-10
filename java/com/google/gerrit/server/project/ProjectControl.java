@@ -62,7 +62,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 /** Access control management for a user accessing a project's data. */
-public class ProjectControl {
+class ProjectControl {
   public static class GenericFactory {
     private final ProjectCache projectCache;
 

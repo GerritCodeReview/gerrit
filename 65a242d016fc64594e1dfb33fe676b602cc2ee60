@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9eab6dc_1590ef24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-10T08:41:54Z",
+      "side": 1,
+      "message": "I would rather make the subject something like: \"RefPermission: Add CREATE_TAG permission\" and then mention in the message body that as a result of this addition, RefControl can now be package private.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "65a242d016fc64594e1dfb33fe676b602cc2ee60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

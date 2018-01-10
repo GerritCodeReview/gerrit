@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "985d6e80_7329c0f0",
+        "filename": "java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-10T15:55:17Z",
+      "side": 1,
+      "message": "We can\u0027t use Multimap because an empty set has a meaning. It means that for this project for no events notifications should be sent. This is different from no project watch as it overwrites a default watch on the All-Projects project (which applies to all projects except those that have a project watch). Will make a separate change to document this.",
+      "parentUuid": "63720f46_8f846a57",
+      "revId": "561ae1232038e4199bb1bc858f761ea6202b3f03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ba6061e_091bac1c",
         "filename": "java/com/google/gerrit/server/account/WatchConfig.java",
         "patchSetId": 1
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "241d95d8_67966db7",
+        "filename": "java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-10T15:55:17Z",
+      "side": 1,
+      "message": "Can\u0027t be used since we have to differentiate empty set from no value.",
+      "parentUuid": "3ba6061e_091bac1c",
+      "revId": "561ae1232038e4199bb1bc858f761ea6202b3f03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3c24cef_e084666b",
         "filename": "java/com/google/gerrit/server/account/WatchConfig.java",
         "patchSetId": 1
@@ -51,6 +87,24 @@
       "revId": "561ae1232038e4199bb1bc858f761ea6202b3f03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd1749e7_f879ba74",
+        "filename": "java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-10T15:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3c24cef_e084666b",
+      "revId": "561ae1232038e4199bb1bc858f761ea6202b3f03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "f045d254_719e3c9e",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-10T14:15:20Z",
+      "side": 1,
+      "message": "The replace is still not a single transaction :(\nThe account update in this method deletes the external IDs and the new one is added by the \u0027link\u0027 method that we call at the end of this method.",
+      "parentUuid": "65eb66d1_d3909003",
+      "range": {
+        "startLine": 392,
+        "startChar": 74,
+        "endLine": 393,
+        "endChar": 8
+      },
+      "revId": "c47e2a26f3c05f9456de9d315a87559575bc7db3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d3814724_2aee4eba",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 1
@@ -71,6 +95,24 @@
       "writtenOn": "2018-01-10T13:45:30Z",
       "side": 1,
       "message": "I realize this is a test, but this reminds me I don\u0027t think we currently have a race-free way to say \"delete all external IDs\".\n\nLooking at AccountsUpdate#update, it calls AccountState#fromAccountConfig which reads the ext ID ref once, exposing a set of IDs. It then reads the ext ID ref again when calling createExternalIdNotes, but there\u0027s no guarantee that the ref hasn\u0027t advanced in between.\n\nIn fact I think this is a general problem if any AccountUpdater wants to do a read-modify-write operation. A simpler example to visualize might be (a, u) -\u003e u.setPreferredEmail(\"noreply+\" + a.getAccount().getPreferredEmail()). If we have the following sequence of operations:\n\n* AccountsUpdate#update reads account ref at A with email \"foo@example.com\"\n* AccountUpdater calls u.setPreferredEmail(\"bar@example.com\")\n* AccountsUpdate#commitAccountConfig creates a new MetaDataUpdate which reads account ref at B with email \"bar@example.com\"\n* AccountConfig#commit overwrites the email with \"noreply+foo@example.com\"\n\nThe observable state of the preferred email is then:\n\n foo@example.com -\u003e bar@example.com -\u003e noreply+foo@example.com\n\nwhich might be surprising to the caller, who might reasonably expect one of:\n\n foo@example.com -\u003e noreply+foo@example.com -\u003e bar@example.com\n foo@example.com -\u003e bar@example.com -\u003e noreply+bar@example.com\n\nI\u0027ve not yet convinced myself that this is something we actually care about--whether we actually need to fully support atomic read-modify-write operations. It might just not be that important. But it does feel a little odd that this AccountUpdater interface *looks* like it ought to support them, when really it doesn\u0027t.\n\nISTM to truly support this we would need to store in AccountState the state of all refs that contributed to this state, then in AccountsUpdate make sure we always read from the old state and use the correct old IDs in the BatchRefUpdate. Not that hard in theory, but again, I\u0027m not yet convinced it\u0027s necessary.",
+      "revId": "c47e2a26f3c05f9456de9d315a87559575bc7db3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0683fdec_ad66c88a",
+        "filename": "javatests/com/google/gerrit/gpg/GerritPublicKeyCheckerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-10T14:15:20Z",
+      "side": 1,
+      "message": "\u003e But it does feel a little odd that this AccountUpdater interface *looks*\n\u003e like it ought to support them, when really it doesn\u0027t.\n\nEh, this interface looks like it supports atomic read-modify-write operations because it was supposed to support them :(\n\n\u003e I don\u0027t think we currently have a race-free way to say \"delete all external IDs\".\n\u003e \n\u003e Looking at AccountsUpdate#update, it calls AccountState#fromAccountConfig\n\u003e which reads the ext ID ref once, exposing a set of IDs. It then reads the\n\u003e ext ID ref again when calling \u003e createExternalIdNotes, but there\u0027s no\n\u003e guarantee that the ref hasn\u0027t advanced in between.\n\nBoth reads of the external IDs branch are supposed to see the same commit :(\nIs it somehow possible to freeze all ref states after opening a repo?\n\n\u003e In fact I think this is a general problem if any AccountUpdater wants to do a\n\u003e read-modify-write operation. A simpler example to visualize might be (a, u) -\u003e \n\u003e u.setPreferredEmail(\"noreply+\" + a.getAccount().getPreferredEmail()). If we\n\u003e have the following sequence of operations:\n\u003e * AccountsUpdate#update reads account ref at A with email \"foo@example.com\"\n\u003e * AccountUpdater calls u.setPreferredEmail(\"bar@example.com\")\n\u003e * AccountsUpdate#commitAccountConfig creates a new MetaDataUpdate which\n\u003e   reads account ref at B with email \"bar@example.com\"\n\u003e * AccountConfig#commit overwrites the email with \"noreply+foo@example.com\"\n\nDoes it really overwrite the email? I thought on commit VersionedMetaData sets the revision from which it read as expected old ObjectId and hence if there was an update in between, committing would fail with LockFailure and then we would retry the whole account update operation, giving the caller a chance to see the new preferred email in update consumer when the retry is done.",
+      "parentUuid": "df9d55d5_bdd3253c",
       "revId": "c47e2a26f3c05f9456de9d315a87559575bc7db3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

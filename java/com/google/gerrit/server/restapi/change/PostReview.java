@@ -926,13 +926,13 @@ public class PostReview
       }
 
       switch (in.drafts) {
-        case KEEP:
-        default:
-          break;
         case PUBLISH:
         case PUBLISH_ALL_REVISIONS:
           commentsUtil.publish(ctx, psId, drafts.values(), in.tag);
           comments.addAll(drafts.values());
+          break;
+        case KEEP:
+        default:
           break;
       }
       ChangeUpdate u = ctx.getUpdate(psId);

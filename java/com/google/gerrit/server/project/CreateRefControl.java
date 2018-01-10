@@ -41,11 +41,14 @@ public class CreateRefControl {
 
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
+  private final Reachable reachable;
 
   @Inject
-  CreateRefControl(PermissionBackend permissionBackend, ProjectCache projectCache) {
+  CreateRefControl(
+      PermissionBackend permissionBackend, ProjectCache projectCache, Reachable reachable) {
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
+    this.reachable = reachable;
   }
 
   /**
@@ -75,7 +78,7 @@ public class CreateRefControl {
     PermissionBackend.ForRef perm = permissionBackend.user(user).ref(branch);
     if (object instanceof RevCommit) {
       perm.check(RefPermission.CREATE);
-      checkCreateCommit(user, repo, (RevCommit) object, ps, perm);
+      checkCreateCommit(repo, (RevCommit) object, ps, perm);
     } else if (object instanceof RevTag) {
       RevTag tag = (RevTag) object;
       try (RevWalk rw = new RevWalk(repo)) {
@@ -95,7 +98,7 @@ public class CreateRefControl {
 
       RevObject target = tag.getObject();
       if (target instanceof RevCommit) {
-        checkCreateCommit(user, repo, (RevCommit) target, ps, perm);
+        checkCreateCommit(repo, (RevCommit) target, ps, perm);
       } else {
         checkCreateRef(user, repo, branch, target);
       }
@@ -118,11 +121,7 @@ public class CreateRefControl {
    * new commit to the repository.
    */
   private void checkCreateCommit(
-      Provider<? extends CurrentUser> user,
-      Repository repo,
-      RevCommit commit,
-      ProjectState projectState,
-      PermissionBackend.ForRef forRef)
+      Repository repo, RevCommit commit, ProjectState projectState, PermissionBackend.ForRef forRef)
       throws AuthException, PermissionBackendException {
     try {
       // If the user has update (push) permission, they can create the ref regardless
@@ -132,8 +131,7 @@ public class CreateRefControl {
     } catch (AuthException denied) {
       // Fall through to check reachability.
     }
-
-    if (projectState.controlFor(user.get()).isReachableFromHeadsOrTags(repo, commit)) {
+    if (reachable.fromHeadsOrTags(projectState, repo, commit)) {
       // If the user has no push permissions, check whether the object is
       // merged into a branch or tag readable by this user. If so, they are
       // not effectively "pushing" more objects, so they can create the ref

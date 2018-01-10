@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "ddd9812c_783810c6",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-10T14:00:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a029339b_82fbc1bb",
+      "revId": "1445400b8a538aeed139c12f99c6a2422bc3d089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aec33360_709bc795",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
         "patchSetId": 1
@@ -34,6 +52,24 @@
       "revId": "1445400b8a538aeed139c12f99c6a2422bc3d089",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5233ae4b_b23def20",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-10T14:00:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aec33360_709bc795",
+      "revId": "1445400b8a538aeed139c12f99c6a2422bc3d089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

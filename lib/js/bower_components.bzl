@@ -223,8 +223,7 @@ def define_bower_components():
     deps = [
       ":iron-flex-layout",
       ":paper-behaviors",
-      ":paper-material",
-      ":paper-ripple",
+      ":paper-styles",
       ":polymer",
     ],
     seed = True,
@@ -264,14 +263,6 @@ def define_bower_components():
       ":polymer",
     ],
     seed = True,
-  )
-  bower_component(
-    name = "paper-material",
-    license = "//lib:LICENSE-polymer",
-    deps = [
-      ":paper-styles",
-      ":polymer",
-    ],
   )
   bower_component(
     name = "paper-ripple",

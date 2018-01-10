@@ -40,10 +40,14 @@ limitations under the License.
         text-transform: none;
       }
       paper-button {
+        /* paper-button sets this to anti-aliased, which appears different than
+        roboto-medium elsewhere. */
+        -webkit-font-smoothing: initial;
         align-items: center;
         background-color: var(--background-color);
         color: var(--button-color);
         display: flex;
+        font-family: inherit;
         justify-content: center;
         margin: var(--margin, 0);
         min-width: var(--border, 0);

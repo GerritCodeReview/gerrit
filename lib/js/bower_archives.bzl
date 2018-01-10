@@ -54,7 +54,7 @@ def load_bower_archives():
     sha1 = "01c485fbf898307029bbb72ac7e132db1570a842")
   bower_archive(
     name = "iron-flex-layout",
-    package = "polymerelements/iron-flex-layout",
+    package = "PolymerElements/iron-flex-layout",
     version = "1.3.7",
     sha1 = "4d4cf3232cf750a17a7df0a37476117f831ac633")
   bower_archive(
@@ -99,17 +99,12 @@ def load_bower_archives():
     sha1 = "588d289f779d02b21ce5b676e257bbd6155649e8")
   bower_archive(
     name = "paper-behaviors",
-    package = "polymerelements/paper-behaviors",
+    package = "PolymerElements/paper-behaviors",
     version = "1.0.13",
     sha1 = "a81eab28a952e124c208430e17508d9a1aae4ee7")
   bower_archive(
-    name = "paper-material",
-    package = "polymerelements/paper-material",
-    version = "1.0.7",
-    sha1 = "159b7fb6b13b181c4276b25f9c6adbeaacb0d42b")
-  bower_archive(
     name = "paper-ripple",
-    package = "polymerelements/paper-ripple",
+    package = "PolymerElements/paper-ripple",
     version = "1.0.10",
     sha1 = "21199db50d02b842da54bd6f4f1d1b10b474e893")
   bower_archive(

@@ -1077,8 +1077,8 @@ bower_archive(
 bower_archive(
     name = "paper-button",
     package = "polymerelements/paper-button",
-    sha1 = "41a8fec68d93dad223ad2076d68515334b2c8d7b",
-    version = "1.0.11",
+    sha1 = "3b01774f58a8085d3c903fc5a32944b26ab7be72",
+    version = "2.0.0",
 )
 
 bower_archive(

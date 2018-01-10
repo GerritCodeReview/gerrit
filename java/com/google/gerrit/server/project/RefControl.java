@@ -67,10 +67,6 @@ class RefControl {
     this.effective = new HashMap<>();
   }
 
-  String getRefName() {
-    return refName;
-  }
-
   ProjectControl getProjectControl() {
     return projectControl;
   }
@@ -82,9 +78,9 @@ class RefControl {
   RefControl forUser(CurrentUser who) {
     ProjectControl newCtl = projectControl.forUser(who);
     if (relevant.isUserSpecific()) {
-      return newCtl.controlForRef(getRefName());
+      return newCtl.controlForRef(refName);
     }
-    return new RefControl(newCtl, getRefName(), relevant);
+    return new RefControl(newCtl, refName, relevant);
   }
 
   /** Is this user a ref owner? */
@@ -110,24 +106,9 @@ class RefControl {
     return isVisible;
   }
 
-  private boolean canUpload() {
-    return projectControl.controlForRef("refs/for/" + getRefName()).canPerform(Permission.PUSH)
-        && isProjectStatePermittingWrite();
-  }
-
   /** @return true if this user can add a new patch set to this ref */
   boolean canAddPatchSet() {
-    return projectControl
-            .controlForRef("refs/for/" + getRefName())
-            .canPerform(Permission.ADD_PATCH_SET)
-        && isProjectStatePermittingWrite();
-  }
-
-  /** @return true if this user can submit merge patch sets to this ref */
-  private boolean canUploadMerges() {
-    return projectControl
-            .controlForRef("refs/for/" + getRefName())
-            .canPerform(Permission.PUSH_MERGE)
+    return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.ADD_PATCH_SET)
         && isProjectStatePermittingWrite();
   }
 
@@ -147,6 +128,82 @@ class RefControl {
       return projectControl.isOwner();
     }
     return canPerform(Permission.SUBMIT, isChangeOwner) && isProjectStatePermittingWrite();
+  }
+
+  /** @return true if this user can abandon a change for this ref */
+  boolean canAbandon() {
+    return canPerform(Permission.ABANDON);
+  }
+
+  /** @return true if this user can view private changes. */
+  boolean canViewPrivateChanges() {
+    return canPerform(Permission.VIEW_PRIVATE_CHANGES);
+  }
+
+  /** @return true if this user can delete their own changes. */
+  boolean canDeleteOwnChanges() {
+    return canPerform(Permission.DELETE_OWN_CHANGES);
+  }
+
+  /** @return true if this user can edit topic names. */
+  boolean canEditTopicName() {
+    return canPerform(Permission.EDIT_TOPIC_NAME);
+  }
+
+  /** @return true if this user can edit hashtag names. */
+  boolean canEditHashtags() {
+    return canPerform(Permission.EDIT_HASHTAGS);
+  }
+
+  boolean canEditAssignee() {
+    return canPerform(Permission.EDIT_ASSIGNEE);
+  }
+
+  /** @return true if this user can force edit topic names. */
+  boolean canForceEditTopicName() {
+    return canForcePerform(Permission.EDIT_TOPIC_NAME);
+  }
+
+  /** The range of permitted values associated with a label permission. */
+  PermissionRange getRange(String permission) {
+    return getRange(permission, false);
+  }
+
+  /** The range of permitted values associated with a label permission. */
+  PermissionRange getRange(String permission, boolean isChangeOwner) {
+    if (Permission.hasRange(permission)) {
+      return toRange(permission, access(permission, isChangeOwner));
+    }
+    return null;
+  }
+
+  /** True if the user is blocked from using this permission. */
+  boolean isBlocked(String permissionName) {
+    return !doCanPerform(permissionName, false, true);
+  }
+
+  /** True if the user has this permission. Works only for non labels. */
+  boolean canPerform(String permissionName) {
+    return canPerform(permissionName, false);
+  }
+
+  boolean canPerform(String permissionName, boolean isChangeOwner) {
+    return doCanPerform(permissionName, isChangeOwner, false);
+  }
+
+  ForRef asForRef() {
+    return new ForRefImpl();
+  }
+
+  private boolean canUpload() {
+    return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.PUSH)
+        && isProjectStatePermittingWrite();
+  }
+
+  /** @return true if this user can submit merge patch sets to this ref */
+  private boolean canUploadMerges() {
+    return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.PUSH_MERGE)
+        && isProjectStatePermittingWrite();
   }
 
   /** @return true if the user can update the reference as a fast-forward. */
@@ -266,53 +323,6 @@ class RefControl {
     return canPerform(Permission.FORGE_SERVER);
   }
 
-  /** @return true if this user can abandon a change for this ref */
-  boolean canAbandon() {
-    return canPerform(Permission.ABANDON);
-  }
-
-  /** @return true if this user can view private changes. */
-  boolean canViewPrivateChanges() {
-    return canPerform(Permission.VIEW_PRIVATE_CHANGES);
-  }
-
-  /** @return true if this user can delete their own changes. */
-  boolean canDeleteOwnChanges() {
-    return canPerform(Permission.DELETE_OWN_CHANGES);
-  }
-
-  /** @return true if this user can edit topic names. */
-  boolean canEditTopicName() {
-    return canPerform(Permission.EDIT_TOPIC_NAME);
-  }
-
-  /** @return true if this user can edit hashtag names. */
-  boolean canEditHashtags() {
-    return canPerform(Permission.EDIT_HASHTAGS);
-  }
-
-  boolean canEditAssignee() {
-    return canPerform(Permission.EDIT_ASSIGNEE);
-  }
-
-  /** @return true if this user can force edit topic names. */
-  boolean canForceEditTopicName() {
-    return canForcePerform(Permission.EDIT_TOPIC_NAME);
-  }
-
-  /** The range of permitted values associated with a label permission. */
-  PermissionRange getRange(String permission) {
-    return getRange(permission, false);
-  }
-
-  /** The range of permitted values associated with a label permission. */
-  PermissionRange getRange(String permission, boolean isChangeOwner) {
-    if (Permission.hasRange(permission)) {
-      return toRange(permission, access(permission, isChangeOwner));
-    }
-    return null;
-  }
-
   private static class AllowedRange {
     private int allowMin;
     private int allowMax;
@@ -374,20 +384,6 @@ class RefControl {
     int min = Math.max(allowMin, blockMin + 1);
     int max = Math.min(allowMax, blockMax - 1);
     return new PermissionRange(permissionName, min, max);
-  }
-
-  /** True if the user has this permission. Works only for non labels. */
-  public boolean canPerform(String permissionName) {
-    return canPerform(permissionName, false);
-  }
-
-  boolean canPerform(String permissionName, boolean isChangeOwner) {
-    return doCanPerform(permissionName, isChangeOwner, false);
-  }
-
-  /** True if the user is blocked from using this permission. */
-  boolean isBlocked(String permissionName) {
-    return !doCanPerform(permissionName, false, true);
   }
 
   private boolean doCanPerform(String permissionName, boolean isChangeOwner, boolean blockOnly) {
@@ -481,10 +477,6 @@ class RefControl {
     return mine;
   }
 
-  ForRef asForRef() {
-    return new ForRefImpl();
-  }
-
   private class ForRefImpl extends ForRef {
     @Override
     public ForRef user(CurrentUser user) {
@@ -523,7 +515,7 @@ class RefControl {
     @Override
     public void check(RefPermission perm) throws AuthException, PermissionBackendException {
       if (!can(perm)) {
-        throw new AuthException(perm.describeForException() + " not permitted for " + getRefName());
+        throw new AuthException(perm.describeForException() + " not permitted for " + refName);
       }
     }
 
@@ -571,7 +563,7 @@ class RefControl {
           return canPerform(Permission.CREATE_TAG);
 
         case UPDATE_BY_SUBMIT:
-          return projectControl.controlForRef("refs/for/" + getRefName()).canSubmit(true);
+          return projectControl.controlForRef("refs/for/" + refName).canSubmit(true);
 
         case READ_PRIVATE_CHANGES:
           return canViewPrivateChanges();

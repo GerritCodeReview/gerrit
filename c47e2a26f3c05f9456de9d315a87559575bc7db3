@@ -164,6 +164,24 @@
       "revId": "c47e2a26f3c05f9456de9d315a87559575bc7db3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e15b240_4119e68f",
+        "filename": "javatests/com/google/gerrit/gpg/GerritPublicKeyCheckerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-10T14:33:46Z",
+      "side": 1,
+      "message": "\u003e Both reads of the external IDs branch are supposed to see the same commit :(\n\u003e Is it somehow possible to freeze all ref states after opening a repo?\n\nNo. Some JGit implementations do this as an implementation detail, but not all storage formats are capable of supporting it (e.g. loose refs), and the JGit API doesn\u0027t tell you what the underlying semantics are.\n\n\u003e \u003e In fact I think this is a general problem if any AccountUpdater wants to do a\n\u003e \u003e read-modify-write operation. A simpler example to visualize might be (a, u) -\u003e \n\u003e \u003e u.setPreferredEmail(\"noreply+\" + a.getAccount().getPreferredEmail()). If we\n\u003e \u003e have the following sequence of operations:\n\u003e \u003e * AccountsUpdate#update reads account ref at A with email \"foo@example.com\"\n\u003e \u003e * AccountUpdater calls u.setPreferredEmail(\"bar@example.com\")\n\u003e \u003e * AccountsUpdate#commitAccountConfig creates a new MetaDataUpdate which\n\u003e \u003e   reads account ref at B with email \"bar@example.com\"\n\u003e \u003e * AccountConfig#commit overwrites the email with \"noreply+foo@example.com\"\n\u003e \n\u003e Does it really overwrite the email? I thought on commit VersionedMetaData sets the revision from which it read as expected old ObjectId\n\nIn my scenario, the old ObjectId observed in commitAccountConfig is B, even though the data in the AccountState exposed to the AccountUpdater is A.",
+      "parentUuid": "0683fdec_ad66c88a",
+      "revId": "c47e2a26f3c05f9456de9d315a87559575bc7db3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

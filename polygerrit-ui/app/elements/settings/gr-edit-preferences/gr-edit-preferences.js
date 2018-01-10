@@ -26,6 +26,11 @@
 
       /** @type {?} */
       editPrefs: Object,
+      newPrefs: {
+        type: Object,
+        notify: true,
+        value: '',
+      },
     },
 
     loadData() {
@@ -76,9 +81,13 @@
     },
 
     save() {
-      return this.$.restAPI.saveEditPreferences(this.editPrefs).then(res => {
-        this.hasUnsavedChanges = false;
-      });
+      return this.$.restAPI.saveEditPreferences(this.editPrefs)
+          .then(() => {
+            this.hasUnsavedChanges = false;
+            this.$.restAPI.getEditPreferences().then(prefs => {
+              this.newPrefs = prefs;
+            });
+          });
     },
   });
 })();

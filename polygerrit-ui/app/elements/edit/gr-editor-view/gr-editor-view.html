@@ -70,6 +70,22 @@ limitations under the License.
       .rightControls {
         justify-content: flex-end;
       }
+      .headers,
+      .actions {
+        padding: 1em 1.5em;
+      }
+      .headers {
+        border-bottom: 1px solid #ddd;
+        font-family: var(--font-family-bold);
+      }
+      .mainContainer {
+        padding: 1em 0;
+      }
+      .actions {
+        border-top: 1px solid #ddd;
+        display: flex;
+        justify-content: flex-end;
+      }
       @media screen and (max-width: 50em) {
         header,
         .subHeader {
@@ -99,17 +115,43 @@ limitations under the License.
               link
               on-tap="_saveEdit">Save</gr-button>
         </span>
+          <gr-button
+              link
+              has-tooltip
+              title="Edit preferences"
+              class="editPrefsButton"
+              on-tap="_handleEditPrefsTap"><iron-icon icon="gr-icons:settings"></iron-icon></gr-button>
       </header>
     </gr-fixed-panel>
     <div class="textareaWrapper">
       <gr-endpoint-decorator id="editorEndpoint" name="editor">
         <gr-endpoint-param name="fileContent" value="[[_newContent]]"></gr-endpoint-param>
+        <gr-endpoint-param name="refresh" value="[[_refresh]]"></gr-endpoint-param>
         <gr-endpoint-param name="prefs" value="[[_prefs]]"></gr-endpoint-param>
         <gr-endpoint-param name="fileType" value="[[_type]]"></gr-endpoint-param>
         <gr-default-editor id="file" file-content="[[_newContent]]"></gr-default-editor>
       </gr-endpoint-decorator>
     </div>
+    <gr-overlay id="editPrefsOverlay" with-backdrop>
+      <div class="headers">
+        Edit Preference
+      </div>
+      <div class="mainContainer">
+        <fieldset id="editPreferences">
+          <gr-edit-preferences
+              id="editPrefs"
+              new-prefs="{{_refresh}}"></gr-edit-preferences>
+        </fieldset>
+        <div class="actions">
+          <gr-button id="cancelButton" link on-tap="_handleCancel">
+              Cancel</gr-button>
+          <gr-button id="saveButton" link primary on-tap="_handleSave">
+              Save</gr-button>
+        </div>
+      </div>
+    </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+    <gr-storage id="storage"></gr-storage>
   </template>
   <script src="gr-editor-view.js"></script>
 </dom-module>

@@ -1036,7 +1036,6 @@
       this._setParams({
         view: Gerrit.Nav.View.REPO,
         detail: Gerrit.Nav.RepoDetailView.BRANCHES,
-        detailType: 'branches',
         repo: data.params[0],
         offset: data.params[2] || 0,
         filter: null,
@@ -1047,7 +1046,6 @@
       this._setParams({
         view: Gerrit.Nav.View.REPO,
         detail: Gerrit.Nav.RepoDetailView.BRANCHES,
-        detailType: 'branches',
         repo: data.params.repo,
         offset: data.params.offset,
         filter: data.params.filter,
@@ -1058,7 +1056,6 @@
       this._setParams({
         view: Gerrit.Nav.View.REPO,
         detail: Gerrit.Nav.RepoDetailView.BRANCHES,
-        detailType: 'branches',
         repo: data.params.repo,
         filter: data.params.filter || null,
       });
@@ -1068,7 +1065,6 @@
       this._setParams({
         view: Gerrit.Nav.View.REPO,
         detail: Gerrit.Nav.RepoDetailView.TAGS,
-        detailType: 'tags',
         repo: data.params[0],
         offset: data.params[2] || 0,
         filter: null,
@@ -1079,7 +1075,6 @@
       this._setParams({
         view: Gerrit.Nav.View.REPO,
         detail: Gerrit.Nav.RepoDetailView.TAGS,
-        detailType: 'tags',
         repo: data.params.repo,
         offset: data.params.offset,
         filter: data.params.filter,
@@ -1090,7 +1085,6 @@
       this._setParams({
         view: Gerrit.Nav.View.REPO,
         detail: Gerrit.Nav.RepoDetailView.TAGS,
-        detailType: 'tags',
         repo: data.params.repo,
         filter: data.params.filter || null,
       });

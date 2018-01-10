@@ -17,6 +17,24 @@
       "revId": "ff788a5d7654c745b65189d057172df84cc29b11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55e043e1_83c77ce7",
+        "filename": "java/com/google/gerrit/server/account/AccountConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-10T16:28:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd7a9c3b_28089cdc",
+      "revId": "ff788a5d7654c745b65189d057172df84cc29b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

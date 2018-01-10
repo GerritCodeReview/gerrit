@@ -20,10 +20,10 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -68,15 +68,15 @@ public class PutStatus implements RestModifyView<AccountResource, StatusInput> {
     }
 
     String newStatus = input.status;
-    Account account =
+    AccountState accountState =
         accountsUpdate
             .create()
             .update("Set Status via API", user.getAccountId(), u -> u.setStatus(newStatus));
-    if (account == null) {
+    if (accountState == null) {
       throw new ResourceNotFoundException("account not found");
     }
-    return Strings.isNullOrEmpty(account.getStatus())
+    return Strings.isNullOrEmpty(accountState.getAccount().getStatus())
         ? Response.none()
-        : Response.ok(account.getStatus());
+        : Response.ok(accountState.getAccount().getStatus());
   }
 }

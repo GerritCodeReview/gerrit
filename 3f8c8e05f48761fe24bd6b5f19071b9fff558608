@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec4e3b5e_3373c412",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-10T04:04:06Z",
+      "side": 1,
+      "message": "This change doesn\u0027t specifically add a \"forgot password\" link.  It allows to add any arbitrary text to the login form.",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "3f8c8e05f48761fe24bd6b5f19071b9fff558608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "642a0423_b24d2730",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2177,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-10T04:04:06Z",
+      "side": 1,
+      "message": "As mentioned in the comment on the commit message, this setting allows any arbitrary text to be added. Therefore it doesn\u0027t make sense to name it \u0027loginForgottenPasswordText\u0027.",
+      "range": {
+        "startLine": 2173,
+        "startChar": 0,
+        "endLine": 2177,
+        "endChar": 1
+      },
+      "revId": "3f8c8e05f48761fe24bd6b5f19071b9fff558608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66d18f52_a4911a90",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2178,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-10T04:04:06Z",
+      "side": 1,
+      "message": "If it only works for LDAP, maybe it\u0027s better to put this setting under the [ldap] section?",
+      "range": {
+        "startLine": 2178,
+        "startChar": 0,
+        "endLine": 2178,
+        "endChar": 33
+      },
+      "revId": "3f8c8e05f48761fe24bd6b5f19071b9fff558608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c16d8df_f3529bb5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2685,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-10T04:04:06Z",
+      "side": 1,
+      "message": "unrelated formatting changes",
+      "range": {
+        "startLine": 2685,
+        "startChar": 1,
+        "endLine": 2685,
+        "endChar": 2
+      },
+      "revId": "3f8c8e05f48761fe24bd6b5f19071b9fff558608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00f6a961_97057ea4",
+        "filename": "java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-10T04:04:06Z",
+      "side": 1,
+      "message": "This is only used at L95 to extract the configured string.  Instead of having a Config member, it could be replaced with a String that is initialized in the constructor.",
+      "range": {
+        "startLine": 60,
+        "startChar": 23,
+        "endLine": 60,
+        "endChar": 29
+      },
+      "revId": "3f8c8e05f48761fe24bd6b5f19071b9fff558608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

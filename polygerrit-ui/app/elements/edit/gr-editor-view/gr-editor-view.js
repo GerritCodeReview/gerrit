@@ -169,5 +169,24 @@
     _handleContentChange(e) {
       if (e.detail.value) { this.set('_newContent', e.detail.value); }
     },
+
+    _handleEditPrefsTap(e) {
+      e.preventDefault();
+      this.open();
+    },
+
+    open() {
+      this.$.editPrefsOverlay.open().then(() => {
+        this.$.editPrefs.loadData();
+      });
+    },
+
+    _handleSave(e) {
+      this.$.editPrefs.save();
+    },
+    _handleCancel(e) {
+      e.stopPropagation();
+      this.$.editPrefsOverlay.close();
+    },
   });
 })();

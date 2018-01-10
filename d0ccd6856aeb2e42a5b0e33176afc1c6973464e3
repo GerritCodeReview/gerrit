@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b63140e_30197a8e",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-10T06:27:10Z",
+      "side": 1,
+      "message": "Shouldn\u0027t member variables stay up at the top of the class?",
+      "range": {
+        "startLine": 90,
+        "startChar": 2,
+        "endLine": 98,
+        "endChar": 37
+      },
+      "revId": "d0ccd6856aeb2e42a5b0e33176afc1c6973464e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

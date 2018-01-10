@@ -71,9 +71,10 @@
     },
 
     save() {
-      return this.$.restAPI.saveEditPreferences(this.editPrefs).then(res => {
-        this.hasUnsavedChanges = false;
-      });
+      return this.$.restAPI.saveEditPreferences(this.editPrefs)
+          .then(() => {
+            this.hasUnsavedChanges = false;
+          });
     },
   });
 })();

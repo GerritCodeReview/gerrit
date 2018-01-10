@@ -49,7 +49,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -58,30 +57,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
 
 /** Access control management for a user accessing a project's data. */
 class ProjectControl {
-  public static class GenericFactory {
-    private final ProjectCache projectCache;
-
-    @Inject
-    GenericFactory(ProjectCache pc) {
-      projectCache = pc;
-    }
-
-    public ProjectControl controlFor(Project.NameKey nameKey, CurrentUser user)
-        throws NoSuchProjectException, IOException {
-      final ProjectState p = projectCache.checkedGet(nameKey);
-      if (p == null) {
-        throw new NoSuchProjectException(nameKey);
-      }
-      return p.controlFor(user);
-    }
-  }
-
-  interface AssistedFactory {
+  interface Factory {
     ProjectControl create(CurrentUser who, ProjectState ps);
   }
 
@@ -103,7 +82,6 @@ class ProjectControl {
   private final PermissionBackend.WithUser perm;
   private final CurrentUser user;
   private final ProjectState state;
-  private final Reachable reachable;
   private final ChangeControl.Factory changeControlFactory;
   private final PermissionCollection.Factory permissionFilter;
 
@@ -116,7 +94,6 @@ class ProjectControl {
       @GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
       @GitReceivePackGroups Set<AccountGroup.UUID> receiveGroups,
       PermissionCollection.Factory permissionFilter,
-      Reachable reachable,
       ChangeControl.Factory changeControlFactory,
       PermissionBackend permissionBackend,
       @Assisted CurrentUser who,
@@ -125,7 +102,6 @@ class ProjectControl {
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
     this.permissionFilter = permissionFilter;
-    this.reachable = reachable;
     this.perm = permissionBackend.user(who);
     user = who;
     state = ps;
@@ -136,6 +112,10 @@ class ProjectControl {
     // Not per-user, and reusing saves lookup time.
     r.allSections = allSections;
     return r;
+  }
+
+  ForProject asForProject() {
+    return new ForProjectImpl();
   }
 
   ChangeControl controlFor(ReviewDb db, Change change) throws OrmException {
@@ -164,10 +144,6 @@ class ProjectControl {
     return ctl;
   }
 
-  boolean isReachableFromHeadsOrTags(Repository repo, RevCommit commit) {
-    return reachable.fromHeadsOrTags(state, repo, commit);
-  }
-
   CurrentUser getUser() {
     return user;
   }
@@ -193,6 +169,19 @@ class ProjectControl {
     return canPerformOnAnyRef(Permission.PUSH)
         || canPerformOnAnyRef(Permission.CREATE_TAG)
         || isOwner();
+  }
+
+  boolean isAdmin() {
+    try {
+      perm.check(GlobalPermission.ADMINISTRATE_SERVER);
+      return true;
+    } catch (AuthException | PermissionBackendException e) {
+      return false;
+    }
+  }
+
+  boolean match(PermissionRule rule, boolean isChangeOwner) {
+    return match(rule.getGroup().getUUID(), isChangeOwner);
   }
 
   /** Can the user run upload pack? */
@@ -239,15 +228,6 @@ class ProjectControl {
       }
     }
     return false;
-  }
-
-  boolean isAdmin() {
-    try {
-      perm.check(GlobalPermission.ADMINISTRATE_SERVER);
-      return true;
-    } catch (AuthException | PermissionBackendException e) {
-      return false;
-    }
   }
 
   private boolean isDeclaredOwner() {
@@ -325,19 +305,15 @@ class ProjectControl {
     return allSections;
   }
 
-  boolean match(PermissionRule rule) {
+  private boolean match(PermissionRule rule) {
     return match(rule.getGroup().getUUID());
   }
 
-  boolean match(PermissionRule rule, boolean isChangeOwner) {
-    return match(rule.getGroup().getUUID(), isChangeOwner);
-  }
-
-  boolean match(AccountGroup.UUID uuid) {
+  private boolean match(AccountGroup.UUID uuid) {
     return match(uuid, false);
   }
 
-  boolean match(AccountGroup.UUID uuid, boolean isChangeOwner) {
+  private boolean match(AccountGroup.UUID uuid, boolean isChangeOwner) {
     if (SystemGroupBackend.PROJECT_OWNERS.equals(uuid)) {
       return isDeclaredOwner();
     } else if (SystemGroupBackend.CHANGE_OWNER.equals(uuid)) {
@@ -345,14 +321,6 @@ class ProjectControl {
     } else {
       return user.getEffectiveGroups().contains(uuid);
     }
-  }
-
-  boolean canRead() {
-    return !isHidden() && allRefsAreVisible(Collections.emptySet());
-  }
-
-  ForProject asForProject() {
-    return new ForProjectImpl();
   }
 
   private class ForProjectImpl extends ForProject {

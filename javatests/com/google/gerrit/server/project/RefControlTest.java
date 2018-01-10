@@ -831,7 +831,6 @@ public class RefControlTest {
 
   private InMemoryRepository add(ProjectConfig pc) {
     PrologEnvironment.Factory envFactory = null;
-    ProjectControl.AssistedFactory projectControlFactory = null;
     RulesCache rulesCache = null;
     SitePaths sitePaths = null;
     List<CommentLinkInfo> commentLinks = null;
@@ -852,7 +851,7 @@ public class RefControlTest {
             projectCache,
             allProjectsName,
             allUsersName,
-            projectControlFactory,
+            null,
             envFactory,
             repoManager,
             rulesCache,
@@ -871,7 +870,6 @@ public class RefControlTest {
         Collections.<AccountGroup.UUID>emptySet(),
         Collections.<AccountGroup.UUID>emptySet(),
         sectionSorter,
-        null, // commitsCollection
         changeControlFactory,
         permissionBackend,
         new MockUser(name, memberOf),

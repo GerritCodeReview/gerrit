@@ -16,6 +16,24 @@
       "revId": "2e2ebfaa6519310bafeea7b4bb363571a86c1d04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33c90208_3299bbcd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-10T00:58:47Z",
+      "side": 1,
+      "message": "Comment added.",
+      "parentUuid": "648dbbd8_cb500500",
+      "revId": "2e2ebfaa6519310bafeea7b4bb363571a86c1d04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

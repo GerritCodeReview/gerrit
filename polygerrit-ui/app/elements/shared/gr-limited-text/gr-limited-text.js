@@ -39,10 +39,18 @@
         type: Boolean,
         value: false,
       },
+
+      /**
+       * The maximum number of characters to display in the tooltop.
+       */
+      tooltipLimit: {
+        type: Number,
+        value: 1024,
+      },
     },
 
     observers: [
-      '_updateTitle(text, limit)',
+      '_updateTitle(text, limit, tooltipLimit)',
     ],
 
     behaviors: [
@@ -53,10 +61,10 @@
      * The text or limit have changed. Recompute whether a tooltip needs to be
      * enabled.
      */
-    _updateTitle(text, limit) {
+    _updateTitle(text, limit, tooltipLimit) {
       this.hasTooltip = !!limit && !!text && text.length > limit;
       if (this.hasTooltip) {
-        this.setAttribute('title', text);
+        this.setAttribute('title', text.substr(0, tooltipLimit));
       } else {
         this.removeAttribute('title');
       }

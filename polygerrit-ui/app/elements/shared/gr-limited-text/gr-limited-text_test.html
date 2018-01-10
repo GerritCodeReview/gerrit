@@ -66,15 +66,20 @@ limitations under the License.
       assert.equal(element.getAttribute('title'), 'abc 123');
       assert.isTrue(element.hasTooltip);
 
+      element.tooltipLimit = 3;
+      flushAsynchronousOperations();
+      assert.equal(element.getAttribute('title'), 'abc');
+
+      element.tooltipLimit = 1024;
       element.limit = 100;
       flushAsynchronousOperations();
-      assert.equal(updateSpy.callCount, 4);
+      assert.equal(updateSpy.callCount, 6);
       assert.isNotOk(element.getAttribute('title'));
       assert.isFalse(element.hasTooltip);
 
       element.limit = null;
       flushAsynchronousOperations();
-      assert.equal(updateSpy.callCount, 5);
+      assert.equal(updateSpy.callCount, 7);
       assert.isNotOk(element.getAttribute('title'));
       assert.isFalse(element.hasTooltip);
     });

@@ -244,6 +244,7 @@ limitations under the License.
             <gr-editable-label
                 label-text="Add a topic"
                 value="[[change.topic]]"
+                max-length="1024"
                 placeholder="[[_computeTopicPlaceholder(_topicReadOnly)]]"
                 read-only="[[_topicReadOnly]]"
                 on-changed="_handleTopicChanged"></gr-editable-label>

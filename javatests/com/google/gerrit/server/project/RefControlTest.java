@@ -207,6 +207,7 @@ public class RefControlTest {
   @Inject private SingleVersionListener singleVersionListener;
   @Inject private InMemoryDatabase schemaFactory;
   @Inject private ThreadLocalRequestContext requestContext;
+  @Inject private ProjectControl.Factory projectControlFactory;
 
   @Before
   public void setUp() throws Exception {
@@ -831,7 +832,6 @@ public class RefControlTest {
 
   private InMemoryRepository add(ProjectConfig pc) {
     PrologEnvironment.Factory envFactory = null;
-    ProjectControl.AssistedFactory projectControlFactory = null;
     RulesCache rulesCache = null;
     SitePaths sitePaths = null;
     List<CommentLinkInfo> commentLinks = null;
@@ -871,7 +871,6 @@ public class RefControlTest {
         Collections.<AccountGroup.UUID>emptySet(),
         Collections.<AccountGroup.UUID>emptySet(),
         sectionSorter,
-        null, // commitsCollection
         changeControlFactory,
         permissionBackend,
         new MockUser(name, memberOf),

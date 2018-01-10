@@ -35,16 +35,16 @@ import java.io.IOException;
 public class RemoveReviewerControl {
   private final PermissionBackend permissionBackend;
   private final Provider<ReviewDb> dbProvider;
-  private final ProjectControl.GenericFactory projectControlFactory;
+  private final ProjectCache projectCache;
 
   @Inject
   RemoveReviewerControl(
       PermissionBackend permissionBackend,
       Provider<ReviewDb> dbProvider,
-      ProjectControl.GenericFactory projectControlFactory) {
+      ProjectCache projectCache) {
     this.permissionBackend = permissionBackend;
     this.dbProvider = dbProvider;
-    this.projectControlFactory = projectControlFactory;
+    this.projectCache = projectCache;
   }
 
   /**
@@ -116,7 +116,11 @@ public class RemoveReviewerControl {
     // Users with the remove reviewer permission, the branch owner, project
     // owner and site admin can remove anyone
     // TODO(hiesel): Remove all Control usage
-    ProjectControl ctl = projectControlFactory.controlFor(change.getProject(), currentUser);
+    ProjectState projectState = projectCache.checkedGet(change.getProject());
+    if (projectState == null) {
+      throw new NoSuchProjectException(change.getProject());
+    }
+    ProjectControl ctl = projectState.controlFor(currentUser);
     if (ctl.controlForRef(change.getDest()).isOwner() // branch owner
         || ctl.isOwner() // project owner
         || ctl.isAdmin()) { // project admin

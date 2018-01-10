@@ -269,19 +269,19 @@ public class ExternalIdNotes extends VersionedMetaData {
    *
    * @return all external IDs
    */
-  public Set<ExternalId> all() throws IOException {
+  public ImmutableSet<ExternalId> all() throws IOException {
     checkLoaded();
     try (RevWalk rw = new RevWalk(repo)) {
-      Set<ExternalId> extIds = new HashSet<>();
+      ImmutableSet.Builder<ExternalId> b = ImmutableSet.builder();
       for (Note note : noteMap) {
         byte[] raw = readNoteData(rw, note.getData());
         try {
-          extIds.add(ExternalId.parse(note.getName(), raw, note.getData()));
+          b.add(ExternalId.parse(note.getName(), raw, note.getData()));
         } catch (ConfigInvalidException | RuntimeException e) {
           log.error(String.format("Ignoring invalid external ID note %s", note.getName()), e);
         }
       }
-      return extIds;
+      return b.build();
     }
   }
 

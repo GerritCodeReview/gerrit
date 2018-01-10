@@ -23,6 +23,7 @@ import com.google.common.base.Enums;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
@@ -104,7 +105,7 @@ public class WatchConfig {
   private final Config cfg;
   private final ValidationError.Sink validationErrorSink;
 
-  private Map<ProjectWatchKey, Set<NotifyType>> projectWatches;
+  private ImmutableMap<ProjectWatchKey, Set<NotifyType>> projectWatches;
 
   public WatchConfig(Account.Id accountId, Config cfg, ValidationError.Sink validationErrorSink) {
     this.accountId = checkNotNull(accountId, "accountId");
@@ -112,7 +113,7 @@ public class WatchConfig {
     this.validationErrorSink = checkNotNull(validationErrorSink, "validationErrorSink");
   }
 
-  public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches() {
+  public ImmutableMap<ProjectWatchKey, Set<NotifyType>> getProjectWatches() {
     if (projectWatches == null) {
       parse();
     }
@@ -124,7 +125,7 @@ public class WatchConfig {
   }
 
   @VisibleForTesting
-  public static Map<ProjectWatchKey, Set<NotifyType>> parse(
+  public static ImmutableMap<ProjectWatchKey, Set<NotifyType>> parse(
       Account.Id accountId, Config cfg, ValidationError.Sink validationErrorSink) {
     Map<ProjectWatchKey, Set<NotifyType>> projectWatches = new HashMap<>();
     for (String projectName : cfg.getSubsections(PROJECT)) {
@@ -148,10 +149,10 @@ public class WatchConfig {
         projectWatches.get(key).addAll(notifyValue.notifyTypes());
       }
     }
-    return projectWatches;
+    return ImmutableMap.copyOf(projectWatches);
   }
 
-  public Config save(Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
+  public Config save(ImmutableMap<ProjectWatchKey, Set<NotifyType>> projectWatches) {
     this.projectWatches = projectWatches;
 
     for (String projectName : cfg.getSubsections(PROJECT)) {

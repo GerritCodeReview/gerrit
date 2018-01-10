@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
@@ -33,6 +34,7 @@ import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -157,7 +159,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    *
    * @return the project watches of the loaded account
    */
-  public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches() {
+  public ImmutableMap<ProjectWatchKey, Set<NotifyType>> getProjectWatches() {
     checkLoaded();
     return watchConfig.getProjectWatches();
   }
@@ -334,13 +336,14 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     if (accountUpdate.isPresent()
         && (!accountUpdate.get().getDeletedProjectWatches().isEmpty()
             || !accountUpdate.get().getUpdatedProjectWatches().isEmpty())) {
-      Map<ProjectWatchKey, Set<NotifyType>> projectWatches = watchConfig.getProjectWatches();
+      Map<ProjectWatchKey, Set<NotifyType>> projectWatches =
+          new HashMap<>(watchConfig.getProjectWatches());
       accountUpdate.get().getDeletedProjectWatches().forEach(pw -> projectWatches.remove(pw));
       accountUpdate
           .get()
           .getUpdatedProjectWatches()
           .forEach((pw, nt) -> projectWatches.put(pw, nt));
-      saveConfig(WatchConfig.WATCH_CONFIG, watchConfig.save(projectWatches));
+      saveConfig(WatchConfig.WATCH_CONFIG, watchConfig.save(ImmutableMap.copyOf(projectWatches)));
     }
   }
 

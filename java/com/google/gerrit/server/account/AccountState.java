@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
@@ -134,6 +135,11 @@ public class AccountState {
   /** The external identities that identify the account holder. */
   public Collection<ExternalId> getExternalIds() {
     return externalIds;
+  }
+
+  /** The external identities that identify the account holder that match the given scheme. */
+  public Collection<ExternalId> getExternalIds(String scheme) {
+    return externalIds.stream().filter(e -> e.key().isScheme(scheme)).collect(toSet());
   }
 
   /** The project watches of the account. */

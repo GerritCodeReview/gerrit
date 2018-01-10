@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import java.io.IOException;
@@ -68,7 +69,7 @@ public interface ProjectCache {
   void remove(Project p) throws IOException;
 
   /** @return sorted iteration of projects. */
-  Iterable<Project.NameKey> all();
+  ImmutableSortedSet<Project.NameKey> all();
 
   /**
    * @return estimated set of relevant groups extracted from hot project access rules. If the cache
@@ -82,7 +83,7 @@ public interface ProjectCache {
    * @param prefix common prefix.
    * @return sorted iteration of projects sharing the same prefix.
    */
-  Iterable<Project.NameKey> byName(String prefix);
+  ImmutableSortedSet<Project.NameKey> byName(String prefix);
 
   /** Notify the cache that a new project was constructed. */
   void onCreateProject(Project.NameKey newProjectName) throws IOException;

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b5b8946_7c1083eb",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-10T19:08:32Z",
+      "side": 1,
+      "message": "Caching a response like this inside a component is a nonstandard pattern for us. Is there a reason this optimization exists? Should we consider caching this in the rest-api-interface?",
+      "revId": "10ec3104694357058c598cfe1ba8a03ad5f0481b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb7f8e7b_2486bc2a",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-10T19:08:32Z",
+      "side": 1,
+      "message": "Can remove the brackets and return here.",
+      "revId": "10ec3104694357058c598cfe1ba8a03ad5f0481b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06817147_684c2b4d",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-10T19:08:32Z",
+      "side": 1,
+      "message": "Indentation here is off.",
+      "revId": "10ec3104694357058c598cfe1ba8a03ad5f0481b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

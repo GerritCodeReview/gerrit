@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8b31956_33950f3d",
+        "filename": "javatests/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-10T11:51:20Z",
+      "side": 1,
+      "message": "Instead of passing null, can we provide a constructor that doesn\u0027t take this parameter?\n\nOr if that\u0027s not feasible, at least annotate it as @Nullable?",
+      "range": {
+        "startLine": 854,
+        "startChar": 12,
+        "endLine": 854,
+        "endChar": 16
+      },
+      "revId": "642c2ac3c33a409f07a6a7ae96340dd4b1a86881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

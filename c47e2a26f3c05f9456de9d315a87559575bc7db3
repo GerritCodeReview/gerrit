@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "80671432_505f9c1e",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-10T14:18:08Z",
+      "side": 1,
+      "message": "See also commit message of: https://gerrit-review.googlesource.com/c/gerrit/+/150314",
+      "parentUuid": "f045d254_719e3c9e",
+      "range": {
+        "startLine": 392,
+        "startChar": 74,
+        "endLine": 393,
+        "endChar": 8
+      },
+      "revId": "c47e2a26f3c05f9456de9d315a87559575bc7db3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d3814724_2aee4eba",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 1

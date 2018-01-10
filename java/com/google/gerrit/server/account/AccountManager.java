@@ -238,14 +238,14 @@ public class AccountManager {
     }
 
     if (!accountUpdates.isEmpty()) {
-      Account account =
+      AccountState accountState =
           accountsUpdateFactory
               .create()
               .update(
                   "Update Account on Login",
                   user.getAccountId(),
                   AccountUpdater.joinConsumers(accountUpdates));
-      if (account == null) {
+      if (accountState == null) {
         throw new OrmException("Account " + user.getAccountId() + " has been deleted");
       }
     }
@@ -266,9 +266,9 @@ public class AccountManager {
 
     boolean isFirstAccount = awaitsFirstAccountCheck.getAndSet(false) && !accounts.hasAnyAccount();
 
-    Account account;
+    AccountState accountState;
     try {
-      account =
+      accountState =
           accountsUpdateFactory
               .create()
               .insert(
@@ -318,7 +318,7 @@ public class AccountManager {
       addGroupMember(db, adminGroupUuid, user);
     }
 
-    realm.onCreateAccount(who, account);
+    realm.onCreateAccount(who, accountState.getAccount());
     return new AuthResult(newId, extId.key(), true);
   }
 

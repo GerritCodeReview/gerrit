@@ -92,6 +92,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.SetHashtagsOp;
@@ -2980,7 +2981,7 @@ class ReceiveCommits {
     }
     logDebug("Updating full name of caller");
     try {
-      Account account =
+      AccountState accountState =
           accountsUpdate
               .create()
               .update(
@@ -2991,8 +2992,8 @@ class ReceiveCommits {
                       u.setFullName(setFullNameTo);
                     }
                   });
-      if (account != null) {
-        user.getAccount().setFullName(account.getFullName());
+      if (accountState != null) {
+        user.getAccount().setFullName(accountState.getAccount().getFullName());
       }
     } catch (OrmException | IOException | ConfigInvalidException e) {
       logWarn("Failed to update full name of caller", e);

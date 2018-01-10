@@ -1082,7 +1082,9 @@ As response a link:#ban-result-info[BanResultInfo] entity is returned.
 
 Lists the access rights for a single project.
 
-As result a link:#project-access-info[ProjectAccessInfo] entity is returned.
+As result a
+link:rest-api-access.html#project-access-info[ProjectAccessInfo]
+entity is returned.
 
 .Request
 ----
@@ -1166,7 +1168,9 @@ the deductions by removing items that have no child elements.
 
 After removals have been applied, additions will be applied.
 
-As result a link:#project-access-info[ProjectAccessInfo] entity is returned.
+As result a
+link:rest-api-access.html#project-access-info[ProjectAccessInfo]
+entity is returned.
 
 .Request
 ----

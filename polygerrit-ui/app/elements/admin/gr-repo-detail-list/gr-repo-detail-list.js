@@ -100,7 +100,7 @@
         }
       });
 
-      this.detailType = params.detailType;
+      this.detailType = params.detail;
 
       this._filter = this.getFilterValue(params);
       this._offset = this.getOffsetValue(params);

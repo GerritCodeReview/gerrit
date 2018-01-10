@@ -931,9 +931,6 @@ public class PostReview
       }
 
       switch (in.drafts) {
-        case KEEP:
-        default:
-          break;
         case DELETE:
           toDel.addAll(drafts.values());
           break;
@@ -941,6 +938,9 @@ public class PostReview
         case PUBLISH_ALL_REVISIONS:
           commentsUtil.publish(ctx, psId, drafts.values(), in.tag);
           comments.addAll(drafts.values());
+          break;
+        case KEEP:
+        default:
           break;
       }
       ChangeUpdate u = ctx.getUpdate(psId);

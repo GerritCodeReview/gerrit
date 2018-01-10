@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80fcc7b0_a2dab8e0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-10T23:08:46Z",
+      "side": 1,
+      "message": "This is a bit of duplication in order to keep the data in sync with the rendered array. I don\u0027t think there\u0027s a good way around it.",
+      "range": {
+        "startLine": 189,
+        "startChar": 6,
+        "endLine": 196,
+        "endChar": 0
+      },
+      "revId": "86ff45cdc0939d0a30ce98f6fdf74a0943e65156",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

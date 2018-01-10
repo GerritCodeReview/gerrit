@@ -39,7 +39,7 @@ public enum BooleanProjectConfig {
   REJECT_IMPLICIT_MERGES("receive", "rejectImplicitMerges"),
   PRIVATE_BY_DEFAULT("change", "privateByDefault"),
   ENABLE_REVIEWER_BY_EMAIL("reviewer", "enableByEmail"),
-  MATCH_AUTHOR_TO_COMMITTER_DATE("project", "matchAuthorToCommitterDate"),
+  MATCH_AUTHOR_TO_COMMITTER_DATE("submit", "matchAuthorToCommitterDate"),
   REJECT_EMPTY_COMMIT("submit", "rejectEmptyCommit");
 
   // Git config

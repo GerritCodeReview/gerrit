@@ -45,7 +45,7 @@ import java.util.Map;
 import java.util.Set;
 
 /** Manages access control for Git references (aka branches, tags). */
-public class RefControl {
+class RefControl {
   private final ProjectControl projectControl;
   private final String refName;
 
@@ -566,6 +566,9 @@ public class RefControl {
 
         case CREATE_CHANGE:
           return canUpload();
+
+        case CREATE_TAG:
+          return canPerform(Permission.CREATE_TAG);
 
         case UPDATE_BY_SUBMIT:
           return projectControl.controlForRef("refs/for/" + getRefName()).canSubmit(true);

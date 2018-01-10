@@ -35,6 +35,9 @@ public enum RefPermission {
   /** Create a change to code review a commit. */
   CREATE_CHANGE,
 
+  /** Create a tag. */
+  CREATE_TAG(Permission.CREATE_TAG),
+
   /**
    * Creates changes, then also immediately submits them during {@code push}.
    *

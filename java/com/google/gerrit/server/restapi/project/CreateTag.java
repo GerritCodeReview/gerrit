@@ -18,7 +18,6 @@ import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -36,9 +35,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.project.RefUtil;
 import com.google.gerrit.server.project.RefUtil.InvalidRevisionException;
 import com.google.inject.Inject;
@@ -71,7 +68,6 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
   private final TagCache tagCache;
   private final GitReferenceUpdated referenceUpdated;
   private final WebLinks links;
-  private final ProjectControl.GenericFactory projectControlFactory;
   private String ref;
 
   @Inject
@@ -82,7 +78,6 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
       TagCache tagCache,
       GitReferenceUpdated referenceUpdated,
       WebLinks webLinks,
-      ProjectControl.GenericFactory projectControlFactory,
       @Assisted String ref) {
     this.permissionBackend = permissionBackend;
     this.identifiedUser = identifiedUser;
@@ -90,7 +85,6 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
     this.tagCache = tagCache;
     this.referenceUpdated = referenceUpdated;
     this.links = webLinks;
-    this.projectControlFactory = projectControlFactory;
     this.ref = ref;
   }
 
@@ -108,12 +102,6 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
     }
 
     ref = RefUtil.normalizeTagRef(ref);
-
-    // TODO(hiesel): Remove dependency on RefControl
-    RefControl refControl =
-        projectControlFactory
-            .controlFor(resource.getNameKey(), resource.getUser())
-            .controlForRef(ref);
     PermissionBackend.ForRef perm =
         permissionBackend.user(identifiedUser).project(resource.getNameKey()).ref(ref);
 
@@ -126,7 +114,7 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
       boolean isSigned = isAnnotated && input.message.contains("-----BEGIN PGP SIGNATURE-----\n");
       if (isSigned) {
         throw new MethodNotAllowedException("Cannot create signed tag \"" + ref + "\"");
-      } else if (isAnnotated && !refControl.canPerform(Permission.CREATE_TAG)) {
+      } else if (isAnnotated && !check(perm, RefPermission.CREATE_TAG)) {
         throw new AuthException("Cannot create annotated tag \"" + ref + "\"");
       } else {
         perm.check(RefPermission.CREATE);
@@ -167,6 +155,16 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
     } catch (GitAPIException e) {
       log.error("Cannot create tag \"" + ref + "\"", e);
       throw new IOException(e);
+    }
+  }
+
+  private static boolean check(PermissionBackend.ForRef perm, RefPermission permission)
+      throws PermissionBackendException {
+    try {
+      perm.check(permission);
+      return true;
+    } catch (AuthException e) {
+      return false;
     }
   }
 }

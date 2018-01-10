@@ -39,7 +39,7 @@ public class SetInactiveFlag {
   public Response<?> deactivate(Account.Id accountId)
       throws RestApiException, IOException, ConfigInvalidException, OrmException {
     AtomicBoolean alreadyInactive = new AtomicBoolean(false);
-    Account account =
+    AccountState accountState =
         accountsUpdate
             .create()
             .update(
@@ -52,7 +52,7 @@ public class SetInactiveFlag {
                     u.setActive(false);
                   }
                 });
-    if (account == null) {
+    if (accountState == null) {
       throw new ResourceNotFoundException("account not found");
     }
     if (alreadyInactive.get()) {
@@ -64,7 +64,7 @@ public class SetInactiveFlag {
   public Response<String> activate(Account.Id accountId)
       throws ResourceNotFoundException, IOException, ConfigInvalidException, OrmException {
     AtomicBoolean alreadyActive = new AtomicBoolean(false);
-    Account account =
+    AccountState accountState =
         accountsUpdate
             .create()
             .update(
@@ -77,7 +77,7 @@ public class SetInactiveFlag {
                     u.setActive(true);
                   }
                 });
-    if (account == null) {
+    if (accountState == null) {
       throw new ResourceNotFoundException("account not found");
     }
     return alreadyActive.get() ? Response.ok("") : Response.created("");

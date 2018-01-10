@@ -373,14 +373,14 @@ public class AccountIT extends AbstractDaemonTest {
       Account.Id accountId = new Account.Id(seq.nextAccountId());
       String fullName = "Foo";
       ExternalId extId = ExternalId.createEmail(accountId, "foo@example.com");
-      Account account =
+      AccountState accountState =
           accountsUpdate
               .create()
               .insert(
                   "Create Account Atomically",
                   accountId,
                   u -> u.setFullName(fullName).addExternalId(extId));
-      assertThat(account.getFullName()).isEqualTo(fullName);
+      assertThat(accountState.getAccount().getFullName()).isEqualTo(fullName);
 
       AccountInfo info = gApi.accounts().id(accountId.get()).get();
       assertThat(info.name).isEqualTo(fullName);
@@ -401,12 +401,12 @@ public class AccountIT extends AbstractDaemonTest {
   public void updateNonExistingAccount() throws Exception {
     Account.Id nonExistingAccountId = new Account.Id(999999);
     AtomicBoolean consumerCalled = new AtomicBoolean();
-    Account account =
+    AccountState accountState =
         accountsUpdate
             .create()
             .update(
                 "Update Non-Existing Account", nonExistingAccountId, a -> consumerCalled.set(true));
-    assertThat(account).isNull();
+    assertThat(accountState).isNull();
     assertThat(consumerCalled.get()).isFalse();
   }
 
@@ -416,13 +416,13 @@ public class AccountIT extends AbstractDaemonTest {
     assertUserBranchWithoutAccountConfig(anonymousCoward.getId());
 
     String status = "OOO";
-    Account account =
+    AccountState accountState =
         accountsUpdate
             .create()
             .update("Set status", anonymousCoward.getId(), u -> u.setStatus(status));
-    assertThat(account).isNotNull();
-    assertThat(account.getFullName()).isNull();
-    assertThat(account.getStatus()).isEqualTo(status);
+    assertThat(accountState).isNotNull();
+    assertThat(accountState.getAccount().getFullName()).isNull();
+    assertThat(accountState.getAccount().getStatus()).isEqualTo(status);
     assertUserBranch(anonymousCoward.getId(), null, status);
   }
 
@@ -1942,13 +1942,15 @@ public class AccountIT extends AbstractDaemonTest {
     // metaId is set when account is created
     AccountsUpdate au = accountsUpdate.create();
     Account.Id accountId = new Account.Id(seq.nextAccountId());
-    Account account = au.insert("Create Test Account", accountId, u -> {});
-    assertThat(account.getMetaId()).isEqualTo(getMetaId(accountId));
+    AccountState accountState = au.insert("Create Test Account", accountId, u -> {});
+    assertThat(accountState.getAccount().getMetaId()).isEqualTo(getMetaId(accountId));
 
     // metaId is set when account is updated
-    Account updatedAccount = au.update("Set Full Name", accountId, u -> u.setFullName("foo"));
-    assertThat(account.getMetaId()).isNotEqualTo(updatedAccount.getMetaId());
-    assertThat(updatedAccount.getMetaId()).isEqualTo(getMetaId(accountId));
+    AccountState updatedAccountState =
+        au.update("Set Full Name", accountId, u -> u.setFullName("foo"));
+    assertThat(accountState.getAccount().getMetaId())
+        .isNotEqualTo(updatedAccountState.getAccount().getMetaId());
+    assertThat(updatedAccountState.getAccount().getMetaId()).isEqualTo(getMetaId(accountId));
   }
 
   private EmailInput newEmailInput(String email, boolean noConfirmation) {
@@ -2049,11 +2051,12 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(accountInfo.status).isNull();
     assertThat(accountInfo.name).isNotEqualTo(fullName);
 
-    Account updatedAccount = update.update("Set Full Name", admin.id, u -> u.setFullName(fullName));
+    AccountState updatedAccountState =
+        update.update("Set Full Name", admin.id, u -> u.setFullName(fullName));
     assertThat(doneBgUpdate.get()).isTrue();
 
-    assertThat(updatedAccount.getStatus()).isEqualTo(status);
-    assertThat(updatedAccount.getFullName()).isEqualTo(fullName);
+    assertThat(updatedAccountState.getAccount().getStatus()).isEqualTo(status);
+    assertThat(updatedAccountState.getAccount().getFullName()).isEqualTo(fullName);
 
     accountInfo = gApi.accounts().id(admin.id.get()).get();
     assertThat(accountInfo.status).isEqualTo(status);

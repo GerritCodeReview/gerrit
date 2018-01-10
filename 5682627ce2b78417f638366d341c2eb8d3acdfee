@@ -70,6 +70,30 @@
       "revId": "5682627ce2b78417f638366d341c2eb8d3acdfee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3046388b_445becb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-01-10T14:51:03Z",
+      "side": 1,
+      "message": "Ah, in that case I would strongly advice not to merge this. I think administrators must be able to override the configuration to obsolete, possible insecure values. Instead, could we adjust this patch so it only changes the default selection?",
+      "parentUuid": "0f6a8dea_0a86cb01",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 24
+      },
+      "revId": "5682627ce2b78417f638366d341c2eb8d3acdfee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1188,6 +1188,13 @@ bower_archive(
     version = "5.0.1",
 )
 
+bower_archive(
+    name = "google-diff-match-patch",
+    package = "friedolinfoerder/google-diff-match-patch",
+    sha1 = "4e778f8b7d784ba2a069d83d0cd146125c5c4fcb",
+    version = "0.1.0",
+)
+
 # Bower component transitive dependencies.
 load("//lib/js:bower_archives.bzl", "load_bower_archives")
 

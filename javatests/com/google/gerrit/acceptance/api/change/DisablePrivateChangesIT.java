@@ -47,7 +47,7 @@ public class DisablePrivateChangesIT extends AbstractDaemonTest {
   public void createPrivateChangeWithDisablePrivateChangesFalse() throws Exception {
     ChangeInput input = new ChangeInput(project.get(), "master", "empty change");
     input.isPrivate = true;
-    assertThat(gApi.changes().create(input).get().isPrivate).isEqualTo(true);
+    assertThat(gApi.changes().create(input).get().isPrivate).isTrue();
   }
 
   @Test
@@ -84,7 +84,7 @@ public class DisablePrivateChangesIT extends AbstractDaemonTest {
   public void pushPrivatesWithDisablePrivateChangesFalse() throws Exception {
     PushOneCommit.Result result =
         pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/master%private");
-    assertThat(result.getChange().change().isPrivate()).isEqualTo(true);
+    assertThat(result.getChange().change().isPrivate()).isTrue();
   }
 
   @Test
@@ -92,11 +92,12 @@ public class DisablePrivateChangesIT extends AbstractDaemonTest {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result result =
         pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/master%draft");
-    assertThat(result.getChange().change().isPrivate()).isEqualTo(true);
+    assertThat(result.getChange().change().isPrivate()).isTrue();
+    ;
 
     testRepo.reset(initialHead);
     result = pushFactory.create(db, admin.getIdent(), testRepo).to("refs/drafts/master");
-    assertThat(result.getChange().change().isPrivate()).isEqualTo(true);
+    assertThat(result.getChange().change().isPrivate()).isTrue();
   }
 
   @Test

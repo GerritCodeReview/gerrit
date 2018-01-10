@@ -1923,8 +1923,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     assertThat(info1.status).isEqualTo(ChangeStatus.NEW);
     assertThat(info2.status).isEqualTo(ChangeStatus.NEW);
-    assertThat(info1.isPrivate).isEqualTo(true);
-    assertThat(info2.isPrivate).isEqualTo(true);
+    assertThat(info1.isPrivate).isTrue();
+    assertThat(info2.isPrivate).isTrue();
     assertThat(info1.revisions).hasSize(1);
     assertThat(info2.revisions).hasSize(1);
   }

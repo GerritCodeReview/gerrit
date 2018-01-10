@@ -1195,7 +1195,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Map<String, List<CommentInfo>> comments = gApi.changes().id(id.get()).current().drafts();
     for (List<CommentInfo> cList : comments.values()) {
       for (CommentInfo ci : cList) {
-        assertThat(ci.unresolved).isEqualTo(true);
+        assertThat(ci.unresolved).isTrue();
       }
     }
   }

@@ -46,7 +46,7 @@ public class PrivateByDefaultIT extends AbstractDaemonTest {
   public void createChangeWithPrivateByDefaultEnabled() throws Exception {
     setPrivateByDefault(project2, InheritableBoolean.TRUE);
     ChangeInput input = new ChangeInput(project2.get(), "master", "empty change");
-    assertThat(gApi.changes().create(input).get().isPrivate).isEqualTo(true);
+    assertThat(gApi.changes().create(input).get().isPrivate).isTrue();
   }
 
   @Test
@@ -86,7 +86,7 @@ public class PrivateByDefaultIT extends AbstractDaemonTest {
   @Test
   public void pushWithPrivateByDefaultEnabled() throws Exception {
     setPrivateByDefault(project2, InheritableBoolean.TRUE);
-    assertThat(createChange(project2).getChange().change().isPrivate()).isEqualTo(true);
+    assertThat(createChange(project2).getChange().change().isPrivate()).isTrue();
   }
 
   @Test
@@ -97,18 +97,18 @@ public class PrivateByDefaultIT extends AbstractDaemonTest {
                 .getChange()
                 .change()
                 .isPrivate())
-        .isEqualTo(false);
+        .isFalse();
   }
 
   @Test
   public void pushWithPrivateByDefaultDisabled() throws Exception {
-    assertThat(createChange(project2).getChange().change().isPrivate()).isEqualTo(false);
+    assertThat(createChange(project2).getChange().change().isPrivate()).isFalse();
   }
 
   @Test
   public void pushBypassPrivateByDefaultInherited() throws Exception {
     setPrivateByDefault(project1, InheritableBoolean.TRUE);
-    assertThat(createChange(project2).getChange().change().isPrivate()).isEqualTo(true);
+    assertThat(createChange(project2).getChange().change().isPrivate()).isTrue();
   }
 
   @Test

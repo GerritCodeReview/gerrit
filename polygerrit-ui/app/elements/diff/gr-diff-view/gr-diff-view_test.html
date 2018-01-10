@@ -769,6 +769,92 @@ limitations under the License.
         assert.equal(result.previous, fileList[1]);
         assert.isNull(result.next);
       });
+
+      suite('skip next/previous', () => {
+        let navToChangeStub;
+        let navToDiffStub;
+
+        setup(() => {
+          navToChangeStub = sandbox.stub(element, '_navToChangeView');
+          navToDiffStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
+          element._fileList = [
+            'path/one.jpg', 'path/two.m4v', 'path/three.wav',
+          ];
+          element._patchRange = {patchNum: '2', basePatchNum: '1'};
+        });
+
+        suite('_moveToPreviousFileWithComment', () => {
+          test('no skips', () => {
+            element._moveToPreviousFileWithComment();
+            assert.isFalse(navToChangeStub.called);
+            assert.isFalse(navToDiffStub.called);
+          });
+
+          test('no previous', () => {
+            const commentMap = {};
+            commentMap[element._fileList[0]] = false;
+            commentMap[element._fileList[1]] = false;
+            commentMap[element._fileList[2]] = true;
+            element._commentMap = commentMap;
+            element._path = element._fileList[1];
+
+            element._commentSkips = {next: 'path/three.wav'};
+            element._moveToPreviousFileWithComment();
+            assert.isTrue(navToChangeStub.calledOnce);
+            assert.isFalse(navToDiffStub.called);
+          });
+
+          test('w/ previous', () => {
+            const commentMap = {};
+            commentMap[element._fileList[0]] = true;
+            commentMap[element._fileList[1]] = false;
+            commentMap[element._fileList[2]] = true;
+            element._commentMap = commentMap;
+            element._path = element._fileList[1];
+
+            element._commentSkips = {previous: 'path/one.jpg'};
+            element._moveToPreviousFileWithComment();
+            assert.isFalse(navToChangeStub.called);
+            assert.isTrue(navToDiffStub.calledOnce);
+          });
+        });
+
+        suite('_moveToNextFileWithComment', () => {
+          test('no skips', () => {
+            element._moveToNextFileWithComment();
+            assert.isFalse(navToChangeStub.called);
+            assert.isFalse(navToDiffStub.called);
+          });
+
+          test('no previous', () => {
+            const commentMap = {};
+            commentMap[element._fileList[0]] = true;
+            commentMap[element._fileList[1]] = false;
+            commentMap[element._fileList[2]] = false;
+            element._commentMap = commentMap;
+            element._path = element._fileList[1];
+
+            element._commentSkips = {next: 'path/three.wav'};
+            element._moveToNextFileWithComment();
+            assert.isTrue(navToChangeStub.calledOnce);
+            assert.isFalse(navToDiffStub.called);
+          });
+
+          test('w/ previous', () => {
+            const commentMap = {};
+            commentMap[element._fileList[0]] = true;
+            commentMap[element._fileList[1]] = false;
+            commentMap[element._fileList[2]] = true;
+            element._commentMap = commentMap;
+            element._path = element._fileList[1];
+
+            element._commentSkips = {previous: 'path/one.jpg'};
+            element._moveToNextFileWithComment();
+            assert.isFalse(navToChangeStub.called);
+            assert.isTrue(navToDiffStub.calledOnce);
+          });
+        });
+      });
     });
 
     test('_computeEditLoaded', () => {

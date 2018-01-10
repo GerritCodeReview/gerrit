@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1515531872 -0500\nnonce AGjzz380yBXbJBkf7klvHRg3Fn67TmcYRQDL+/cHcpkcDg6PYcN3GjviQi/AdeHe8tazI3WOwtBz\n\n0000000000000000000000000000000000000000 0d9cfd77e83c5e05776ad60bc7e26696efe8aa3d refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlpVLmAVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMz/YQAMSs7xvOUqoFujfWkgpVcNMmqQU6\n6WMcCVRKf11AzIFM+2wvIAhRjHL5CSKOqZsNOgYJbg64a7mKJqGzZBz0hrPorVj9\nqCX95HyskCOuHuz4b2f7YESs/jzgHUsSrw/KxVjB6FNQCn39f2Tr9AlIrOeagNT7\n0udH7X/RaFvWtvs3SDm2+CbWaaEF1MXoIfT5un+mb5pnQParLl4p7jy7OULL2kzh\nfFv8xBuCZg4YietVDQqBheddTbTzz1RrK+CnwTl2QorpiCXbgb46vKOwS6/9C7KR\nNNIb5EA0QVaUyQxGp1dwWQJNd07h/kX1nokR8/N+eJ4A3tUdZ5F6n6i3hbGLY/Qf\nlkTB6RQzOCQYluKm711i0h2/YdRvpQ7hdL3ts8Zqh1sBcbSsY2drxB2C7TwQHJGr\nE8M6k0eEnguM1GXFbtYQRzAUcK9lNb4gNiE3Z6fMpMeoks4ZaC95HNQltHv/B8NF\nrKuWvNmT9Z7DJ6ktr2qQUPvxYLNBl1KAaKDFFdUeJjwMDQ+xOVPehJ7LFLQ/cAiA\nenXvCos+lLx6fCDTomdYaVcBnRHJ9mMbmzc1MgMEDVAdRpSE/bQNTsqMSg9P6KX/\nP38IVgB7Lwcjo35/rk589ycwwteBrPQtKtYmCffvajM4rC92zvUJtp8JMJKWlkIW\n4JD63PB3eKEhZCGe\n\u003dvD9I\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9dc43ac_89a709f9",
+        "filename": "java/com/google/gerrit/server/util/RegexListSearcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-01-10T13:28:59Z",
+      "side": 1,
+      "message": "Could we use java.util.Function?",
+      "range": {
+        "startLine": 19,
+        "startChar": 7,
+        "endLine": 19,
+        "endChar": 38
+      },
+      "revId": "0d9cfd77e83c5e05776ad60bc7e26696efe8aa3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "929fd70f_e64301e1",
+        "filename": "javatests/com/google/gerrit/server/util/RegexListSearcherTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-01-10T13:28:59Z",
+      "side": 1,
+      "message": "optional as unrelated: It\u0027s kind of strange that RegexListSearcher expects a sorted list without somehow enforcing/verifying that the list is sorted. (For instance, RegexPathPredicate passes the result of ChangeData#currentFilePaths to RegexListSearcher and I don\u0027t remember that we are enforcing e.g. via tests that those file paths are sorted lexicographically.) I wonder if RegexListSearcher#search shouldn\u0027t rather take ImmutableSortedSet as input.",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 35
+      },
+      "revId": "0d9cfd77e83c5e05776ad60bc7e26696efe8aa3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

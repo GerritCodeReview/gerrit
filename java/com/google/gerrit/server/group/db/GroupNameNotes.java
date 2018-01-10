@@ -68,6 +68,77 @@ public class GroupNameNotes extends VersionedMetaData {
   @VisibleForTesting
   static final String UNIQUE_REF_ERROR = "GroupReference collection must contain unique references";
 
+  public static GroupNameNotes loadForRename(
+      Repository repository,
+      AccountGroup.UUID groupUuid,
+      AccountGroup.NameKey oldName,
+      AccountGroup.NameKey newName)
+      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
+    checkNotNull(oldName);
+    checkNotNull(newName);
+
+    GroupNameNotes groupNameNotes = new GroupNameNotes(groupUuid, oldName, newName);
+    groupNameNotes.load(repository);
+    groupNameNotes.ensureNewNameIsNotUsed();
+    return groupNameNotes;
+  }
+
+  public static GroupNameNotes loadForNewGroup(
+      Repository repository, AccountGroup.UUID groupUuid, AccountGroup.NameKey groupName)
+      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
+    checkNotNull(groupName);
+
+    GroupNameNotes groupNameNotes = new GroupNameNotes(groupUuid, null, groupName);
+    groupNameNotes.load(repository);
+    groupNameNotes.ensureNewNameIsNotUsed();
+    return groupNameNotes;
+  }
+
+  public static Optional<GroupReference> loadOneGroupReference(
+      Repository allUsersRepo, String groupName) throws IOException, ConfigInvalidException {
+    Ref ref = allUsersRepo.exactRef(RefNames.REFS_GROUPNAMES);
+    if (ref == null) {
+      return Optional.empty();
+    }
+
+    try (RevWalk revWalk = new RevWalk(allUsersRepo);
+        ObjectReader reader = revWalk.getObjectReader()) {
+      RevCommit notesCommit = revWalk.parseCommit(ref.getObjectId());
+      NoteMap noteMap = NoteMap.read(reader, notesCommit);
+      ObjectId noteDataBlobId = noteMap.get(getNoteKey(new AccountGroup.NameKey(groupName)));
+      if (noteDataBlobId == null) {
+        return Optional.empty();
+      }
+      return Optional.of(getGroupReference(reader, noteDataBlobId));
+    }
+  }
+
+  public static ImmutableSet<GroupReference> loadAllGroupReferences(Repository repository)
+      throws IOException, ConfigInvalidException {
+    Ref ref = repository.exactRef(RefNames.REFS_GROUPNAMES);
+    if (ref == null) {
+      return ImmutableSet.of();
+    }
+    try (RevWalk revWalk = new RevWalk(repository);
+        ObjectReader reader = revWalk.getObjectReader()) {
+      RevCommit notesCommit = revWalk.parseCommit(ref.getObjectId());
+      NoteMap noteMap = NoteMap.read(reader, notesCommit);
+
+      Set<GroupReference> groupReferences = new LinkedHashSet<>();
+      for (Note note : noteMap) {
+        GroupReference groupReference = getGroupReference(reader, note.getData());
+        boolean result = groupReferences.add(groupReference);
+        if (!result) {
+          GroupsNoteDbConsistencyChecker.logConsistencyProblemAsWarning(
+              "The UUID of group %s (%s) is duplicate in group name notes",
+              groupReference.getName(), groupReference.getUUID());
+        }
+      }
+
+      return ImmutableSet.copyOf(groupReferences);
+    }
+  }
+
   public static void updateGroupNames(
       Repository allUsersRepo,
       ObjectInserter inserter,
@@ -141,77 +212,6 @@ public class GroupNameNotes extends VersionedMetaData {
     } else {
       this.oldGroupName = Optional.ofNullable(oldGroupName);
       this.newGroupName = Optional.ofNullable(newGroupName);
-    }
-  }
-
-  public static GroupNameNotes loadForRename(
-      Repository repository,
-      AccountGroup.UUID groupUuid,
-      AccountGroup.NameKey oldName,
-      AccountGroup.NameKey newName)
-      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
-    checkNotNull(oldName);
-    checkNotNull(newName);
-
-    GroupNameNotes groupNameNotes = new GroupNameNotes(groupUuid, oldName, newName);
-    groupNameNotes.load(repository);
-    groupNameNotes.ensureNewNameIsNotUsed();
-    return groupNameNotes;
-  }
-
-  public static GroupNameNotes loadForNewGroup(
-      Repository repository, AccountGroup.UUID groupUuid, AccountGroup.NameKey groupName)
-      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
-    checkNotNull(groupName);
-
-    GroupNameNotes groupNameNotes = new GroupNameNotes(groupUuid, null, groupName);
-    groupNameNotes.load(repository);
-    groupNameNotes.ensureNewNameIsNotUsed();
-    return groupNameNotes;
-  }
-
-  public static ImmutableSet<GroupReference> loadAllGroupReferences(Repository repository)
-      throws IOException, ConfigInvalidException {
-    Ref ref = repository.exactRef(RefNames.REFS_GROUPNAMES);
-    if (ref == null) {
-      return ImmutableSet.of();
-    }
-    try (RevWalk revWalk = new RevWalk(repository);
-        ObjectReader reader = revWalk.getObjectReader()) {
-      RevCommit notesCommit = revWalk.parseCommit(ref.getObjectId());
-      NoteMap noteMap = NoteMap.read(reader, notesCommit);
-
-      Set<GroupReference> groupReferences = new LinkedHashSet<>();
-      for (Note note : noteMap) {
-        GroupReference groupReference = getGroupReference(reader, note.getData());
-        boolean result = groupReferences.add(groupReference);
-        if (!result) {
-          GroupsNoteDbConsistencyChecker.logConsistencyProblemAsWarning(
-              "The UUID of group %s (%s) is duplicate in group name notes",
-              groupReference.getName(), groupReference.getUUID());
-        }
-      }
-
-      return ImmutableSet.copyOf(groupReferences);
-    }
-  }
-
-  public static Optional<GroupReference> loadOneGroupReference(
-      Repository allUsersRepo, String groupName) throws IOException, ConfigInvalidException {
-    Ref ref = allUsersRepo.exactRef(RefNames.REFS_GROUPNAMES);
-    if (ref == null) {
-      return Optional.empty();
-    }
-
-    try (RevWalk revWalk = new RevWalk(allUsersRepo);
-        ObjectReader reader = revWalk.getObjectReader()) {
-      RevCommit notesCommit = revWalk.parseCommit(ref.getObjectId());
-      NoteMap noteMap = NoteMap.read(reader, notesCommit);
-      ObjectId noteDataBlobId = noteMap.get(getNoteKey(new AccountGroup.NameKey(groupName)));
-      if (noteDataBlobId == null) {
-        return Optional.empty();
-      }
-      return Optional.of(getGroupReference(reader, noteDataBlobId));
     }
   }
 

@@ -188,5 +188,26 @@
       e.preventDefault();
       if (!this._saveDisabled) { this._saveEdit(); }
     },
+
+    _handleEditPrefsTap(e) {
+      e.preventDefault();
+      this.open();
+    },
+
+    open() {
+      this.$.editPrefsOverlay.open().then(() => {
+        this.$.editPrefs.loadData();
+      });
+    },
+
+    _handleSave(e) {
+      this.$.editPrefs.save().then(() => {
+        this.$.editPrefsOverlay.close();
+      });
+    },
+    _handleCancel(e) {
+      e.stopPropagation();
+      this.$.editPrefsOverlay.close();
+    },
   });
 })();

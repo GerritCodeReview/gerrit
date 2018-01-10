@@ -25,12 +25,16 @@
       },
 
       /** @type {?} */
-      editPrefs: Object,
+      editPrefs: {
+        type: Object,
+        notify: true,
+      },
     },
 
     loadData() {
       return this.$.restAPI.getEditPreferences().then(prefs => {
         this.editPrefs = prefs;
+        this.newPrefs = prefs;
       });
     },
 
@@ -82,7 +86,12 @@
 
     save() {
       return this.$.restAPI.saveEditPreferences(this.editPrefs)
-          .then(() => { this.hasUnsavedChanges = false; });
+          .then(() => {
+            this.hasUnsavedChanges = false;
+            this.$.restAPI.getEditPreferences().then(prefs => {
+              this.newPrefs = prefs;
+            });
+          });
     },
   });
 })();

@@ -25,6 +25,8 @@
     CHERRY_PICK: 'Cherry Pick',
   };
 
+  const NOT_CURRENT_MESSAGE = 'Not current - rebase possible';
+
   Polymer({
     is: 'gr-change-metadata',
 
@@ -46,6 +48,12 @@
        * @type {{ note_db_enabled: string }}
        */
       serverConfig: Object,
+      parentIsCurrent: Boolean,
+      _notCurrentMessage: {
+        type: String,
+        value: NOT_CURRENT_MESSAGE,
+        readOnly: true,
+      },
       _topicReadOnly: {
         type: Boolean,
         computed: '_computeTopicReadOnly(mutable, change)',
@@ -425,8 +433,12 @@
       return parents.length > 1 ? 'Parents' : 'Parent';
     },
 
-    _computeParentListClass(parents) {
-      return parents.length > 1 ? 'parentList merge' : 'parentList';
+    _computeParentListClass(parents, parentIsCurrent) {
+      return [
+        'parentList',
+        parents.length > 1 ? 'merge' : '',
+        !parentIsCurrent ? 'notCurrent' : '',
+      ].join(' ');
     },
   });
 })();

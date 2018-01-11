@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9887fe99_8a3b4074",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-11T23:49:57Z",
+      "side": 1,
+      "message": "According to StringUtils.toLowerCase javadoc it only converts characters in the range A-Z and ignores the JVM\u0027s locale. Was that the intention? Everywhere else in this class the regular String.toLowerCase is used.",
+      "range": {
+        "startLine": 607,
+        "startChar": 22,
+        "endLine": 607,
+        "endChar": 54
+      },
+      "revId": "57bec121299784abd2d1ef7e081e8681b8a96f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

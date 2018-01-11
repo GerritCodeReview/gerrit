@@ -1842,7 +1842,8 @@ class ReceiveCommits {
           logDebug("Creating new change for {} even though it is already tracked", name);
         }
 
-        if (!validCommit(rp.getRevWalk(), magicBranch.perm, magicBranch.dest, magicBranch.cmd, c)) {
+        if (!validCommit(
+            rp.getRevWalk(), magicBranch.perm, magicBranch.dest, magicBranch.cmd, c, null)) {
           // Not a change the user can propose? Abort as early as possible.
           newChanges = Collections.emptyList();
           logDebug("Aborting early due to invalid commit");
@@ -2420,7 +2421,7 @@ class ReceiveCommits {
       }
 
       PermissionBackend.ForRef perm = permissions.ref(change.getDest().get());
-      if (!validCommit(rp.getRevWalk(), perm, change.getDest(), inputCommand, newCommit)) {
+      if (!validCommit(rp.getRevWalk(), perm, change.getDest(), inputCommand, newCommit, change)) {
         return false;
       }
       rp.getRevWalk().parseBody(priorCommit);
@@ -2784,7 +2785,7 @@ class ReceiveCommits {
         }
         if (existing.keySet().contains(c)) {
           continue;
-        } else if (!validCommit(walk, perm, branch, cmd, c)) {
+        } else if (!validCommit(walk, perm, branch, cmd, c, null)) {
           break;
         }
 
@@ -2806,7 +2807,8 @@ class ReceiveCommits {
       PermissionBackend.ForRef perm,
       Branch.NameKey branch,
       ReceiveCommand cmd,
-      ObjectId id)
+      ObjectId id,
+      @Nullable Change change)
       throws IOException {
 
     if (validCommits.contains(id)) {
@@ -2826,7 +2828,7 @@ class ReceiveCommits {
           isMerged
               ? commitValidatorsFactory.forMergedCommits(perm, user.asIdentifiedUser())
               : commitValidatorsFactory.forReceiveCommits(
-                  perm, branch, user.asIdentifiedUser(), sshInfo, repo, rw);
+                  perm, branch, user.asIdentifiedUser(), sshInfo, repo, rw, change);
       messages.addAll(validators.validate(receiveEvent));
     } catch (CommitValidationException e) {
       logDebug("Commit validation failed on {}", c.name());

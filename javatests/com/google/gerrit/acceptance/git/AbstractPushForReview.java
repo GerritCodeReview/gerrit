@@ -106,6 +106,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
+import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -1318,6 +1319,24 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
     saveProjectConfig(project, config);
     pushForReviewOk(testRepo);
+  }
+
+  @Test
+  public void testPushWithChangedChangeId() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+    PushOneCommit push =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT + "\n\n"
+                + "Change-Id: I55eab7c7a76e95005fa9cc469aa8f9fc16da9eba\n",
+            "b.txt",
+            "anotherContent",
+            r.getChangeId());
+    r = push.to("refs/changes/" + r.getChange().change().getId().get());
+    r.assertErrorStatus();
   }
 
   @Test

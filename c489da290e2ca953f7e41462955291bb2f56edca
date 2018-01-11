@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a903af6b_a672f311",
+        "filename": "polygerrit-ui/app/styles/shared-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-11T19:02:57Z",
+      "side": 1,
+      "message": "Not new, but I wonder if the separator should just always have a transparent background? Then we could remove the transparent class.",
+      "range": {
+        "startLine": 96,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 7
+      },
+      "revId": "c489da290e2ca953f7e41462955291bb2f56edca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

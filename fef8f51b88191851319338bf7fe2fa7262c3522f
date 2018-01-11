@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "7c7494f0_8adec56d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-01-11T09:13:02Z",
+      "side": 1,
+      "message": "That\u0027s too much of a detail for a Gerrit admin: most of them are not Java developers and do not know what is an annotation and have no time, will and skills to open and understand Gerrit Java source code.",
+      "range": {
+        "startLine": 152,
+        "startChar": 56,
+        "endLine": 152,
+        "endChar": 83
+      },
+      "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20962478_a660e5dc",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-01-11T09:13:02Z",
+      "side": 1,
+      "message": "Why only SSH? It would make sense to use it for any sensitive data masking, not only the one related to SSH commands.",
+      "range": {
+        "startLine": 152,
+        "startChar": 9,
+        "endLine": 152,
+        "endChar": 12
+      },
+      "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f9e5f6c_7f9307ab",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 14
@@ -135,6 +181,46 @@
         "endLine": 155,
         "endChar": 23
       },
+      "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "472d428e_10068863",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-01-11T09:13:02Z",
+      "side": 1,
+      "message": "Don\u0027t like nulls in sets variables because it will make all your code less readable with the ifnulls. Why don\u0027t you just initialise with an empty set?",
+      "range": {
+        "startLine": 102,
+        "startChar": 22,
+        "endLine": 102,
+        "endChar": 42
+      },
+      "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9526da59_fb288430",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshCommandSensitiveFieldsCache.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-01-11T09:13:02Z",
+      "side": 1,
+      "message": "Does this mean that even plugins would then be able to flag some of their parameters as sensitive?",
       "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

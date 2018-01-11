@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "16fc03ee_8ae64615",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-11T00:33:21Z",
+      "side": 1,
+      "message": "No, this is as intended, although I guess this change makes it sorta confusing because I added a hyphenated attribute in non-native-land.\n\nSince this is a vanilla input element, this is the old fashioned maxlength attribute, which is not hyphenated.\n\n* https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes",
+      "parentUuid": "e7c5f6c7_c65e074a",
+      "range": {
+        "startLine": 72,
+        "startChar": 14,
+        "endLine": 72,
+        "endChar": 23
+      },
+      "revId": "5d7f52d0a88d8c7146f2cf447f70179b049eef40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "167b3991_53d20edc",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "5d7f52d0a88d8c7146f2cf447f70179b049eef40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2db74aa6_259debba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-11T00:33:21Z",
+      "side": 1,
+      "message": "Like above, this is intended, paper-input relays this attribute to its native input.",
+      "parentUuid": "167b3991_53d20edc",
+      "range": {
+        "startLine": 93,
+        "startChar": 16,
+        "endLine": 93,
+        "endChar": 25
+      },
+      "revId": "5d7f52d0a88d8c7146f2cf447f70179b049eef40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

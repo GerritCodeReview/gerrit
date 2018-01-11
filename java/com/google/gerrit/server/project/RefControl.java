@@ -114,7 +114,7 @@ class RefControl {
 
   /** @return true if this user can rebase changes on this ref */
   boolean canRebase() {
-    return canPerform(Permission.REBASE) && isProjectStatePermittingWrite();
+    return canPerform(Permission.REBASE);
   }
 
   /** @return true if this user can submit patch sets to this ref */

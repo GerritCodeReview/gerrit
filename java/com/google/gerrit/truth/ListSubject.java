@@ -30,8 +30,7 @@ public class ListSubject<S extends Subject<S, E>, E> extends IterableSubject {
   @SuppressWarnings("unchecked")
   public static <S extends Subject<S, E>, E> ListSubject<S, E> assertThat(
       List<E> list, Function<E, S> elementAssertThatFunction) {
-    // The ListSubjectFactory always returns ListSubjects.
-    // -> Casting is appropriate.
+    // The ListSubjectFactory always returns ListSubjects. -> Casting is appropriate.
     return (ListSubject<S, E>)
         assertAbout(new ListSubjectFactory<>(elementAssertThatFunction)).that(list);
   }
@@ -44,11 +43,8 @@ public class ListSubject<S extends Subject<S, E>, E> extends IterableSubject {
 
   public S element(int index) {
     checkArgument(index >= 0, "index(%s) must be >= 0", index);
-    // The constructor only accepts lists.
-    // -> Casting is appropriate.
-    @SuppressWarnings("unchecked")
-    List<E> list = (List<E>) actual();
     isNotNull();
+    List<E> list = getActualList();
     if (index >= list.size()) {
       fail("has an element at index " + index);
     }
@@ -61,11 +57,23 @@ public class ListSubject<S extends Subject<S, E>, E> extends IterableSubject {
     return element(0);
   }
 
+  public S lastElement() {
+    isNotNull();
+    isNotEmpty();
+    List<E> list = getActualList();
+    return element(list.size() - 1);
+  }
+
+  @SuppressWarnings("unchecked")
+  private List<E> getActualList() {
+    // The constructor only accepts lists. -> Casting is appropriate.
+    return (List<E>) actual();
+  }
+
   @SuppressWarnings("unchecked")
   @Override
   public ListSubject<S, E> named(String s, Object... objects) {
-    // This object is returned which is of type ListSubject.
-    // -> Casting is appropriate.
+    // This object is returned which is of type ListSubject. -> Casting is appropriate.
     return (ListSubject<S, E>) super.named(s, objects);
   }
 
@@ -81,8 +89,7 @@ public class ListSubject<S extends Subject<S, E>, E> extends IterableSubject {
     @SuppressWarnings("unchecked")
     @Override
     public ListSubject<S, T> createSubject(FailureMetadata failureMetadata, Iterable<?> objects) {
-      // The constructor of ListSubject only accepts lists.
-      // -> Casting is appropriate.
+      // The constructor of ListSubject only accepts lists. -> Casting is appropriate.
       return new ListSubject<>(failureMetadata, (List<T>) objects, elementAssertThatFunction);
     }
   }

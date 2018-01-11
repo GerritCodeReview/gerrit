@@ -195,8 +195,8 @@ public class GroupNameNotes extends VersionedMetaData {
   }
 
   private final AccountGroup.UUID groupUuid;
-  private final Optional<AccountGroup.NameKey> oldGroupName;
-  private final Optional<AccountGroup.NameKey> newGroupName;
+  private Optional<AccountGroup.NameKey> oldGroupName;
+  private Optional<AccountGroup.NameKey> newGroupName;
 
   private boolean nameConflicting;
 
@@ -277,6 +277,9 @@ public class GroupNameNotes extends VersionedMetaData {
 
     commit.setTreeId(noteMap.writeTree(inserter));
     commit.setMessage(getCommitMessage());
+
+    oldGroupName = Optional.empty();
+    newGroupName = Optional.empty();
 
     return true;
   }

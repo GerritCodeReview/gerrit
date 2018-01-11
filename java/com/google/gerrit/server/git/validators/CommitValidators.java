@@ -19,6 +19,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.FooterConstants;
@@ -30,6 +31,8 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Branch.NameKey;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -45,6 +48,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
@@ -124,7 +128,8 @@ public class CommitValidators {
         IdentifiedUser user,
         SshInfo sshInfo,
         Repository repo,
-        RevWalk rw)
+        RevWalk rw,
+        @Nullable Change change)
         throws IOException {
       NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo, rw);
       ProjectState projectState = projectCache.checkedGet(branch.getParentKey());
@@ -136,7 +141,12 @@ public class CommitValidators {
               new CommitterUploaderValidator(user, perm, canonicalWebUrl),
               new SignedOffByValidator(user, perm, projectState),
               new ChangeIdValidator(
-                  projectState, user, canonicalWebUrl, installCommitMsgHookCommand, sshInfo),
+                  projectState,
+                  user,
+                  canonicalWebUrl,
+                  installCommitMsgHookCommand,
+                  sshInfo,
+                  change),
               new ConfigValidator(branch, user, rw, allUsers, allProjects),
               new BannedCommitsValidator(rejectCommits),
               new PluginCommitValidationListener(pluginValidators),
@@ -146,11 +156,12 @@ public class CommitValidators {
     }
 
     public CommitValidators forGerritCommits(
-        PermissionBackend.ForRef perm,
-        Branch.NameKey branch,
+        ForRef perm,
+        NameKey branch,
         IdentifiedUser user,
         SshInfo sshInfo,
-        RevWalk rw)
+        RevWalk rw,
+        @Nullable Change change)
         throws IOException {
       return new CommitValidators(
           ImmutableList.of(
@@ -163,7 +174,8 @@ public class CommitValidators {
                   user,
                   canonicalWebUrl,
                   installCommitMsgHookCommand,
-                  sshInfo),
+                  sshInfo,
+                  change),
               new ConfigValidator(branch, user, rw, allUsers, allProjects),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
@@ -228,6 +240,15 @@ public class CommitValidators {
         "[%s] invalid "
             + FooterConstants.CHANGE_ID.getName()
             + " line format in commit message footer";
+
+    @VisibleForTesting
+    public static final String CHANGE_ID_MISMATCH_MSG =
+        "[%s] "
+            + FooterConstants.CHANGE_ID.getName()
+            + " in commit message footer does not match"
+            + FooterConstants.CHANGE_ID.getName()
+            + " of target change";
+
     private static final Pattern CHANGE_ID = Pattern.compile(CHANGE_ID_PATTERN);
 
     private final ProjectState projectState;
@@ -235,18 +256,21 @@ public class CommitValidators {
     private final String installCommitMsgHookCommand;
     private final SshInfo sshInfo;
     private final IdentifiedUser user;
+    private final Change change;
 
     public ChangeIdValidator(
         ProjectState projectState,
         IdentifiedUser user,
         String canonicalWebUrl,
         String installCommitMsgHookCommand,
-        SshInfo sshInfo) {
+        SshInfo sshInfo,
+        Change change) {
       this.projectState = projectState;
       this.canonicalWebUrl = canonicalWebUrl;
       this.installCommitMsgHookCommand = installCommitMsgHookCommand;
       this.sshInfo = sshInfo;
       this.user = user;
+      this.change = change;
     }
 
     @Override
@@ -286,7 +310,12 @@ public class CommitValidators {
           messages.add(getMissingChangeIdErrorMsg(errMsg, receiveEvent.commit));
           throw new CommitValidationException(errMsg, messages);
         }
+        if (change != null && !v.equals(change.getKey().get())) {
+          String errMsg = String.format(CHANGE_ID_MISMATCH_MSG, sha1);
+          throw new CommitValidationException(errMsg);
+        }
       }
+
       return Collections.emptyList();
     }
 

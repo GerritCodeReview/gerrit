@@ -141,6 +141,7 @@
           this._newContent).then(res => {
             this._saving = false;
             this._showAlert(res.ok ? SAVED_MESSAGE : SAVE_FAILED_MSG);
+            if (res.ok) { this._content = this._newContent; }
           });
     },
 

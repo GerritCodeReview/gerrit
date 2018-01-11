@@ -167,6 +167,7 @@ suite('gr-editor-view tests', () => {
             [mockParams.changeNum, mockParams.path, newText]);
         assert.isFalse(navigateStub.called);
         assert.isFalse(element.$.save.hasAttribute('disabled'));
+        assert.notEqual(element._content, element._newContent);
       });
     });
 
@@ -191,7 +192,8 @@ suite('gr-editor-view tests', () => {
         assert.isFalse(element._saving);
         assert.equal(alertStub.lastCall.args[0], 'All changes saved');
         assert.isFalse(navigateStub.called);
-        assert.isFalse(element.$.save.hasAttribute('disabled'));
+        assert.isTrue(element.$.save.hasAttribute('disabled'));
+        assert.equal(element._content, element._newContent);
       });
     });
 

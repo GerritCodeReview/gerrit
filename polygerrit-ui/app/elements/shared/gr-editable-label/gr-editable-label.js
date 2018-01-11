@@ -51,6 +51,7 @@
         reflectToAttribute: true,
         value: false,
       },
+      maxLength: Number,
       _inputText: String,
       // This is used to push the iron-input element up on the page, so
       // the input is placed in approximately the same position as the

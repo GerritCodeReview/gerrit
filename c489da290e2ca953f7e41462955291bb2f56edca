@@ -22,6 +22,30 @@
       "revId": "c489da290e2ca953f7e41462955291bb2f56edca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6588f1d2_c85c8bc5",
+        "filename": "polygerrit-ui/app/styles/shared-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-11T19:06:37Z",
+      "side": 1,
+      "message": "If the separator had a transparent background, there would be no vertical line and thus no actual separator. The transparent class is used in cases like separating buttons so that we maintain a consistent width that is more refactor-proof.",
+      "parentUuid": "a903af6b_a672f311",
+      "range": {
+        "startLine": 96,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 7
+      },
+      "revId": "c489da290e2ca953f7e41462955291bb2f56edca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

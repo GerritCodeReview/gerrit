@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b4ae1465_a3a63feb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2018-01-11T16:04:10Z",
+      "side": 1,
+      "message": "\u003e Long-term, I envision a way to toggle any of the annotation layers that are installed.\n\u003e \n\u003e In this sense, I think the ability to toggle annotations does not belong in the plugin API. After plugins have defined layers into the overall layer list, we could allow the user to toggle any of them (plugin layer or otherwise), which would have the effect of filtering the list.\n\u003e \n\u003e In other words, I expect layer toggling to eventually be a feature general to all layers not just plugins, so it seems good to avoid defining a new plugin API surface for a feature that all plugins should eventually get for free.\n\nThat sounds great to me.\nIs there a bug tracking this work? We can re-purpose https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d8077 for this if that is convenient.\n\n\u003e \n\u003e For the short-term, regarding coverage plugin specifically, would it be possible to add this toggle as part of the coverage plugin itself (or as an additional plugin) using the current plugin API?\n\nYes, that is what I had done in an earlier patchset of this change: https://gerrit-review.googlesource.com/c/gerrit/+/150210/4\nIt is hacky because it relies on the existence of two elements. I personally do not mind the hardcoding in the short term till the feature you mentioned is added. WDYT?",
+      "parentUuid": "1779da9c_b7f8b903",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "ad5c3aaa892505c3e1c258b91341a3ed73ab19d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "776d4302_05befca1",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
         "patchSetId": 10

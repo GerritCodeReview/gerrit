@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "968fcb76_b5455568",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-11T08:37:17Z",
+      "side": 1,
+      "message": "parameters",
+      "range": {
+        "startLine": 152,
+        "startChar": 21,
+        "endLine": 152,
+        "endChar": 30
+      },
+      "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f9e5f6c_7f9307ab",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-11T08:37:17Z",
+      "side": 1,
+      "message": "Rather than saying \"not included\" it would be better to say \"masked\" or \"obfuscated\".",
+      "range": {
+        "startLine": 153,
+        "startChar": 3,
+        "endLine": 153,
+        "endChar": 15
+      },
+      "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "544583c1_2ab030d2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-11T08:37:17Z",
+      "side": 1,
+      "message": "in audit logs",
+      "range": {
+        "startLine": 153,
+        "startChar": 16,
+        "endLine": 153,
+        "endChar": 25
+      },
+      "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08bbb471_7341209a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-11T08:37:17Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 2
+      },
+      "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a17f6c91_86b6bf9f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-11T08:37:17Z",
+      "side": 1,
+      "message": "affects",
+      "range": {
+        "startLine": 155,
+        "startChar": 17,
+        "endLine": 155,
+        "endChar": 23
+      },
+      "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -29,6 +29,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-label/gr-label.html">
 <link rel="import" href="../../shared/gr-linked-chip/gr-linked-chip.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../gr-commit-info/gr-commit-info.html">
 <link rel="import" href="../gr-reviewer-list/gr-reviewer-list.html">
 
 <dom-module id="gr-change-metadata">
@@ -223,6 +224,17 @@ limitations under the License.
         <span class="title">Branch</span>
         <span class="value">
           <a href$="[[_computeBranchURL(change.project, change.branch)]]">[[change.branch]]</a>
+        </span>
+      </section>
+      <section>
+        <span class="title">[[_computeParentsLabel(_currentParents)]]</span>
+        <span class="value">
+          <template is="dom-repeat" items="[[_currentParents]]" as="parent">
+            <gr-commit-info
+                change="[[change]]"
+                commit-info="[[parent]]"
+                server-config="[[serverConfig]]"></gr-commit-info>
+          </template>
         </span>
       </section>
       <section class="topic">

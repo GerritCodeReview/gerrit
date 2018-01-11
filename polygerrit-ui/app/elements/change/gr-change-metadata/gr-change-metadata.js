@@ -74,6 +74,11 @@
         type: Boolean,
         value: false,
       },
+
+      _currentParents: {
+        type: Array,
+        computed: '_computeParents(change)',
+      },
     },
 
     behaviors: [
@@ -405,6 +410,19 @@
       }
 
       return rev.uploader;
+    },
+
+    _computeParents(change) {
+      if (!change.current_revision ||
+          !change.revisions[change.current_revision] ||
+          !change.revisions[change.current_revision].commit) {
+        return undefined;
+      }
+      return change.revisions[change.current_revision].commit.parents;
+    },
+
+    _computeParentsLabel(parents) {
+      return parents.length > 1 ? 'Parents' : 'Parent';
     },
   });
 })();

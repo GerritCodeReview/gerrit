@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1779da9c_b7f8b903",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-11T01:44:05Z",
+      "side": 1,
+      "message": "Long-term, I envision a way to toggle any of the annotation layers that are installed.\n\nIn this sense, I think the ability to toggle annotations does not belong in the plugin API. After plugins have defined layers into the overall layer list, we could allow the user to toggle any of them (plugin layer or otherwise), which would have the effect of filtering the list.\n\nIn other words, I expect layer toggling to eventually be a feature general to all layers not just plugins, so it seems good to avoid defining a new plugin API surface for a feature that all plugins should eventually get for free.\n\nFor the short-term, regarding coverage plugin specifically, would it be possible to add this toggle as part of the coverage plugin itself (or as an additional plugin) using the current plugin API?",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "ad5c3aaa892505c3e1c258b91341a3ed73ab19d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "776d4302_05befca1",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
         "patchSetId": 10

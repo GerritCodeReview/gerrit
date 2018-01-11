@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "698d56c9_878ab5dc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-11T22:24:25Z",
+      "side": 1,
+      "message": "Should probably add a test for this function",
+      "range": {
+        "startLine": 415,
+        "startChar": 4,
+        "endLine": 415,
+        "endChar": 19
+      },
+      "revId": "e41d5421d5e3b2336314fe6690e058c4a698eabc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

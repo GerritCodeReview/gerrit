@@ -79,6 +79,30 @@
     },
     {
       "key": {
+        "uuid": "8d324459_3ea56152",
+        "filename": "java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-11T11:05:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04fd33b4_7096be4c",
+      "range": {
+        "startLine": 128,
+        "startChar": 46,
+        "endLine": 128,
+        "endChar": 49
+      },
+      "revId": "561ae1232038e4199bb1bc858f761ea6202b3f03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ba6061e_091bac1c",
         "filename": "java/com/google/gerrit/server/account/WatchConfig.java",
         "patchSetId": 1
@@ -126,6 +150,24 @@
       "side": 1,
       "message": "Well, I was talking about ImmutableMap, not multimaps. But actually given my comment above that these should be ImmutableSets, that won\u0027t work either. I think you will have to manually deep copy (possibly using an ImmutableMap.Builder, but at this point I don\u0027t really care).",
       "parentUuid": "241d95d8_67966db7",
+      "revId": "561ae1232038e4199bb1bc858f761ea6202b3f03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25537a9_25839f26",
+        "filename": "java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-11T11:05:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3837251d_82479a23",
       "revId": "561ae1232038e4199bb1bc858f761ea6202b3f03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

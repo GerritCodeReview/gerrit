@@ -182,6 +182,24 @@
       "revId": "c47e2a26f3c05f9456de9d315a87559575bc7db3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06471c81_552a3303",
+        "filename": "javatests/com/google/gerrit/gpg/GerritPublicKeyCheckerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-11T15:04:41Z",
+      "side": 1,
+      "message": "\u003e In my scenario, the old ObjectId observed in commitAccountConfig is B, even though\n\u003e the data in the AccountState exposed to the AccountUpdater is A.\n\nSorry, I still don\u0027t get why this would not work. \n[1] adds a test for this and it seems to work. Maybe you can point out on it where is the flaw?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/151675",
+      "parentUuid": "2e15b240_4119e68f",
+      "revId": "c47e2a26f3c05f9456de9d315a87559575bc7db3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

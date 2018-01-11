@@ -3,6 +3,7 @@ Short Version:
  - Make small logical changes.
  - Provide a meaningful commit message.
  - Make sure all code is under the Apache License, 2.0.
+ - Make sure all commit messages have a Change-Id.
  - Publish your changes for review:
 
    git push https://gerrit.googlesource.com/gerrit HEAD:refs/for/master
@@ -66,6 +67,13 @@ they have right to redistribute your work under the Apache License:
 Ensure you have obtained a unique HTTP password to identify yourself:
 
   https://gerrit-review.googlesource.com/#/settings/http-password
+
+Ensure you have installed the commit-msg hook that automatically
+generates and inserts a Change-Id line during "git commit".  This can
+be done from the root directory of the local Git repository:
+
+   curl -Lo .git/hooks/commit-msg https://gerrit-review.googlesource.com/tools/hooks/commit-msg
+   chmod +x .git/hooks/commit-msg
 
 Push your patches over HTTPS to the review server, possibly through
 a remembered remote to make this easier in the future:

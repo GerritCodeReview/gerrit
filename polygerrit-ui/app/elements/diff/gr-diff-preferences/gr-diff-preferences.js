@@ -117,7 +117,7 @@
 
     _handlePrefsTap(e) {
       e.preventDefault();
-      this._openPrefs();
+      this.open();
     },
 
     open() {

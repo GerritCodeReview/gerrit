@@ -71,9 +71,7 @@ public class CreateRefControl {
     if (ps == null) {
       throw new NoSuchProjectException(branch.getParentKey());
     }
-    if (!ps.getProject().getState().permitsWrite()) {
-      throw new AuthException("project state does not permit write");
-    }
+    ps.checkStatePermitsWrite();
 
     PermissionBackend.ForRef perm = permissionBackend.user(user).ref(branch);
     if (object instanceof RevCommit) {

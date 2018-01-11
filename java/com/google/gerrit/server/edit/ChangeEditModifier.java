@@ -40,6 +40,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -83,6 +84,7 @@ public class ChangeEditModifier {
   private final PermissionBackend permissionBackend;
   private final ChangeEditUtil changeEditUtil;
   private final PatchSetUtil patchSetUtil;
+  private final ProjectCache projectCache;
 
   @Inject
   ChangeEditModifier(
@@ -92,7 +94,8 @@ public class ChangeEditModifier {
       Provider<CurrentUser> currentUser,
       PermissionBackend permissionBackend,
       ChangeEditUtil changeEditUtil,
-      PatchSetUtil patchSetUtil) {
+      PatchSetUtil patchSetUtil,
+      ProjectCache projectCache) {
     this.indexer = indexer;
     this.reviewDb = reviewDb;
     this.currentUser = currentUser;
@@ -100,6 +103,7 @@ public class ChangeEditModifier {
     this.tz = gerritIdent.getTimeZone();
     this.changeEditUtil = changeEditUtil;
     this.patchSetUtil = patchSetUtil;
+    this.projectCache = projectCache;
   }
 
   /**
@@ -385,7 +389,8 @@ public class ChangeEditModifier {
     return createEdit(repository, notes, patchSet, newEditCommit, nowTimestamp);
   }
 
-  private void assertCanEdit(ChangeNotes notes) throws AuthException, PermissionBackendException {
+  private void assertCanEdit(ChangeNotes notes)
+      throws AuthException, PermissionBackendException, IOException {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
@@ -395,6 +400,7 @@ public class ChangeEditModifier {
           .database(reviewDb)
           .change(notes)
           .check(ChangePermission.ADD_PATCH_SET);
+      projectCache.checkedGet(notes.getProjectName()).checkStatePermitsWrite();
     } catch (AuthException denied) {
       throw new AuthException("edit not permitted", denied);
     }

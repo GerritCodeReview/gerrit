@@ -108,8 +108,7 @@ class RefControl {
 
   /** @return true if this user can add a new patch set to this ref */
   boolean canAddPatchSet() {
-    return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.ADD_PATCH_SET)
-        && isProjectStatePermittingWrite();
+    return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.ADD_PATCH_SET);
   }
 
   /** @return true if this user can rebase changes on this ref */

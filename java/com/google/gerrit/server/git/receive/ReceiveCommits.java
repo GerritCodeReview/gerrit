@@ -2386,6 +2386,7 @@ class ReceiveCommits {
       RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
       try {
         permissions.change(notes).database(db).check(ChangePermission.ADD_PATCH_SET);
+        projectState.checkStatePermitsWrite();
       } catch (AuthException no) {
         reject(inputCommand, "cannot add patch set to " + ontoChange + ".");
         return false;

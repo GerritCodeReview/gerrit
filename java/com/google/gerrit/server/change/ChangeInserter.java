@@ -569,7 +569,8 @@ public class ChangeInserter implements InsertChangeOp {
                 new Branch.NameKey(ctx.getProject(), refName),
                 ctx.getIdentifiedUser(),
                 new NoSshInfo(),
-                ctx.getRevWalk())
+                ctx.getRevWalk(),
+                change)
             .validate(event);
       }
     } catch (CommitValidationException e) {

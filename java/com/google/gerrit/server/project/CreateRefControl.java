@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -60,20 +61,20 @@ public class CreateRefControl {
    * @param object the object the user will start the reference with
    * @throws AuthException if creation is denied; the message explains the denial.
    * @throws PermissionBackendException on failure of permission checks.
+   * @throws ResourceConflictException if the project state does not permit the operation
    */
   public void checkCreateRef(
       Provider<? extends CurrentUser> user,
       Repository repo,
       Branch.NameKey branch,
       RevObject object)
-      throws AuthException, PermissionBackendException, NoSuchProjectException, IOException {
+      throws AuthException, PermissionBackendException, NoSuchProjectException, IOException,
+          ResourceConflictException {
     ProjectState ps = projectCache.checkedGet(branch.getParentKey());
     if (ps == null) {
       throw new NoSuchProjectException(branch.getParentKey());
     }
-    if (!ps.getProject().getState().permitsWrite()) {
-      throw new AuthException("project state does not permit write");
-    }
+    ps.checkStatePermitsWrite();
 
     PermissionBackend.ForRef perm = permissionBackend.user(user).ref(branch);
     if (object instanceof RevCommit) {

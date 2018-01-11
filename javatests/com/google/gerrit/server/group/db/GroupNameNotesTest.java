@@ -517,7 +517,7 @@ public class GroupNameNotesTest {
   }
 
   private Optional<GroupReference> loadGroup(AccountGroup.NameKey groupName) throws Exception {
-    return GroupNameNotes.loadOneGroupReference(repo, groupName.get());
+    return GroupNameNotes.loadGroup(repo, groupName);
   }
 
   private void commit(GroupNameNotes groupNameNotes) throws IOException {

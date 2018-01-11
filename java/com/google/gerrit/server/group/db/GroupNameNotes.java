@@ -94,8 +94,9 @@ public class GroupNameNotes extends VersionedMetaData {
     return groupNameNotes;
   }
 
-  public static Optional<GroupReference> loadOneGroupReference(
-      Repository allUsersRepo, String groupName) throws IOException, ConfigInvalidException {
+  public static Optional<GroupReference> loadGroup(
+      Repository allUsersRepo, AccountGroup.NameKey groupName)
+      throws IOException, ConfigInvalidException {
     Ref ref = allUsersRepo.exactRef(RefNames.REFS_GROUPNAMES);
     if (ref == null) {
       return Optional.empty();
@@ -105,7 +106,7 @@ public class GroupNameNotes extends VersionedMetaData {
         ObjectReader reader = revWalk.getObjectReader()) {
       RevCommit notesCommit = revWalk.parseCommit(ref.getObjectId());
       NoteMap noteMap = NoteMap.read(reader, notesCommit);
-      ObjectId noteDataBlobId = noteMap.get(getNoteKey(new AccountGroup.NameKey(groupName)));
+      ObjectId noteDataBlobId = noteMap.get(getNoteKey(groupName));
       if (noteDataBlobId == null) {
         return Optional.empty();
       }

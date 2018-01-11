@@ -285,7 +285,12 @@ public class AccountsUpdate {
   private final ExternalIdNotesLoader extIdNotesLoader;
   private final PersonIdent committerIdent;
   private final PersonIdent authorIdent;
+
+  // Invoked after reading the account config.
   private final Runnable afterReadRevision;
+
+  // Invoked after updating the account but before committing the changes.
+  private final Runnable beforeCommit;
 
   private AccountsUpdate(
       GitRepositoryManager repoManager,
@@ -309,6 +314,7 @@ public class AccountsUpdate {
         extIdNotesLoader,
         committerIdent,
         authorIdent,
+        Runnables.doNothing(),
         Runnables.doNothing());
   }
 
@@ -324,7 +330,8 @@ public class AccountsUpdate {
       ExternalIdNotesLoader extIdNotesLoader,
       PersonIdent committerIdent,
       PersonIdent authorIdent,
-      Runnable afterReadRevision) {
+      Runnable afterReadRevision,
+      Runnable beforeCommit) {
     this.repoManager = checkNotNull(repoManager, "repoManager");
     this.gitRefUpdated = checkNotNull(gitRefUpdated, "gitRefUpdated");
     this.currentUser = currentUser;
@@ -336,7 +343,8 @@ public class AccountsUpdate {
     this.extIdNotesLoader = checkNotNull(extIdNotesLoader, "extIdNotesLoader");
     this.committerIdent = checkNotNull(committerIdent, "committerIdent");
     this.authorIdent = checkNotNull(authorIdent, "authorIdent");
-    this.afterReadRevision = afterReadRevision;
+    this.afterReadRevision = checkNotNull(afterReadRevision, "afterReadRevision");
+    this.beforeCommit = checkNotNull(beforeCommit, "beforeCommit");
   }
 
   /**
@@ -491,6 +499,8 @@ public class AccountsUpdate {
   }
 
   private void commit(Repository allUsersRepo, UpdatedAccount updatedAccount) throws IOException {
+    beforeCommit.run();
+
     BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
     if (updatedAccount.isCreated()) {
       commitNewAccountConfig(

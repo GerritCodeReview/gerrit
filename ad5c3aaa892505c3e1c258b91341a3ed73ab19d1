@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1f7c1b22_c3171d0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-11T23:57:18Z",
+      "side": 1,
+      "message": "\u003e \u003e In other words, I expect layer toggling to eventually be a feature general to all layers not just plugins, [...]\n\u003e \n\u003e That sounds great to me.\n\u003e Is there a bug tracking this work? We can re-purpose https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d8077 for this if that is convenient.\n\nCool. Yeah I agree, that looks to me like the right bug to repurpose.\n\n\u003e \u003e For the short-term, regarding coverage plugin specifically, would it be possible to add this toggle as part of the coverage plugin itself [...]\n\u003e \n\u003e Yes, that is what I had done in an earlier patchset of this change: https://gerrit-review.googlesource.com/c/gerrit/+/150210/4\n\nAssuming that Viktar agrees this is the right direction for the annotation API, that seems to me like a good short term solution.",
+      "parentUuid": "b4ae1465_a3a63feb",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "ad5c3aaa892505c3e1c258b91341a3ed73ab19d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "776d4302_05befca1",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
         "patchSetId": 10

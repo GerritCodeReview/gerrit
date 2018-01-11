@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5278e088_84ba1a0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-11T23:37:34Z",
+      "side": 1,
+      "message": "convenience",
+      "range": {
+        "startLine": 20,
+        "startChar": 7,
+        "endLine": 20,
+        "endChar": 19
+      },
+      "revId": "4c0a943bcefd4349ccf70ffc2fe2229128d1b051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03f9bb81_f998a866",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-11T23:37:34Z",
+      "side": 1,
+      "message": "Nit: Documentation of PermissionBackendException is missing in most of these methods.  Should be fixed separately though.",
+      "revId": "4c0a943bcefd4349ccf70ffc2fe2229128d1b051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8a58b53_84ff3b08",
+        "filename": "java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-11T23:37:34Z",
+      "side": 1,
+      "message": "Optional: Replace this with the constant MagicBranch.NEW_CHANGE",
+      "range": {
+        "startLine": 111,
+        "startChar": 40,
+        "endLine": 111,
+        "endChar": 51
+      },
+      "revId": "4c0a943bcefd4349ccf70ffc2fe2229128d1b051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

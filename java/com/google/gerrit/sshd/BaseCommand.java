@@ -370,6 +370,22 @@ public abstract class BaseCommand implements Command {
     }
   }
 
+  protected String getTaskDescription() {
+    StringBuilder m = new StringBuilder();
+    m.append(context.getCommandLine());
+    return m.toString();
+  }
+
+  private String getTaskName() {
+    StringBuilder m = new StringBuilder();
+    m.append(getTaskDescription());
+    if (user.isIdentifiedUser()) {
+      IdentifiedUser u = user.asIdentifiedUser();
+      m.append(" (").append(u.getAccount().getUserName()).append(")");
+    }
+    return m.toString();
+  }
+
   private final class TaskThunk implements CancelableRunnable, ProjectRunnable {
     private final CommandRunnable thunk;
     private final String taskName;
@@ -377,14 +393,7 @@ public abstract class BaseCommand implements Command {
 
     private TaskThunk(CommandRunnable thunk) {
       this.thunk = thunk;
-
-      StringBuilder m = new StringBuilder();
-      m.append(context.getCommandLine());
-      if (user.isIdentifiedUser()) {
-        IdentifiedUser u = user.asIdentifiedUser();
-        m.append(" (").append(u.getAccount().getUserName()).append(")");
-      }
-      this.taskName = m.toString();
+      this.taskName = getTaskName();
     }
 
     @Override

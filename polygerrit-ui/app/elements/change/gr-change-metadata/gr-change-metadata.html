@@ -29,6 +29,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-label/gr-label.html">
 <link rel="import" href="../../shared/gr-linked-chip/gr-linked-chip.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../gr-commit-info/gr-commit-info.html">
 <link rel="import" href="../gr-reviewer-list/gr-reviewer-list.html">
 
 <dom-module id="gr-change-metadata">
@@ -127,6 +128,14 @@ limitations under the License.
       #externalStyle {
         display: block;
       }
+      #parentList {
+        list-style-type: decimal;
+        padding-left: 1em;
+      }
+      #parentList gr-commit-info,
+      #nonMergeParent {
+        display: inline-block;
+      }
       @media screen and (max-width: 50em), screen and (min-width: 75em) {
         :host {
           display: table;
@@ -224,6 +233,33 @@ limitations under the License.
         <span class="value">
           <a href$="[[_computeBranchURL(change.project, change.branch)]]">[[change.branch]]</a>
         </span>
+      </section>
+      <section>
+        <template is="dom-if" if="[[!_computeIsMerge(_currentParents)]]">
+          <span class="title">Parent</span>
+          <span class="value">
+            <gr-commit-info
+                id="nonMergeParent"
+                change="[[change]]"
+                commit-info="[[_computeFirstParent(_currentParents)]]"
+                server-config="[[serverConfig]]"></gr-commit-info>
+          </span>
+        </template>
+        <template is="dom-if" if="[[_computeIsMerge(_currentParents)]]">
+          <span class="title">Parents</span>
+          <span class="value">
+            <ol id="parentList">
+              <template is="dom-repeat" items="[[_currentParents]]" as="parent">
+                <li>
+                  <gr-commit-info
+                      change="[[change]]"
+                      commit-info="[[parent]]"
+                      server-config="[[serverConfig]]"></gr-commit-info>
+                </li>
+              </template>
+            </ol>
+          </span>
+        </template>
       </section>
       <section class="topic">
         <span class="title">Topic</span>

@@ -156,6 +156,7 @@ public class AccountsImpl implements Accounts {
       myQueryAccounts.setQuery(r.getQuery());
       myQueryAccounts.setLimit(r.getLimit());
       myQueryAccounts.setStart(r.getStart());
+      myQueryAccounts.setSuggest(r.getSuggest());
       for (ListAccountsOption option : r.getOptions()) {
         myQueryAccounts.addOption(option);
       }

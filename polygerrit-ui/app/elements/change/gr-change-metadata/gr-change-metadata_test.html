@@ -318,6 +318,13 @@ limitations under the License.
       assert.equal(actual, '');
     });
 
+    test('_computeParentsLabel', () => {
+      const parent = {commit: 'abc123', subject: 'My parent commit'};
+      assert.equal(element._computeParentsLabel([parent]), 'Parent');
+      assert.equal(element._computeParentsLabel([parent, parent]),
+          'Parents');
+    });
+
     test('_showAddTopic', () => {
       assert.isTrue(element._showAddTopic(null, false));
       assert.isTrue(element._showAddTopic({base: {topic: null}}, false));

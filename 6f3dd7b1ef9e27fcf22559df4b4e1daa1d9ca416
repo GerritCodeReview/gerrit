@@ -46,6 +46,30 @@
       "revId": "6f3dd7b1ef9e27fcf22559df4b4e1daa1d9ca416",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d620631_50c3ad88",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-11T22:21:40Z",
+      "side": 1,
+      "message": "Yeah, align items is flex only. My preference is against adding flex complications when block, inline and inline-block would work. Not a blocker though.",
+      "parentUuid": "7fd441bd_2b3334ff",
+      "range": {
+        "startLine": 77,
+        "startChar": 17,
+        "endLine": 77,
+        "endChar": 21
+      },
+      "revId": "6f3dd7b1ef9e27fcf22559df4b4e1daa1d9ca416",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

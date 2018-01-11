@@ -22,6 +22,30 @@
       "revId": "c5b834f0991872b9e281540ad990ee8a2279c203",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "522da4d6_a20a1db9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-11T21:23:54Z",
+      "side": 1,
+      "message": "Thanks. Now it\u0027s simpler!",
+      "parentUuid": "646c9fc0_c24b4109",
+      "range": {
+        "startLine": 237,
+        "startChar": 6,
+        "endLine": 263,
+        "endChar": 16
+      },
+      "revId": "c5b834f0991872b9e281540ad990ee8a2279c203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

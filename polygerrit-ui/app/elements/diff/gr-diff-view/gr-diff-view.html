@@ -73,7 +73,12 @@ limitations under the License.
         color: #999;
       }
       .navLinks {
+        align-items: center;
+        display: flex;
         white-space: nowrap;
+      }
+      .navLink {
+        padding: 0 .25em;
       }
       .reviewed {
         display: inline-block;
@@ -107,9 +112,6 @@ limitations under the License.
       .prefsButton {
         text-align: right;
       }
-      .separator {
-        margin: 0 .25em;
-      }
       .noOverflow {
         display: block;
         overflow: auto;
@@ -120,8 +122,12 @@ limitations under the License.
       .blameLoader {
         display: none;
       }
-      .blameLoader.show {
-        display: inline;
+      .blameLoader.show,
+      .download,
+      .preferences,
+      .rightControls {
+        align-items: center;
+        display: flex;
       }
       gr-dropdown-list {
         --trigger-style: {
@@ -211,11 +217,11 @@ limitations under the License.
           <a class="navLink"
               href$="[[_computeNavLinkURL(_change, _path, _fileList, -1, 1)]]">
             Prev</a>
-          /
+          <span class="separator"></span>
           <a class="navLink"
               href$="[[_computeChangePath(_change, _patchRange.*, _change.revisions)]]">
             Up</a>
-          /
+          <span class="separator"></span>
           <a class="navLink"
               href$="[[_computeNavLinkURL(_change, _path, _fileList, 1, 1)]]">
             Next</a>
@@ -236,7 +242,7 @@ limitations under the License.
               on-patch-range-change="_handlePatchChange">
           </gr-patch-range-select>
           <span class="download desktop">
-            <span class="separator">/</span>
+            <span class="separator"></span>
             <a
               class="downloadLink"
               download
@@ -245,7 +251,7 @@ limitations under the License.
             </a>
           </span>
         </div>
-        <div>
+        <div class="rightControls">
           <gr-select
               id="modeSelect"
               bind-value="{{changeViewState.diffMode}}"
@@ -258,15 +264,14 @@ limitations under the License.
           <span id="diffPrefsContainer"
               hidden$="[[_computePrefsButtonHidden(_prefs, _loggedIn)]]" hidden>
             <span class="preferences desktop">
-              <span
-                  hidden$="[[_computeModeSelectHidden(_isImageDiff)]]">/</span>
+              <span class="separator" hidden$="[[_computeModeSelectHidden(_isImageDiff)]]"></span>
               <gr-button link
                   class="prefsButton"
                   on-tap="_handlePrefsTap">Preferences</gr-button>
             </span>
           </span>
           <span class$="blameLoader [[_computeBlameLoaderClass(_isImageDiff, _isBlameSupported)]]">
-            <span class="separator">/</span>
+            <span class="separator"></span>
             <gr-button
                 link
                 disabled="[[_isBlameLoading]]"

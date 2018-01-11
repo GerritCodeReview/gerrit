@@ -71,6 +71,78 @@
     },
     {
       "key": {
+        "uuid": "1d3438a4_95525ba4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-01-11T09:35:23Z",
+      "side": 1,
+      "message": "Done, removed the java details.",
+      "parentUuid": "7c7494f0_8adec56d",
+      "range": {
+        "startLine": 152,
+        "startChar": 56,
+        "endLine": 152,
+        "endChar": 83
+      },
+      "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31ca64f0_662c6f77",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-01-11T09:35:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "968fcb76_b5455568",
+      "range": {
+        "startLine": 152,
+        "startChar": 21,
+        "endLine": 152,
+        "endChar": 30
+      },
+      "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90099599_f21c1be8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-01-11T09:35:23Z",
+      "side": 1,
+      "message": "For now only ssh command\u0027s parameters is supported by this patch. But almost all gerrit commands are ssh based, so we can remove the ssh here.",
+      "parentUuid": "20962478_a660e5dc",
+      "range": {
+        "startLine": 152,
+        "startChar": 9,
+        "endLine": 152,
+        "endChar": 12
+      },
+      "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f9e5f6c_7f9307ab",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 14
@@ -164,6 +236,78 @@
     },
     {
       "key": {
+        "uuid": "e10ab965_3fd22c2e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-01-11T09:35:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08bbb471_7341209a",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 2
+      },
+      "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfb8fbc0_19f28d95",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-01-11T09:35:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e03c7cc_49c04d4d",
+      "range": {
+        "startLine": 153,
+        "startChar": 16,
+        "endLine": 153,
+        "endChar": 25
+      },
+      "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95aed81d_0f2defbd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-01-11T09:35:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f9e5f6c_7f9307ab",
+      "range": {
+        "startLine": 153,
+        "startChar": 3,
+        "endLine": 153,
+        "endChar": 15
+      },
+      "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a17f6c91_86b6bf9f",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 14
@@ -184,6 +328,30 @@
       "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6cd3980_b67d81fb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-01-11T09:35:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a17f6c91_86b6bf9f",
+      "range": {
+        "startLine": 155,
+        "startChar": 17,
+        "endLine": 155,
+        "endChar": 23
+      },
+      "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -210,6 +378,30 @@
     },
     {
       "key": {
+        "uuid": "50c11fcf_48328e54",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-01-11T09:35:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472d428e_10068863",
+      "range": {
+        "startLine": 102,
+        "startChar": 22,
+        "endLine": 102,
+        "endChar": 42
+      },
+      "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9526da59_fb288430",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshCommandSensitiveFieldsCache.java",
         "patchSetId": 14
@@ -221,6 +413,24 @@
       "writtenOn": "2018-01-11T09:13:02Z",
       "side": 1,
       "message": "Does this mean that even plugins would then be able to flag some of their parameters as sensitive?",
+      "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bb30ab9_a258c84b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshCommandSensitiveFieldsCache.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-01-11T09:35:23Z",
+      "side": 1,
+      "message": "Yes",
+      "parentUuid": "9526da59_fb288430",
       "revId": "fef8f51b88191851319338bf7fe2fa7262c3522f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

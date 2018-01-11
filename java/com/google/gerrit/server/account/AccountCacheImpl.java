@@ -130,50 +130,25 @@ public class AccountCacheImpl implements AccountCache {
   private AccountState missing(Account.Id accountId) {
     Account account = new Account(accountId, TimeUtil.nowTs());
     account.setActive(false);
-    return new AccountState(allUsersName, account, Collections.emptySet(), new HashMap<>());
+    return new AccountState(
+        allUsersName,
+        account,
+        Collections.emptySet(),
+        new HashMap<>(),
+        GeneralPreferencesInfo.defaults());
   }
 
   static class ByIdLoader extends CacheLoader<Account.Id, Optional<AccountState>> {
-    private final AllUsersName allUsersName;
     private final Accounts accounts;
-    private final GeneralPreferencesLoader loader;
-    private final Provider<WatchConfig.Accessor> watchConfig;
-    private final ExternalIds externalIds;
 
     @Inject
-    ByIdLoader(
-        AllUsersName allUsersName,
-        Accounts accounts,
-        GeneralPreferencesLoader loader,
-        Provider<WatchConfig.Accessor> watchConfig,
-        ExternalIds externalIds) {
-      this.allUsersName = allUsersName;
+    ByIdLoader(Accounts accounts) {
       this.accounts = accounts;
-      this.loader = loader;
-      this.watchConfig = watchConfig;
-      this.externalIds = externalIds;
     }
 
     @Override
     public Optional<AccountState> load(Account.Id who) throws Exception {
-      Account account = accounts.get(who);
-      if (account == null) {
-        return Optional.empty();
-      }
-
-      try {
-        account.setGeneralPreferences(loader.load(who));
-      } catch (IOException | ConfigInvalidException e) {
-        log.warn("Cannot load GeneralPreferences for " + who + " (using default)", e);
-        account.setGeneralPreferences(GeneralPreferencesInfo.defaults());
-      }
-
-      return Optional.of(
-          new AccountState(
-              allUsersName,
-              account,
-              externalIds.byAccount(who),
-              watchConfig.get().getProjectWatches(who)));
+      return Optional.ofNullable(accounts.get(who));
     }
   }
 }

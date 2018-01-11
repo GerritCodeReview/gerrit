@@ -18,9 +18,11 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
@@ -45,23 +47,25 @@ public class Accounts {
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
+  private final ExternalIds externalIds;
 
   @Inject
-  Accounts(GitRepositoryManager repoManager, AllUsersName allUsersName) {
+  Accounts(GitRepositoryManager repoManager, AllUsersName allUsersName, ExternalIds externalIds) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
+    this.externalIds = externalIds;
   }
 
   @Nullable
-  public Account get(Account.Id accountId) throws IOException, ConfigInvalidException {
+  public AccountState get(Account.Id accountId) throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       return read(repo, accountId).orElse(null);
     }
   }
 
-  public List<Account> get(Collection<Account.Id> accountIds)
+  public List<AccountState> get(Collection<Account.Id> accountIds)
       throws IOException, ConfigInvalidException {
-    List<Account> accounts = new ArrayList<>(accountIds.size());
+    List<AccountState> accounts = new ArrayList<>(accountIds.size());
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       for (Account.Id accountId : accountIds) {
         read(repo, accountId).ifPresent(accounts::add);
@@ -75,9 +79,9 @@ public class Accounts {
    *
    * @return all accounts
    */
-  public List<Account> all() throws IOException {
+  public List<AccountState> all() throws IOException {
     Set<Account.Id> accountIds = allIds();
-    List<Account> accounts = new ArrayList<>(accountIds.size());
+    List<AccountState> accounts = new ArrayList<>(accountIds.size());
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       for (Account.Id accountId : accountIds) {
         try {
@@ -130,11 +134,22 @@ public class Accounts {
     }
   }
 
-  private Optional<Account> read(Repository allUsersRepository, Account.Id accountId)
+  private Optional<AccountState> read(Repository allUsersRepository, Account.Id accountId)
       throws IOException, ConfigInvalidException {
-    AccountConfig accountConfig = new AccountConfig(accountId);
-    accountConfig.load(allUsersRepository);
-    return accountConfig.getLoadedAccount();
+    AccountConfig accountConfig = new AccountConfig(accountId, allUsersRepository).load();
+    if (!accountConfig.getLoadedAccount().isPresent()) {
+      return Optional.empty();
+    }
+    Account account = accountConfig.getLoadedAccount().get();
+    return Optional.of(
+        new AccountState(
+            allUsersName,
+            account,
+            accountConfig.getExternalIdsRev().isPresent()
+                ? externalIds.byAccount(accountId, accountConfig.getExternalIdsRev().get())
+                : ImmutableSet.of(),
+            accountConfig.getProjectWatches(),
+            accountConfig.getGeneralPreferences()));
   }
 
   public static Stream<Account.Id> readUserRefs(Repository repo) throws IOException {

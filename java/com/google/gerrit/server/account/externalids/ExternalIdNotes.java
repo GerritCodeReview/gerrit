@@ -171,7 +171,7 @@ public class ExternalIdNotes extends VersionedMetaData {
   private Runnable afterReadRevision;
   private boolean readOnly = false;
 
-  ExternalIdNotes(
+  private ExternalIdNotes(
       ExternalIdCache externalIdCache,
       @Nullable AccountCache accountCache,
       Repository allUsersRepo) {
@@ -205,7 +205,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    *
    * @return {@link ExternalIdNotes} instance for chaining
    */
-  ExternalIdNotes load() throws IOException, ConfigInvalidException {
+  private ExternalIdNotes load() throws IOException, ConfigInvalidException {
     load(repo);
     return this;
   }

@@ -1334,11 +1334,10 @@ class ReceiveCommits {
       this.publish = cmd.getRefName().startsWith(MagicBranch.NEW_PUBLISH_CHANGE);
       this.labelTypes = labelTypes;
       this.notesMigration = notesMigration;
-      GeneralPreferencesInfo prefs = user.getAccount().getGeneralPreferencesInfo();
+      GeneralPreferencesInfo prefs = user.state().getGeneralPreferences();
       this.defaultPublishComments =
           prefs != null
-              ? firstNonNull(
-                  user.getAccount().getGeneralPreferencesInfo().publishCommentsOnPush, false)
+              ? firstNonNull(user.state().getGeneralPreferences().publishCommentsOnPush, false)
               : false;
     }
 

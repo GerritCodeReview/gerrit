@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -42,6 +41,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.BanCommit;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -85,6 +85,7 @@ public class CommitValidators {
     private final PersonIdent gerritIdent;
     private final String canonicalWebUrl;
     private final DynamicSet<CommitValidationListener> pluginValidators;
+    private final GitRepositoryManager repoManager;
     private final AllUsersName allUsers;
     private final AllProjectsName allProjects;
     private final ExternalIdsConsistencyChecker externalIdsConsistencyChecker;
@@ -98,6 +99,7 @@ public class CommitValidators {
         @CanonicalWebUrl @Nullable String canonicalWebUrl,
         @GerritServerConfig Config cfg,
         DynamicSet<CommitValidationListener> pluginValidators,
+        GitRepositoryManager repoManager,
         AllUsersName allUsers,
         AllProjectsName allProjects,
         ExternalIdsConsistencyChecker externalIdsConsistencyChecker,
@@ -106,6 +108,7 @@ public class CommitValidators {
       this.gerritIdent = gerritIdent;
       this.canonicalWebUrl = canonicalWebUrl;
       this.pluginValidators = pluginValidators;
+      this.repoManager = repoManager;
       this.allUsers = allUsers;
       this.allProjects = allProjects;
       this.externalIdsConsistencyChecker = externalIdsConsistencyChecker;
@@ -138,7 +141,7 @@ public class CommitValidators {
               new BannedCommitsValidator(rejectCommits),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
-              new AccountCommitValidator(allUsers, accountValidator),
+              new AccountCommitValidator(repoManager, allUsers, accountValidator),
               new GroupCommitValidator(allUsers)));
     }
 
@@ -164,7 +167,7 @@ public class CommitValidators {
               new ConfigValidator(branch, user, rw, allUsers, allProjects),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
-              new AccountCommitValidator(allUsers, accountValidator),
+              new AccountCommitValidator(repoManager, allUsers, accountValidator),
               new GroupCommitValidator(allUsers)));
     }
 
@@ -415,34 +418,6 @@ public class CommitValidators {
                   + receiveEvent.project,
               e);
           throw new CommitValidationException("invalid project configuration", messages);
-        }
-      }
-
-      if (allUsers.equals(branch.getParentKey()) && RefNames.isRefsUsers(branch.get())) {
-        List<CommitValidationMessage> messages = new ArrayList<>();
-        Account.Id accountId = Account.Id.fromRef(branch.get());
-        if (accountId != null) {
-          try {
-            WatchConfig wc = new WatchConfig(accountId);
-            wc.load(rw, receiveEvent.command.getNewId());
-            if (!wc.getValidationErrors().isEmpty()) {
-              addError("Invalid project configuration:", messages);
-              for (ValidationError err : wc.getValidationErrors()) {
-                addError("  " + err.getMessage(), messages);
-              }
-              throw new ConfigInvalidException("invalid watch configuration");
-            }
-          } catch (IOException | ConfigInvalidException e) {
-            log.error(
-                "User "
-                    + user.getUserName()
-                    + " tried to push an invalid watch configuration "
-                    + receiveEvent.command.getNewId().name()
-                    + " for account "
-                    + accountId.get(),
-                e);
-            throw new CommitValidationException("invalid watch configuration", messages);
-          }
         }
       }
 
@@ -729,10 +704,15 @@ public class CommitValidators {
   }
 
   public static class AccountCommitValidator implements CommitValidationListener {
+    private final GitRepositoryManager repoManager;
     private final AllUsersName allUsers;
     private final AccountValidator accountValidator;
 
-    public AccountCommitValidator(AllUsersName allUsers, AccountValidator accountValidator) {
+    public AccountCommitValidator(
+        GitRepositoryManager repoManager,
+        AllUsersName allUsers,
+        AccountValidator accountValidator) {
+      this.repoManager = repoManager;
       this.allUsers = allUsers;
       this.accountValidator = accountValidator;
     }
@@ -755,10 +735,11 @@ public class CommitValidators {
         return Collections.emptyList();
       }
 
-      try {
+      try (Repository repo = repoManager.openRepository(allUsers)) {
         List<String> errorMessages =
             accountValidator.validate(
                 accountId,
+                repo,
                 receiveEvent.revWalk,
                 receiveEvent.command.getOldId(),
                 receiveEvent.commit);

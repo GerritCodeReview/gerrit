@@ -1345,7 +1345,7 @@ public class AccountIT extends AbstractDaemonTest {
             WatchConfig.WATCH_CONFIG,
             wc.toText());
     PushOneCommit.Result r = push.to(RefNames.REFS_USERS_SELF);
-    r.assertErrorStatus("invalid watch configuration");
+    r.assertErrorStatus("invalid account configuration");
     r.assertMessage(
         String.format(
             "%s: Invalid project watch of account %d for project %s: %s",
@@ -1935,7 +1935,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void checkMetaId() throws Exception {
     // metaId is set when account is loaded
-    assertThat(accounts.get(admin.getId()).getMetaId()).isEqualTo(getMetaId(admin.getId()));
+    assertThat(accounts.get(admin.getId()).getAccount().getMetaId())
+        .isEqualTo(getMetaId(admin.getId()));
 
     // metaId is set when account is created
     AccountsUpdate au = accountsUpdate.create();
@@ -2106,7 +2107,7 @@ public class AccountIT extends AbstractDaemonTest {
     }
     assertThat(bgCounter.get()).isEqualTo(status.size());
 
-    Account updatedAccount = accounts.get(admin.id);
+    Account updatedAccount = accounts.get(admin.id).getAccount();
     assertThat(updatedAccount.getStatus()).isEqualTo(Iterables.getLast(status));
     assertThat(updatedAccount.getFullName()).isEqualTo(admin.fullName);
 

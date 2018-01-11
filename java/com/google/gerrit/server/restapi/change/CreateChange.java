@@ -241,7 +241,7 @@ public class CreateChange
       IdentifiedUser me = user.get().asIdentifiedUser();
       PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
       AccountState account = accountCache.get(me.getAccountId());
-      GeneralPreferencesInfo info = account.getAccount().getGeneralPreferencesInfo();
+      GeneralPreferencesInfo info = account.getGeneralPreferences();
 
       ObjectId treeId = mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree();
       ObjectId id = ChangeIdUtil.computeChangeId(treeId, mergeTip, author, author, input.subject);

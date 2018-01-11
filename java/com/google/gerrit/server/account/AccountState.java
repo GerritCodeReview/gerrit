@@ -22,6 +22,7 @@ import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser.PropertyKey;
 import com.google.gerrit.server.IdentifiedUser;
@@ -51,17 +52,20 @@ public class AccountState {
   private final Account account;
   private final Collection<ExternalId> externalIds;
   private final Map<ProjectWatchKey, Set<NotifyType>> projectWatches;
+  private final GeneralPreferencesInfo generalPreferences;
   private Cache<IdentifiedUser.PropertyKey<Object>, Object> properties;
 
   public AccountState(
       AllUsersName allUsersName,
       Account account,
       Collection<ExternalId> externalIds,
-      Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
+      Map<ProjectWatchKey, Set<NotifyType>> projectWatches,
+      GeneralPreferencesInfo generalPreferences) {
     this.allUsersName = allUsersName;
     this.account = account;
     this.externalIds = externalIds;
     this.projectWatches = projectWatches;
+    this.generalPreferences = generalPreferences;
     this.account.setUserName(getUserName(externalIds));
   }
 
@@ -115,6 +119,11 @@ public class AccountState {
   /** The project watches of the account. */
   public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches() {
     return projectWatches;
+  }
+
+  /** The general preferences of the account. */
+  public GeneralPreferencesInfo getGeneralPreferences() {
+    return generalPreferences;
   }
 
   public static String getUserName(Collection<ExternalId> ids) {

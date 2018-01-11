@@ -170,6 +170,11 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
+  public ImmutableSet<ExternalId> byAccount(Account.Id accountId, ObjectId rev) throws IOException {
+    return get(rev).byAccount().get(accountId);
+  }
+
+  @Override
   public ImmutableSetMultimap<Account.Id, ExternalId> allByAccount() throws IOException {
     return get().byAccount();
   }
@@ -190,8 +195,12 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   private AllExternalIds get() throws IOException {
+    return get(externalIdReader.readRevision());
+  }
+
+  private AllExternalIds get(ObjectId rev) throws IOException {
     try {
-      return extIdsByAccount.get(externalIdReader.readRevision());
+      return extIdsByAccount.get(rev);
     } catch (ExecutionException e) {
       throw new IOException("Cannot load external ids", e);
     }

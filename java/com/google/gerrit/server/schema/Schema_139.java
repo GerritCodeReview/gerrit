@@ -24,7 +24,8 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.account.WatchConfig;
+import com.google.gerrit.server.account.AccountConfig;
+import com.google.gerrit.server.account.InternalAccountUpdate;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.config.AllUsersName;
@@ -147,10 +148,14 @@ public class Schema_139 extends SchemaVersion {
           md.getCommitBuilder().setCommitter(serverUser);
           md.setMessage(MSG);
 
-          WatchConfig watchConfig = new WatchConfig(e.getKey());
-          watchConfig.load(md);
-          watchConfig.setProjectWatches(projectWatches);
-          watchConfig.commit(md);
+          AccountConfig accountConfig = new AccountConfig(e.getKey(), git);
+          accountConfig.load(md);
+          accountConfig.setAccountUpdate(
+              InternalAccountUpdate.builder()
+                  .deleteProjectWatches(accountConfig.getProjectWatches().keySet())
+                  .updateProjectWatches(projectWatches)
+                  .build());
+          accountConfig.commit(md);
         }
       }
       bru.execute(rw, NullProgressMonitor.INSTANCE);

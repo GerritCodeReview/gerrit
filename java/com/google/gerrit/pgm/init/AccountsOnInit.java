@@ -70,7 +70,7 @@ public class AccountsOnInit {
                 new GerritPersonIdentProvider(flags.cfg).get(), account.getRegisteredOn());
 
         Config accountConfig = new Config();
-        AccountConfig.writeToConfig(
+        AccountConfig.writeToAccountConfig(
             InternalAccountUpdate.builder()
                 .setActive(account.isActive())
                 .setFullName(account.getFullName())

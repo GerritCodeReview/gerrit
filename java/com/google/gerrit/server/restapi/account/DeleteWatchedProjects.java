@@ -24,9 +24,8 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
-import com.google.gerrit.server.account.WatchConfig;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -45,19 +44,16 @@ public class DeleteWatchedProjects
     implements RestModifyView<AccountResource, List<ProjectWatchInfo>> {
   private final Provider<IdentifiedUser> self;
   private final PermissionBackend permissionBackend;
-  private final AccountCache accountCache;
-  private final WatchConfig.Accessor watchConfig;
+  private final AccountsUpdate.User accountsUpdate;
 
   @Inject
   DeleteWatchedProjects(
       Provider<IdentifiedUser> self,
       PermissionBackend permissionBackend,
-      AccountCache accountCache,
-      WatchConfig.Accessor watchConfig) {
+      AccountsUpdate.User accountsUpdate) {
     this.self = self;
     this.permissionBackend = permissionBackend;
-    this.accountCache = accountCache;
-    this.watchConfig = watchConfig;
+    this.accountsUpdate = accountsUpdate;
   }
 
   @Override
@@ -72,14 +68,18 @@ public class DeleteWatchedProjects
     }
 
     Account.Id accountId = rsrc.getUser().getAccountId();
-    watchConfig.deleteProjectWatches(
-        accountId,
-        input
-            .stream()
-            .filter(Objects::nonNull)
-            .map(w -> ProjectWatchKey.create(new Project.NameKey(w.project), w.filter))
-            .collect(toList()));
-    accountCache.evict(accountId);
+    accountsUpdate
+        .create()
+        .update(
+            "Delete Project Watches via API",
+            accountId,
+            u ->
+                u.deleteProjectWatches(
+                    input
+                        .stream()
+                        .filter(Objects::nonNull)
+                        .map(w -> ProjectWatchKey.create(new Project.NameKey(w.project), w.filter))
+                        .collect(toList())));
     return Response.none();
   }
 }

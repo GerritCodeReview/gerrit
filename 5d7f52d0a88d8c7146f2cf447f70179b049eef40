@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7c5f6c7_c65e074a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-11T00:29:13Z",
+      "side": 1,
+      "message": "I think this is meant to be max-length",
+      "range": {
+        "startLine": 72,
+        "startChar": 14,
+        "endLine": 72,
+        "endChar": 23
+      },
+      "revId": "5d7f52d0a88d8c7146f2cf447f70179b049eef40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "167b3991_53d20edc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-11T00:29:13Z",
+      "side": 1,
+      "message": "max-length?",
+      "range": {
+        "startLine": 93,
+        "startChar": 16,
+        "endLine": 93,
+        "endChar": 25
+      },
+      "revId": "5d7f52d0a88d8c7146f2cf447f70179b049eef40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -115,6 +115,24 @@
     },
     {
       "key": {
+        "uuid": "d2e5dc76_99cfa25c",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-11T16:18:15Z",
+      "side": 1,
+      "message": "I also find the (x || longStreamExpression) a little confusing, but I\u0027m only refactoring here.\n\nDone",
+      "parentUuid": "d3814724_2aee4eba",
+      "revId": "c47e2a26f3c05f9456de9d315a87559575bc7db3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d382f5ba_75536c1f",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 1
@@ -129,6 +147,24 @@
       "revId": "c47e2a26f3c05f9456de9d315a87559575bc7db3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68a96169_0953390c",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-11T16:18:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d382f5ba_75536c1f",
+      "revId": "c47e2a26f3c05f9456de9d315a87559575bc7db3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

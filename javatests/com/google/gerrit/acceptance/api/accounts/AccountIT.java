@@ -46,6 +46,7 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.io.BaseEncoding;
 import com.google.common.util.concurrent.AtomicLongMap;
+import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -2041,7 +2042,8 @@ public class AccountIT extends AbstractDaemonTest {
                   // Ignore, the successful update of the account is asserted later
                 }
               }
-            });
+            },
+            Runnables.doNothing());
     assertThat(doneBgUpdate.get()).isFalse();
     AccountInfo accountInfo = gApi.accounts().id(admin.id.get()).get();
     assertThat(accountInfo.status).isNull();
@@ -2095,7 +2097,8 @@ public class AccountIT extends AbstractDaemonTest {
               } catch (IOException | ConfigInvalidException | OrmException e) {
                 // Ignore, the expected exception is asserted later
               }
-            });
+            },
+            Runnables.doNothing());
     assertThat(bgCounter.get()).isEqualTo(0);
     AccountInfo accountInfo = gApi.accounts().id(admin.id.get()).get();
     assertThat(accountInfo.status).isNull();
@@ -2116,6 +2119,67 @@ public class AccountIT extends AbstractDaemonTest {
     accountInfo = gApi.accounts().id(admin.id.get()).get();
     assertThat(accountInfo.status).isEqualTo(Iterables.getLast(status));
     assertThat(accountInfo.name).isEqualTo(admin.fullName);
+  }
+
+  @Test
+  public void atomicReadMofifyWrite() throws Exception {
+    gApi.accounts().id(admin.id.get()).setStatus("A-1");
+
+    AtomicInteger bgCounterA1 = new AtomicInteger(0);
+    AtomicInteger bgCounterA2 = new AtomicInteger(0);
+    PersonIdent ident = serverIdent.get();
+    AccountsUpdate update =
+        new AccountsUpdate(
+            repoManager,
+            gitReferenceUpdated,
+            null,
+            allUsers,
+            externalIds,
+            metaDataUpdateInternalFactory,
+            new RetryHelper(
+                cfg,
+                retryMetrics,
+                null,
+                null,
+                null,
+                r -> r.withBlockStrategy(noSleepBlockStrategy)),
+            extIdNotesFactory,
+            ident,
+            ident,
+            Runnables.doNothing(),
+            () -> {
+              try {
+                accountsUpdate.create().update("Set Status", admin.id, u -> u.setStatus("A-2"));
+              } catch (IOException | ConfigInvalidException | OrmException e) {
+                // Ignore, the expected exception is asserted later
+              }
+            });
+    assertThat(bgCounterA1.get()).isEqualTo(0);
+    assertThat(bgCounterA2.get()).isEqualTo(0);
+    assertThat(gApi.accounts().id(admin.id.get()).get().status).isEqualTo("A-1");
+
+    Account updatedAccount =
+        update.update(
+            "Set Status",
+            admin.id,
+            (a, u) -> {
+              if ("A-1".equals(a.getAccount().getStatus())) {
+                bgCounterA1.getAndIncrement();
+                u.setStatus("B-1");
+              }
+
+              if ("A-2".equals(a.getAccount().getStatus())) {
+                bgCounterA2.getAndIncrement();
+                u.setStatus("B-2");
+              }
+            });
+
+    assertThat(bgCounterA1.get()).isEqualTo(1);
+    assertThat(bgCounterA2.get()).isEqualTo(1);
+
+    assertThat(updatedAccount.getStatus()).isEqualTo("B-2");
+    assertThat(accounts.get(admin.id).getAccount().getStatus()).isEqualTo("B-2");
+    assertThat(gApi.accounts().id(admin.id.get()).get().status).isEqualTo("B-2");
   }
 
   @Test

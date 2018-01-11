@@ -52,6 +52,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
@@ -396,7 +397,8 @@ public class AccountsUpdate {
 
           InternalAccountUpdate update = updateBuilder.build();
           accountConfig.setAccountUpdate(update);
-          ExternalIdNotes extIdNotes = createExternalIdNotes(r, accountId, update);
+          ExternalIdNotes extIdNotes =
+              createExternalIdNotes(r, accountConfig.getExternalIdsRev(), accountId, update);
           UpdatedAccount updatedAccounts = new UpdatedAccount(message, accountConfig, extIdNotes);
           updatedAccounts.setCreated(true);
           return updatedAccounts;
@@ -452,7 +454,8 @@ public class AccountsUpdate {
 
           InternalAccountUpdate update = updateBuilder.build();
           accountConfig.setAccountUpdate(update);
-          ExternalIdNotes extIdNotes = createExternalIdNotes(r, accountId, update);
+          ExternalIdNotes extIdNotes =
+              createExternalIdNotes(r, accountConfig.getExternalIdsRev(), accountId, update);
           UpdatedAccount updatedAccounts = new UpdatedAccount(message, accountConfig, extIdNotes);
           return updatedAccounts;
         });
@@ -483,7 +486,10 @@ public class AccountsUpdate {
   }
 
   private ExternalIdNotes createExternalIdNotes(
-      Repository allUsersRepo, Account.Id accountId, InternalAccountUpdate update)
+      Repository allUsersRepo,
+      Optional<ObjectId> rev,
+      Account.Id accountId,
+      InternalAccountUpdate update)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
     ExternalIdNotes.checkSameAccount(
         Iterables.concat(
@@ -492,7 +498,7 @@ public class AccountsUpdate {
             update.getDeletedExternalIds()),
         accountId);
 
-    ExternalIdNotes extIdNotes = extIdNotesLoader.load(allUsersRepo);
+    ExternalIdNotes extIdNotes = extIdNotesLoader.load(allUsersRepo, rev.orElse(ObjectId.zeroId()));
     extIdNotes.replace(update.getDeletedExternalIds(), update.getCreatedExternalIds());
     extIdNotes.upsert(update.getUpdatedExternalIds());
     return extIdNotes;

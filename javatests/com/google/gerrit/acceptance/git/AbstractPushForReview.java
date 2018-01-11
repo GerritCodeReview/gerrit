@@ -1321,6 +1321,25 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void testPushWithChangedChangeId() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+    PushOneCommit push =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT
+                + "\n\n"
+                + "Change-Id: I55eab7c7a76e95005fa9cc469aa8f9fc16da9eba\n",
+            "b.txt",
+            "anotherContent",
+            r.getChangeId());
+    r = push.to("refs/changes/" + r.getChange().change().getId().get());
+    r.assertErrorStatus();
+  }
+
+  @Test
   public void pushWithMultipleChangeIds() throws Exception {
     testPushWithMultipleChangeIds();
   }

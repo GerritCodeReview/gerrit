@@ -94,6 +94,30 @@
       "revId": "5682627ce2b78417f638366d341c2eb8d3acdfee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c56c0373_39a8855a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-11T11:35:52Z",
+      "side": 1,
+      "message": "This is exactly why we should put this change in. I think most admins would rather not have to do research about what algorithms are secure enough.",
+      "parentUuid": "3046388b_445becb8",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 24
+      },
+      "revId": "5682627ce2b78417f638366d341c2eb8d3acdfee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

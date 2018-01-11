@@ -67,6 +67,9 @@
     // Matches /admin/repos/<repos>,access.
     REPO_ACCESS: /^\/admin\/repos\/(.+),access$/,
 
+    // Matches /admin/repos/<repos>,access.
+    REPO_DASHBOARDS: /^\/admin\/repos\/(.+),dashboards$/,
+
     // Matches /admin/repos[,<offset>][/].
     REPO_LIST_OFFSET: /^\/admin\/repos(,(\d+))?(\/)?$/,
     REPO_LIST_FILTER: '/admin/repos/q/filter::filter',
@@ -457,6 +460,8 @@
         url += ',access';
       } else if (params.detail === Gerrit.Nav.RepoDetailView.BRANCHES) {
         url += ',branches';
+      } if (params.detail === Gerrit.Nav.RepoDetailView.DOWNLOADS) {
+        url += ',downloads';
       } else if (params.detail === Gerrit.Nav.RepoDetailView.TAGS) {
         url += ',tags';
       } else if (params.detail === Gerrit.Nav.RepoDetailView.COMMANDS) {
@@ -703,6 +708,9 @@
 
       this._mapRoute(RoutePattern.REPO_ACCESS,
           '_handleRepoAccessRoute');
+
+      this._mapRoute(RoutePattern.REPO_DASHBOARDS,
+          '_handleRepoDashboardsRoute');
 
       this._mapRoute(RoutePattern.BRANCH_LIST_OFFSET,
           '_handleBranchListOffsetRoute');
@@ -1028,6 +1036,14 @@
       this._setParams({
         view: Gerrit.Nav.View.REPO,
         detail: Gerrit.Nav.RepoDetailView.ACCESS,
+        repo: data.params[0],
+      });
+    },
+
+    _handleRepoDashboardsRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.REPO,
+        detail: Gerrit.Nav.RepoDetailView.DASHBOARDS,
         repo: data.params[0],
       });
     },

@@ -179,7 +179,7 @@ public class PutMessage
   }
 
   private void ensureCanEditCommitMessage(ChangeNotes changeNotes)
-      throws AuthException, PermissionBackendException {
+      throws AuthException, PermissionBackendException, IOException, ResourceConflictException {
     if (!currentUserProvider.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
@@ -189,6 +189,7 @@ public class PutMessage
           .database(db.get())
           .change(changeNotes)
           .check(ChangePermission.ADD_PATCH_SET);
+      projectCache.checkedGet(changeNotes.getProjectName()).checkStatePermitsWrite();
     } catch (AuthException denied) {
       throw new AuthException("modifying commit message not permitted", denied);
     }

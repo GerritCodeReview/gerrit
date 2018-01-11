@@ -319,6 +319,7 @@ public class PatchSetInserter implements BatchUpdateOp {
           .change(origNotes)
           .check(ChangePermission.ADD_PATCH_SET);
     }
+    projectCache.checkedGet(ctx.getProject()).checkStatePermitsWrite();
     if (!validate) {
       return;
     }

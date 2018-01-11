@@ -79,7 +79,26 @@ public class ExternalIdNotes extends VersionedMetaData {
   private static final int MAX_NOTE_SZ = 1 << 19;
 
   public interface ExternalIdNotesLoader {
+    /**
+     * Loads the external ID notes from the current HEAD revision of the {@code
+     * refs/meta/external-ids} branch.
+     *
+     * @param allUsersRepo the All-Users repository
+     */
     ExternalIdNotes load(Repository allUsersRepo) throws IOException, ConfigInvalidException;
+
+    /**
+     * Loads the external ID notes from the specified revision of the {@code refs/meta/external-ids}
+     * branch.
+     *
+     * @param allUsersRepo the All-Users repository
+     * @param rev the revision from which the external ID notes should be loaded, if {@code null}
+     *     the external ID notes are loaded from the current HEAD revision, if {@link
+     *     ObjectId#zeroId()} it's assumed that the {@code refs/meta/external-ids} branch doesn't
+     *     exist and the loaded external IDs will be empty
+     */
+    ExternalIdNotes load(Repository allUsersRepo, @Nullable ObjectId rev)
+        throws IOException, ConfigInvalidException;
   }
 
   @Singleton
@@ -98,6 +117,12 @@ public class ExternalIdNotes extends VersionedMetaData {
         throws IOException, ConfigInvalidException {
       return new ExternalIdNotes(externalIdCache, accountCache, allUsersRepo).load();
     }
+
+    @Override
+    public ExternalIdNotes load(Repository allUsersRepo, @Nullable ObjectId rev)
+        throws IOException, ConfigInvalidException {
+      return new ExternalIdNotes(externalIdCache, accountCache, allUsersRepo).load(rev);
+    }
   }
 
   @Singleton
@@ -113,6 +138,12 @@ public class ExternalIdNotes extends VersionedMetaData {
     public ExternalIdNotes load(Repository allUsersRepo)
         throws IOException, ConfigInvalidException {
       return new ExternalIdNotes(externalIdCache, null, allUsersRepo).load();
+    }
+
+    @Override
+    public ExternalIdNotes load(Repository allUsersRepo, @Nullable ObjectId rev)
+        throws IOException, ConfigInvalidException {
+      return new ExternalIdNotes(externalIdCache, null, allUsersRepo).load(rev);
     }
   }
 
@@ -134,7 +165,9 @@ public class ExternalIdNotes extends VersionedMetaData {
    * specified revision of the {@code refs/meta/external-ids} branch.
    *
    * @param rev the revision from which the external ID notes should be loaded, if {@code null} the
-   *     external ID notes are loaded from the current HEAD revision
+   *     external ID notes are loaded from the current HEAD revision, if {@link ObjectId#zeroId()}
+   *     it's assumed that the {@code refs/meta/external-ids} branch doesn't exist and the loaded
+   *     external IDs will be empty
    * @return read-only {@link ExternalIdNotes} instance
    */
   public static ExternalIdNotes loadReadOnly(Repository allUsersRepo, @Nullable ObjectId rev)
@@ -215,12 +248,18 @@ public class ExternalIdNotes extends VersionedMetaData {
    * branch.
    *
    * @param rev the revision from which the external ID notes should be loaded, if {@code null} the
-   *     external ID notes are loaded from the current HEAD revision
+   *     external ID notes are loaded from the current HEAD revision, if {@link ObjectId#zeroId()}
+   *     it's assumed that the {@code refs/meta/external-ids} branch doesn't exist and the loaded
+   *     external IDs will be empty
    * @return {@link ExternalIdNotes} instance for chaining
    */
   ExternalIdNotes load(@Nullable ObjectId rev) throws IOException, ConfigInvalidException {
     if (rev == null) {
       return load();
+    }
+    if (ObjectId.zeroId().equals(rev)) {
+      load(repo, null);
+      return this;
     }
     load(repo, rev);
     return this;

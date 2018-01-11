@@ -107,7 +107,9 @@ public class ExternalIdReader {
    * refs/meta/external-ids} branch.
    *
    * @param rev the revision from which the external IDs should be read, if {@code null} the
-   *     external IDs are read from the current HEAD revision
+   *     external IDs are read from the current HEAD revision, if {@link ObjectId#zeroId()} it's
+   *     assumed that the {@code refs/meta/external-ids} branch doesn't exist and the loaded
+   *     external IDs will be empty
    * @return all external IDs that were read from the specified revision
    */
   ImmutableSet<ExternalId> all(@Nullable ObjectId rev) throws IOException, ConfigInvalidException {

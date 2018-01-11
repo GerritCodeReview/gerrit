@@ -118,6 +118,30 @@
       "revId": "5682627ce2b78417f638366d341c2eb8d3acdfee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ab5288b_dadcb5a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-01-11T12:11:14Z",
+      "side": 1,
+      "message": "Agree with your last point. My conclusion for that is different; make sure we have reasonable defaults which are override-able instead of completely removing support for older ciphers/macs/kex. Admins who don\u0027t do research will end up using reasonable secure ones. Trying to prevent shoot-yourself-in-the-foot actions by admins overriding it in the settings don\u0027t outweigh the problem we introduce by removing any support for older ciphers/macs/kex. Also, if you intend to keep the current behaviour, can you adjust the commit message subject accordingly?",
+      "parentUuid": "c56c0373_39a8855a",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 24
+      },
+      "revId": "5682627ce2b78417f638366d341c2eb8d3acdfee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -182,7 +182,7 @@ visible to to all users.
 
 Later in the day, Max decides to check on his change and notices Hannah's
 feedback. He opens up the source file and incorporates her feedback. Because
-Max's change includes a change-id, all he has to is follow the typical git
+Max's change includes a change-id, all he has to do is follow the typical git
 workflow for updating a commit:
 
 * Check out the commit

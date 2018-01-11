@@ -98,7 +98,7 @@ limitations under the License.
 
         const params = {
           repo: 'test',
-          detailType: 'branches',
+          detail: 'branches',
         };
 
         element._paramsChanged(params).then(() => { flush(done); });
@@ -281,7 +281,7 @@ limitations under the License.
 
         const params = {
           repo: 'test',
-          detailType: 'branches',
+          detail: 'branches',
         };
 
         element._paramsChanged(params).then(() => { flush(done); });
@@ -298,7 +298,7 @@ limitations under the License.
           return Promise.resolve(branches);
         });
         const params = {
-          detailType: 'branches',
+          detail: 'branches',
           repo: 'test',
           filter: 'test',
           offset: 25,
@@ -341,7 +341,7 @@ limitations under the License.
 
         const params = {
           repo: 'test',
-          detailType: 'tags',
+          detail: 'tags',
         };
 
         element._paramsChanged(params).then(() => { flush(done); });
@@ -416,7 +416,7 @@ limitations under the License.
 
         const params = {
           repo: 'test',
-          detailType: 'tags',
+          detail: 'tags',
         };
 
         element._paramsChanged(params).then(() => { flush(done); });
@@ -434,7 +434,7 @@ limitations under the License.
         });
         const params = {
           repo: 'test',
-          detailType: 'tags',
+          detail: 'tags',
           filter: 'test',
           offset: 25,
         };

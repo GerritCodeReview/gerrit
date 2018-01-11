@@ -318,6 +318,24 @@ limitations under the License.
       assert.equal(actual, '');
     });
 
+    test('_computeParents', () => {
+      const parents = [{commit: '123', subject: 'abc'}];
+      assert.isUndefined(element._computeParents(
+          {revisions: {456: { commit: {parents}}}}));
+      assert.isUndefined(element._computeParents(
+          {current_revision: '789', revisions: {456: { commit: {parents}}}}));
+      assert.equal(element._computeParents(
+          {current_revision: '456', revisions: {456: { commit: {parents}}}}),
+          parents);
+    });
+
+    test('_computeParentsLabel', () => {
+      const parent = {commit: 'abc123', subject: 'My parent commit'};
+      assert.equal(element._computeParentsLabel([parent]), 'Parent');
+      assert.equal(element._computeParentsLabel([parent, parent]),
+          'Parents');
+    });
+
     test('_showAddTopic', () => {
       assert.isTrue(element._showAddTopic(null, false));
       assert.isTrue(element._showAddTopic({base: {topic: null}}, false));

@@ -1037,7 +1037,7 @@ class ReceiveCommits {
       // Must pass explicit user instead of injecting a provider into CreateRefControl, since
       // Provider<CurrentUser> within ReceiveCommits will always return anonymous.
       createRefControl.checkCreateRef(Providers.of(user), rp.getRepository(), branch, obj);
-    } catch (AuthException denied) {
+    } catch (AuthException | ResourceConflictException denied) {
       reject(cmd, "prohibited by Gerrit: " + denied.getMessage());
       return;
     }
@@ -2391,6 +2391,10 @@ class ReceiveCommits {
         return false;
       }
 
+      if (!projectState.statePermitsWrite()) {
+        reject(inputCommand, "cannot add patch set to " + ontoChange + ".");
+        return false;
+      }
       if (change.getStatus().isClosed()) {
         reject(inputCommand, "change " + ontoChange + " closed");
         return false;

@@ -28,6 +28,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
 <link rel="import" href="../../shared/gr-label/gr-label.html">
 <link rel="import" href="../../shared/gr-linked-chip/gr-linked-chip.html">
+<link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-commit-info/gr-commit-info.html">
 <link rel="import" href="../gr-reviewer-list/gr-reviewer-list.html">
@@ -135,6 +136,13 @@ limitations under the License.
       .parentList gr-commit-info {
         display: inline-block;
       }
+      #parentNotCurrentMessage {
+        display: none;
+      }
+      .parentList.notCurrent.nonMerge #parentNotCurrentMessage {
+        --arrow-color: red;
+        display: inline-block;
+      }
       @media screen and (max-width: 50em), screen and (min-width: 75em) {
         :host {
           display: table;
@@ -236,13 +244,18 @@ limitations under the License.
       <section>
         <span class="title">[[_computeParentsLabel(_currentParents)]]</span>
         <span class="value">
-          <ol class$="[[_computeParentListClass(_currentParents)]]">
+          <ol class$="[[_computeParentListClass(_currentParents, parentIsCurrent)]]">
             <template is="dom-repeat" items="[[_currentParents]]" as="parent">
               <li>
                 <gr-commit-info
                     change="[[change]]"
                     commit-info="[[parent]]"
                     server-config="[[serverConfig]]"></gr-commit-info>
+                <gr-tooltip-content
+                    id="parentNotCurrentMessage"
+                    has-tooltip
+                    show-icon
+                    title$="[[_notCurrentMessage]]"></gr-tooltip-content>
               </li>
             </template>
           </ol>

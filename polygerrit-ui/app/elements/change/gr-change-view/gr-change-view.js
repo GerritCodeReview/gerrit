@@ -224,6 +224,7 @@
         value: false,
         observer: '_updateToggleContainerClass',
       },
+      _rebaseOriginallyEnabled: Boolean,
     },
 
     behaviors: [
@@ -937,6 +938,7 @@
       if (revisionActions && revisionActions.rebase) {
         revisionActions.rebase.rebaseOnCurrent =
             !!revisionActions.rebase.enabled;
+        this._rebaseOriginallyEnabled = !!revisionActions.rebase.enabled;
         revisionActions.rebase.enabled = true;
       }
       return revisionActions;

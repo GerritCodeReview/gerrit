@@ -336,6 +336,18 @@ limitations under the License.
           'Parents');
     });
 
+    test('_computeParentListClass', () => {
+      const parent = {commit: 'abc123', subject: 'My parent commit'};
+      assert.equal(element._computeParentListClass([parent], true),
+          'parentList nonMerge current');
+      assert.equal(element._computeParentListClass([parent], false),
+          'parentList nonMerge notCurrent');
+      assert.equal(element._computeParentListClass([parent, parent], false),
+          'parentList merge notCurrent');
+      assert.equal(element._computeParentListClass([parent, parent], true),
+          'parentList merge current');
+    });
+
     test('_showAddTopic', () => {
       assert.isTrue(element._showAddTopic(null, false));
       assert.isTrue(element._showAddTopic({base: {topic: null}}, false));

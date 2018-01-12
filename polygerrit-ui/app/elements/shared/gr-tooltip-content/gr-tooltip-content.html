@@ -19,6 +19,11 @@ limitations under the License.
 
 <dom-module id="gr-tooltip-content">
   <template>
+    <style>
+      .arrow {
+        color: var(--arrow-color);
+      }
+    </style>
     <slot></slot><!--
  --><span class="arrow" hidden$="[[!showIcon]]">&#9432;</span>
   </template>

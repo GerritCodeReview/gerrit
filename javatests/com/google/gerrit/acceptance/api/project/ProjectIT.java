@@ -331,6 +331,24 @@ public class ProjectIT extends AbstractDaemonTest {
     gApi.projects().name(project.get()).head("test");
   }
 
+  @Test
+  public void nonActiveProjectCanBeMadeActive() throws Exception {
+    for (ProjectState nonActiveState :
+        ImmutableList.of(ProjectState.READ_ONLY, ProjectState.HIDDEN)) {
+      // ACTIVE => NON_ACTIVE
+      ConfigInput ci1 = new ConfigInput();
+      ci1.state = nonActiveState;
+      gApi.projects().name(project.get()).config(ci1);
+      assertThat(gApi.projects().name(project.get()).config().state).isEqualTo(nonActiveState);
+      // NON_ACTIVE => ACTIVE
+      ConfigInput ci2 = new ConfigInput();
+      ci2.state = ProjectState.ACTIVE;
+      gApi.projects().name(project.get()).config(ci2);
+      // ACTIVE is represented as null in the API
+      assertThat(gApi.projects().name(project.get()).config().state).isNull();
+    }
+  }
+
   private ConfigInput createTestConfigInput() {
     ConfigInput input = new ConfigInput();
     input.description = "some description";

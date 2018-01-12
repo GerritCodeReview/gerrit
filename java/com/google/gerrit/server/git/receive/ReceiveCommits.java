@@ -1120,7 +1120,7 @@ class ReceiveCommits {
   private boolean canDelete(ReceiveCommand cmd) throws PermissionBackendException {
     try {
       permissions.ref(cmd.getRefName()).check(RefPermission.DELETE);
-      return true;
+      return projectState.statePermitsWrite();
     } catch (AuthException e) {
       return false;
     }

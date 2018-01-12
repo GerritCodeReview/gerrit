@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -391,8 +392,8 @@ public class AccountsUpdate {
                   allUsersName,
                   account,
                   ImmutableSet.of(),
-                  ImmutableMap.of(),
-                  GeneralPreferencesInfo.defaults());
+                  Suppliers.ofInstance(ImmutableMap.of()),
+                  Suppliers.ofInstance(GeneralPreferencesInfo.defaults()));
           InternalAccountUpdate.Builder updateBuilder = InternalAccountUpdate.builder();
           updater.update(accountState, updateBuilder);
 
@@ -642,8 +643,8 @@ public class AccountsUpdate {
           extIdNotes.getRevision() != null
               ? externalIds.byAccount(account.getId(), extIdNotes.getRevision())
               : ImmutableSet.of(),
-          accountConfig.getProjectWatches(),
-          accountConfig.getGeneralPreferences());
+          Suppliers.memoize(() -> accountConfig.getProjectWatches()),
+          Suppliers.memoize(() -> accountConfig.getGeneralPreferences()));
     }
 
     public ExternalIdNotes getExternalIdNotes() {

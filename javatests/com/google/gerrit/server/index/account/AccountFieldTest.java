@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -49,8 +50,8 @@ public class AccountFieldTest extends GerritBaseTests {
                     allUsersName,
                     account,
                     ImmutableSet.of(),
-                    ImmutableMap.of(),
-                    GeneralPreferencesInfo.defaults())));
+                    Suppliers.ofInstance(ImmutableMap.of()),
+                    Suppliers.ofInstance(GeneralPreferencesInfo.defaults()))));
     assertThat(values).hasSize(1);
     String expectedValue =
         allUsersName.get() + ":" + RefNames.refsUsers(account.getId()) + ":" + metaId;
@@ -82,8 +83,8 @@ public class AccountFieldTest extends GerritBaseTests {
                     null,
                     account,
                     ImmutableSet.of(extId1, extId2),
-                    ImmutableMap.of(),
-                    GeneralPreferencesInfo.defaults())));
+                    Suppliers.ofInstance(ImmutableMap.of()),
+                    Suppliers.ofInstance(GeneralPreferencesInfo.defaults()))));
     String expectedValue1 = extId1.key().sha1().name() + ":" + extId1.blobId().name();
     String expectedValue2 = extId2.key().sha1().name() + ":" + extId2.blobId().name();
     assertThat(values).containsExactly(expectedValue1, expectedValue2);

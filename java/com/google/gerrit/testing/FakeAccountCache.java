@@ -14,6 +14,7 @@
 
 package com.google.gerrit.testing;
 
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
@@ -81,7 +82,7 @@ public class FakeAccountCache implements AccountCache {
         new AllUsersName(AllUsersNameProvider.DEFAULT),
         account,
         ImmutableSet.of(),
-        ImmutableMap.of(),
-        GeneralPreferencesInfo.defaults());
+        Suppliers.ofInstance(ImmutableMap.of()),
+        Suppliers.ofInstance(GeneralPreferencesInfo.defaults()));
   }
 }

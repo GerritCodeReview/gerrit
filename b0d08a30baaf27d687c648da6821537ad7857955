@@ -22,6 +22,30 @@
       "revId": "b0d08a30baaf27d687c648da6821537ad7857955",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ab315b1_2df22a08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-01-12T08:39:54Z",
+      "side": 1,
+      "message": "One of our most common and costly support tickets is to help inexperienced users that wrongly used the old refs/changes/ namespace for uploading new patchsets.\n\nTypically the users google \"how to update changes in Gerrit\" and sometimes finds the documentation on how to push the old way, eg. pushing to \"refs/changes/\" instead of using the \"Change-Id:\"-footer with the \"refs/for/\"-namespace.\n\nBy pushing new patchsets to \"refs/changes/\" it is very easy to accidentally push to the wrong change (or perhaps they accidentally removed the change-id footer and got a new one). Regardless, they now have a \"Change-Id:\"-footer that does not match the internal change-id of the destination change. This is where things starts to get really confusing for the users.\n\nBy just ensuring that the \"Change-Id:\"-footer of the new patchset matches the internal Change-Id of the destination change, we can ensure that the user catches their error before everything spirals out of control.\n\nSo far, we have never seen a push to \"refs/changes/\", where the user intended to have a \"Change-Id:\"-footer that does not match the internal Change-Id of the destination change.",
+      "parentUuid": "335629fc_22f10f98",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "b0d08a30baaf27d687c648da6821537ad7857955",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

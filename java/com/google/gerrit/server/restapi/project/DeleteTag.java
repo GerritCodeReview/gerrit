@@ -56,6 +56,7 @@ public class DeleteTag implements RestModifyView<TagResource, Input> {
         .project(resource.getNameKey())
         .ref(tag)
         .check(RefPermission.DELETE);
+    resource.getProjectState().checkStatePermitsWrite();
     deleteRefFactory.create(resource).ref(tag).delete();
     return Response.none();
   }

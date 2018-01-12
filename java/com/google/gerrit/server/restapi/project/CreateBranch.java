@@ -183,6 +183,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
         info.revision = revid.getName();
         info.canDelete =
             permissionBackend.user(identifiedUser).ref(name).testOrFalse(RefPermission.DELETE)
+                    && rsrc.getProjectState().statePermitsWrite()
                 ? true
                 : null;
         return info;

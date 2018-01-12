@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e8c6b42_f28cf3f7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-12T19:02:41Z",
+      "side": 1,
+      "message": "Neat 😊",
+      "range": {
+        "startLine": 437,
+        "startChar": 6,
+        "endLine": 441,
+        "endChar": 18
+      },
+      "revId": "b1c18a21912fcc5ebf7da8c6acce6c6bb329cc03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d39c7d6_1b8a3766",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-12T19:02:41Z",
+      "side": 1,
+      "message": "I\u0027m not 100% sure if this is checking the right thing. It\u0027s possible that rebase is enabled but it\u0027s up to date with the parent already.\n\nI *think* you may want revisionActions.rebase.rebaseOnCurrent?",
+      "range": {
+        "startLine": 941,
+        "startChar": 8,
+        "endLine": 941,
+        "endChar": 73
+      },
+      "revId": "b1c18a21912fcc5ebf7da8c6acce6c6bb329cc03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

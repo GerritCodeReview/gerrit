@@ -288,6 +288,7 @@ limitations under the License.
             },
           },
         };
+        element._setupValues();
         flushAsynchronousOperations();
       });
 
@@ -325,6 +326,32 @@ limitations under the License.
         MockInteractions.tap(element.$.undoRemoveBtn);
         assert.isFalse(element.$.permission.classList.contains('deleted'));
         assert.isFalse(element._deleted);
+      });
+
+      test('modify a permission', () => {
+        element.editing = true;
+        element.name = 'Priority';
+        element.section = 'refs/*';
+
+        assert.isFalse(element._originalExclusiveValue);
+        assert.isNotOk(element.permission.value.modified);
+        MockInteractions.tap(element.$.exclusiveToggle);
+        flushAsynchronousOperations();
+        assert.isTrue(element.permission.value.exclusive);
+        assert.isTrue(element.permission.value.modified);
+        assert.isFalse(element._originalExclusiveValue);
+        element.editing = false;
+        assert.isFalse(element.permission.value.exclusive);
+      });
+
+      test('_handleValueChange', () => {
+        const modifiedHandler = sandbox.stub();
+        element.permission = {value: {rules: {}}};
+        element.addEventListener('access-modified', modifiedHandler);
+        assert.isNotOk(element.permission.value.modified);
+        element._handleValueChange();
+        assert.isTrue(element.permission.value.modified);
+        assert.isTrue(modifiedHandler.called);
       });
     });
   });

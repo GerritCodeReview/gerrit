@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffd20e6a_9354b22a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-12T09:26:46Z",
+      "side": 1,
+      "message": "Remove this?",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "e38ba9d80a1a072fe451bc6616c626b522471a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04f0802d_aa52cd83",
+        "filename": "java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-12T09:26:46Z",
+      "side": 1,
+      "message": "Is this actually a bug fix that the project state was not checked if checkAddPatchSetPermission was false? If so, this should probably be a separate change so that it can be cherry-picked onto the stable branches?",
+      "revId": "e38ba9d80a1a072fe451bc6616c626b522471a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d1f750a_9cd756aa",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-12T09:26:46Z",
+      "side": 1,
+      "message": "[optional] statePermitsWrite()",
+      "range": {
+        "startLine": 267,
+        "startChar": 9,
+        "endLine": 267,
+        "endChar": 47
+      },
+      "revId": "e38ba9d80a1a072fe451bc6616c626b522471a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1c7d712_8a21a5b2",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-12T09:26:46Z",
+      "side": 1,
+      "message": "[optional] maybe include the project state into this message?",
+      "range": {
+        "startLine": 268,
+        "startChar": 43,
+        "endLine": 268,
+        "endChar": 56
+      },
+      "revId": "e38ba9d80a1a072fe451bc6616c626b522471a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

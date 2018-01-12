@@ -71,10 +71,8 @@ public class PutStatus implements RestModifyView<AccountResource, StatusInput> {
     AccountState accountState =
         accountsUpdate
             .create()
-            .update("Set Status via API", user.getAccountId(), u -> u.setStatus(newStatus));
-    if (accountState == null) {
-      throw new ResourceNotFoundException("account not found");
-    }
+            .update("Set Status via API", user.getAccountId(), u -> u.setStatus(newStatus))
+            .orElseThrow(() -> new ResourceNotFoundException("account not found"));
     return Strings.isNullOrEmpty(accountState.getAccount().getStatus())
         ? Response.none()
         : Response.ok(accountState.getAccount().getStatus());

@@ -611,6 +611,17 @@ public class RefControlTest {
   }
 
   @Test
+  public void unblockRead_NotPossible() {
+    block(parent, READ, ANONYMOUS_USERS, "refs/*");
+    allow(parent, READ, ADMIN, "refs/*");
+    allow(local, READ, ANONYMOUS_USERS, "refs/*");
+    allow(local, READ, ADMIN, "refs/*");
+
+    ProjectControl u = user(local);
+    assertBlocked(READ, "refs/heads/master", u);
+  }
+
+  @Test
   public void unblockNoForce() {
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/heads/*");

@@ -2186,6 +2186,93 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void atomicReadMofifyWriteExternalIds() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+
+    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    ExternalId extIdA1 = ExternalId.create("foo", "A-1", accountId);
+    accountsUpdate.create().insert("Create Test Account", accountId, u -> u.addExternalId(extIdA1));
+
+    AtomicInteger bgCounterA1 = new AtomicInteger(0);
+    AtomicInteger bgCounterA2 = new AtomicInteger(0);
+    PersonIdent ident = serverIdent.get();
+    ExternalId extIdA2 = ExternalId.create("foo", "A-2", accountId);
+    AccountsUpdate update =
+        new AccountsUpdate(
+            repoManager,
+            gitReferenceUpdated,
+            null,
+            allUsers,
+            externalIds,
+            metaDataUpdateInternalFactory,
+            new RetryHelper(
+                cfg,
+                retryMetrics,
+                null,
+                null,
+                null,
+                r -> r.withBlockStrategy(noSleepBlockStrategy)),
+            extIdNotesFactory,
+            ident,
+            ident,
+            Runnables.doNothing(),
+            () -> {
+              try {
+                accountsUpdate
+                    .create()
+                    .update(
+                        "Update External ID",
+                        accountId,
+                        u -> u.replaceExternalId(extIdA1, extIdA2));
+              } catch (IOException | ConfigInvalidException | OrmException e) {
+                // Ignore, the expected exception is asserted later
+              }
+            });
+    assertThat(bgCounterA1.get()).isEqualTo(0);
+    assertThat(bgCounterA2.get()).isEqualTo(0);
+    assertThat(
+            gApi.accounts()
+                .id(accountId.get())
+                .getExternalIds()
+                .stream()
+                .map(i -> i.identity)
+                .collect(toSet()))
+        .containsExactly(extIdA1.key().get());
+
+    ExternalId extIdB1 = ExternalId.create("foo", "B-1", accountId);
+    ExternalId extIdB2 = ExternalId.create("foo", "B-2", accountId);
+    AccountState updatedAccount =
+        update.update(
+            "Update External ID",
+            accountId,
+            (a, u) -> {
+              if (a.getExternalIds().contains(extIdA1)) {
+                bgCounterA1.getAndIncrement();
+                u.replaceExternalId(extIdA1, extIdB1);
+              }
+
+              if (a.getExternalIds().contains(extIdA2)) {
+                bgCounterA2.getAndIncrement();
+                u.replaceExternalId(extIdA2, extIdB2);
+              }
+            });
+
+    assertThat(bgCounterA1.get()).isEqualTo(1);
+    assertThat(bgCounterA2.get()).isEqualTo(1);
+
+    assertThat(updatedAccount.getExternalIds()).containsExactly(extIdB2);
+    assertThat(accounts.get(accountId).getExternalIds()).containsExactly(extIdB2);
+    assertThat(
+            gApi.accounts()
+                .id(accountId.get())
+                .getExternalIds()
+                .stream()
+                .map(i -> i.identity)
+                .collect(toSet()))
+        .containsExactly(extIdB2.key().get());
+  }
+
+  @Test
   public void stalenessChecker() throws Exception {
     // Newly created account is not stale.
     AccountInfo accountInfo = gApi.accounts().create(name("foo")).get();

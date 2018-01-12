@@ -53,6 +53,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -100,6 +101,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   private final ApprovalsUtil approvalsUtil;
   private final ChangeReverted changeReverted;
   private final ContributorAgreementsChecker contributorAgreements;
+  private final ProjectCache projectCache;
 
   @Inject
   Revert(
@@ -116,7 +118,8 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       @GerritPersonIdent PersonIdent serverIdent,
       ApprovalsUtil approvalsUtil,
       ChangeReverted changeReverted,
-      ContributorAgreementsChecker contributorAgreements) {
+      ContributorAgreementsChecker contributorAgreements,
+      ProjectCache projectCache) {
     super(retryHelper);
     this.db = db;
     this.permissionBackend = permissionBackend;
@@ -131,6 +134,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     this.approvalsUtil = approvalsUtil;
     this.changeReverted = changeReverted;
     this.contributorAgreements = contributorAgreements;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -145,6 +149,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
 
     contributorAgreements.check(rsrc.getProject(), rsrc.getUser());
     permissionBackend.user(rsrc.getUser()).ref(change.getDest()).check(CREATE_CHANGE);
+    projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
 
     Change.Id revertId =
         revert(updateFactory, rsrc.getNotes(), rsrc.getUser(), Strings.emptyToNull(input.message));
@@ -243,12 +248,18 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   @Override
   public UiAction.Description getDescription(ChangeResource rsrc) {
     Change change = rsrc.getChange();
+    boolean projectStatePermitsWrite = false;
+    try {
+      projectStatePermitsWrite = projectCache.checkedGet(rsrc.getProject()).statePermitsWrite();
+    } catch (IOException e) {
+      log.error("Failed to check if project state permits write: " + rsrc.getProject(), e);
+    }
     return new UiAction.Description()
         .setLabel("Revert")
         .setTitle("Revert the change")
         .setVisible(
             and(
-                change.getStatus() == Change.Status.MERGED,
+                change.getStatus() == Change.Status.MERGED && projectStatePermitsWrite,
                 permissionBackend
                     .user(rsrc.getUser())
                     .ref(change.getDest())

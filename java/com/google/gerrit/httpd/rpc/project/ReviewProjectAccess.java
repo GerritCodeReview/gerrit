@@ -135,6 +135,8 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
       throws IOException, OrmException, PermissionDeniedException, PermissionBackendException,
           ConfigInvalidException {
+    // This method intentionally does not check ProjectState#statePermitsWrite() to allow setting a
+    // project's state back to ACTIVE.
     PermissionBackend.ForProject perm = permissionBackend.user(user).project(config.getName());
     if (!check(perm, ProjectPermission.READ_CONFIG)) {
       throw new PermissionDeniedException(RefNames.REFS_CONFIG + " not visible");

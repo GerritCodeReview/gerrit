@@ -267,6 +267,13 @@ public class ProjectState {
     return getProject().getState().permitsWrite();
   }
 
+  public void checkStatePermitsRead() throws ResourceConflictException {
+    if (!statePermitsRead()) {
+      throw new ResourceConflictException(
+          "project state " + getProject().getState().name() + " does not permit read");
+    }
+  }
+
   public void checkStatePermitsWrite() throws ResourceConflictException {
     if (!statePermitsWrite()) {
       throw new ResourceConflictException(

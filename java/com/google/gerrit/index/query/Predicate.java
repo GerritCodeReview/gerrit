@@ -17,6 +17,7 @@ package com.google.gerrit.index.query;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.Iterables;
+import com.google.gerrit.index.IndexConfig;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -88,6 +89,11 @@ public abstract class Predicate<T> {
       return that.getChild(0);
     }
     return new NotPredicate<>(that);
+  }
+
+  /** Computes the max number of leave terms that can be added to the given predicate. */
+  public static int leafCount(IndexConfig indexConfig, Predicate<?> that) {
+    return indexConfig.maxTerms() - that.getChildCount();
   }
 
   /** Get the children of this predicate, if any. */

@@ -224,7 +224,7 @@ class RefControl {
         return false;
       }
     }
-    return canPerform(Permission.PUSH) && isProjectStatePermittingWrite();
+    return canPerform(Permission.PUSH);
   }
 
   /** @return true if the user can rewind (force push) the reference. */

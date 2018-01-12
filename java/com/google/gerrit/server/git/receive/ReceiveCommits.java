@@ -1060,6 +1060,9 @@ class ReceiveCommits {
     } catch (AuthException err) {
       ok = false;
     }
+    if (!projectState.statePermitsWrite()) {
+      reject(cmd, "prohibited by Gerrit: project state does not permit write");
+    }
     if (ok) {
       if (isHead(cmd) && !isCommit(cmd)) {
         return;

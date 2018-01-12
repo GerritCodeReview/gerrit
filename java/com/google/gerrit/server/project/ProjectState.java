@@ -259,8 +259,19 @@ public class ProjectState {
     return config.getMaxObjectSizeLimit();
   }
 
+  public boolean statePermitsRead() {
+    return getProject().getState().permitsRead();
+  }
+
   public boolean statePermitsWrite() {
     return getProject().getState().permitsWrite();
+  }
+
+  public void checkStatePermitsRead() throws ResourceConflictException {
+    if (!statePermitsRead()) {
+      throw new ResourceConflictException(
+          "project state " + getProject().getState().name() + " does not permit read");
+    }
   }
 
   public void checkStatePermitsWrite() throws ResourceConflictException {

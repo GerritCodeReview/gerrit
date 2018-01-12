@@ -37,6 +37,7 @@ import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -57,6 +58,7 @@ public class CherryPick
   private final CherryPickChange cherryPickChange;
   private final ChangeJson.Factory json;
   private final ContributorAgreementsChecker contributorAgreements;
+  private final ProjectCache projectCache;
 
   @Inject
   CherryPick(
@@ -65,13 +67,15 @@ public class CherryPick
       RetryHelper retryHelper,
       CherryPickChange cherryPickChange,
       ChangeJson.Factory json,
-      ContributorAgreementsChecker contributorAgreements) {
+      ContributorAgreementsChecker contributorAgreements,
+      ProjectCache projectCache) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.user = user;
     this.cherryPickChange = cherryPickChange;
     this.json = json;
     this.contributorAgreements = contributorAgreements;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -94,6 +98,7 @@ public class CherryPick
         .project(rsrc.getChange().getProject())
         .ref(refName)
         .check(RefPermission.CREATE_CHANGE);
+    projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
 
     try {
       Change.Id cherryPickedChangeId =

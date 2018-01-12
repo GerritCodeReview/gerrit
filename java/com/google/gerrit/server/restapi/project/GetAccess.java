@@ -251,8 +251,10 @@ public class GetAccess implements RestReadView<ProjectResource> {
     info.isOwner = toBoolean(canWriteConfig);
     info.canUpload =
         toBoolean(
-            canWriteConfig
-                || (canReadConfig && perm.ref(RefNames.REFS_CONFIG).testOrFalse(CREATE_CHANGE)));
+            projectState.statePermitsWrite()
+                && (canWriteConfig
+                    || (canReadConfig
+                        && perm.ref(RefNames.REFS_CONFIG).testOrFalse(CREATE_CHANGE))));
     info.canAdd = toBoolean(perm.testOrFalse(CREATE_REF));
     info.configVisible = canReadConfig || canWriteConfig;
 

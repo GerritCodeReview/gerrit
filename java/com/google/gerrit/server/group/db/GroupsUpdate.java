@@ -482,7 +482,7 @@ public class GroupsUpdate {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
       AccountGroup.NameKey groupName = groupUpdate.getName().orElseGet(groupCreation::getNameKey);
       GroupNameNotes groupNameNotes =
-          GroupNameNotes.loadForNewGroup(allUsersRepo, groupCreation.getGroupUUID(), groupName);
+          GroupNameNotes.forNewGroup(allUsersRepo, groupCreation.getGroupUUID(), groupName);
 
       GroupConfig groupConfig = GroupConfig.createForNewGroup(allUsersRepo, groupCreation);
       groupConfig.setGroupUpdate(groupUpdate, this::getAccountNameEmail, this::getGroupName);
@@ -515,7 +515,7 @@ public class GroupsUpdate {
       if (groupUpdate.getName().isPresent()) {
         AccountGroup.NameKey oldName = originalGroup.getNameKey();
         AccountGroup.NameKey newName = groupUpdate.getName().get();
-        groupNameNotes = GroupNameNotes.loadForRename(allUsersRepo, groupUuid, oldName, newName);
+        groupNameNotes = GroupNameNotes.forRename(allUsersRepo, groupUuid, oldName, newName);
       }
 
       commit(allUsersRepo, groupConfig, groupNameNotes);

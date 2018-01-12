@@ -118,6 +118,30 @@
       "revId": "b0d08a30baaf27d687c648da6821537ad7857955",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e0b932d_b6df3cdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-01-12T09:06:52Z",
+      "side": 1,
+      "message": "\u003e Maybe we should have a config option that disables pushing to\n \u003e refs/changes/?\n\nThis change will also catch if you try to edit the change-id in the inline editor, but I don\u0027t know if we need to protect us from that.\n\nIf we can live with the inline editor being able to edit the change-id, your suggestion might be better.",
+      "parentUuid": "584cf80d_c0ea8920",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "b0d08a30baaf27d687c648da6821537ad7857955",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
+import com.google.common.base.Suppliers;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableMap;
@@ -134,8 +135,8 @@ public class AccountCacheImpl implements AccountCache {
         allUsersName,
         account,
         ImmutableSet.of(),
-        ImmutableMap.of(),
-        GeneralPreferencesInfo.defaults());
+        Suppliers.ofInstance(ImmutableMap.of()),
+        Suppliers.ofInstance(GeneralPreferencesInfo.defaults()));
   }
 
   static class ByIdLoader extends CacheLoader<Account.Id, Optional<AccountState>> {

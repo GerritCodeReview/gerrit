@@ -19,6 +19,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
+import com.google.common.base.Suppliers;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableMap;
@@ -35,6 +36,7 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.function.Supplier;
 import org.apache.commons.codec.DecoderException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,23 +68,23 @@ public class AccountState {
             accountConfig.getExternalIdsRev().isPresent()
                 ? externalIds.byAccount(account.getId(), accountConfig.getExternalIdsRev().get())
                 : ImmutableSet.of(),
-            accountConfig.getProjectWatches(),
-            accountConfig.getGeneralPreferences()));
+            Suppliers.memoize(() -> accountConfig.getProjectWatches()),
+            Suppliers.memoize(() -> accountConfig.getGeneralPreferences())));
   }
 
   private final AllUsersName allUsersName;
   private final Account account;
   private final ImmutableSet<ExternalId> externalIds;
-  private final ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches;
-  private final GeneralPreferencesInfo generalPreferences;
+  private final Supplier<ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>>> projectWatches;
+  private final Supplier<GeneralPreferencesInfo> generalPreferences;
   private Cache<IdentifiedUser.PropertyKey<Object>, Object> properties;
 
   public AccountState(
       AllUsersName allUsersName,
       Account account,
       ImmutableSet<ExternalId> externalIds,
-      ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches,
-      GeneralPreferencesInfo generalPreferences) {
+      Supplier<ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>>> projectWatches,
+      Supplier<GeneralPreferencesInfo> generalPreferences) {
     this.allUsersName = allUsersName;
     this.account = account;
     this.externalIds = externalIds;
@@ -145,12 +147,12 @@ public class AccountState {
 
   /** The project watches of the account. */
   public ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> getProjectWatches() {
-    return projectWatches;
+    return projectWatches.get();
   }
 
   /** The general preferences of the account. */
   public GeneralPreferencesInfo getGeneralPreferences() {
-    return generalPreferences;
+    return generalPreferences.get();
   }
 
   /**

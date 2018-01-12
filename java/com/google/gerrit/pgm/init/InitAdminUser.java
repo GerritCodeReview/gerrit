@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.init;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
@@ -157,8 +158,8 @@ public class InitAdminUser implements InitStep {
                   new AllUsersName(allUsers.get()),
                   a,
                   ImmutableSet.copyOf(extIds),
-                  ImmutableMap.of(),
-                  GeneralPreferencesInfo.defaults());
+                  Suppliers.ofInstance(ImmutableMap.of()),
+                  Suppliers.ofInstance(GeneralPreferencesInfo.defaults()));
           for (AccountIndex accountIndex : accountIndexCollection.getWriteIndexes()) {
             accountIndex.replace(as);
           }

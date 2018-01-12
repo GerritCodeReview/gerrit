@@ -379,23 +379,24 @@ public class AccountsUpdate {
   public AccountState insert(String message, Account.Id accountId, AccountUpdater updater)
       throws OrmException, IOException, ConfigInvalidException {
     return updateAccount(
-        r -> {
-          AccountConfig accountConfig = read(r, accountId);
-          Account account =
-              accountConfig.getNewAccount(new Timestamp(committerIdent.getWhen().getTime()));
-          AccountState accountState = AccountState.forAccount(allUsersName, account);
-          InternalAccountUpdate.Builder updateBuilder = InternalAccountUpdate.builder();
-          updater.update(accountState, updateBuilder);
+            r -> {
+              AccountConfig accountConfig = read(r, accountId);
+              Account account =
+                  accountConfig.getNewAccount(new Timestamp(committerIdent.getWhen().getTime()));
+              AccountState accountState = AccountState.forAccount(allUsersName, account);
+              InternalAccountUpdate.Builder updateBuilder = InternalAccountUpdate.builder();
+              updater.update(accountState, updateBuilder);
 
-          InternalAccountUpdate update = updateBuilder.build();
-          accountConfig.setAccountUpdate(update);
-          ExternalIdNotes extIdNotes =
-              createExternalIdNotes(r, accountConfig.getExternalIdsRev(), accountId, update);
-          UpdatedAccount updatedAccounts =
-              new UpdatedAccount(allUsersName, externalIds, message, accountConfig, extIdNotes);
-          updatedAccounts.setCreated(true);
-          return updatedAccounts;
-        });
+              InternalAccountUpdate update = updateBuilder.build();
+              accountConfig.setAccountUpdate(update);
+              ExternalIdNotes extIdNotes =
+                  createExternalIdNotes(r, accountConfig.getExternalIdsRev(), accountId, update);
+              UpdatedAccount updatedAccounts =
+                  new UpdatedAccount(allUsersName, externalIds, message, accountConfig, extIdNotes);
+              updatedAccounts.setCreated(true);
+              return updatedAccounts;
+            })
+        .get();
   }
 
   /**
@@ -406,12 +407,12 @@ public class AccountsUpdate {
    * @param message commit message for the account update, must not be {@code null or empty}
    * @param accountId ID of the account
    * @param update consumer to update the account, only invoked if the account exists
-   * @return the updated account, {@code null} if the account doesn't exist
+   * @return the updated account, {@link Optional#empty()} if the account doesn't exist
    * @throws IOException if updating the user branch fails due to an IO error
    * @throws OrmException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public AccountState update(
+  public Optional<AccountState> update(
       String message, Account.Id accountId, Consumer<InternalAccountUpdate.Builder> update)
       throws OrmException, IOException, ConfigInvalidException {
     return update(message, accountId, AccountUpdater.fromConsumer(update));
@@ -425,13 +426,12 @@ public class AccountsUpdate {
    * @param message commit message for the account update, must not be {@code null or empty}
    * @param accountId ID of the account
    * @param updater updater to update the account, only invoked if the account exists
-   * @return the updated account, {@code null} if the account doesn't exist
+   * @return the updated account, {@link Optional#empty} if the account doesn't exist
    * @throws IOException if updating the user branch fails due to an IO error
    * @throws OrmException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  @Nullable
-  public AccountState update(String message, Account.Id accountId, AccountUpdater updater)
+  public Optional<AccountState> update(String message, Account.Id accountId, AccountUpdater updater)
       throws OrmException, IOException, ConfigInvalidException {
     return updateAccount(
         r -> {
@@ -462,7 +462,7 @@ public class AccountsUpdate {
     return accountConfig;
   }
 
-  private AccountState updateAccount(AccountUpdate accountUpdate)
+  private Optional<AccountState> updateAccount(AccountUpdate accountUpdate)
       throws IOException, ConfigInvalidException, OrmException {
     return retryHelper.execute(
         ActionType.ACCOUNT_UPDATE,
@@ -470,11 +470,11 @@ public class AccountsUpdate {
           try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
             UpdatedAccount updatedAccount = accountUpdate.update(allUsersRepo);
             if (updatedAccount == null) {
-              return null;
+              return Optional.empty();
             }
 
             commit(allUsersRepo, updatedAccount);
-            return updatedAccount.getAccount();
+            return Optional.of(updatedAccount.getAccount());
           }
         });
   }

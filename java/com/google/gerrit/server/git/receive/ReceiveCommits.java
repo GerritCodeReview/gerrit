@@ -1159,6 +1159,9 @@ class ReceiveCommits {
       if (!validRefOperation(cmd)) {
         return;
       }
+      if (!projectState.statePermitsWrite()) {
+        cmd.setResult(REJECTED_NONFASTFORWARD, " project state does not permit write.");
+      }
       actualCommands.add(cmd);
     } else {
       cmd.setResult(

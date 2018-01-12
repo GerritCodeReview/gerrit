@@ -222,7 +222,7 @@ public class ConsistencyChecker {
 
   private void checkOwner() {
     try {
-      if (accounts.get(change().getOwner()) == null) {
+      if (!accounts.get(change().getOwner()).isPresent()) {
         problem("Missing change owner: " + change().getOwner());
       }
     } catch (IOException | ConfigInvalidException e) {

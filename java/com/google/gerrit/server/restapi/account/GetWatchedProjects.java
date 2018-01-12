@@ -66,10 +66,7 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
     }
 
     Account.Id accountId = rsrc.getUser().getAccountId();
-    AccountState account = accounts.get(accountId);
-    if (account == null) {
-      throw new ResourceNotFoundException();
-    }
+    AccountState account = accounts.get(accountId).orElseThrow(ResourceNotFoundException::new);
     List<ProjectWatchInfo> projectWatchInfos = new ArrayList<>();
     for (Map.Entry<ProjectWatchKey, ImmutableSet<NotifyType>> e :
         account.getProjectWatches().entrySet()) {

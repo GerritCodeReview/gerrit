@@ -259,8 +259,7 @@ class RefControl {
   }
 
   private boolean canPushWithForce() {
-    if (!isProjectStatePermittingWrite()
-        || (RefNames.REFS_CONFIG.equals(refName) && !projectControl.isOwner())) {
+    if (RefNames.REFS_CONFIG.equals(refName) && !projectControl.isOwner()) {
       // Pushing requires being at least project owner, in addition to push.
       // Pushing configuration changes modifies the access control
       // rules. Allowing this to be done by a non-project-owner opens

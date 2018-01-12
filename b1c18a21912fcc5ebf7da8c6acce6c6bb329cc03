@@ -69,6 +69,30 @@
       "revId": "b1c18a21912fcc5ebf7da8c6acce6c6bb329cc03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7d74cc8_0eedee0b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-12T21:08:50Z",
+      "side": 1,
+      "message": "Ah yeah, sorry about that, should have looked at the context more.  I\u0027m fine keeping as is. \n\nAs far as the rest response manipulation, yeah, that makes sense. The most frustrating thing is making an actual deep copy all the time when doing that, as Object.assign on its own is often not enough :/",
+      "parentUuid": "24231aaf_dbaca806",
+      "range": {
+        "startLine": 941,
+        "startChar": 8,
+        "endLine": 941,
+        "endChar": 73
+      },
+      "revId": "b1c18a21912fcc5ebf7da8c6acce6c6bb329cc03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

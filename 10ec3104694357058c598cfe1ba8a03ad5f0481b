@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "4649d459_817cfab9",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-12T01:10:53Z",
+      "side": 1,
+      "message": "Hmm.\n\nI see what you mean. Maybe we want to just make the API request in the attached() for this component, then?\n\nIf not, then I think just putting a comment that looks pretty similar to your response above would work. I just know this approach would confuse me a bit if I were opening this file for the first time.",
+      "parentUuid": "ca78071e_32ad469d",
+      "revId": "10ec3104694357058c598cfe1ba8a03ad5f0481b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb7f8e7b_2486bc2a",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.js",
         "patchSetId": 3

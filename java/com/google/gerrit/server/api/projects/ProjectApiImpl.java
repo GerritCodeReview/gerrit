@@ -24,6 +24,8 @@ import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
+import com.google.gerrit.extensions.api.projects.CheckProjectInput;
+import com.google.gerrit.extensions.api.projects.CheckProjectResultInfo;
 import com.google.gerrit.extensions.api.projects.ChildProjectApi;
 import com.google.gerrit.extensions.api.projects.CommitApi;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
@@ -52,6 +54,7 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.restapi.project.Check;
 import com.google.gerrit.server.restapi.project.CheckAccess;
 import com.google.gerrit.server.restapi.project.ChildProjectsCollection;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
@@ -113,6 +116,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final CommitApiImpl.Factory commitApi;
   private final DashboardApiImpl.Factory dashboardApi;
   private final CheckAccess checkAccess;
+  private final Check check;
   private final Provider<ListDashboards> listDashboards;
   private final GetHead getHead;
   private final SetHead setHead;
@@ -145,6 +149,7 @@ public class ProjectApiImpl implements ProjectApi {
       CommitApiImpl.Factory commitApi,
       DashboardApiImpl.Factory dashboardApi,
       CheckAccess checkAccess,
+      Check check,
       Provider<ListDashboards> listDashboards,
       GetHead getHead,
       SetHead setHead,
@@ -177,6 +182,7 @@ public class ProjectApiImpl implements ProjectApi {
         commitApi,
         dashboardApi,
         checkAccess,
+        check,
         listDashboards,
         getHead,
         setHead,
@@ -211,6 +217,7 @@ public class ProjectApiImpl implements ProjectApi {
       CommitApiImpl.Factory commitApi,
       DashboardApiImpl.Factory dashboardApi,
       CheckAccess checkAccess,
+      Check check,
       Provider<ListDashboards> listDashboards,
       GetHead getHead,
       SetHead setHead,
@@ -243,6 +250,7 @@ public class ProjectApiImpl implements ProjectApi {
         commitApi,
         dashboardApi,
         checkAccess,
+        check,
         listDashboards,
         getHead,
         setHead,
@@ -277,6 +285,7 @@ public class ProjectApiImpl implements ProjectApi {
       CommitApiImpl.Factory commitApi,
       DashboardApiImpl.Factory dashboardApi,
       CheckAccess checkAccess,
+      Check check,
       Provider<ListDashboards> listDashboards,
       GetHead getHead,
       SetHead setHead,
@@ -308,6 +317,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.createAccessChange = createAccessChange;
     this.dashboardApi = dashboardApi;
     this.checkAccess = checkAccess;
+    this.check = check;
     this.listDashboards = listDashboards;
     this.getHead = getHead;
     this.setHead = setHead;
@@ -362,15 +372,6 @@ public class ProjectApiImpl implements ProjectApi {
   }
 
   @Override
-  public AccessCheckInfo checkAccess(AccessCheckInput in) throws RestApiException {
-    try {
-      return checkAccess.apply(checkExists(), in);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot check access rights", e);
-    }
-  }
-
-  @Override
   public ProjectAccessInfo access(ProjectAccessInput p) throws RestApiException {
     try {
       return setAccess.apply(checkExists(), p);
@@ -385,6 +386,24 @@ public class ProjectApiImpl implements ProjectApi {
       return createAccessChange.apply(checkExists(), p).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot put access right change", e);
+    }
+  }
+
+  @Override
+  public AccessCheckInfo checkAccess(AccessCheckInput in) throws RestApiException {
+    try {
+      return checkAccess.apply(checkExists(), in);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot check access rights", e);
+    }
+  }
+
+  @Override
+  public CheckProjectResultInfo check(CheckProjectInput in) throws RestApiException {
+    try {
+      return check.apply(checkExists(), in);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot check project", e);
     }
   }
 

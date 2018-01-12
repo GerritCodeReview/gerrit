@@ -401,12 +401,12 @@ public class AccountIT extends AbstractDaemonTest {
   public void updateNonExistingAccount() throws Exception {
     Account.Id nonExistingAccountId = new Account.Id(999999);
     AtomicBoolean consumerCalled = new AtomicBoolean();
-    AccountState accountState =
+    Optional<AccountState> accountState =
         accountsUpdate
             .create()
             .update(
                 "Update Non-Existing Account", nonExistingAccountId, a -> consumerCalled.set(true));
-    assertThat(accountState).isNull();
+    assertThat(accountState.isPresent()).isFalse();
     assertThat(consumerCalled.get()).isFalse();
   }
 
@@ -416,13 +416,14 @@ public class AccountIT extends AbstractDaemonTest {
     assertUserBranchWithoutAccountConfig(anonymousCoward.getId());
 
     String status = "OOO";
-    AccountState accountState =
+    Optional<AccountState> accountState =
         accountsUpdate
             .create()
             .update("Set status", anonymousCoward.getId(), u -> u.setStatus(status));
-    assertThat(accountState).isNotNull();
-    assertThat(accountState.getAccount().getFullName()).isNull();
-    assertThat(accountState.getAccount().getStatus()).isEqualTo(status);
+    assertThat(accountState.isPresent()).isTrue();
+    Account account = accountState.get().getAccount();
+    assertThat(account.getFullName()).isNull();
+    assertThat(account.getStatus()).isEqualTo(status);
     assertUserBranch(anonymousCoward.getId(), null, status);
   }
 
@@ -1946,11 +1947,12 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(accountState.getAccount().getMetaId()).isEqualTo(getMetaId(accountId));
 
     // metaId is set when account is updated
-    AccountState updatedAccountState =
+    Optional<AccountState> updatedAccountState =
         au.update("Set Full Name", accountId, u -> u.setFullName("foo"));
-    assertThat(accountState.getAccount().getMetaId())
-        .isNotEqualTo(updatedAccountState.getAccount().getMetaId());
-    assertThat(updatedAccountState.getAccount().getMetaId()).isEqualTo(getMetaId(accountId));
+    assertThat(updatedAccountState.isPresent()).isTrue();
+    Account updatedAccount = updatedAccountState.get().getAccount();
+    assertThat(accountState.getAccount().getMetaId()).isNotEqualTo(updatedAccount.getMetaId());
+    assertThat(updatedAccount.getMetaId()).isEqualTo(getMetaId(accountId));
   }
 
   private EmailInput newEmailInput(String email, boolean noConfirmation) {
@@ -2051,12 +2053,14 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(accountInfo.status).isNull();
     assertThat(accountInfo.name).isNotEqualTo(fullName);
 
-    AccountState updatedAccountState =
+    Optional<AccountState> updatedAccountState =
         update.update("Set Full Name", admin.id, u -> u.setFullName(fullName));
     assertThat(doneBgUpdate.get()).isTrue();
 
-    assertThat(updatedAccountState.getAccount().getStatus()).isEqualTo(status);
-    assertThat(updatedAccountState.getAccount().getFullName()).isEqualTo(fullName);
+    assertThat(updatedAccountState.isPresent()).isTrue();
+    Account updatedAccount = updatedAccountState.get().getAccount();
+    assertThat(updatedAccount.getStatus()).isEqualTo(status);
+    assertThat(updatedAccount.getFullName()).isEqualTo(fullName);
 
     accountInfo = gApi.accounts().id(admin.id.get()).get();
     assertThat(accountInfo.status).isEqualTo(status);
@@ -2161,7 +2165,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(bgCounterA2.get()).isEqualTo(0);
     assertThat(gApi.accounts().id(admin.id.get()).get().status).isEqualTo("A-1");
 
-    AccountState updatedAccountState =
+    Optional<AccountState> updatedAccountState =
         update.update(
             "Set Status",
             admin.id,
@@ -2180,7 +2184,8 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(bgCounterA1.get()).isEqualTo(1);
     assertThat(bgCounterA2.get()).isEqualTo(1);
 
-    assertThat(updatedAccountState.getAccount().getStatus()).isEqualTo("B-2");
+    assertThat(updatedAccountState.isPresent()).isTrue();
+    assertThat(updatedAccountState.get().getAccount().getStatus()).isEqualTo("B-2");
     assertThat(accounts.get(admin.id).get().getAccount().getStatus()).isEqualTo("B-2");
     assertThat(gApi.accounts().id(admin.id.get()).get().status).isEqualTo("B-2");
   }
@@ -2241,7 +2246,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     ExternalId extIdB1 = ExternalId.create("foo", "B-1", accountId);
     ExternalId extIdB2 = ExternalId.create("foo", "B-2", accountId);
-    AccountState updatedAccount =
+    Optional<AccountState> updatedAccount =
         update.update(
             "Update External ID",
             accountId,
@@ -2260,7 +2265,8 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(bgCounterA1.get()).isEqualTo(1);
     assertThat(bgCounterA2.get()).isEqualTo(1);
 
-    assertThat(updatedAccount.getExternalIds()).containsExactly(extIdB2);
+    assertThat(updatedAccount.isPresent()).isTrue();
+    assertThat(updatedAccount.get().getExternalIds()).containsExactly(extIdB2);
     assertThat(accounts.get(accountId).get().getExternalIds()).containsExactly(extIdB2);
     assertThat(
             gApi.accounts()

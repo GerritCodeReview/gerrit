@@ -130,6 +130,9 @@ public class CreateMergePatchSet
           UpdateException, PermissionBackendException {
     rsrc.permissions().database(db).check(ChangePermission.ADD_PATCH_SET);
 
+    ProjectState projectState = projectCache.checkedGet(rsrc.getProject());
+    projectState.checkStatePermitsWrite();
+
     MergeInput merge = in.merge;
     if (merge == null || Strings.isNullOrEmpty(merge.source)) {
       throw new BadRequestException("merge.source must be non-empty");
@@ -137,7 +140,6 @@ public class CreateMergePatchSet
     in.baseChange = Strings.nullToEmpty(in.baseChange).trim();
 
     PatchSet ps = psUtil.current(db.get(), rsrc.getNotes());
-    ProjectState projectState = projectCache.checkedGet(rsrc.getProject());
     Change change = rsrc.getChange();
     Project.NameKey project = change.getProject();
     Branch.NameKey dest = change.getDest();

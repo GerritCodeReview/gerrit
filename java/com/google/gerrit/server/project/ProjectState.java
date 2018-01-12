@@ -32,6 +32,7 @@ import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.ThemeInfo;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -256,6 +257,17 @@ public class ProjectState {
 
   public long getMaxObjectSizeLimit() {
     return config.getMaxObjectSizeLimit();
+  }
+
+  public boolean statePermitsWrite() {
+    return getProject().getState().permitsWrite();
+  }
+
+  public void checkStatePermitsWrite() throws ResourceConflictException {
+    if (!statePermitsWrite()) {
+      throw new ResourceConflictException(
+          "project state " + getProject().getState().name() + " does not permit write");
+    }
   }
 
   /** Get the sections that pertain only to this project. */

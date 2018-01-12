@@ -140,7 +140,8 @@ public class ListTags implements RestReadView<ProjectResource> {
           visibleTags(
               resource.getProjectState(), repo, repo.getRefDatabase().getRefs(Constants.R_TAGS));
       for (Ref ref : all.values()) {
-        tags.add(createTagInfo(perm.ref(ref.getName()), ref, rw, resource.getNameKey(), links));
+        tags.add(
+            createTagInfo(perm.ref(ref.getName()), ref, rw, resource.getProjectState(), links));
       }
     }
 
@@ -180,7 +181,7 @@ public class ListTags implements RestReadView<ProjectResource> {
                 .ref(ref.getName()),
             ref,
             rw,
-            resource.getNameKey(),
+            resource.getProjectState(),
             links);
       }
     }
@@ -188,15 +189,12 @@ public class ListTags implements RestReadView<ProjectResource> {
   }
 
   public static TagInfo createTagInfo(
-      PermissionBackend.ForRef perm,
-      Ref ref,
-      RevWalk rw,
-      Project.NameKey projectName,
-      WebLinks links)
+      PermissionBackend.ForRef perm, Ref ref, RevWalk rw, ProjectState projectState, WebLinks links)
       throws MissingObjectException, IOException {
     RevObject object = rw.parseAny(ref.getObjectId());
-    Boolean canDelete = perm.testOrFalse(RefPermission.DELETE) ? true : null;
-    List<WebLinkInfo> webLinks = links.getTagLinks(projectName.get(), ref.getName());
+    Boolean canDelete =
+        perm.testOrFalse(RefPermission.DELETE) && projectState.statePermitsWrite() ? true : null;
+    List<WebLinkInfo> webLinks = links.getTagLinks(projectState.getName(), ref.getName());
     if (object instanceof RevTag) {
       // Annotated or signed tag
       RevTag tag = (RevTag) object;

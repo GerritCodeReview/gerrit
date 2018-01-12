@@ -238,14 +238,14 @@ public class AccountManager {
     }
 
     if (!accountUpdates.isEmpty()) {
-      AccountState accountState =
+      Optional<AccountState> accountState =
           accountsUpdateFactory
               .create()
               .update(
                   "Update Account on Login",
                   user.getAccountId(),
                   AccountUpdater.joinConsumers(accountUpdates));
-      if (accountState == null) {
+      if (!accountState.isPresent()) {
         throw new OrmException("Account " + user.getAccountId() + " has been deleted");
       }
     }

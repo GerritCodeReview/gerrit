@@ -129,7 +129,7 @@ class RefControl {
       // granting of powers beyond submitting to the configuration.
       return projectControl.isOwner();
     }
-    return canPerform(Permission.SUBMIT, isChangeOwner) && isProjectStatePermittingWrite();
+    return canPerform(Permission.SUBMIT, isChangeOwner);
   }
 
   /** @return true if this user can abandon a change for this ref */

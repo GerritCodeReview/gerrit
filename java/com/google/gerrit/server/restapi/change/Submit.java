@@ -57,6 +57,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.account.AccountsCollection;
@@ -132,6 +133,7 @@ public class Submit
   private final boolean submitWholeTopic;
   private final Provider<InternalChangeQuery> queryProvider;
   private final PatchSetUtil psUtil;
+  private final ProjectCache projectCache;
 
   @Inject
   Submit(
@@ -146,7 +148,8 @@ public class Submit
       AccountsCollection accounts,
       @GerritServerConfig Config cfg,
       Provider<InternalChangeQuery> queryProvider,
-      PatchSetUtil psUtil) {
+      PatchSetUtil psUtil,
+      ProjectCache projectCache) {
     this.dbProvider = dbProvider;
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
@@ -183,6 +186,7 @@ public class Submit
                 cfg.getString("change", null, "submitTopicTooltip"), DEFAULT_TOPIC_TOOLTIP));
     this.queryProvider = queryProvider;
     this.psUtil = psUtil;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -197,6 +201,7 @@ public class Submit
       rsrc.permissions().check(ChangePermission.SUBMIT);
       submitter = rsrc.getUser().asIdentifiedUser();
     }
+    projectCache.checkedGet(rsrc.getProject()).statePermitsWrite();
 
     return new Output(mergeChange(rsrc, submitter, input));
   }
@@ -301,6 +306,15 @@ public class Submit
         || !resource.isCurrent()
         || !resource.permissions().testOrFalse(ChangePermission.SUBMIT)) {
       return null; // submit not visible
+    }
+
+    try {
+      if (!projectCache.checkedGet(resource.getProject()).statePermitsWrite()) {
+        return null; // submit not visible
+      }
+    } catch (IOException e) {
+      log.error("Error checking if change is submittable", e);
+      throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
 
     ReviewDb db = dbProvider.get();

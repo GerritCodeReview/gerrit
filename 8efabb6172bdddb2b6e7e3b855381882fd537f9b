@@ -16,6 +16,24 @@
       "revId": "8efabb6172bdddb2b6e7e3b855381882fd537f9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "927a3300_f88ad13a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-12T16:48:41Z",
+      "side": 1,
+      "message": "Not sure but this was deftly wrong. This function did not exist so not sure how this became unnoticed.",
+      "parentUuid": "ca3e3eac_e0c700a2",
+      "revId": "8efabb6172bdddb2b6e7e3b855381882fd537f9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

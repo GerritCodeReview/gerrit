@@ -94,6 +94,7 @@ public class CherryPickCommit
         .project(projectName)
         .ref(refName)
         .check(RefPermission.CREATE_CHANGE);
+    rsrc.getProjectState().checkStatePermitsWrite();
 
     try {
       Change.Id cherryPickedChangeId =

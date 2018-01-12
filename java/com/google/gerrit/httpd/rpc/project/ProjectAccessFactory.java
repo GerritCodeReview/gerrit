@@ -224,7 +224,9 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     detail.setOwnerOf(ownerOf);
     detail.setCanUpload(
         canWriteProjectConfig
-            || (checkReadConfig && perm.ref(RefNames.REFS_CONFIG).testOrFalse(CREATE_CHANGE)));
+            || (checkReadConfig
+                && perm.ref(RefNames.REFS_CONFIG).testOrFalse(CREATE_CHANGE)
+                && projectState.statePermitsWrite()));
     detail.setConfigVisible(canWriteProjectConfig || checkReadConfig);
     detail.setGroupInfo(buildGroupInfo(local));
     detail.setLabelTypes(projectState.getLabelTypes());

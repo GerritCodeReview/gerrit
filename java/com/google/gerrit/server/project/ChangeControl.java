@@ -160,13 +160,16 @@ class ChangeControl {
   private boolean canRebase(ReviewDb db) throws OrmException {
     return (isOwner() || refControl.canSubmit(isOwner()) || refControl.canRebase())
         && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)
+        && getProjectControl().getProjectState().statePermitsWrite()
         && !isPatchSetLocked(db);
   }
 
   /** Can this user restore this change? */
   private boolean canRestore(ReviewDb db) throws OrmException {
     // Anyone who can abandon the change can restore it, as long as they can create changes.
-    return canAbandon(db) && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE);
+    return canAbandon(db)
+        && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)
+        && getProjectControl().getProjectState().statePermitsWrite();
   }
 
   /** The range of permitted values associated with a label permission. */
@@ -176,7 +179,9 @@ class ChangeControl {
 
   /** Can this user add a patch set to this change? */
   private boolean canAddPatchSet(ReviewDb db) throws OrmException {
-    if (!refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE) || isPatchSetLocked(db)) {
+    if (!(refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)
+            && getProjectControl().getProjectState().statePermitsWrite())
+        || isPatchSetLocked(db)) {
       return false;
     }
     if (isOwner()) {

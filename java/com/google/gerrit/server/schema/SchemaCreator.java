@@ -240,7 +240,7 @@ public class SchemaCreator {
 
     AccountGroup.NameKey groupName = groupUpdate.getName().orElseGet(groupCreation::getNameKey);
     GroupNameNotes groupNameNotes =
-        GroupNameNotes.loadForNewGroup(allUsersRepo, groupCreation.getGroupUUID(), groupName);
+        GroupNameNotes.forNewGroup(allUsersRepo, groupCreation.getGroupUUID(), groupName);
 
     commit(allUsersRepo, groupConfig, groupNameNotes);
 

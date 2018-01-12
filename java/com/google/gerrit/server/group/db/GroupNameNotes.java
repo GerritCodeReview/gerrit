@@ -68,7 +68,7 @@ public class GroupNameNotes extends VersionedMetaData {
   @VisibleForTesting
   static final String UNIQUE_REF_ERROR = "GroupReference collection must contain unique references";
 
-  public static GroupNameNotes loadForRename(
+  public static GroupNameNotes forRename(
       Repository repository,
       AccountGroup.UUID groupUuid,
       AccountGroup.NameKey oldName,
@@ -83,7 +83,7 @@ public class GroupNameNotes extends VersionedMetaData {
     return groupNameNotes;
   }
 
-  public static GroupNameNotes loadForNewGroup(
+  public static GroupNameNotes forNewGroup(
       Repository repository, AccountGroup.UUID groupUuid, AccountGroup.NameKey groupName)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
     checkNotNull(groupName);
@@ -95,14 +95,14 @@ public class GroupNameNotes extends VersionedMetaData {
   }
 
   public static Optional<GroupReference> loadGroup(
-      Repository allUsersRepo, AccountGroup.NameKey groupName)
+      Repository repository, AccountGroup.NameKey groupName)
       throws IOException, ConfigInvalidException {
-    Ref ref = allUsersRepo.exactRef(RefNames.REFS_GROUPNAMES);
+    Ref ref = repository.exactRef(RefNames.REFS_GROUPNAMES);
     if (ref == null) {
       return Optional.empty();
     }
 
-    try (RevWalk revWalk = new RevWalk(allUsersRepo);
+    try (RevWalk revWalk = new RevWalk(repository);
         ObjectReader reader = revWalk.getObjectReader()) {
       RevCommit notesCommit = revWalk.parseCommit(ref.getObjectId());
       NoteMap noteMap = NoteMap.read(reader, notesCommit);
@@ -140,8 +140,8 @@ public class GroupNameNotes extends VersionedMetaData {
     }
   }
 
-  public static void updateGroupNames(
-      Repository allUsersRepo,
+  public static void updateAllGroups(
+      Repository repository,
       ObjectInserter inserter,
       BatchRefUpdate bru,
       Collection<GroupReference> groupReferences,
@@ -154,7 +154,7 @@ public class GroupNameNotes extends VersionedMetaData {
         RevWalk rw = new RevWalk(reader)) {
       // Always start from an empty map, discarding old notes.
       NoteMap noteMap = NoteMap.newEmptyMap();
-      Ref ref = allUsersRepo.exactRef(RefNames.REFS_GROUPNAMES);
+      Ref ref = repository.exactRef(RefNames.REFS_GROUPNAMES);
       RevCommit oldCommit = ref != null ? rw.parseCommit(ref.getObjectId()) : null;
 
       for (Map.Entry<AccountGroup.UUID, String> e : biMap.entrySet()) {

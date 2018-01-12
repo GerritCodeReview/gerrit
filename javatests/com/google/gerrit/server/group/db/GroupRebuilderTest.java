@@ -536,7 +536,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     try (ObjectInserter inserter = repo.newObjectInserter()) {
       ImmutableList<GroupReference> refs =
           ImmutableList.of(GroupReference.forGroup(g1), GroupReference.forGroup(g2));
-      GroupNameNotes.updateGroupNames(repo, inserter, bru, refs, newPersonIdent());
+      GroupNameNotes.updateAllGroups(repo, inserter, bru, refs, newPersonIdent());
       inserter.flush();
     }
 

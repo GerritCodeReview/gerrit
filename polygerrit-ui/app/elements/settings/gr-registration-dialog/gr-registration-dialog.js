@@ -30,6 +30,7 @@
      */
 
     properties: {
+      settingsUrl: String,
       /** @type {?} */
       _account: {
         type: Object,
@@ -88,10 +89,6 @@
 
     _computeSaveDisabled(name, username, email, saving) {
       return !name || !username || !email || saving;
-    },
-
-    _computeSettingsUrl() {
-      return Gerrit.Nav.getUrlForSettings();
     },
   });
 })();

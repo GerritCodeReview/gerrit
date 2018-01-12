@@ -2981,7 +2981,7 @@ class ReceiveCommits {
     }
     logDebug("Updating full name of caller");
     try {
-      AccountState accountState =
+      Optional<AccountState> accountState =
           accountsUpdate
               .create()
               .update(
@@ -2992,9 +2992,9 @@ class ReceiveCommits {
                       u.setFullName(setFullNameTo);
                     }
                   });
-      if (accountState != null) {
-        user.getAccount().setFullName(accountState.getAccount().getFullName());
-      }
+      accountState
+          .map(AccountState::getAccount)
+          .ifPresent(a -> user.getAccount().setFullName(a.getFullName()));
     } catch (OrmException | IOException | ConfigInvalidException e) {
       logWarn("Failed to update full name of caller", e);
     }

@@ -39,22 +39,19 @@ public class SetInactiveFlag {
   public Response<?> deactivate(Account.Id accountId)
       throws RestApiException, IOException, ConfigInvalidException, OrmException {
     AtomicBoolean alreadyInactive = new AtomicBoolean(false);
-    AccountState accountState =
-        accountsUpdate
-            .create()
-            .update(
-                "Deactivate Account via API",
-                accountId,
-                (a, u) -> {
-                  if (!a.getAccount().isActive()) {
-                    alreadyInactive.set(true);
-                  } else {
-                    u.setActive(false);
-                  }
-                });
-    if (accountState == null) {
-      throw new ResourceNotFoundException("account not found");
-    }
+    accountsUpdate
+        .create()
+        .update(
+            "Deactivate Account via API",
+            accountId,
+            (a, u) -> {
+              if (!a.getAccount().isActive()) {
+                alreadyInactive.set(true);
+              } else {
+                u.setActive(false);
+              }
+            })
+        .orElseThrow(() -> new ResourceNotFoundException("account not found"));
     if (alreadyInactive.get()) {
       throw new ResourceConflictException("account not active");
     }
@@ -64,22 +61,19 @@ public class SetInactiveFlag {
   public Response<String> activate(Account.Id accountId)
       throws ResourceNotFoundException, IOException, ConfigInvalidException, OrmException {
     AtomicBoolean alreadyActive = new AtomicBoolean(false);
-    AccountState accountState =
-        accountsUpdate
-            .create()
-            .update(
-                "Activate Account via API",
-                accountId,
-                (a, u) -> {
-                  if (a.getAccount().isActive()) {
-                    alreadyActive.set(true);
-                  } else {
-                    u.setActive(true);
-                  }
-                });
-    if (accountState == null) {
-      throw new ResourceNotFoundException("account not found");
-    }
+    accountsUpdate
+        .create()
+        .update(
+            "Activate Account via API",
+            accountId,
+            (a, u) -> {
+              if (a.getAccount().isActive()) {
+                alreadyActive.set(true);
+              } else {
+                u.setActive(true);
+              }
+            })
+        .orElseThrow(() -> new ResourceNotFoundException("account not found"));
     return alreadyActive.get() ? Response.ok("") : Response.created("");
   }
 }

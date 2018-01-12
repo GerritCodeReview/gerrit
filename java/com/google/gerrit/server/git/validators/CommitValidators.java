@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -128,6 +129,7 @@ public class CommitValidators {
       return new CommitValidators(
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
+              new ProjectStateValidationListener(projectState),
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
               new AuthorUploaderValidator(user, perm, canonicalWebUrl),
               new CommitterUploaderValidator(user, perm, canonicalWebUrl),
@@ -149,18 +151,16 @@ public class CommitValidators {
         SshInfo sshInfo,
         RevWalk rw)
         throws IOException {
+      ProjectState projectState = projectCache.checkedGet(branch.getParentKey());
       return new CommitValidators(
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
+              new ProjectStateValidationListener(projectState),
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
               new AuthorUploaderValidator(user, perm, canonicalWebUrl),
               new SignedOffByValidator(user, perm, projectCache.checkedGet(branch.getParentKey())),
               new ChangeIdValidator(
-                  projectCache.checkedGet(branch.getParentKey()),
-                  user,
-                  canonicalWebUrl,
-                  installCommitMsgHookCommand,
-                  sshInfo),
+                  projectState, user, canonicalWebUrl, installCommitMsgHookCommand, sshInfo),
               new ConfigValidator(branch, user, rw, allUsers, allProjects),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
@@ -168,7 +168,9 @@ public class CommitValidators {
               new GroupCommitValidator(allUsers)));
     }
 
-    public CommitValidators forMergedCommits(PermissionBackend.ForRef perm, IdentifiedUser user) {
+    public CommitValidators forMergedCommits(
+        Project.NameKey project, PermissionBackend.ForRef perm, IdentifiedUser user)
+        throws IOException {
       // Generally only include validators that are based on permissions of the
       // user creating a change for a merged commit; generally exclude
       // validators that would require amending the change in order to correct.
@@ -185,6 +187,7 @@ public class CommitValidators {
       return new CommitValidators(
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
+              new ProjectStateValidationListener(projectCache.checkedGet(project)),
               new AuthorUploaderValidator(user, perm, canonicalWebUrl),
               new CommitterUploaderValidator(user, perm, canonicalWebUrl)));
     }
@@ -805,6 +808,24 @@ public class CommitValidators {
         throw new CommitValidationException("group update not allowed");
       }
       return Collections.emptyList();
+    }
+  }
+
+  /** Rejects updates to projects that don't allow writes. */
+  public static class ProjectStateValidationListener implements CommitValidationListener {
+    private final ProjectState projectState;
+
+    public ProjectStateValidationListener(ProjectState projectState) {
+      this.projectState = projectState;
+    }
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+        throws CommitValidationException {
+      if (projectState.statePermitsWrite()) {
+        return Collections.emptyList();
+      }
+      throw new CommitValidationException("project state does not permit write");
     }
   }
 

@@ -2828,7 +2828,8 @@ class ReceiveCommits {
               && magicBranch.merged;
       CommitValidators validators =
           isMerged
-              ? commitValidatorsFactory.forMergedCommits(perm, user.asIdentifiedUser())
+              ? commitValidatorsFactory.forMergedCommits(
+                  project.getNameKey(), perm, user.asIdentifiedUser())
               : commitValidatorsFactory.forReceiveCommits(
                   perm, branch, user.asIdentifiedUser(), sshInfo, repo, rw);
       messages.addAll(validators.validate(receiveEvent));

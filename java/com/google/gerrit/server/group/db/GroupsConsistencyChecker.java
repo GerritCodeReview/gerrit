@@ -34,6 +34,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -114,7 +115,7 @@ public class GroupsConsistencyChecker {
     }
 
     for (Account.Id id : g.getMembers().asList()) {
-      AccountState account;
+      Optional<AccountState> account;
       try {
         account = accounts.get(id);
       } catch (ConfigInvalidException e) {
@@ -124,7 +125,7 @@ public class GroupsConsistencyChecker {
                 g.getName(), g.getGroupUUID(), id, e.getMessage()));
         continue;
       }
-      if (account == null) {
+      if (!account.isPresent()) {
         problems.add(
             error("group %s (%s) has nonexistent member %s", g.getName(), g.getGroupUUID(), id));
       }

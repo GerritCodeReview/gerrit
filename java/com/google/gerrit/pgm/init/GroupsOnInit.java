@@ -150,7 +150,7 @@ public class GroupsOnInit {
       File allUsersRepoPath = getPathToAllUsersRepository();
       if (allUsersRepoPath != null) {
         try (Repository allUsersRepo = new FileRepository(allUsersRepoPath)) {
-          return GroupNameNotes.loadAllGroupReferences(allUsersRepo).stream();
+          return GroupNameNotes.loadAllGroups(allUsersRepo).stream();
         }
       }
       return Stream.empty();

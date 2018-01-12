@@ -23,7 +23,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.testing.GroupReferenceSubject;
@@ -364,7 +363,7 @@ public class GroupNameNotesTest {
 
   @Test
   public void nonExistentNotesRefIsEquivalentToNotAnyExistingGroups() throws Exception {
-    ImmutableSet<GroupReference> allGroups = GroupNameNotes.loadAllGroupReferences(repo);
+    ImmutableList<GroupReference> allGroups = GroupNameNotes.loadAllGroups(repo);
 
     assertThat(allGroups).isEmpty();
   }
@@ -378,7 +377,7 @@ public class GroupNameNotesTest {
     AccountGroup.NameKey groupName2 = new AccountGroup.NameKey("admins");
     createGroup(groupUuid2, groupName2);
 
-    ImmutableSet<GroupReference> allGroups = GroupNameNotes.loadAllGroupReferences(repo);
+    ImmutableList<GroupReference> allGroups = GroupNameNotes.loadAllGroups(repo);
 
     GroupReference group1 = new GroupReference(groupUuid1, groupName1.get());
     GroupReference group2 = new GroupReference(groupUuid2, groupName2.get());
@@ -386,16 +385,16 @@ public class GroupNameNotesTest {
   }
 
   @Test
-  public void loadedGroupsContainOnlyOneGroupPerUuid() throws Exception {
+  public void loadedGroupsContainGroupsWithDuplicateGroupUuids() throws Exception {
     createGroup(groupUuid, groupName);
     AccountGroup.NameKey anotherGroupName = new AccountGroup.NameKey("admins");
     createGroup(groupUuid, anotherGroupName);
 
-    ImmutableSet<GroupReference> allGroups = GroupNameNotes.loadAllGroupReferences(repo);
+    ImmutableList<GroupReference> allGroups = GroupNameNotes.loadAllGroups(repo);
 
     GroupReference group1 = new GroupReference(groupUuid, groupName.get());
     GroupReference group2 = new GroupReference(groupUuid, anotherGroupName.get());
-    assertThat(allGroups).isAnyOf(ImmutableSet.of(group1), ImmutableSet.of(group2));
+    assertThat(allGroups).containsExactly(group1, group2);
   }
 
   @Test
@@ -413,7 +412,7 @@ public class GroupNameNotesTest {
     assertThat(log.get(0)).author().matches(ident);
     assertThat(log.get(0)).committer().matches(ident);
 
-    assertThat(GroupTestUtil.readNameToUuidMap(repo)).containsExactly("a", "a-1", "b", "b-2");
+    assertThat(GroupNameNotes.loadAllGroups(repo)).containsExactly(g1, g2);
 
     // Updating the same set of names is a no-op.
     String commit = log.get(0).commit;
@@ -448,7 +447,7 @@ public class GroupNameNotesTest {
     ident = newPersonIdent();
     updateGroupNames(ident, g1, g2);
 
-    assertThat(GroupTestUtil.readNameToUuidMap(repo)).containsExactly("a", "a-1", "b", "b-2");
+    assertThat(GroupNameNotes.loadAllGroups(repo)).containsExactly(g1, g2);
 
     ImmutableList<CommitInfo> log = log();
     assertThat(log).hasSize(2);
@@ -470,11 +469,11 @@ public class GroupNameNotesTest {
     PersonIdent ident = newPersonIdent();
     updateGroupNames(ident, g1, g2);
 
-    assertThat(GroupTestUtil.readNameToUuidMap(repo)).containsExactly("a", "a-1", "b", "b-2");
+    assertThat(GroupNameNotes.loadAllGroups(repo)).containsExactly(g1, g2);
 
     updateGroupNames(ident);
 
-    assertThat(GroupTestUtil.readNameToUuidMap(repo)).isEmpty();
+    assertThat(GroupNameNotes.loadAllGroups(repo)).isEmpty();
 
     ImmutableList<CommitInfo> log = log();
     assertThat(log).hasSize(2);
@@ -499,7 +498,7 @@ public class GroupNameNotesTest {
     GroupReference g = newGroup("");
     updateGroupNames(newPersonIdent(), g);
 
-    assertThat(GroupTestUtil.readNameToUuidMap(repo)).containsExactly("", "-1");
+    assertThat(GroupNameNotes.loadAllGroups(repo)).containsExactly(g);
     assertThat(readNameNote(g)).isEqualTo("[group]\n\tuuid = -1\n\tname = \n");
   }
 

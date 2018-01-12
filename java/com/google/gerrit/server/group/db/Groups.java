@@ -192,7 +192,7 @@ public class Groups {
       throws OrmException, IOException, ConfigInvalidException {
     if (groupsMigration.readFromNoteDb()) {
       try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
-        return GroupNameNotes.loadAllGroupReferences(allUsersRepo).stream();
+        return GroupNameNotes.loadAllGroups(allUsersRepo).stream();
       }
     }
 
@@ -298,10 +298,9 @@ public class Groups {
         .filter(groupUuid -> !AccountGroup.isInternalGroup(groupUuid));
   }
 
-  private Stream<AccountGroup.UUID> getExternalGroupsFromNoteDb(Repository allUsersRepo)
+  private static Stream<AccountGroup.UUID> getExternalGroupsFromNoteDb(Repository allUsersRepo)
       throws IOException, ConfigInvalidException {
-    ImmutableSet<GroupReference> allInternalGroups =
-        GroupNameNotes.loadAllGroupReferences(allUsersRepo);
+    ImmutableList<GroupReference> allInternalGroups = GroupNameNotes.loadAllGroups(allUsersRepo);
     ImmutableSet.Builder<AccountGroup.UUID> allSubgroups = ImmutableSet.builder();
     for (GroupReference internalGroup : allInternalGroups) {
       Optional<InternalGroup> group = getGroupFromNoteDb(allUsersRepo, internalGroup.getUUID());

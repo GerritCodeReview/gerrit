@@ -70,6 +70,30 @@
       "revId": "b0d08a30baaf27d687c648da6821537ad7857955",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0771f715_37af4b6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-12T08:47:42Z",
+      "side": 1,
+      "message": "OK.  Just to confirm: is this only going to affect changes pushed to refs/changes/?\n\nI just ask because sometimes I have had cases where I had a commit where I deliberately replaced the change Id line and pushed as a new change to refs/for/branch.  I wouldn\u0027t want to break that user case.",
+      "parentUuid": "8ab315b1_2df22a08",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "b0d08a30baaf27d687c648da6821537ad7857955",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -105,6 +105,18 @@ public abstract class Predicate<T> {
     return getChildren().get(i);
   }
 
+  /** Get the number of leaf terms in this predicate. */
+  public int getLeafCount() {
+    int leafCount = 0;
+    for (Predicate<?> childPredicate : getChildren()) {
+      if (childPredicate instanceof IndexPredicate) {
+        leafCount++;
+      }
+      leafCount += childPredicate.getLeafCount();
+    }
+    return leafCount;
+  }
+
   /** Create a copy of this predicate, with new children. */
   public abstract Predicate<T> copy(Collection<? extends Predicate<T>> children);
 

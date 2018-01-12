@@ -1405,14 +1405,52 @@ Returns true if private changes are disabled.
 [[check-account-external-ids-input]]
 === CheckAccountExternalIdsInput
 The `CheckAccountExternalIdsInput` entity contains input for the
-account external IDs consistency check.
+account external ID consistency check.
 
 Currently this entity contains no fields.
 
 [[check-account-external-ids-result-info]]
 === CheckAccountExternalIdsResultInfo
 The `CheckAccountExternalIdsResultInfo` entity contains the result of
-running the account external IDs consistency check.
+running the account external ID consistency check.
+
+[options="header",cols="1,6"]
+|======================
+|Field Name|Description
+|`problems`|A list of link:#consistency-problem-info[
+ConsistencyProblemInfo] entities.
+|======================
+
+[[check-accounts-input]]
+=== CheckAccountsInput
+The `CheckAccountsInput` entity contains input for the account consistency
+check.
+
+Currently this entity contains no fields.
+
+[[check-accounts-result-info]]
+=== CheckAccountsResultInfo
+The `CheckAccountsResultInfo` entity contains the result of running the
+account consistency check.
+
+[options="header",cols="1,6"]
+|======================
+|Field Name|Description
+|`problems`|A list of link:#consistency-problem-info[
+ConsistencyProblemInfo] entities.
+|======================
+
+[[check-groups-input]]
+=== CheckGroupsInput
+The `CheckGroupsInput` entity contains input for the group consistency
+check.
+
+Currently this entity contains no fields.
+
+[[check-groups-result-info]]
+=== CheckGroupsResultInfo
+The `CheckGroupsResultInfo` entity contains the result of running the
+group consistency check.
 
 [options="header",cols="1,6"]
 |======================
@@ -1436,6 +1474,9 @@ link:#check-accounts-result-info[CheckAccountsResultInfo] entity.
 The result of running the account external ID consistency check as a
 link:#check-account-external-ids-result-info[
 CheckAccountExternalIdsResultInfo] entity.
+|`check_groups_res  ult`            |optional|
+The result of running the group consistency check as a
+link:#check-groups-result-info[CheckGroupsResultInfo] entity.
 |================================================
 
 [[consistency-check-input]]
@@ -1453,6 +1494,9 @@ link:#check-accounts-input[CheckAccountsInput] entity.
 Input for the account external ID consistency check as
 link:#check-account-external-ids-input[CheckAccountExternalIdsInput]
 entity.
+|`check_groups`              |optional|
+Input for the group consistency check as link:#check-groups-input[
+CheckGroupsInput] entity.
 |=========================================
 
 [[consistency-problem-info]]

@@ -84,6 +84,7 @@
         type: String,
         computed: '_computePluginScreenName(params)',
       },
+      _settingsUrl: String,
     },
 
     listeners: {
@@ -121,6 +122,10 @@
       this.$.restAPI.getVersion().then(version => {
         this._version = version;
       });
+
+      // Note: this is evaluated here to ensure that it only happens after the
+      // router has been initialized. @see Issue 7837
+      this._settingsUrl = Gerrit.Nav.getUrlForSettings();
 
       this.$.reporting.appStarted();
       this._viewState = {

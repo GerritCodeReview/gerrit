@@ -45,6 +45,30 @@
       "revId": "b1c18a21912fcc5ebf7da8c6acce6c6bb329cc03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24231aaf_dbaca806",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-12T19:49:06Z",
+      "side": 1,
+      "message": "Based on the previous statement (ll.939-940) this should be identical. I\u0027m just putting it in a separate variable for passing down into the metadata element.\n\nDo you think it should be renamed? Or do you want it formatted differently somehow? To bind using ..\n\n [[_currentRevisionActions.rebase.rebaseOnCurrent]]\n\n.. I think I\u0027d have to change the former statement to ..\n\nthis.set(\u0027_currentRevisionActions.rebase.rebaseOnCurrent\u0027, \n    !!revisionActions.rebase.enabled);\n\n.. but in that case, the method is not really modifying its argument as before.\n\nAside: for what it\u0027s worth, situations like this are why I\u0027m mildly opposed to modifying the REST responses directly to accommodate the component that consumes it. I\u0027d much rather pass the data into an object with methods that translate it for the consumer because it makes the translation more formal, and it doesn\u0027t erase the original REST data. /aside",
+      "parentUuid": "1d39c7d6_1b8a3766",
+      "range": {
+        "startLine": 941,
+        "startChar": 8,
+        "endLine": 941,
+        "endChar": 73
+      },
+      "revId": "b1c18a21912fcc5ebf7da8c6acce6c6bb329cc03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -141,7 +141,7 @@ public class AccountCacheImpl implements AccountCache {
 
     @Override
     public Optional<AccountState> load(Account.Id who) throws Exception {
-      return Optional.ofNullable(accounts.get(who));
+      return accounts.get(who);
     }
   }
 }

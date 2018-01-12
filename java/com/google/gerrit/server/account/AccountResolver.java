@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
@@ -95,18 +97,12 @@ public class AccountResolver {
     Matcher m = Pattern.compile("^.* \\(([1-9][0-9]*)\\)$").matcher(nameOrEmail);
     if (m.matches()) {
       Account.Id id = Account.Id.parse(m.group(1));
-      if (accounts.get(id) != null) {
-        return Collections.singleton(id);
-      }
-      return Collections.emptySet();
+      return Streams.stream(accounts.get(id)).map(a -> id).collect(toImmutableSet());
     }
 
     if (nameOrEmail.matches("^[1-9][0-9]*$")) {
       Account.Id id = Account.Id.parse(nameOrEmail);
-      if (accounts.get(id) != null) {
-        return Collections.singleton(id);
-      }
-      return Collections.emptySet();
+      return Streams.stream(accounts.get(id)).map(a -> id).collect(toImmutableSet());
     }
 
     if (nameOrEmail.matches(Account.USER_NAME_PATTERN)) {

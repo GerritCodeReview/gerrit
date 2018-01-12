@@ -21,10 +21,7 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -385,11 +382,6 @@ public class FromAddressGeneratorProviderTest {
     final Account account = new Account(userId, TimeUtil.nowTs());
     account.setFullName(name);
     account.setPreferredEmail(email);
-    return new AccountState(
-        new AllUsersName(AllUsersNameProvider.DEFAULT),
-        account,
-        ImmutableSet.of(),
-        ImmutableMap.of(),
-        GeneralPreferencesInfo.defaults());
+    return AccountState.forAccount(new AllUsersName(AllUsersNameProvider.DEFAULT), account);
   }
 }

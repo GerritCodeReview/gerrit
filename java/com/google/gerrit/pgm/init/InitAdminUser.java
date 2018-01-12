@@ -17,13 +17,10 @@ package com.google.gerrit.pgm.init;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.client.AuthType;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
@@ -152,13 +149,7 @@ public class InitAdminUser implements InitStep {
             authorizedKeys.save("Add SSH key for initial admin user\n");
           }
 
-          AccountState as =
-              new AccountState(
-                  new AllUsersName(allUsers.get()),
-                  a,
-                  ImmutableSet.copyOf(extIds),
-                  ImmutableMap.of(),
-                  GeneralPreferencesInfo.defaults());
+          AccountState as = AccountState.forAccount(new AllUsersName(allUsers.get()), a, extIds);
           for (AccountIndex accountIndex : accountIndexCollection.getWriteIndexes()) {
             accountIndex.replace(as);
           }

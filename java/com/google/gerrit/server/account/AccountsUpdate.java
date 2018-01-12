@@ -19,13 +19,10 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -386,13 +383,7 @@ public class AccountsUpdate {
           AccountConfig accountConfig = read(r, accountId);
           Account account =
               accountConfig.getNewAccount(new Timestamp(committerIdent.getWhen().getTime()));
-          AccountState accountState =
-              new AccountState(
-                  allUsersName,
-                  account,
-                  ImmutableSet.of(),
-                  ImmutableMap.of(),
-                  GeneralPreferencesInfo.defaults());
+          AccountState accountState = AccountState.forAccount(allUsersName, account);
           InternalAccountUpdate.Builder updateBuilder = InternalAccountUpdate.builder();
           updater.update(accountState, updateBuilder);
 
@@ -635,15 +626,8 @@ public class AccountsUpdate {
     }
 
     public AccountState getAccount() throws IOException {
-      Account account = accountConfig.getLoadedAccount().get();
-      return new AccountState(
-          allUsersName,
-          account,
-          extIdNotes.getRevision() != null
-              ? externalIds.byAccount(account.getId(), extIdNotes.getRevision())
-              : ImmutableSet.of(),
-          accountConfig.getProjectWatches(),
-          accountConfig.getGeneralPreferences());
+      return AccountState.fromAccountConfig(allUsersName, externalIds, accountConfig, extIdNotes)
+          .get();
     }
 
     public ExternalIdNotes getExternalIdNotes() {

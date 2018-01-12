@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/gr-access-behavior/gr-access-behavior.html">
+<link rel="import" href="../../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/gr-menu-page-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -52,8 +53,13 @@ limitations under the License.
       #removeBtn {
         display: none;
       }
+      .right {
+        display: flex;
+        align-items: center;
+      }
       .editing #removeBtn {
         display: block;
+        margin-left: 1.5em;
       }
       .editing #addRule {
         display: block;
@@ -82,10 +88,17 @@ limitations under the License.
       <div id="mainContainer">
         <div class="header">
           <span class="title">[[name]]</span>
-          <gr-button
-              link
-              id="removeBtn"
-              on-tap="_handleRemovePermission">Remove</gr-button>
+          <div class="right">
+            <paper-toggle-button
+                id="exclusiveToggle"
+                checked="{{permission.value.exclusive}}"
+                on-change="_handleValueChange"
+                disabled$="[[!editing]]"></paper-toggle-button>Exclusive
+            <gr-button
+                link
+                id="removeBtn"
+                on-tap="_handleRemovePermission">Remove</gr-button>
+          </div>
         </div><!-- end header -->
         <div class="rules">
           <template

@@ -76,30 +76,6 @@ limitations under the License.
         'Code-Review': {},
       },
     };
-    const repoAccessInput = {
-      add: {
-        'refs/*': {
-          permissions: {
-            owner: {
-              rules: {
-                123: {action: 'DENY', modified: true},
-              },
-            },
-          },
-        },
-      },
-      remove: {
-        'refs/*': {
-          permissions: {
-            owner: {
-              rules: {
-                123: null,
-              },
-            },
-          },
-        },
-      },
-    };
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
@@ -126,14 +102,13 @@ limitations under the License.
           name: 'Create Account',
         },
       };
-
       const accessStub = sandbox.stub(element.$.restAPI,
           'getRepoAccessRights');
 
-
-      accessStub.withArgs('New Repo').returns(Promise.resolve(accessRes));
+      accessStub.withArgs('New Repo').returns(
+          Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
       accessStub.withArgs('Another New Repo')
-          .returns(Promise.resolve(accessRes2));
+          .returns(Promise.resolve(JSON.parse(JSON.stringify(accessRes2))));
       const capabilitiesStub = sandbox.stub(element.$.restAPI,
           'getCapabilities');
       capabilitiesStub.returns(Promise.resolve(capabilitiesRes));
@@ -168,26 +143,13 @@ limitations under the License.
           name: 'Access Database',
         },
       };
-      const accessRes = {
-        local: {
-          GLOBAL_CAPABILITIES: {
-            permissions: {
-              accessDatabase: {
-                rules: {
-                  123: {},
-                },
-              },
-            },
-          },
-        },
-      };
       const repoRes = {
         labels: {
           'Code-Review': {},
         },
       };
-      const accessStub = sandbox.stub(element.$.restAPI,
-          'getRepoAccessRights').returns(Promise.resolve(accessRes));
+      const accessStub = sandbox.stub(element.$.restAPI, 'getRepoAccessRights')
+          .returns(Promise.resolve(JSON.parse(JSON.stringify(accessRes2))));
       const capabilitiesStub = sandbox.stub(element.$.restAPI,
           'getCapabilities').returns(Promise.resolve(capabilitiesRes));
       const repoStub = sandbox.stub(element.$.restAPI, 'getRepo').returns(
@@ -228,7 +190,8 @@ limitations under the License.
 
     suite('with defined sections', () => {
       setup(() => {
-        element._sections = element.toSortedArray(accessRes.local);
+        element._sections =
+            element.toSortedArray(JSON.parse(JSON.stringify(accessRes.local)));
         flushAsynchronousOperations();
       });
 
@@ -268,7 +231,7 @@ limitations under the License.
         element._local = JSON.parse(JSON.stringify(accessRes.local));
         assert.deepEqual(element._computeAddAndRemove(), {add: {}, remove: {}});
         element._local['refs/*'].permissions.owner.rules[123].deleted = true;
-        const expectedInput = {
+        let expectedInput = {
           add: {},
           remove: {
             'refs/*': {
@@ -285,19 +248,26 @@ limitations under the License.
         assert.deepEqual(element._computeAddAndRemove(), expectedInput);
         delete element._local['refs/*'].permissions.owner.rules[123].deleted;
         element._local['refs/*'].permissions.owner.rules[123].modified = true;
-        assert.deepEqual(element._computeAddAndRemove(), repoAccessInput);
-      });
-
-      test('_computeAddAndRemove permissions', () => {
-        element._local = JSON.parse(JSON.stringify(accessRes.local));
-        assert.deepEqual(element._computeAddAndRemove(), {add: {}, remove: {}});
-        element._local['refs/*'].permissions.owner.deleted = true;
-        const expectedInput = {
-          add: {},
+        expectedInput = {
+          add: {
+            'refs/*': {
+              permissions: {
+                owner: {
+                  rules: {
+                    123: {action: 'DENY', modified: true},
+                  },
+                },
+              },
+            },
+          },
           remove: {
             'refs/*': {
               permissions: {
-                owner: {rules: {}},
+                owner: {
+                  rules: {
+                    123: null,
+                  },
+                },
               },
             },
           },
@@ -309,8 +279,33 @@ limitations under the License.
         element._local = JSON.parse(JSON.stringify(accessRes.local));
         assert.deepEqual(element._computeAddAndRemove(), {add: {}, remove: {}});
         element._local['refs/*'].permissions.owner.deleted = true;
-        const expectedInput = {
+        let expectedInput = {
           add: {},
+          remove: {
+            'refs/*': {
+              permissions: {
+                owner: {rules: {}},
+              },
+            },
+          },
+        };
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+        delete element._local['refs/*'].permissions.owner.deleted;
+        element._local['refs/*'].permissions.owner.modified = true;
+        expectedInput = {
+          add: {
+            'refs/*': {
+              permissions: {
+                owner: {
+                  modified: true,
+                  rules: {
+                    234: {action: 'ALLOW'},
+                    123: {action: 'DENY'},
+                  },
+                },
+              },
+            },
+          },
           remove: {
             'refs/*': {
               permissions: {
@@ -368,11 +363,65 @@ limitations under the License.
           },
         };
         assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+        // Modify both permissions with an exclusive bit. Owner is still
+        // deleted.
+        element._local['refs/*'].permissions.owner.exclusive = true;
+        element._local['refs/*'].permissions.owner.modified = true;
+        element._local['refs/*'].permissions.read.exclusive = true;
+        element._local['refs/*'].permissions.read.modified = true;
+        expectedInput = {
+          add: {
+            'refs/*': {
+              permissions: {
+                read: {
+                  exclusive: true,
+                  modified: true,
+                  rules: {
+                    234: {action: 'ALLOW'},
+                  },
+                },
+              },
+            },
+          },
+          remove: {
+            'refs/*': {
+              permissions: {
+                owner: {rules: {}},
+                read: {rules: {}},
+              },
+            },
+          },
+        };
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
       });
 
       test('_handleSaveForReview', done => {
-        sandbox.stub(element.$.restAPI, 'getRepoAccessRights')
-            .returns(Promise.resolve(accessRes));
+        const repoAccessInput = {
+          add: {
+            'refs/*': {
+              permissions: {
+                owner: {
+                  rules: {
+                    123: {action: 'DENY', modified: true},
+                  },
+                },
+              },
+            },
+          },
+          remove: {
+            'refs/*': {
+              permissions: {
+                owner: {
+                  rules: {
+                    123: null,
+                  },
+                },
+              },
+            },
+          },
+        };
+        sandbox.stub(element.$.restAPI, 'getRepoAccessRights').returns(
+            Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
         sandbox.stub(element.$.restAPI, 'getRepo')
             .returns(Promise.resolve({}));
         sandbox.stub(Gerrit.Nav, 'navigateToChange');
@@ -381,8 +430,7 @@ limitations under the License.
             .returns(Promise.resolve({_number: 1}));
 
         element.repo = 'test-repo';
-        sandbox.stub(element, '_computeAddAndRemove')
-            .returns(repoAccessInput);
+        sandbox.stub(element, '_computeAddAndRemove').returns(repoAccessInput);
 
         element._handleSaveForReview().then(() => {
           assert.isTrue(saveForReviewStub.called);

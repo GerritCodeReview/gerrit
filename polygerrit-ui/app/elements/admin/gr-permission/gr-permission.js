@@ -58,6 +58,7 @@
         type: Boolean,
         value: false,
       },
+      _originalExclusiveValue: Boolean,
     },
 
     behaviors: [
@@ -68,6 +69,16 @@
       '_handleRulesChanged(_rules.splices)',
     ],
 
+    ready() {
+      this._setupValues();
+    },
+
+    _setupValues() {
+      if (!this.permission) { return; }
+      this._originalExclusiveValue = !!this.permission.value.exclusive;
+      Polymer.dom.flush();
+    },
+
     _handleEditingChanged(editing, editingOld) {
       // Ignore when editing gets set initially.
       if (!editingOld) { return; }
@@ -77,6 +88,12 @@
         this._groupFilter = '';
         this._rules = this._rules.filter(rule => !rule.value.added);
       }
+    },
+
+    _handleValueChange() {
+      this.permission.value.modified = true;
+      // Allows overall access page to know a change has been made.
+      this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
     },
 
     _handleRemovePermission() {

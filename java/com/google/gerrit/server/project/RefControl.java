@@ -228,10 +228,6 @@ class RefControl {
 
   /** @return true if the user can rewind (force push) the reference. */
   private boolean canForceUpdate() {
-    if (!isProjectStatePermittingWrite()) {
-      return false;
-    }
-
     if (canPushWithForce()) {
       return true;
     }

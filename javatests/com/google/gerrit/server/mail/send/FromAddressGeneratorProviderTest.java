@@ -21,6 +21,7 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
@@ -389,7 +390,7 @@ public class FromAddressGeneratorProviderTest {
         new AllUsersName(AllUsersNameProvider.DEFAULT),
         account,
         ImmutableSet.of(),
-        ImmutableMap.of(),
-        GeneralPreferencesInfo.defaults());
+        Suppliers.ofInstance(ImmutableMap.of()),
+        Suppliers.ofInstance(GeneralPreferencesInfo.defaults()));
   }
 }

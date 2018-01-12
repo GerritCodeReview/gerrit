@@ -21,8 +21,10 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
+import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableBiMap;
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Multiset;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
@@ -32,11 +34,9 @@ import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -114,29 +114,29 @@ public class GroupNameNotes extends VersionedMetaData {
     }
   }
 
-  public static ImmutableSet<GroupReference> loadAllGroupReferences(Repository repository)
+  public static ImmutableList<GroupReference> loadAllGroups(Repository repository)
       throws IOException, ConfigInvalidException {
     Ref ref = repository.exactRef(RefNames.REFS_GROUPNAMES);
     if (ref == null) {
-      return ImmutableSet.of();
+      return ImmutableList.of();
     }
     try (RevWalk revWalk = new RevWalk(repository);
         ObjectReader reader = revWalk.getObjectReader()) {
       RevCommit notesCommit = revWalk.parseCommit(ref.getObjectId());
       NoteMap noteMap = NoteMap.read(reader, notesCommit);
 
-      Set<GroupReference> groupReferences = new LinkedHashSet<>();
+      Multiset<GroupReference> groupReferences = HashMultiset.create();
       for (Note note : noteMap) {
         GroupReference groupReference = getGroupReference(reader, note.getData());
-        boolean result = groupReferences.add(groupReference);
-        if (!result) {
+        int numOfOccurrences = groupReferences.add(groupReference, 1);
+        if (numOfOccurrences > 1) {
           GroupsNoteDbConsistencyChecker.logConsistencyProblemAsWarning(
               "The UUID of group %s (%s) is duplicate in group name notes",
               groupReference.getName(), groupReference.getUUID());
         }
       }
 
-      return ImmutableSet.copyOf(groupReferences);
+      return ImmutableList.copyOf(groupReferences);
     }
   }
 
@@ -315,8 +315,7 @@ public class GroupNameNotes extends VersionedMetaData {
     return config.toText();
   }
 
-  @VisibleForTesting
-  public static GroupReference getGroupReference(ObjectReader reader, ObjectId noteDataBlobId)
+  private static GroupReference getGroupReference(ObjectReader reader, ObjectId noteDataBlobId)
       throws IOException, ConfigInvalidException {
     byte[] noteData = reader.open(noteDataBlobId, OBJ_BLOB).getCachedBytes();
     return getFromNoteData(noteData);

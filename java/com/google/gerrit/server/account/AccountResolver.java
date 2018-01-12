@@ -95,7 +95,7 @@ public class AccountResolver {
     Matcher m = Pattern.compile("^.* \\(([1-9][0-9]*)\\)$").matcher(nameOrEmail);
     if (m.matches()) {
       Account.Id id = Account.Id.parse(m.group(1));
-      if (accounts.get(id) != null) {
+      if (accounts.get(id).isPresent()) {
         return Collections.singleton(id);
       }
       return Collections.emptySet();
@@ -103,7 +103,7 @@ public class AccountResolver {
 
     if (nameOrEmail.matches("^[1-9][0-9]*$")) {
       Account.Id id = Account.Id.parse(nameOrEmail);
-      if (accounts.get(id) != null) {
+      if (accounts.get(id).isPresent()) {
         return Collections.singleton(id);
       }
       return Collections.emptySet();

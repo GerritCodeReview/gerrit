@@ -1936,7 +1936,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void checkMetaId() throws Exception {
     // metaId is set when account is loaded
-    assertThat(accounts.get(admin.getId()).getAccount().getMetaId())
+    assertThat(accounts.get(admin.getId()).get().getAccount().getMetaId())
         .isEqualTo(getMetaId(admin.getId()));
 
     // metaId is set when account is created
@@ -2115,7 +2115,7 @@ public class AccountIT extends AbstractDaemonTest {
     }
     assertThat(bgCounter.get()).isEqualTo(status.size());
 
-    Account updatedAccount = accounts.get(admin.id).getAccount();
+    Account updatedAccount = accounts.get(admin.id).get().getAccount();
     assertThat(updatedAccount.getStatus()).isEqualTo(Iterables.getLast(status));
     assertThat(updatedAccount.getFullName()).isEqualTo(admin.fullName);
 
@@ -2181,7 +2181,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(bgCounterA2.get()).isEqualTo(1);
 
     assertThat(updatedAccountState.getAccount().getStatus()).isEqualTo("B-2");
-    assertThat(accounts.get(admin.id).getAccount().getStatus()).isEqualTo("B-2");
+    assertThat(accounts.get(admin.id).get().getAccount().getStatus()).isEqualTo("B-2");
     assertThat(gApi.accounts().id(admin.id.get()).get().status).isEqualTo("B-2");
   }
 
@@ -2261,7 +2261,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(bgCounterA2.get()).isEqualTo(1);
 
     assertThat(updatedAccount.getExternalIds()).containsExactly(extIdB2);
-    assertThat(accounts.get(accountId).getExternalIds()).containsExactly(extIdB2);
+    assertThat(accounts.get(accountId).get().getExternalIds()).containsExactly(extIdB2);
     assertThat(
             gApi.accounts()
                 .id(accountId.get())

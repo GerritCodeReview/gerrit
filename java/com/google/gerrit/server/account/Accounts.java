@@ -18,7 +18,6 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -55,10 +54,10 @@ public class Accounts {
     this.externalIds = externalIds;
   }
 
-  @Nullable
-  public AccountState get(Account.Id accountId) throws IOException, ConfigInvalidException {
+  public Optional<AccountState> get(Account.Id accountId)
+      throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
-      return read(repo, accountId).orElse(null);
+      return read(repo, accountId);
     }
   }
 

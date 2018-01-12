@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2687fe0f_1c40fc93",
+        "filename": "java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-12T08:12:45Z",
+      "side": 1,
+      "message": "MagicBranch.NEW_CHANGE",
+      "range": {
+        "startLine": 112,
+        "startChar": 40,
+        "endLine": 112,
+        "endChar": 51
+      },
+      "revId": "0c6c9123fd6710fbc747b6c2b6f5d6b4cf36e85a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

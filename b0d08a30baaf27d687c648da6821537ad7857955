@@ -46,6 +46,30 @@
       "revId": "b0d08a30baaf27d687c648da6821537ad7857955",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "584cf80d_c0ea8920",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-12T08:45:39Z",
+      "side": 1,
+      "message": "Maybe we should have a config option that disables pushing to refs/changes/?",
+      "parentUuid": "8ab315b1_2df22a08",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "b0d08a30baaf27d687c648da6821537ad7857955",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

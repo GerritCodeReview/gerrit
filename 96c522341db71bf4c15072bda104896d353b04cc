@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6a85d87_e910ca30",
+        "filename": "WORKSPACE",
+        "patchSetId": 7
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-13T09:11:26Z",
+      "side": 1,
+      "message": "AFAICT we use it only because of transitive dependency on JGit. It seems that there very old version 1.6 from October 2013 is used:\n\n  maven_jar(\n    name \u003d \"commons_compress\",\n    artifact \u003d \"org.apache.commons:commons-compress:1.6\",\n    sha1 \u003d \"c7d9b580aff9e9f1998361f16578e63e5c064699\",\n  )\n\nthat coresponds JGit Maven pom.xml:\n\n  \u003ccommons-compress-version\u003e1.6\u003c/commons-compress-version\u003e\n\nIt\u0027s already out of sync today, but still I would prefer to fix it first, and try to update it in JGit first.\n\nBTW: the latest version is 1.15 October, 2017, the one you are upgrading here is from May 2017.",
+      "range": {
+        "startLine": 277,
+        "startChar": 52,
+        "endLine": 277,
+        "endChar": 56
+      },
+      "revId": "96c522341db71bf4c15072bda104896d353b04cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

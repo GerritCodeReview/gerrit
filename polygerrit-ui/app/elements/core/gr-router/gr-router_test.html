@@ -146,6 +146,7 @@ limitations under the License.
       assert.deepEqual(actualRequiresAuth, shouldRequireAutoAuth);
 
       const unauthenticatedHandlers = [
+        '_handleAdminRepoDashboardsRoute',
         '_handleBranchListFilterOffsetRoute',
         '_handleBranchListFilterRoute',
         '_handleBranchListOffsetRoute',
@@ -157,9 +158,9 @@ limitations under the License.
         '_handleLegacyLinenum',
         '_handleImproperlyEncodedPlusRoute',
         '_handlePassThroughRoute',
-        '_handleProjectDashboardRoute',
         '_handleProjectsOldRoute',
         '_handleRepoAccessRoute',
+        '_handleRepoDashboardRoute',
         '_handleRepoListFilterOffsetRoute',
         '_handleRepoListFilterRoute',
         '_handleRepoListOffsetRoute',

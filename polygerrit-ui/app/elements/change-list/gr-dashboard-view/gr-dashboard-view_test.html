@@ -233,11 +233,15 @@ limitations under the License.
       });
     });
 
-    test('_computeUserHeaderClass', () => {
-      assert.equal(element._computeUserHeaderClass(undefined), 'hide');
-      assert.equal(element._computeUserHeaderClass(''), 'hide');
-      assert.equal(element._computeUserHeaderClass('self'), 'hide');
-      assert.equal(element._computeUserHeaderClass('user'), '');
+    test('_computeHideUserHeader', () => {
+      let params;
+      assert.equal(element._computeHideUserHeader(undefined), 'hide');
+      params.user = '';
+      assert.equal(element._computeHideUserHeader(params), 'hide');
+      params.user = 'self';
+      assert.equal(element._computeHideUserHeader(params), 'hide');
+      params.user = 'user';
+      assert.equal(element._computeHideUserHeader(params), '');
     });
 
     test('404 page', done => {

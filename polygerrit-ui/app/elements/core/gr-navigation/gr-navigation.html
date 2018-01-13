@@ -99,6 +99,7 @@ limitations under the License.
         ACCESS: 'access',
         BRANCHES: 'branches',
         COMMANDS: 'commands',
+        DASHBOARDS: 'dashboards',
         TAGS: 'tags',
       },
 
@@ -431,6 +432,18 @@ limitations under the License.
           view: Gerrit.Nav.View.REPO,
           repoName,
           detail: Gerrit.Nav.RepoDetailView.COMMANDS,
+        });
+      },
+
+      /**
+       * @param {string} repoName
+       * @return {string}
+       */
+      getUrlForRepoDashboards(repoName) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.REPO,
+          repoName,
+          detail: Gerrit.Nav.RepoDetailView.DASHBOARDS,
         });
       },
 

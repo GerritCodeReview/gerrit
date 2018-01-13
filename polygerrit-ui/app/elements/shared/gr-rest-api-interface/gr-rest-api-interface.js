@@ -238,6 +238,14 @@
       return this.fetchJSON('/config/server/info');
     },
 
+    getDashboards(repo) {
+      const encodeName = encodeURIComponent(repo);
+      return this.fetchJSON(`/projects/${encodeName}/dashboards/`)
+          .then(response => {
+            return response;
+          });
+    },
+
     getRepo(repo) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.

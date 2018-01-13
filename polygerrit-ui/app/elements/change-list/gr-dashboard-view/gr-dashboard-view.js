@@ -210,8 +210,12 @@
       });
     },
 
-    _computeUserHeaderClass(userParam) {
-      return userParam === 'self' ? 'hide' : '';
+    _computeHideUserHeader(params) {
+      if (params && params.project || params && params.user === 'self') {
+        return 'hide';
+      }
+
+      return '';
     },
   });
 })();

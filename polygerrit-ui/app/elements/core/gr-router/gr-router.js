@@ -19,7 +19,7 @@
 
     DASHBOARD: /^\/dashboard\/(.+)$/,
     CUSTOM_DASHBOARD: /^\/dashboard\/?$/,
-    PROJECT_DASHBOARD: /^\/p\/(.+)\/\+\/dashboard\/(.+)/,
+    REPO_DASHBOARD: /^\/p\/(.+)\/\+\/dashboard\/(.+)/,
 
     AGREEMENTS: /^\/settings\/agreements\/?/,
     NEW_AGREEMENTS: /^\/settings\/new-agreement\/?/,
@@ -66,6 +66,8 @@
 
     // Matches /admin/repos/<repos>,access.
     REPO_ACCESS: /^\/admin\/repos\/(.+),access$/,
+
+    REPO_ADMIN_DASHBOARD: /^\/admin\/repos\/(.+),dashboards$/,
 
     // Matches /admin/repos[,<offset>][/].
     REPO_LIST_OFFSET: /^\/admin\/repos(,(\d+))?(\/)?$/,
@@ -673,8 +675,8 @@
       this._mapRoute(RoutePattern.CUSTOM_DASHBOARD,
           '_handleCustomDashboardRoute');
 
-      this._mapRoute(RoutePattern.PROJECT_DASHBOARD,
-          '_handleProjectDashboardRoute');
+      this._mapRoute(RoutePattern.REPO_DASHBOARD,
+          '_handleRepoDashboardRoute');
 
       this._mapRoute(RoutePattern.GROUP_INFO, '_handleGroupInfoRoute', true);
 
@@ -703,6 +705,9 @@
 
       this._mapRoute(RoutePattern.REPO_ACCESS,
           '_handleRepoAccessRoute');
+
+      this._mapRoute(RoutePattern.REPO_ADMIN_DASHBOARD,
+          '_handleAdminRepoDashboardsRoute');
 
       this._mapRoute(RoutePattern.BRANCH_LIST_OFFSET,
           '_handleBranchListOffsetRoute');
@@ -946,7 +951,7 @@
       return Promise.resolve();
     },
 
-    _handleProjectDashboardRoute(data) {
+    _handleRepoDashboardRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.DASHBOARD,
         project: data.params[0],
@@ -1028,6 +1033,14 @@
       this._setParams({
         view: Gerrit.Nav.View.REPO,
         detail: Gerrit.Nav.RepoDetailView.ACCESS,
+        repo: data.params[0],
+      });
+    },
+
+    _handleAdminRepoDashboardsRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.REPO,
+        detail: Gerrit.Nav.RepoDetailView.DASHBOARDS,
         repo: data.params[0],
       });
     },

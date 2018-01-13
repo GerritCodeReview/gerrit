@@ -75,6 +75,7 @@
       _showGroupMembers: Boolean,
       _showRepoAccess: Boolean,
       _showRepoCommands: Boolean,
+      _showRepoDashboard: Boolean,
       _showRepoDetailList: Boolean,
       _showRepoMain: Boolean,
       _showRepoList: Boolean,
@@ -130,6 +131,12 @@
               view: Gerrit.Nav.View.REPO,
               detailType: Gerrit.Nav.RepoDetailView.COMMANDS,
               url: Gerrit.Nav.getUrlForRepoCommands(this._repoName),
+            },
+            {
+              name: 'Dashboards',
+              view: Gerrit.Nav.View.REPO,
+              detailType: Gerrit.Nav.RepoDetailView.DASHBOARDS,
+              url: Gerrit.Nav.getUrlForRepoDashboards(this._repoName),
             },
             {
               name: 'Branches',
@@ -203,6 +210,8 @@
           params.detail === Gerrit.Nav.RepoDetailView.ACCESS);
       this.set('_showRepoCommands', isRepoView &&
           params.detail === Gerrit.Nav.RepoDetailView.COMMANDS);
+      this.set('_showRepoDashboard', isRepoView &&
+          params.detail === Gerrit.Nav.RepoDetailView.DASHBOARDS);
       this.set('_showRepoDetailList', isRepoView &&
           (params.detail === Gerrit.Nav.RepoDetailView.BRANCHES ||
            params.detail === Gerrit.Nav.RepoDetailView.TAGS));

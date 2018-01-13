@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f5ae2e5_694be19d",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-13T09:24:14Z",
+      "side": 1,
+      "message": "What is the point of merging this change before merging the commons-compress update: [1]? tukaani_xz is transitive dependency of commons-compress. The currently used commons-compress version 1.13 depends on tukaani_xz 1.4. The latest compress 1.15 depends on the latest tukaani_xz 1.8. But, the actually reason, why they used in gerrit is JGit, and there still the old versions are used: commons-compress: 1.13 and (transitively dependency) tukaani_xz 1.4.\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/133150/",
+      "range": {
+        "startLine": 429,
+        "startChar": 31,
+        "endLine": 429,
+        "endChar": 34
+      },
+      "revId": "58d988b611ee8cc2451a809c7d2f12f753fa351f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

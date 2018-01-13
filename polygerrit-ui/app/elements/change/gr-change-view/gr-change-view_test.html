@@ -399,6 +399,7 @@ limitations under the License.
           title: 'Rebase onto tip of branch or parent change',
         },
       };
+      element._parentIsCurrent = undefined;
 
       // Rebase enabled should always end up true.
       // When rebase is enabled initially, rebaseOnCurrent should be set to
@@ -408,6 +409,7 @@ limitations under the License.
 
       assert.isTrue(currentRevisionActions.rebase.enabled);
       assert.isTrue(currentRevisionActions.rebase.rebaseOnCurrent);
+      assert.isFalse(element._parentIsCurrent);
 
       delete currentRevisionActions.rebase.enabled;
 
@@ -418,6 +420,21 @@ limitations under the License.
 
       assert.isTrue(currentRevisionActions.rebase.enabled);
       assert.isFalse(currentRevisionActions.rebase.rebaseOnCurrent);
+      assert.isTrue(element._parentIsCurrent);
+    });
+
+    test('_updateRebaseAction sets _parentIsCurrent on no rebase', () => {
+      const currentRevisionActions = {
+        cherrypick: {
+          enabled: true,
+          label: 'Cherry Pick',
+          method: 'POST',
+          title: 'cherrypick',
+        },
+      };
+      element._parentIsCurrent = undefined;
+      element._updateRebaseAction(currentRevisionActions);
+      assert.isTrue(element._parentIsCurrent);
     });
 
     test('_reload is called when an approved label is removed', () => {

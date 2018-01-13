@@ -4408,8 +4408,6 @@ Supported key exchange algorithms:
 * `diffie-hellman-group1-sha1`
 
 By default, all supported key exchange algorithms are available.
-Without Bouncy Castle, `diffie-hellman-group1-sha1` is the only
-available algorithm.
 
 It is strongly recommended to disable at least `diffie-hellman-group1-sha1`
 as it's known to be vulnerable (logjam attack). Additionally, if your setup

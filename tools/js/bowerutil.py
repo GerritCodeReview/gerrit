@@ -40,7 +40,7 @@ def hash_bower_component(hash_obj, path):
       if f == '.bower.json':
         continue
       p = os.path.join(root, f)
-      hash_obj.update(p[len(path)+1:])
-      hash_obj.update(open(p).read())
+      hash_obj.update(p[len(path)+1:].encode("utf-8"))
+      hash_obj.update(open(p, "rb").read())
 
   return hash_obj

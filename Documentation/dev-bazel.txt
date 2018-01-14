@@ -1,13 +1,14 @@
 = Gerrit Code Review - Building with Bazel
 
 [[installation]]
-== Installation
+== Prerequisites
 
-You need to use Java 8 and Node.js for building gerrit.
+To build Gerrit from source, you need:
 
-You can install Bazel from the bazel.io:
-https://www.bazel.io/versions/master/docs/install.html
-
+* A Linux or macOS system (Windows is not supported at this time)
+* A JDK for Java 8
+* Node.js
+* link:https://www.bazel.io/versions/master/docs/install.html[Bazel]
 
 [[build]]
 == Building on the Command Line

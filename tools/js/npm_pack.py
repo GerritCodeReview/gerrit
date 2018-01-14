@@ -36,7 +36,7 @@ def is_bundled(tar):
 def bundle_dependencies():
   with open('package.json') as f:
     package = json.load(f)
-  package['bundledDependencies'] = package['dependencies'].keys()
+  package['bundledDependencies'] = list(package['dependencies'].keys())
   with open('package.json', 'w') as f:
     json.dump(package, f)
 

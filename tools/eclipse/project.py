@@ -262,7 +262,7 @@ def gen_factorypath(ext):
     doc.writexml(fd, addindent='\t', newl='\n', encoding='UTF-8')
 
 try:
-  ext_location = retrieve_ext_location()
+  ext_location = retrieve_ext_location().decode("utf-8")
   gen_project(args.project_name)
   gen_classpath(ext_location)
   gen_factorypath(ext_location)

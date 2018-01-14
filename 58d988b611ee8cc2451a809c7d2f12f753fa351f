@@ -22,6 +22,30 @@
       "revId": "58d988b611ee8cc2451a809c7d2f12f753fa351f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa208f8b_8d220637",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-14T23:52:26Z",
+      "side": 1,
+      "message": "Nice catch. Thanks.  Reverted in https://gerrit-review.googlesource.com/#/c/gerrit/+/152390",
+      "parentUuid": "1f5ae2e5_694be19d",
+      "range": {
+        "startLine": 429,
+        "startChar": 31,
+        "endLine": 429,
+        "endChar": 34
+      },
+      "revId": "58d988b611ee8cc2451a809c7d2f12f753fa351f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

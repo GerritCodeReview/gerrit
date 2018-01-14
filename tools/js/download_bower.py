@@ -68,7 +68,7 @@ def ignore_deps(info):
   deps = info.get('dependencies')
   if deps:
     with open(os.path.join('.bowerrc'), 'w') as f:
-      json.dump({'ignoredDependencies': deps.keys()}, f)
+      json.dump({'ignoredDependencies': list(deps.keys())}, f)
 
 
 def cache_entry(name, package, version, sha1):

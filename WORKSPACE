@@ -278,6 +278,7 @@ maven_jar(
     sha1 = "4b95f4897fa13f2cd904aee711aeafc0c5295cd8",
 )
 
+# When upgrading commons-compress, also upgrade tukaani-xz
 maven_jar(
     name = "commons_compress",
     artifact = "org.apache.commons:commons-compress:1.13",
@@ -418,10 +419,11 @@ maven_jar(
     sha1 = "514df6a7c7938de35c7f68dc8b8f22df86037f38",
 )
 
+# Transitive dependency of commons-compress
 maven_jar(
     name = "tukaani_xz",
-    artifact = "org.tukaani:xz:1.6",
-    sha1 = "05b6f921f1810bdf90e25471968f741f87168b64",
+    artifact = "org.tukaani:xz:1.4",
+    sha1 = "18a9a2ce6abf32ea1b5fd31dae5210ad93f4e5e3",
 )
 
 # When upgrading Lucene, make sure it's compatible with Elasticsearch

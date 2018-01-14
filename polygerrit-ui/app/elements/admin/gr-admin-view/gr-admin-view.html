@@ -16,13 +16,10 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../styles/gr-menu-page-styles.html">
-<link rel="import" href="../../../styles/gr-page-nav-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
-<link rel="import" href="../../shared/gr-page-nav/gr-page-nav.html">
+<link rel="import" href="../../shared/gr-admin-nav/gr-admin-nav.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-admin-group-list/gr-admin-group-list.html">
 <link rel="import" href="../gr-group/gr-group.html">
@@ -39,38 +36,7 @@ limitations under the License.
   <template>
     <style include="shared-styles"></style>
     <style include="gr-menu-page-styles"></style>
-    <style include="gr-page-nav-styles"></style>
-    <gr-page-nav class="navStyles">
-      <ul class="sectionContent">
-        <template id="adminNav" is="dom-repeat" items="[[_filteredLinks]]">
-          <li class$="sectionTitle [[_computeSelectedClass(item.view, params)]]">
-            <a class="title" href="[[_computeLinkURL(item)]]"
-                  rel="noopener">[[item.name]]</a>
-          </li>
-          <template is="dom-repeat" items="[[item.children]]" as="child">
-            <li class$="[[_computeSelectedClass(child.view, params)]]">
-              <a href$="[[_computeLinkURL(child)]]"
-                  rel="noopener">[[child.name]]</a>
-            </li>
-          </template>
-          <template is="dom-if" if="[[item.subsection]]">
-            <!--If a section has a subsection, render that.-->
-            <li class$="[[_computeSelectedClass(item.subsection.view, params)]]">
-              <a class="title" href$="[[_computeLinkURL(item.subsection)]]"
-                  rel="noopener">
-                [[item.subsection.name]]</a>
-            </li>
-            <!--Loop through the links in the sub-section.-->
-            <template is="dom-repeat"
-                items="[[item.subsection.children]]" as="child">
-              <li class$="subsectionItem [[_computeSelectedClass(child.view, params, child.detailType)]]">
-                <a href$="[[_computeLinkURL(child)]]">[[child.name]]</a>
-              </li>
-            </template>
-          </template>
-        </template>
-      </ul>
-    </gr-page-nav>
+    <gr-admin-nav params="[[params]]"></gr-admin-nav>
     <template is="dom-if" if="[[_showRepoList]]" restamp="true">
       <main class="table">
         <gr-repo-list class="table" params="[[params]]"></gr-repo-list>

@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../change-list/gr-change-list/gr-change-list.html">
+<link rel="import" href="../../shared/gr-admin-nav/gr-admin-nav.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-user-header/gr-user-header.html">
 
@@ -45,6 +46,9 @@ limitations under the License.
       }
     </style>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
+    <template is="dom-if" if="[[_showAdminNav]]" restamp="true">
+      <gr-admin-nav params="[[params]]"></gr-admin-nav>
+    </template>
     <div hidden$="[[_loading]]" hidden>
       <gr-user-header
           user-id="[[params.user]]"

@@ -951,6 +951,7 @@
         view: Gerrit.Nav.View.DASHBOARD,
         project: data.params[0],
         dashboard: decodeURIComponent(data.params[1]),
+        adminNav: true,
       });
     },
 

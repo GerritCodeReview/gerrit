@@ -89,6 +89,7 @@
         type: Boolean,
         value: true,
       },
+      _showAdminNav: Boolean,
     },
 
     observers: [
@@ -160,6 +161,13 @@
 
     _paramsChanged(paramsChangeRecord) {
       const params = paramsChangeRecord.base;
+
+      const adminNav = params.adminNav || '';
+      if (adminNav) {
+        this.set('_showAdminNav', true);
+      } else {
+        this.set('_showAdminNav', false);
+      }
 
       if (!this._isViewActive(params)) {
         return Promise.resolve();

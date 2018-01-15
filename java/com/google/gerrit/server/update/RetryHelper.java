@@ -64,8 +64,8 @@ public class RetryHelper {
 
   public enum ActionType {
     ACCOUNT_UPDATE,
-    CHANGE_QUERY,
-    CHANGE_UPDATE
+    CHANGE_UPDATE,
+    INDEX_QUERY,
   }
 
   /**
@@ -196,6 +196,21 @@ public class RetryHelper {
       Throwables.throwIfUnchecked(t);
       Throwables.throwIfInstanceOf(t, IOException.class);
       Throwables.throwIfInstanceOf(t, ConfigInvalidException.class);
+      Throwables.throwIfInstanceOf(t, OrmException.class);
+      throw new OrmException(t);
+    }
+  }
+
+  public <T> T executeIndexQuery(Action<T> action) throws OrmException {
+    try {
+      // Double the timeout to allow more retries for failing index queries.
+      return execute(
+          ActionType.INDEX_QUERY,
+          action,
+          options().timeout(getDefaultTimeout().multipliedBy(2)).build(),
+          t -> t instanceof OrmException);
+    } catch (Throwable t) {
+      Throwables.throwIfUnchecked(t);
       Throwables.throwIfInstanceOf(t, OrmException.class);
       throw new OrmException(t);
     }

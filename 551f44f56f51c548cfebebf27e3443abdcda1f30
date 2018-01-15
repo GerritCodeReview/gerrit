@@ -125,6 +125,30 @@
     },
     {
       "key": {
+        "uuid": "f69b65cd_7007df72",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/UpdateAccountPatchReviewDb.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-01-15T13:18:52Z",
+      "side": 1,
+      "message": "A more detailed examination of supported data types for the databases we support I found out that BINARY string is not supported the same way in all of them. For example:\n* mysql does have exactly such a data type [1]\n* postgres does not provide a data type named BINARY but a datatype called \"bytea\", see [2]\n\nThis alone is already a good reason to keep the VARCHAR(40) here.\nRemember: for the database where the account_patch_reviews are stored we do not use\nthe gwtorm as a mapping layer, but the pure JDBC API. This was done so that, once\nthe notedb is ready, the dependency to gwtorm can be removed.\n\nThis also means that we should stick to the most basic data types here and avoid\nsupporting less commonly supported data types.\n\nMy proposal is to keep this code as-is. \n\n[1] https://dev.mysql.com/doc/refman/5.7/en/binary-varbinary.html\n[2] https://www.postgresql.org/docs/9.5/static/datatype-binary.html",
+      "parentUuid": "7e7b7236_68e35590",
+      "range": {
+        "startLine": 47,
+        "startChar": 81,
+        "endLine": 47,
+        "endChar": 92
+      },
+      "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5f820e4_6f619138",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/UpdateAccountPatchReviewDb.java",
         "patchSetId": 6

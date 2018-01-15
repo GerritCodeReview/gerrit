@@ -30,6 +30,7 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -78,7 +79,7 @@ public class SetReviewersCommand extends SshCommand {
       changeArgumentParser.addChange(token, changes, projectState);
     } catch (UnloggedFailure e) {
       throw new IllegalArgumentException(e.getMessage(), e);
-    } catch (OrmException e) {
+    } catch (IOException | OrmException e) {
       throw new IllegalArgumentException("database is down", e);
     } catch (PermissionBackendException e) {
       throw new IllegalArgumentException("can't check permissions", e);

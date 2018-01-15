@@ -24,8 +24,11 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,17 +39,20 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
   protected final ChangeNotes.Factory notesFactory;
   protected final CurrentUser user;
   protected final PermissionBackend permissionBackend;
+  protected final ProjectCache projectCache;
 
   public ChangeIsVisibleToPredicate(
       Provider<ReviewDb> db,
       ChangeNotes.Factory notesFactory,
       CurrentUser user,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      ProjectCache projectCache) {
     super(ChangeQueryBuilder.FIELD_VISIBLETO, IndexUtils.describe(user));
     this.db = db;
     this.notesFactory = notesFactory;
     this.user = user;
     this.permissionBackend = permissionBackend;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -60,6 +66,20 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
     }
 
     ChangeNotes notes = notesFactory.createFromIndexedChange(change);
+
+    try {
+      ProjectState projectState = projectCache.checkedGet(cd.project());
+      if (projectState == null) {
+        logger.info("No such project: {}", cd.project());
+        return false;
+      }
+      if (!projectState.statePermitsRead()) {
+        return false;
+      }
+    } catch (IOException e) {
+      throw new OrmException("unable to read project state", e);
+    }
+
     boolean visible;
     try {
       visible =

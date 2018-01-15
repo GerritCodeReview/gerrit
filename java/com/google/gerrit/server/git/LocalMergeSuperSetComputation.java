@@ -33,6 +33,8 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -87,10 +89,14 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   private final Provider<InternalChangeQuery> queryProvider;
   private final Map<QueryKey, List<ChangeData>> queryCache;
   private final Map<Branch.NameKey, Optional<RevCommit>> heads;
+  private final ProjectCache projectCache;
 
   @Inject
   LocalMergeSuperSetComputation(
-      PermissionBackend permissionBackend, Provider<InternalChangeQuery> queryProvider) {
+      PermissionBackend permissionBackend,
+      Provider<InternalChangeQuery> queryProvider,
+      ProjectCache projectCache) {
+    this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
     this.queryProvider = queryProvider;
     this.queryCache = new HashMap<>();
@@ -171,8 +177,12 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   }
 
   private boolean isVisible(ReviewDb db, ChangeSet changeSet, ChangeData cd, CurrentUser user)
-      throws PermissionBackendException {
-    boolean visible = changeSet.ids().contains(cd.getId());
+      throws PermissionBackendException, IOException {
+    ProjectState projectState = projectCache.checkedGet(cd.project());
+    boolean visible =
+        changeSet.ids().contains(cd.getId())
+            && (projectState != null)
+            && projectState.statePermitsRead();
     if (visible
         && !permissionBackend.user(user).change(cd).database(db).test(ChangePermission.READ)) {
       // We thought the change was visible, but it isn't.

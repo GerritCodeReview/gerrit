@@ -40,6 +40,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -67,7 +68,7 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
 
   @Override
   public Star parse(AccountResource parent, IdString id)
-      throws RestApiException, OrmException, PermissionBackendException {
+      throws RestApiException, OrmException, PermissionBackendException, IOException {
     IdentifiedUser user = parent.getUser();
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
     Set<String> labels = starredChangesUtil.getLabels(user.getAccountId(), change.getId());

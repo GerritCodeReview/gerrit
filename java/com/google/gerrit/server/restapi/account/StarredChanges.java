@@ -73,7 +73,7 @@ public class StarredChanges
 
   @Override
   public AccountResource.StarredChange parse(AccountResource parent, IdString id)
-      throws RestApiException, OrmException, PermissionBackendException {
+      throws RestApiException, OrmException, PermissionBackendException, IOException {
     IdentifiedUser user = parent.getUser();
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
     if (starredChangesUtil
@@ -109,7 +109,7 @@ public class StarredChanges
       return createProvider.get().setChange(changes.parse(TopLevelResource.INSTANCE, id));
     } catch (ResourceNotFoundException e) {
       throw new UnprocessableEntityException(String.format("change %s not found", id.get()));
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (IOException | OrmException | PermissionBackendException e) {
       log.error("cannot resolve change", e);
       throw new UnprocessableEntityException("internal server error");
     }

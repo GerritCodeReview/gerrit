@@ -32,10 +32,13 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.List;
 
 @Singleton
@@ -49,6 +52,7 @@ public class ChangesCollection
   private final CreateChange createChange;
   private final ChangeResource.Factory changeResourceFactory;
   private final PermissionBackend permissionBackend;
+  private final ProjectCache projectCache;
 
   @Inject
   ChangesCollection(
@@ -59,7 +63,8 @@ public class ChangesCollection
       ChangeFinder changeFinder,
       CreateChange createChange,
       ChangeResource.Factory changeResourceFactory,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      ProjectCache projectCache) {
     this.db = db;
     this.user = user;
     this.queryFactory = queryFactory;
@@ -68,6 +73,7 @@ public class ChangesCollection
     this.createChange = createChange;
     this.changeResourceFactory = changeResourceFactory;
     this.permissionBackend = permissionBackend;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -82,7 +88,7 @@ public class ChangesCollection
 
   @Override
   public ChangeResource parse(TopLevelResource root, IdString id)
-      throws RestApiException, OrmException, PermissionBackendException {
+      throws RestApiException, OrmException, PermissionBackendException, IOException {
     List<ChangeNotes> notes = changeFinder.find(id.encoded(), true);
     if (notes.isEmpty()) {
       throw new ResourceNotFoundException(id);
@@ -98,7 +104,7 @@ public class ChangesCollection
   }
 
   public ChangeResource parse(Change.Id id)
-      throws ResourceNotFoundException, OrmException, PermissionBackendException {
+      throws ResourceNotFoundException, OrmException, PermissionBackendException, IOException {
     List<ChangeNotes> notes = changeFinder.find(id);
     if (notes.isEmpty()) {
       throw new ResourceNotFoundException(toIdString(id));
@@ -126,12 +132,16 @@ public class ChangesCollection
     return createChange;
   }
 
-  private boolean canRead(ChangeNotes notes) throws PermissionBackendException {
+  private boolean canRead(ChangeNotes notes) throws PermissionBackendException, IOException {
     try {
       permissionBackend.user(user).change(notes).database(db).check(ChangePermission.READ);
-      return true;
     } catch (AuthException e) {
       return false;
     }
+    ProjectState projectState = projectCache.checkedGet(notes.getProjectName());
+    if (projectState == null) {
+      return false;
+    }
+    return projectState.statePermitsRead();
   }
 }

@@ -204,7 +204,11 @@ public class ListBranches implements RestReadView<ProjectResource> {
         branches.add(b);
 
         if (!Constants.HEAD.equals(ref.getName())) {
-          b.canDelete = perm.ref(ref.getName()).testOrFalse(RefPermission.DELETE) ? true : null;
+          b.canDelete =
+              perm.ref(ref.getName()).testOrFalse(RefPermission.DELETE)
+                      && rsrc.getProjectState().statePermitsWrite()
+                  ? true
+                  : null;
         }
         continue;
       }
@@ -248,7 +252,11 @@ public class ListBranches implements RestReadView<ProjectResource> {
     info.ref = ref.getName();
     info.revision = ref.getObjectId() != null ? ref.getObjectId().name() : null;
     info.canDelete =
-        !targets.contains(ref.getName()) && perm.testOrFalse(RefPermission.DELETE) ? true : null;
+        !targets.contains(ref.getName())
+                && perm.testOrFalse(RefPermission.DELETE)
+                && projectState.statePermitsWrite()
+            ? true
+            : null;
 
     BranchResource rsrc = new BranchResource(projectState, user, ref);
     for (UiAction.Description d : uiActions.from(branchViews, rsrc)) {

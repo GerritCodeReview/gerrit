@@ -147,7 +147,7 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
             result.getObjectId(),
             identifiedUser.get().getAccount());
         try (RevWalk w = new RevWalk(repo)) {
-          return ListTags.createTagInfo(perm, result, w, resource.getNameKey(), links);
+          return ListTags.createTagInfo(perm, result, w, resource.getProjectState(), links);
         }
       }
     } catch (InvalidRevisionException e) {

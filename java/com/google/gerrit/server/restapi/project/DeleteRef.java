@@ -235,6 +235,10 @@ public class DeleteRef {
           "it doesn't exist or you do not have permission to delete it");
     }
 
+    if (!project.getProjectState().statePermitsWrite()) {
+      command.setResult(Result.REJECTED_OTHER_REASON, "project state does not permit write");
+    }
+
     if (!refName.startsWith(R_TAGS)) {
       Branch.NameKey branchKey = new Branch.NameKey(project.getNameKey(), ref.getName());
       if (!queryProvider.get().setLimit(1).byBranchOpen(branchKey).isEmpty()) {

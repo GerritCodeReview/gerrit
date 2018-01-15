@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93da4cb4_ba8ffbdb",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1063,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-15T14:34:44Z",
+      "side": 1,
+      "message": "What about CreateRefControl#checkCreateCommit which also checks for RefPermission.UPDATE. Does it need this check as well?",
+      "revId": "dc8f96a06996f96fda7d0bfb18a6e1e29775ec98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "dc8f96a06996f96fda7d0bfb18a6e1e29775ec98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78379a00_0dcdc0a2",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1063,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-01-15T14:48:01Z",
+      "side": 1,
+      "message": "There is already a call to to the check method in the only caller of this method. See CreateRefControl l.77",
+      "parentUuid": "93da4cb4_ba8ffbdb",
+      "revId": "dc8f96a06996f96fda7d0bfb18a6e1e29775ec98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

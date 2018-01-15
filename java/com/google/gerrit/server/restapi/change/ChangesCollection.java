@@ -135,13 +135,17 @@ public class ChangesCollection
     return createChange;
   }
 
-  private boolean canRead(ChangeNotes notes) throws PermissionBackendException {
+  private boolean canRead(ChangeNotes notes) throws PermissionBackendException, IOException {
     try {
       permissionBackend.user(user).change(notes).database(db).check(ChangePermission.READ);
-      return true;
     } catch (AuthException e) {
       return false;
     }
+    ProjectState projectState = projectCache.checkedGet(notes.getProjectName());
+    if (projectState == null) {
+      return false;
+    }
+    return projectState.statePermitsRead();
   }
 
   private void checkProjectStatePermitsRead(Project.NameKey project)

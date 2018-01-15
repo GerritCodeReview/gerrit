@@ -42,6 +42,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -93,6 +94,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final ChangeEditUtil editReader;
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
+  private final ProjectCache projectCache;
   private Optional<ChangeEdit> edit;
 
   private final Change.Id changeId;
@@ -116,6 +118,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       ChangeEditUtil editReader,
       Provider<CurrentUser> userProvider,
       PermissionBackend permissionBackend,
+      ProjectCache projectCache,
       @Assisted ChangeNotes notes,
       @Assisted String fileName,
       @Assisted("patchSetA") @Nullable PatchSet.Id patchSetA,
@@ -131,6 +134,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.editReader = editReader;
     this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
+    this.projectCache = projectCache;
 
     this.fileName = fileName;
     this.psa = patchSetA;
@@ -152,6 +156,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       ChangeEditUtil editReader,
       Provider<CurrentUser> userProvider,
       PermissionBackend permissionBackend,
+      ProjectCache projectCache,
       @Assisted ChangeNotes notes,
       @Assisted String fileName,
       @Assisted int parentNum,
@@ -167,6 +172,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.editReader = editReader;
     this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
+    this.projectCache = projectCache;
 
     this.fileName = fileName;
     this.psa = null;
@@ -207,6 +213,10 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       } catch (AuthException e) {
         throw new NoSuchChangeException(changeId);
       }
+    }
+
+    if (!projectCache.checkedGet(notes.getProjectName()).statePermitsRead()) {
+      throw new NoSuchChangeException(changeId);
     }
 
     try (Repository git = repoManager.openRepository(notes.getProjectName())) {

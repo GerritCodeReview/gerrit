@@ -79,7 +79,7 @@ public class SetReviewersCommand extends SshCommand {
       changeArgumentParser.addChange(token, changes, projectState);
     } catch (IOException | UnloggedFailure e) {
       throw new IllegalArgumentException(e.getMessage(), e);
-    } catch (OrmException e) {
+    } catch (IOException | OrmException e) {
       throw new IllegalArgumentException("database is down", e);
     } catch (PermissionBackendException e) {
       throw new IllegalArgumentException("can't check permissions", e);

@@ -124,6 +124,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -1469,13 +1470,19 @@ public class ChangeJson {
         : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(cd.change()));
   }
 
-  private boolean isWorldReadable(ChangeData cd) throws OrmException, PermissionBackendException {
+  private boolean isWorldReadable(ChangeData cd)
+      throws OrmException, PermissionBackendException, IOException {
     try {
       permissionBackendForChange(anonymous, cd).check(ChangePermission.READ);
-      return true;
     } catch (AuthException ae) {
       return false;
     }
+    ProjectState projectState = projectCache.checkedGet(cd.project());
+    if (projectState == null) {
+      log.error("project state for project " + cd.project() + " is null");
+      return false;
+    }
+    return projectState.statePermitsRead();
   }
 
   @AutoValue

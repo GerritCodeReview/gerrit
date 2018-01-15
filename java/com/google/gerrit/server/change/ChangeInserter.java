@@ -467,10 +467,11 @@ public class ChangeInserter implements InsertChangeOp {
               try {
                 IdentifiedUser user = userFactory.create(accountId);
                 return permissionBackend
-                    .user(user)
-                    .change(notes)
-                    .database(db)
-                    .test(ChangePermission.READ);
+                        .user(user)
+                        .change(notes)
+                        .database(db)
+                        .test(ChangePermission.READ)
+                    && projectState.statePermitsRead();
               } catch (PermissionBackendException e) {
                 log.warn(
                     String.format(

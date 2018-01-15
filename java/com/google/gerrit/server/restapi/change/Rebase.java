@@ -47,6 +47,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -79,6 +80,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
   private final ChangeJson.Factory json;
   private final Provider<ReviewDb> dbProvider;
   private final PermissionBackend permissionBackend;
+  private final ProjectCache projectCache;
 
   @Inject
   public Rebase(
@@ -88,7 +90,8 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       RebaseUtil rebaseUtil,
       ChangeJson.Factory json,
       Provider<ReviewDb> dbProvider,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      ProjectCache projectCache) {
     super(retryHelper);
     this.repoManager = repoManager;
     this.rebaseFactory = rebaseFactory;
@@ -96,6 +99,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     this.json = json;
     this.dbProvider = dbProvider;
     this.permissionBackend = permissionBackend;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -104,6 +108,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       throws EmailException, OrmException, UpdateException, RestApiException, IOException,
           NoSuchChangeException, PermissionBackendException {
     rsrc.permissions().database(dbProvider).check(ChangePermission.REBASE);
+    projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
 
     Change change = rsrc.getChange();
     try (Repository repo = repoManager.openRepository(change.getProject());
@@ -204,6 +209,13 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     Branch.NameKey dest = change.getDest();
     boolean visible = change.getStatus().isOpen() && resource.isCurrent();
     boolean enabled = false;
+
+    try {
+      visible &= projectCache.checkedGet(resource.getProject()).statePermitsWrite();
+    } catch (IOException e) {
+      log.error("Failed to check if project state permits write: " + resource.getProject(), e);
+      visible = false;
+    }
 
     if (visible) {
       try (Repository repo = repoManager.openRepository(dest.getParentKey());

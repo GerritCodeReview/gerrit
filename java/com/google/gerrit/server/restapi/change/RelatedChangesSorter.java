@@ -34,6 +34,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -61,25 +62,30 @@ class RelatedChangesSorter {
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
   private final Provider<ReviewDb> dbProvider;
+  private final ProjectCache projectCache;
+  private final Provider<CurrentUser> currentUserProvider;
 
   @Inject
   RelatedChangesSorter(
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
-      Provider<ReviewDb> dbProvider) {
+      Provider<ReviewDb> dbProvider,
+      ProjectCache projectCache,
+      Provider<CurrentUser> currentUserProvider) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.dbProvider = dbProvider;
+    this.projectCache = projectCache;
+    this.currentUserProvider = currentUserProvider;
   }
 
-  public List<PatchSetData> sort(List<ChangeData> in, PatchSet startPs, CurrentUser user)
+  public List<PatchSetData> sort(List<ChangeData> in, PatchSet startPs)
       throws OrmException, IOException, PermissionBackendException {
     checkArgument(!in.isEmpty(), "Input may not be empty");
     // Map of all patch sets, keyed by commit SHA-1.
     Map<String, PatchSetData> byId = collectById(in);
     PatchSetData start = byId.get(startPs.getRevision().get());
     checkArgument(start != null, "%s not found in %s", startPs, in);
-    PermissionBackend.WithUser perm = permissionBackend.user(user).database(dbProvider);
 
     // Map of patch set -> immediate parent.
     ListMultimap<PatchSetData, PatchSetData> parents =
@@ -106,9 +112,9 @@ class RelatedChangesSorter {
       }
     }
 
-    Collection<PatchSetData> ancestors = walkAncestors(perm, parents, start);
+    Collection<PatchSetData> ancestors = walkAncestors(parents, start);
     List<PatchSetData> descendants =
-        walkDescendants(perm, children, start, otherPatchSetsOfStart, ancestors);
+        walkDescendants(children, start, otherPatchSetsOfStart, ancestors);
     List<PatchSetData> result = new ArrayList<>(ancestors.size() + descendants.size() - 1);
     result.addAll(Lists.reverse(descendants));
     result.addAll(ancestors);
@@ -140,17 +146,15 @@ class RelatedChangesSorter {
     return result;
   }
 
-  private static Collection<PatchSetData> walkAncestors(
-      PermissionBackend.WithUser perm,
-      ListMultimap<PatchSetData, PatchSetData> parents,
-      PatchSetData start)
-      throws PermissionBackendException {
+  private Collection<PatchSetData> walkAncestors(
+      ListMultimap<PatchSetData, PatchSetData> parents, PatchSetData start)
+      throws PermissionBackendException, IOException {
     LinkedHashSet<PatchSetData> result = new LinkedHashSet<>();
     Deque<PatchSetData> pending = new ArrayDeque<>();
     pending.add(start);
     while (!pending.isEmpty()) {
       PatchSetData psd = pending.remove();
-      if (result.contains(psd) || !isVisible(psd, perm)) {
+      if (result.contains(psd) || !isVisible(psd)) {
         continue;
       }
       result.add(psd);
@@ -159,26 +163,24 @@ class RelatedChangesSorter {
     return result;
   }
 
-  private static List<PatchSetData> walkDescendants(
-      PermissionBackend.WithUser perm,
+  private List<PatchSetData> walkDescendants(
       ListMultimap<PatchSetData, PatchSetData> children,
       PatchSetData start,
       List<PatchSetData> otherPatchSetsOfStart,
       Iterable<PatchSetData> ancestors)
-      throws PermissionBackendException {
+      throws PermissionBackendException, IOException {
     Set<Change.Id> alreadyEmittedChanges = new HashSet<>();
     addAllChangeIds(alreadyEmittedChanges, ancestors);
 
     // Prefer descendants found by following the original patch set passed in.
     List<PatchSetData> result =
-        walkDescendentsImpl(perm, alreadyEmittedChanges, children, ImmutableList.of(start));
+        walkDescendentsImpl(alreadyEmittedChanges, children, ImmutableList.of(start));
     addAllChangeIds(alreadyEmittedChanges, result);
 
     // Then, go back and add new indirect descendants found by following any
     // other patch sets of start. These show up after all direct descendants,
     // because we wouldn't know where in the walk to insert them.
-    result.addAll(
-        walkDescendentsImpl(perm, alreadyEmittedChanges, children, otherPatchSetsOfStart));
+    result.addAll(walkDescendentsImpl(alreadyEmittedChanges, children, otherPatchSetsOfStart));
     return result;
   }
 
@@ -189,12 +191,11 @@ class RelatedChangesSorter {
     }
   }
 
-  private static List<PatchSetData> walkDescendentsImpl(
-      PermissionBackend.WithUser perm,
+  private List<PatchSetData> walkDescendentsImpl(
       Set<Change.Id> alreadyEmittedChanges,
       ListMultimap<PatchSetData, PatchSetData> children,
       List<PatchSetData> start)
-      throws PermissionBackendException {
+      throws PermissionBackendException, IOException {
     if (start.isEmpty()) {
       return ImmutableList.of();
     }
@@ -205,7 +206,7 @@ class RelatedChangesSorter {
     pending.addAll(start);
     while (!pending.isEmpty()) {
       PatchSetData psd = pending.remove();
-      if (seen.contains(psd) || !isVisible(psd, perm)) {
+      if (seen.contains(psd) || !isVisible(psd)) {
         continue;
       }
       seen.add(psd);
@@ -236,14 +237,15 @@ class RelatedChangesSorter {
     return result;
   }
 
-  private static boolean isVisible(PatchSetData psd, PermissionBackend.WithUser perm)
-      throws PermissionBackendException {
+  private boolean isVisible(PatchSetData psd) throws PermissionBackendException, IOException {
+    PermissionBackend.WithUser perm =
+        permissionBackend.user(currentUserProvider).database(dbProvider);
     try {
       perm.change(psd.data()).check(ChangePermission.READ);
-      return true;
     } catch (AuthException e) {
       return false;
     }
+    return projectCache.checkedGet(psd.data().project()).statePermitsRead();
   }
 
   @AutoValue

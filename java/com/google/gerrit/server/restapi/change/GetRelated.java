@@ -101,7 +101,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
     reloadChangeIfStale(cds, basePs);
 
-    for (RelatedChangesSorter.PatchSetData d : sorter.sort(cds, basePs, rsrc.getUser())) {
+    for (RelatedChangesSorter.PatchSetData d : sorter.sort(cds, basePs)) {
       PatchSet ps = d.patchSet();
       RevCommit commit;
       if (isEdit && ps.getId().equals(basePs.getId())) {

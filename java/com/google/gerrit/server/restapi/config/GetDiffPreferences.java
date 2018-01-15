@@ -13,22 +13,18 @@
 // limitations under the License.
 package com.google.gerrit.server.restapi.config;
 
-import static com.google.gerrit.server.config.ConfigUtil.loadSection;
-
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.account.VersionedAccountPreferences;
+import com.google.gerrit.server.account.PreferencesConfig;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.UserConfigSections;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 
 @Singleton
@@ -46,25 +42,8 @@ public class GetDiffPreferences implements RestReadView<ConfigResource> {
   @Override
   public DiffPreferencesInfo apply(ConfigResource configResource)
       throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
-    return readFromGit(gitManager, allUsersName, null);
-  }
-
-  static DiffPreferencesInfo readFromGit(
-      GitRepositoryManager gitMgr, AllUsersName allUsersName, DiffPreferencesInfo in)
-      throws IOException, ConfigInvalidException, RepositoryNotFoundException {
-    try (Repository git = gitMgr.openRepository(allUsersName)) {
-      // Load all users prefs.
-      VersionedAccountPreferences dp = VersionedAccountPreferences.forDefault();
-      dp.load(git);
-      DiffPreferencesInfo allUserPrefs = new DiffPreferencesInfo();
-      loadSection(
-          dp.getConfig(),
-          UserConfigSections.DIFF,
-          null,
-          allUserPrefs,
-          DiffPreferencesInfo.defaults(),
-          in);
-      return allUserPrefs;
+    try (Repository git = gitManager.openRepository(allUsersName)) {
+      return PreferencesConfig.readDefaultDiffPreferences(git);
     }
   }
 }

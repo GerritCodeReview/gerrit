@@ -2923,7 +2923,7 @@ class ReceiveCommits {
 
               for (ReplaceRequest req : replaceAndClose) {
                 Change.Id id = req.notes.getChangeId();
-                if (!req.validate(true)) {
+                if (!executeRequestValidation(() -> req.validate(true))) {
                   logDebug("Not closing {} because validation failed", id);
                   continue;
                 }
@@ -2969,6 +2969,20 @@ class ReceiveCommits {
       Throwables.throwIfUnchecked(e);
       Throwables.throwIfInstanceOf(e, OrmException.class);
       throw new OrmException(e);
+    }
+  }
+
+  private <T> T executeRequestValidation(Action<T> action)
+      throws IOException, PermissionBackendException, OrmException {
+    try {
+      // The request validation needs to do an account query to lookup accounts by preferred email,
+      // if that index query fails the request validation should be retried.
+      return retryHelper.execute(ActionType.INDEX_QUERY, action, OrmException.class::isInstance);
+    } catch (Exception t) {
+      Throwables.throwIfInstanceOf(t, IOException.class);
+      Throwables.throwIfInstanceOf(t, PermissionBackendException.class);
+      Throwables.throwIfInstanceOf(t, OrmException.class);
+      throw new OrmException(t);
     }
   }
 

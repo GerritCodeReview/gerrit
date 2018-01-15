@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -176,6 +177,16 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   }
 
   /**
+   * Get the diff preferences of the loaded account.
+   *
+   * @return the diff preferences of the loaded account
+   */
+  public DiffPreferencesInfo getDiffPreferences() {
+    checkLoaded();
+    return prefConfig.getDiffPreferences();
+  }
+
+  /**
    * Sets the account. This means the loaded account will be overwritten with the given account.
    *
    * <p>Changing the registration date of an account is not supported.
@@ -310,7 +321,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
 
     Config accountConfig = saveAccount();
     saveProjectWatches();
-    saveGeneralPreferences();
+    savePreferences();
 
     // metaId is set in the commit(MetaDataUpdate) method after the commit is created
     loadedAccount = Optional.of(parse(accountConfig, null));
@@ -353,12 +364,17 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
-  private void saveGeneralPreferences() throws IOException, ConfigInvalidException {
-    if (accountUpdate.isPresent() && accountUpdate.get().getGeneralPreferences().isPresent()) {
-      saveConfig(
-          PreferencesConfig.PREFERENCES_CONFIG,
-          prefConfig.saveGeneralPreferences(accountUpdate.get().getGeneralPreferences().get()));
+  private void savePreferences() throws IOException, ConfigInvalidException {
+    if (!accountUpdate.isPresent()
+        || (!accountUpdate.get().getGeneralPreferences().isPresent()
+            && !accountUpdate.get().getDiffPreferences().isPresent())) {
+      return;
     }
+
+    saveConfig(
+        PreferencesConfig.PREFERENCES_CONFIG,
+        prefConfig.saveGeneralPreferences(
+            accountUpdate.get().getGeneralPreferences(), accountUpdate.get().getDiffPreferences()));
   }
 
   /**

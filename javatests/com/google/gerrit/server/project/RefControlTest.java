@@ -237,6 +237,9 @@ public class RefControlTest {
           public void remove(Project p) {}
 
           @Override
+          public void remove(Project.NameKey name) {}
+
+          @Override
           public ImmutableSortedSet<Project.NameKey> all() {
             return ImmutableSortedSet.of();
           }

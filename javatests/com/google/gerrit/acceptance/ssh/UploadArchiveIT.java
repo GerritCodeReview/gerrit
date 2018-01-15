@@ -40,7 +40,6 @@ import org.junit.Test;
 @NoHttpd
 @UseSsh
 public class UploadArchiveIT extends AbstractDaemonTest {
-
   @Before
   public void setUp() {
     // There is some Guice request scoping problem preventing this test from
@@ -51,7 +50,7 @@ public class UploadArchiveIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "download.archive", value = "off")
   public void archiveFeatureOff() throws Exception {
-    archiveNotPermitted();
+    assertArchiveNotPermitted();
   }
 
   @Test
@@ -60,14 +59,14 @@ public class UploadArchiveIT extends AbstractDaemonTest {
     values = {"tar", "tbz2", "tgz", "txz"}
   )
   public void zipFormatDisabled() throws Exception {
-    archiveNotPermitted();
+    assertArchiveNotPermitted();
   }
 
   @Test
   public void zipFormat() throws Exception {
     PushOneCommit.Result r = createChange();
     String abbreviated = r.getCommit().abbreviate(8).name();
-    String c = command(r, abbreviated);
+    String c = command(r, "zip", abbreviated);
 
     InputStream out =
         adminSshSession.exec2("git-upload-archive " + project.get(), argumentsToInputStream(c));
@@ -99,10 +98,43 @@ public class UploadArchiveIT extends AbstractDaemonTest {
         .inOrder();
   }
 
-  private String command(PushOneCommit.Result r, String abbreviated) {
+  // Make sure we have coverage for the dependency on xz.
+  @Test
+  @GerritConfig(name = "download.archive", value = "txz")
+  public void txzFormat() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String abbreviated = r.getCommit().abbreviate(8).name();
+    String c = command(r, "tar.xz", abbreviated);
+
+    try (InputStream out =
+        adminSshSession.exec2("git-upload-archive " + project.get(), argumentsToInputStream(c))) {
+
+      // Wrap with PacketLineIn to read ACK bytes from output stream
+      PacketLineIn in = new PacketLineIn(out);
+      String packet = in.readString();
+      assertThat(packet).isEqualTo("ACK");
+
+      // Discard first bit of data, which should be empty.
+      packet = in.readString();
+      assertThat(packet).isEmpty();
+
+      // Make sure the next one is not on the error channel
+      packet = in.readString();
+
+      // 1 = DATA. It would be nicer to parse the OutputStream with SideBandInputStream from JGit, but
+      // that is currently not public.
+      char channel = packet.charAt(0);
+      if (channel != 1) {
+        fail("got packet on channel %d: %s", channel, packet);
+      }
+    }
+  }
+
+  private String command(PushOneCommit.Result r, String format, String abbreviated) {
     String c =
-        "-f=zip "
-            + "-9 "
+        "-f="
+            + format
+            + " -9 "
             + "--prefix="
             + abbreviated
             + "/ "
@@ -112,10 +144,10 @@ public class UploadArchiveIT extends AbstractDaemonTest {
     return c;
   }
 
-  private void archiveNotPermitted() throws Exception {
+  private void assertArchiveNotPermitted() throws Exception {
     PushOneCommit.Result r = createChange();
     String abbreviated = r.getCommit().abbreviate(8).name();
-    String c = command(r, abbreviated);
+    String c = command(r, "zip", abbreviated);
 
     InputStream out =
         adminSshSession.exec2("git-upload-archive " + project.get(), argumentsToInputStream(c));

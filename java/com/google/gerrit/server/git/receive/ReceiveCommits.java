@@ -2954,7 +2954,11 @@ class ReceiveCommits {
 
   private <T> T executeIndexQuery(Action<T> action) throws OrmException {
     try {
-      return retryHelper.execute(ActionType.INDEX_QUERY, action, t -> t instanceof OrmException);
+      return retryHelper.execute(
+          ActionType.INDEX_QUERY,
+          action,
+          retryOptionsForIndexQuery(),
+          t -> t instanceof OrmException);
     } catch (Throwable t) {
       Throwables.throwIfUnchecked(t);
       Throwables.throwIfInstanceOf(t, OrmException.class);
@@ -2962,18 +2966,27 @@ class ReceiveCommits {
     }
   }
 
-  private <T> T executeRequestValidation(Action<T> action)
+  private boolean executeRequestValidation(Action<Boolean> action)
       throws IOException, PermissionBackendException, OrmException {
     try {
       // The request validation needs to do an account query to lookup accounts by preferred email,
       // if that index query fails the request validation should be retried.
-      return retryHelper.execute(ActionType.INDEX_QUERY, action, t -> t instanceof OrmException);
+      return retryHelper.execute(
+          ActionType.INDEX_QUERY,
+          action,
+          retryOptionsForIndexQuery(),
+          t -> t instanceof OrmException);
     } catch (Exception t) {
       Throwables.throwIfInstanceOf(t, IOException.class);
       Throwables.throwIfInstanceOf(t, PermissionBackendException.class);
       Throwables.throwIfInstanceOf(t, OrmException.class);
       throw new OrmException(t);
     }
+  }
+
+  private RetryHelper.Options retryOptionsForIndexQuery() {
+    // Double the timeout to allow more retries for failing index queries.
+    return RetryHelper.options().timeout(retryHelper.getDefaultTimeout().multipliedBy(2)).build();
   }
 
   private void updateAccountInfo() {

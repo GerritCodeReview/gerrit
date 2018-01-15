@@ -4,5 +4,6 @@ acceptance_tests(
     srcs = glob(["*IT.java"]),
     group = "ssh",
     labels = ["ssh"],
+    vm_args = ["-Xmx512m"],
     deps = ["//lib/commons:compress"],
 )

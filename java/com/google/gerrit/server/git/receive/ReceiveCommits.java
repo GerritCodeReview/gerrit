@@ -41,6 +41,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_RE
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.common.base.Throwables;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
@@ -148,6 +149,7 @@ import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.RepoOnlyOp;
 import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryHelper.Action;
 import com.google.gerrit.server.update.RetryHelper.ActionType;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
@@ -2881,10 +2883,7 @@ class ReceiveCommits {
                 for (Ref ref : byCommit.get(c.copy())) {
                   PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
                   Optional<ChangeData> cd =
-                      retryHelper.execute(
-                          ActionType.CHANGE_QUERY,
-                          () -> byLegacyId(psId.getParentKey()),
-                          t -> t instanceof OrmException);
+                      executeIndexQuery(() -> byLegacyId(psId.getParentKey()));
                   if (cd.isPresent() && cd.get().change().getDest().equals(branch)) {
                     existingPatchSets++;
                     bu.addOp(
@@ -2896,11 +2895,7 @@ class ReceiveCommits {
 
                 for (String changeId : c.getFooterLines(CHANGE_ID)) {
                   if (byKey == null) {
-                    byKey =
-                        retryHelper.execute(
-                            ActionType.CHANGE_QUERY,
-                            () -> openChangesByKeyByBranch(branch),
-                            t -> t instanceof OrmException);
+                    byKey = executeIndexQuery(() -> openChangesByKeyByBranch(branch));
                   }
 
                   ChangeNotes onto = byKey.get(new Change.Key(changeId.trim()));
@@ -2954,6 +2949,16 @@ class ReceiveCommits {
       logError("Can't insert patchset", e);
     } catch (UpdateException e) {
       logError("Failed to auto-close changes", e);
+    }
+  }
+
+  public <T> T executeIndexQuery(Action<T> action) throws OrmException {
+    try {
+      return retryHelper.execute(ActionType.INDEX_QUERY, action, t -> t instanceof OrmException);
+    } catch (Throwable t) {
+      Throwables.throwIfUnchecked(t);
+      Throwables.throwIfInstanceOf(t, OrmException.class);
+      throw new OrmException(t);
     }
   }
 

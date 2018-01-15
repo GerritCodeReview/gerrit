@@ -160,7 +160,6 @@ class ChangeControl {
   private boolean canRebase(ReviewDb db) throws OrmException {
     return (isOwner() || refControl.canSubmit(isOwner()) || refControl.canRebase())
         && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)
-        && getProjectControl().getProjectState().statePermitsWrite()
         && !isPatchSetLocked(db);
   }
 

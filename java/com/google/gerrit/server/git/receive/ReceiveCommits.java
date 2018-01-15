@@ -1556,6 +1556,10 @@ class ReceiveCommits {
         reject(cmd, e.getMessage());
         return;
       }
+      if (!projectState.statePermitsWrite()) {
+        reject(cmd, "project state does not permit write");
+        return;
+      }
     }
 
     RevWalk walk = rp.getRevWalk();

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bbc08e2_0e4af4ad",
+        "filename": "java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-15T14:53:01Z",
+      "side": 1,
+      "message": "What about the caller in ReceiveCommits#canDelete?",
+      "revId": "135412d26085ad0c328b17ae2a2a2256f6b8a7d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

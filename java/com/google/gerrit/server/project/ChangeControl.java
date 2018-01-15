@@ -176,9 +176,7 @@ class ChangeControl {
 
   /** Can this user add a patch set to this change? */
   private boolean canAddPatchSet(ReviewDb db) throws OrmException {
-    if (!(refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)
-            && getProjectControl().getProjectState().statePermitsWrite())
-        || isPatchSetLocked(db)) {
+    if (!(refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)) || isPatchSetLocked(db)) {
       return false;
     }
     if (isOwner()) {

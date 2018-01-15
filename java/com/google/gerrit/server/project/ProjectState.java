@@ -259,6 +259,10 @@ public class ProjectState {
     return config.getMaxObjectSizeLimit();
   }
 
+  public boolean statePermitsRead() {
+    return getProject().getState().permitsRead();
+  }
+
   public boolean statePermitsWrite() {
     return getProject().getState().permitsWrite();
   }

@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -29,6 +30,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -57,6 +59,7 @@ public class CatServlet extends HttpServlet {
   private final PatchSetUtil psUtil;
   private final ChangeNotes.Factory changeNotesFactory;
   private final PermissionBackend permissionBackend;
+  private final ProjectCache projectCache;
 
   @Inject
   CatServlet(
@@ -65,13 +68,15 @@ public class CatServlet extends HttpServlet {
       ChangeEditUtil ceu,
       PatchSetUtil psu,
       ChangeNotes.Factory cnf,
-      PermissionBackend pb) {
+      PermissionBackend pb,
+      ProjectCache pc) {
     requestDb = sf;
     userProvider = usrprv;
     changeEditUtil = ceu;
     psUtil = psu;
     changeNotesFactory = cnf;
     permissionBackend = pb;
+    projectCache = pc;
   }
 
   @Override
@@ -131,6 +136,7 @@ public class CatServlet extends HttpServlet {
           .change(notes)
           .database(requestDb)
           .check(ChangePermission.READ);
+      projectCache.checkedGet(notes.getProjectName()).checkStatePermitsRead();
       if (patchKey.getParentKey().get() == 0) {
         // change edit
         Optional<ChangeEdit> edit = changeEditUtil.byChange(notes);
@@ -148,10 +154,10 @@ public class CatServlet extends HttpServlet {
         }
         revision = patchSet.getRevision().get();
       }
-    } catch (NoSuchChangeException | AuthException e) {
+    } catch (ResourceConflictException | NoSuchChangeException | AuthException e) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (OrmException | PermissionBackendException | IOException e) {
       getServletContext().log("Cannot query database", e);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       return;

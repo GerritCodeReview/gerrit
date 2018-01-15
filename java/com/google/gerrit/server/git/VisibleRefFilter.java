@@ -316,7 +316,8 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       Map<Change.Id, Branch.NameKey> visibleChanges = new HashMap<>();
       for (ChangeData cd : changeCache.getChangeData(db.get(), project)) {
         ChangeNotes notes = changeNotesFactory.createFromIndexedChange(cd.change());
-        if (perm.indexedChange(cd, notes).test(ChangePermission.READ)) {
+        if (projectState.statePermitsRead()
+            && perm.indexedChange(cd, notes).test(ChangePermission.READ)) {
           visibleChanges.put(cd.getId(), cd.change().getDest());
         }
       }
@@ -349,7 +350,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       return null;
     }
     try {
-      if (perm.change(r.notes()).test(ChangePermission.READ)) {
+      if (projectState.statePermitsRead() && perm.change(r.notes()).test(ChangePermission.READ)) {
         return r.notes();
       }
     } catch (PermissionBackendException e) {

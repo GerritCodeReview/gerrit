@@ -163,7 +163,7 @@ public class EventBroker implements EventDispatcher {
       return false;
     }
     ProjectState pe = projectCache.get(change.getProject());
-    if (pe == null) {
+    if (pe == null || !pe.statePermitsRead()) {
       return false;
     }
     ReviewDb db = dbProvider.get();

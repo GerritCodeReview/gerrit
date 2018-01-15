@@ -130,7 +130,7 @@ class ChangeControl {
     if (getChange().isPrivate() && !isPrivateVisible(db, cd)) {
       return false;
     }
-    return refControl.isVisible() && getProjectControl().getProject().getState().permitsRead();
+    return refControl.isVisible();
   }
 
   /** Can this user abandon this change? */

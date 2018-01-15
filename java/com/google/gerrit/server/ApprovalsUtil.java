@@ -49,10 +49,12 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -109,6 +111,7 @@ public class ApprovalsUtil {
   private final IdentifiedUser.GenericFactory userFactory;
   private final ApprovalCopier copier;
   private final PermissionBackend permissionBackend;
+  private final ProjectCache projectCache;
 
   @VisibleForTesting
   @Inject
@@ -116,11 +119,13 @@ public class ApprovalsUtil {
       NotesMigration migration,
       IdentifiedUser.GenericFactory userFactory,
       ApprovalCopier copier,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      ProjectCache projectCache) {
     this.migration = migration;
     this.userFactory = userFactory;
     this.copier = copier;
     this.permissionBackend = permissionBackend;
+    this.projectCache = projectCache;
   }
 
   /**
@@ -263,8 +268,9 @@ public class ApprovalsUtil {
   private boolean canSee(ReviewDb db, ChangeNotes notes, Account.Id accountId) {
     try {
       IdentifiedUser user = userFactory.create(accountId);
-      return permissionBackend.user(user).change(notes).database(db).test(ChangePermission.READ);
-    } catch (PermissionBackendException e) {
+      return projectCache.checkedGet(notes.getProjectName()).statePermitsRead()
+          && permissionBackend.user(user).change(notes).database(db).test(ChangePermission.READ);
+    } catch (IOException | PermissionBackendException e) {
       log.warn(
           String.format(
               "Failed to check if account %d can see change %d",

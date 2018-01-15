@@ -92,11 +92,12 @@ public class ChangeArgumentParser {
       if (!changes.containsKey(notes.getChangeId())
           && inProject(projectState, notes.getProjectName())
           && (canMaintainServer
-              || permissionBackend
-                  .user(currentUser)
-                  .change(notes)
-                  .database(db)
-                  .test(ChangePermission.READ))) {
+              || (permissionBackend
+                      .user(currentUser)
+                      .change(notes)
+                      .database(db)
+                      .test(ChangePermission.READ)
+                  && projectState.statePermitsRead()))) {
         toAdd.add(notes);
       }
     }

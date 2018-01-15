@@ -27,6 +27,8 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -75,6 +77,7 @@ public class MergeSuperSet {
   private final DynamicItem<MergeSuperSetComputation> mergeSuperSetComputation;
   private final PermissionBackend permissionBackend;
   private final Config cfg;
+  private final ProjectCache projectCache;
 
   private MergeOpRepoManager orm;
   private boolean closeOrm;
@@ -86,13 +89,15 @@ public class MergeSuperSet {
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeOpRepoManager> repoManagerProvider,
       DynamicItem<MergeSuperSetComputation> mergeSuperSetComputation,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      ProjectCache projectCache) {
     this.cfg = cfg;
     this.changeDataFactory = changeDataFactory;
     this.queryProvider = queryProvider;
     this.repoManagerProvider = repoManagerProvider;
     this.mergeSuperSetComputation = mergeSuperSetComputation;
     this.permissionBackend = permissionBackend;
+    this.projectCache = projectCache;
   }
 
   public static boolean wholeTopicEnabled(Config config) {
@@ -115,9 +120,17 @@ public class MergeSuperSet {
       }
 
       ChangeData cd = changeDataFactory.create(db, change.getProject(), change.getId());
+      ProjectState projectState = projectCache.checkedGet(cd.project());
       ChangeSet changeSet =
           new ChangeSet(
-              cd, permissionBackend.user(user).change(cd).database(db).test(ChangePermission.READ));
+              cd,
+              projectState != null
+                  && projectState.statePermitsRead()
+                  && permissionBackend
+                      .user(user)
+                      .change(cd)
+                      .database(db)
+                      .test(ChangePermission.READ));
       if (wholeTopicEnabled(cfg)) {
         return completeChangeSetIncludingTopics(db, changeSet, user);
       }
@@ -149,7 +162,7 @@ public class MergeSuperSet {
       CurrentUser user,
       Set<String> topicsSeen,
       Set<String> visibleTopicsSeen)
-      throws OrmException, PermissionBackendException {
+      throws OrmException, PermissionBackendException, IOException {
     List<ChangeData> visibleChanges = new ArrayList<>();
     List<ChangeData> nonVisibleChanges = new ArrayList<>();
 
@@ -208,7 +221,10 @@ public class MergeSuperSet {
   }
 
   private boolean canRead(ReviewDb db, CurrentUser user, ChangeData cd)
-      throws PermissionBackendException {
-    return permissionBackend.user(user).change(cd).database(db).test(ChangePermission.READ);
+      throws PermissionBackendException, IOException {
+    ProjectState projectState = projectCache.checkedGet(cd.project());
+    return projectState != null
+        && projectState.statePermitsRead()
+        && permissionBackend.user(user).change(cd).database(db).test(ChangePermission.READ);
   }
 }

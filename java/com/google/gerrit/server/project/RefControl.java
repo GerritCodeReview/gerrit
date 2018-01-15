@@ -100,9 +100,7 @@ class RefControl {
   /** Can this user see this reference exists? */
   boolean isVisible() {
     if (isVisible == null) {
-      isVisible =
-          (getUser().isInternalUser() || canPerform(Permission.READ))
-              && isProjectStatePermittingRead();
+      isVisible = getUser().isInternalUser() || canPerform(Permission.READ);
     }
     return isVisible;
   }
@@ -130,35 +128,6 @@ class RefControl {
       return projectControl.isOwner();
     }
     return canPerform(Permission.SUBMIT, isChangeOwner);
-  }
-
-  /** @return true if this user can abandon a change for this ref */
-  boolean canAbandon() {
-    return canPerform(Permission.ABANDON);
-  }
-
-  /** @return true if this user can view private changes. */
-  boolean canViewPrivateChanges() {
-    return canPerform(Permission.VIEW_PRIVATE_CHANGES);
-  }
-
-  /** @return true if this user can delete their own changes. */
-  boolean canDeleteOwnChanges() {
-    return canPerform(Permission.DELETE_OWN_CHANGES);
-  }
-
-  /** @return true if this user can edit topic names. */
-  boolean canEditTopicName() {
-    return canPerform(Permission.EDIT_TOPIC_NAME);
-  }
-
-  /** @return true if this user can edit hashtag names. */
-  boolean canEditHashtags() {
-    return canPerform(Permission.EDIT_HASHTAGS);
-  }
-
-  boolean canEditAssignee() {
-    return canPerform(Permission.EDIT_ASSIGNEE);
   }
 
   /** @return true if this user can force edit topic names. */
@@ -189,17 +158,17 @@ class RefControl {
     return canPerform(permissionName, false);
   }
 
-  boolean canPerform(String permissionName, boolean isChangeOwner) {
-    return doCanPerform(permissionName, isChangeOwner, false);
-  }
-
   ForRef asForRef() {
     return new ForRefImpl();
   }
 
+  private boolean canPerform(String permissionName, boolean isChangeOwner) {
+    return doCanPerform(permissionName, isChangeOwner, false);
+  }
+
   private boolean canUpload() {
     return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.PUSH)
-        && isProjectStatePermittingWrite();
+        && getProjectControl().getProject().getState().permitsWrite();
   }
 
   /** @return true if this user can submit merge patch sets to this ref */
@@ -244,14 +213,6 @@ class RefControl {
       default:
         return (isOwner() && !isForceBlocked(Permission.PUSH)) || projectControl.isAdmin();
     }
-  }
-
-  private boolean isProjectStatePermittingWrite() {
-    return getProjectControl().getProject().getState().permitsWrite();
-  }
-
-  private boolean isProjectStatePermittingRead() {
-    return getProjectControl().getProject().getState().permitsRead();
   }
 
   private boolean canPushWithForce() {
@@ -562,7 +523,7 @@ class RefControl {
           return projectControl.controlForRef(MagicBranch.NEW_CHANGE + refName).canSubmit(true);
 
         case READ_PRIVATE_CHANGES:
-          return canViewPrivateChanges();
+          return canPerform(Permission.VIEW_PRIVATE_CHANGES);
 
         case READ_CONFIG:
           return projectControl

@@ -204,8 +204,7 @@ class RefControl {
 
   /** @return true if this user can submit merge patch sets to this ref */
   private boolean canUploadMerges() {
-    return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.PUSH_MERGE)
-        && isProjectStatePermittingWrite();
+    return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.PUSH_MERGE);
   }
 
   /** @return true if the user can update the reference as a fast-forward. */
@@ -224,15 +223,11 @@ class RefControl {
         return false;
       }
     }
-    return canPerform(Permission.PUSH) && isProjectStatePermittingWrite();
+    return canPerform(Permission.PUSH);
   }
 
   /** @return true if the user can rewind (force push) the reference. */
   private boolean canForceUpdate() {
-    if (!isProjectStatePermittingWrite()) {
-      return false;
-    }
-
     if (canPushWithForce()) {
       return true;
     }
@@ -260,8 +255,7 @@ class RefControl {
   }
 
   private boolean canPushWithForce() {
-    if (!isProjectStatePermittingWrite()
-        || (RefNames.REFS_CONFIG.equals(refName) && !projectControl.isOwner())) {
+    if (RefNames.REFS_CONFIG.equals(refName) && !projectControl.isOwner()) {
       // Pushing requires being at least project owner, in addition to push.
       // Pushing configuration changes modifies the access control
       // rules. Allowing this to be done by a non-project-owner opens

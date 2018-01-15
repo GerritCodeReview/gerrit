@@ -1060,6 +1060,9 @@ class ReceiveCommits {
     } catch (AuthException err) {
       ok = false;
     }
+    if (!projectState.statePermitsWrite()) {
+      reject(cmd, "prohibited by Gerrit: project state does not permit write");
+    }
     if (ok) {
       if (isHead(cmd) && !isCommit(cmd)) {
         return;
@@ -1155,6 +1158,9 @@ class ReceiveCommits {
     if (ok) {
       if (!validRefOperation(cmd)) {
         return;
+      }
+      if (!projectState.statePermitsWrite()) {
+        cmd.setResult(REJECTED_NONFASTFORWARD, " project state does not permit write.");
       }
       actualCommands.add(cmd);
     } else {
@@ -2824,7 +2830,8 @@ class ReceiveCommits {
               && magicBranch.merged;
       CommitValidators validators =
           isMerged
-              ? commitValidatorsFactory.forMergedCommits(perm, user.asIdentifiedUser())
+              ? commitValidatorsFactory.forMergedCommits(
+                  project.getNameKey(), perm, user.asIdentifiedUser())
               : commitValidatorsFactory.forReceiveCommits(
                   perm, branch, user.asIdentifiedUser(), sshInfo, repo, rw);
       messages.addAll(validators.validate(receiveEvent));

@@ -14,19 +14,13 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import static com.google.gerrit.server.config.ConfigUtil.loadSection;
-import static com.google.gerrit.server.config.ConfigUtil.skipField;
-
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
-import com.google.gerrit.server.account.VersionedAccountPreferences;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.UserConfigSections;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -34,32 +28,20 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class GetDiffPreferences implements RestReadView<AccountResource> {
-  private static final Logger log = LoggerFactory.getLogger(GetDiffPreferences.class);
-
   private final Provider<CurrentUser> self;
-  private final Provider<AllUsersName> allUsersName;
   private final PermissionBackend permissionBackend;
-  private final GitRepositoryManager gitMgr;
+  private final AccountCache accountCache;
 
   @Inject
   GetDiffPreferences(
-      Provider<CurrentUser> self,
-      Provider<AllUsersName> allUsersName,
-      PermissionBackend permissionBackend,
-      GitRepositoryManager gitMgr) {
+      Provider<CurrentUser> self, PermissionBackend permissionBackend, AccountCache accountCache) {
     this.self = self;
-    this.allUsersName = allUsersName;
     this.permissionBackend = permissionBackend;
-    this.gitMgr = gitMgr;
+    this.accountCache = accountCache;
   }
 
   @Override
@@ -70,53 +52,6 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
     }
 
     Account.Id id = rsrc.getUser().getAccountId();
-    return readFromGit(id, gitMgr, allUsersName.get(), null);
-  }
-
-  static DiffPreferencesInfo readFromGit(
-      Account.Id id, GitRepositoryManager gitMgr, AllUsersName allUsersName, DiffPreferencesInfo in)
-      throws IOException, ConfigInvalidException, RepositoryNotFoundException {
-    try (Repository git = gitMgr.openRepository(allUsersName)) {
-      VersionedAccountPreferences p = VersionedAccountPreferences.forUser(id);
-      p.load(git);
-      DiffPreferencesInfo prefs = new DiffPreferencesInfo();
-      loadSection(
-          p.getConfig(), UserConfigSections.DIFF, null, prefs, readDefaultsFromGit(git, in), in);
-      return prefs;
-    }
-  }
-
-  static DiffPreferencesInfo readDefaultsFromGit(Repository git, DiffPreferencesInfo in)
-      throws ConfigInvalidException, IOException {
-    VersionedAccountPreferences dp = VersionedAccountPreferences.forDefault();
-    dp.load(git);
-    DiffPreferencesInfo allUserPrefs = new DiffPreferencesInfo();
-    loadSection(
-        dp.getConfig(),
-        UserConfigSections.DIFF,
-        null,
-        allUserPrefs,
-        DiffPreferencesInfo.defaults(),
-        in);
-    return updateDefaults(allUserPrefs);
-  }
-
-  private static DiffPreferencesInfo updateDefaults(DiffPreferencesInfo input) {
-    DiffPreferencesInfo result = DiffPreferencesInfo.defaults();
-    try {
-      for (Field field : input.getClass().getDeclaredFields()) {
-        if (skipField(field)) {
-          continue;
-        }
-        Object newVal = field.get(input);
-        if (newVal != null) {
-          field.set(result, newVal);
-        }
-      }
-    } catch (IllegalAccessException e) {
-      log.warn("Cannot get default diff preferences from All-Users", e);
-      return DiffPreferencesInfo.defaults();
-    }
-    return result;
+    return accountCache.get(id).getDiffPreferences();
   }
 }

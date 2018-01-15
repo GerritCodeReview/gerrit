@@ -25,6 +25,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser.PropertyKey;
@@ -115,7 +116,8 @@ public class AccountState {
             account,
             extIds,
             Suppliers.memoize(() -> accountConfig.getProjectWatches()),
-            Suppliers.memoize(() -> accountConfig.getGeneralPreferences())));
+            Suppliers.memoize(() -> accountConfig.getGeneralPreferences()),
+            Suppliers.memoize(() -> accountConfig.getDiffPreferences())));
   }
 
   /**
@@ -145,7 +147,8 @@ public class AccountState {
         account,
         ImmutableSet.copyOf(extIds),
         Suppliers.ofInstance(ImmutableMap.of()),
-        Suppliers.ofInstance(GeneralPreferencesInfo.defaults()));
+        Suppliers.ofInstance(GeneralPreferencesInfo.defaults()),
+        Suppliers.ofInstance(DiffPreferencesInfo.defaults()));
   }
 
   private final AllUsersName allUsersName;
@@ -153,6 +156,7 @@ public class AccountState {
   private final ImmutableSet<ExternalId> externalIds;
   private final Supplier<ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>>> projectWatches;
   private final Supplier<GeneralPreferencesInfo> generalPreferences;
+  private final Supplier<DiffPreferencesInfo> diffPreferences;
   private Cache<IdentifiedUser.PropertyKey<Object>, Object> properties;
 
   private AccountState(
@@ -160,12 +164,14 @@ public class AccountState {
       Account account,
       ImmutableSet<ExternalId> externalIds,
       Supplier<ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>>> projectWatches,
-      Supplier<GeneralPreferencesInfo> generalPreferences) {
+      Supplier<GeneralPreferencesInfo> generalPreferences,
+      Supplier<DiffPreferencesInfo> diffPreferences) {
     this.allUsersName = allUsersName;
     this.account = account;
     this.externalIds = externalIds;
     this.projectWatches = projectWatches;
     this.generalPreferences = generalPreferences;
+    this.diffPreferences = diffPreferences;
     this.account.setUserName(ExternalId.getUserName(externalIds).orElse(null));
   }
 
@@ -229,6 +235,11 @@ public class AccountState {
   /** The general preferences of the account. */
   public GeneralPreferencesInfo getGeneralPreferences() {
     return generalPreferences.get();
+  }
+
+  /** The diff preferences of the account. */
+  public DiffPreferencesInfo getDiffPreferences() {
+    return diffPreferences.get();
   }
 
   /**

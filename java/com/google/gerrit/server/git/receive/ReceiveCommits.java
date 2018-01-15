@@ -148,7 +148,6 @@ import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.RepoOnlyOp;
 import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryHelper.ActionType;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.MagicBranch;
@@ -2881,10 +2880,7 @@ class ReceiveCommits {
                 for (Ref ref : byCommit.get(c.copy())) {
                   PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
                   Optional<ChangeData> cd =
-                      retryHelper.execute(
-                          ActionType.CHANGE_QUERY,
-                          () -> byLegacyId(psId.getParentKey()),
-                          t -> t instanceof OrmException);
+                      retryHelper.executeIndexQuery(() -> byLegacyId(psId.getParentKey()));
                   if (cd.isPresent() && cd.get().change().getDest().equals(branch)) {
                     existingPatchSets++;
                     bu.addOp(
@@ -2896,11 +2892,7 @@ class ReceiveCommits {
 
                 for (String changeId : c.getFooterLines(CHANGE_ID)) {
                   if (byKey == null) {
-                    byKey =
-                        retryHelper.execute(
-                            ActionType.CHANGE_QUERY,
-                            () -> openChangesByKeyByBranch(branch),
-                            t -> t instanceof OrmException);
+                    byKey = retryHelper.executeIndexQuery(() -> openChangesByKeyByBranch(branch));
                   }
 
                   ChangeNotes onto = byKey.get(new Change.Key(changeId.trim()));

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d438b5e_98cc350b",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-01-15T09:19:46Z",
+      "side": 1,
+      "message": "Could this be \"gerrit:commit_author\"? \"gerrit:current_user\" is not consistent and should be avoid if possible. see  I73b370bdd4e9.",
+      "range": {
+        "startLine": 903,
+        "startChar": 4,
+        "endLine": 903,
+        "endChar": 27
+      },
+      "revId": "bacda46233aaf32656f83e50bc5507f5cf4b0ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

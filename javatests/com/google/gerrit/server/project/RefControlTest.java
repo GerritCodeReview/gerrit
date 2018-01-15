@@ -37,6 +37,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.InvalidNameException;
@@ -722,7 +723,7 @@ public class RefControlTest {
     allow(local, EDIT_TOPIC_NAME, DEVS, "refs/heads/*").setForce(true);
 
     ProjectControl u = user(local, DEVS);
-    assertThat(u.controlForRef("refs/heads/master").canForceEditTopicName())
+    assertThat(u.controlForRef("refs/heads/master").canPerform(Permission.EDIT_TOPIC_NAME))
         .named("u can edit topic name")
         .isTrue();
   }
@@ -733,7 +734,7 @@ public class RefControlTest {
     allow(local, EDIT_TOPIC_NAME, DEVS, "refs/heads/*").setForce(true);
 
     ProjectControl u = user(local, REGISTERED_USERS);
-    assertThat(u.controlForRef("refs/heads/master").canForceEditTopicName())
+    assertThat(u.controlForRef("refs/heads/master").canPerform(Permission.EDIT_TOPIC_NAME))
         .named("u can't edit topic name")
         .isFalse();
   }

@@ -2883,7 +2883,7 @@ class ReceiveCommits {
                 for (Ref ref : byCommit.get(c.copy())) {
                   PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
                   Optional<ChangeData> cd =
-                      executeIndexQuery(() -> byLegacyId(psId.getParentKey()));
+                      executeIndexQueryOnAutoClose(() -> byLegacyId(psId.getParentKey()));
                   if (cd.isPresent() && cd.get().change().getDest().equals(branch)) {
                     existingPatchSets++;
                     bu.addOp(
@@ -2895,7 +2895,7 @@ class ReceiveCommits {
 
                 for (String changeId : c.getFooterLines(CHANGE_ID)) {
                   if (byKey == null) {
-                    byKey = executeIndexQuery(() -> openChangesByKeyByBranch(branch));
+                    byKey = executeIndexQueryOnAutoClose(() -> openChangesByKeyByBranch(branch));
                   }
 
                   ChangeNotes onto = byKey.get(new Change.Key(changeId.trim()));
@@ -2913,7 +2913,7 @@ class ReceiveCommits {
 
               for (ReplaceRequest req : replaceAndClose) {
                 Change.Id id = req.notes.getChangeId();
-                if (!executeRequestValidation(() -> req.validate(true))) {
+                if (!executeRequestValidationOnAutoClose(() -> req.validate(true))) {
                   logDebug("Not closing {} because validation failed", id);
                   continue;
                 }
@@ -2954,9 +2954,13 @@ class ReceiveCommits {
     }
   }
 
-  private <T> T executeIndexQuery(Action<T> action) throws OrmException {
+  private <T> T executeIndexQueryOnAutoClose(Action<T> action) throws OrmException {
     try {
-      return retryHelper.execute(ActionType.INDEX_QUERY, action, t -> t instanceof OrmException);
+      return retryHelper.execute(
+          ActionType.INDEX_QUERY,
+          action,
+          retryOptionsForIndexQueryOnAutoClose(),
+          t -> t instanceof OrmException);
     } catch (Throwable t) {
       Throwables.throwIfUnchecked(t);
       Throwables.throwIfInstanceOf(t, OrmException.class);
@@ -2964,18 +2968,33 @@ class ReceiveCommits {
     }
   }
 
-  private <T> T executeRequestValidation(Action<T> action)
+  private boolean executeRequestValidationOnAutoClose(Action<Boolean> action)
       throws IOException, PermissionBackendException, OrmException {
     try {
       // The request validation needs to do an account query to lookup accounts by preferred email,
       // if that index query fails the request validation should be retried.
-      return retryHelper.execute(ActionType.INDEX_QUERY, action, t -> t instanceof OrmException);
+      return retryHelper.execute(
+          ActionType.INDEX_QUERY,
+          action,
+          retryOptionsForIndexQueryOnAutoClose(),
+          t -> t instanceof OrmException);
     } catch (Exception t) {
       Throwables.throwIfInstanceOf(t, IOException.class);
       Throwables.throwIfInstanceOf(t, PermissionBackendException.class);
       Throwables.throwIfInstanceOf(t, OrmException.class);
       throw new OrmException(t);
     }
+  }
+
+  private RetryHelper.Options retryOptionsForIndexQueryOnAutoClose() {
+    // If auto-closing changes fails the push is still successful. This is bad because afterwards
+    // changes can be in an inconsistent state (they are still open but the changes were actually
+    // already merged into the target branch). To fix this pushing and auto-closing should be a
+    // single transaction, but while we are not there yet we should make failures during auto-close
+    // less likely. For this we double the timeout to allow more retries for failing index queries.
+    return RetryHelper.options()
+        .timeout(retryHelper.getDefaultTimeout(ActionType.INDEX_QUERY).multipliedBy(2))
+        .build();
   }
 
   private void updateAccountInfo() {

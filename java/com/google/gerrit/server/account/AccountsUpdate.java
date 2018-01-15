@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
+import com.google.common.base.Throwables;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Runnables;
@@ -31,10 +32,12 @@ import com.google.gerrit.server.account.externalids.ExternalIdNotes.ExternalIdNo
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
 import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryHelper.Action;
 import com.google.gerrit.server.update.RetryHelper.ActionType;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
@@ -431,8 +434,7 @@ public class AccountsUpdate {
 
   private Account updateAccount(AccountUpdate accountUpdate)
       throws IOException, ConfigInvalidException, OrmException {
-    return retryHelper.execute(
-        ActionType.ACCOUNT_UPDATE,
+    return executeAccountUpdate(
         () -> {
           try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
             UpdatedAccount updatedAccount = accountUpdate.update(allUsersRepo);
@@ -444,6 +446,19 @@ public class AccountsUpdate {
             return updatedAccount.getAccount();
           }
         });
+  }
+
+  private Account executeAccountUpdate(Action<Account> action)
+      throws IOException, ConfigInvalidException, OrmException {
+    try {
+      return retryHelper.execute(
+          ActionType.ACCOUNT_UPDATE, action, t -> t instanceof LockFailureException);
+    } catch (Exception t) {
+      Throwables.throwIfInstanceOf(t, IOException.class);
+      Throwables.throwIfInstanceOf(t, ConfigInvalidException.class);
+      Throwables.throwIfInstanceOf(t, OrmException.class);
+      throw new OrmException(t);
+    }
   }
 
   private ExternalIdNotes createExternalIdNotes(

@@ -24,6 +24,7 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
@@ -159,7 +160,8 @@ public class InitAdminUser implements InitStep {
                   a,
                   ImmutableSet.copyOf(extIds),
                   Suppliers.ofInstance(ImmutableMap.of()),
-                  Suppliers.ofInstance(GeneralPreferencesInfo.defaults()));
+                  Suppliers.ofInstance(GeneralPreferencesInfo.defaults()),
+                  Suppliers.ofInstance(DiffPreferencesInfo.defaults()));
           for (AccountIndex accountIndex : accountIndexCollection.getWriteIndexes()) {
             accountIndex.replace(as);
           }

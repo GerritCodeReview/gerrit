@@ -25,6 +25,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
@@ -391,6 +392,7 @@ public class FromAddressGeneratorProviderTest {
         account,
         ImmutableSet.of(),
         Suppliers.ofInstance(ImmutableMap.of()),
-        Suppliers.ofInstance(GeneralPreferencesInfo.defaults()));
+        Suppliers.ofInstance(GeneralPreferencesInfo.defaults()),
+        Suppliers.ofInstance(DiffPreferencesInfo.defaults()));
   }
 }

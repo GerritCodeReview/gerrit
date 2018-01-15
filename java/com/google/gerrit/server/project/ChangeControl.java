@@ -166,9 +166,7 @@ class ChangeControl {
   /** Can this user restore this change? */
   private boolean canRestore(ReviewDb db) throws OrmException {
     // Anyone who can abandon the change can restore it, as long as they can create changes.
-    return canAbandon(db)
-        && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)
-        && getProjectControl().getProjectState().statePermitsWrite();
+    return canAbandon(db) && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE);
   }
 
   /** The range of permitted values associated with a label permission. */

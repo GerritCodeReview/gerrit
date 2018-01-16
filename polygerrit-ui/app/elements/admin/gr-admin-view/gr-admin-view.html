@@ -40,7 +40,7 @@ limitations under the License.
     <style include="shared-styles"></style>
     <style include="gr-menu-page-styles"></style>
     <style include="gr-page-nav-styles"></style>
-    <gr-page-nav class="navStyles">
+    <gr-page-nav class="navStyles" admin-menu="[[adminView]]">
       <ul class="sectionContent">
         <template id="adminNav" is="dom-repeat" items="[[_filteredLinks]]">
           <li class$="sectionTitle [[_computeSelectedClass(item.view, params)]]">

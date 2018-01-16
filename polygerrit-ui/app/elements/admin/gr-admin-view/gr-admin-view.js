@@ -79,6 +79,7 @@
       _showRepoMain: Boolean,
       _showRepoList: Boolean,
       _showPluginList: Boolean,
+      adminMenu: Boolean,
     },
 
     behaviors: [

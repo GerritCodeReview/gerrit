@@ -33,12 +33,12 @@ limitations under the License.
         position: fixed;
       }
       @media only screen and (max-width: 53em) {
-        #nav {
+        .nav {
           display: none;
         }
       }
     </style>
-    <nav id="nav">
+    <nav id="nav" class$="[[adminClas(adminMenu)]]">
       <slot></slot>
     </nav>
   </template>

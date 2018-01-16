@@ -100,6 +100,11 @@
         type: Array,
         value() { return []; },
       },
+      adminMenu: {
+        type: Boolean,
+        value: false,
+        notify: true,
+      },
     },
 
     behaviors: [

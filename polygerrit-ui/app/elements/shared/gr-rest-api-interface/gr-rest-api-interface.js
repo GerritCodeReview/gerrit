@@ -1402,6 +1402,41 @@
     },
 
     /**
+     * @param {number|string} changeNum
+     * @param {string} path
+     * @param {numer|string} patchNum
+     */
+    getFileContent(changeNum, path, patchNum) {
+      const promise = this.patchNumEquals(patchNum, this.EDIT_NAME) ?
+          this.getFileInChangeEdit(changeNum, path) :
+          this.getFileInRevision(changeNum, path, patchNum);
+
+      return promise.then(res => {
+        if (!res.ok) { return res; }
+
+        // The file type (used for syntax highlighting) is identified in the
+        // X-FYI-Content-Type header of the response.
+        const type = res.headers.get('X-FYI-Content-Type');
+        return this.getResponseObject(res).then(content => {
+          return {content, type, ok: true};
+        });
+      });
+    },
+
+    /**
+     * Gets a file in a specific change and revision.
+     * @param {number|string} changeNum
+     * @param {string} path
+     * @param {numer|string} patchNum
+     */
+    getFileInRevision(changeNum, path, patchNum) {
+      const e = `/files/${encodeURIComponent(path)}/content`;
+      const headers = {Accept: 'application/json'};
+      return this.getChangeURLAndSend(changeNum, 'GET', patchNum, e, null, null,
+          null, null, headers);
+    },
+
+    /**
      * Gets a file in a change edit.
      * @param {number|string} changeNum
      * @param {string} path
@@ -1410,16 +1445,7 @@
       const e = '/edit/' + encodeURIComponent(path);
       const headers = {Accept: 'application/json'};
       return this.getChangeURLAndSend(changeNum, 'GET', null, e, null, null,
-          null, null, headers).then(res => {
-            if (!res.ok) { return res; }
-
-            // The file type (used for syntax highlighting) is identified in the
-            // X-FYI-Content-Type header of the response.
-            const type = res.headers.get('X-FYI-Content-Type');
-            return this.getResponseObject(res).then(content => {
-              return {content, type, ok: true};
-            });
-          });
+          null, null, headers);
     },
 
     rebaseChangeEdit(changeNum) {

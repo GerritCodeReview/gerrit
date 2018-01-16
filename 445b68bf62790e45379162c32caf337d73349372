@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "54bdf438_4ff837b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-16T08:07:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c37c2ca_d9494a1f",
+      "range": {
+        "startLine": 11,
+        "startChar": 18,
+        "endLine": 11,
+        "endChar": 22
+      },
+      "revId": "445b68bf62790e45379162c32caf337d73349372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "69d6da22_1afa79f1",
         "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
         "patchSetId": 3
@@ -46,6 +70,30 @@
       "revId": "445b68bf62790e45379162c32caf337d73349372",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a134f1cd_6de63617",
+        "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-16T08:07:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69d6da22_1afa79f1",
+      "range": {
+        "startLine": 239,
+        "startChar": 24,
+        "endLine": 239,
+        "endChar": 38
+      },
+      "revId": "445b68bf62790e45379162c32caf337d73349372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "75138027_65d8f1e7",
+        "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-16T08:07:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df69f62f_aee68487",
+      "range": {
+        "startLine": 249,
+        "startChar": 27,
+        "endLine": 249,
+        "endChar": 33
+      },
+      "revId": "445b68bf62790e45379162c32caf337d73349372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8415c8f_3a732006",
         "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
         "patchSetId": 3
@@ -92,6 +164,30 @@
       "revId": "445b68bf62790e45379162c32caf337d73349372",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccf1f6d6_1220f400",
+        "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-16T08:07:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8415c8f_3a732006",
+      "range": {
+        "startLine": 266,
+        "startChar": 24,
+        "endLine": 266,
+        "endChar": 38
+      },
+      "revId": "445b68bf62790e45379162c32caf337d73349372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

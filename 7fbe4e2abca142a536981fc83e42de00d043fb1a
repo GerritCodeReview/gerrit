@@ -22,6 +22,30 @@
       "revId": "7fbe4e2abca142a536981fc83e42de00d043fb1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21dd3da3_154f6500",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1409,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-16T23:50:46Z",
+      "side": 1,
+      "message": ":facepalm:\n\nI couldn\u0027t find the function because this file is so big. That function should replace the added \u0027getFileInRevision\u0027 below.",
+      "parentUuid": "9615670b_924ecce2",
+      "range": {
+        "startLine": 1409,
+        "startChar": 4,
+        "endLine": 1409,
+        "endChar": 18
+      },
+      "revId": "7fbe4e2abca142a536981fc83e42de00d043fb1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -23,9 +23,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
@@ -546,7 +544,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private void loadExtensionPanelSections(Config rc) {
     Map<String, String> lowerNames = Maps.newHashMapWithExpectedSize(2);
-    extensionPanelSections = Maps.newLinkedHashMap();
+    extensionPanelSections = new LinkedHashMap<>();
     for (String name : rc.getSubsections(EXTENSION_PANELS)) {
       String lower = name.toLowerCase();
       if (lowerNames.containsKey(lower)) {
@@ -914,7 +912,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private void loadCommentLinkSections(Config rc) {
     Set<String> subsections = rc.getSubsections(COMMENTLINK);
-    commentLinkSections = Lists.newArrayListWithCapacity(subsections.size());
+    commentLinkSections = new ArrayList<>(subsections.size());
     for (String name : subsections) {
       try {
         commentLinkSections.add(buildCommentLink(rc, name, false));
@@ -1058,7 +1056,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     groupList.retainUUIDs(keepGroups);
     saveLabelSections(rc);
     saveSubscribeSections(rc);
-
     saveConfig(PROJECT_CONFIG, rc);
     saveGroupList();
     return true;
@@ -1153,7 +1150,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       if (nc.getNotify().equals(EnumSet.of(NotifyType.ALL))) {
         rc.unset(NOTIFY, nc.getName(), KEY_TYPE);
       } else {
-        List<String> types = Lists.newArrayListWithCapacity(4);
+        List<String> types = new ArrayList<>(4);
         for (NotifyType t : NotifyType.values()) {
           if (nc.isNotify(t)) {
             types.add(StringUtils.toLowerCase(t.name()));
@@ -1258,15 +1255,15 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   private void saveLabelSections(Config rc) {
-    List<String> existing = Lists.newArrayList(rc.getSubsections(LABEL));
-    if (!Lists.newArrayList(labelSections.keySet()).equals(existing)) {
+    List<String> existing = new ArrayList<>(rc.getSubsections(LABEL));
+    if (!new ArrayList<>(labelSections.keySet()).equals(existing)) {
       // Order of sections changed, remove and rewrite them all.
       for (String name : existing) {
         rc.unsetSection(LABEL, name);
       }
     }
 
-    Set<String> toUnset = Sets.newHashSet(existing);
+    Set<String> toUnset = new HashSet<>(existing);
     for (Map.Entry<String, LabelType> e : labelSections.entrySet()) {
       String name = e.getKey();
       LabelType label = e.getValue();
@@ -1325,7 +1322,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           LabelType.DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
       setBooleanConfigKey(
           rc, LABEL, name, KEY_CAN_OVERRIDE, label.canOverride(), LabelType.DEF_CAN_OVERRIDE);
-      List<String> values = Lists.newArrayListWithCapacity(label.getValues().size());
+      List<String> values = new ArrayList<>(label.getValues().size());
       for (LabelValue value : label.getValues()) {
         values.add(value.format().trim());
       }
@@ -1347,7 +1344,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   private void savePluginSections(Config rc, Set<AccountGroup.UUID> keepGroups) {
-    List<String> existing = Lists.newArrayList(rc.getSubsections(PLUGIN));
+    List<String> existing = new ArrayList<>(rc.getSubsections(PLUGIN));
     for (String name : existing) {
       rc.unsetSection(PLUGIN, name);
     }

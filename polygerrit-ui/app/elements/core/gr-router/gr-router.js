@@ -498,9 +498,12 @@
 
       return this.$.restAPI.getFromProjectLookup(params.changeNum)
           .then(project => {
-            // Do nothing if the lookup request failed. This avoids an infinite
-            // loop of project lookups.
-            if (!project) { return; }
+            // Show a 404 and terminate if the lookup request failed. Attempting
+            // to redirect after failing to get the project loops infinitely.
+            if (!project) {
+              this._show404();
+              return;
+            }
 
             params.project = project;
             this._normalizePatchRangeParams(params);
@@ -791,7 +794,7 @@
 
       // Note: this route should appear last so it only catches URLs unmatched
       // by other patterns.
-      this._mapRoute(RoutePattern.DEFAULT, '_handleDefaultRoute');
+      this._mapRoute(RoutePattern.DEFAULT, '_show404');
 
       page.start();
     },
@@ -1305,7 +1308,7 @@
 
     /**
      * Handler for routes that should pass through the router and not be caught
-     * by the catchall _handleDefaultRoute handler.
+     * by the catchall _show404 handler.
      */
     _handlePassThroughRoute() {
       location.reload();
@@ -1332,7 +1335,7 @@
     /**
      * Catchall route for when no other route is matched.
      */
-    _handleDefaultRoute() {
+    _show404() {
       // Note: the app's 404 display is tightly-coupled with catching 404
       // network responses, so we simulate a 404 response status to display it.
       // TODO: Decouple the gr-app error view from network responses.

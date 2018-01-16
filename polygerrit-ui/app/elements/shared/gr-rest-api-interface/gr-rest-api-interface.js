@@ -1993,7 +1993,11 @@
      */
     getChange(changeNum, opt_errFn) {
       // Cannot use _changeBaseURL, as this function is used by _projectLookup.
-      return this.fetchJSON(`/changes/?q=${changeNum}`, opt_errFn);
+      return this.fetchJSON(`/changes/?q=change:${changeNum}`, opt_errFn)
+          .then(res => {
+            if (!res || !res.length) { return null; }
+            return res[0];
+          });
     },
 
     /**
@@ -2026,8 +2030,7 @@
         this.fire('page-error', {response});
       };
 
-      return this.getChange(changeNum, onError).then(res => {
-        const change = res[0];
+      return this.getChange(changeNum, onError).then(change => {
         if (!change || !change.project) { return; }
         this.setInProjectLookup(changeNum, change.project);
         return change.project;

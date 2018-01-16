@@ -31,13 +31,14 @@
       section: {
         type: Object,
         notify: true,
-        observer: '_sectionChanged',
+        observer: '_updateSection',
       },
       groups: Object,
       labels: Object,
       editing: {
         type: Boolean,
         value: false,
+        observer: '_handleEditingChanged',
       },
       _originalId: String,
       _editingRef: {
@@ -55,9 +56,40 @@
       Gerrit.AccessBehavior,
     ],
 
-    _sectionChanged(section) {
+    listeners: {
+      'access-saved': '_handleAccessSaved',
+    },
+
+    _updateSection(section) {
       this._permissions = this.toSortedArray(section.value.permissions);
       this._originalId = section.id;
+      this.section.value.updatedId = section.id;
+    },
+
+    _handleAccessSaved() {
+      // Set a new 'original' value to keep track of after the value has been
+      // saved.
+      this._updateSection();
+    },
+
+    _handleValueChange() {
+      this.section.value.modified = this.section.id !== this._originalId;
+      this.section.value.updatedId = this.section.id;
+
+      // Allows overall access page to know a change has been made.
+      this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
+    },
+
+    _handleEditingChanged(editing, editingOld) {
+      // Ignore when editing gets set initially.
+      if (!editingOld) { return; }
+      // Restore original values if no longer editing.
+      if (!editing) {
+        this._editingRef = false;
+        // Restore section ref.
+        this.set(['section', 'id'],
+            this._originalId);
+      }
     },
 
     _computePermissions(name, capabilities, labels) {
@@ -139,11 +171,6 @@
 
     _handleEditReference() {
       this._editingRef = true;
-    },
-
-    _undoReferenceEdit() {
-      this._editingRef = false;
-      this.set('section.id', this._originalId);
     },
 
     _computeSectionClass(editing, editingRef, deleted) {

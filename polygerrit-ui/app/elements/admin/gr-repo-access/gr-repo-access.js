@@ -156,13 +156,12 @@
       for (const item of path) {
         if (!curPos[item]) {
           if (item === path[path.length - 1] && type === 'remove') {
-            // TODO(beckysiegel) This if statement should be removed when
-            // https://gerrit-review.googlesource.com/c/gerrit/+/150851
-            // is live.
             if (path[path.length - 2] === 'permissions') {
               curPos[item] = {rules: {}};
+            } else if (path.length === 1) {
+              curPos[item] = {permissions: {}};
             } else {
-              curPos[item] = null;
+              curPos[item] = {};
             }
           } else if (item === path[path.length - 1] && type === 'add') {
             curPos[item] = opt_value;
@@ -186,8 +185,12 @@
           } else if (obj[k].modified) {
             this._updateAddRemoveObj(addRemoveObj,
                 path.concat(k), 'remove');
+            /* Special case for ref changes because they need to be added and
+             removed in a different way. A new ref is stored to use for the
+             addition, while the old one is used for the removal. */
+            const ref = obj[k].updatedId ? obj[k].updatedId : k;
             this._updateAddRemoveObj(addRemoveObj,
-                path.concat(k), 'add', obj[k]);
+                path.concat(ref), 'add', obj[k]);
           } else if (obj[k].added) {
             this._updateAddRemoveObj(addRemoveObj,
                 path.concat(k), 'add', obj[k]);

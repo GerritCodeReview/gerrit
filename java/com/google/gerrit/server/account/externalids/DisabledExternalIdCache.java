@@ -35,28 +35,11 @@ public class DisabledExternalIdCache implements ExternalIdCache {
   }
 
   @Override
-  public void onCreate(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extId) {}
-
-  @Override
-  public void onUpdate(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extId) {}
-
-  @Override
-  public void onReplace(
-      ObjectId oldNotesRev,
-      ObjectId newNotesRev,
-      Account.Id accountId,
-      Collection<ExternalId> toRemove,
-      Collection<ExternalId> toAdd) {}
-
-  @Override
   public void onReplace(
       ObjectId oldNotesRev,
       ObjectId newNotesRev,
       Collection<ExternalId> toRemove,
       Collection<ExternalId> toAdd) {}
-
-  @Override
-  public void onRemove(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extId) {}
 
   @Override
   public ImmutableSet<ExternalId> byAccount(Account.Id accountId) {

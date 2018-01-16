@@ -15,17 +15,14 @@
 package com.google.gerrit.server.account.externalids;
 
 import static com.google.common.collect.ImmutableSetMultimap.toImmutableSetMultimap;
-import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
@@ -74,73 +71,6 @@ class ExternalIdCacheImpl implements ExternalIdCache {
             .build(new Loader(externalIdReader));
     this.externalIdReader = externalIdReader;
     this.lock = new ReentrantLock(true /* fair */);
-  }
-
-  @Override
-  public void onCreate(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extIds)
-      throws IOException {
-    updateCache(
-        oldNotesRev,
-        newNotesRev,
-        m -> {
-          for (ExternalId extId : extIds) {
-            extId.checkThatBlobIdIsSet();
-            m.put(extId.accountId(), extId);
-          }
-        });
-  }
-
-  @Override
-  public void onRemove(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extIds)
-      throws IOException {
-    updateCache(
-        oldNotesRev,
-        newNotesRev,
-        m -> {
-          for (ExternalId extId : extIds) {
-            m.remove(extId.accountId(), extId);
-          }
-        });
-  }
-
-  @Override
-  public void onUpdate(
-      ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> updatedExtIds)
-      throws IOException {
-    updateCache(
-        oldNotesRev,
-        newNotesRev,
-        m -> {
-          removeKeys(m.values(), updatedExtIds.stream().map(e -> e.key()).collect(toSet()));
-          for (ExternalId updatedExtId : updatedExtIds) {
-            updatedExtId.checkThatBlobIdIsSet();
-            m.put(updatedExtId.accountId(), updatedExtId);
-          }
-        });
-  }
-
-  @Override
-  public void onReplace(
-      ObjectId oldNotesRev,
-      ObjectId newNotesRev,
-      Account.Id accountId,
-      Collection<ExternalId> toRemove,
-      Collection<ExternalId> toAdd)
-      throws IOException {
-    ExternalIdNotes.checkSameAccount(Iterables.concat(toRemove, toAdd), accountId);
-
-    updateCache(
-        oldNotesRev,
-        newNotesRev,
-        m -> {
-          for (ExternalId extId : toRemove) {
-            m.remove(extId.accountId(), extId);
-          }
-          for (ExternalId extId : toAdd) {
-            extId.checkThatBlobIdIsSet();
-            m.put(extId.accountId(), extId);
-          }
-        });
   }
 
   @Override
@@ -228,10 +158,6 @@ class ExternalIdCacheImpl implements ExternalIdCache {
     } finally {
       lock.unlock();
     }
-  }
-
-  private static void removeKeys(Collection<ExternalId> ids, Collection<ExternalId.Key> toRemove) {
-    Collections2.transform(ids, e -> e.key()).removeAll(toRemove);
   }
 
   private static class Loader extends CacheLoader<ObjectId, AllExternalIds> {

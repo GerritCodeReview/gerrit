@@ -364,15 +364,18 @@ limitations under the License.
               reply-disabled="[[_replyDisabled]]"
               reply-button-label="[[_replyButtonLabel]]"
               commit-message="[[_latestCommitMessage]]"
+              edit-patchset-loaded="[[editPatchsetLoaded(_patchRange)]]"
               edit-loaded="[[_editLoaded]]"
               edit-based-on-current-patch-set="[[hasEditBasedOnCurrentPatchSet(_allPatchSets)]]"
               on-reload-change="_handleReloadChange"
+              on-edit-tap="_handleEditTap"
               on-download-tap="_handleOpenDownloadDialog"></gr-change-actions>
         </div><!-- end commit actions -->
       </div><!-- end header -->
       <section class="changeInfo">
         <div class="changeInfo-column changeMetadata hideOnMobileOverlay">
           <gr-change-metadata
+              id="metadata"
               change="{{_change}}"
               revision="[[_selectedRevision]]"
               commit-info="[[_commitInfo]]"

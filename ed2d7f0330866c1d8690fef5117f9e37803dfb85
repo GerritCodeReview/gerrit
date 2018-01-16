@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "4a290bbd_8622314a",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/UploadArchiveIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-16T09:59:01Z",
+      "side": 1,
+      "message": "That\u0027s because you broke the code by removing \"-9 \" part in the line. Your comannd construction is invalid, as it now ends up with:\n\n -f\u003d\"tar.xz--prefix\"\n\nAnd such format doesn\u0027t exist, obviously. That only emphasizes, that we must verify, that we are getting the correct stream back, instead of\n\n  if (channel !\u003d 1) {...\n\nthat doesn\u0027t really help.",
+      "parentUuid": "36f91dc5_d91c3928",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 57
+      },
+      "revId": "ed2d7f0330866c1d8690fef5117f9e37803dfb85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18aa3400_4d38066e",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/UploadArchiveIT.java",
         "patchSetId": 5

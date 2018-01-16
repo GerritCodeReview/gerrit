@@ -89,6 +89,10 @@
       this._setupValues();
     },
 
+    _permissionIsOwner(permissionId) {
+      return permissionId === 'owner';
+    },
+
     _handleEditingChanged(editing, editingOld) {
       // Ignore when editing gets set initially.
       if (!editingOld) { return; }

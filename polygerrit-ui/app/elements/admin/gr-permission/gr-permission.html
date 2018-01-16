@@ -89,11 +89,13 @@ limitations under the License.
         <div class="header">
           <span class="title">[[name]]</span>
           <div class="right">
-            <paper-toggle-button
-                id="exclusiveToggle"
-                checked="{{permission.value.exclusive}}"
-                on-change="_handleValueChange"
-                disabled$="[[!editing]]"></paper-toggle-button>Exclusive
+            <template is=dom-if if="[[!_permissionIsOwner(permission.id)]]">
+              <paper-toggle-button
+                  id="exclusiveToggle"
+                  checked="{{permission.value.exclusive}}"
+                  on-change="_handleValueChange"
+                  disabled$="[[!editing]]"></paper-toggle-button>Exclusive
+            </template>
             <gr-button
                 link
                 id="removeBtn"

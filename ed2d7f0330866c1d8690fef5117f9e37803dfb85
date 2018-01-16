@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "43da9bb9_9fb47836",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/UploadArchiveIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-16T10:44:34Z",
+      "side": 1,
+      "message": "I disagree.  I think the message in https://gerrit.googlesource.com/gerrit/+/f5760b4bafbaee7606af93017bad5d6652f7bd8d/java/com/google/gerrit/sshd/commands/UploadArchive.java#176 should mention the format that is not permitted.",
+      "parentUuid": "4a290bbd_8622314a",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 57
+      },
+      "revId": "ed2d7f0330866c1d8690fef5117f9e37803dfb85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18aa3400_4d38066e",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/UploadArchiveIT.java",
         "patchSetId": 5

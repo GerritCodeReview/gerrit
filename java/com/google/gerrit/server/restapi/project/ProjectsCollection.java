@@ -22,7 +22,9 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.NeedsParams;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -91,7 +93,7 @@ public class ProjectsCollection
 
   @Override
   public ProjectResource parse(TopLevelResource parent, IdString id)
-      throws ResourceNotFoundException, IOException, PermissionBackendException {
+      throws RestApiException, IOException, PermissionBackendException {
     ProjectResource rsrc = _parse(id.get(), true);
     if (rsrc == null) {
       throw new ResourceNotFoundException(id);
@@ -104,13 +106,13 @@ public class ProjectsCollection
    *
    * @param id ID of the project, can be a project name
    * @return the project
-   * @throws UnprocessableEntityException thrown if the project ID cannot be resolved or if the
-   *     project is not visible to the calling user
+   * @throws RestApiException thrown if the project ID cannot be resolved or if the project is not
+   *     visible to the calling user
    * @throws IOException thrown when there is an error.
    * @throws PermissionBackendException
    */
   public ProjectResource parse(String id)
-      throws UnprocessableEntityException, IOException, PermissionBackendException {
+      throws RestApiException, IOException, PermissionBackendException {
     return parse(id, true);
   }
 
@@ -120,13 +122,13 @@ public class ProjectsCollection
    * @param id ID of the project, can be a project name
    * @param checkAccess if true, check the project is accessible by the current user
    * @return the project
-   * @throws UnprocessableEntityException thrown if the project ID cannot be resolved or if the
-   *     project is not visible to the calling user and checkVisibility is true.
+   * @throws RestApiException thrown if the project ID cannot be resolved or if the project is not
+   *     visible to the calling user and checkVisibility is true.
    * @throws IOException thrown when there is an error.
    * @throws PermissionBackendException
    */
   public ProjectResource parse(String id, boolean checkAccess)
-      throws UnprocessableEntityException, IOException, PermissionBackendException {
+      throws RestApiException, IOException, PermissionBackendException {
     ProjectResource rsrc = _parse(id, checkAccess);
     if (rsrc == null) {
       throw new UnprocessableEntityException(String.format("Project Not Found: %s", id));
@@ -136,7 +138,7 @@ public class ProjectsCollection
 
   @Nullable
   private ProjectResource _parse(String id, boolean checkAccess)
-      throws IOException, PermissionBackendException {
+      throws IOException, PermissionBackendException, ResourceConflictException {
     if (id.endsWith(Constants.DOT_GIT_EXT)) {
       id = id.substring(0, id.length() - Constants.DOT_GIT_EXT.length());
     }
@@ -152,6 +154,16 @@ public class ProjectsCollection
         permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
       } catch (AuthException e) {
         return null; // Pretend like not found on access denied.
+      }
+      // If the project's state does not permit reading, we want to hide it from all callers. The
+      // only exception to that are users who are allowed to mutate the project's configuration.
+      // This enables these users to still mutate the project's state (e.g. set a HIDDEN project to
+      // ACTIVE). Individual views should still check for checkStatePermitsRead() and this should
+      // just serve as a safety net in case the individual check is forgotten.
+      try {
+        permissionBackend.user(user).project(nameKey).check(ProjectPermission.WRITE_CONFIG);
+      } catch (AuthException e) {
+        state.checkStatePermitsRead();
       }
     }
     return new ProjectResource(state, user.get());

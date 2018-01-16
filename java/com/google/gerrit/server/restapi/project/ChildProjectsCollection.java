@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -54,7 +55,7 @@ public class ChildProjectsCollection
 
   @Override
   public ChildProjectResource parse(ProjectResource parent, IdString id)
-      throws ResourceNotFoundException, IOException, PermissionBackendException {
+      throws RestApiException, IOException, PermissionBackendException {
     ProjectResource p = projectsCollection.parse(TopLevelResource.INSTANCE, id);
     for (ProjectState pp : p.getProjectState().parents()) {
       if (parent.getNameKey().equals(pp.getProject().getNameKey())) {

@@ -35,11 +35,10 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
@@ -156,9 +155,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
 
   @Override
   public Response<ProjectInfo> apply(TopLevelResource resource, ProjectInput input)
-      throws BadRequestException, UnprocessableEntityException, ResourceConflictException,
-          ResourceNotFoundException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     if (input == null) {
       input = new ProjectInput();
     }

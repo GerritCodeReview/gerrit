@@ -140,7 +140,7 @@ public class UploadArchive extends AbstractGitCommand {
         break;
       }
       if (!s.startsWith(argCmd)) {
-        throw new Failure(1, "fatal: 'argument' token or flush expected");
+        throw new Failure(1, "fatal: 'argument' token or flush expected, got " + s);
       }
       String[] parts = s.substring(argCmd.length()).split("=", 2);
       for (String p : parts) {
@@ -173,18 +173,18 @@ public class UploadArchive extends AbstractGitCommand {
 
       ArchiveFormat f = allowedFormats.getExtensions().get("." + options.format);
       if (f == null) {
-        throw new Failure(3, "fatal: upload-archive not permitted");
+        throw new Failure(3, "fatal: upload-archive not permitted for format " + options.format);
       }
 
       // Find out the object to get from the specified reference and paths
       ObjectId treeId = repo.resolve(options.treeIsh);
       if (treeId == null) {
-        throw new Failure(4, "fatal: reference not found");
+        throw new Failure(4, "fatal: reference not found: " + options.treeIsh);
       }
 
       // Verify the user has permissions to read the specified tree.
       if (!canRead(treeId)) {
-        throw new Failure(5, "fatal: cannot perform upload-archive operation");
+        throw new Failure(5, "fatal: no permission to read tree" + options.treeIsh);
       }
 
       // The archive is sent in DATA sideband channel

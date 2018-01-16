@@ -127,7 +127,7 @@ public class UploadArchiveIT extends AbstractDaemonTest {
     tmp = in.readString();
     tmp = in.readString();
     tmp = tmp.substring(1);
-    assertThat(tmp).isEqualTo("fatal: upload-archive not permitted");
+    assertThat(tmp).isEqualTo("fatal: upload-archive not permitted for format zip");
   }
 
   private InputStream argumentsToInputStream(String c) throws Exception {

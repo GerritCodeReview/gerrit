@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b742bbfc_2192ac9a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-block-user/gr-block-user_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1055060
+      },
+      "writtenOn": "2018-01-16T17:42:15Z",
+      "side": 1,
+      "message": "False",
+      "range": {
+        "startLine": 132,
+        "startChar": 31,
+        "endLine": 132,
+        "endChar": 32
+      },
+      "revId": "c3275952eb9e8b4af90993b45f7d557ddbc99975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d9310c5c_e1e1ee1d",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 12

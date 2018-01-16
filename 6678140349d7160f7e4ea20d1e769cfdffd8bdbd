@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eed7984f_7d624dc8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1055060
+      },
+      "writtenOn": "2018-01-16T17:42:15Z",
+      "side": 0,
+      "message": "Stop blocking me plz. I know u r there and u know I know. Can\u0027t we work together.",
+      "revId": "6678140349d7160f7e4ea20d1e769cfdffd8bdbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

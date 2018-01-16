@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72f3a4d1_cc3b7b5e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-block-user/gr-block-user.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1055060
+      },
+      "writtenOn": "2018-01-16T17:42:15Z",
+      "side": 1,
+      "message": "Why block me? This is my device. Your using my accounts",
+      "revId": "e77d7b4b98f64c9f86eea928f25d1a7bd58b2547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

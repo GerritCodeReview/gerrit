@@ -501,7 +501,7 @@
                 this.notifyPath('actions.rebaseEdit');
               }
             } else {
-              if (!changeActions.rebasEdit) {
+              if (!changeActions.rebaseEdit) {
                 this.set('actions.rebaseEdit', REBASE_EDIT);
               }
               if (changeActions.publishEdit) {

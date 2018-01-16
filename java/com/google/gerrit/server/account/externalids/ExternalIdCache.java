@@ -19,7 +19,6 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.reviewdb.client.Account;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -29,28 +28,11 @@ import org.eclipse.jgit.lib.ObjectId;
  * cache is up to date.
  */
 interface ExternalIdCache {
-  void onCreate(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extId)
-      throws IOException;
-
-  void onUpdate(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extId)
-      throws IOException;
-
-  void onReplace(
-      ObjectId oldNotesRev,
-      ObjectId newNotesRev,
-      Account.Id accountId,
-      Collection<ExternalId> toRemove,
-      Collection<ExternalId> toAdd)
-      throws IOException;
-
   void onReplace(
       ObjectId oldNotesRev,
       ObjectId newNotesRev,
       Collection<ExternalId> toRemove,
       Collection<ExternalId> toAdd)
-      throws IOException;
-
-  void onRemove(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extId)
       throws IOException;
 
   ImmutableSet<ExternalId> byAccount(Account.Id accountId) throws IOException;
@@ -65,20 +47,5 @@ interface ExternalIdCache {
 
   default ImmutableSet<ExternalId> byEmail(String email) throws IOException {
     return byEmails(email).get(email);
-  }
-
-  default void onCreate(ObjectId oldNotesRev, ObjectId newNotesRev, ExternalId extId)
-      throws IOException {
-    onCreate(oldNotesRev, newNotesRev, Collections.singleton(extId));
-  }
-
-  default void onRemove(ObjectId oldNotesRev, ObjectId newNotesRev, ExternalId extId)
-      throws IOException {
-    onRemove(oldNotesRev, newNotesRev, Collections.singleton(extId));
-  }
-
-  default void onUpdate(ObjectId oldNotesRev, ObjectId newNotesRev, ExternalId updatedExtId)
-      throws IOException {
-    onUpdate(oldNotesRev, newNotesRev, Collections.singleton(updatedExtId));
   }
 }

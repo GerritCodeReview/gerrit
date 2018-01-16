@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "1c09fcb6_45ce36c4",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/UploadArchiveIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-16T10:00:40Z",
+      "side": 1,
+      "message": "Sorry, but I\u0027m not acepting broken tests. Better no tests at all as it\u0027s currently the case, then a broken test, that doesn\u0027t test anything.",
+      "parentUuid": "f207594c_2522d795",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 129,
+        "endChar": 7
+      },
+      "revId": "ed2d7f0330866c1d8690fef5117f9e37803dfb85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7ef7c72_0449ab28",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/UploadArchiveIT.java",
         "patchSetId": 5

@@ -45,6 +45,7 @@
       _change: Object,
       _changeEditDetail: Object,
       _changeNum: String,
+      _patchNum: String,
       _path: String,
       _type: String,
       _content: String,
@@ -88,6 +89,7 @@
 
       this._changeNum = value.changeNum;
       this._path = value.path;
+      this._patchNum = value.patchNum || this.EDIT_NAME;
 
       // NOTE: This may be called before attachment (e.g. while parentElement is
       // null). Fire title-change in an async so that, if attachment to the DOM
@@ -100,7 +102,8 @@
       const promises = [];
 
       promises.push(this._getChangeDetail(this._changeNum));
-      promises.push(this._getFileData(this._changeNum, this._path));
+      promises.push(
+          this._getFileData(this._changeNum, this._path, this._patchNum));
       return Promise.all(promises);
     },
 
@@ -124,8 +127,8 @@
       Gerrit.Nav.navigateToChange(this._change, this.EDIT_NAME);
     },
 
-    _getFileData(changeNum, path) {
-      return this.$.restAPI.getFileContent(changeNum, path, this.EDIT_NAME)
+    _getFileData(changeNum, path, patchNum) {
+      return this.$.restAPI.getFileContent(changeNum, path, patchNum)
           .then(res => {
             if (!res.ok) { return; }
 

@@ -227,6 +227,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return new CommentLinkInfoImpl(name, match, link, html, enabled);
   }
 
+  public void addCommentLinkSection(CommentLinkInfoImpl commentLink) {
+    commentLinkSections.add(commentLink);
+  }
+
   public ProjectConfig(Project.NameKey projectName) {
     this.projectName = projectName;
   }
@@ -932,7 +936,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
                     rc.getString(COMMENTLINK, name, KEY_MATCH), name, e.getMessage())));
       }
     }
-    commentLinkSections = ImmutableList.copyOf(commentLinkSections);
   }
 
   private void loadSubscribeSections(Config rc) throws ConfigInvalidException {
@@ -1055,6 +1058,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     savePluginSections(rc, keepGroups);
     groupList.retainUUIDs(keepGroups);
     saveLabelSections(rc);
+    saveCommentLinkSections(rc);
     saveSubscribeSections(rc);
 
     saveConfig(PROJECT_CONFIG, rc);
@@ -1097,6 +1101,23 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           null,
           KEY_SAME_GROUP_VISIBILITY,
           ruleToStringList(accountsSection.getSameGroupVisibility(), keepGroups));
+    }
+  }
+
+  private void saveCommentLinkSections(Config rc) {
+    if (commentLinkSections != null) {
+      for (CommentLinkInfoImpl cm : commentLinkSections) {
+        rc.setString(COMMENTLINK, cm.name, KEY_MATCH, cm.match);
+        if (!Strings.isNullOrEmpty(cm.html)) {
+          rc.setString(COMMENTLINK, cm.name, KEY_HTML, cm.html);
+        }
+        if (!Strings.isNullOrEmpty(cm.link)) {
+          rc.setString(COMMENTLINK, cm.name, KEY_LINK, cm.link);
+        }
+        if (cm.enabled != null && !cm.enabled) {
+          rc.setBoolean(COMMENTLINK, cm.name, KEY_ENABLED, cm.enabled);
+        }
+      }
     }
   }
 

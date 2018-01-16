@@ -110,7 +110,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   public final T call()
       throws NoSuchProjectException, IOException, ConfigInvalidException, InvalidNameException,
           NoSuchGroupException, OrmException, UpdateParentFailedException,
-          PermissionDeniedException, PermissionBackendException {
+          PermissionDeniedException, PermissionBackendException, ResourceConflictException {
     try {
       contributorAgreements.check(projectName, user);
     } catch (AuthException e) {
@@ -195,7 +195,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   protected abstract T updateProjectConfig(
       ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
       throws IOException, NoSuchProjectException, ConfigInvalidException, OrmException,
-          PermissionDeniedException, PermissionBackendException;
+          PermissionDeniedException, PermissionBackendException, ResourceConflictException;
 
   private void replace(ProjectConfig config, Set<String> toDelete, AccessSection section)
       throws NoSuchGroupException {

@@ -1521,6 +1521,10 @@ class ReceiveCommits {
       reject(cmd, denied.getMessage());
       return;
     }
+    if (!projectState.statePermitsWrite()) {
+      reject(cmd, "project state does not permit write");
+      return;
+    }
 
     if (magicBranch.isPrivate && magicBranch.removePrivate) {
       reject(cmd, "the options 'private' and 'remove-private' are mutually exclusive");

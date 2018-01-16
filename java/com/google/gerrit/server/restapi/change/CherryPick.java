@@ -37,6 +37,7 @@ import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -47,16 +48,20 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class CherryPick
     extends RetryingRestModifyView<RevisionResource, CherryPickInput, ChangeInfo>
     implements UiAction<RevisionResource> {
+  private static final Logger log = LoggerFactory.getLogger(CherryPick.class);
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> user;
   private final CherryPickChange cherryPickChange;
   private final ChangeJson.Factory json;
   private final ContributorAgreementsChecker contributorAgreements;
+  private final ProjectCache projectCache;
 
   @Inject
   CherryPick(
@@ -65,13 +70,15 @@ public class CherryPick
       RetryHelper retryHelper,
       CherryPickChange cherryPickChange,
       ChangeJson.Factory json,
-      ContributorAgreementsChecker contributorAgreements) {
+      ContributorAgreementsChecker contributorAgreements,
+      ProjectCache projectCache) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.user = user;
     this.cherryPickChange = cherryPickChange;
     this.json = json;
     this.contributorAgreements = contributorAgreements;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -94,6 +101,7 @@ public class CherryPick
         .project(rsrc.getChange().getProject())
         .ref(refName)
         .check(RefPermission.CREATE_CHANGE);
+    projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
 
     try {
       Change.Id cherryPickedChangeId =
@@ -113,12 +121,18 @@ public class CherryPick
 
   @Override
   public UiAction.Description getDescription(RevisionResource rsrc) {
+    boolean projectStatePermitsWrite = false;
+    try {
+      projectStatePermitsWrite = projectCache.checkedGet(rsrc.getProject()).statePermitsWrite();
+    } catch (IOException e) {
+      log.error("Failed to check if project state permits write: " + rsrc.getProject(), e);
+    }
     return new UiAction.Description()
         .setLabel("Cherry Pick")
         .setTitle("Cherry pick change to a different branch")
         .setVisible(
             and(
-                rsrc.isCurrent(),
+                rsrc.isCurrent() && projectStatePermitsWrite,
                 permissionBackend
                     .user(user)
                     .project(rsrc.getProject())

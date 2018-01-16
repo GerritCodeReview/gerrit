@@ -70,10 +70,14 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, ChangeInfo>
     implements UiAction<ChangeResource> {
+  private static final Logger log = LoggerFactory.getLogger(Move.class);
+
   private final PermissionBackend permissionBackend;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson.Factory json;
@@ -114,7 +118,8 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   @Override
   protected ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, MoveInput input)
-      throws RestApiException, OrmException, UpdateException, PermissionBackendException {
+      throws RestApiException, OrmException, UpdateException, PermissionBackendException,
+          IOException {
     Change change = rsrc.getChange();
     Project.NameKey project = rsrc.getProject();
     IdentifiedUser caller = rsrc.getUser().asIdentifiedUser();
@@ -136,6 +141,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     } catch (AuthException denied) {
       throw new AuthException("move not permitted", denied);
     }
+    projectCache.checkedGet(project).checkStatePermitsWrite();
 
     try (BatchUpdate u =
         updateFactory.create(dbProvider.get(), project, caller, TimeUtil.nowTs())) {
@@ -274,12 +280,18 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   @Override
   public UiAction.Description getDescription(ChangeResource rsrc) {
     Change change = rsrc.getChange();
+    boolean projectStatePermitsWrite = false;
+    try {
+      projectStatePermitsWrite = projectCache.checkedGet(rsrc.getProject()).statePermitsWrite();
+    } catch (IOException e) {
+      log.error("Failed to check if project state permits write: " + rsrc.getProject(), e);
+    }
     return new UiAction.Description()
         .setLabel("Move Change")
         .setTitle("Move change to a different branch")
         .setVisible(
             and(
-                change.getStatus().isOpen(),
+                change.getStatus().isOpen() && projectStatePermitsWrite,
                 and(
                     permissionBackend
                         .user(rsrc.getUser())

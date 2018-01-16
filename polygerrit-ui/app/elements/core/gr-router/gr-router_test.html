@@ -1313,7 +1313,8 @@ limitations under the License.
             params: [
               'foo/bar', // 0 Project
               1234, // 1 Change number
-              'foo/bar/baz', // 2 File path
+              3, // 2 Patch num
+              'foo/bar/baz', // 3 File path
             ],
           };
           const appParams = {
@@ -1321,6 +1322,7 @@ limitations under the License.
             changeNum: 1234,
             view: Gerrit.Nav.View.EDIT,
             path: 'foo/bar/baz',
+            patchNum: 3,
           };
 
           element._handleDiffEditRoute(ctx);

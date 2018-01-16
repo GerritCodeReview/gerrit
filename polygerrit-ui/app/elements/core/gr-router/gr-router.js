@@ -114,9 +114,8 @@
     // eslint-disable-next-line max-len
     CHANGE_OR_DIFF: /^\/c\/(.+)\/\+\/(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?(\/(.+))?))?\/?$/,
 
-    // Matches /c/<project>/+/<changeNum>/edit/<path>,edit
-    // eslint-disable-next-line max-len
-    DIFF_EDIT: /^\/c\/(.+)\/\+\/(\d+)\/edit\/(.+),edit$/,
+    // Matches /c/<project>/+/<changeNum>/[<patchNum|edit>]/<path>,edit
+    DIFF_EDIT: /^\/c\/(.+)\/\+\/(\d+)\/(\d+|edit)\/(.+),edit$/,
 
     // Matches non-project-relative
     // /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
@@ -1250,7 +1249,8 @@
       this._redirectOrNavigate({
         project: ctx.params[0],
         changeNum: ctx.params[1],
-        path: ctx.params[2],
+        patchNum: ctx.params[2],
+        path: ctx.params[3],
         view: Gerrit.Nav.View.EDIT,
       });
     },

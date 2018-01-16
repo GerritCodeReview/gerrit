@@ -33,6 +33,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFICATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWER_UPDATES;
+import static com.google.gerrit.extensions.client.ListChangesOption.SKIP_MERGEABLE;
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS;
 import static com.google.gerrit.extensions.client.ListChangesOption.WEB_LINKS;
@@ -521,7 +522,9 @@ public class ChangeJson {
       if (str.isOk()) {
         out.submitType = str.type;
       }
-      out.mergeable = cd.isMergeable();
+      if (!has(SKIP_MERGEABLE)) {
+        out.mergeable = cd.isMergeable();
+      }
       if (has(SUBMITTABLE)) {
         out.submittable = submittable(cd);
       }

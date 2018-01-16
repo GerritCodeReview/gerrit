@@ -301,6 +301,12 @@ default. Optional fields are:
     link:user-search.html#reviewedby[reviewedby:self].
 --
 
+[[skip_mergeable]]
+--
+* `SKIP_MERGEABLE`: skip the `mergeable` field in
+link:#change-info[ChangeInfo]. For fast moving projects, this field is
+often out of date, and recomputing it is slow for projects with big trees.
+
 [[submittable]]
 --
 * `SUBMITTABLE`: include the `submittable` field in link:#change-info[ChangeInfo],
@@ -5658,7 +5664,8 @@ The link:project-configuration.html#submit_type[submit type] of the change. +
 Not set for merged changes.
 |`mergeable`          |optional|
 Whether the change is mergeable. +
-Not set for merged changes, or if the change has not yet been tested.
+Not set for merged changes, if the change has not yet been tested, or
+if the link:#skip_mergeable[skip_mergeable] option is set.
 |`submittable`        |optional|
 Whether the change has been approved by the project submit rules. +
 Only set if link:#submittable[requested].

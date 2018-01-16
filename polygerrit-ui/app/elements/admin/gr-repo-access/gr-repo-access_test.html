@@ -227,7 +227,52 @@ limitations under the License.
         assert.isTrue(element._handleAccessModified.called);
       });
 
-      test('_computeAddAndRemove rules', () => {
+      test('_handleAccessModified called with event fired', () => {
+        const saveStub =
+            sandbox.stub(element.$.restAPI, 'setProjectAccessRightsForReview');
+        sandbox.stub(element, '_computeAddAndRemove').returns({
+          add: {},
+          remove: {},
+        });
+        element._handleSaveForReview();
+        assert.isFalse(saveStub.called);
+      });
+
+      test('_recursivelyRemoveDeleted', () => {
+        const obj = {
+          'refs/*': {
+            permissions: {
+              owner: {
+                rules: {
+                  234: {action: 'ALLOW'},
+                  123: {action: 'DENY', deleted: true},
+                },
+              },
+              read: {
+                deleted: true,
+                rules: {
+                  234: {action: 'ALLOW'},
+                },
+              },
+            },
+          },
+        };
+        const expectedResult = {
+          'refs/*': {
+            permissions: {
+              owner: {
+                rules: {
+                  234: {action: 'ALLOW'},
+                },
+              },
+            },
+          },
+        };
+        element._recursivelyRemoveDeleted(obj);
+        assert.deepEqual(obj, expectedResult);
+      });
+
+      test('_handleSaveForReview with no changes', () => {
         element._local = JSON.parse(JSON.stringify(accessRes.local));
         assert.deepEqual(element._computeAddAndRemove(), {add: {}, remove: {}});
         element._local['refs/*'].permissions.owner.rules[123].deleted = true;
@@ -238,7 +283,7 @@ limitations under the License.
               permissions: {
                 owner: {
                   rules: {
-                    123: null,
+                    123: {},
                   },
                 },
               },
@@ -265,7 +310,7 @@ limitations under the License.
               permissions: {
                 owner: {
                   rules: {
-                    123: null,
+                    123: {},
                   },
                 },
               },
@@ -311,6 +356,40 @@ limitations under the License.
               permissions: {
                 owner: {rules: {}},
               },
+            },
+          },
+        };
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+      });
+
+      test('_computeAddAndRemove sections', () => {
+        element._local = JSON.parse(JSON.stringify(accessRes.local));
+        assert.deepEqual(element._computeAddAndRemove(), {add: {}, remove: {}});
+        element._local['refs/*'].updatedId = 'refs/for/bar';
+        element._local['refs/*'].modified = true;
+        const expectedInput = {
+          add: {
+            'refs/for/bar': {
+              modified: true,
+              updatedId: 'refs/for/bar',
+              permissions: {
+                owner: {
+                  rules: {
+                    234: {action: 'ALLOW'},
+                    123: {action: 'DENY'},
+                  },
+                },
+                read: {
+                  rules: {
+                    234: {action: 'ALLOW'},
+                  },
+                },
+              },
+            },
+          },
+          remove: {
+            'refs/*': {
+              permissions: {},
             },
           },
         };
@@ -393,6 +472,34 @@ limitations under the License.
           },
         };
         assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+        // Change one of the refs
+        element._local['refs/*'].updatedId = 'refs/for/bar';
+        element._local['refs/*'].modified = true;
+
+        expectedInput = {
+          add: {
+            'refs/for/bar': {
+              modified: true,
+              updatedId: 'refs/for/bar',
+              permissions: {
+                read: {
+                  exclusive: true,
+                  modified: true,
+                  rules: {
+                    234: {action: 'ALLOW'},
+                  },
+                },
+              },
+            },
+          },
+          remove: {
+            'refs/*': {
+              permissions: {},
+            },
+          },
+        };
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
       });
 
       test('_handleSaveForReview', done => {
@@ -413,7 +520,7 @@ limitations under the License.
               permissions: {
                 owner: {
                   rules: {
-                    123: null,
+                    123: {},
                   },
                 },
               },

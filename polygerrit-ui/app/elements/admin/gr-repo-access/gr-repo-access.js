@@ -16,6 +16,14 @@
 
   const Defs = {};
 
+  const NOTHING_TO_SAVE = 'No changes to save.';
+
+  /**
+   * Fired when save is a no-op
+   *
+   * @event show-alert
+   */
+
   /**
    * @typedef {{
    *    value: !Object,
@@ -156,13 +164,12 @@
       for (const item of path) {
         if (!curPos[item]) {
           if (item === path[path.length - 1] && type === 'remove') {
-            // TODO(beckysiegel) This if statement should be removed when
-            // https://gerrit-review.googlesource.com/c/gerrit/+/150851
-            // is live.
             if (path[path.length - 2] === 'permissions') {
               curPos[item] = {rules: {}};
+            } else if (path.length === 1) {
+              curPos[item] = {permissions: {}};
             } else {
-              curPos[item] = null;
+              curPos[item] = {};
             }
           } else if (item === path[path.length - 1] && type === 'add') {
             curPos[item] = opt_value;
@@ -173,6 +180,22 @@
         curPos = curPos[item];
       }
       return addRemoveObj;
+    },
+
+    /**
+     * Used to recursively remove any objects with a 'deleted' bit.
+     */
+    _recursivelyRemoveDeleted(obj) {
+      for (const k in obj) {
+        if (!obj.hasOwnProperty(k)) { return; }
+        if (typeof obj[k] == 'object') {
+          if (obj[k].deleted) {
+            delete obj[k];
+            return;
+          }
+          this._recursivelyRemoveDeleted(obj[k]);
+        }
+      }
     },
 
     _recursivelyUpdateAddRemoveObj(obj, addRemoveObj, path = []) {
@@ -186,11 +209,24 @@
           } else if (obj[k].modified) {
             this._updateAddRemoveObj(addRemoveObj,
                 path.concat(k), 'remove');
-            this._updateAddRemoveObj(addRemoveObj,
-                path.concat(k), 'add', obj[k]);
+
+            const updatedId = obj[k].updatedId;
+            const ref = updatedId ? updatedId : k;
+            this._updateAddRemoveObj(addRemoveObj, path.concat(ref), 'add',
+                obj[k]);
+            /* Special case for ref changes because they need to be added and
+             removed in a different way. The new ref needs to include all changes
+             but also the initial state. To do this, instead of continuing with
+             the same recursion, just remove anything that is deleted in the
+             current state. */
+            if (updatedId && updatedId !== k) {
+              this._recursivelyRemoveDeleted(addRemoveObj.add[updatedId]);
+            }
+            continue;
           } else if (obj[k].added) {
             this._updateAddRemoveObj(addRemoveObj,
                 path.concat(k), 'add', obj[k]);
+            continue;
           }
           this._recursivelyUpdateAddRemoveObj(obj[k], addRemoveObj,
               path.concat(k));
@@ -215,9 +251,15 @@
     },
 
     _handleSaveForReview() {
-      // Use saving rather than editing here because rules have to handle
-      // save prior to toggling editing.
       const addRemoveObj = this._computeAddAndRemove();
+
+      // If there are no changes, don't actually save.
+      if (!Object.keys(addRemoveObj.add).length &&
+          !Object.keys(addRemoveObj.remove).length) {
+        this.dispatchEvent(new CustomEvent('show-alert',
+            {detail: {message: NOTHING_TO_SAVE}, bubbles: true}));
+        return;
+      }
       return this.$.restAPI.setProjectAccessRightsForReview(this.repo, {
         add: addRemoveObj.add,
         remove: addRemoveObj.remove,

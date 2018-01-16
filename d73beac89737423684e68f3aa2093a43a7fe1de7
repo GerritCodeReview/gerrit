@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5992a90_d6eefd3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-16T07:05:20Z",
+      "side": 1,
+      "message": "Make this a separate change?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 26
+      },
+      "revId": "d73beac89737423684e68f3aa2093a43a7fe1de7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61b47823_d0b4d4b4",
+        "filename": "java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-16T07:05:20Z",
+      "side": 1,
+      "message": "must be canForcePerform",
+      "range": {
+        "startLine": 250,
+        "startChar": 22,
+        "endLine": 250,
+        "endChar": 32
+      },
+      "revId": "d73beac89737423684e68f3aa2093a43a7fe1de7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cca38347_5d7e0ee9",
+        "filename": "javatests/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-16T07:05:20Z",
+      "side": 1,
+      "message": "canForcePerform",
+      "range": {
+        "startLine": 726,
+        "startChar": 52,
+        "endLine": 726,
+        "endChar": 62
+      },
+      "revId": "d73beac89737423684e68f3aa2093a43a7fe1de7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "748a4dea_bf41bac1",
+        "filename": "javatests/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-16T07:05:20Z",
+      "side": 1,
+      "message": "canForcePerform",
+      "range": {
+        "startLine": 737,
+        "startChar": 52,
+        "endLine": 737,
+        "endChar": 62
+      },
+      "revId": "d73beac89737423684e68f3aa2093a43a7fe1de7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

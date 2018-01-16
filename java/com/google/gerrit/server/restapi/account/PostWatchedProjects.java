@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.account;
 
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -84,7 +85,7 @@ public class PostWatchedProjects
 
   private Map<ProjectWatchKey, Set<NotifyType>> asMap(List<ProjectWatchInfo> input)
       throws BadRequestException, UnprocessableEntityException, IOException,
-          PermissionBackendException {
+          PermissionBackendException, ResourceConflictException {
     Map<ProjectWatchKey, Set<NotifyType>> m = new HashMap<>();
     for (ProjectWatchInfo info : input) {
       if (info.project == null) {

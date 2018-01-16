@@ -1335,11 +1335,13 @@ limitations under the License.
     });
 
     test('_computeEditLoaded', () => {
-      const callCompute = range => element._computeEditLoaded({base: range});
-      assert.isFalse(callCompute({}));
-      assert.isFalse(callCompute({basePatchNum: 'PARENT', patchNum: 1}));
-      assert.isFalse(callCompute({basePatchNum: 'edit', patchNum: 1}));
-      assert.isTrue(callCompute({basePatchNum: 1, patchNum: 'edit'}));
+      const callCompute = (range, params) =>
+          element._computeEditLoaded({base: range}, {base: params});
+      assert.isFalse(callCompute({}, {}));
+      assert.isTrue(callCompute({}, {edit: true}));
+      assert.isFalse(callCompute({basePatchNum: 'PARENT', patchNum: 1}, {}));
+      assert.isFalse(callCompute({basePatchNum: 'edit', patchNum: 1}, {}));
+      assert.isTrue(callCompute({basePatchNum: 1, patchNum: 'edit'}, {}));
     });
 
     test('_processEdit', () => {
@@ -1383,17 +1385,11 @@ limitations under the License.
       assert.notOk(mockChange.revisions.bar.actions);
     });
 
-    test('_editLoaded set when patchNum is an edit', () => {
-      sandbox.stub(element, 'computeLatestPatchNum').returns('2');
-      element._patchRange = {patchNum: element.EDIT_NAME};
-
-      assert.isTrue(element._editLoaded);
-      element.set('_patchRange.patchNum', 1);
-
-      assert.isFalse(element._editLoaded);
-    });
-
     test('file-action-tap handling', () => {
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
       const fileList = element.$.fileList;
       const Actions = GrEditConstants.Actions;
       const controls = element.$.fileListHeader.$.editControls;
@@ -1434,6 +1430,7 @@ limitations under the License.
 
       assert.isTrue(Gerrit.Nav.getEditUrlForDiff.called);
       assert.equal(Gerrit.Nav.getEditUrlForDiff.lastCall.args[1], 'foo');
+      assert.equal(Gerrit.Nav.getEditUrlForDiff.lastCall.args[2], '1');
       assert.isTrue(Gerrit.Nav.navigateToRelativeUrl.called);
     });
 
@@ -1458,6 +1455,66 @@ limitations under the License.
 
         element.set('_patchRange.patchNum', '1');
         assert.strictEqual(element._selectedRevision, revision1);
+      });
+    });
+
+    suite('_handleEditTap', () => {
+      let fireEdit;
+
+      setup(() => {
+        fireEdit = () => {
+          element.$.actions
+              .dispatchEvent(new CustomEvent('edit-tap', {bubbles: false}));
+        };
+        sandbox.stub(element.$.metadata, '_computeShowLabelStatus');
+        sandbox.stub(element.$.metadata, '_computeLabelNames');
+        navigateToChangeStub.restore();
+
+        element._change = {revisions: {rev1: {_number: 1}}};
+      });
+
+      test('edit exists in revisions', done => {
+        sandbox.stub(Gerrit.Nav, 'navigateToChange', (...args) => {
+          assert.equal(args.length, 2);
+          assert.equal(args[1], element.EDIT_NAME); // patchNum
+          done();
+        });
+
+        element.set('_change.revisions.rev2', {_number: element.EDIT_NAME});
+        flushAsynchronousOperations();
+
+        fireEdit();
+      });
+
+      test('no edit exists in revisions, non-latest patchset', done => {
+        sandbox.stub(Gerrit.Nav, 'navigateToChange', (...args) => {
+          assert.equal(args.length, 4);
+          assert.equal(args[1], 1); // patchNum
+          assert.equal(args[3], true); // opt_isEdit
+          done();
+        });
+
+        element.set('_change.revisions.rev2', {_number: 2});
+        element._patchRange = {patchNum: 1};
+        flushAsynchronousOperations();
+
+        fireEdit();
+      });
+
+      test('no edit exists in revisions, latest patchset', done => {
+        sandbox.stub(Gerrit.Nav, 'navigateToChange', (...args) => {
+          assert.equal(args.length, 4);
+          // No patch should be specified when patchNum == latest.
+          assert.isNotOk(args[1]); // patchNum
+          assert.equal(args[3], true); // opt_isEdit
+          done();
+        });
+
+        element.set('_change.revisions.rev2', {_number: 2});
+        element._patchRange = {patchNum: 2};
+        flushAsynchronousOperations();
+
+        fireEdit();
       });
     });
 

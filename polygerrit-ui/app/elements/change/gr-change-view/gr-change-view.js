@@ -208,7 +208,7 @@
       _updateCheckTimerHandle: Number,
       _editLoaded: {
         type: Boolean,
-        computed: '_computeEditLoaded(_patchRange.*)',
+        computed: '_computeEditLoaded(_patchRange.*, params.*)',
       },
       _showRelatedToggle: {
         type: Boolean,
@@ -1349,7 +1349,9 @@
       return change.work_in_progress ? 'header wip' : 'header';
     },
 
-    _computeEditLoaded(patchRangeRecord) {
+    _computeEditLoaded(patchRangeRecord, paramsRecord) {
+      if (paramsRecord.base && paramsRecord.base.edit) { return true; }
+
       const patchRange = patchRangeRecord.base || {};
       return this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME);
     },
@@ -1364,7 +1366,8 @@
           break;
         case GrEditConstants.Actions.EDIT.id:
           Gerrit.Nav.navigateToRelativeUrl(
-              Gerrit.Nav.getEditUrlForDiff(this._change, path));
+              Gerrit.Nav.getEditUrlForDiff(this._change, path,
+                  this._patchRange.patchNum));
           break;
         case GrEditConstants.Actions.RENAME.id:
           controls.openRenameDialog(path);
@@ -1389,6 +1392,29 @@
       }
       this._selectedRevision = Object.values(this._change.revisions).find(
           revision => revision._number === patchNum);
+    },
+
+    /**
+     * If an edit exists already, load it. Otherwise, toggle edit mode via the
+     * navigation API.
+     */
+    _handleEditTap() {
+      const editInfo = Object.values(this._change.revisions).find(info =>
+          info._number === this.EDIT_NAME);
+
+      if (editInfo) {
+        Gerrit.Nav.navigateToChange(this._change, this.EDIT_NAME);
+        return;
+      }
+
+      // Avoid putting patch set in the URL unless a non-latest patch set is
+      // selected.
+      let patchNum;
+      if (!this.patchNumEquals(this._patchRange.patchNum,
+          this.computeLatestPatchNum(this._allPatchSets))) {
+        patchNum = this._patchRange.patchNum;
+      }
+      Gerrit.Nav.navigateToChange(this._change, patchNum, null, true);
     },
   });
 })();

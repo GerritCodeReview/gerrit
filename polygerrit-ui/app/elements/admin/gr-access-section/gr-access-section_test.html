@@ -88,12 +88,12 @@ limitations under the License.
             default_value: 0,
           },
         };
-        element._sectionChanged(element.section);
+        element._updateSection(element.section);
         flushAsynchronousOperations();
       });
 
-      test('_sectionChanged', () => {
-        // _sectionChanged was called in setup, so just make assertions.
+      test('_updateSection', () => {
+        // _updateSection was called in setup, so just make assertions.
         const expectedPermissions = [
           {
             id: 'read',
@@ -126,6 +126,13 @@ limitations under the License.
 
         assert.deepEqual(element._computeLabelOptions(element.labels),
             expectedLabelOptions);
+      });
+
+      test('_handleAccessSaved', () => {
+        assert.equal(element._originalId, 'refs/*');
+        element.section.id = 'refs/for/bar';
+        element._handleAccessSaved();
+        assert.equal(element._originalId, 'refs/for/bar')
       });
 
       test('_computePermissions', () => {
@@ -262,15 +269,6 @@ limitations under the License.
         assert.isTrue(element._editingRef);
       });
 
-      test('_undoReferenceEdit', () => {
-        element._originalId = 'refs/for/old';
-        element.section.id = 'refs/for/new';
-        element.editing = true;
-        element._undoReferenceEdit();
-        assert.isFalse(element._editingRef);
-        assert.equal(element.section.id, 'refs/for/old');
-      });
-
       test('_computeSectionClass', () => {
         let editingRef = false;
         let editing = false;
@@ -348,7 +346,7 @@ limitations under the License.
               name: 'Create Account',
             },
           };
-          element._sectionChanged(element.section);
+          element._updateSection(element.section);
           flushAsynchronousOperations();
         });
 
@@ -372,7 +370,7 @@ limitations under the License.
             },
           };
           element.capabilities = {};
-          element._sectionChanged(element.section);
+          element._updateSection(element.section);
           flushAsynchronousOperations();
         });
 
@@ -429,6 +427,7 @@ limitations under the License.
         });
 
         test('edit section reference', () => {
+          element.section = {id: 'refs/for/bar',  value: {permissions: {}}};
           assert.isFalse(element.$.section.classList.contains('editing'));
           element.editing = true;
           assert.isTrue(element.$.section.classList.contains('editing'));
@@ -439,11 +438,25 @@ limitations under the License.
           assert.equal(element.section.id, 'new/ref');
           assert.isTrue(element._editingRef);
           assert.isTrue(element.$.section.classList.contains('editingRef'));
-          MockInteractions.tap(element.$.undoEdit);
-          flushAsynchronousOperations();
+          element.editing = false;
           assert.isFalse(element._editingRef);
-          assert.isFalse(element.$.section.classList.contains('editingRef'));
-          assert.equal(element.section.id, 'refs/*');
+          assert.equal(element.section.id, 'refs/for/bar');
+        });
+
+        test('_handleValueChange', () => {
+          const modifiedHandler = sandbox.stub();
+          element.section = {id: 'refs/for/bar',  value: {permissions: {}}};
+          assert.equal(element.section.value.updatedId, 'refs/for/bar')
+          element.section.id = 'refs/for/baz';
+          element.addEventListener('access-modified', modifiedHandler);
+          assert.isNotOk(element.section.value.modified);
+          element._handleValueChange();
+;         assert.equal(element.section.value.updatedId, 'refs/for/baz')
+          assert.isTrue(element.section.value.modified);
+          assert.isTrue(modifiedHandler.called);
+          element.section.id = 'refs/for/bar';
+          element._handleValueChange();
+          assert.isFalse(element.section.value.modified);
         });
 
         test('remove section', () => {

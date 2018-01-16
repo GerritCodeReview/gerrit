@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "18aa3400_4d38066e",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/UploadArchiveIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-16T08:06:12Z",
+      "side": 1,
+      "message": "Actually, I would expect, that something like that works (like it is the case in zip format above):\n\n  // Skip length (4 bytes) + 1 byte\n  // to position the output stream to the raw zip stream\n    byte[] buffer \u003d new byte[5];\n    IO.readFully(out, buffer, 0, 5);\n    OutputStream out2 \u003d new ByteArrayOutputStream();\n    try (XZCompressorInputStream xzIn \u003d new XZCompressorInputStream(out)) {\n      final byte[] buffer2 \u003d new byte[1024];\n      int n \u003d 0;\n      while (-1 !\u003d (n \u003d xzIn.read(buffer2))) {\n          out2.write(buffer2, 0, n);\n    }\n    // TODO(davido): verify tar content\n\nThe header of the XZ file is correctly verified, but it seems that the content cannot be read correctly: [1].\n\n* [1] http://paste.openstack.org/show/645664",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 129,
+        "endChar": 7
+      },
+      "revId": "ed2d7f0330866c1d8690fef5117f9e37803dfb85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7ef7c72_0449ab28",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/UploadArchiveIT.java",
         "patchSetId": 5

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.change;
+package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -26,6 +26,8 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.permissions.ChangePermission;

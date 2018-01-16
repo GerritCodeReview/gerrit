@@ -35,7 +35,6 @@ import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.change.ReviewerResource;
-import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.change.SetAssigneeOp;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.change.WorkInProgressOp;

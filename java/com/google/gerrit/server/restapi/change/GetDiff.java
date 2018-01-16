@@ -47,7 +47,6 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchScriptFactory;

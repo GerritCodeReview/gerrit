@@ -61,6 +61,7 @@ PROVIDED = [
     "//java/com/google/gerrit/metrics",
     "//java/com/google/gerrit/reviewdb:server",
     "//java/com/google/gerrit/server",
+    "//java/com/google/gerrit/server/restapi",
     "//java/com/google/gerrit/server/schema",
     "//java/com/google/gerrit/pgm/init",
     "//java/com/google/gerrit/server/git/receive",

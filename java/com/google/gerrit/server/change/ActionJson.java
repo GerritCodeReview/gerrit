@@ -45,7 +45,7 @@ import java.util.Map;
 
 @Singleton
 public class ActionJson {
-  private final Revisions revisions;
+  private final DynamicMap<RestView<RevisionResource>> revisionViews;
   private final ChangeJson.Factory changeJsonFactory;
   private final ChangeResource.Factory changeResourceFactory;
   private final UiActions uiActions;
@@ -55,14 +55,14 @@ public class ActionJson {
 
   @Inject
   ActionJson(
-      Revisions revisions,
+      DynamicMap<RestView<RevisionResource>> views,
       ChangeJson.Factory changeJsonFactory,
       ChangeResource.Factory changeResourceFactory,
       UiActions uiActions,
       DynamicMap<RestView<ChangeResource>> changeViews,
       DynamicSet<ActionVisitor> visitorSet,
       Provider<CurrentUser> userProvider) {
-    this.revisions = revisions;
+    this.revisionViews = views;
     this.changeJsonFactory = changeJsonFactory;
     this.changeResourceFactory = changeResourceFactory;
     this.uiActions = uiActions;
@@ -209,7 +209,7 @@ public class ActionJson {
 
     Map<String, ActionInfo> out = new LinkedHashMap<>();
     ACTION:
-    for (UiAction.Description d : uiActions.from(revisions, rsrc)) {
+    for (UiAction.Description d : uiActions.from(revisionViews, rsrc)) {
       ActionInfo actionInfo = new ActionInfo(d);
       for (ActionVisitor visitor : visitors) {
         if (!visitor.visit(d.getId(), actionInfo, changeInfo, revisionInfo)) {

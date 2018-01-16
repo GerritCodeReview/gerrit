@@ -45,7 +45,6 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.change.FileInfoJson;
 import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditJson;
 import com.google.gerrit.server.edit.ChangeEditModifier;

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a514db43_2f73fd6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-16T12:36:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26782cc2_e998041e",
+      "range": {
+        "startLine": 9,
+        "startChar": 64,
+        "endLine": 10,
+        "endChar": 5
+      },
+      "revId": "16406011d816318f4199eedafbc11dc516db5f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49309aaa_c4c29325",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "16406011d816318f4199eedafbc11dc516db5f51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a3f9658_b6b9953a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-16T12:36:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49309aaa_c4c29325",
+      "range": {
+        "startLine": 307,
+        "startChar": 57,
+        "endLine": 307,
+        "endChar": 67
+      },
+      "revId": "16406011d816318f4199eedafbc11dc516db5f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

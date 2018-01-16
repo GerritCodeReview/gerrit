@@ -374,7 +374,7 @@ limitations under the License.
         <div class="changeInfo-column changeMetadata hideOnMobileOverlay">
           <gr-change-metadata
               change="{{_change}}"
-              revision="[[_currentRevision]]"
+              revision="[[_selectedRevision]]"
               commit-info="[[_commitInfo]]"
               server-config="[[_serverConfig]]"
               missing-labels="[[_missingLabels]]"
@@ -510,7 +510,7 @@ limitations under the License.
       <gr-endpoint-decorator name="change-view-integration">
         <gr-endpoint-param name="change" value="[[_change]]">
         </gr-endpoint-param>
-        <gr-endpoint-param name="revision" value="[[_currentRevision]]">
+        <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
         </gr-endpoint-param>
       </gr-endpoint-decorator>
       <gr-messages-list id="messageList"

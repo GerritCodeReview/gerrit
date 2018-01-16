@@ -320,6 +320,19 @@ public class ProjectConfigTest extends GerritBaseTests {
   }
 
   @Test
+  public void addCommentLink() throws Exception {
+    RevCommit rev = tr.commit().create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    CommentLinkInfoImpl cm = new CommentLinkInfoImpl("Test", "abc.*", null, "<a>link</a>", true);
+    cfg.addCommentLinkSection(cm);
+    rev = commit(cfg);
+    assertThat(text(rev, "project.config"))
+        .isEqualTo("[commentlink \"Test\"]\n\tmatch = abc.*\n\thtml = <a>link</a>\n");
+  }
+
+  @Test
   public void editConfigMissingGroupTableEntry() throws Exception {
     RevCommit rev =
         tr.commit()

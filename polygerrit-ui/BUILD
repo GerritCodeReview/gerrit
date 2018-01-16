@@ -23,6 +23,7 @@ bower_component_bundle(
         "//lib/js:moment",
         "//lib/js:page",
         "//lib/js:paper-button",
+        "//lib/js:paper-icon-button",
         "//lib/js:paper-input",
         "//lib/js:paper-item",
         "//lib/js:paper-listbox",

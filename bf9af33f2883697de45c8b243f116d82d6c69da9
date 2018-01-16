@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bcc43fea_cb4922d8",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-01-16T08:34:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57e5cbf6_f1ab0890",
+      "range": {
+        "startLine": 245,
+        "startChar": 50,
+        "endLine": 245,
+        "endChar": 54
+      },
+      "revId": "bf9af33f2883697de45c8b243f116d82d6c69da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3250d986_f680c2b0",
         "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2018-01-15T08:11:27Z",
       "side": 1,
       "message": "better also assert the expected message here",
+      "range": {
+        "startLine": 1339,
+        "startChar": 24,
+        "endLine": 1339,
+        "endChar": 25
+      },
+      "revId": "bf9af33f2883697de45c8b243f116d82d6c69da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d0f7e95_1a079884",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1339,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-01-16T08:34:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3250d986_f680c2b0",
       "range": {
         "startLine": 1339,
         "startChar": 24,

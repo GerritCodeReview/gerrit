@@ -490,7 +490,7 @@ class RefControl {
     private boolean can(RefPermission perm) throws PermissionBackendException {
       switch (perm) {
         case READ:
-          return isVisible() && getProjectControl().getProjectState().statePermitsRead();
+          return isVisible();
         case CREATE:
           // TODO This isn't an accurate test.
           return canPerform(perm.permissionName().get());

@@ -54,6 +54,7 @@ public class GetHead implements RestReadView<ProjectResource> {
   @Override
   public String apply(ProjectResource rsrc)
       throws AuthException, ResourceNotFoundException, IOException, PermissionBackendException {
+    rsrc.getProjectState().statePermitsRead();
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       Ref head = repo.getRefDatabase().exactRef(Constants.HEAD);
       if (head == null) {

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9113e2f2_423d6b16",
+        "filename": "java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-16T08:46:05Z",
+      "side": 1,
+      "message": "Are we sure this works? This class only creates a change for review. Wouldn\u0027t the submit still fail? And if we allow change the project config through review, why not also directly?",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 38
+      },
+      "revId": "249041a42e4351b999f4f7b000303f3685ab3ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6e186c5_e096c1cf",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-16T08:46:05Z",
+      "side": 1,
+      "message": "Unrelated to this change? This method seems to be not used yet.",
+      "range": {
+        "startLine": 270,
+        "startChar": 1,
+        "endLine": 275,
+        "endChar": 3
+      },
+      "revId": "249041a42e4351b999f4f7b000303f3685ab3ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de204041_16166902",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPick.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-16T08:46:05Z",
+      "side": 1,
+      "message": "The project state should be checked here too.",
+      "range": {
+        "startLine": 130,
+        "startChar": 20,
+        "endLine": 130,
+        "endChar": 65
+      },
+      "revId": "249041a42e4351b999f4f7b000303f3685ab3ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

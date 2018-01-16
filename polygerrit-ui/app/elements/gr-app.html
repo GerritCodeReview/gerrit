@@ -141,6 +141,7 @@ limitations under the License.
     <gr-main-header
         id="mainHeader"
         search-query="{{params.query}}"
+        admin-menu="{{adminMenu}}"
         class$="[[_computeShadowClass(_isShadowDom)]]">
     </gr-main-header>
     <main>
@@ -179,7 +180,8 @@ limitations under the License.
       </template>
       <template is="dom-if" if="[[_showAdminView]]" restamp="true">
         <gr-admin-view path="[[_path]]"
-            params=[[params]]></gr-admin-view>
+            params=[[params]]
+            admin-menu="{{adminMenu}}"></gr-admin-view>
       </template>
       <template is="dom-if" if="[[_showPluginScreen]]" restamp="true">
         <gr-endpoint-decorator name="[[_pluginScreenName]]">

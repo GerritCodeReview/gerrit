@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "189f2b7d_2c407c3b",
+        "filename": "polygerrit-ui/app/embed/embed_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-16T21:22:03Z",
+      "side": 1,
+      "message": "Looks like you have two of these",
+      "revId": "6045e7c57d9935a0ba8aa5035a0c51577990071a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

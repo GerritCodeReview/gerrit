@@ -13,6 +13,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+<link rel="import" href="../../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/docs-url-behavior/docs-url-behavior.html">
@@ -123,13 +125,15 @@ limitations under the License.
         background-color: #fff;
         box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
       }
+      .mobile {
+        display: none;
+      }
       @media screen and (max-width: 50em) {
         .bigTitle {
           font-size: var(--font-size-large);
           font-family: var(--font-family-bold);
         }
         gr-search-bar,
-        .browse,
         .rightItems .hideOnMobile,
         .links > li.hideOnMobile {
           display: none;
@@ -140,9 +144,14 @@ limitations under the License.
         gr-dropdown {
           padding: .5em 0 .5em .5em;
         }
+        .mobile {
+          display: block;
+          margin: -0.5em;
+        }
       }
     </style>
     <nav>
+      <paper-icon-button class="menu-button mobile" icon="menu" drawer-toggle on-tap="_computeAdminBoolean"></paper-icon-button>
       <a href$="[[_computeRelativeURL('/')]]" class="bigTitle">
         <gr-endpoint-decorator name="header-title">
           <span class="titleText"></span>

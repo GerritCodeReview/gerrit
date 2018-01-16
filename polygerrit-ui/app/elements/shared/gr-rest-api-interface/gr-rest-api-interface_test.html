@@ -1248,7 +1248,7 @@ limitations under the License.
           '/projects/gerrit%2Fproject/dashboards/default%3Amain');
     });
 
-    test('getFileInChangeEdit', () => {
+    test('getFileContent', () => {
       sandbox.stub(element, 'getChangeURLAndSend')
           .returns(Promise.resolve({
             ok: 'true',
@@ -1261,13 +1261,23 @@ limitations under the License.
             },
           }));
 
+      sandbox.stub(element, 'getChangeFileContents')
+          .returns(Promise.resolve({body: 'new content', type: 'text/cpp'}));
+
       sandbox.stub(element, 'getResponseObject')
           .returns(Promise.resolve('new content'));
 
-      return element.getFileInChangeEdit('1', 'test/path').then(res => {
+      const edit = element.getFileContent('1', 'tst/path', 'edit').then(res => {
         assert.deepEqual(res,
             {content: 'new content', type: 'text/java', ok: true});
       });
+
+      const normal = element.getFileContent('1', 'tst/path', '3').then(res => {
+        assert.deepEqual(res,
+            {content: 'new content', type: 'text/cpp', ok: true});
+      });
+
+      return Promise.all([edit, normal]);
     });
   });
 </script>

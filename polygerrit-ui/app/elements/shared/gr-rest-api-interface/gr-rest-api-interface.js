@@ -1402,6 +1402,29 @@
     },
 
     /**
+     * @param {number|string} changeNum
+     * @param {string} path
+     * @param {number|string} patchNum
+     */
+    getFileContent(changeNum, path, patchNum) {
+      if (this.patchNumEquals(patchNum, this.EDIT_NAME)) {
+        return this.getFileInChangeEdit(changeNum, path).then(res => {
+          if (!res.ok) { return res; }
+
+          // The file type (used for syntax highlighting) is identified in the
+          // X-FYI-Content-Type header of the response.
+          const type = res.headers.get('X-FYI-Content-Type');
+          return this.getResponseObject(res).then(content => {
+            return {content, type, ok: true};
+          });
+        });
+      }
+      return this.getChangeFileContents(changeNum, patchNum, path).then(res => {
+        return {content: res.body, type: res.type, ok: true};
+      });
+    },
+
+    /**
      * Gets a file in a change edit.
      * @param {number|string} changeNum
      * @param {string} path
@@ -1410,16 +1433,7 @@
       const e = '/edit/' + encodeURIComponent(path);
       const headers = {Accept: 'application/json'};
       return this.getChangeURLAndSend(changeNum, 'GET', null, e, null, null,
-          null, null, headers).then(res => {
-            if (!res.ok) { return res; }
-
-            // The file type (used for syntax highlighting) is identified in the
-            // X-FYI-Content-Type header of the response.
-            const type = res.headers.get('X-FYI-Content-Type');
-            return this.getResponseObject(res).then(content => {
-              return {content, type, ok: true};
-            });
-          });
+          null, null, headers);
     },
 
     rebaseChangeEdit(changeNum) {

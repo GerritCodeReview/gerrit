@@ -1402,24 +1402,50 @@
     },
 
     /**
+     * @param {number|string} changeNum
+     * @param {string} path
+     * @param {number|string} patchNum
+     */
+    getFileContent(changeNum, path, patchNum) {
+      const promise = this.patchNumEquals(patchNum, this.EDIT_NAME) ?
+          this._getFileInChangeEdit(changeNum, path) :
+          this._getFileInRevision(changeNum, path, patchNum);
+
+      return promise.then(res => {
+        if (!res.ok) { return res; }
+
+        // The file type (used for syntax highlighting) is identified in the
+        // X-FYI-Content-Type header of the response.
+        const type = res.headers.get('X-FYI-Content-Type');
+        return this.getResponseObject(res).then(content => {
+          return {content, type, ok: true};
+        });
+      });
+    },
+
+    /**
+     * Gets a file in a specific change and revision.
+     * @param {number|string} changeNum
+     * @param {string} path
+     * @param {number|string} patchNum
+     */
+    _getFileInRevision(changeNum, path, patchNum) {
+      const e = `/files/${encodeURIComponent(path)}/content`;
+      const headers = {Accept: 'application/json'};
+      return this.getChangeURLAndSend(changeNum, 'GET', patchNum, e, null, null,
+          null, null, headers);
+    },
+
+    /**
      * Gets a file in a change edit.
      * @param {number|string} changeNum
      * @param {string} path
      */
-    getFileInChangeEdit(changeNum, path) {
+    _getFileInChangeEdit(changeNum, path) {
       const e = '/edit/' + encodeURIComponent(path);
       const headers = {Accept: 'application/json'};
       return this.getChangeURLAndSend(changeNum, 'GET', null, e, null, null,
-          null, null, headers).then(res => {
-            if (!res.ok) { return res; }
-
-            // The file type (used for syntax highlighting) is identified in the
-            // X-FYI-Content-Type header of the response.
-            const type = res.headers.get('X-FYI-Content-Type');
-            return this.getResponseObject(res).then(content => {
-              return {content, type, ok: true};
-            });
-          });
+          null, null, headers);
     },
 
     rebaseChangeEdit(changeNum) {
@@ -1774,7 +1800,7 @@
      * @param {string} path
      * @param {number=} opt_parentIndex
      */
-    getChangeFileContents(changeId, patchNum, path, opt_parentIndex) {
+    getB64FileContents(changeId, patchNum, path, opt_parentIndex) {
       const parent = typeof opt_parentIndex === 'number' ?
           '?parent=' + opt_parentIndex : '';
       return this._changeBaseURL(changeId, patchNum).then(url => {
@@ -1790,10 +1816,10 @@
       if (diff.meta_a && diff.meta_a.content_type.startsWith('image/')) {
         if (patchRange.basePatchNum === 'PARENT') {
           // Note: we only attempt to get the image from the first parent.
-          promiseA = this.getChangeFileContents(changeNum, patchRange.patchNum,
+          promiseA = this.getB64FileContents(changeNum, patchRange.patchNum,
               diff.meta_a.name, 1);
         } else {
-          promiseA = this.getChangeFileContents(changeNum,
+          promiseA = this.getB64FileContents(changeNum,
               patchRange.basePatchNum, diff.meta_a.name);
         }
       } else {
@@ -1801,7 +1827,7 @@
       }
 
       if (diff.meta_b && diff.meta_b.content_type.startsWith('image/')) {
-        promiseB = this.getChangeFileContents(changeNum, patchRange.patchNum,
+        promiseB = this.getB64FileContents(changeNum, patchRange.patchNum,
             diff.meta_b.name);
       } else {
         promiseB = Promise.resolve(null);

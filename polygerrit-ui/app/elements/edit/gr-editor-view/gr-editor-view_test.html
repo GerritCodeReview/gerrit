@@ -219,7 +219,7 @@ suite('gr-editor-view tests', () => {
     });
 
     test('res.ok', () => {
-      sandbox.stub(element.$.restAPI, 'getFileInChangeEdit')
+      sandbox.stub(element.$.restAPI, 'getFileContent')
           .returns(Promise.resolve({
             ok: true,
             type: 'text/javascript',
@@ -235,7 +235,7 @@ suite('gr-editor-view tests', () => {
     });
 
     test('!res.ok', () => {
-      sandbox.stub(element.$.restAPI, 'getFileInChangeEdit')
+      sandbox.stub(element.$.restAPI, 'getFileContent')
           .returns(Promise.resolve({}));
 
       // Ensure no data is set with a bad response.
@@ -247,7 +247,7 @@ suite('gr-editor-view tests', () => {
     });
 
     test('content is undefined', () => {
-      sandbox.stub(element.$.restAPI, 'getFileInChangeEdit')
+      sandbox.stub(element.$.restAPI, 'getFileContent')
           .returns(Promise.resolve({
             ok: true,
             type: 'text/javascript',
@@ -261,7 +261,7 @@ suite('gr-editor-view tests', () => {
     });
 
     test('content and type is undefined', () => {
-      sandbox.stub(element.$.restAPI, 'getFileInChangeEdit')
+      sandbox.stub(element.$.restAPI, 'getFileContent')
           .returns(Promise.resolve({
             ok: true,
           }));

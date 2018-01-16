@@ -1402,6 +1402,29 @@
     },
 
     /**
+     * @param {number|string} changeNum
+     * @param {string} path
+     * @param {number|string} patchNum
+     */
+    getFileContent(changeNum, path, patchNum) {
+      if (this.patchNumEquals(patchNum, this.EDIT_NAME)) {
+        return this.getFileInChangeEdit(changeNum, path).then(res => {
+          if (!res.ok) { return res; }
+
+          // The file type (used for syntax highlighting) is identified in the
+          // X-FYI-Content-Type header of the response.
+          const type = res.headers.get('X-FYI-Content-Type');
+          return this.getResponseObject(res).then(content => {
+            return {content, type, ok: true};
+          });
+        });
+      }
+      return this.getChangeFileContents(changeNum, patchNum, path).then(res => {
+        return {content: res.body, type: res.type, ok: true};
+      });
+    },
+
+    /**
      * Gets a file in a change edit.
      * @param {number|string} changeNum
      * @param {string} path
@@ -1410,16 +1433,7 @@
       const e = '/edit/' + encodeURIComponent(path);
       const headers = {Accept: 'application/json'};
       return this.getChangeURLAndSend(changeNum, 'GET', null, e, null, null,
-          null, null, headers).then(res => {
-            if (!res.ok) { return res; }
-
-            // The file type (used for syntax highlighting) is identified in the
-            // X-FYI-Content-Type header of the response.
-            const type = res.headers.get('X-FYI-Content-Type');
-            return this.getResponseObject(res).then(content => {
-              return {content, type, ok: true};
-            });
-          });
+          null, null, headers);
     },
 
     rebaseChangeEdit(changeNum) {
@@ -1769,15 +1783,15 @@
     },
 
     /**
-     * @param {string} changeId
+     * @param {number|string} changeNum
      * @param {string|number} patchNum
      * @param {string} path
      * @param {number=} opt_parentIndex
      */
-    getChangeFileContents(changeId, patchNum, path, opt_parentIndex) {
+    getChangeFileContents(changeNum, patchNum, path, opt_parentIndex) {
       const parent = typeof opt_parentIndex === 'number' ?
           '?parent=' + opt_parentIndex : '';
-      return this._changeBaseURL(changeId, patchNum).then(url => {
+      return this._changeBaseURL(changeNum, patchNum).then(url => {
         url = `${url}/files/${encodeURIComponent(path)}/content${parent}`;
         return this._fetchB64File(url);
       });
@@ -1790,8 +1804,8 @@
       if (diff.meta_a && diff.meta_a.content_type.startsWith('image/')) {
         if (patchRange.basePatchNum === 'PARENT') {
           // Note: we only attempt to get the image from the first parent.
-          promiseA = this.getChangeFileContents(changeNum, patchRange.patchNum,
-              diff.meta_a.name, 1);
+          promiseA = this.getChangeFileContents(changeNum,
+              patchRange.patchNum, diff.meta_a.name, 1);
         } else {
           promiseA = this.getChangeFileContents(changeNum,
               patchRange.basePatchNum, diff.meta_a.name);

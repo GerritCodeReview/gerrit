@@ -430,11 +430,13 @@ limitations under the License.
       suite('_normalizeLegacyRouteParams', () => {
         let rangeStub;
         let redirectStub;
+        let show404Stub;
 
         setup(() => {
           rangeStub = sandbox.stub(element, '_normalizePatchRangeParams')
               .returns(Promise.resolve());
           redirectStub = sandbox.stub(element, '_redirect');
+          show404Stub = sandbox.stub(element, '_show404');
         });
 
         test('w/o changeNum', () => {
@@ -445,6 +447,7 @@ limitations under the License.
             assert.isFalse(rangeStub.called);
             assert.isNotOk(params.project);
             assert.isFalse(redirectStub.called);
+            assert.isFalse(show404Stub.called);
           });
         });
 
@@ -456,18 +459,19 @@ limitations under the License.
             assert.isTrue(rangeStub.called);
             assert.equal(params.project, 'foo/bar');
             assert.isTrue(redirectStub.calledOnce);
+            assert.isFalse(show404Stub.called);
           });
         });
 
         test('halts on project lookup failure', () => {
           projectLookupStub.returns(Promise.resolve(undefined));
-
           const params = {changeNum: 1234};
           return element._normalizeLegacyRouteParams(params).then(() => {
             assert.isTrue(projectLookupStub.called);
             assert.isFalse(rangeStub.called);
             assert.isUndefined(params.project);
             assert.isFalse(redirectStub.called);
+            assert.isTrue(show404Stub.calledOnce);
           });
         });
       });
@@ -561,9 +565,9 @@ limitations under the License.
         });
       });
 
-      test('_handleDefaultRoute', () => {
+      test('_show404', () => {
         element._app = {dispatchEvent: sinon.stub()};
-        element._handleDefaultRoute();
+        element._show404();
         assert.isTrue(element._app.dispatchEvent.calledOnce);
         assert.equal(
             element._app.dispatchEvent.lastCall.args[0].detail.response.status,

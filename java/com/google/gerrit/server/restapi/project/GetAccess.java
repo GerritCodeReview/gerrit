@@ -174,6 +174,13 @@ public class GetAccess implements RestReadView<ProjectResource> {
     boolean canReadConfig = check(perm, RefNames.REFS_CONFIG, READ);
     boolean canWriteConfig = check(perm, ProjectPermission.WRITE_CONFIG);
 
+    // Check if the project state permits read only when the user is not allowed to write the config
+    // (=owner). This is so that the owner can still read (and in the next step write) the project's
+    // config to set the project state to any state that is not HIDDEN.
+    if (!canWriteConfig) {
+      projectState.checkStatePermitsRead();
+    }
+
     for (AccessSection section : config.getAccessSections()) {
       String name = section.getName();
       if (AccessSection.GLOBAL_CAPABILITIES.equals(name)) {

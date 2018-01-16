@@ -373,13 +373,13 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   private boolean canReadRef(String ref) {
     try {
       perm.ref(ref).check(RefPermission.READ);
-      return true;
     } catch (AuthException e) {
       return false;
     } catch (PermissionBackendException e) {
       log.error("unable to check permissions", e);
       return false;
     }
+    return projectState.statePermitsRead();
   }
 
   private boolean checkProjectPermission(

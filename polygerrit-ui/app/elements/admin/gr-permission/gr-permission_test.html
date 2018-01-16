@@ -335,7 +335,7 @@ limitations under the License.
 
         assert.isFalse(element._originalExclusiveValue);
         assert.isNotOk(element.permission.value.modified);
-        MockInteractions.tap(element.$.exclusiveToggle);
+        MockInteractions.tap(element.$$('#exclusiveToggle'));
         flushAsynchronousOperations();
         assert.isTrue(element.permission.value.exclusive);
         assert.isTrue(element.permission.value.modified);
@@ -352,6 +352,15 @@ limitations under the License.
         element._handleValueChange();
         assert.isTrue(element.permission.value.modified);
         assert.isTrue(modifiedHandler.called);
+      });
+
+      test('Exclusive hidden for owner permission', () => {
+        assert.equal(getComputedStyle(element.$$('#exclusiveToggle')).display,
+            'flex');
+        element.set(['permission', 'id'], 'owner');
+        flushAsynchronousOperations();
+        assert.equal(getComputedStyle(element.$$('#exclusiveToggle')).display,
+            'none');
       });
     });
   });

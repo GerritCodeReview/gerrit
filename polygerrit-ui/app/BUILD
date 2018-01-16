@@ -163,7 +163,7 @@ polygerrit_bundle(
         ],
     ),
     outs = ["polygerrit_embed_ui.zip"],
-    app = "embed/change-diff-views.html",
+    app = "embed/embed.html",
 )
 
 filegroup(

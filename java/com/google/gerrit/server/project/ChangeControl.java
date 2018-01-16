@@ -22,6 +22,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -129,7 +130,7 @@ class ChangeControl {
     if (getChange().isPrivate() && !isPrivateVisible(db, cd)) {
       return false;
     }
-    return refControl.isVisible();
+    return refControl.isVisible() && getProjectControl().getProject().getState().permitsRead();
   }
 
   /** Can this user abandon this change? */
@@ -137,7 +138,7 @@ class ChangeControl {
     return (isOwner() // owner (aka creator) of the change can abandon
             || refControl.isOwner() // branch owner can abandon
             || getProjectControl().isOwner() // project owner can abandon
-            || refControl.canAbandon() // user can abandon a specific ref
+            || refControl.canPerform(Permission.ABANDON) // user can abandon a specific ref
             || getProjectControl().isAdmin())
         && !isPatchSetLocked(db);
   }
@@ -147,7 +148,8 @@ class ChangeControl {
     switch (status) {
       case NEW:
       case ABANDONED:
-        return (isOwner() && refControl.canDeleteOwnChanges()) || getProjectControl().isAdmin();
+        return (isOwner() && refControl.canPerform(Permission.DELETE_OWN_CHANGES))
+            || getProjectControl().isAdmin();
       case MERGED:
       default:
         return false;
@@ -241,7 +243,8 @@ class ChangeControl {
       return isOwner() // owner (aka creator) of the change can edit topic
           || refControl.isOwner() // branch owner can edit topic
           || getProjectControl().isOwner() // project owner can edit topic
-          || refControl.canEditTopicName() // user can edit topic on a specific ref
+          || refControl.canPerform(
+              Permission.EDIT_TOPIC_NAME) // user can edit topic on a specific ref
           || getProjectControl().isAdmin();
     }
     return refControl.canForceEditTopicName();
@@ -261,7 +264,7 @@ class ChangeControl {
   private boolean canEditAssignee() {
     return isOwner()
         || getProjectControl().isOwner()
-        || refControl.canEditAssignee()
+        || refControl.canPerform(Permission.EDIT_ASSIGNEE)
         || isAssignee();
   }
 
@@ -270,14 +273,15 @@ class ChangeControl {
     return isOwner() // owner (aka creator) of the change can edit hashtags
         || refControl.isOwner() // branch owner can edit hashtags
         || getProjectControl().isOwner() // project owner can edit hashtags
-        || refControl.canEditHashtags() // user can edit hashtag on a specific ref
+        || refControl.canPerform(
+            Permission.EDIT_HASHTAGS) // user can edit hashtag on a specific ref
         || getProjectControl().isAdmin();
   }
 
   private boolean isPrivateVisible(ReviewDb db, ChangeData cd) throws OrmException {
     return isOwner()
         || isReviewer(db, cd)
-        || refControl.canViewPrivateChanges()
+        || refControl.canPerform(Permission.VIEW_PRIVATE_CHANGES)
         || getUser().isInternalUser();
   }
 

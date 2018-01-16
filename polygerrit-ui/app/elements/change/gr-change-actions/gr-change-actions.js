@@ -52,6 +52,7 @@
     ABANDON: 'abandon',
     DELETE: '/',
     DELETE_EDIT: 'deleteEdit',
+    EDIT: 'edit',
     IGNORE: 'ignore',
     MOVE: 'move',
     PRIVATE: 'private',
@@ -146,6 +147,15 @@
     __primary: false,
     __type: 'change',
     method: 'DELETE',
+  };
+
+  const EDIT = {
+    enabled: true,
+    label: 'Edit',
+    title: 'Edit this change',
+    __key: 'edit',
+    __primary: false,
+    __type: 'change',
   };
 
   const AWAIT_CHANGE_ATTEMPTS = 5;
@@ -304,6 +314,10 @@
         type: Array,
         value() { return []; },
       },
+      editPatchsetLoaded: {
+        type: Boolean,
+        value: false,
+      },
       editLoaded: {
         type: Boolean,
         value: false,
@@ -325,7 +339,7 @@
 
     observers: [
       '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*, ' +
-          'editLoaded, editBasedOnCurrentPatchSet, change)',
+          'editPatchsetLoaded, editLoaded, editBasedOnCurrentPatchSet, change)',
       '_changeChanged(change)',
     ],
 
@@ -472,8 +486,8 @@
     },
 
     _actionsChanged(actionsChangeRecord, revisionActionsChangeRecord,
-        additionalActionsChangeRecord, editLoaded, editBasedOnCurrentPatchSet,
-        change) {
+        additionalActionsChangeRecord, editPatchsetLoaded, editLoaded,
+        editBasedOnCurrentPatchSet, change) {
       const additionalActions = (additionalActionsChangeRecord &&
           additionalActionsChangeRecord.base) || [];
       this.hidden = this._keyCount(actionsChangeRecord) === 0 &&
@@ -490,7 +504,9 @@
 
       const changeActions = actionsChangeRecord.base || {};
       if (Object.keys(changeActions).length !== 0) {
-        if (editLoaded) {
+        if (editPatchsetLoaded) {
+          // Only show actions that mutate an edit if an actual edit patch set
+          // is loaded.
           if (this.changeIsOpen(change.status)) {
             if (editBasedOnCurrentPatchSet) {
               if (!changeActions.publishEdit) {
@@ -525,6 +541,19 @@
           if (changeActions.deleteEdit) {
             delete this.actions.deleteEdit;
             this.notifyPath('actions.deleteEdit');
+          }
+        }
+
+        // Only show edit button if there is no edit patchset loaded and the
+        // file list is not in edit mode.
+        if (editPatchsetLoaded || editLoaded) {
+          if (changeActions.edit) {
+            delete this.actions.edit;
+            this.notifyPath('actions.edit');
+          }
+        } else {
+          if (!changeActions.edit) {
+            this.set('actions.edit', EDIT);
           }
         }
       }
@@ -774,6 +803,9 @@
           });
           this._fireAction(
               this._prependSlash(key), action, true, action.payload);
+          break;
+        case ChangeActions.EDIT:
+          this._handleEditTap();
           break;
         case ChangeActions.DELETE:
           this._handleDeleteTap();
@@ -1250,6 +1282,10 @@
         };
         check();
       });
+    },
+
+    _handleEditTap() {
+      this.dispatchEvent(new CustomEvent('edit-tap', {bubbles: false}));
     },
   });
 })();

@@ -151,17 +151,7 @@
       _patchRange: {
         type: Object,
       },
-      // These are kept as separate properties from the patchRange so that the
-      // observer can be aware of the previous value. In order to view sub
-      // property changes for _patchRange, a complex observer must be used, and
-      // that only displays the new value.
-      //
-      // If a previous value did not exist, the change is not reloaded with the
-      // new patches. This is just the initial setting from the change view vs.
-      // an update coming from the two way data binding.
-      _patchNum: String,
       _filesExpanded: String,
-      _basePatchNum: String,
       _currentRevision: Object,
       _currentRevisionActions: Object,
       _allPatchSets: {

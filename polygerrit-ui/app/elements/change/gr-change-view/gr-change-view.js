@@ -224,7 +224,7 @@
         value: false,
         observer: '_updateToggleContainerClass',
       },
-      _rebaseOriginallyEnabled: Boolean,
+      _parentIsCurrent: Boolean,
     },
 
     behaviors: [
@@ -938,8 +938,10 @@
       if (revisionActions && revisionActions.rebase) {
         revisionActions.rebase.rebaseOnCurrent =
             !!revisionActions.rebase.enabled;
-        this._rebaseOriginallyEnabled = !!revisionActions.rebase.enabled;
+        this._parentIsCurrent = !revisionActions.rebase.enabled;
         revisionActions.rebase.enabled = true;
+      } else {
+        this._parentIsCurrent = true;
       }
       return revisionActions;
     },

@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "e94b0ed9_c4aad04a",
+        "filename": "javatests/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-16T23:52:22Z",
+      "side": 1,
+      "message": "When I see these repeated asserts, it makes me think that CommentLinkInfo needs a meaningful equals() implementation. If we had that, then you could just do:\n\n assertThat(commentLinks).containsExactly(\n     new CommentLinkInfoImpl(true, \"bugzilla\", \"(bug...)\", \"http://...\"));",
+      "revId": "8d784497d3b688315b1b92f2795fc0f5c0ba9831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c9d72f2_e4afd4e6",
+        "filename": "javatests/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-16T23:52:22Z",
+      "side": 1,
+      "message": "Missing assert about enabled?",
+      "revId": "8d784497d3b688315b1b92f2795fc0f5c0ba9831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "af148ad0_3fa0ffdd",
         "filename": "javatests/com/google/gerrit/server/git/ProjectConfigTest.java",
         "patchSetId": 1
@@ -13,6 +47,30 @@
       "writtenOn": "2018-01-16T23:24:06Z",
       "side": 1,
       "message": "Optional: There might be a more concise way of writing this.",
+      "range": {
+        "startLine": 531,
+        "startChar": 4,
+        "endLine": 535,
+        "endChar": 97
+      },
+      "revId": "8d784497d3b688315b1b92f2795fc0f5c0ba9831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b654ccc_46619f9c",
+        "filename": "javatests/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-16T23:52:22Z",
+      "side": 1,
+      "message": "I think using Truth8.assertThat you can do:\n\n assertThat(cfg.getValidationErrors().stream().map(ValidationError::getMessage))\n     .containsExactly(\"project.config: ...\");",
+      "parentUuid": "af148ad0_3fa0ffdd",
       "range": {
         "startLine": 531,
         "startChar": 4,

@@ -14,18 +14,13 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import static com.google.gerrit.server.config.ConfigUtil.loadSection;
-
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
-import com.google.gerrit.server.account.VersionedAccountPreferences;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.UserConfigSections;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -34,26 +29,19 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 public class GetEditPreferences implements RestReadView<AccountResource> {
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
-  private final AllUsersName allUsersName;
-  private final GitRepositoryManager gitMgr;
+  private final AccountCache accountCache;
 
   @Inject
   GetEditPreferences(
-      Provider<CurrentUser> self,
-      PermissionBackend permissionBackend,
-      AllUsersName allUsersName,
-      GitRepositoryManager gitMgr) {
+      Provider<CurrentUser> self, PermissionBackend permissionBackend, AccountCache accountCache) {
     this.self = self;
     this.permissionBackend = permissionBackend;
-    this.allUsersName = allUsersName;
-    this.gitMgr = gitMgr;
+    this.accountCache = accountCache;
   }
 
   @Override
@@ -63,23 +51,7 @@ public class GetEditPreferences implements RestReadView<AccountResource> {
       permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
 
-    return readFromGit(rsrc.getUser().getAccountId(), gitMgr, allUsersName, null);
-  }
-
-  static EditPreferencesInfo readFromGit(
-      Account.Id id, GitRepositoryManager gitMgr, AllUsersName allUsersName, EditPreferencesInfo in)
-      throws IOException, ConfigInvalidException, RepositoryNotFoundException {
-    try (Repository git = gitMgr.openRepository(allUsersName)) {
-      VersionedAccountPreferences p = VersionedAccountPreferences.forUser(id);
-      p.load(git);
-
-      return loadSection(
-          p.getConfig(),
-          UserConfigSections.EDIT,
-          null,
-          new EditPreferencesInfo(),
-          EditPreferencesInfo.defaults(),
-          in);
-    }
+    Account.Id id = rsrc.getUser().getAccountId();
+    return accountCache.get(id).getEditPreferences();
   }
 }

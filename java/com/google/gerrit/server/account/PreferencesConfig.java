@@ -32,6 +32,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -68,6 +69,7 @@ public class PreferencesConfig {
 
   private GeneralPreferencesInfo generalPreferences;
   private DiffPreferencesInfo diffPreferences;
+  private EditPreferencesInfo editPreferences;
 
   public PreferencesConfig(
       Account.Id accountId,
@@ -94,14 +96,23 @@ public class PreferencesConfig {
     return diffPreferences;
   }
 
+  public EditPreferencesInfo getEditPreferences() {
+    if (editPreferences == null) {
+      parse();
+    }
+    return editPreferences;
+  }
+
   public void parse() {
     generalPreferences = parseGeneralPreferences(null);
     diffPreferences = parseDiffPreferences(null);
+    editPreferences = parseEditPreferences(null);
   }
 
   public Config saveGeneralPreferences(
       Optional<GeneralPreferencesInfo> generalPreferencesInput,
-      Optional<DiffPreferencesInfo> diffPreferencesInput)
+      Optional<DiffPreferencesInfo> diffPreferencesInput,
+      Optional<EditPreferencesInfo> editPreferencesInput)
       throws ConfigInvalidException {
     if (generalPreferencesInput.isPresent()) {
       GeneralPreferencesInfo mergedGeneralPreferencesInput =
@@ -136,6 +147,21 @@ public class PreferencesConfig {
       this.diffPreferences = null;
     }
 
+    if (editPreferencesInput.isPresent()) {
+      EditPreferencesInfo mergedEditPreferencesInput =
+          parseEditPreferences(editPreferencesInput.get());
+
+      storeSection(
+          cfg,
+          UserConfigSections.EDIT,
+          null,
+          mergedEditPreferencesInput,
+          parseDefaultEditPreferences(defaultCfg, null));
+
+      // evict the cached edit preferences
+      this.editPreferences = null;
+    }
+
     return cfg;
   }
 
@@ -163,6 +189,19 @@ public class PreferencesConfig {
               String.format(
                   "Invalid diff preferences for account %d: %s", accountId.get(), e.getMessage())));
       return new DiffPreferencesInfo();
+    }
+  }
+
+  private EditPreferencesInfo parseEditPreferences(@Nullable EditPreferencesInfo input) {
+    try {
+      return parseEditPreferences(cfg, defaultCfg, input);
+    } catch (ConfigInvalidException e) {
+      validationErrorSink.error(
+          new ValidationError(
+              PREFERENCES_CONFIG,
+              String.format(
+                  "Invalid edit preferences for account %d: %s", accountId.get(), e.getMessage())));
+      return new EditPreferencesInfo();
     }
   }
 
@@ -205,6 +244,20 @@ public class PreferencesConfig {
         input);
   }
 
+  private static EditPreferencesInfo parseEditPreferences(
+      Config cfg, @Nullable Config defaultCfg, @Nullable EditPreferencesInfo input)
+      throws ConfigInvalidException {
+    return loadSection(
+        cfg,
+        UserConfigSections.EDIT,
+        null,
+        new EditPreferencesInfo(),
+        defaultCfg != null
+            ? parseDefaultEditPreferences(defaultCfg, input)
+            : EditPreferencesInfo.defaults(),
+        input);
+  }
+
   private static GeneralPreferencesInfo parseDefaultGeneralPreferences(
       Config defaultCfg, GeneralPreferencesInfo input) throws ConfigInvalidException {
     GeneralPreferencesInfo allUserPrefs = new GeneralPreferencesInfo();
@@ -229,6 +282,19 @@ public class PreferencesConfig {
         DiffPreferencesInfo.defaults(),
         input);
     return updateDiffPreferencesDefaults(allUserPrefs);
+  }
+
+  private static EditPreferencesInfo parseDefaultEditPreferences(
+      Config defaultCfg, EditPreferencesInfo input) throws ConfigInvalidException {
+    EditPreferencesInfo allUserPrefs = new EditPreferencesInfo();
+    loadSection(
+        defaultCfg,
+        UserConfigSections.EDIT,
+        null,
+        allUserPrefs,
+        EditPreferencesInfo.defaults(),
+        input);
+    return updateEditPreferencesDefaults(allUserPrefs);
   }
 
   private static GeneralPreferencesInfo updateGeneralPreferencesDefaults(
@@ -266,6 +332,25 @@ public class PreferencesConfig {
     } catch (IllegalAccessException e) {
       log.error("Failed to apply default diff preferences", e);
       return DiffPreferencesInfo.defaults();
+    }
+    return result;
+  }
+
+  private static EditPreferencesInfo updateEditPreferencesDefaults(EditPreferencesInfo input) {
+    EditPreferencesInfo result = EditPreferencesInfo.defaults();
+    try {
+      for (Field field : input.getClass().getDeclaredFields()) {
+        if (skipField(field)) {
+          continue;
+        }
+        Object newVal = field.get(input);
+        if (newVal != null) {
+          field.set(result, newVal);
+        }
+      }
+    } catch (IllegalAccessException e) {
+      log.error("Failed to apply default edit preferences", e);
+      return EditPreferencesInfo.defaults();
     }
     return result;
   }

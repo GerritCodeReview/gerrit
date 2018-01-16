@@ -19,6 +19,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
@@ -132,6 +133,16 @@ public abstract class InternalAccountUpdate {
    *     preferences are not being updated, the wrapped value is never {@code null}
    */
   public abstract Optional<DiffPreferencesInfo> getDiffPreferences();
+
+  /**
+   * Returns the new value for the edit preferences.
+   *
+   * <p>Only preferences that are non-null in the returned DiffPreferencesInfo should be updated.
+   *
+   * @return the new value for the edit preferences, {@code Optional#empty()} if the edit
+   *     preferences are not being updated, the wrapped value is never {@code null}
+   */
+  public abstract Optional<EditPreferencesInfo> getEditPreferences();
 
   /**
    * Class to build an account update.
@@ -406,6 +417,16 @@ public abstract class InternalAccountUpdate {
     public abstract Builder setDiffPreferences(DiffPreferencesInfo diffPreferences);
 
     /**
+     * Sets the edit preferences for the account.
+     *
+     * <p>Updates any preference that is non-null in the provided EditPreferencesInfo.
+     *
+     * @param editPreferences the edit preferences that should be set
+     * @return the builder
+     */
+    public abstract Builder setEditPreferences(EditPreferencesInfo editPreferences);
+
+    /**
      * Builds the account update.
      *
      * @return the account update
@@ -545,6 +566,12 @@ public abstract class InternalAccountUpdate {
       @Override
       public Builder setDiffPreferences(DiffPreferencesInfo diffPreferences) {
         delegate.setDiffPreferences(diffPreferences);
+        return this;
+      }
+
+      @Override
+      public Builder setEditPreferences(EditPreferencesInfo editPreferences) {
+        delegate.setEditPreferences(editPreferences);
         return this;
       }
     }

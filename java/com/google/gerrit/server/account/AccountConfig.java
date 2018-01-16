@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -184,6 +185,16 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   public DiffPreferencesInfo getDiffPreferences() {
     checkLoaded();
     return prefConfig.getDiffPreferences();
+  }
+
+  /**
+   * Get the edit preferences of the loaded account.
+   *
+   * @return the edit preferences of the loaded account
+   */
+  public EditPreferencesInfo getEditPreferences() {
+    checkLoaded();
+    return prefConfig.getEditPreferences();
   }
 
   /**
@@ -367,14 +378,17 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   private void savePreferences() throws IOException, ConfigInvalidException {
     if (!accountUpdate.isPresent()
         || (!accountUpdate.get().getGeneralPreferences().isPresent()
-            && !accountUpdate.get().getDiffPreferences().isPresent())) {
+            && !accountUpdate.get().getDiffPreferences().isPresent()
+            && !accountUpdate.get().getEditPreferences().isPresent())) {
       return;
     }
 
     saveConfig(
         PreferencesConfig.PREFERENCES_CONFIG,
         prefConfig.saveGeneralPreferences(
-            accountUpdate.get().getGeneralPreferences(), accountUpdate.get().getDiffPreferences()));
+            accountUpdate.get().getGeneralPreferences(),
+            accountUpdate.get().getDiffPreferences(),
+            accountUpdate.get().getEditPreferences()));
   }
 
   /**

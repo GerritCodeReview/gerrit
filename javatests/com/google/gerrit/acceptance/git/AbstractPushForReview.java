@@ -75,9 +75,11 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.receive.ReceiveConstants;
+import com.google.gerrit.server.git.validators.CommitValidators.ChangeIdValidator;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.testing.Util;
@@ -1318,6 +1320,28 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
     saveProjectConfig(project, config);
     pushForReviewOk(testRepo);
+  }
+
+  @Test
+  public void testPushWithChangedChangeId() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+    PushOneCommit push =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT
+                + "\n\n"
+                + "Change-Id: I55eab7c7a76e95005fa9cc469aa8f9fc16da9eba\n",
+            "b.txt",
+            "anotherContent",
+            r.getChangeId());
+    r = push.to("refs/changes/" + r.getChange().change().getId().get());
+    r.assertErrorStatus(
+        String.format(
+            ChangeIdValidator.CHANGE_ID_MISMATCH_MSG,
+            r.getCommit().abbreviate(RevId.ABBREV_LEN).name()));
   }
 
   @Test

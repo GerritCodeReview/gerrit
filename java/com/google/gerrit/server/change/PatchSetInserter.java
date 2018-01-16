@@ -345,7 +345,8 @@ public class PatchSetInserter implements BatchUpdateOp {
               origNotes.getChange().getDest(),
               ctx.getIdentifiedUser(),
               new NoSshInfo(),
-              ctx.getRevWalk())
+              ctx.getRevWalk(),
+              origNotes.getChange())
           .validate(event);
     } catch (CommitValidationException e) {
       throw new ResourceConflictException(e.getFullMessage());

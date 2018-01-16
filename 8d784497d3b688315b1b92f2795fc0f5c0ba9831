@@ -83,6 +83,30 @@
     },
     {
       "key": {
+        "uuid": "3c0a3bf0_d8725e9a",
+        "filename": "javatests/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-16T23:53:16Z",
+      "side": 1,
+      "message": "...or implement ValidationError#equals same as I suggested for CommentLinkInfo above.",
+      "parentUuid": "8b654ccc_46619f9c",
+      "range": {
+        "startLine": 531,
+        "startChar": 4,
+        "endLine": 535,
+        "endChar": 97
+      },
+      "revId": "8d784497d3b688315b1b92f2795fc0f5c0ba9831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b8a35cc_eb35844a",
         "filename": "javatests/com/google/gerrit/server/git/ProjectConfigTest.java",
         "patchSetId": 1

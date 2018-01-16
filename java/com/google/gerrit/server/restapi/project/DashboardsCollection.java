@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -108,7 +109,7 @@ public class DashboardsCollection
   @Override
   public DashboardResource parse(ProjectResource parent, IdString id)
       throws ResourceNotFoundException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+          PermissionBackendException, ResourceConflictException {
     if (isDefaultDashboard(id)) {
       return DashboardResource.projectDefault(parent.getProjectState(), parent.getUser());
     }
@@ -142,7 +143,8 @@ public class DashboardsCollection
   private DashboardResource parse(
       ProjectState parent, ProjectState current, CurrentUser user, DashboardInfo info)
       throws ResourceNotFoundException, IOException, AmbiguousObjectException,
-          IncorrectObjectTypeException, ConfigInvalidException, PermissionBackendException {
+          IncorrectObjectTypeException, ConfigInvalidException, PermissionBackendException,
+          ResourceConflictException {
     String ref = normalizeDashboardRef(info.ref);
     try {
       permissionBackend.user(user).project(parent.getNameKey()).ref(ref).check(RefPermission.READ);
@@ -153,6 +155,8 @@ public class DashboardsCollection
     if (!Repository.isValidRefName(ref)) {
       throw new ResourceNotFoundException(info.id);
     }
+
+    current.checkStatePermitsRead();
 
     try (Repository git = gitManager.openRepository(parent.getNameKey())) {
       ObjectId objId = git.resolve(ref + ":" + info.path);

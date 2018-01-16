@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -135,7 +136,8 @@ public class ListBranches implements RestReadView<ProjectResource> {
   @Override
   public List<BranchInfo> apply(ProjectResource rsrc)
       throws ResourceNotFoundException, IOException, BadRequestException,
-          PermissionBackendException {
+          PermissionBackendException, ResourceConflictException {
+    rsrc.getProjectState().checkStatePermitsRead();
     return new RefFilter<BranchInfo>(Constants.R_HEADS)
         .subString(matchSubstring)
         .regex(matchRegex)

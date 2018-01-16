@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.rpc.project;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
@@ -98,7 +99,7 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
   protected ProjectAccess updateProjectConfig(
       ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
       throws IOException, NoSuchProjectException, ConfigInvalidException,
-          PermissionBackendException {
+          PermissionBackendException, ResourceConflictException {
     RevCommit commit = config.commit(md);
 
     gitRefUpdated.fire(

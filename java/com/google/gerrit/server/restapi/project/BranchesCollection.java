@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Project;
@@ -71,8 +72,10 @@ public class BranchesCollection
 
   @Override
   public BranchResource parse(ProjectResource parent, IdString id)
-      throws ResourceNotFoundException, IOException, PermissionBackendException {
+      throws ResourceNotFoundException, IOException, PermissionBackendException,
+          ResourceConflictException {
     Project.NameKey project = parent.getNameKey();
+    parent.getProjectState().checkStatePermitsRead();
     try (Repository repo = repoManager.openRepository(project)) {
       Ref ref = repo.exactRef(RefNames.fullName(id.get()));
       if (ref == null) {

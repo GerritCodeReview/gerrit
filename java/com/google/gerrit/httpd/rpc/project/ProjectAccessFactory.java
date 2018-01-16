@@ -30,6 +30,7 @@ import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.data.WebLinkInfoCommon;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
@@ -103,7 +104,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   @Override
   public ProjectAccess call()
       throws NoSuchProjectException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+          PermissionBackendException, ResourceConflictException {
     ProjectState projectState = checkProjectState();
 
     // Load the current configuration from the repository, ensuring its the most
@@ -260,13 +261,15 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   }
 
   private ProjectState checkProjectState()
-      throws NoSuchProjectException, IOException, PermissionBackendException {
+      throws NoSuchProjectException, IOException, PermissionBackendException,
+          ResourceConflictException {
     ProjectState state = projectCache.checkedGet(projectName);
     try {
       permissionBackend.user(user).project(projectName).check(ProjectPermission.ACCESS);
     } catch (AuthException e) {
       throw new NoSuchProjectException(projectName);
     }
+    state.checkStatePermitsRead();
     return state;
   }
 

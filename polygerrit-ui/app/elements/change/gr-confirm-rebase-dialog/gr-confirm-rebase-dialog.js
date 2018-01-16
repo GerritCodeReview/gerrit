@@ -36,13 +36,61 @@
        * @type {?string} */
       base: String,
       branch: String,
+      changeNumber: Number,
       hasParent: Boolean,
       rebaseOnCurrent: Boolean,
+      _inputText: String,
+      _query: {
+        type: Function,
+        value() {
+          return this._getChangeSuggestions.bind(this);
+        },
+      },
+      _recentChanges: Array,
     },
 
     observers: [
       '_updateSelectedOption(rebaseOnCurrent, hasParent)',
     ],
+
+    // This is called by gr-change-actions every time the rebase dialog is
+    // re-opened. Unlike other autocompletes that make a request with each
+    // updated input, this one gets all recent changes once and then filters
+    // them by the input. The query is re-run each time the dialog is opened
+    // in case there are new/updated changes in the generic query since the
+    // last time it was run.
+    fetchRecentChanges() {
+      return this.$.restAPI.getChanges(null, `is:open -age:90d`)
+          .then(response => {
+            const changes = [];
+            for (const key in response) {
+              if (!response.hasOwnProperty(key)) { continue; }
+              changes.push({
+                name: `${response[key]._number}: ${response[key].subject}`,
+                value: response[key]._number,
+              });
+            }
+            this._recentChanges = changes;
+            return this._recentChanges;
+          });
+    },
+
+    _getRecentChanges() {
+      if (this._recentChanges) {
+        return Promise.resolve(this._recentChanges);
+      }
+      return this.fetchRecentChanges();
+    },
+
+    _getChangeSuggestions(input) {
+      return this._getRecentChanges().then(changes =>
+          this._filterChanges(input, changes));
+    },
+
+    _filterChanges(input, changes) {
+      return changes.filter(change => change.name.includes(input) &&
+          change.value !== this.changeNumber);
+    },
 
     _displayParentOption(rebaseOnCurrent, hasParent) {
       return hasParent && rebaseOnCurrent;
@@ -58,11 +106,13 @@
 
     _handleConfirmTap(e) {
       e.preventDefault();
+      this._inputText = '';
       this.fire('confirm', null, {bubbles: false});
     },
 
     _handleCancelTap(e) {
       e.preventDefault();
+      this._inputText = '';
       this.fire('cancel', null, {bubbles: false});
     },
 
@@ -83,6 +133,10 @@
 
     _handleRebaseOnParent() {
       this.base = null;
+    },
+
+    _handleBaseSelected(e) {
+      this.base = e.detail.value;
     },
 
     _handleEnterChangeNumberTap() {

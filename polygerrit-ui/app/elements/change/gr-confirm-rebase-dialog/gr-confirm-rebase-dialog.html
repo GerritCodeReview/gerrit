@@ -15,7 +15,9 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
 <link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-confirm-rebase-dialog">
@@ -49,6 +51,7 @@ limitations under the License.
       }
     </style>
     <gr-confirm-dialog
+        id="confirmDialog"
         confirm-label="Rebase"
         on-confirm="_handleConfirmTap"
         on-cancel="_handleCancelTap">
@@ -98,15 +101,18 @@ limitations under the License.
           </label>
         </div>
         <div class="parentRevisionContainer">
-          <input is="iron-input"
-              type="text"
+          <gr-autocomplete
               id="parentInput"
-              bind-value="{{base}}"
+              query="[[_query]]"
+              text="{{_inputText}}"
               on-tap="_handleEnterChangeNumberTap"
+              on-commit="_handleBaseSelected"
               placeholder="Change number">
+          </gr-autocomplete>
         </div>
       </div>
     </gr-confirm-dialog>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-confirm-rebase-dialog.js"></script>
 </dom-module>

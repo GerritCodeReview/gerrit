@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "0deb3543_8ccab8c5",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/UploadArchiveIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-16T10:59:49Z",
+      "side": 1,
+      "message": "As it is, it\u0027s sufficient to make sure we actually use xz such that it will break if someone removes the dependency.  But I think he means it\u0027s not sufficient because it\u0027s not explicitly testing that xz returned a valid archive like the zip test does.\n\nTests for this were obviously overlooked when xz support was added.  I can only hope that it was tested manually.",
+      "parentUuid": "e4f02807_51be3fb8",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 129,
+        "endChar": 7
+      },
+      "revId": "feea8a7317b16fc574ad6f9c84605153091217dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34da8fc2_56682c16",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/UploadArchiveIT.java",
         "patchSetId": 7

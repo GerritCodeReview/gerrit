@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "e2696771_d69da1c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2018-01-16T14:29:08Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e In other words, I expect layer toggling to eventually be a feature general to all layers not just plugins, [...]\n\u003e \u003e \n\u003e \u003e That sounds great to me.\n\u003e \u003e Is there a bug tracking this work? We can re-purpose https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d8077 for this if that is convenient.\n\u003e \n\u003e Cool. Yeah I agree, that looks to me like the right bug to repurpose.\n\nDone: https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d8077\n\n\u003e \n\u003e \u003e \u003e For the short-term, regarding coverage plugin specifically, would it be possible to add this toggle as part of the coverage plugin itself [...]\n\u003e \u003e \n\u003e \u003e Yes, that is what I had done in an earlier patchset of this change: https://gerrit-review.googlesource.com/c/gerrit/+/150210/4\n\u003e \n\u003e Assuming that Viktar agrees this is the right direction for the annotation API, that seems to me like a good short term solution.\n\nViktar, WDYT?\nThe annotation API will not have to change. The temporary change will be localized to the plugin. It will be the responsibility of the plugin maintainers to notice if things stop working and fix it (till the better approach in https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d8077 is ready).",
+      "parentUuid": "1f7c1b22_c3171d0b",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "ad5c3aaa892505c3e1c258b91341a3ed73ab19d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "776d4302_05befca1",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
         "patchSetId": 10

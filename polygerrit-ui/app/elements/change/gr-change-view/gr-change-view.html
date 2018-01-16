@@ -76,7 +76,10 @@ limitations under the License.
       }
       gr-change-status {
         display: initial;
-        margin: .1em .5em .1em 0;
+        margin: .1em .1em .1em .4em;
+      }
+      gr-change-status:first-child {
+        margin-left: 0;
       }
       .header-title {
         align-items: center;
@@ -144,7 +147,9 @@ limitations under the License.
         }
       }
       .changeStatuses,
-      .commitActions {
+      .changeText,
+      .commitActions,
+      .statusText {
         align-items: center;
         display: flex;
       }
@@ -225,6 +230,7 @@ limitations under the License.
       }
       gr-commit-info {
         display: inline-block;
+        margin-right: -5px;
       }
       @media screen and (min-width: 80em) {
         .commitMessage {
@@ -327,19 +333,22 @@ limitations under the License.
                   status="[[status]]"></gr-change-status>
             </template>
           </div>
+          <div class="statusText">
+            <template
+                is="dom-if"
+                if="[[_computeShowCommitInfo(_changeStatus, _change.current_revision)]]">
+              <span class="text"> as </span>
+              <gr-commit-info
+                  change="[[_change]]"
+                  commit-info="[[_computeMergedCommitInfo(_change.current_revision, _change.revisions)]]"
+                  server-config="[[_serverConfig]]"></gr-commit-info>
+            </template>
+          </div>
+          <span class="separator"></span>
           <div class="changeText">
             <a aria-label$="[[_computeChangePermalinkAriaLabel(_change._number)]]"
-                href$="[[_computeChangeUrl(_change)]]">[[_change._number]]</a><!--
-         --><template
-                is="dom-if"
-                if="[[_computeShowCommitInfo(_changeStatus, _change.current_revision)]]"><!--
-           --><span class="text"> ([[_changeStatus]] as </span><!--
-             --><gr-commit-info
-                    change="[[_change]]"
-                    commit-info="[[_computeMergedCommitInfo(_change.current_revision, _change.revisions)]]"
-                    server-config="[[_serverConfig]]"></gr-commit-info>)<!--
-         --></template><!--
-         --><span class="text">: </span><span class="headerSubject">[[_change.subject]]</span>
+                href$="[[_computeChangeUrl(_change)]]">[[_change._number]]</a>
+            <span class="headerSubject">: [[_change.subject]]</span>
           </div>
         </div><!-- end header-title -->
         <div class="commitActions" hidden$="[[!_loggedIn]]">

@@ -19,6 +19,7 @@
 
     properties: {
       _headerHeight: Number,
+      adminMenu: Boolean,
     },
 
     attached() {
@@ -58,6 +59,10 @@
 
     _getScrollY() {
       return window.scrollY;
+    },
+
+    adminClass(nav) {
+      return nav ? 'show' : '';
     },
   });
 })();

@@ -27,6 +27,7 @@ import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -395,7 +396,8 @@ public class AccountsUpdate {
                       ImmutableSet.of(),
                       Suppliers.ofInstance(ImmutableMap.of()),
                       Suppliers.ofInstance(GeneralPreferencesInfo.defaults()),
-                      Suppliers.ofInstance(DiffPreferencesInfo.defaults()));
+                      Suppliers.ofInstance(DiffPreferencesInfo.defaults()),
+                      Suppliers.ofInstance(EditPreferencesInfo.defaults()));
               InternalAccountUpdate.Builder updateBuilder = InternalAccountUpdate.builder();
               updater.update(accountState, updateBuilder);
 
@@ -647,7 +649,8 @@ public class AccountsUpdate {
               : ImmutableSet.of(),
           Suppliers.memoize(() -> accountConfig.getProjectWatches()),
           Suppliers.memoize(() -> accountConfig.getGeneralPreferences()),
-          Suppliers.memoize(() -> accountConfig.getDiffPreferences()));
+          Suppliers.memoize(() -> accountConfig.getDiffPreferences()),
+          Suppliers.memoize(() -> accountConfig.getEditPreferences()));
     }
 
     public ExternalIdNotes getExternalIdNotes() {

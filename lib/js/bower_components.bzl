@@ -109,6 +109,16 @@ def define_bower_components():
     seed = True,
   )
   bower_component(
+    name = "iron-icons",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":iron-icon",
+      ":iron-iconset-svg",
+      ":polymer",
+    ],
+    seed = True,
+  )
+  bower_component(
     name = "iron-iconset-svg",
     license = "//lib:LICENSE-polymer",
     deps = [

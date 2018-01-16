@@ -1100,10 +1100,24 @@ bower_archive(
 )
 
 bower_archive(
+    name = "paper-icon-button",
+    package = "polymerelements/paper-icon-button",
+    sha1 = "001573e0b31c931055b5ea3bf6cb2b75fa197cf4",
+    version = "2.0.1",
+)
+
+bower_archive(
     name = "iron-icon",
     package = "polymerelements/iron-icon",
     sha1 = "7da49a0d33cd56017740e0dbcf41d2b71532023f",
     version = "2.0.0",
+)
+
+bower_archive(
+    name = "iron-icons",
+    package = "polymerelements/iron-icons",
+    sha1 = "974fef53d17dfb2e75d6e4bbce9646b9dc94703f",
+    version = "2.0.1",
 )
 
 bower_archive(

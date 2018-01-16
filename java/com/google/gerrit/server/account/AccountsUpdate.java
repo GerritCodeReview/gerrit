@@ -75,7 +75,7 @@ public class AccountsUpdate {
    * <p>Allows to read the current state of an account and to prepare updates to it.
    */
   @FunctionalInterface
-  public static interface AccountUpdater {
+  public interface AccountUpdater {
     /**
      * Prepare updates to an account.
      *
@@ -87,11 +87,11 @@ public class AccountsUpdate {
      */
     void update(Account account, InternalAccountUpdate.Builder update);
 
-    public static AccountUpdater join(List<AccountUpdater> updaters) {
+    static AccountUpdater join(List<AccountUpdater> updaters) {
       return (a, u) -> updaters.stream().forEach(updater -> updater.update(a, u));
     }
 
-    public static AccountUpdater joinConsumers(
+    static AccountUpdater joinConsumers(
         List<Consumer<InternalAccountUpdate.Builder>> consumers) {
       return join(Lists.transform(consumers, AccountUpdater::fromConsumer));
     }

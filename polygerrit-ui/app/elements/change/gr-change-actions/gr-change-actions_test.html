@@ -103,9 +103,11 @@ limitations under the License.
     });
 
     test('primary and secondary actions split properly', () => {
+      // Submit should be the only primary action.
       assert.equal(element._topLevelPrimaryActions.length, 1);
       assert.equal(element._topLevelPrimaryActions[0].label, 'Submit');
-      assert.equal(element._topLevelSecondaryActions.length, 1);
+      assert.equal(element._topLevelSecondaryActions.length,
+          element._topLevelActions.length - 1);
     });
 
     test('_shouldHideActions', () => {
@@ -143,11 +145,9 @@ limitations under the License.
     });
 
     test('not supported actions are filtered out', () => {
-      element.revisionActions = {
-        followup: {
-        },
-      };
-      assert.equal(element.querySelectorAll('section gr-button').length, 0);
+      element.revisionActions = {followup: {}};
+      assert.equal(element.querySelectorAll(
+          'section gr-button[data-action-type="revision"]').length, 0);
     });
 
     test('getActionDetails', () => {
@@ -194,7 +194,11 @@ limitations under the License.
         const buttonEls = Polymer.dom(element.root)
             .querySelectorAll('gr-button');
         const menuItems = element.$.moreActions.items;
-        assert.equal(buttonEls.length + menuItems.length, 6);
+
+        // Total button number is one greater than the number of total actions
+        // due to the existence of the overflow menu trigger.
+        assert.equal(buttonEls.length + menuItems.length,
+            element._allActionValues.length + 1);
         assert.isFalse(element.hidden);
         done();
       });
@@ -392,133 +396,93 @@ limitations under the License.
     });
 
     suite('change edits', () => {
-      let fireActionStub;
-      const deleteEditAction = {
-        enabled: true,
-        label: 'Delete edit',
-        title: 'Delete change edit',
-        __key: 'deleteEdit',
-        __primary: false,
-        __type: 'change',
-        method: 'DELETE',
-      };
-      const publishEditAction = {
-        enabled: true,
-        label: 'Publish edit',
-        title: 'Publish change edit',
-        __key: 'publishEdit',
-        __primary: false,
-        __type: 'change',
-        method: 'POST',
-      };
-      const rebaseEditAction = {
-        enabled: true,
-        label: 'Rebase edit',
-        title: 'Rebase change edit',
-        __key: 'rebaseEdit',
-        __primary: false,
-        __type: 'change',
-        method: 'POST',
-      };
-
-      setup(() => {
-        fireActionStub = sandbox.stub(element, '_fireAction');
-        element.latestPatchNum = 'edit';
-        element.editLoaded = true;
-      });
-
-      test('does not delete edit on action', () => {
-        element._handleDeleteEditTap();
-        assert.isFalse(fireActionStub.called);
-      });
-
       test('shows confirm dialog for delete edit', () => {
+        element.set('editLoaded', true);
+        element.set('editPatchsetLoaded', true);
+        const fireActionStub = sandbox.stub(element, '_fireAction');
         element._handleDeleteEditTap();
         assert.isFalse(element.$$('#confirmDeleteEditDialog').hidden);
         assert.ok(element.$$('gr-button[data-action-key="deleteEdit"]'));
         MockInteractions.tap(
             element.$$('#confirmDeleteEditDialog').$$('gr-button[primary]'));
         flushAsynchronousOperations();
-        assert.isTrue(
-            fireActionStub.calledWith('/edit', deleteEditAction, false));
-      });
 
-      test('show publish edit but rebaseEdit is hidden', () => {
-        element.change = {
-          status: 'NEW',
-        };
-        const rebaseEditButton =
-            element.$$('gr-button[data-action-key="rebaseEdit"]');
-        assert.isNotOk(rebaseEditButton);
-
-        const publishEditButton =
-            element.$$('gr-button[data-action-key="publishEdit"]');
-        assert.ok(publishEditButton);
-        MockInteractions.tap(publishEditButton);
-        element._handlePublishEditTap();
-        flushAsynchronousOperations();
-
-        assert.isTrue(
-            fireActionStub.calledWith('/edit:publish', publishEditAction, false));
-      });
-
-      test('show rebase edit but publishEdit is hidden', () => {
-        element.change = {
-          status: 'NEW',
-        };
-        element.editBasedOnCurrentPatchSet = false;
-
-        const publishEditButton =
-            element.$$('gr-button[data-action-key="publishEdit"]');
-        assert.isNotOk(publishEditButton);
-
-        const rebaseEditButton =
-            element.$$('gr-button[data-action-key="rebaseEdit"]');
-        assert.ok(rebaseEditButton);
-        MockInteractions.tap(rebaseEditButton);
-        element._handleRebaseEditTap();
-        flushAsynchronousOperations();
-
-        assert.isTrue(
-            fireActionStub.calledWith('/edit:rebase', rebaseEditAction, false));
+        assert.equal(fireActionStub.lastCall.args[0], '/edit');
       });
 
       test('hide publishEdit and rebaseEdit if change is not open', () => {
-        element.change = {
-          status: 'MERGED',
-        };
+        element.set('editLoaded', true);
+        element.set('editPatchsetLoaded', true);
+        element.change = {status: 'MERGED'};
         flushAsynchronousOperations();
 
-        const publishEditButton =
-            element.$$('gr-button[data-action-key="publishEdit"]');
-        assert.isNotOk(publishEditButton);
-
-        const rebaseEditButton =
-            element.$$('gr-button[data-action-key="rebaseEdit"]');
-        assert.isNotOk(rebaseEditButton);
-
-        const deleteEditButton =
-            element.$$('gr-button[data-action-key="deleteEdit"]');
-        assert.ok(deleteEditButton);
+        assert.isNotOk(element.$$('gr-button[data-action-key="publishEdit"]'));
+        assert.isNotOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
+        assert.isOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
       });
 
-      test('do not show delete edit on a non change edit', () => {
-        element.editLoaded = false;
+      test('edit patchset is loaded, needs rebase', () => {
+        element.set('editLoaded', true);
+        element.set('editPatchsetLoaded', true);
+        element.change = {status: 'NEW'};
+        element.editBasedOnCurrentPatchSet = false;
         flushAsynchronousOperations();
-        const deleteEditButton =
-            element.$$('gr-button[data-action-key="deleteEdit"]');
-        assert.isNotOk(deleteEditButton);
+
+        assert.isNotOk(element.$$('gr-button[data-action-key="publishEdit"]'));
+        assert.isOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
+        assert.isOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
+        assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
       });
 
-      test('do not show publish edit on a non change edit', () => {
-        element.change = {
-          status: 'NEW',
-        };
-        element.editLoaded = false;
+      test('edit patchset is loaded, does not need rebase', () => {
+        element.set('editLoaded', true);
+        element.set('editPatchsetLoaded', true);
+        element.change = {status: 'NEW'};
+        element.editBasedOnCurrentPatchSet = true;
         flushAsynchronousOperations();
-        const publishEditButton =
-            element.$$('gr-button[data-action-key="publishEdit"]');
-        assert.isNotOk(publishEditButton);
+
+        assert.isOk(element.$$('gr-button[data-action-key="publishEdit"]'));
+        assert.isNotOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
+        assert.isOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
+        assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
+      });
+
+      test('edit mode is loaded, no edit patchset', () => {
+        element.set('editLoaded', true);
+        element.set('editPatchsetLoaded', false);
+        element.change = {status: 'NEW'};
+        flushAsynchronousOperations();
+
+        assert.isNotOk(element.$$('gr-button[data-action-key="publishEdit"]'));
+        assert.isNotOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
+        assert.isNotOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
+        assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
+      });
+
+      test('normal patch set', () => {
+        element.set('editLoaded', false);
+        element.set('editPatchsetLoaded', false);
+        element.change = {status: 'NEW'};
+        flushAsynchronousOperations();
+
+        assert.isNotOk(element.$$('gr-button[data-action-key="publishEdit"]'));
+        assert.isNotOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
+        assert.isNotOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
+        assert.isOk(element.$$('gr-button[data-action-key="edit"]'));
+      });
+
+      test('edit action', done => {
+        element.addEventListener('edit-tap', () => { done(); });
+        element.set('editLoaded', true);
+        flushAsynchronousOperations();
+
+        assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
+        element.set('editLoaded', false);
+        flushAsynchronousOperations();
+
+        const editButton = element.$$('gr-button[data-action-key="edit"]');
+        assert.isOk(editButton);
+        MockInteractions.tap(editButton);
       });
     });
 

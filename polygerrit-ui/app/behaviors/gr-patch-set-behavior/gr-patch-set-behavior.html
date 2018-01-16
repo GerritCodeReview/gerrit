@@ -208,6 +208,13 @@ limitations under the License.
       return allPatchSets[0].num === Gerrit.PatchSetBehavior.EDIT_NAME;
     },
 
+    /** @return {Boolean} */
+    hasEditPatchsetLoaded(patchRange) {
+      if (!patchRange) { return false; }
+      return patchRange.patchNum === Gerrit.PatchSetBehavior.EDIT_NAME ||
+          patchRange.basePatchNum === Gerrit.PatchSetBehavior.EDIT_NAME;
+    },
+
     /**
      * Check whether there is no newer patch than the latest patch that was
      * available when this change was loaded.

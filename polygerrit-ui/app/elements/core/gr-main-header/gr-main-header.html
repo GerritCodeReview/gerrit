@@ -20,6 +20,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
+<link rel="import" href="../../shared/gr-icons/gr-icons.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-account-dropdown/gr-account-dropdown.html">
 <link rel="import" href="../gr-search-bar/gr-search-bar.html">
@@ -124,13 +125,18 @@ limitations under the License.
         background-color: #fff;
         box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
       }
+      .mobile {
+        display: none;
+      }
+      .adminView {
+        display: none;
+      }
       @media screen and (max-width: 50em) {
         .bigTitle {
           font-size: var(--font-size-large);
           font-family: var(--font-family-bold);
         }
         gr-search-bar,
-        .browse,
         .rightItems .hideOnMobile,
         .links > li.hideOnMobile {
           display: none;
@@ -141,9 +147,19 @@ limitations under the License.
         gr-dropdown {
           padding: .5em 0 .5em .5em;
         }
+        .mobile {
+          display: block;
+          margin: 1em;
+        }
       }
     </style>
     <nav>
+      <gr-button
+          link
+          class$="menu-button mobile adminView [[_hideAdminButton(adminView)]]"
+          on-tap="_computeAdminBoolean"
+          hidden="[[_hideAdminButton(adminView)]]"><iron-icon icon="gr-icons:menu"></iron-icon>
+      </gr-button>
       <a href$="[[_computeRelativeURL('/')]]" class="bigTitle">
         <gr-endpoint-decorator name="header-title">
           <span class="titleText"></span>

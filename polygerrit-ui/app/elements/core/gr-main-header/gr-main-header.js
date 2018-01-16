@@ -103,6 +103,15 @@
         type: Array,
         value() { return []; },
       },
+      adminMenu: {
+        type: Boolean,
+        value: false,
+        notify: true,
+      },
+      adminView: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -234,6 +243,18 @@
     _isSupportedLink(linkObj) {
       // Groups are not yet supported.
       return !linkObj.url.startsWith('/groups');
+    },
+
+    _computeAdminBoolean() {
+      if (this.adminMenu) {
+        this.adminMenu = false;
+      } else {
+        this.adminMenu = true;
+      }
+    },
+
+    _hideAdminButton(view) {
+      return !view ? 'hide' : '';
     },
   });
 })();

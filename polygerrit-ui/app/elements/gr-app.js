@@ -88,6 +88,7 @@
         computed: '_computePluginScreenName(params)',
       },
       _settingsUrl: String,
+      adminMenu: Boolean,
     },
 
     listeners: {

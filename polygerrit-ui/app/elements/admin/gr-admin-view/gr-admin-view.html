@@ -41,9 +41,24 @@ limitations under the License.
 <dom-module id="gr-admin-view">
   <template>
     <style include="shared-styles"></style>
-    <style include="gr-menu-page-styles"></style>
+    <style include="gr-menu-page-styles">
+      main.adminMobile {
+        margin: 2em auto;
+      }
+      main.table.adminMobile {
+        margin-top: 0;
+        margin-right: 0;
+        margin-left: 14em;
+        max-width: none;
+      }
+      @media only screen and (max-width: 50em) {
+        main.adminMobile {
+          margin: 2em 0 2em 15em;
+        }
+      }
+    </style>
     <style include="gr-page-nav-styles"></style>
-    <gr-page-nav class="navStyles">
+    <gr-page-nav class="navStyles" admin-menu="[[adminMenu]]">
       <ul class="sectionContent">
         <template id="adminNav" is="dom-repeat" items="[[_filteredLinks]]">
           <li class$="sectionTitle [[_computeSelectedClass(item.view, params)]]">
@@ -75,68 +90,68 @@ limitations under the License.
       </ul>
     </gr-page-nav>
     <template is="dom-if" if="[[_showRepoList]]" restamp="true">
-      <main class="table">
+      <main class$="table [[_adminMobile(adminMenu)]]">
         <gr-repo-list class="table" params="[[params]]"></gr-repo-list>
       </main>
     </template>
     <template is="dom-if" if="[[_showRepoMain]]" restamp="true">
-      <main>
+      <main class$="[[_adminMobile(adminMenu)]]">
         <gr-repo repo="[[params.repo]]"></gr-repo>
       </main>
     </template>
     <template is="dom-if" if="[[_showGroup]]" restamp="true">
-      <main>
+      <main class$="[[_adminMobile(adminMenu)]]">
         <gr-group
             group-id="[[params.groupId]]"
             on-name-changed="_updateGroupName"></gr-group>
       </main>
     </template>
     <template is="dom-if" if="[[_showGroupMembers]]" restamp="true">
-      <main>
+      <main class$="[[_adminMobile(adminMenu)]]">
         <gr-group-members
             group-id="[[params.groupId]]"></gr-group-members>
       </main>
     </template>
     <template is="dom-if" if="[[_showGroupList]]" restamp="true">
-      <main class="table">
+      <main class$="table [[_adminMobile(adminMenu)]]">
         <gr-admin-group-list class="table" params="[[params]]">
         </gr-admin-group-list>
       </main>
     </template>
     <template is="dom-if" if="[[_showPluginList]]" restamp="true">
-      <main class="table">
+      <main class$="table [[_adminMobile(adminMenu)]]">
         <gr-plugin-list class="table" params="[[params]]"></gr-plugin-list>
       </main>
     </template>
     <template is="dom-if" if="[[_showRepoDetailList]]" restamp="true">
-      <main class="table">
+      <main class$="table [[_adminMobile(adminMenu)]]">
         <gr-repo-detail-list
             params="[[params]]"
             class="table"></gr-repo-detail-list>
       </main>
     </template>
     <template is="dom-if" if="[[_showGroupAuditLog]]" restamp="true">
-      <main class="table">
+      <main class$="table [[_adminMobile(adminMenu)]]">
         <gr-group-audit-log
             group-id="[[params.groupId]]"
             class="table"></gr-group-audit-log>
       </main>
     </template>
     <template is="dom-if" if="[[_showRepoCommands]]" restamp="true">
-      <main>
+      <main class$="[[_adminMobile(adminMenu)]]">
         <gr-repo-commands
             repo="[[params.repo]]"></gr-repo-commands>
       </main>
     </template>
     <template is="dom-if" if="[[_showRepoAccess]]" restamp="true">
-      <main class="table">
+      <main class$="table [[_adminMobile(adminMenu)]]">
         <gr-repo-access
             path="[[path]]"
             repo="[[params.repo]]"></gr-repo-access>
       </main>
     </template>
     <template is="dom-if" if="[[_showRepoDashboards]]" restamp="true">
-      <main class="table">
+      <main class$="table [[_adminMobile(adminMenu)]]">
         <gr-repo-dashboards repo="[[params.repo]]"></gr-repo-dashboards>
       </main>
     </template>

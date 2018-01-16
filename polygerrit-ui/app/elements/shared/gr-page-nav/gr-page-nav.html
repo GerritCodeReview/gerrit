@@ -34,12 +34,16 @@ limitations under the License.
         position: fixed;
       }
       @media only screen and (max-width: 53em) {
-        #nav {
+        .nav {
           display: none;
+        }
+        .nav.show {
+          display: block;
+          z-index: 10;
         }
       }
     </style>
-    <nav id="nav">
+    <nav id="nav" class$="nav [[adminClass(adminMenu)]]">
       <slot></slot>
     </nav>
   </template>

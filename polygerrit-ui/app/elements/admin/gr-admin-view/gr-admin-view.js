@@ -86,6 +86,7 @@
       _showRepoMain: Boolean,
       _showRepoList: Boolean,
       _showPluginList: Boolean,
+      adminMenu: Boolean,
     },
 
     behaviors: [
@@ -338,6 +339,10 @@
     _updateGroupName(e) {
       this._groupName = e.detail.name;
       this.reload();
+    },
+
+    _adminMobile(mobile) {
+      return mobile ? 'adminMobile' : '';
     },
   });
 })();

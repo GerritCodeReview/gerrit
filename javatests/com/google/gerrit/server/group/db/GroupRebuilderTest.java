@@ -536,7 +536,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     try (ObjectInserter inserter = repo.newObjectInserter()) {
       ImmutableList<GroupReference> refs =
           ImmutableList.of(GroupReference.forGroup(g1), GroupReference.forGroup(g2));
-      GroupNameNotes.updateGroupNames(repo, inserter, bru, refs, newPersonIdent());
+      GroupNameNotes.updateAllGroups(repo, inserter, bru, refs, newPersonIdent());
       inserter.flush();
     }
 
@@ -552,7 +552,9 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     assertMigratedCleanly(reload(g1), b1);
     assertMigratedCleanly(reload(g2), b2);
 
-    assertThat(GroupTestUtil.readNameToUuidMap(repo)).containsExactly("a", "a-1", "b", "b-2");
+    GroupReference group1 = GroupReference.forGroup(g1);
+    GroupReference group2 = GroupReference.forGroup(g2);
+    assertThat(GroupNameNotes.loadAllGroups(repo)).containsExactly(group1, group2);
   }
 
   @Test

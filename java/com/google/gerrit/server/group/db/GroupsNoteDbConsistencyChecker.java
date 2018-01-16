@@ -218,7 +218,7 @@ public class GroupsNoteDbConsistencyChecker {
       Repository allUsersRepo, InternalGroup group) throws IOException {
     List<ConsistencyCheckInfo.ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
-            allUsersRepo, group.getName(), group.getGroupUUID());
+            allUsersRepo, group.getNameKey(), group.getGroupUUID());
     problems.forEach(GroupsNoteDbConsistencyChecker::logConsistencyProblem);
   }
 
@@ -232,10 +232,10 @@ public class GroupsNoteDbConsistencyChecker {
    */
   @VisibleForTesting
   static List<ConsistencyProblemInfo> checkWithGroupNameNotes(
-      Repository allUsersRepo, String groupName, AccountGroup.UUID groupUUID) throws IOException {
+      Repository allUsersRepo, AccountGroup.NameKey groupName, AccountGroup.UUID groupUUID)
+      throws IOException {
     try {
-      Optional<GroupReference> groupRef =
-          GroupNameNotes.loadOneGroupReference(allUsersRepo, groupName);
+      Optional<GroupReference> groupRef = GroupNameNotes.loadGroup(allUsersRepo, groupName);
 
       if (!groupRef.isPresent()) {
         return ImmutableList.of(
@@ -243,7 +243,6 @@ public class GroupsNoteDbConsistencyChecker {
       }
 
       AccountGroup.UUID uuid = groupRef.get().getUUID();
-      String name = groupRef.get().getName();
 
       List<ConsistencyProblemInfo> problems = new ArrayList<>();
       if (!Objects.equals(groupUUID, uuid)) {
@@ -253,9 +252,11 @@ public class GroupsNoteDbConsistencyChecker {
                 groupName, groupUUID, uuid));
       }
 
-      if (!Objects.equals(groupName, name)) {
+      String name = groupName.get();
+      String actualName = groupRef.get().getName();
+      if (!Objects.equals(name, actualName)) {
         problems.add(
-            warning("group note of name '%s' claims to represent name of '%s'", groupName, name));
+            warning("group note of name '%s' claims to represent name of '%s'", name, actualName));
       }
       return problems;
     } catch (ConfigInvalidException e) {

@@ -109,6 +109,16 @@ def define_bower_components():
     seed = True,
   )
   bower_component(
+    name = "iron-icons",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":iron-icon",
+      ":iron-iconset-svg",
+      ":polymer",
+    ],
+    seed = True,
+  )
+  bower_component(
     name = "iron-iconset-svg",
     license = "//lib:LICENSE-polymer",
     deps = [
@@ -222,6 +232,17 @@ def define_bower_components():
     license = "//lib:LICENSE-polymer",
     deps = [
       ":iron-flex-layout",
+      ":paper-behaviors",
+      ":paper-styles",
+      ":polymer",
+    ],
+    seed = True,
+  )
+  bower_component(
+    name = "paper-icon-button",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":iron-icons",
       ":paper-behaviors",
       ":paper-styles",
       ":polymer",

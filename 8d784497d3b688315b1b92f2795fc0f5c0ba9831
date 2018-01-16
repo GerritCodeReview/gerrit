@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af148ad0_3fa0ffdd",
+        "filename": "javatests/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-16T23:24:06Z",
+      "side": 1,
+      "message": "Optional: There might be a more concise way of writing this.",
+      "range": {
+        "startLine": 531,
+        "startChar": 4,
+        "endLine": 535,
+        "endChar": 97
+      },
+      "revId": "8d784497d3b688315b1b92f2795fc0f5c0ba9831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b8a35cc_eb35844a",
+        "filename": "javatests/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-16T23:24:06Z",
+      "side": 1,
+      "message": "This message doesn\u0027t seem right.  If there is no match defined should\u0027t it throw a message similar to the one in the next test?\n\nThis should be fixed in a separate commit, though.",
+      "range": {
+        "startLine": 576,
+        "startChar": 19,
+        "endLine": 576,
+        "endChar": 51
+      },
+      "revId": "8d784497d3b688315b1b92f2795fc0f5c0ba9831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -198,7 +198,7 @@
         type: Boolean,
         observer: '_computeChainState',
       },
-      patchNum: String,
+      latestPatchNum: String,
       commitMessage: {
         type: String,
         value: '',
@@ -340,7 +340,7 @@
     },
 
     reload() {
-      if (!this.changeNum || !this.patchNum) {
+      if (!this.changeNum || !this.latestPatchNum) {
         return Promise.resolve();
       }
 
@@ -460,7 +460,7 @@
 
     _getRevisionActions() {
       return this.$.restAPI.getChangeRevisionActions(this.changeNum,
-          this.patchNum);
+          this.latestPatchNum);
     },
 
     _shouldHideActions(actions, loading) {
@@ -659,7 +659,7 @@
 
     _populateActionUrl(action) {
       const patchNum =
-            action.__type === ActionType.REVISION ? this.patchNum : null;
+            action.__type === ActionType.REVISION ? this.latestPatchNum : null;
       this.$.restAPI.getChangeActionURL(
           this.changeNum, patchNum, '/' + action.__key)
           .then(url => action.__url = url);
@@ -697,12 +697,12 @@
 
     _canSubmitChange() {
       return this.$.jsAPI.canSubmitChange(this.change,
-          this._getRevision(this.change, this.patchNum));
+          this._getRevision(this.change, this.latestPatchNum));
     },
 
     _getRevision(change, patchNum) {
       for (const rev of Object.values(change.revisions)) {
-        if (this.patchNumEquals(rev._number, patchNum)) {
+        if (this.latestPatchNumEquals(rev._number, patchNum)) {
           return rev;
         }
       }
@@ -1069,7 +1069,7 @@
 
               return Promise.resolve();
             }
-            const patchNum = revisionAction ? this.patchNum : null;
+            const patchNum = revisionAction ? this.latestPatchNum : null;
             return this.$.restAPI.getChangeURLAndSend(this.changeNum, method,
                 patchNum, actionEndpoint, payload, handleError, this)
                 .then(response => {

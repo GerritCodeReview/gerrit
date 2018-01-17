@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.api.config;
 
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -33,6 +34,10 @@ public interface Server {
   DiffPreferencesInfo getDefaultDiffPreferences() throws RestApiException;
 
   DiffPreferencesInfo setDefaultDiffPreferences(DiffPreferencesInfo in) throws RestApiException;
+
+  EditPreferencesInfo getDefaultEditPreferences() throws RestApiException;
+
+  EditPreferencesInfo setDefaultEditPreferences(EditPreferencesInfo in) throws RestApiException;
 
   ConsistencyCheckInfo checkConsistency(ConsistencyCheckInput in) throws RestApiException;
 
@@ -69,6 +74,17 @@ public interface Server {
 
     @Override
     public DiffPreferencesInfo setDefaultDiffPreferences(DiffPreferencesInfo in)
+        throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public EditPreferencesInfo getDefaultEditPreferences() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public EditPreferencesInfo setDefaultEditPreferences(EditPreferencesInfo in)
         throws RestApiException {
       throw new NotImplementedException();
     }

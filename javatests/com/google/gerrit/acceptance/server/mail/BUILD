@@ -11,7 +11,10 @@ acceptance_tests(
         exclude = ["AbstractMailIT.java"],
     ),
     group = "server_mail",
-    labels = ["server"],
+    labels = [
+        "no_windows",
+        "server",
+    ],
     deps = DEPS + [":util"],
 )
 

@@ -3,7 +3,10 @@ load("//javatests/com/google/gerrit/acceptance:tests.bzl", "acceptance_tests")
 acceptance_tests(
     srcs = glob(["*IT.java"]),
     group = "pgm",
-    labels = ["pgm"],
+    labels = [
+        "pgm",
+        "no_windows",
+    ],
     vm_args = ["-Xmx512m"],
     deps = [
         ":util",

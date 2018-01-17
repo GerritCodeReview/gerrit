@@ -22,6 +22,7 @@ junit_tests(
 junit_tests(
     name = "server_tests",
     srcs = SERVER_TEST_SRCS,
+    tags = ["no_windows"],
     deps = [
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/common:version",

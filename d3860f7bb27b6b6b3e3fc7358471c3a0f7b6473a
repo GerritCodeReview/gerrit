@@ -22,6 +22,30 @@
       "revId": "d3860f7bb27b6b6b3e3fc7358471c3a0f7b6473a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2695a9c6_4377ad36",
+        "filename": "java/com/google/gerrit/acceptance/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-17T14:22:44Z",
+      "side": 1,
+      "message": "I don\u0027t know what it means, but maybe someone else does. \n\nBuildifier doesn\u0027t reorder across comments.",
+      "parentUuid": "331df70d_6d6eddb7",
+      "range": {
+        "startLine": 110,
+        "startChar": 8,
+        "endLine": 110,
+        "endChar": 48
+      },
+      "revId": "d3860f7bb27b6b6b3e3fc7358471c3a0f7b6473a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

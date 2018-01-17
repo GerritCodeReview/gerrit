@@ -76,11 +76,11 @@ import org.eclipse.jgit.lib.Config;
  *
  * <p>The project watches are lazily parsed.
  */
-public class WatchConfig {
+public class ProjectWatches {
   @AutoValue
   public abstract static class ProjectWatchKey {
     public static ProjectWatchKey create(Project.NameKey project, @Nullable String filter) {
-      return new AutoValue_WatchConfig_ProjectWatchKey(project, Strings.emptyToNull(filter));
+      return new AutoValue_ProjectWatches_ProjectWatchKey(project, Strings.emptyToNull(filter));
     }
 
     public abstract Project.NameKey project();
@@ -111,7 +111,7 @@ public class WatchConfig {
 
   private ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches;
 
-  public WatchConfig(Account.Id accountId, Config cfg, ValidationError.Sink validationErrorSink) {
+  public ProjectWatches(Account.Id accountId, Config cfg, ValidationError.Sink validationErrorSink) {
     this.accountId = checkNotNull(accountId, "accountId");
     this.cfg = checkNotNull(cfg, "cfg");
     this.validationErrorSink = checkNotNull(validationErrorSink, "validationErrorSink");
@@ -256,7 +256,7 @@ public class WatchConfig {
     }
 
     public static NotifyValue create(@Nullable String filter, Collection<NotifyType> notifyTypes) {
-      return new AutoValue_WatchConfig_NotifyValue(
+      return new AutoValue_ProjectWatches_NotifyValue(
           Strings.emptyToNull(filter), Sets.immutableEnumSet(notifyTypes));
     }
 

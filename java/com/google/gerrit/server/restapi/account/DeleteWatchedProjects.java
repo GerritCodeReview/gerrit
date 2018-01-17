@@ -26,7 +26,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
-import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
+import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;

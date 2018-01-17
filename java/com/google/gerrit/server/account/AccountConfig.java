@@ -27,8 +27,8 @@ import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.account.WatchConfig.NotifyType;
-import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
+import com.google.gerrit.server.account.ProjectWatches.NotifyType;
+import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ValidationError;
@@ -88,12 +88,12 @@ import org.eclipse.jgit.revwalk.RevSort;
  * doesn't exist).
  *
  * <p>The preferences are stored in a 'preferences.config' config file. Parsing and updating it is
- * implemented by {@link PreferencesConfig} and this class delegates the handling of preferences to
- * {@link PreferencesConfig}.
+ * implemented by {@link Preferences} and this class delegates the handling of preferences to {@link
+ * Preferences}.
  *
  * <p>The project watches are stored in a 'watch.config' config file. Parsing and updating it is
- * implemented by {@link WatchConfig} and this class delegates the handling of project watches to
- * {@link WatchConfig}.
+ * implemented by {@link ProjectWatches} and this class delegates the handling of project watches to
+ * {@link ProjectWatches}.
  *
  * <p>By default preferences and project watches are lazily parsed on need. Eager parsing can be
  * requested by {@link #setEagerParsing(boolean)}.
@@ -112,8 +112,8 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
 
   private Optional<Account> loadedAccount;
   private Optional<ObjectId> externalIdsRev;
-  private WatchConfig watchConfig;
-  private PreferencesConfig prefConfig;
+  private ProjectWatches projectWatches;
+  private Preferences preferences;
   private Optional<InternalAccountUpdate> accountUpdate = Optional.empty();
   private Timestamp registeredOn;
   private boolean eagerParsing;
@@ -183,7 +183,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    */
   public ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> getProjectWatches() {
     checkLoaded();
-    return watchConfig.getProjectWatches();
+    return projectWatches.getProjectWatches();
   }
 
   /**
@@ -193,7 +193,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    */
   public GeneralPreferencesInfo getGeneralPreferences() {
     checkLoaded();
-    return prefConfig.getGeneralPreferences();
+    return preferences.getGeneralPreferences();
   }
 
   /**
@@ -203,7 +203,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    */
   public DiffPreferencesInfo getDiffPreferences() {
     checkLoaded();
-    return prefConfig.getDiffPreferences();
+    return preferences.getDiffPreferences();
   }
 
   /**
@@ -213,7 +213,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    */
   public EditPreferencesInfo getEditPreferences() {
     checkLoaded();
-    return prefConfig.getEditPreferences();
+    return preferences.getEditPreferences();
   }
 
   /**
@@ -281,27 +281,26 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
       Config accountConfig = readConfig(ACCOUNT_CONFIG);
       loadedAccount = Optional.of(parse(accountConfig, revision.name()));
 
-      watchConfig = new WatchConfig(accountId, readConfig(WatchConfig.WATCH_CONFIG), this);
+      projectWatches = new ProjectWatches(accountId, readConfig(ProjectWatches.WATCH_CONFIG), this);
 
-      prefConfig =
-          new PreferencesConfig(
+      preferences =
+          new Preferences(
               accountId,
-              readConfig(PreferencesConfig.PREFERENCES_CONFIG),
-              PreferencesConfig.readDefaultConfig(repo),
+              readConfig(Preferences.PREFERENCES_CONFIG),
+              Preferences.readDefaultConfig(repo),
               this);
 
       if (eagerParsing) {
-        watchConfig.parse();
-        prefConfig.parse();
+        projectWatches.parse();
+        preferences.parse();
       }
     } else {
       loadedAccount = Optional.empty();
 
-      watchConfig = new WatchConfig(accountId, new Config(), this);
+      projectWatches = new ProjectWatches(accountId, new Config(), this);
 
-      prefConfig =
-          new PreferencesConfig(
-              accountId, new Config(), PreferencesConfig.readDefaultConfig(repo), this);
+      preferences =
+          new Preferences(accountId, new Config(), Preferences.readDefaultConfig(repo), this);
     }
 
     Ref externalIdsRef = repo.exactRef(RefNames.REFS_EXTERNAL_IDS);
@@ -383,14 +382,14 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     if (accountUpdate.isPresent()
         && (!accountUpdate.get().getDeletedProjectWatches().isEmpty()
             || !accountUpdate.get().getUpdatedProjectWatches().isEmpty())) {
-      Map<ProjectWatchKey, Set<NotifyType>> projectWatches =
-          new HashMap<>(watchConfig.getProjectWatches());
-      accountUpdate.get().getDeletedProjectWatches().forEach(pw -> projectWatches.remove(pw));
+      Map<ProjectWatchKey, Set<NotifyType>> newProjectWatches =
+          new HashMap<>(projectWatches.getProjectWatches());
+      accountUpdate.get().getDeletedProjectWatches().forEach(pw -> newProjectWatches.remove(pw));
       accountUpdate
           .get()
           .getUpdatedProjectWatches()
-          .forEach((pw, nt) -> projectWatches.put(pw, nt));
-      saveConfig(WatchConfig.WATCH_CONFIG, watchConfig.save(projectWatches));
+          .forEach((pw, nt) -> newProjectWatches.put(pw, nt));
+      saveConfig(ProjectWatches.WATCH_CONFIG, projectWatches.save(newProjectWatches));
     }
   }
 
@@ -403,8 +402,8 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     }
 
     saveConfig(
-        PreferencesConfig.PREFERENCES_CONFIG,
-        prefConfig.saveGeneralPreferences(
+        Preferences.PREFERENCES_CONFIG,
+        preferences.saveGeneralPreferences(
             accountUpdate.get().getGeneralPreferences(),
             accountUpdate.get().getDiffPreferences(),
             accountUpdate.get().getEditPreferences()));

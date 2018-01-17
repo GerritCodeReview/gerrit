@@ -28,7 +28,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountConfig;
+import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.PluginConfig;
@@ -276,7 +276,7 @@ public class MergeValidators {
           changeDataFactory.create(
               dbProvider.get(), destProject.getProject().getNameKey(), patchSetId.getParentKey());
       try {
-        if (!cd.currentFilePaths().contains(AccountConfig.ACCOUNT_CONFIG)) {
+        if (!cd.currentFilePaths().contains(AccountProperties.ACCOUNT_CONFIG)) {
           return;
         }
       } catch (IOException | OrmException e) {

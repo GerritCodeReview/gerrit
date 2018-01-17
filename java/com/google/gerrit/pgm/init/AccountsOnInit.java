@@ -22,7 +22,7 @@ import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdentProvider;
-import com.google.gerrit.server.account.AccountConfig;
+import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.InternalAccountUpdate;
 import com.google.gerrit.server.config.SitePaths;
@@ -70,7 +70,7 @@ public class AccountsOnInit {
                 new GerritPersonIdentProvider(flags.cfg).get(), account.getRegisteredOn());
 
         Config accountConfig = new Config();
-        AccountConfig.writeToAccountConfig(
+        AccountProperties.writeToAccountConfig(
             InternalAccountUpdate.builder()
                 .setActive(account.isActive())
                 .setFullName(account.getFullName())
@@ -84,7 +84,7 @@ public class AccountsOnInit {
         final ObjectId blobId =
             oi.insert(Constants.OBJ_BLOB, accountConfig.toText().getBytes(UTF_8));
         editor.add(
-            new PathEdit(AccountConfig.ACCOUNT_CONFIG) {
+            new PathEdit(AccountProperties.ACCOUNT_CONFIG) {
               @Override
               public void apply(DirCacheEntry ent) {
                 ent.setFileMode(FileMode.REGULAR_FILE);

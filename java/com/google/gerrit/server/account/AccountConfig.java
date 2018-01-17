@@ -53,8 +53,16 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 
 /**
- * ‘account.config’ file in the user branch in the All-Users repository that contains the properties
- * of the account.
+ * Reads/writes account data from/to a user branch in the {@code All-Users} repository.
+ *
+ * <p>This is the low-level API for account creation and account updates. Most callers should use
+ * {@link AccountsUpdate} for creating and updating accounts.
+ *
+ * <p>This class can read/write account properties, preferences (general, diff and edit preferences)
+ * and project watches.
+ *
+ * <p>The account properties are stored in an 'account.config' config file. Parsing and updating it
+ * is implemented in this class.
  *
  * <p>The 'account.config' file is a git config file that has one 'account' section with the
  * properties of the account:
@@ -78,6 +86,17 @@ import org.eclipse.jgit.revwalk.RevSort;
  * <p>The commit date of the first commit on the user branch is used as registration date of the
  * account. The first commit may be an empty commit (if no properties were set and 'account.config'
  * doesn't exist).
+ *
+ * <p>The preferences are stored in a 'preferences.config' config file. Parsing and updating it is
+ * implemented by {@link PreferencesConfig} and this class delegates the handling of preferences to
+ * {@link PreferencesConfig}.
+ *
+ * <p>The project watches are stored in a 'watch.config' config file. Parsing and updating it is
+ * implemented by {@link WatchConfig} and this class delegates the handling of project watches to
+ * {@link WatchConfig}.
+ *
+ * <p>By default preferences and project watches are lazily parsed on need. Eager parsing can be
+ * requested by {@link #setEagerParsing(boolean)}.
  */
 public class AccountConfig extends VersionedMetaData implements ValidationError.Sink {
   public static final String ACCOUNT_CONFIG = "account.config";

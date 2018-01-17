@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1516087026 +0100\nnonce AGjzz3+5iXH01QvFVncFMtggMzNLIl8XLVWlEgE2cHaYv1HiNa9z3C/kWa2vBrjJk3G5BdWXFyKi\n\n0000000000000000000000000000000000000000 a62b8088daf55ece9b602a5fd57418d0d33342cb refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaXabyAAoJEFG1/Zeg0O9RInsH+wehuspaUASaWvbdWzaAm0Jj\n84UMxm6zCDEC+75mr/d9oEqzZZv0mqQz5xpEf28Auqav7MJUaRrnCX/sE0CWFzSs\nkFNa6SqH7umdBYg0owRXItAxqwg1qfLXsfQsblR3ox1QVlqWBNOuW8A4C+205DL9\ngQrDmPLeNvFNvRjEpgIDg6/WlcWnvfMdZ85ZsLgaAO8QerU+/l77wu3y9iSa+2RX\nsH9KlpXgov+WelNW+ex4nOBJXyfp81tw2u5dVGbhJg+abgBtSL4oFwf0TEsb0hiC\nPAFjCqIeM6hiSC5ZoljuI1bjimcHn4cQ+LbtnDYoqg8ALUrUtj9283tlmWY4b90\u003d\n\u003dKTuP\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "615e60f9_84ad2756",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2989,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-17T17:43:53Z",
+      "side": 1,
+      "message": "Optional idea for future cleanup: if update returns an Optional\u003cAccountState\u003e then this can be chained as:\n\n .ifPresent(a -\u003e user.getAccount().setFullName(a.getAccount().getFullName());",
+      "revId": "0b06ad087babddd41e7cce6d06d29ae0b08cbe53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

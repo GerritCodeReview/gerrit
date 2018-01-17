@@ -14,6 +14,15 @@ mkdir -p $t/test
 cp $index $t/test/
 cp $tests $t/test/
 
+if [ $WCT_HEADLESS_MODE = 1 ]
+then;
+  BROWSER_OPTIONS_CHROME=[\'start-maximized\',\'headless\',\'disable-gpu\',\'no-sandbox\']
+  BROWSER_OPTIONS_FIREFOX=[\'--headless\']
+else
+  BROWSER_OPTIONS_CHROME=[\'\']
+  BROWSER_OPTIONS_FIREFOX=[\'\']
+fi
+
 # For some reason wct tries to install selenium into its node_modules
 # directory on first run. If you've installed into /usr/local and
 # aren't running wct as root, you're screwed. Turning this option off
@@ -33,7 +42,11 @@ module.exports = {
       },
       'plugins': {
         'local': {
-          'skipSeleniumInstall': true
+          'skipSeleniumInstall': true,
+          'browserOptions': {
+            'chrome': ${BROWSER_OPTIONS},
+            'firefox': ${BROWSER_OPTIONS_FIREFOX}
+          }
         },
         'sauce': {
           'disabled': true,

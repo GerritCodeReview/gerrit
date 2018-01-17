@@ -29,6 +29,8 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountConfig;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.inject.Inject;
@@ -58,6 +60,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * {@link VersionedMetaData} subclass to update external IDs.
+ *
+ * <p>This is a low-level API. Read/write of external IDs should be done through {@link
+ * AccountsUpdate} or {@link AccountConfig}.
  *
  * <p>On load the note map from {@code refs/meta/external-ids} is read, but the external IDs are not
  * parsed yet (see {@link #onLoad()}).

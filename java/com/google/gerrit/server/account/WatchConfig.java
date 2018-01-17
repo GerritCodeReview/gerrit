@@ -43,11 +43,12 @@ import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 
 /**
- * ‘watch.config’ file in the user branch in the All-Users repository that contains the watch
- * configuration of the user.
+ * Parses/writes project watches from/to a {@link Config} file.
  *
- * <p>The 'watch.config' file is a git config file that has one 'project' section for all project
- * watches of a project.
+ * <p>This is a low-level API. Read/write of project watches in a user branch should be done through
+ * {@link AccountsUpdate} or {@link AccountConfig}.
+ *
+ * <p>The config file has one 'project' section for all project watches of a project.
  *
  * <p>The project name is used as subsection name and the filters with the notify types that decide
  * for which events email notifications should be sent are represented as 'notify' values in the
@@ -72,6 +73,8 @@ import org.eclipse.jgit.lib.Config;
  * </pre>
  *
  * <p>Unknown notify types are ignored and removed on save.
+ *
+ * <p>The project watches are lazily parsed.
  */
 public class WatchConfig {
   @AutoValue

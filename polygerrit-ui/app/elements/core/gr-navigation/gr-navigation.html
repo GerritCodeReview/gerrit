@@ -319,10 +319,12 @@ limitations under the License.
       /**
        * @param {{ _number: number, project: string }} change The change object.
        * @param {string} path The file path.
+       * @param {number=} opt_patchNum
        * @return {string}
        */
-      getEditUrlForDiff(change, path) {
-        return this.getEditUrlForDiffById(change._number, change.project, path);
+      getEditUrlForDiff(change, path, opt_patchNum) {
+        return this.getEditUrlForDiffById(change._number, change.project, path,
+            opt_patchNum);
       },
 
       /**
@@ -331,13 +333,13 @@ limitations under the License.
        * @param {string} path The file path.
        * @return {string}
        */
-      getEditUrlForDiffById(changeNum, project, path) {
+      getEditUrlForDiffById(changeNum, project, path, opt_patchNum) {
         return this._getUrlFor({
           view: Gerrit.Nav.View.EDIT,
           changeNum,
           project,
           path,
-          patchNum: EDIT_PATCHNUM,
+          patchNum: opt_patchNum || EDIT_PATCHNUM,
         });
       },
 

@@ -41,6 +41,8 @@ public class ConfigRestModule extends RestApiModule {
     put(CONFIG_KIND, "preferences").to(SetPreferences.class);
     get(CONFIG_KIND, "preferences.diff").to(GetDiffPreferences.class);
     put(CONFIG_KIND, "preferences.diff").to(SetDiffPreferences.class);
+    get(CONFIG_KIND, "preferences.edit").to(GetEditPreferences.class);
+    put(CONFIG_KIND, "preferences.edit").to(SetEditPreferences.class);
     put(CONFIG_KIND, "email.confirm").to(ConfirmEmail.class);
   }
 }

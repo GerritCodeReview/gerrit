@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd3dd60d_9ad5cbda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-17T21:04:43Z",
+      "side": 1,
+      "message": "to",
+      "range": {
+        "startLine": 10,
+        "startChar": 41,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "0d88fe359fbf476d5d35abdfec489cfe956a16dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d2ecbb4_37ebf684",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-17T21:04:43Z",
+      "side": 1,
+      "message": "Delete extra whitespace.",
+      "revId": "0d88fe359fbf476d5d35abdfec489cfe956a16dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2ed11dc_f23d02ae",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-17T21:04:43Z",
+      "side": 1,
+      "message": "What is a forEachQuery?",
+      "range": {
+        "startLine": 934,
+        "startChar": 0,
+        "endLine": 949,
+        "endChar": 9
+      },
+      "revId": "0d88fe359fbf476d5d35abdfec489cfe956a16dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfdeb49d_06d0758b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-17T21:04:43Z",
+      "side": 1,
+      "message": "I think this is improperly copied.",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 264,
+        "endChar": 21
+      },
+      "revId": "0d88fe359fbf476d5d35abdfec489cfe956a16dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

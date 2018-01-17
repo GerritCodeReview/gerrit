@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01b47fd9_94ddd50c",
+        "filename": "java/com/google/gerrit/server/group/db/InternalGroupCreation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-17T16:59:43Z",
+      "side": 1,
+      "message": "nit: this is basically repeating your summary line.",
+      "range": {
+        "startLine": 23,
+        "startChar": 3,
+        "endLine": 24,
+        "endChar": 31
+      },
+      "revId": "4d081aadbc96bb587594125f09c27e7e3dc1b1fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c47d5ac0_46aa8553",
+        "filename": "java/com/google/gerrit/server/group/db/InternalGroupCreation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-17T16:59:43Z",
+      "side": 1,
+      "message": "drop",
+      "range": {
+        "startLine": 24,
+        "startChar": 37,
+        "endLine": 24,
+        "endChar": 45
+      },
+      "revId": "4d081aadbc96bb587594125f09c27e7e3dc1b1fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8faee7ff_36a0dee6",
+        "filename": "java/com/google/gerrit/server/group/db/InternalGroupCreation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-17T16:59:43Z",
+      "side": 1,
+      "message": "can you put a link to where this thing should be specified?",
+      "range": {
+        "startLine": 26,
+        "startChar": 83,
+        "endLine": 26,
+        "endChar": 89
+      },
+      "revId": "4d081aadbc96bb587594125f09c27e7e3dc1b1fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e364c91_0a505227",
+        "filename": "java/com/google/gerrit/server/group/db/InternalGroupCreation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-17T16:59:43Z",
+      "side": 1,
+      "message": "it\u0027s unclear what this sentence refers to exactly.",
+      "range": {
+        "startLine": 27,
+        "startChar": 34,
+        "endLine": 28,
+        "endChar": 31
+      },
+      "revId": "4d081aadbc96bb587594125f09c27e7e3dc1b1fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

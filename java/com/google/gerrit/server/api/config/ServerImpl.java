@@ -21,15 +21,18 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
 import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.restapi.config.CheckConsistency;
 import com.google.gerrit.server.restapi.config.GetDiffPreferences;
+import com.google.gerrit.server.restapi.config.GetEditPreferences;
 import com.google.gerrit.server.restapi.config.GetPreferences;
 import com.google.gerrit.server.restapi.config.GetServerInfo;
 import com.google.gerrit.server.restapi.config.SetDiffPreferences;
+import com.google.gerrit.server.restapi.config.SetEditPreferences;
 import com.google.gerrit.server.restapi.config.SetPreferences;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -41,6 +44,8 @@ public class ServerImpl implements Server {
   private final SetPreferences setPreferences;
   private final GetDiffPreferences getDiffPreferences;
   private final SetDiffPreferences setDiffPreferences;
+  private final GetEditPreferences getEditPreferences;
+  private final SetEditPreferences setEditPreferences;
   private final GetServerInfo getServerInfo;
   private final Provider<CheckConsistency> checkConsistency;
 
@@ -50,12 +55,16 @@ public class ServerImpl implements Server {
       SetPreferences setPreferences,
       GetDiffPreferences getDiffPreferences,
       SetDiffPreferences setDiffPreferences,
+      GetEditPreferences getEditPreferences,
+      SetEditPreferences setEditPreferences,
       GetServerInfo getServerInfo,
       Provider<CheckConsistency> checkConsistency) {
     this.getPreferences = getPreferences;
     this.setPreferences = setPreferences;
     this.getDiffPreferences = getDiffPreferences;
     this.setDiffPreferences = setDiffPreferences;
+    this.getEditPreferences = getEditPreferences;
+    this.setEditPreferences = setEditPreferences;
     this.getServerInfo = getServerInfo;
     this.checkConsistency = checkConsistency;
   }
@@ -109,6 +118,25 @@ public class ServerImpl implements Server {
       return setDiffPreferences.apply(new ConfigResource(), in);
     } catch (Exception e) {
       throw asRestApiException("Cannot set default diff preferences", e);
+    }
+  }
+
+  @Override
+  public EditPreferencesInfo getDefaultEditPreferences() throws RestApiException {
+    try {
+      return getEditPreferences.apply(new ConfigResource());
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get default edit preferences", e);
+    }
+  }
+
+  @Override
+  public EditPreferencesInfo setDefaultEditPreferences(EditPreferencesInfo in)
+      throws RestApiException {
+    try {
+      return setEditPreferences.apply(new ConfigResource(), in);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot set default edit preferences", e);
     }
   }
 

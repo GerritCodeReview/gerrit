@@ -1,4 +1,73 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1516087026 +0100\nnonce AGjzz3+5iXH01QvFVncFMtggMzNLIl8XLVWlEgE2cHaYv1HiNa9z3C/kWa2vBrjJk3G5BdWXFyKi\n\n0000000000000000000000000000000000000000 a62b8088daf55ece9b602a5fd57418d0d33342cb refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaXabyAAoJEFG1/Zeg0O9RInsH+wehuspaUASaWvbdWzaAm0Jj\n84UMxm6zCDEC+75mr/d9oEqzZZv0mqQz5xpEf28Auqav7MJUaRrnCX/sE0CWFzSs\nkFNa6SqH7umdBYg0owRXItAxqwg1qfLXsfQsblR3ox1QVlqWBNOuW8A4C+205DL9\ngQrDmPLeNvFNvRjEpgIDg6/WlcWnvfMdZ85ZsLgaAO8QerU+/l77wu3y9iSa+2RX\nsH9KlpXgov+WelNW+ex4nOBJXyfp81tw2u5dVGbhJg+abgBtSL4oFwf0TEsb0hiC\nPAFjCqIeM6hiSC5ZoljuI1bjimcHn4cQ+LbtnDYoqg8ALUrUtj9283tlmWY4b90\u003d\n\u003dKTuP\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3bfb3b6_213cf4b6",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-17T17:54:43Z",
+      "side": 1,
+      "message": "Optional: orElseThrow",
+      "revId": "f0ae6d414da738f4c7e94615e663123b0e82bd4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06332531_dd57209b",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2989,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-17T17:54:43Z",
+      "side": 1,
+      "message": "Optional: .map",
+      "revId": "f0ae6d414da738f4c7e94615e663123b0e82bd4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad9e5cfe_53e8b151",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-17T17:54:43Z",
+      "side": 1,
+      "message": "With Truth8.assert you can do:\n\n assertThat(accountState).isEmpty()",
+      "revId": "f0ae6d414da738f4c7e94615e663123b0e82bd4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9edfcbaf_11d99e82",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-17T17:54:43Z",
+      "side": 1,
+      "message": "assertThat(accountState).isPresent()",
+      "revId": "f0ae6d414da738f4c7e94615e663123b0e82bd4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

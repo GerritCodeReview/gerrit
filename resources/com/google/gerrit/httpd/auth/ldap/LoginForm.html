@@ -3,11 +3,229 @@
     <title>Gerrit Code Review - Sign In</title>
     <style type="text/css">
       #error_message {
-        padding: 5px;
-        margin: 2em;
-        width: 20em;
-        background-color: rgb(255, 255, 116);
-        font-weight: bold;
+          flex: 1;
+          width: auto;
+          border: 1px solid #ffa2a2;
+          background: #f55;
+          padding: 10px;
+          margin: 0 0 15px;
+          color: #fff;
+          font-size: 1em;
+          font-weight: 400;
+      }
+
+      #login_form {
+          position: relative;
+          background: rgba(255, 255, 255, .75);
+          width: 350px;
+          padding: 80px 40px 40px;
+          border-radius: 5px;
+          -webkit-box-shadow: 5px 5px 50px -16px rgba(0, 0, 0, .8);
+          -moz-box-shadow: 5px 5px 50px -16px rgba(0, 0, 0, .8);
+          -ms-box-shadow: 5px 5px 50px -16px rgba(0, 0, 0, .8);
+          box-shadow: 5px 5px 50px -16px rgba(0, 0, 0, .8)
+      }
+
+      #login_form:before {
+          background-repeat: no-repeat;
+          background-position: center center;
+          content: "";
+          position: absolute;
+          top: 0;
+          height: 168px;
+          width: 350px
+      }
+
+      #login_form table {
+          display: flex;
+          padding-top: 100px
+      }
+
+      #login_form table tbody {
+          flex: 1
+      }
+
+      #login_form table tbody th, #login_form table tbody tr:nth-child(3) td:first-child,
+      #login_form table tbody tr:nth-child(4) td:first-child {
+          display: none
+      }
+
+      #login_form table tbody td {
+          flex: 1;
+          -ms-flex: 1 0 auto;
+          display: flex;
+          align-items: stretch;
+          flex-direction: column;
+          -ms-flex-direction: column
+      }
+
+      #login_form table tbody tr {
+          display: flex;
+          justify-content: center;
+          flex-direction: row
+      }
+
+      #login_form table tbody tr:nth-child(3) {
+          margin-bottom: 30px
+      }
+
+      #login_form table tbody tr:nth-child(3) td, #login_form table tbody tr:nth-child(4) td {
+          flex-direction: row
+      }
+
+      #login_form input[type=text], #login_form input[type=password] {
+          border: 0;
+          border-left: 5px solid #ff8700;
+          background: #ebebeb;
+          padding: 0 15px;
+          height: 40px;
+          margin-bottom: 15px;
+          color: #585858;
+          font-size: 1em;
+          -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1);
+          -moz-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1);
+          -ms-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1);
+          box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1)
+      }
+
+      #login_form input[type=text]:-moz-placeholder, #login_form input[type=text]:-ms-input-placeholder,
+      #login_form input[type=text]:-webkit-input-placeholder, #login_form input[type=password]:-moz-placeholder,
+      #login_form input[type=password]:-ms-input-placeholder, #login_form input[type=password]:-webkit-input-placeholder {
+          color: #afafaf
+      }
+
+      #login_form input[type=text]:focus, #login_form input[type=password]:focus {
+          background: #fafafa
+      }
+
+      #login_form a#cancel_link, #login_form input[type=submit] {
+          flex: 1;
+          align-self: center;
+          border: 0;
+          border-bottom: 5px solid #ff8700;
+          background: #ebebeb;
+          padding: 0 15px;
+          height: 50px;
+          margin-bottom: 15px;
+          text-transform: uppercase;
+          font-size: 1.2em;
+          text-decoration: none;
+          color: #585858;
+          -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1);
+          -moz-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1);
+          -ms-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1);
+          box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1)
+      }
+
+      #login_form a#cancel_link:focus, #login_form a#cancel_link:hover,
+      #login_form input[type=submit]:focus, #login_form input[type=submit]:hover {
+          color: #ff8700;
+          background: #fafafa
+      }
+
+      #login_form a#cancel_link {
+          margin-left: 30px;
+          margin-top: 3px;
+          line-height: 45px;
+          height: 45px;
+          text-align: center
+      }
+
+      #login_form #f_remember + label {
+          color: #8b8b8b;
+          line-height: 20px
+      }
+
+      #login_form #f_remember + label:focus, #login_form #f_remember + label:hover {
+          color: #585858
+      }
+
+      #login_form #f_remember {
+          position: absolute;
+          opacity: 0
+      }
+
+      #login_form #f_remember + label {
+          position: relative;
+          cursor: pointer;
+          padding: 0
+      }
+
+      #login_form #f_remember + label:before {
+          content: "";
+          margin-right: 10px;
+          display: inline-block;
+          vertical-align: text-bottom;
+          width: 20px;
+          height: 20px;
+          background: #fff;
+      }
+
+      #login_form #f_remember:checked + label:before, #login_form #f_remember:hover + label:before {
+          background: #ff8700
+      }
+
+      #login_form #f_remember:focus + label:before {
+          background: #ff8700;
+          -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1);
+          -moz-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1);
+          -ms-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1);
+          box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1)
+      }
+
+      #login_form #f_remember:disabled + label {
+          color: #b8b8b8;
+          cursor: auto
+      }
+
+      #login_form #f_remember:disabled + label:before {
+          box-shadow: none;
+          background: #ddd
+      }
+
+      #login_form #f_remember:checked + label:after {
+          content: "";
+          position: absolute;
+          left: 5px;
+          top: 9px;
+          background: #fff;
+          width: 2px;
+          height: 2px;
+          box-shadow: 2px 0 0 #fff, 4px 0 0 #fff, 4px -2px 0 #fff, 4px -4px 0 #fff, 4px -6px 0 #fff, 4px -8px 0 #fff;
+          transform: rotate(45deg)
+      }
+
+      body {
+          visibility: hidden;
+          font-family: 'Source Sans Pro', sans-serif;
+      }
+
+      /* Login Handling */
+      /* Background image handling */
+      html { height: 100%; }
+      html body.loginParent {
+          height: 100%;
+          background-position: center center;
+          background-repeat:  no-repeat;
+          background-attachment: fixed;
+          background-size:  cover;
+          background-color: #999;
+      }
+
+      /* Hide old components */
+      html body.loginParent #gerrit_topmenu { display: none; }
+      html body.loginParent #gerrit_header { display: none; }
+      html body.loginParent #gerrit_body {
+          display: flex;
+          height: 100%;
+          justify-content: center;
+          align-items: center;
+          resize: both;
+          overflow: auto;
+          margin-top: 10%;
+      }
+      html body.loginParent #gerrit_body h1 {
+          display: none;
       }
       #cancel_link {
         margin-left: 45px;
@@ -74,8 +292,69 @@
       }
 
       var login_form = document.getElementById('login_form');
+      if (login_form) {
+        document.body.className = "loginParent";
+      }
       var f_user = document.getElementById('f_user');
       var f_pass = document.getElementById('f_pass');
+
+      showBody();
+      if (form && form.length > 0) {
+        renderPlaceholder();
+        renderErrorMessage();
+      }
+
+      /**
+       * To prevent that the user sees the old UI and get the flickering we hide
+       * the body and make it visible again.
+       *
+       * @return {void}
+       */
+      function showBody() {
+        setTimeout(function() {
+          var body = document.getElementsByTagName("body");
+          if (body && body.length) {
+            body[0].style.visibility = "visible";
+          }
+        }, 500);
+      }
+
+      /**
+       * The gerrit markup has no real placeholder. So we need to grap the table
+       * headline and define this as placeholder.
+       *
+       * @return {void}
+       */
+      function renderPlaceholder() {
+        var usernameHeader = usernameField.parentNode.previousSibling;
+        var passwordHeader = passwordField.parentNode.previousSibling;
+
+        if (usernameHeader) {
+          usernameField.placeholder = usernameHeader.textContent.length
+            ? usernameHeader.textContent
+            : "User";
+        }
+
+        if (passwordHeader) {
+          passwordField.placeholder = passwordHeader.textContent.length
+            ? passwordHeader.textContent
+            : "Password";
+        }
+      }
+
+      /**
+       * The error message will be rendered outside the login form.
+       * So this method will move the markup after the password field.
+       *
+       * @return {void}
+       */
+      function renderErrorMessage() {
+        var errorMessageContainer = document.getElementById("error_message");
+
+        if (errorMessageContainer && passwordField.parentNode) {
+          passwordField.parentNode.appendChild(errorMessageContainer);
+        }
+      }
 
       // Keyup event must be used to avoid issue with Firefox autocomplete
       // Issue #6083

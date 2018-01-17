@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "33214587_4859a41d",
+        "filename": "javatests/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2018-01-17T02:20:56Z",
+      "side": 1,
+      "message": "Will do it in a follow up change.",
+      "parentUuid": "e94b0ed9_c4aad04a",
+      "revId": "8d784497d3b688315b1b92f2795fc0f5c0ba9831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c9d72f2_e4afd4e6",
         "filename": "javatests/com/google/gerrit/server/git/ProjectConfigTest.java",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "8d784497d3b688315b1b92f2795fc0f5c0ba9831",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9c088f5_d072bad5",
+        "filename": "javatests/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2018-01-17T02:20:56Z",
+      "side": 1,
+      "message": "When no specified in the configuration, \u0027commentlink.enabled\u0027 is null.",
+      "parentUuid": "2c9d72f2_e4afd4e6",
+      "revId": "8d784497d3b688315b1b92f2795fc0f5c0ba9831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -107,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "7454c398_839de6c0",
+        "filename": "javatests/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2018-01-17T02:20:56Z",
+      "side": 1,
+      "message": "Done. Will implement equals() for both in a follow up change.",
+      "parentUuid": "af148ad0_3fa0ffdd",
+      "range": {
+        "startLine": 531,
+        "startChar": 4,
+        "endLine": 535,
+        "endChar": 97
+      },
+      "revId": "8d784497d3b688315b1b92f2795fc0f5c0ba9831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b8a35cc_eb35844a",
         "filename": "javatests/com/google/gerrit/server/git/ProjectConfigTest.java",
         "patchSetId": 1
@@ -127,6 +187,30 @@
       "revId": "8d784497d3b688315b1b92f2795fc0f5c0ba9831",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61b63030_69a4275a",
+        "filename": "javatests/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2018-01-17T02:20:56Z",
+      "side": 1,
+      "message": "Sorry about this, it\u0027s my bad. This test is misleading as the fact of having a missing match does not cause this error: a \u0027match\u0027 key can be absent and there is no error and as long as the \u0027enabled\u0027 one is specified.",
+      "parentUuid": "3b8a35cc_eb35844a",
+      "range": {
+        "startLine": 576,
+        "startChar": 19,
+        "endLine": 576,
+        "endChar": 51
+      },
+      "revId": "8d784497d3b688315b1b92f2795fc0f5c0ba9831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

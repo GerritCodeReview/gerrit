@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc86df0a_4c02a433",
+        "filename": "java/com/google/gerrit/server/git/ValidationError.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-17T17:11:28Z",
+      "side": 1,
+      "message": "return Objects.hashCode(message);",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 13
+      },
+      "revId": "8627c6285ff683b33f7262b4a8c2ef39db78dcef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

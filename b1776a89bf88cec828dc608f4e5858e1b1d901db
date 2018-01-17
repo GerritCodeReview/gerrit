@@ -164,6 +164,24 @@
     },
     {
       "key": {
+        "uuid": "905bd991_d24e169e",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-01-17T08:57:07Z",
+      "side": 1,
+      "message": "I finally found the comment from Brian Goetz which I had in mind all along. It\u0027s the last part in the brackets of http://stackoverflow.com/a/26328555/1487809.",
+      "parentUuid": "8ccdf62a_d21387ea",
+      "revId": "b1776a89bf88cec828dc608f4e5858e1b1d901db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "40670414_afbff932",
         "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
         "patchSetId": 1

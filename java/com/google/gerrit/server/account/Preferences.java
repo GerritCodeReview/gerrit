@@ -99,7 +99,7 @@ public class Preferences {
   private DiffPreferencesInfo diffPreferences;
   private EditPreferencesInfo editPreferences;
 
-  public Preferences(
+  Preferences(
       Account.Id accountId,
       Config cfg,
       Config defaultCfg,

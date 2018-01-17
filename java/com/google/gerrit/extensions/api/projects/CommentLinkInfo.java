@@ -41,15 +41,6 @@ public class CommentLinkInfo {
 
   @Override
   public int hashCode() {
-    int h = 1;
-    h *= 1000003;
-    h ^= (this.match == null) ? 0 : this.match.hashCode();
-    h *= 1000003;
-    h ^= (this.link == null) ? 0 : this.link.hashCode();
-    h *= 1000003;
-    h ^= (this.html == null) ? 0 : this.html.hashCode();
-    h *= 1000003;
-    h ^= (this.enabled == null) ? 0 : this.enabled.hashCode();
-    return h;
+    return Objects.hash(match, link, html, enabled);
   }
 }

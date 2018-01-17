@@ -84,7 +84,7 @@ limitations under the License.
       element = fixture('basic');
       element.change = {};
       element.changeNum = '42';
-      element.patchNum = '2';
+      element.latestPatchNum = '2';
       element.actions = {
         '/': {
           method: 'DELETE',
@@ -123,7 +123,7 @@ limitations under the License.
       assert.isOk(element.revisionActions['plugin~action']);
       flush(() => {
         assert.isTrue(element.$.restAPI.getChangeActionURL.calledWith(
-            element.changeNum, element.patchNum, '/plugin~action'));
+            element.changeNum, element.latestPatchNum, '/plugin~action'));
         assert.equal(element.revisionActions['plugin~action'].__url, 'the-url');
       });
     });
@@ -249,7 +249,7 @@ limitations under the License.
           rev2: {_number: 2},
         },
       };
-      element.patchNum = '2';
+      element.latestPatchNum = '2';
 
       flush(() => {
         const submitButton = element.$$('gr-button[data-action-key="submit"]');
@@ -423,7 +423,7 @@ limitations under the License.
 
       setup(() => {
         fireActionStub = sandbox.stub(element, '_fireAction');
-        element.patchNum = 'edit';
+        element.latestPatchNum = 'edit';
         element.editLoaded = true;
       });
 
@@ -739,7 +739,7 @@ limitations under the License.
         element.change.is_private = false;
 
         element.changeNum = '2';
-        element.patchNum = '2';
+        element.latestPatchNum = '2';
 
         return element.reload();
       });
@@ -785,7 +785,7 @@ limitations under the License.
         element.change.is_private = true;
 
         element.changeNum = '2';
-        element.patchNum = '2';
+        element.latestPatchNum = '2';
 
         return element.reload();
       });
@@ -877,7 +877,7 @@ limitations under the License.
         };
 
         element.changeNum = '2';
-        element.patchNum = '2';
+        element.latestPatchNum = '2';
 
         element.reload().then(() => { flush(done); });
       });
@@ -916,7 +916,7 @@ limitations under the License.
         };
 
         element.changeNum = '2';
-        element.patchNum = '2';
+        element.latestPatchNum = '2';
 
         element.reload().then(() => { flush(done); });
       });
@@ -956,7 +956,7 @@ limitations under the License.
         };
 
         element.changeNum = '2';
-        element.patchNum = '2';
+        element.latestPatchNum = '2';
 
         element.reload().then(() => { flush(done); });
       });
@@ -996,7 +996,7 @@ limitations under the License.
         };
 
         element.changeNum = '2';
-        element.patchNum = '2';
+        element.latestPatchNum = '2';
 
         element.reload().then(() => { flush(done); });
       });
@@ -1200,7 +1200,7 @@ limitations under the License.
       const reloadStub = sandbox.stub(element, 'reload');
       element.changeNum = 123;
       assert.isFalse(reloadStub.called);
-      element.patchNum = 456;
+      element.latestPatchNum = 456;
       assert.isFalse(reloadStub.called);
     });
 
@@ -1273,7 +1273,7 @@ limitations under the License.
       setup(() => {
         cleanup = sinon.stub();
         element.changeNum = 42;
-        element.patchNum = 12;
+        element.latestPatchNum = 12;
         payload = {foo: 'bar'};
 
         onShowAlert = sinon.stub();

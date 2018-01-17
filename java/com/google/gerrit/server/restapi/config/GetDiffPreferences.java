@@ -18,7 +18,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.account.PreferencesConfig;
+import com.google.gerrit.server.account.Preferences;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -44,7 +44,7 @@ public class GetDiffPreferences implements RestReadView<ConfigResource> {
   public DiffPreferencesInfo apply(ConfigResource configResource)
       throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
     try (Repository git = gitManager.openRepository(allUsersName)) {
-      return PreferencesConfig.readDefaultDiffPreferences(git);
+      return Preferences.readDefaultDiffPreferences(git);
     }
   }
 }

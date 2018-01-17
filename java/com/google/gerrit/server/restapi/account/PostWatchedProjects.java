@@ -21,9 +21,9 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
-import com.google.gerrit.server.account.WatchConfig;
-import com.google.gerrit.server.account.WatchConfig.NotifyType;
-import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
+import com.google.gerrit.server.account.ProjectWatches;
+import com.google.gerrit.server.account.ProjectWatches.NotifyType;
+import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -124,6 +124,8 @@ public class PostWatchedProjects
 
   private static String format(String project, String filter) {
     return project
-        + (filter != null && !WatchConfig.FILTER_ALL.equals(filter) ? " and filter " + filter : "");
+        + (filter != null && !ProjectWatches.FILTER_ALL.equals(filter)
+            ? " and filter " + filter
+            : "");
   }
 }

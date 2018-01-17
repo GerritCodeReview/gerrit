@@ -22,7 +22,7 @@ import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.PreferencesConfig;
+import com.google.gerrit.server.account.Preferences;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -65,7 +65,7 @@ public class SetEditPreferences implements RestModifyView<ConfigResource, EditPr
     }
 
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
-      EditPreferencesInfo updatedPrefs = PreferencesConfig.updateDefaultEditPreferences(md, input);
+      EditPreferencesInfo updatedPrefs = Preferences.updateDefaultEditPreferences(md, input);
       accountCache.evictAllNoReindex();
       return updatedPrefs;
     }

@@ -35,7 +35,6 @@ import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.testing.GerritBaseTests;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -475,12 +474,14 @@ public class ProjectConfigTest extends GerritBaseTests {
                     + "\tlink = http://bugs.example.com/show_bug.cgi?id=$2")
             .create();
     ProjectConfig cfg = read(rev);
-    Collection<CommentLinkInfoImpl> commentLinks = cfg.getCommentLinkSections();
-    assertThat(commentLinks).hasSize(1);
-    CommentLinkInfoImpl commentLink = commentLinks.iterator().next();
-    assertThat(commentLink.name).isEqualTo("bugzilla");
-    assertThat(commentLink.match).isEqualTo("(bug\\s+#?)(\\d+)");
-    assertThat(commentLink.link).isEqualTo("http://bugs.example.com/show_bug.cgi?id=$2");
+    assertThat(cfg.getCommentLinkSections())
+        .containsExactly(
+            new CommentLinkInfoImpl(
+                "bugzilla",
+                "(bug\\s+#?)(\\d+)",
+                "http://bugs.example.com/show_bug.cgi?id=$2",
+                null,
+                null));
   }
 
   @Test
@@ -488,14 +489,8 @@ public class ProjectConfigTest extends GerritBaseTests {
     RevCommit rev =
         tr.commit().add("project.config", "[commentlink \"bugzilla\"]\n \tenabled = true").create();
     ProjectConfig cfg = read(rev);
-    Collection<CommentLinkInfoImpl> commentLinks = cfg.getCommentLinkSections();
-    assertThat(commentLinks).hasSize(1);
-    CommentLinkInfoImpl commentLink = commentLinks.iterator().next();
-    assertThat(commentLink.name).isEqualTo("bugzilla");
-    assertThat(commentLink.enabled).isEqualTo(true);
-    assertThat(commentLink.match).isNull();
-    assertThat(commentLink.link).isNull();
-    assertThat(commentLink.html).isNull();
+    assertThat(cfg.getCommentLinkSections())
+        .containsExactly(new CommentLinkInfoImpl.Enabled("bugzilla"));
   }
 
   @Test
@@ -505,14 +500,8 @@ public class ProjectConfigTest extends GerritBaseTests {
             .add("project.config", "[commentlink \"bugzilla\"]\n \tenabled = false")
             .create();
     ProjectConfig cfg = read(rev);
-    Collection<CommentLinkInfoImpl> commentLinks = cfg.getCommentLinkSections();
-    assertThat(commentLinks).hasSize(1);
-    CommentLinkInfoImpl commentLink = commentLinks.iterator().next();
-    assertThat(commentLink.name).isEqualTo("bugzilla");
-    assertThat(commentLink.enabled).isEqualTo(false);
-    assertThat(commentLink.match).isNull();
-    assertThat(commentLink.link).isNull();
-    assertThat(commentLink.html).isNull();
+    assertThat(cfg.getCommentLinkSections())
+        .containsExactly(new CommentLinkInfoImpl.Disabled("bugzilla"));
   }
 
   @Test

@@ -16,7 +16,6 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.AccessSection;
@@ -516,12 +515,13 @@ public class ProjectConfigTest extends GerritBaseTests {
             .create();
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getCommentLinkSections()).isEmpty();
-    assertThat(cfg.getValidationErrors().stream().map(ValidationError::getMessage))
+    assertThat(cfg.getValidationErrors())
         .containsExactly(
-            "project.config: Invalid pattern \"(bugs{+#?)(d+)\" in commentlink.bugzilla.match: "
-                + "Illegal repetition near index 4\n"
-                + "(bugs{+#?)(d+)\n"
-                + "    ^");
+            new ValidationError(
+                "project.config: Invalid pattern \"(bugs{+#?)(d+)\" in commentlink.bugzilla.match: "
+                    + "Illegal repetition near index 4\n"
+                    + "(bugs{+#?)(d+)\n"
+                    + "    ^"));
   }
 
   @Test
@@ -536,10 +536,11 @@ public class ProjectConfigTest extends GerritBaseTests {
             .create();
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getCommentLinkSections()).isEmpty();
-    assertThat(cfg.getValidationErrors().stream().map(ValidationError::getMessage))
+    assertThat(cfg.getValidationErrors())
         .containsExactly(
-            "project.config: Error in pattern \"(bugs#?)(d+)\" in commentlink.bugzilla.match: "
-                + "Raw html replacement not allowed");
+            new ValidationError(
+                "project.config: Error in pattern \"(bugs#?)(d+)\" in commentlink.bugzilla.match: "
+                    + "Raw html replacement not allowed"));
   }
 
   @Test
@@ -550,10 +551,11 @@ public class ProjectConfigTest extends GerritBaseTests {
             .create();
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getCommentLinkSections()).isEmpty();
-    assertThat(cfg.getValidationErrors().stream().map(ValidationError::getMessage))
+    assertThat(cfg.getValidationErrors())
         .containsExactly(
-            "project.config: Error in pattern \"(bugs#?)(d+)\" in commentlink.bugzilla.match: "
-                + "commentlink.bugzilla must have either link or html");
+            new ValidationError(
+                "project.config: Error in pattern \"(bugs#?)(d+)\" in commentlink.bugzilla.match: "
+                    + "commentlink.bugzilla must have either link or html"));
   }
 
   private ProjectConfig read(RevCommit rev) throws IOException, ConfigInvalidException {

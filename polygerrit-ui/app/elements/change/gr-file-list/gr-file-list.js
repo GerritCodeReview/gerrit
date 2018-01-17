@@ -408,10 +408,6 @@
     },
 
     _getFiles() {
-      if (this.editLoaded) {
-        return this.$.restAPI.getChangeEditFilesAsSpeciallySortedArray(
-            this.changeNum, this.patchRange);
-      }
       return this.$.restAPI.getChangeFilesAsSpeciallySortedArray(
           this.changeNum, this.patchRange);
     },

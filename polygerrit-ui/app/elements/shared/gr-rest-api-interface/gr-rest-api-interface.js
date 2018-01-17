@@ -1029,13 +1029,12 @@
      * @return {!Promise<!Array<!Object>>}
      */
     getChangeFilesAsSpeciallySortedArray(changeNum, patchRange) {
+      if (this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME)) {
+        return this.getChangeEditFiles(changeNum, patchRange).then(res =>
+          this._normalizeChangeFilesResponse(res.files));
+      }
       return this.getChangeFiles(changeNum, patchRange).then(
           this._normalizeChangeFilesResponse.bind(this));
-    },
-
-    getChangeEditFilesAsSpeciallySortedArray(changeNum, patchRange) {
-      return this.getChangeEditFiles(changeNum, patchRange).then(files =>
-            this._normalizeChangeFilesResponse(files.files));
     },
 
     /**

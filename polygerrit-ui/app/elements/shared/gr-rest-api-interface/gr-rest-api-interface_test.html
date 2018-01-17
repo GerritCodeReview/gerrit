@@ -1036,7 +1036,7 @@ limitations under the License.
     suite('getFromProjectLookup', () => {
       test('getChange fails', () => {
         sandbox.stub(element, 'getChange')
-            .returns(Promise.resolve([]));
+            .returns(Promise.resolve(null));
         return element.getFromProjectLookup().then(val => {
           assert.strictEqual(val, undefined);
           assert.deepEqual(element._projectLookup, {});
@@ -1044,7 +1044,7 @@ limitations under the License.
       });
 
       test('getChange succeeds, no project', () => {
-        sandbox.stub(element, 'getChange').returns(Promise.resolve([]));
+        sandbox.stub(element, 'getChange').returns(Promise.resolve(null));
         return element.getFromProjectLookup().then(val => {
           assert.strictEqual(val, undefined);
           assert.deepEqual(element._projectLookup, {});
@@ -1053,7 +1053,7 @@ limitations under the License.
 
       test('getChange succeeds with project', () => {
         sandbox.stub(element, 'getChange')
-            .returns(Promise.resolve([{project: 'project'}]));
+            .returns(Promise.resolve({project: 'project'}));
         return element.getFromProjectLookup('test').then(val => {
           assert.equal(val, 'project');
           assert.deepEqual(element._projectLookup, {test: 'project'});

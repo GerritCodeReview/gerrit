@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "3f6ebf52_10dfeee2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-dashboards/gr-repo-dashboards.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-17T21:05:35Z",
+      "side": 1,
+      "message": "Why is this crossed out?",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 15
+      },
+      "revId": "0d88fe359fbf476d5d35abdfec489cfe956a16dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d2ecbb4_37ebf684",
         "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
         "patchSetId": 9

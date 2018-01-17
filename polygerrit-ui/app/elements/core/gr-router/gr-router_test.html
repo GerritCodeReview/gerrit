@@ -124,6 +124,7 @@ limitations under the License.
 
       const shouldRequireAutoAuth = [
         '_handleAgreementsRoute',
+        '_handleChangeEditRoute',
         '_handleCreateGroupRoute',
         '_handleCreateProjectRoute',
         '_handleDiffEditRoute',
@@ -1330,6 +1331,34 @@ limitations under the License.
           };
 
           element._handleDiffEditRoute(ctx);
+          assert.isFalse(redirectStub.called);
+          assert.isTrue(normalizeRangeSpy.calledOnce);
+          assert.deepEqual(normalizeRangeSpy.lastCall.args[0], appParams);
+          assert.isFalse(normalizeRangeSpy.lastCall.returnValue);
+          assert.deepEqual(setParamsStub.lastCall.args[0], appParams);
+        });
+
+        test('_handleChangeEditRoute', () => {
+          const normalizeRangeSpy =
+              sandbox.spy(element, '_normalizePatchRangeParams');
+          sandbox.stub(element.$.restAPI, 'setInProjectLookup');
+          const ctx = {
+            params: [
+              'foo/bar', // 0 Project
+              1234, // 1 Change number
+              null,
+              3, // 3 Patch num
+            ],
+          };
+          const appParams = {
+            project: 'foo/bar',
+            changeNum: 1234,
+            view: Gerrit.Nav.View.CHANGE,
+            patchNum: 3,
+            edit: true,
+          };
+
+          element._handleChangeEditRoute(ctx);
           assert.isFalse(redirectStub.called);
           assert.isTrue(normalizeRangeSpy.calledOnce);
           assert.deepEqual(normalizeRangeSpy.lastCall.args[0], appParams);

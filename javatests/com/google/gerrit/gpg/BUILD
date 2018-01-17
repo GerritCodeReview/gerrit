@@ -3,6 +3,7 @@ load("//tools/bzl:junit.bzl", "junit_tests")
 junit_tests(
     name = "gpg_tests",
     srcs = glob(["**/*.java"]),
+    tags = ["no_windows"],
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/common:server",

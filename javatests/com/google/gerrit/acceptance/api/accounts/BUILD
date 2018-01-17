@@ -6,5 +6,6 @@ acceptance_tests(
     labels = [
         "api",
         "noci",
+        "no_windows",
     ],
 )

@@ -23,6 +23,30 @@
       "revId": "ed465a7c62cb1bae967c0258d39f80d2bdf00a45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b038299_d692d420",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2989,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-17T09:16:30Z",
+      "side": 1,
+      "message": "The default is configured by noteDb.retryTimeout in gerrit.config. As the name says it applies for all NoteDb updates.",
+      "parentUuid": "aafee62c_7d704310",
+      "range": {
+        "startLine": 2989,
+        "startChar": 53,
+        "endLine": 2989,
+        "endChar": 70
+      },
+      "revId": "ed465a7c62cb1bae967c0258d39f80d2bdf00a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

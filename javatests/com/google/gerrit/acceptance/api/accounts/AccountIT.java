@@ -94,8 +94,8 @@ import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.Emails;
-import com.google.gerrit.server.account.WatchConfig;
-import com.google.gerrit.server.account.WatchConfig.NotifyType;
+import com.google.gerrit.server.account.ProjectWatches;
+import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -1322,37 +1322,38 @@ public class AccountIT extends AbstractDaemonTest {
 
     Config wc = new Config();
     wc.setString(
-        WatchConfig.PROJECT,
+        ProjectWatches.PROJECT,
         project.get(),
-        WatchConfig.KEY_NOTIFY,
-        WatchConfig.NotifyValue.create(null, EnumSet.of(NotifyType.ALL_COMMENTS)).toString());
+        ProjectWatches.KEY_NOTIFY,
+        ProjectWatches.NotifyValue.create(null, EnumSet.of(NotifyType.ALL_COMMENTS)).toString());
     PushOneCommit push =
         pushFactory.create(
             db,
             admin.getIdent(),
             allUsersRepo,
             "Add project watch",
-            WatchConfig.WATCH_CONFIG,
+            ProjectWatches.WATCH_CONFIG,
             wc.toText());
     push.to(RefNames.REFS_USERS_SELF).assertOkStatus();
     accountIndexedCounter.assertReindexOf(admin);
 
     String invalidNotifyValue = "]invalid[";
-    wc.setString(WatchConfig.PROJECT, project.get(), WatchConfig.KEY_NOTIFY, invalidNotifyValue);
+    wc.setString(
+        ProjectWatches.PROJECT, project.get(), ProjectWatches.KEY_NOTIFY, invalidNotifyValue);
     push =
         pushFactory.create(
             db,
             admin.getIdent(),
             allUsersRepo,
             "Add invalid project watch",
-            WatchConfig.WATCH_CONFIG,
+            ProjectWatches.WATCH_CONFIG,
             wc.toText());
     PushOneCommit.Result r = push.to(RefNames.REFS_USERS_SELF);
     r.assertErrorStatus("invalid account configuration");
     r.assertMessage(
         String.format(
             "%s: Invalid project watch of account %d for project %s: %s",
-            WatchConfig.WATCH_CONFIG, admin.getId().get(), project.get(), invalidNotifyValue));
+            ProjectWatches.WATCH_CONFIG, admin.getId().get(), project.get(), invalidNotifyValue));
   }
 
   @Test

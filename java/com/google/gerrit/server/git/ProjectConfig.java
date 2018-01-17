@@ -49,7 +49,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.account.WatchConfig.NotifyType;
+import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.mail.Address;

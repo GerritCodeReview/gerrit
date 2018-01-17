@@ -20,7 +20,7 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
+import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

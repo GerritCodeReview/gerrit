@@ -21,7 +21,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.PreferencesConfig;
+import com.google.gerrit.server.account.Preferences;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -64,7 +64,7 @@ public class SetDiffPreferences implements RestModifyView<ConfigResource, DiffPr
     }
 
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
-      DiffPreferencesInfo updatedPrefs = PreferencesConfig.updateDefaultDiffPreferences(md, input);
+      DiffPreferencesInfo updatedPrefs = Preferences.updateDefaultDiffPreferences(md, input);
       accountCache.evictAllNoReindex();
       return updatedPrefs;
     }

@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1516087026 +0100\nnonce AGjzz3+5iXH01QvFVncFMtggMzNLIl8XLVWlEgE2cHaYv1HiNa9z3C/kWa2vBrjJk3G5BdWXFyKi\n\n0000000000000000000000000000000000000000 a62b8088daf55ece9b602a5fd57418d0d33342cb refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaXabyAAoJEFG1/Zeg0O9RInsH+wehuspaUASaWvbdWzaAm0Jj\n84UMxm6zCDEC+75mr/d9oEqzZZv0mqQz5xpEf28Auqav7MJUaRrnCX/sE0CWFzSs\nkFNa6SqH7umdBYg0owRXItAxqwg1qfLXsfQsblR3ox1QVlqWBNOuW8A4C+205DL9\ngQrDmPLeNvFNvRjEpgIDg6/WlcWnvfMdZ85ZsLgaAO8QerU+/l77wu3y9iSa+2RX\nsH9KlpXgov+WelNW+ex4nOBJXyfp81tw2u5dVGbhJg+abgBtSL4oFwf0TEsb0hiC\nPAFjCqIeM6hiSC5ZoljuI1bjimcHn4cQ+LbtnDYoqg8ALUrUtj9283tlmWY4b90\u003d\n\u003dKTuP\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb02b10a_ad7383fa",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-17T17:48:42Z",
+      "side": 1,
+      "message": "Optional: Seems like there is a lot of churn in this change to wrap constructor args with Suppliers.ofInstance. Would it make sense instead to add a new constructor that takes constants, and have that constructor call this(..., Suppliers.ofInstance(...))?\n\nAlternatively, I wonder if there should just be one or two more named static constructor methods for common cases, for example with the empty projectWatches/generalPreferences types.",
+      "revId": "3bb5183f64041afbfce2fd4aefa0fced8374706d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f23fbd23_3b04eee0",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-17T17:48:42Z",
+      "side": 1,
+      "message": "Can this just be AccountState.fromAccountConfig(accountConfig)?",
+      "revId": "3bb5183f64041afbfce2fd4aefa0fced8374706d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -288,6 +288,23 @@ limitations under the License.
             });
           });
         });
+
+        test('repo dashboards', done => {
+          element.params = {
+            view: Gerrit.Nav.View.REPO,
+            detail: Gerrit.Nav.RepoDetailView.DASHBOARDS,
+            repoName: 'foo',
+          };
+          element._repoName = 'foo';
+          element.reload().then(() => {
+            flush(() => {
+              const selected = element.$$('gr-page-nav .selected');
+              assert.isOk(selected);
+              assert.equal(selected.textContent.trim(), 'Dashboards');
+              done();
+            });
+          });
+        });
       });
 
       suite('groups', () => {

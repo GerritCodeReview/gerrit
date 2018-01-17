@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d47a9447_a556f43e",
+        "filename": "java/com/google/gerrit/extensions/api/projects/CommentLinkInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-17T05:09:14Z",
+      "side": 1,
+      "message": "Use Objects.equals?",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 90
+      },
+      "revId": "29b44603bb3a942f09b413b7325760b437288265",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

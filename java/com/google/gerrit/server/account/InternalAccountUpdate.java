@@ -34,8 +34,15 @@ import java.util.Set;
 /**
  * Class to prepare updates to an account.
  *
- * <p>The getters in this class and the setters in the {@link Builder} correspond to fields in
- * {@link Account}. The account ID and the registration date cannot be updated.
+ * <p>Account updates are done through {@link AccountsUpdate}. This class should be used to tell
+ * {@link AccountsUpdate} how an account should be modified.
+ *
+ * <p>This class allows to prepare updates of account properties, external IDs, preferences
+ * (general, diff and edit preferences) and project watches. The account ID and the registration
+ * date cannot be updated.
+ *
+ * <p>For the account properties there are getters in this class and the setters in the {@link
+ * Builder} that correspond to the fields in {@link Account}.
  */
 @AutoValue
 public abstract class InternalAccountUpdate {

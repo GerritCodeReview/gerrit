@@ -22,7 +22,7 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.PreferencesConfig;
+import com.google.gerrit.server.account.Preferences;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -60,10 +60,9 @@ public class SetPreferences implements RestModifyView<ConfigResource, GeneralPre
     if (!hasSetFields(input)) {
       throw new BadRequestException("unsupported option");
     }
-    PreferencesConfig.validateMy(input.my);
+    Preferences.validateMy(input.my);
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
-      GeneralPreferencesInfo updatedPrefs =
-          PreferencesConfig.updateDefaultGeneralPreferences(md, input);
+      GeneralPreferencesInfo updatedPrefs = Preferences.updateDefaultGeneralPreferences(md, input);
       accountCache.evictAllNoReindex();
       return updatedPrefs;
     }

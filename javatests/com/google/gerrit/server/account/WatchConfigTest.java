@@ -19,9 +19,9 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.account.WatchConfig.NotifyType;
-import com.google.gerrit.server.account.WatchConfig.NotifyValue;
-import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
+import com.google.gerrit.server.account.ProjectWatches.NotifyType;
+import com.google.gerrit.server.account.ProjectWatches.NotifyValue;
+import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.git.ValidationError;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -54,7 +54,7 @@ public class WatchConfigTest implements ValidationError.Sink {
             + "  notify = [NEW_PATCHSETS]\n"
             + "  notify = * [NEW_PATCHSETS, ALL_COMMENTS]\n");
     Map<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches =
-        WatchConfig.parse(new Account.Id(1000000), cfg, this);
+        ProjectWatches.parse(new Account.Id(1000000), cfg, this);
 
     assertThat(validationErrors).isEmpty();
 
@@ -87,7 +87,7 @@ public class WatchConfigTest implements ValidationError.Sink {
             + "[project \"otherProject\"]\n"
             + "  notify = [NEW_PATCHSETS]\n");
 
-    WatchConfig.parse(new Account.Id(1000000), cfg, this);
+    ProjectWatches.parse(new Account.Id(1000000), cfg, this);
     assertThat(validationErrors).hasSize(1);
     assertThat(validationErrors.get(0).getMessage())
         .isEqualTo(

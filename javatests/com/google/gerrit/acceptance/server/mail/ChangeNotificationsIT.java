@@ -21,11 +21,11 @@ import static com.google.gerrit.extensions.api.changes.NotifyHandling.OWNER;
 import static com.google.gerrit.extensions.api.changes.NotifyHandling.OWNER_REVIEWERS;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.CC_ON_OWN_COMMENTS;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.ENABLED;
-import static com.google.gerrit.server.account.WatchConfig.NotifyType.ABANDONED_CHANGES;
-import static com.google.gerrit.server.account.WatchConfig.NotifyType.ALL_COMMENTS;
-import static com.google.gerrit.server.account.WatchConfig.NotifyType.NEW_CHANGES;
-import static com.google.gerrit.server.account.WatchConfig.NotifyType.NEW_PATCHSETS;
-import static com.google.gerrit.server.account.WatchConfig.NotifyType.SUBMITTED_CHANGES;
+import static com.google.gerrit.server.account.ProjectWatches.NotifyType.ABANDONED_CHANGES;
+import static com.google.gerrit.server.account.ProjectWatches.NotifyType.ALL_COMMENTS;
+import static com.google.gerrit.server.account.ProjectWatches.NotifyType.NEW_CHANGES;
+import static com.google.gerrit.server.account.ProjectWatches.NotifyType.NEW_PATCHSETS;
+import static com.google.gerrit.server.account.ProjectWatches.NotifyType.SUBMITTED_CHANGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.common.collect.ImmutableList;

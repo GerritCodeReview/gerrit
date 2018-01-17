@@ -259,6 +259,13 @@
           '/access/?project=' + encodeURIComponent(repo));
     },
 
+    getRepoDashboards(repo) {
+      // TODO: Rename rest api from projects to repos
+      // supports it.
+      return this._fetchSharedCacheURL(
+          `/projects/${encodeURIComponent(repo)}/dashboards?inherited`);
+    },
+
     saveRepoConfig(repo, config, opt_errFn, opt_ctx) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.

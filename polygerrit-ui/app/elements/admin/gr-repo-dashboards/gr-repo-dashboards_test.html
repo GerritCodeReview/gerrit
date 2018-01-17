@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-repo-dashboards</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-repo-dashboards.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-repo-dashboards></gr-repo-dashboards>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-repo-dashboards tests', () => {
+    let element;
+    let sandbox;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    suite('with default only both inherrited and curent project', () => {
+      setup(() => {
+        sandbox.stub(element.$.restAPI, 'getRepoDashboards').returns(Promise.resolve([
+          [
+            {
+              id: 'default:contributor',
+              project: 'gerrit',
+              defining_project: 'gerrit',
+              ref: 'default',
+              path: 'contributor',
+              description: 'Own contributions.',
+              foreach: 'owner:self',
+              url: '/dashboard/?title\u003dContributor+Dashboard\u0026foreach\u003downer:self\u0026Mine+To+Rebase\u003dis:open+-is:mergeable\u0026Mine+To+Rework\u003dis:open+is:mergeable+%28label:Verified%3C%3D-1+OR+label:Code-Review%3C%3D-1%29\u0026Mine+For+Review\u003dis:open+is:mergeable+-%28label:Verified%3C%3D-1+OR+label:Code-Review%3C%3D-1%29\u0026My+Recently+Merged\u003dis:merged+limit:10',
+              title: 'Contributor Dashboard',
+              sections: [
+                {
+                  name: 'Mine To Rebase',
+                  query: 'is:open -is:mergeable',
+                },
+                {
+                  name: 'Mine To Rework',
+                  query: 'is:open is:mergeable (label:Verified\u003c\u003d-1 OR label:Code-Review\u003c\u003d-1)',
+                },
+                {
+                  name: 'Mine For Review',
+                  query: 'is:open is:mergeable -(label:Verified\u003c\u003d-1 OR label:Code-Review\u003c\u003d-1)',
+                },
+                {
+                  name: 'My Recently Merged',
+                  query: 'is:merged limit:10',
+                },
+              ],
+            },
+          ],
+          [
+            {
+              id: 'default:open',
+              project: 'gerrit',
+              defining_project: 'Public-Projects',
+              ref: 'default',
+              path: 'open',
+              description: 'Recent open changes.',
+              url: '/dashboard/?title\u003dOpen+Changes\u0026Open+Changes\u003dstatus:open+project:gerrit+-age:7w',
+              title: 'Open Changes',
+              sections: [
+                {
+                  name: 'Open Changes',
+                  query: 'status:open project:${project} -age:7w',
+                },
+              ],
+            },
+          ],
+        ]));
+      });
+
+      test('dispatched command-tap on button tap', done => {
+        element.repo = 'test';
+        flush(() => {
+          assert.equal(element._dashboards.length, 1);
+          assert.equal(element._dashboards[0].section, 'Default');
+          assert.equal(element._dashboards[0].dashboards.length, 2);
+          done();
+        });
+      });
+    });
+  });
+</script>

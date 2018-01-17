@@ -67,6 +67,9 @@
     // Matches /admin/repos/<repos>,access.
     REPO_ACCESS: /^\/admin\/repos\/(.+),access$/,
 
+    // Matches /admin/repos/<repos>,access.
+    REPO_DASHBOARDS: /^\/admin\/repos\/(.+),dashboards$/,
+
     // Matches /admin/repos[,<offset>][/].
     REPO_LIST_OFFSET: /^\/admin\/repos(,(\d+))?(\/)?$/,
     REPO_LIST_FILTER: '/admin/repos/q/filter::filter',
@@ -460,6 +463,8 @@
         url += ',tags';
       } else if (params.detail === Gerrit.Nav.RepoDetailView.COMMANDS) {
         url += ',commands';
+      } else if (params.detail === Gerrit.Nav.RepoDetailView.DASHBOARDS) {
+        url += ',dashboards';
       }
       return url;
     },
@@ -706,6 +711,9 @@
       this._mapRoute(RoutePattern.REPO_ACCESS,
           '_handleRepoAccessRoute');
 
+      this._mapRoute(RoutePattern.REPO_DASHBOARDS,
+          '_handleRepoDashboardsRoute');
+
       this._mapRoute(RoutePattern.BRANCH_LIST_OFFSET,
           '_handleBranchListOffsetRoute');
 
@@ -923,12 +931,22 @@
       if (titleParam) {
         title = titleParam[1];
       }
+      // Dashboards support a foreach param which adds a base query to any
+      // additional query.
+      const forEachParam = queryParams.find(
+          elem => elem[0].toLowerCase() === 'foreach');
+      let forEachQuery = null;
+      if (forEachParam) {
+        forEachQuery = forEachParam[1];
+      }
       const sectionParams = queryParams.filter(
-          elem => elem[0] && elem[1] && elem[0].toLowerCase() !== 'title');
+          elem => elem[0] && elem[1] && elem[0].toLowerCase() !== 'title'
+          && elem[0].toLowerCase() !== 'foreach');
       const sections = sectionParams.map(elem => {
+        const query = forEachQuery ? `${forEachQuery} ${elem[1]}` : elem[1];
         return {
           name: elem[0],
-          query: elem[1],
+          query,
         };
       });
 
@@ -1030,6 +1048,14 @@
       this._setParams({
         view: Gerrit.Nav.View.REPO,
         detail: Gerrit.Nav.RepoDetailView.ACCESS,
+        repo: data.params[0],
+      });
+    },
+
+    _handleRepoDashboardsRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.REPO,
+        detail: Gerrit.Nav.RepoDetailView.DASHBOARDS,
         repo: data.params[0],
       });
     },

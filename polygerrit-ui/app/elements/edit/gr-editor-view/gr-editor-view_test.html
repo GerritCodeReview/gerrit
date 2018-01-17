@@ -42,6 +42,7 @@ suite('gr-editor-view tests', () => {
   const mockParams = {
     changeNum: '42',
     path: 'foo/bar.baz',
+    patchNum: 'edit',
   };
 
   setup(() => {
@@ -83,7 +84,7 @@ suite('gr-editor-view tests', () => {
       assert.deepEqual(changeDetailStub.lastCall.args[0],
           mockParams.changeNum);
       assert.deepEqual(fileStub.lastCall.args,
-          [mockParams.changeNum, mockParams.path]);
+          [mockParams.changeNum, mockParams.path, mockParams.patchNum]);
 
       return promises.then(() => {
         assert.equal(element._content, 'text');
@@ -227,7 +228,7 @@ suite('gr-editor-view tests', () => {
           }));
 
       // Ensure no data is set with a bad response.
-      return element._getFileData('1', 'test/path').then(() => {
+      return element._getFileData('1', 'test/path', 'edit').then(() => {
         assert.equal(element._newContent, 'new content');
         assert.equal(element._content, 'new content');
         assert.equal(element._type, 'text/javascript');
@@ -239,7 +240,7 @@ suite('gr-editor-view tests', () => {
           .returns(Promise.resolve({}));
 
       // Ensure no data is set with a bad response.
-      return element._getFileData('1', 'test/path').then(() => {
+      return element._getFileData('1', 'test/path', 'edit').then(() => {
         assert.equal(element._newContent, 'initial');
         assert.equal(element._content, 'initial');
         assert.equal(element._type, 'initial');
@@ -253,7 +254,7 @@ suite('gr-editor-view tests', () => {
             type: 'text/javascript',
           }));
 
-      return element._getFileData('1', 'test/path').then(() => {
+      return element._getFileData('1', 'test/path', 'edit').then(() => {
         assert.equal(element._newContent, '');
         assert.equal(element._content, '');
         assert.equal(element._type, 'text/javascript');
@@ -266,7 +267,7 @@ suite('gr-editor-view tests', () => {
             ok: true,
           }));
 
-      return element._getFileData('1', 'test/path').then(() => {
+      return element._getFileData('1', 'test/path', 'edit').then(() => {
         assert.equal(element._newContent, '');
         assert.equal(element._content, '');
         assert.equal(element._type, '');

@@ -68,6 +68,13 @@ Then add go to your path:
 PATH=$PATH:/usr/local/go/bin
 ```
 
+If you would like to enable headless mode in chrome, which is required when you don't
+have a display and also you need web-component-tester version 6.5.0+ and chrome 59+, do the following:
+
+```
+export WCT_HEADLESS_MODE=1
+```
+
 ### Running the server
 
 To test the local UI against gerrit-review.googlesource.com:

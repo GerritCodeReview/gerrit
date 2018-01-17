@@ -21,4 +21,33 @@ public class CommentLinkInfo {
   public Boolean enabled; // null means true
 
   public transient String name;
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (o instanceof CommentLinkInfo) {
+      CommentLinkInfo that = (CommentLinkInfo) o;
+      return ((this.match == null) ? (that.match == null) : this.match.equals(that.match))
+          && ((this.link == null) ? (that.link == null) : this.link.equals(that.link))
+          && ((this.html == null) ? (that.html == null) : this.html.equals(that.html))
+          && ((this.enabled == null) ? (that.enabled == null) : this.enabled.equals(that.enabled));
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    int h = 1;
+    h *= 1000003;
+    h ^= (this.match == null) ? 0 : this.match.hashCode();
+    h *= 1000003;
+    h ^= (this.link == null) ? 0 : this.link.hashCode();
+    h *= 1000003;
+    h ^= (this.html == null) ? 0 : this.html.hashCode();
+    h *= 1000003;
+    h ^= (this.enabled == null) ? 0 : this.enabled.hashCode();
+    return h;
+  }
 }

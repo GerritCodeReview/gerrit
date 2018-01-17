@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "331df70d_6d6eddb7",
+        "filename": "java/com/google/gerrit/acceptance/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-17T12:10:31Z",
+      "side": 1,
+      "message": "Does this comment still make sense here?  There\u0027s no way to determine which of the deps in this list are exported.\n\nAlso I suspect that this list will get reordered if buildifier is run on it.",
+      "range": {
+        "startLine": 110,
+        "startChar": 8,
+        "endLine": 110,
+        "endChar": 48
+      },
+      "revId": "d3860f7bb27b6b6b3e3fc7358471c3a0f7b6473a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -3547,6 +3547,16 @@ Name of the groups of users that are allowed to execute
 If no groups are added, any user will be allowed to execute
 'receive-pack' on the server.
 
+[[receive.allowPushToRefsChanges]]receive.allowPushToRefsChanges::
++
+If true, it is possible to push directly to a change using `refs/changes/`.
++
+Defaults to false, which means pushing to `refs/changes/` is prohibited.
++
+Pushing to `refs/changes/` is deprecated and the possibility might be removed
+in future releases. The preferred ways to push to existing changes are
+explained in link:user-upload.html#push_create[create changes].
+
 [[receive.certNonceSeed]]receive.certNonceSeed::
 +
 If set to a non-empty value and server-side signed push validation is

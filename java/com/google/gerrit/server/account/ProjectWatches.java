@@ -111,8 +111,7 @@ public class ProjectWatches {
 
   private ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches;
 
-  public ProjectWatches(
-      Account.Id accountId, Config cfg, ValidationError.Sink validationErrorSink) {
+  ProjectWatches(Account.Id accountId, Config cfg, ValidationError.Sink validationErrorSink) {
     this.accountId = checkNotNull(accountId, "accountId");
     this.cfg = checkNotNull(cfg, "cfg");
     this.validationErrorSink = checkNotNull(validationErrorSink, "validationErrorSink");

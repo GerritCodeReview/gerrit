@@ -51,27 +51,6 @@ java_library(
     ],
 )
 
-PROVIDED = [
-    "//java/com/google/gerrit/common:annotations",
-    "//java/com/google/gerrit/common:server",
-    "//java/com/google/gerrit/extensions:api",
-    "//java/com/google/gerrit/httpd",
-    "//java/com/google/gerrit/index",
-    "//java/com/google/gerrit/lucene",
-    "//java/com/google/gerrit/metrics",
-    "//java/com/google/gerrit/reviewdb:server",
-    "//java/com/google/gerrit/server",
-    "//java/com/google/gerrit/server/restapi",
-    "//java/com/google/gerrit/server/schema",
-    "//java/com/google/gerrit/pgm/init",
-    "//java/com/google/gerrit/server/git/receive",
-    "//lib:gson",
-    "//lib:jsch",
-    "//lib/jgit/org.eclipse.jgit:jgit",
-    "//lib/mina:sshd",
-    "//lib:servlet-api-3_1",
-]
-
 java_binary(
     name = "framework",
     testonly = 1,
@@ -109,15 +88,32 @@ java_library2(
         "//prolog:gerrit-prolog-common",
     ],
     visibility = ["//visibility:public"],
-    deps = PROVIDED + [
-        # We want these deps to be exported_deps
+    deps = [
+        "//java/com/google/gerrit/common:annotations",
+        "//java/com/google/gerrit/common:server",
+        "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/httpd",
+        "//java/com/google/gerrit/index",
+        "//java/com/google/gerrit/lucene",
+        "//java/com/google/gerrit/metrics",
+        "//java/com/google/gerrit/pgm/init",
+        "//java/com/google/gerrit/reviewdb:server",
+        "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/git/receive",
+        "//java/com/google/gerrit/server/restapi",
+        "//java/com/google/gerrit/server/schema",
+        "//lib:gson",
         "//lib:guava-retrying",
         "//lib:gwtorm",
-        "//lib/greenmail:greenmail",
-        "//lib/guice:guice",
+        "//lib:jsch",
+        "//lib:servlet-api-3_1",
+        "//lib/greenmail",
+        "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",
-        "//lib/mail:mail",
+        "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib/mail",
+        "//lib/mina:sshd",
     ],
 )
 

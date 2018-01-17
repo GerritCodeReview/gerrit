@@ -57,6 +57,34 @@ import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Parses/writes preferences from/to a {@link Config} file.
+ *
+ * <p>This is a low-level API. Read/write of preferences in a user branch should be done through
+ * {@link AccountsUpdate} or {@link AccountConfig}.
+ *
+ * <p>The config file has separate sections for general, diff and edit preferences:
+ *
+ * <pre>
+ *   [general]
+ *      showSiteHeader = false
+ *   [diff]
+ *     hideTopMenu = true
+ *   [edit]
+ *     lineLength = 80
+ * </pre>
+ *
+ * <p>The parameter names match the names that are used in the preferences REST API.
+ *
+ * <p>If the value for a preference is the same as the default value for this preference, it is
+ * omitted in the config file.
+ *
+ * <p>Defaults for preferences that apply for all accounts can be configured in the {@code
+ * refs/users/default} branch in the {@code All-Users} repository. The config for the default
+ * preferences must be provided to this class so that it can read default values from it.
+ *
+ * <p>The preferences are lazily parsed.
+ */
 public class PreferencesConfig {
   private static final Logger log = LoggerFactory.getLogger(PreferencesConfig.class);
 

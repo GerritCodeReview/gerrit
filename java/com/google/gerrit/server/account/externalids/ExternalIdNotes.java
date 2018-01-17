@@ -59,6 +59,10 @@ import org.slf4j.LoggerFactory;
 /**
  * {@link VersionedMetaData} subclass to update external IDs.
  *
+ * <p>This is a low-level API. Read/write of external IDs should be done through {@link
+ * com.google.gerrit.server.account.AccountsUpdate} or {@link
+ * com.google.gerrit.server.account.AccountConfig}.
+ *
  * <p>On load the note map from {@code refs/meta/external-ids} is read, but the external IDs are not
  * parsed yet (see {@link #onLoad()}).
  *

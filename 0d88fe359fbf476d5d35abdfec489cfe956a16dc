@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "aa46a4e2_4a5d8bfa",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-17T21:09:45Z",
+      "side": 1,
+      "message": "I think we should move this to under the letter c?\n\nEven though branches and tags are out of sync it just looks better if we do it for the other\u0027s being added.\n\nBranches and tags stay next to each other :).",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 15
+      },
+      "revId": "0d88fe359fbf476d5d35abdfec489cfe956a16dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3c33931_429f3aff",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-17T21:09:45Z",
+      "side": 1,
+      "message": "Maybe put this on top of _showRepoDetailList?",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 66
+      },
+      "revId": "0d88fe359fbf476d5d35abdfec489cfe956a16dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f6ebf52_10dfeee2",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-dashboards/gr-repo-dashboards.html",
         "patchSetId": 9
@@ -42,6 +88,23 @@
         "endLine": 39,
         "endChar": 15
       },
+      "revId": "0d88fe359fbf476d5d35abdfec489cfe956a16dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e84b861a_5b58f909",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-dashboards/gr-repo-dashboards.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-17T21:09:45Z",
+      "side": 1,
+      "message": "Remove extra line please.",
       "revId": "0d88fe359fbf476d5d35abdfec489cfe956a16dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

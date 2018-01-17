@@ -34,6 +34,7 @@ occurring and what can be done to solve it.
 * link:error-same-change-id-in-multiple-changes.html[same Change-Id in multiple changes]
 * link:error-too-many-commits.html[too many commits]
 * link:error-upload-denied.html[Upload denied for project \'...']
+* link:error-push-refschanges-not-allowed.html[upload to refs/changes not allowed]
 * link:error-not-allowed-to-upload-merges.html[you are not allowed to upload merges]
 
 

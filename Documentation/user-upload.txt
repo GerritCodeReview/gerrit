@@ -431,6 +431,11 @@ commit messages, as the process is then fully automated by Gerrit
 during normal uploads.
 
 See above for the preferred technique of replacing changes.
+
+Pushing directly to `refs/changes/` is deprecated. If you see the error
+message 'upload to refs/changes not allowed', it means that pushing directly
+to `refs/changes` is disabled on the Gerrit server and the below section does
+not apply to you.
 --
 
 To add an additional patch set to a change, replacing it with an

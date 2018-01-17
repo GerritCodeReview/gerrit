@@ -116,6 +116,17 @@ For interactively working on a single test file, do the following:
 
 Then visit http://localhost:8081/elements/foo/bar_test.html
 
+To run Chrome tests in headless mode:
+
+```sh
+WCT_HEADLESS_MODE=1 ./polygerrit-ui/app/run_test.sh
+```
+
+Toolchain requirements for headless mode:
+
+* Chrome: 59+
+* web-component-tester: v6.5.0+
+
 ## Style guide
 
 We follow the [Google JavaScript Style Guide](https://google.github.io/styleguide/javascriptguide.xml)

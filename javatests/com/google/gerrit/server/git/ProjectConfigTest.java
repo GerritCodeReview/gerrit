@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.AccessSection;
@@ -29,10 +30,12 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.project.CommentLinkInfoImpl;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.testing.GerritBaseTests;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -459,6 +462,109 @@ public class ProjectConfigTest extends GerritBaseTests {
                 + "     \t"
                 + staff.getName()
                 + "\n");
+  }
+
+  @Test
+  public void readCommentLinks() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[commentlink \"bugzilla\"]\n"
+                    + "\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n"
+                    + "\tlink = http://bugs.example.com/show_bug.cgi?id=$2")
+            .create();
+    ProjectConfig cfg = read(rev);
+    Collection<CommentLinkInfoImpl> commentLinks = cfg.getCommentLinkSections();
+    assertThat(commentLinks).hasSize(1);
+    CommentLinkInfoImpl commentLink = commentLinks.iterator().next();
+    assertThat(commentLink.name).isEqualTo("bugzilla");
+    assertThat(commentLink.match).isEqualTo("(bug\\s+#?)(\\d+)");
+    assertThat(commentLink.link).isEqualTo("http://bugs.example.com/show_bug.cgi?id=$2");
+  }
+
+  @Test
+  public void readCommentLinksNoHtmlOrLinkButEnabled() throws Exception {
+    RevCommit rev =
+        tr.commit().add("project.config", "[commentlink \"bugzilla\"]\n \tenabled = true").create();
+    ProjectConfig cfg = read(rev);
+    Collection<CommentLinkInfoImpl> commentLinks = cfg.getCommentLinkSections();
+    assertThat(commentLinks).hasSize(1);
+    CommentLinkInfoImpl commentLink = commentLinks.iterator().next();
+    assertThat(commentLink.name).isEqualTo("bugzilla");
+    assertThat(commentLink.enabled).isEqualTo(true);
+    assertThat(commentLink.match).isNull();
+    assertThat(commentLink.link).isNull();
+    assertThat(commentLink.html).isNull();
+  }
+
+  @Test
+  public void readCommentLinksNoHtmlOrLinkAndDisabled() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("project.config", "[commentlink \"bugzilla\"]\n \tenabled = false")
+            .create();
+    ProjectConfig cfg = read(rev);
+    Collection<CommentLinkInfoImpl> commentLinks = cfg.getCommentLinkSections();
+    assertThat(commentLinks).hasSize(1);
+    CommentLinkInfoImpl commentLink = commentLinks.iterator().next();
+    assertThat(commentLink.name).isEqualTo("bugzilla");
+    assertThat(commentLink.enabled).isEqualTo(false);
+    assertThat(commentLink.match).isNull();
+    assertThat(commentLink.link).isNull();
+    assertThat(commentLink.html).isNull();
+  }
+
+  @Test
+  public void readCommentLinkInvalidPattern() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[commentlink \"bugzilla\"]\n"
+                    + "\tmatch = \"(bugs{+#?)(d+)\"\n"
+                    + "\tlink = http://bugs.example.com/show_bug.cgi?id=$2")
+            .create();
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getCommentLinkSections()).isEmpty();
+    assertThat(cfg.getValidationErrors().stream().map(ValidationError::getMessage))
+        .containsExactly(
+            "project.config: Invalid pattern \"(bugs{+#?)(d+)\" in commentlink.bugzilla.match: "
+                + "Illegal repetition near index 4\n"
+                + "(bugs{+#?)(d+)\n"
+                + "    ^");
+  }
+
+  @Test
+  public void readCommentLinkRawHtml() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[commentlink \"bugzilla\"]\n"
+                    + "\tmatch = \"(bugs#?)(d+)\"\n"
+                    + "\thtml = http://bugs.example.com/show_bug.cgi?id=$2")
+            .create();
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getCommentLinkSections()).isEmpty();
+    assertThat(cfg.getValidationErrors().stream().map(ValidationError::getMessage))
+        .containsExactly(
+            "project.config: Error in pattern \"(bugs#?)(d+)\" in commentlink.bugzilla.match: "
+                + "Raw html replacement not allowed");
+  }
+
+  @Test
+  public void readCommentLinkMatchButNoHtmlOrLink() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("project.config", "[commentlink \"bugzilla\"]\n" + "\tmatch = \"(bugs#?)(d+)\"\n")
+            .create();
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getCommentLinkSections()).isEmpty();
+    assertThat(cfg.getValidationErrors().stream().map(ValidationError::getMessage))
+        .containsExactly(
+            "project.config: Error in pattern \"(bugs#?)(d+)\" in commentlink.bugzilla.match: "
+                + "commentlink.bugzilla must have either link or html");
   }
 
   private ProjectConfig read(RevCommit rev) throws IOException, ConfigInvalidException {

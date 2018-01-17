@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e5eadb9_77e3a655",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-17T12:56:06Z",
+      "side": 1,
+      "message": "Nit: tabs, here and below. (On emacs: M-x: untabify)",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 2
+      },
+      "revId": "14d64060be2ade674aafedf04f82e0b65d6395ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92f1a139_2633574a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-17T12:56:06Z",
+      "side": 1,
+      "message": "This is a controversial decision. I disagree with the whole private changes workflow in context of public repositories and OSS. Again: The whole private change concept doesn\u0027t exist on GitHub.\n\nMoreover, you added this feature: \"Add config to disable private changes\" here: [1]. This raises the question: does this change accounts for \"disabled private changes workflow\"? I havn\u0027t checked the code, but the commit message doesn\u0027t reflect that use case and what would be the alternative?\n\nBut even without disabling private change workflow, I would like to discuss option number 5 per default:\n\n* 5- git push origin\n\n  HEAD:refs/drafts/master\n\nis a *no-op* and let the change as is: Neither WIP, nor private (obviously). IOW the outcome of the above command would be equivalent to:\n\n  git push origin HEAD:refs/for/master\n\nI don\u0027t like the idea of yet another abscure configuration option, as we already have to much of them. But if you insist on choosing controversial path, like EDIT (atm) or starting to mark a change:\n\n* WIP\n* Private\n* WIP and Private\n\nthen I think the compromise would be (unavoidably) to add yet another obscure config option (again, site/project/user? - wide option), that would be set per default to NO-OP (leave the change as is), obviously.\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/148652/",
+      "revId": "14d64060be2ade674aafedf04f82e0b65d6395ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

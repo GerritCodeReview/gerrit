@@ -41,7 +41,6 @@ import com.google.gerrit.server.change.AccountPatchReviewStore.PatchSetWithRevie
 import com.google.gerrit.server.change.FileInfoJson;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;

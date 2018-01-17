@@ -20,5 +20,6 @@ bazel test \
       --test_env="WCT_ARGS=${WCT_ARGS}" \
       --test_env="NPM=${npm_bin}" \
       --test_env="DISPLAY=${DISPLAY}" \
+      --test_env="WCT_HEADLESS_MODE=${WCT_HEADLESS_MODE}" \
       "$@" \
       //polygerrit-ui/app:wct_test

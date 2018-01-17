@@ -160,6 +160,7 @@ limitations under the License.
         '_handleProjectDashboardRoute',
         '_handleProjectsOldRoute',
         '_handleRepoAccessRoute',
+        '_handleRepoDashboardsRoute',
         '_handleRepoListFilterOffsetRoute',
         '_handleRepoListFilterRoute',
         '_handleRepoListOffsetRoute',
@@ -184,7 +185,6 @@ limitations under the License.
       const shouldNotRequireAuth = unauthenticatedHandlers
           .concat(selfAuthenticatingHandlers);
       shouldNotRequireAuth.sort();
-
       assert.deepEqual(actualDoesNotRequireAuth, shouldNotRequireAuth);
     });
 
@@ -846,6 +846,25 @@ limitations under the License.
                 });
               });
         });
+
+        test('custom dashboard with foreach', () => {
+          const data = {canonicalPath: '/dashboard/', params: {0: ''}};
+          return element._handleCustomDashboardRoute(data,
+              '?a=b&c&d=&=e&foreach=is:open')
+              .then(() => {
+                assert.isFalse(redirectToLoginStub.called);
+                assert.isFalse(redirectStub.called);
+                assert.isTrue(setParamsStub.calledOnce);
+                assert.deepEqual(setParamsStub.lastCall.args[0], {
+                  view: Gerrit.Nav.View.DASHBOARD,
+                  user: 'self',
+                  sections: [
+                    {name: 'a', query: 'is:open b'},
+                  ],
+                  title: 'Custom Dashboard',
+                });
+              });
+        });
       });
 
       suite('group routes', () => {
@@ -964,7 +983,6 @@ limitations under the License.
             assertDataToParams(data, '_handleBranchListOffsetRoute', {
               view: Gerrit.Nav.View.REPO,
               detail: Gerrit.Nav.RepoDetailView.BRANCHES,
-              detailType: 'branches',
               repo: 4321,
               offset: 0,
               filter: null,
@@ -974,7 +992,6 @@ limitations under the License.
             assertDataToParams(data, '_handleBranchListOffsetRoute', {
               view: Gerrit.Nav.View.REPO,
               detail: Gerrit.Nav.RepoDetailView.BRANCHES,
-              detailType: 'branches',
               repo: 4321,
               offset: 42,
               filter: null,
@@ -986,7 +1003,6 @@ limitations under the License.
             assertDataToParams(data, '_handleBranchListFilterOffsetRoute', {
               view: Gerrit.Nav.View.REPO,
               detail: Gerrit.Nav.RepoDetailView.BRANCHES,
-              detailType: 'branches',
               repo: 4321,
               offset: 42,
               filter: 'foo',
@@ -998,7 +1014,6 @@ limitations under the License.
             assertDataToParams(data, '_handleBranchListFilterRoute', {
               view: Gerrit.Nav.View.REPO,
               detail: Gerrit.Nav.RepoDetailView.BRANCHES,
-              detailType: 'branches',
               repo: 4321,
               filter: 'foo',
             });
@@ -1011,7 +1026,6 @@ limitations under the License.
             assertDataToParams(data, '_handleTagListOffsetRoute', {
               view: Gerrit.Nav.View.REPO,
               detail: Gerrit.Nav.RepoDetailView.TAGS,
-              detailType: 'tags',
               repo: 4321,
               offset: 0,
               filter: null,
@@ -1023,7 +1037,6 @@ limitations under the License.
             assertDataToParams(data, '_handleTagListFilterOffsetRoute', {
               view: Gerrit.Nav.View.REPO,
               detail: Gerrit.Nav.RepoDetailView.TAGS,
-              detailType: 'tags',
               repo: 4321,
               offset: 42,
               filter: 'foo',
@@ -1035,7 +1048,6 @@ limitations under the License.
             assertDataToParams(data, '_handleTagListFilterRoute', {
               view: Gerrit.Nav.View.REPO,
               detail: Gerrit.Nav.RepoDetailView.TAGS,
-              detailType: 'tags',
               repo: 4321,
               filter: null,
             });
@@ -1044,7 +1056,6 @@ limitations under the License.
             assertDataToParams(data, '_handleTagListFilterRoute', {
               view: Gerrit.Nav.View.REPO,
               detail: Gerrit.Nav.RepoDetailView.TAGS,
-              detailType: 'tags',
               repo: 4321,
               filter: 'foo',
             });

@@ -28,7 +28,7 @@ import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.account.WatchConfig.NotifyType;
+import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.mail.Address;

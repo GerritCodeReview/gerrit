@@ -955,7 +955,26 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "receive.allowPushToRefsChanges", value = "true")
+  public void pushToRefsChangesAllowed() throws Exception {
+    PushOneCommit.Result r = pushOneCommitToRefsChanges();
+    r.assertOkStatus();
+  }
+
+  @Test
   public void pushNewPatchsetToRefsChanges() throws Exception {
+    PushOneCommit.Result r = pushOneCommitToRefsChanges();
+    r.assertErrorStatus("upload to refs/changes not allowed");
+  }
+
+  @Test
+  @GerritConfig(name = "receive.allowPushToRefsChanges", value = "false")
+  public void pushToRefsChangesNotAllowed() throws Exception {
+    PushOneCommit.Result r = pushOneCommitToRefsChanges();
+    r.assertErrorStatus("upload to refs/changes not allowed");
+  }
+
+  private PushOneCommit.Result pushOneCommitToRefsChanges() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
     PushOneCommit push =
@@ -967,8 +986,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "b.txt",
             "anotherContent",
             r.getChangeId());
-    r = push.to("refs/changes/" + r.getChange().change().getId().get());
-    r.assertOkStatus();
+    return push.to("refs/changes/" + r.getChange().change().getId().get());
   }
 
   @Test
@@ -1323,6 +1341,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "receive.allowPushToRefsChanges", value = "true")
   public void testPushWithChangedChangeId() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
@@ -1523,6 +1542,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "receive.allowPushToRefsChanges", value = "true")
   public void accidentallyPushNewPatchSetDirectlyToBranchAndRecoverByPushingToRefsChanges()
       throws Exception {
     Change.Id id = accidentallyPushNewPatchSetDirectlyToBranch();

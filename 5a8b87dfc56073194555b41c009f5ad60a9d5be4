@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe1a287b_86cf56d3",
+        "filename": "java/com/google/gerrit/server/group/db/InternalGroupUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-17T16:59:53Z",
+      "side": 1,
+      "message": "nit: how about about \"Definition of an update to a group\" ?",
+      "range": {
+        "startLine": 26,
+        "startChar": 14,
+        "endLine": 26,
+        "endChar": 57
+      },
+      "revId": "5a8b87dfc56073194555b41c009f5ad60a9d5be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4de2102_7cbe87af",
+        "filename": "java/com/google/gerrit/server/group/db/InternalGroupUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-17T16:59:53Z",
+      "side": 1,
+      "message": "are there any others?",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 11
+      },
+      "revId": "5a8b87dfc56073194555b41c009f5ad60a9d5be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1622cb09_45aef507",
+        "filename": "java/com/google/gerrit/server/group/db/InternalGroupUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-17T16:59:53Z",
+      "side": 1,
+      "message": "IMO the interaction between update and creation can better be documented where you use both of them (some other method, maybe?)",
+      "range": {
+        "startLine": 38,
+        "startChar": 3,
+        "endLine": 38,
+        "endChar": 0
+      },
+      "revId": "5a8b87dfc56073194555b41c009f5ad60a9d5be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e60391a3_61eaeccc",
+        "filename": "java/com/google/gerrit/server/group/db/InternalGroupUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-17T16:59:53Z",
+      "side": 1,
+      "message": ".. given? \n\n(shorter: \"unset the description by passing the empty string\").\n\nAlternatively, why not accept null too.",
+      "range": {
+        "startLine": 74,
+        "startChar": 32,
+        "endLine": 75,
+        "endChar": 13
+      },
+      "revId": "5a8b87dfc56073194555b41c009f5ad60a9d5be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

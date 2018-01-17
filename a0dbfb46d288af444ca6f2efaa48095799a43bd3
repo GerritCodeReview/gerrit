@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de607ea2_c10bba7b",
+        "filename": "java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-17T23:50:59Z",
+      "side": 1,
+      "message": "I wonder if we should add a boolean field to ListChangesOption that is true for all options except these two? Then we don\u0027t have to hard-code the exclusions.",
+      "revId": "a0dbfb46d288af444ca6f2efaa48095799a43bd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

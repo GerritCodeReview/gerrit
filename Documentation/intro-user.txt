@@ -184,9 +184,7 @@ when pushing the very first patch set. This reduces the risk of
 accidentally creating a new change instead of uploading a new patch
 set. Any push without Change-Id then fails with
 link:error-missing-changeid.html[missing Change-Id in commit message
-footer]. New patch sets can always be uploaded to a specific change
-(even without any Change-Id) by pushing to the change ref, e.g.
-`refs/changes/74/67374`.
+footer].
 
 Amending and rebasing a commit preserves the Change-Id so that the new
 commit automatically becomes a new patch set of the existing change,

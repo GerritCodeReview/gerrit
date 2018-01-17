@@ -1223,6 +1223,103 @@ DiffPreferencesInfo] is returned.
   }
 ----
 
+[[get-edit-preferences]]
+=== Get Default Edit Preferences
+
+--
+'GET /config/server/preferences.edit'
+--
+
+Returns the default edit preferences for the server.
+
+.Request
+----
+  GET /a/config/server/preferences.edit HTTP/1.0
+----
+
+As response a link:rest-api-accounts.html#edit-preferences-info[
+EditPreferencesInfo] is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "tab_size": 8,
+    "line_length": 100,
+    "indent_unit": 2,
+    "cursor_blink_rate": 0,
+    "show_tabs": true,
+    "syntax_highlighting": true,
+    "match_brackets": true,
+    "auto_close_brackets": true,
+    "theme": "DEFAULT",
+    "key_map_type": "DEFAULT"
+  }
+----
+
+[[set-edit-preferences]]
+=== Set Default Edit Preferences
+
+--
+'PUT /config/server/preferences.edit'
+--
+
+Sets the default edit preferences for the server.
+
+The new edit preferences must be provided in the request body as a
+link:rest-api-accounts.html#edit-preferences-input[
+EditPreferencesInput] entity.
+
+To be allowed to set default edit preferences, a user must be a member
+of a group that is granted the
+link:access-control.html#capability_administrateServer[
+Administrate Server] capability.
+
+.Request
+----
+  PUT /a/config/server/preferences.edit HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "tab_size": 8,
+    "line_length": 80,
+    "indent_unit": 2,
+    "cursor_blink_rate": 0,
+    "show_tabs": true,
+    "syntax_highlighting": true,
+    "match_brackets": true,
+    "auto_close_brackets": true,
+    "theme": "DEFAULT",
+    "key_map_type": "DEFAULT"
+  }
+----
+
+As response a link:rest-api-accounts.html#edit-preferences-info[
+EditPreferencesInfo] is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "tab_size": 8,
+    "line_length": 80,
+    "indent_unit": 2,
+    "cursor_blink_rate": 0,
+    "show_tabs": true,
+    "syntax_highlighting": true,
+    "match_brackets": true,
+    "auto_close_brackets": true,
+    "theme": "DEFAULT",
+    "key_map_type": "DEFAULT"
+  }
+----
+
 
 [[ids]]
 == IDs

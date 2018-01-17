@@ -397,6 +397,11 @@ public class PreferencesConfig {
     return parseDiffPreferences(readDefaultConfig(allUsersRepo), null, null);
   }
 
+  public static EditPreferencesInfo readDefaultEditPreferences(Repository allUsersRepo)
+      throws IOException, ConfigInvalidException {
+    return parseEditPreferences(readDefaultConfig(allUsersRepo), null, null);
+  }
+
   static Config readDefaultConfig(Repository allUsersRepo)
       throws IOException, ConfigInvalidException {
     VersionedDefaultPreferences defaultPrefs = new VersionedDefaultPreferences();
@@ -435,6 +440,21 @@ public class PreferencesConfig {
     defaultPrefs.commit(md);
 
     return parseDiffPreferences(defaultPrefs.getConfig(), null, null);
+  }
+
+  public static EditPreferencesInfo updateDefaultEditPreferences(
+      MetaDataUpdate md, EditPreferencesInfo input) throws IOException, ConfigInvalidException {
+    VersionedDefaultPreferences defaultPrefs = new VersionedDefaultPreferences();
+    defaultPrefs.load(md);
+    storeSection(
+        defaultPrefs.getConfig(),
+        UserConfigSections.EDIT,
+        null,
+        input,
+        EditPreferencesInfo.defaults());
+    defaultPrefs.commit(md);
+
+    return parseEditPreferences(defaultPrefs.getConfig(), null, null);
   }
 
   private static List<String> changeTable(Config cfg) {

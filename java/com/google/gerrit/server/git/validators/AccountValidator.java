@@ -21,6 +21,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountConfig;
+import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.inject.Inject;
@@ -65,7 +66,7 @@ public class AccountValidator {
       return ImmutableList.of(
           String.format(
               "commit '%s' has an invalid '%s' file for account '%s': %s",
-              newId.name(), AccountConfig.ACCOUNT_CONFIG, accountId.get(), e.getMessage()));
+              newId.name(), AccountProperties.ACCOUNT_CONFIG, accountId.get(), e.getMessage()));
     }
 
     if (!newAccount.isPresent()) {

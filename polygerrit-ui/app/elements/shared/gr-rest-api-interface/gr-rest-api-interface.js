@@ -1002,12 +1002,12 @@
 
     /**
      * @param {number|string} changeNum
-     * @param {!Promise<?Object>} patchRange
+     * @param {Defs.patchRange} patchRange
      */
     getChangeEditFiles(changeNum, patchRange) {
       let endpoint = '/edit?list';
       if (patchRange.basePatchNum !== 'PARENT') {
-        endpoint += '&base=' + encodeURIComponent(patchRange.basePatchNum);
+        endpoint += '&base=' + encodeURIComponent(patchRange.basePatchNum + '');
       }
       return this._getChangeURLAndFetch(changeNum, endpoint);
     },
@@ -1029,13 +1029,12 @@
      * @return {!Promise<!Array<!Object>>}
      */
     getChangeFilesAsSpeciallySortedArray(changeNum, patchRange) {
+      if (this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME)) {
+        return this.getChangeEditFiles(changeNum, patchRange).then(res =>
+          this._normalizeChangeFilesResponse(res.files));
+      }
       return this.getChangeFiles(changeNum, patchRange).then(
           this._normalizeChangeFilesResponse.bind(this));
-    },
-
-    getChangeEditFilesAsSpeciallySortedArray(changeNum, patchRange) {
-      return this.getChangeEditFiles(changeNum, patchRange).then(files =>
-            this._normalizeChangeFilesResponse(files.files));
     },
 
     /**

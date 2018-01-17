@@ -33,7 +33,10 @@ module.exports = {
       },
       'plugins': {
         'local': {
-          'skipSeleniumInstall': true
+          'skipSeleniumInstall': true,
+          'browsersOptions': {
+            'chrome': ${BROWSER_OPTIONS}
+          }
         },
         'sauce': {
           'disabled': true,

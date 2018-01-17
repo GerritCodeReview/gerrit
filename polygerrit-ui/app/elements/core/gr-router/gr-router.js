@@ -114,6 +114,9 @@
     // eslint-disable-next-line max-len
     CHANGE_OR_DIFF: /^\/c\/(.+)\/\+\/(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?(\/(.+))?))?\/?$/,
 
+    // Matches /c/<project>/+/<changeNum>/[<patchNum|edit>],edit
+    CHANGE_EDIT: /^\/c\/(.+)\/\+\/(\d+)(\/(\d+))?,edit\/?$/,
+
     // Matches /c/<project>/+/<changeNum>/[<patchNum|edit>]/<path>,edit
     DIFF_EDIT: /^\/c\/(.+)\/\+\/(\d+)\/(\d+|edit)\/(.+),edit$/,
 
@@ -374,6 +377,8 @@
       let suffix = `${range}`;
       if (params.querystring) {
         suffix += '?' + params.querystring;
+      } else if (params.edit) {
+        suffix += ',edit';
       }
       if (params.project) {
         return `/c/${params.project}/+/${params.changeNum}${suffix}`;
@@ -765,6 +770,8 @@
           '_handleChangeNumberLegacyRoute');
 
       this._mapRoute(RoutePattern.DIFF_EDIT, '_handleDiffEditRoute', true);
+
+      this._mapRoute(RoutePattern.CHANGE_EDIT, '_handleChangeEditRoute', true);
 
       this._mapRoute(RoutePattern.CHANGE_OR_DIFF, '_handleChangeOrDiffRoute');
 
@@ -1255,6 +1262,17 @@
         patchNum: ctx.params[2],
         path: ctx.params[3],
         view: Gerrit.Nav.View.EDIT,
+      });
+    },
+
+    _handleChangeEditRoute(ctx) {
+      // Parameter order is based on the regex group number matched.
+      this._redirectOrNavigate({
+        project: ctx.params[0],
+        changeNum: ctx.params[1],
+        patchNum: ctx.params[3],
+        view: Gerrit.Nav.View.CHANGE,
+        edit: true,
       });
     },
 

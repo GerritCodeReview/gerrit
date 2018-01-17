@@ -508,7 +508,9 @@ class ChangeApiImpl implements ChangeApi {
 
   @Override
   public ChangeInfo get() throws RestApiException {
-    return get(EnumSet.complementOf(EnumSet.of(ListChangesOption.CHECK)));
+    return get(
+        EnumSet.complementOf(
+            EnumSet.of(ListChangesOption.CHECK, ListChangesOption.SKIP_MERGEABLE)));
   }
 
   @Override

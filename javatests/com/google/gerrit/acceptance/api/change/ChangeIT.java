@@ -244,6 +244,9 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInfo c =
         gApi.changes().id(triplet).get(ImmutableList.of(ListChangesOption.SKIP_MERGEABLE));
     assertThat(c.mergeable).isNull();
+
+    c = gApi.changes().id(triplet).get();
+    assertThat(c.mergeable).isTrue();
   }
 
   @Test

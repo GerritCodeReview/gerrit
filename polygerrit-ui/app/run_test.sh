@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+browser_option=${BROWSER_OPTIONS:-\'start-maximized\'}
+
 npm_bin=$(which npm)
 if [[ -z "$npm_bin" ]]; then
     echo "NPM must be on the path. (https://www.npmjs.com/)"
@@ -20,6 +22,7 @@ bazel test \
       --test_env="WCT_ARGS=${WCT_ARGS}" \
       --test_env="NPM=${npm_bin}" \
       --test_env="DISPLAY=${DISPLAY}" \
+      --test_env="BROWSER_OPTION=${browser_option}" \
       "$@" \
       //polygerrit-ui/app:embed_test \
       //polygerrit-ui/app:wct_test

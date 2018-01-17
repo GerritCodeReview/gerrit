@@ -26,12 +26,14 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes.ExternalIdNotesLoader;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
 import com.google.gerrit.server.update.RefUpdateUtil;
@@ -54,20 +56,49 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
 /**
- * Updates accounts.
+ * Creates and updates accounts.
  *
- * <p>The account updates are written to NoteDb.
+ * <p>This class should be used for all account updates. It supports updating account properties,
+ * external IDs, preferences (general, diff and edit preferences) and project watches.
  *
- * <p>In NoteDb accounts are represented as user branches in the All-Users repository. Optionally a
- * user branch can contain a 'account.config' file that stores account properties, such as full
- * name, preferred email, status and the active flag. The timestamp of the first commit on a user
- * branch denotes the registration date. The initial commit on the user branch may be empty (since
- * having an 'account.config' is optional). See {@link AccountConfig} for details of the
- * 'account.config' file format.
+ * <p>Updates to one account are always atomic. Batch updating several accounts within one
+ * transaction is not supported.
  *
- * <p>On updating accounts the accounts are evicted from the account cache and thus reindexed. The
+ * <p>For any account update the caller must provide a commit message, the account ID and an {@link
+ * AccountUpdater}. The account updater allows to read the current {@link AccountState} and to
+ * prepare updates to the account by calling setters on the provided {@link
+ * InternalAccountUpdate.Builder}. If the current account state is of no interest the caller may
+ * also provide a {@link Consumer} for {@link InternalAccountUpdate.Builder} instead of the account
+ * updater.
+ *
+ * <p>The provided commit message is used for the update of the user branch. Using a precise and
+ * unique commit message allows to identify the code from which an update was made when looking at a
+ * commit in the user branch, and thus help debugging.
+ *
+ * <p>For creating a new account a new account ID can be retrieved from {@link
+ * Sequences#nextAccountId()}.
+ *
+ * <p>The account updates are written to NoteDb. In NoteDb accounts are represented as user branches
+ * in the {@code All-Users} repository. Optionally a user branch can contain a 'account.config' file
+ * that stores account properties, such as full name, preferred email, status and the active flag.
+ * The timestamp of the first commit on a user branch denotes the registration date. The initial
+ * commit on the user branch may be empty (since having an 'account.config' is optional). See {@link
+ * AccountConfig} for details of the 'account.config' file format. In addition the user branch can
+ * contain a 'preferences.config' config file to store preferences (see {@link PreferencesConfig})
+ * and a 'watch.config' config file to store project watches (see {@link WatchConfig}). External IDs
+ * are stored separately in the {@code refs/meta/external-ids} notes branch (see {@link
+ * ExternalIdNotes}).
+ *
+ * <p>On updating an account the account is evicted from the account cache and thus reindexed. The
  * eviction from the account cache is done by the {@link ReindexAfterRefUpdate} class which receives
- * the event about updating the user branch that is triggered by this class.
+ * the event about updating the user branch that is triggered by this class. By using the {@link
+ * ServerNoReindex} factory reindexing and flushing the account from the account cache can be
+ * disabled. If external IDs are updated the ExternalIdCache is automatically updated.
+ *
+ * <p>If there are concurrent account updates updating the user branch in NoteDb may fail with
+ * {@link LockFailureException}. In this case the account update is automatically retried and the
+ * account updater is invoked once more with the updated account state. This means the whole
+ * read-modify-write sequence is atomic.
  */
 @Singleton
 public class AccountsUpdate {

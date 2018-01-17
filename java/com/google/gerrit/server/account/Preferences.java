@@ -85,8 +85,8 @@ import org.slf4j.LoggerFactory;
  *
  * <p>The preferences are lazily parsed.
  */
-public class PreferencesConfig {
-  private static final Logger log = LoggerFactory.getLogger(PreferencesConfig.class);
+public class Preferences {
+  private static final Logger log = LoggerFactory.getLogger(Preferences.class);
 
   public static final String PREFERENCES_CONFIG = "preferences.config";
 
@@ -99,7 +99,7 @@ public class PreferencesConfig {
   private DiffPreferencesInfo diffPreferences;
   private EditPreferencesInfo editPreferences;
 
-  public PreferencesConfig(
+  public Preferences(
       Account.Id accountId,
       Config cfg,
       Config defaultCfg,

@@ -83,8 +83,8 @@ import org.eclipse.jgit.lib.Repository;
  * The timestamp of the first commit on a user branch denotes the registration date. The initial
  * commit on the user branch may be empty (since having an 'account.config' is optional). See {@link
  * AccountConfig} for details of the 'account.config' file format. In addition the user branch can
- * contain a 'preferences.config' config file to store preferences (see {@link PreferencesConfig})
- * and a 'watch.config' config file to store project watches (see {@link WatchConfig}). External IDs
+ * contain a 'preferences.config' config file to store preferences (see {@link Preferences}) and a
+ * 'watch.config' config file to store project watches (see {@link ProjectWatches}). External IDs
  * are stored separately in the {@code refs/meta/external-ids} notes branch (see {@link
  * ExternalIdNotes}).
  *

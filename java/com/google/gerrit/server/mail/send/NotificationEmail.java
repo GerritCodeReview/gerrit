@@ -19,7 +19,7 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.server.account.WatchConfig.NotifyType;
+import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
 import com.google.gwtorm.server.OrmException;

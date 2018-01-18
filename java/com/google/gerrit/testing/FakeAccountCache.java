@@ -45,9 +45,8 @@ public class FakeAccountCache implements AccountCache {
   }
 
   @Override
-  @Nullable
-  public synchronized AccountState getOrNull(Account.Id accountId) {
-    return byId.get(accountId);
+  public synchronized Optional<AccountState> maybeGet(Account.Id accountId) {
+    return Optional.ofNullable(byId.get(accountId));
   }
 
   @Override

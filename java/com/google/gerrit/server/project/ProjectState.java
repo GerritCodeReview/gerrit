@@ -310,7 +310,7 @@ public class ProjectState {
    * Obtain all local and inherited sections. This collection is looked up dynamically and is not
    * cached. Callers should try to cache this result per-request as much as possible.
    */
-  List<SectionMatcher> getAllSections() {
+  public List<SectionMatcher> getAllSections() {
     if (isAllProjects) {
       return getLocalAccessSections();
     }

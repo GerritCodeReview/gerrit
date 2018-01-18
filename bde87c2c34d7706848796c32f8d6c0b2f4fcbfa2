@@ -70,6 +70,30 @@
       "revId": "bde87c2c34d7706848796c32f8d6c0b2f4fcbfa2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d23f4c2c_ec460bcc",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/UploadArchiveIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-18T15:06:54Z",
+      "side": 1,
+      "message": "if someone wants to attack this, I made SideBandInputStream public in JGit for anyone who wants to do this in a principled way:\n\n https://git.eclipse.org/r/#/c/115453/",
+      "parentUuid": "48a4f941_10742475",
+      "range": {
+        "startLine": 126,
+        "startChar": 6,
+        "endLine": 129,
+        "endChar": 7
+      },
+      "revId": "bde87c2c34d7706848796c32f8d6c0b2f4fcbfa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

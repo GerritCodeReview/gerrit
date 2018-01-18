@@ -116,7 +116,7 @@ final class Receive extends AbstractGitCommand {
         StringBuilder msg = new StringBuilder();
         msg.append("Receive error on project \"").append(projectState.getName()).append("\"");
         msg.append(" (user ");
-        msg.append(currentUser.state().getUserName());
+        msg.append(currentUser.state().getUserName().orElse(null));
         msg.append(" account ");
         msg.append(currentUser.getAccountId());
         msg.append("): ");

@@ -196,9 +196,8 @@ public class AccountState {
    *
    * <p>The username is the {@link ExternalId} using the scheme {@link ExternalId#SCHEME_USERNAME}.
    */
-  @Nullable
-  public String getUserName() {
-    return userName.orElse(null);
+  public Optional<String> getUserName() {
+    return userName;
   }
 
   public boolean checkPassword(String password, String username) {

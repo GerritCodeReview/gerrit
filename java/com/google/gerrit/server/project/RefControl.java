@@ -516,7 +516,8 @@ class RefControl {
           return canUpload();
 
         case CREATE_TAG:
-          return canPerform(Permission.CREATE_TAG);
+        case CREATE_SIGNED_TAG:
+          return canPerform(perm.name());
 
         case UPDATE_BY_SUBMIT:
           return projectControl.controlForRef(MagicBranch.NEW_CHANGE + refName).canSubmit(true);

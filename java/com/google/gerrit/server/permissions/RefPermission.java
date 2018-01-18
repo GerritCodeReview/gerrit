@@ -38,6 +38,9 @@ public enum RefPermission {
   /** Create a tag. */
   CREATE_TAG(Permission.CREATE_TAG),
 
+  /** Create a signed tag. */
+  CREATE_SIGNED_TAG(Permission.CREATE_SIGNED_TAG),
+
   /**
    * Creates changes, then also immediately submits them during {@code push}.
    *

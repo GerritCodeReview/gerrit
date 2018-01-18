@@ -123,7 +123,6 @@ import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.project.SubmitRuleOptions;
@@ -344,7 +343,6 @@ public class ChangeJson {
         | OrmException
         | IOException
         | PermissionBackendException
-        | NoSuchProjectException
         | RuntimeException e) {
       if (!has(CHECK)) {
         Throwables.throwIfInstanceOf(e, OrmException.class);
@@ -423,7 +421,6 @@ public class ChangeJson {
             | OrmException
             | IOException
             | PermissionBackendException
-            | NoSuchProjectException
             | RuntimeException e) {
           if (has(CHECK)) {
             i = checkOnly(cd);
@@ -489,8 +486,8 @@ public class ChangeJson {
   }
 
   private ChangeInfo toChangeInfo(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
-      throws PatchListNotAvailableException, GpgException, OrmException, IOException,
-          PermissionBackendException, NoSuchProjectException {
+      throws PatchListNotAvailableException, GpgException, OrmException, PermissionBackendException,
+          IOException {
     ChangeInfo out = new ChangeInfo();
     CurrentUser user = userProvider.get();
 
@@ -1122,7 +1119,7 @@ public class ChangeJson {
   }
 
   private Collection<AccountInfo> removableReviewers(ChangeData cd, ChangeInfo out)
-      throws PermissionBackendException, NoSuchProjectException, OrmException, IOException {
+      throws PermissionBackendException, OrmException {
     // Although this is called removableReviewers, this method also determines
     // which CCs are removable.
     //

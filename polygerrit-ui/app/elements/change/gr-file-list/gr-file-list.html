@@ -58,6 +58,12 @@ limitations under the License.
       :host(.editLoaded) .showOnEdit {
         display: initial;
       }
+      .controlRow {
+        align-items: center;
+        display: flex;
+        height: 2.25em;
+        justify-content: center;
+      }
       .reviewed,
       .status {
         align-items: center;
@@ -114,7 +120,7 @@ limitations under the License.
         min-width: 7em;
       }
       .invisible {
-        visibility: hidden;
+        display: none;
       }
       .row:not(.header) .stats,
       .total-stats {
@@ -383,25 +389,25 @@ limitations under the License.
         </span>
       </div>
     </div>
-    <gr-button
-        class="fileListButton"
-        id="incrementButton"
-        hidden$="[[_computeFileListButtonHidden(numFilesShown, _files)]]"
-        link on-tap="_incrementNumFilesShown">
-      [[_computeIncrementText(numFilesShown, _files)]]
-    </gr-button>
-    <gr-tooltip-content
-        has-tooltip="[[_computeWarnShowAll(_files)]]"
-        show-icon="[[_computeWarnShowAll(_files)]]"
-        title$="[[_computeShowAllWarning(_files)]]">
+    <div class$="row controlRow [[_computeFileListControlClass(numFilesShown, _files)]]">
       <gr-button
           class="fileListButton"
-          id="showAllButton"
-          hidden$="[[_computeFileListButtonHidden(numFilesShown, _files)]]"
-          link on-tap="_showAllFiles">
-        [[_computeShowAllText(_files)]]
-      </gr-button><!--
- --></gr-tooltip-content>
+          id="incrementButton"
+          link on-tap="_incrementNumFilesShown">
+        [[_computeIncrementText(numFilesShown, _files)]]
+      </gr-button>
+      <gr-tooltip-content
+          has-tooltip="[[_computeWarnShowAll(_files)]]"
+          show-icon="[[_computeWarnShowAll(_files)]]"
+          title$="[[_computeShowAllWarning(_files)]]">
+        <gr-button
+            class="fileListButton"
+            id="showAllButton"
+            link on-tap="_showAllFiles">
+          [[_computeShowAllText(_files)]]
+        </gr-button><!--
+  --></gr-tooltip-content>
+    </div>
     <gr-diff-preferences
         id="diffPreferences"
         prefs="{{diffPrefs}}"

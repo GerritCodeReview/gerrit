@@ -96,13 +96,28 @@ limitations under the License.
     });
 
     test('correct number of files are shown', () => {
+      element.fileListIncrement = 300;
       element._files = _.times(500, i => {
         return {__path: '/file' + i, lines_inserted: 9};
       });
       flushAsynchronousOperations();
+
       assert.equal(
           Polymer.dom(element.root).querySelectorAll('.file-row').length,
           element.numFilesShown);
+      const controlRow = element.$$('.controlRow');
+      assert.isFalse(controlRow.classList.contains('invisible'));
+      assert.equal(element.$.incrementButton.textContent.trim(),
+          'Show 300 more');
+      assert.equal(element.$.showAllButton.textContent.trim(),
+          'Show all 500 files');
+
+      MockInteractions.tap(element.$.showAllButton);
+      flushAsynchronousOperations();
+
+      assert.equal(element.numFilesShown, 500);
+      assert.equal(element._shownFiles.length, 500);
+      assert.isTrue(controlRow.classList.contains('invisible'));
     });
 
     test('calculate totals for patch number', () => {

@@ -747,8 +747,8 @@
       this.numFilesShown += this.fileListIncrement;
     },
 
-    _computeFileListButtonHidden(numFilesShown, files) {
-      return numFilesShown >= files.length;
+    _computeFileListControlClass(numFilesShown, files) {
+      return numFilesShown >= files.length ? 'invisible' : '';
     },
 
     _computeIncrementText(numFilesShown, files) {

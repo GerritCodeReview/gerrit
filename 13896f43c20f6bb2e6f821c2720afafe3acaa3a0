@@ -1,4 +1,79 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1516282998 +0100\nnonce AGjzz38yJoeLMZMmuefwzxHp7kMlZq0Ya1pDTkUjlcf6mRnB1nw2wsZsELNJJLJ02ug9nA0YozNH\n\n0000000000000000000000000000000000000000 2bedddcb8c97144bc4c8ae43bbc3fe6314f58fcb refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlpgpHYACgkQUbX9l6DQ\n71Hvqgf/ZIFcv1TTmA2dpaSYzYS5DP8ZP8PdNKkpS4N0QNnOTSnwYBdj2vjXbV6J\nf37F7Pugv9HTYgvR/nSyAKyXnE9HXSYf6GRiRQL4/zV0r1dPos/YjwH+1xsmGRf2\nCy3TuZ5AfWu+GERb1nIURpnJs46nfNaeq0aPhgU6GsomxJ6UPCTtKRwMZNeubFaH\nR4wsMpgOJbBrVDblIm9XwgJYWeBx4XxlfyrGgAUWI750aA46O6HJK/ZYU4f6ebGQ\nRl/tEkF05425p++V3gAE+zNYz4tmiIX+GGRqlEt7cwWWFU0a6WGU3BO05AjehAZn\n1K47GPnRXlxIJHHCMCYIeKi25XlMyA\u003d\u003d\n\u003dpouD\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bf76b9e_d0b64028",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-18T22:07:45Z",
+      "side": 1,
+      "message": "ISTR there is some tool (Eclipse? google-java-format?) that doesn\u0027t like when you import a class purely for use in javadoc.\n\nIf this doesn\u0027t generate visible warnings, then I\u0027m fine with it.",
+      "revId": "13896f43c20f6bb2e6f821c2720afafe3acaa3a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e754228_e3a1bca3",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-18T22:07:45Z",
+      "side": 1,
+      "message": "Worth mentioning that if a LockFailureException escapes this class, it means that it did not succeed even after retrying? Or maybe a @throws clause in the update method is a more appropriate place for that.",
+      "revId": "13896f43c20f6bb2e6f821c2720afafe3acaa3a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d119b30a_872b5c59",
+        "filename": "java/com/google/gerrit/server/account/PreferencesConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-18T22:07:45Z",
+      "side": 1,
+      "message": "Nit: consistent indentation",
+      "revId": "13896f43c20f6bb2e6f821c2720afafe3acaa3a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcb2567e_8a46ea91",
+        "filename": "java/com/google/gerrit/server/account/PreferencesConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-18T22:07:45Z",
+      "side": 1,
+      "message": "I would flip this if/then statement around: \"If the preference is omitted in the config file, then the default value for the preference is used.\"\n\nThe way you have it here, it is ambiguous what happens when the configured default value changes.",
+      "range": {
+        "startLine": 79,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 88
+      },
+      "revId": "13896f43c20f6bb2e6f821c2720afafe3acaa3a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

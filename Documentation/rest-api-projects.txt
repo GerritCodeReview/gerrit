@@ -1330,8 +1330,8 @@ link:#access-check-input[AccessCheckInput] entity.
 ----
 
 The result is a link:#access-check-info[AccessCheckInfo] entity
-detailing the read access of the given user for the given project (or
-project-ref combination).
+detailing the access of the given user for the given project,
+project-ref, or project-permission-ref combination.
 
 .Response
 ----
@@ -2752,7 +2752,10 @@ The `AccessCheckInput` entity is either an account or
 |=========================================
 |Field Name                  ||Description
 |`account`                   ||The account for which to check access
-|`ref`                       |optional|The refname for which to check access
+|`ref`                       |optional|The refname for which to check
+access
+|`permission`                |optional|The ref permission for which to
+check. This defaults to `read`. If given, it `ref` must be given too.
 |=========================================
 
 [[ban-input]]

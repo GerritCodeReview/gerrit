@@ -24,6 +24,14 @@ limitations under the License.
     //
     //  - Gerrit.Nav.View.CHANGE:
     //    - `changeNum`, required, String: the numeric ID of the change.
+    //    - `project`, optional, String: the project name.
+    //    - `patchNum`, optional, Number: the patch for the right-hand-side of
+    //        the diff.
+    //    - `basePatchNum`, optional, Number: the patch for the left-hand-side
+    //        of the diff. If `basePatchNum` is provided, then `patchNum` must
+    //        also be provided.
+    //    - `edit`, optional, Boolean: whether or not to load the file list in
+    //        edit mode with edit controls.
     //
     // - Gerrit.Nav.View.SEARCH:
     //    - `query`, optional, String: the literal search query. If provided,
@@ -41,24 +49,24 @@ limitations under the License.
     //  - Gerrit.Nav.View.DIFF:
     //    - `changeNum`, required, String: the numeric ID of the change.
     //    - `path`, required, String: the filepath of the diff.
-    //    - `patchNum`, required, Number, the patch for the right-hand-side of
+    //    - `patchNum`, required, Number: the patch for the right-hand-side of
     //        the diff.
-    //    - `basePatchNum`, optional, Number, the patch for the left-hand-side
+    //    - `basePatchNum`, optional, Number: the patch for the left-hand-side
     //        of the diff. If `basePatchNum` is provided, then `patchNum` must
     //        also be provided.
-    //    - `lineNum`, optional, Number, the line number to be selected on load.
-    //    - `leftSide`, optional, Boolean, if a `lineNum` is provided, a value
+    //    - `lineNum`, optional, Number: the line number to be selected on load.
+    //    - `leftSide`, optional, Boolean: if a `lineNum` is provided, a value
     //        of true selects the line from base of the patch range. False by
     //        default.
     //
     //  - Gerrit.Nav.View.GROUP:
-    //    - `groupId`, required, String, the ID of the group.
-    //    - `detail`, optional, String, the name of the group detail view.
+    //    - `groupId`, required, String: the ID of the group.
+    //    - `detail`, optional, String: the name of the group detail view.
     //      Takes any value from Gerrit.Nav.GroupDetailView.
     //
     //  - Gerrit.Nav.View.REPO:
-    //    - `repoName`, required, String, the name of the repo
-    //    - `detail`, optional, String, the name of the repo detail view.
+    //    - `repoName`, required, String: the name of the repo
+    //    - `detail`, optional, String: the name of the repo detail view.
     //      Takes any value from Gerrit.Nav.RepoDetailView.
 
 
@@ -230,9 +238,10 @@ limitations under the License.
        * @param {number=} opt_patchNum
        * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
        *     used for none.
+       * @param {boolean=} opt_isEdit
        * @return {string}
        */
-      getUrlForChange(change, opt_patchNum, opt_basePatchNum) {
+      getUrlForChange(change, opt_patchNum, opt_basePatchNum, opt_isEdit) {
         if (opt_basePatchNum === PARENT_PATCHNUM) {
           opt_basePatchNum = undefined;
         }
@@ -244,6 +253,7 @@ limitations under the License.
           project: change.project,
           patchNum: opt_patchNum,
           basePatchNum: opt_basePatchNum,
+          edit: opt_isEdit,
         });
       },
 
@@ -267,10 +277,11 @@ limitations under the License.
        * @param {number=} opt_patchNum
        * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
        *     used for none.
+       * @param {boolean=} opt_isEdit
        */
-      navigateToChange(change, opt_patchNum, opt_basePatchNum) {
+      navigateToChange(change, opt_patchNum, opt_basePatchNum, opt_isEdit) {
         this._navigate(this.getUrlForChange(change, opt_patchNum,
-            opt_basePatchNum));
+            opt_basePatchNum, opt_isEdit));
       },
 
       /**

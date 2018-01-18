@@ -18,13 +18,8 @@ import com.google.gerrit.common.Nullable;
 
 public class AccessCheckInput {
   public String account;
-
   @Nullable public String ref;
 
-  public AccessCheckInput(String account, @Nullable String ref) {
-    this.account = account;
-    this.ref = ref;
-  }
-
-  public AccessCheckInput() {}
+  // If permission is given, ref must also be given.
+  @Nullable public String permission;
 }

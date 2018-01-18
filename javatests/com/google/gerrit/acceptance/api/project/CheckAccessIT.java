@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import java.util.List;
@@ -56,7 +57,6 @@ public class CheckAccessIT extends AbstractDaemonTest {
     grant(secretProject, "refs/*", Permission.READ, false, privilegedGroup.getGroupUUID());
     block(secretProject, "refs/*", Permission.READ, SystemGroupBackend.REGISTERED_USERS);
 
-    // deny/grant/block arg ordering is screwy.
     deny(secretRefProject, "refs/*", Permission.READ, SystemGroupBackend.ANONYMOUS_USERS);
     grant(
         secretRefProject,
@@ -75,6 +75,17 @@ public class CheckAccessIT extends AbstractDaemonTest {
         Permission.READ,
         false,
         SystemGroupBackend.REGISTERED_USERS);
+
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+
+    // Ref permission
+    grant(
+        normalProject,
+        "refs/*",
+        Permission.VIEW_PRIVATE_CHANGES,
+        false,
+        privilegedGroup.getGroupUUID());
+    grant(normalProject, "refs/*", Permission.FORGE_SERVER, false, privilegedGroup.getGroupUUID());
   }
 
   @Test
@@ -85,23 +96,87 @@ public class CheckAccessIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void nonexistentPermission() throws Exception {
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("not recognized");
+    AccessCheckInput in = new AccessCheckInput();
+
+    in.account = user.email;
+    in.permission = "notapermission";
+    in.ref = "refs/heads/master";
+    gApi.projects().name(normalProject.get()).checkAccess(in);
+  }
+
+  @Test
+  public void permissionLacksRef() throws Exception {
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("must set 'ref'");
+    AccessCheckInput in = new AccessCheckInput();
+
+    in.account = user.email;
+    in.permission = "forge_author";
+    gApi.projects().name(normalProject.get()).checkAccess(in);
+  }
+
+  @Test
+  public void changePermission() throws Exception {
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("recognized as ref permission");
+    AccessCheckInput in = new AccessCheckInput();
+
+    in.account = user.email;
+    in.permission = "rebase";
+    in.ref = "refs/heads/master";
+    gApi.projects().name(normalProject.get()).checkAccess(in);
+  }
+
+  @Test
   public void nonexistentEmail() throws Exception {
     exception.expect(UnprocessableEntityException.class);
     exception.expectMessage("cannot find account doesnotexist@invalid.com");
-    gApi.projects()
-        .name(normalProject.get())
-        .checkAccess(new AccessCheckInput("doesnotexist@invalid.com", null));
+
+    AccessCheckInput in = new AccessCheckInput();
+    in.account = "doesnotexist@invalid.com";
+    in.permission = "rebase";
+    in.ref = "refs/heads/master";
+    gApi.projects().name(normalProject.get()).checkAccess(in);
   }
 
   private static class TestCase {
     AccessCheckInput input;
     String project;
+    String permission;
     int want;
 
-    TestCase(String mail, String project, String ref, int want) {
-      this.input = new AccessCheckInput(mail, ref);
-      this.project = project;
-      this.want = want;
+    static TestCase project(String mail, String project, int want) {
+      TestCase t = new TestCase();
+      t.input = new AccessCheckInput();
+      t.input.account = mail;
+      t.project = project;
+      t.want = want;
+      return t;
+    }
+
+    static TestCase projectRef(String mail, String project, String ref, int want) {
+      TestCase t = new TestCase();
+      t.input = new AccessCheckInput();
+      t.input.account = mail;
+      t.input.ref = ref;
+      t.project = project;
+      t.want = want;
+      return t;
+    }
+
+    static TestCase projectRefPerm(
+        String mail, String project, String ref, String permission, int want) {
+      TestCase t = new TestCase();
+      t.input = new AccessCheckInput();
+      t.input.account = mail;
+      t.input.ref = ref;
+      t.input.permission = permission;
+      t.project = project;
+      t.want = want;
+      return t;
     }
   }
 
@@ -109,13 +184,33 @@ public class CheckAccessIT extends AbstractDaemonTest {
   public void accessible() throws Exception {
     List<TestCase> inputs =
         ImmutableList.of(
-            new TestCase(user.email, normalProject.get(), null, 200),
-            new TestCase(user.email, secretProject.get(), null, 403),
-            new TestCase(user.email, secretRefProject.get(), "refs/heads/secret/master", 403),
-            new TestCase(
+            TestCase.projectRefPerm(
+                user.email,
+                normalProject.get(),
+                "refs/heads/master",
+                Permission.VIEW_PRIVATE_CHANGES,
+                403),
+            TestCase.project(user.email, normalProject.get(), 200),
+            TestCase.project(user.email, secretProject.get(), 403),
+            TestCase.projectRef(
+                user.email, secretRefProject.get(), "refs/heads/secret/master", 403),
+            TestCase.projectRef(
                 privilegedUser.email, secretRefProject.get(), "refs/heads/secret/master", 200),
-            new TestCase(privilegedUser.email, normalProject.get(), null, 200),
-            new TestCase(privilegedUser.email, secretProject.get(), null, 200));
+            TestCase.projectRef(privilegedUser.email, normalProject.get(), null, 200),
+            TestCase.projectRef(privilegedUser.email, secretProject.get(), null, 200),
+            TestCase.projectRef(privilegedUser.email, secretProject.get(), null, 200),
+            TestCase.projectRefPerm(
+                privilegedUser.email,
+                normalProject.get(),
+                "refs/heads/master",
+                Permission.VIEW_PRIVATE_CHANGES,
+                200),
+            TestCase.projectRefPerm(
+                privilegedUser.email,
+                normalProject.get(),
+                "refs/heads/master",
+                Permission.FORGE_SERVER,
+                200));
 
     for (TestCase tc : inputs) {
       String in = newGson().toJson(tc.input);
@@ -135,7 +230,9 @@ public class CheckAccessIT extends AbstractDaemonTest {
 
       switch (want) {
         case 403:
-          assertThat(info.message).contains("cannot see");
+          if (tc.permission != null) {
+            assertThat(info.message).contains("lacks permission " + tc.permission);
+          }
           break;
         case 404:
           assertThat(info.message).contains("does not exist");

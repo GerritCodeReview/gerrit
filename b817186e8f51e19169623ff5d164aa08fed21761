@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e3118ef1_e1f8d01b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3558,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-01-18T07:19:04Z",
+      "side": 1,
+      "message": "The \"Defaults to\" section is generally the last one in the documentation of config options. I would prefer if you link to the section describing manual replacement mapping and have the full explanation there.\n\n[1] https://gerrit-review.googlesource.com/Documentation/user-upload.html#manual_replacement_mapping",
+      "range": {
+        "startLine": 3556,
+        "startChar": 0,
+        "endLine": 3558,
+        "endChar": 63
+      },
+      "revId": "b817186e8f51e19169623ff5d164aa08fed21761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "014a891a_99a67e9d",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 2

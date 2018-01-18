@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1515774138 +0100\nnonce AGjzz3859idC/ljizBKFege+uHtnJ8aUdZc9OZFPsFzT9V6M/gLxR9lSTKulTtn+BVQfuhePDIDj\n\n0000000000000000000000000000000000000000 55a19fed287f9034c321ff85e91db01653489e69 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaWOC6AAoJEFG1/Zeg0O9RmkIH/1MM49M615U/zgMNlPVKsZfX\ntT0K4z/4UdCC5ySEduPjvRA0S06HlJbbqh3Jmuc5VtllE6eFJs0bi3ImszgWAASk\neyREUkIB1AbsRegWKFhy2gVrSlasaihSCLLEwuah2Xm+tXJBFAe6vtL0gIQBfxM/\nmnrulQQVUcVdvtgTjV2I7MtveVai04/oSvceoAWi62GZ2AYtdPjNo+QvkmrSWpeB\nk1cCAsoKta7mKjDuQA6f15GJvq2IfNjfDZmEgpA8UjX9j9ympHjpAf7UfhZXXCRR\nlwdKL+bhKGgYXB1UB8iGKpz9gDq+8M7jH+fMSV61zCucyFux7wNgNeWfnPzQGys\u003d\n\u003dT8+v\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5df847ca_891e45bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-01-18T14:26:02Z",
+      "side": 1,
+      "message": "Thanks for implementing this feature, we have to fix inconsistent changes from time to time and this endpoint will make our life easier.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 66
+      },
+      "revId": "55a19fed287f9034c321ff85e91db01653489e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

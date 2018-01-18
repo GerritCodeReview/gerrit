@@ -27,10 +27,10 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.AgreementSignup;
 import com.google.gerrit.server.project.ProjectCache;
@@ -92,13 +92,13 @@ public class PutAgreement implements RestModifyView<AccountResource, AgreementIn
       throw new ResourceConflictException("autoverify group uuid not found");
     }
 
-    Account account = self.get().getAccount();
+    AccountState accountState = self.get().state();
     try {
-      addMembers.addMembers(uuid, ImmutableSet.of(account.getId()));
+      addMembers.addMembers(uuid, ImmutableSet.of(accountState.getAccount().getId()));
     } catch (NoSuchGroupException e) {
       throw new ResourceConflictException("autoverify group not found");
     }
-    agreementSignup.fire(account, agreementName);
+    agreementSignup.fire(accountState, agreementName);
 
     return Response.ok(agreementName);
   }

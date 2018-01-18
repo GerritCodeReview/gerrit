@@ -33,6 +33,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyUtil;
 import com.google.gerrit.server.extensions.events.ReviewerDeleted;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
@@ -64,7 +65,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   private static final Logger log = LoggerFactory.getLogger(DeleteReviewerOp.class);
 
   public interface Factory {
-    DeleteReviewerOp create(Account reviewerAccount, DeleteReviewerInput input);
+    DeleteReviewerOp create(AccountState reviewerAccount, DeleteReviewerInput input);
   }
 
   private final ApprovalsUtil approvalsUtil;
@@ -79,7 +80,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   private final RemoveReviewerControl removeReviewerControl;
   private final ProjectCache projectCache;
 
-  private final Account reviewer;
+  private final AccountState reviewer;
   private final DeleteReviewerInput input;
 
   ChangeMessage changeMessage;
@@ -101,7 +102,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
       NotifyUtil notifyUtil,
       RemoveReviewerControl removeReviewerControl,
       ProjectCache projectCache,
-      @Assisted Account reviewerAccount,
+      @Assisted AccountState reviewerAccount,
       @Assisted DeleteReviewerInput input) {
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
@@ -122,7 +123,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   public boolean updateChange(ChangeContext ctx)
       throws AuthException, ResourceNotFoundException, OrmException, PermissionBackendException,
           IOException, NoSuchProjectException {
-    Account.Id reviewerId = reviewer.getId();
+    Account.Id reviewerId = reviewer.getAccount().getId();
     // Check of removing this reviewer (even if there is no vote processed by the loop below) is OK
     removeReviewerControl.checkRemoveReviewer(ctx.getNotes(), ctx.getUser(), reviewerId);
 
@@ -140,7 +141,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     }
 
     StringBuilder msg = new StringBuilder();
-    msg.append("Removed reviewer " + reviewer.getFullName());
+    msg.append("Removed reviewer " + reviewer.getAccount().getFullName());
     StringBuilder removedVotesMsg = new StringBuilder();
     removedVotesMsg.append(" with the following votes:\n\n");
     List<PatchSetApproval> del = new ArrayList<>();
@@ -235,14 +236,14 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   private void emailReviewers(
       Project.NameKey projectName, Change change, ChangeMessage changeMessage) {
     Account.Id userId = user.get().getAccountId();
-    if (userId.equals(reviewer.getId())) {
+    if (userId.equals(reviewer.getAccount().getId())) {
       // The user knows they removed themselves, don't bother emailing them.
       return;
     }
     try {
       DeleteReviewerSender cm = deleteReviewerSenderFactory.create(projectName, change.getId());
       cm.setFrom(userId);
-      cm.addReviewers(Collections.singleton(reviewer.getId()));
+      cm.addReviewers(Collections.singleton(reviewer.getAccount().getId()));
       cm.setChangeMessage(changeMessage.getMessage(), changeMessage.getWrittenOn());
       cm.setNotify(input.notify);
       cm.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));

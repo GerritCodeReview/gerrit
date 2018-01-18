@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GpgException;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -93,23 +94,26 @@ public class EventUtil {
     return changeJson.getRevisionInfo(cd, ps);
   }
 
-  public AccountInfo accountInfo(Account a) {
-    if (a == null || a.getId() == null) {
+  public AccountInfo accountInfo(AccountState accountState) {
+    if (accountState == null || accountState.getAccount().getId() == null) {
       return null;
     }
-    AccountInfo accountInfo = new AccountInfo(a.getId().get());
-    accountInfo.email = a.getPreferredEmail();
-    accountInfo.name = a.getFullName();
-    accountInfo.username = a.getUserName();
+    Account account = accountState.getAccount();
+    AccountInfo accountInfo = new AccountInfo(account.getId().get());
+    accountInfo.email = account.getPreferredEmail();
+    accountInfo.name = account.getFullName();
+    accountInfo.username = accountState.getUserName();
     return accountInfo;
   }
 
   public Map<String, ApprovalInfo> approvals(
-      Account a, Map<String, Short> approvals, Timestamp ts) {
+      AccountState accountState, Map<String, Short> approvals, Timestamp ts) {
     Map<String, ApprovalInfo> result = new HashMap<>();
     for (Map.Entry<String, Short> e : approvals.entrySet()) {
       Integer value = e.getValue() != null ? Integer.valueOf(e.getValue()) : null;
-      result.put(e.getKey(), ChangeJson.getApprovalInfo(a.getId(), value, null, null, ts));
+      result.put(
+          e.getKey(),
+          ChangeJson.getApprovalInfo(accountState.getAccount().getId(), value, null, null, ts));
     }
     return result;
   }

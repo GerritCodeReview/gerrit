@@ -17,7 +17,7 @@ package com.google.gerrit.server.extensions.events;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.events.AgreementSignupListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.account.AccountState;
 import com.google.inject.Inject;
 
 public class AgreementSignup {
@@ -30,11 +30,11 @@ public class AgreementSignup {
     this.util = util;
   }
 
-  public void fire(Account account, String agreementName) {
+  public void fire(AccountState accountState, String agreementName) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event event = new Event(util.accountInfo(account), agreementName);
+    Event event = new Event(util.accountInfo(accountState), agreementName);
     for (AgreementSignupListener l : listeners) {
       try {
         l.onAgreementSignup(event);

@@ -30,11 +30,11 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -347,9 +347,9 @@ public abstract class BatchUpdate implements AutoCloseable {
     return user;
   }
 
-  protected Optional<Account> getAccount() {
+  protected Optional<AccountState> getAccount() {
     return user.isIdentifiedUser()
-        ? Optional.of(user.asIdentifiedUser().getAccount())
+        ? Optional.of(user.asIdentifiedUser().state())
         : Optional.empty();
   }
 

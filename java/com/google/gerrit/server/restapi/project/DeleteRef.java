@@ -157,10 +157,7 @@ public class DeleteRef {
       case FAST_FORWARD:
       case FORCED:
         referenceUpdated.fire(
-            resource.getNameKey(),
-            u,
-            ReceiveCommand.Type.DELETE,
-            identifiedUser.get().getAccount());
+            resource.getNameKey(), u, ReceiveCommand.Type.DELETE, identifiedUser.get().state());
         break;
 
       case REJECTED_CURRENT_BRANCH:
@@ -280,6 +277,6 @@ public class DeleteRef {
   }
 
   private void postDeletion(ProjectResource project, ReceiveCommand cmd) {
-    referenceUpdated.fire(project.getNameKey(), cmd, identifiedUser.get().getAccount());
+    referenceUpdated.fire(project.getNameKey(), cmd, identifiedUser.get().state());
   }
 }

@@ -141,10 +141,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
           case NEW:
           case NO_CHANGE:
             referenceUpdated.fire(
-                name.getParentKey(),
-                u,
-                ReceiveCommand.Type.CREATE,
-                identifiedUser.get().getAccount());
+                name.getParentKey(), u, ReceiveCommand.Type.CREATE, identifiedUser.get().state());
             break;
           case LOCK_FAILURE:
             if (repo.getRefDatabase().exactRef(ref) != null) {

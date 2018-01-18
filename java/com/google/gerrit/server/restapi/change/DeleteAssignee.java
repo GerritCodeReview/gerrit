@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.extensions.events.AssigneeChanged;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -89,7 +90,7 @@ public class DeleteAssignee
 
   private class Op implements BatchUpdateOp {
     private Change change;
-    private Account deletedAssignee;
+    private AccountState deletedAssignee;
 
     @Override
     public boolean updateChange(ChangeContext ctx) throws RestApiException, OrmException {
@@ -100,7 +101,7 @@ public class DeleteAssignee
         return false;
       }
       IdentifiedUser deletedAssigneeUser = userFactory.create(currentAssigneeId);
-      deletedAssignee = deletedAssigneeUser.getAccount();
+      deletedAssignee = deletedAssigneeUser.state();
       // noteDb
       update.removeAssignee();
       // reviewDb
@@ -110,7 +111,7 @@ public class DeleteAssignee
     }
 
     public Account.Id getDeletedAssignee() {
-      return deletedAssignee != null ? deletedAssignee.getId() : null;
+      return deletedAssignee != null ? deletedAssignee.getAccount().getId() : null;
     }
 
     private void addMessage(ChangeContext ctx, ChangeUpdate update, IdentifiedUser deletedAssignee)

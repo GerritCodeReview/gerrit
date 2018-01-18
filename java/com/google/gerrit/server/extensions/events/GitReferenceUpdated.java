@@ -18,8 +18,8 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.account.AccountState;
 import com.google.inject.Inject;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
@@ -34,10 +34,10 @@ public class GitReferenceUpdated {
             Project.NameKey project,
             RefUpdate refUpdate,
             ReceiveCommand.Type type,
-            Account updater) {}
+            AccountState updater) {}
 
         @Override
-        public void fire(Project.NameKey project, RefUpdate refUpdate, Account updater) {}
+        public void fire(Project.NameKey project, RefUpdate refUpdate, AccountState updater) {}
 
         @Override
         public void fire(
@@ -45,13 +45,14 @@ public class GitReferenceUpdated {
             String ref,
             ObjectId oldObjectId,
             ObjectId newObjectId,
-            Account updater) {}
+            AccountState updater) {}
 
         @Override
-        public void fire(Project.NameKey project, ReceiveCommand cmd, Account updater) {}
+        public void fire(Project.NameKey project, ReceiveCommand cmd, AccountState updater) {}
 
         @Override
-        public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate, Account updater) {}
+        public void fire(
+            Project.NameKey project, BatchRefUpdate batchRefUpdate, AccountState updater) {}
       };
 
   private final DynamicSet<GitReferenceUpdatedListener> listeners;
@@ -69,7 +70,10 @@ public class GitReferenceUpdated {
   }
 
   public void fire(
-      Project.NameKey project, RefUpdate refUpdate, ReceiveCommand.Type type, Account updater) {
+      Project.NameKey project,
+      RefUpdate refUpdate,
+      ReceiveCommand.Type type,
+      AccountState updater) {
     fire(
         project,
         refUpdate.getName(),
@@ -79,7 +83,7 @@ public class GitReferenceUpdated {
         util.accountInfo(updater));
   }
 
-  public void fire(Project.NameKey project, RefUpdate refUpdate, Account updater) {
+  public void fire(Project.NameKey project, RefUpdate refUpdate, AccountState updater) {
     fire(
         project,
         refUpdate.getName(),
@@ -94,7 +98,7 @@ public class GitReferenceUpdated {
       String ref,
       ObjectId oldObjectId,
       ObjectId newObjectId,
-      Account updater) {
+      AccountState updater) {
     fire(
         project,
         ref,
@@ -104,7 +108,7 @@ public class GitReferenceUpdated {
         util.accountInfo(updater));
   }
 
-  public void fire(Project.NameKey project, ReceiveCommand cmd, Account updater) {
+  public void fire(Project.NameKey project, ReceiveCommand cmd, AccountState updater) {
     fire(
         project,
         cmd.getRefName(),
@@ -114,7 +118,7 @@ public class GitReferenceUpdated {
         util.accountInfo(updater));
   }
 
-  public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate, Account updater) {
+  public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate, AccountState updater) {
     if (!listeners.iterator().hasNext()) {
       return;
     }

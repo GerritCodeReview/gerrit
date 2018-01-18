@@ -70,6 +70,30 @@
       "revId": "9cd6ac01445c1c9acb711e449e59b9e002ea03e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "69e9e1ed_ece2e2d3",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-18T20:37:09Z",
+      "side": 1,
+      "message": "Essentially, yeah. There won\u0027t be that last slash before the comma either. \u0027,edit\u0027 is just a way of saying via the URL \"I want to view the change in an editable state\".\n\nThere may be a need for doing this in the diff view too, but I don\u0027t see one right now.",
+      "parentUuid": "d3191cef_27e7fb0a",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 60
+      },
+      "revId": "9cd6ac01445c1c9acb711e449e59b9e002ea03e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

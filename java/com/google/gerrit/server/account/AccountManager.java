@@ -232,7 +232,7 @@ public class AccountManager {
 
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)
         && who.getUserName() != null
-        && !Objects.equals(user.getUserName(), who.getUserName())) {
+        && !Objects.equals(user.getUserName(), Strings.emptyToNull(who.getUserName()))) {
       log.warn(
           String.format(
               "Not changing already set username %s to %s", user.getUserName(), who.getUserName()));

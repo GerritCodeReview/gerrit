@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "b08aeeae_4a41c559",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-18T19:37:51Z",
+      "side": 1,
+      "message": "Just to make sure we\u0027re all on the same page, the decision is to:\n\n- do not add annotation layer toggling right now, and implement a general syntax layer toggling eventually\n\n- for the annotations API, use DOM crawling to add/remove checkbox\n\nAm I missing something? I\u0027m not sure this is the best way to move forward.",
+      "parentUuid": "e2696771_d69da1c4",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "ad5c3aaa892505c3e1c258b91341a3ed73ab19d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "776d4302_05befca1",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
         "patchSetId": 10

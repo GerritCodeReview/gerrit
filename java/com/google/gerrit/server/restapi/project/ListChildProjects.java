@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
@@ -69,7 +70,9 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
   }
 
   @Override
-  public List<ProjectInfo> apply(ProjectResource rsrc) throws PermissionBackendException {
+  public List<ProjectInfo> apply(ProjectResource rsrc)
+      throws PermissionBackendException, ResourceConflictException {
+    rsrc.getProjectState().checkStatePermitsRead();
     if (recursive) {
       return childProjects.list(rsrc.getNameKey());
     }

@@ -99,6 +99,7 @@ public class DashboardsCollection
   @Override
   public RestModifyView<ProjectResource, ?> create(ProjectResource parent, IdString id)
       throws RestApiException {
+    parent.getProjectState().checkStatePermitsRead();
     if (isDefaultDashboard(id)) {
       return createDefault.get();
     }
@@ -107,8 +108,8 @@ public class DashboardsCollection
 
   @Override
   public DashboardResource parse(ProjectResource parent, IdString id)
-      throws ResourceNotFoundException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
+    parent.getProjectState().checkStatePermitsRead();
     if (isDefaultDashboard(id)) {
       return DashboardResource.projectDefault(parent.getProjectState(), parent.getUser());
     }

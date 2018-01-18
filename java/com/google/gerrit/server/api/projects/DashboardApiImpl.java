@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.api.projects.DashboardApi;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.common.SetDashboardInput;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.DashboardResource;
@@ -88,8 +87,7 @@ public class DashboardApiImpl implements DashboardApi {
   }
 
   private DashboardResource resource()
-      throws ResourceNotFoundException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     return dashboards.parse(project, IdString.fromDecoded(id));
   }
 }

@@ -18,9 +18,9 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CommonConverters;
@@ -130,7 +130,9 @@ public class ListTags implements RestReadView<ProjectResource> {
 
   @Override
   public List<TagInfo> apply(ProjectResource resource)
-      throws IOException, ResourceNotFoundException, BadRequestException {
+      throws IOException, ResourceNotFoundException, RestApiException {
+    resource.getProjectState().checkStatePermitsRead();
+
     List<TagInfo> tags = new ArrayList<>();
 
     PermissionBackend.ForProject perm = permissionBackend.user(user).project(resource.getNameKey());

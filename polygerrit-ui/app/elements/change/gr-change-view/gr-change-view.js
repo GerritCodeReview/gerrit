@@ -194,7 +194,7 @@
       },
       _changeStatuses: {
         type: String,
-        computed: '_computeChangeStatusChips(_change, _missingLabels)',
+        computed: '_computeChangeStatusChips(_change, _missingLabels, _mergeable)',
       },
       _commitCollapsed: {
         type: Boolean,
@@ -216,6 +216,10 @@
         observer: '_updateToggleContainerClass',
       },
       _parentIsCurrent: Boolean,
+      _mergeable: {
+        type: Object,
+        value: undefined,
+      },
     },
 
     behaviors: [
@@ -354,11 +358,16 @@
       return missingLabels.length === 0;
     },
 
-    _computeChangeStatusChips(change, missingLabels) {
+    _computeChangeStatusChips(change, missingLabels, mergeable) {
+      if (!mergeable) { return []; }
+
       const options = {
         readyToSubmit: this._readyToSubmit(missingLabels),
         includeDerived: true,
       };
+      if (mergeable && mergeable.hasOwnProperty('mergeable')) {
+        options.mergeable = mergeable.mergeable;
+      }
       return this.changeStatuses(change, options);
     },
 
@@ -1104,6 +1113,7 @@
         this._loading = false;
         this._getProjectConfig();
       });
+
       this._reloadComments();
 
       if (this._patchRange.patchNum) {
@@ -1111,7 +1121,10 @@
           this._reloadPatchNumDependentResources(),
           detailCompletes,
         ]).then(() => {
-          return this.$.actions.reload();
+          return Promise.all([
+            this._getMergeable(),
+            this.$.actions.reload(),
+          ]);
         });
       } else {
         // The patch number is reliant on the change detail request.
@@ -1120,6 +1133,7 @@
           if (!this._latestCommitMessage) {
             this._getLatestCommitMessage();
           }
+          return this._getMergeable();
         });
       }
     },
@@ -1133,6 +1147,13 @@
         this._getCommitInfo(),
         this.$.fileList.reload(),
       ]);
+    },
+
+    _getMergeable() {
+      this._mergeable = null;
+      return this.$.restAPI.getMergeable(this._changeNum).then(mergeable => {
+        this._mergeable = mergeable;
+      });
     },
 
     _computeCanStartReview(loggedIn, change, account) {

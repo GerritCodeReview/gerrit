@@ -444,6 +444,7 @@ limitations under the License.
               <gr-related-changes-list id="relatedChanges"
                   class$="[[_computeRelatedChangesClass(_relatedChangesCollapsed)]]"
                   change="[[_change]]"
+                  mergeable="[[_mergeable]]"
                   has-parent="{{hasParent}}"
                   on-update="_updateRelatedChangeMaxHeight"
                   patch-num="[[computeLatestPatchNum(_allPatchSets)]]"

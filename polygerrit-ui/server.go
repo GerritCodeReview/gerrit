@@ -31,7 +31,7 @@ import (
 )
 
 var (
-	restHost = flag.String("host", "gerrit-review.googlesource.com", "Host to proxy requests to")
+	restHost = flag.String("host", "chromium-review.googlesource.com", "Host to proxy requests to")
 	port     = flag.String("port", ":8081", "Port to serve HTTP requests on")
 	prod     = flag.Bool("prod", false, "Serve production assets")
 	scheme   = flag.String("scheme", "https", "URL scheme")

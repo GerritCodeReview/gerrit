@@ -90,6 +90,12 @@ limitations under the License.
 
       // Set the submittable boolean.
       SUBMITTABLE: 20,
+
+      // If tracking Ids are included, include detailed tracking Ids info.
+      TRACKING_IDS: 21,
+
+      // Skip mergeability data.
+      SKIP_MERGEABLE: 22,
     },
 
     listChangesOptionsToHex(...args) {
@@ -131,7 +137,8 @@ limitations under the License.
         states.push('Merged');
       } else if (change.status === this.ChangeStatus.ABANDONED) {
         states.push('Abandoned');
-      } else if (change.mergeable === false) {
+      } else if (change.mergeable === false ||
+          (opt_options && opt_options.mergeable === false)) {
         // 'mergeable' prop may not always exist (@see Issue 6819)
         states.push('Merge Conflict');
       }

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3ec06e1_01ac7ffe",
+        "filename": "java/com/google/gerrit/server/group/db/AuditLogFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-18T11:53:32Z",
+      "side": 1,
+      "message": "what does \u0027parsable\u0027 mean here? PersonIdent already is structured data, so isn\u0027t it already parsed?",
+      "range": {
+        "startLine": 67,
+        "startChar": 15,
+        "endLine": 67,
+        "endChar": 23
+      },
+      "revId": "bf5cff742606a6e8666791703a28602bbabecb02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0be8718_83845fac",
+        "filename": "java/com/google/gerrit/server/group/db/AuditLogFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-18T11:53:32Z",
+      "side": 1,
+      "message": "what does that mean? Do we always do it? Or does one have to pass the right argument (which one?)",
+      "range": {
+        "startLine": 69,
+        "startChar": 11,
+        "endLine": 69,
+        "endChar": 20
+      },
+      "revId": "bf5cff742606a6e8666791703a28602bbabecb02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb47282a_fd668e73",
+        "filename": "java/com/google/gerrit/server/group/db/AuditLogFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-18T11:53:32Z",
+      "side": 1,
+      "message": "opt: maybe just refer to the previous method?",
+      "revId": "bf5cff742606a6e8666791703a28602bbabecb02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -590,7 +590,7 @@ public class EventFactory {
     AccountAttribute who = new AccountAttribute();
     who.name = accountState.getAccount().getFullName();
     who.email = accountState.getAccount().getPreferredEmail();
-    who.username = accountState.getUserName();
+    who.username = accountState.getUserName().orElse(null);
     return who;
   }
 

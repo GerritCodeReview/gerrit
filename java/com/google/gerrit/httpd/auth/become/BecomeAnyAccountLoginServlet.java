@@ -163,8 +163,8 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
         AccountState accountState = accountCache.get(accountId);
         Account account = accountState.getAccount();
         String displayName;
-        if (accountState.getUserName() != null) {
-          displayName = accountState.getUserName();
+        if (accountState.getUserName().isPresent()) {
+          displayName = accountState.getUserName().get();
         } else if (account.getFullName() != null && !account.getFullName().isEmpty()) {
           displayName = account.getFullName();
         } else if (account.getPreferredEmail() != null) {

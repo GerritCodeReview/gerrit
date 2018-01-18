@@ -20,10 +20,10 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.RevisionCreatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.GpgException;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -47,7 +47,11 @@ public class RevisionCreated {
   }
 
   public void fire(
-      Change change, PatchSet patchSet, Account uploader, Timestamp when, NotifyHandling notify) {
+      Change change,
+      PatchSet patchSet,
+      AccountState uploader,
+      Timestamp when,
+      NotifyHandling notify) {
     if (!listeners.iterator().hasNext()) {
       return;
     }

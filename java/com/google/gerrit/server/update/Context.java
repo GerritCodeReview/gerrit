@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountState;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.TimeZone;
@@ -122,8 +123,8 @@ public interface Context {
    * @see CurrentUser#asIdentifiedUser()
    * @return account.
    */
-  default Account getAccount() {
-    return getIdentifiedUser().getAccount();
+  default AccountState getAccount() {
+    return getIdentifiedUser().state();
   }
 
   /**

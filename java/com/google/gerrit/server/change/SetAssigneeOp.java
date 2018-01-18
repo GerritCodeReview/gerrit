@@ -130,9 +130,6 @@ public class SetAssigneeOp implements BatchUpdateOp {
       log.error("Cannot send email to new assignee of change " + change.getId(), err);
     }
     assigneeChanged.fire(
-        change,
-        ctx.getAccount(),
-        oldAssignee != null ? oldAssignee.getAccount() : null,
-        ctx.getWhen());
+        change, ctx.getAccount(), oldAssignee != null ? oldAssignee.state() : null, ctx.getWhen());
   }
 }

@@ -873,7 +873,7 @@ public class PostReview
       commentAdded.fire(
           notes.getChange(),
           ps,
-          user.getAccount(),
+          user.state(),
           message.getMessage(),
           approvals,
           oldApprovals,

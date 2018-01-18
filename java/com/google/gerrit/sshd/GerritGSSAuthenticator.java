@@ -23,6 +23,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Locale;
+import java.util.Optional;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
 import org.eclipse.jgit.lib.Config;
@@ -52,7 +53,7 @@ class GerritGSSAuthenticator extends GSSAuthenticator {
 
   @Override
   public boolean validateIdentity(ServerSession session, String identity) {
-    final SshSession sd = session.getAttribute(SshSession.KEY);
+    SshSession sd = session.getAttribute(SshSession.KEY);
     int at = identity.indexOf('@');
     String username;
     if (at == -1) {
@@ -63,18 +64,19 @@ class GerritGSSAuthenticator extends GSSAuthenticator {
     if (config.getBoolean("auth", "userNameToLowerCase", false)) {
       username = username.toLowerCase(Locale.US);
     }
-    AccountState state = accounts.getByUsername(username);
-    Account account = state == null ? null : state.getAccount();
-    boolean active = account != null && account.isActive();
-    if (active) {
-      return SshUtil.success(
-          username,
-          session,
-          sshScope,
-          sshLog,
-          sd,
-          SshUtil.createUser(sd, userFactory, account.getId()));
+
+    Optional<Account> account =
+        accounts.getByUsername(username).map(AccountState::getAccount).filter(Account::isActive);
+    if (!account.isPresent()) {
+      return false;
     }
-    return false;
+
+    return SshUtil.success(
+        username,
+        session,
+        sshScope,
+        sshLog,
+        sd,
+        SshUtil.createUser(sd, userFactory, account.get().getId()));
   }
 }

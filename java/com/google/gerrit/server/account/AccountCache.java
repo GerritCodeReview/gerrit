@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import java.io.IOException;
+import java.util.Optional;
 
 /** Caches important (but small) account state to avoid database hits. */
 public interface AccountCache {
@@ -50,10 +51,9 @@ public interface AccountCache {
    *
    * @param username username of the account that should be retrieved
    * @return {@code AccountState} instance for the given username, if no account with this username
-   *     exists or if loading the external ID fails {@code null} is returned
+   *     exists or if loading the external ID fails {@link Optional#empty()} is returned
    */
-  @Nullable
-  AccountState getByUsername(String username);
+  Optional<AccountState> getByUsername(String username);
 
   /**
    * Evicts the account from the cache and triggers a reindex for it.

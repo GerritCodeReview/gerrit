@@ -23,6 +23,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /** Fake implementation of {@link AccountCache} for testing. */
 public class FakeAccountCache implements AccountCache {
@@ -51,8 +52,8 @@ public class FakeAccountCache implements AccountCache {
 
   @Override
   @Nullable
-  public synchronized AccountState getByUsername(String username) {
-    return byUsername.get(username);
+  public synchronized Optional<AccountState> getByUsername(String username) {
+    return Optional.ofNullable(byUsername.get(username));
   }
 
   @Override

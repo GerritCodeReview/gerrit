@@ -43,6 +43,7 @@
         type: Boolean,
         notify: true,
       },
+      mergeable: Object,
       _connectedRevisions: {
         type: Array,
         computed: '_computeConnectedRevisions(change, patchNum, ' +
@@ -115,7 +116,8 @@
       ];
 
       // Get conflicts if change is open and is mergeable.
-      if (this.changeIsOpen(this.change.status) && this.change.mergeable) {
+      if (this.changeIsOpen(this.change.status) && this.mergeable &&
+          this.mergeable.mergeable) {
         promises.push(this._getConflicts().then(response => {
           // Because the server doesn't always return a response and the
           // template expects an array, always return an array.

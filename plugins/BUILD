@@ -19,6 +19,7 @@ genrule2(
 
 PLUGIN_API = [
     "//java/com/google/gerrit/server",
+    "//java/com/google/gerrit/server/restapi",
     "//java/com/google/gerrit/pgm/init/api",
     "//java/com/google/gerrit/httpd",
     "//java/com/google/gerrit/sshd",
@@ -107,6 +108,7 @@ java_binary(
         "//java/com/google/gerrit/pgm/init/api:libapi-src.jar",
         "//java/com/google/gerrit/reviewdb:libserver-src.jar",
         "//java/com/google/gerrit/server:libserver-src.jar",
+        "//java/com/google/gerrit/server/restapi:librestapi-src.jar",
         "//java/com/google/gerrit/sshd:libsshd-src.jar",
         "//java/com/google/gwtexpui/server:libserver-src.jar",
     ],

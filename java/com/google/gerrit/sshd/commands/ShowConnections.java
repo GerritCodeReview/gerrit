@@ -38,6 +38,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import org.apache.sshd.common.io.IoAcceptor;
 import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.io.mina.MinaAcceptor;
@@ -203,9 +204,9 @@ final class ShowConnections extends SshCommand {
       IdentifiedUser u = user.asIdentifiedUser();
 
       if (!numeric) {
-        String name = u.state().getUserName();
-        if (name != null && !name.isEmpty()) {
-          return name;
+        Optional<String> name = u.state().getUserName().filter(n -> !n.isEmpty());
+        if (name.isPresent()) {
+          return name.get();
         }
       }
 

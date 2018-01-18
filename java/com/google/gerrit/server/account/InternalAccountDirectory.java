@@ -88,7 +88,7 @@ public class InternalAccountDirectory extends AccountDirectory {
     if (options.contains(FillOptions.NAME)) {
       info.name = Strings.emptyToNull(account.getFullName());
       if (info.name == null) {
-        info.name = accountState.getUserName();
+        info.name = accountState.getUserName().orElse(null);
       }
     }
     if (options.contains(FillOptions.EMAIL)) {

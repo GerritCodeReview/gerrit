@@ -389,11 +389,7 @@ public abstract class OutgoingEmail {
     } else if (name != null) {
       return name;
     }
-    String username = who.getUserName();
-    if (username != null) {
-      return username;
-    }
-    return null;
+    return who.getUserName().orElse(null);
   }
 
   protected boolean shouldSendMessage() {

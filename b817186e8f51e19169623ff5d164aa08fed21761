@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "aa69f7bb_b6e9eed1",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-01-18T07:16:40Z",
+      "side": 1,
+      "message": "I agree, will fix.",
+      "parentUuid": "014a891a_99a67e9d",
+      "range": {
+        "startLine": 440,
+        "startChar": 4,
+        "endLine": 440,
+        "endChar": 19
+      },
+      "revId": "b817186e8f51e19169623ff5d164aa08fed21761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "82eb07b7_fb289a9f",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-01-17T23:35:42Z",
       "side": 1,
       "message": "Is it possible for the injected Config instance to be null?",
+      "range": {
+        "startLine": 861,
+        "startChar": 12,
+        "endLine": 861,
+        "endChar": 24
+      },
+      "revId": "b817186e8f51e19169623ff5d164aa08fed21761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c82ccc8_c74dd629",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-01-18T07:16:40Z",
+      "side": 1,
+      "message": "I don\u0027t know, but I found other places where it was null checked, so I figured better safe than sorry...",
+      "parentUuid": "82eb07b7_fb289a9f",
       "range": {
         "startLine": 861,
         "startChar": 12,

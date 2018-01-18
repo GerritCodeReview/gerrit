@@ -62,6 +62,7 @@ public abstract class ExternalId implements Serializable {
         .stream()
         .filter(e -> e.isScheme(SCHEME_USERNAME))
         .map(e -> e.key().id())
+        .filter(u -> !Strings.isNullOrEmpty(u))
         .findFirst();
   }
 

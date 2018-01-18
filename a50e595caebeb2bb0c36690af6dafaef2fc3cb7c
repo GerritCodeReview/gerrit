@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d214aff_70a33163",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-18T11:06:20Z",
+      "side": 1,
+      "message": "is",
+      "range": {
+        "startLine": 61,
+        "startChar": 43,
+        "endLine": 61,
+        "endChar": 53
+      },
+      "revId": "a50e595caebeb2bb0c36690af6dafaef2fc3cb7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33d99b3d_3675d911",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-18T11:06:20Z",
+      "side": 1,
+      "message": ".. on a brnch ..",
+      "range": {
+        "startLine": 67,
+        "startChar": 48,
+        "endLine": 67,
+        "endChar": 54
+      },
+      "revId": "a50e595caebeb2bb0c36690af6dafaef2fc3cb7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1d88092_c6308ac4",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-18T11:06:20Z",
+      "side": 1,
+      "message": "form ?",
+      "range": {
+        "startLine": 72,
+        "startChar": 56,
+        "endLine": 72,
+        "endChar": 63
+      },
+      "revId": "a50e595caebeb2bb0c36690af6dafaef2fc3cb7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbd7ae2a_4f47e64c",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-18T11:06:20Z",
+      "side": 1,
+      "message": "to avoid a costly computation\n\nor\n\nto avoid inspecting the file contents\n\n?",
+      "range": {
+        "startLine": 73,
+        "startChar": 77,
+        "endLine": 74,
+        "endChar": 54
+      },
+      "revId": "a50e595caebeb2bb0c36690af6dafaef2fc3cb7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad0bb51e_c7f6d345",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-18T11:06:20Z",
+      "side": 1,
+      "message": "So, after ..",
+      "range": {
+        "startLine": 193,
+        "startChar": 85,
+        "endLine": 194,
+        "endChar": 19
+      },
+      "revId": "a50e595caebeb2bb0c36690af6dafaef2fc3cb7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9197bfc_a454d7d2",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-18T11:06:20Z",
+      "side": 1,
+      "message": "same/analogously - pleonasm?",
+      "range": {
+        "startLine": 195,
+        "startChar": 76,
+        "endLine": 196,
+        "endChar": 16
+      },
+      "revId": "a50e595caebeb2bb0c36690af6dafaef2fc3cb7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

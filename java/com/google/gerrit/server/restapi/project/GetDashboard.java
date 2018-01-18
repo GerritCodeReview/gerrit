@@ -81,8 +81,7 @@ public class GetDashboard implements RestReadView<DashboardResource> {
   }
 
   private DashboardResource defaultOf(ProjectState projectState, CurrentUser user)
-      throws ResourceNotFoundException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     String id = projectState.getProject().getLocalDefaultDashboard();
     if (Strings.isNullOrEmpty(id)) {
       id = projectState.getProject().getDefaultDashboard();
@@ -107,8 +106,7 @@ public class GetDashboard implements RestReadView<DashboardResource> {
   }
 
   private DashboardResource parse(ProjectState projectState, CurrentUser user, String id)
-      throws ResourceNotFoundException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     List<String> p = Lists.newArrayList(Splitter.on(':').limit(2).split(id));
     String ref = Url.encode(p.get(0));
     String path = Url.encode(p.get(1));

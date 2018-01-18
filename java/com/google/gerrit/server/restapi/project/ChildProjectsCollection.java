@@ -56,6 +56,7 @@ public class ChildProjectsCollection
   @Override
   public ChildProjectResource parse(ProjectResource parent, IdString id)
       throws RestApiException, IOException, PermissionBackendException {
+    parent.getProjectState().checkStatePermitsRead();
     ProjectResource p = projectsCollection.parse(TopLevelResource.INSTANCE, id);
     for (ProjectState pp : p.getProjectState().parents()) {
       if (parent.getNameKey().equals(pp.getProject().getNameKey())) {

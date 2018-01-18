@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -133,6 +134,8 @@ final class AdminSetParent extends SshCommand {
         childProjects.addAll(getChildrenForReparenting(oldParent));
       } catch (PermissionBackendException e) {
         throw new Failure(1, "permissions unavailable", e);
+      } catch (RestApiException e) {
+        throw new Failure(1, "failure in request", e);
       }
     }
 
@@ -196,7 +199,7 @@ final class AdminSetParent extends SshCommand {
    * reparenting.
    */
   private List<Project.NameKey> getChildrenForReparenting(ProjectState parent)
-      throws PermissionBackendException {
+      throws PermissionBackendException, RestApiException {
     final List<Project.NameKey> childProjects = new ArrayList<>();
     final List<Project.NameKey> excluded = new ArrayList<>(excludedChildren.size());
     for (ProjectState excludedChild : excludedChildren) {

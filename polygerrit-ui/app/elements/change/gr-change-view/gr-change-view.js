@@ -194,7 +194,8 @@
       },
       _changeStatuses: {
         type: String,
-        computed: '_computeChangeStatusChips(_change, _missingLabels)',
+        computed: '_computeChangeStatusChips(_change, _missingLabels, ' +
+            '_mergeability)',
       },
       _commitCollapsed: {
         type: Boolean,
@@ -216,6 +217,10 @@
         observer: '_updateToggleContainerClass',
       },
       _parentIsCurrent: Boolean,
+      _mergeability: {
+        type: Object,
+        value: undefined,
+      },
     },
 
     behaviors: [
@@ -354,11 +359,14 @@
       return missingLabels.length === 0;
     },
 
-    _computeChangeStatusChips(change, missingLabels) {
+    _computeChangeStatusChips(change, missingLabels, mergeability) {
+      if (!mergeability) { return []; }
+
       const options = {
         readyToSubmit: this._readyToSubmit(missingLabels),
         includeDerived: true,
       };
+      options.mergeable = !!mergeability.mergeable;
       return this.changeStatuses(change, options);
     },
 
@@ -1104,6 +1112,7 @@
         this._loading = false;
         this._getProjectConfig();
       });
+
       this._reloadComments();
 
       if (this._patchRange.patchNum) {
@@ -1111,7 +1120,10 @@
           this._reloadPatchNumDependentResources(),
           detailCompletes,
         ]).then(() => {
-          return this.$.actions.reload();
+          return Promise.all([
+            this._getMergeability(),
+            this.$.actions.reload(),
+          ]);
         });
       } else {
         // The patch number is reliant on the change detail request.
@@ -1120,6 +1132,7 @@
           if (!this._latestCommitMessage) {
             this._getLatestCommitMessage();
           }
+          return this._getMergeability();
         });
       }
     },
@@ -1133,6 +1146,13 @@
         this._getCommitInfo(),
         this.$.fileList.reload(),
       ]);
+    },
+
+    _getMergeability() {
+      this._mergeability = null;
+      return this.$.restAPI.getMergeable(this._changeNum).then(m => {
+        this._mergeability = m;
+      });
     },
 
     _computeCanStartReview(loggedIn, change, account) {

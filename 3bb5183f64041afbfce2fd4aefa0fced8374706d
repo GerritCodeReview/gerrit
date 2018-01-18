@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "de27c7be_a21ec4da",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-18T09:27:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb02b10a_ad7383fa",
+      "revId": "3bb5183f64041afbfce2fd4aefa0fced8374706d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f23fbd23_3b04eee0",
         "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
         "patchSetId": 3
@@ -34,6 +52,24 @@
       "revId": "3bb5183f64041afbfce2fd4aefa0fced8374706d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c363750d_3718d230",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-18T09:27:04Z",
+      "side": 1,
+      "message": "No, because after an update of external IDs the revision of the external IDs branch that was read by AccountConfig is outdated. I\u0027ve added another AccountState.fromAccountConfig that also takes ExternalIdNotes.\n\nDone.",
+      "parentUuid": "f23fbd23_3b04eee0",
+      "revId": "3bb5183f64041afbfce2fd4aefa0fced8374706d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

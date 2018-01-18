@@ -191,6 +191,30 @@
       "revId": "9cd6ac01445c1c9acb711e449e59b9e002ea03e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95077547_e39b5d19",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-18T23:04:01Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think these can or should be combined, though, because their handlers do different things.\n\nAck.\n\n\u003e - No it doesn\u0027t, and I\u0027m not entirely sure why you would expect that. Am I missing something? Could you elaborate on that question?\n\nMaybe I\u0027m missing the purpose of this router feature. I interpreted navigating to `/c/p/+/123/4/,edit` to automatically create and open an edit for patch 4 of change 123.\n\nAfter such an edit has been created, it doesn\u0027t make sense to me to create it again. So, presumably, once the edit has been created, I\u0027d only want to be navigating to `/c/p/+/123/edit`.\n\nIs that different from what happens when navigating to ,edit?\n\nIt\u0027s also not clear to me why opening a revision for edit needs to be a route/URL? Can creating an edit based on some revision be a button?",
+      "parentUuid": "45ca6585_4d135cba",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 60
+      },
+      "revId": "9cd6ac01445c1c9acb711e449e59b9e002ea03e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

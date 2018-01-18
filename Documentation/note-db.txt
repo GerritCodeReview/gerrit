@@ -114,7 +114,7 @@ switch to the online process.
 *Disadvantages*
 
 * May require substantial downtime; takes about twice as long as an
-  link:#pgm-reindex[offline reindex]. (In fact, one of the migration steps is a
+  link:pgm-reindex.html[offline reindex]. (In fact, one of the migration steps is a
   full reindex, so it can't possibly take less time.)
 
 [[trial-migration]]
@@ -138,7 +138,7 @@ There are several use cases for trial mode:
 
 * Help test early releases of the migration tool for bugs with lower risk.
 * Try out new NoteDb-only features like
-  link:rest-api-changes.txt#get-hashtags[hashtags] without running the full
+  link:rest-api-changes.html#get-hashtags[hashtags] without running the full
   migration.
 
 To continue with the full migration after running the trial migration, use

@@ -15,7 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -32,6 +32,7 @@ import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.sshd.BaseCommand.UnloggedFailure;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,13 +63,13 @@ public class ChangeArgumentParser {
   }
 
   public void addChange(String id, Map<Change.Id, ChangeResource> changes)
-      throws UnloggedFailure, OrmException, PermissionBackendException {
+      throws UnloggedFailure, OrmException, PermissionBackendException, IOException {
     addChange(id, changes, null);
   }
 
   public void addChange(
       String id, Map<Change.Id, ChangeResource> changes, ProjectState projectState)
-      throws UnloggedFailure, OrmException, PermissionBackendException {
+      throws UnloggedFailure, OrmException, PermissionBackendException, IOException {
     addChange(id, changes, projectState, true);
   }
 
@@ -77,7 +78,7 @@ public class ChangeArgumentParser {
       Map<Change.Id, ChangeResource> changes,
       ProjectState projectState,
       boolean useIndex)
-      throws UnloggedFailure, OrmException, PermissionBackendException {
+      throws UnloggedFailure, OrmException, PermissionBackendException, IOException {
     List<ChangeNotes> matched = useIndex ? changeFinder.find(id) : changeFromNotesFactory(id);
     List<ChangeNotes> toAdd = new ArrayList<>(changes.size());
     boolean canMaintainServer;
@@ -109,7 +110,7 @@ public class ChangeArgumentParser {
     ChangeResource changeResource;
     try {
       changeResource = changesCollection.parse(cId);
-    } catch (ResourceNotFoundException e) {
+    } catch (RestApiException e) {
       throw new UnloggedFailure(1, "\"" + id + "\" no such change");
     }
     changes.put(cId, changeResource);

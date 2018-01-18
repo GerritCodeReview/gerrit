@@ -46,6 +46,30 @@
       "revId": "e392d5540eae2c67e879e40cf533d7fdb60631cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ebdfce1_63f327a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-18T18:14:33Z",
+      "side": 1,
+      "message": "\u003e \u003e the change metadata is pinned to the latest revision\n\u003e\n\u003e You\u0027re mostly right, but: [..]\n\nAh, I see what you mean. That\u0027s my mistake: I should have read that more closely. I guess I got distracted by the name.\n\nI think \"selected\" is good.",
+      "parentUuid": "b4842b5b_cf411fd3",
+      "range": {
+        "startLine": 11,
+        "startChar": 43,
+        "endLine": 12,
+        "endChar": 19
+      },
+      "revId": "e392d5540eae2c67e879e40cf533d7fdb60631cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

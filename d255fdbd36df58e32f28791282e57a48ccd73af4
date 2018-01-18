@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "570556b6_f7c32e31",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-18T18:14:33Z",
+      "side": 1,
+      "message": "If this needs to be kept up to date with the selected revision, why not use ..\n\n [[_patchRange.patchNum]]\n\n.. here?\n\nAside from the type, when would `_selectedRevision` differ from `_patchRange.patchNum`?",
+      "range": {
+        "startLine": 377,
+        "startChar": 26,
+        "endLine": 377,
+        "endChar": 43
+      },
+      "revId": "d255fdbd36df58e32f28791282e57a48ccd73af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88d653de_fc144185",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-18T18:14:33Z",
+      "side": 1,
+      "message": "Optional: Should this also be named ..\n\n selected-revision\n\n.. for clarity?",
+      "range": {
+        "startLine": 377,
+        "startChar": 14,
+        "endLine": 377,
+        "endChar": 22
+      },
+      "revId": "d255fdbd36df58e32f28791282e57a48ccd73af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

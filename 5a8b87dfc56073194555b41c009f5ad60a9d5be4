@@ -191,6 +191,30 @@
       "revId": "5a8b87dfc56073194555b41c009f5ad60a9d5be4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "995d73e0_1003ba9c",
+        "filename": "java/com/google/gerrit/server/group/db/InternalGroupUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-18T12:01:25Z",
+      "side": 1,
+      "message": "(btw, - sorry: I didn\u0027t mean to make you write such a long comment.)",
+      "parentUuid": "cb113507_d00609fc",
+      "range": {
+        "startLine": 74,
+        "startChar": 32,
+        "endLine": 75,
+        "endChar": 13
+      },
+      "revId": "5a8b87dfc56073194555b41c009f5ad60a9d5be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

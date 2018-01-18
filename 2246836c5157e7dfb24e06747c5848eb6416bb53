@@ -17,6 +17,24 @@
       "revId": "2246836c5157e7dfb24e06747c5848eb6416bb53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "827b5753_ad6a2359",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-18T18:34:17Z",
+      "side": 1,
+      "message": "Yeah, I first wanted to inline it all, but found it better readable like this.",
+      "parentUuid": "65231616_f680e456",
+      "revId": "2246836c5157e7dfb24e06747c5848eb6416bb53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

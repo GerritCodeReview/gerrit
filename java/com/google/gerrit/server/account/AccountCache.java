@@ -52,6 +52,7 @@ public interface AccountCache {
    * @return {@code AccountState} instance for the given username, if no account with this username
    *     exists or if loading the external ID fails {@code null} is returned
    */
+  @Nullable
   AccountState getByUsername(String username);
 
   /**
@@ -60,7 +61,7 @@ public interface AccountCache {
    * @param accountId account ID of the account that should be evicted
    * @throws IOException thrown if reindexing fails
    */
-  void evict(Account.Id accountId) throws IOException;
+  void evict(@Nullable Account.Id accountId) throws IOException;
 
   /** Evict all accounts from the cache, but doesn't trigger reindex of all accounts. */
   void evictAllNoReindex();

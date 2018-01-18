@@ -1359,8 +1359,8 @@ returns immediately.
 
 .Response
 ----
-HTTP/1.1 202 Accepted
-Content-Disposition: attachment
+  HTTP/1.1 202 Accepted
+  Content-Disposition: attachment
 ----
 
 [[branch-endpoints]]

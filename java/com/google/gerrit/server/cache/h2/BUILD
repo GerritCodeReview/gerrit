@@ -7,6 +7,8 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/server",
+        "//lib:caffeine",
+        "//lib:caffeine_guava",
         "//lib:guava",
         "//lib:h2",
         "//lib/guice",

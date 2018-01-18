@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3bf3c072_94d342c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-18T05:45:34Z",
+      "side": 1,
+      "message": "The source is Gerritforge CI: [1].\n\n* [1] https://gerrit-ci.gerritforge.com/view/Plugins-master/job/plugin-reviewers-bazel-master/25/console",
+      "revId": "94ada3a0a286bd021391898dfd8b29a3ee3ea634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

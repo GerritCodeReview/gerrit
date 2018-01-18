@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -88,18 +89,49 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
       return info;
     }
 
+    RefPermission refPerm = null;
+    if (!Strings.isNullOrEmpty(input.permission)) {
+      if (Strings.isNullOrEmpty(input.ref)) {
+        throw new BadRequestException("must set 'ref' when specifying 'permission'");
+      }
+      if (!Permission.isPermission(input.permission)) {
+        throw new BadRequestException(
+            String.format("'%s' is not recognized as permission", input.permission));
+      }
+
+      for (RefPermission p : RefPermission.values()) {
+        if (!p.permissionName().isPresent()) {
+          continue;
+        }
+        if (p.permissionName().get().equals(input.permission)) {
+          refPerm = p;
+          break;
+        }
+      }
+      if (refPerm == null) {
+        throw new BadRequestException(
+            String.format("'%s' is not a recognized as ref permission", input.permission));
+      }
+    } else {
+      refPerm = RefPermission.READ;
+    }
+
     if (!Strings.isNullOrEmpty(input.ref)) {
       try {
         permissionBackend
             .user(user)
             .ref(new Branch.NameKey(rsrc.getNameKey(), input.ref))
-            .check(RefPermission.READ);
+            .check(refPerm);
       } catch (AuthException | PermissionBackendException e) {
         info.status = HttpServletResponse.SC_FORBIDDEN;
         info.message =
             String.format(
-                "user %s (%s) cannot see ref %s in project %s",
-                user.getNameEmail(), user.getAccount().getId(), input.ref, rsrc.getName());
+                "user %s (%s) lacks permission %s for %s in project %s",
+                user.getNameEmail(),
+                user.getAccount().getId(),
+                input.permission,
+                input.ref,
+                rsrc.getName());
         return info;
       }
     }

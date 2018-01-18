@@ -66,7 +66,7 @@ public class GetUserFilter implements Filter {
     CurrentUser user = userProvider.get();
     if (user != null && user.isIdentifiedUser()) {
       IdentifiedUser who = user.asIdentifiedUser();
-      if (who.getUserName() != null && !who.getUserName().isEmpty()) {
+      if (who.getUserName() != null) {
         req.setAttribute(REQ_ATTR_KEY, who.getUserName());
       } else {
         req.setAttribute(REQ_ATTR_KEY, "a/" + who.getAccountId());

@@ -93,6 +93,54 @@
       "revId": "d255fdbd36df58e32f28791282e57a48ccd73af4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ed0fa23_55f1c0fb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-18T21:43:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d2194dcf_0cd8ef09",
+      "range": {
+        "startLine": 377,
+        "startChar": 14,
+        "endLine": 377,
+        "endChar": 22
+      },
+      "revId": "d255fdbd36df58e32f28791282e57a48ccd73af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "102ed667_89b2a871",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-18T21:43:33Z",
+      "side": 1,
+      "message": "Of course. Sorry.",
+      "parentUuid": "a1a1f69c_13aaa178",
+      "range": {
+        "startLine": 377,
+        "startChar": 26,
+        "endLine": 377,
+        "endChar": 43
+      },
+      "revId": "d255fdbd36df58e32f28791282e57a48ccd73af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

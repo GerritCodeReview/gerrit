@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
 
 /**
@@ -24,7 +25,7 @@ import com.google.gerrit.server.CurrentUser;
  * <p>These matchers are "compiled" versions of the AccessSection name, supporting faster selection
  * of which sections are relevant to any given input reference.
  */
-class SectionMatcher extends RefPatternMatcher {
+public class SectionMatcher extends RefPatternMatcher {
   static SectionMatcher wrap(Project.NameKey project, AccessSection section) {
     String ref = section.getName();
     if (AccessSection.isValid(ref)) {
@@ -37,7 +38,7 @@ class SectionMatcher extends RefPatternMatcher {
   final AccessSection section;
   final RefPatternMatcher matcher;
 
-  SectionMatcher(Project.NameKey project, AccessSection section, RefPatternMatcher matcher) {
+  public SectionMatcher(Project.NameKey project, AccessSection section, RefPatternMatcher matcher) {
     this.project = project;
     this.section = section;
     this.matcher = matcher;
@@ -46,5 +47,17 @@ class SectionMatcher extends RefPatternMatcher {
   @Override
   public boolean match(String ref, CurrentUser user) {
     return this.matcher.match(ref, user);
+  }
+
+  public AccessSection getSection() {
+    return section;
+  }
+
+  public RefPatternMatcher getMatcher() {
+    return matcher;
+  }
+
+  public NameKey getProject() {
+    return project;
   }
 }

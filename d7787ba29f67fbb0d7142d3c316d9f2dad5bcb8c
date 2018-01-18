@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b44edda_34ecae2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-01-18T22:18:28Z",
+      "side": 1,
+      "message": "I have been personally used Caffeine with large projects and I completely agree.",
+      "range": {
+        "startLine": 42,
+        "startChar": 18,
+        "endLine": 43,
+        "endChar": 14
+      },
+      "revId": "d7787ba29f67fbb0d7142d3c316d9f2dad5bcb8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

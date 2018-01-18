@@ -520,9 +520,9 @@ limitations under the License.
       const msgComment = {message: 'test', unresolved: true};
       assert.equal(element._computeSaveDisabled('', comment, false), true);
       assert.equal(element._computeSaveDisabled('test', comment, false), false);
-      assert.equal(element._computeSaveDisabled('', msgComment, false), false);
+      assert.equal(element._computeSaveDisabled('', msgComment, false), true);
       assert.equal(
-          element._computeSaveDisabled('test', msgComment, false), true);
+          element._computeSaveDisabled('test', msgComment, false), false);
       assert.equal(
           element._computeSaveDisabled('test2', msgComment, false), false);
       assert.equal(element._computeSaveDisabled('test', comment, true), false);

@@ -45,6 +45,54 @@
       "revId": "d255fdbd36df58e32f28791282e57a48ccd73af4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1a1f69c_13aaa178",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-18T19:02:35Z",
+      "side": 1,
+      "message": "Because patchNum is just a number while `_selectedRevision` is a RevisionInfo object.",
+      "parentUuid": "570556b6_f7c32e31",
+      "range": {
+        "startLine": 377,
+        "startChar": 26,
+        "endLine": 377,
+        "endChar": 43
+      },
+      "revId": "d255fdbd36df58e32f28791282e57a48ccd73af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2194dcf_0cd8ef09",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-18T19:02:35Z",
+      "side": 1,
+      "message": "it\u0027s being passed to plugins as `revision`, so I\u0027m not sure that makes significant difference.",
+      "parentUuid": "88d653de_fc144185",
+      "range": {
+        "startLine": 377,
+        "startChar": 14,
+        "endLine": 377,
+        "endChar": 22
+      },
+      "revId": "d255fdbd36df58e32f28791282e57a48ccd73af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

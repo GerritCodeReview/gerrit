@@ -22,6 +22,30 @@
       "revId": "e68406f0647faf4ee8f2a1437b2cf83d4724b5cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de98f497_3e9b1890",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-01-18T18:11:48Z",
+      "side": 1,
+      "message": "Our deadlock happening in account cache:\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7645\n\nOther deadlock issue:\nhttps://github.com/google/guava/issues/2976\nhttps://github.com/google/guava/issues/2863\n\nPerformance issue:\nhttps://github.com/google/guava/issues/2063\n\nRace condition:\nhttps://github.com/google/guava/issues/2971",
+      "parentUuid": "2d30466b_f887048d",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 12
+      },
+      "revId": "e68406f0647faf4ee8f2a1437b2cf83d4724b5cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

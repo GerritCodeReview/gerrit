@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84d19521_b9cc7ae9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-18T18:49:55Z",
+      "side": 1,
+      "message": "of",
+      "range": {
+        "startLine": 7,
+        "startChar": 53,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "7eae0445bd52246b092b7ef1ee72a7280a5cc863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8214729_dc595979",
+        "filename": "java/com/google/gerrit/server/project/RemoveReviewerControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-18T18:49:55Z",
+      "side": 1,
+      "message": "These exceptions can no longer be thrown.",
+      "range": {
+        "startLine": 105,
+        "startChar": 13,
+        "endLine": 105,
+        "endChar": 48
+      },
+      "revId": "7eae0445bd52246b092b7ef1ee72a7280a5cc863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

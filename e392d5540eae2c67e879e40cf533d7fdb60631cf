@@ -22,6 +22,30 @@
       "revId": "e392d5540eae2c67e879e40cf533d7fdb60631cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4842b5b_cf411fd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-18T17:40:53Z",
+      "side": 1,
+      "message": "\u003e I\u0027m fairly sure \"current revision\" means \"latest revision\" \n\nThat\u0027s not obvious. If a change is opened via url containing patchset, e.g. c/123/3, and change 123 has 5 patchsets, intuitively the current patchset number is 3.\n\n\u003e the change metadata is pinned to the latest revision\n\nYou\u0027re mostly right, but:\n\n- gr-change-metadata takes `revision` param which point to the selected revision, which is later passed into the plugin endpoint. \n\n- gr-change-metadata uses `change.current_revision` (which, in fact, is latest revision) for rendering\n\nI do agree that we have a terminology problem, but it\u0027s not clear from your comment on how you propose to solve it. \n\nI\u0027ve renamed currentRevision to selectedRevision in order to avoid name collision with https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#current-revision, even though this sounds a bit awkward.\nLet me know if anything else is needed here.",
+      "parentUuid": "f33e12ab_e943cdff",
+      "range": {
+        "startLine": 11,
+        "startChar": 43,
+        "endLine": 12,
+        "endChar": 19
+      },
+      "revId": "e392d5540eae2c67e879e40cf533d7fdb60631cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

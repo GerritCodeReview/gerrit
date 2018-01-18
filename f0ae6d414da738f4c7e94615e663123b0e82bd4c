@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "ce9c151c_d882d973",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-18T09:28:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3bfb3b6_213cf4b6",
+      "revId": "f0ae6d414da738f4c7e94615e663123b0e82bd4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06332531_dd57209b",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2018-01-17T17:54:43Z",
       "side": 1,
       "message": "Optional: .map",
+      "revId": "f0ae6d414da738f4c7e94615e663123b0e82bd4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f59b3a52_9f02a948",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2989,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-18T09:28:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06332531_dd57209b",
       "revId": "f0ae6d414da738f4c7e94615e663123b0e82bd4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -54,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "4bda084d_f9265d8b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-18T09:28:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad9e5cfe_53e8b151",
+      "revId": "f0ae6d414da738f4c7e94615e663123b0e82bd4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9edfcbaf_11d99e82",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 3
@@ -68,6 +122,24 @@
       "revId": "f0ae6d414da738f4c7e94615e663123b0e82bd4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c4b8e6d_1470c033",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-18T09:28:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9edfcbaf_11d99e82",
+      "revId": "f0ae6d414da738f4c7e94615e663123b0e82bd4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

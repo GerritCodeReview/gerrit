@@ -338,6 +338,7 @@ limitations under the License.
           },
         },
       };
+      element._mergeable = true;
       expectedStatuses = ['Merged', 'WIP'];
       assert.deepEqual(element._changeStatuses, expectedStatuses);
       assert.equal(element._changeStatus, expectedStatuses.join(', '));

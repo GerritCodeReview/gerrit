@@ -101,6 +101,20 @@ limitations under the License.
           {readyToSubmit: true, includeDerived: true});
       statusString = element.changeStatusString(change);
       assert.deepEqual(statuses, ['Ready to submit']);
+
+      change.mergeable = false;
+      statuses = element.changeStatuses(change,
+          {readyToSubmit: true, includeDerived: true});
+      assert.deepEqual(statuses, ['Merge Conflict']);
+
+      delete change.mergeable;
+      statuses = element.changeStatuses(change,
+          {readyToSubmit: true, includeDerived: true, mergeable: true});
+      assert.deepEqual(statuses, ['Ready to submit']);
+
+      statuses = element.changeStatuses(change,
+          {readyToSubmit: true, includeDerived: true, mergeable: false});
+      assert.deepEqual(statuses, ['Merge Conflict']);
     });
 
     test('Merge conflict', () => {

@@ -204,7 +204,7 @@ final class ShowConnections extends SshCommand {
       IdentifiedUser u = user.asIdentifiedUser();
 
       if (!numeric) {
-        Optional<String> name = u.state().getUserName().filter(n -> !n.isEmpty());
+        Optional<String> name = u.state().getUserName();
         if (name.isPresent()) {
           return name.get();
         }

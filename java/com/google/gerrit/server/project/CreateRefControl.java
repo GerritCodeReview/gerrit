@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -106,13 +105,11 @@ public class CreateRefControl {
 
       // If the tag has a PGP signature, allow a lower level of permission
       // than if it doesn't have a PGP signature.
-      RefControl refControl = ps.controlFor(user.get()).controlForRef(branch);
+      PermissionBackend.ForRef forRef = permissionBackend.user(user).ref(branch);
       if (tag.getFullMessage().contains("-----BEGIN PGP SIGNATURE-----\n")) {
-        if (!refControl.canPerform(Permission.CREATE_SIGNED_TAG)) {
-          throw new AuthException(Permission.CREATE_SIGNED_TAG + " not permitted");
-        }
-      } else if (!refControl.canPerform(Permission.CREATE_TAG)) {
-        throw new AuthException(Permission.CREATE_TAG + " not permitted");
+        forRef.check(RefPermission.CREATE_SIGNED_TAG);
+      } else {
+        forRef.check(RefPermission.CREATE_TAG);
       }
     }
   }

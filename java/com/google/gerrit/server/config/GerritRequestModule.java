@@ -19,7 +19,6 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
-import com.google.gerrit.server.project.PerRequestProjectControlCache;
 import com.google.inject.servlet.RequestScoped;
 
 /** Bindings for {@link RequestScoped} entities. */
@@ -29,7 +28,5 @@ public class GerritRequestModule extends FactoryModule {
     bind(RequestCleanup.class).in(RequestScoped.class);
     bind(RequestScopedReviewDbProvider.class);
     bind(IdentifiedUser.RequestFactory.class).in(SINGLETON);
-
-    bind(PerRequestProjectControlCache.class).in(RequestScoped.class);
   }
 }

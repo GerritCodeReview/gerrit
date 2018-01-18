@@ -28,11 +28,9 @@ import java.util.Optional;
 /** Fake implementation of {@link AccountCache} for testing. */
 public class FakeAccountCache implements AccountCache {
   private final Map<Account.Id, AccountState> byId;
-  private final Map<String, AccountState> byUsername;
 
   public FakeAccountCache() {
     byId = new HashMap<>();
-    byUsername = new HashMap<>();
   }
 
   @Override
@@ -51,7 +49,7 @@ public class FakeAccountCache implements AccountCache {
 
   @Override
   public synchronized Optional<AccountState> getByUsername(String username) {
-    return Optional.ofNullable(byUsername.get(username));
+    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -64,15 +62,11 @@ public class FakeAccountCache implements AccountCache {
   @Override
   public synchronized void evictAllNoReindex() {
     byId.clear();
-    byUsername.clear();
   }
 
   public synchronized void put(Account account) {
     AccountState state = newState(account);
     byId.put(account.getId(), state);
-    if (account.getUserName() != null) {
-      byUsername.put(account.getUserName(), state);
-    }
   }
 
   private static AccountState newState(Account account) {

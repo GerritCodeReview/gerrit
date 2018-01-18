@@ -67,7 +67,7 @@ public class DeleteReviewer
       if (rsrc.isByEmail()) {
         op = deleteReviewerByEmailOpFactory.create(rsrc.getReviewerByEmail(), input);
       } else {
-        op = deleteReviewerOpFactory.create(rsrc.getReviewerUser().getAccount(), input);
+        op = deleteReviewerOpFactory.create(rsrc.getReviewerUser().state(), input);
       }
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();

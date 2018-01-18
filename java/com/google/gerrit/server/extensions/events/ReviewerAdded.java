@@ -21,10 +21,10 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.ReviewerAddedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.GpgException;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -49,7 +49,11 @@ public class ReviewerAdded {
   }
 
   public void fire(
-      Change change, PatchSet patchSet, List<Account> reviewers, Account adder, Timestamp when) {
+      Change change,
+      PatchSet patchSet,
+      List<AccountState> reviewers,
+      AccountState adder,
+      Timestamp when) {
     if (!listeners.iterator().hasNext() || reviewers.isEmpty()) {
       return;
     }

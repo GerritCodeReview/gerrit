@@ -160,20 +160,21 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     Element userlistElement = HtmlDomUtil.find(doc, "userlist");
     try (ReviewDb db = schema.open()) {
       for (Account.Id accountId : accounts.firstNIds(100)) {
-        Account a = accountCache.get(accountId).getAccount();
+        AccountState accountState = accountCache.get(accountId);
+        Account account = accountState.getAccount();
         String displayName;
-        if (a.getUserName() != null) {
-          displayName = a.getUserName();
-        } else if (a.getFullName() != null && !a.getFullName().isEmpty()) {
-          displayName = a.getFullName();
-        } else if (a.getPreferredEmail() != null) {
-          displayName = a.getPreferredEmail();
+        if (accountState.getUserName() != null) {
+          displayName = accountState.getUserName();
+        } else if (account.getFullName() != null && !account.getFullName().isEmpty()) {
+          displayName = account.getFullName();
+        } else if (account.getPreferredEmail() != null) {
+          displayName = account.getPreferredEmail();
         } else {
           displayName = accountId.toString();
         }
 
         Element linkElement = doc.createElement("a");
-        linkElement.setAttribute("href", "?account_id=" + a.getId().toString());
+        linkElement.setAttribute("href", "?account_id=" + account.getId().toString());
         linkElement.setTextContent(displayName);
         userlistElement.appendChild(linkElement);
         userlistElement.appendChild(doc.createElement("br"));

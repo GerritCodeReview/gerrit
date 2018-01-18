@@ -553,7 +553,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       args.changeMerged.fire(
           updatedChange,
           mergedPatchSet,
-          args.accountCache.get(submitter.getAccountId()).getAccount(),
+          args.accountCache.get(submitter.getAccountId()),
           args.mergeTip.getCurrentTip().name(),
           ctx.getWhen());
     }

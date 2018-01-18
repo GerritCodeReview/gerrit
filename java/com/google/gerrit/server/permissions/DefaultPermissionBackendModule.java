@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.project;
+package com.google.gerrit.server.permissions;
 
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.server.permissions.ChangeControl;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.ProjectControl;
 import com.google.inject.AbstractModule;
 
 /** Binds the default {@link PermissionBackend}. */

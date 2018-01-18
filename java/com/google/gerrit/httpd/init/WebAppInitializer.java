@@ -76,7 +76,7 @@ import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
-import com.google.gerrit.server.project.DefaultPermissionBackendModule;
+import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager;
 import com.google.gerrit.server.restapi.config.RestCacheAdminModule;
 import com.google.gerrit.server.schema.DataSourceModule;

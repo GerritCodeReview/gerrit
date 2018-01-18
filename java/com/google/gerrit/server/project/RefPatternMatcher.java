@@ -83,7 +83,7 @@ public abstract class RefPatternMatcher {
     }
   }
 
-  static class ExpandParameters extends RefPatternMatcher {
+  public static class ExpandParameters extends RefPatternMatcher {
     private final ParameterizedString template;
     private final String prefix;
 
@@ -148,7 +148,7 @@ public abstract class RefPatternMatcher {
       return ImmutableSet.of();
     }
 
-    boolean matchPrefix(String ref) {
+    public boolean matchPrefix(String ref) {
       return ref.startsWith(prefix);
     }
 

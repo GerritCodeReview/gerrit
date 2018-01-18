@@ -556,7 +556,7 @@ public class AccountsUpdate {
     RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
     updatedAccount.getExternalIdNotes().updateCaches();
     gitRefUpdated.fire(
-        allUsersName, batchRefUpdate, currentUser != null ? currentUser.getAccount() : null);
+        allUsersName, batchRefUpdate, currentUser != null ? currentUser.state() : null);
   }
 
   private void commitNewAccountConfig(

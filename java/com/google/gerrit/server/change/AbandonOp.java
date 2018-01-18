@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.extensions.events.ChangeAbandoned;
 import com.google.gerrit.server.mail.send.AbandonedSender;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
@@ -51,7 +52,7 @@ public class AbandonOp implements BatchUpdateOp {
   private final String msgTxt;
   private final NotifyHandling notifyHandling;
   private final ListMultimap<RecipientType, Account.Id> accountsToNotify;
-  private final Account account;
+  private final AccountState accountState;
 
   private Change change;
   private PatchSet patchSet;
@@ -59,7 +60,7 @@ public class AbandonOp implements BatchUpdateOp {
 
   public interface Factory {
     AbandonOp create(
-        @Assisted @Nullable Account account,
+        @Assisted @Nullable AccountState accountState,
         @Assisted @Nullable String msgTxt,
         @Assisted NotifyHandling notifyHandling,
         @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify);
@@ -71,7 +72,7 @@ public class AbandonOp implements BatchUpdateOp {
       ChangeMessagesUtil cmUtil,
       PatchSetUtil psUtil,
       ChangeAbandoned changeAbandoned,
-      @Assisted @Nullable Account account,
+      @Assisted @Nullable AccountState accountState,
       @Assisted @Nullable String msgTxt,
       @Assisted NotifyHandling notifyHandling,
       @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify) {
@@ -80,7 +81,7 @@ public class AbandonOp implements BatchUpdateOp {
     this.psUtil = psUtil;
     this.changeAbandoned = changeAbandoned;
 
-    this.account = account;
+    this.accountState = accountState;
     this.msgTxt = Strings.nullToEmpty(msgTxt);
     this.notifyHandling = notifyHandling;
     this.accountsToNotify = accountsToNotify;
@@ -124,8 +125,8 @@ public class AbandonOp implements BatchUpdateOp {
   public void postUpdate(Context ctx) throws OrmException {
     try {
       ReplyToChangeSender cm = abandonedSenderFactory.create(ctx.getProject(), change.getId());
-      if (account != null) {
-        cm.setFrom(account.getId());
+      if (accountState != null) {
+        cm.setFrom(accountState.getAccount().getId());
       }
       cm.setChangeMessage(message.getMessage(), ctx.getWhen());
       cm.setNotify(notifyHandling);
@@ -134,6 +135,6 @@ public class AbandonOp implements BatchUpdateOp {
     } catch (Exception e) {
       log.error("Cannot email update for change " + change.getId(), e);
     }
-    changeAbandoned.fire(change, patchSet, account, msgTxt, ctx.getWhen(), notifyHandling);
+    changeAbandoned.fire(change, patchSet, accountState, msgTxt, ctx.getWhen(), notifyHandling);
   }
 }

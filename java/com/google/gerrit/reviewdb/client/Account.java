@@ -49,7 +49,7 @@ public final class Account {
   public static final String USER_NAME_PATTERN_REST = "[a-zA-Z0-9._@-]";
   public static final String USER_NAME_PATTERN_LAST = "[a-zA-Z0-9]";
 
-  /** Regular expression that {@link #userName} must match. */
+  /** Regular expression that a username must match. */
   public static final String USER_NAME_PATTERN =
       "^"
           + //
@@ -176,9 +176,6 @@ public final class Account {
   @Column(id = 8, notNull = false)
   protected String status;
 
-  /** <i>computed</i> the username selected from the identities. */
-  protected String userName;
-
   /**
    * ID of the user branch from which the account was read, {@code null} if the account was read
    * from ReviewDb.
@@ -304,16 +301,6 @@ public final class Account {
 
   public void setStatus(String status) {
     this.status = status;
-  }
-
-  /** @return the computed user name for this account */
-  public String getUserName() {
-    return userName;
-  }
-
-  /** Update the computed user name property. */
-  public void setUserName(String userName) {
-    this.userName = userName;
   }
 
   @Override

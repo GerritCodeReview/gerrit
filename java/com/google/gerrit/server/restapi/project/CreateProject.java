@@ -350,7 +350,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
         switch (result) {
           case NEW:
             referenceUpdated.fire(
-                project, ru, ReceiveCommand.Type.CREATE, identifiedUser.get().getAccount());
+                project, ru, ReceiveCommand.Type.CREATE, identifiedUser.get().state());
             break;
           case FAST_FORWARD:
           case FORCED:

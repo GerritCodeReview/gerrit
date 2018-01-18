@@ -497,7 +497,7 @@ public class ReplaceOp implements BatchUpdateOp {
       try {
         ReplacePatchSetSender cm =
             replacePatchSetFactory.create(projectState.getNameKey(), notes.getChangeId());
-        cm.setFrom(ctx.getAccount().getId());
+        cm.setFrom(ctx.getAccount().getAccount().getId());
         cm.setPatchSet(newPatchSet, info);
         cm.setChangeMessage(msg.getMessage(), ctx.getWhen());
         if (magicBranch != null) {

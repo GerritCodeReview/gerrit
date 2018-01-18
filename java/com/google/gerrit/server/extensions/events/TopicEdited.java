@@ -19,8 +19,8 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.TopicEditedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
@@ -39,7 +39,7 @@ public class TopicEdited {
     this.util = util;
   }
 
-  public void fire(Change change, Account account, String oldTopicName, Timestamp when) {
+  public void fire(Change change, AccountState account, String oldTopicName, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }

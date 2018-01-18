@@ -37,6 +37,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.extensions.events.ReviewerAdded;
 import com.google.gerrit.server.mail.Address;
@@ -202,11 +203,8 @@ public class PostReviewersOp implements BatchUpdateOp {
         notify,
         accountsToNotify);
     if (!addedReviewers.isEmpty()) {
-      List<Account> reviewers =
-          addedReviewers
-              .stream()
-              .map(r -> accountCache.get(r.getAccountId()).getAccount())
-              .collect(toList());
+      List<AccountState> reviewers =
+          addedReviewers.stream().map(r -> accountCache.get(r.getAccountId())).collect(toList());
       reviewerAdded.fire(rsrc.getChange(), patchSet, reviewers, ctx.getAccount(), ctx.getWhen());
     }
   }

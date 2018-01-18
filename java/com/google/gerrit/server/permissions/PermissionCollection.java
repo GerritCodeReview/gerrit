@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.project;
+package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.server.project.RefPattern.isRE;
@@ -29,6 +29,10 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.project.RefPattern;
+import com.google.gerrit.server.project.RefPatternMatcher.ExpandParameters;
+import com.google.gerrit.server.project.SectionMatcher;
+import com.google.gerrit.server.project.SectionSortCache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
@@ -91,16 +95,16 @@ public class PermissionCollection {
         // that will never be shared with non-user references, and the per-user
         // references are usually less frequent than the non-user references.
         //
-        if (sm.matcher instanceof RefPatternMatcher.ExpandParameters) {
-          if (!((RefPatternMatcher.ExpandParameters) sm.matcher).matchPrefix(ref)) {
+        if (sm.getMatcher() instanceof ExpandParameters) {
+          if (!((ExpandParameters) sm.getMatcher()).matchPrefix(ref)) {
             continue;
           }
           perUser = true;
           if (sm.match(ref, user)) {
-            sectionToProject.put(sm.section, sm.project);
+            sectionToProject.put(sm.getSection(), sm.getProject());
           }
         } else if (sm.match(ref, null)) {
-          sectionToProject.put(sm.section, sm.project);
+          sectionToProject.put(sm.getSection(), sm.getProject());
         }
       }
       List<AccessSection> sections = Lists.newArrayList(sectionToProject.keySet());

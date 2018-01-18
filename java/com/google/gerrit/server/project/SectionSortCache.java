@@ -51,11 +51,11 @@ public class SectionSortCache {
   private final Cache<EntryKey, EntryVal> cache;
 
   @Inject
-  SectionSortCache(@Named(CACHE_NAME) Cache<EntryKey, EntryVal> cache) {
+  public SectionSortCache(@Named(CACHE_NAME) Cache<EntryKey, EntryVal> cache) {
     this.cache = cache;
   }
 
-  void sort(String ref, List<AccessSection> sections) {
+  public void sort(String ref, List<AccessSection> sections) {
     final int cnt = sections.size();
     if (cnt <= 1) {
       return;
@@ -116,7 +116,7 @@ public class SectionSortCache {
   }
 
   @AutoValue
-  abstract static class EntryKey {
+  public abstract static class EntryKey {
     public abstract String ref();
 
     public abstract List<String> patterns();
@@ -140,7 +140,7 @@ public class SectionSortCache {
     }
   }
 
-  static final class EntryVal {
+  public static final class EntryVal {
     /**
      * Maps the input index to the output index.
      *

@@ -34,7 +34,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import javax.inject.Singleton;
 
+@Singleton
 public class Check
     implements RestReadView<ChangeResource>, RestModifyView<ChangeResource, FixInput> {
   private final PermissionBackend permissionBackend;

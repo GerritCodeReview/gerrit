@@ -101,6 +101,7 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   @Override
+  @Nullable
   public AccountState getByUsername(String username) {
     try {
       ExternalId extId = externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, username));
@@ -115,7 +116,7 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   @Override
-  public void evict(Account.Id accountId) throws IOException {
+  public void evict(@Nullable Account.Id accountId) throws IOException {
     if (accountId != null) {
       byId.invalidate(accountId);
       indexer.get().index(accountId);

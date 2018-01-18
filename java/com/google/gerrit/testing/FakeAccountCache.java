@@ -52,13 +52,16 @@ public class FakeAccountCache implements AccountCache {
   }
 
   @Override
+  @Nullable
   public synchronized AccountState getByUsername(String username) {
     return byUsername.get(username);
   }
 
   @Override
-  public synchronized void evict(Account.Id accountId) {
-    byId.remove(accountId);
+  public synchronized void evict(@Nullable Account.Id accountId) {
+    if (byId != null) {
+      byId.remove(accountId);
+    }
   }
 
   @Override

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e6bd88f_e0f9d4eb",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/UploadArchiveIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-18T12:42:54Z",
+      "side": 1,
+      "message": "I still think, that we should find a way to check, that XZ stream is actually sent back from the server. Otherwise, if someone, would just send ZIP compressed archive back (say develeoper bug), even if \"tar.xz\" was requested, this test would still pass.",
+      "range": {
+        "startLine": 126,
+        "startChar": 6,
+        "endLine": 129,
+        "endChar": 7
+      },
+      "revId": "bde87c2c34d7706848796c32f8d6c0b2f4fcbfa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

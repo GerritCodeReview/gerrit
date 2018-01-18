@@ -36,6 +36,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -89,18 +90,38 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
       return info;
     }
 
+    RefPermission refPerm = null;
+    if (!Strings.isNullOrEmpty(input.permission)) {
+      if (Strings.isNullOrEmpty(input.ref)) {
+        throw new BadRequestException("must set 'ref' when specifying 'permission'");
+      }
+      Optional<RefPermission> rp = RefPermission.fromName(input.permission);
+      if (!rp.isPresent()) {
+        throw new BadRequestException(
+            String.format("'%s' is not recognized as ref permission", input.permission));
+      }
+
+      refPerm = rp.get();
+    } else {
+      refPerm = RefPermission.READ;
+    }
+
     if (!Strings.isNullOrEmpty(input.ref)) {
       try {
         permissionBackend
             .user(user)
             .ref(new Branch.NameKey(rsrc.getNameKey(), input.ref))
-            .check(RefPermission.READ);
+            .check(refPerm);
       } catch (AuthException | PermissionBackendException e) {
         info.status = HttpServletResponse.SC_FORBIDDEN;
         info.message =
             String.format(
-                "user %s (%s) cannot see ref %s in project %s",
-                user.getNameEmail(), user.getAccount().getId(), input.ref, rsrc.getName());
+                "user %s (%s) lacks permission %s for %s in project %s",
+                user.getNameEmail(),
+                user.getAccount().getId(),
+                input.permission,
+                input.ref,
+                rsrc.getName());
         return info;
       }
     }

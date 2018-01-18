@@ -31,6 +31,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Locale;
+import java.util.Optional;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -98,13 +99,14 @@ class ContainerAuthFilter implements Filter {
     if (config.getBoolean("auth", "userNameToLowerCase", false)) {
       username = username.toLowerCase(Locale.US);
     }
-    final AccountState who = accountCache.getByUsername(username);
-    if (who == null || !who.getAccount().isActive()) {
+    Optional<AccountState> who =
+        accountCache.getByUsername(username).filter(a -> a.getAccount().isActive());
+    if (!who.isPresent()) {
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }
     WebSession ws = session.get();
-    ws.setUserAccountId(who.getAccount().getId());
+    ws.setUserAccountId(who.get().getAccount().getId());
     ws.setAccessPathOk(AccessPath.GIT, true);
     ws.setAccessPathOk(AccessPath.REST_API, true);
     return true;

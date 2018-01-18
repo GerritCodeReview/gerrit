@@ -36,6 +36,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Locale;
+import java.util.Optional;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -127,8 +128,9 @@ class ProjectBasicAuthFilter implements Filter {
       username = username.toLowerCase(Locale.US);
     }
 
-    final AccountState who = accountCache.getByUsername(username);
-    if (who == null || !who.getAccount().isActive()) {
+    Optional<AccountState> accountState =
+        accountCache.getByUsername(username).filter(a -> a.getAccount().isActive());
+    if (!accountState.isPresent()) {
       log.warn(
           "Authentication failed for "
               + username
@@ -137,6 +139,7 @@ class ProjectBasicAuthFilter implements Filter {
       return false;
     }
 
+    AccountState who = accountState.get();
     GitBasicAuthPolicy gitBasicAuthPolicy = authConfig.getGitBasicAuthPolicy();
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP
         || gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP) {
@@ -157,7 +160,7 @@ class ProjectBasicAuthFilter implements Filter {
       setUserIdentified(whoAuthResult.getAccountId());
       return true;
     } catch (NoSuchUserException e) {
-      if (who.checkPassword(password, who.getUserName())) {
+      if (who.checkPassword(password, username)) {
         return succeedAuthentication(who);
       }
       log.warn(authenticationFailedMsg(username, req), e);

@@ -79,7 +79,7 @@ class ProjectControl {
 
   private final Set<AccountGroup.UUID> uploadGroups;
   private final Set<AccountGroup.UUID> receiveGroups;
-  private final PermissionBackend.WithUser perm;
+  private final PermissionBackend permissionBackend;
   private final CurrentUser user;
   private final ProjectState state;
   private final ChangeControl.Factory changeControlFactory;
@@ -102,13 +102,21 @@ class ProjectControl {
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
     this.permissionFilter = permissionFilter;
-    this.perm = permissionBackend.user(who);
+    this.permissionBackend = permissionBackend;
     user = who;
     state = ps;
   }
 
   ProjectControl forUser(CurrentUser who) {
-    ProjectControl r = state.controlFor(who);
+    ProjectControl r =
+        new ProjectControl(
+            uploadGroups,
+            receiveGroups,
+            permissionFilter,
+            changeControlFactory,
+            permissionBackend,
+            who,
+            state);
     // Not per-user, and reusing saves lookup time.
     r.allSections = allSections;
     return r;
@@ -173,7 +181,7 @@ class ProjectControl {
 
   boolean isAdmin() {
     try {
-      perm.check(GlobalPermission.ADMINISTRATE_SERVER);
+      permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
       return true;
     } catch (AuthException | PermissionBackendException e) {
       return false;

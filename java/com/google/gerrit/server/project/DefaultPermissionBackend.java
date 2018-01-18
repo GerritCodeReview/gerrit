@@ -45,10 +45,13 @@ public class DefaultPermissionBackend extends PermissionBackend {
   private static final CurrentUser.PropertyKey<Boolean> IS_ADMIN = CurrentUser.PropertyKey.create();
 
   private final ProjectCache projectCache;
+  private final ProjectControl.Factory projectControlFactory;
 
   @Inject
-  DefaultPermissionBackend(ProjectCache projectCache) {
+  DefaultPermissionBackend(
+      ProjectCache projectCache, ProjectControl.Factory projectControlFactory) {
     this.projectCache = projectCache;
+    this.projectControlFactory = projectControlFactory;
   }
 
   private CapabilityCollection capabilities() {
@@ -73,7 +76,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
       try {
         ProjectState state = projectCache.checkedGet(project);
         if (state != null) {
-          return state.controlFor(user).asForProject().database(db);
+          return projectControlFactory.create(user, state).asForProject().database(db);
         }
         return FailedPermissionBackend.project("not found", new NoSuchProjectException(project));
       } catch (IOException e) {

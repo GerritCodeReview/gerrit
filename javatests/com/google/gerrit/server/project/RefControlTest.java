@@ -208,7 +208,6 @@ public class RefControlTest {
   @Inject private SingleVersionListener singleVersionListener;
   @Inject private InMemoryDatabase schemaFactory;
   @Inject private ThreadLocalRequestContext requestContext;
-  @Inject private ProjectControl.Factory projectControlFactory;
 
   @Before
   public void setUp() throws Exception {
@@ -856,7 +855,6 @@ public class RefControlTest {
             projectCache,
             allProjectsName,
             allUsersName,
-            projectControlFactory,
             envFactory,
             repoManager,
             rulesCache,

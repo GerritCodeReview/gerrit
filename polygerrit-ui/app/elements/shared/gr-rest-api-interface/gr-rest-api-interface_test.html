@@ -1276,5 +1276,22 @@ limitations under the License.
 
       return Promise.all([edit, normal]);
     });
+
+    test('getChangeFilesAsSpeciallySortedArray is edit-sensitive', () => {
+      const fn = element.getChangeFilesAsSpeciallySortedArray.bind(element);
+      const getChangeFilesStub = sandbox.stub(element, 'getChangeFiles')
+          .returns(Promise.resolve({}));
+      const getChangeEditFilesStub = sandbox.stub(element, 'getChangeEditFiles')
+          .returns(Promise.resolve({}));
+
+      return fn('1', {patchNum: 'edit'}).then(() => {
+        assert.isTrue(getChangeEditFilesStub.calledOnce);
+        assert.isFalse(getChangeFilesStub.called);
+        return fn('1', {patchNum: '1'}).then(() => {
+          assert.isTrue(getChangeEditFilesStub.calledOnce);
+          assert.isTrue(getChangeFilesStub.calledOnce);
+        });
+      });
+    });
   });
 </script>

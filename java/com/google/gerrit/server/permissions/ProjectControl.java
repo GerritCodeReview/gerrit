@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.project;
+package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -21,9 +21,6 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.metrics.Counter0;
-import com.google.gerrit.metrics.Description;
-import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -36,18 +33,14 @@ import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.FailedPermissionBackend;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.SectionMatcher;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Collection;
 import java.util.Collections;
@@ -62,19 +55,6 @@ import java.util.Set;
 class ProjectControl {
   interface Factory {
     ProjectControl create(CurrentUser who, ProjectState ps);
-  }
-
-  @Singleton
-  protected static class Metrics {
-    final Counter0 claCheckCount;
-
-    @Inject
-    Metrics(MetricMaker metricMaker) {
-      claCheckCount =
-          metricMaker.newCounter(
-              "license/cla_check_count",
-              new Description("Total number of CLA check requests").setRate().setUnit("requests"));
-    }
   }
 
   private final Set<AccountGroup.UUID> uploadGroups;
@@ -227,7 +207,7 @@ class ProjectControl {
 
   private boolean canCreateChanges() {
     for (SectionMatcher matcher : access()) {
-      AccessSection section = matcher.section;
+      AccessSection section = matcher.getSection();
       if (section.getName().startsWith("refs/for/")) {
         Permission permission = section.getPermission(Permission.PUSH);
         if (permission != null && controlForRef(section.getName()).canPerform(Permission.PUSH)) {
@@ -248,7 +228,7 @@ class ProjectControl {
 
   private boolean canPerformOnAnyRef(String permissionName) {
     for (SectionMatcher matcher : access()) {
-      AccessSection section = matcher.section;
+      AccessSection section = matcher.getSection();
       Permission permission = section.getPermission(permissionName);
       if (permission == null) {
         continue;
@@ -297,7 +277,7 @@ class ProjectControl {
   private Set<String> allRefPatterns(String permissionName) {
     Set<String> all = new HashSet<>();
     for (SectionMatcher matcher : access()) {
-      AccessSection section = matcher.section;
+      AccessSection section = matcher.getSection();
       Permission permission = section.getPermission(permissionName);
       if (permission != null) {
         all.add(section.getName());

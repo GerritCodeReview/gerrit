@@ -37,6 +37,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -245,8 +246,8 @@ public class EventFactory {
         la.label = lbl.label;
         la.status = lbl.status.name();
         if (lbl.appliedBy != null) {
-          Account a = accountCache.get(lbl.appliedBy).getAccount();
-          la.by = asAccountAttribute(a);
+          AccountState accountState = accountCache.get(lbl.appliedBy);
+          la.by = asAccountAttribute(accountState);
         }
         sa.labels.add(la);
       }
@@ -572,24 +573,24 @@ public class EventFactory {
     if (id == null) {
       return null;
     }
-    return asAccountAttribute(accountCache.get(id).getAccount());
+    return asAccountAttribute(accountCache.get(id));
   }
 
   /**
    * Create an AuthorAttribute for the given account suitable for serialization to JSON.
    *
-   * @param account
+   * @param accountState the account state
    * @return object suitable for serialization to JSON
    */
-  public AccountAttribute asAccountAttribute(Account account) {
-    if (account == null) {
+  public AccountAttribute asAccountAttribute(AccountState accountState) {
+    if (accountState == null) {
       return null;
     }
 
     AccountAttribute who = new AccountAttribute();
-    who.name = account.getFullName();
-    who.email = account.getPreferredEmail();
-    who.username = account.getUserName();
+    who.name = accountState.getAccount().getFullName();
+    who.email = accountState.getAccount().getPreferredEmail();
+    who.username = accountState.getUserName();
     return who;
   }
 

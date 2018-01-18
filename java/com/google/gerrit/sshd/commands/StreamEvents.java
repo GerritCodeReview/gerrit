@@ -107,7 +107,7 @@ final class StreamEvents extends BaseCommand {
 
         @Override
         public String toString() {
-          return "Stream Events (" + currentUser.getAccount().getUserName() + ")";
+          return "Stream Events (" + currentUser.state().getUserName() + ")";
         }
       };
 

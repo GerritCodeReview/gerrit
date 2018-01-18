@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
@@ -63,7 +64,7 @@ public class BatchAbandon {
     if (changes.isEmpty()) {
       return;
     }
-    Account account = user.isIdentifiedUser() ? user.asIdentifiedUser().getAccount() : null;
+    AccountState accountState = user.isIdentifiedUser() ? user.asIdentifiedUser().state() : null;
     try (BatchUpdate u = updateFactory.create(dbProvider.get(), project, user, TimeUtil.nowTs())) {
       for (ChangeData change : changes) {
         if (!project.equals(change.project())) {
@@ -74,7 +75,7 @@ public class BatchAbandon {
         }
         u.addOp(
             change.getId(),
-            abandonOpFactory.create(account, msgTxt, notifyHandling, accountsToNotify));
+            abandonOpFactory.create(accountState, msgTxt, notifyHandling, accountsToNotify));
       }
       u.execute();
     }

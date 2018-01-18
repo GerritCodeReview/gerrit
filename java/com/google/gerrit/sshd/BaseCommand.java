@@ -320,7 +320,7 @@ public abstract class BaseCommand implements Command {
       if (user.isIdentifiedUser()) {
         final IdentifiedUser u = user.asIdentifiedUser();
         m.append(" (user ");
-        m.append(u.getAccount().getUserName());
+        m.append(u.state().getUserName());
         m.append(" account ");
         m.append(u.getAccountId());
         m.append(")");
@@ -381,7 +381,7 @@ public abstract class BaseCommand implements Command {
     m.append(getTaskDescription());
     if (user.isIdentifiedUser()) {
       IdentifiedUser u = user.asIdentifiedUser();
-      m.append(" (").append(u.getAccount().getUserName()).append(")");
+      m.append(" (").append(u.state().getUserName()).append(")");
     }
     return m.toString();
   }

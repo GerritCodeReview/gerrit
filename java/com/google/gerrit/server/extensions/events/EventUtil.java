@@ -102,7 +102,7 @@ public class EventUtil {
     AccountInfo accountInfo = new AccountInfo(account.getId().get());
     accountInfo.email = account.getPreferredEmail();
     accountInfo.name = account.getFullName();
-    accountInfo.username = accountState.getUserName();
+    accountInfo.username = accountState.getUserName().orElse(null);
     return accountInfo;
   }
 

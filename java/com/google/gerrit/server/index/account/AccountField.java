@@ -22,7 +22,6 @@ import static com.google.gerrit.index.FieldDef.timestamp;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Predicates;
-import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -116,7 +115,7 @@ public class AccountField {
       timestamp("registered").build(a -> a.getAccount().getRegisteredOn());
 
   public static final FieldDef<AccountState, String> USERNAME =
-      exact("username").build(a -> Strings.nullToEmpty(a.getUserName()).toLowerCase());
+      exact("username").build(a -> a.getUserName().map(String::toLowerCase).orElse(""));
 
   public static final FieldDef<AccountState, Iterable<String>> WATCHED_PROJECT =
       exact("watchedproject")

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.project;
+package com.google.gerrit.server.permissions;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.common.data.Permission.EDIT_TOPIC_NAME;
@@ -55,9 +55,9 @@ import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.SingleVersionModule.SingleVersionListener;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.rules.PrologEnvironment;
 import com.google.gerrit.server.rules.RulesCache;

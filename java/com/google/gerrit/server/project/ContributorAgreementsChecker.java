@@ -20,6 +20,9 @@ import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.metrics.Counter0;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
@@ -27,7 +30,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.project.ProjectControl.Metrics;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -41,6 +43,19 @@ public class ContributorAgreementsChecker {
   private final String canonicalWebUrl;
   private final ProjectCache projectCache;
   private final Metrics metrics;
+
+  @Singleton
+  protected static class Metrics {
+    final Counter0 claCheckCount;
+
+    @Inject
+    Metrics(MetricMaker metricMaker) {
+      claCheckCount =
+          metricMaker.newCounter(
+              "license/cla_check_count",
+              new Description("Total number of CLA check requests").setRate().setUnit("requests"));
+    }
+  }
 
   @Inject
   ContributorAgreementsChecker(

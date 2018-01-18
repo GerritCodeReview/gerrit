@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.project;
+package com.google.gerrit.server.permissions;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.reviewdb.client.Project;

@@ -310,7 +310,7 @@ public class ProjectState {
    * Obtain all local and inherited sections. This collection is looked up dynamically and is not
    * cached. Callers should try to cache this result per-request as much as possible.
    */
-  List<SectionMatcher> getAllSections() {
+  public List<SectionMatcher> getAllSections() {
     if (isAllProjects) {
       return getLocalAccessSections();
     }
@@ -520,7 +520,7 @@ public class ProjectState {
   private static Set<GroupReference> getGroups(List<SectionMatcher> sectionMatcherList) {
     final Set<GroupReference> all = new HashSet<>();
     for (SectionMatcher matcher : sectionMatcherList) {
-      final AccessSection section = matcher.section;
+      final AccessSection section = matcher.getSection();
       for (Permission permission : section.getPermissions()) {
         for (PermissionRule rule : permission.getRules()) {
           all.add(rule.getGroup());

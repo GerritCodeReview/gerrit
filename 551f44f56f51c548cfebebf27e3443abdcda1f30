@@ -199,6 +199,29 @@
       "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "304d3b6c_4f074957",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-01-18T20:09:39Z",
+      "side": 1,
+      "message": "I thought that the limitation of 767 character was only on column used in a primary key so we would keep file_name a VARCHAR(4096).\n\nInserting a review flag for a file path longer than 256 will fail otherwise. With maven folder structure and nested java packages, it not that unlikely to have a file path longer that 256 characters.",
+      "range": {
+        "startLine": 195,
+        "startChar": 33,
+        "endLine": 195,
+        "endChar": 36
+      },
+      "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

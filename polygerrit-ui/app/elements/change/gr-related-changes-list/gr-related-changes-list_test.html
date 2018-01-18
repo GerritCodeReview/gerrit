@@ -237,8 +237,8 @@ limitations under the License.
       element.change = {
         change_id: 123,
         status: 'NEW',
-        mergeable: true,
       };
+      element.mergeable = true;
       element.addEventListener('new-section-loaded', loadedStub);
       sandbox.stub(element, '_getRelatedChanges')
           .returns(Promise.resolve({changes: []}));
@@ -275,8 +275,8 @@ limitations under the License.
         element.change = {
           change_id: 123,
           status: 'NEW',
-          mergeable: true,
         };
+        element.mergeable = true;
         element.reload();
         assert.equal(element._conflicts.length, 0);
       });
@@ -304,8 +304,8 @@ limitations under the License.
         element.change = {
           change_id: 123,
           status: 'NEW',
-          mergeable: true,
         };
+        element.mergeable = true;
         element.reload();
         assert.isTrue(conflictsStub.called);
       });
@@ -315,7 +315,6 @@ limitations under the License.
         element.change = {
           change_id: 123,
           status: 'MERGED',
-          mergeable: true,
         };
         element.reload();
         assert.isFalse(conflictsStub.called);
@@ -326,8 +325,8 @@ limitations under the License.
         element.change = {
           change_id: 123,
           status: 'NEW',
-          mergeable: false,
         };
+        element.mergeable = false;
         element.reload();
         assert.isFalse(conflictsStub.called);
       });
@@ -337,8 +336,8 @@ limitations under the License.
         element.change = {
           change_id: 123,
           status: 'MERGED',
-          mergeable: false,
         };
+        element.mergeable = false;
         element.reload();
         assert.isFalse(conflictsStub.called);
       });

@@ -194,7 +194,8 @@
       },
       _changeStatuses: {
         type: String,
-        computed: '_computeChangeStatusChips(_change, _missingLabels)',
+        computed: '_computeChangeStatusChips(_change, _missingLabels, ' +
+            '_mergeable)',
       },
       _commitCollapsed: {
         type: Boolean,
@@ -216,6 +217,12 @@
         observer: '_updateToggleContainerClass',
       },
       _parentIsCurrent: Boolean,
+
+      /** @type {?} */
+      _mergeable: {
+        type: Boolean,
+        value: undefined,
+      },
     },
 
     behaviors: [
@@ -354,10 +361,14 @@
       return missingLabels.length === 0;
     },
 
-    _computeChangeStatusChips(change, missingLabels) {
+    _computeChangeStatusChips(change, missingLabels, mergeable) {
+      // Show no chips until mergeability is loaded.
+      if (mergeable === null || mergeable === undefined) { return []; }
+
       const options = {
         readyToSubmit: this._readyToSubmit(missingLabels),
         includeDerived: true,
+        mergeable: !!mergeable,
       };
       return this.changeStatuses(change, options);
     },
@@ -1104,6 +1115,7 @@
         this._loading = false;
         this._getProjectConfig();
       });
+
       this._reloadComments();
 
       if (this._patchRange.patchNum) {
@@ -1111,7 +1123,10 @@
           this._reloadPatchNumDependentResources(),
           detailCompletes,
         ]).then(() => {
-          return this.$.actions.reload();
+          return Promise.all([
+            this._getMergeability(),
+            this.$.actions.reload(),
+          ]);
         });
       } else {
         // The patch number is reliant on the change detail request.
@@ -1120,6 +1135,7 @@
           if (!this._latestCommitMessage) {
             this._getLatestCommitMessage();
           }
+          return this._getMergeability();
         });
       }
     },
@@ -1133,6 +1149,13 @@
         this._getCommitInfo(),
         this.$.fileList.reload(),
       ]);
+    },
+
+    _getMergeability() {
+      this._mergeable = null;
+      return this.$.restAPI.getMergeable(this._changeNum).then(m => {
+        this._mergeable = m.mergeable;
+      });
     },
 
     _computeCanStartReview(loggedIn, change, account) {

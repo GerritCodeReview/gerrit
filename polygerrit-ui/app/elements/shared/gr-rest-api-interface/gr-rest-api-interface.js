@@ -917,7 +917,8 @@
           this.ListChangesOption.DOWNLOAD_COMMANDS,
           this.ListChangesOption.MESSAGES,
           this.ListChangesOption.SUBMITTABLE,
-          this.ListChangesOption.WEB_LINKS
+          this.ListChangesOption.WEB_LINKS,
+          this.ListChangesOption.SKIP_MERGEABLE
       );
       return this._getChangeDetail(
           changeNum, options, opt_errFn, opt_cancelCondition)
@@ -2169,6 +2170,12 @@
       const url = '/projects/' + encodeURIComponent(project) + '/dashboards/' +
           encodeURIComponent(dashboard);
       return this._fetchSharedCacheURL(url, opt_errFn);
+    },
+
+    getMergeable(changeNum) {
+      return this.getChangeURLAndSend(changeNum, 'GET', null,
+          '/revisions/current/mergeable')
+          .then(this.getResponseObject.bind(this));
     },
   });
 })();

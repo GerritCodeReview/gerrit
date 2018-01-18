@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "0e095902_c369e13a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2018-01-18T19:48:41Z",
+      "side": 1,
+      "message": "\u003e Just to make sure we\u0027re all on the same page, the decision is to:\n\u003e \n\u003e - do not add annotation layer toggling right now, and implement a general syntax layer toggling eventually\n\u003e \n\u003e - for the annotations API, use DOM crawling to add/remove checkbox\n\nIf a plugin wants to toggle the annotations API right now then yes it should probably add a checkbox/button/something else with DOM crawling (or whichever way it prefers) till the better solution is implemented.\n\n\u003e \n\u003e Am I missing something? I\u0027m not sure this is the best way to move forward.\n\nI clarified it a little above. I do not know what a better solution is (other than what is in this change) till Wyatt\u0027s approach is implemented.\nFor the real coverage plugin I plan to wait for Wyatt\u0027s solution to toggle it, but if we really need a way to toggle before that then I might add the checkbox with a caveat that it could stop working anytime.",
+      "parentUuid": "b08aeeae_4a41c559",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "ad5c3aaa892505c3e1c258b91341a3ed73ab19d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "776d4302_05befca1",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
         "patchSetId": 10

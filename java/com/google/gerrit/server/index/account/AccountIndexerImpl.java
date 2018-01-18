@@ -34,6 +34,7 @@ import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Config;
@@ -90,9 +91,9 @@ public class AccountIndexerImpl implements AccountIndexer {
   @Override
   public void index(Account.Id id) throws IOException {
     for (Index<Account.Id, AccountState> i : getWriteIndexes()) {
-      AccountState accountState = byIdCache.getOrNull(id);
-      if (accountState != null) {
-        i.replace(accountState);
+      Optional<AccountState> accountState = byIdCache.maybeGet(id);
+      if (accountState.isPresent()) {
+        i.replace(accountState.get());
       } else {
         i.delete(id);
       }

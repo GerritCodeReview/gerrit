@@ -551,8 +551,8 @@ public class GroupsUpdate {
   }
 
   static String getAccountName(AccountCache accountCache, Account.Id accountId) {
-    AccountState accountState = accountCache.getOrNull(accountId);
-    return Optional.ofNullable(accountState)
+    return accountCache
+        .maybeGet(accountId)
         .map(AccountState::getAccount)
         .map(account -> account.getName())
         // Historically, the database did not enforce relational integrity, so it is

@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.AbandonOp;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
@@ -123,8 +124,8 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
       NotifyHandling notifyHandling,
       ListMultimap<RecipientType, Account.Id> accountsToNotify)
       throws RestApiException, UpdateException {
-    Account account = user.isIdentifiedUser() ? user.asIdentifiedUser().getAccount() : null;
-    AbandonOp op = abandonOpFactory.create(account, msgTxt, notifyHandling, accountsToNotify);
+    AccountState accountState = user.isIdentifiedUser() ? user.asIdentifiedUser().state() : null;
+    AbandonOp op = abandonOpFactory.create(accountState, msgTxt, notifyHandling, accountsToNotify);
     try (BatchUpdate u =
         updateFactory.create(dbProvider.get(), notes.getProjectName(), user, TimeUtil.nowTs())) {
       u.addOp(notes.getChangeId(), op).execute();

@@ -106,7 +106,7 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
         RefNames.REFS_CONFIG,
         base,
         commit.getId(),
-        user.asIdentifiedUser().getAccount());
+        user.asIdentifiedUser().state());
 
     projectCache.evict(config.getProject());
     createGroupPermissionSyncer.syncIfNeeded();

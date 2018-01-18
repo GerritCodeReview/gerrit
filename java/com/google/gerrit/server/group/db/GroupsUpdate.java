@@ -612,7 +612,7 @@ public class GroupsUpdate {
 
     RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
     gitRefUpdated.fire(
-        allUsersName, batchRefUpdate, currentUser != null ? currentUser.getAccount() : null);
+        allUsersName, batchRefUpdate, currentUser != null ? currentUser.state() : null);
   }
 
   private void updateCachesOnGroupCreation(InternalGroup createdGroup) throws IOException {

@@ -98,14 +98,13 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   @Override
-  @Nullable
-  public AccountState getByUsername(String username) {
+  public Optional<AccountState> getByUsername(String username) {
     try {
       ExternalId extId = externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, username));
       if (extId == null) {
-        return null;
+        return Optional.empty();
       }
-      return getOrNull(extId.accountId());
+      return Optional.ofNullable(getOrNull(extId.accountId()));
     } catch (IOException | ConfigInvalidException e) {
       log.warn("Cannot load AccountState for username " + username, e);
       return null;

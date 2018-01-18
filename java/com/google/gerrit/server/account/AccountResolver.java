@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
@@ -28,6 +29,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -106,9 +108,9 @@ public class AccountResolver {
     }
 
     if (nameOrEmail.matches(Account.USER_NAME_PATTERN)) {
-      AccountState who = byId.getByUsername(nameOrEmail);
-      if (who != null) {
-        return Collections.singleton(who.getAccount().getId());
+      Optional<AccountState> who = byId.getByUsername(nameOrEmail);
+      if (who.isPresent()) {
+        return ImmutableSet.of(who.map(a -> a.getAccount().getId()).get());
       }
     }
 

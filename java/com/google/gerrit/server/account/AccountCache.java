@@ -34,14 +34,13 @@ public interface AccountCache {
 
   /**
    * Returns an {@code AccountState} instance for the given account ID. If not cached yet the
-   * account is loaded. Returns {@code null} if the account is missing.
+   * account is loaded. Returns {@link Optional#empty()} if the account is missing.
    *
    * @param accountId ID of the account that should be retrieved
    * @return {@code AccountState} instance for the given account ID, if no account with this ID
-   *     exists {@code null} is returned
+   *     exists {@link Optional#empty()}is returned
    */
-  @Nullable
-  AccountState getOrNull(Account.Id accountId);
+  Optional<AccountState> maybeGet(Account.Id accountId);
 
   /**
    * Returns an {@code AccountState} instance for the given username.

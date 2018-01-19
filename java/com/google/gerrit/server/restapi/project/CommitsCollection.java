@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -70,7 +71,8 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
 
   @Override
   public CommitResource parse(ProjectResource parent, IdString id)
-      throws ResourceNotFoundException, IOException {
+      throws RestApiException, IOException {
+    parent.getProjectState().checkStatePermitsRead();
     ObjectId objectId;
     try {
       objectId = ObjectId.fromString(id.get());

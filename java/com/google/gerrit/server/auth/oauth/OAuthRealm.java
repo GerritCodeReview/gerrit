@@ -92,7 +92,7 @@ public class OAuthRealm extends AbstractRealm {
 
     OAuthUserInfo userInfo;
     try {
-      userInfo = loginProvider.login(who.getUserName(), who.getPassword());
+      userInfo = loginProvider.login(who.getUserName().orElse(null), who.getPassword());
     } catch (IOException e) {
       throw new AccountException("Cannot authenticate", e);
     }
@@ -100,8 +100,7 @@ public class OAuthRealm extends AbstractRealm {
       throw new AccountException("Cannot authenticate");
     }
     if (!Strings.isNullOrEmpty(userInfo.getEmailAddress())
-        && (Strings.isNullOrEmpty(who.getUserName())
-            || !allowsEdit(AccountFieldName.REGISTER_NEW_EMAIL))) {
+        && (!who.getUserName().isPresent() || !allowsEdit(AccountFieldName.REGISTER_NEW_EMAIL))) {
       who.setEmailAddress(userInfo.getEmailAddress());
     }
     if (!Strings.isNullOrEmpty(userInfo.getDisplayName())

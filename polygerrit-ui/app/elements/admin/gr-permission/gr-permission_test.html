@@ -237,10 +237,15 @@ limitations under the License.
       });
 
       test('_handleRemovePermission', () => {
+        element.editing = true;
         element.permission = {value: {rules: {}}};
         element._handleRemovePermission();
         assert.isTrue(element._deleted);
         assert.isTrue(element.permission.value.deleted);
+
+        element.editing = false;
+        assert.isFalse(element._deleted);
+        assert.isNotOk(element.permission.value.deleted);
       });
 
       test('_handleUndoRemove', () => {

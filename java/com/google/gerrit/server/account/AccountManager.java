@@ -401,26 +401,23 @@ public class AccountManager {
    */
   public AuthResult updateLink(Account.Id to, AuthRequest who)
       throws OrmException, AccountException, IOException, ConfigInvalidException {
-    accountsUpdateFactory
-        .create()
-        .update(
-            "Delete External IDs on Update Link",
-            to,
-            (a, u) -> {
-              Collection<ExternalId> filteredExtIdsByScheme =
-                  a.getExternalIds(who.getExternalIdKey().scheme());
-              if (filteredExtIdsByScheme.isEmpty()) {
-                return;
-              }
+    Collection<ExternalId> filteredExtIdsByScheme =
+        externalIds.byAccount(to, who.getExternalIdKey().scheme());
 
-              if (filteredExtIdsByScheme.size() > 1
-                  || !filteredExtIdsByScheme
-                      .stream()
-                      .anyMatch(e -> e.key().equals(who.getExternalIdKey()))) {
-                u.deleteExternalIds(filteredExtIdsByScheme);
-              }
-            });
-
+    if (!filteredExtIdsByScheme.isEmpty()
+        && (filteredExtIdsByScheme.size() > 1
+            || !filteredExtIdsByScheme
+                .stream()
+                .filter(e -> e.key().equals(who.getExternalIdKey()))
+                .findAny()
+                .isPresent())) {
+      accountsUpdateFactory
+          .create()
+          .update(
+              "Delete External IDs on Update Link",
+              to,
+              u -> u.deleteExternalIds(filteredExtIdsByScheme));
+    }
     return link(to, who);
   }
 

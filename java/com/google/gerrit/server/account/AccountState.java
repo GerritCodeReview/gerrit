@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.base.Function;
@@ -136,11 +135,6 @@ public class AccountState {
   /** The external identities that identify the account holder. */
   public ImmutableSet<ExternalId> getExternalIds() {
     return externalIds;
-  }
-
-  /** The external identities that identify the account holder that match the given scheme. */
-  public ImmutableSet<ExternalId> getExternalIds(String scheme) {
-    return externalIds.stream().filter(e -> e.key().isScheme(scheme)).collect(toImmutableSet());
   }
 
   /** The project watches of the account. */

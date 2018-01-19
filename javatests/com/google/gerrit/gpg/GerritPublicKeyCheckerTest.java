@@ -40,6 +40,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -54,6 +55,7 @@ import com.google.inject.util.Providers;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -82,6 +84,8 @@ public class GerritPublicKeyCheckerTest {
   @Inject private SchemaCreator schemaCreator;
 
   @Inject private ThreadLocalRequestContext requestContext;
+
+  @Inject private ExternalIds externalIds;
 
   private LifecycleManager lifecycle;
   private ReviewDb db;
@@ -218,12 +222,10 @@ public class GerritPublicKeyCheckerTest {
 
   @Test
   public void noExternalIds() throws Exception {
+    Set<ExternalId> extIds = externalIds.byAccount(user.getAccountId());
     accountsUpdate
         .create()
-        .update(
-            "Delete External IDs",
-            user.getAccountId(),
-            (a, u) -> u.deleteExternalIds(a.getExternalIds()));
+        .update("Delete External IDs", user.getAccountId(), u -> u.deleteExternalIds(extIds));
     reloadUser();
 
     TestKey key = validKeyWithSecondUserId();

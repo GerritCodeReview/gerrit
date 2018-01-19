@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f94364d_fb7962cf",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-19T01:28:25Z",
+      "side": 1,
+      "message": "Is this double negation needed?",
+      "range": {
+        "startLine": 38,
+        "startChar": 51,
+        "endLine": 38,
+        "endChar": 74
+      },
+      "revId": "9ddc80c5d70ffad18f778019b0c324e59322e885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11f7df9c_cf186e95",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-19T01:28:25Z",
+      "side": 1,
+      "message": "Nit: I think people on the team don\u0027t like default value declaration in this way, based on that ES6 migration survey I conducted a couple of quarters ago.",
+      "revId": "9ddc80c5d70ffad18f778019b0c324e59322e885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

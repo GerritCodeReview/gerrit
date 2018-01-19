@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b57a57dd_ab7ac8e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-19T08:11:47Z",
+      "side": 1,
+      "message": "Maybe reword this a bit?  The added test only ensures that the xz library is used, so that if it gets removed from WORKSPACE the tests will fail.  It does not however test that the correct txz content is returned.",
+      "range": {
+        "startLine": 12,
+        "startChar": 11,
+        "endLine": 12,
+        "endChar": 41
+      },
+      "revId": "bde87c2c34d7706848796c32f8d6c0b2f4fcbfa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0e6bd88f_e0f9d4eb",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/UploadArchiveIT.java",
         "patchSetId": 10
@@ -85,6 +108,30 @@
       "side": 1,
       "message": "if someone wants to attack this, I made SideBandInputStream public in JGit for anyone who wants to do this in a principled way:\n\n https://git.eclipse.org/r/#/c/115453/",
       "parentUuid": "48a4f941_10742475",
+      "range": {
+        "startLine": 126,
+        "startChar": 6,
+        "endLine": 129,
+        "endChar": 7
+      },
+      "revId": "bde87c2c34d7706848796c32f8d6c0b2f4fcbfa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "034e7e7c_96d07405",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/UploadArchiveIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-19T08:11:47Z",
+      "side": 1,
+      "message": "OK, but in that case let\u0027s clarify the commit message a bit.",
+      "parentUuid": "d23f4c2c_ec460bcc",
       "range": {
         "startLine": 126,
         "startChar": 6,

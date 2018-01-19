@@ -164,6 +164,30 @@
       "revId": "e68406f0647faf4ee8f2a1437b2cf83d4724b5cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b8aa973_a4a020b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-19T16:38:52Z",
+      "side": 1,
+      "message": "I would prefer to keep a single supported (local) cache implementation in core. Why should we make admins choose between two implementations when we have all this evidence saying that one is better? If it\u0027s just about stability, then IMHO that is an argument against backporting it to stable-2.14, not against changing it in master.",
+      "parentUuid": "81b4d3b9_23aa312e",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "e68406f0647faf4ee8f2a1437b2cf83d4724b5cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

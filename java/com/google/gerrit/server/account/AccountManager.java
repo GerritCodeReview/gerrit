@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
@@ -225,13 +226,13 @@ public class AccountManager {
 
     if (!realm.allowsEdit(AccountFieldName.FULL_NAME)
         && !Strings.isNullOrEmpty(who.getDisplayName())
-        && !eq(user.getAccount().getFullName(), who.getDisplayName())) {
+        && !Objects.equals(user.getAccount().getFullName(), who.getDisplayName())) {
       accountUpdates.add(u -> u.setFullName(who.getDisplayName()));
     }
 
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)
         && who.getUserName() != null
-        && !eq(user.getUserName(), who.getUserName())) {
+        && !Objects.equals(user.getUserName(), who.getUserName())) {
       log.warn(
           String.format(
               "Not changing already set username %s to %s", user.getUserName(), who.getUserName()));
@@ -247,10 +248,6 @@ public class AccountManager {
           .orElseThrow(
               () -> new OrmException("Account " + user.getAccountId() + " has been deleted"));
     }
-  }
-
-  private static boolean eq(String a, String b) {
-    return (a == null && b == null) || (a != null && a.equals(b));
   }
 
   private AuthResult create(ReviewDb db, AuthRequest who)

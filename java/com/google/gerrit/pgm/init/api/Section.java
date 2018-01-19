@@ -23,6 +23,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.Objects;
 import java.util.Set;
 
 /** Helper to edit a section of the configuration files. */
@@ -100,7 +101,7 @@ public class Section {
     if (nullIfDefault && nv.equals(dv)) {
       nv = null;
     }
-    if (!eq(ov, nv)) {
+    if (!Objects.equals(ov, nv)) {
       set(name, nv);
     }
     return nv;
@@ -148,7 +149,7 @@ public class Section {
   public String select(final String title, String name, String dv, Set<String> allowedValues) {
     final String ov = get(name);
     String nv = ui.readString(ov != null ? ov : dv, allowedValues, "%s", title);
-    if (!eq(ov, nv)) {
+    if (!Objects.equals(ov, nv)) {
       set(name, nv);
     }
     return nv;
@@ -177,7 +178,7 @@ public class Section {
     }
 
     final String nv = ui.password("%s's password", user);
-    if (!eq(ov, nv)) {
+    if (!Objects.equals(ov, nv)) {
       setSecure(password, nv);
     }
     return nv;
@@ -195,7 +196,7 @@ public class Section {
     }
 
     final String nv = ui.password("%s", prompt);
-    if (!eq(ov, nv)) {
+    if (!Objects.equals(ov, nv)) {
       setSecure(passwordKey, nv);
     }
     return nv;
@@ -215,12 +216,5 @@ public class Section {
 
   String getName() {
     return section;
-  }
-
-  private static boolean eq(String a, String b) {
-    if (a == null && b == null) {
-      return true;
-    }
-    return a != null && a.equals(b);
   }
 }

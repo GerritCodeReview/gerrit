@@ -203,7 +203,7 @@ public class AccountState {
     return userName;
   }
 
-  public boolean checkPassword(String password, String username) {
+  public boolean checkPassword(@Nullable String password, String username) {
     if (password == null) {
       return false;
     }

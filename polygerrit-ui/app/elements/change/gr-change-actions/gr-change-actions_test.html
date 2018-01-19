@@ -94,6 +94,10 @@ limitations under the License.
         },
       };
       sandbox = sinon.sandbox.create();
+      sandbox.stub(element.$.confirmCherrypick.$.restAPI,
+          'getRepoBranches').returns(Promise.resolve([]));
+      sandbox.stub(element.$.confirmMove.$.restAPI,
+          'getRepoBranches').returns(Promise.resolve([]));
 
       return element.reload();
     });

@@ -70,6 +70,30 @@
       "revId": "aea4b144c62ea9c9acbe83005e13976ba5c2d07b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e82ddec8_b2d3acba",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-19T19:16:58Z",
+      "side": 1,
+      "message": "It\u0027s hard to notice! :D",
+      "parentUuid": "40ed6e78_e491a330",
+      "range": {
+        "startLine": 123,
+        "startChar": 8,
+        "endLine": 123,
+        "endChar": 22
+      },
+      "revId": "aea4b144c62ea9c9acbe83005e13976ba5c2d07b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

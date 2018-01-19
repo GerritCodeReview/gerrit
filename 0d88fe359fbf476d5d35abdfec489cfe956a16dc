@@ -264,6 +264,30 @@
     },
     {
       "key": {
+        "uuid": "765ae069_28dbd9cd",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-19T00:59:36Z",
+      "side": 1,
+      "message": "I think I\u0027d like a comment inline explaining that -- just something simple, like \"dashboards support foreach queries, they do _____\". I didn\u0027t read this totally carefully at first, and thought you were doing some kind of JS wizardry.",
+      "parentUuid": "2c67b3ad_9e7fd2d6",
+      "range": {
+        "startLine": 934,
+        "startChar": 0,
+        "endLine": 949,
+        "endChar": 9
+      },
+      "revId": "0d88fe359fbf476d5d35abdfec489cfe956a16dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cfdeb49d_06d0758b",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 9

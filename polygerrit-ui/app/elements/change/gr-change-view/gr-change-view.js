@@ -152,7 +152,8 @@
         type: Object,
       },
       _filesExpanded: String,
-      _currentRevision: Object,
+      _basePatchNum: String,
+      _selectedRevision: Object,
       _currentRevisionActions: Object,
       _allPatchSets: {
         type: Array,
@@ -236,6 +237,7 @@
     observers: [
       '_labelsChanged(_change.labels.*)',
       '_paramsAndChangeChanged(params, _change)',
+      '_patchNumChanged(_patchRange.patchNum)',
     ],
 
     keyBindings: {
@@ -1004,7 +1006,6 @@
                 parseInt(lineHeight.slice(0, lineHeight.length - 2), 10);
 
             this._change = change;
-            this._currentRevision = currentRevision;
             if (!this._patchRange || !this._patchRange.patchNum ||
                 this.patchNumEquals(this._patchRange.patchNum,
                     currentRevision._number)) {
@@ -1015,7 +1016,13 @@
               this._commitInfo = currentRevision.commit;
               this._currentRevisionActions =
                       this._updateRebaseAction(currentRevision.actions);
-                  // TODO: Fetch and process files.
+              this._selectedRevision = currentRevision;
+              // TODO: Fetch and process files.
+            } else {
+              this._selectedRevision =
+                Object.values(this._change.revisions).find(
+                    revision => revision._number ===
+                      parseInt(this._patchRange.patchNum, 10));
             }
           });
     },
@@ -1370,6 +1377,18 @@
 
     _computeCommitMessageKey(number, revision) {
       return `c${number}_rev${revision}`;
+    },
+
+    _patchNumChanged(patchNumStr) {
+      if (!this._selectedRevision) {
+        return;
+      }
+      const patchNum = parseInt(patchNumStr, 10);
+      if (patchNum === this._selectedRevision._number) {
+        return;
+      }
+      this._selectedRevision = Object.values(this._change.revisions).find(
+          revision => revision._number === patchNum);
     },
   });
 })();

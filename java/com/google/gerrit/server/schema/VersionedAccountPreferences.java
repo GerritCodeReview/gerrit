@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.server.schema;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.reviewdb.client.Account;
@@ -23,16 +23,12 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 
-/** Preferences for user accounts. */
-public class VersionedAccountPreferences extends VersionedMetaData {
-  public static final String PREFERENCES = "preferences.config";
+/** Preferences for user accounts during schema migrations. */
+class VersionedAccountPreferences extends VersionedMetaData {
+  private static final String PREFERENCES = "preferences.config";
 
-  public static VersionedAccountPreferences forUser(Account.Id id) {
+  static VersionedAccountPreferences forUser(Account.Id id) {
     return new VersionedAccountPreferences(RefNames.refsUsers(id));
-  }
-
-  public static VersionedAccountPreferences forDefault() {
-    return new VersionedAccountPreferences(RefNames.REFS_USERS_DEFAULT);
   }
 
   private final String ref;
@@ -42,16 +38,12 @@ public class VersionedAccountPreferences extends VersionedMetaData {
     this.ref = ref;
   }
 
-  public boolean isDefaults() {
-    return RefNames.REFS_USERS_DEFAULT.equals(getRefName());
-  }
-
   @Override
   protected String getRefName() {
     return ref;
   }
 
-  public Config getConfig() {
+  Config getConfig() {
     return cfg;
   }
 

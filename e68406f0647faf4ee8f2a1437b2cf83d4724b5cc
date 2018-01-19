@@ -69,6 +69,53 @@
       "revId": "e68406f0647faf4ee8f2a1437b2cf83d4724b5cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38716a55_3b2d4266",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-19T08:54:28Z",
+      "side": 1,
+      "message": "Thanks for confirmation about perfomance advantage of Caffeine compared to Guava.",
+      "parentUuid": "84d6f05b_f3b228dc",
+      "range": {
+        "startLine": 27,
+        "startChar": 31,
+        "endLine": 27,
+        "endChar": 56
+      },
+      "revId": "e68406f0647faf4ee8f2a1437b2cf83d4724b5cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1040da8_2295c08a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-19T08:54:28Z",
+      "side": 1,
+      "message": "Given that Guava caches considered to be core component of Gerrit (like Jetty, SSHD, JGit) and given non-invasive drop-in replacement of the Guava cache implementation with Caffeine backend (Thanks to Caffeine\u0027s Guava adapter) what about instead of hard coded replacement of Guava Caches backend with Caffeine, just add alternative Caffeine backend in addition to Guava caches and not instead of it? We can even left the default backend to be still Guava cache implementation, in which case this CL would be a no-op if the setting is unchanged. We provide already the similar capability with SSHD, and allow to switch to Mina or NIO2 backends used per configuration.\n\nThis approach would have a charm: we would be in position to back-port this change to ancient gerrit releases, without jeopardizing the stability (as the alternative backend would be off per default). By saying the ancient gerrit versions I meant 2.13, as OpenStack and Wikimedia Foundation are still on 2.13.9 (LibreOffice is even on 2.11.8 and it would take quite some time to migrate to 2.13.x).",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "e68406f0647faf4ee8f2a1437b2cf83d4724b5cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

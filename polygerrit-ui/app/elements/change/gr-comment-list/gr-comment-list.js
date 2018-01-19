@@ -36,11 +36,6 @@
       return arr.sort(this.specialFilePathCompare);
     },
 
-    _computeFileDiffURL(file, changeNum, patchNum) {
-      return Gerrit.Nav.getUrlForDiffById(this.changeNum, this.projectName,
-          file, patchNum);
-    },
-
     _isOnParent(comment) {
       return comment.side === 'PARENT';
     },

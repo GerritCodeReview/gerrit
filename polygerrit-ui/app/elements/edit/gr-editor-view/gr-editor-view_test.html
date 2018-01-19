@@ -284,5 +284,16 @@ suite('gr-editor-view tests', () => {
 
     element._showAlert('test message');
   });
+
+  test('_viewEditInChangeView respects _patchNum', () => {
+    navigateStub.restore();
+    const navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+    element._patchNum = element.EDIT_NAME;
+    element._viewEditInChangeView();
+    assert.equal(navStub.lastCall.args[1], element.EDIT_NAME);
+    element._patchNum = '1';
+    element._viewEditInChangeView();
+    assert.equal(navStub.lastCall.args[1], '1');
+  });
 });
 </script>

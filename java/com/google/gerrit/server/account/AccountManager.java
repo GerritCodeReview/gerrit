@@ -172,7 +172,12 @@ public class AccountManager {
       }
       setInactiveFlag.deactivate(id.accountId());
     } catch (Exception e) {
-      log.error("Unable to deactivate account " + authRequest.getUserName(), e);
+      log.error(
+          "Unable to deactivate account "
+              + authRequest
+                  .getUserName()
+                  .orElse(" for external ID key " + authRequest.getExternalIdKey().get()),
+          e);
     }
   }
 
@@ -231,13 +236,12 @@ public class AccountManager {
     }
 
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)
-        && who.getUserName() != null
-        && !Objects.equals(
-            user.getUserName().orElse(null), Strings.emptyToNull(who.getUserName()))) {
+        && who.getUserName().isPresent()
+        && !Objects.equals(user.getUserName(), who.getUserName())) {
       log.warn(
           String.format(
               "Not changing already set username %s to %s",
-              user.getUserName().orElse(null), who.getUserName()));
+              user.getUserName().orElse(null), who.getUserName().get()));
     }
 
     if (!accountUpdates.isEmpty()) {
@@ -259,7 +263,7 @@ public class AccountManager {
     ExternalId extId =
         ExternalId.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());
     ExternalId userNameExtId =
-        !Strings.isNullOrEmpty(who.getUserName()) ? createUsername(newId, who.getUserName()) : null;
+        who.getUserName().isPresent() ? createUsername(newId, who.getUserName().get()) : null;
 
     boolean isFirstAccount = awaitsFirstAccountCheck.getAndSet(false) && !accounts.hasAnyAccount();
 
@@ -294,7 +298,7 @@ public class AccountManager {
     }
 
     if (userNameExtId != null) {
-      sshKeyCache.evict(who.getUserName());
+      who.getUserName().ifPresent(sshKeyCache::evict);
     }
 
     IdentifiedUser user = userFactory.create(newId);

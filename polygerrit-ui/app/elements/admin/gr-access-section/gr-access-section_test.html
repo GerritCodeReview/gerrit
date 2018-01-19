@@ -462,14 +462,23 @@ limitations under the License.
         test('remove section', () => {
           element.editing = true;
           assert.isFalse(element._deleted);
+          assert.isNotOk(element.section.value.deleted);
           MockInteractions.tap(element.$.deleteBtn);
           flushAsynchronousOperations();
           assert.isTrue(element._deleted);
+          assert.isTrue(element.section.value.deleted);
           assert.isTrue(element.$.section.classList.contains('deleted'));
           assert.isTrue(element.section.value.deleted);
 
           MockInteractions.tap(element.$.undoRemoveBtn);
           flushAsynchronousOperations();
+          assert.isFalse(element._deleted);
+          assert.isNotOk(element.section.value.deleted);
+
+          MockInteractions.tap(element.$.deleteBtn);
+          assert.isTrue(element._deleted);
+          assert.isTrue(element.section.value.deleted);
+          element.editing = false;
           assert.isFalse(element._deleted);
           assert.isNotOk(element.section.value.deleted);
         });

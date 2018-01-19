@@ -142,12 +142,20 @@ public class AccountManager {
         ExternalId id = externalIds.get(who.getExternalIdKey());
         if (id == null) {
           // New account, automatically create and return.
-          //
           return create(db, who);
         }
 
+        Optional<AccountState> accountState = byIdCache.maybeGet(id.accountId());
+        if (!accountState.isPresent()) {
+          log.error(
+              String.format(
+                  "Authentication with external ID %s failed. Account %s doesn't exist.",
+                  id.key().get(), id.accountId().get()));
+          throw new AccountException("Authentication error, account not found");
+        }
+
         // Account exists
-        Account act = updateAccountActiveStatus(who, byIdCache.get(id.accountId()).getAccount());
+        Account act = updateAccountActiveStatus(who, accountState.get().getAccount());
         if (!act.isActive()) {
           throw new AccountException("Authentication error, account inactive");
         }

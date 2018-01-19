@@ -22,6 +22,30 @@
       "revId": "b63161c05b432a5367e50f16046ebde66ee22c63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ed16165_ada5adfd",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-19T19:01:34Z",
+      "side": 1,
+      "message": "It\u0027s not, it\u0027s just a descriptor -- do you think it should be removed?",
+      "parentUuid": "13e5557d_b58eb754",
+      "range": {
+        "startLine": 59,
+        "startChar": 21,
+        "endLine": 59,
+        "endChar": 25
+      },
+      "revId": "b63161c05b432a5367e50f16046ebde66ee22c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

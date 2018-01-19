@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "599b57d9_ba2165d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-19T18:50:19Z",
+      "side": 1,
+      "message": "\u003e till the better solution is implemented.\n\nWould adding an endpoint for the checkbox and using plugin.hook() be an acceptable middle ground? \nThis way plugin will be much less susceptible to breakages if structure of DOM changes. Also, keep shadow DOM in mind.\n\nI don\u0027t have strong objections to skipping high-level API, even though deprecating it later wouldn\u0027t be an issue.",
+      "parentUuid": "0e095902_c369e13a",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "ad5c3aaa892505c3e1c258b91341a3ed73ab19d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "776d4302_05befca1",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
         "patchSetId": 10

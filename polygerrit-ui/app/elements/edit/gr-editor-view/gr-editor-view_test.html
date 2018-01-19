@@ -94,14 +94,14 @@ suite('gr-editor-view tests', () => {
     });
   });
 
-  test('edit file path', done => {
+  test('edit file path', () => {
     element._changeNum = mockParams.changeNum;
     element._path = mockParams.path;
     savePathStub.onFirstCall().returns(Promise.resolve({}));
     savePathStub.onSecondCall().returns(Promise.resolve({ok: true}));
 
     // Calling with the same path should not navigate.
-    element._handlePathChanged({detail: mockParams.path}).then(() => {
+    return element._handlePathChanged({detail: mockParams.path}).then(() => {
       assert.isFalse(savePathStub.called);
         // !ok response
       element._handlePathChanged({detail: 'newPath'}).then(() => {
@@ -110,7 +110,7 @@ suite('gr-editor-view tests', () => {
         // ok response
         element._handlePathChanged({detail: 'newPath'}).then(() => {
           assert.isTrue(navigateStub.called);
-          done();
+          assert.isTrue(element._successfulSave);
         });
       });
     });
@@ -195,18 +195,19 @@ suite('gr-editor-view tests', () => {
         assert.isFalse(navigateStub.called);
         assert.isTrue(element.$.save.hasAttribute('disabled'));
         assert.equal(element._content, element._newContent);
+        assert.isTrue(element._successfulSave);
       });
     });
 
-    test('file modification and cancel', () => {
-      const cancelSpy = sandbox.spy(element, '_handleCancelTap');
+    test('file modification and close', () => {
+      const closeSpy = sandbox.spy(element, '_handleCloseTap');
       element._newContent = newText;
       flushAsynchronousOperations();
 
       assert.isFalse(element.$.save.hasAttribute('disabled'));
 
-      MockInteractions.tap(element.$.cancel);
-      assert.isTrue(cancelSpy.called);
+      MockInteractions.tap(element.$.close);
+      assert.isTrue(closeSpy.called);
       assert.isFalse(saveFileStub.called);
       assert.isTrue(navigateStub.called);
     });
@@ -283,6 +284,20 @@ suite('gr-editor-view tests', () => {
     });
 
     element._showAlert('test message');
+  });
+
+  test('_viewEditInChangeView respects _patchNum', () => {
+    navigateStub.restore();
+    const navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+    element._patchNum = element.EDIT_NAME;
+    element._viewEditInChangeView();
+    assert.equal(navStub.lastCall.args[1], element.EDIT_NAME);
+    element._patchNum = '1';
+    element._viewEditInChangeView();
+    assert.equal(navStub.lastCall.args[1], '1');
+    element._successfulSave = true;
+    element._viewEditInChangeView();
+    assert.equal(navStub.lastCall.args[1], element.EDIT_NAME);
   });
 });
 </script>

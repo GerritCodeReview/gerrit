@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.project.RefPattern.isRE;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
+import com.google.common.collect.Streams;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -135,17 +135,15 @@ public abstract class RefPatternMatcher {
     private Iterable<String> getUsernames(CurrentUser user) {
       if (user.isIdentifiedUser()) {
         Set<String> emails = user.asIdentifiedUser().getEmailAddresses();
-        if (user.getUserName() == null) {
+        if (!user.getUserName().isPresent()) {
           return emails;
         } else if (emails.isEmpty()) {
-          return ImmutableSet.of(user.getUserName());
+          return Streams.stream(user.getUserName()).collect(toImmutableSet());
         }
-        return Iterables.concat(emails, ImmutableSet.of(user.getUserName()));
+        return Streams.concat(emails.stream(), Streams.stream(user.getUserName()))
+            .collect(toImmutableSet());
       }
-      if (user.getUserName() != null) {
-        return ImmutableSet.of(user.getUserName());
-      }
-      return ImmutableSet.of();
+      return Streams.stream(user.getUserName()).collect(toImmutableSet());
     }
 
     boolean matchPrefix(String ref) {

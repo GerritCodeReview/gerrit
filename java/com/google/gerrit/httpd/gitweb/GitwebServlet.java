@@ -72,6 +72,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -573,13 +574,9 @@ class GitwebServlet extends HttpServlet {
     String remoteUser = null;
     if (userProvider.get().isIdentifiedUser()) {
       IdentifiedUser u = userProvider.get().asIdentifiedUser();
-      String user = u.getUserName();
-      env.set("GERRIT_USER_NAME", user);
-      if (user != null) {
-        remoteUser = user;
-      } else {
-        remoteUser = "account-" + u.getAccountId();
-      }
+      Optional<String> user = u.getUserName();
+      env.set("GERRIT_USER_NAME", user.orElse(null));
+      remoteUser = user.orElse("account-" + u.getAccountId());
     }
     env.set("REMOTE_USER", remoteUser);
 

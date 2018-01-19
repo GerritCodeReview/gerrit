@@ -140,6 +140,30 @@
       "revId": "e68406f0647faf4ee8f2a1437b2cf83d4724b5cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81b4d3b9_23aa312e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-01-19T15:30:34Z",
+      "side": 1,
+      "message": "\u003e Given that Guava caches considered to be core component of Gerrit\n \u003e (like Jetty, SSHD, JGit) and given non-invasive drop-in replacement\n \u003e of the Guava cache implementation with Caffeine backend (Thanks to\n \u003e Caffeine\u0027s Guava adapter) what about instead of hard coded\n \u003e replacement of Guava Caches backend with Caffeine, just add\n \u003e alternative Caffeine backend in addition to Guava caches and not\n \u003e instead of it? We can even left the default backend to be still\n \u003e Guava cache implementation, in which case this CL would be a no-op\n \u003e if the setting is unchanged. We provide already the similar\n \u003e capability with SSHD, and allow to switch to Mina or NIO2 backends\n \u003e used per configuration.\n \u003e \n\n\nI can do that but I am not sure this is ideal. Changing to Caffeine is fixing a bug so if we make Guava the default, people may be hit by this bug and them we will tell them to use Caffeine backend. Then they will most likely ask: why is Caffeine not the default?\n\nThe risk of changing a library is typically for big Gerrit instances. This is what is happening to us with every sshd update... Since we (Ericsson) have quite a big Gerrit instance and we already run this in production, I think the risk of this change blowing up for others is not too high.\n\nAnyway, I am open to all options, let\u0027s wait for other to comments:\n\n-Replace Guava by Caffeine\n-Have both and keep Guava the default\n-Have both and make Caffeine the default\n\nOne more thing, supporting both may require a few refactoring changes first because cache builder leaked out of MemoryCacheFactory class. Supporting both will be a bigger change that the current proposal which is maybe not what we want on stable branches.",
+      "parentUuid": "f1040da8_2295c08a",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "e68406f0647faf4ee8f2a1437b2cf83d4724b5cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

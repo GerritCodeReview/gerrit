@@ -116,6 +116,30 @@
       "revId": "e68406f0647faf4ee8f2a1437b2cf83d4724b5cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc156c47_744da8eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-19T12:52:49Z",
+      "side": 1,
+      "message": "WMF is planning on updating to 2.14 soon, we fixed one of the blockers on Monday and can now do the update. :).",
+      "parentUuid": "f1040da8_2295c08a",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "e68406f0647faf4ee8f2a1437b2cf83d4724b5cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -134,6 +134,23 @@
       "revId": "d7787ba29f67fbb0d7142d3c316d9f2dad5bcb8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d67e4b1_d718a5dd",
+        "filename": "java/com/google/gerrit/server/cache/h2/DefaultCacheFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-01-19T16:39:01Z",
+      "side": 1,
+      "message": "Note that there are also several places in Gerrit code which use Guava\u0027s CacheBuilder directly instead of utilizing CacheModule and its DSL for declaring caches. These places would also need to be changed.",
+      "revId": "d7787ba29f67fbb0d7142d3c316d9f2dad5bcb8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

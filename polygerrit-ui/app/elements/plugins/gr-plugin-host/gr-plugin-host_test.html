@@ -164,7 +164,7 @@ limitations under the License.
       assert.equal(element.importHref.firstCall.args[0], '/oof');
       assert.equal(element.importHref.firstCall.args[2],
           Gerrit._pluginInstalled);
-      assert.isTrue(element.importHref.firstCall.args[3]);
+      assert.isFalse(element.importHref.firstCall.args[3]);
 
       assert.equal(element.importHref.secondCall.args[0], '/some');
       assert.equal(element.importHref.secondCall.args[2],

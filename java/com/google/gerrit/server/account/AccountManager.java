@@ -180,7 +180,12 @@ public class AccountManager {
       }
       setInactiveFlag.deactivate(id.accountId());
     } catch (Exception e) {
-      log.error("Unable to deactivate account " + authRequest.getUserName(), e);
+      log.error(
+          "Unable to deactivate account "
+              + authRequest
+                  .getUserName()
+                  .orElse(" for external ID key " + authRequest.getExternalIdKey().get()),
+          e);
     }
   }
 
@@ -239,15 +244,15 @@ public class AccountManager {
     }
 
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)
-        && !Strings.isNullOrEmpty(who.getUserName())
-        && !who.getUserName().equals(user.getUserName().orElse(null))) {
+        && who.getUserName().isPresent()
+        && !who.getUserName().equals(user.getUserName())) {
       if (user.getUserName().isPresent()) {
         log.warn(
             String.format(
                 "Not changing already set username %s to %s",
-                user.getUserName().get(), who.getUserName()));
+                user.getUserName().get(), who.getUserName().get()));
       } else {
-        log.warn(String.format("Not setting username to %s", who.getUserName()));
+        log.warn(String.format("Not setting username to %s", who.getUserName().get()));
       }
     }
 
@@ -270,7 +275,7 @@ public class AccountManager {
     ExternalId extId =
         ExternalId.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());
     ExternalId userNameExtId =
-        !Strings.isNullOrEmpty(who.getUserName()) ? createUsername(newId, who.getUserName()) : null;
+        who.getUserName().isPresent() ? createUsername(newId, who.getUserName().get()) : null;
 
     boolean isFirstAccount = awaitsFirstAccountCheck.getAndSet(false) && !accounts.hasAnyAccount();
 
@@ -305,7 +310,7 @@ public class AccountManager {
     }
 
     if (userNameExtId != null) {
-      sshKeyCache.evict(who.getUserName());
+      who.getUserName().ifPresent(sshKeyCache::evict);
     }
 
     IdentifiedUser user = userFactory.create(newId);

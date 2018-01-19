@@ -169,6 +169,24 @@
       "revId": "d7787ba29f67fbb0d7142d3c316d9f2dad5bcb8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08e0f25d_9d41cd65",
+        "filename": "java/com/google/gerrit/server/cache/h2/DefaultCacheFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-01-19T18:13:01Z",
+      "side": 1,
+      "message": "Do you think cache builder is used directly because we do not want these caches to be configurable in gerrit.config and we do not want them to show up in \"show-cache\" command?\n\nIf this is the reason, I can fix that by adding method in cache module to build \"hidden\" cache.\n\nHere is the list of caches not using the cache module:\n-External Id by account\n-one in NoteDbModule when used in tests\n-DefaultProjectNameLockManager\n\nThere is also one cache in AccountState to store properties and this one is a special case. It\u0027s not a global cache, there is one per AccountState instance.\n\nI am asking here but I will fix that in another change.",
+      "parentUuid": "8d67e4b1_d718a5dd",
+      "revId": "d7787ba29f67fbb0d7142d3c316d9f2dad5bcb8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

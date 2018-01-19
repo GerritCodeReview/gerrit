@@ -60,16 +60,18 @@ public class LdapAuthBackend implements AuthBackend {
   public AuthUser authenticate(AuthRequest req)
       throws MissingCredentialsException, InvalidCredentialsException, UnknownUserException,
           UserNotAllowedException, AuthException {
-    if (req.getUsername() == null || req.getPassword() == null) {
+    if (!req.getUsername().isPresent() || !req.getPassword().isPresent()) {
       throw new MissingCredentialsException();
     }
 
-    final String username =
-        lowerCaseUsername ? req.getUsername().toLowerCase(Locale.US) : req.getUsername();
+    String username =
+        lowerCaseUsername
+            ? req.getUsername().map(u -> u.toLowerCase(Locale.US)).get()
+            : req.getUsername().get();
     try {
       final DirContext ctx;
       if (authConfig.getAuthType() == AuthType.LDAP_BIND) {
-        ctx = helper.authenticate(username, req.getPassword());
+        ctx = helper.authenticate(username, req.getPassword().get());
       } else {
         ctx = helper.open();
       }
@@ -81,7 +83,7 @@ public class LdapAuthBackend implements AuthBackend {
           // We found the user account, but we need to verify
           // the password matches it before we can continue.
           //
-          helper.close(helper.authenticate(m.getDN(), req.getPassword()));
+          helper.close(helper.authenticate(m.getDN(), req.getPassword().get()));
         }
         return new AuthUser(AuthUser.UUID.create(username), username);
       } finally {

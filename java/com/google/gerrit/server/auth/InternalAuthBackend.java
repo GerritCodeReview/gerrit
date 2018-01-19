@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.auth;
 
-import com.google.common.base.Strings;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AuthConfig;
@@ -43,15 +42,15 @@ public class InternalAuthBackend implements AuthBackend {
   public AuthUser authenticate(AuthRequest req)
       throws MissingCredentialsException, InvalidCredentialsException, UnknownUserException,
           UserNotAllowedException, AuthException {
-    if (Strings.isNullOrEmpty(req.getUsername()) || Strings.isNullOrEmpty(req.getPassword())) {
+    if (!req.getUsername().isPresent() || !req.getPassword().isPresent()) {
       throw new MissingCredentialsException();
     }
 
     String username;
     if (authConfig.isUserNameToLowerCase()) {
-      username = req.getUsername().toLowerCase(Locale.US);
+      username = req.getUsername().map(u -> u.toLowerCase(Locale.US)).get();
     } else {
-      username = req.getUsername();
+      username = req.getUsername().get();
     }
 
     AccountState who =
@@ -64,7 +63,7 @@ public class InternalAuthBackend implements AuthBackend {
               + ": account inactive or not provisioned in Gerrit");
     }
 
-    if (!who.checkPassword(req.getPassword(), username)) {
+    if (!who.checkPassword(req.getPassword().get(), username)) {
       throw new InvalidCredentialsException();
     }
     return new AuthUser(AuthUser.UUID.create(username), username);

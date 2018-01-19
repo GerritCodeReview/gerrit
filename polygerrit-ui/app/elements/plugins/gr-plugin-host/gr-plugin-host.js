@@ -34,11 +34,13 @@
       const jsPlugins = this._handleMigrations(plugins.js_resource_paths || [],
           htmlPlugins);
       const defaultTheme = config.default_theme;
+      Gerrit._setPluginsCount(
+          jsPlugins.length + htmlPlugins.length + (!!defaultTheme ? 1 : 0));
       if (defaultTheme) {
         // Make theme first to be first to load.
-        htmlPlugins.unshift(defaultTheme);
+        // Load sync to work around rare theme loading race condition.
+        this._importHtmlPlugins([defaultTheme], false);
       }
-      Gerrit._setPluginsCount(jsPlugins.length + htmlPlugins.length);
       this._loadJsPlugins(jsPlugins);
       this._importHtmlPlugins(htmlPlugins);
     },
@@ -59,12 +61,12 @@
      * States that it expects no more than 3 parameters, but that's not true.
      * @todo (beckysiegel) check Polymer annotations and submit change.
      */
-    _importHtmlPlugins(plugins) {
+    _importHtmlPlugins(plugins, opt_async = true) {
       for (const url of plugins) {
         // onload (second param) needs to be a function. When null or undefined
         // were passed, plugins were not loaded correctly.
         this.importHref(
-            this._urlFor(url), () => {}, Gerrit._pluginInstalled, true);
+            this._urlFor(url), () => {}, Gerrit._pluginInstalled, opt_async);
       }
     },
 

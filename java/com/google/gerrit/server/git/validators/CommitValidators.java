@@ -395,7 +395,7 @@ public class CommitValidators {
 
       return String.format(
           "  gitdir=$(git rev-parse --git-dir); scp -p -P %d %s@%s:hooks/commit-msg ${gitdir}/hooks/",
-          sshPort, user.getUserName(), sshHost);
+          sshPort, user.getUserName().orElse("<USERNAME>"), sshHost);
     }
   }
 
@@ -447,7 +447,7 @@ public class CommitValidators {
         } catch (ConfigInvalidException | IOException e) {
           log.error(
               "User "
-                  + user.getUserName()
+                  + user.getUserName().orElse("a/" + user.getAccountId().get())
                   + " tried to push an invalid project configuration "
                   + receiveEvent.command.getNewId().name()
                   + " for project "

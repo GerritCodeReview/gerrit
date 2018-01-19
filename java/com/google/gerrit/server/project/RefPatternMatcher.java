@@ -28,6 +28,7 @@ import dk.brics.automaton.Automaton;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 public abstract class RefPatternMatcher {
   public static RefPatternMatcher getMatcher(String pattern) {
@@ -133,16 +134,11 @@ public abstract class RefPatternMatcher {
     }
 
     private ImmutableSet<String> getUsernames(CurrentUser user) {
+      Stream<String> usernames = Streams.stream(user.getUserName());
       if (user.isIdentifiedUser()) {
-        return Streams.concat(
-                user.asIdentifiedUser().getEmailAddresses().stream(),
-                ImmutableSet.of(user.getUserName()).stream())
-            .collect(toImmutableSet());
+        usernames = Streams.concat(usernames, user.asIdentifiedUser().getEmailAddresses().stream());
       }
-      if (user.getUserName() != null) {
-        return ImmutableSet.of(user.getUserName());
-      }
-      return ImmutableSet.of();
+      return usernames.collect(toImmutableSet());
     }
 
     boolean matchPrefix(String ref) {

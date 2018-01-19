@@ -30,6 +30,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.regex.Matcher;
@@ -225,9 +226,9 @@ public class ProjectQoSFilter implements Filter {
 
       CurrentUser who = user.get();
       if (who.isIdentifiedUser()) {
-        String name = who.asIdentifiedUser().getUserName();
-        if (name != null) {
-          userName = " (" + name + ")";
+        Optional<String> name = who.asIdentifiedUser().getUserName();
+        if (name.isPresent()) {
+          userName = " (" + name.get() + ")";
         }
       }
 

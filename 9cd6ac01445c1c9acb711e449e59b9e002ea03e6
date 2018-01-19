@@ -215,6 +215,30 @@
       "revId": "9cd6ac01445c1c9acb711e449e59b9e002ea03e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c03ab31_f02154ab",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-19T01:40:27Z",
+      "side": 1,
+      "message": "\u003e I interpreted navigating to `/c/p/+/123/4/,edit` to automatically create and open an edit for patch 4 of change 123.\n\nThat would work, yes, aside from the slash you\u0027re inserting after the 4 -- there should not be a slash and then a comma.\n\n\u003e After such an edit has been created, it doesn\u0027t make sense to me to create it again. So, presumably, once the edit has been created, I\u0027d only want to be navigating to `/c/p/+/123/edit`.\n\nSort of, yes. The `,edit` modifier is an indication that \"edit mode\" -- the code editor view when you have a file path specified in the URL, and the file list with file editing options when you don\u0027t -- should be enabled. This is, confusingly, only loosely connected to the existence of an \"edit patch set\". \n\n\u003e Is that different from what happens when navigating to ,edit?\n\nYup. \n\nThere are circumstances in which a user wants to view an edit patch set without being in edit mode (viewing the diff of their edit against some other patch set, perhaps), and also circumstances in which a user is in \"edit mode\" without the existence of an edit patch set (namely, when they haven\u0027t saved any modifications yet). \n\nSo, `,edit` denotes \"edit mode\", whereas `/edit/`, `/1..edit/`, etc. denote viewing and comparison of an already created edit patch set.\n\n\u003e It\u0027s also not clear to me why opening a revision for edit needs to be a route/URL? Can creating an edit based on some revision be a button?\n\nThere is no API call one can make to \"create an empty edit patch set\"... One creates an edit patch set by making a modification. Using the navigation API and URL schema seemed like the most obvious way to encode the information into the params, avoiding weird dataflows that we\u0027ve encountered many times in the past. Also, this maps nicely to legacy URLs.\n\n----\n\nThis code review is awesome, please keep asking questions! I just didn\u0027t fully understand what you meant in the 1:53pm comment.",
+      "parentUuid": "95077547_e39b5d19",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 60
+      },
+      "revId": "9cd6ac01445c1c9acb711e449e59b9e002ea03e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

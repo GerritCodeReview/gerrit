@@ -70,11 +70,15 @@ limitations under the License.
             on-changed="_handlePathChanged"></gr-editable-label>
         <span class="rightControls">
           <gr-button
+              id="close"
+              link
+              on-tap="_handleCloseTap">Close</gr-button>
+          <gr-button
               id="save"
               disabled$="[[_saveDisabled]]"
               primary
+              link
               on-tap="_saveEdit">Save</gr-button>
-          <gr-button id="cancel" on-tap="_handleCancelTap">Cancel</gr-button>
         </span>
       </header>
     </gr-fixed-panel>

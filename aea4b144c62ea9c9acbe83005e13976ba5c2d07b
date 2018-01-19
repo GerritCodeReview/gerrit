@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bcc256a_f853d0e0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-19T19:10:21Z",
+      "side": 1,
+      "message": "Is this to prevent it from consuming vertical space?",
+      "range": {
+        "startLine": 123,
+        "startChar": 8,
+        "endLine": 123,
+        "endChar": 22
+      },
+      "revId": "aea4b144c62ea9c9acbe83005e13976ba5c2d07b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

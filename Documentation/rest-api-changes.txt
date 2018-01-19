@@ -306,6 +306,7 @@ default. Optional fields are:
 * `SKIP_MERGEABLE`: skip the `mergeable` field in
 link:#change-info[ChangeInfo]. For fast moving projects, this field must
 be recomputed often, which is slow for projects with big trees.
+--
 
 [[submittable]]
 --

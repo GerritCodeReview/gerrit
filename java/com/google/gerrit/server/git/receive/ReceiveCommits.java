@@ -800,11 +800,7 @@ class ReceiveCommits {
   }
 
   private static String displayName(IdentifiedUser user) {
-    String displayName = user.getUserName();
-    if (displayName == null) {
-      displayName = user.getAccount().getPreferredEmail();
-    }
-    return displayName;
+    return user.getUserName().orElse(user.getAccount().getPreferredEmail());
   }
 
   private void parseCommands(Collection<ReceiveCommand> commands)
@@ -916,7 +912,7 @@ class ReceiveCommits {
                 reject(cmd, "invalid project configuration");
                 logError(
                     "User "
-                        + user.getUserName()
+                        + user.getUserName().orElse("a/" + user.getAccountId().get())
                         + " tried to push invalid project configuration "
                         + cmd.getNewId().name()
                         + " for "
@@ -992,7 +988,7 @@ class ReceiveCommits {
               reject(cmd, "invalid project configuration");
               logError(
                   "User "
-                      + user.getUserName()
+                      + user.getUserName().orElse("a/" + user.getAccountId().get())
                       + " tried to push invalid project configuration "
                       + cmd.getNewId().name()
                       + " for "

@@ -44,6 +44,7 @@ import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TimeZone;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -296,9 +297,8 @@ public class IdentifiedUser extends CurrentUser {
    *     empty.
    */
   @Override
-  @Nullable
-  public String getUserName() {
-    return state().getUserName().orElse(null);
+  public Optional<String> getUserName() {
+    return state().getUserName();
   }
 
   public Account getAccount() {
@@ -363,12 +363,7 @@ public class IdentifiedUser extends CurrentUser {
       name = anonymousCowardName;
     }
 
-    String user = getUserName();
-    if (user == null) {
-      user = "";
-    }
-    user = user + "|account-" + ua.getId().toString();
-
+    String user = getUserName().orElse("") + "|account-" + ua.getId().toString();
     return new PersonIdent(name, user + "@" + guessHost(), when, tz);
   }
 
@@ -382,10 +377,7 @@ public class IdentifiedUser extends CurrentUser {
       // don't leak an address the user may have given us, but doesn't
       // necessarily want to publish through Git records.
       //
-      String user = getUserName();
-      if (user == null) {
-        user = "account-" + ua.getId().toString();
-      }
+      String user = getUserName().orElse("account-" + ua.getId().toString());
 
       String host;
       if (canonicalUrl.get() != null) {

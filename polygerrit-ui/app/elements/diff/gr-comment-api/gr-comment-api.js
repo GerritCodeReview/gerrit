@@ -60,6 +60,7 @@
     this._robotComments = robotComments;
     this._drafts = drafts;
     this._changeNum = changeNum;
+    console.log(this.computeUnresolvedComments())
   }
 
   ChangeComments.prototype = {
@@ -214,6 +215,17 @@
     };
   };
 
+  ChangeComments.prototype._commentObjToArrayWithFile = function(comments) {
+    let commentArr = [];
+    for (const file of Object.keys(comments)) {
+      for (const comment of comments[file]) {
+        comment.__path = file;
+      }
+      commentArr = commentArr.concat(comments[file]);
+    }
+    return commentArr;
+  };
+
   ChangeComments.prototype._commentObjToArray = function(comments) {
     let commentArr = [];
     for (const file of Object.keys(comments)) {
@@ -273,27 +285,49 @@
     }
 
     comments = comments.concat(drafts);
-
-    // Create an object where every comment ID is the key of an unresolved
-    // comment.
-    const idMap = comments.reduce((acc, comment) => {
-      if (comment.unresolved) {
-        acc[comment.id] = true;
-      }
-      return acc;
-    }, {});
-
-    // Set false for the comments that are marked as parents.
-    for (const comment of comments) {
-      idMap[comment.in_reply_to] = false;
-    }
-
+    const idMap = this._computeUnresolvedKeyMap(comments, opt_path);
     // The unresolved comments are the comments that still have true.
     const unresolvedLeaves = Object.keys(idMap).filter(key => {
       return idMap[key];
     });
+
     return unresolvedLeaves.length;
   };
+
+  /**
+   * Computes all of the comments in unresolved threads.
+   *
+   * @param {number} patchNum
+   * @return {number}
+   */
+  ChangeComments.prototype.computeUnresolvedComments = function(opt_path) {
+    const comments = this._commentObjToArrayWithFile(
+        this.getAllPublishedComments());
+    const idMap = this._computeUnresolvedKeyMap(comments, opt_path);
+    const unresolvedComments = comments.filter(comment => {
+      return idMap[comment.id] 
+    });
+    const unresolvedThreads = [];
+    // Get all comments involved in an unresolved thread.
+    for (const comment of unresolvedComments) {
+      unresolvedThreads.push(
+        {
+          comments: [comment],
+          commentSide: comment.commentSide,
+          patchNum: comment.patch_set,
+          path: comment.__path,
+          line: 3,
+        }
+      );
+      if (comment.in_reply_to) {
+        const parentComment =
+            comments.filter(c => comment.in_reply_to === c.id )
+          unresolvedThreads[unresolvedThreads.length - 1].comments
+              .push(parentComment[0]);
+      }
+    }
+    return unresolvedThreads;
+};
 
   /**
   * Whether the given comment should be included in the base side of the
@@ -324,6 +358,32 @@
       return true;
     }
     return false;
+  };
+
+    /**
+   * Computes a number of unresolved comment threads in a given file and path.
+   *
+   * @param {!Array} commets
+   * @param {string=} opt_path
+   * @return {!Object}
+   */
+    ChangeComments.prototype._computeUnresolvedKeyMap = function(comments,
+      opt_path) {
+  
+    // Create an object where every comment ID is the key of an unresolved
+    // comment.
+    const idMap = comments.reduce((acc, comment) => {
+      if (comment.unresolved) {
+        acc[comment.id] = true;
+      }
+      return acc;
+    }, {});
+
+    // Set false for the comments that are marked as parents.
+    for (const comment of comments) {
+      idMap[comment.in_reply_to] = false;
+    }
+    return idMap;
   };
 
   /**

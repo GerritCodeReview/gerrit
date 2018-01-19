@@ -279,11 +279,12 @@ limitations under the License.
        * @param {number=} opt_patchNum
        * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
        *     used for none.
+       * @param {number|string=} opt_lineNum
        * @return {string}
        */
-      getUrlForDiff(change, path, opt_patchNum, opt_basePatchNum) {
+      getUrlForDiff(change, path, opt_patchNum, opt_basePatchNum, opt_lineNum) {
         return this.getUrlForDiffById(change._number, change.project, path,
-            opt_patchNum, opt_basePatchNum);
+            opt_patchNum, opt_basePatchNum, opt_lineNum);
       },
 
       /**

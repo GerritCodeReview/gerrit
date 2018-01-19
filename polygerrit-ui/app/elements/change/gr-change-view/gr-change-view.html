@@ -45,6 +45,9 @@ limitations under the License.
 <link rel="import" href="../gr-related-changes-list/gr-related-changes-list.html">
 <link rel="import" href="../gr-reply-dialog/gr-reply-dialog.html">
 
+<link rel="import" href="../gr-diff-comment-thread/gr-diff-comment-thread.html">
+
+
 <dom-module id="gr-change-view">
   <template>
     <style include="shared-styles">
@@ -513,6 +516,18 @@ limitations under the License.
         <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
         </gr-endpoint-param>
       </gr-endpoint-decorator>
+      <template is="dom-repeat" items="[[_unresolvedThreads]]" as="thread">
+        <a href$="[[_getDiffUrlForComment(_change, thread.path, thread.patchNum, thread.line)]]">View in context</a>
+        <gr-diff-comment-thread
+            comments="[[thread.comments]]"
+            comment-side="[[thread.commentSide]]"
+            is-on-parent="[[isOnParent]]"
+            parent-index="[[parentIndex]]"
+            change-num="[[_changeNum]]"
+            patch-num="[[thread.patchNum]]"
+            path="[[thread.path]]"
+            project-name="[[projectName]]"></gr-diff-comment-thread>
+      </template>
       <gr-messages-list id="messageList"
           class="hideOnMobileOverlay"
           change-num="[[_changeNum]]"

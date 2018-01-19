@@ -1081,6 +1081,8 @@
           .then(comments => {
             this._changeComments = comments;
             this._diffDrafts = Object.assign({}, this._changeComments.drafts);
+            this._unresolvedThreads = this._changeComments.
+                computeUnresolvedComments();
           });
     },
 
@@ -1373,6 +1375,10 @@
           controls.openRestoreDialog(path);
           break;
       }
+    },
+
+    _getDiffUrlForComment(change, path, patchNum, lineNum) {
+      return Gerrit.Nav.getUrlForDiff(change, path, patchNum, null, lineNum);
     },
 
     _computeCommitMessageKey(number, revision) {

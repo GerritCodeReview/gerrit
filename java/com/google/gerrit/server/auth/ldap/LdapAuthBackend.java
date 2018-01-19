@@ -59,7 +59,7 @@ public class LdapAuthBackend implements AuthBackend {
   public AuthUser authenticate(AuthRequest req)
       throws MissingCredentialsException, InvalidCredentialsException, UnknownUserException,
           UserNotAllowedException, AuthException {
-    if (req.getUsername() == null) {
+    if (req.getUsername() == null || req.getPassword() == null) {
       throw new MissingCredentialsException();
     }
 

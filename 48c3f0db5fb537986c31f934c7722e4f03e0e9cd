@@ -23,6 +23,30 @@
       "revId": "48c3f0db5fb537986c31f934c7722e4f03e0e9cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c26a53b1_42c1071d",
+        "filename": "java/com/google/gerrit/server/account/AccountCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-19T07:08:34Z",
+      "side": 1,
+      "message": "It\u0027s already on my wishlist :)\nI believe that most callers actually don\u0027t want/need this, but I didn\u0027t inspect them yet.",
+      "parentUuid": "1a2bfd02_6928d6cc",
+      "range": {
+        "startLine": 31,
+        "startChar": 16,
+        "endLine": 31,
+        "endChar": 99
+      },
+      "revId": "48c3f0db5fb537986c31f934c7722e4f03e0e9cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

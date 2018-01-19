@@ -22,39 +22,36 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
 
 @Singleton
 public class RemoveReviewerControl {
   private final PermissionBackend permissionBackend;
   private final Provider<ReviewDb> dbProvider;
-  private final ProjectCache projectCache;
 
   @Inject
-  RemoveReviewerControl(
-      PermissionBackend permissionBackend,
-      Provider<ReviewDb> dbProvider,
-      ProjectCache projectCache) {
+  RemoveReviewerControl(PermissionBackend permissionBackend, Provider<ReviewDb> dbProvider) {
     this.permissionBackend = permissionBackend;
     this.dbProvider = dbProvider;
-    this.projectCache = projectCache;
   }
 
   /**
    * Checks if removing the given reviewer and patch set approval is OK.
    *
    * @throws AuthException if this user is not allowed to remove this approval.
+   * @throws PermissionBackendException on failure of permission checks.
    */
   public void checkRemoveReviewer(
       ChangeNotes notes, CurrentUser currentUser, PatchSetApproval approval)
-      throws PermissionBackendException, AuthException, NoSuchProjectException, IOException {
+      throws PermissionBackendException, AuthException {
     checkRemoveReviewer(notes, currentUser, approval.getAccountId(), approval.getValue());
   }
 
@@ -63,17 +60,19 @@ public class RemoveReviewerControl {
    * reviewer might have given is OK.
    *
    * @throws AuthException if this user is not allowed to remove this approval.
+   * @throws PermissionBackendException on failure of permission checks.
    */
   public void checkRemoveReviewer(ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer)
-      throws PermissionBackendException, AuthException, NoSuchProjectException, IOException {
+      throws PermissionBackendException, AuthException {
     checkRemoveReviewer(notes, currentUser, reviewer, 0);
   }
 
   /** @return true if the user is allowed to remove this reviewer. */
   public boolean testRemoveReviewer(
       ChangeData cd, CurrentUser currentUser, Account.Id reviewer, int value)
-      throws PermissionBackendException, NoSuchProjectException, OrmException, IOException {
-    if (canRemoveReviewerWithoutPermissionCheck(cd.change(), currentUser, reviewer, value)) {
+      throws PermissionBackendException, OrmException {
+    if (canRemoveReviewerWithoutPermissionCheck(
+        permissionBackend, cd.change(), currentUser, reviewer, value)) {
       return true;
     }
     return permissionBackend
@@ -85,8 +84,9 @@ public class RemoveReviewerControl {
 
   private void checkRemoveReviewer(
       ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer, int val)
-      throws PermissionBackendException, AuthException, NoSuchProjectException, IOException {
-    if (canRemoveReviewerWithoutPermissionCheck(notes.getChange(), currentUser, reviewer, val)) {
+      throws PermissionBackendException, AuthException {
+    if (canRemoveReviewerWithoutPermissionCheck(
+        permissionBackend, notes.getChange(), currentUser, reviewer, val)) {
       return;
     }
 
@@ -97,9 +97,13 @@ public class RemoveReviewerControl {
         .check(ChangePermission.REMOVE_REVIEWER);
   }
 
-  private boolean canRemoveReviewerWithoutPermissionCheck(
-      Change change, CurrentUser currentUser, Account.Id reviewer, int value)
-      throws NoSuchProjectException, IOException {
+  private static boolean canRemoveReviewerWithoutPermissionCheck(
+      PermissionBackend permissionBackend,
+      Change change,
+      CurrentUser currentUser,
+      Account.Id reviewer,
+      int value)
+      throws PermissionBackendException {
     if (!change.getStatus().isOpen()) {
       return false;
     }
@@ -115,17 +119,32 @@ public class RemoveReviewerControl {
 
     // Users with the remove reviewer permission, the branch owner, project
     // owner and site admin can remove anyone
-    // TODO(hiesel): Remove all Control usage
-    ProjectState projectState = projectCache.checkedGet(change.getProject());
-    if (projectState == null) {
-      throw new NoSuchProjectException(change.getProject());
-    }
-    ProjectControl ctl = projectState.controlFor(currentUser);
-    if (ctl.controlForRef(change.getDest()).isOwner() // branch owner
-        || ctl.isOwner() // project owner
-        || ctl.isAdmin()) { // project admin
+    PermissionBackend.WithUser withUser = permissionBackend.user(currentUser);
+    PermissionBackend.ForProject forProject = withUser.project(change.getProject());
+    if (check(forProject.ref(change.getDest().get()), RefPermission.WRITE_CONFIG)
+        || check(withUser, GlobalPermission.ADMINISTRATE_SERVER)) {
       return true;
     }
     return false;
+  }
+
+  private static boolean check(PermissionBackend.ForRef forRef, RefPermission perm)
+      throws PermissionBackendException {
+    try {
+      forRef.check(perm);
+      return true;
+    } catch (AuthException e) {
+      return false;
+    }
+  }
+
+  private static boolean check(PermissionBackend.WithUser withUser, GlobalPermission perm)
+      throws PermissionBackendException {
+    try {
+      withUser.check(perm);
+      return true;
+    } catch (AuthException e) {
+      return false;
+    }
   }
 }

@@ -124,7 +124,7 @@
     },
 
     _viewEditInChangeView() {
-      Gerrit.Nav.navigateToChange(this._change, this.EDIT_NAME);
+      Gerrit.Nav.navigateToChange(this._change, this._patchNum);
     },
 
     _getFileData(changeNum, path, patchNum) {

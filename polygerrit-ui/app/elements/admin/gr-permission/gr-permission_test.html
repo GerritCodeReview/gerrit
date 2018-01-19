@@ -362,6 +362,15 @@ limitations under the License.
         assert.equal(getComputedStyle(element.$$('#exclusiveToggle')).display,
             'none');
       });
+
+      test('Exclusive hidden for any global permissions', () => {
+        assert.equal(getComputedStyle(element.$$('#exclusiveToggle')).display,
+            'flex');
+        element.section = 'GLOBAL_CAPABILITIES';
+        flushAsynchronousOperations();
+        assert.equal(getComputedStyle(element.$$('#exclusiveToggle')).display,
+            'none');
+      });
     });
   });
 </script>

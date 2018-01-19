@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60021242_80376f2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-19T21:30:52Z",
+      "side": 1,
+      "message": "This commit message might also mention the new icon.",
+      "revId": "31b3ae6b8a3bd89413bdb811cf8bc271dd103671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c21cdb7_81e6bffe",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-19T21:30:52Z",
+      "side": 1,
+      "message": "Nit: This doesn\u0027t look like it needs to be wrapped.",
+      "range": {
+        "startLine": 89,
+        "startChar": 8,
+        "endLine": 90,
+        "endChar": 30
+      },
+      "revId": "31b3ae6b8a3bd89413bdb811cf8bc271dd103671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fffcf26_ec9bcf2c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-19T21:30:52Z",
+      "side": 1,
+      "message": "Nit: this line exceeds 80 characters.",
+      "revId": "31b3ae6b8a3bd89413bdb811cf8bc271dd103671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

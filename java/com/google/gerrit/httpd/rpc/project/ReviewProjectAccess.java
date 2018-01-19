@@ -24,7 +24,6 @@ import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -176,7 +175,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     ChangeResource rsrc;
     try {
       rsrc = changes.parse(changeId);
-    } catch (ResourceNotFoundException e) {
+    } catch (RestApiException e) {
       throw new IOException(e);
     }
     addProjectOwnersAsReviewers(rsrc);

@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.CurrentUser;
@@ -32,10 +33,13 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.List;
 
 @Singleton
@@ -49,6 +53,7 @@ public class ChangesCollection
   private final CreateChange createChange;
   private final ChangeResource.Factory changeResourceFactory;
   private final PermissionBackend permissionBackend;
+  private final ProjectCache projectCache;
 
   @Inject
   ChangesCollection(
@@ -59,7 +64,8 @@ public class ChangesCollection
       ChangeFinder changeFinder,
       CreateChange createChange,
       ChangeResource.Factory changeResourceFactory,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      ProjectCache projectCache) {
     this.db = db;
     this.user = user;
     this.queryFactory = queryFactory;
@@ -68,6 +74,7 @@ public class ChangesCollection
     this.createChange = createChange;
     this.changeResourceFactory = changeResourceFactory;
     this.permissionBackend = permissionBackend;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -82,7 +89,7 @@ public class ChangesCollection
 
   @Override
   public ChangeResource parse(TopLevelResource root, IdString id)
-      throws RestApiException, OrmException, PermissionBackendException {
+      throws RestApiException, OrmException, PermissionBackendException, IOException {
     List<ChangeNotes> notes = changeFinder.find(id.encoded(), true);
     if (notes.isEmpty()) {
       throw new ResourceNotFoundException(id);
@@ -94,11 +101,12 @@ public class ChangesCollection
     if (!canRead(change)) {
       throw new ResourceNotFoundException(id);
     }
+    checkProjectStatePermitsRead(change.getProjectName());
     return changeResourceFactory.create(change, user.get());
   }
 
   public ChangeResource parse(Change.Id id)
-      throws ResourceNotFoundException, OrmException, PermissionBackendException {
+      throws RestApiException, OrmException, PermissionBackendException, IOException {
     List<ChangeNotes> notes = changeFinder.find(id);
     if (notes.isEmpty()) {
       throw new ResourceNotFoundException(toIdString(id));
@@ -110,6 +118,7 @@ public class ChangesCollection
     if (!canRead(change)) {
       throw new ResourceNotFoundException(toIdString(id));
     }
+    checkProjectStatePermitsRead(change.getProjectName());
     return changeResourceFactory.create(change, user.get());
   }
 
@@ -133,5 +142,14 @@ public class ChangesCollection
     } catch (AuthException e) {
       return false;
     }
+  }
+
+  private void checkProjectStatePermitsRead(Project.NameKey project)
+      throws IOException, RestApiException {
+    ProjectState projectState = projectCache.checkedGet(project);
+    if (projectState == null) {
+      throw new ResourceNotFoundException("project not found: " + project.get());
+    }
+    projectState.checkStatePermitsRead();
   }
 }

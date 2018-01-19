@@ -2325,7 +2325,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // Viewing another user's dashboard.
     requestContext.setContext(newRequestContext(otherAccountId));
-    assertDashboardQuery(user.getUserName(), DASHBOARD_OUTGOING_QUERY, ownedOpenReviewable);
+    assertDashboardQuery(user.getUserName().get(), DASHBOARD_OUTGOING_QUERY, ownedOpenReviewable);
   }
 
   @Test
@@ -2362,7 +2362,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // Viewing another user's dashboard.
     requestContext.setContext(newRequestContext(otherAccountId));
     assertDashboardQuery(
-        user.getUserName(),
+        user.getUserName().get(),
         DASHBOARD_INCOMING_QUERY,
         assignedReviewableIgnoredByAssignee,
         assignedReviewable,
@@ -2485,7 +2485,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // Viewing another user's dashboard.
     requestContext.setContext(newRequestContext(otherAccountId));
     assertDashboardQuery(
-        user.getUserName(),
+        user.getUserName().get(),
         DASHBOARD_RECENTLY_CLOSED_QUERY,
         abandonedAssignedWipIgnoredByUser,
         abandonedAssignedWip,

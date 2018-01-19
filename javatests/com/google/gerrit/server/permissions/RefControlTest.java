@@ -78,6 +78,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -902,8 +903,8 @@ public class RefControlTest {
     }
 
     @Override
-    public String getUserName() {
-      return username;
+    public Optional<String> getUserName() {
+      return Optional.of(username);
     }
   }
 }

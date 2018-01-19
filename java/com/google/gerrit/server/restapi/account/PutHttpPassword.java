@@ -99,11 +99,9 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
   public Response<String> apply(IdentifiedUser user, String newPassword)
       throws ResourceNotFoundException, ResourceConflictException, OrmException, IOException,
           ConfigInvalidException {
-    if (user.getUserName() == null) {
-      throw new ResourceConflictException("username must be set");
-    }
-
-    ExternalId extId = externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, user.getUserName()));
+    String userName =
+        user.getUserName().orElseThrow(() -> new ResourceConflictException("username must be set"));
+    ExternalId extId = externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, userName));
     if (extId == null) {
       throw new ResourceNotFoundException();
     }

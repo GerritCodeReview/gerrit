@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.config;
 
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -29,22 +29,21 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Repository;
 
 @Singleton
-public class GetDiffPreferences implements RestReadView<ConfigResource> {
-
+public class GetEditPreferences implements RestReadView<ConfigResource> {
   private final AllUsersName allUsersName;
   private final GitRepositoryManager gitManager;
 
   @Inject
-  GetDiffPreferences(GitRepositoryManager gitManager, AllUsersName allUsersName) {
+  GetEditPreferences(GitRepositoryManager gitManager, AllUsersName allUsersName) {
     this.allUsersName = allUsersName;
     this.gitManager = gitManager;
   }
 
   @Override
-  public DiffPreferencesInfo apply(ConfigResource configResource)
+  public EditPreferencesInfo apply(ConfigResource configResource)
       throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
     try (Repository git = gitManager.openRepository(allUsersName)) {
-      return PreferencesConfig.readDefaultDiffPreferences(git);
+      return PreferencesConfig.readDefaultEditPreferences(git);
     }
   }
 }

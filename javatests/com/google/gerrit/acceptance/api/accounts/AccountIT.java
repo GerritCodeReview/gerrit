@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.accounts;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.gpg.PublicKeyStore.REFS_GPG_KEYS;
@@ -46,6 +47,7 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.io.BaseEncoding;
 import com.google.common.util.concurrent.AtomicLongMap;
+import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -372,14 +374,14 @@ public class AccountIT extends AbstractDaemonTest {
       Account.Id accountId = new Account.Id(seq.nextAccountId());
       String fullName = "Foo";
       ExternalId extId = ExternalId.createEmail(accountId, "foo@example.com");
-      Account account =
+      AccountState accountState =
           accountsUpdate
               .create()
               .insert(
                   "Create Account Atomically",
                   accountId,
                   u -> u.setFullName(fullName).addExternalId(extId));
-      assertThat(account.getFullName()).isEqualTo(fullName);
+      assertThat(accountState.getAccount().getFullName()).isEqualTo(fullName);
 
       AccountInfo info = gApi.accounts().id(accountId.get()).get();
       assertThat(info.name).isEqualTo(fullName);
@@ -400,12 +402,12 @@ public class AccountIT extends AbstractDaemonTest {
   public void updateNonExistingAccount() throws Exception {
     Account.Id nonExistingAccountId = new Account.Id(999999);
     AtomicBoolean consumerCalled = new AtomicBoolean();
-    Account account =
+    Optional<AccountState> accountState =
         accountsUpdate
             .create()
             .update(
                 "Update Non-Existing Account", nonExistingAccountId, a -> consumerCalled.set(true));
-    assertThat(account).isNull();
+    assertThat(accountState).isEmpty();
     assertThat(consumerCalled.get()).isFalse();
   }
 
@@ -415,11 +417,12 @@ public class AccountIT extends AbstractDaemonTest {
     assertUserBranchWithoutAccountConfig(anonymousCoward.getId());
 
     String status = "OOO";
-    Account account =
+    Optional<AccountState> accountState =
         accountsUpdate
             .create()
             .update("Set status", anonymousCoward.getId(), u -> u.setStatus(status));
-    assertThat(account).isNotNull();
+    assertThat(accountState).isPresent();
+    Account account = accountState.get().getAccount();
     assertThat(account.getFullName()).isNull();
     assertThat(account.getStatus()).isEqualTo(status);
     assertUserBranch(anonymousCoward.getId(), null, status);
@@ -1935,18 +1938,21 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void checkMetaId() throws Exception {
     // metaId is set when account is loaded
-    assertThat(accounts.get(admin.getId()).getAccount().getMetaId())
+    assertThat(accounts.get(admin.getId()).get().getAccount().getMetaId())
         .isEqualTo(getMetaId(admin.getId()));
 
     // metaId is set when account is created
     AccountsUpdate au = accountsUpdate.create();
     Account.Id accountId = new Account.Id(seq.nextAccountId());
-    Account account = au.insert("Create Test Account", accountId, u -> {});
-    assertThat(account.getMetaId()).isEqualTo(getMetaId(accountId));
+    AccountState accountState = au.insert("Create Test Account", accountId, u -> {});
+    assertThat(accountState.getAccount().getMetaId()).isEqualTo(getMetaId(accountId));
 
     // metaId is set when account is updated
-    Account updatedAccount = au.update("Set Full Name", accountId, u -> u.setFullName("foo"));
-    assertThat(account.getMetaId()).isNotEqualTo(updatedAccount.getMetaId());
+    Optional<AccountState> updatedAccountState =
+        au.update("Set Full Name", accountId, u -> u.setFullName("foo"));
+    assertThat(updatedAccountState.isPresent()).isTrue();
+    Account updatedAccount = updatedAccountState.get().getAccount();
+    assertThat(accountState.getAccount().getMetaId()).isNotEqualTo(updatedAccount.getMetaId());
     assertThat(updatedAccount.getMetaId()).isEqualTo(getMetaId(accountId));
   }
 
@@ -2021,6 +2027,7 @@ public class AccountIT extends AbstractDaemonTest {
             gitReferenceUpdated,
             null,
             allUsers,
+            externalIds,
             metaDataUpdateInternalFactory,
             new RetryHelper(
                 cfg,
@@ -2040,15 +2047,19 @@ public class AccountIT extends AbstractDaemonTest {
                   // Ignore, the successful update of the account is asserted later
                 }
               }
-            });
+            },
+            Runnables.doNothing());
     assertThat(doneBgUpdate.get()).isFalse();
     AccountInfo accountInfo = gApi.accounts().id(admin.id.get()).get();
     assertThat(accountInfo.status).isNull();
     assertThat(accountInfo.name).isNotEqualTo(fullName);
 
-    Account updatedAccount = update.update("Set Full Name", admin.id, u -> u.setFullName(fullName));
+    Optional<AccountState> updatedAccountState =
+        update.update("Set Full Name", admin.id, u -> u.setFullName(fullName));
     assertThat(doneBgUpdate.get()).isTrue();
 
+    assertThat(updatedAccountState.isPresent()).isTrue();
+    Account updatedAccount = updatedAccountState.get().getAccount();
     assertThat(updatedAccount.getStatus()).isEqualTo(status);
     assertThat(updatedAccount.getFullName()).isEqualTo(fullName);
 
@@ -2069,6 +2080,7 @@ public class AccountIT extends AbstractDaemonTest {
             gitReferenceUpdated,
             null,
             allUsers,
+            externalIds,
             metaDataUpdateInternalFactory,
             new RetryHelper(
                 cfg,
@@ -2093,7 +2105,8 @@ public class AccountIT extends AbstractDaemonTest {
               } catch (IOException | ConfigInvalidException | OrmException e) {
                 // Ignore, the expected exception is asserted later
               }
-            });
+            },
+            Runnables.doNothing());
     assertThat(bgCounter.get()).isEqualTo(0);
     AccountInfo accountInfo = gApi.accounts().id(admin.id.get()).get();
     assertThat(accountInfo.status).isNull();
@@ -2107,13 +2120,163 @@ public class AccountIT extends AbstractDaemonTest {
     }
     assertThat(bgCounter.get()).isEqualTo(status.size());
 
-    Account updatedAccount = accounts.get(admin.id).getAccount();
+    Account updatedAccount = accounts.get(admin.id).get().getAccount();
     assertThat(updatedAccount.getStatus()).isEqualTo(Iterables.getLast(status));
     assertThat(updatedAccount.getFullName()).isEqualTo(admin.fullName);
 
     accountInfo = gApi.accounts().id(admin.id.get()).get();
     assertThat(accountInfo.status).isEqualTo(Iterables.getLast(status));
     assertThat(accountInfo.name).isEqualTo(admin.fullName);
+  }
+
+  @Test
+  public void atomicReadMofifyWrite() throws Exception {
+    gApi.accounts().id(admin.id.get()).setStatus("A-1");
+
+    AtomicInteger bgCounterA1 = new AtomicInteger(0);
+    AtomicInteger bgCounterA2 = new AtomicInteger(0);
+    PersonIdent ident = serverIdent.get();
+    AccountsUpdate update =
+        new AccountsUpdate(
+            repoManager,
+            gitReferenceUpdated,
+            null,
+            allUsers,
+            externalIds,
+            metaDataUpdateInternalFactory,
+            new RetryHelper(
+                cfg,
+                retryMetrics,
+                null,
+                null,
+                null,
+                r -> r.withBlockStrategy(noSleepBlockStrategy)),
+            extIdNotesFactory,
+            ident,
+            ident,
+            Runnables.doNothing(),
+            () -> {
+              try {
+                accountsUpdate.create().update("Set Status", admin.id, u -> u.setStatus("A-2"));
+              } catch (IOException | ConfigInvalidException | OrmException e) {
+                // Ignore, the expected exception is asserted later
+              }
+            });
+    assertThat(bgCounterA1.get()).isEqualTo(0);
+    assertThat(bgCounterA2.get()).isEqualTo(0);
+    assertThat(gApi.accounts().id(admin.id.get()).get().status).isEqualTo("A-1");
+
+    Optional<AccountState> updatedAccountState =
+        update.update(
+            "Set Status",
+            admin.id,
+            (a, u) -> {
+              if ("A-1".equals(a.getAccount().getStatus())) {
+                bgCounterA1.getAndIncrement();
+                u.setStatus("B-1");
+              }
+
+              if ("A-2".equals(a.getAccount().getStatus())) {
+                bgCounterA2.getAndIncrement();
+                u.setStatus("B-2");
+              }
+            });
+
+    assertThat(bgCounterA1.get()).isEqualTo(1);
+    assertThat(bgCounterA2.get()).isEqualTo(1);
+
+    assertThat(updatedAccountState.isPresent()).isTrue();
+    assertThat(updatedAccountState.get().getAccount().getStatus()).isEqualTo("B-2");
+    assertThat(accounts.get(admin.id).get().getAccount().getStatus()).isEqualTo("B-2");
+    assertThat(gApi.accounts().id(admin.id.get()).get().status).isEqualTo("B-2");
+  }
+
+  @Test
+  public void atomicReadMofifyWriteExternalIds() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+
+    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    ExternalId extIdA1 = ExternalId.create("foo", "A-1", accountId);
+    accountsUpdate.create().insert("Create Test Account", accountId, u -> u.addExternalId(extIdA1));
+
+    AtomicInteger bgCounterA1 = new AtomicInteger(0);
+    AtomicInteger bgCounterA2 = new AtomicInteger(0);
+    PersonIdent ident = serverIdent.get();
+    ExternalId extIdA2 = ExternalId.create("foo", "A-2", accountId);
+    AccountsUpdate update =
+        new AccountsUpdate(
+            repoManager,
+            gitReferenceUpdated,
+            null,
+            allUsers,
+            externalIds,
+            metaDataUpdateInternalFactory,
+            new RetryHelper(
+                cfg,
+                retryMetrics,
+                null,
+                null,
+                null,
+                r -> r.withBlockStrategy(noSleepBlockStrategy)),
+            extIdNotesFactory,
+            ident,
+            ident,
+            Runnables.doNothing(),
+            () -> {
+              try {
+                accountsUpdate
+                    .create()
+                    .update(
+                        "Update External ID",
+                        accountId,
+                        u -> u.replaceExternalId(extIdA1, extIdA2));
+              } catch (IOException | ConfigInvalidException | OrmException e) {
+                // Ignore, the expected exception is asserted later
+              }
+            });
+    assertThat(bgCounterA1.get()).isEqualTo(0);
+    assertThat(bgCounterA2.get()).isEqualTo(0);
+    assertThat(
+            gApi.accounts()
+                .id(accountId.get())
+                .getExternalIds()
+                .stream()
+                .map(i -> i.identity)
+                .collect(toSet()))
+        .containsExactly(extIdA1.key().get());
+
+    ExternalId extIdB1 = ExternalId.create("foo", "B-1", accountId);
+    ExternalId extIdB2 = ExternalId.create("foo", "B-2", accountId);
+    Optional<AccountState> updatedAccount =
+        update.update(
+            "Update External ID",
+            accountId,
+            (a, u) -> {
+              if (a.getExternalIds().contains(extIdA1)) {
+                bgCounterA1.getAndIncrement();
+                u.replaceExternalId(extIdA1, extIdB1);
+              }
+
+              if (a.getExternalIds().contains(extIdA2)) {
+                bgCounterA2.getAndIncrement();
+                u.replaceExternalId(extIdA2, extIdB2);
+              }
+            });
+
+    assertThat(bgCounterA1.get()).isEqualTo(1);
+    assertThat(bgCounterA2.get()).isEqualTo(1);
+
+    assertThat(updatedAccount.isPresent()).isTrue();
+    assertThat(updatedAccount.get().getExternalIds()).containsExactly(extIdB2);
+    assertThat(accounts.get(accountId).get().getExternalIds()).containsExactly(extIdB2);
+    assertThat(
+            gApi.accounts()
+                .id(accountId.get())
+                .getExternalIds()
+                .stream()
+                .map(i -> i.identity)
+                .collect(toSet()))
+        .containsExactly(extIdB2.key().get());
   }
 
   @Test

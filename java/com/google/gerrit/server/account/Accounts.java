@@ -18,8 +18,6 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -56,10 +54,10 @@ public class Accounts {
     this.externalIds = externalIds;
   }
 
-  @Nullable
-  public AccountState get(Account.Id accountId) throws IOException, ConfigInvalidException {
+  public Optional<AccountState> get(Account.Id accountId)
+      throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
-      return read(repo, accountId).orElse(null);
+      return read(repo, accountId);
     }
   }
 
@@ -136,20 +134,8 @@ public class Accounts {
 
   private Optional<AccountState> read(Repository allUsersRepository, Account.Id accountId)
       throws IOException, ConfigInvalidException {
-    AccountConfig accountConfig = new AccountConfig(accountId, allUsersRepository).load();
-    if (!accountConfig.getLoadedAccount().isPresent()) {
-      return Optional.empty();
-    }
-    Account account = accountConfig.getLoadedAccount().get();
-    return Optional.of(
-        new AccountState(
-            allUsersName,
-            account,
-            accountConfig.getExternalIdsRev().isPresent()
-                ? externalIds.byAccount(accountId, accountConfig.getExternalIdsRev().get())
-                : ImmutableSet.of(),
-            accountConfig.getProjectWatches(),
-            accountConfig.getGeneralPreferences()));
+    return AccountState.fromAccountConfig(
+        allUsersName, externalIds, new AccountConfig(accountId, allUsersRepository).load());
   }
 
   public static Stream<Account.Id> readUserRefs(Repository repo) throws IOException {

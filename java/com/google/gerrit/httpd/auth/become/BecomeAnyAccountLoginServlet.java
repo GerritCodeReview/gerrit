@@ -103,10 +103,10 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
       res = byUserName(req.getParameter("user_name"));
 
     } else if (req.getParameter("preferred_email") != null) {
-      res = byPreferredEmail(req.getParameter("preferred_email"));
+      res = byPreferredEmail(req.getParameter("preferred_email")).orElse(null);
 
     } else if (req.getParameter("account_id") != null) {
-      res = byAccountId(req.getParameter("account_id"));
+      res = byAccountId(req.getParameter("account_id")).orElse(null);
 
     } else {
       byte[] raw;
@@ -183,11 +183,8 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     return HtmlDomUtil.toUTF8(doc);
   }
 
-  private AuthResult auth(AccountState account) {
-    if (account != null) {
-      return new AuthResult(account.getAccount().getId(), null, false);
-    }
-    return null;
+  private Optional<AuthResult> auth(Optional<AccountState> account) {
+    return account.map(a -> new AuthResult(a.getAccount().getId(), null, false));
   }
 
   private AuthResult auth(Account.Id account) {
@@ -216,29 +213,29 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     }
   }
 
-  private AuthResult byPreferredEmail(String email) {
+  private Optional<AuthResult> byPreferredEmail(String email) {
     try (ReviewDb db = schema.open()) {
       Optional<AccountState> match =
           queryProvider.get().byPreferredEmail(email).stream().findFirst();
-      return match.isPresent() ? auth(match.get()) : null;
+      return auth(match);
     } catch (OrmException e) {
       getServletContext().log("cannot query database", e);
-      return null;
+      return Optional.empty();
     }
   }
 
-  private AuthResult byAccountId(String idStr) {
+  private Optional<AuthResult> byAccountId(String idStr) {
     final Account.Id id;
     try {
       id = Account.Id.parse(idStr);
     } catch (NumberFormatException nfe) {
-      return null;
+      return Optional.empty();
     }
     try {
       return auth(accounts.get(id));
     } catch (IOException | ConfigInvalidException e) {
       getServletContext().log("cannot query database", e);
-      return null;
+      return Optional.empty();
     }
   }
 

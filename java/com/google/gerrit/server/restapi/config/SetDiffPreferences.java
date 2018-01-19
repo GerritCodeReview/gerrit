@@ -14,28 +14,24 @@
 
 package com.google.gerrit.server.restapi.config;
 
-import static com.google.gerrit.server.config.ConfigUtil.loadSection;
 import static com.google.gerrit.server.config.ConfigUtil.skipField;
-import static com.google.gerrit.server.config.ConfigUtil.storeSection;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.account.VersionedAccountPreferences;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.PreferencesConfig;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigResource;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.git.UserConfigSections;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,48 +42,33 @@ public class SetDiffPreferences implements RestModifyView<ConfigResource, DiffPr
 
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final AllUsersName allUsersName;
-  private final GitRepositoryManager gitManager;
+  private final AccountCache accountCache;
 
   @Inject
   SetDiffPreferences(
-      GitRepositoryManager gitManager,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
-      AllUsersName allUsersName) {
-    this.gitManager = gitManager;
+      AllUsersName allUsersName,
+      AccountCache accountCache) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allUsersName = allUsersName;
+    this.accountCache = accountCache;
   }
 
   @Override
-  public DiffPreferencesInfo apply(ConfigResource configResource, DiffPreferencesInfo in)
+  public DiffPreferencesInfo apply(ConfigResource configResource, DiffPreferencesInfo input)
       throws BadRequestException, IOException, ConfigInvalidException {
-    if (in == null) {
+    if (input == null) {
       throw new BadRequestException("input must be provided");
     }
-    if (!hasSetFields(in)) {
+    if (!hasSetFields(input)) {
       throw new BadRequestException("unsupported option");
     }
-    return writeToGit(GetDiffPreferences.readFromGit(gitManager, allUsersName, in));
-  }
 
-  private DiffPreferencesInfo writeToGit(DiffPreferencesInfo in)
-      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
-    DiffPreferencesInfo out = new DiffPreferencesInfo();
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
-      VersionedAccountPreferences prefs = VersionedAccountPreferences.forDefault();
-      prefs.load(md);
-      DiffPreferencesInfo defaults = DiffPreferencesInfo.defaults();
-      storeSection(prefs.getConfig(), UserConfigSections.DIFF, null, in, defaults);
-      prefs.commit(md);
-      loadSection(
-          prefs.getConfig(),
-          UserConfigSections.DIFF,
-          null,
-          out,
-          DiffPreferencesInfo.defaults(),
-          null);
+      DiffPreferencesInfo updatedPrefs = PreferencesConfig.updateDefaultDiffPreferences(md, input);
+      accountCache.evictAllNoReindex();
+      return updatedPrefs;
     }
-    return out;
   }
 
   private static boolean hasSetFields(DiffPreferencesInfo in) {

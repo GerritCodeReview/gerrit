@@ -22,7 +22,6 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -30,8 +29,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.mail.Address;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -385,11 +382,6 @@ public class FromAddressGeneratorProviderTest {
     final Account account = new Account(userId, TimeUtil.nowTs());
     account.setFullName(name);
     account.setPreferredEmail(email);
-    return new AccountState(
-        new AllUsersName(AllUsersNameProvider.DEFAULT),
-        account,
-        Collections.emptySet(),
-        new HashMap<>(),
-        GeneralPreferencesInfo.defaults());
+    return AccountState.forAccount(new AllUsersName(AllUsersNameProvider.DEFAULT), account);
   }
 }

@@ -41,7 +41,7 @@ public class GetPreferences implements RestReadView<ConfigResource> {
   public GeneralPreferencesInfo apply(ConfigResource rsrc)
       throws IOException, ConfigInvalidException {
     try (Repository git = gitMgr.openRepository(allUsersName)) {
-      return PreferencesConfig.readDefaultPreferences(git);
+      return PreferencesConfig.readDefaultGeneralPreferences(git);
     }
   }
 }

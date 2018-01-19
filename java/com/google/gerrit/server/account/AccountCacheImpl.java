@@ -20,7 +20,6 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -34,8 +33,6 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -131,12 +128,7 @@ public class AccountCacheImpl implements AccountCache {
   private AccountState missing(Account.Id accountId) {
     Account account = new Account(accountId, TimeUtil.nowTs());
     account.setActive(false);
-    return new AccountState(
-        allUsersName,
-        account,
-        Collections.emptySet(),
-        new HashMap<>(),
-        GeneralPreferencesInfo.defaults());
+    return AccountState.forAccount(allUsersName, account);
   }
 
   static class ByIdLoader extends CacheLoader<Account.Id, Optional<AccountState>> {
@@ -149,7 +141,7 @@ public class AccountCacheImpl implements AccountCache {
 
     @Override
     public Optional<AccountState> load(Account.Id who) throws Exception {
-      return Optional.ofNullable(accounts.get(who));
+      return accounts.get(who);
     }
   }
 }

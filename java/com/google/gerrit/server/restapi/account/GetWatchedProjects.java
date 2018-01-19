@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.account;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -40,7 +41,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
@@ -66,12 +66,10 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
     }
 
     Account.Id accountId = rsrc.getUser().getAccountId();
-    AccountState account = accounts.get(accountId);
-    if (account == null) {
-      throw new ResourceNotFoundException();
-    }
+    AccountState account = accounts.get(accountId).orElseThrow(ResourceNotFoundException::new);
     List<ProjectWatchInfo> projectWatchInfos = new ArrayList<>();
-    for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e : account.getProjectWatches().entrySet()) {
+    for (Map.Entry<ProjectWatchKey, ImmutableSet<NotifyType>> e :
+        account.getProjectWatches().entrySet()) {
       ProjectWatchInfo pwi = new ProjectWatchInfo();
       pwi.filter = e.getKey().filter();
       pwi.project = e.getKey().project().get();

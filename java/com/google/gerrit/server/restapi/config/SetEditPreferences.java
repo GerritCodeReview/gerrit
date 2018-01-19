@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ import static com.google.gerrit.server.config.ConfigUtil.skipField;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.AccountCache;
@@ -37,15 +37,15 @@ import org.slf4j.LoggerFactory;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
-public class SetPreferences implements RestModifyView<ConfigResource, GeneralPreferencesInfo> {
-  private static final Logger log = LoggerFactory.getLogger(SetPreferences.class);
+public class SetEditPreferences implements RestModifyView<ConfigResource, EditPreferencesInfo> {
+  private static final Logger log = LoggerFactory.getLogger(SetDiffPreferences.class);
 
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final AllUsersName allUsersName;
   private final AccountCache accountCache;
 
   @Inject
-  SetPreferences(
+  SetEditPreferences(
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       AllUsersName allUsersName,
       AccountCache accountCache) {
@@ -55,21 +55,23 @@ public class SetPreferences implements RestModifyView<ConfigResource, GeneralPre
   }
 
   @Override
-  public GeneralPreferencesInfo apply(ConfigResource rsrc, GeneralPreferencesInfo input)
+  public EditPreferencesInfo apply(ConfigResource configResource, EditPreferencesInfo input)
       throws BadRequestException, IOException, ConfigInvalidException {
+    if (input == null) {
+      throw new BadRequestException("input must be provided");
+    }
     if (!hasSetFields(input)) {
       throw new BadRequestException("unsupported option");
     }
-    PreferencesConfig.validateMy(input.my);
+
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
-      GeneralPreferencesInfo updatedPrefs =
-          PreferencesConfig.updateDefaultGeneralPreferences(md, input);
+      EditPreferencesInfo updatedPrefs = PreferencesConfig.updateDefaultEditPreferences(md, input);
       accountCache.evictAllNoReindex();
       return updatedPrefs;
     }
   }
 
-  private static boolean hasSetFields(GeneralPreferencesInfo in) {
+  private static boolean hasSetFields(EditPreferencesInfo in) {
     try {
       for (Field field : in.getClass().getDeclaredFields()) {
         if (skipField(field)) {

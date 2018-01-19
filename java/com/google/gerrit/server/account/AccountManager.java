@@ -238,16 +238,14 @@ public class AccountManager {
     }
 
     if (!accountUpdates.isEmpty()) {
-      Account account =
-          accountsUpdateFactory
-              .create()
-              .update(
-                  "Update Account on Login",
-                  user.getAccountId(),
-                  AccountUpdater.joinConsumers(accountUpdates));
-      if (account == null) {
-        throw new OrmException("Account " + user.getAccountId() + " has been deleted");
-      }
+      accountsUpdateFactory
+          .create()
+          .update(
+              "Update Account on Login",
+              user.getAccountId(),
+              AccountUpdater.joinConsumers(accountUpdates))
+          .orElseThrow(
+              () -> new OrmException("Account " + user.getAccountId() + " has been deleted"));
     }
   }
 
@@ -266,9 +264,9 @@ public class AccountManager {
 
     boolean isFirstAccount = awaitsFirstAccountCheck.getAndSet(false) && !accounts.hasAnyAccount();
 
-    Account account;
+    AccountState accountState;
     try {
-      account =
+      accountState =
           accountsUpdateFactory
               .create()
               .insert(
@@ -318,7 +316,7 @@ public class AccountManager {
       addGroupMember(db, adminGroupUuid, user);
     }
 
-    realm.onCreateAccount(who, account);
+    realm.onCreateAccount(who, accountState.getAccount());
     return new AuthResult(newId, extId.key(), true);
   }
 
@@ -378,7 +376,7 @@ public class AccountManager {
               (a, u) -> {
                 u.addExternalId(
                     ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress()));
-                if (who.getEmailAddress() != null && a.getPreferredEmail() == null) {
+                if (who.getEmailAddress() != null && a.getAccount().getPreferredEmail() == null) {
                   u.setPreferredEmail(who.getEmailAddress());
                 }
               });
@@ -401,23 +399,26 @@ public class AccountManager {
    */
   public AuthResult updateLink(Account.Id to, AuthRequest who)
       throws OrmException, AccountException, IOException, ConfigInvalidException {
-    Collection<ExternalId> filteredExtIdsByScheme =
-        externalIds.byAccount(to, who.getExternalIdKey().scheme());
+    accountsUpdateFactory
+        .create()
+        .update(
+            "Delete External IDs on Update Link",
+            to,
+            (a, u) -> {
+              Collection<ExternalId> filteredExtIdsByScheme =
+                  a.getExternalIds(who.getExternalIdKey().scheme());
+              if (filteredExtIdsByScheme.isEmpty()) {
+                return;
+              }
 
-    if (!filteredExtIdsByScheme.isEmpty()
-        && (filteredExtIdsByScheme.size() > 1
-            || !filteredExtIdsByScheme
-                .stream()
-                .filter(e -> e.key().equals(who.getExternalIdKey()))
-                .findAny()
-                .isPresent())) {
-      accountsUpdateFactory
-          .create()
-          .update(
-              "Delete External IDs on Update Link",
-              to,
-              u -> u.deleteExternalIds(filteredExtIdsByScheme));
-    }
+              if (filteredExtIdsByScheme.size() > 1
+                  || !filteredExtIdsByScheme
+                      .stream()
+                      .anyMatch(e -> e.key().equals(who.getExternalIdKey()))) {
+                u.deleteExternalIds(filteredExtIdsByScheme);
+              }
+            });
+
     return link(to, who);
   }
 
@@ -468,8 +469,10 @@ public class AccountManager {
             from,
             (a, u) -> {
               u.deleteExternalIds(extIds);
-              if (a.getPreferredEmail() != null
-                  && extIds.stream().anyMatch(e -> a.getPreferredEmail().equals(e.email()))) {
+              if (a.getAccount().getPreferredEmail() != null
+                  && extIds
+                      .stream()
+                      .anyMatch(e -> a.getAccount().getPreferredEmail().equals(e.email()))) {
                 u.setPreferredEmail(null);
               }
             });

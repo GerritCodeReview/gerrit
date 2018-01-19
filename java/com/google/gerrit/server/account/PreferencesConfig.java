@@ -31,6 +31,8 @@ import static com.google.gerrit.server.git.UserConfigSections.URL_ALIAS;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -47,6 +49,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
@@ -65,6 +68,8 @@ public class PreferencesConfig {
   private final ValidationError.Sink validationErrorSink;
 
   private GeneralPreferencesInfo generalPreferences;
+  private DiffPreferencesInfo diffPreferences;
+  private EditPreferencesInfo editPreferences;
 
   public PreferencesConfig(
       Account.Id accountId,
@@ -84,29 +89,85 @@ public class PreferencesConfig {
     return generalPreferences;
   }
 
-  public void parse() {
-    generalPreferences = parse(null);
+  public DiffPreferencesInfo getDiffPreferences() {
+    if (diffPreferences == null) {
+      parse();
+    }
+    return diffPreferences;
   }
 
-  public Config saveGeneralPreferences(GeneralPreferencesInfo input) throws ConfigInvalidException {
-    // merge configs
-    input = parse(input);
+  public EditPreferencesInfo getEditPreferences() {
+    if (editPreferences == null) {
+      parse();
+    }
+    return editPreferences;
+  }
 
-    storeSection(
-        cfg, UserConfigSections.GENERAL, null, input, parseDefaultPreferences(defaultCfg, null));
-    setChangeTable(cfg, input.changeTable);
-    setMy(cfg, input.my);
-    setUrlAliases(cfg, input.urlAliases);
+  public void parse() {
+    generalPreferences = parseGeneralPreferences(null);
+    diffPreferences = parseDiffPreferences(null);
+    editPreferences = parseEditPreferences(null);
+  }
 
-    // evict the cached general preferences
-    this.generalPreferences = null;
+  public Config saveGeneralPreferences(
+      Optional<GeneralPreferencesInfo> generalPreferencesInput,
+      Optional<DiffPreferencesInfo> diffPreferencesInput,
+      Optional<EditPreferencesInfo> editPreferencesInput)
+      throws ConfigInvalidException {
+    if (generalPreferencesInput.isPresent()) {
+      GeneralPreferencesInfo mergedGeneralPreferencesInput =
+          parseGeneralPreferences(generalPreferencesInput.get());
+
+      storeSection(
+          cfg,
+          UserConfigSections.GENERAL,
+          null,
+          mergedGeneralPreferencesInput,
+          parseDefaultGeneralPreferences(defaultCfg, null));
+      setChangeTable(cfg, mergedGeneralPreferencesInput.changeTable);
+      setMy(cfg, mergedGeneralPreferencesInput.my);
+      setUrlAliases(cfg, mergedGeneralPreferencesInput.urlAliases);
+
+      // evict the cached general preferences
+      this.generalPreferences = null;
+    }
+
+    if (diffPreferencesInput.isPresent()) {
+      DiffPreferencesInfo mergedDiffPreferencesInput =
+          parseDiffPreferences(diffPreferencesInput.get());
+
+      storeSection(
+          cfg,
+          UserConfigSections.DIFF,
+          null,
+          mergedDiffPreferencesInput,
+          parseDefaultDiffPreferences(defaultCfg, null));
+
+      // evict the cached diff preferences
+      this.diffPreferences = null;
+    }
+
+    if (editPreferencesInput.isPresent()) {
+      EditPreferencesInfo mergedEditPreferencesInput =
+          parseEditPreferences(editPreferencesInput.get());
+
+      storeSection(
+          cfg,
+          UserConfigSections.EDIT,
+          null,
+          mergedEditPreferencesInput,
+          parseDefaultEditPreferences(defaultCfg, null));
+
+      // evict the cached edit preferences
+      this.editPreferences = null;
+    }
 
     return cfg;
   }
 
-  private GeneralPreferencesInfo parse(@Nullable GeneralPreferencesInfo input) {
+  private GeneralPreferencesInfo parseGeneralPreferences(@Nullable GeneralPreferencesInfo input) {
     try {
-      return parse(cfg, defaultCfg, input);
+      return parseGeneralPreferences(cfg, defaultCfg, input);
     } catch (ConfigInvalidException e) {
       validationErrorSink.error(
           new ValidationError(
@@ -118,7 +179,33 @@ public class PreferencesConfig {
     }
   }
 
-  private static GeneralPreferencesInfo parse(
+  private DiffPreferencesInfo parseDiffPreferences(@Nullable DiffPreferencesInfo input) {
+    try {
+      return parseDiffPreferences(cfg, defaultCfg, input);
+    } catch (ConfigInvalidException e) {
+      validationErrorSink.error(
+          new ValidationError(
+              PREFERENCES_CONFIG,
+              String.format(
+                  "Invalid diff preferences for account %d: %s", accountId.get(), e.getMessage())));
+      return new DiffPreferencesInfo();
+    }
+  }
+
+  private EditPreferencesInfo parseEditPreferences(@Nullable EditPreferencesInfo input) {
+    try {
+      return parseEditPreferences(cfg, defaultCfg, input);
+    } catch (ConfigInvalidException e) {
+      validationErrorSink.error(
+          new ValidationError(
+              PREFERENCES_CONFIG,
+              String.format(
+                  "Invalid edit preferences for account %d: %s", accountId.get(), e.getMessage())));
+      return new EditPreferencesInfo();
+    }
+  }
+
+  private static GeneralPreferencesInfo parseGeneralPreferences(
       Config cfg, @Nullable Config defaultCfg, @Nullable GeneralPreferencesInfo input)
       throws ConfigInvalidException {
     GeneralPreferencesInfo r =
@@ -128,7 +215,7 @@ public class PreferencesConfig {
             null,
             new GeneralPreferencesInfo(),
             defaultCfg != null
-                ? parseDefaultPreferences(defaultCfg, input)
+                ? parseDefaultGeneralPreferences(defaultCfg, input)
                 : GeneralPreferencesInfo.defaults(),
             input);
     if (input != null) {
@@ -143,7 +230,35 @@ public class PreferencesConfig {
     return r;
   }
 
-  private static GeneralPreferencesInfo parseDefaultPreferences(
+  private static DiffPreferencesInfo parseDiffPreferences(
+      Config cfg, @Nullable Config defaultCfg, @Nullable DiffPreferencesInfo input)
+      throws ConfigInvalidException {
+    return loadSection(
+        cfg,
+        UserConfigSections.DIFF,
+        null,
+        new DiffPreferencesInfo(),
+        defaultCfg != null
+            ? parseDefaultDiffPreferences(defaultCfg, input)
+            : DiffPreferencesInfo.defaults(),
+        input);
+  }
+
+  private static EditPreferencesInfo parseEditPreferences(
+      Config cfg, @Nullable Config defaultCfg, @Nullable EditPreferencesInfo input)
+      throws ConfigInvalidException {
+    return loadSection(
+        cfg,
+        UserConfigSections.EDIT,
+        null,
+        new EditPreferencesInfo(),
+        defaultCfg != null
+            ? parseDefaultEditPreferences(defaultCfg, input)
+            : EditPreferencesInfo.defaults(),
+        input);
+  }
+
+  private static GeneralPreferencesInfo parseDefaultGeneralPreferences(
       Config defaultCfg, GeneralPreferencesInfo input) throws ConfigInvalidException {
     GeneralPreferencesInfo allUserPrefs = new GeneralPreferencesInfo();
     loadSection(
@@ -153,10 +268,37 @@ public class PreferencesConfig {
         allUserPrefs,
         GeneralPreferencesInfo.defaults(),
         input);
-    return updateDefaults(allUserPrefs);
+    return updateGeneralPreferencesDefaults(allUserPrefs);
   }
 
-  private static GeneralPreferencesInfo updateDefaults(GeneralPreferencesInfo input) {
+  private static DiffPreferencesInfo parseDefaultDiffPreferences(
+      Config defaultCfg, DiffPreferencesInfo input) throws ConfigInvalidException {
+    DiffPreferencesInfo allUserPrefs = new DiffPreferencesInfo();
+    loadSection(
+        defaultCfg,
+        UserConfigSections.DIFF,
+        null,
+        allUserPrefs,
+        DiffPreferencesInfo.defaults(),
+        input);
+    return updateDiffPreferencesDefaults(allUserPrefs);
+  }
+
+  private static EditPreferencesInfo parseDefaultEditPreferences(
+      Config defaultCfg, EditPreferencesInfo input) throws ConfigInvalidException {
+    EditPreferencesInfo allUserPrefs = new EditPreferencesInfo();
+    loadSection(
+        defaultCfg,
+        UserConfigSections.EDIT,
+        null,
+        allUserPrefs,
+        EditPreferencesInfo.defaults(),
+        input);
+    return updateEditPreferencesDefaults(allUserPrefs);
+  }
+
+  private static GeneralPreferencesInfo updateGeneralPreferencesDefaults(
+      GeneralPreferencesInfo input) {
     GeneralPreferencesInfo result = GeneralPreferencesInfo.defaults();
     try {
       for (Field field : input.getClass().getDeclaredFields()) {
@@ -171,6 +313,44 @@ public class PreferencesConfig {
     } catch (IllegalAccessException e) {
       log.error("Failed to apply default general preferences", e);
       return GeneralPreferencesInfo.defaults();
+    }
+    return result;
+  }
+
+  private static DiffPreferencesInfo updateDiffPreferencesDefaults(DiffPreferencesInfo input) {
+    DiffPreferencesInfo result = DiffPreferencesInfo.defaults();
+    try {
+      for (Field field : input.getClass().getDeclaredFields()) {
+        if (skipField(field)) {
+          continue;
+        }
+        Object newVal = field.get(input);
+        if (newVal != null) {
+          field.set(result, newVal);
+        }
+      }
+    } catch (IllegalAccessException e) {
+      log.error("Failed to apply default diff preferences", e);
+      return DiffPreferencesInfo.defaults();
+    }
+    return result;
+  }
+
+  private static EditPreferencesInfo updateEditPreferencesDefaults(EditPreferencesInfo input) {
+    EditPreferencesInfo result = EditPreferencesInfo.defaults();
+    try {
+      for (Field field : input.getClass().getDeclaredFields()) {
+        if (skipField(field)) {
+          continue;
+        }
+        Object newVal = field.get(input);
+        if (newVal != null) {
+          field.set(result, newVal);
+        }
+      }
+    } catch (IllegalAccessException e) {
+      log.error("Failed to apply default edit preferences", e);
+      return EditPreferencesInfo.defaults();
     }
     return result;
   }
@@ -207,9 +387,19 @@ public class PreferencesConfig {
     return urlAliases;
   }
 
-  public static GeneralPreferencesInfo readDefaultPreferences(Repository allUsersRepo)
+  public static GeneralPreferencesInfo readDefaultGeneralPreferences(Repository allUsersRepo)
       throws IOException, ConfigInvalidException {
-    return parse(readDefaultConfig(allUsersRepo), null, null);
+    return parseGeneralPreferences(readDefaultConfig(allUsersRepo), null, null);
+  }
+
+  public static DiffPreferencesInfo readDefaultDiffPreferences(Repository allUsersRepo)
+      throws IOException, ConfigInvalidException {
+    return parseDiffPreferences(readDefaultConfig(allUsersRepo), null, null);
+  }
+
+  public static EditPreferencesInfo readDefaultEditPreferences(Repository allUsersRepo)
+      throws IOException, ConfigInvalidException {
+    return parseEditPreferences(readDefaultConfig(allUsersRepo), null, null);
   }
 
   static Config readDefaultConfig(Repository allUsersRepo)
@@ -219,7 +409,7 @@ public class PreferencesConfig {
     return defaultPrefs.getConfig();
   }
 
-  public static GeneralPreferencesInfo updateDefaultPreferences(
+  public static GeneralPreferencesInfo updateDefaultGeneralPreferences(
       MetaDataUpdate md, GeneralPreferencesInfo input) throws IOException, ConfigInvalidException {
     VersionedDefaultPreferences defaultPrefs = new VersionedDefaultPreferences();
     defaultPrefs.load(md);
@@ -234,7 +424,37 @@ public class PreferencesConfig {
     setUrlAliases(defaultPrefs.getConfig(), input.urlAliases);
     defaultPrefs.commit(md);
 
-    return parse(defaultPrefs.getConfig(), null, null);
+    return parseGeneralPreferences(defaultPrefs.getConfig(), null, null);
+  }
+
+  public static DiffPreferencesInfo updateDefaultDiffPreferences(
+      MetaDataUpdate md, DiffPreferencesInfo input) throws IOException, ConfigInvalidException {
+    VersionedDefaultPreferences defaultPrefs = new VersionedDefaultPreferences();
+    defaultPrefs.load(md);
+    storeSection(
+        defaultPrefs.getConfig(),
+        UserConfigSections.DIFF,
+        null,
+        input,
+        DiffPreferencesInfo.defaults());
+    defaultPrefs.commit(md);
+
+    return parseDiffPreferences(defaultPrefs.getConfig(), null, null);
+  }
+
+  public static EditPreferencesInfo updateDefaultEditPreferences(
+      MetaDataUpdate md, EditPreferencesInfo input) throws IOException, ConfigInvalidException {
+    VersionedDefaultPreferences defaultPrefs = new VersionedDefaultPreferences();
+    defaultPrefs.load(md);
+    storeSection(
+        defaultPrefs.getConfig(),
+        UserConfigSections.EDIT,
+        null,
+        input,
+        EditPreferencesInfo.defaults());
+    defaultPrefs.commit(md);
+
+    return parseEditPreferences(defaultPrefs.getConfig(), null, null);
   }
 
   private static List<String> changeTable(Config cfg) {

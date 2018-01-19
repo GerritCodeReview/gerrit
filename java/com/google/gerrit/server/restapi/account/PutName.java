@@ -22,10 +22,10 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -79,15 +79,13 @@ public class PutName implements RestModifyView<AccountResource, NameInput> {
     }
 
     String newName = input.name;
-    Account account =
+    AccountState accountState =
         accountsUpdate
             .create()
-            .update("Set Full Name via API", user.getAccountId(), u -> u.setFullName(newName));
-    if (account == null) {
-      throw new ResourceNotFoundException("account not found");
-    }
-    return Strings.isNullOrEmpty(account.getFullName())
+            .update("Set Full Name via API", user.getAccountId(), u -> u.setFullName(newName))
+            .orElseThrow(() -> new ResourceNotFoundException("account not found"));
+    return Strings.isNullOrEmpty(accountState.getAccount().getFullName())
         ? Response.none()
-        : Response.ok(account.getFullName());
+        : Response.ok(accountState.getAccount().getFullName());
   }
 }

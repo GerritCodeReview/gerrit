@@ -21,7 +21,6 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.client.AuthType;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
@@ -45,7 +44,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -151,13 +149,7 @@ public class InitAdminUser implements InitStep {
             authorizedKeys.save("Add SSH key for initial admin user\n");
           }
 
-          AccountState as =
-              new AccountState(
-                  new AllUsersName(allUsers.get()),
-                  a,
-                  extIds,
-                  new HashMap<>(),
-                  GeneralPreferencesInfo.defaults());
+          AccountState as = AccountState.forAccount(new AllUsersName(allUsers.get()), a, extIds);
           for (AccountIndex accountIndex : accountIndexCollection.getWriteIndexes()) {
             accountIndex.replace(as);
           }

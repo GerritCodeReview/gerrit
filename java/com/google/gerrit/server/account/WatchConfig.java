@@ -23,8 +23,10 @@ import com.google.common.base.Enums;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
@@ -104,7 +106,7 @@ public class WatchConfig {
   private final Config cfg;
   private final ValidationError.Sink validationErrorSink;
 
-  private Map<ProjectWatchKey, Set<NotifyType>> projectWatches;
+  private ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches;
 
   public WatchConfig(Account.Id accountId, Config cfg, ValidationError.Sink validationErrorSink) {
     this.accountId = checkNotNull(accountId, "accountId");
@@ -112,7 +114,7 @@ public class WatchConfig {
     this.validationErrorSink = checkNotNull(validationErrorSink, "validationErrorSink");
   }
 
-  public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches() {
+  public ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> getProjectWatches() {
     if (projectWatches == null) {
       parse();
     }
@@ -123,8 +125,30 @@ public class WatchConfig {
     projectWatches = parse(accountId, cfg, validationErrorSink);
   }
 
+  /**
+   * Parses project watches from the given config file and returns them as a map.
+   *
+   * <p>A project watch is defined on a project and has a filter to match changes for which the
+   * project watch should be applied. The project and the filter form the map key. The map value is
+   * a set of notify types that decide for which events email notifications should be sent.
+   *
+   * <p>A project watch on the {@code All-Projects} project applies for all projects unless the
+   * project has a matching project watch.
+   *
+   * <p>A project watch can have an empty set of notify types. An empty set of notify types means
+   * that no notification for matching changes should be set. This is different from no project
+   * watch as it overwrites matching project watches from the {@code All-Projects} project.
+   *
+   * <p>Since we must be able to differentiate a project watch with an empty set of notify types
+   * from no project watch we can't use a {@link Multimap} as return type.
+   *
+   * @param accountId the ID of the account for which the project watches should be parsed
+   * @param cfg the config file from which the project watches should be parsed
+   * @param validationErrorSink validation error sink
+   * @return the parsed project watches
+   */
   @VisibleForTesting
-  public static Map<ProjectWatchKey, Set<NotifyType>> parse(
+  public static ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> parse(
       Account.Id accountId, Config cfg, ValidationError.Sink validationErrorSink) {
     Map<ProjectWatchKey, Set<NotifyType>> projectWatches = new HashMap<>();
     for (String projectName : cfg.getSubsections(PROJECT)) {
@@ -148,11 +172,11 @@ public class WatchConfig {
         projectWatches.get(key).addAll(notifyValue.notifyTypes());
       }
     }
-    return projectWatches;
+    return immutableCopyOf(projectWatches);
   }
 
   public Config save(Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
-    this.projectWatches = projectWatches;
+    this.projectWatches = immutableCopyOf(projectWatches);
 
     for (String projectName : cfg.getSubsections(PROJECT)) {
       cfg.unsetSection(PROJECT, projectName);
@@ -170,6 +194,16 @@ public class WatchConfig {
     }
 
     return cfg;
+  }
+
+  private static ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> immutableCopyOf(
+      Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
+    ImmutableMap.Builder<ProjectWatchKey, ImmutableSet<NotifyType>> b = ImmutableMap.builder();
+    projectWatches
+        .entrySet()
+        .stream()
+        .forEach(e -> b.put(e.getKey(), ImmutableSet.copyOf(e.getValue())));
+    return b.build();
   }
 
   @AutoValue

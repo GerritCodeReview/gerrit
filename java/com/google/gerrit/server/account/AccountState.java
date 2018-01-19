@@ -14,14 +14,19 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
+import com.google.common.base.Suppliers;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser.PropertyKey;
@@ -29,18 +34,24 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdNotes;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
+import java.io.IOException;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.Optional;
+import java.util.function.Supplier;
 import org.apache.commons.codec.DecoderException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Superset of all information related to an Account. This includes external IDs, project watches,
  * and properties from the account config file. AccountState maps one-to-one to Account.
+ *
+ * <p>Most callers should not construct AccountStates directly but rather lookup accounts via the
+ * account cache (see {@link AccountCache#get(Account.Id)}).
  */
 public class AccountState {
   private static final Logger logger = LoggerFactory.getLogger(AccountState.class);
@@ -48,25 +59,126 @@ public class AccountState {
   public static final Function<AccountState, Account.Id> ACCOUNT_ID_FUNCTION =
       a -> a.getAccount().getId();
 
+  /**
+   * Creates an AccountState from the given account config.
+   *
+   * @param allUsersName the name of the All-Users repository
+   * @param externalIds class to access external IDs
+   * @param accountConfig the account config, must already be loaded
+   * @return the account state, {@link Optional#empty()} if the account doesn't exist
+   * @throws IOException if accessing the external IDs fails
+   */
+  public static Optional<AccountState> fromAccountConfig(
+      AllUsersName allUsersName, ExternalIds externalIds, AccountConfig accountConfig)
+      throws IOException {
+    return fromAccountConfig(allUsersName, externalIds, accountConfig, null);
+  }
+
+  /**
+   * Creates an AccountState from the given account config.
+   *
+   * <p>If external ID notes are provided the revision of the external IDs branch from which the
+   * external IDs for the account should be loaded is taken from the external ID notes. If external
+   * ID notes are not given the revision of the external IDs branch is taken from the account
+   * config. Updating external IDs is done via {@link ExternalIdNotes} and if external IDs were
+   * updated the revision of the external IDs branch in account config is outdated. Hence after
+   * updating external IDs the external ID notes must be provided.
+   *
+   * @param allUsersName the name of the All-Users repository
+   * @param externalIds class to access external IDs
+   * @param accountConfig the account config, must already be loaded
+   * @param extIdNotes external ID notes, must already be loaded, may be {@code null}
+   * @return the account state, {@link Optional#empty()} if the account doesn't exist
+   * @throws IOException if accessing the external IDs fails
+   */
+  public static Optional<AccountState> fromAccountConfig(
+      AllUsersName allUsersName,
+      ExternalIds externalIds,
+      AccountConfig accountConfig,
+      @Nullable ExternalIdNotes extIdNotes)
+      throws IOException {
+    if (!accountConfig.getLoadedAccount().isPresent()) {
+      return Optional.empty();
+    }
+    Account account = accountConfig.getLoadedAccount().get();
+
+    Optional<ObjectId> extIdsRev =
+        extIdNotes != null
+            ? Optional.ofNullable(extIdNotes.getRevision())
+            : accountConfig.getExternalIdsRev();
+    ImmutableSet<ExternalId> extIds =
+        extIdsRev.isPresent()
+            ? externalIds.byAccount(account.getId(), extIdsRev.get())
+            : ImmutableSet.of();
+
+    return Optional.of(
+        new AccountState(
+            allUsersName,
+            account,
+            extIds,
+            Suppliers.memoize(() -> accountConfig.getProjectWatches()),
+            Suppliers.memoize(() -> accountConfig.getGeneralPreferences()),
+            Suppliers.memoize(() -> accountConfig.getDiffPreferences()),
+            Suppliers.memoize(() -> accountConfig.getEditPreferences())));
+  }
+
+  /**
+   * Creates an AccountState for a given account with no external IDs, no project watches and
+   * default preferences.
+   *
+   * @param allUsersName the name of the All-Users repository
+   * @param account the account
+   * @return the account state
+   */
+  public static AccountState forAccount(AllUsersName allUsersName, Account account) {
+    return forAccount(allUsersName, account, ImmutableSet.of());
+  }
+
+  /**
+   * Creates an AccountState for a given account with no project watches and default preferences.
+   *
+   * @param allUsersName the name of the All-Users repository
+   * @param account the account
+   * @param extIds the external IDs
+   * @return the account state
+   */
+  public static AccountState forAccount(
+      AllUsersName allUsersName, Account account, Collection<ExternalId> extIds) {
+    return new AccountState(
+        allUsersName,
+        account,
+        ImmutableSet.copyOf(extIds),
+        Suppliers.ofInstance(ImmutableMap.of()),
+        Suppliers.ofInstance(GeneralPreferencesInfo.defaults()),
+        Suppliers.ofInstance(DiffPreferencesInfo.defaults()),
+        Suppliers.ofInstance(EditPreferencesInfo.defaults()));
+  }
+
   private final AllUsersName allUsersName;
   private final Account account;
-  private final Collection<ExternalId> externalIds;
-  private final Map<ProjectWatchKey, Set<NotifyType>> projectWatches;
-  private final GeneralPreferencesInfo generalPreferences;
+  private final ImmutableSet<ExternalId> externalIds;
+  private final Supplier<ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>>> projectWatches;
+  private final Supplier<GeneralPreferencesInfo> generalPreferences;
+  private final Supplier<DiffPreferencesInfo> diffPreferences;
+  private final Supplier<EditPreferencesInfo> editPreferences;
   private Cache<IdentifiedUser.PropertyKey<Object>, Object> properties;
 
-  public AccountState(
+  private AccountState(
       AllUsersName allUsersName,
       Account account,
-      Collection<ExternalId> externalIds,
-      Map<ProjectWatchKey, Set<NotifyType>> projectWatches,
-      GeneralPreferencesInfo generalPreferences) {
+      ImmutableSet<ExternalId> externalIds,
+      Supplier<ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>>> projectWatches,
+      Supplier<GeneralPreferencesInfo> generalPreferences,
+      Supplier<DiffPreferencesInfo> diffPreferences,
+      Supplier<EditPreferencesInfo> editPreferences) {
     this.allUsersName = allUsersName;
     this.account = account;
     this.externalIds = externalIds;
     this.projectWatches = projectWatches;
     this.generalPreferences = generalPreferences;
-    this.account.setUserName(getUserName(externalIds));
+    this.diffPreferences = diffPreferences;
+    this.editPreferences = editPreferences;
+    this.account.setUserName(ExternalId.getUserName(externalIds).orElse(null));
   }
 
   public AllUsersName getAllUsersNameForIndexing() {
@@ -112,37 +224,33 @@ public class AccountState {
   }
 
   /** The external identities that identify the account holder. */
-  public Collection<ExternalId> getExternalIds() {
+  public ImmutableSet<ExternalId> getExternalIds() {
     return externalIds;
   }
 
+  /** The external identities that identify the account holder that match the given scheme. */
+  public ImmutableSet<ExternalId> getExternalIds(String scheme) {
+    return externalIds.stream().filter(e -> e.key().isScheme(scheme)).collect(toImmutableSet());
+  }
+
   /** The project watches of the account. */
-  public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches() {
-    return projectWatches;
+  public ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> getProjectWatches() {
+    return projectWatches.get();
   }
 
   /** The general preferences of the account. */
   public GeneralPreferencesInfo getGeneralPreferences() {
-    return generalPreferences;
+    return generalPreferences.get();
   }
 
-  public static String getUserName(Collection<ExternalId> ids) {
-    for (ExternalId extId : ids) {
-      if (extId.isScheme(SCHEME_USERNAME)) {
-        return extId.key().id();
-      }
-    }
-    return null;
+  /** The diff preferences of the account. */
+  public DiffPreferencesInfo getDiffPreferences() {
+    return diffPreferences.get();
   }
 
-  public static Set<String> getEmails(Collection<ExternalId> ids) {
-    Set<String> emails = new HashSet<>();
-    for (ExternalId extId : ids) {
-      if (extId.isScheme(SCHEME_MAILTO)) {
-        emails.add(extId.key().id());
-      }
-    }
-    return emails;
+  /** The edit preferences of the account. */
+  public EditPreferencesInfo getEditPreferences() {
+    return editPreferences.get();
   }
 
   /**

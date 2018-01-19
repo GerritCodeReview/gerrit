@@ -14,10 +14,8 @@
 
 package com.google.gerrit.testing;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -79,11 +77,6 @@ public class FakeAccountCache implements AccountCache {
   }
 
   private static AccountState newState(Account account) {
-    return new AccountState(
-        new AllUsersName(AllUsersNameProvider.DEFAULT),
-        account,
-        ImmutableSet.of(),
-        new HashMap<>(),
-        GeneralPreferencesInfo.defaults());
+    return AccountState.forAccount(new AllUsersName(AllUsersNameProvider.DEFAULT), account);
   }
 }

@@ -19,7 +19,11 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -33,6 +37,7 @@ import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -157,7 +162,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    *
    * @return the project watches of the loaded account
    */
-  public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches() {
+  public ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> getProjectWatches() {
     checkLoaded();
     return watchConfig.getProjectWatches();
   }
@@ -170,6 +175,26 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   public GeneralPreferencesInfo getGeneralPreferences() {
     checkLoaded();
     return prefConfig.getGeneralPreferences();
+  }
+
+  /**
+   * Get the diff preferences of the loaded account.
+   *
+   * @return the diff preferences of the loaded account
+   */
+  public DiffPreferencesInfo getDiffPreferences() {
+    checkLoaded();
+    return prefConfig.getDiffPreferences();
+  }
+
+  /**
+   * Get the edit preferences of the loaded account.
+   *
+   * @return the edit preferences of the loaded account
+   */
+  public EditPreferencesInfo getEditPreferences() {
+    checkLoaded();
+    return prefConfig.getEditPreferences();
   }
 
   /**
@@ -237,10 +262,6 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
       Config accountConfig = readConfig(ACCOUNT_CONFIG);
       loadedAccount = Optional.of(parse(accountConfig, revision.name()));
 
-      Ref externalIdsRef = repo.exactRef(RefNames.REFS_EXTERNAL_IDS);
-      externalIdsRev =
-          externalIdsRef != null ? Optional.of(externalIdsRef.getObjectId()) : Optional.empty();
-
       watchConfig = new WatchConfig(accountId, readConfig(WatchConfig.WATCH_CONFIG), this);
 
       prefConfig =
@@ -256,7 +277,16 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
       }
     } else {
       loadedAccount = Optional.empty();
+
+      watchConfig = new WatchConfig(accountId, new Config(), this);
+
+      prefConfig =
+          new PreferencesConfig(
+              accountId, new Config(), PreferencesConfig.readDefaultConfig(repo), this);
     }
+
+    Ref externalIdsRef = repo.exactRef(RefNames.REFS_EXTERNAL_IDS);
+    externalIdsRev = Optional.ofNullable(externalIdsRef).map(Ref::getObjectId);
   }
 
   private Account parse(Config cfg, String metaId) {
@@ -302,7 +332,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
 
     Config accountConfig = saveAccount();
     saveProjectWatches();
-    saveGeneralPreferences();
+    savePreferences();
 
     // metaId is set in the commit(MetaDataUpdate) method after the commit is created
     loadedAccount = Optional.of(parse(accountConfig, null));
@@ -334,7 +364,8 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     if (accountUpdate.isPresent()
         && (!accountUpdate.get().getDeletedProjectWatches().isEmpty()
             || !accountUpdate.get().getUpdatedProjectWatches().isEmpty())) {
-      Map<ProjectWatchKey, Set<NotifyType>> projectWatches = watchConfig.getProjectWatches();
+      Map<ProjectWatchKey, Set<NotifyType>> projectWatches =
+          new HashMap<>(watchConfig.getProjectWatches());
       accountUpdate.get().getDeletedProjectWatches().forEach(pw -> projectWatches.remove(pw));
       accountUpdate
           .get()
@@ -344,12 +375,20 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
-  private void saveGeneralPreferences() throws IOException, ConfigInvalidException {
-    if (accountUpdate.isPresent() && accountUpdate.get().getGeneralPreferences().isPresent()) {
-      saveConfig(
-          PreferencesConfig.PREFERENCES_CONFIG,
-          prefConfig.saveGeneralPreferences(accountUpdate.get().getGeneralPreferences().get()));
+  private void savePreferences() throws IOException, ConfigInvalidException {
+    if (!accountUpdate.isPresent()
+        || (!accountUpdate.get().getGeneralPreferences().isPresent()
+            && !accountUpdate.get().getDiffPreferences().isPresent()
+            && !accountUpdate.get().getEditPreferences().isPresent())) {
+      return;
     }
+
+    saveConfig(
+        PreferencesConfig.PREFERENCES_CONFIG,
+        prefConfig.saveGeneralPreferences(
+            accountUpdate.get().getGeneralPreferences(),
+            accountUpdate.get().getDiffPreferences(),
+            accountUpdate.get().getEditPreferences()));
   }
 
   /**

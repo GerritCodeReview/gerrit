@@ -73,7 +73,7 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
 
     accountsUpdate
         .create()
-        .update("Set Preferences via API", id, u -> u.setGeneralPreferences(input));
+        .update("Set General Preferences via API", id, u -> u.setGeneralPreferences(input));
     return cache.get(id).getGeneralPreferences();
   }
 

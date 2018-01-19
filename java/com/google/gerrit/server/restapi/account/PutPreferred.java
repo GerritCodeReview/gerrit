@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
@@ -65,22 +64,19 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
   public Response<String> apply(IdentifiedUser user, String email)
       throws ResourceNotFoundException, IOException, ConfigInvalidException, OrmException {
     AtomicBoolean alreadyPreferred = new AtomicBoolean(false);
-    Account account =
-        accountsUpdate
-            .create()
-            .update(
-                "Set Preferred Email via API",
-                user.getAccountId(),
-                (a, u) -> {
-                  if (email.equals(a.getPreferredEmail())) {
-                    alreadyPreferred.set(true);
-                  } else {
-                    u.setPreferredEmail(email);
-                  }
-                });
-    if (account == null) {
-      throw new ResourceNotFoundException("account not found");
-    }
+    accountsUpdate
+        .create()
+        .update(
+            "Set Preferred Email via API",
+            user.getAccountId(),
+            (a, u) -> {
+              if (email.equals(a.getAccount().getPreferredEmail())) {
+                alreadyPreferred.set(true);
+              } else {
+                u.setPreferredEmail(email);
+              }
+            })
+        .orElseThrow(() -> new ResourceNotFoundException("account not found"));
     return alreadyPreferred.get() ? Response.ok("") : Response.created("");
   }
 }

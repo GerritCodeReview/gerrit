@@ -28,6 +28,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes.ExternalIdNotesLoader;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -48,6 +49,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
@@ -82,10 +84,10 @@ public class AccountsUpdate {
      * <p>Use the provided account only to read the current state of the account. Don't do updates
      * to the account. For updates use the provided account update builder.
      *
-     * @param account the account that is being updated
+     * @param accountState the account that is being updated
      * @param update account update builder
      */
-    void update(Account account, InternalAccountUpdate.Builder update);
+    void update(AccountState accountState, InternalAccountUpdate.Builder update);
 
     static AccountUpdater join(List<AccountUpdater> updaters) {
       return (a, u) -> updaters.stream().forEach(updater -> updater.update(a, u));
@@ -111,6 +113,7 @@ public class AccountsUpdate {
     private final GitRepositoryManager repoManager;
     private final GitReferenceUpdated gitRefUpdated;
     private final AllUsersName allUsersName;
+    private final ExternalIds externalIds;
     private final Provider<PersonIdent> serverIdentProvider;
     private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
     private final RetryHelper retryHelper;
@@ -121,6 +124,7 @@ public class AccountsUpdate {
         GitRepositoryManager repoManager,
         GitReferenceUpdated gitRefUpdated,
         AllUsersName allUsersName,
+        ExternalIds externalIds,
         @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
         Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
         RetryHelper retryHelper,
@@ -128,6 +132,7 @@ public class AccountsUpdate {
       this.repoManager = repoManager;
       this.gitRefUpdated = gitRefUpdated;
       this.allUsersName = allUsersName;
+      this.externalIds = externalIds;
       this.serverIdentProvider = serverIdentProvider;
       this.metaDataUpdateInternalFactory = metaDataUpdateInternalFactory;
       this.retryHelper = retryHelper;
@@ -141,6 +146,7 @@ public class AccountsUpdate {
           gitRefUpdated,
           null,
           allUsersName,
+          externalIds,
           metaDataUpdateInternalFactory,
           retryHelper,
           extIdNotesFactory,
@@ -163,6 +169,7 @@ public class AccountsUpdate {
     private final GitRepositoryManager repoManager;
     private final GitReferenceUpdated gitRefUpdated;
     private final AllUsersName allUsersName;
+    private final ExternalIds externalIds;
     private final Provider<PersonIdent> serverIdentProvider;
     private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
     private final RetryHelper retryHelper;
@@ -173,6 +180,7 @@ public class AccountsUpdate {
         GitRepositoryManager repoManager,
         GitReferenceUpdated gitRefUpdated,
         AllUsersName allUsersName,
+        ExternalIds externalIds,
         @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
         Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
         RetryHelper retryHelper,
@@ -180,6 +188,7 @@ public class AccountsUpdate {
       this.repoManager = repoManager;
       this.gitRefUpdated = gitRefUpdated;
       this.allUsersName = allUsersName;
+      this.externalIds = externalIds;
       this.serverIdentProvider = serverIdentProvider;
       this.metaDataUpdateInternalFactory = metaDataUpdateInternalFactory;
       this.retryHelper = retryHelper;
@@ -193,6 +202,7 @@ public class AccountsUpdate {
           gitRefUpdated,
           null,
           allUsersName,
+          externalIds,
           metaDataUpdateInternalFactory,
           retryHelper,
           extIdNotesFactory,
@@ -212,6 +222,7 @@ public class AccountsUpdate {
     private final GitRepositoryManager repoManager;
     private final GitReferenceUpdated gitRefUpdated;
     private final AllUsersName allUsersName;
+    private final ExternalIds externalIds;
     private final Provider<PersonIdent> serverIdentProvider;
     private final Provider<IdentifiedUser> identifiedUser;
     private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
@@ -223,6 +234,7 @@ public class AccountsUpdate {
         GitRepositoryManager repoManager,
         GitReferenceUpdated gitRefUpdated,
         AllUsersName allUsersName,
+        ExternalIds externalIds,
         @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
         Provider<IdentifiedUser> identifiedUser,
         Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
@@ -231,6 +243,7 @@ public class AccountsUpdate {
       this.repoManager = repoManager;
       this.gitRefUpdated = gitRefUpdated;
       this.allUsersName = allUsersName;
+      this.externalIds = externalIds;
       this.serverIdentProvider = serverIdentProvider;
       this.identifiedUser = identifiedUser;
       this.metaDataUpdateInternalFactory = metaDataUpdateInternalFactory;
@@ -247,6 +260,7 @@ public class AccountsUpdate {
           gitRefUpdated,
           user,
           allUsersName,
+          externalIds,
           metaDataUpdateInternalFactory,
           retryHelper,
           extIdNotesFactory,
@@ -263,18 +277,25 @@ public class AccountsUpdate {
   private final GitReferenceUpdated gitRefUpdated;
   @Nullable private final IdentifiedUser currentUser;
   private final AllUsersName allUsersName;
+  private final ExternalIds externalIds;
   private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
   private final RetryHelper retryHelper;
   private final ExternalIdNotesLoader extIdNotesLoader;
   private final PersonIdent committerIdent;
   private final PersonIdent authorIdent;
+
+  // Invoked after reading the account config.
   private final Runnable afterReadRevision;
+
+  // Invoked after updating the account but before committing the changes.
+  private final Runnable beforeCommit;
 
   private AccountsUpdate(
       GitRepositoryManager repoManager,
       GitReferenceUpdated gitRefUpdated,
       @Nullable IdentifiedUser currentUser,
       AllUsersName allUsersName,
+      ExternalIds externalIds,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,
       ExternalIdNotesLoader extIdNotesLoader,
@@ -285,11 +306,13 @@ public class AccountsUpdate {
         gitRefUpdated,
         currentUser,
         allUsersName,
+        externalIds,
         metaDataUpdateInternalFactory,
         retryHelper,
         extIdNotesLoader,
         committerIdent,
         authorIdent,
+        Runnables.doNothing(),
         Runnables.doNothing());
   }
 
@@ -299,23 +322,27 @@ public class AccountsUpdate {
       GitReferenceUpdated gitRefUpdated,
       @Nullable IdentifiedUser currentUser,
       AllUsersName allUsersName,
+      ExternalIds externalIds,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,
       ExternalIdNotesLoader extIdNotesLoader,
       PersonIdent committerIdent,
       PersonIdent authorIdent,
-      Runnable afterReadRevision) {
+      Runnable afterReadRevision,
+      Runnable beforeCommit) {
     this.repoManager = checkNotNull(repoManager, "repoManager");
     this.gitRefUpdated = checkNotNull(gitRefUpdated, "gitRefUpdated");
     this.currentUser = currentUser;
     this.allUsersName = checkNotNull(allUsersName, "allUsersName");
+    this.externalIds = checkNotNull(externalIds, "externalIds");
     this.metaDataUpdateInternalFactory =
         checkNotNull(metaDataUpdateInternalFactory, "metaDataUpdateInternalFactory");
     this.retryHelper = checkNotNull(retryHelper, "retryHelper");
     this.extIdNotesLoader = checkNotNull(extIdNotesLoader, "extIdNotesLoader");
     this.committerIdent = checkNotNull(committerIdent, "committerIdent");
     this.authorIdent = checkNotNull(authorIdent, "authorIdent");
-    this.afterReadRevision = afterReadRevision;
+    this.afterReadRevision = checkNotNull(afterReadRevision, "afterReadRevision");
+    this.beforeCommit = checkNotNull(beforeCommit, "beforeCommit");
   }
 
   /**
@@ -330,7 +357,7 @@ public class AccountsUpdate {
    * @throws OrmException if creating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public Account insert(
+  public AccountState insert(
       String message, Account.Id accountId, Consumer<InternalAccountUpdate.Builder> init)
       throws OrmException, IOException, ConfigInvalidException {
     return insert(message, accountId, AccountUpdater.fromConsumer(init));
@@ -348,23 +375,27 @@ public class AccountsUpdate {
    * @throws OrmException if creating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public Account insert(String message, Account.Id accountId, AccountUpdater updater)
+  public AccountState insert(String message, Account.Id accountId, AccountUpdater updater)
       throws OrmException, IOException, ConfigInvalidException {
     return updateAccount(
-        r -> {
-          AccountConfig accountConfig = read(r, accountId);
-          Account account =
-              accountConfig.getNewAccount(new Timestamp(committerIdent.getWhen().getTime()));
-          InternalAccountUpdate.Builder updateBuilder = InternalAccountUpdate.builder();
-          updater.update(account, updateBuilder);
+            r -> {
+              AccountConfig accountConfig = read(r, accountId);
+              Account account =
+                  accountConfig.getNewAccount(new Timestamp(committerIdent.getWhen().getTime()));
+              AccountState accountState = AccountState.forAccount(allUsersName, account);
+              InternalAccountUpdate.Builder updateBuilder = InternalAccountUpdate.builder();
+              updater.update(accountState, updateBuilder);
 
-          InternalAccountUpdate update = updateBuilder.build();
-          accountConfig.setAccountUpdate(update);
-          ExternalIdNotes extIdNotes = createExternalIdNotes(r, accountId, update);
-          UpdatedAccount updatedAccounts = new UpdatedAccount(message, accountConfig, extIdNotes);
-          updatedAccounts.setCreated(true);
-          return updatedAccounts;
-        });
+              InternalAccountUpdate update = updateBuilder.build();
+              accountConfig.setAccountUpdate(update);
+              ExternalIdNotes extIdNotes =
+                  createExternalIdNotes(r, accountConfig.getExternalIdsRev(), accountId, update);
+              UpdatedAccount updatedAccounts =
+                  new UpdatedAccount(allUsersName, externalIds, message, accountConfig, extIdNotes);
+              updatedAccounts.setCreated(true);
+              return updatedAccounts;
+            })
+        .get();
   }
 
   /**
@@ -375,12 +406,12 @@ public class AccountsUpdate {
    * @param message commit message for the account update, must not be {@code null or empty}
    * @param accountId ID of the account
    * @param update consumer to update the account, only invoked if the account exists
-   * @return the updated account, {@code null} if the account doesn't exist
+   * @return the updated account, {@link Optional#empty()} if the account doesn't exist
    * @throws IOException if updating the user branch fails due to an IO error
    * @throws OrmException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  public Account update(
+  public Optional<AccountState> update(
       String message, Account.Id accountId, Consumer<InternalAccountUpdate.Builder> update)
       throws OrmException, IOException, ConfigInvalidException {
     return update(message, accountId, AccountUpdater.fromConsumer(update));
@@ -394,18 +425,18 @@ public class AccountsUpdate {
    * @param message commit message for the account update, must not be {@code null or empty}
    * @param accountId ID of the account
    * @param updater updater to update the account, only invoked if the account exists
-   * @return the updated account, {@code null} if the account doesn't exist
+   * @return the updated account, {@link Optional#empty} if the account doesn't exist
    * @throws IOException if updating the user branch fails due to an IO error
    * @throws OrmException if updating the user branch fails
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  @Nullable
-  public Account update(String message, Account.Id accountId, AccountUpdater updater)
+  public Optional<AccountState> update(String message, Account.Id accountId, AccountUpdater updater)
       throws OrmException, IOException, ConfigInvalidException {
     return updateAccount(
         r -> {
           AccountConfig accountConfig = read(r, accountId);
-          Optional<Account> account = accountConfig.getLoadedAccount();
+          Optional<AccountState> account =
+              AccountState.fromAccountConfig(allUsersName, externalIds, accountConfig);
           if (!account.isPresent()) {
             return null;
           }
@@ -415,8 +446,10 @@ public class AccountsUpdate {
 
           InternalAccountUpdate update = updateBuilder.build();
           accountConfig.setAccountUpdate(update);
-          ExternalIdNotes extIdNotes = createExternalIdNotes(r, accountId, update);
-          UpdatedAccount updatedAccounts = new UpdatedAccount(message, accountConfig, extIdNotes);
+          ExternalIdNotes extIdNotes =
+              createExternalIdNotes(r, accountConfig.getExternalIdsRev(), accountId, update);
+          UpdatedAccount updatedAccounts =
+              new UpdatedAccount(allUsersName, externalIds, message, accountConfig, extIdNotes);
           return updatedAccounts;
         });
   }
@@ -428,7 +461,7 @@ public class AccountsUpdate {
     return accountConfig;
   }
 
-  private Account updateAccount(AccountUpdate accountUpdate)
+  private Optional<AccountState> updateAccount(AccountUpdate accountUpdate)
       throws IOException, ConfigInvalidException, OrmException {
     return retryHelper.execute(
         ActionType.ACCOUNT_UPDATE,
@@ -436,17 +469,20 @@ public class AccountsUpdate {
           try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
             UpdatedAccount updatedAccount = accountUpdate.update(allUsersRepo);
             if (updatedAccount == null) {
-              return null;
+              return Optional.empty();
             }
 
             commit(allUsersRepo, updatedAccount);
-            return updatedAccount.getAccount();
+            return Optional.of(updatedAccount.getAccount());
           }
         });
   }
 
   private ExternalIdNotes createExternalIdNotes(
-      Repository allUsersRepo, Account.Id accountId, InternalAccountUpdate update)
+      Repository allUsersRepo,
+      Optional<ObjectId> rev,
+      Account.Id accountId,
+      InternalAccountUpdate update)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
     ExternalIdNotes.checkSameAccount(
         Iterables.concat(
@@ -455,14 +491,17 @@ public class AccountsUpdate {
             update.getDeletedExternalIds()),
         accountId);
 
-    ExternalIdNotes extIdNotes = extIdNotesLoader.load(allUsersRepo);
+    ExternalIdNotes extIdNotes = extIdNotesLoader.load(allUsersRepo, rev.orElse(ObjectId.zeroId()));
     extIdNotes.replace(update.getDeletedExternalIds(), update.getCreatedExternalIds());
     extIdNotes.upsert(update.getUpdatedExternalIds());
     return extIdNotes;
   }
 
   private void commit(Repository allUsersRepo, UpdatedAccount updatedAccount) throws IOException {
+    beforeCommit.run();
+
     BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
+
     if (updatedAccount.isCreated()) {
       commitNewAccountConfig(
           updatedAccount.getMessage(),
@@ -482,6 +521,7 @@ public class AccountsUpdate {
         allUsersRepo,
         batchRefUpdate,
         updatedAccount.getExternalIdNotes());
+
     RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
     updatedAccount.getExternalIdNotes().updateCaches();
     gitRefUpdated.fire(
@@ -554,6 +594,8 @@ public class AccountsUpdate {
   }
 
   private static class UpdatedAccount {
+    private final AllUsersName allUsersName;
+    private final ExternalIds externalIds;
     private final String message;
     private final AccountConfig accountConfig;
     private final ExternalIdNotes extIdNotes;
@@ -561,8 +603,14 @@ public class AccountsUpdate {
     private boolean created;
 
     private UpdatedAccount(
-        String message, AccountConfig accountConfig, ExternalIdNotes extIdNotes) {
+        AllUsersName allUsersName,
+        ExternalIds externalIds,
+        String message,
+        AccountConfig accountConfig,
+        ExternalIdNotes extIdNotes) {
       checkState(!Strings.isNullOrEmpty(message), "message for account update must be set");
+      this.allUsersName = checkNotNull(allUsersName);
+      this.externalIds = checkNotNull(externalIds);
       this.message = checkNotNull(message);
       this.accountConfig = checkNotNull(accountConfig);
       this.extIdNotes = checkNotNull(extIdNotes);
@@ -576,8 +624,9 @@ public class AccountsUpdate {
       return accountConfig;
     }
 
-    public Account getAccount() {
-      return accountConfig.getLoadedAccount().get();
+    public AccountState getAccount() throws IOException {
+      return AccountState.fromAccountConfig(allUsersName, externalIds, accountConfig, extIdNotes)
+          .get();
     }
 
     public ExternalIdNotes getExternalIdNotes() {

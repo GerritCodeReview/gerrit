@@ -87,7 +87,6 @@ public class ProjectState {
   private final SitePaths sitePaths;
   private final AllProjectsName allProjectsName;
   private final ProjectCache projectCache;
-  private final ProjectControl.Factory projectControlFactory;
   private final PrologEnvironment.Factory envFactory;
   private final GitRepositoryManager gitMgr;
   private final RulesCache rulesCache;
@@ -121,7 +120,6 @@ public class ProjectState {
       final ProjectCache projectCache,
       final AllProjectsName allProjectsName,
       final AllUsersName allUsersName,
-      final ProjectControl.Factory projectControlFactory,
       final PrologEnvironment.Factory envFactory,
       final GitRepositoryManager gitMgr,
       final RulesCache rulesCache,
@@ -133,7 +131,6 @@ public class ProjectState {
     this.isAllProjects = config.getProject().getNameKey().equals(allProjectsName);
     this.isAllUsers = config.getProject().getNameKey().equals(allUsersName);
     this.allProjectsName = allProjectsName;
-    this.projectControlFactory = projectControlFactory;
     this.envFactory = envFactory;
     this.gitMgr = gitMgr;
     this.rulesCache = rulesCache;
@@ -353,10 +350,6 @@ public class ProjectState {
     }
 
     return result;
-  }
-
-  public ProjectControl controlFor(CurrentUser user) {
-    return projectControlFactory.create(user, this);
   }
 
   /**

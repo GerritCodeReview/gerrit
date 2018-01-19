@@ -175,6 +175,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -2445,7 +2446,8 @@ class ReceiveCommits {
       // or no parents were updated (rebase), else warn that only part
       // of the commit was modified.
       if (newCommit.getTree().equals(priorCommit.getTree())) {
-        boolean messageEq = eq(newCommit.getFullMessage(), priorCommit.getFullMessage());
+        boolean messageEq =
+            Objects.equals(newCommit.getFullMessage(), priorCommit.getFullMessage());
         boolean parentsEq = parentsEqual(newCommit, priorCommit);
         boolean authorEq = authorEqual(newCommit, priorCommit);
         ObjectReader reader = rp.getRevWalk().getObjectReader();
@@ -2723,18 +2725,8 @@ class ReceiveCommits {
       return false;
     }
 
-    return eq(aAuthor.getName(), bAuthor.getName())
-        && eq(aAuthor.getEmailAddress(), bAuthor.getEmailAddress());
-  }
-
-  static boolean eq(String a, String b) {
-    if (a == null && b == null) {
-      return true;
-    } else if (a == null || b == null) {
-      return false;
-    } else {
-      return a.equals(b);
-    }
+    return Objects.equals(aAuthor.getName(), bAuthor.getName())
+        && Objects.equals(aAuthor.getEmailAddress(), bAuthor.getEmailAddress());
   }
 
   private boolean validRefOperation(ReceiveCommand cmd) {

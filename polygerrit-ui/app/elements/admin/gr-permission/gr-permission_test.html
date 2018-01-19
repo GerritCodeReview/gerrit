@@ -241,6 +241,10 @@ limitations under the License.
         element._handleRemovePermission();
         assert.isTrue(element._deleted);
         assert.isTrue(element.permission.value.deleted);
+
+        element.editing = false;
+        assert.isFalse(element._deleted);
+        assert.isFalse(element.permission.value.deleted);
       });
 
       test('_handleUndoRemove', () => {

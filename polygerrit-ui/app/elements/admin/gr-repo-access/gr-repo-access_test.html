@@ -367,7 +367,7 @@ limitations under the License.
         assert.deepEqual(element._computeAddAndRemove(), {add: {}, remove: {}});
         element._local['refs/*'].updatedId = 'refs/for/bar';
         element._local['refs/*'].modified = true;
-        const expectedInput = {
+        let expectedInput = {
           add: {
             'refs/for/bar': {
               modified: true,
@@ -387,6 +387,16 @@ limitations under the License.
               },
             },
           },
+          remove: {
+            'refs/*': {
+              permissions: {},
+            },
+          },
+        };
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+        element._local['refs/*'].deleted = true;
+        expectedInput = {
+          add: {},
           remove: {
             'refs/*': {
               permissions: {},
@@ -499,6 +509,17 @@ limitations under the License.
             },
           },
         };
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+        expectedInput = {
+          add: {},
+          remove: {
+            'refs/*': {
+              permissions: {},
+            },
+          },
+        };
+        element._local['refs/*'].deleted = true;
         assert.deepEqual(element._computeAddAndRemove(), expectedInput);
       });
 

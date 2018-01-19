@@ -66,7 +66,7 @@ limitations under the License.
       .deleted #mainContainer,
       .global,
       #addPermission,
-      #updateBtns,
+      #deleteBtn,
       .editingRef .header,
       .editContainer {
         display: none;
@@ -74,13 +74,19 @@ limitations under the License.
       .editing #editBtn {
         display: flex;
       }
-      /* TODO @beckysiegel add back when editing allowed */
-      /* .deleted #deletedContainer,
+      .deleted #deletedContainer {
+        display: flex;
+      }
+      /* TODO @beckysiegel add back when adding permission allowed */
+      /* .editing #addPermission, */
       #mainContainer,
-      .editing #addPermission,
-      .editing #updateBtns  {
+      .editing #deleteBtn  {
         display: block;
-      } */
+      }
+      .editing #deleteBtn,
+      #undoRemoveBtn {
+        padding-right: .7em;
+      }
       .editingRef .editContainer {
         display: flex;
       }
@@ -100,11 +106,10 @@ limitations under the License.
               <iron-icon id="icon" icon="gr-icons:create"></iron-icon>
             </gr-button>
           </div>
-          <div id="updateBtns">
           <gr-button
-                id="deleteBtn"
-                on-tap="_handleRemoveReference">Remove</gr-button>
-          </div><!-- end updateBtns -->
+              link
+              id="deleteBtn"
+              on-tap="_handleRemoveReference">Remove</gr-button>
         </div><!-- end header -->
         <div class="editContainer">
           <input
@@ -145,8 +150,9 @@ limitations under the License.
         </div><!-- end sectionContent -->
       </div><!-- end mainContainer -->
       <div id="deletedContainer">
-        [[_computeSectionName(section.id)]] was deleted
+        <span>[[_computeSectionName(section.id)]] was deleted</span>
         <gr-button
+            link
             id="undoRemoveBtn"
             on-tap="_handleUndoRemove">Undo</gr-button>
       </div><!-- end deletedContainer -->

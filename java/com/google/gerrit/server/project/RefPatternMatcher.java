@@ -136,13 +136,10 @@ public abstract class RefPatternMatcher {
       if (user.isIdentifiedUser()) {
         return Streams.concat(
                 user.asIdentifiedUser().getEmailAddresses().stream(),
-                ImmutableSet.of(user.getUserName()).stream())
+                Streams.stream(user.getUserName()))
             .collect(toImmutableSet());
       }
-      if (user.getUserName() != null) {
-        return ImmutableSet.of(user.getUserName());
-      }
-      return ImmutableSet.of();
+      return Streams.stream(user.getUserName()).collect(toImmutableSet());
     }
 
     boolean matchPrefix(String ref) {

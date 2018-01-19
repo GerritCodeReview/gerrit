@@ -395,7 +395,7 @@ public class CommitValidators {
 
       return String.format(
           "  gitdir=$(git rev-parse --git-dir); scp -p -P %d %s@%s:hooks/commit-msg ${gitdir}/hooks/",
-          sshPort, user.getUserName(), sshHost);
+          sshPort, user.getUserName().orElse("<USERNAME>"), sshHost);
     }
   }
 

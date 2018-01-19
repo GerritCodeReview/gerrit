@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.inject.servlet.RequestScoped;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
@@ -90,8 +91,8 @@ public abstract class CurrentUser {
   public abstract GroupMembership getEffectiveGroups();
 
   /** Unique name of the user on this server, if one has been assigned. */
-  public String getUserName() {
-    return null;
+  public Optional<String> getUserName() {
+    return Optional.empty();
   }
 
   /** Check if user is the IdentifiedUser */

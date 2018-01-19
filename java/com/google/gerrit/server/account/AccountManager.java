@@ -240,12 +240,12 @@ public class AccountManager {
 
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)
         && !Strings.isNullOrEmpty(who.getUserName())
-        && !who.getUserName().equals(user.getUserName())) {
-      if (user.getUserName() != null) {
+        && !who.getUserName().equals(user.getUserName().orElse(null))) {
+      if (user.getUserName().isPresent()) {
         log.warn(
             String.format(
                 "Not changing already set username %s to %s",
-                user.getUserName(), who.getUserName()));
+                user.getUserName().get(), who.getUserName()));
       } else {
         log.warn(String.format("Not setting username to %s", who.getUserName()));
       }

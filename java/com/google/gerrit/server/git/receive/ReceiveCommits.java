@@ -802,7 +802,8 @@ class ReceiveCommits {
   }
 
   private static String displayName(IdentifiedUser user) {
-    return user.getUserName().orElse(user.getAccount().getPreferredEmail());
+    return user.getUserName()
+        .orElse(firstNonNull(user.getAccount().getPreferredEmail(), user.getLoggableName()));
   }
 
   private void parseCommands(Collection<ReceiveCommand> commands)

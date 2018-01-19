@@ -17,6 +17,24 @@
       "revId": "0c72ba87a7b18833942b9b4796b934af6bf84e7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0163e7a2_142fec19",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-19T08:05:57Z",
+      "side": 1,
+      "message": "This doesn\u0027t work because we want to fall-through to calling findAllByNameOrEmail in l. 177 if a username is not present.",
+      "parentUuid": "dbfd1e0e_1808a072",
+      "revId": "0c72ba87a7b18833942b9b4796b934af6bf84e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

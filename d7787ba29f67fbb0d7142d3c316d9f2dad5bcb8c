@@ -98,6 +98,42 @@
       "revId": "d7787ba29f67fbb0d7142d3c316d9f2dad5bcb8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "164ff5ba_7f964713",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-01-19T00:34:32Z",
+      "side": 1,
+      "message": "good point, I will do this in next ps.",
+      "parentUuid": "d708ddea_fbe1f127",
+      "revId": "d7787ba29f67fbb0d7142d3c316d9f2dad5bcb8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26d56842_7a2d954a",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-01-19T00:34:32Z",
+      "side": 1,
+      "message": "Since a library change is already a risk, I wanted at least to proposed a version I tested and I know works in a real production environment.\n\nThat said, even if we merge this change as is, it\u0027s only a matter of time before someone upgrade that library to the latest as we usually do so better do it now I guess.",
+      "parentUuid": "933ccef6_0389ee64",
+      "revId": "d7787ba29f67fbb0d7142d3c316d9f2dad5bcb8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

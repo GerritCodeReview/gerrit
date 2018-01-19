@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec2dcc30_de5cbe30",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-19T21:37:03Z",
+      "side": 1,
+      "message": "Sorry, this is such a small change but I\u0027m still trying to understand it.\n\nBefore you would navigate to the change where it would be something like.. \n/c/123/edit, correct?\n\nNow, it might be something different like /c/123/2?\n\nWhen would it be the latter rather than the former?",
+      "range": {
+        "startLine": 127,
+        "startChar": 6,
+        "endLine": 127,
+        "endChar": 64
+      },
+      "revId": "fb2a20292169d7e9bfda4f865b19263ca03367a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

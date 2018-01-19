@@ -108,7 +108,7 @@ public class AddSshKey implements RestModifyView<AccountResource, SshKeyInput> {
             "Cannot send SSH key added message to " + user.getAccount().getPreferredEmail(), e);
       }
 
-      sshKeyCache.evict(user.getUserName());
+      user.getUserName().ifPresent(sshKeyCache::evict);
       return Response.<SshKeyInfo>created(GetSshKeys.newSshKeyInfo(sshKey));
     } catch (InvalidSshKeyException e) {
       throw new BadRequestException(e.getMessage());

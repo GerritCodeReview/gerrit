@@ -59,6 +59,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+@SuppressWarnings("deprecation")
 public class Schema_119 extends SchemaVersion {
   private static final ImmutableMap<String, String> LEGACY_DISPLAYNAME_MAP =
       ImmutableMap.<String, String>of(

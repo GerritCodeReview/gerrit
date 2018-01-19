@@ -51,6 +51,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+@SuppressWarnings("deprecation")
 public class Schema_115 extends SchemaVersion {
   private final GitRepositoryManager mgr;
   private final AllUsersName allUsersName;

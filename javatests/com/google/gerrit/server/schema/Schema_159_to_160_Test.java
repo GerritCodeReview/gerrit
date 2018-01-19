@@ -45,6 +45,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+@SuppressWarnings("deprecation")
 public class Schema_159_to_160_Test {
   @Rule public SchemaUpgradeTestEnvironment testEnv = new SchemaUpgradeTestEnvironment();
 

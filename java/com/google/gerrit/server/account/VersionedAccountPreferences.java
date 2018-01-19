@@ -23,16 +23,23 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 
-/** Preferences for user accounts. */
+/**
+ * Preferences for user accounts.
+ *
+ * <p>Preferences are available through {@link AccountState} which can be retrieved from the {@link
+ * AccountCache}.
+ *
+ * <p>To update preferences use {@link AccountsUpdate}.
+ *
+ * <p>This class is only kept to support old schema migrations and should be deleted when these
+ * schema migrations are no longer needed.
+ */
+@Deprecated
 public class VersionedAccountPreferences extends VersionedMetaData {
-  public static final String PREFERENCES = "preferences.config";
+  private static final String PREFERENCES = "preferences.config";
 
   public static VersionedAccountPreferences forUser(Account.Id id) {
     return new VersionedAccountPreferences(RefNames.refsUsers(id));
-  }
-
-  public static VersionedAccountPreferences forDefault() {
-    return new VersionedAccountPreferences(RefNames.REFS_USERS_DEFAULT);
   }
 
   private final String ref;
@@ -40,10 +47,6 @@ public class VersionedAccountPreferences extends VersionedMetaData {
 
   protected VersionedAccountPreferences(String ref) {
     this.ref = ref;
-  }
-
-  public boolean isDefaults() {
-    return RefNames.REFS_USERS_DEFAULT.equals(getRefName());
   }
 
   @Override

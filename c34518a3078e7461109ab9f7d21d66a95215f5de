@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebe904f1_ded19848",
+        "filename": "java/com/google/gerrit/server/restapi/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-19T09:45:13Z",
+      "side": 1,
+      "message": "Should this rather be checkStatePermitsWrite?",
+      "range": {
+        "startLine": 102,
+        "startChar": 29,
+        "endLine": 102,
+        "endChar": 50
+      },
+      "revId": "c34518a3078e7461109ab9f7d21d66a95215f5de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

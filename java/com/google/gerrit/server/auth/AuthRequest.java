@@ -14,16 +14,18 @@
 
 package com.google.gerrit.server.auth;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
+import java.util.Optional;
 
 /** Defines an abstract request for user authentication to Gerrit. */
 public abstract class AuthRequest {
-  private final String username;
-  private final String password;
+  private final Optional<String> username;
+  private final Optional<String> password;
 
-  protected AuthRequest(String username, String password) {
-    this.username = username;
-    this.password = password;
+  protected AuthRequest(@Nullable String username, @Nullable String password) {
+    this.username = Optional.ofNullable(Strings.emptyToNull(username));
+    this.password = Optional.ofNullable(Strings.emptyToNull(password));
   }
 
   /**
@@ -31,8 +33,7 @@ public abstract class AuthRequest {
    *
    * @return username for authentication or null for anonymous access.
    */
-  @Nullable
-  public final String getUsername() {
+  public final Optional<String> getUsername() {
     return username;
   }
 
@@ -41,8 +42,7 @@ public abstract class AuthRequest {
    *
    * @return user's credentials or null
    */
-  @Nullable
-  public final String getPassword() {
+  public final Optional<String> getPassword() {
     return password;
   }
 }

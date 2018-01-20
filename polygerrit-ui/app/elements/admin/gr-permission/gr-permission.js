@@ -102,6 +102,11 @@
         delete this.permission.value.deleted;
         this._groupFilter = '';
         this._rules = this._rules.filter(rule => !rule.value.added);
+        for (const key of Object.keys(this.permission.value.rules)) {
+          if (this.permission.value.rules[key].added) {
+            delete this.permission.value.rules[key];
+          }
+        }
 
         // Restore exclusive bit to original.
         this.set(['permission', 'value', 'exclusive'],

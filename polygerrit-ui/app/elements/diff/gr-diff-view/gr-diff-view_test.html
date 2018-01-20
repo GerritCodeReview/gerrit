@@ -646,6 +646,18 @@ limitations under the License.
       assert.equal(element.$.cursor.side, 'right');
     });
 
+    test('_getLineOfInterest', () => {
+      assert.isNull(element._getLineOfInterest({}));
+
+      let result = element._getLineOfInterest({lineNum: 12});
+      assert.equal(result.number, 12);
+      assert.isNotOk(result.leftSide);
+
+      result = element._getLineOfInterest({lineNum: 12, leftSide: true});
+      assert.equal(result.number, 12);
+      assert.isOk(result.leftSide);
+    });
+
     test('_onLineSelected', () => {
       const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForDiffById');
       const replaceStateStub = sandbox.stub(history, 'replaceState');

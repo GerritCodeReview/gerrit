@@ -512,6 +512,7 @@
     _paramsChanged(value) {
       if (value.view !== Gerrit.Nav.View.DIFF) { return; }
 
+      this.$.diff.lineOfInterest = this._getLineOfInterest(this.params);
       this._initCursor(this.params);
 
       this._changeNum = value.changeNum;
@@ -608,6 +609,13 @@
         this.$.cursor.side = DiffSides.RIGHT;
       }
       this.$.cursor.initialLineNumber = params.lineNum;
+    },
+
+    _getLineOfInterest(params) {
+      // If there is a line number specified, pass it along to the diff so that
+      // it will not get collapsed.
+      if (!params.lineNum) { return null; }
+      return {number: params.lineNum, leftSide: params.leftSide};
     },
 
     _pathChanged(path) {

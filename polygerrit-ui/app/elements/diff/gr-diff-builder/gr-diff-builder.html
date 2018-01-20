@@ -101,6 +101,13 @@ limitations under the License.
           revisionImage: Object,
           projectName: String,
           parentIndex: Number,
+          /**
+           * @type {{
+           *  number: number,
+           *  leftSide: {boolean|undefined}
+           * }|null}
+           */
+          lineOfInterest: Object,
           _builder: Object,
           _groups: Array,
           _layers: Array,
@@ -149,7 +156,8 @@ limitations under the License.
           this._builder = this._getDiffBuilder(this.diff, comments, prefs);
 
           this.$.processor.context = prefs.context;
-          this.$.processor.keyLocations = this._getCommentLocations(comments);
+          this.$.processor.keyLocations = this._getKeyLocations(comments,
+              this.lineOfInterest);
 
           this._clearDiffContent();
           this._builder.addColumns(this.diffElement, prefs.font_size);
@@ -315,7 +323,11 @@ limitations under the License.
           this.diffElement.innerHTML = null;
         },
 
-        _getCommentLocations(comments) {
+        /**
+         * @param {!Object} comments
+         * @param {Object|null} lineOfInterest
+         */
+        _getKeyLocations(comments, lineOfInterest) {
           const result = {
             left: {},
             right: {},
@@ -329,6 +341,12 @@ limitations under the License.
               result[side][c.line || GrDiffLine.FILE] = true;
             }
           }
+
+          if (lineOfInterest) {
+            const side = lineOfInterest.leftSide ? 'left' : 'right';
+            result[side][lineOfInterest.number] = true;
+          }
+
           return result;
         },
 

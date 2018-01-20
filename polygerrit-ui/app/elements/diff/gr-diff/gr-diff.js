@@ -95,6 +95,16 @@
         value: DiffViewMode.SIDE_BY_SIDE,
         observer: '_viewModeObserver',
       },
+
+      /**
+       * Special line number which should not be collapsed into a shared region.
+       * @type {{
+       *  number: number,
+       *  leftSide: {boolean}
+       * }|null}
+       */
+      lineOfInterest: Object,
+
       _loggedIn: {
         type: Boolean,
         value: false,

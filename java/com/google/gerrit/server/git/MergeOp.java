@@ -73,6 +73,7 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryHelper.ActionType;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gwtorm.server.OrmException;
@@ -489,7 +490,10 @@ public class MergeOp implements AutoCloseable {
               .listener(retryTracker)
               // Up to the entire submit operation is retried, including possibly many projects.
               // Multiply the timeout by the number of projects we're actually attempting to submit.
-              .timeout(retryHelper.getDefaultTimeout().multipliedBy(cs.projects().size()))
+              .timeout(
+                  retryHelper
+                      .getDefaultTimeout(ActionType.CHANGE_UPDATE)
+                      .multipliedBy(cs.projects().size()))
               .build());
 
       if (projects > 1) {

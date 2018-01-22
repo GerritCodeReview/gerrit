@@ -2954,7 +2954,9 @@ class ReceiveCommits {
           },
           // Use a multiple of the default timeout to account for inner retries that may otherwise
           // eat up the whole timeout so that no time is left to retry this outer action.
-          RetryHelper.options().timeout(retryHelper.getDefaultTimeout().multipliedBy(5)).build());
+          RetryHelper.options()
+              .timeout(retryHelper.getDefaultTimeout(ActionType.CHANGE_UPDATE).multipliedBy(5))
+              .build());
     } catch (RestApiException e) {
       logError("Can't insert patchset", e);
     } catch (UpdateException e) {

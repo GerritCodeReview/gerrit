@@ -23,6 +23,30 @@
       "revId": "6063afb135dabc48b08af52320e56dcaee5455c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "958baf91_7efc6f34",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-22T15:42:43Z",
+      "side": 1,
+      "message": "I think this is a feature, not a bug. In the following change, a new value is added here, and I think it\u0027s worthwhile to explicitly state that I expect the contents of a fresh project.config to be different as a result of that change.\n\nIf this becomes annoyingly brittle we can always change it, but honestly, this doesn\u0027t seem like it will change that frequently.",
+      "parentUuid": "e37fb797_167067d6",
+      "range": {
+        "startLine": 167,
+        "startChar": 30,
+        "endLine": 167,
+        "endChar": 42
+      },
+      "revId": "6063afb135dabc48b08af52320e56dcaee5455c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

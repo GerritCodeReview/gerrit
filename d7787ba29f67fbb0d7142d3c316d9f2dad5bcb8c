@@ -205,6 +205,24 @@
       "revId": "d7787ba29f67fbb0d7142d3c316d9f2dad5bcb8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "516d9e15_38cfe585",
+        "filename": "java/com/google/gerrit/server/cache/h2/DefaultCacheFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-22T18:38:18Z",
+      "side": 1,
+      "message": "The primary reason not to use CacheModule is to make it so the cache is *not* configurable using gerrit.config. For example in ExternalIdCacheImpl we explain in detail why we want the cache size to be exactly 1, which implies it shouldn\u0027t be configurable.\n\nI am definitely in favor of replacing these manual uses of CacheBuilder with Caffeine (assuming we adopt Caffeine for CacheModule).\n\nI would be open to adding a method on CacheBinding like configurable(boolean) that allows us to disable configuration via gerrit.config. That way we could continue to use CacheModule consistently. OTOH, converting something currently using a hand-rolled CacheBuilder to use CacheModule is probably a net increase in boilerplate/indirection, so I\u0027m not yet convinced it\u0027s a win.",
+      "parentUuid": "0943750a_57de7f29",
+      "revId": "d7787ba29f67fbb0d7142d3c316d9f2dad5bcb8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

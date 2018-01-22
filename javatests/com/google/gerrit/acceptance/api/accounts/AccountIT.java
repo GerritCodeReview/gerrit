@@ -90,12 +90,12 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.Sequences;
-import com.google.gerrit.server.account.AccountConfig;
+import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.Emails;
-import com.google.gerrit.server.account.WatchConfig;
-import com.google.gerrit.server.account.WatchConfig.NotifyType;
+import com.google.gerrit.server.account.ProjectWatches;
+import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -447,14 +447,15 @@ public class AccountIT extends AbstractDaemonTest {
       assertThat(timestampDiffMs).isAtMost(ChangeRebuilderImpl.MAX_WINDOW_MS);
 
       // Check the 'account.config' file.
-      try (TreeWalk tw = TreeWalk.forPath(or, AccountConfig.ACCOUNT_CONFIG, c.getTree())) {
+      try (TreeWalk tw = TreeWalk.forPath(or, AccountProperties.ACCOUNT_CONFIG, c.getTree())) {
         if (name != null || status != null) {
           assertThat(tw).isNotNull();
           Config cfg = new Config();
           cfg.fromText(new String(or.open(tw.getObjectId(0), OBJ_BLOB).getBytes(), UTF_8));
-          assertThat(cfg.getString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_FULL_NAME))
+          assertThat(
+                  cfg.getString(AccountProperties.ACCOUNT, null, AccountProperties.KEY_FULL_NAME))
               .isEqualTo(name);
-          assertThat(cfg.getString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_STATUS))
+          assertThat(cfg.getString(AccountProperties.ACCOUNT, null, AccountProperties.KEY_STATUS))
               .isEqualTo(status);
         } else {
           // No account properties were set, hence an 'account.config' file was not created.
@@ -1105,7 +1106,7 @@ public class AccountIT extends AbstractDaemonTest {
     allUsersRepo.reset("userRef");
 
     Config ac = getAccountConfig(allUsersRepo);
-    ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_STATUS, "out-of-office");
+    ac.setString(AccountProperties.ACCOUNT, null, AccountProperties.KEY_STATUS, "out-of-office");
 
     PushOneCommit.Result r =
         pushFactory
@@ -1114,7 +1115,7 @@ public class AccountIT extends AbstractDaemonTest {
                 admin.getIdent(),
                 allUsersRepo,
                 "Update account config",
-                AccountConfig.ACCOUNT_CONFIG,
+                AccountProperties.ACCOUNT_CONFIG,
                 ac.toText())
             .to(MagicBranch.NEW_CHANGE + userRef);
     r.assertOkStatus();
@@ -1144,7 +1145,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     String email = "some.email@example.com";
     Config ac = getAccountConfig(allUsersRepo);
-    ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_PREFERRED_EMAIL, email);
+    ac.setString(AccountProperties.ACCOUNT, null, AccountProperties.KEY_PREFERRED_EMAIL, email);
 
     PushOneCommit.Result r =
         pushFactory
@@ -1153,7 +1154,7 @@ public class AccountIT extends AbstractDaemonTest {
                 foo.getIdent(),
                 allUsersRepo,
                 "Update account config",
-                AccountConfig.ACCOUNT_CONFIG,
+                AccountProperties.ACCOUNT_CONFIG,
                 ac.toText())
             .to(MagicBranch.NEW_CHANGE + userRef);
     r.assertOkStatus();
@@ -1186,7 +1187,7 @@ public class AccountIT extends AbstractDaemonTest {
                 admin.getIdent(),
                 allUsersRepo,
                 "Update account config",
-                AccountConfig.ACCOUNT_CONFIG,
+                AccountProperties.ACCOUNT_CONFIG,
                 "invalid config")
             .to(MagicBranch.NEW_CHANGE + userRef);
     r.assertOkStatus();
@@ -1200,9 +1201,9 @@ public class AccountIT extends AbstractDaemonTest {
             "invalid account configuration: commit '%s' has an invalid '%s' file for account '%s':"
                 + " Invalid config file %s in commit %s",
             r.getCommit().name(),
-            AccountConfig.ACCOUNT_CONFIG,
+            AccountProperties.ACCOUNT_CONFIG,
             admin.id,
-            AccountConfig.ACCOUNT_CONFIG,
+            AccountProperties.ACCOUNT_CONFIG,
             r.getCommit().name()));
     gApi.changes().id(r.getChangeId()).current().submit();
   }
@@ -1217,7 +1218,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     String noEmail = "no.email";
     Config ac = getAccountConfig(allUsersRepo);
-    ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_PREFERRED_EMAIL, noEmail);
+    ac.setString(AccountProperties.ACCOUNT, null, AccountProperties.KEY_PREFERRED_EMAIL, noEmail);
 
     PushOneCommit.Result r =
         pushFactory
@@ -1226,7 +1227,7 @@ public class AccountIT extends AbstractDaemonTest {
                 admin.getIdent(),
                 allUsersRepo,
                 "Update account config",
-                AccountConfig.ACCOUNT_CONFIG,
+                AccountProperties.ACCOUNT_CONFIG,
                 ac.toText())
             .to(MagicBranch.NEW_CHANGE + userRef);
     r.assertOkStatus();
@@ -1251,7 +1252,7 @@ public class AccountIT extends AbstractDaemonTest {
     allUsersRepo.reset("userRef");
 
     Config ac = getAccountConfig(allUsersRepo);
-    ac.setBoolean(AccountConfig.ACCOUNT, null, AccountConfig.KEY_ACTIVE, false);
+    ac.setBoolean(AccountProperties.ACCOUNT, null, AccountProperties.KEY_ACTIVE, false);
 
     PushOneCommit.Result r =
         pushFactory
@@ -1260,7 +1261,7 @@ public class AccountIT extends AbstractDaemonTest {
                 admin.getIdent(),
                 allUsersRepo,
                 "Update account config",
-                AccountConfig.ACCOUNT_CONFIG,
+                AccountProperties.ACCOUNT_CONFIG,
                 ac.toText())
             .to(MagicBranch.NEW_CHANGE + userRef);
     r.assertOkStatus();
@@ -1291,7 +1292,7 @@ public class AccountIT extends AbstractDaemonTest {
     allUsersRepo.reset("userRef");
 
     Config ac = getAccountConfig(allUsersRepo);
-    ac.setBoolean(AccountConfig.ACCOUNT, null, AccountConfig.KEY_ACTIVE, false);
+    ac.setBoolean(AccountProperties.ACCOUNT, null, AccountProperties.KEY_ACTIVE, false);
 
     PushOneCommit.Result r =
         pushFactory
@@ -1300,7 +1301,7 @@ public class AccountIT extends AbstractDaemonTest {
                 admin.getIdent(),
                 allUsersRepo,
                 "Update account config",
-                AccountConfig.ACCOUNT_CONFIG,
+                AccountProperties.ACCOUNT_CONFIG,
                 ac.toText())
             .to(MagicBranch.NEW_CHANGE + userRef);
     r.assertOkStatus();
@@ -1322,37 +1323,38 @@ public class AccountIT extends AbstractDaemonTest {
 
     Config wc = new Config();
     wc.setString(
-        WatchConfig.PROJECT,
+        ProjectWatches.PROJECT,
         project.get(),
-        WatchConfig.KEY_NOTIFY,
-        WatchConfig.NotifyValue.create(null, EnumSet.of(NotifyType.ALL_COMMENTS)).toString());
+        ProjectWatches.KEY_NOTIFY,
+        ProjectWatches.NotifyValue.create(null, EnumSet.of(NotifyType.ALL_COMMENTS)).toString());
     PushOneCommit push =
         pushFactory.create(
             db,
             admin.getIdent(),
             allUsersRepo,
             "Add project watch",
-            WatchConfig.WATCH_CONFIG,
+            ProjectWatches.WATCH_CONFIG,
             wc.toText());
     push.to(RefNames.REFS_USERS_SELF).assertOkStatus();
     accountIndexedCounter.assertReindexOf(admin);
 
     String invalidNotifyValue = "]invalid[";
-    wc.setString(WatchConfig.PROJECT, project.get(), WatchConfig.KEY_NOTIFY, invalidNotifyValue);
+    wc.setString(
+        ProjectWatches.PROJECT, project.get(), ProjectWatches.KEY_NOTIFY, invalidNotifyValue);
     push =
         pushFactory.create(
             db,
             admin.getIdent(),
             allUsersRepo,
             "Add invalid project watch",
-            WatchConfig.WATCH_CONFIG,
+            ProjectWatches.WATCH_CONFIG,
             wc.toText());
     PushOneCommit.Result r = push.to(RefNames.REFS_USERS_SELF);
     r.assertErrorStatus("invalid account configuration");
     r.assertMessage(
         String.format(
             "%s: Invalid project watch of account %d for project %s: %s",
-            WatchConfig.WATCH_CONFIG, admin.getId().get(), project.get(), invalidNotifyValue));
+            ProjectWatches.WATCH_CONFIG, admin.getId().get(), project.get(), invalidNotifyValue));
   }
 
   @Test
@@ -1366,7 +1368,7 @@ public class AccountIT extends AbstractDaemonTest {
     allUsersRepo.reset("userRef");
 
     Config ac = getAccountConfig(allUsersRepo);
-    ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_STATUS, "out-of-office");
+    ac.setString(AccountProperties.ACCOUNT, null, AccountProperties.KEY_STATUS, "out-of-office");
 
     accountIndexedCounter.clear();
     pushFactory
@@ -1375,7 +1377,7 @@ public class AccountIT extends AbstractDaemonTest {
             oooUser.getIdent(),
             allUsersRepo,
             "Update account config",
-            AccountConfig.ACCOUNT_CONFIG,
+            AccountProperties.ACCOUNT_CONFIG,
             ac.toText())
         .to(RefNames.refsUsers(oooUser.id))
         .assertOkStatus();
@@ -1401,7 +1403,7 @@ public class AccountIT extends AbstractDaemonTest {
                 admin.getIdent(),
                 allUsersRepo,
                 "Update account config",
-                AccountConfig.ACCOUNT_CONFIG,
+                AccountProperties.ACCOUNT_CONFIG,
                 "invalid config")
             .to(RefNames.REFS_USERS_SELF);
     r.assertErrorStatus("invalid account configuration");
@@ -1410,9 +1412,9 @@ public class AccountIT extends AbstractDaemonTest {
             "commit '%s' has an invalid '%s' file for account '%s':"
                 + " Invalid config file %s in commit %s",
             r.getCommit().name(),
-            AccountConfig.ACCOUNT_CONFIG,
+            AccountProperties.ACCOUNT_CONFIG,
             admin.id,
-            AccountConfig.ACCOUNT_CONFIG,
+            AccountProperties.ACCOUNT_CONFIG,
             r.getCommit().name()));
     accountIndexedCounter.assertNoReindex();
   }
@@ -1425,7 +1427,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     String noEmail = "no.email";
     Config ac = getAccountConfig(allUsersRepo);
-    ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_PREFERRED_EMAIL, noEmail);
+    ac.setString(AccountProperties.ACCOUNT, null, AccountProperties.KEY_PREFERRED_EMAIL, noEmail);
 
     PushOneCommit.Result r =
         pushFactory
@@ -1434,7 +1436,7 @@ public class AccountIT extends AbstractDaemonTest {
                 admin.getIdent(),
                 allUsersRepo,
                 "Update account config",
-                AccountConfig.ACCOUNT_CONFIG,
+                AccountProperties.ACCOUNT_CONFIG,
                 ac.toText())
             .to(RefNames.REFS_USERS_SELF);
     r.assertErrorStatus("invalid account configuration");
@@ -1461,7 +1463,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     String status = "in vacation";
     Config ac = getAccountConfig(allUsersRepo);
-    ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_STATUS, status);
+    ac.setString(AccountProperties.ACCOUNT, null, AccountProperties.KEY_STATUS, status);
 
     pushFactory
         .create(
@@ -1469,7 +1471,7 @@ public class AccountIT extends AbstractDaemonTest {
             foo.getIdent(),
             allUsersRepo,
             "Update account config",
-            AccountConfig.ACCOUNT_CONFIG,
+            AccountProperties.ACCOUNT_CONFIG,
             ac.toText())
         .to(userRef)
         .assertOkStatus();
@@ -1495,7 +1497,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     String email = "some.email@example.com";
     Config ac = getAccountConfig(allUsersRepo);
-    ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_PREFERRED_EMAIL, email);
+    ac.setString(AccountProperties.ACCOUNT, null, AccountProperties.KEY_PREFERRED_EMAIL, email);
 
     pushFactory
         .create(
@@ -1503,7 +1505,7 @@ public class AccountIT extends AbstractDaemonTest {
             foo.getIdent(),
             allUsersRepo,
             "Update account config",
-            AccountConfig.ACCOUNT_CONFIG,
+            AccountProperties.ACCOUNT_CONFIG,
             ac.toText())
         .to(userRef)
         .assertOkStatus();
@@ -1521,7 +1523,7 @@ public class AccountIT extends AbstractDaemonTest {
     allUsersRepo.reset("userRef");
 
     Config ac = getAccountConfig(allUsersRepo);
-    ac.setBoolean(AccountConfig.ACCOUNT, null, AccountConfig.KEY_ACTIVE, false);
+    ac.setBoolean(AccountProperties.ACCOUNT, null, AccountProperties.KEY_ACTIVE, false);
 
     PushOneCommit.Result r =
         pushFactory
@@ -1530,7 +1532,7 @@ public class AccountIT extends AbstractDaemonTest {
                 admin.getIdent(),
                 allUsersRepo,
                 "Update account config",
-                AccountConfig.ACCOUNT_CONFIG,
+                AccountProperties.ACCOUNT_CONFIG,
                 ac.toText())
             .to(RefNames.REFS_USERS_SELF);
     r.assertErrorStatus("invalid account configuration");
@@ -1554,7 +1556,7 @@ public class AccountIT extends AbstractDaemonTest {
     allUsersRepo.reset("userRef");
 
     Config ac = getAccountConfig(allUsersRepo);
-    ac.setBoolean(AccountConfig.ACCOUNT, null, AccountConfig.KEY_ACTIVE, false);
+    ac.setBoolean(AccountProperties.ACCOUNT, null, AccountProperties.KEY_ACTIVE, false);
 
     pushFactory
         .create(
@@ -1562,7 +1564,7 @@ public class AccountIT extends AbstractDaemonTest {
             admin.getIdent(),
             allUsersRepo,
             "Update account config",
-            AccountConfig.ACCOUNT_CONFIG,
+            AccountProperties.ACCOUNT_CONFIG,
             ac.toText())
         .to(userRef)
         .assertOkStatus();
@@ -2506,7 +2508,7 @@ public class AccountIT extends AbstractDaemonTest {
     try (TreeWalk tw =
         TreeWalk.forPath(
             allUsersRepo.getRepository(),
-            AccountConfig.ACCOUNT_CONFIG,
+            AccountProperties.ACCOUNT_CONFIG,
             getHead(allUsersRepo.getRepository()).getTree())) {
       assertThat(tw).isNotNull();
       ac.fromText(

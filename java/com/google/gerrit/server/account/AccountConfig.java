@@ -27,8 +27,8 @@ import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.account.WatchConfig.NotifyType;
-import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
+import com.google.gerrit.server.account.ProjectWatches.NotifyType;
+import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ValidationError;
@@ -61,61 +61,33 @@ import org.eclipse.jgit.revwalk.RevSort;
  * <p>This class can read/write account properties, preferences (general, diff and edit preferences)
  * and project watches.
  *
- * <p>The account properties are stored in an 'account.config' config file. Parsing and updating it
- * is implemented in this class.
+ * <p>The following files are read/written:
  *
- * <p>The 'account.config' file is a git config file that has one 'account' section with the
- * properties of the account:
- *
- * <pre>
- *   [account]
- *     active = false
- *     fullName = John Doe
- *     preferredEmail = john.doe@foo.com
- *     status = Overloaded with reviews
- * </pre>
- *
- * <p>All keys are optional. This means 'account.config' may not exist on the user branch if no
- * properties are set.
- *
- * <p>Not setting a key and setting a key to an empty string are treated the same way and result in
- * a {@code null} value.
- *
- * <p>If no value for 'active' is specified, by default the account is considered as active.
+ * <ul>
+ *   <li>'account.config': Contains the account properties. Parsing and writing it is delegated to
+ *       {@link AccountProperties}.
+ *   <li>'preferences.config': Contains the preferences. Parsing and writing it is delegated to
+ *       {@link Preferences}.
+ *   <li>'account.config': Contains the project watches. Parsing and writing it is delegated to
+ *       {@link ProjectWatches}.
+ * </ul>
  *
  * <p>The commit date of the first commit on the user branch is used as registration date of the
- * account. The first commit may be an empty commit (if no properties were set and 'account.config'
- * doesn't exist).
- *
- * <p>The preferences are stored in a 'preferences.config' config file. Parsing and updating it is
- * implemented by {@link PreferencesConfig} and this class delegates the handling of preferences to
- * {@link PreferencesConfig}.
- *
- * <p>The project watches are stored in a 'watch.config' config file. Parsing and updating it is
- * implemented by {@link WatchConfig} and this class delegates the handling of project watches to
- * {@link WatchConfig}.
+ * account. The first commit may be an empty commit (since all config files are optional).
  *
  * <p>By default preferences and project watches are lazily parsed on need. Eager parsing can be
  * requested by {@link #setEagerParsing(boolean)}.
  */
 public class AccountConfig extends VersionedMetaData implements ValidationError.Sink {
-  public static final String ACCOUNT_CONFIG = "account.config";
-  public static final String ACCOUNT = "account";
-  public static final String KEY_ACTIVE = "active";
-  public static final String KEY_FULL_NAME = "fullName";
-  public static final String KEY_PREFERRED_EMAIL = "preferredEmail";
-  public static final String KEY_STATUS = "status";
-
   private final Account.Id accountId;
   private final Repository repo;
   private final String ref;
 
-  private Optional<Account> loadedAccount;
+  private Optional<AccountProperties> loadedAccountProperties;
   private Optional<ObjectId> externalIdsRev;
-  private WatchConfig watchConfig;
-  private PreferencesConfig prefConfig;
+  private ProjectWatches projectWatches;
+  private Preferences preferences;
   private Optional<InternalAccountUpdate> accountUpdate = Optional.empty();
-  private Timestamp registeredOn;
   private boolean eagerParsing;
   private List<ValidationError> validationErrors;
 
@@ -135,7 +107,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    * @return this AccountConfig instance for chaining
    */
   public AccountConfig setEagerParsing(boolean eagerParsing) {
-    checkState(loadedAccount == null, "Account %s already loaded", accountId.get());
+    checkState(loadedAccountProperties == null, "Account %s already loaded", accountId.get());
     this.eagerParsing = eagerParsing;
     return this;
   }
@@ -159,7 +131,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    */
   public Optional<Account> getLoadedAccount() {
     checkLoaded();
-    return loadedAccount;
+    return loadedAccountProperties.map(AccountProperties::getAccount);
   }
 
   /**
@@ -183,7 +155,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    */
   public ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> getProjectWatches() {
     checkLoaded();
-    return watchConfig.getProjectWatches();
+    return projectWatches.getProjectWatches();
   }
 
   /**
@@ -193,7 +165,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    */
   public GeneralPreferencesInfo getGeneralPreferences() {
     checkLoaded();
-    return prefConfig.getGeneralPreferences();
+    return preferences.getGeneralPreferences();
   }
 
   /**
@@ -203,7 +175,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    */
   public DiffPreferencesInfo getDiffPreferences() {
     checkLoaded();
-    return prefConfig.getDiffPreferences();
+    return preferences.getDiffPreferences();
   }
 
   /**
@@ -213,7 +185,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    */
   public EditPreferencesInfo getEditPreferences() {
     checkLoaded();
-    return prefConfig.getEditPreferences();
+    return preferences.getEditPreferences();
   }
 
   /**
@@ -226,7 +198,9 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    */
   public AccountConfig setAccount(Account account) {
     checkLoaded();
-    this.loadedAccount = Optional.of(account);
+    this.loadedAccountProperties =
+        Optional.of(
+            new AccountProperties(account.getId(), account.getRegisteredOn(), new Config(), null));
     this.accountUpdate =
         Optional.of(
             InternalAccountUpdate.builder()
@@ -235,7 +209,6 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
                 .setPreferredEmail(account.getPreferredEmail())
                 .setStatus(account.getStatus())
                 .build());
-    this.registeredOn = account.getRegisteredOn();
     return this;
   }
 
@@ -260,9 +233,9 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     if (revision != null) {
       throw new OrmDuplicateKeyException(String.format("account %s already exists", accountId));
     }
-    this.registeredOn = registeredOn;
-    this.loadedAccount = Optional.of(new Account(accountId, registeredOn));
-    return loadedAccount.get();
+    this.loadedAccountProperties =
+        Optional.of(new AccountProperties(accountId, registeredOn, new Config(), null));
+    return loadedAccountProperties.map(AccountProperties::getAccount).get();
   }
 
   public AccountConfig setAccountUpdate(InternalAccountUpdate accountUpdate) {
@@ -276,55 +249,42 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
       rw.reset();
       rw.markStart(revision);
       rw.sort(RevSort.REVERSE);
-      registeredOn = new Timestamp(rw.next().getCommitTime() * 1000L);
+      Timestamp registeredOn = new Timestamp(rw.next().getCommitTime() * 1000L);
 
-      Config accountConfig = readConfig(ACCOUNT_CONFIG);
-      loadedAccount = Optional.of(parse(accountConfig, revision.name()));
+      Config accountConfig = readConfig(AccountProperties.ACCOUNT_CONFIG);
+      loadedAccountProperties =
+          Optional.of(new AccountProperties(accountId, registeredOn, accountConfig, revision));
 
-      watchConfig = new WatchConfig(accountId, readConfig(WatchConfig.WATCH_CONFIG), this);
+      projectWatches = new ProjectWatches(accountId, readConfig(ProjectWatches.WATCH_CONFIG), this);
 
-      prefConfig =
-          new PreferencesConfig(
+      preferences =
+          new Preferences(
               accountId,
-              readConfig(PreferencesConfig.PREFERENCES_CONFIG),
-              PreferencesConfig.readDefaultConfig(repo),
+              readConfig(Preferences.PREFERENCES_CONFIG),
+              Preferences.readDefaultConfig(repo),
               this);
 
       if (eagerParsing) {
-        watchConfig.parse();
-        prefConfig.parse();
+        projectWatches.parse();
+        preferences.parse();
       }
     } else {
-      loadedAccount = Optional.empty();
+      loadedAccountProperties = Optional.empty();
 
-      watchConfig = new WatchConfig(accountId, new Config(), this);
+      projectWatches = new ProjectWatches(accountId, new Config(), this);
 
-      prefConfig =
-          new PreferencesConfig(
-              accountId, new Config(), PreferencesConfig.readDefaultConfig(repo), this);
+      preferences =
+          new Preferences(accountId, new Config(), Preferences.readDefaultConfig(repo), this);
     }
 
     Ref externalIdsRef = repo.exactRef(RefNames.REFS_EXTERNAL_IDS);
     externalIdsRev = Optional.ofNullable(externalIdsRef).map(Ref::getObjectId);
   }
 
-  private Account parse(Config cfg, String metaId) {
-    Account account = new Account(accountId, registeredOn);
-    account.setActive(cfg.getBoolean(ACCOUNT, null, KEY_ACTIVE, true));
-    account.setFullName(get(cfg, KEY_FULL_NAME));
-
-    String preferredEmail = get(cfg, KEY_PREFERRED_EMAIL);
-    account.setPreferredEmail(preferredEmail);
-
-    account.setStatus(get(cfg, KEY_STATUS));
-    account.setMetaId(metaId);
-    return account;
-  }
-
   @Override
   public RevCommit commit(MetaDataUpdate update) throws IOException {
     RevCommit c = super.commit(update);
-    loadedAccount.get().setMetaId(c.name());
+    loadedAccountProperties.get().setMetaId(c);
     return c;
   }
 
@@ -332,7 +292,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
     checkLoaded();
 
-    if (!loadedAccount.isPresent()) {
+    if (!loadedAccountProperties.isPresent()) {
       return false;
     }
 
@@ -345,52 +305,40 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
         commit.setMessage("Create account\n");
       }
 
+      Timestamp registeredOn = loadedAccountProperties.get().getRegisteredOn();
       commit.setAuthor(new PersonIdent(commit.getAuthor(), registeredOn));
       commit.setCommitter(new PersonIdent(commit.getCommitter(), registeredOn));
     }
 
-    Config accountConfig = saveAccount();
+    saveAccount();
     saveProjectWatches();
     savePreferences();
-
-    // metaId is set in the commit(MetaDataUpdate) method after the commit is created
-    loadedAccount = Optional.of(parse(accountConfig, null));
 
     accountUpdate = Optional.empty();
 
     return true;
   }
 
-  private Config saveAccount() throws IOException, ConfigInvalidException {
-    Config accountConfig = readConfig(ACCOUNT_CONFIG);
+  private void saveAccount() throws IOException {
     if (accountUpdate.isPresent()) {
-      writeToAccountConfig(accountUpdate.get(), accountConfig);
+      saveConfig(
+          AccountProperties.ACCOUNT_CONFIG,
+          loadedAccountProperties.get().save(accountUpdate.get()));
     }
-    saveConfig(ACCOUNT_CONFIG, accountConfig);
-    return accountConfig;
-  }
-
-  public static void writeToAccountConfig(InternalAccountUpdate accountUpdate, Config cfg) {
-    accountUpdate.getActive().ifPresent(active -> setActive(cfg, active));
-    accountUpdate.getFullName().ifPresent(fullName -> set(cfg, KEY_FULL_NAME, fullName));
-    accountUpdate
-        .getPreferredEmail()
-        .ifPresent(preferredEmail -> set(cfg, KEY_PREFERRED_EMAIL, preferredEmail));
-    accountUpdate.getStatus().ifPresent(status -> set(cfg, KEY_STATUS, status));
   }
 
   private void saveProjectWatches() throws IOException {
     if (accountUpdate.isPresent()
         && (!accountUpdate.get().getDeletedProjectWatches().isEmpty()
             || !accountUpdate.get().getUpdatedProjectWatches().isEmpty())) {
-      Map<ProjectWatchKey, Set<NotifyType>> projectWatches =
-          new HashMap<>(watchConfig.getProjectWatches());
-      accountUpdate.get().getDeletedProjectWatches().forEach(pw -> projectWatches.remove(pw));
+      Map<ProjectWatchKey, Set<NotifyType>> newProjectWatches =
+          new HashMap<>(projectWatches.getProjectWatches());
+      accountUpdate.get().getDeletedProjectWatches().forEach(pw -> newProjectWatches.remove(pw));
       accountUpdate
           .get()
           .getUpdatedProjectWatches()
-          .forEach((pw, nt) -> projectWatches.put(pw, nt));
-      saveConfig(WatchConfig.WATCH_CONFIG, watchConfig.save(projectWatches));
+          .forEach((pw, nt) -> newProjectWatches.put(pw, nt));
+      saveConfig(ProjectWatches.WATCH_CONFIG, projectWatches.save(newProjectWatches));
     }
   }
 
@@ -403,64 +351,15 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     }
 
     saveConfig(
-        PreferencesConfig.PREFERENCES_CONFIG,
-        prefConfig.saveGeneralPreferences(
+        Preferences.PREFERENCES_CONFIG,
+        preferences.saveGeneralPreferences(
             accountUpdate.get().getGeneralPreferences(),
             accountUpdate.get().getDiffPreferences(),
             accountUpdate.get().getEditPreferences()));
   }
 
-  /**
-   * Sets/Unsets {@code account.active} in the given config.
-   *
-   * <p>{@code account.active} is set to {@code false} if the account is inactive.
-   *
-   * <p>If the account is active {@code account.active} is unset since {@code true} is the default
-   * if this field is missing.
-   *
-   * @param cfg the config
-   * @param value whether the account is active
-   */
-  private static void setActive(Config cfg, boolean value) {
-    if (!value) {
-      cfg.setBoolean(ACCOUNT, null, KEY_ACTIVE, false);
-    } else {
-      cfg.unset(ACCOUNT, null, KEY_ACTIVE);
-    }
-  }
-
-  /**
-   * Sets/Unsets the given key in the given config.
-   *
-   * <p>The key unset if the value is {@code null}.
-   *
-   * @param cfg the config
-   * @param key the key
-   * @param value the value
-   */
-  private static void set(Config cfg, String key, String value) {
-    if (!Strings.isNullOrEmpty(value)) {
-      cfg.setString(ACCOUNT, null, key, value);
-    } else {
-      cfg.unset(ACCOUNT, null, key);
-    }
-  }
-
-  /**
-   * Gets the given key from the given config.
-   *
-   * <p>Empty values are returned as {@code null}
-   *
-   * @param cfg the config
-   * @param key the key
-   * @return the value, {@code null} if key was not set or key was set to empty string
-   */
-  private static String get(Config cfg, String key) {
-    return Strings.emptyToNull(cfg.getString(ACCOUNT, null, key));
-  }
-
   private void checkLoaded() {
-    checkState(loadedAccount != null, "Account %s not loaded yet", accountId.get());
+    checkState(loadedAccountProperties != null, "Account %s not loaded yet", accountId.get());
   }
 
   /**

@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.auth.oauth.OAuthLoginProvider;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
@@ -40,6 +41,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Locale;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -151,8 +153,9 @@ class ProjectOAuthFilter implements Filter {
       return false;
     }
 
-    AccountState who = accountCache.getByUsername(authInfo.username);
-    if (who == null || !who.getAccount().isActive()) {
+    Optional<AccountState> who =
+        accountCache.getByUsername(authInfo.username).filter(a -> a.getAccount().isActive());
+    if (!who.isPresent()) {
       log.warn(
           authenticationFailedMsg(authInfo.username, req)
               + ": account inactive or not provisioned in Gerrit");
@@ -160,9 +163,10 @@ class ProjectOAuthFilter implements Filter {
       return false;
     }
 
+    Account account = who.get().getAccount();
     AuthRequest authRequest = AuthRequest.forExternalUser(authInfo.username);
-    authRequest.setEmailAddress(who.getAccount().getPreferredEmail());
-    authRequest.setDisplayName(who.getAccount().getFullName());
+    authRequest.setEmailAddress(account.getPreferredEmail());
+    authRequest.setDisplayName(account.getFullName());
     authRequest.setPassword(authInfo.tokenOrSecret);
     authRequest.setAuthPlugin(authInfo.pluginName);
     authRequest.setAuthProvider(authInfo.exportName);

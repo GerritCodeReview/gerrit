@@ -54,10 +54,10 @@ public class InternalAuthBackend implements AuthBackend {
       username = req.getUsername();
     }
 
-    final AccountState who = accountCache.getByUsername(username);
-    if (who == null) {
-      throw new UnknownUserException();
-    } else if (!who.getAccount().isActive()) {
+    AccountState who =
+        accountCache.getByUsername(username).orElseThrow(() -> new UnknownUserException());
+
+    if (!who.getAccount().isActive()) {
       throw new UserNotAllowedException(
           "Authentication failed for "
               + username

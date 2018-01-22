@@ -16,6 +16,13 @@
 
   const GC_MESSAGE = 'Garbage collection completed successfully.';
 
+  const CONFIG_BRANCH = 'refs/meta/config';
+  const CONFIG_PATH = 'project.config';
+  const EDIT_CONFIG_SUBJECT = 'Edit Repo Config';
+  const INITIAL_PATCHSET = 1;
+  const CREATE_CHANGE_FAILED_MESSAGE = 'Failed to create change.';
+  const CREATE_CHANGE_SUCCEEDED_MESSAGE = 'Navigating to change';
+
   Polymer({
     is: 'gr-repo-commands',
 
@@ -40,11 +47,10 @@
     _loadRepo() {
       if (!this.repo) { return Promise.resolve(); }
 
-      return this.$.restAPI.getProjectConfig(this.repo).then(
-          config => {
-            this._repoConfig = config;
-            this._loading = false;
-          });
+      return this.$.restAPI.getProjectConfig(this.repo).then(config => {
+        this._repoConfig = config;
+        this._loading = false;
+      });
     },
 
     _computeLoadingClass(loading) {
@@ -75,6 +81,21 @@
 
     _handleCloseCreateChange() {
       this.$.createChangeOverlay.close();
+    },
+
+    _handleEditRepoConfig() {
+      return this.$.restAPI.createChange(this.repo, CONFIG_BRANCH,
+          EDIT_CONFIG_SUBJECT, undefined, false, true).then(change => {
+            const message = change ?
+                CREATE_CHANGE_SUCCEEDED_MESSAGE :
+                CREATE_CHANGE_FAILED_MESSAGE;
+            this.dispatchEvent(new CustomEvent('show-alert',
+                {detail: {message}, bubbles: true}));
+            if (!change) { return; }
+
+            Gerrit.Nav.navigateToRelativeUrl(Gerrit.Nav.getEditUrlForDiff(
+                change, CONFIG_PATH, INITIAL_PATCHSET));
+          });
     },
   });
 })();

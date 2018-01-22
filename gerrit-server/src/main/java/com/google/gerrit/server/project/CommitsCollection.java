@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.VisibleRefFilter;
+import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -49,6 +50,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
   private final DynamicMap<RestView<CommitResource>> views;
   private final GitRepositoryManager repoManager;
   private final VisibleRefFilter.Factory refFilter;
+  private final ChangeIndexCollection indexes;
   private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
@@ -56,10 +58,12 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
       DynamicMap<RestView<CommitResource>> views,
       GitRepositoryManager repoManager,
       VisibleRefFilter.Factory refFilter,
+      ChangeIndexCollection indexes,
       Provider<InternalChangeQuery> queryProvider) {
     this.views = views;
     this.repoManager = repoManager;
     this.refFilter = refFilter;
+    this.indexes = indexes;
     this.queryProvider = queryProvider;
   }
 
@@ -104,14 +108,16 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
     Project.NameKey project = state.getNameKey();
 
     // Look for changes associated with the commit.
-    try {
-      List<ChangeData> changes =
-          queryProvider.get().enforceVisibility(true).byProjectCommit(project, commit);
-      if (!changes.isEmpty()) {
-        return true;
+    if (indexes.getSearchIndex() != null) {
+      try {
+        List<ChangeData> changes =
+            queryProvider.get().enforceVisibility(true).byProjectCommit(project, commit);
+        if (!changes.isEmpty()) {
+          return true;
+        }
+      } catch (OrmException e) {
+        log.error("Cannot look up change for commit " + commit.name() + " in " + project, e);
       }
-    } catch (OrmException e) {
-      log.error("Cannot look up change for commit " + commit.name() + " in " + project, e);
     }
 
     return isReachableFrom(state, repo, commit, repo.getAllRefs());

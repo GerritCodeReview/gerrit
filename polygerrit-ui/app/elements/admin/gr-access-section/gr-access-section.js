@@ -14,6 +14,12 @@
 (function() {
   'use strict';
 
+  /**
+   * Fired when the section has been modified or removed.
+   *
+   * @event access-modified
+   */
+
   const GLOBAL_NAME = 'GLOBAL_CAPABILITIES';
 
   // The name that gets automatically input when a new reference is added.
@@ -85,6 +91,8 @@
       // Restore original values if no longer editing.
       if (!editing) {
         this._editingRef = false;
+        this._deleted = false;
+        delete this.section.value.deleted;
         // Restore section ref.
         this.set(['section', 'id'], this._originalId);
       }
@@ -163,7 +171,8 @@
 
     _handleRemoveReference() {
       this._deleted = true;
-      this.set('section.value.deleted', true);
+      this.section.value.deleted = true;
+      this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
     },
 
     _handleUndoRemove() {

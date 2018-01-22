@@ -99,6 +99,7 @@
       // Restore original values if no longer editing.
       if (!editing) {
         this._deleted = false;
+        delete this.permission.value.deleted;
         this._groupFilter = '';
         this._rules = this._rules.filter(rule => !rule.value.added);
 

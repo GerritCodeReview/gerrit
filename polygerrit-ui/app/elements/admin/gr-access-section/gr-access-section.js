@@ -104,6 +104,10 @@
       });
     },
 
+    _computeHideEditClass(section) {
+      return section.id === 'GLOBAL_CAPABILITIES' ? 'hide' : '';
+    },
+
     _computeLabelOptions(labels) {
       const labelOptions = [];
       for (const labelName of Object.keys(labels)) {

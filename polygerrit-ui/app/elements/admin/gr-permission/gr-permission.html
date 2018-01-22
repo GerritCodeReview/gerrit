@@ -89,7 +89,7 @@ limitations under the License.
         <div class="header">
           <span class="title">[[name]]</span>
           <div class="right">
-            <template is=dom-if if="[[!_permissionIsOwner(permission.id)]]">
+            <template is=dom-if if="[[!_permissionIsOwnerOrGlobal(permission.id, section)]]">
               <paper-toggle-button
                   id="exclusiveToggle"
                   checked="{{permission.value.exclusive}}"

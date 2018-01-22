@@ -89,8 +89,8 @@
       this._setupValues();
     },
 
-    _permissionIsOwner(permissionId) {
-      return permissionId === 'owner';
+    _permissionIsOwnerOrGlobal(permissionId, section) {
+      return permissionId === 'owner' || section === 'GLOBAL_CAPABILITIES';
     },
 
     _handleEditingChanged(editing, editingOld) {

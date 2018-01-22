@@ -354,6 +354,8 @@ limitations under the License.
           assert.isFalse(element.$.section.classList.contains('editing'));
           assert.isFalse(element.$.section.classList.contains('deleted'));
           assert.isTrue(element.$.editBtn.classList.contains('global'));
+          element.editing = true;
+          assert.equal(getComputedStyle(element.$.editBtn).display, 'none');
         });
       });
 
@@ -378,6 +380,8 @@ limitations under the License.
           assert.isFalse(element.$.section.classList.contains('editing'));
           assert.isFalse(element.$.section.classList.contains('deleted'));
           assert.isFalse(element.$.editBtn.classList.contains('global'));
+          element.editing = true;
+          assert.notEqual(getComputedStyle(element.$.editBtn).display, 'none');
         });
 
         test('add permission', () => {

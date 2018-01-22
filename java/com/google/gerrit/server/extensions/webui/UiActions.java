@@ -86,11 +86,11 @@ public class UiActions {
   }
 
   private static Iterable<PermissionBackendCondition> visibleCondition(Description u) {
-    return u.getVisibleCondition().children(PermissionBackendCondition.class);
+    return u.getVisibleCondition().reduce().children(PermissionBackendCondition.class);
   }
 
   private static Iterable<PermissionBackendCondition> enabledCondition(Description u) {
-    return u.getEnabledCondition().children(PermissionBackendCondition.class);
+    return u.getEnabledCondition().reduce().children(PermissionBackendCondition.class);
   }
 
   @Nullable

@@ -155,6 +155,24 @@
     },
     {
       "key": {
+        "uuid": "4bf9920f_85e774d8",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-22T20:21:43Z",
+      "side": 1,
+      "message": "\u003e Alternatively, I am happy to have Google be the guinea pig here, in which case we would want to submit with 2.6.1 soon so we can get it in our production environment.\n\nEr, I take that back. We don\u0027t use the h2 caching module so we wouldn\u0027t be using this in prod. We could switch our own custom cache setup to use Caffeine as well, but I don\u0027t think we have the bandwidth for that right now, and it\u0027s different enough that I\u0027m not sure it would provide a useful signal anyway.",
+      "parentUuid": "f7d23c3f_000aafd9",
+      "revId": "d7787ba29f67fbb0d7142d3c316d9f2dad5bcb8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8d67e4b1_d718a5dd",
         "filename": "java/com/google/gerrit/server/cache/h2/DefaultCacheFactory.java",
         "patchSetId": 3

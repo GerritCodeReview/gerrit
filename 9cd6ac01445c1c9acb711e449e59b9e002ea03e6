@@ -263,6 +263,30 @@
       "revId": "9cd6ac01445c1c9acb711e449e59b9e002ea03e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79d80cbc_fdd820f1",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-22T20:13:34Z",
+      "side": 1,
+      "message": "Yes, perfect.\n\nThere is one exception to that rule you\u0027ve laid out. The `,edit` modifier in the URL will never appear when you\u0027re on a change-view related route that specifies an `edit` patch set. This is because we can assume it every time, as the regular file-list in non \"edit\" mode is kind of a no-op, because only edit specific actions are valid for an edit patch set (e.g. \"Delete file\" is valid, but \"Mark as reviewed\" is not).\n\nDo you think this case would confound things?",
+      "parentUuid": "36c19ea3_3b874c9e",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 60
+      },
+      "revId": "9cd6ac01445c1c9acb711e449e59b9e002ea03e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -150,7 +150,13 @@ The low-level DOM API methods are the base of all UI customization.
 === attributeHelper
 `plugin.attributeHelper(element)`
 
-Note: TODO
+Alternative for
+link:https://www.polymer-project.org/1.0/docs/devguide/data-binding[Polymer data
+binding] for plugins that don't use Polymer. Can be used to bind element
+attribute changes to callbacks.
+
+See `samples/bind-parameters.html` for examples on both Polymer data bindings
+and `attibuteHelper` usage.
 
 === eventHelper
 `plugin.eventHelper(element)`

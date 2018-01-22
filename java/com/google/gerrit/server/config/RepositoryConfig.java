@@ -36,6 +36,8 @@ public class RepositoryConfig {
   static final String DEFAULT_SUBMIT_TYPE_NAME = "defaultSubmitType";
   static final String BASE_PATH_NAME = "basePath";
 
+  static final SubmitType DEFAULT_SUBMIT_TYPE = SubmitType.MERGE_IF_NECESSARY;
+
   private final Config cfg;
 
   @Inject
@@ -45,10 +47,7 @@ public class RepositoryConfig {
 
   public SubmitType getDefaultSubmitType(Project.NameKey project) {
     return cfg.getEnum(
-        SECTION_NAME,
-        findSubSection(project.get()),
-        DEFAULT_SUBMIT_TYPE_NAME,
-        SubmitType.MERGE_IF_NECESSARY);
+        SECTION_NAME, findSubSection(project.get()), DEFAULT_SUBMIT_TYPE_NAME, DEFAULT_SUBMIT_TYPE);
   }
 
   public ImmutableList<String> getOwnerGroups(Project.NameKey project) {

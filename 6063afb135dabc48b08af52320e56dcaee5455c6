@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "591500f0_95c2761c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-22T23:47:21Z",
+      "side": 1,
+      "message": "optional: Constants is already imported (L64) and OBJ_BLOB is only used once (L464). Just explicitly reference it?\n\nOr remove the import of Constants below, and static import HEAD which as far as I can see is the only usage?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 54
+      },
+      "revId": "6063afb135dabc48b08af52320e56dcaee5455c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e37fb797_167067d6",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
         "patchSetId": 1

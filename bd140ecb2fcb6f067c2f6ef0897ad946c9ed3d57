@@ -1,4 +1,181 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1516605265 +0100\nnonce AGjzz3+ipLPLtUaUn4B6Wx6+OBrlYMjILEkoY1TJ2Kyr+1dqsaGqV/n2S6IyJPm4rG8fo/8PTByo\n\n0000000000000000000000000000000000000000 781848b85e3c0ba752a07ceff14b9be34d3338c2 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEyBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlplj1EACgkQUbX9l6DQ\n71FgMAf3dMbLkXaIF81W4vV7Wwf+7oASf8+UIf0tVzHnM9xkHKPvjZoruZ5zJ0kz\n0DS40OaJIq3mncVBwc3PknUcaBcY+TEsKYyeR9Cv79UevELsDy6DZ7qiATlUzu4J\nUw2D2z2fFJz0MkgmmRq/pfRCA/SEWw1HNEZFEPBa50fRRtEpPK0KMpqXSFHoL8RK\nacs5dILHSbtIUF1knKyHOzZIa4UqcuchN8yc9is5nHq61Trnp3mY6ipWyw8C048P\nCFTGQgl0yfFk/pJn11GtthWtB6hrk73iDWuZtBq/lBfbdtxKg20w2mC+lgMRKcdF\nuayiewzAt8AIWqdowRF4SEERLakE\n\u003dCuv/\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "55eb27a6_a652612d",
+        "filename": "java/com/google/gerrit/httpd/GetUserFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-22T16:13:02Z",
+      "side": 1,
+      "message": "Optional (or later cleanup): you can avoid building the string in the present case with:\n\n orElseGet(() -\u003e \"a/\" + who.getAccountId())",
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5e30699_b3a123f9",
+        "filename": "java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-22T16:13:02Z",
+      "side": 1,
+      "message": "Optional: orElseGet",
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1d30c45_c0ba1f96",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-22T16:13:02Z",
+      "side": 1,
+      "message": "Definitely not proposing you do it in this change, but random idea: what if asIdentifiedUser (or another method) returned an Optional\u003cIdentifiedUser\u003e? Then you could do this all in a single assignment:\n\n String userName \u003d user.get().asIdentifiedUser().map(IdentifiedUser::getUserName).map(u -\u003e \" (\" + u + \")\").orElse(\"\");\n\nQuite likely this is not worth it, though.",
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b8380_8b03c65a",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-22T16:13:02Z",
+      "side": 1,
+      "message": "Optional: orElseGet\n\nWhile you\u0027re on this line, the toString is also unnecessary.\n\nIf you take my refactoring suggestion, this could also be getLoggableName(), although that would be a behavior change and maybe that\u0027s not the best name for a PersonIdent anyway.",
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eaa50418_524ed77d",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-22T16:13:02Z",
+      "side": 1,
+      "message": "Not strictly related to this change, but it seems like \"already set\" is an inaccurate description when both are null.",
+      "range": {
+        "startLine": 239,
+        "startChar": 28,
+        "endLine": 239,
+        "endChar": 39
+      },
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d03627fa_99ae32ad",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-22T16:13:02Z",
+      "side": 1,
+      "message": "Optional: orElseGet()\n\nActually, this has been repeated several times now. Worth adding a method on CurrentUser like \"getLoggableName()\"?",
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbfe1ea4_fecacbfb",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 991,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-22T16:13:02Z",
+      "side": 1,
+      "message": "Optional: orElseGet, or refactor.",
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24b71f8b_49243a2f",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-22T16:13:02Z",
+      "side": 1,
+      "message": "Optional: orElseGet or refactor",
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b084b869_e1c1b423",
+        "filename": "java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-22T16:13:02Z",
+      "side": 1,
+      "message": "Semantically, ISTM this whole method could just be this one return statement. The rest of the method is just optimizations to avoid using empty streams unnecessarily, but that shouldn\u0027t affect the return value.\n\nI suppose there is an argument that if there is no username, it\u0027s extra work to construct a new set copy of the emails. But that smells like premature optimization.",
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06c7e83c_64faf0d7",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-22T16:13:02Z",
+      "side": 1,
+      "message": "Hm, isn\u0027t this a behavior change? Previously this could have resulted in \"Hi null,\", right? I mean, it\u0027s a good behavior change :)",
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

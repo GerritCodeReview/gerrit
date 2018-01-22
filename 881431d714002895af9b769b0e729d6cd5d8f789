@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40d5604b_dfdb7716",
+        "filename": "java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-22T16:13:02Z",
+      "side": 0,
+      "message": "Note that the RHS is not strictly equivalent, as this is a concatenation of two sets that could conceivably contain repeats of the same element. Looking at the one caller, this change is fine, since it isn\u0027t necessary to repeat checks on the same element multiple times.\n\nI do kind of feel like this method should return an ImmutableSet\u003cString\u003e, though.",
+      "revId": "881431d714002895af9b769b0e729d6cd5d8f789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

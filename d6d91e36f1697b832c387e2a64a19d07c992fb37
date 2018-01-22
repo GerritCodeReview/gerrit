@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "97de1764_03fe66bf",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-22T13:14:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ced3213d_17d8557d",
+      "range": {
+        "startLine": 455,
+        "startChar": 45,
+        "endLine": 455,
+        "endChar": 83
+      },
+      "revId": "d6d91e36f1697b832c387e2a64a19d07c992fb37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51445d1e_5d5490a3",
         "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
         "patchSetId": 4
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "e4cae833_56227b6e",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-22T13:14:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51445d1e_5d5490a3",
+      "range": {
+        "startLine": 456,
+        "startChar": 6,
+        "endLine": 461,
+        "endChar": 5
+      },
+      "revId": "d6d91e36f1697b832c387e2a64a19d07c992fb37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0fe0ee29_5cf77197",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 4
@@ -69,6 +117,30 @@
       "revId": "d6d91e36f1697b832c387e2a64a19d07c992fb37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f5cfa5b_23af8b96",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2957,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-22T13:14:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fe0ee29_5cf77197",
+      "range": {
+        "startLine": 2957,
+        "startChar": 65,
+        "endLine": 2957,
+        "endChar": 95
+      },
+      "revId": "d6d91e36f1697b832c387e2a64a19d07c992fb37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

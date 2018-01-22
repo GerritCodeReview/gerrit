@@ -1198,8 +1198,7 @@
     getRepoAccessRights(repoName) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this._fetchSharedCacheURL(
-          `/projects/${encodeURIComponent(repoName)}/access`);
+      return this.fetchJSON(`/projects/${encodeURIComponent(repoName)}/access`);
     },
 
     setRepoAccessRights(repoName, repoInfo) {

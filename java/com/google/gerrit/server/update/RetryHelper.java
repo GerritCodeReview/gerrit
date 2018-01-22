@@ -30,6 +30,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Predicate;
 import com.google.common.base.Throwables;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.metrics.Counter1;
@@ -43,6 +44,8 @@ import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 import org.eclipse.jgit.lib.Config;
@@ -138,7 +141,7 @@ public class RetryHelper {
   private final NotesMigration migration;
   private final Metrics metrics;
   private final BatchUpdate.Factory updateFactory;
-  private final Duration defaultTimeout;
+  private final Map<ActionType, Duration> defaultTimeouts;
   private final WaitStrategy waitStrategy;
   @Nullable private final Consumer<RetryerBuilder<?>> overwriteDefaultRetryerStrategySetup;
 
@@ -164,20 +167,35 @@ public class RetryHelper {
     this.migration = migration;
     this.updateFactory =
         new BatchUpdate.Factory(migration, reviewDbBatchUpdateFactory, noteDbBatchUpdateFactory);
-    this.defaultTimeout =
+
+    Duration defaultTimeout =
         Duration.ofMillis(
-            cfg.getTimeUnit("noteDb", null, "retryTimeout", SECONDS.toMillis(20), MILLISECONDS));
+            cfg.getTimeUnit("retry", null, "timeout", SECONDS.toMillis(20), MILLISECONDS));
+    this.defaultTimeouts = Maps.newHashMapWithExpectedSize(ActionType.values().length);
+    Arrays.stream(ActionType.values())
+        .forEach(
+            at ->
+                defaultTimeouts.put(
+                    at,
+                    Duration.ofMillis(
+                        cfg.getTimeUnit(
+                            "retry",
+                            at.name(),
+                            "timeout",
+                            SECONDS.toMillis(defaultTimeout.getSeconds()),
+                            MILLISECONDS))));
+
     this.waitStrategy =
         WaitStrategies.join(
             WaitStrategies.exponentialWait(
-                cfg.getTimeUnit("noteDb", null, "retryMaxWait", SECONDS.toMillis(5), MILLISECONDS),
+                cfg.getTimeUnit("retry", null, "maxWait", SECONDS.toMillis(5), MILLISECONDS),
                 MILLISECONDS),
             WaitStrategies.randomWait(50, MILLISECONDS));
     this.overwriteDefaultRetryerStrategySetup = overwriteDefaultRetryerStrategySetup;
   }
 
-  public Duration getDefaultTimeout() {
-    return defaultTimeout;
+  public Duration getDefaultTimeout(ActionType actionType) {
+    return defaultTimeouts.get(actionType);
   }
 
   public <T> T execute(
@@ -255,7 +273,7 @@ public class RetryHelper {
       throws Throwable {
     MetricListener listener = new MetricListener();
     try {
-      RetryerBuilder<T> retryerBuilder = createRetryerBuilder(opts, exceptionPredicate);
+      RetryerBuilder<T> retryerBuilder = createRetryerBuilder(actionType, opts, exceptionPredicate);
       retryerBuilder.withRetryListener(listener);
       return executeWithTimeoutCount(actionType, action, retryerBuilder.build());
     } finally {
@@ -289,7 +307,7 @@ public class RetryHelper {
   }
 
   private <O> RetryerBuilder<O> createRetryerBuilder(
-      Options opts, Predicate<Throwable> exceptionPredicate) {
+      ActionType actionType, Options opts, Predicate<Throwable> exceptionPredicate) {
     RetryerBuilder<O> retryerBuilder =
         RetryerBuilder.<O>newBuilder().retryIfException(exceptionPredicate);
     if (opts.listener() != null) {
@@ -304,7 +322,8 @@ public class RetryHelper {
     return retryerBuilder
         .withStopStrategy(
             StopStrategies.stopAfterDelay(
-                firstNonNull(opts.timeout(), defaultTimeout).toMillis(), MILLISECONDS))
+                firstNonNull(opts.timeout(), getDefaultTimeout(actionType)).toMillis(),
+                MILLISECONDS))
         .withWaitStrategy(waitStrategy);
   }
 

@@ -68,6 +68,7 @@ import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -1029,35 +1030,40 @@ public class RevisionIT extends AbstractDaemonTest {
   @Test
   public void commit() throws Exception {
     WebLinkInfo expectedWebLinkInfo = new WebLinkInfo("foo", "imageUrl", "url");
-    patchSetLinks.add(
-        new PatchSetWebLink() {
-          @Override
-          public WebLinkInfo getPatchSetWebLink(String projectName, String commit) {
-            return expectedWebLinkInfo;
-          }
-        });
+    RegistrationHandle handle =
+        patchSetLinks.add(
+            new PatchSetWebLink() {
+              @Override
+              public WebLinkInfo getPatchSetWebLink(String projectName, String commit) {
+                return expectedWebLinkInfo;
+              }
+            });
 
-    PushOneCommit.Result r = createChange();
-    RevCommit c = r.getCommit();
+    try {
+      PushOneCommit.Result r = createChange();
+      RevCommit c = r.getCommit();
 
-    CommitInfo commitInfo = gApi.changes().id(r.getChangeId()).current().commit(false);
-    assertThat(commitInfo.commit).isEqualTo(c.name());
-    assertPersonIdent(commitInfo.author, c.getAuthorIdent());
-    assertPersonIdent(commitInfo.committer, c.getCommitterIdent());
-    assertThat(commitInfo.message).isEqualTo(c.getFullMessage());
-    assertThat(commitInfo.subject).isEqualTo(c.getShortMessage());
-    assertThat(commitInfo.parents).hasSize(1);
-    assertThat(Iterables.getOnlyElement(commitInfo.parents).commit)
-        .isEqualTo(c.getParent(0).name());
-    assertThat(commitInfo.webLinks).isNull();
+      CommitInfo commitInfo = gApi.changes().id(r.getChangeId()).current().commit(false);
+      assertThat(commitInfo.commit).isEqualTo(c.name());
+      assertPersonIdent(commitInfo.author, c.getAuthorIdent());
+      assertPersonIdent(commitInfo.committer, c.getCommitterIdent());
+      assertThat(commitInfo.message).isEqualTo(c.getFullMessage());
+      assertThat(commitInfo.subject).isEqualTo(c.getShortMessage());
+      assertThat(commitInfo.parents).hasSize(1);
+      assertThat(Iterables.getOnlyElement(commitInfo.parents).commit)
+          .isEqualTo(c.getParent(0).name());
+      assertThat(commitInfo.webLinks).isNull();
 
-    commitInfo = gApi.changes().id(r.getChangeId()).current().commit(true);
-    assertThat(commitInfo.webLinks).hasSize(1);
-    WebLinkInfo webLinkInfo = Iterables.getOnlyElement(commitInfo.webLinks);
-    assertThat(webLinkInfo.name).isEqualTo(expectedWebLinkInfo.name);
-    assertThat(webLinkInfo.imageUrl).isEqualTo(expectedWebLinkInfo.imageUrl);
-    assertThat(webLinkInfo.url).isEqualTo(expectedWebLinkInfo.url);
-    assertThat(webLinkInfo.target).isEqualTo(expectedWebLinkInfo.target);
+      commitInfo = gApi.changes().id(r.getChangeId()).current().commit(true);
+      assertThat(commitInfo.webLinks).hasSize(1);
+      WebLinkInfo webLinkInfo = Iterables.getOnlyElement(commitInfo.webLinks);
+      assertThat(webLinkInfo.name).isEqualTo(expectedWebLinkInfo.name);
+      assertThat(webLinkInfo.imageUrl).isEqualTo(expectedWebLinkInfo.imageUrl);
+      assertThat(webLinkInfo.url).isEqualTo(expectedWebLinkInfo.url);
+      assertThat(webLinkInfo.target).isEqualTo(expectedWebLinkInfo.target);
+    } finally {
+      handle.remove();
+    }
   }
 
   private void assertPersonIdent(GitPerson gitPerson, PersonIdent expectedIdent) {

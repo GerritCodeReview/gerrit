@@ -60,6 +60,9 @@ The following submit types are supported:
 [[submit_type_inherit]]
 * Inherit
 +
+This is the default for new projects, unless overridden by a global
+link:config-gerrit.html#repository.name.defaultSubmitType[`defaultSubmitType` option].
++
 Inherit the submit type from the parent project. In `All-Projects`, this
 is equivalent to link:#merge_if_necessary[Merge If Necessary].
 
@@ -75,9 +78,6 @@ tip of the destination branch at submit time.
 
 [[merge_if_necessary]]
 * Merge If Necessary
-+
-This is the default for new projects, unless overridden by a global
-link:config-gerrit.html#repository.name.defaultSubmitType[`defaultSubmitType` option].
 +
 If the change being submitted is a strict superset of the destination
 branch, then the branch is fast-forwarded to the change.  If not,

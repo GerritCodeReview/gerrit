@@ -164,7 +164,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertProjectInfo(projectState.getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
     assertThat(readProjectConfig(newProjectName))
-        .hasValue("[access]\n\tinheritFrom = All-Projects\n");
+        .hasValue("[access]\n\tinheritFrom = All-Projects\n[submit]\n\taction = inherit\n");
   }
 
   @Test
@@ -353,7 +353,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     ConfigInfo cfg = gApi.projects().create(pin).config();
     assertThat(cfg.submitType).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
     assertThat(cfg.defaultSubmitType.value).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
-    assertThat(cfg.defaultSubmitType.configuredValue).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+    assertThat(cfg.defaultSubmitType.configuredValue).isEqualTo(SubmitType.INHERIT);
     assertThat(cfg.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
 
     ConfigInput cin = new ConfigInput();

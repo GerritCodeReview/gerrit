@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd616288_a33b7638",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-22T18:04:15Z",
+      "side": 1,
+      "message": "Optional: This could be defined as a typedef and used elsewhere in this file too.",
+      "range": {
+        "startLine": 110,
+        "startChar": 10,
+        "endLine": 110,
+        "endChar": 24
+      },
+      "revId": "07588cebf380f3412b93a834f3ee1b06aee2cfe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

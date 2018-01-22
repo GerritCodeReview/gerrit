@@ -39,6 +39,9 @@ limitations under the License.
 
     setup(() => {
       sandbox = sinon.sandbox.create();
+      stub('gr-rest-api-interface', {
+        getProjectConfig() { return Promise.resolve({}); },
+      });
       element = fixture('basic');
     });
 
@@ -63,6 +66,51 @@ limitations under the License.
         sandbox.stub(element, '_handleCloseCreateChange');
         element.$.createChangeDialog.fire('cancel');
         assert.isTrue(element._handleCloseCreateChange.called);
+      });
+    });
+
+    suite('edit repo config', () => {
+      let createChangeStub;
+      let urlStub;
+      let handleSpy;
+      let alertStub;
+
+      setup(() => {
+        createChangeStub = sandbox.stub(element.$.restAPI, 'createChange');
+        urlStub = sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff');
+        sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
+        handleSpy = sandbox.spy(element, '_handleEditRepoConfig');
+        alertStub = sandbox.stub();
+        element.addEventListener('show-alert', alertStub);
+      });
+
+      test('successful creation of change', () => {
+        const change = {_number: '1'};
+        createChangeStub.returns(Promise.resolve(change));
+        MockInteractions.tap(element.$.editRepoConfig.$$('gr-button'));
+        return handleSpy.lastCall.returnValue.then(() => {
+          flushAsynchronousOperations();
+
+          assert.isTrue(alertStub.called);
+          assert.equal(alertStub.lastCall.args[0].detail.message,
+              'Navigating to change');
+          assert.isTrue(urlStub.called);
+          assert.deepEqual(urlStub.lastCall.args,
+              [change, 'project.config', 1]);
+        });
+      });
+
+      test('unsuccessful creation of change', () => {
+        createChangeStub.returns(Promise.resolve(null));
+        MockInteractions.tap(element.$.editRepoConfig.$$('gr-button'));
+        return handleSpy.lastCall.returnValue.then(() => {
+          flushAsynchronousOperations();
+
+          assert.isTrue(alertStub.called);
+          assert.equal(alertStub.lastCall.args[0].detail.message,
+              'Failed to create change.');
+          assert.isFalse(urlStub.called);
+        });
       });
     });
   });

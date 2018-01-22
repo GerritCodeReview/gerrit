@@ -1391,19 +1391,23 @@
     },
 
     /**
-     * @param {!string} project
-     * @param {!string} branch
-     * @param {!string} subject
-     * @param {!string} topic
-     * @param {!boolean} isPrivate
-     * @param {!boolean} workInProgress
+     * @param {string} project
+     * @param {string} branch
+     * @param {string} subject
+     * @param {string=} opt_topic
+     * @param {boolean=} opt_isPrivate
+     * @param {boolean=} opt_workInProgress
      */
-    createChange(project, branch, subject, topic, isPrivate,
-        workInProgress) {
-      return this.send('POST', '/changes/',
-          {project, branch, subject, topic, is_private: isPrivate,
-            work_in_progress: workInProgress})
-          .then(response => this.getResponseObject(response));
+    createChange(project, branch, subject, opt_topic, opt_isPrivate,
+        opt_workInProgress) {
+      return this.send('POST', '/changes/', {
+        project,
+        branch,
+        subject,
+        topic: opt_topic,
+        is_private: opt_isPrivate,
+        work_in_progress: opt_workInProgress,
+      }).then(response => this.getResponseObject(response));
     },
 
     /**

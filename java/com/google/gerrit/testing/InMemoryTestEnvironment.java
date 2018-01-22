@@ -35,7 +35,16 @@ import org.junit.rules.MethodRule;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
-public final class SchemaUpgradeTestEnvironment implements MethodRule {
+/**
+ * An in-memory test environment for integration tests.
+ *
+ * <p>This test environment emulates the internals of a Gerrit server without starting a Gerrit
+ * site. ReviewDb as well as NoteDb are represented by in-memory representations.
+ *
+ * <p>Each test is executed with a fresh and clean test environment. Hence, modifications applied in
+ * one test don't carry over to subsequent ones.
+ */
+public final class InMemoryTestEnvironment implements MethodRule {
   private final Provider<Config> configProvider;
 
   @Inject private AccountManager accountManager;
@@ -50,7 +59,7 @@ public final class SchemaUpgradeTestEnvironment implements MethodRule {
   private LifecycleManager lifecycle;
 
   /** Create a test environment using an empty base config. */
-  public SchemaUpgradeTestEnvironment() {
+  public InMemoryTestEnvironment() {
     this(Config::new);
   }
 
@@ -62,7 +71,7 @@ public final class SchemaUpgradeTestEnvironment implements MethodRule {
    *
    * @param configProvider possibly-lazy provider for the base config.
    */
-  public SchemaUpgradeTestEnvironment(Provider<Config> configProvider) {
+  public InMemoryTestEnvironment(Provider<Config> configProvider) {
     this.configProvider = configProvider;
   }
 

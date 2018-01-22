@@ -31,7 +31,7 @@ import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
-import com.google.gerrit.testing.SchemaUpgradeTestEnvironment;
+import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -53,10 +53,9 @@ public class GroupsUpdateIT {
     return config;
   }
 
-  // TODO(aliceks): Use a more general name for SchemaUpgradeTestEnvironment.
   @Rule
-  public SchemaUpgradeTestEnvironment testEnvironment =
-      new SchemaUpgradeTestEnvironment(GroupsUpdateIT::createPureNoteDbConfig);
+  public InMemoryTestEnvironment testEnvironment =
+      new InMemoryTestEnvironment(GroupsUpdateIT::createPureNoteDbConfig);
 
   @Inject @ServerInitiated private Provider<GroupsUpdate> groupsUpdateProvider;
   @Inject private Groups groups;

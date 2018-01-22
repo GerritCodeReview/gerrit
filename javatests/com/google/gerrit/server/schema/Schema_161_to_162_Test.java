@@ -26,7 +26,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.testing.SchemaUpgradeTestEnvironment;
+import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.gerrit.testing.TestUpdateUI;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -39,7 +39,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 public class Schema_161_to_162_Test {
-  @Rule public SchemaUpgradeTestEnvironment testEnv = new SchemaUpgradeTestEnvironment();
+  @Rule public InMemoryTestEnvironment testEnv = new InMemoryTestEnvironment();
 
   @Inject private AllProjectsName allProjectsName;
   @Inject private AllUsersName allUsersName;

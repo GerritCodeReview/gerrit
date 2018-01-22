@@ -161,7 +161,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       Ref ref,
       SubmitType submitType,
       String strategy)
-      throws IOException, OrmException {
+      throws OrmException {
     if (commit == null) {
       return false;
     }
@@ -190,11 +190,11 @@ public class Mergeable implements RestReadView<RevisionResource> {
       String strategy,
       Repository git,
       Boolean old)
-      throws OrmException, IOException {
+      throws OrmException {
     final boolean mergeable = cache.get(commit, ref, type, strategy, change.getDest(), git);
     if (!Objects.equals(mergeable, old)) {
       invalidateETag(change.getId(), db.get());
-      indexer.index(db.get(), change);
+      indexer.indexAsync(change.getProject(), change.getId());
     }
     return mergeable;
   }

@@ -26,6 +26,7 @@ limitations under the License.
 <link rel="import" href="../../edit/gr-edit-file-controls/gr-edit-file-controls.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
+<link rel="import" href="../../shared/gr-icons/gr-icons.html">
 <link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
@@ -72,7 +73,7 @@ limitations under the License.
       .reviewed,
       .status {
         display: inline-block;
-        text-align: center;
+        text-align: left;
         width: 1.5em;
       }
       .file-row.expanded {
@@ -94,7 +95,6 @@ limitations under the License.
       .path {
         cursor: pointer;
         flex: 1;
-        padding-left: .35em;
         text-decoration: none;
         white-space: nowrap;
       }
@@ -120,7 +120,7 @@ limitations under the License.
         min-width: 7em;
       }
       .invisible {
-        display: none;
+        visibility: hidden;
       }
       .row:not(.header) .stats,
       .total-stats {
@@ -137,7 +137,8 @@ limitations under the License.
         font-family: var(--font-family-bold);
       }
       .show-hide {
-        width: 1em;
+        margin-left: .35em;
+        width: 1.9em;
       }
       .fileListButton {
         margin: .5em;
@@ -252,15 +253,6 @@ limitations under the License.
         <div class="stickyArea">
           <div class$="file-row row [[_computePathClass(file.__path, _expandedFilePaths.*)]]"
               data-path$="[[file.__path]]" tabindex="-1">
-            <div class="show-hide" hidden$="[[_userPrefs.expand_inline_diffs]]">
-              <label class="show-hide" data-path$="[[file.__path]]"
-                  data-expand=true>
-                <input type="checkbox" class="show-hide"
-                    checked$="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]"
-                    data-path$="[[file.__path]]" data-expand=true>
-                [[_computeShowHideText(file.__path, _expandedFilePaths.*)]]
-              </label>
-            </div>
             <div class$="[[_computeClass('status', file.__path)]]"
                 tabindex="0"
                 aria-label$="[[_computeFileStatusLabel(file.status)]]">
@@ -331,6 +323,18 @@ limitations under the License.
                   class$="[[_computeClass('', file.__path)]]"
                   file-path="[[file.__path]]"></gr-edit-file-controls>
             </div>
+            <div class="show-hide" hidden$="[[_userPrefs.expand_inline_diffs]]">
+              <label class="show-hide" data-path$="[[file.__path]]"
+                  data-expand=true>
+                <input type="checkbox" class="show-hide"
+                    checked$="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]"
+                    data-path$="[[file.__path]]" data-expand=true>
+                  <iron-icon
+                      id="icon"
+                      icon="[[_computeShowHideIcon(file.__path, _expandedFilePaths.*)]]">
+                  </iron-icon>
+              </label>
+            </div>
           </div>
           <template is="dom-if"
               if="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]">
@@ -372,6 +376,9 @@ limitations under the License.
       <!-- Empty div here exists to keep spacing in sync with file rows. -->
       <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden></div>
       <div class="editFileControls showOnEdit"></div>
+      <template is="dom-if" if="[[!_userPrefs.expand_inline_diffs]]">
+        <div class="show-hide"></div>
+      </template>
     </div>
     <div
         class="row totalChanges"

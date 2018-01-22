@@ -705,8 +705,8 @@
       return this._isFileExpanded(path, expandedFilesRecord) ? 'expanded' : '';
     },
 
-    _computeShowHideText(path, expandedFilesRecord) {
-      return this._isFileExpanded(path, expandedFilesRecord) ? '▼' : '▶';
+    _computeShowHideIcon(path, expandedFilesRecord) {
+      return this._isFileExpanded(path, expandedFilesRecord) ? 'gr-icons:expand-less' : 'gr-icons:expand-more';
     },
 
     _computeFilesShown(numFilesShown, files) {

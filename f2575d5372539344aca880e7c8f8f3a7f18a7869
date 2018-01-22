@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1516625812 +0100\nnonce AGjzz3/G6oVioYxwmZnaVwbHSS3qAMnQ5XMbylE0KODILwzJxwiGjFW3m2ToI3gtqemNy5RPhcvs\n\n0000000000000000000000000000000000000000 9c9e922585f9c01993e2b6f661ee57e96ce73990 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlpl35QACgkQUbX9l6DQ\n71EZWQf/Sk6QbZgfeqsMWClwjSLI6j9LTDNs5ItWi8b3Wq5Jpwwv0vvPnVYHT+Ee\nPYCBsdIHn+eeuhZFufR3EY5ZGfYuG7oMIO90MmernGZMMvGViihDi10s5XuGXYnF\nZe4NggRgdlcwbcI3/7mAL8mdeZpIQ7tC2QzJtdq2paGnCIEtvAwsX32Pi4G3imrr\nUuolCIQPMfhd8WVx/I1mqdRPkL43I0rtMDVTVc6bmaJzQHRXYmqnScqDGesf/NPV\nWYZKakWgh0HlSCdbVFQl43+2F09lDix3RlVevepKmK6uzc6R5aDS5JF6YFYLDf/o\nmoAWX7zFCrLOO2f6eGsuVKLqB3gjUw\u003d\u003d\n\u003dpWDa\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "84b50ad2_f5653a98",
+        "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-01-22T13:04:41Z",
+      "side": 1,
+      "message": "Doesn\u0027t this method record both the number of attempts and the number of timeouts?",
+      "range": {
+        "startLine": 239,
+        "startChar": 24,
+        "endLine": 239,
+        "endChar": 68
+      },
+      "revId": "f2575d5372539344aca880e7c8f8f3a7f18a7869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

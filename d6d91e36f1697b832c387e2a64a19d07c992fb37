@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1516090030 +0100\nnonce AGjzz39awzUQWlaGn6PyND8NvdJmWm6s+dAA2OeEVlWMxReM/wouPdA+xkAhUGKLrcRW/T7/aPZ8\n\n0000000000000000000000000000000000000000 ed465a7c62cb1bae967c0258d39f80d2bdf00a45 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaXbKuAAoJEFG1/Zeg0O9RbUwIAIGqCeAGgrg2rHwt6QIt1WeO\nsAyCKji2tDE5L0FAPn6JM/d2VWoHIRDWgGRNclcW1Np3guwBz81oliBuS5PAj/ys\n5vcEHQ+XXhAjc6ULhwoJULsHvrVC9sjCzH+uVKMNxleC1AstYZuCttLhd/848mGu\nRBmtZy8lO0/rOmRECdx4bU6A3tGdR1OMrH0Ljt20eqZOUjOvyEoe24h8OnXFiChB\nUsgzWfusY5AtnqerJbepAomprV9jdqiASPiMp3Z8Xc4Pa5XpF/wQRzPuwlauMS/s\nv6NmMk+i4eSNtggMM+JU/Qi2N77KxuwfYqSL4N/atyaqk+VBMNVCr7SB6t1w7iI\u003d\n\u003dx2Wj\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ced3213d_17d8557d",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-01-22T13:04:41Z",
+      "side": 1,
+      "message": "optional: Could be\n\n LockFailureException.class::isInstance",
+      "range": {
+        "startLine": 455,
+        "startChar": 45,
+        "endLine": 455,
+        "endChar": 83
+      },
+      "revId": "d6d91e36f1697b832c387e2a64a19d07c992fb37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51445d1e_5d5490a3",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-01-22T13:04:41Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this include Throwables.throwIfUnchecked(t)?",
+      "range": {
+        "startLine": 456,
+        "startChar": 6,
+        "endLine": 461,
+        "endChar": 5
+      },
+      "revId": "d6d91e36f1697b832c387e2a64a19d07c992fb37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fe0ee29_5cf77197",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2957,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-01-22T13:04:41Z",
+      "side": 1,
+      "message": "optional: Could be\n\n OrmException.class::isInstance",
+      "range": {
+        "startLine": 2957,
+        "startChar": 65,
+        "endLine": 2957,
+        "endChar": 95
+      },
+      "revId": "d6d91e36f1697b832c387e2a64a19d07c992fb37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

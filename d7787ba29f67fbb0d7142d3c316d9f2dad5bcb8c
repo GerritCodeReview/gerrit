@@ -137,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "f7d23c3f_000aafd9",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-22T20:11:43Z",
+      "side": 1,
+      "message": "\u003e Since a library change is already a risk, I wanted at least to proposed a version I tested and I know works in a real production environment.\n\nAs I said elsewhere, I prefer 2.6.1. But I\u0027m also fine if you want to delay submitting for a few days while you give 2.6.1 a shot in your production environment.\n\nAlternatively, I am happy to have Google be the guinea pig here, in which case we would want to submit with 2.6.1 soon so we can get it in our production environment.",
+      "parentUuid": "26d56842_7a2d954a",
+      "revId": "d7787ba29f67fbb0d7142d3c316d9f2dad5bcb8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8d67e4b1_d718a5dd",
         "filename": "java/com/google/gerrit/server/cache/h2/DefaultCacheFactory.java",
         "patchSetId": 3

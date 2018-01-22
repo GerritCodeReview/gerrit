@@ -67,6 +67,7 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
+import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -98,9 +99,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
@@ -109,6 +113,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Inject private GetRevisionActions getRevisionActions;
   @Inject private DynamicSet<PatchSetWebLink> patchSetLinks;
+  @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
 
   @Test
   public void reviewTriplet() throws Exception {
@@ -874,10 +879,8 @@ public class RevisionIT extends AbstractDaemonTest {
     assertMergeable(r1.getChangeId(), true);
     merge(r1);
 
-    // Reset HEAD to initial so the new change is a merge conflict.
-    RefUpdate ru = repo().updateRef(HEAD);
-    ru.setNewObjectId(initial);
-    assertThat(ru.forceUpdate()).isEqualTo(RefUpdate.Result.FORCED);
+    // Reset client HEAD to initial so the new change is a merge conflict.
+    testRepo.reset(initial);
 
     PushOneCommit push2 =
         pushFactory.create(
@@ -886,9 +889,58 @@ public class RevisionIT extends AbstractDaemonTest {
             testRepo,
             PushOneCommit.SUBJECT,
             PushOneCommit.FILE_NAME,
-            "push 2 content");
+            "new contents");
     PushOneCommit.Result r2 = push2.to("refs/for/master");
-    assertMergeable(r2.getChangeId(), false);
+    String id2 = r2.getChangeId();
+    assertMergeable(id2, false);
+
+    // Search shows change is not mergeable.
+    Callable<List<ChangeInfo>> search =
+        () -> gApi.changes().query("is:mergeable change:" + id2).get();
+    assertThat(search.call()).isEmpty();
+
+    // Make the same change in a separate commit and update server HEAD behind Gerrit's back, which
+    // will not reindex any open changes.
+    try (Repository repo = repoManager.openRepository(project)) {
+      TestRepository<?> tr = new TestRepository<>(repo);
+      String ref = "refs/heads/master";
+      assertThat(repo.exactRef(ref).getObjectId()).isEqualTo(r1.getCommit());
+      tr.update(ref, tr.getRevWalk().parseCommit(initial));
+      tr.branch(ref)
+          .commit()
+          .message("Side update")
+          .add(PushOneCommit.FILE_NAME, "new contents")
+          .create();
+    }
+
+    // Search shows change is still not mergeable.
+    assertThat(search.call()).isEmpty();
+
+    // Using the API returns the correct value, and reindexes as well.
+    CountDownLatch reindexed = new CountDownLatch(1);
+    RegistrationHandle handle =
+        changeIndexedListeners.add(
+            new ChangeIndexedListener() {
+              @Override
+              public void onChangeIndexed(int id) {
+                reindexed.countDown();
+              }
+
+              @Override
+              public void onChangeDeleted(int id) {}
+            });
+    try {
+      assertMergeable(id2, true);
+      reindexed.await();
+    } finally {
+      handle.remove();
+    }
+
+    List<ChangeInfo> changes = search.call();
+    assertThat(changes).hasSize(1);
+    assertThat(changes.get(0).changeId).isEqualTo(id2);
+    assertThat(changes.get(0).mergeable).isEqualTo(Boolean.TRUE);
+
     // TODO(dborowitz): Test for other-branches.
   }
 

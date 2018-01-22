@@ -25,7 +25,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Objects;
 import org.eclipse.jgit.lib.Config;
 
@@ -52,7 +51,7 @@ public class RepositoryConfig {
         SubmitType.MERGE_IF_NECESSARY);
   }
 
-  public List<String> getOwnerGroups(Project.NameKey project) {
+  public ImmutableList<String> getOwnerGroups(Project.NameKey project) {
     return ImmutableList.copyOf(
         cfg.getStringList(SECTION_NAME, findSubSection(project.get()), OWNER_GROUP_NAME));
   }
@@ -62,7 +61,7 @@ public class RepositoryConfig {
     return basePath != null ? Paths.get(basePath) : null;
   }
 
-  public List<Path> getAllBasePaths() {
+  public ImmutableList<Path> getAllBasePaths() {
     return cfg.getSubsections(SECTION_NAME)
         .stream()
         .map(sub -> cfg.getString(SECTION_NAME, sub, BASE_PATH_NAME))

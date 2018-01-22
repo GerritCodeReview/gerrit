@@ -191,6 +191,30 @@
       "revId": "bde87c2c34d7706848796c32f8d6c0b2f4fcbfa2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "107d944b_df5d3042",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/UploadArchiveIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-22T01:34:22Z",
+      "side": 1,
+      "message": "JGit is upgraded in [1] to a snapshot that includes Han-Wen\u0027s SideBandInputStream change.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/133150",
+      "parentUuid": "e817ac96_6f93c3a4",
+      "range": {
+        "startLine": 126,
+        "startChar": 6,
+        "endLine": 129,
+        "endChar": 7
+      },
+      "revId": "bde87c2c34d7706848796c32f8d6c0b2f4fcbfa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

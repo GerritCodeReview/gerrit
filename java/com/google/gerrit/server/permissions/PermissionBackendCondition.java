@@ -38,6 +38,19 @@ public abstract class PermissionBackendCondition
   @Override
   public abstract String toString();
 
+  @Override
+  public boolean evaluatesTrivially() {
+    // PermissionBackendCondition need to contact PermissionBackend so trivial evaluation is not
+    // possible.
+    return false;
+  }
+
+  @Override
+  public BooleanCondition reduce() {
+    // No reductions can be made
+    return this;
+  }
+
   public static class WithUser extends PermissionBackendCondition {
     private final PermissionBackend.WithUser impl;
     private final GlobalOrPluginPermission perm;

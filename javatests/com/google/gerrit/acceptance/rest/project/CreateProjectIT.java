@@ -16,8 +16,12 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectInfo;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectOwners;
+import static com.google.gerrit.server.git.ProjectConfig.PROJECT_CONFIG;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -46,6 +50,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectState;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
@@ -55,7 +60,10 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import org.apache.http.HttpStatus;
 import org.apache.http.message.BasicHeader;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -155,6 +163,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertThat(projectState).isNotNull();
     assertProjectInfo(projectState.getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
+    assertThat(readProjectConfig(newProjectName))
+        .hasValue("[access]\n\tinheritFrom = All-Projects\n");
   }
 
   @Test
@@ -437,5 +447,20 @@ public class CreateProjectIT extends AbstractDaemonTest {
       throws Exception {
     exception.expect(errType);
     gApi.projects().create(in);
+  }
+
+  private Optional<String> readProjectConfig(String projectName) throws Exception {
+    try (Repository repo = repoManager.openRepository(new Project.NameKey(projectName))) {
+      TestRepository<?> tr = new TestRepository<>(repo);
+      RevWalk rw = tr.getRevWalk();
+      Ref ref = repo.exactRef(RefNames.REFS_CONFIG);
+      if (ref == null) {
+        return Optional.empty();
+      }
+      ObjectLoader obj =
+          rw.getObjectReader()
+              .open(tr.get(rw.parseTree(ref.getObjectId()), PROJECT_CONFIG), OBJ_BLOB);
+      return Optional.of(new String(obj.getCachedBytes(Integer.MAX_VALUE), UTF_8));
+    }
   }
 }

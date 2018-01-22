@@ -62,7 +62,8 @@ public class RetryHelper {
   public enum ActionType {
     ACCOUNT_UPDATE,
     CHANGE_UPDATE,
-    INDEX_QUERY,
+    GROUP_UPDATE,
+    INDEX_QUERY
   }
 
   /**

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1516354547 +0100\nnonce AGjzz39TtsiSXDX2sSv1sK7ZYIT3RZgt4MvuFyIAbumlgkYBRUi2uL/Ur3gNUDXGLodP/J+QqMoL\n\n0000000000000000000000000000000000000000 c11ee764ddaeef436f168950af1d93f01b574314 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlphu/MACgkQUbX9l6DQ\n71F9agf/fPe+YJCyjsosm8kq3CNz3twd9F/eSGAVi4TVwBpyRJTmdPSuBctk3y+K\nYtJCj+Z6WCtJQibCAS9w/fUOXZcKhPVa9yR0BWZ7WSCjBdWrR/2hqm7yU4ZK0bAp\nlr2fqm2FxuACpsoumrscO+xBSfLngmuiQ9jkDJ7iqIXRRWRY7jNFxc9fLzl6VzWo\nzJdtaa9S8rHvng45cmjH/9FoS1EoA2H32l0PPY0KpixB0jS4dyfbuS79s6N98WMB\n2Z0+Kt6i66zHQgfpfhiQsqz+cz2se+KPLZlHi3YZfMr+LFBb7HeGIjO3GvoxT6LS\nDm8EU3450rWMn6ddHMBwbsQAfPVuPA\u003d\u003d\n\u003dugBy\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd459cd0_ca82cf7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-22T15:55:58Z",
+      "side": 1,
+      "message": "This is only when we delete ReviewDb, right? That\u0027s kind of a long time from now.\n\nWhat if we just move VersionedAccountPreferences to the schema package and make it package-private?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 0
+      },
+      "revId": "c11ee764ddaeef436f168950af1d93f01b574314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

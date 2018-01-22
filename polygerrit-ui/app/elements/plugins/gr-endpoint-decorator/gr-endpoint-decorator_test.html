@@ -148,5 +148,23 @@ limitations under the License.
         });
       });
     });
+
+    test('param is bound', done => {
+      const element =
+          container.querySelector('gr-endpoint-decorator[name="banana"]');
+      const param = Polymer.dom(element).querySelector('gr-endpoint-param');
+      const value1 = {abc: 'def'};
+      const value2 = {def: 'abc'};
+      param.value = value1;
+      plugin.registerCustomComponent('banana', 'noob-noob');
+      flush(() => {
+        const module = Polymer.dom(element.root).children.find(
+            element => element.nodeName === 'NOOB-NOOB');
+        assert.strictEqual(module['someParam'], value1);
+        param.value = value2;
+        assert.strictEqual(module['someParam'], value2);
+        done();
+      });
+    });
   });
 </script>

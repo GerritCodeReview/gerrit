@@ -20,6 +20,7 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.reset;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -28,8 +29,6 @@ import com.google.gerrit.testing.TempFileUtil;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.SortedSet;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
@@ -55,7 +54,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
     cfg = new Config();
     cfg.setString("gerrit", null, "basePath", "git");
     configMock = createNiceMock(RepositoryConfig.class);
-    expect(configMock.getAllBasePaths()).andReturn(new ArrayList<Path>()).anyTimes();
+    expect(configMock.getAllBasePaths()).andReturn(ImmutableList.of()).anyTimes();
     replay(configMock);
     repoManager = new MultiBaseLocalDiskRepositoryManager(site, cfg, configMock);
   }
@@ -96,7 +95,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
     Project.NameKey someProjectKey = new Project.NameKey("someProject");
     reset(configMock);
     expect(configMock.getBasePath(someProjectKey)).andReturn(alternateBasePath).anyTimes();
-    expect(configMock.getAllBasePaths()).andReturn(Arrays.asList(alternateBasePath)).anyTimes();
+    expect(configMock.getAllBasePaths()).andReturn(ImmutableList.of(alternateBasePath)).anyTimes();
     replay(configMock);
 
     Repository repo = repoManager.createRepository(someProjectKey);
@@ -130,7 +129,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
     reset(configMock);
     expect(configMock.getBasePath(altPathProject)).andReturn(alternateBasePath).anyTimes();
     expect(configMock.getBasePath(misplacedProject2)).andReturn(alternateBasePath).anyTimes();
-    expect(configMock.getAllBasePaths()).andReturn(Arrays.asList(alternateBasePath)).anyTimes();
+    expect(configMock.getAllBasePaths()).andReturn(ImmutableList.of(alternateBasePath)).anyTimes();
     replay(configMock);
 
     repoManager.createRepository(basePathProject);
@@ -157,7 +156,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
   @Test(expected = IllegalStateException.class)
   public void testRelativeAlternateLocation() {
     configMock = createNiceMock(RepositoryConfig.class);
-    expect(configMock.getAllBasePaths()).andReturn(Arrays.asList(Paths.get("repos"))).anyTimes();
+    expect(configMock.getAllBasePaths()).andReturn(ImmutableList.of(Paths.get("repos"))).anyTimes();
     replay(configMock);
     repoManager = new MultiBaseLocalDiskRepositoryManager(site, cfg, configMock);
   }

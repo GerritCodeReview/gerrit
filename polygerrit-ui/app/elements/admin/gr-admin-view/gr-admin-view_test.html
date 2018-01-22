@@ -242,50 +242,59 @@ limitations under the License.
           });
         });
 
-        test('repo list', done => {
+        test('repo list', () => {
           element.params = {
             view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-repo-list',
             openCreateModal: false,
           };
-          flush(() => {
-            const selected = element.$$('gr-page-nav .selected');
-            assert.isOk(selected);
-            assert.equal(selected.textContent.trim(), 'Repositories');
-            done();
-          });
+          flushAsynchronousOperations();
+          const selected = element.$$('gr-page-nav .selected');
+          assert.isOk(selected);
+          assert.equal(selected.textContent.trim(), 'Repositories');
         });
 
-        test('repo', done => {
+        test('repo', () => {
           element.params = {
             view: Gerrit.Nav.View.REPO,
             repoName: 'foo',
           };
           element._repoName = 'foo';
-          element.reload().then(() => {
-            flush(() => {
-              const selected = element.$$('gr-page-nav .selected');
-              assert.isOk(selected);
-              assert.equal(selected.textContent.trim(), 'foo');
-              done();
-            });
+          return element.reload().then(() => {
+            flushAsynchronousOperations();
+            const selected = element.$$('gr-page-nav .selected');
+            assert.isOk(selected);
+            assert.equal(selected.textContent.trim(), 'foo');
           });
         });
 
-        test('repo access', done => {
+        test('repo access', () => {
           element.params = {
             view: Gerrit.Nav.View.REPO,
             detail: Gerrit.Nav.RepoDetailView.ACCESS,
             repoName: 'foo',
           };
           element._repoName = 'foo';
-          element.reload().then(() => {
-            flush(() => {
-              const selected = element.$$('gr-page-nav .selected');
-              assert.isOk(selected);
-              assert.equal(selected.textContent.trim(), 'Access');
-              done();
-            });
+          return element.reload().then(() => {
+            flushAsynchronousOperations();
+            const selected = element.$$('gr-page-nav .selected');
+            assert.isOk(selected);
+            assert.equal(selected.textContent.trim(), 'Access');
+          });
+        });
+
+        test('repo dashboards', () => {
+          element.params = {
+            view: Gerrit.Nav.View.REPO,
+            detail: Gerrit.Nav.RepoDetailView.DASHBOARDS,
+            repoName: 'foo',
+          };
+          element._repoName = 'foo';
+          return element.reload().then(() => {
+            flushAsynchronousOperations();
+            const selected = element.$$('gr-page-nav .selected');
+            assert.isOk(selected);
+            assert.equal(selected.textContent.trim(), 'Dashboards');
           });
         });
       });
@@ -307,50 +316,44 @@ limitations under the License.
               .returns(Promise.resolve(true));
         });
 
-        test('group list', done => {
+        test('group list', () => {
           element.params = {
             view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-admin-group-list',
             openCreateModal: false,
           };
-          flush(() => {
-            const selected = element.$$('gr-page-nav .selected');
-            assert.isOk(selected);
-            assert.equal(selected.textContent.trim(), 'Groups');
-            done();
-          });
+          flushAsynchronousOperations();
+          const selected = element.$$('gr-page-nav .selected');
+          assert.isOk(selected);
+          assert.equal(selected.textContent.trim(), 'Groups');
         });
 
-        test('group', done => {
+        test('group', () => {
           element.params = {
             view: Gerrit.Nav.View.GROUP,
             groupId: 1234,
           };
           element._groupName = 'foo';
-          element.reload().then(() => {
-            flush(() => {
-              const selected = element.$$('gr-page-nav .selected');
-              assert.isOk(selected);
-              assert.equal(selected.textContent.trim(), 'foo');
-              done();
-            });
+          return element.reload().then(() => {
+            flushAsynchronousOperations();
+            const selected = element.$$('gr-page-nav .selected');
+            assert.isOk(selected);
+            assert.equal(selected.textContent.trim(), 'foo');
           });
         });
 
-        test('group members', done => {
+        test('group members', () => {
           element.params = {
             view: Gerrit.Nav.View.GROUP,
             detail: Gerrit.Nav.GroupDetailView.MEMBERS,
             groupId: 1234,
           };
           element._groupName = 'foo';
-          element.reload().then(() => {
-            flush(() => {
-              const selected = element.$$('gr-page-nav .selected');
-              assert.isOk(selected);
-              assert.equal(selected.textContent.trim(), 'Members');
-              done();
-            });
+          return element.reload().then(() => {
+            flushAsynchronousOperations();
+            const selected = element.$$('gr-page-nav .selected');
+            assert.isOk(selected);
+            assert.equal(selected.textContent.trim(), 'Members');
           });
         });
       });

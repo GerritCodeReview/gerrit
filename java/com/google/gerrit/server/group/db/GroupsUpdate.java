@@ -20,6 +20,7 @@ import static com.google.gerrit.server.group.db.Groups.getExistingGroupFromRevie
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -48,11 +49,13 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.RenameGroupOp;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.gerrit.server.update.RefUpdateUtil;
+import com.google.gerrit.server.update.RetryHelper;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -111,6 +114,7 @@ public class GroupsUpdate {
   private final MetaDataUpdateFactory metaDataUpdateFactory;
   private final GroupsMigration groupsMigration;
   private final GitReferenceUpdated gitRefUpdated;
+  private final RetryHelper retryHelper;
   private final boolean reviewDbUpdatesAreBlocked;
 
   @Inject
@@ -129,6 +133,7 @@ public class GroupsUpdate {
       GroupsMigration groupsMigration,
       @GerritServerConfig Config config,
       GitReferenceUpdated gitRefUpdated,
+      RetryHelper retryHelper,
       @Assisted @Nullable IdentifiedUser currentUser) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
@@ -141,6 +146,7 @@ public class GroupsUpdate {
     this.serverId = serverId;
     this.groupsMigration = groupsMigration;
     this.gitRefUpdated = gitRefUpdated;
+    this.retryHelper = retryHelper;
     this.currentUser = currentUser;
     metaDataUpdateFactory =
         getMetaDataUpdateFactory(metaDataUpdateInternalFactory, currentUser, serverIdent, serverId);
@@ -220,8 +226,7 @@ public class GroupsUpdate {
       }
     }
 
-    // TODO(aliceks): Add retry mechanism.
-    InternalGroup createdGroup = createGroupInNoteDb(groupCreation, groupUpdate);
+    InternalGroup createdGroup = createGroupInNoteDbWithRetry(groupCreation, groupUpdate);
     updateCachesOnGroupCreation(createdGroup);
     return createdGroup;
   }
@@ -265,8 +270,8 @@ public class GroupsUpdate {
       }
     }
 
-    // TODO(aliceks): Add retry mechanism.
-    Optional<UpdateResult> noteDbUpdateResult = updateGroupInNoteDb(groupUuid, groupUpdate);
+    Optional<UpdateResult> noteDbUpdateResult =
+        updateGroupInNoteDbWithRetry(groupUuid, groupUpdate);
     return noteDbUpdateResult.orElse(reviewDbUpdateResult);
   }
 
@@ -476,9 +481,25 @@ public class GroupsUpdate {
     db.accountGroupById().delete(subgroupsToRemove);
   }
 
-  private InternalGroup createGroupInNoteDb(
+  private InternalGroup createGroupInNoteDbWithRetry(
       InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws IOException, ConfigInvalidException, OrmException {
+    try {
+      return retryHelper.execute(
+          RetryHelper.ActionType.GROUP_UPDATE,
+          () -> createGroupInNoteDb(groupCreation, groupUpdate),
+          LockFailureException.class::isInstance);
+    } catch (Exception e) {
+      Throwables.throwIfInstanceOf(e, IOException.class);
+      Throwables.throwIfInstanceOf(e, ConfigInvalidException.class);
+      Throwables.throwIfInstanceOf(e, OrmDuplicateKeyException.class);
+      throw new IOException(e);
+    }
+  }
+
+  private InternalGroup createGroupInNoteDb(
+      InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
+      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
       AccountGroup.NameKey groupName = groupUpdate.getName().orElseGet(groupCreation::getNameKey);
       GroupNameNotes groupNameNotes =
@@ -493,6 +514,23 @@ public class GroupsUpdate {
           .getLoadedGroup()
           .orElseThrow(
               () -> new IllegalStateException("Created group wasn't automatically loaded"));
+    }
+  }
+
+  private Optional<UpdateResult> updateGroupInNoteDbWithRetry(
+      AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
+      throws IOException, ConfigInvalidException, OrmDuplicateKeyException, NoSuchGroupException {
+    try {
+      return retryHelper.execute(
+          RetryHelper.ActionType.GROUP_UPDATE,
+          () -> updateGroupInNoteDb(groupUuid, groupUpdate),
+          LockFailureException.class::isInstance);
+    } catch (Exception e) {
+      Throwables.throwIfInstanceOf(e, IOException.class);
+      Throwables.throwIfInstanceOf(e, ConfigInvalidException.class);
+      Throwables.throwIfInstanceOf(e, OrmDuplicateKeyException.class);
+      Throwables.throwIfInstanceOf(e, NoSuchGroupException.class);
+      throw new IOException(e);
     }
   }
 

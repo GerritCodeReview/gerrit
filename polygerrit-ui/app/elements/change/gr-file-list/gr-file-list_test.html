@@ -759,6 +759,8 @@ limitations under the License.
       flushAsynchronousOperations();
       assert(togglePathSpy.notCalled, 'file is opened as diff view');
       assert.isNotOk(element.$$('.expanded'));
+      assert.notEqual(getComputedStyle(element.$$('.show-hide')).display,
+          'none');
 
       element._userPrefs = {expand_inline_diffs: true};
       flushAsynchronousOperations();
@@ -766,6 +768,8 @@ limitations under the License.
       flushAsynchronousOperations();
       assert(togglePathSpy.calledOnce, 'file is expanded');
       assert.isOk(element.$$('.expanded'));
+      assert.equal(getComputedStyle(element.$$('.show-hide')).display,
+          'none');
     });
 
     test('_togglePathExpanded', () => {
@@ -774,16 +778,19 @@ limitations under the License.
       const renderSpy = sandbox.spy(element, '_renderInOrder');
       const collapseStub = sandbox.stub(element, '_clearCollapsedDiffs');
 
+      assert.equal(element.$$('iron-icon').icon, 'gr-icons:expand-more');
       assert.equal(element._expandedFilePaths.length, 0);
       element._togglePathExpanded(path);
       flushAsynchronousOperations();
       assert.equal(collapseStub.lastCall.args[0].length, 0);
+      assert.equal(element.$$('iron-icon').icon, 'gr-icons:expand-less');
 
       assert.equal(renderSpy.callCount, 1);
       assert.include(element._expandedFilePaths, path);
       element._togglePathExpanded(path);
       flushAsynchronousOperations();
 
+      assert.equal(element.$$('iron-icon').icon, 'gr-icons:expand-more');
       assert.equal(renderSpy.callCount, 2);
       assert.notInclude(element._expandedFilePaths, path);
       assert.equal(collapseStub.lastCall.args[0].length, 1);

@@ -59,6 +59,40 @@ public abstract class BooleanCondition {
    */
   public abstract <T> Iterable<T> children(Class<T> type);
 
+  /**
+   * Reduce evaluation tree by cutting off branches that evaluate trivially and replacing them with
+   * a leave note corresponding to the value the branch evaluated to.
+   *
+   * <p><code>
+   * Example 1 (T=True, F=False, C=non-trivial check):
+   *      OR
+   *     /  \    =>    T
+   *    C   T
+   * Example 2 (cuts off a not-trivial check):
+   *      AND
+   *     /  \    =>    F
+   *    C   F
+   * Example 3:
+   *      AND
+   *     /  \    =>    F
+   *    T   F
+   * </code>
+   *
+   * <p>There is no guarantee that the resulting tree is minimal. The only guarantee made is that
+   * branches that evaluate trivially will be cut off and replaced by primitive values.
+   */
+  public abstract BooleanCondition reduce();
+
+  /**
+   * Check if the condition evaluates to either {@code true} or {@code false} without providing
+   * additional information to the evaluation tree (e.g. through checks to a remote service such as
+   * {@code PermissionBackend}.
+   *
+   * <p>In this case, the tree can be reduced to skip all non-trivial checks resulting in a
+   * performance gain.
+   */
+  protected abstract boolean evaluatesTrivially();
+
   private static final class And extends BooleanCondition {
     private final BooleanCondition a;
     private final BooleanCondition b;
@@ -70,12 +104,24 @@ public abstract class BooleanCondition {
 
     @Override
     public boolean value() {
+      if (evaluatesTriviallyToExpectedValue(a, false)
+          || evaluatesTriviallyToExpectedValue(b, false)) {
+        return false;
+      }
       return a.value() && b.value();
     }
 
     @Override
     public <T> Iterable<T> children(Class<T> type) {
       return Iterables.concat(a.children(type), b.children(type));
+    }
+
+    @Override
+    public BooleanCondition reduce() {
+      if (evaluatesTrivially()) {
+        return Value.valueOf(value());
+      }
+      return new And(a.reduce(), b.reduce());
     }
 
     @Override
@@ -96,6 +142,13 @@ public abstract class BooleanCondition {
     public String toString() {
       return "(" + maybeTrim(a, getClass()) + " && " + maybeTrim(a, getClass()) + ")";
     }
+
+    @Override
+    protected boolean evaluatesTrivially() {
+      return evaluatesTriviallyToExpectedValue(a, false)
+          || evaluatesTriviallyToExpectedValue(b, false)
+          || (a.evaluatesTrivially() && b.evaluatesTrivially());
+    }
   }
 
   private static final class Or extends BooleanCondition {
@@ -109,12 +162,24 @@ public abstract class BooleanCondition {
 
     @Override
     public boolean value() {
+      if (evaluatesTriviallyToExpectedValue(a, true)
+          || evaluatesTriviallyToExpectedValue(b, true)) {
+        return true;
+      }
       return a.value() || b.value();
     }
 
     @Override
     public <T> Iterable<T> children(Class<T> type) {
       return Iterables.concat(a.children(type), b.children(type));
+    }
+
+    @Override
+    public BooleanCondition reduce() {
+      if (evaluatesTrivially()) {
+        return Value.valueOf(value());
+      }
+      return new Or(a.reduce(), b.reduce());
     }
 
     @Override
@@ -134,6 +199,13 @@ public abstract class BooleanCondition {
     @Override
     public String toString() {
       return "(" + maybeTrim(a, getClass()) + " || " + maybeTrim(a, getClass()) + ")";
+    }
+
+    @Override
+    protected boolean evaluatesTrivially() {
+      return evaluatesTriviallyToExpectedValue(a, true)
+          || evaluatesTriviallyToExpectedValue(b, true)
+          || (a.evaluatesTrivially() && b.evaluatesTrivially());
     }
   }
 
@@ -155,6 +227,14 @@ public abstract class BooleanCondition {
     }
 
     @Override
+    public BooleanCondition reduce() {
+      if (evaluatesTrivially()) {
+        return Value.valueOf(value());
+      }
+      return this;
+    }
+
+    @Override
     public int hashCode() {
       return cond.hashCode() * 31;
     }
@@ -167,6 +247,11 @@ public abstract class BooleanCondition {
     @Override
     public String toString() {
       return "!" + cond;
+    }
+
+    @Override
+    protected boolean evaluatesTrivially() {
+      return cond.evaluatesTrivially();
     }
   }
 
@@ -188,6 +273,11 @@ public abstract class BooleanCondition {
     }
 
     @Override
+    public BooleanCondition reduce() {
+      return this;
+    }
+
+    @Override
     public int hashCode() {
       return value ? 1 : 0;
     }
@@ -201,9 +291,17 @@ public abstract class BooleanCondition {
     public String toString() {
       return Boolean.toString(value);
     }
+
+    @Override
+    protected boolean evaluatesTrivially() {
+      return true;
+    }
   }
 
-  /** Remove leading '(' and trailing ')' if the type is the same as the parent. */
+  /**
+   * Helper for use in toString methods. Remove leading '(' and trailing ')' if the type is the same
+   * as the parent.
+   */
   static String maybeTrim(BooleanCondition cond, Class<? extends BooleanCondition> type) {
     String s = cond.toString();
     if (cond.getClass() == type
@@ -213,5 +311,13 @@ public abstract class BooleanCondition {
       s = s.substring(1, s.length() - 1);
     }
     return s;
+  }
+
+  private static boolean evaluatesTriviallyToExpectedValue(
+      BooleanCondition cond, boolean expectedValue) {
+    if (!cond.evaluatesTrivially()) {
+      return false;
+    }
+    return cond.value() == expectedValue;
   }
 }

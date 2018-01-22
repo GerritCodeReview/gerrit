@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1516635133 -0500\nnonce AGjzz3+14Yb74HuhdIdvHOBIsLeDBE/WgZ58cGYRQkb+gqA4M8FfRHqAnkz5at4tU2cb62J+AOpN\n\n0000000000000000000000000000000000000000 7448c18f253bac198982912d0a855da6c4a3d79f refs/for/master%r\u003dekempin@google.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlpmA/0VHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMlRQP/jFJPjSwIGUJLgSbmxvSqBviUWey\ne+BOLek2UN32FmtrzCQg0SZdhw7N8z4I/xdYWjQ9sUmWWvqOJunoT5Ou+qY5DViX\niJZKZn5EbwONg1w/x8rHne0bXtb7U5HBvMdLawJDwK8yX2yiBOVeuzQ4YWWmAePl\nm78cbIt+TheIWCCJgEFPmlLEsMt/VNvTeujQQ1n7Oja3si/HGliTUZZUAHxsEYvl\nv0CG8SGjUum5Enq+2lGUIUD8h4AGnJcHjjBhiIemh10LUoSu2wDLNC3eD/pcuumZ\n8rorP2pY0PfxpKAJk6e+ihCfg2RxBoWFV34jcGRFEAYQitm26FHMecF05+8q5pFi\ndMzRffVM3wnctVspz6mCZ6nxKE+g+K/0KBxL1V3jfe/7c6EIuJIQiHJaqYf2XI0I\nLURru6fcl2iAcmAinMOE4SXqmTGBpXeELWSk/mdkDo26PKuusXa4t0O+T/S7UmWZ\nKXl04Mw0FtU9rqfBHodZ32edEJi9JAtu21dPqfEN9fctYEmToGfvrlWm2acy0e5+\nTKUabzmMqjRJqHk+AsvWQOPXzJvuhOFHRio+qYuZcyCptLWHLTn/JbXJLp56eLvf\n3R0FIQOCMN04NKsh5qN142d5khSrGhwK8+DMqvCgkmYVC8Ivm8xAxx7gsnG3m00o\nK+E5wCNr81ciRhAV\n\u003dwD+G\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e37fb797_167067d6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-22T15:37:49Z",
+      "side": 1,
+      "message": "opt: do you want a slightly looser check? It could be that the default grows more options that you might not be interested in here.",
+      "range": {
+        "startLine": 167,
+        "startChar": 30,
+        "endLine": 167,
+        "endChar": 42
+      },
+      "revId": "6063afb135dabc48b08af52320e56dcaee5455c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

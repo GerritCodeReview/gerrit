@@ -73,8 +73,13 @@
         el.content = opt_content;
       }
       const expectProperties = this._getEndpointParams().map(
-          paramEl => plugin.attributeHelper(paramEl).get('value')
-              .then(value => el[paramEl.getAttribute('name')] = value)
+          paramEl => {
+            const helper = plugin.attributeHelper(paramEl);
+            return helper.get('value').then(
+                value => helper.bind(
+                    'value', value => el[paramEl.getAttribute('name')] = value)
+            );
+          }
       );
       let timeoutId;
       const timeout = new Promise(

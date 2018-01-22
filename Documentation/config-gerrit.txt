@@ -3765,10 +3765,14 @@ are `INHERIT`, `MERGE_IF_NECESSARY`, `FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`,
 +
 For more details see link:project-configuration.html#submit_type[Submit Types].
 +
+Default is link:project-configuration.html#submit_type_inherit[`INHERIT`].
++
 This submit type is only applied at project creation time if a submit type is
 omitted from the link:rest-api-projects.html#project-input[ProjectInput]. If the
-submit type is unset in the project config at runtime, it defaults to
-link:project-configuration.html#merge_if_necessary[`MERGE_IF_NECESSARY`].
+submit type is unset in the project config at runtime, for backwards
+compatibility purposes, it defaults to
+link:project-configuration.html#merge_if_necessary[`MERGE_IF_NECESSARY`] rather
+than `INHERIT`.
 
 [[repository.name.ownerGroup]]repository.<name>.ownerGroup::
 +

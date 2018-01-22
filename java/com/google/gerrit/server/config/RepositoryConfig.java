@@ -36,7 +36,7 @@ public class RepositoryConfig {
   static final String DEFAULT_SUBMIT_TYPE_NAME = "defaultSubmitType";
   static final String BASE_PATH_NAME = "basePath";
 
-  static final SubmitType DEFAULT_SUBMIT_TYPE = SubmitType.MERGE_IF_NECESSARY;
+  static final SubmitType DEFAULT_SUBMIT_TYPE = SubmitType.INHERIT;
 
   private final Config cfg;
 

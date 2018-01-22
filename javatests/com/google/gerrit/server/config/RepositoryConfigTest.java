@@ -42,7 +42,7 @@ public class RepositoryConfigTest {
   public void defaultSubmitTypeWhenNotConfigured() {
     // Check expected value explicitly rather than depending on constant.
     assertThat(repoCfg.getDefaultSubmitType(new NameKey("someProject")))
-        .isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+        .isEqualTo(SubmitType.INHERIT);
   }
 
   @Test

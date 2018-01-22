@@ -3431,18 +3431,6 @@ each process retrieves at once.
 +
 By default, 1.
 
-[[noteDb.retryMaxWait]]noteDb.retryMaxWait::
-+
-Maximum time to wait between attempts to retry update operations when one
-attempt fails due to contention (aka lock failure) on the underlying ref
-storage. Operations are retried with exponential backoff, plus some random
-jitter, until the interval reaches this limit. After that, retries continue to
-occur after a fixed timeout (plus jitter), up to
-link:#noteDb.retryTimeout[`noteDb.retryTimeout`].
-+
-Defaults to 5 seconds; unit suffixes are supported, and assumes milliseconds if
-not specified.
-
 [[noteDb.retryTimeout]]noteDb.retryTimeout::
 +
 Total timeout for retrying update operations when one attempt fails due to
@@ -3769,6 +3757,31 @@ link:project-configuration.html#merge_if_necessary[`MERGE_IF_NECESSARY`].
 A name of a group which exists in the database. Zero, one or many
 groups are allowed.  Each on its own line.  Groups which don't exist
 in the database are ignored.
+
+[[retry]]
+=== Section retry
+
+[[retry.maxWait]]retry.maxWait::
++
+Maximum time to wait between attempts to retry an operations when one attempt
+fails (e.g. on NoteDb updates due to contention, aka lock failure, on the
+underlying ref storage). Operations are retried with exponential backoff, plus
+some random jitter, until the interval reaches this limit. After that, retries
+continue to occur after a fixed timeout (plus jitter), up to
+link:#retry.timeout[`retry.timeout`].
++
+Defaults to 5 seconds; unit suffixes are supported, and assumes milliseconds if
+not specified.
+
+[[retry.timeout]]retry.timeout::
++
+Total timeout for retrying operations when one attempt fails.
++
+For NoteDb updates this timeout is overwritten by link:#notedb.retryTimeout[
+`notedb.retryTimeout`].
++
+Defaults to 20 seconds; unit suffixes are supported, and assumes milliseconds if
+not specified.
 
 [[rules]]
 === Section rules

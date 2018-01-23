@@ -34,6 +34,24 @@
       "revId": "8f810b9cff061e0ad969bd5a366746a78c09f5b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "428fa4cd_3bc09202",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-23T23:39:05Z",
+      "side": 1,
+      "message": "I guess I should state the (maybe not) obvious. It\u0027s a way to create a deep copy.",
+      "parentUuid": "dbe2bce4_c5f25ae3",
+      "revId": "8f810b9cff061e0ad969bd5a366746a78c09f5b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

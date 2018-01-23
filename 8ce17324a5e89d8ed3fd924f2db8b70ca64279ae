@@ -22,6 +22,30 @@
       "revId": "8ce17324a5e89d8ed3fd924f2db8b70ca64279ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe9e54cf_909fbda5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-23T01:39:34Z",
+      "side": 1,
+      "message": "editPatchsetLoaded \u003d\u003d \"does the current selected patch range have \u0027edit\u0027 as one of either basePatchNum or patchNum\"\n\neditLoaded \u003d\u003d \"is edit mode enabled\"\n\nSo, these may diverge when a user clicks the \"Edit\" change action that was added with this change, but has not made an actual mutation to anything yet (meaning no edit patch set has been created yet).\n\nBoth you and Wyatt have had questions about this same topic [1], and I totally recognize that it\u0027s confusing... I just don\u0027t know where the right place to document the delineation is. I\u0027d love to somehow make this less confusing. One thing I\u0027d like to do (probably in a later patch set) is rename this `editLoaded` property to `editMode` throughout the app, just to more clearly indicate it is different from `editPatchsetLoaded`. I\u0027m not sure where a big comment explaining the rest of this would go, though.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/152910/2/polygerrit-ui/app/elements/core/gr-router/gr-router.js#118",
+      "parentUuid": "c539233d_55818a5a",
+      "range": {
+        "startLine": 549,
+        "startChar": 12,
+        "endLine": 549,
+        "endChar": 44
+      },
+      "revId": "8ce17324a5e89d8ed3fd924f2db8b70ca64279ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

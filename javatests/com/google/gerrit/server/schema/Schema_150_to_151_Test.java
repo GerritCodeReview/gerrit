@@ -25,7 +25,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.Id;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.restapi.group.CreateGroup;
-import com.google.gerrit.testing.SchemaUpgradeTestEnvironment;
+import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.gerrit.testing.TestUpdateUI;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.inject.Inject;
@@ -44,7 +44,7 @@ import org.junit.Test;
 
 public class Schema_150_to_151_Test {
 
-  @Rule public SchemaUpgradeTestEnvironment testEnv = new SchemaUpgradeTestEnvironment();
+  @Rule public InMemoryTestEnvironment testEnv = new InMemoryTestEnvironment();
 
   @Inject private CreateGroup.Factory createGroupFactory;
   @Inject private Schema_151 schema151;

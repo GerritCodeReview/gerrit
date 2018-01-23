@@ -40,14 +40,11 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.time.Duration;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -64,8 +61,9 @@ public class RetryHelper {
 
   public enum ActionType {
     ACCOUNT_UPDATE,
-    CHANGE_QUERY,
-    CHANGE_UPDATE
+    CHANGE_UPDATE,
+    GROUP_UPDATE,
+    INDEX_QUERY
   }
 
   /**
@@ -182,22 +180,24 @@ public class RetryHelper {
     return defaultTimeout;
   }
 
-  public <T> T execute(ActionType actionType, Action<T> action)
-      throws IOException, ConfigInvalidException, OrmException {
-    return execute(actionType, action, t -> t instanceof LockFailureException);
+  public <T> T execute(
+      ActionType actionType, Action<T> action, Predicate<Throwable> exceptionPredicate)
+      throws Exception {
+    return execute(actionType, action, defaults(), exceptionPredicate);
   }
 
   public <T> T execute(
-      ActionType actionType, Action<T> action, Predicate<Throwable> exceptionPredicate)
-      throws IOException, ConfigInvalidException, OrmException {
+      ActionType actionType,
+      Action<T> action,
+      Options opts,
+      Predicate<Throwable> exceptionPredicate)
+      throws Exception {
     try {
-      return execute(actionType, action, defaults(), exceptionPredicate);
+      return executeWithAttemptAndTimeoutCount(actionType, action, opts, exceptionPredicate);
     } catch (Throwable t) {
       Throwables.throwIfUnchecked(t);
-      Throwables.throwIfInstanceOf(t, IOException.class);
-      Throwables.throwIfInstanceOf(t, ConfigInvalidException.class);
-      Throwables.throwIfInstanceOf(t, OrmException.class);
-      throw new OrmException(t);
+      Throwables.throwIfInstanceOf(t, Exception.class);
+      throw new IllegalStateException(t);
     }
   }
 
@@ -212,7 +212,7 @@ public class RetryHelper {
         // Either we aren't full-NoteDb, or the underlying ref storage doesn't support atomic
         // transactions. Either way, retrying a partially-failed operation is not idempotent, so
         // don't do it automatically. Let the end user decide whether they want to retry.
-        return execute(
+        return executeWithTimeoutCount(
             ActionType.CHANGE_UPDATE,
             () -> changeAction.call(updateFactory),
             RetryerBuilder.<T>newBuilder().build());
@@ -237,7 +237,7 @@ public class RetryHelper {
   }
 
   /**
-   * Executes an action with a given retryer.
+   * Executes an action and records the number of attempts and the timeout as metrics.
    *
    * @param actionType the type of the action
    * @param action the action which should be executed and retried on failure
@@ -247,7 +247,7 @@ public class RetryHelper {
    * @throws Throwable any error or exception that made the action fail, callers are expected to
    *     catch and inspect this Throwable to decide carefully whether it should be re-thrown
    */
-  private <T> T execute(
+  private <T> T executeWithAttemptAndTimeoutCount(
       ActionType actionType,
       Action<T> action,
       Options opts,
@@ -257,14 +257,14 @@ public class RetryHelper {
     try {
       RetryerBuilder<T> retryerBuilder = createRetryerBuilder(opts, exceptionPredicate);
       retryerBuilder.withRetryListener(listener);
-      return execute(actionType, action, retryerBuilder.build());
+      return executeWithTimeoutCount(actionType, action, retryerBuilder.build());
     } finally {
       metrics.attemptCounts.record(actionType, listener.getAttemptCount());
     }
   }
 
   /**
-   * Executes an action with a given retryer.
+   * Executes an action and records the timeout as metric.
    *
    * @param actionType the type of the action
    * @param action the action which should be executed and retried on failure
@@ -273,7 +273,7 @@ public class RetryHelper {
    * @throws Throwable any error or exception that made the action fail, callers are expected to
    *     catch and inspect this Throwable to decide carefully whether it should be re-thrown
    */
-  private <T> T execute(ActionType actionType, Action<T> action, Retryer<T> retryer)
+  private <T> T executeWithTimeoutCount(ActionType actionType, Action<T> action, Retryer<T> retryer)
       throws Throwable {
     try {
       return retryer.call(() -> action.call());

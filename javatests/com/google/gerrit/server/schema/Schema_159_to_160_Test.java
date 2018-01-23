@@ -33,7 +33,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.VersionedAccountPreferences;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.testing.SchemaUpgradeTestEnvironment;
+import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.gerrit.testing.TestUpdateUI;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -46,7 +46,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 public class Schema_159_to_160_Test {
-  @Rule public SchemaUpgradeTestEnvironment testEnv = new SchemaUpgradeTestEnvironment();
+  @Rule public InMemoryTestEnvironment testEnv = new InMemoryTestEnvironment();
 
   @Inject private AccountCache accountCache;
   @Inject private AllUsersName allUsersName;

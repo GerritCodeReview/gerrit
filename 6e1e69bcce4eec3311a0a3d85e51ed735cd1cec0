@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51344f81_5001f98e",
+        "filename": "Documentation/pg-plugin-dev.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-23T18:51:22Z",
+      "side": 1,
+      "message": "Is there a historical reason for this name? It seems a bit vague to me... Could \u0027bindAttribute\u0027 work instead?",
+      "range": {
+        "startLine": 151,
+        "startChar": 8,
+        "endLine": 151,
+        "endChar": 23
+      },
+      "revId": "6e1e69bcce4eec3311a0a3d85e51ed735cd1cec0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd913d94_5a288569",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-23T18:51:22Z",
+      "side": 1,
+      "message": "Why flush and done instead of flushAsynchronousOperations?",
+      "revId": "6e1e69bcce4eec3311a0a3d85e51ed735cd1cec0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

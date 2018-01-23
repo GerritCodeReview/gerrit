@@ -16,6 +16,24 @@
       "revId": "d692ed46ab699278284823539611cf222502cf28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79ca0190_441354aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-01-23T19:21:50Z",
+      "side": 1,
+      "message": "hold on, this really belongs to this change, I just do not recall the exact reason why I did that... Let me check and I will add info about it.",
+      "parentUuid": "850dad3a_79e76202",
+      "revId": "d692ed46ab699278284823539611cf222502cf28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

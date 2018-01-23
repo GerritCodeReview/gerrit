@@ -47,14 +47,14 @@ limitations under the License.
 
     const PARENT = 'PARENT';
 
-    setup(done => {
+    setup(() => {
       sandbox = sinon.sandbox.create();
 
       stub('gr-rest-api-interface', {
         getConfig() { return Promise.resolve({change: {}}); },
         getLoggedIn() { return Promise.resolve(false); },
         getProjectConfig() { return Promise.resolve({}); },
-        getDiffChangeDetail() { return Promise.resolve(null); },
+        getDiffChangeDetail() { return Promise.resolve({}); },
         getChangeFiles() { return Promise.resolve({}); },
         saveFileReviewed() { return Promise.resolve(); },
         getDiffComments() { return Promise.resolve({}); },
@@ -62,9 +62,7 @@ limitations under the License.
         getDiffDrafts() { return Promise.resolve({}); },
       });
       element = fixture('basic');
-      element._loadComments().then(() => {
-        done();
-      });
+      return element._loadComments();
     });
 
     teardown(() => {
@@ -511,7 +509,7 @@ limitations under the License.
       assert.isTrue(link.hasAttribute('download'));
     });
 
-    test('file review status', done => {
+    test('file review status', () => {
       const saveReviewedStub = sandbox.stub(element, '_saveReviewedState',
           () => Promise.resolve());
       sandbox.stub(element.$.diff, 'reload');
@@ -524,22 +522,27 @@ limitations under the License.
         basePatchNum: '1',
         path: '/COMMIT_MSG',
       };
+      flushAsynchronousOperations();
 
-      flush(() => {
-        const commitMsg = Polymer.dom(element.root).querySelector(
-            'input[type="checkbox"]');
+      const commitMsg = Polymer.dom(element.root).querySelector(
+          'input[type="checkbox"]');
 
-        assert.isTrue(commitMsg.checked);
-        MockInteractions.tap(commitMsg);
-        assert.isFalse(commitMsg.checked);
-        assert.isTrue(saveReviewedStub.lastCall.calledWithExactly(false));
+      assert.isTrue(commitMsg.checked);
+      MockInteractions.tap(commitMsg);
+      assert.isFalse(commitMsg.checked);
+      assert.isTrue(saveReviewedStub.lastCall.calledWithExactly(false));
 
-        MockInteractions.tap(commitMsg);
-        assert.isTrue(commitMsg.checked);
-        assert.isTrue(saveReviewedStub.lastCall.calledWithExactly(true));
+      MockInteractions.tap(commitMsg);
+      assert.isTrue(commitMsg.checked);
+      assert.isTrue(saveReviewedStub.lastCall.calledWithExactly(true));
+      const callCount = saveReviewedStub.callCount;
 
-        done();
-      });
+      element.set('params.view', Gerrit.Nav.View.CHANGE);
+      flushAsynchronousOperations();
+
+      // saveReviewedState observer observes params, but should not fire when
+      // view !== Gerrit.Nav.View.DIFF.
+      assert.equal(saveReviewedStub.callCount, callCount);
     });
 
     test('file review status with edit loaded', () => {

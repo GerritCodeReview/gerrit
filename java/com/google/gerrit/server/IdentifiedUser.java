@@ -325,12 +325,12 @@ public class IdentifiedUser extends CurrentUser {
     return false;
   }
 
-  public Set<String> getEmailAddresses() {
+  public ImmutableSet<String> getEmailAddresses() {
     if (!loadedAllEmails) {
       validEmails.addAll(realm.getEmailAddresses(this));
       loadedAllEmails = true;
     }
-    return validEmails;
+    return ImmutableSet.copyOf(validEmails);
   }
 
   public String getName() {

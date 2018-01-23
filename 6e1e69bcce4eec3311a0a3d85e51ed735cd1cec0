@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a8b3f2f2_7f461432",
+        "filename": "Documentation/pg-plugin-dev.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-23T21:39:26Z",
+      "side": 1,
+      "message": "`bindAttribute` sounds like a good name for a function that does one thing, while attributeHelper provides a bit more complex API than that.",
+      "parentUuid": "51344f81_5001f98e",
+      "range": {
+        "startLine": 151,
+        "startChar": 8,
+        "endLine": 151,
+        "endChar": 23
+      },
+      "revId": "6e1e69bcce4eec3311a0a3d85e51ed735cd1cec0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd913d94_5a288569",
         "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator_test.html",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "6e1e69bcce4eec3311a0a3d85e51ed735cd1cec0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5400dc8e_bd313cb7",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-23T21:39:26Z",
+      "side": 1,
+      "message": "`registerCustomComponent` triggers a lot of background work for which flushAsynchronousOperations isn\u0027t enough.",
+      "parentUuid": "bd913d94_5a288569",
+      "revId": "6e1e69bcce4eec3311a0a3d85e51ed735cd1cec0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

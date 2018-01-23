@@ -918,7 +918,7 @@ class ReceiveCommits {
                 reject(cmd, "invalid project configuration");
                 logError(
                     "User "
-                        + user.getUserName()
+                        + user.getLoggableName()
                         + " tried to push invalid project configuration "
                         + cmd.getNewId().name()
                         + " for "
@@ -994,7 +994,7 @@ class ReceiveCommits {
               reject(cmd, "invalid project configuration");
               logError(
                   "User "
-                      + user.getUserName()
+                      + user.getLoggableName()
                       + " tried to push invalid project configuration "
                       + cmd.getNewId().name()
                       + " for "

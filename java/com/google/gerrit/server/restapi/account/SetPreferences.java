@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
@@ -43,18 +44,18 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class SetPreferences implements RestModifyView<AccountResource, GeneralPreferencesInfo> {
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
-  private final AccountsUpdate.User accountsUpdate;
+  private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final DynamicMap<DownloadScheme> downloadSchemes;
 
   @Inject
   SetPreferences(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
-      AccountsUpdate.User accountsUpdate,
+      @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       DynamicMap<DownloadScheme> downloadSchemes) {
     this.self = self;
     this.permissionBackend = permissionBackend;
-    this.accountsUpdate = accountsUpdate;
+    this.accountsUpdateProvider = accountsUpdateProvider;
     this.downloadSchemes = downloadSchemes;
   }
 
@@ -70,8 +71,8 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
     Preferences.validateMy(input.my);
     Account.Id id = rsrc.getUser().getAccountId();
 
-    return accountsUpdate
-        .create()
+    return accountsUpdateProvider
+        .get()
         .update("Set General Preferences via API", id, u -> u.setGeneralPreferences(input))
         .map(AccountState::getGeneralPreferences)
         .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString())));

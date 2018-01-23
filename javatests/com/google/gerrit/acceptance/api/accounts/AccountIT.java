@@ -90,6 +90,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
@@ -174,7 +175,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Inject private Provider<PublicKeyStore> publicKeyStoreProvider;
 
-  @Inject private AccountsUpdate.Server accountsUpdate;
+  @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
 
   @Inject private ExternalIds externalIds;
 
@@ -348,7 +349,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void commitMessageOnAccountUpdates() throws Exception {
-    AccountsUpdate au = accountsUpdate.create();
+    AccountsUpdate au = accountsUpdateProvider.get();
     Account.Id accountId = new Account.Id(seq.nextAccountId());
     au.insert("Create Test Account", accountId, u -> {});
     assertLastCommitMessageOfUserBranch(accountId, "Create Test Account");
@@ -375,8 +376,8 @@ public class AccountIT extends AbstractDaemonTest {
       String fullName = "Foo";
       ExternalId extId = ExternalId.createEmail(accountId, "foo@example.com");
       AccountState accountState =
-          accountsUpdate
-              .create()
+          accountsUpdateProvider
+              .get()
               .insert(
                   "Create Account Atomically",
                   accountId,
@@ -403,8 +404,8 @@ public class AccountIT extends AbstractDaemonTest {
     Account.Id nonExistingAccountId = new Account.Id(999999);
     AtomicBoolean consumerCalled = new AtomicBoolean();
     Optional<AccountState> accountState =
-        accountsUpdate
-            .create()
+        accountsUpdateProvider
+            .get()
             .update(
                 "Update Non-Existing Account", nonExistingAccountId, a -> consumerCalled.set(true));
     assertThat(accountState).isEmpty();
@@ -418,8 +419,8 @@ public class AccountIT extends AbstractDaemonTest {
 
     String status = "OOO";
     Optional<AccountState> accountState =
-        accountsUpdate
-            .create()
+        accountsUpdateProvider
+            .get()
             .update("Set status", anonymousCoward.getId(), u -> u.setStatus(status));
     assertThat(accountState).isPresent();
     Account account = accountState.get().getAccount();
@@ -877,8 +878,8 @@ public class AccountIT extends AbstractDaemonTest {
     String email = "foo.bar@example.com";
     String extId1 = "foo:bar";
     String extId2 = "foo:baz";
-    accountsUpdate
-        .create()
+    accountsUpdateProvider
+        .get()
         .update(
             "Add External IDs",
             admin.id,
@@ -938,8 +939,8 @@ public class AccountIT extends AbstractDaemonTest {
 
     // exact match with other scheme
     String email = "foo.bar@example.com";
-    accountsUpdate
-        .create()
+    accountsUpdateProvider
+        .get()
         .update(
             "Add Email",
             admin.id,
@@ -970,8 +971,8 @@ public class AccountIT extends AbstractDaemonTest {
     String prefix = "foo.preferred";
     String prefEmail = prefix + "@example.com";
     TestAccount foo = accountCreator.create(name("foo"));
-    accountsUpdate
-        .create()
+    accountsUpdateProvider
+        .get()
         .update("Set Preferred Email", foo.id, u -> u.setPreferredEmail(prefEmail));
 
     // verify that the account is still found when using the preferred email to lookup the account
@@ -1449,8 +1450,8 @@ public class AccountIT extends AbstractDaemonTest {
     String userRef = RefNames.refsUsers(foo.id);
 
     String noEmail = "no.email";
-    accountsUpdate
-        .create()
+    accountsUpdateProvider
+        .get()
         .update("Set Preferred Email", foo.id, u -> u.setPreferredEmail(noEmail));
     accountIndexedCounter.clear();
 
@@ -1721,8 +1722,8 @@ public class AccountIT extends AbstractDaemonTest {
   public void addOtherUsersGpgKey_Conflict() throws Exception {
     // Both users have a matching external ID for this key.
     addExternalIdEmail(admin, "test5@example.com");
-    accountsUpdate
-        .create()
+    accountsUpdateProvider
+        .get()
         .update(
             "Add External ID",
             user.getId(),
@@ -1900,8 +1901,8 @@ public class AccountIT extends AbstractDaemonTest {
 
     // Delete the external ID for the preferred email. This makes the account inconsistent since it
     // now doesn't have an external ID for its preferred email.
-    accountsUpdate
-        .create()
+    accountsUpdateProvider
+        .get()
         .update(
             "Delete External ID",
             account.getId(),
@@ -1942,7 +1943,7 @@ public class AccountIT extends AbstractDaemonTest {
         .isEqualTo(getMetaId(admin.getId()));
 
     // metaId is set when account is created
-    AccountsUpdate au = accountsUpdate.create();
+    AccountsUpdate au = accountsUpdateProvider.get();
     Account.Id accountId = new Account.Id(seq.nextAccountId());
     AccountState accountState = au.insert("Create Test Account", accountId, u -> {});
     assertThat(accountState.getAccount().getMetaId()).isEqualTo(getMetaId(accountId));
@@ -2042,7 +2043,9 @@ public class AccountIT extends AbstractDaemonTest {
             () -> {
               if (!doneBgUpdate.getAndSet(true)) {
                 try {
-                  accountsUpdate.create().update("Set Status", admin.id, u -> u.setStatus(status));
+                  accountsUpdateProvider
+                      .get()
+                      .update("Set Status", admin.id, u -> u.setStatus(status));
                 } catch (IOException | ConfigInvalidException | OrmException e) {
                   // Ignore, the successful update of the account is asserted later
                 }
@@ -2096,8 +2099,8 @@ public class AccountIT extends AbstractDaemonTest {
             ident,
             () -> {
               try {
-                accountsUpdate
-                    .create()
+                accountsUpdateProvider
+                    .get()
                     .update(
                         "Set Status",
                         admin.id,
@@ -2157,7 +2160,9 @@ public class AccountIT extends AbstractDaemonTest {
             Runnables.doNothing(),
             () -> {
               try {
-                accountsUpdate.create().update("Set Status", admin.id, u -> u.setStatus("A-2"));
+                accountsUpdateProvider
+                    .get()
+                    .update("Set Status", admin.id, u -> u.setStatus("A-2"));
               } catch (IOException | ConfigInvalidException | OrmException e) {
                 // Ignore, the expected exception is asserted later
               }
@@ -2197,7 +2202,9 @@ public class AccountIT extends AbstractDaemonTest {
 
     Account.Id accountId = new Account.Id(seq.nextAccountId());
     ExternalId extIdA1 = ExternalId.create("foo", "A-1", accountId);
-    accountsUpdate.create().insert("Create Test Account", accountId, u -> u.addExternalId(extIdA1));
+    accountsUpdateProvider
+        .get()
+        .insert("Create Test Account", accountId, u -> u.addExternalId(extIdA1));
 
     AtomicInteger bgCounterA1 = new AtomicInteger(0);
     AtomicInteger bgCounterA2 = new AtomicInteger(0);
@@ -2224,8 +2231,8 @@ public class AccountIT extends AbstractDaemonTest {
             Runnables.doNothing(),
             () -> {
               try {
-                accountsUpdate
-                    .create()
+                accountsUpdateProvider
+                    .get()
                     .update(
                         "Update External ID",
                         accountId,
@@ -2457,8 +2464,8 @@ public class AccountIT extends AbstractDaemonTest {
 
   private void addExternalIdEmail(TestAccount account, String email) throws Exception {
     checkNotNull(email);
-    accountsUpdate
-        .create()
+    accountsUpdateProvider
+        .get()
         .update(
             "Add Email",
             account.getId(),

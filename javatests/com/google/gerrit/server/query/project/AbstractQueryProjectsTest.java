@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.Accounts;
@@ -62,7 +63,7 @@ import org.junit.Test;
 public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   @Inject protected Accounts accounts;
 
-  @Inject protected AccountsUpdate.Server accountsUpdate;
+  @Inject @ServerInitiated protected Provider<AccountsUpdate> accountsUpdate;
 
   @Inject protected AccountCache accountCache;
 
@@ -262,7 +263,7 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
         accountManager.link(id, AuthRequest.forEmail(email));
       }
       accountsUpdate
-          .create()
+          .get()
           .update(
               "Update Test Account",
               id,

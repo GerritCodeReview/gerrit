@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
 /**
  * A marker for database modifications which aren't directly related to a user request (e.g. happen
  * outside of a request context). Those modifications will be attributed to the Gerrit server by
- * using the Gerrit server identity as author and committer for all related NoteDb commits.
+ * using the Gerrit server identity as author for all related NoteDb commits.
  */
 @BindingAnnotation
 @Target({FIELD, PARAMETER, METHOD})

@@ -77,7 +77,7 @@ import org.junit.Test;
 public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   @Inject protected Accounts accounts;
 
-  @Inject protected AccountsUpdate.Server accountsUpdate;
+  @Inject @ServerInitiated protected Provider<AccountsUpdate> accountsUpdate;
 
   @Inject protected AccountCache accountCache;
 
@@ -408,7 +408,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
         accountManager.link(id, AuthRequest.forEmail(email));
       }
       accountsUpdate
-          .create()
+          .get()
           .update(
               "Update Test Account",
               id,

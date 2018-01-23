@@ -42,6 +42,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
@@ -52,6 +53,7 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -81,7 +83,7 @@ import org.eclipse.jgit.util.MutableInteger;
 import org.junit.Test;
 
 public class ExternalIdIT extends AbstractDaemonTest {
-  @Inject private AccountsUpdate.Server accountsUpdate;
+  @Inject @ServerInitiated private Provider<AccountsUpdate> accountsUpdateProvider;
   @Inject private ExternalIds externalIds;
   @Inject private ExternalIdReader externalIdReader;
   @Inject private ExternalIdNotes.Factory externalIdNotesFactory;
@@ -708,8 +710,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
   public void readExternalIdWithAccountIdThatCanBeExpressedInKiB() throws Exception {
     ExternalId.Key extIdKey = ExternalId.Key.parse("foo:bar");
     Account.Id accountId = new Account.Id(1024 * 100);
-    accountsUpdate
-        .create()
+    accountsUpdateProvider
+        .get()
         .insert(
             "Create Account with Bad External ID",
             accountId,
@@ -731,15 +733,15 @@ public class ExternalIdIT extends AbstractDaemonTest {
       // update external ID
       expectedExtIds.remove(extId);
       ExternalId extId2 = ExternalId.createWithEmail("foo", "bar", admin.id, "foo.bar@example.com");
-      accountsUpdate
-          .create()
+      accountsUpdateProvider
+          .get()
           .update("Update External ID", admin.id, u -> u.updateExternalId(extId2));
       expectedExtIds.add(extId2);
       assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExtIds);
 
       // delete external ID
-      accountsUpdate
-          .create()
+      accountsUpdateProvider
+          .get()
           .update("Delete External ID", admin.id, u -> u.deleteExternalId(extId));
       expectedExtIds.remove(extId2);
       assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExtIds);
@@ -778,8 +780,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   private void insertExtId(ExternalId extId) throws Exception {
-    accountsUpdate
-        .create()
+    accountsUpdateProvider
+        .get()
         .update("Add External ID", extId.accountId(), u -> u.addExternalId(extId));
   }
 

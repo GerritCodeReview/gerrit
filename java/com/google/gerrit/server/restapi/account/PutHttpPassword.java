@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -56,18 +57,18 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final ExternalIds externalIds;
-  private final AccountsUpdate.User accountsUpdate;
+  private final Provider<AccountsUpdate> accountsUpdateProvider;
 
   @Inject
   PutHttpPassword(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
       ExternalIds externalIds,
-      AccountsUpdate.User accountsUpdate) {
+      @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.externalIds = externalIds;
-    this.accountsUpdate = accountsUpdate;
+    this.accountsUpdateProvider = accountsUpdateProvider;
   }
 
   @Override
@@ -107,8 +108,8 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
     if (extId == null) {
       throw new ResourceNotFoundException();
     }
-    accountsUpdate
-        .create()
+    accountsUpdateProvider
+        .get()
         .update(
             "Set HTTP Password via API",
             extId.accountId(),

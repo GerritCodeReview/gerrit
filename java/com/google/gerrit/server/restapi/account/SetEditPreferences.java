@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
@@ -41,16 +42,16 @@ public class SetEditPreferences implements RestModifyView<AccountResource, EditP
 
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
-  private final AccountsUpdate.User accountsUpdate;
+  private final Provider<AccountsUpdate> accountsUpdateProvider;
 
   @Inject
   SetEditPreferences(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
-      AccountsUpdate.User accountsUpdate) {
+      @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
     this.self = self;
     this.permissionBackend = permissionBackend;
-    this.accountsUpdate = accountsUpdate;
+    this.accountsUpdateProvider = accountsUpdateProvider;
   }
 
   @Override
@@ -66,8 +67,8 @@ public class SetEditPreferences implements RestModifyView<AccountResource, EditP
     }
 
     Account.Id id = rsrc.getUser().getAccountId();
-    return accountsUpdate
-        .create()
+    return accountsUpdateProvider
+        .get()
         .update("Set Edit Preferences via API", id, u -> u.setEditPreferences(input))
         .map(AccountState::getEditPreferences)
         .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString())));

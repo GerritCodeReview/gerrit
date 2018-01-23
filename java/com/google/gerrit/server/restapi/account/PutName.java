@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
@@ -43,18 +44,18 @@ public class PutName implements RestModifyView<AccountResource, NameInput> {
   private final Provider<CurrentUser> self;
   private final Realm realm;
   private final PermissionBackend permissionBackend;
-  private final AccountsUpdate.Server accountsUpdate;
+  private final Provider<AccountsUpdate> accountsUpdateProvider;
 
   @Inject
   PutName(
       Provider<CurrentUser> self,
       Realm realm,
       PermissionBackend permissionBackend,
-      AccountsUpdate.Server accountsUpdate) {
+      @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
     this.self = self;
     this.realm = realm;
     this.permissionBackend = permissionBackend;
-    this.accountsUpdate = accountsUpdate;
+    this.accountsUpdateProvider = accountsUpdateProvider;
   }
 
   @Override
@@ -80,8 +81,8 @@ public class PutName implements RestModifyView<AccountResource, NameInput> {
 
     String newName = input.name;
     AccountState accountState =
-        accountsUpdate
-            .create()
+        accountsUpdateProvider
+            .get()
             .update("Set Full Name via API", user.getAccountId(), u -> u.setFullName(newName))
             .orElseThrow(() -> new ResourceNotFoundException("account not found"));
     return Strings.isNullOrEmpty(accountState.getAccount().getFullName())

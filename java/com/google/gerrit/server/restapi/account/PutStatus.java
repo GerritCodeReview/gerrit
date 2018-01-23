@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
@@ -39,16 +40,16 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class PutStatus implements RestModifyView<AccountResource, StatusInput> {
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
-  private final AccountsUpdate.Server accountsUpdate;
+  private final Provider<AccountsUpdate> accountsUpdateProvider;
 
   @Inject
   PutStatus(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
-      AccountsUpdate.Server accountsUpdate) {
+      @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
     this.self = self;
     this.permissionBackend = permissionBackend;
-    this.accountsUpdate = accountsUpdate;
+    this.accountsUpdateProvider = accountsUpdateProvider;
   }
 
   @Override
@@ -69,8 +70,8 @@ public class PutStatus implements RestModifyView<AccountResource, StatusInput> {
 
     String newStatus = input.status;
     AccountState accountState =
-        accountsUpdate
-            .create()
+        accountsUpdateProvider
+            .get()
             .update("Set Status via API", user.getAccountId(), u -> u.setStatus(newStatus))
             .orElseThrow(() -> new ResourceNotFoundException("account not found"));
     return Strings.isNullOrEmpty(accountState.getAccount().getStatus())

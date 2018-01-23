@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
@@ -44,16 +45,16 @@ public class DeleteWatchedProjects
     implements RestModifyView<AccountResource, List<ProjectWatchInfo>> {
   private final Provider<IdentifiedUser> self;
   private final PermissionBackend permissionBackend;
-  private final AccountsUpdate.User accountsUpdate;
+  private final Provider<AccountsUpdate> accountsUpdateProvider;
 
   @Inject
   DeleteWatchedProjects(
       Provider<IdentifiedUser> self,
       PermissionBackend permissionBackend,
-      AccountsUpdate.User accountsUpdate) {
+      @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
     this.self = self;
     this.permissionBackend = permissionBackend;
-    this.accountsUpdate = accountsUpdate;
+    this.accountsUpdateProvider = accountsUpdateProvider;
   }
 
   @Override
@@ -68,8 +69,8 @@ public class DeleteWatchedProjects
     }
 
     Account.Id accountId = rsrc.getUser().getAccountId();
-    accountsUpdate
-        .create()
+    accountsUpdateProvider
+        .get()
         .update(
             "Delete Project Watches via API",
             accountId,

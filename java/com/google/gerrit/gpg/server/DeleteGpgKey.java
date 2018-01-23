@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -42,18 +43,18 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
 
   private final Provider<PersonIdent> serverIdent;
   private final Provider<PublicKeyStore> storeProvider;
-  private final AccountsUpdate.User accountsUpdateFactory;
+  private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final ExternalIds externalIds;
 
   @Inject
   DeleteGpgKey(
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       Provider<PublicKeyStore> storeProvider,
-      AccountsUpdate.User accountsUpdateFactory,
+      @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       ExternalIds externalIds) {
     this.serverIdent = serverIdent;
     this.storeProvider = storeProvider;
-    this.accountsUpdateFactory = accountsUpdateFactory;
+    this.accountsUpdateProvider = accountsUpdateProvider;
     this.externalIds = externalIds;
   }
 
@@ -66,8 +67,8 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
         externalIds.get(
             ExternalId.Key.create(
                 SCHEME_GPGKEY, BaseEncoding.base16().encode(key.getFingerprint())));
-    accountsUpdateFactory
-        .create()
+    accountsUpdateProvider
+        .get()
         .update(
             "Delete GPG Key via API",
             rsrc.getUser().getAccountId(),

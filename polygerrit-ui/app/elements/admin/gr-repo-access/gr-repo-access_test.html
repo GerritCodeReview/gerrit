@@ -36,6 +36,7 @@ limitations under the License.
   suite('gr-repo-access tests', () => {
     let element;
     let sandbox;
+    let repoStub;
 
     const accessRes = {
       local: {
@@ -81,7 +82,15 @@ limitations under the License.
     };
     const repoRes = {
       labels: {
-        'Code-Review': {},
+        'Code-Review': {
+          values: {
+            ' 0': 'No score',
+            '-1': 'I would prefer this is not merged as is',
+            '-2': 'This shall not be merged',
+            '+1': 'Looks good to me, but someone else must approve',
+            '+2': 'Looks good to me, approved',
+          },
+        },
       },
     };
     const capabilitiesRes = {
@@ -100,6 +109,8 @@ limitations under the License.
       stub('gr-rest-api-interface', {
         getAccount() { return Promise.resolve(null); },
       });
+      repoStub = sandbox.stub(element.$.restAPI, 'getRepo').returns(
+          Promise.resolve(repoRes));
     });
 
     teardown(() => {
@@ -123,8 +134,6 @@ limitations under the License.
       const capabilitiesStub = sandbox.stub(element.$.restAPI,
           'getCapabilities');
       capabilitiesStub.returns(Promise.resolve(capabilitiesRes));
-      const repoStub = sandbox.stub(element.$.restAPI, 'getRepo').returns(
-          Promise.resolve(repoRes));
       const adminStub = sandbox.stub(element.$.restAPI, 'getIsAdmin').returns(
           Promise.resolve(true));
 
@@ -154,17 +163,10 @@ limitations under the License.
           name: 'Access Database',
         },
       };
-      const repoRes = {
-        labels: {
-          'Code-Review': {},
-        },
-      };
       const accessStub = sandbox.stub(element.$.restAPI, 'getRepoAccessRights')
           .returns(Promise.resolve(JSON.parse(JSON.stringify(accessRes2))));
       const capabilitiesStub = sandbox.stub(element.$.restAPI,
           'getCapabilities').returns(Promise.resolve(capabilitiesRes));
-      const repoStub = sandbox.stub(element.$.restAPI, 'getRepo').returns(
-          Promise.resolve(repoRes));
 
       element._repoChanged().then(() => {
         assert.isFalse(accessStub.called);
@@ -207,6 +209,7 @@ limitations under the License.
         element._sections = element.toSortedArray(element._local);
         element._groups = JSON.parse(JSON.stringify(accessRes.groups));
         element._capabilities = JSON.parse(JSON.stringify(capabilitiesRes));
+        element._labels = JSON.parse(JSON.stringify(repoRes.labels));
         flushAsynchronousOperations();
       });
 
@@ -416,26 +419,85 @@ limitations under the License.
       });
 
       test('_computeAddAndRemove sections', () => {
-        assert.deepEqual(element._computeAddAndRemove(), {add: {}, remove: {}});
+        // Add a new permission to a section
+        expectedInput = {
+          add: {
+            'refs/*': {
+              permissions: {
+                'label-Code-Review': {
+                  added: true,
+                  rules: {},
+                  label: 'Code-Review',
+                },
+              },
+            },
+          },
+          remove: {},
+        };
+        element.$$('gr-access-section')._handleAddPermission();
+        flushAsynchronousOperations();
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+        // Add a new rule to the new permission.
+        expectedInput = {
+          add: {
+            'refs/*': {
+              permissions: {
+                'label-Code-Review': {
+                  added: true,
+                  rules: {
+                    Maintainers: {
+                      min: -2,
+                      max: 2,
+                      action: 'ALLOW',
+                      added: true,
+                    },
+                  },
+                  label: 'Code-Review',
+                },
+              },
+            },
+          },
+          remove: {},
+        };
+        const newPermission =
+            Polymer.dom(element.$$('gr-access-section').root).querySelectorAll(
+                'gr-permission')[2];
+        newPermission._handleAddRuleItem(
+           {detail: {value: {id: 'Maintainers'}}});
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
         // Modify a section reference.
         element._local['refs/*'].updatedId = 'refs/for/bar';
         element._local['refs/*'].modified = true;
-        let expectedInput = {
+        expectedInput = {
           add: {
             'refs/for/bar': {
               modified: true,
               updatedId: 'refs/for/bar',
               permissions: {
-                owner: {
+                'owner': {
                   rules: {
                     234: {action: 'ALLOW'},
                     123: {action: 'DENY'},
                   },
                 },
-                read: {
+                'read': {
                   rules: {
                     234: {action: 'ALLOW'},
                   },
+                },
+                'label-Code-Review': {
+                  added: true,
+                  rules: {
+                    Maintainers: {
+                      min: -2,
+                      max: 2,
+                      action: 'ALLOW',
+                      added: true,
+                    },
+                  },
+                  label: 'Code-Review',
                 },
               },
             },
@@ -537,7 +599,7 @@ limitations under the License.
         };
         assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
-        // Add a permission to the existing rule;
+        // Add a rule to the existing permission;
         const readPermission =
             Polymer.dom(element.$$('gr-access-section').root).querySelectorAll(
                 'gr-permission')[1];
@@ -638,8 +700,6 @@ limitations under the License.
         };
         sandbox.stub(element.$.restAPI, 'getRepoAccessRights').returns(
             Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
-        sandbox.stub(element.$.restAPI, 'getRepo')
-            .returns(Promise.resolve({}));
         sandbox.stub(Gerrit.Nav, 'navigateToChange');
         const saveForReviewStub = sandbox.stub(element.$.restAPI,
             'setProjectAccessRightsForReview')

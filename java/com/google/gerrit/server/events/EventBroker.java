@@ -180,7 +180,8 @@ public class EventBroker implements EventDispatcher {
     if (pe == null) {
       return false;
     }
-    return permissionBackend.user(user).ref(branchName).test(RefPermission.READ);
+    return pe.statePermitsRead()
+        && permissionBackend.user(user).ref(branchName).test(RefPermission.READ);
   }
 
   protected boolean isVisibleTo(Event event, CurrentUser user)

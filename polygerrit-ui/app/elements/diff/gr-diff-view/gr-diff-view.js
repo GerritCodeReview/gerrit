@@ -182,6 +182,7 @@
       'a shift+a': '_handleAKey',
       'u': '_handleUKey',
       ',': '_handleCommaKey',
+      'v': '_handleVKey',
     },
 
     attached() {
@@ -419,6 +420,18 @@
 
       e.preventDefault();
       this.$.diffPreferences.open();
+    },
+
+    _handleVKey(e) {
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
+
+      e.preventDefault();
+      if (this.changeViewState.diffMode=='SIDE_BY_SIDE') {
+        this.set('changeViewState.diffMode', 'UNIFIED_DIFF');
+      } else {
+        this.set('changeViewState.diffMode', 'SIDE_BY_SIDE');
+      }
     },
 
     _navToChangeView() {

@@ -2788,7 +2788,8 @@ class ReceiveCommits {
                   + branch.get()
                   + " without "
                   + PUSH_OPTION_SKIP_VALIDATION
-                  + " option");
+                  + " option (see https://gerrit-review.googlesource.com/Documentation/"
+                  + "user-upload.html#skip_validation details)");
           reject(cmd, "too many commits");
           return;
         }

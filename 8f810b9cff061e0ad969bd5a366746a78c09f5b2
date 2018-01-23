@@ -52,6 +52,24 @@
       "revId": "8f810b9cff061e0ad969bd5a366746a78c09f5b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0f1fb5b_b07f75dd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-23T23:39:56Z",
+      "side": 1,
+      "message": "🤦‍♂️\n\nThe fact that this is the best/fastest way to deep copy in the language we work with every day is so crazy. But yeah, SGTM with a comment!",
+      "parentUuid": "dbe2bce4_c5f25ae3",
+      "revId": "8f810b9cff061e0ad969bd5a366746a78c09f5b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

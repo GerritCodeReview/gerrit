@@ -157,6 +157,7 @@ public class AccountState {
   private final AllUsersName allUsersName;
   private final Account account;
   private final ImmutableSet<ExternalId> externalIds;
+  private final Optional<String> userName;
   private final Supplier<ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>>> projectWatches;
   private final Supplier<GeneralPreferencesInfo> generalPreferences;
   private final Supplier<DiffPreferencesInfo> diffPreferences;
@@ -174,11 +175,11 @@ public class AccountState {
     this.allUsersName = allUsersName;
     this.account = account;
     this.externalIds = externalIds;
+    this.userName = ExternalId.getUserName(externalIds);
     this.projectWatches = projectWatches;
     this.generalPreferences = generalPreferences;
     this.diffPreferences = diffPreferences;
     this.editPreferences = editPreferences;
-    this.account.setUserName(ExternalId.getUserName(externalIds).orElse(null));
   }
 
   public AllUsersName getAllUsersNameForIndexing() {
@@ -194,9 +195,12 @@ public class AccountState {
    * Get the username, if one has been declared for this user.
    *
    * <p>The username is the {@link ExternalId} using the scheme {@link ExternalId#SCHEME_USERNAME}.
+   *
+   * @return the username, {@link Optional#empty()} if the user has no username, or if the username
+   *     is empty
    */
-  public String getUserName() {
-    return account.getUserName();
+  public Optional<String> getUserName() {
+    return userName;
   }
 
   public boolean checkPassword(String password, String username) {

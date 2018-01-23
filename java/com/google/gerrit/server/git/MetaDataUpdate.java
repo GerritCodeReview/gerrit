@@ -262,6 +262,6 @@ public class MetaDataUpdate implements AutoCloseable {
   }
 
   protected void fireGitRefUpdatedEvent(RefUpdate ru) {
-    gitRefUpdated.fire(projectName, ru, author == null ? null : author.getAccount());
+    gitRefUpdated.fire(projectName, ru, author == null ? null : author.state());
   }
 }

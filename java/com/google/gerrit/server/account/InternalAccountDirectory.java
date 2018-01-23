@@ -69,15 +69,16 @@ public class InternalAccountDirectory extends AccountDirectory {
     for (AccountInfo info : in) {
       Account.Id id = new Account.Id(info._accountId);
       AccountState state = accountCache.get(id);
-      fill(info, state.getAccount(), state.getExternalIds(), options);
+      fill(info, state, state.getExternalIds(), options);
     }
   }
 
   private void fill(
       AccountInfo info,
-      Account account,
+      AccountState accountState,
       @Nullable Collection<ExternalId> externalIds,
       Set<FillOptions> options) {
+    Account account = accountState.getAccount();
     if (options.contains(FillOptions.ID)) {
       info._accountId = account.getId().get();
     } else {
@@ -87,7 +88,7 @@ public class InternalAccountDirectory extends AccountDirectory {
     if (options.contains(FillOptions.NAME)) {
       info.name = Strings.emptyToNull(account.getFullName());
       if (info.name == null) {
-        info.name = account.getUserName();
+        info.name = accountState.getUserName().orElse(null);
       }
     }
     if (options.contains(FillOptions.EMAIL)) {

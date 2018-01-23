@@ -18,7 +18,6 @@ import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.auth.oauth.OAuthTokenCache;
@@ -57,13 +56,12 @@ class GetOAuthToken implements RestReadView<AccountResource> {
     if (self.get() != rsrc.getUser()) {
       throw new AuthException("not allowed to get access token");
     }
-    Account a = rsrc.getUser().getAccount();
-    OAuthToken accessToken = tokenCache.get(a.getId());
+    OAuthToken accessToken = tokenCache.get(rsrc.getUser().getAccountId());
     if (accessToken == null) {
       throw new ResourceNotFoundException();
     }
     OAuthTokenInfo accessTokenInfo = new OAuthTokenInfo();
-    accessTokenInfo.username = a.getUserName();
+    accessTokenInfo.username = rsrc.getUser().state().getUserName().orElse(null);
     accessTokenInfo.resourceHost = getHostName(canonicalWebUrlProvider.get());
     accessTokenInfo.accessToken = accessToken.getToken();
     accessTokenInfo.providerId = accessToken.getProviderId();

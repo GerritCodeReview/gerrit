@@ -551,8 +551,8 @@ public class GroupsUpdate {
   }
 
   static String getAccountName(AccountCache accountCache, Account.Id accountId) {
-    AccountState accountState = accountCache.getOrNull(accountId);
-    return Optional.ofNullable(accountState)
+    return accountCache
+        .maybeGet(accountId)
         .map(AccountState::getAccount)
         .map(account -> account.getName())
         // Historically, the database did not enforce relational integrity, so it is
@@ -612,7 +612,7 @@ public class GroupsUpdate {
 
     RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
     gitRefUpdated.fire(
-        allUsersName, batchRefUpdate, currentUser != null ? currentUser.getAccount() : null);
+        allUsersName, batchRefUpdate, currentUser != null ? currentUser.state() : null);
   }
 
   private void updateCachesOnGroupCreation(InternalGroup createdGroup) throws IOException {

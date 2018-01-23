@@ -37,6 +37,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyUtil;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.VoteResource;
@@ -134,7 +135,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
           change.getId(),
           new Op(
               projectCache.checkedGet(r.getChange().getProject()),
-              r.getReviewerUser().getAccount(),
+              r.getReviewerUser().state(),
               rsrc.getLabel(),
               input));
       bu.execute();
@@ -145,7 +146,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
 
   private class Op implements BatchUpdateOp {
     private final ProjectState projectState;
-    private final Account account;
+    private final AccountState accountState;
     private final String label;
     private final DeleteVoteInput input;
 
@@ -155,9 +156,10 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
     private Map<String, Short> newApprovals = new HashMap<>();
     private Map<String, Short> oldApprovals = new HashMap<>();
 
-    private Op(ProjectState projectState, Account account, String label, DeleteVoteInput input) {
+    private Op(
+        ProjectState projectState, AccountState accountState, String label, DeleteVoteInput input) {
       this.projectState = projectState;
-      this.account = account;
+      this.accountState = accountState;
       this.label = label;
       this.input = input;
     }
@@ -173,13 +175,15 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       boolean found = false;
       LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes(), ctx.getUser());
 
+      Account.Id accountId = accountState.getAccount().getId();
+
       for (PatchSetApproval a :
           approvalsUtil.byPatchSetUser(
               ctx.getDb(),
               ctx.getNotes(),
               ctx.getUser(),
               psId,
-              account.getId(),
+              accountId,
               ctx.getRevWalk(),
               ctx.getRepoView().getConfig())) {
         if (labelTypes.byLabel(a.getLabelId()) == null) {
@@ -207,13 +211,13 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
         throw new ResourceNotFoundException();
       }
 
-      ctx.getUpdate(psId).removeApprovalFor(account.getId(), label);
+      ctx.getUpdate(psId).removeApprovalFor(accountId, label);
       ctx.getDb().patchSetApprovals().upsert(Collections.singleton(deletedApproval(ctx)));
 
       StringBuilder msg = new StringBuilder();
       msg.append("Removed ");
       LabelVote.appendTo(msg, label, checkNotNull(oldApprovals.get(label)));
-      msg.append(" by ").append(userFactory.create(account.getId()).getNameEmail()).append("\n");
+      msg.append(" by ").append(userFactory.create(accountId).getNameEmail()).append("\n");
       changeMessage =
           ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_DELETE_VOTE);
       cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), changeMessage);
@@ -226,7 +230,8 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       // set the real user; this preserves the calling user as the NoteDb
       // committer.
       return new PatchSetApproval(
-          new PatchSetApproval.Key(ps.getId(), account.getId(), new LabelId(label)),
+          new PatchSetApproval.Key(
+              ps.getId(), accountState.getAccount().getId(), new LabelId(label)),
           (short) 0,
           ctx.getWhen());
     }
@@ -254,12 +259,12 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       voteDeleted.fire(
           change,
           ps,
-          account,
+          accountState,
           newApprovals,
           oldApprovals,
           input.notify,
           changeMessage.getMessage(),
-          user.getAccount(),
+          user.state(),
           ctx.getWhen());
     }
   }

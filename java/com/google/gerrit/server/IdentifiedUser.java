@@ -291,10 +291,14 @@ public class IdentifiedUser extends CurrentUser {
     return accountId;
   }
 
-  /** @return the user's user name; null if one has not been selected/assigned. */
+  /**
+   * @return the user's user name; null if one has not been selected/assigned or if the user name is
+   *     empty.
+   */
   @Override
+  @Nullable
   public String getUserName() {
-    return state().getUserName();
+    return state().getUserName().orElse(null);
   }
 
   public Account getAccount() {
@@ -379,7 +383,7 @@ public class IdentifiedUser extends CurrentUser {
       // necessarily want to publish through Git records.
       //
       String user = getUserName();
-      if (user == null || user.isEmpty()) {
+      if (user == null) {
         user = "account-" + ua.getId().toString();
       }
 

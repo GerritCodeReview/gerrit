@@ -301,6 +301,11 @@ public class IdentifiedUser extends CurrentUser {
     return state().getUserName().orElse(null);
   }
 
+  /** @return unique name of the user for logging, never {@code null} */
+  public String getLoggableName() {
+    return getUserName() != null ? getUserName() : "a/" + getAccountId().get();
+  }
+
   public Account getAccount() {
     return state().getAccount();
   }

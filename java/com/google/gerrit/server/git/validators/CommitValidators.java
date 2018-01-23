@@ -447,7 +447,7 @@ public class CommitValidators {
         } catch (ConfigInvalidException | IOException e) {
           log.error(
               "User "
-                  + user.getUserName()
+                  + user.getLoggableName()
                   + " tried to push an invalid project configuration "
                   + receiveEvent.command.getNewId().name()
                   + " for project "

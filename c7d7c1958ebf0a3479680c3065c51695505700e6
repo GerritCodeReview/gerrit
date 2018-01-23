@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a85c1c51_c64b1122",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2791,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-23T23:44:33Z",
+      "side": 1,
+      "message": "This should use the canonical web url.  See for example how it\u0027s done for installCommitMsgHookCommand in CommitValidators.",
+      "range": {
+        "startLine": 2791,
+        "startChar": 34,
+        "endLine": 2791,
+        "endChar": 73
+      },
+      "revId": "c7d7c1958ebf0a3479680c3065c51695505700e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3df76783_fad9ef0d",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 1

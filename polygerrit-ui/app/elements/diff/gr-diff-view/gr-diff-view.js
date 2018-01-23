@@ -605,8 +605,9 @@
       }
     },
 
-    _setReviewedObserver(_loggedIn) {
-      if (_loggedIn) {
+    _setReviewedObserver(_loggedIn, paramsRecord) {
+      const params = paramsRecord.base || {};
+      if (_loggedIn && params.view === Gerrit.Nav.View.DIFF) {
         this._setReviewed(true);
       }
     },

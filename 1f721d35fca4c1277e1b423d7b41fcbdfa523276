@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2db7c4d1_8a138179",
+        "filename": "java/com/google/gerrit/testing/InMemoryTestEnvironment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-23T09:05:50Z",
+      "side": 1,
+      "message": "what does \u0027without\u0027 mean here? Does it skip an initialization step, or is certain functionality (what?) missing?",
+      "range": {
+        "startLine": 41,
+        "startChar": 70,
+        "endLine": 41,
+        "endChar": 77
+      },
+      "revId": "1f721d35fca4c1277e1b423d7b41fcbdfa523276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d1a0ebc_1c1e18f7",
+        "filename": "java/com/google/gerrit/testing/InMemoryTestEnvironment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-23T09:05:50Z",
+      "side": 1,
+      "message": "optnit: drop",
+      "range": {
+        "startLine": 44,
+        "startChar": 40,
+        "endLine": 44,
+        "endChar": 51
+      },
+      "revId": "1f721d35fca4c1277e1b423d7b41fcbdfa523276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -83,5 +83,17 @@
     return this._promises[name];
   };
 
+  /**
+   * Sets value and dispatches event to force notify.
+   *
+   * @param {string} name Property name.
+   * @param {?} value
+   */
+  GrAttributeHelper.prototype.set = function(name, value) {
+    this.element[name] = value;
+    this.element.dispatchEvent(
+        new CustomEvent(this._getChangedEventName(name), {detail: {value}}));
+  };
+
   window.GrAttributeHelper = GrAttributeHelper;
 })(window);

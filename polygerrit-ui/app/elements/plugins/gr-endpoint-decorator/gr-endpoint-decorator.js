@@ -72,10 +72,14 @@
       if (opt_content) {
         el.content = opt_content;
       }
-      const expectProperties = this._getEndpointParams().map(
-          paramEl => plugin.attributeHelper(paramEl).get('value')
-              .then(value => el[paramEl.getAttribute('name')] = value)
-      );
+      const expectProperties = this._getEndpointParams().map(paramEl => {
+        const helper = plugin.attributeHelper(paramEl);
+        const paramName = paramEl.getAttribute('name');
+        return helper.get('value').then(
+            value => helper.bind('value',
+                value => plugin.attributeHelper(el).set(paramName, value))
+            );
+      });
       let timeoutId;
       const timeout = new Promise(
         resolve => timeoutId = setTimeout(() => {

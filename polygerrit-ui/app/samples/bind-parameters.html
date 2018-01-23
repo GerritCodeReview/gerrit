@@ -1,0 +1,37 @@
+<dom-module id="bind-parameters">
+  <script>
+    Gerrit.install(plugin => {
+      plugin.registerCustomComponent(
+          'change-view-integration', 'my-bind-sample');
+    });
+  </script>
+</dom-module>
+
+<dom-module id="my-bind-sample">
+  <template>
+    Template example: Patchset number [[revision._number]]. <br/>
+    Computed example: [[computedExample]].
+  </template>
+  <script>
+    Polymer({
+      is: 'my-bind-sample',
+      properties: {
+        computedExample: {
+          type: String,
+          computed: '_computeExample(revision._number)',
+        },
+      },
+      attached() {
+        this.plugin.attributeHelper(this).bind(
+            'revision', this._onRevisionChanged.bind(this));
+      },
+      _computeExample(value) {
+        if (!value) { return '(empty)'; }
+        return `(patchset ${value} selected)`;
+      },
+      _onRevisionChanged(value) {
+        console.log(`(attributeHelper.bind) revision number: ${value._number}`);
+      },
+    });
+  </script>
+</dom-module>

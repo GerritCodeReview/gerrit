@@ -22,6 +22,30 @@
       "revId": "0632858ec18227d7cc4255c3aee39a63f9112241",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f91f99eb_55e86fc2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-23T20:46:43Z",
+      "side": 0,
+      "message": "Thanks for clarifying. Yes, I thinkm I was seeing that the test hang. So may be we should add the fact that the population of diffSummaryCache from diff cache cannot be done now and is omitied. Just move this explanation to the commit message here?",
+      "parentUuid": "7b48df3d_32cb7157",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 84
+      },
+      "revId": "0632858ec18227d7cc4255c3aee39a63f9112241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "859dd968_e4267b40",
+        "filename": "java/com/google/gerrit/server/restapi/change/RelatedChangesSorter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-23T09:59:17Z",
+      "side": 1,
+      "message": "This may return null.",
+      "range": {
+        "startLine": 248,
+        "startChar": 11,
+        "endLine": 248,
+        "endChar": 56
+      },
+      "revId": "b800437b78cad21302b7400f1adab4e01561967f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

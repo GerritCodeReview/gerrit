@@ -70,6 +70,30 @@
       "revId": "8ce17324a5e89d8ed3fd924f2db8b70ca64279ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1773ebb9_1f753760",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-23T22:05:35Z",
+      "side": 1,
+      "message": "Unfortunately, there is no way to minimize that. The function is an observer to eight different things, most of which have default values. There may be some optimizations possible, but I think a rethink of this approach is out of scope for this change.\n\nDocumentation added!",
+      "parentUuid": "f0882959_7eb48541",
+      "range": {
+        "startLine": 549,
+        "startChar": 12,
+        "endLine": 549,
+        "endChar": 44
+      },
+      "revId": "8ce17324a5e89d8ed3fd924f2db8b70ca64279ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

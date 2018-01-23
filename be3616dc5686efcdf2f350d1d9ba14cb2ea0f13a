@@ -46,6 +46,30 @@
       "revId": "be3616dc5686efcdf2f350d1d9ba14cb2ea0f13a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cc849d9_473742dc",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6837,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-23T23:06:22Z",
+      "side": 1,
+      "message": "...whoops. Forgot to publish the edit. Follow-up change incoming.",
+      "parentUuid": "eb46ee24_99c4761d",
+      "range": {
+        "startLine": 6837,
+        "startChar": 39,
+        "endLine": 6837,
+        "endChar": 48
+      },
+      "revId": "be3616dc5686efcdf2f350d1d9ba14cb2ea0f13a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

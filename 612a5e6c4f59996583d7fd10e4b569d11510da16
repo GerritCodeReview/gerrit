@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "79a813f0_95f4dacd",
+        "filename": "java/com/google/gerrit/httpd/GetUserFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-23T15:54:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa473029_6293fd6e",
+      "revId": "612a5e6c4f59996583d7fd10e4b569d11510da16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10717a81_64071283",
         "filename": "java/com/google/gerrit/server/project/RefPatternMatcher.java",
         "patchSetId": 5
@@ -31,6 +49,30 @@
       "writtenOn": "2018-01-23T15:09:54Z",
       "side": 1,
       "message": "Optional: this is a common expression, so you could factor further:\n\n Stream\u003cString\u003e usernames \u003d Streams.stream(user.getUserName());\n if (user.isIdentifiedUser()) {\n   usernames \u003d Streams.concat(usernames, user.asIdentifiedUser().getEmailAddresses().stream());\n }\n return usernames.collect(toImmutableSet());",
+      "range": {
+        "startLine": 142,
+        "startChar": 13,
+        "endLine": 142,
+        "endChar": 47
+      },
+      "revId": "612a5e6c4f59996583d7fd10e4b569d11510da16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "131dcbd3_7da7614f",
+        "filename": "java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-23T15:54:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10717a81_64071283",
       "range": {
         "startLine": 142,
         "startChar": 13,

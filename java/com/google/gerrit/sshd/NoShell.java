@@ -17,6 +17,7 @@ package com.google.gerrit.sshd;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.sshd.SshScope.Context;
@@ -127,13 +128,18 @@ class NoShell implements Factory<Command> {
     private final IdentifiedUser user;
     private final SshInfo sshInfo;
     private final Provider<String> urlProvider;
+    private final String anonymousCowardName;
 
     @Inject
     MessageFactory(
-        IdentifiedUser user, SshInfo sshInfo, @CanonicalWebUrl Provider<String> urlProvider) {
+        IdentifiedUser user,
+        SshInfo sshInfo,
+        @CanonicalWebUrl Provider<String> urlProvider,
+        @AnonymousCowardName String anonymousCowardName) {
       this.user = user;
       this.sshInfo = sshInfo;
       this.urlProvider = urlProvider;
+      this.anonymousCowardName = anonymousCowardName;
     }
 
     String getMessage() {
@@ -146,7 +152,7 @@ class NoShell implements Factory<Command> {
       Account account = user.getAccount();
       String name = account.getFullName();
       if (name == null || name.isEmpty()) {
-        name = user.getUserName();
+        name = user.getUserName() != null ? user.getUserName() : anonymousCowardName;
       }
       msg.append("  Hi ");
       msg.append(name);

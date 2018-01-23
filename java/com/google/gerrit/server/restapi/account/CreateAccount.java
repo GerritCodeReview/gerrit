@@ -72,7 +72,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
   private final GroupsCollection groupsCollection;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final SshKeyCache sshKeyCache;
-  private final AccountsUpdate.User accountsUpdate;
+  private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final AccountLoader.Factory infoLoader;
   private final DynamicSet<AccountExternalIdCreator> externalIdCreators;
   private final Provider<GroupsUpdate> groupsUpdate;
@@ -86,7 +86,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       GroupsCollection groupsCollection,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       SshKeyCache sshKeyCache,
-      AccountsUpdate.User accountsUpdate,
+      @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       AccountLoader.Factory infoLoader,
       DynamicSet<AccountExternalIdCreator> externalIdCreators,
       @UserInitiated Provider<GroupsUpdate> groupsUpdate,
@@ -97,7 +97,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     this.groupsCollection = groupsCollection;
     this.authorizedKeys = authorizedKeys;
     this.sshKeyCache = sshKeyCache;
-    this.accountsUpdate = accountsUpdate;
+    this.accountsUpdateProvider = accountsUpdateProvider;
     this.infoLoader = infoLoader;
     this.externalIdCreators = externalIdCreators;
     this.groupsUpdate = groupsUpdate;
@@ -142,8 +142,8 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     }
 
     try {
-      accountsUpdate
-          .create()
+      accountsUpdateProvider
+          .get()
           .insert(
               "Create Account via API",
               id,

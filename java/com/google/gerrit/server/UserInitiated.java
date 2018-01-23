@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
 /**
  * A marker for database modifications which are directly related to a user request (e.g. happen
  * inside of a request context). Those modifications will be attributed to the user by using the
- * user's identity as author and committer for all related NoteDb commits.
+ * user's identity as author for all related NoteDb commits.
  */
 @BindingAnnotation
 @Target({FIELD, PARAMETER, METHOD})

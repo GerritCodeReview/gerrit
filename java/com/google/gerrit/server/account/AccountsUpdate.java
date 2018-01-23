@@ -44,7 +44,7 @@ import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
@@ -92,9 +92,11 @@ import org.eclipse.jgit.lib.Repository;
  *
  * <p>On updating an account the account is evicted from the account cache and thus reindexed. The
  * eviction from the account cache is done by the {@link ReindexAfterRefUpdate} class which receives
- * the event about updating the user branch that is triggered by this class. By using the {@link
- * ServerNoReindex} factory reindexing and flushing the account from the account cache can be
- * disabled. If external IDs are updated the ExternalIdCache is automatically updated.
+ * the event about updating the user branch that is triggered by this class. By passing an {@link
+ * ExternalIdNotes.FactoryNoReindex} factory as parameter of {@link
+ * AccountsUpdate.Factory#create(IdentifiedUser, ExternalIdNotesLoader)}, reindexing and flushing
+ * the account from the account cache can be disabled. If external IDs are updated, the
+ * ExternalIdCache is automatically updated.
  *
  * <p>If there are concurrent account updates updating the user branch in NoteDb may fail with
  * {@link LockFailureException}. In this case the account update is automatically retried and the
@@ -102,8 +104,22 @@ import org.eclipse.jgit.lib.Repository;
  * read-modify-write sequence is atomic. Retrying is limited by a timeout. If the timeout is
  * exceeded the account update can still fail with {@link LockFailureException}.
  */
-@Singleton
 public class AccountsUpdate {
+  public interface Factory {
+    /**
+     * Creates an {@code AccountsUpdate} which uses the identity of the specified user as author for
+     * all commits related to accounts. The Gerrit server identity will be used as committer.
+     *
+     * <p><strong>Note</strong>: Please use this method with care and rather consider to use the
+     * correct annotation on the provider of an {@code AccountsUpdate} instead.
+     *
+     * @param currentUser the user to which modifications should be attributed, or {@code null} if
+     *     the Gerrit server identity should also be used as author
+     */
+    AccountsUpdate create(
+        @Nullable IdentifiedUser currentUser, ExternalIdNotesLoader externalIdNotesLoader);
+  }
+
   /**
    * Updater for an account.
    *
@@ -135,177 +151,6 @@ public class AccountsUpdate {
     }
   }
 
-  /**
-   * Factory to create an AccountsUpdate instance for updating accounts by the Gerrit server.
-   *
-   * <p>The Gerrit server identity will be used as author and committer for all commits that update
-   * the accounts.
-   */
-  @Singleton
-  public static class Server {
-    private final GitRepositoryManager repoManager;
-    private final GitReferenceUpdated gitRefUpdated;
-    private final AllUsersName allUsersName;
-    private final ExternalIds externalIds;
-    private final Provider<PersonIdent> serverIdentProvider;
-    private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
-    private final RetryHelper retryHelper;
-    private final ExternalIdNotes.Factory extIdNotesFactory;
-
-    @Inject
-    public Server(
-        GitRepositoryManager repoManager,
-        GitReferenceUpdated gitRefUpdated,
-        AllUsersName allUsersName,
-        ExternalIds externalIds,
-        @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
-        Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
-        RetryHelper retryHelper,
-        ExternalIdNotes.Factory extIdNotesFactory) {
-      this.repoManager = repoManager;
-      this.gitRefUpdated = gitRefUpdated;
-      this.allUsersName = allUsersName;
-      this.externalIds = externalIds;
-      this.serverIdentProvider = serverIdentProvider;
-      this.metaDataUpdateInternalFactory = metaDataUpdateInternalFactory;
-      this.retryHelper = retryHelper;
-      this.extIdNotesFactory = extIdNotesFactory;
-    }
-
-    public AccountsUpdate create() {
-      PersonIdent serverIdent = serverIdentProvider.get();
-      return new AccountsUpdate(
-          repoManager,
-          gitRefUpdated,
-          null,
-          allUsersName,
-          externalIds,
-          metaDataUpdateInternalFactory,
-          retryHelper,
-          extIdNotesFactory,
-          serverIdent,
-          serverIdent);
-    }
-  }
-
-  /**
-   * Factory to create an AccountsUpdate instance for updating accounts by the Gerrit server.
-   *
-   * <p>Using this class no reindex will be performed for the affected accounts and they will also
-   * not be evicted from the account cache.
-   *
-   * <p>The Gerrit server identity will be used as author and committer for all commits that update
-   * the accounts.
-   */
-  @Singleton
-  public static class ServerNoReindex {
-    private final GitRepositoryManager repoManager;
-    private final GitReferenceUpdated gitRefUpdated;
-    private final AllUsersName allUsersName;
-    private final ExternalIds externalIds;
-    private final Provider<PersonIdent> serverIdentProvider;
-    private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
-    private final RetryHelper retryHelper;
-    private final ExternalIdNotes.FactoryNoReindex extIdNotesFactory;
-
-    @Inject
-    public ServerNoReindex(
-        GitRepositoryManager repoManager,
-        GitReferenceUpdated gitRefUpdated,
-        AllUsersName allUsersName,
-        ExternalIds externalIds,
-        @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
-        Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
-        RetryHelper retryHelper,
-        ExternalIdNotes.FactoryNoReindex extIdNotesFactory) {
-      this.repoManager = repoManager;
-      this.gitRefUpdated = gitRefUpdated;
-      this.allUsersName = allUsersName;
-      this.externalIds = externalIds;
-      this.serverIdentProvider = serverIdentProvider;
-      this.metaDataUpdateInternalFactory = metaDataUpdateInternalFactory;
-      this.retryHelper = retryHelper;
-      this.extIdNotesFactory = extIdNotesFactory;
-    }
-
-    public AccountsUpdate create() {
-      PersonIdent serverIdent = serverIdentProvider.get();
-      return new AccountsUpdate(
-          repoManager,
-          gitRefUpdated,
-          null,
-          allUsersName,
-          externalIds,
-          metaDataUpdateInternalFactory,
-          retryHelper,
-          extIdNotesFactory,
-          serverIdent,
-          serverIdent);
-    }
-  }
-
-  /**
-   * Factory to create an AccountsUpdate instance for updating accounts by the current user.
-   *
-   * <p>The identity of the current user will be used as author for all commits that update the
-   * accounts. The Gerrit server identity will be used as committer.
-   */
-  @Singleton
-  public static class User {
-    private final GitRepositoryManager repoManager;
-    private final GitReferenceUpdated gitRefUpdated;
-    private final AllUsersName allUsersName;
-    private final ExternalIds externalIds;
-    private final Provider<PersonIdent> serverIdentProvider;
-    private final Provider<IdentifiedUser> identifiedUser;
-    private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
-    private final RetryHelper retryHelper;
-    private final ExternalIdNotes.Factory extIdNotesFactory;
-
-    @Inject
-    public User(
-        GitRepositoryManager repoManager,
-        GitReferenceUpdated gitRefUpdated,
-        AllUsersName allUsersName,
-        ExternalIds externalIds,
-        @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
-        Provider<IdentifiedUser> identifiedUser,
-        Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
-        RetryHelper retryHelper,
-        ExternalIdNotes.Factory extIdNotesFactory) {
-      this.repoManager = repoManager;
-      this.gitRefUpdated = gitRefUpdated;
-      this.allUsersName = allUsersName;
-      this.externalIds = externalIds;
-      this.serverIdentProvider = serverIdentProvider;
-      this.identifiedUser = identifiedUser;
-      this.metaDataUpdateInternalFactory = metaDataUpdateInternalFactory;
-      this.retryHelper = retryHelper;
-      this.extIdNotesFactory = extIdNotesFactory;
-    }
-
-    public AccountsUpdate create() {
-      IdentifiedUser user = identifiedUser.get();
-      PersonIdent serverIdent = serverIdentProvider.get();
-      PersonIdent userIdent = createPersonIdent(serverIdent, user);
-      return new AccountsUpdate(
-          repoManager,
-          gitRefUpdated,
-          user,
-          allUsersName,
-          externalIds,
-          metaDataUpdateInternalFactory,
-          retryHelper,
-          extIdNotesFactory,
-          serverIdent,
-          userIdent);
-    }
-
-    private PersonIdent createPersonIdent(PersonIdent ident, IdentifiedUser user) {
-      return user.newCommitterIdent(ident.getWhen(), ident.getTimeZone());
-    }
-  }
-
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated gitRefUpdated;
   @Nullable private final IdentifiedUser currentUser;
@@ -323,17 +168,17 @@ public class AccountsUpdate {
   // Invoked after updating the account but before committing the changes.
   private final Runnable beforeCommit;
 
-  private AccountsUpdate(
+  @Inject
+  AccountsUpdate(
       GitRepositoryManager repoManager,
       GitReferenceUpdated gitRefUpdated,
-      @Nullable IdentifiedUser currentUser,
       AllUsersName allUsersName,
       ExternalIds externalIds,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,
-      ExternalIdNotesLoader extIdNotesLoader,
-      PersonIdent committerIdent,
-      PersonIdent authorIdent) {
+      @GerritPersonIdent PersonIdent serverIdent,
+      @Assisted @Nullable IdentifiedUser currentUser,
+      @Assisted ExternalIdNotesLoader extIdNotesLoader) {
     this(
         repoManager,
         gitRefUpdated,
@@ -343,8 +188,8 @@ public class AccountsUpdate {
         metaDataUpdateInternalFactory,
         retryHelper,
         extIdNotesLoader,
-        committerIdent,
-        authorIdent,
+        serverIdent,
+        createPersonIdent(serverIdent, currentUser),
         Runnables.doNothing(),
         Runnables.doNothing());
   }
@@ -376,6 +221,14 @@ public class AccountsUpdate {
     this.authorIdent = checkNotNull(authorIdent, "authorIdent");
     this.afterReadRevision = checkNotNull(afterReadRevision, "afterReadRevision");
     this.beforeCommit = checkNotNull(beforeCommit, "beforeCommit");
+  }
+
+  private static PersonIdent createPersonIdent(
+      PersonIdent serverIdent, @Nullable IdentifiedUser user) {
+    if (user == null) {
+      return serverIdent;
+    }
+    return user.newCommitterIdent(serverIdent.getWhen(), serverIdent.getTimeZone());
   }
 
   /**

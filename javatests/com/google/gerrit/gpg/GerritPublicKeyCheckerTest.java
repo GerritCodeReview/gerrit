@@ -36,6 +36,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
@@ -69,7 +70,7 @@ import org.junit.Test;
 
 /** Unit tests for {@link GerritPublicKeyChecker}. */
 public class GerritPublicKeyCheckerTest {
-  @Inject private AccountsUpdate.Server accountsUpdate;
+  @Inject @ServerInitiated private Provider<AccountsUpdate> accountsUpdateProvider;
 
   @Inject private AccountManager accountManager;
 
@@ -113,8 +114,8 @@ public class GerritPublicKeyCheckerTest {
     schemaCreator.create(db);
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     // Note: does not match any key in TestKeys.
-    accountsUpdate
-        .create()
+    accountsUpdateProvider
+        .get()
         .update("Set Preferred Email", userId, u -> u.setPreferredEmail("user@example.com"));
     user = reloadUser();
 
@@ -218,8 +219,8 @@ public class GerritPublicKeyCheckerTest {
 
   @Test
   public void noExternalIds() throws Exception {
-    accountsUpdate
-        .create()
+    accountsUpdateProvider
+        .get()
         .update(
             "Delete External IDs",
             user.getAccountId(),
@@ -403,7 +404,7 @@ public class GerritPublicKeyCheckerTest {
     cb.setCommitter(ident);
     assertThat(store.save(cb)).isAnyOf(NEW, FAST_FORWARD, FORCED);
 
-    accountsUpdate.create().update("Add External IDs", id, u -> u.addExternalIds(newExtIds));
+    accountsUpdateProvider.get().update("Add External IDs", id, u -> u.addExternalIds(newExtIds));
   }
 
   private TestKey add(TestKey k, IdentifiedUser user) throws Exception {
@@ -430,8 +431,8 @@ public class GerritPublicKeyCheckerTest {
   }
 
   private void insertExtId(ExternalId extId) throws Exception {
-    accountsUpdate
-        .create()
+    accountsUpdateProvider
+        .get()
         .update("Add External ID", extId.accountId(), u -> u.addExternalId(extId));
     reloadUser();
   }

@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
@@ -42,7 +43,7 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
   private final Provider<CurrentUser> self;
   private final AccountCache cache;
   private final PermissionBackend permissionBackend;
-  private final AccountsUpdate.User accountsUpdate;
+  private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final DynamicMap<DownloadScheme> downloadSchemes;
 
   @Inject
@@ -50,12 +51,12 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
       Provider<CurrentUser> self,
       AccountCache cache,
       PermissionBackend permissionBackend,
-      AccountsUpdate.User accountsUpdate,
+      @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       DynamicMap<DownloadScheme> downloadSchemes) {
     this.self = self;
     this.cache = cache;
     this.permissionBackend = permissionBackend;
-    this.accountsUpdate = accountsUpdate;
+    this.accountsUpdateProvider = accountsUpdateProvider;
     this.downloadSchemes = downloadSchemes;
   }
 
@@ -71,8 +72,8 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
     Preferences.validateMy(input.my);
     Account.Id id = rsrc.getUser().getAccountId();
 
-    accountsUpdate
-        .create()
+    accountsUpdateProvider
+        .get()
         .update("Set General Preferences via API", id, u -> u.setGeneralPreferences(input));
     return cache.get(id).getGeneralPreferences();
   }

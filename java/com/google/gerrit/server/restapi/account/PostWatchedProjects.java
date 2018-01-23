@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.ProjectWatches;
@@ -47,7 +48,7 @@ public class PostWatchedProjects
   private final PermissionBackend permissionBackend;
   private final GetWatchedProjects getWatchedProjects;
   private final ProjectsCollection projectsCollection;
-  private final AccountsUpdate.User accountsUpdate;
+  private final Provider<AccountsUpdate> accountsUpdateProvider;
 
   @Inject
   public PostWatchedProjects(
@@ -55,12 +56,12 @@ public class PostWatchedProjects
       PermissionBackend permissionBackend,
       GetWatchedProjects getWatchedProjects,
       ProjectsCollection projectsCollection,
-      AccountsUpdate.User accountsUpdate) {
+      @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.getWatchedProjects = getWatchedProjects;
     this.projectsCollection = projectsCollection;
-    this.accountsUpdate = accountsUpdate;
+    this.accountsUpdateProvider = accountsUpdateProvider;
   }
 
   @Override
@@ -72,8 +73,8 @@ public class PostWatchedProjects
     }
 
     Map<ProjectWatchKey, Set<NotifyType>> projectWatches = asMap(input);
-    accountsUpdate
-        .create()
+    accountsUpdateProvider
+        .get()
         .update(
             "Update Project Watches via API",
             rsrc.getUser().getAccountId(),

@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -39,16 +40,16 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
 
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
-  private final AccountsUpdate.Server accountsUpdate;
+  private final Provider<AccountsUpdate> accountsUpdateProvider;
 
   @Inject
   PutPreferred(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
-      AccountsUpdate.Server accountsUpdate) {
+      @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
     this.self = self;
     this.permissionBackend = permissionBackend;
-    this.accountsUpdate = accountsUpdate;
+    this.accountsUpdateProvider = accountsUpdateProvider;
   }
 
   @Override
@@ -64,8 +65,8 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
   public Response<String> apply(IdentifiedUser user, String email)
       throws ResourceNotFoundException, IOException, ConfigInvalidException, OrmException {
     AtomicBoolean alreadyPreferred = new AtomicBoolean(false);
-    accountsUpdate
-        .create()
+    accountsUpdateProvider
+        .get()
         .update(
             "Set Preferred Email via API",
             user.getAccountId(),

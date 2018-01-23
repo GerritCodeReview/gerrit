@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a3f03edc_35845568",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-23T21:13:16Z",
+      "side": 1,
+      "message": "I think I copy-pasted this description from docs. Fixed.",
+      "parentUuid": "6ecae58b_2a984181",
+      "range": {
+        "startLine": 94,
+        "startChar": 21,
+        "endLine": 94,
+        "endChar": 24
+      },
+      "revId": "6354e51a9e43c94db070a944aea4534a9c19773a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "546b7624_f641c8c4",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 5
@@ -39,6 +63,24 @@
       "revId": "6354e51a9e43c94db070a944aea4534a9c19773a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c4ea8b7_00858474",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1156,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-23T21:13:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "546b7624_f641c8c4",
+      "revId": "6354e51a9e43c94db070a944aea4534a9c19773a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "6354e51a9e43c94db070a944aea4534a9c19773a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ec854ef_0993c3de",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-23T21:13:16Z",
+      "side": 1,
+      "message": "Oops. That\u0027s a find-replace error.",
+      "parentUuid": "6026ce21_882cfece",
+      "range": {
+        "startLine": 118,
+        "startChar": 48,
+        "endLine": 118,
+        "endChar": 60
+      },
+      "revId": "6354e51a9e43c94db070a944aea4534a9c19773a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -303,7 +305,9 @@ public class IdentifiedUser extends CurrentUser {
 
   /** @return unique name of the user for logging, never {@code null} */
   public String getLoggableName() {
-    return getUserName().orElseGet(() -> "a/" + getAccountId().get());
+    return getUserName()
+        .orElseGet(
+            () -> firstNonNull(getAccount().getPreferredEmail(), "a/" + getAccountId().get()));
   }
 
   public Account getAccount() {

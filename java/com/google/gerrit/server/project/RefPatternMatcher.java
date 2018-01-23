@@ -14,11 +14,12 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.project.RefPattern.isRE;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
+import com.google.common.collect.Streams;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -26,7 +27,6 @@ import com.google.gerrit.server.CurrentUser;
 import dk.brics.automaton.Automaton;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 public abstract class RefPatternMatcher {
@@ -132,15 +132,16 @@ public abstract class RefPatternMatcher {
       return false;
     }
 
-    private Iterable<String> getUsernames(CurrentUser user) {
+    private ImmutableSet<String> getUsernames(CurrentUser user) {
       if (user.isIdentifiedUser()) {
-        Set<String> emails = user.asIdentifiedUser().getEmailAddresses();
+        ImmutableSet<String> emails = user.asIdentifiedUser().getEmailAddresses();
         if (user.getUserName() == null) {
           return emails;
         } else if (emails.isEmpty()) {
           return ImmutableSet.of(user.getUserName());
         }
-        return Iterables.concat(emails, ImmutableSet.of(user.getUserName()));
+        return Streams.concat(emails.stream(), ImmutableSet.of(user.getUserName()).stream())
+            .collect(toImmutableSet());
       }
       if (user.getUserName() != null) {
         return ImmutableSet.of(user.getUserName());

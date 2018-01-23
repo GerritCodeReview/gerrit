@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "c88f5650_b6b3abf9",
+        "filename": "java/com/google/gerrit/httpd/GetUserFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-23T12:53:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55eb27a6_a652612d",
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5e30699_b3a123f9",
         "filename": "java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
         "patchSetId": 4
@@ -31,6 +49,24 @@
       "writtenOn": "2018-01-22T16:13:02Z",
       "side": 1,
       "message": "Optional: orElseGet",
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "655c23e2_b44fe84c",
+        "filename": "java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-23T12:53:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5e30699_b3a123f9",
       "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -54,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "c757e0eb_f22c0560",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-23T12:53:01Z",
+      "side": 1,
+      "message": "Good idea, I will keep it in mind for later cleanups.",
+      "parentUuid": "e1d30c45_c0ba1f96",
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a8b8380_8b03c65a",
         "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
         "patchSetId": 4
@@ -65,6 +119,24 @@
       "writtenOn": "2018-01-22T16:13:02Z",
       "side": 1,
       "message": "Optional: orElseGet\n\nWhile you\u0027re on this line, the toString is also unnecessary.\n\nIf you take my refactoring suggestion, this could also be getLoggableName(), although that would be a behavior change and maybe that\u0027s not the best name for a PersonIdent anyway.",
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "940a8464_5715670e",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-23T12:53:01Z",
+      "side": 1,
+      "message": "I\u0027m a bit reluctant to use getLoggableName() for anything else but logging. If we want to use it for other purposes we should probably find a better name for this method.\n\nDone",
+      "parentUuid": "4a8b8380_8b03c65a",
       "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "385defa6_fe0012c8",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-23T12:53:01Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/153892",
+      "parentUuid": "eaa50418_524ed77d",
+      "range": {
+        "startLine": 239,
+        "startChar": 28,
+        "endLine": 239,
+        "endChar": 39
+      },
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d03627fa_99ae32ad",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 4
@@ -105,6 +201,24 @@
       "writtenOn": "2018-01-22T16:13:02Z",
       "side": 1,
       "message": "Optional: orElseGet()\n\nActually, this has been repeated several times now. Worth adding a method on CurrentUser like \"getLoggableName()\"?",
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b846c79f_516d5433",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-23T12:53:01Z",
+      "side": 1,
+      "message": "A getLoggableName() method makes only sense if it always returns a unique name. On CurrentUser level we cannot provide this because use name may not be set and we also don\u0027t have an account. Hence adding this on IdentifiedUser level.\n\nDone in https://gerrit-review.googlesource.com/c/gerrit/+/153990",
+      "parentUuid": "d03627fa_99ae32ad",
       "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -128,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "c3d66f33_88d1966d",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 991,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-23T12:53:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbfe1ea4_fecacbfb",
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24b71f8b_49243a2f",
         "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 4
@@ -139,6 +271,24 @@
       "writtenOn": "2018-01-22T16:13:02Z",
       "side": 1,
       "message": "Optional: orElseGet or refactor",
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c3b8052_f0577cd2",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-23T12:53:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24b71f8b_49243a2f",
       "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -162,6 +312,24 @@
     },
     {
       "key": {
+        "uuid": "18052c0f_070de032",
+        "filename": "java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-23T12:53:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b084b869_e1c1b423",
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06c7e83c_64faf0d7",
         "filename": "java/com/google/gerrit/sshd/NoShell.java",
         "patchSetId": 4
@@ -173,6 +341,24 @@
       "writtenOn": "2018-01-22T16:13:02Z",
       "side": 1,
       "message": "Hm, isn\u0027t this a behavior change? Previously this could have resulted in \"Hi null,\", right? I mean, it\u0027s a good behavior change :)",
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9dcafc1_fd9dd42e",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-23T12:53:01Z",
+      "side": 1,
+      "message": "Done, extracted as a separate change: https://gerrit-review.googlesource.com/c/gerrit/+/153950",
+      "parentUuid": "06c7e83c_64faf0d7",
       "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

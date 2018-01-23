@@ -21,7 +21,8 @@ limitations under the License.
   window.Gerrit = window.Gerrit || {};
 
   const PROJECT_DASHBOARD_PATTERN = /\/p\/(.+)\/\+\/dashboard\/(.*)/;
-
+  const REPO_URL = '/admin/repos/';
+  const PROJECT_URL = '/admin/projects/';
   /** @polymerBehavior Gerrit.BaseUrlBehavior */
   Gerrit.BaseUrlBehavior = {
     /** @return {string} */
@@ -36,6 +37,8 @@ limitations under the License.
       if (match) {
         clientPath = `/projects/${match[1]},dashboards/${match[2]}`;
       }
+      // Replace any '/admin/project' links to '/admin/repo'
+      clientPath = clientPath.replace(REPO_URL, PROJECT_URL);
       return base + '/?polygerrit=0#' + clientPath;
     },
   };

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1516704701 +0100\nnonce AGjzz3/pDOAj0jzq6E2Z7ywfALg0FQMjn888GpWdqhtsPK1X9RvJ7GXcf8cSy/0eJVB57YCyD2d8\n\n0000000000000000000000000000000000000000 992e34cb44f8597c0caf7d4dd801d33947949d2d refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlpnE70ACgkQUbX9l6DQ\n71HSigf/b6w3tVu5x9Lg8oBL7iek8vdPIk/9QLwMcMnAGRbjqcZGyyjhIdGTgTsw\neyL07UKqBFtoWcAfWQlr4Uv6FYE4MTBahnCNZxo78wQfy8tPsxTl7sL25aw8ABym\n5cFDHJPr1pRwQuzlvohDGb5mYR1bQPNnvXFx3h/4TMZFATqD6otmwVl7uOlln3TO\nOLf8pfvIIYgIZrx5h/c3xlTikljv3hGbNCkxfr5AJBTC2UfL1MRMAzHorMQhnS5+\ngF1dx8iGE3orFOi2hNikaweEZPFsXL29/aEmFssK0Kib2x+NSkj+kx2V+2omN2Cw\nJEQ47dM2thExS1oZ7sI96oH75CsvOw\u003d\u003d\n\u003d3TJv\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f5d21ef_abdaeb2b",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-23T14:51:03Z",
+      "side": 1,
+      "message": "Nit: use {} formatting instead of String.format",
+      "revId": "992e34cb44f8597c0caf7d4dd801d33947949d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ecae58b_2a984181",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-23T20:32:31Z",
+      "side": 1,
+      "message": "Nit: IDs? Feels weird to capitalize an abbreviation.",
+      "range": {
+        "startLine": 94,
+        "startChar": 21,
+        "endLine": 94,
+        "endChar": 24
+      },
+      "revId": "6354e51a9e43c94db070a944aea4534a9c19773a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "546b7624_f641c8c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1156,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-23T20:32:31Z",
+      "side": 1,
+      "message": "Should we coalesce this property from an object to a boolean `_mergeable`? I don\u0027t see anywhere we use any of the other props [1], so it may be simpler to do it that way.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#mergeable-info",
+      "revId": "6354e51a9e43c94db070a944aea4534a9c19773a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6026ce21_882cfece",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-23T20:32:31Z",
+      "side": 1,
+      "message": "??",
+      "range": {
+        "startLine": 118,
+        "startChar": 48,
+        "endLine": 118,
+        "endChar": 60
+      },
+      "revId": "6354e51a9e43c94db070a944aea4534a9c19773a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

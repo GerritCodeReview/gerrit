@@ -385,6 +385,7 @@ limitations under the License.
         });
 
         test('add permission', () => {
+          element.editing = true;
           element.$.permissionSelect.value = 'label-Code-Review';
           assert.equal(element._permissions.length, 1);
           assert.equal(Object.keys(element.section.value.permissions).length,
@@ -398,6 +399,7 @@ limitations under the License.
           let permission = {
             id: 'label-Code-Review',
             value: {
+              added: true,
               label: 'Code-Review',
               rules: {},
             },
@@ -410,7 +412,6 @@ limitations under the License.
               element.section.value.permissions['label-Code-Review'],
               permission.value);
 
-
           element.$.permissionSelect.value = 'abandon';
           MockInteractions.tap(element.$.addBtn);
           flushAsynchronousOperations();
@@ -418,6 +419,7 @@ limitations under the License.
           permission = {
             id: 'abandon',
             value: {
+              added: true,
               rules: {},
             },
           };
@@ -428,6 +430,12 @@ limitations under the License.
               3);
           assert.deepEqual(element.section.value.permissions['abandon'],
               permission.value);
+
+          // Unsaved changes are discarded when editing is cancelled.
+          element.editing = false;
+          assert.equal(element._permissions.length, 1);
+          assert.equal(Object.keys(element.section.value.permissions).length,
+              1);
         });
 
         test('edit section reference', () => {

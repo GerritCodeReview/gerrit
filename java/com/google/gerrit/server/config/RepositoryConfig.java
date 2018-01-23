@@ -14,15 +14,18 @@
 
 package com.google.gerrit.server.config;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+import static java.util.Comparator.comparing;
+
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -33,6 +36,8 @@ public class RepositoryConfig {
   static final String DEFAULT_SUBMIT_TYPE_NAME = "defaultSubmitType";
   static final String BASE_PATH_NAME = "basePath";
 
+  static final SubmitType DEFAULT_SUBMIT_TYPE = SubmitType.INHERIT;
+
   private final Config cfg;
 
   @Inject
@@ -42,13 +47,10 @@ public class RepositoryConfig {
 
   public SubmitType getDefaultSubmitType(Project.NameKey project) {
     return cfg.getEnum(
-        SECTION_NAME,
-        findSubSection(project.get()),
-        DEFAULT_SUBMIT_TYPE_NAME,
-        SubmitType.MERGE_IF_NECESSARY);
+        SECTION_NAME, findSubSection(project.get()), DEFAULT_SUBMIT_TYPE_NAME, DEFAULT_SUBMIT_TYPE);
   }
 
-  public List<String> getOwnerGroups(Project.NameKey project) {
+  public ImmutableList<String> getOwnerGroups(Project.NameKey project) {
     return ImmutableList.copyOf(
         cfg.getStringList(SECTION_NAME, findSubSection(project.get()), OWNER_GROUP_NAME));
   }
@@ -58,22 +60,20 @@ public class RepositoryConfig {
     return basePath != null ? Paths.get(basePath) : null;
   }
 
-  public List<Path> getAllBasePaths() {
-    List<Path> basePaths = new ArrayList<>();
-    for (String subSection : cfg.getSubsections(SECTION_NAME)) {
-      String basePath = cfg.getString(SECTION_NAME, subSection, BASE_PATH_NAME);
-      if (basePath != null) {
-        basePaths.add(Paths.get(basePath));
-      }
-    }
-    return basePaths;
+  public ImmutableList<Path> getAllBasePaths() {
+    return cfg.getSubsections(SECTION_NAME)
+        .stream()
+        .map(sub -> cfg.getString(SECTION_NAME, sub, BASE_PATH_NAME))
+        .filter(Objects::nonNull)
+        .map(Paths::get)
+        .collect(toImmutableList());
   }
 
   /**
-   * Find the subSection to get repository configuration from.
+   * Find the subsection to get repository configuration from.
    *
-   * <p>SubSection can use the * pattern so if project name matches more than one section, return
-   * the more precise one. E.g if the following subSections are defined:
+   * <p>Subsection can use the * pattern so if project name matches more than one section, return
+   * the more precise one. E.g if the following subsections are defined:
    *
    * <pre>
    * [repository "somePath/*"]
@@ -83,20 +83,18 @@ public class RepositoryConfig {
    * </pre>
    *
    * and this method is called with "somePath/somePath/someProject" as project name, it will return
-   * the subSection "somePath/somePath/*"
+   * the subsection "somePath/somePath/*"
    *
    * @param project Name of the project
-   * @return the name of the subSection, null if none is found
+   * @return the name of the subsection, null if none is found
    */
+  @Nullable
   private String findSubSection(String project) {
-    String subSectionFound = null;
-    for (String subSection : cfg.getSubsections(SECTION_NAME)) {
-      if (isMatch(subSection, project)
-          && (subSectionFound == null || subSectionFound.length() < subSection.length())) {
-        subSectionFound = subSection;
-      }
-    }
-    return subSectionFound;
+    return cfg.getSubsections(SECTION_NAME)
+        .stream()
+        .filter(ss -> isMatch(ss, project))
+        .max(comparing(String::length))
+        .orElse(null);
   }
 
   private boolean isMatch(String subSection, String project) {

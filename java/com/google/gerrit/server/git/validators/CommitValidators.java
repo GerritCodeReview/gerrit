@@ -20,7 +20,6 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
@@ -60,8 +59,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jcraft.jsch.HostKey;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -75,7 +72,6 @@ import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -259,7 +255,7 @@ public class CommitValidators {
     private static final Pattern CHANGE_ID = Pattern.compile(CHANGE_ID_PATTERN);
 
     private final ProjectState projectState;
-    private final String canonicalWebUrl;
+    private final CanonicalServer canonicalServer;
     private final String installCommitMsgHookCommand;
     private final SshInfo sshInfo;
     private final IdentifiedUser user;
@@ -273,7 +269,7 @@ public class CommitValidators {
         SshInfo sshInfo,
         Change change) {
       this.projectState = projectState;
-      this.canonicalWebUrl = canonicalWebUrl;
+      this.canonicalServer = new CanonicalServer(canonicalWebUrl);
       this.installCommitMsgHookCommand = installCommitMsgHookCommand;
       this.sshInfo = sshInfo;
       this.user = user;
@@ -373,7 +369,7 @@ public class CommitValidators {
         String p = "${gitdir}/hooks/commit-msg";
         return String.format(
             "  gitdir=$(git rev-parse --git-dir); curl -o %s %s/tools/hooks/commit-msg ; chmod +x %s",
-            p, getGerritUrl(canonicalWebUrl), p);
+            p, canonicalServer.getUrl(), p);
       }
 
       // SSH keys exist, so the hook can be installed with scp.
@@ -383,7 +379,7 @@ public class CommitValidators {
       int c = host.lastIndexOf(':');
       if (0 <= c) {
         if (host.startsWith("*:")) {
-          sshHost = getGerritHost(canonicalWebUrl);
+          sshHost = canonicalServer.getName();
         } else {
           sshHost = host.substring(0, c);
         }
@@ -880,40 +876,6 @@ public class CommitValidators {
     }
     sb.append("\n");
     return new CommitValidationMessage(sb.toString(), false);
-  }
-
-  /**
-   * Get the Gerrit URL.
-   *
-   * @return the canonical URL (with any trailing slash removed) if it is configured, otherwise fall
-   *     back to "http://hostname" where hostname is the value returned by {@link
-   *     #getGerritHost(String)}.
-   */
-  private static String getGerritUrl(String canonicalWebUrl) {
-    if (canonicalWebUrl != null) {
-      return CharMatcher.is('/').trimTrailingFrom(canonicalWebUrl);
-    }
-    return "http://" + getGerritHost(canonicalWebUrl);
-  }
-
-  /**
-   * Get the Gerrit hostname.
-   *
-   * @return the hostname from the canonical URL if it is configured, otherwise whatever the OS says
-   *     the hostname is.
-   */
-  private static String getGerritHost(String canonicalWebUrl) {
-    String host;
-    if (canonicalWebUrl != null) {
-      try {
-        host = new URL(canonicalWebUrl).getHost();
-      } catch (MalformedURLException e) {
-        host = SystemReader.getInstance().getHostname();
-      }
-    } else {
-      host = SystemReader.getInstance().getHostname();
-    }
-    return host;
   }
 
   private static void addError(String error, List<CommitValidationMessage> messages) {

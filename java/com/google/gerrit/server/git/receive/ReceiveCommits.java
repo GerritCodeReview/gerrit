@@ -98,6 +98,7 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.edit.ChangeEdit;
@@ -117,6 +118,7 @@ import com.google.gerrit.server.git.SubmoduleException;
 import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.ValidationError;
+import com.google.gerrit.server.git.validators.CanonicalServer;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidators;
@@ -353,6 +355,7 @@ class ReceiveCommits {
   private final Project project;
   private final Repository repo;
   private final RequestId receiveId;
+  private final CanonicalServer canonicalServer;
 
   // Collections populated during processing.
   private final List<UpdateGroupsRequest> updateGroups;
@@ -426,6 +429,7 @@ class ReceiveCommits {
       SshInfo sshInfo,
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
+      @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
       @Assisted ReceivePack rp,
@@ -483,6 +487,7 @@ class ReceiveCommits {
     permissions = permissionBackend.user(user).project(project.getNameKey());
     receiveId = RequestId.forProject(project.getNameKey());
     rejectCommits = BanCommit.loadRejectCommitsMap(rp.getRepository(), rp.getRevWalk());
+    canonicalServer = new CanonicalServer(canonicalWebUrl);
 
     // Collections populated during processing.
     actualCommands = new ArrayList<>();
@@ -2782,13 +2787,10 @@ class ReceiveCommits {
         if (++n > limit) {
           logDebug("Number of new commits exceeds limit of {}", limit);
           addMessage(
-              "Cannot push more than "
-                  + limit
-                  + " commits to "
-                  + branch.get()
-                  + " without "
-                  + PUSH_OPTION_SKIP_VALIDATION
-                  + " option");
+              String.format(
+                  "Cannot push more than %d commits to %s without %s option "
+                      + "(see %s/Documentation/user-upload.html#skip_validation for details)",
+                  limit, branch.get(), PUSH_OPTION_SKIP_VALIDATION, canonicalServer.getUrl()));
           reject(cmd, "too many commits");
           return;
         }

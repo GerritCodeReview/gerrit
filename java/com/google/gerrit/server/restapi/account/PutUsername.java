@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.Realm;
@@ -48,7 +49,7 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final ExternalIds externalIds;
-  private final AccountsUpdate.Server accountsUpdate;
+  private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final SshKeyCache sshKeyCache;
   private final Realm realm;
 
@@ -57,13 +58,13 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
       ExternalIds externalIds,
-      AccountsUpdate.Server accountsUpdate,
+      @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       SshKeyCache sshKeyCache,
       Realm realm) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.externalIds = externalIds;
-    this.accountsUpdate = accountsUpdate;
+    this.accountsUpdateProvider = accountsUpdateProvider;
     this.sshKeyCache = sshKeyCache;
     this.realm = realm;
   }
@@ -100,8 +101,8 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
 
     ExternalId.Key key = ExternalId.Key.create(SCHEME_USERNAME, input.username);
     try {
-      accountsUpdate
-          .create()
+      accountsUpdateProvider
+          .get()
           .update(
               "Set Username via API",
               accountId,

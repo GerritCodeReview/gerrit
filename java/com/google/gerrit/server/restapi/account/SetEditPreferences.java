@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
@@ -40,18 +41,18 @@ public class SetEditPreferences implements RestModifyView<AccountResource, EditP
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final AccountCache accountCache;
-  private final AccountsUpdate.User accountsUpdate;
+  private final Provider<AccountsUpdate> accountsUpdateProvider;
 
   @Inject
   SetEditPreferences(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
       AccountCache accountCache,
-      AccountsUpdate.User accountsUpdate) {
+      @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.accountCache = accountCache;
-    this.accountsUpdate = accountsUpdate;
+    this.accountsUpdateProvider = accountsUpdateProvider;
   }
 
   @Override
@@ -67,8 +68,8 @@ public class SetEditPreferences implements RestModifyView<AccountResource, EditP
     }
 
     Account.Id id = rsrc.getUser().getAccountId();
-    accountsUpdate
-        .create()
+    accountsUpdateProvider
+        .get()
         .update("Set Diff Preferences via API", id, u -> u.setEditPreferences(input));
     return accountCache.get(id).getEditPreferences();
   }

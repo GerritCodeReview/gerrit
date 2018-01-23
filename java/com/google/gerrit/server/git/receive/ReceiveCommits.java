@@ -92,6 +92,7 @@ import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
@@ -304,7 +305,7 @@ class ReceiveCommits {
 
   // Injected fields.
   private final AccountResolver accountResolver;
-  private final AccountsUpdate.Server accountsUpdate;
+  private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final AllProjectsName allProjectsName;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final ChangeEditUtil editUtil;
@@ -392,7 +393,7 @@ class ReceiveCommits {
   @Inject
   ReceiveCommits(
       AccountResolver accountResolver,
-      AccountsUpdate.Server accountsUpdate,
+      @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       AllProjectsName allProjectsName,
       BatchUpdate.Factory batchUpdateFactory,
       ChangeEditUtil editUtil,
@@ -434,7 +435,7 @@ class ReceiveCommits {
       throws IOException {
     // Injected fields.
     this.accountResolver = accountResolver;
-    this.accountsUpdate = accountsUpdate;
+    this.accountsUpdateProvider = accountsUpdateProvider;
     this.allProjectsName = allProjectsName;
     this.batchUpdateFactory = batchUpdateFactory;
     this.changeFormatter = changeFormatterProvider.get();
@@ -2993,8 +2994,8 @@ class ReceiveCommits {
     logDebug("Updating full name of caller");
     try {
       Optional<AccountState> accountState =
-          accountsUpdate
-              .create()
+          accountsUpdateProvider
+              .get()
               .update(
                   "Set Full Name on Receive Commits",
                   user.getAccountId(),

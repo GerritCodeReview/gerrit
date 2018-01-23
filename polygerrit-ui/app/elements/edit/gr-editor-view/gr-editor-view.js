@@ -54,6 +54,10 @@
         type: Boolean,
         value: false,
       },
+      _successfulSave: {
+        type: Boolean,
+        value: false,
+      },
       _saveDisabled: {
         type: Boolean,
         value: true,
@@ -119,12 +123,15 @@
       return this.$.restAPI.renameFileInChangeEdit(this._changeNum,
           this._path, path).then(res => {
             if (!res.ok) { return; }
+
+            this._successfulSave = true;
             this._viewEditInChangeView();
           });
     },
 
     _viewEditInChangeView() {
-      Gerrit.Nav.navigateToChange(this._change, this.EDIT_NAME);
+      const patch = this._successfulSave ? this.EDIT_NAME : this._patchNum;
+      Gerrit.Nav.navigateToChange(this._change, patch);
     },
 
     _getFileData(changeNum, path, patchNum) {
@@ -145,7 +152,10 @@
           this._newContent).then(res => {
             this._saving = false;
             this._showAlert(res.ok ? SAVED_MESSAGE : SAVE_FAILED_MSG);
-            if (res.ok) { this._content = this._newContent; }
+            if (!res.ok) { return; }
+
+            this._content = this._newContent;
+            this._successfulSave = true;
           });
     },
 
@@ -161,7 +171,7 @@
       return content === newContent;
     },
 
-    _handleCancelTap() {
+    _handleCloseTap() {
       // TODO(kaspern): Add a confirm dialog if there are unsaved changes.
       this._viewEditInChangeView();
     },

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.group;
+package com.google.gerrit.server;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
@@ -24,11 +24,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * A marker for database modifications which are directly related to a user request (e.g. happen
- * inside of a request context). Those modifications will be attributed to the user by using the
- * user's identity as author and committer for all related NoteDb commits.
+ * A marker for database modifications which aren't directly related to a user request (e.g. happen
+ * outside of a request context). Those modifications will be attributed to the Gerrit server by
+ * using the Gerrit server identity as author and committer for all related NoteDb commits.
  */
 @BindingAnnotation
 @Target({FIELD, PARAMETER, METHOD})
 @Retention(RUNTIME)
-public @interface UserInitiated {}
+public @interface ServerInitiated {}

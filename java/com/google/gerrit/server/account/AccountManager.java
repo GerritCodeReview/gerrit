@@ -239,11 +239,16 @@ public class AccountManager {
     }
 
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)
-        && who.getUserName() != null
-        && !Objects.equals(user.getUserName(), Strings.emptyToNull(who.getUserName()))) {
-      log.warn(
-          String.format(
-              "Not changing already set username %s to %s", user.getUserName(), who.getUserName()));
+        && !Strings.isNullOrEmpty(who.getUserName())
+        && !who.getUserName().equals(user.getUserName())) {
+      if (user.getUserName() != null) {
+        log.warn(
+            String.format(
+                "Not changing already set username %s to %s",
+                user.getUserName(), who.getUserName()));
+      } else {
+        log.warn(String.format("Not setting username to %s", who.getUserName()));
+      }
     }
 
     if (!accountUpdates.isEmpty()) {

@@ -30,6 +30,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
+import java.io.IOException;
 
 public class EqualsLabelPredicate extends ChangeIndexPredicate {
   protected final ProjectCache projectCache;
@@ -123,8 +124,11 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     try {
       PermissionBackend.ForChange perm =
           permissionBackend.user(reviewer).database(dbProvider).change(cd);
-      return perm.test(ChangePermission.READ);
-    } catch (PermissionBackendException e) {
+      ProjectState projectState = projectCache.checkedGet(cd.project());
+      return projectState != null
+          && projectState.statePermitsRead()
+          && perm.test(ChangePermission.READ);
+    } catch (PermissionBackendException | IOException e) {
       return false;
     }
   }

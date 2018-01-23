@@ -408,11 +408,12 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   @Override
   protected boolean isVisibleTo(Account.Id to) throws OrmException, PermissionBackendException {
-    return args.permissionBackend
-        .user(args.identifiedUserFactory.create(to))
-        .change(changeData)
-        .database(args.db.get())
-        .test(ChangePermission.READ);
+    return projectState.statePermitsRead()
+        && args.permissionBackend
+            .user(args.identifiedUserFactory.create(to))
+            .change(changeData)
+            .database(args.db.get())
+            .test(ChangePermission.READ);
   }
 
   /** Find all users who are authors of any part of this change. */

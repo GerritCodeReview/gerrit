@@ -33,6 +33,7 @@ import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -51,6 +52,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   private final ChangeEditUtil editUtil;
   private final PatchSetUtil psUtil;
   private final PermissionBackend permissionBackend;
+  private final ProjectCache projectCache;
 
   @Inject
   Revisions(
@@ -58,12 +60,14 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       Provider<ReviewDb> dbProvider,
       ChangeEditUtil editUtil,
       PatchSetUtil psUtil,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      ProjectCache projectCache) {
     this.views = views;
     this.dbProvider = dbProvider;
     this.editUtil = editUtil;
     this.psUtil = psUtil;
     this.permissionBackend = permissionBackend;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -105,14 +109,14 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     }
   }
 
-  private boolean visible(ChangeResource change) throws PermissionBackendException {
+  private boolean visible(ChangeResource change) throws PermissionBackendException, IOException {
     try {
       permissionBackend
           .user(change.getUser())
           .change(change.getNotes())
           .database(dbProvider)
           .check(ChangePermission.READ);
-      return true;
+      return projectCache.checkedGet(change.getProject()).statePermitsRead();
     } catch (AuthException e) {
       return false;
     }

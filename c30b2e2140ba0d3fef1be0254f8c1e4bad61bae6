@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1c3989a_76f1e6d9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-23T00:59:46Z",
+      "side": 1,
+      "message": "Nit: doesn\u0027t look like undefined is supported with the current annotation:\n\n    /**\n     * @param {!string} project\n     * @param {!string} branch\n     * @param {!string} subject\n     * @param {!string} topic\n     * @param {!boolean} isPrivate\n     * @param {!boolean} workInProgress\n     */\n\n\nThough... none of the ! should be there either. Topic should probably be nullable and have null passed rather than undefined.",
+      "range": {
+        "startLine": 88,
+        "startChar": 31,
+        "endLine": 88,
+        "endChar": 40
+      },
+      "revId": "c30b2e2140ba0d3fef1be0254f8c1e4bad61bae6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dfc41e2_7c0ad275",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-23T00:59:46Z",
+      "side": 1,
+      "message": "Is this necessary? I thought patch was optional?",
+      "range": {
+        "startLine": 97,
+        "startChar": 37,
+        "endLine": 97,
+        "endChar": 53
+      },
+      "revId": "c30b2e2140ba0d3fef1be0254f8c1e4bad61bae6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

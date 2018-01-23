@@ -51,16 +51,19 @@ limitations under the License.
         <h2 id="options">Command</h2>
         <div id="form">
           <gr-repo-command
-              title="Create Change"
+              title="Create change"
               on-command-tap="_createNewChange">
           </gr-repo-command>
-
+          <gr-repo-command
+              id="editRepoConfig"
+              title="Edit repo config"
+              on-command-tap="_handleEditRepoConfig">
+          </gr-repo-command>
           <gr-repo-command
               title="Run GC"
               hidden$="[[!_repoConfig.actions.gc.enabled]]"
               on-command-tap="_handleRunningGC">
           </gr-repo-command>
-
           <gr-endpoint-decorator name="repo-command">
             <gr-endpoint-param name="config" value="[[_repoConfig]]">
             </gr-endpoint-param>

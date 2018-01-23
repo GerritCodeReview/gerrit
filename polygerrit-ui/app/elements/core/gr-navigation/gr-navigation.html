@@ -343,6 +343,8 @@ limitations under the License.
        * @param {number} changeNum
        * @param {string} project The name of the project.
        * @param {string} path The file path.
+       * @param {number|string=} opt_patchNum The patchNum the file content
+       *    should be based on, or ${EDIT_PATCHNUM} if left undefined.
        * @return {string}
        */
       getEditUrlForDiffById(changeNum, project, path, opt_patchNum) {

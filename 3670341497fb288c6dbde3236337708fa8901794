@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1516709555 +0100\nnonce AGjzz3/V0fQqRGtOJDWE+7HU8crB5oVBxejBNeV5WEEZVaB+bNLQKJim33jlHAhputmJglNL/4ve\n\n0000000000000000000000000000000000000000 3670341497fb288c6dbde3236337708fa8901794 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlpnJrMACgkQUbX9l6DQ\n71FMFgf/UKIWKC53sJOqmcNI4IQc2WnNcNpD+dQ6IZZMCenqBGs2Ha7nVx06aUT0\nn8+0CCSsESEfxyKjlB3RXoecptKw7nv3jk/87lwjkEdOoHHNlVkKGYFEdXdjsNzB\nEC8RRxJGBTLRi+BWk27l1XRhWkLsbDRumCh+nIOxd+j8LFr/P6Vj38W8RzkTzIkN\nWgl7GV3sC7biWvjN2mjr3ugQm0TmaiW0qgGp/tDb/2BUtJasxVkwdRHbozXMaSmI\naC7moVnnf5VzFjPrRHBWSENCM6ycxMlQXp7djEM0sv+74Vze9GUfRB/LUr8jpezo\n5qE8/Ppcl9XfkeEhVPDBo3ctpBH7rA\u003d\u003d\n\u003dZCJ/\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec31fb7c_8d7d6197",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-23T14:55:56Z",
+      "side": 1,
+      "message": "Well, it would probably be ok to return getClass().getSimpleName() or something by default, but I\u0027m guessing that you didn\u0027t actually need to call this on anything other than an IdentifiedUser, so I\u0027m sure this is fine.",
+      "range": {
+        "startLine": 13,
+        "startChar": 49,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "3670341497fb288c6dbde3236337708fa8901794",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

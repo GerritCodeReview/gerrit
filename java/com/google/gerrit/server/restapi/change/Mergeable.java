@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -194,7 +195,9 @@ public class Mergeable implements RestReadView<RevisionResource> {
     final boolean mergeable = cache.get(commit, ref, type, strategy, change.getDest(), git);
     if (!Objects.equals(mergeable, old)) {
       invalidateETag(change.getId(), db.get());
-      indexer.indexAsync(change.getProject(), change.getId());
+
+      @SuppressWarnings("unused")
+      Future<?> possiblyIgnoredError = indexer.indexAsync(change.getProject(), change.getId());
     }
     return mergeable;
   }

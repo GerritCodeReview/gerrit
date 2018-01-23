@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "865ecda5_9b00b029",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-23T15:09:54Z",
+      "side": 1,
+      "message": "Ack, I agree what you\u0027ve done is the best choice for now.",
+      "parentUuid": "940a8464_5715670e",
+      "revId": "bd140ecb2fcb6f067c2f6ef0897ad946c9ed3d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eaa50418_524ed77d",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 4

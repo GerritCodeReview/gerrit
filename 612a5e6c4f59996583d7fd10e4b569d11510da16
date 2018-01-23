@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1516711966 +0100\nnonce AGjzz381+33hPRV954I04d19RcJHdAjQ6B0xu7y9HDzfkhTcylXqYU4tmVgfq6bP4KqY3LWxxtnC\n\n0000000000000000000000000000000000000000 612a5e6c4f59996583d7fd10e4b569d11510da16 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlpnMB4ACgkQUbX9l6DQ\n71HGgwf/Zp9M7PrDqcp7+uT/Z9rWfPL1eMmlN6XQUnKB46OMSRVAGHUoODWgKjEj\nh6ixM4k0PrflKb4wEgr7i9v6RyjsWL503Wy2BSKOa272AjPxZWGmMW3tzv6GoUeM\nZi7VQWoXjGni7GzlO+JVjuiKFPiflLq17IogEqndUZue/1FoF0oOpRJvJ2cRy7Q4\na4uKXNX7jKVJUfYjCpwcahuysFF7KIAZBzZMq0x7l2vGV8S3kK4L1K8JdBBPVmnv\nPADSN1kIb5Cdbmn8rhyXwPtqoJTbTotaBDjHAjvIa4GcrqOD6B+WxK4CcS4FUEgl\n+nTSo607cFpOpmZhrJwYdQNNblBp+g\u003d\u003d\n\u003dQxC8\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa473029_6293fd6e",
+        "filename": "java/com/google/gerrit/httpd/GetUserFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-23T15:09:54Z",
+      "side": 1,
+      "message": "getLoggableName (sorry, this was before I thought of that suggestion)",
+      "revId": "612a5e6c4f59996583d7fd10e4b569d11510da16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10717a81_64071283",
+        "filename": "java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-23T15:09:54Z",
+      "side": 1,
+      "message": "Optional: this is a common expression, so you could factor further:\n\n Stream\u003cString\u003e usernames \u003d Streams.stream(user.getUserName());\n if (user.isIdentifiedUser()) {\n   usernames \u003d Streams.concat(usernames, user.asIdentifiedUser().getEmailAddresses().stream());\n }\n return usernames.collect(toImmutableSet());",
+      "range": {
+        "startLine": 142,
+        "startChar": 13,
+        "endLine": 142,
+        "endChar": 47
+      },
+      "revId": "612a5e6c4f59996583d7fd10e4b569d11510da16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

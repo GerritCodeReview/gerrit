@@ -89,7 +89,7 @@ limitations under the License.
         <div class="header">
           <span class="title">[[name]]</span>
           <div class="right">
-            <template is=dom-if if="[[!_permissionIsOwner(permission.id)]]">
+            <template is="dom-if" if="[[!_permissionIsOwner(permission.id)]]">
               <paper-toggle-button
                   id="exclusiveToggle"
                   checked="{{permission.value.exclusive}}"
@@ -118,6 +118,7 @@ limitations under the License.
           </template>
           <div id="addRule">
             <gr-autocomplete
+                id="addGroup"
                 text="{{_groupFilter}}"
                 query="[[_query]]"
                 placeholder="Add group"

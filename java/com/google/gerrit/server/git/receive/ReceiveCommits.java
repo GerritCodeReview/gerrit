@@ -98,6 +98,7 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.edit.ChangeEdit;
@@ -338,6 +339,7 @@ class ReceiveCommits {
   private final SshInfo sshInfo;
   private final SubmoduleOp.Factory subOpFactory;
   private final TagCache tagCache;
+  private final String canonicalWebUrl;
 
   // Assisted injected fields.
   private final AllRefsWatcher allRefsWatcher;
@@ -426,6 +428,7 @@ class ReceiveCommits {
       SshInfo sshInfo,
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
+      @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
       @Assisted ReceivePack rp,
@@ -483,6 +486,7 @@ class ReceiveCommits {
     permissions = permissionBackend.user(user).project(project.getNameKey());
     receiveId = RequestId.forProject(project.getNameKey());
     rejectCommits = BanCommit.loadRejectCommitsMap(rp.getRepository(), rp.getRevWalk());
+    this.canonicalWebUrl = canonicalWebUrl;
 
     // Collections populated during processing.
     actualCommands = new ArrayList<>();
@@ -2782,13 +2786,10 @@ class ReceiveCommits {
         if (++n > limit) {
           logDebug("Number of new commits exceeds limit of {}", limit);
           addMessage(
-              "Cannot push more than "
-                  + limit
-                  + " commits to "
-                  + branch.get()
-                  + " without "
-                  + PUSH_OPTION_SKIP_VALIDATION
-                  + " option");
+              String.format(
+                  "Cannot push more than %d commits to %s without %s option "
+                      + "(see %sDocumentation/user-upload.html#skip_validation for details)",
+                  limit, branch.get(), PUSH_OPTION_SKIP_VALIDATION, canonicalWebUrl));
           reject(cmd, "too many commits");
           return;
         }

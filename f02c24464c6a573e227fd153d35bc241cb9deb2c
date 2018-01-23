@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3def5e84_25bdceec",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-23T00:47:06Z",
+      "side": 1,
+      "message": "@Kaspern- saw you recently changed this. I think this looks better, but not sure what the motivation was behind the recent change. Let me know what you think.",
+      "range": {
+        "startLine": 123,
+        "startChar": 8,
+        "endLine": 123,
+        "endChar": 27
+      },
+      "revId": "f02c24464c6a573e227fd153d35bc241cb9deb2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

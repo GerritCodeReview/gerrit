@@ -22,6 +22,47 @@
       "revId": "f02c24464c6a573e227fd153d35bc241cb9deb2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb131454_89666d19",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-23T18:43:08Z",
+      "side": 1,
+      "message": "This does actually break something. Using `visibility: hidden` makes the hidden elements still occupy the whitespace -- if you look at this change downloaded locally, you can see that the last row of the file list where the totals are looks too tall. That\u0027s because `.invisible` is used to show or hide the \"Show more files\" controls. If these controls aren\u0027t needed, they should be hidden completely from the DOM, and the whitespace they occupy should be freed up for other things.",
+      "parentUuid": "3def5e84_25bdceec",
+      "range": {
+        "startLine": 123,
+        "startChar": 8,
+        "endLine": 123,
+        "endChar": 27
+      },
+      "revId": "f02c24464c6a573e227fd153d35bc241cb9deb2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bda7cce0_9cb7c865",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-23T18:43:08Z",
+      "side": 1,
+      "message": "Can we use a class binding here with `.invisible` instead of binding to hidden?",
+      "revId": "f02c24464c6a573e227fd153d35bc241cb9deb2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

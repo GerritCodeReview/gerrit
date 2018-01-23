@@ -171,8 +171,10 @@ class NoShell implements Factory<Command> {
         }
 
         msg.append("  git clone ssh://");
-        msg.append(user.getUserName());
-        msg.append("@");
+        if (user.getUserName() != null) {
+          msg.append(user.getUserName());
+          msg.append("@");
+        }
         msg.append(host);
         msg.append("/");
         msg.append("REPOSITORY_NAME.git");

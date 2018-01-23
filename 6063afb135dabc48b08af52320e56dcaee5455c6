@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "291eb55d_631aa63a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-23T07:45:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "591500f0_95c2761c",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 54
+      },
+      "revId": "6063afb135dabc48b08af52320e56dcaee5455c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e37fb797_167067d6",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
         "patchSetId": 1

@@ -34,6 +34,7 @@ limitations under the License.
 <script>
   suite('gr-edit-preferences tests', () => {
     let element;
+    let sandbox;
     let editPreferences;
 
     function valueOf(title, fieldsetid) {
@@ -47,7 +48,7 @@ limitations under the License.
       }
     }
 
-    setup(done => {
+    setup(() => {
       editPreferences = {
         auto_close_brackets: false,
         cursor_blink_rate: 0,
@@ -74,9 +75,11 @@ limitations under the License.
       });
 
       element = fixture('basic');
-
-      element.loadData().then(done);
+      sandbox = sinon.sandbox.create();
+      return element.loadData();
     });
+
+    teardown(() => { sandbox.restore(); });
 
     test('renders', () => {
       // Rendered with the expected preferences selected.
@@ -86,18 +89,10 @@ limitations under the License.
           .firstElementChild.bindValue, editPreferences.line_length);
       assert.equal(valueOf('Indent unit', 'editPreferences')
           .firstElementChild.bindValue, editPreferences.indent_unit);
-      assert.equal(valueOf('Cursor blink rate', 'editPreferences')
-          .firstElementChild.bindValue, editPreferences.cursor_blink_rate);
-      assert.equal(valueOf('Top menu', 'editPreferences')
-          .firstElementChild.checked, editPreferences.hide_top_menu);
       assert.equal(valueOf('Syntax highlighting', 'editPreferences')
           .firstElementChild.checked, editPreferences.syntax_highlighting);
       assert.equal(valueOf('Show tabs', 'editPreferences')
           .firstElementChild.checked, editPreferences.show_tabs);
-      assert.equal(valueOf('Whitespace errors', 'editPreferences')
-          .firstElementChild.checked, editPreferences.show_whitespace_errors);
-      assert.equal(valueOf('Line numbers', 'editPreferences')
-          .firstElementChild.checked, editPreferences.hide_line_numbers);
       assert.equal(valueOf('Match brackets', 'editPreferences')
           .firstElementChild.checked, editPreferences.match_brackets);
       assert.equal(valueOf('Line wrapping', 'editPreferences')
@@ -110,7 +105,9 @@ limitations under the License.
       assert.isFalse(element.hasUnsavedChanges);
     });
 
-    test('save changes', done => {
+    test('save changes', () => {
+      sandbox.stub(element.$.restAPI, 'saveEditPreferences')
+          .returns(Promise.resolve());
       const showTabsCheckbox = valueOf('Show tabs', 'editPreferences')
           .firstElementChild;
       showTabsCheckbox.checked = false;
@@ -118,17 +115,9 @@ limitations under the License.
 
       assert.isTrue(element.hasUnsavedChanges);
 
-      stub('gr-rest-api-interface', {
-        saveEditPreferences(prefs) {
-          assert.equal(prefs.show_tabs, false);
-          return Promise.resolve();
-        },
-      });
-
       // Save the change.
-      element.save().then(() => {
+      return element.save().then(() => {
         assert.isFalse(element.hasUnsavedChanges);
-        done();
       });
     });
   });

@@ -62,28 +62,6 @@ limitations under the License.
         </span>
       </section>
       <section>
-        <span class="title">Cursor blink rate</span>
-        <span class="value">
-          <input
-              is="iron-input"
-              type="number"
-              prevent-invalid-input
-              allowed-pattern="[0-9]"
-              bind-value="{{editPrefs.cursor_blink_rate}}"
-              on-change="_handleEditPrefsChanged">
-        </span>
-      </section>
-      <section>
-        <span class="title">Top menu</span>
-        <span class="value">
-          <input
-              id="showTopMenu"
-              type="checkbox"
-              checked$="[[editPrefs.hide_top_menu]]"
-              on-change="_handleTopMenuChanged">
-        </span>
-      </section>
-      <section>
         <span class="title">Syntax highlighting</span>
         <span class="value">
           <input
@@ -101,26 +79,6 @@ limitations under the License.
               type="checkbox"
               checked$="[[editPrefs.show_tabs]]"
               on-change="_handleEditShowTabsChanged">
-        </span>
-      </section>
-      <section>
-        <span class="title">Whitespace errors</span>
-        <span class="value">
-          <input
-              id="whitespaceErrors"
-              type="checkbox"
-              checked$="[[editPrefs.show_whitespace_errors]]"
-              on-change="_handleWhitespaceErrorsChanged">
-        </span>
-      </section>
-      <section>
-        <span class="title">Line numbers</span>
-        <span class="value">
-          <input
-              id="showLineNumbers"
-              type="checkbox"
-              checked$="[[editPrefs.hide_line_numbers]]"
-              on-change="_handleLineNumbersChanged">
         </span>
       </section>
       <section>

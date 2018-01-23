@@ -38,11 +38,6 @@
       this.hasUnsavedChanges = true;
     },
 
-    _handleTopMenuChanged() {
-      this.set('editPrefs.hide_top_menu', this.$.showTopMenu.checked);
-      this._handleEditPrefsChanged();
-    },
-
     _handleEditSyntaxHighlightingChanged() {
       this.set('editPrefs.syntax_highlighting',
           this.$.editSyntaxHighlighting.checked);
@@ -54,32 +49,18 @@
       this._handleEditPrefsChanged();
     },
 
-    _handleWhitespaceErrorsChanged() {
-      this.set('editPrefs.show_whitespace_errors',
-          this.$.whitespaceErrors.checked);
-      this._handleEditPrefsChanged();
-    },
-
-    _handleLineNumbersChanged() {
-      this.set('editPrefs.hide_line_numbers',
-          this.$.showLineNumbers.checked);
-      this._handleEditPrefsChanged();
-    },
-
     _handleMatchBracketsChanged() {
       this.set('editPrefs.match_brackets', this.$.showMatchBrackets.checked);
       this._handleEditPrefsChanged();
     },
 
     _handleEditLineWrappingChanged() {
-      this.set('editPrefs.line_wrapping',
-          this.$.editShowLineWrapping.checked);
+      this.set('editPrefs.line_wrapping', this.$.editShowLineWrapping.checked);
       this._handleEditPrefsChanged();
     },
 
     _handleIndentWithTabsChanged() {
-      this.set('editPrefs.indent_with_tabs',
-          this.$.showIndentWithTabs.checked);
+      this.set('editPrefs.indent_with_tabs', this.$.showIndentWithTabs.checked);
       this._handleEditPrefsChanged();
     },
 
@@ -90,16 +71,13 @@
     },
 
     _handleShowBaseVersionChanged() {
-      this.set('editPrefs.show_base',
-          this.$.showShowBaseVersion.checked);
+      this.set('editPrefs.show_base', this.$.showShowBaseVersion.checked);
       this._handleEditPrefsChanged();
     },
 
     save() {
       return this.$.restAPI.saveEditPreferences(this.editPrefs)
-          .then(() => {
-            this.hasUnsavedChanges = false;
-          });
+          .then(() => { this.hasUnsavedChanges = false; });
     },
   });
 })();

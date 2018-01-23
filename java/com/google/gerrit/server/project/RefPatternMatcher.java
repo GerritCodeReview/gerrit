@@ -134,13 +134,9 @@ public abstract class RefPatternMatcher {
 
     private ImmutableSet<String> getUsernames(CurrentUser user) {
       if (user.isIdentifiedUser()) {
-        ImmutableSet<String> emails = user.asIdentifiedUser().getEmailAddresses();
-        if (user.getUserName() == null) {
-          return emails;
-        } else if (emails.isEmpty()) {
-          return ImmutableSet.of(user.getUserName());
-        }
-        return Streams.concat(emails.stream(), ImmutableSet.of(user.getUserName()).stream())
+        return Streams.concat(
+                user.asIdentifiedUser().getEmailAddresses().stream(),
+                ImmutableSet.of(user.getUserName()).stream())
             .collect(toImmutableSet());
       }
       if (user.getUserName() != null) {

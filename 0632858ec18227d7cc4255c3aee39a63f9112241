@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b48df3d_32cb7157",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-01-23T19:57:39Z",
+      "side": 0,
+      "message": "oh I remember now!\n\nThe problem was the circular dependency between diff_summary and diff caches.\n\ndiff_summary cache loader is calling diff cache, use the returned PatchList to compute and return the DiffSummary. The problem is in the diff loader(method we see here), we compute the PatchList but right before returning the value, we compute the DiffSummary and put it in diff_summary.\n\n1.diff_summary.get(id\u003d1234)\n2.diff_summary_loader.get(id\u003d1234)\n3.diff.get(id\u003d1234)\n4.diff_loader.get(id\u003d1234)\n5.diff_summary.put(id\u003d1234)-\u003eblocked because cache is waiting for step 2 to complete.\n\nGuava was ok with this circular dependency but Caffeine is not and goes into an infinite loop.\n\nI removed this line because it\u0027s not mandatory, values will be populated in the diff_summary when explicitly requested.",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 84
+      },
+      "revId": "0632858ec18227d7cc4255c3aee39a63f9112241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "4f4f92c0_08b31f28",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-23T19:05:28Z",
+      "side": 1,
+      "message": "Ok. the status field needs to be visibility hidden, but I\u0027ve adjusted in a way that adds a special class for that, and everything else remains display: none;",
+      "parentUuid": "bb131454_89666d19",
+      "range": {
+        "startLine": 123,
+        "startChar": 8,
+        "endLine": 123,
+        "endChar": 27
+      },
+      "revId": "f02c24464c6a573e227fd153d35bc241cb9deb2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bda7cce0_9cb7c865",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 4

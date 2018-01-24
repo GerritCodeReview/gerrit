@@ -203,6 +203,7 @@ public class SetAccessUtil {
     }
   }
 
+  /** updates the parent project in the given config */
   public void setParentName(
       IdentifiedUser identifiedUser,
       ProjectConfig config,

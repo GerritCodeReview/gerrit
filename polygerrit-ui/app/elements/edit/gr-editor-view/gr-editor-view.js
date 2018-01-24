@@ -76,6 +76,10 @@
       'content-change': '_handleContentChange',
     },
 
+    keyBindings: {
+      'ctrl+s meta+s': '_handleSaveShortcut',
+    },
+
     attached() {
       this._getEditPrefs().then(prefs => { this._prefs = prefs; });
     },
@@ -178,6 +182,11 @@
 
     _handleContentChange(e) {
       if (e.detail.value) { this.set('_newContent', e.detail.value); }
+    },
+
+    _handleSaveShortcut(e) {
+      e.preventDefault();
+      if (!this._saveDisabled) { this._saveEdit(); }
     },
   });
 })();

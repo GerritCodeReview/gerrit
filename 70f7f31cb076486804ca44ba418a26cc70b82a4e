@@ -22,6 +22,30 @@
       "revId": "70f7f31cb076486804ca44ba418a26cc70b82a4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0583f38d_ba8eb464",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-24T23:00:44Z",
+      "side": 1,
+      "message": "That\u0027s actually just not supposed to be there. Thanks, done.",
+      "parentUuid": "84297b08_db2691da",
+      "range": {
+        "startLine": 347,
+        "startChar": 50,
+        "endLine": 347,
+        "endChar": 67
+      },
+      "revId": "70f7f31cb076486804ca44ba418a26cc70b82a4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

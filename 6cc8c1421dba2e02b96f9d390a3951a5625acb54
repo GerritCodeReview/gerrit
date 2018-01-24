@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a016a45_141c59a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-01-24T12:07:36Z",
+      "side": 1,
+      "message": "swap: This allows us to verify",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "6cc8c1421dba2e02b96f9d390a3951a5625acb54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60084342_b3d626d0",
+        "filename": "java/com/google/gerrit/server/restapi/project/CheckAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-01-24T12:07:36Z",
+      "side": 1,
+      "message": "Can we add this as method to RefPermission and have a small test for it? It seems this will be useful in more places.",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 7
+      },
+      "revId": "6cc8c1421dba2e02b96f9d390a3951a5625acb54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7555be30_d4725d0b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CheckAccessIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-01-24T12:07:36Z",
+      "side": 1,
+      "message": "nit: have the newline in 102 to group AccessCheckInput together.",
+      "revId": "6cc8c1421dba2e02b96f9d390a3951a5625acb54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

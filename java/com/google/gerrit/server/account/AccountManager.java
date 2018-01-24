@@ -145,7 +145,7 @@ public class AccountManager {
           return create(db, who);
         }
 
-        Optional<AccountState> accountState = byIdCache.maybeGet(id.accountId());
+        Optional<AccountState> accountState = byIdCache.get(id.accountId());
         if (!accountState.isPresent()) {
           log.error(
               String.format(
@@ -208,7 +208,7 @@ public class AccountManager {
         throw new AccountException("Unable to deactivate account " + account.getId(), e);
       }
     }
-    return byIdCache.maybeGet(account.getId()).map(AccountState::getAccount);
+    return byIdCache.get(account.getId()).map(AccountState::getAccount);
   }
 
   private boolean shouldUpdateActiveStatus(AuthRequest authRequest) {

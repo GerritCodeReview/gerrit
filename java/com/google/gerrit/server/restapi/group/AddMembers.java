@@ -197,7 +197,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       AuthRequest req = AuthRequest.forUser(user);
       req.setSkipAuthentication(true);
       return accountCache
-          .maybeGet(accountManager.authenticate(req).getAccountId())
+          .get(accountManager.authenticate(req).getAccountId())
           .map(AccountState::getAccount);
     } catch (AccountException e) {
       return Optional.empty();

@@ -122,7 +122,7 @@ public abstract class OutgoingEmail {
     Set<Address> smtpRcptToPlaintextOnly = new HashSet<>();
     if (shouldSendMessage()) {
       if (fromId != null) {
-        Optional<AccountState> fromUser = args.accountCache.maybeGet(fromId);
+        Optional<AccountState> fromUser = args.accountCache.get(fromId);
         if (fromUser.isPresent()) {
           GeneralPreferencesInfo senderPrefs = fromUser.get().getGeneralPreferences();
           if (senderPrefs != null && senderPrefs.getEmailStrategy() == CC_ON_OWN_COMMENTS) {
@@ -143,7 +143,7 @@ public abstract class OutgoingEmail {
       // his email notifications then drop him from recipients' list.
       // In addition, check if users only want to receive plaintext email.
       for (Account.Id id : rcptTo) {
-        Optional<AccountState> thisUser = args.accountCache.maybeGet(id);
+        Optional<AccountState> thisUser = args.accountCache.get(id);
         if (thisUser.isPresent()) {
           Account thisUserAccount = thisUser.get().getAccount();
           GeneralPreferencesInfo prefs = thisUser.get().getGeneralPreferences();
@@ -254,7 +254,7 @@ public abstract class OutgoingEmail {
 
   protected String getFromLine() {
     StringBuilder f = new StringBuilder();
-    Optional<Account> account = args.accountCache.maybeGet(fromId).map(AccountState::getAccount);
+    Optional<Account> account = args.accountCache.get(fromId).map(AccountState::getAccount);
     if (account.isPresent()) {
       String name = account.get().getFullName();
       String email = account.get().getPreferredEmail();
@@ -336,7 +336,7 @@ public abstract class OutgoingEmail {
       return args.gerritPersonIdent.getName();
     }
 
-    Optional<Account> account = args.accountCache.maybeGet(accountId).map(AccountState::getAccount);
+    Optional<Account> account = args.accountCache.get(accountId).map(AccountState::getAccount);
     String name = null;
     if (account.isPresent()) {
       name = account.get().getFullName();
@@ -358,7 +358,7 @@ public abstract class OutgoingEmail {
    * @return name/email of account, or Anonymous Coward if unset.
    */
   public String getNameEmailFor(Account.Id accountId) {
-    Optional<Account> account = args.accountCache.maybeGet(accountId).map(AccountState::getAccount);
+    Optional<Account> account = args.accountCache.get(accountId).map(AccountState::getAccount);
     if (account.isPresent()) {
       String name = account.get().getFullName();
       String email = account.get().getPreferredEmail();
@@ -381,7 +381,7 @@ public abstract class OutgoingEmail {
    * @return name/email of account, username, or null if unset.
    */
   public String getUserNameEmailFor(Account.Id accountId) {
-    Optional<AccountState> accountState = args.accountCache.maybeGet(accountId);
+    Optional<AccountState> accountState = args.accountCache.get(accountId);
     if (!accountState.isPresent()) {
       return null;
     }
@@ -518,7 +518,7 @@ public abstract class OutgoingEmail {
   }
 
   private Address toAddress(Account.Id id) {
-    Optional<Account> accountState = args.accountCache.maybeGet(id).map(AccountState::getAccount);
+    Optional<Account> accountState = args.accountCache.get(id).map(AccountState::getAccount);
     if (!accountState.isPresent()) {
       return null;
     }

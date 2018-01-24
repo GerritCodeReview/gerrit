@@ -17,6 +17,24 @@
       "revId": "2754eb67a90497e84dc7991b897dc805532826de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4be70009_d12b03a4",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-24T16:21:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30a3a0db_7cdfdd8f",
+      "revId": "2754eb67a90497e84dc7991b897dc805532826de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

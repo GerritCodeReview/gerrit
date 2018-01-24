@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "80d0fe7d_fda87f2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-24T05:30:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ced11c1_9770abe4",
+      "range": {
+        "startLine": 9,
+        "startChar": 29,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "65bb1dbe85b86eff87d4e99ff1fb5154bd866b31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3bd2fd3a_a044ff2f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2018-01-24T00:52:46Z",
       "side": 1,
       "message": "If this is only a warning, do we need to spend the effort replacing with a temporary forked version?  If it\u0027s not causing any build failure I\u0027d prefer to simply wait until the PR is merged and a new version is released.",
+      "revId": "65bb1dbe85b86eff87d4e99ff1fb5154bd866b31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1879a36d_3fd4ff4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-24T05:30:28Z",
+      "side": 1,
+      "message": "There are too many constraints:\n\n* That\u0027s not just a warning, but telling us: that as consequence: \"this error the build in future bazel versions\". I would like to be able to upgrade to newer Bazel version and avoid us to be block on Bazel upgrade.\n* Both these events: merge of my PR (I uploaded 5 PRs or something to rules_closure already, but non was merged...) and promoting workspace mismatch from warning to error we do not control.\n* Even if rule_closure PR is merged or we decide to fork the repository with my PR to avoid the warning, we still cannot upgrade to that rules_closure version, because Bazel version on the CI is outdated (0.7.0, and min. version required is 0.8.0).\n\nThat why I suggest to shutdown the CI for now, Upgrade gjf, Bazel and what not, and consider to fork rules_closure to fix this warning in this CL and to update dependent libraries in rules_closure: [1] to make Gerrt build Java 9 compatible. rules_closure is the last dependency that prevents gerrit build tool chain to be 100% Java 9 compatible (upcoming Bazel release 0.10.0 is needed for that, that we wouldn\u0027t be able to use because Docker image CI has outdated Bazel version: 0.7.0).\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/147231/",
+      "parentUuid": "3bd2fd3a_a044ff2f",
       "revId": "65bb1dbe85b86eff87d4e99ff1fb5154bd866b31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

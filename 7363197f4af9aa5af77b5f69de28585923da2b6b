@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76c2f9d_adbcdb80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-01-24T16:56:35Z",
+      "side": 1,
+      "message": "nit: upper case",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 1
+      },
+      "revId": "7363197f4af9aa5af77b5f69de28585923da2b6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4d12f28_5fceefd8",
+        "filename": "java/com/google/gerrit/server/permissions/RefPermission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-01-24T16:56:35Z",
+      "side": 1,
+      "message": "{@link com.google.common.base.Optional.absent()}",
+      "range": {
+        "startLine": 86,
+        "startChar": 64,
+        "endLine": 86,
+        "endChar": 68
+      },
+      "revId": "7363197f4af9aa5af77b5f69de28585923da2b6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2733e2f2_1af7b69d",
+        "filename": "java/com/google/gerrit/server/permissions/RefPermission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-01-24T16:56:35Z",
+      "side": 1,
+      "message": "@return",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 86,
+        "endChar": 13
+      },
+      "revId": "7363197f4af9aa5af77b5f69de28585923da2b6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1263f25_82087c8e",
+        "filename": "java/com/google/gerrit/server/permissions/RefPermission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-01-24T16:56:35Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 87,
+        "startChar": 1,
+        "endLine": 87,
+        "endChar": 11
+      },
+      "revId": "7363197f4af9aa5af77b5f69de28585923da2b6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e16e888_ec838e1f",
+        "filename": "java/com/google/gerrit/server/permissions/RefPermission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-01-24T16:56:35Z",
+      "side": 1,
+      "message": "Please use Arrays.stream instead. Stream.of is just a wrapper around Arrays.stream that exposes varargs",
+      "range": {
+        "startLine": 89,
+        "startChar": 11,
+        "endLine": 89,
+        "endChar": 20
+      },
+      "revId": "7363197f4af9aa5af77b5f69de28585923da2b6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

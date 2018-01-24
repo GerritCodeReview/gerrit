@@ -18,6 +18,8 @@
     is: 'gr-edit-controls',
     properties: {
       change: Object,
+      patchNum: String,
+
       /**
        * TODO(kaspern): by default, the RESTORE action should be hidden in the
        * file-list as it is a per-file action only. Remove this default value
@@ -147,7 +149,8 @@
     },
 
     _handleEditConfirm(e) {
-      const url = Gerrit.Nav.getEditUrlForDiff(this.change, this._path);
+      const url = Gerrit.Nav.getEditUrlForDiff(this.change, this._path,
+          this.patchNum);
       Gerrit.Nav.navigateToRelativeUrl(url);
       this._closeDialog(this._getDialogFromEvent(e), true);
     },
@@ -181,7 +184,7 @@
 
     _queryFiles(input) {
       return this.$.restAPI.queryChangeFiles(this.change._number,
-          this.EDIT_NAME, input).then(res => res.map(file => {
+          this.patchNum, input).then(res => res.map(file => {
             return {name: file};
           }));
     },

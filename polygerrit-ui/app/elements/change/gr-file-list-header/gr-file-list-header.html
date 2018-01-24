@@ -197,7 +197,10 @@ limitations under the License.
       </div>
       <div class$="rightControls [[_computeExpandedClass(filesExpanded)]]">
         <span class="showOnEdit flexContainer">
-          <gr-edit-controls id="editControls" change="[[change]]"></gr-edit-controls>
+          <gr-edit-controls
+              id="editControls"
+              patch-num="[[patchNum]]"
+              change="[[change]]"></gr-edit-controls>
           <span class="separator"></span>
         </span>
         <span class="downloadContainer desktop">

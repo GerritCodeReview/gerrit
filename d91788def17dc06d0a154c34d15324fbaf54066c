@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea312dc9_76007413",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-24T05:38:36Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be enclosed in quotes.  It causes this error when building the API:\n\njavadoc: warning - Error fetching URL: http://download.eclipse.org/jgit/site/_JGIT_VERS/apidocs/",
+      "range": {
+        "startLine": 5,
+        "startChar": 12,
+        "endLine": 5,
+        "endChar": 25
+      },
+      "revId": "d91788def17dc06d0a154c34d15324fbaf54066c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

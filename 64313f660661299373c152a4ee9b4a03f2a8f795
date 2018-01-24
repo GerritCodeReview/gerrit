@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac1576b0_6aa96539",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1384,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-24T22:46:24Z",
+      "side": 1,
+      "message": "Nit: should be _computeEditMode",
+      "range": {
+        "startLine": 1384,
+        "startChar": 4,
+        "endLine": 1384,
+        "endChar": 20
+      },
+      "revId": "64313f660661299373c152a4ee9b4a03f2a8f795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cf3ae38_125fc8ff",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-24T22:46:24Z",
+      "side": 1,
+      "message": "Nit: _computeEditModeClass",
+      "range": {
+        "startLine": 204,
+        "startChar": 4,
+        "endLine": 204,
+        "endChar": 25
+      },
+      "revId": "64313f660661299373c152a4ee9b4a03f2a8f795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

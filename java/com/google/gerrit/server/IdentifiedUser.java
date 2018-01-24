@@ -276,7 +276,7 @@ public class IdentifiedUser extends CurrentUser {
 
   public AccountState state() {
     if (state == null) {
-      state = accountCache.get(getAccountId());
+      state = accountCache.getEvenIfMissing(getAccountId());
     }
     return state;
   }

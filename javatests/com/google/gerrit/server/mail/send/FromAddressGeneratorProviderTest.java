@@ -368,7 +368,7 @@ public class FromAddressGeneratorProviderTest {
 
   private Account.Id user(String name, String email) {
     final AccountState s = makeUser(name, email);
-    expect(accountCache.get(eq(s.getAccount().getId()))).andReturn(s);
+    expect(accountCache.getEvenIfMissing(eq(s.getAccount().getId()))).andReturn(s);
     return s.getAccount().getId();
   }
 

@@ -126,6 +126,6 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
     // document (of which there shouldn't be any). The most expensive part to
     // compute anyway is the effective group IDs, and we don't have a good way
     // to reindex when those change.
-    return accountCache.get().get(id);
+    return accountCache.get().getEvenIfMissing(id);
   }
 }

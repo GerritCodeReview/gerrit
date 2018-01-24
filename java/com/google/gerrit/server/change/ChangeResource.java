@@ -170,7 +170,7 @@ public class ChangeResource implements RestResource, HasETag {
     } catch (OrmException e) {
       // This ETag will be invalidated if it loads next time.
     }
-    accounts.stream().forEach(a -> hashAccount(h, accountCache.get(a), buf));
+    accounts.stream().forEach(a -> hashAccount(h, accountCache.getEvenIfMissing(a), buf));
 
     ObjectId noteId;
     try {

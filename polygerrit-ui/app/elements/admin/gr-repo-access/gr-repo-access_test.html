@@ -55,6 +55,14 @@ limitations under the License.
           },
         },
       },
+      groups: {
+        Administrators: {
+          name: 'Administrators',
+        },
+        Maintainers: {
+          name: 'Maintainers',
+        },
+      },
     };
     const accessRes2 = {
       local: {
@@ -76,9 +84,22 @@ limitations under the License.
         'Code-Review': {},
       },
     };
+    const capabilitiesRes = {
+      accessDatabase: {
+        id: 'accessDatabase',
+        name: 'Access Database',
+      },
+      createAccount: {
+        id: 'createAccount',
+        name: 'Create Account',
+      },
+    };
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
+      stub('gr-rest-api-interface', {
+        getAccount() { return Promise.resolve(null); },
+      });
     });
 
     teardown(() => {
@@ -92,16 +113,6 @@ limitations under the License.
     });
 
     test('_repoChanged', done => {
-      const capabilitiesRes = {
-        accessDatabase: {
-          id: 'accessDatabase',
-          name: 'Access Database',
-        },
-        createAccount: {
-          id: 'createAccount',
-          name: 'Create Account',
-        },
-      };
       const accessStub = sandbox.stub(element.$.restAPI,
           'getRepoAccessRights');
 
@@ -190,8 +201,12 @@ limitations under the License.
 
     suite('with defined sections', () => {
       setup(() => {
-        element._sections =
-            element.toSortedArray(JSON.parse(JSON.stringify(accessRes.local)));
+        // Create deep copies of these objects so the originals are not modified
+        // by any tests.
+        element._local = JSON.parse(JSON.stringify(accessRes.local));
+        element._sections = element.toSortedArray(element._local);
+        element._groups = JSON.parse(JSON.stringify(accessRes.groups));
+        element._capabilities = JSON.parse(JSON.stringify(capabilitiesRes));
         flushAsynchronousOperations();
       });
 
@@ -273,8 +288,11 @@ limitations under the License.
       });
 
       test('_handleSaveForReview with no changes', () => {
-        element._local = JSON.parse(JSON.stringify(accessRes.local));
         assert.deepEqual(element._computeAddAndRemove(), {add: {}, remove: {}});
+      });
+
+      test('_handleSaveForReview rules', () => {
+        // Delete a rule.
         element._local['refs/*'].permissions.owner.rules[123].deleted = true;
         let expectedInput = {
           add: {},
@@ -291,7 +309,11 @@ limitations under the License.
           },
         };
         assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+        // Undo deleting a rule.
         delete element._local['refs/*'].permissions.owner.rules[123].deleted;
+
+        // Modify a rule.
         element._local['refs/*'].permissions.owner.rules[123].modified = true;
         expectedInput = {
           add: {
@@ -321,10 +343,37 @@ limitations under the License.
       });
 
       test('_computeAddAndRemove permissions', () => {
-        element._local = JSON.parse(JSON.stringify(accessRes.local));
-        assert.deepEqual(element._computeAddAndRemove(), {add: {}, remove: {}});
-        element._local['refs/*'].permissions.owner.deleted = true;
+        // Add a new rule to a permission.
         let expectedInput = {
+          add: {
+            'refs/*': {
+              permissions: {
+                owner: {
+                  rules: {
+                    Maintainers: {
+                      action: 'ALLOW',
+                      added: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+          remove: {},
+        };
+
+        element.$$('gr-access-section').$$('gr-permission')._handleAddRuleItem(
+            {detail: {value: {id: 'Maintainers'}}});
+
+        flushAsynchronousOperations();
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+        // Remove the added rule.
+        delete element._local['refs/*'].permissions.owner.rules.Maintainers;
+
+        // Delete a permission.
+        element._local['refs/*'].permissions.owner.deleted = true;
+        expectedInput = {
           add: {},
           remove: {
             'refs/*': {
@@ -335,7 +384,11 @@ limitations under the License.
           },
         };
         assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+        // Undo delete permission.
         delete element._local['refs/*'].permissions.owner.deleted;
+
+        // Modify a permission.
         element._local['refs/*'].permissions.owner.modified = true;
         expectedInput = {
           add: {
@@ -363,8 +416,8 @@ limitations under the License.
       });
 
       test('_computeAddAndRemove sections', () => {
-        element._local = JSON.parse(JSON.stringify(accessRes.local));
         assert.deepEqual(element._computeAddAndRemove(), {add: {}, remove: {}});
+        // Modify a section reference.
         element._local['refs/*'].updatedId = 'refs/for/bar';
         element._local['refs/*'].modified = true;
         let expectedInput = {
@@ -394,6 +447,8 @@ limitations under the License.
           },
         };
         assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+        // Delete a section.
         element._local['refs/*'].deleted = true;
         expectedInput = {
           add: {},
@@ -408,7 +463,6 @@ limitations under the License.
 
       test('_computeAddAndRemove combinations', () => {
         // Modify rule and delete permission that it is inside of.
-        element._local = JSON.parse(JSON.stringify(accessRes.local));
         element._local['refs/*'].permissions.owner.rules[123].modified = true;
         element._local['refs/*'].permissions.owner.deleted = true;
         let expectedInput = {
@@ -483,6 +537,39 @@ limitations under the License.
         };
         assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
+        // Add a permission to the existing rule;
+        const readPermission =
+            Polymer.dom(element.$$('gr-access-section').root).querySelectorAll(
+                'gr-permission')[1];
+        readPermission._handleAddRuleItem(
+           {detail: {value: {id: 'Maintainers'}}});
+
+        expectedInput = {
+          add: {
+            'refs/*': {
+              permissions: {
+                read: {
+                  exclusive: true,
+                  modified: true,
+                  rules: {
+                    234: {action: 'ALLOW'},
+                    Maintainers: {action: 'ALLOW', added: true},
+                  },
+                },
+              },
+            },
+          },
+          remove: {
+            'refs/*': {
+              permissions: {
+                owner: {rules: {}},
+                read: {rules: {}},
+              },
+            },
+          },
+        };
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
         // Change one of the refs
         element._local['refs/*'].updatedId = 'refs/for/bar';
         element._local['refs/*'].modified = true;
@@ -498,6 +585,7 @@ limitations under the License.
                   modified: true,
                   rules: {
                     234: {action: 'ALLOW'},
+                    Maintainers: {action: 'ALLOW', added: true},
                   },
                 },
               },

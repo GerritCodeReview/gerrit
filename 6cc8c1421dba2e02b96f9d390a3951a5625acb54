@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2ba895a2_69bf1c41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-24T14:19:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a016a45_141c59a4",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "6cc8c1421dba2e02b96f9d390a3951a5625acb54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60084342_b3d626d0",
         "filename": "java/com/google/gerrit/server/restapi/project/CheckAccess.java",
         "patchSetId": 2

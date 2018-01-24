@@ -36,6 +36,7 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GroupCollector;
@@ -58,6 +59,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -434,9 +436,10 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
 
   private String getByAccountName() {
     checkNotNull(submitter, "getByAccountName called before submitter populated");
-    Account account = args.accountCache.get(submitter.getAccountId()).getAccount();
-    if (account != null && account.getFullName() != null) {
-      return " by " + account.getFullName();
+    Optional<Account> account =
+        args.accountCache.maybeGet(submitter.getAccountId()).map(AccountState::getAccount);
+    if (account.isPresent() && account.get().getFullName() != null) {
+      return " by " + account.get().getFullName();
     }
     return "";
   }

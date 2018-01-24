@@ -93,7 +93,7 @@ public class IsWatchedByPredicate extends AndPredicate<ChangeData> {
       throws QueryParseException {
     CurrentUser user = args.getUser();
     if (user.isIdentifiedUser()) {
-      return args.accountCache.get(args.getUser().getAccountId()).getProjectWatches().keySet();
+      return user.asIdentifiedUser().state().getProjectWatches().keySet();
     }
     return Collections.<ProjectWatchKey>emptySet();
   }

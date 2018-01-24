@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "cc3c5b64_24b404fc",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2791,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-24T23:42:24Z",
+      "side": 1,
+      "message": "\u003e we are shipping the documentation with every Gerrit server.\n\nJust to clarify: with every *release* build of the server.  It doesn\u0027t work in dev builds AFAIK.",
+      "parentUuid": "b4cd0146_16edbafe",
+      "range": {
+        "startLine": 2791,
+        "startChar": 34,
+        "endLine": 2791,
+        "endChar": 73
+      },
+      "revId": "c7d7c1958ebf0a3479680c3065c51695505700e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3df76783_fad9ef0d",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 1

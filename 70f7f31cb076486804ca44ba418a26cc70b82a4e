@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84297b08_db2691da",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-24T22:52:57Z",
+      "side": 1,
+      "message": "Does this function need to observe change to revisionActions? it doesn\u0027t seem like it\u0027s used in the function. If so, can you add a comment as to why it\u0027s needed?",
+      "range": {
+        "startLine": 347,
+        "startChar": 50,
+        "endLine": 347,
+        "endChar": 67
+      },
+      "revId": "70f7f31cb076486804ca44ba418a26cc70b82a4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

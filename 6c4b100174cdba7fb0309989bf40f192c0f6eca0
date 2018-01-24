@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb8e9c5a_d349e6bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-24T17:25:35Z",
+      "side": 1,
+      "message": "I think it would be more clear, if we mention wct and the we are trying to pass browser sepcific option via web-component-tester, so may be say something like:\n\nweb-component-tester: Allow to pass browser options",
+      "revId": "6c4b100174cdba7fb0309989bf40f192c0f6eca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

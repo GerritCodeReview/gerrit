@@ -1,4 +1,56 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1516799314 +0100\nnonce AGjzz3+kOfQWXiELIXcvBgSCQ02Jgcj0widNd+THgnXG9k/eFCttqRbVg5QSu3O/0dI1z3wn9RyA\n\n0000000000000000000000000000000000000000 4e04d608c3ee446a724819dc0efc256f944715e1 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlpohVIACgkQUbX9l6DQ\n71HOSgf+Noq2s3XjdsUFEc9VrAecyilc+uLOkIn/C/YmdWtK5jxhjmhEydOD23ks\nM2BaLX07HBPwOQyWeF3Wy5J0CALuA5SR7UWLbfn/LVS3mD+dZG//tQ5sS5W7qzIp\n8uavbs1up6ngux4wz0O18j5Nwdsc/KCMrvNGsUaFlpWV4qkKJ1+5jzgqkMLvxz+l\n8yzGX8j7dvr0CRUvaTgqCduQY0IIZes1zqK9Q4yb0RNcPODHdSKeOdrxEc9d9Thq\njmWJZN9Qz87VbSWlQxHVLUOBL8agMRWqtxak+DnUeE1b/XIB24YXY9buuNyQvpY5\ne2v1Q+s/mc4Ep700yY3CTfcWlkh8JQ\u003d\u003d\n\u003dg3bv\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2cdfc91_d773d3a9",
+        "filename": "java/com/google/gerrit/server/restapi/account/SetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-24T15:24:25Z",
+      "side": 1,
+      "message": "Would it be better to do () -\u003e new ResourceNotFoundException(id.toString()) or something more descriptive?",
+      "revId": "828507cf6fae535ef584dd1d7390169433908070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4250b083_0f42ec4a",
+        "filename": "java/com/google/gerrit/server/restapi/account/SetEditPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-24T15:24:25Z",
+      "side": 1,
+      "message": "Same question",
+      "revId": "828507cf6fae535ef584dd1d7390169433908070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c015c1a6_7d815083",
+        "filename": "java/com/google/gerrit/server/restapi/account/SetPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-24T15:24:25Z",
+      "side": 1,
+      "message": "Same question",
+      "revId": "828507cf6fae535ef584dd1d7390169433908070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -88,7 +88,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void getExternalIds() throws Exception {
-    Collection<ExternalId> expectedIds = accountCache.maybeGet(user.getId()).get().getExternalIds();
+    Collection<ExternalId> expectedIds = getAccountState(user.getId()).getExternalIds();
     List<AccountExternalIdInfo> expectedIdInfos = toExternalIdInfos(expectedIds);
 
     RestResponse response = userRestSession.get("/accounts/self/external.ids");
@@ -116,8 +116,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   public void getExternalIdsOfOtherUserWithAccessDatabase() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
 
-    Collection<ExternalId> expectedIds =
-        accountCache.maybeGet(admin.getId()).get().getExternalIds();
+    Collection<ExternalId> expectedIds = getAccountState(admin.getId()).getExternalIds();
     List<AccountExternalIdInfo> expectedIdInfos = toExternalIdInfos(expectedIds);
 
     RestResponse response = userRestSession.get("/accounts/" + admin.id + "/external.ids");

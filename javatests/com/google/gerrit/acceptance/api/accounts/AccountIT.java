@@ -441,14 +441,7 @@ public class AccountIT extends AbstractDaemonTest {
       assertThat(ref).isNotNull();
       RevCommit c = rw.parseCommit(ref.getObjectId());
       long timestampDiffMs =
-          Math.abs(
-              c.getCommitTime() * 1000L
-                  - accountCache
-                      .maybeGet(accountId)
-                      .get()
-                      .getAccount()
-                      .getRegisteredOn()
-                      .getTime());
+          Math.abs(c.getCommitTime() * 1000L - getAccount(accountId).getRegisteredOn().getTime());
       assertThat(timestampDiffMs).isAtMost(ChangeRebuilderImpl.MAX_WINDOW_MS);
 
       // Check the 'account.config' file.

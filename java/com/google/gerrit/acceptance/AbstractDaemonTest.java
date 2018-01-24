@@ -69,6 +69,7 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -83,6 +84,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
@@ -804,6 +806,14 @@ public abstract class AbstractDaemonTest {
 
   protected Context setApiUserAnonymous() {
     return atrScope.set(atrScope.newContext(reviewDbProvider, null, anonymousUser.get()));
+  }
+
+  protected Account getAccount(Account.Id accountId) {
+    return getAccountState(accountId).getAccount();
+  }
+
+  protected AccountState getAccountState(Account.Id accountId) {
+    return accountCache.maybeGet(accountId).get();
   }
 
   protected Context disableDb() {

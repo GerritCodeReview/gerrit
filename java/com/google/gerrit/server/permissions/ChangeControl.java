@@ -319,6 +319,13 @@ class ChangeControl {
     }
 
     @Override
+    public String resourcePath() {
+      return String.format(
+          "/projects/%s/+changes/%s",
+          getProjectControl().getProjectState().getName(), changeData().getId().get());
+    }
+
+    @Override
     public void check(ChangePermissionOrLabel perm)
         throws AuthException, PermissionBackendException {
       if (!can(perm)) {

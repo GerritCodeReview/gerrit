@@ -71,6 +71,11 @@ public class DefaultPermissionBackend extends PermissionBackend {
     }
 
     @Override
+    public CurrentUser user() {
+      return user;
+    }
+
+    @Override
     public ForProject project(Project.NameKey project) {
       try {
         ProjectState state = projectCache.checkedGet(project);

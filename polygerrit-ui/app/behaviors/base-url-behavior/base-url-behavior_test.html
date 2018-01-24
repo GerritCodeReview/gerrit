@@ -78,5 +78,11 @@ limitations under the License.
           element.computeGwtUrl('/r/p/gerrit/proj/+/dashboard/main:default'),
           '/r/?polygerrit=0#/projects/gerrit/proj,dashboards/main:default');
     });
+
+    test('computeGwtUrl for project access', () => {
+      assert.deepEqual(
+          element.computeGwtUrl('/r/admin/repos/demo-project,access'),
+          '/r/?polygerrit=0#/admin/projects/demo-project,access');
+    });
   });
 </script>

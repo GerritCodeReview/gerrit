@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1516789216 +0100\nnonce AGjzz3+WUguao6BKTSOn+JPDwY8uTWPu9LbyZJ2NkFplBqE3LpeGZMmzh68AAqz3/hcpZwVEqtgy\n\n0000000000000000000000000000000000000000 2754eb67a90497e84dc7991b897dc805532826de refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlpoXeAACgkQUbX9l6DQ\n71HicQf+Mcihzy2kR2uCh9btnbipPlCM/h7Il3BvIpa/FXQKCsLdWRBDL8x6H9li\nerDSxjV05Gr1BziiMJVMpRDWB3BQAXiasMz//65nZKRhFvlRYuAHvjitHzUACP5W\ncnx/rBZtgM7zH8GdZDk8tDXmJpe1Wl3Tp4oP4k4GTJBzEse90g9B2NRrKjJ89sca\nG7OwX1mpj3kMiwBY1apiJ483evhTd7OgVUDijh2ZobBRBcEHer1H91of7+/CTI5z\nnW/ayeC3A7dG8SgVHsqxPAbzSAT6/t2+iGzW6JBD0i+sFCuwM9Z6fGthf3il0eCa\nMSxLQuXfu9xYTBbxzRRFRrh5P1mbUA\u003d\u003d\n\u003dC5Vs\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "30a3a0db_7cdfdd8f",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-24T15:16:42Z",
+      "side": 1,
+      "message": "Throw a more useful exception if !isPresent()?",
+      "revId": "2754eb67a90497e84dc7991b897dc805532826de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

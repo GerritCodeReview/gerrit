@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d570c5f_99587e80",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-24T21:31:53Z",
+      "side": 1,
+      "message": "Probably also want to strip the END PGP SIGNATURE portion, no?",
+      "revId": "2134b6e323b1f0ecec8a2c5d88f1dd2369bc5a99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

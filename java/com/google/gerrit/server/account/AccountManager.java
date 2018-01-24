@@ -155,8 +155,13 @@ public class AccountManager {
         }
 
         // Account exists
-        Account act = updateAccountActiveStatus(who, accountState.get().getAccount());
-        if (!act.isActive()) {
+        Optional<Account> act = updateAccountActiveStatus(who, accountState.get().getAccount());
+        if (!act.isPresent()) {
+          // The account was deleted since we checked for it last time. This should never happen
+          // since we don't support deletion of accounts.
+          throw new AccountException("Authentication error, account not found");
+        }
+        if (!act.get().isActive()) {
           throw new AccountException("Authentication error, account inactive");
         }
 
@@ -184,10 +189,10 @@ public class AccountManager {
     }
   }
 
-  private Account updateAccountActiveStatus(AuthRequest authRequest, Account account)
+  private Optional<Account> updateAccountActiveStatus(AuthRequest authRequest, Account account)
       throws AccountException {
     if (!shouldUpdateActiveStatus(authRequest) || authRequest.isActive() == account.isActive()) {
-      return account;
+      return Optional.of(account);
     }
 
     if (authRequest.isActive()) {
@@ -203,7 +208,7 @@ public class AccountManager {
         throw new AccountException("Unable to deactivate account " + account.getId(), e);
       }
     }
-    return byIdCache.get(account.getId()).getAccount();
+    return byIdCache.maybeGet(account.getId()).map(AccountState::getAccount);
   }
 
   private boolean shouldUpdateActiveStatus(AuthRequest authRequest) {

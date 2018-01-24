@@ -62,6 +62,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     gApi.projects().name(project.get()).config(conf);
   }
 
+  // NOSUBMIT - this should use an annotation.
   @Override
   protected ProjectResetter resetProjects(Builder resetter) throws IOException {
     // Don't reset anything so that stagedUsers can be cached across all tests.

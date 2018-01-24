@@ -329,6 +329,25 @@ limitations under the License.
       sandbox.restore();
     });
 
+    test('_computeMessage', () => {
+      let message = 'v2.15-rc1↵-----BEGIN PGP SIGNATURE-----↵Version: GnuPG v' +
+      '1↵↵iQIcBAABAgAGBQJZ27O7AAoJEF/XxZqaEoiMy6kQAMoQCpGr3J6JITI4BVWsr7QM↵xy' +
+      'EcWH5YPUko5EPTbkABHmaVyFmKGkuIQdn6c+NIbqJOk+5XT4oUyRSo1T569HPJ↵3kyxEJi' +
+      'T1ryvp5BIHwdvHx58fjw1+YkiWLZuZq1FFkUYqnWTYCrkv7Fok98pdOmV↵CL1Hgugi5uK8' +
+      '/kxf1M7+Nv6piaZ140pwSb1h6QdAjaZVfaBCnoxlG4LRUqHvEYay↵f4QYgFT67auHIGkZ4' +
+      'moUcsp2Du/1jSsCWL/CPwjPFGbbckVAjLCMT9yD3NKwpEZF↵pfsiZyHI9dL0M+QjVrM+RD' +
+      'HwIIJwra8R0IMkDlQ6MDrFlKNqNBbo588S6UPrm71L↵YuiwWlcrK9ZIybxT6LzbR65Rvez' +
+      'DSitQ+xeIfpZE19/X6BCnvlARLE8k/tC2JksI↵lEZi7Lf3FQdIcwwyt98tJkS9HX9v9jbC' +
+      '5QXifnoj3Li8tHSLuQ1dJCxHQiis6ojI↵OWUFkm0IHBXVNHA2dqYBdM+pL12mlI3wp6Ica' +
+      '4cdEVDwzu+j1xnVSFUa+d+Y2xJF↵7mytuyhHiKG4hm+zbhMv6WD8Q3FoDsJZeLY99l0hYQ' +
+      'SnnkMduFVroIs45pAs8gUA↵RvYla8mm9w/543IJAPzzFarPVLSsSyQ7tJl3UBzjKRNH/rX' +
+      'W+F22qyWD1zyHPUIR↵C00ItmwlAvveImYKpQAH↵=L+K9↵-----END PGP SIGNATURE---' +
+      '--';
+      assert.equal(element._computeMessage(message), 'v2.15-rc1↵');
+      message = 'v2.15-rc1';
+      assert.equal(element._computeMessage(message), 'v2.15-rc1');
+    });
+
     suite('list of repo tags', () => {
       setup(done => {
         tags = _.times(26, tagGenerator);

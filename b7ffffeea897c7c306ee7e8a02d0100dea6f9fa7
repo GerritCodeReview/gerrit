@@ -22,6 +22,30 @@
       "revId": "b7ffffeea897c7c306ee7e8a02d0100dea6f9fa7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21887930_766fab97",
+        "filename": "java/com/google/gerrit/server/restapi/account/AccountsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2018-01-24T17:40:03Z",
+      "side": 1,
+      "message": "\"doesn\u0027t represent an account\" sounds like a 404. \"invisible to caller\" sounds like a 403. \"ambiguous\" sounds like a 400. Why is this throwing a 500?",
+      "parentUuid": "7d580fef_4469119c",
+      "range": {
+        "startLine": 77,
+        "startChar": 50,
+        "endLine": 77,
+        "endChar": 51
+      },
+      "revId": "b7ffffeea897c7c306ee7e8a02d0100dea6f9fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

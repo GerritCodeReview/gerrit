@@ -71,15 +71,15 @@ public class DefaultPermissionBackend extends PermissionBackend {
     }
 
     @Override
-    public ForProject project(Project.NameKey project) {
+    public ForRepo repo(Project.NameKey project) {
       try {
         ProjectState state = projectCache.checkedGet(project);
         if (state != null) {
-          return projectControlFactory.create(user, state).asForProject().database(db);
+          return projectControlFactory.create(user, state).asForRepo().database(db);
         }
-        return FailedPermissionBackend.project("not found", new NoSuchProjectException(project));
+        return FailedPermissionBackend.repo("not found", new NoSuchProjectException(project));
       } catch (IOException e) {
-        return FailedPermissionBackend.project("unavailable", e);
+        return FailedPermissionBackend.repo("unavailable", e);
       }
     }
 

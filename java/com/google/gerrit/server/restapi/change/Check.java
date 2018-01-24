@@ -28,7 +28,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -62,7 +62,7 @@ public class Check
     PermissionBackend.WithUser perm = permissionBackend.user(user);
     if (!rsrc.isUserOwner()) {
       try {
-        perm.project(rsrc.getProject()).check(ProjectPermission.READ_CONFIG);
+        perm.repo(rsrc.getProject()).check(RepoPermission.READ_CONFIG);
       } catch (AuthException e) {
         perm.check(GlobalPermission.MAINTAIN_SERVER);
       }

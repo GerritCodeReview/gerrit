@@ -45,8 +45,8 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -131,11 +131,11 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     List<AccessSection> local = new ArrayList<>();
     Set<String> ownerOf = new HashSet<>();
     Map<AccountGroup.UUID, Boolean> visibleGroups = new HashMap<>();
-    PermissionBackend.ForProject perm = permissionBackend.user(user).project(projectName);
+    PermissionBackend.ForRepo perm = permissionBackend.user(user).repo(projectName);
     boolean checkReadConfig = check(perm, RefNames.REFS_CONFIG, READ);
     boolean canWriteProjectConfig = true;
     try {
-      perm.check(ProjectPermission.WRITE_CONFIG);
+      perm.check(RepoPermission.WRITE_CONFIG);
     } catch (AuthException e) {
       canWriteProjectConfig = false;
     }
@@ -265,7 +265,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
           ResourceConflictException {
     ProjectState state = projectCache.checkedGet(projectName);
     try {
-      permissionBackend.user(user).project(projectName).check(ProjectPermission.ACCESS);
+      permissionBackend.user(user).repo(projectName).check(RepoPermission.ACCESS);
     } catch (AuthException e) {
       throw new NoSuchProjectException(projectName);
     }
@@ -273,7 +273,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     return state;
   }
 
-  private static boolean check(PermissionBackend.ForProject ctx, String ref, RefPermission perm)
+  private static boolean check(PermissionBackend.ForRepo ctx, String ref, RefPermission perm)
       throws PermissionBackendException {
     try {
       ctx.ref(ref).check(perm);

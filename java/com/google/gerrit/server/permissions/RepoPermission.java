@@ -18,7 +18,7 @@ import com.google.gerrit.common.data.Permission;
 import java.util.Locale;
 import java.util.Optional;
 
-public enum ProjectPermission {
+public enum RepoPermission {
   /**
    * Can access at least one reference or change within the repository.
    *
@@ -43,14 +43,14 @@ public enum ProjectPermission {
   READ_NO_CONFIG,
 
   /**
-   * Can create at least one reference in the project.
+   * Can create at least one reference in the repo.
    *
-   * <p>This project level permission only validates the user may create some type of reference
-   * within the project. The exact reference name must be checked at creation:
+   * <p>This repo level permission only validates the user may create some type of reference within
+   * the repo. The exact reference name must be checked at creation:
    *
    * <pre>permissionBackend
    *    .user(user)
-   *    .project(proj)
+   *    .repo(proj)
    *    .ref(ref)
    *    .check(RefPermission.CREATE);
    * </pre>
@@ -58,14 +58,14 @@ public enum ProjectPermission {
   CREATE_REF,
 
   /**
-   * Can create at least one change in the project.
+   * Can create at least one change in the repo.
    *
-   * <p>This project level permission only validates the user may create a change for some branch
-   * within the project. The exact reference name must be checked at creation:
+   * <p>This repo level permission only validates the user may create a change for some branch
+   * within the repo. The exact reference name must be checked at creation:
    *
    * <pre>permissionBackend
    *    .user(user)
-   *    .project(proj)
+   *    .repo(proj)
    *    .ref(ref)
    *    .check(RefPermission.CREATE_CHANGE);
    * </pre>
@@ -87,7 +87,7 @@ public enum ProjectPermission {
   /** Allow banning commits from Gerrit preventing pushes of these commits. */
   BAN_COMMIT,
 
-  /** Allow accessing the project's reflog. */
+  /** Allow accessing the repo's reflog. */
   READ_REFLOG,
 
   /** Can push to at least one reference within the repository. */
@@ -95,11 +95,11 @@ public enum ProjectPermission {
 
   private final String name;
 
-  ProjectPermission() {
+  RepoPermission() {
     name = null;
   }
 
-  ProjectPermission(String name) {
+  RepoPermission(String name) {
     this.name = name;
   }
 

@@ -15,10 +15,10 @@
 package com.google.gerrit.server.restapi.project;
 
 import static com.google.gerrit.server.permissions.GlobalPermission.ADMINISTRATE_SERVER;
-import static com.google.gerrit.server.permissions.ProjectPermission.CREATE_REF;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static com.google.gerrit.server.permissions.RefPermission.READ;
 import static com.google.gerrit.server.permissions.RefPermission.WRITE_CONFIG;
+import static com.google.gerrit.server.permissions.RepoPermission.CREATE_REF;
 import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.ImmutableBiMap;
@@ -49,8 +49,8 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectResource;
@@ -142,7 +142,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     Project.NameKey projectName = rsrc.getNameKey();
     ProjectAccessInfo info = new ProjectAccessInfo();
     ProjectState projectState = projectCache.checkedGet(projectName);
-    PermissionBackend.ForProject perm = permissionBackend.user(user).project(projectName);
+    PermissionBackend.ForRepo perm = permissionBackend.user(user).repo(projectName);
 
     ProjectConfig config;
     try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
@@ -153,12 +153,12 @@ public class GetAccess implements RestReadView<ProjectResource> {
         config.commit(md);
         projectCache.evict(config.getProject());
         projectState = projectCache.checkedGet(projectName);
-        perm = permissionBackend.user(user).project(projectName);
+        perm = permissionBackend.user(user).repo(projectName);
       } else if (config.getRevision() != null
           && !config.getRevision().equals(projectState.getConfig().getRevision())) {
         projectCache.evict(config.getProject());
         projectState = projectCache.checkedGet(projectName);
-        perm = permissionBackend.user(user).project(projectName);
+        perm = permissionBackend.user(user).repo(projectName);
       }
     } catch (ConfigInvalidException e) {
       throw new ResourceConflictException(e.getMessage());
@@ -172,7 +172,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     info.ownerOf = new HashSet<>();
     Map<AccountGroup.UUID, GroupInfo> visibleGroups = new HashMap<>();
     boolean canReadConfig = check(perm, RefNames.REFS_CONFIG, READ);
-    boolean canWriteConfig = check(perm, ProjectPermission.WRITE_CONFIG);
+    boolean canWriteConfig = check(perm, RepoPermission.WRITE_CONFIG);
 
     // Check if the project state permits read only when the user is not allowed to write the config
     // (=owner). This is so that the owner can still read (and in the next step write) the project's
@@ -296,7 +296,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     return group;
   }
 
-  private static boolean check(PermissionBackend.ForProject ctx, String ref, RefPermission perm)
+  private static boolean check(PermissionBackend.ForRepo ctx, String ref, RefPermission perm)
       throws PermissionBackendException {
     try {
       ctx.ref(ref).check(perm);
@@ -306,7 +306,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     }
   }
 
-  private static boolean check(PermissionBackend.ForProject ctx, ProjectPermission perm)
+  private static boolean check(PermissionBackend.ForRepo ctx, RepoPermission perm)
       throws PermissionBackendException {
     try {
       ctx.check(perm);

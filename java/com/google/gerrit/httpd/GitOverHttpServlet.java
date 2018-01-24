@@ -33,7 +33,7 @@ import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.AbstractModule;
@@ -189,7 +189,7 @@ public class GitOverHttpServlet extends GitServlet {
         req.setAttribute(ATT_STATE, state);
 
         try {
-          permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
+          permissionBackend.user(user).repo(nameKey).check(RepoPermission.ACCESS);
         } catch (AuthException e) {
           if (user instanceof AnonymousUser) {
             throw new ServiceNotAuthorizedException();
@@ -266,8 +266,8 @@ public class GitOverHttpServlet extends GitServlet {
       try {
         permissionBackend
             .user(userProvider)
-            .project(state.getNameKey())
-            .check(ProjectPermission.RUN_UPLOAD_PACK);
+            .repo(state.getNameKey())
+            .check(RepoPermission.RUN_UPLOAD_PACK);
       } catch (AuthException e) {
         GitSmartHttpTools.sendError(
             (HttpServletRequest) request,
@@ -362,8 +362,8 @@ public class GitOverHttpServlet extends GitServlet {
       try {
         permissionBackend
             .user(userProvider)
-            .project(state.getNameKey())
-            .check(ProjectPermission.RUN_RECEIVE_PACK);
+            .repo(state.getNameKey())
+            .check(RepoPermission.RUN_RECEIVE_PACK);
         s = arc.canUpload();
       } catch (AuthException e) {
         GitSmartHttpTools.sendError(

@@ -554,7 +554,7 @@ public class ChangeInserter implements InsertChangeOp {
     }
 
     PermissionBackend.ForRef perm =
-        permissionBackend.user(ctx.getUser()).project(ctx.getProject()).ref(refName);
+        permissionBackend.user(ctx.getUser()).repo(ctx.getProject()).ref(refName);
     try {
       try (CommitReceivedEvent event =
           new CommitReceivedEvent(

@@ -51,11 +51,7 @@ public class DeleteTag implements RestModifyView<TagResource, Input> {
   public Response<?> apply(TagResource resource, Input input)
       throws OrmException, RestApiException, IOException, PermissionBackendException {
     String tag = RefUtil.normalizeTagRef(resource.getTagInfo().ref);
-    permissionBackend
-        .user(user)
-        .project(resource.getNameKey())
-        .ref(tag)
-        .check(RefPermission.DELETE);
+    permissionBackend.user(user).repo(resource.getNameKey()).ref(tag).check(RefPermission.DELETE);
     resource.getProjectState().checkStatePermitsWrite();
     deleteRefFactory.create(resource).ref(tag).delete();
     return Response.none();

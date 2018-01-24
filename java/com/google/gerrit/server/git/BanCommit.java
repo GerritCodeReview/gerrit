@@ -25,7 +25,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -93,7 +93,7 @@ public class BanCommit {
   public BanCommitResult ban(
       Project.NameKey project, CurrentUser user, List<ObjectId> commitsToBan, String reason)
       throws AuthException, LockFailureException, IOException, PermissionBackendException {
-    permissionBackend.user(user).project(project).check(ProjectPermission.BAN_COMMIT);
+    permissionBackend.user(user).repo(project).check(RepoPermission.BAN_COMMIT);
 
     final BanCommitResult result = new BanCommitResult();
     NoteMap banCommitNotes = NoteMap.newEmptyMap();

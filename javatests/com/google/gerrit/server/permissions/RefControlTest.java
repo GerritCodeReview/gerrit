@@ -108,12 +108,12 @@ public class RefControlTest {
   }
 
   private void assertCanAccess(ProjectControl u) {
-    boolean access = u.asForProject().testOrFalse(ProjectPermission.ACCESS);
+    boolean access = u.asForRepo().testOrFalse(RepoPermission.ACCESS);
     assertThat(access).named("can access").isTrue();
   }
 
   private void assertAccessDenied(ProjectControl u) {
-    boolean access = u.asForProject().testOrFalse(ProjectPermission.ACCESS);
+    boolean access = u.asForRepo().testOrFalse(RepoPermission.ACCESS);
     assertThat(access).named("cannot access").isFalse();
   }
 
@@ -138,7 +138,7 @@ public class RefControlTest {
   }
 
   private void assertCreateChange(String ref, ProjectControl u) {
-    boolean create = u.asForProject().ref(ref).testOrFalse(RefPermission.CREATE_CHANGE);
+    boolean create = u.asForRepo().ref(ref).testOrFalse(RefPermission.CREATE_CHANGE);
     assertThat(create).named("can create change " + ref).isTrue();
   }
 
@@ -147,7 +147,7 @@ public class RefControlTest {
   }
 
   private void assertCannotCreateChange(String ref, ProjectControl u) {
-    boolean create = u.asForProject().ref(ref).testOrFalse(RefPermission.CREATE_CHANGE);
+    boolean create = u.asForRepo().ref(ref).testOrFalse(RefPermission.CREATE_CHANGE);
     assertThat(create).named("cannot create change " + ref).isFalse();
   }
 
@@ -160,22 +160,22 @@ public class RefControlTest {
   }
 
   private void assertCanUpdate(String ref, ProjectControl u) {
-    boolean update = u.asForProject().ref(ref).testOrFalse(RefPermission.UPDATE);
+    boolean update = u.asForRepo().ref(ref).testOrFalse(RefPermission.UPDATE);
     assertThat(update).named("can update " + ref).isTrue();
   }
 
   private void assertCannotUpdate(String ref, ProjectControl u) {
-    boolean update = u.asForProject().ref(ref).testOrFalse(RefPermission.UPDATE);
+    boolean update = u.asForRepo().ref(ref).testOrFalse(RefPermission.UPDATE);
     assertThat(update).named("cannot update " + ref).isFalse();
   }
 
   private void assertCanForceUpdate(String ref, ProjectControl u) {
-    boolean update = u.asForProject().ref(ref).testOrFalse(RefPermission.FORCE_UPDATE);
+    boolean update = u.asForRepo().ref(ref).testOrFalse(RefPermission.FORCE_UPDATE);
     assertThat(update).named("can force push " + ref).isTrue();
   }
 
   private void assertCannotForceUpdate(String ref, ProjectControl u) {
-    boolean update = u.asForProject().ref(ref).testOrFalse(RefPermission.FORCE_UPDATE);
+    boolean update = u.asForRepo().ref(ref).testOrFalse(RefPermission.FORCE_UPDATE);
     assertThat(update).named("cannot force push " + ref).isFalse();
   }
 

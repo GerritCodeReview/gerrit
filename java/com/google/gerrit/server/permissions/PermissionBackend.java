@@ -41,7 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Checks authorization to perform an action on a project, reference, or change.
+ * Checks authorization to perform an action on a repo, reference, or change.
  *
  * <p>{@code check} methods should be used during action handlers to verify the user is allowed to
  * exercise the specified permission. For convenience in implementation {@code check} methods throw
@@ -54,10 +54,10 @@ import org.slf4j.LoggerFactory;
  *
  * <p>{@code PermissionBackend} is a singleton for the server, acting as a factory for lightweight
  * request instances. Implementation classes may cache supporting data inside of {@link WithUser},
- * {@link ForProject}, {@link ForRef}, and {@link ForChange} instances, in addition to storing
- * within {@link CurrentUser} using a {@link com.google.gerrit.server.CurrentUser.PropertyKey}.
- * {@link GlobalPermission} caching for {@link WithUser} may best cached inside {@link CurrentUser}
- * as {@link WithUser} instances are frequently created.
+ * {@link ForRepo}, {@link ForRef}, and {@link ForChange} instances, in addition to storing within
+ * {@link CurrentUser} using a {@link com.google.gerrit.server.CurrentUser.PropertyKey}. {@link
+ * GlobalPermission} caching for {@link WithUser} may best cached inside {@link CurrentUser} as
+ * {@link WithUser} instances are frequently created.
  *
  * <p>Example use:
  *
@@ -135,15 +135,15 @@ public abstract class PermissionBackend {
 
   /** PermissionBackend scoped to a specific user. */
   public abstract static class WithUser extends AcceptsReviewDb<WithUser> {
-    /** @return instance scoped for the specified project. */
-    public abstract ForProject project(Project.NameKey project);
+    /** @return instance scoped for the specified repo. */
+    public abstract ForRepo repo(Project.NameKey repo);
 
-    /** @return instance scoped for the {@code ref}, and its parent project. */
+    /** @return instance scoped for the {@code ref}, and its parent repo. */
     public ForRef ref(Branch.NameKey ref) {
-      return project(ref.getParentKey()).ref(ref.get()).database(db);
+      return repo(ref.getParentKey()).ref(ref.get()).database(db);
     }
 
-    /** @return instance scoped for the change, and its destination ref and project. */
+    /** @return instance scoped for the change, and its destination ref and repo. */
     public ForChange change(ChangeData cd) {
       try {
         return ref(cd.change().getDest()).change(cd);
@@ -152,15 +152,15 @@ public abstract class PermissionBackend {
       }
     }
 
-    /** @return instance scoped for the change, and its destination ref and project. */
+    /** @return instance scoped for the change, and its destination ref and repo. */
     public ForChange change(ChangeNotes notes) {
       return ref(notes.getChange().getDest()).change(notes);
     }
 
     /**
-     * @return instance scoped for the change loaded from index, and its destination ref and
-     *     project. This method should only be used when database access is harmful and potentially
-     *     stale data from the index is acceptable.
+     * @return instance scoped for the change loaded from index, and its destination ref and repo.
+     *     This method should only be used when database access is harmful and potentially stale
+     *     data from the index is acceptable.
      */
     public ForChange indexedChange(ChangeData cd, ChangeNotes notes) {
       return ref(notes.getChange().getDest()).indexedChange(cd, notes);
@@ -221,39 +221,39 @@ public abstract class PermissionBackend {
     }
 
     /**
-     * Filter a set of projects using {@code check(perm)}.
+     * Filter a set of repos using {@code check(perm)}.
      *
-     * @param perm required permission in a project to be included in result.
-     * @param projects candidate set of projects; may be empty.
-     * @return filtered set of {@code projects} where {@code check(perm)} was successful.
+     * @param perm required permission in a repo to be included in result.
+     * @param repos candidate set of repos; may be empty.
+     * @return filtered set of {@code repos} where {@code check(perm)} was successful.
      * @throws PermissionBackendException backend cannot access its internal state.
      */
-    public Set<Project.NameKey> filter(ProjectPermission perm, Collection<Project.NameKey> projects)
+    public Set<Project.NameKey> filter(RepoPermission perm, Collection<Project.NameKey> repos)
         throws PermissionBackendException {
-      checkNotNull(perm, "ProjectPermission");
-      checkNotNull(projects, "projects");
-      Set<Project.NameKey> allowed = Sets.newHashSetWithExpectedSize(projects.size());
-      for (Project.NameKey project : projects) {
+      checkNotNull(perm, "RepoPermission");
+      checkNotNull(repos, "repos");
+      Set<Project.NameKey> allowed = Sets.newHashSetWithExpectedSize(repos.size());
+      for (Project.NameKey repo : repos) {
         try {
-          project(project).check(perm);
-          allowed.add(project);
+          repo(repo).check(perm);
+          allowed.add(repo);
         } catch (AuthException e) {
-          // Do not include this project in allowed.
+          // Do not include this repo in allowed.
         }
       }
       return allowed;
     }
   }
 
-  /** PermissionBackend scoped to a user and project. */
-  public abstract static class ForProject extends AcceptsReviewDb<ForProject> {
-    /** @return new instance rescoped to same project, but different {@code user}. */
-    public abstract ForProject user(CurrentUser user);
+  /** PermissionBackend scoped to a user and repo. */
+  public abstract static class ForRepo extends AcceptsReviewDb<ForRepo> {
+    /** @return new instance rescoped to same repo, but different {@code user}. */
+    public abstract ForRepo user(CurrentUser user);
 
-    /** @return instance scoped for {@code ref} in this project. */
+    /** @return instance scoped for {@code ref} in this repo. */
     public abstract ForRef ref(String ref);
 
-    /** @return instance scoped for the change, and its destination ref and project. */
+    /** @return instance scoped for the change, and its destination ref and repo. */
     public ForChange change(ChangeData cd) {
       try {
         return ref(cd.change().getDest().get()).change(cd);
@@ -262,33 +262,33 @@ public abstract class PermissionBackend {
       }
     }
 
-    /** @return instance scoped for the change, and its destination ref and project. */
+    /** @return instance scoped for the change, and its destination ref and repo. */
     public ForChange change(ChangeNotes notes) {
       return ref(notes.getChange().getDest().get()).change(notes);
     }
 
     /**
-     * @return instance scoped for the change loaded from index, and its destination ref and
-     *     project. This method should only be used when database access is harmful and potentially
-     *     stale data from the index is acceptable.
+     * @return instance scoped for the change loaded from index, and its destination ref and repo.
+     *     This method should only be used when database access is harmful and potentially stale
+     *     data from the index is acceptable.
      */
     public ForChange indexedChange(ChangeData cd, ChangeNotes notes) {
       return ref(notes.getChange().getDest().get()).indexedChange(cd, notes);
     }
 
     /** Verify scoped user can {@code perm}, throwing if denied. */
-    public abstract void check(ProjectPermission perm)
+    public abstract void check(RepoPermission perm)
         throws AuthException, PermissionBackendException;
 
     /** Filter {@code permSet} to permissions scoped user might be able to perform. */
-    public abstract Set<ProjectPermission> test(Collection<ProjectPermission> permSet)
+    public abstract Set<RepoPermission> test(Collection<RepoPermission> permSet)
         throws PermissionBackendException;
 
-    public boolean test(ProjectPermission perm) throws PermissionBackendException {
+    public boolean test(RepoPermission perm) throws PermissionBackendException {
       return test(EnumSet.of(perm)).contains(perm);
     }
 
-    public boolean testOrFalse(ProjectPermission perm) {
+    public boolean testOrFalse(RepoPermission perm) {
       try {
         return test(perm);
       } catch (PermissionBackendException e) {
@@ -297,12 +297,12 @@ public abstract class PermissionBackend {
       }
     }
 
-    public BooleanCondition testCond(ProjectPermission perm) {
-      return new PermissionBackendCondition.ForProject(this, perm);
+    public BooleanCondition testCond(RepoPermission perm) {
+      return new PermissionBackendCondition.ForRepo(this, perm);
     }
   }
 
-  /** PermissionBackend scoped to a user, project and reference. */
+  /** PermissionBackend scoped to a user, repo and reference. */
   public abstract static class ForRef extends AcceptsReviewDb<ForRef> {
     /** @return new instance rescoped to same reference, but different {@code user}. */
     public abstract ForRef user(CurrentUser user);
@@ -354,7 +354,7 @@ public abstract class PermissionBackend {
     }
   }
 
-  /** PermissionBackend scoped to a user, project, reference and change. */
+  /** PermissionBackend scoped to a user, repo, reference and change. */
   public abstract static class ForChange extends AcceptsReviewDb<ForChange> {
     /** @return user this instance is scoped to. */
     public abstract CurrentUser user();

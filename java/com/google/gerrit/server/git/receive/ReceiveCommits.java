@@ -133,8 +133,8 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.project.CreateRefControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -349,7 +349,7 @@ class ReceiveCommits {
   // Immutable fields derived from constructor arguments.
   private final LabelTypes labelTypes;
   private final NoteMap rejectCommits;
-  private final PermissionBackend.ForProject permissions;
+  private final PermissionBackend.ForRepo permissions;
   private final Project project;
   private final Repository repo;
   private final RequestId receiveId;
@@ -480,7 +480,7 @@ class ReceiveCommits {
     repo = rp.getRepository();
     project = projectState.getProject();
     labelTypes = projectState.getLabelTypes();
-    permissions = permissionBackend.user(user).project(project.getNameKey());
+    permissions = permissionBackend.user(user).repo(project.getNameKey());
     receiveId = RequestId.forProject(project.getNameKey());
     rejectCommits = BanCommit.loadRejectCommitsMap(rp.getRepository(), rp.getRevWalk());
 
@@ -893,13 +893,13 @@ class ReceiveCommits {
       if (isConfig(cmd)) {
         logDebug("Processing {} command", cmd.getRefName());
         try {
-          permissions.check(ProjectPermission.WRITE_CONFIG);
+          permissions.check(RepoPermission.WRITE_CONFIG);
         } catch (AuthException e) {
           reject(
               cmd,
               String.format(
                   "must be either project owner or have %s permission",
-                  ProjectPermission.WRITE_CONFIG.describeForException()));
+                  RepoPermission.WRITE_CONFIG.describeForException()));
           continue;
         }
 

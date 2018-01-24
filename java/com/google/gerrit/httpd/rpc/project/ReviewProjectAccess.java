@@ -41,8 +41,8 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
@@ -135,12 +135,12 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
       throws IOException, OrmException, PermissionDeniedException, PermissionBackendException,
           ConfigInvalidException, ResourceConflictException {
-    PermissionBackend.ForProject perm = permissionBackend.user(user).project(config.getName());
-    if (!check(perm, ProjectPermission.READ_CONFIG)) {
+    PermissionBackend.ForRepo perm = permissionBackend.user(user).repo(config.getName());
+    if (!check(perm, RepoPermission.READ_CONFIG)) {
       throw new PermissionDeniedException(RefNames.REFS_CONFIG + " not visible");
     }
 
-    if (!check(perm, ProjectPermission.WRITE_CONFIG)
+    if (!check(perm, RepoPermission.WRITE_CONFIG)
         && !check(perm.ref(RefNames.REFS_CONFIG), RefPermission.CREATE_CHANGE)) {
       throw new PermissionDeniedException("cannot create change for " + RefNames.REFS_CONFIG);
     }
@@ -228,7 +228,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     }
   }
 
-  private boolean check(PermissionBackend.ForProject perm, ProjectPermission p)
+  private boolean check(PermissionBackend.ForRepo perm, RepoPermission p)
       throws PermissionBackendException {
     try {
       perm.check(p);

@@ -40,8 +40,8 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -81,7 +81,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   private final Provider<CurrentUser> user;
   private final GroupCache groupCache;
   private final PermissionBackend permissionBackend;
-  private final PermissionBackend.ForProject perm;
+  private final PermissionBackend.ForRepo perm;
   private final ProjectState projectState;
   private final Repository git;
   private boolean showMetadata = true;
@@ -107,7 +107,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     this.groupCache = groupCache;
     this.permissionBackend = permissionBackend;
     this.perm =
-        permissionBackend.user(user).database(db).project(projectState.getProject().getNameKey());
+        permissionBackend.user(user).database(db).repo(projectState.getProject().getNameKey());
     this.projectState = projectState;
     this.git = git;
   }
@@ -124,11 +124,11 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     }
 
     PermissionBackend.WithUser withUser = permissionBackend.user(user);
-    PermissionBackend.ForProject forProject = withUser.project(projectState.getNameKey());
+    PermissionBackend.ForRepo forRepo = withUser.repo(projectState.getNameKey());
     if (!projectState.isAllUsers()) {
-      if (checkProjectPermission(forProject, ProjectPermission.READ)) {
+      if (checkProjectPermission(forRepo, RepoPermission.READ)) {
         return refs;
-      } else if (checkProjectPermission(forProject, ProjectPermission.READ_NO_CONFIG)) {
+      } else if (checkProjectPermission(forRepo, RepoPermission.READ_NO_CONFIG)) {
         return fastHideRefsMetaConfig(refs);
       }
     }
@@ -383,10 +383,9 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     return projectState.statePermitsRead();
   }
 
-  private boolean checkProjectPermission(
-      PermissionBackend.ForProject forProject, ProjectPermission perm) {
+  private boolean checkProjectPermission(PermissionBackend.ForRepo forRepo, RepoPermission perm) {
     try {
-      forProject.check(perm);
+      forRepo.check(perm);
     } catch (AuthException e) {
       return false;
     } catch (PermissionBackendException e) {

@@ -28,7 +28,7 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
@@ -62,10 +62,7 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
     }
 
     IdentifiedUser user = resource.getUser().asIdentifiedUser();
-    permissionBackend
-        .user(user)
-        .project(resource.getNameKey())
-        .check(ProjectPermission.WRITE_CONFIG);
+    permissionBackend.user(user).repo(resource.getNameKey()).check(RepoPermission.WRITE_CONFIG);
 
     try (MetaDataUpdate md = updateFactory.create(resource.getNameKey())) {
       ProjectConfig config = ProjectConfig.read(md);

@@ -40,8 +40,8 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.RefPattern;
@@ -120,7 +120,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
       ProjectConfig config = ProjectConfig.read(md, base);
       Set<String> toDelete = scanSectionNames(config);
-      PermissionBackend.ForProject forProject = permissionBackend.user(user).project(projectName);
+      PermissionBackend.ForRepo forRepo = permissionBackend.user(user).repo(projectName);
 
       for (AccessSection section : mergeSections(sectionList)) {
         String name = section.getName();
@@ -132,7 +132,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
           replace(config, toDelete, section);
 
         } else if (AccessSection.isValid(name)) {
-          if (checkIfOwner && !forProject.ref(name).test(RefPermission.WRITE_CONFIG)) {
+          if (checkIfOwner && !forRepo.ref(name).test(RefPermission.WRITE_CONFIG)) {
             continue;
           }
 
@@ -148,7 +148,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
             config.remove(config.getAccessSection(name));
           }
 
-        } else if (!checkIfOwner || forProject.ref(name).test(RefPermission.WRITE_CONFIG)) {
+        } else if (!checkIfOwner || forRepo.ref(name).test(RefPermission.WRITE_CONFIG)) {
           config.remove(config.getAccessSection(name));
         }
       }
@@ -235,7 +235,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
       return canWriteConfig;
     }
     try {
-      permissionBackend.user(user).project(projectName).check(ProjectPermission.WRITE_CONFIG);
+      permissionBackend.user(user).repo(projectName).check(RepoPermission.WRITE_CONFIG);
       canWriteConfig = true;
     } catch (AuthException e) {
       canWriteConfig = false;

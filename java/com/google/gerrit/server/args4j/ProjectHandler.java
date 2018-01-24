@@ -20,7 +20,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -84,7 +84,7 @@ public class ProjectHandler extends OptionHandler<ProjectState> {
       if (state == null) {
         throw new CmdLineException(owner, String.format("project %s not found", nameWithoutSuffix));
       }
-      permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
+      permissionBackend.user(user).repo(nameKey).check(RepoPermission.ACCESS);
     } catch (AuthException e) {
       throw new CmdLineException(owner, new NoSuchProjectException(nameKey).getMessage());
     } catch (PermissionBackendException | IOException e) {

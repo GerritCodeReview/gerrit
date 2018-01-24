@@ -47,7 +47,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtexpui.server.CacheHeaders;
@@ -413,7 +413,7 @@ class GitwebServlet extends HttpServlet {
         notFound(req, rsp);
         return;
       }
-      permissionBackend.user(userProvider).project(nameKey).check(ProjectPermission.READ);
+      permissionBackend.user(userProvider).repo(nameKey).check(RepoPermission.READ);
     } catch (AuthException e) {
       notFound(req, rsp);
       return;
@@ -565,8 +565,8 @@ class GitwebServlet extends HttpServlet {
 
     if (permissionBackend
         .user(anonymousUserProvider)
-        .project(nameKey)
-        .testOrFalse(ProjectPermission.READ)) {
+        .repo(nameKey)
+        .testOrFalse(RepoPermission.READ)) {
       env.set("GERRIT_ANONYMOUS_READ", "1");
     }
 

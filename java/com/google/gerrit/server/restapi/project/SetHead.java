@@ -77,7 +77,7 @@ public class SetHead implements RestModifyView<ProjectResource, HeadInput> {
 
     permissionBackend
         .user(rsrc.getUser())
-        .project(rsrc.getNameKey())
+        .repo(rsrc.getNameKey())
         .ref(ref)
         .check(RefPermission.SET_HEAD);
 

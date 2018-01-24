@@ -21,7 +21,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.restapi.change.AllowedFormats;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.sshd.AbstractGitCommand;
@@ -243,7 +243,7 @@ public class UploadArchive extends AbstractGitCommand {
 
   private boolean canRead(ObjectId revId) throws IOException, PermissionBackendException {
     try {
-      permissionBackend.user(user).project(projectName).check(ProjectPermission.READ);
+      permissionBackend.user(user).repo(projectName).check(RepoPermission.READ);
       return true;
     } catch (AuthException e) {
       // Check reachability of the specific revision.

@@ -223,7 +223,7 @@ public class DeleteRef {
     try {
       permissionBackend
           .user(identifiedUser)
-          .project(project.getNameKey())
+          .repo(project.getNameKey())
           .ref(refName)
           .check(RefPermission.DELETE);
     } catch (AuthException denied) {

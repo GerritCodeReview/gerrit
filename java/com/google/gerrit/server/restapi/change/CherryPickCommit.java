@@ -89,11 +89,7 @@ public class CherryPickCommit
 
     String refName = RefNames.fullName(destination);
     contributorAgreements.check(projectName, user.get());
-    permissionBackend
-        .user(user)
-        .project(projectName)
-        .ref(refName)
-        .check(RefPermission.CREATE_CHANGE);
+    permissionBackend.user(user).repo(projectName).ref(refName).check(RefPermission.CREATE_CHANGE);
     rsrc.getProjectState().checkStatePermitsWrite();
 
     try {

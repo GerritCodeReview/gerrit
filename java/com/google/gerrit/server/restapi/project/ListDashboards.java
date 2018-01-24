@@ -24,8 +24,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -98,13 +98,13 @@ public class ListDashboards implements RestReadView<ProjectResource> {
       tree.put(ps.getNameKey(), ps);
     }
     tree.keySet()
-        .retainAll(permissionBackend.user(user).filter(ProjectPermission.ACCESS, tree.keySet()));
+        .retainAll(permissionBackend.user(user).filter(RepoPermission.ACCESS, tree.keySet()));
     return tree.values();
   }
 
   private List<DashboardInfo> scan(ProjectState state, String project, boolean setDefault)
       throws ResourceNotFoundException, IOException, PermissionBackendException {
-    PermissionBackend.ForProject perm = permissionBackend.user(user).project(state.getNameKey());
+    PermissionBackend.ForRepo perm = permissionBackend.user(user).repo(state.getNameKey());
     try (Repository git = gitManager.openRepository(state.getNameKey());
         RevWalk rw = new RevWalk(git)) {
       List<DashboardInfo> all = new ArrayList<>();

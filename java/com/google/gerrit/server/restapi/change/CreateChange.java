@@ -195,7 +195,7 @@ public class CreateChange
 
     Project.NameKey project = rsrc.getNameKey();
     String refName = RefNames.fullName(input.branch);
-    permissionBackend.user(user).project(project).ref(refName).check(RefPermission.CREATE_CHANGE);
+    permissionBackend.user(user).repo(project).ref(refName).check(RefPermission.CREATE_CHANGE);
     rsrc.getProjectState().checkStatePermitsWrite();
 
     try (Repository git = gitManager.openRepository(project);

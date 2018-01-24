@@ -20,8 +20,8 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -63,7 +63,7 @@ public class GetHead implements RestReadView<ProjectResource> {
         String n = head.getTarget().getName();
         permissionBackend
             .user(rsrc.getUser())
-            .project(rsrc.getNameKey())
+            .repo(rsrc.getNameKey())
             .ref(n)
             .check(RefPermission.READ);
         return n;
@@ -78,8 +78,8 @@ public class GetHead implements RestReadView<ProjectResource> {
           try {
             permissionBackend
                 .user(rsrc.getUser())
-                .project(rsrc.getNameKey())
-                .check(ProjectPermission.WRITE_CONFIG);
+                .repo(rsrc.getNameKey())
+                .check(RepoPermission.WRITE_CONFIG);
           } catch (AuthException ae) {
             throw new AuthException("not allowed to see HEAD");
           }

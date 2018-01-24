@@ -18,8 +18,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
-import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
+import com.google.gerrit.server.permissions.PermissionBackend.ForRepo;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Provider;
 import java.util.Collection;
@@ -32,12 +32,12 @@ import java.util.Set;
  * method to the throwing {@code check} or {@code test} methods.
  */
 public class FailedPermissionBackend {
-  public static ForProject project(String message) {
-    return project(message, null);
+  public static ForRepo repo(String message) {
+    return repo(message, null);
   }
 
-  public static ForProject project(String message, Throwable cause) {
-    return new FailedProject(message, cause);
+  public static ForRepo repo(String message, Throwable cause) {
+    return new FailedRepo(message, cause);
   }
 
   public static ForRef ref(String message) {
@@ -58,22 +58,22 @@ public class FailedPermissionBackend {
 
   private FailedPermissionBackend() {}
 
-  private static class FailedProject extends ForProject {
+  private static class FailedRepo extends ForRepo {
     private final String message;
     private final Throwable cause;
 
-    FailedProject(String message, Throwable cause) {
+    FailedRepo(String message, Throwable cause) {
       this.message = message;
       this.cause = cause;
     }
 
     @Override
-    public ForProject database(Provider<ReviewDb> db) {
+    public ForRepo database(Provider<ReviewDb> db) {
       return this;
     }
 
     @Override
-    public ForProject user(CurrentUser user) {
+    public ForRepo user(CurrentUser user) {
       return this;
     }
 
@@ -83,12 +83,12 @@ public class FailedPermissionBackend {
     }
 
     @Override
-    public void check(ProjectPermission perm) throws PermissionBackendException {
+    public void check(RepoPermission perm) throws PermissionBackendException {
       throw new PermissionBackendException(message, cause);
     }
 
     @Override
-    public Set<ProjectPermission> test(Collection<ProjectPermission> permSet)
+    public Set<RepoPermission> test(Collection<RepoPermission> permSet)
         throws PermissionBackendException {
       throw new PermissionBackendException(message, cause);
     }

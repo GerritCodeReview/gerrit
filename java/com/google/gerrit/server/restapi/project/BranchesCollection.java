@@ -87,7 +87,7 @@ public class BranchesCollection
       // branch simply because the symbolic reference name was visible.
       permissionBackend
           .user(user)
-          .project(project)
+          .repo(project)
           .ref(ref.isSymbolic() ? ref.getTarget().getName() : ref.getName())
           .check(RefPermission.READ);
       return new BranchResource(parent.getProjectState(), parent.getUser(), ref);

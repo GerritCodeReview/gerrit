@@ -38,7 +38,7 @@ import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.RequestContext;
@@ -251,8 +251,8 @@ class InProcessProtocol extends TestProtocol<Context> {
       try {
         permissionBackend
             .user(userProvider)
-            .project(req.project)
-            .check(ProjectPermission.RUN_UPLOAD_PACK);
+            .repo(req.project)
+            .check(RepoPermission.RUN_UPLOAD_PACK);
       } catch (AuthException e) {
         throw new ServiceNotAuthorizedException();
       } catch (PermissionBackendException e) {
@@ -323,8 +323,8 @@ class InProcessProtocol extends TestProtocol<Context> {
       try {
         permissionBackend
             .user(userProvider)
-            .project(req.project)
-            .check(ProjectPermission.RUN_RECEIVE_PACK);
+            .repo(req.project)
+            .check(RepoPermission.RUN_RECEIVE_PACK);
       } catch (AuthException e) {
         throw new ServiceNotAuthorizedException();
       } catch (PermissionBackendException e) {

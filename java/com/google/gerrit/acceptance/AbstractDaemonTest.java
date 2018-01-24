@@ -120,7 +120,6 @@ import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.NoteDbMode;
 import com.google.gerrit.testing.SshMode;
-import com.google.gerrit.testing.TempFileUtil;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -166,7 +165,6 @@ import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.TransportBundleStream;
 import org.eclipse.jgit.transport.URIish;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
@@ -289,23 +287,6 @@ public abstract class AbstractDaemonTest {
   @After
   public void closeEventRecorder() {
     eventRecorder.close();
-  }
-
-  @AfterClass
-  public static void stopCommonServer() throws Exception {
-    if (commonServer != null) {
-      try {
-        commonServer.close();
-      } catch (Throwable t) {
-        throw new AssertionError(
-            "Error stopping common server in "
-                + (firstTest != null ? firstTest.getTestClass().getName() : "unknown test class"),
-            t);
-      } finally {
-        commonServer = null;
-      }
-    }
-    TempFileUtil.cleanup();
   }
 
   /** Controls which project and branches should be reset after each test case. */

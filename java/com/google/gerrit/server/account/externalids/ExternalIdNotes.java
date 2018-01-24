@@ -601,6 +601,23 @@ public class ExternalIdNotes extends VersionedMetaData {
    * <p>No eviction from account cache if this instance was created by {@link FactoryNoReindex}.
    */
   public void updateCaches() throws IOException {
+    updateCaches(ImmutableSet.of());
+  }
+
+  /**
+   * Updates the caches (external ID cache, account cache) and reindexes the accounts for which
+   * external IDs were modified.
+   *
+   * <p>Must only be called after committing changes.
+   *
+   * <p>No-op if this instance was created by {@link #loadNoCacheUpdate(Repository)}.
+   *
+   * <p>No eviction from account cache if this instance was created by {@link FactoryNoReindex}.
+   *
+   * @param accountsToExclude set of accounts that should not be evicted from the account cache, in
+   *     this case the caller must take care to evict them
+   */
+  public void updateCaches(Collection<Account.Id> accountsToExclude) throws IOException {
     checkState(oldRev != null, "no changes committed yet");
 
     ExternalIdCacheUpdates externalIdCacheUpdates = new ExternalIdCacheUpdates();
@@ -620,6 +637,7 @@ public class ExternalIdNotes extends VersionedMetaData {
                   externalIdCacheUpdates.getAdded().stream(),
                   externalIdCacheUpdates.getRemoved().stream())
               .map(ExternalId::accountId)
+              .filter(i -> !accountsToExclude.contains(i))
               .collect(toSet())) {
         accountCache.evict(id);
       }

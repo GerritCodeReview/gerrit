@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "b1db8f57_23803155",
+        "filename": "java/com/google/gerrit/server/restapi/project/CheckAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-24T14:19:14Z",
+      "side": 1,
+      "message": "good call. Done (separate change.)",
+      "parentUuid": "60084342_b3d626d0",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 7
+      },
+      "revId": "6cc8c1421dba2e02b96f9d390a3951a5625acb54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7555be30_d4725d0b",
         "filename": "javatests/com/google/gerrit/acceptance/api/project/CheckAccessIT.java",
         "patchSetId": 2
@@ -62,6 +86,24 @@
       "revId": "6cc8c1421dba2e02b96f9d390a3951a5625acb54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90bd7273_f85d1534",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CheckAccessIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-01-24T14:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7555be30_d4725d0b",
+      "revId": "6cc8c1421dba2e02b96f9d390a3951a5625acb54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

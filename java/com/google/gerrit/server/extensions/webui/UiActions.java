@@ -18,6 +18,7 @@ import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.or;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
@@ -38,8 +39,10 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import org.slf4j.Logger;
@@ -80,9 +83,24 @@ public class UiActions {
                 descs.stream().flatMap(u -> Streams.stream(visibleCondition(u))),
                 descs.stream().flatMap(u -> Streams.stream(enabledCondition(u))))
             .collect(toList());
-    permissionBackend.bulkEvaluateTest(conds);
+
+    evaluatePermissionBackendConditions(permissionBackend, conds);
 
     return descs.stream().filter(u -> u.isVisible()).collect(toList());
+  }
+
+  @VisibleForTesting
+  static void evaluatePermissionBackendConditions(
+      PermissionBackend perm, List<PermissionBackendCondition> conds) {
+    Map<PermissionBackendCondition, PermissionBackendCondition> dedupedConds =
+        new HashMap<>(conds.size());
+    for (PermissionBackendCondition cond : conds) {
+      dedupedConds.put(cond, cond);
+    }
+    perm.bulkEvaluateTest(dedupedConds.keySet());
+    for (PermissionBackendCondition cond : conds) {
+      cond.set(dedupedConds.get(cond).value());
+    }
   }
 
   private static Iterable<PermissionBackendCondition> visibleCondition(Description u) {

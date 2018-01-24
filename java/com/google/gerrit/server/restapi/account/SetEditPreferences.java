@@ -69,7 +69,7 @@ public class SetEditPreferences implements RestModifyView<AccountResource, EditP
     Account.Id id = rsrc.getUser().getAccountId();
     accountsUpdate
         .create()
-        .update("Set Diff Preferences via API", id, u -> u.setEditPreferences(input));
+        .update("Set Edit Preferences via API", id, u -> u.setEditPreferences(input));
     return accountCache.get(id).getEditPreferences();
   }
 }

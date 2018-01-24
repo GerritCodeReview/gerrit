@@ -861,7 +861,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private StringBuilder addIdent(StringBuilder sb, Account.Id accountId) {
-    Account account = accountCache.get(accountId).getAccount();
+    Account account = accountCache.getEvenIfMissing(accountId).getAccount();
     PersonIdent ident = newIdent(account, when);
 
     PersonIdent.appendSanitized(sb, ident.getName());

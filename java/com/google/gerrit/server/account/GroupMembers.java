@@ -124,7 +124,7 @@ public class GroupMembers {
             .getMembers()
             .stream()
             .filter(groupControl::canSeeMember)
-            .map(accountCache::get)
+            .map(accountCache::getEvenIfMissing)
             .map(AccountState::getAccount)
             .collect(toImmutableSet());
 

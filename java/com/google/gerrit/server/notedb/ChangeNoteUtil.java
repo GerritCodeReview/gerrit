@@ -609,7 +609,7 @@ public class ChangeNoteUtil {
   }
 
   private void appendIdent(PrintWriter writer, String header, Account.Id id, Timestamp ts) {
-    PersonIdent ident = newIdent(accountCache.get(id).getAccount(), ts, serverIdent);
+    PersonIdent ident = newIdent(accountCache.getEvenIfMissing(id).getAccount(), ts, serverIdent);
     StringBuilder name = new StringBuilder();
     PersonIdent.appendSanitized(name, ident.getName());
     name.append(" <");

@@ -246,7 +246,7 @@ public class EventFactory {
         la.label = lbl.label;
         la.status = lbl.status.name();
         if (lbl.appliedBy != null) {
-          AccountState accountState = accountCache.get(lbl.appliedBy);
+          AccountState accountState = accountCache.getEvenIfMissing(lbl.appliedBy);
           la.by = asAccountAttribute(accountState);
         }
         sa.labels.add(la);
@@ -573,7 +573,7 @@ public class EventFactory {
     if (id == null) {
       return null;
     }
-    return asAccountAttribute(accountCache.get(id));
+    return asAccountAttribute(accountCache.getEvenIfMissing(id));
   }
 
   /**

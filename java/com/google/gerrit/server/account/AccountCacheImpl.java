@@ -77,7 +77,7 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   @Override
-  public AccountState get(Account.Id accountId) {
+  public AccountState getEvenIfMissing(Account.Id accountId) {
     try {
       return byId.get(accountId).orElse(missing(accountId));
     } catch (ExecutionException e) {

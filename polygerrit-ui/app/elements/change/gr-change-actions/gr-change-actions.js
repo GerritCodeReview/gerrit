@@ -341,9 +341,10 @@
     ],
 
     observers: [
-      '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*, ' +
-          'editPatchsetLoaded, editMode, editBasedOnCurrentPatchSet, change)',
+      '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*)',
       '_changeChanged(change)',
+      '_editStatusChanged(editMode, editPatchsetLoaded, ' +
+          'editBasedOnCurrentPatchSet, actions.*, change)',
     ],
 
     listeners: {
@@ -489,8 +490,7 @@
     },
 
     _actionsChanged(actionsChangeRecord, revisionActionsChangeRecord,
-        additionalActionsChangeRecord, editPatchsetLoaded, editMode,
-        editBasedOnCurrentPatchSet, change) {
+        additionalActionsChangeRecord) {
       const additionalActions = (additionalActionsChangeRecord &&
           additionalActionsChangeRecord.base) || [];
       this.hidden = this._keyCount(actionsChangeRecord) === 0 &&
@@ -504,61 +504,61 @@
           !revisionActions.download) {
         this.set('revisionActions.download', DOWNLOAD_ACTION);
       }
+    },
 
-      const changeActions = actionsChangeRecord.base || {};
-      if (Object.keys(changeActions).length !== 0) {
-        if (editPatchsetLoaded) {
-          // Only show actions that mutate an edit if an actual edit patch set
-          // is loaded.
-          if (this.changeIsOpen(change.status)) {
-            if (editBasedOnCurrentPatchSet) {
-              if (!changeActions.publishEdit) {
-                this.set('actions.publishEdit', PUBLISH_EDIT);
-              }
-              if (changeActions.rebaseEdit) {
-                delete this.actions.rebaseEdit;
-                this.notifyPath('actions.rebaseEdit');
-              }
-            } else {
-              if (!changeActions.rebaseEdit) {
-                this.set('actions.rebaseEdit', REBASE_EDIT);
-              }
-              if (changeActions.publishEdit) {
-                delete this.actions.publishEdit;
-                this.notifyPath('actions.publishEdit');
-              }
+    _editStatusChanged(editMode, editPatchsetLoaded,
+        editBasedOnCurrentPatchSet) {
+      const changeActions = this.actions;
+
+      if (editPatchsetLoaded) {
+        // Only show actions that mutate an edit if an actual edit patch set
+        // is loaded.
+        if (this.changeIsOpen(this.change.status)) {
+          if (editBasedOnCurrentPatchSet) {
+            if (!changeActions.publishEdit) {
+              this.set('actions.publishEdit', PUBLISH_EDIT);
+            }
+            if (changeActions.rebaseEdit) {
+              delete this.actions.rebaseEdit;
+              this.notifyPath('actions.rebaseEdit');
+            }
+          } else {
+            if (!changeActions.rebaseEdit) {
+              this.set('actions.rebaseEdit', REBASE_EDIT);
+            }
+            if (changeActions.publishEdit) {
+              delete this.actions.publishEdit;
+              this.notifyPath('actions.publishEdit');
             }
           }
-          if (!changeActions.deleteEdit) {
-            this.set('actions.deleteEdit', DELETE_EDIT);
-          }
-        } else {
-          if (changeActions.publishEdit) {
-            delete this.actions.publishEdit;
-            this.notifyPath('actions.publishEdit');
-          }
-          if (changeActions.rebaseEdit) {
-            delete this.actions.rebaseEdit;
-            this.notifyPath('actions.rebaseEdit');
-          }
-          if (changeActions.deleteEdit) {
-            delete this.actions.deleteEdit;
-            this.notifyPath('actions.deleteEdit');
-          }
         }
+        if (!changeActions.deleteEdit) {
+          this.set('actions.deleteEdit', DELETE_EDIT);
+        }
+      } else {
+        if (changeActions.publishEdit) {
+          delete this.actions.publishEdit;
+          this.notifyPath('actions.publishEdit');
+        }
+        if (changeActions.rebaseEdit) {
+          delete this.actions.rebaseEdit;
+          this.notifyPath('actions.rebaseEdit');
+        }
+        if (changeActions.deleteEdit) {
+          delete this.actions.deleteEdit;
+          this.notifyPath('actions.deleteEdit');
+        }
+      }
 
-        // Only show edit button if there is no edit patchset loaded and the
-        // file list is not in edit mode.
-        if (editPatchsetLoaded || editMode) {
-          if (changeActions.edit) {
-            delete this.actions.edit;
-            this.notifyPath('actions.edit');
-          }
-        } else {
-          if (!changeActions.edit) {
-            this.set('actions.edit', EDIT);
-          }
+      // Only show edit button if there is no edit patchset loaded and the
+      // file list is not in edit mode.
+      if (editPatchsetLoaded || editMode) {
+        if (changeActions.edit) {
+          delete this.actions.edit;
+          this.notifyPath('actions.edit');
         }
+      } else {
+        if (!changeActions.edit) { this.set('actions.edit', EDIT); }
       }
     },
 

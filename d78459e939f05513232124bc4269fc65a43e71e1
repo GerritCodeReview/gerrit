@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1691cb9_b18e984c",
+        "filename": "java/com/google/gerrit/server/permissions/RefPermission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-24T16:22:30Z",
+      "side": 1,
+      "message": "Within this class I would just access the nullable private field rather than handling the Optional. Then this can just be:\n\n return Stream.of(RefPermission.values()).map(p -\u003e p.name).filter(name::equals).findFirst();\n\n(Or an iterative equivalent if you think it\u0027s significantly clearer.)\n\nAlthough actually, even if you don\u0027t change the implementation, returning Optional from this method is probably better, given that this class already has other methods returning Optional.",
+      "revId": "d78459e939f05513232124bc4269fc65a43e71e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

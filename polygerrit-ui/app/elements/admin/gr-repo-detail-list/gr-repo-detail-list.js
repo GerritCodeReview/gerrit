@@ -19,6 +19,8 @@
     TAGS: 'tags',
   };
 
+  const PGP_START = '-----BEGIN PGP SIGNATURE-----';
+
   Polymer({
     is: 'gr-repo-detail-list',
 
@@ -139,6 +141,12 @@
       if (!repo.web_links) { return ''; }
       const webLinks = repo.web_links;
       return webLinks.length ? webLinks : null;
+    },
+
+    _computeMessage(message) {
+      if (!message) { return; }
+      // Strip PGP info.
+      return message.split(PGP_START)[0];
     },
 
     _stripRefs(item, detailType) {

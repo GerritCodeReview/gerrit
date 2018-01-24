@@ -15,13 +15,14 @@
 package com.google.gerrit.server.restapi.account;
 
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -38,25 +39,22 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 public class SetDiffPreferences implements RestModifyView<AccountResource, DiffPreferencesInfo> {
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
-  private final AccountCache accountCache;
   private final AccountsUpdate.User accountsUpdate;
 
   @Inject
   SetDiffPreferences(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
-      AccountCache accountCache,
       AccountsUpdate.User accountsUpdate) {
     this.self = self;
     this.permissionBackend = permissionBackend;
-    this.accountCache = accountCache;
     this.accountsUpdate = accountsUpdate;
   }
 
   @Override
   public DiffPreferencesInfo apply(AccountResource rsrc, DiffPreferencesInfo input)
-      throws AuthException, BadRequestException, ConfigInvalidException,
-          RepositoryNotFoundException, IOException, PermissionBackendException, OrmException {
+      throws RestApiException, ConfigInvalidException, RepositoryNotFoundException, IOException,
+          PermissionBackendException, OrmException {
     if (self.get() != rsrc.getUser()) {
       permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
@@ -66,9 +64,10 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, DiffP
     }
 
     Account.Id id = rsrc.getUser().getAccountId();
-    accountsUpdate
+    return accountsUpdate
         .create()
-        .update("Set Diff Preferences via API", id, u -> u.setDiffPreferences(input));
-    return accountCache.get(id).getDiffPreferences();
+        .update("Set Diff Preferences via API", id, u -> u.setDiffPreferences(input))
+        .map(AccountState::getDiffPreferences)
+        .orElseThrow(ResourceNotFoundException::new);
   }
 }

@@ -680,7 +680,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
     Optional<EditInfo> edit = getEdit(r.getChangeId());
     assertThat(edit).isAbsent();
-    assertThat(query("has:edit")).isEmpty();
+    int before = query("has:edit").size();
 
     // specify edit as option
     r = amendChange(r.getChangeId(), "refs/for/master%edit");
@@ -700,7 +700,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             + " [EDIT]\n");
 
     // verify that the re-indexing was triggered for the change
-    assertThat(query("has:edit")).hasSize(1);
+    assertThat(query("has:edit")).hasSize(1 + before);
   }
 
   @Test

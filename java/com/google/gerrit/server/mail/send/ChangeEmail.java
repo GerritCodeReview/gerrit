@@ -351,7 +351,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     for (Map.Entry<Account.Id, Collection<String>> e : stars.asMap().entrySet()) {
       if (e.getValue().contains(StarredChangesUtil.IGNORE_LABEL)) {
         args.accountCache
-            .maybeGet(e.getKey())
+            .get(e.getKey())
             .map(AccountState::getAccount)
             .ifPresent(a -> removeUser(a));
       }

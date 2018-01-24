@@ -55,7 +55,7 @@ public class GetEditPreferences implements RestReadView<AccountResource> {
 
     Account.Id id = rsrc.getUser().getAccountId();
     return accountCache
-        .maybeGet(id)
+        .get(id)
         .map(AccountState::getEditPreferences)
         .orElseThrow(ResourceNotFoundException::new);
   }

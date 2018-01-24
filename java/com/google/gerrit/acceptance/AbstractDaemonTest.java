@@ -813,7 +813,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected AccountState getAccountState(Account.Id accountId) {
-    return accountCache.maybeGet(accountId).get();
+    return accountCache.get(accountId).get();
   }
 
   protected Context disableDb() {

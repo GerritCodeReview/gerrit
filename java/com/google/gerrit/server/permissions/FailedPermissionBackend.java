@@ -73,8 +73,19 @@ public class FailedPermissionBackend {
     }
 
     @Override
+    public CurrentUser user() {
+      throw new UnsupportedOperationException("FailedPermissionBackend is not scoped to user");
+    }
+
+    @Override
     public ForProject user(CurrentUser user) {
       return this;
+    }
+
+    @Override
+    public String resourcePath() {
+      throw new UnsupportedOperationException(
+          "FailedPermissionBackend is not scoped to a resource");
     }
 
     @Override
@@ -109,8 +120,19 @@ public class FailedPermissionBackend {
     }
 
     @Override
+    public CurrentUser user() {
+      throw new UnsupportedOperationException("FailedPermissionBackend is not scoped to user");
+    }
+
+    @Override
     public ForRef user(CurrentUser user) {
       return this;
+    }
+
+    @Override
+    public String resourcePath() {
+      throw new UnsupportedOperationException(
+          "FailedPermissionBackend is not scoped to a resource");
     }
 
     @Override
@@ -157,6 +179,12 @@ public class FailedPermissionBackend {
     @Override
     public ForChange user(CurrentUser user) {
       return this;
+    }
+
+    @Override
+    public String resourcePath() {
+      throw new UnsupportedOperationException(
+          "FailedPermissionBackend is not scoped to a resource");
     }
 
     @Override

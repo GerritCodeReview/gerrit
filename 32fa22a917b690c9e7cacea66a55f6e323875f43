@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "638b8514_5eb0d146",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-24T12:50:32Z",
+      "side": 1,
+      "message": "Nit: \"This\".",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 4
+      },
+      "revId": "32fa22a917b690c9e7cacea66a55f6e323875f43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "904ea1e0_b32f5ee3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-24T12:50:32Z",
+      "side": 1,
+      "message": "Can you provide more context, like say that we are in process of upgrade from OS x to OS y and that meantime the Chrome was changed and not working as it used before and need some adjustemnts. Moreover, you added browser option handling to wct.",
+      "revId": "32fa22a917b690c9e7cacea66a55f6e323875f43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

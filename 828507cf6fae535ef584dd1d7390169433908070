@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "76eff8f0_ba7471b3",
+        "filename": "java/com/google/gerrit/server/restapi/account/SetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-24T16:20:49Z",
+      "side": 1,
+      "message": "The constructors of ResourceNotFoundException aren\u0027t nice. We should either provide an IdString to it or a full error message like \"Not found: x\" (but not just the ID as string).\n\nDone",
+      "parentUuid": "b2cdfc91_d773d3a9",
+      "revId": "828507cf6fae535ef584dd1d7390169433908070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4250b083_0f42ec4a",
         "filename": "java/com/google/gerrit/server/restapi/account/SetEditPreferences.java",
         "patchSetId": 1
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "ea10a779_40b544df",
+        "filename": "java/com/google/gerrit/server/restapi/account/SetEditPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-24T16:20:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4250b083_0f42ec4a",
+      "revId": "828507cf6fae535ef584dd1d7390169433908070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c015c1a6_7d815083",
         "filename": "java/com/google/gerrit/server/restapi/account/SetPreferences.java",
         "patchSetId": 1
@@ -51,6 +87,24 @@
       "revId": "828507cf6fae535ef584dd1d7390169433908070",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4536a5e3_ebe16918",
+        "filename": "java/com/google/gerrit/server/restapi/account/SetPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-24T16:20:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c015c1a6_7d815083",
+      "revId": "828507cf6fae535ef584dd1d7390169433908070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

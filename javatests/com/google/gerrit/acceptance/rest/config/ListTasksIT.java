@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.server.restapi.config.ListTasks.TaskInfo;
 import com.google.gson.reflect.TypeToken;
 import java.util.List;
@@ -25,6 +26,7 @@ import org.junit.Test;
 
 public class ListTasksIT extends AbstractDaemonTest {
 
+  @Sandboxed
   @Test
   public void listTasks() throws Exception {
     RestResponse r = adminRestSession.get("/config/server/tasks/");

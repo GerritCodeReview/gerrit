@@ -779,6 +779,7 @@
     },
 
     _handleAction(type, key) {
+      this.$.reporting.reportInteraction(`${type}-${key}`);
       switch (type) {
         case ActionType.REVISION:
           this._handleRevisionAction(key);

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b804d448_6a05167a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-01-24T17:01:43Z",
+      "side": 1,
+      "message": "nit: short commit messages don\u0027t end in punctuation",
+      "range": {
+        "startLine": 7,
+        "startChar": 42,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "cbeb23387dcfb8dcfb391b6532269671f12b68fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f41e299_d86e06aa",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CheckAccessIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-01-24T17:01:43Z",
+      "side": 1,
+      "message": "nit: same newline issue as down below here and in the test right before this one :)",
+      "revId": "cbeb23387dcfb8dcfb391b6532269671f12b68fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -207,9 +207,9 @@
       },
       /** @type {?number} */
       _updateCheckTimerHandle: Number,
-      _editLoaded: {
+      _editMode: {
         type: Boolean,
-        computed: '_computeEditLoaded(_patchRange.*, params.*)',
+        computed: '_computeEditMode(_patchRange.*, params.*)',
       },
       _showRelatedToggle: {
         type: Boolean,
@@ -1381,7 +1381,7 @@
       return change.work_in_progress ? 'header wip' : 'header';
     },
 
-    _computeEditLoaded(patchRangeRecord, paramsRecord) {
+    _computeEditMode(patchRangeRecord, paramsRecord) {
       if (paramsRecord.base && paramsRecord.base.edit) { return true; }
 
       const patchRange = patchRangeRecord.base || {};

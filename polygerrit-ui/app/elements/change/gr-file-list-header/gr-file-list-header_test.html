@@ -273,7 +273,7 @@ limitations under the License.
       assert.equal(element._computePatchInfoClass('4', allPatchSets), '');
     });
 
-    suite('editLoaded behavior', () => {
+    suite('editMode behavior', () => {
       setup(() => {
         element.loggedIn = true;
         element.diffPrefs = {};
@@ -285,14 +285,14 @@ limitations under the License.
       };
 
       test('patch specific elements', () => {
-        element.editLoaded = true;
+        element.editMode = true;
         sandbox.stub(element, 'computeLatestPatchNum').returns('2');
         flushAsynchronousOperations();
 
         assert.isFalse(isVisible(element.$.diffPrefsContainer));
         assert.isFalse(isVisible(element.$$('.descriptionContainer')));
 
-        element.editLoaded = false;
+        element.editMode = false;
         flushAsynchronousOperations();
 
         assert.isTrue(isVisible(element.$$('.descriptionContainer')));
@@ -300,11 +300,11 @@ limitations under the License.
       });
 
       test('edit-controls visibility', () => {
-        element.editLoaded = true;
+        element.editMode = true;
         flushAsynchronousOperations();
         assert.isTrue(isVisible(element.$.editControls.parentElement));
 
-        element.editLoaded = false;
+        element.editMode = false;
         flushAsynchronousOperations();
         assert.isFalse(isVisible(element.$.editControls.parentElement));
       });

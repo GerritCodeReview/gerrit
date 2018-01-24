@@ -132,9 +132,9 @@
         type: Boolean,
         value: () => { return window.PANEL_FLOATING_DISABLED; },
       },
-      _editLoaded: {
+      _editMode: {
         type: Boolean,
-        computed: '_computeEditLoaded(_patchRange.*)',
+        computed: '_computeEditMode(_patchRange.*)',
       },
       _isBlameSupported: {
         type: Boolean,
@@ -244,7 +244,7 @@
     },
 
     _setReviewed(reviewed) {
-      if (this._editLoaded) { return; }
+      if (this._editMode) { return; }
       this.$.reviewed.checked = reviewed;
       this._saveReviewedState(reviewed).catch(err => {
         this.fire('show-alert', {message: ERR_REVIEW_STATUS});
@@ -882,16 +882,16 @@
     /**
      * @param {!Object} patchRangeRecord
      */
-    _computeEditLoaded(patchRangeRecord) {
+    _computeEditMode(patchRangeRecord) {
       const patchRange = patchRangeRecord.base || {};
       return this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME);
     },
 
     /**
-     * @param {boolean} editLoaded
+     * @param {boolean} editMode
      */
-    _computeContainerClass(editLoaded) {
-      return editLoaded ? 'editLoaded' : '';
+    _computeContainerClass(editMode) {
+      return editMode ? 'editMode' : '';
     },
 
     _computeBlameToggleLabel(loaded, loading) {

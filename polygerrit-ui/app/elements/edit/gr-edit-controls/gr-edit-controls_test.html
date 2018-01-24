@@ -77,6 +77,7 @@ suite('gr-edit-controls tests', () => {
 
     test('edit', () => {
       MockInteractions.tap(element.$$('#edit'));
+      element.patchNum = 1;
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element.$.editDialog.disabled);
         assert.isFalse(queryStub.called);
@@ -86,6 +87,8 @@ suite('gr-edit-controls tests', () => {
         assert.isFalse(element.$.editDialog.disabled);
         MockInteractions.tap(element.$.editDialog.$$('gr-button[primary]'));
         for (const stub of navStubs) { assert.isTrue(stub.called); }
+        assert.deepEqual(Gerrit.Nav.getEditUrlForDiff.lastCall.args,
+            [element.change, 'src/test.cpp', element.patchNum]);
         assert.isTrue(closeDialogSpy.called);
       });
     });

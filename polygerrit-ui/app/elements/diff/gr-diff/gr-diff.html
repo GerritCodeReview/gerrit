@@ -158,8 +158,8 @@ limitations under the License.
       .dueToRebase .content.remove {
         background-color: var(--light-rebased-remove-highlight-color);
       }
-      .content .contentText:after {
-        /* Newline, to ensure all lines are one line-height tall. */
+      .content .contentText:empty:after {
+        /* Newline, to ensure empty lines are one line-height tall. */
         content: '\A';
       }
       .contextControl {

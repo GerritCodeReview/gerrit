@@ -46,6 +46,30 @@
       "revId": "0632858ec18227d7cc4255c3aee39a63f9112241",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92ae690d_a4aba1d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-01-24T20:16:15Z",
+      "side": 0,
+      "message": "\u003e Just move this explanation to the commit message here?\n\nDone",
+      "parentUuid": "f91f99eb_55e86fc2",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 84
+      },
+      "revId": "0632858ec18227d7cc4255c3aee39a63f9112241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

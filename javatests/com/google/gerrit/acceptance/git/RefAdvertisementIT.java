@@ -431,7 +431,9 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         PersonIdent committer = serverIdent.get();
         PersonIdent author =
             noteUtil.newIdent(
-                accountCache.get(admin.getId()).getAccount(), committer.getWhen(), committer);
+                accountCache.maybeGet(admin.getId()).get().getAccount(),
+                committer.getWhen(),
+                committer);
         tr.branch(RefNames.changeMetaRef(c3.getId()))
             .commit()
             .author(author)

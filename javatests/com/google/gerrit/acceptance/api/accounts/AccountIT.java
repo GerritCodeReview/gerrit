@@ -443,7 +443,12 @@ public class AccountIT extends AbstractDaemonTest {
       long timestampDiffMs =
           Math.abs(
               c.getCommitTime() * 1000L
-                  - accountCache.get(accountId).getAccount().getRegisteredOn().getTime());
+                  - accountCache
+                      .maybeGet(accountId)
+                      .get()
+                      .getAccount()
+                      .getRegisteredOn()
+                      .getTime());
       assertThat(timestampDiffMs).isAtMost(ChangeRebuilderImpl.MAX_WINDOW_MS);
 
       // Check the 'account.config' file.

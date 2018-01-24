@@ -25,7 +25,7 @@ import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.systemstatus.MessageOfTheDay;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.HtmlDomUtil;
@@ -221,7 +221,10 @@ public class HostPageServlet extends HttpServlet {
   private DiffPreferencesInfo getDiffPreferences(IdentifiedUser user) {
     try {
       return getDiff.apply(new AccountResource(user));
-    } catch (AuthException | ConfigInvalidException | IOException | PermissionBackendException e) {
+    } catch (RestApiException
+        | ConfigInvalidException
+        | IOException
+        | PermissionBackendException e) {
       log.warn("Cannot query account diff preferences", e);
     }
     return DiffPreferencesInfo.defaults();

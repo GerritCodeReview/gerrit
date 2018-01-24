@@ -15,12 +15,14 @@
 package com.google.gerrit.server.restapi.account;
 
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -46,12 +48,15 @@ public class GetEditPreferences implements RestReadView<AccountResource> {
 
   @Override
   public EditPreferencesInfo apply(AccountResource rsrc)
-      throws AuthException, IOException, ConfigInvalidException, PermissionBackendException {
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     if (self.get() != rsrc.getUser()) {
       permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
 
     Account.Id id = rsrc.getUser().getAccountId();
-    return accountCache.get(id).getEditPreferences();
+    return accountCache
+        .maybeGet(id)
+        .map(AccountState::getEditPreferences)
+        .orElseThrow(ResourceNotFoundException::new);
   }
 }

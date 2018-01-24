@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2683b408_9aa44231",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-24T16:31:29Z",
+      "side": 1,
+      "message": "I’ve removed this part from the commit msg.",
+      "parentUuid": "468e706b_144f3492",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 4
+      },
+      "revId": "ef2473e71a17a921b56975d738465e16a13b6583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "890ac5f1_75f0c619",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "e834c3e9_826d4542",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-24T16:31:29Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "890ac5f1_75f0c619",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 2
+      },
+      "revId": "ef2473e71a17a921b56975d738465e16a13b6583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79c096d1_2adf3b1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-24T16:31:29Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "58db8818_4037810b",
+      "range": {
+        "startLine": 12,
+        "startChar": 21,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "ef2473e71a17a921b56975d738465e16a13b6583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b67d85e_7e174e6c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -82,6 +154,30 @@
       "writtenOn": "2018-01-24T15:18:41Z",
       "side": 1,
       "message": "Remove \"that\"",
+      "range": {
+        "startLine": 13,
+        "startChar": 4,
+        "endLine": 13,
+        "endChar": 9
+      },
+      "revId": "ef2473e71a17a921b56975d738465e16a13b6583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d85f3733_5da27bc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-24T16:31:29Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9b67d85e_7e174e6c",
       "range": {
         "startLine": 13,
         "startChar": 4,
@@ -140,6 +236,54 @@
     },
     {
       "key": {
+        "uuid": "aa75b84a_d71b2333",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-24T16:31:29Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "120ed56b_564ae870",
+      "range": {
+        "startLine": 14,
+        "startChar": 40,
+        "endLine": 14,
+        "endChar": 51
+      },
+      "revId": "ef2473e71a17a921b56975d738465e16a13b6583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a030fef1_6f61e293",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-24T16:31:29Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "08eafc48_bfde6272",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 25
+      },
+      "revId": "ef2473e71a17a921b56975d738465e16a13b6583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61a8469d_70a993a1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "05dffcfd_a6720d1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-24T16:31:29Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "61a8469d_70a993a1",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 42
+      },
+      "revId": "ef2473e71a17a921b56975d738465e16a13b6583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eece7e63_815dbaa9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -174,6 +342,30 @@
       "writtenOn": "2018-01-24T15:18:41Z",
       "side": 1,
       "message": "IN case we describe the setting for developers in REAMDE.md i think we could remove these details in the commit message.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 88
+      },
+      "revId": "ef2473e71a17a921b56975d738465e16a13b6583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a322203f_0571d7d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-24T16:31:29Z",
+      "side": 1,
+      "message": "I’ve moved it to README.md file in polygerrit.",
+      "parentUuid": "eece7e63_815dbaa9",
       "range": {
         "startLine": 17,
         "startChar": 0,

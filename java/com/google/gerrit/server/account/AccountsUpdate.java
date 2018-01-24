@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
@@ -48,7 +49,9 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Consumer;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -573,9 +576,22 @@ public class AccountsUpdate {
         updatedAccount.getExternalIdNotes());
 
     RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
-    updatedAccount.getExternalIdNotes().updateCaches();
+
+    // Skip accounts that are updated when evicting the account cache via ExternalIdNotes to avoid
+    // double reindexing. The updated accounts will already be reindexed by ReindexAfterRefUpdate.
+    updatedAccount.getExternalIdNotes().updateCaches(getUpdatedAccounts(batchRefUpdate));
+
     gitRefUpdated.fire(
         allUsersName, batchRefUpdate, currentUser != null ? currentUser.state() : null);
+  }
+
+  private static Set<Account.Id> getUpdatedAccounts(BatchRefUpdate batchRefUpdate) {
+    return batchRefUpdate
+        .getCommands()
+        .stream()
+        .map(c -> Account.Id.fromRef(c.getRefName()))
+        .filter(Objects::nonNull)
+        .collect(toSet());
   }
 
   private void commitNewAccountConfig(

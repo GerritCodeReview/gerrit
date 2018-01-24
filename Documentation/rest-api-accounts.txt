@@ -2462,8 +2462,12 @@ Whether line numbers should be hidden.
 Whether matching brackets should be highlighted.
 |`line_wrapping`               |not set if `false`|
 Whether to enable line wrapping or not.
+|`indent_with_tabs`            |not set if `false`|
+Whether to indent with tabs or not.
 |`auto_close_brackets`         |not set if `false`|
 Whether brackets and quotes should be auto-closed during typing.
+|`show_base`                   |not set if `false`|
+Whether to show the inline edit base version or not.
 |===========================================
 
 [[email-info]]

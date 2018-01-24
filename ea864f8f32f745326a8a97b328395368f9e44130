@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8aa6a842_75c8ceae",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-24T08:06:09Z",
+      "side": 1,
+      "message": "nit: normally we don\u0027t import Factory classes, but rather user PermissionCollection.Factory. It\u0027s because we have so many Factory classes and if you just see \"Factory\" as type you don\u0027t know which one it is.",
+      "revId": "ea864f8f32f745326a8a97b328395368f9e44130",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -46,6 +46,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
 import org.eclipse.jgit.util.SystemReader;
@@ -121,9 +122,9 @@ public abstract class OutgoingEmail {
     Set<Address> smtpRcptToPlaintextOnly = new HashSet<>();
     if (shouldSendMessage()) {
       if (fromId != null) {
-        AccountState fromUser = args.accountCache.get(fromId);
-        if (fromUser != null) {
-          GeneralPreferencesInfo senderPrefs = fromUser.getGeneralPreferences();
+        Optional<AccountState> fromUser = args.accountCache.maybeGet(fromId);
+        if (fromUser.isPresent()) {
+          GeneralPreferencesInfo senderPrefs = fromUser.get().getGeneralPreferences();
           if (senderPrefs != null && senderPrefs.getEmailStrategy() == CC_ON_OWN_COMMENTS) {
             // If we are impersonating a user, make sure they receive a CC of
             // this message so they can always review and audit what we sent
@@ -134,7 +135,7 @@ public abstract class OutgoingEmail {
             // If they don't want a copy, but we queued one up anyway,
             // drop them from the recipient lists.
             //
-            removeUser(fromUser.getAccount());
+            removeUser(fromUser.get().getAccount());
           }
         }
       }
@@ -142,10 +143,10 @@ public abstract class OutgoingEmail {
       // his email notifications then drop him from recipients' list.
       // In addition, check if users only want to receive plaintext email.
       for (Account.Id id : rcptTo) {
-        AccountState thisUser = args.accountCache.get(id);
-        if (thisUser != null) {
-          Account thisUserAccount = thisUser.getAccount();
-          GeneralPreferencesInfo prefs = thisUser.getGeneralPreferences();
+        Optional<AccountState> thisUser = args.accountCache.maybeGet(id);
+        if (thisUser.isPresent()) {
+          Account thisUserAccount = thisUser.get().getAccount();
+          GeneralPreferencesInfo prefs = thisUser.get().getGeneralPreferences();
           if (prefs == null || prefs.getEmailStrategy() == DISABLED) {
             removeUser(thisUserAccount);
           } else if (useHtml() && prefs.getEmailFormat() == EmailFormat.PLAINTEXT) {
@@ -252,20 +253,21 @@ public abstract class OutgoingEmail {
   }
 
   protected String getFromLine() {
-    final Account account = args.accountCache.get(fromId).getAccount();
-    final String name = account.getFullName();
-    final String email = account.getPreferredEmail();
     StringBuilder f = new StringBuilder();
-
-    if ((name != null && !name.isEmpty()) || (email != null && !email.isEmpty())) {
-      f.append("From");
-      if (name != null && !name.isEmpty()) {
-        f.append(" ").append(name);
+    Optional<Account> account = args.accountCache.maybeGet(fromId).map(AccountState::getAccount);
+    if (account.isPresent()) {
+      String name = account.get().getFullName();
+      String email = account.get().getPreferredEmail();
+      if ((name != null && !name.isEmpty()) || (email != null && !email.isEmpty())) {
+        f.append("From");
+        if (name != null && !name.isEmpty()) {
+          f.append(" ").append(name);
+        }
+        if (email != null && !email.isEmpty()) {
+          f.append(" <").append(email).append(">");
+        }
+        f.append(":\n\n");
       }
-      if (email != null && !email.isEmpty()) {
-        f.append(" <").append(email).append(">");
-      }
-      f.append(":\n\n");
     }
     return f.toString();
   }
@@ -334,10 +336,13 @@ public abstract class OutgoingEmail {
       return args.gerritPersonIdent.getName();
     }
 
-    final Account userAccount = args.accountCache.get(accountId).getAccount();
-    String name = userAccount.getFullName();
-    if (name == null) {
-      name = userAccount.getPreferredEmail();
+    Optional<Account> account = args.accountCache.maybeGet(accountId).map(AccountState::getAccount);
+    String name = null;
+    if (account.isPresent()) {
+      name = account.get().getFullName();
+      if (name == null) {
+        name = account.get().getPreferredEmail();
+      }
     }
     if (name == null) {
       name = args.anonymousCowardName + " #" + accountId;
@@ -353,21 +358,19 @@ public abstract class OutgoingEmail {
    * @return name/email of account, or Anonymous Coward if unset.
    */
   public String getNameEmailFor(Account.Id accountId) {
-    AccountState who = args.accountCache.get(accountId);
-    String name = who.getAccount().getFullName();
-    String email = who.getAccount().getPreferredEmail();
-
-    if (name != null && email != null) {
-      return name + " <" + email + ">";
-
-    } else if (name != null) {
-      return name;
-    } else if (email != null) {
-      return email;
-
-    } else /* (name == null && email == null) */ {
-      return args.anonymousCowardName + " #" + accountId;
+    Optional<Account> account = args.accountCache.maybeGet(accountId).map(AccountState::getAccount);
+    if (account.isPresent()) {
+      String name = account.get().getFullName();
+      String email = account.get().getPreferredEmail();
+      if (name != null && email != null) {
+        return name + " <" + email + ">";
+      } else if (name != null) {
+        return name;
+      } else if (email != null) {
+        return email;
+      }
     }
+    return args.anonymousCowardName + " #" + accountId;
   }
 
   /**
@@ -378,10 +381,14 @@ public abstract class OutgoingEmail {
    * @return name/email of account, username, or null if unset.
    */
   public String getUserNameEmailFor(Account.Id accountId) {
-    AccountState who = args.accountCache.get(accountId);
-    String name = who.getAccount().getFullName();
-    String email = who.getAccount().getPreferredEmail();
+    Optional<AccountState> accountState = args.accountCache.maybeGet(accountId);
+    if (!accountState.isPresent()) {
+      return null;
+    }
 
+    Account account = accountState.get().getAccount();
+    String name = account.getFullName();
+    String email = account.getPreferredEmail();
     if (name != null && email != null) {
       return name + " <" + email + ">";
     } else if (email != null) {
@@ -389,7 +396,7 @@ public abstract class OutgoingEmail {
     } else if (name != null) {
       return name;
     }
-    return who.getUserName().orElse(null);
+    return accountState.get().getUserName().orElse(null);
   }
 
   protected boolean shouldSendMessage() {
@@ -511,12 +518,17 @@ public abstract class OutgoingEmail {
   }
 
   private Address toAddress(Account.Id id) {
-    final Account a = args.accountCache.get(id).getAccount();
-    final String e = a.getPreferredEmail();
-    if (!a.isActive() || e == null) {
+    Optional<Account> accountState = args.accountCache.maybeGet(id).map(AccountState::getAccount);
+    if (!accountState.isPresent()) {
       return null;
     }
-    return new Address(a.getFullName(), e);
+
+    Account account = accountState.get();
+    String e = account.getPreferredEmail();
+    if (!account.isActive() || e == null) {
+      return null;
+    }
+    return new Address(account.getFullName(), e);
   }
 
   protected void setupSoyContext() {

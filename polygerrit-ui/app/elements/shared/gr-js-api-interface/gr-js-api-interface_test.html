@@ -70,6 +70,13 @@ limitations under the License.
       plugin = null;
     });
 
+    test('reuse plugin for install calls', () => {
+      let otherPlugin;
+      Gerrit.install(p => { otherPlugin = p; }, '0.1',
+          'http://test.com/plugins/testplugin/static/test.js');
+      assert.strictEqual(plugin, otherPlugin);
+    });
+
     test('url', () => {
       assert.equal(plugin.url(), 'http://test.com/plugins/testplugin/');
       assert.equal(plugin.url('/static/test.js'),

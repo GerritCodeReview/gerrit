@@ -1541,5 +1541,41 @@ limitations under the License.
         });
       });
     });
+
+    suite('_getMergeability', () => {
+      let getMergeableStub;
+
+      setup(() => {
+        element._change = {labels: {}};
+        getMergeableStub = sandbox.stub(element.$.restAPI, 'getMergeable')
+            .returns(Promise.resolve({mergeable: true}));
+      });
+
+      test('merged change', () => {
+        element._mergeable = null;
+        element._change.status = element.ChangeStatus.MERGED;
+        return element._getMergeability().then(() => {
+          assert.isFalse(element._mergeable);
+          assert.isFalse(getMergeableStub.called);
+        });
+      });
+
+      test('abandoned change', () => {
+        element._mergeable = null;
+        element._change.status = element.ChangeStatus.ABANDONED;
+        return element._getMergeability().then(() => {
+          assert.isFalse(element._mergeable);
+          assert.isFalse(getMergeableStub.called);
+        });
+      });
+
+      test('open change', () => {
+        element._mergeable = null;
+        return element._getMergeability().then(() => {
+          assert.isTrue(element._mergeable);
+          assert.isTrue(getMergeableStub.called);
+        });
+      });
+    });
   });
 </script>

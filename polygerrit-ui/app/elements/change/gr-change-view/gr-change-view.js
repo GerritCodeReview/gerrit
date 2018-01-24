@@ -1152,6 +1152,15 @@
     },
 
     _getMergeability() {
+      // If the change is closed, it is not mergeable. Note: already merged
+      // changes are obviously not mergeable, but the mergeability API will not
+      // answer for abandoned changes.
+      if (this._change.status === this.ChangeStatus.MERGED ||
+          this._change.status === this.ChangeStatus.ABANDONED) {
+        this._mergeable = false;
+        return Promise.resolve();
+      }
+
       this._mergeable = null;
       return this.$.restAPI.getMergeable(this._changeNum).then(m => {
         this._mergeable = m.mergeable;

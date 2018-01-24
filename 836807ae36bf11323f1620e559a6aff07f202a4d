@@ -17,6 +17,24 @@
       "revId": "836807ae36bf11323f1620e559a6aff07f202a4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e98082d_201195af",
+        "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-24T14:57:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82d61025_5fd7b9f9",
+      "revId": "836807ae36bf11323f1620e559a6aff07f202a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

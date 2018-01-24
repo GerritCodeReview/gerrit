@@ -22,6 +22,7 @@ import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -134,6 +135,12 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
 
       md.setMessage("Review access change");
       md.setInsertChangeId(true);
+
+      RevCommit newCommit = config.commit(md);
+      if (config.getRevision().equals(newCommit)) {
+        throw new BadRequestException("no change");
+      }
+
       Change.Id changeId = new Change.Id(seq.nextChangeId());
       RevCommit commit =
           config.commitToNewRef(

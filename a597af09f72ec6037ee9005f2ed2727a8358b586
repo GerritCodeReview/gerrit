@@ -1,4 +1,73 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1516803645 +0100\nnonce AGjzz38iqfcL0k85bHB2/ZuMi3hHDZcR45KlFIEV7m9xLHhXkx5Q13y9rcs7VcFlJ/sxajeb95f0\n\n0000000000000000000000000000000000000000 a597af09f72ec6037ee9005f2ed2727a8358b586 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlpolj0ACgkQUbX9l6DQ\n71HzAwf+PGEQEetCuz8xCsmd3JWsLiBschwGJf3/IBGOx9Bw0QkDRKDYB5lvm0DQ\ng721i3pyvrAHU2vMchhLRPMCNt5h1pY022fCs+n64MUNiMMiR55/lsZy6QZfnBP3\n/34NHOU+aoeo48VCHwOVIic6XBIoMzO3fVaHRLNcxWaCrhu44rDZOryya3twcS5b\nh/TswHmhyILl5rebq2f7liDMnye9OBO879STUvX2ZtxJXfrp6xqKlFgGfxWXimr0\nnWU6pKOvshJzYsAvxRyYAjXFkeDYkcXHbGKgGD8lPSQAQCMH4xHumSQY9SQ92A5v\n8Rz9xSYPrV72i+HJ6rAaSMZZ/g5VUw\u003d\u003d\n\u003d304d\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6bf93ab_70432edd",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-24T15:36:27Z",
+      "side": 1,
+      "message": "Undecided on this one.",
+      "revId": "a597af09f72ec6037ee9005f2ed2727a8358b586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08172f39_7620af3c",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-24T15:36:27Z",
+      "side": 1,
+      "message": "This seems wrong. This class is primarily used by AccountsCollection to parse an string to an AccountResource. If you return the empty account, then there\u0027s a good chance that the REST API handler will turn around and throw a RNFE anyway. (In fact, this seems like a case where you would hit the .orElseThrow(ResourceNotFoundException::new) that cropped up a bunch in earlier changes in this series.)\n\nIIUC this could happen if an account is present in the index but not present in NoteDb. Which is of course unlikely since accounts can\u0027t be deleted, but this code shouldn\u0027t have to rely on that assumption.",
+      "revId": "a597af09f72ec6037ee9005f2ed2727a8358b586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56a4dc36_bc104c76",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-24T15:36:27Z",
+      "side": 1,
+      "message": "Same issue as above.",
+      "revId": "a597af09f72ec6037ee9005f2ed2727a8358b586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "029edd12_e154be03",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-24T15:36:27Z",
+      "side": 1,
+      "message": "I\u0027m undecided whether this should be getEvenIfMissing",
+      "revId": "a597af09f72ec6037ee9005f2ed2727a8358b586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

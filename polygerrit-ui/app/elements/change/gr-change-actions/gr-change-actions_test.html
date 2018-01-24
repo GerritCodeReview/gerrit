@@ -134,7 +134,7 @@ limitations under the License.
       });
     });
 
-    test('plugin change actions', () => {
+    test('plugin change actions', done => {
       sandbox.stub(element.$.restAPI, 'getChangeActionURL').returns(
           Promise.resolve('the-url'));
       element.actions = {
@@ -145,6 +145,7 @@ limitations under the License.
         assert.isTrue(element.$.restAPI.getChangeActionURL.calledWith(
             element.changeNum, null, '/plugin~action'));
         assert.equal(element.revisionActions['plugin~action'].__url, 'the-url');
+        done();
       });
     });
 

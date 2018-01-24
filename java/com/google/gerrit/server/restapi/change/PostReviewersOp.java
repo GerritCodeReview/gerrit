@@ -204,7 +204,10 @@ public class PostReviewersOp implements BatchUpdateOp {
         accountsToNotify);
     if (!addedReviewers.isEmpty()) {
       List<AccountState> reviewers =
-          addedReviewers.stream().map(r -> accountCache.get(r.getAccountId())).collect(toList());
+          addedReviewers
+              .stream()
+              .map(r -> accountCache.getEvenIfMissing(r.getAccountId()))
+              .collect(toList());
       reviewerAdded.fire(rsrc.getChange(), patchSet, reviewers, ctx.getAccount(), ctx.getWhen());
     }
   }

@@ -141,7 +141,8 @@ public class SetMembersCommand extends SshCommand {
             .map(
                 accountId ->
                     MoreObjects.firstNonNull(
-                        accountCache.get(accountId).getAccount().getPreferredEmail(), "n/a"))
+                        accountCache.getEvenIfMissing(accountId).getAccount().getPreferredEmail(),
+                        "n/a"))
             .collect(joining(", "));
     out.write(
         String.format("Members %s group %s: %s\n", action, group.getName(), names).getBytes(ENC));

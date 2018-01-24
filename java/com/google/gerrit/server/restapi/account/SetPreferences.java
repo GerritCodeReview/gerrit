@@ -18,13 +18,15 @@ import com.google.common.base.Strings;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.Preferences;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -40,7 +42,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class SetPreferences implements RestModifyView<AccountResource, GeneralPreferencesInfo> {
   private final Provider<CurrentUser> self;
-  private final AccountCache cache;
   private final PermissionBackend permissionBackend;
   private final AccountsUpdate.User accountsUpdate;
   private final DynamicMap<DownloadScheme> downloadSchemes;
@@ -48,12 +49,10 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
   @Inject
   SetPreferences(
       Provider<CurrentUser> self,
-      AccountCache cache,
       PermissionBackend permissionBackend,
       AccountsUpdate.User accountsUpdate,
       DynamicMap<DownloadScheme> downloadSchemes) {
     this.self = self;
-    this.cache = cache;
     this.permissionBackend = permissionBackend;
     this.accountsUpdate = accountsUpdate;
     this.downloadSchemes = downloadSchemes;
@@ -61,8 +60,8 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
 
   @Override
   public GeneralPreferencesInfo apply(AccountResource rsrc, GeneralPreferencesInfo input)
-      throws AuthException, BadRequestException, IOException, ConfigInvalidException,
-          PermissionBackendException, OrmException {
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException,
+          OrmException {
     if (self.get() != rsrc.getUser()) {
       permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
@@ -71,10 +70,11 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
     Preferences.validateMy(input.my);
     Account.Id id = rsrc.getUser().getAccountId();
 
-    accountsUpdate
+    return accountsUpdate
         .create()
-        .update("Set General Preferences via API", id, u -> u.setGeneralPreferences(input));
-    return cache.get(id).getGeneralPreferences();
+        .update("Set General Preferences via API", id, u -> u.setGeneralPreferences(input))
+        .map(AccountState::getGeneralPreferences)
+        .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString())));
   }
 
   private void checkDownloadScheme(String downloadScheme) throws BadRequestException {

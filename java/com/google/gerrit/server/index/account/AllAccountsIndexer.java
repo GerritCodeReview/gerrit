@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -88,7 +89,12 @@ public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, Ac
               () -> {
                 try {
                   accountCache.evict(id);
-                  index.replace(accountCache.get(id));
+                  Optional<AccountState> a = accountCache.maybeGet(id);
+                  if (a.isPresent()) {
+                    index.replace(a.get());
+                  } else {
+                    index.delete(id);
+                  }
                   verboseWriter.println("Reindexed " + desc);
                   done.incrementAndGet();
                 } catch (Exception e) {

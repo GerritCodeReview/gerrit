@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.permissions;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public enum RefPermission {
   READ(Permission.READ),
@@ -79,5 +81,11 @@ public enum RefPermission {
 
   public String describeForException() {
     return toString().toLowerCase(Locale.US).replace('_', ' ');
+  }
+
+  /** Returns the enum constant for a given permission name, or null if not found. */
+  @Nullable
+  public static Optional<RefPermission> fromName(String name) {
+    return Stream.of(RefPermission.values()).filter(p -> name.equals(p.name)).findFirst();
   }
 }

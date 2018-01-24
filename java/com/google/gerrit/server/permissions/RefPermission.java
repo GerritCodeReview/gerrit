@@ -80,4 +80,9 @@ public enum RefPermission {
   public String describeForException() {
     return toString().toLowerCase(Locale.US).replace('_', ' ');
   }
+
+  /** @return the enum constant for a given permission name if present. */
+  public static Optional<RefPermission> fromName(String name) {
+    return Arrays.stream(RefPermission.values()).filter(p -> name.equals(p.name)).findFirst();
+  }
 }

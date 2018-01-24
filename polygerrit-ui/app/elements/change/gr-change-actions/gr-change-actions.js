@@ -50,6 +50,7 @@
   // TODO(davido): Add the rest of the change actions.
   const ChangeActions = {
     ABANDON: 'abandon',
+    DONE_EDIT: 'doneEdit',
     DELETE: '/',
     DELETE_EDIT: 'deleteEdit',
     EDIT: 'edit',
@@ -154,6 +155,15 @@
     label: 'Edit',
     title: 'Edit this change',
     __key: 'edit',
+    __primary: false,
+    __type: 'change',
+  };
+
+  const DONE_EDIT = {
+    enabled: true,
+    label: 'Done Editing',
+    title: 'Stop editing this change',
+    __key: 'doneEdit',
     __primary: false,
     __type: 'change',
   };
@@ -500,9 +510,10 @@
       this._disabledMenuActions = [];
 
       const revisionActions = revisionActionsChangeRecord.base || {};
-      if (Object.keys(revisionActions).length !== 0 &&
-          !revisionActions.download) {
-        this.set('revisionActions.download', DOWNLOAD_ACTION);
+      if (Object.keys(revisionActions).length !== 0) {
+        if (!revisionActions.download) {
+          this.set('revisionActions.download', DOWNLOAD_ACTION);
+        }
       }
     },
 
@@ -557,8 +568,15 @@
           delete this.actions.edit;
           this.notifyPath('actions.edit');
         }
+        if (!changeActions.doneEdit) {
+          this.set('actions.doneEdit', DONE_EDIT);
+        }
       } else {
         if (!changeActions.edit) { this.set('actions.edit', EDIT); }
+        if (changeActions.doneEdit) {
+          delete this.actions.doneEdit;
+          this.notifyPath('actions.doneEdit');
+        }
       }
     },
 
@@ -809,6 +827,9 @@
           break;
         case ChangeActions.EDIT:
           this._handleEditTap();
+          break;
+        case ChangeActions.DONE_EDIT:
+          this._handleDoneEditTap();
           break;
         case ChangeActions.DELETE:
           this._handleDeleteTap();
@@ -1181,6 +1202,7 @@
       if (quickApprove) {
         changeActionValues.unshift(quickApprove);
       }
+
       return revisionActionValues
           .concat(changeActionValues)
           .sort(this._actionComparator.bind(this));
@@ -1289,6 +1311,10 @@
 
     _handleEditTap() {
       this.dispatchEvent(new CustomEvent('edit-tap', {bubbles: false}));
+    },
+
+    _handleDoneEditTap() {
+      this.dispatchEvent(new CustomEvent('done-edit-tap', {bubbles: false}));
     },
   });
 })();

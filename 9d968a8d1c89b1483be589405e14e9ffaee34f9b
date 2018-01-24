@@ -22,6 +22,30 @@
       "revId": "9d968a8d1c89b1483be589405e14e9ffaee34f9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8032d31f_c3317315",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-24T17:58:47Z",
+      "side": 1,
+      "message": "As you can see, that\u0027s exactly what existed prior to this change. I\u0027m using negative margin to increase the click target, and make the button hover/focus outline match that of our other buttons. There are screenshots provided in the change messages.",
+      "parentUuid": "527eb9e5_b473c3af",
+      "range": {
+        "startLine": 97,
+        "startChar": 8,
+        "endLine": 97,
+        "endChar": 23
+      },
+      "revId": "9d968a8d1c89b1483be589405e14e9ffaee34f9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

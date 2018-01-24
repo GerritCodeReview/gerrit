@@ -74,7 +74,7 @@ public class AccountResolver {
 
     Account match = null;
     for (Account.Id id : r) {
-      Optional<Account> account = byId.maybeGet(id).map(AccountState::getAccount);
+      Optional<Account> account = byId.get(id).map(AccountState::getAccount);
       if (!account.map(Account::isActive).orElse(false)) {
         continue;
       }
@@ -150,7 +150,7 @@ public class AccountResolver {
       String name = nameOrEmail.substring(0, lt - 1);
       Set<Account.Id> nameMatches = new HashSet<>();
       for (Account.Id id : ids) {
-        Optional<Account> a = byId.maybeGet(id).map(AccountState::getAccount);
+        Optional<Account> a = byId.get(id).map(AccountState::getAccount);
         if (a.isPresent() && name.equals(a.get().getFullName())) {
           nameMatches.add(id);
         }

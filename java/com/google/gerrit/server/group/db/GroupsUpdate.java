@@ -592,7 +592,7 @@ public class GroupsUpdate {
 
   static String getAccountName(AccountCache accountCache, Account.Id accountId) {
     return accountCache
-        .maybeGet(accountId)
+        .get(accountId)
         .map(AccountState::getAccount)
         .map(account -> account.getName())
         // Historically, the database did not enforce relational integrity, so it is

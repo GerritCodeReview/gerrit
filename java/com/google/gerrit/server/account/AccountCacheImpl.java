@@ -87,7 +87,7 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   @Override
-  public Optional<AccountState> maybeGet(Account.Id accountId) {
+  public Optional<AccountState> get(Account.Id accountId) {
     try {
       return byId.get(accountId);
     } catch (ExecutionException e) {
@@ -103,7 +103,7 @@ public class AccountCacheImpl implements AccountCache {
       if (extId == null) {
         return Optional.empty();
       }
-      return maybeGet(extId.accountId());
+      return get(extId.accountId());
     } catch (IOException | ConfigInvalidException e) {
       log.warn("Cannot load AccountState for username " + username, e);
       return null;

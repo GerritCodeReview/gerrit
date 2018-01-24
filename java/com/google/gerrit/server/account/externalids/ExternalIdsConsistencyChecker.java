@@ -117,7 +117,7 @@ public class ExternalIdsConsistencyChecker {
   private List<ConsistencyProblemInfo> validateExternalId(ExternalId extId) {
     List<ConsistencyProblemInfo> problems = new ArrayList<>();
 
-    if (!accountCache.maybeGet(extId.accountId()).isPresent()) {
+    if (!accountCache.get(extId.accountId()).isPresent()) {
       addError(
           String.format(
               "External ID '%s' belongs to account that doesn't exist: %s",

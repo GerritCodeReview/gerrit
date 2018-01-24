@@ -91,7 +91,7 @@ public class AccountIndexerImpl implements AccountIndexer {
   @Override
   public void index(Account.Id id) throws IOException {
     for (Index<Account.Id, AccountState> i : getWriteIndexes()) {
-      Optional<AccountState> accountState = byIdCache.maybeGet(id);
+      Optional<AccountState> accountState = byIdCache.get(id);
       if (accountState.isPresent()) {
         i.replace(accountState.get());
       } else {

@@ -40,7 +40,7 @@ public interface AccountCache {
    * @return {@code AccountState} instance for the given account ID, if no account with this ID
    *     exists {@link Optional#empty()}is returned
    */
-  Optional<AccountState> maybeGet(Account.Id accountId);
+  Optional<AccountState> get(Account.Id accountId);
 
   /**
    * Returns an {@code AccountState} instance for the given username.

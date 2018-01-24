@@ -437,7 +437,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   private String getByAccountName() {
     checkNotNull(submitter, "getByAccountName called before submitter populated");
     Optional<Account> account =
-        args.accountCache.maybeGet(submitter.getAccountId()).map(AccountState::getAccount);
+        args.accountCache.get(submitter.getAccountId()).map(AccountState::getAccount);
     if (account.isPresent() && account.get().getFullName() != null) {
       return " by " + account.get().getFullName();
     }

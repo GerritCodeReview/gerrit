@@ -29,7 +29,7 @@ public class GetAccountDetailIT extends AbstractDaemonTest {
     RestResponse r = adminRestSession.get("/accounts/" + admin.username + "/detail/");
     AccountDetailInfo info = newGson().fromJson(r.getReader(), AccountDetailInfo.class);
     assertAccountInfo(admin, info);
-    Account account = accountCache.get(admin.getId()).getAccount();
+    Account account = getAccount(admin.getId());
     assertThat(info.registeredOn).isEqualTo(account.getRegisteredOn());
   }
 }

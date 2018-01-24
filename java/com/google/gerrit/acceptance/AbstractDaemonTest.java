@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
@@ -69,6 +70,7 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -83,6 +85,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
@@ -804,6 +807,16 @@ public abstract class AbstractDaemonTest {
 
   protected Context setApiUserAnonymous() {
     return atrScope.set(atrScope.newContext(reviewDbProvider, null, anonymousUser.get()));
+  }
+
+  protected Account getAccount(Account.Id accountId) {
+    return getAccountState(accountId).getAccount();
+  }
+
+  protected AccountState getAccountState(Account.Id accountId) {
+    Optional<AccountState> accountState = accountCache.maybeGet(accountId);
+    assertThat(accountState).named("account %s", accountId.get()).isPresent();
+    return accountState.get();
   }
 
   protected Context disableDb() {

@@ -51,7 +51,7 @@ import org.slf4j.LoggerFactory;
  * and properties from the account config file. AccountState maps one-to-one to Account.
  *
  * <p>Most callers should not construct AccountStates directly but rather lookup accounts via the
- * account cache (see {@link AccountCache#get(Account.Id)}).
+ * account cache (see {@link AccountCache#getEvenIfMissing(Account.Id)}).
  */
 public class AccountState {
   private static final Logger logger = LoggerFactory.getLogger(AccountState.class);

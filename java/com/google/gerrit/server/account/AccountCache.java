@@ -30,7 +30,7 @@ public interface AccountCache {
    * @return {@code AccountState} instance for the given account ID, if no account with this ID
    *     exists an empty {@code AccountState} instance is returned to represent the missing account
    */
-  AccountState get(Account.Id accountId);
+  AccountState getEvenIfMissing(Account.Id accountId);
 
   /**
    * Returns an {@code AccountState} instance for the given account ID. If not cached yet the

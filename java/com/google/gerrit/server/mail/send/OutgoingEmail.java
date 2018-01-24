@@ -143,7 +143,7 @@ public abstract class OutgoingEmail {
       // his email notifications then drop him from recipients' list.
       // In addition, check if users only want to receive plaintext email.
       for (Account.Id id : rcptTo) {
-        AccountState thisUser = args.accountCache.get(id);
+        AccountState thisUser = args.accountCache.getEvenIfMissing(id);
         if (thisUser != null) {
           Account thisUserAccount = thisUser.getAccount();
           GeneralPreferencesInfo prefs = thisUser.getGeneralPreferences();
@@ -253,7 +253,7 @@ public abstract class OutgoingEmail {
   }
 
   protected String getFromLine() {
-    final Account account = args.accountCache.get(fromId).getAccount();
+    final Account account = args.accountCache.getEvenIfMissing(fromId).getAccount();
     final String name = account.getFullName();
     final String email = account.getPreferredEmail();
     StringBuilder f = new StringBuilder();
@@ -335,7 +335,7 @@ public abstract class OutgoingEmail {
       return args.gerritPersonIdent.getName();
     }
 
-    final Account userAccount = args.accountCache.get(accountId).getAccount();
+    final Account userAccount = args.accountCache.getEvenIfMissing(accountId).getAccount();
     String name = userAccount.getFullName();
     if (name == null) {
       name = userAccount.getPreferredEmail();
@@ -354,7 +354,7 @@ public abstract class OutgoingEmail {
    * @return name/email of account, or Anonymous Coward if unset.
    */
   public String getNameEmailFor(Account.Id accountId) {
-    AccountState who = args.accountCache.get(accountId);
+    AccountState who = args.accountCache.getEvenIfMissing(accountId);
     String name = who.getAccount().getFullName();
     String email = who.getAccount().getPreferredEmail();
 
@@ -379,7 +379,7 @@ public abstract class OutgoingEmail {
    * @return name/email of account, username, or null if unset.
    */
   public String getUserNameEmailFor(Account.Id accountId) {
-    AccountState who = args.accountCache.get(accountId);
+    AccountState who = args.accountCache.getEvenIfMissing(accountId);
     String name = who.getAccount().getFullName();
     String email = who.getAccount().getPreferredEmail();
 
@@ -512,7 +512,7 @@ public abstract class OutgoingEmail {
   }
 
   private Address toAddress(Account.Id id) {
-    final Account a = args.accountCache.get(id).getAccount();
+    final Account a = args.accountCache.getEvenIfMissing(id).getAccount();
     final String e = a.getPreferredEmail();
     if (!a.isActive() || e == null) {
       return null;

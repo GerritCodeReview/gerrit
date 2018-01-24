@@ -264,7 +264,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void createByAccountCreator() throws Exception {
-    Account.Id accountId = createByAccountCreator(2); // account creation + external ID creation
+    Account.Id accountId = createByAccountCreator(1);
     refUpdateCounter.assertRefUpdateFor(
         RefUpdateCounter.projectRef(allUsers, RefNames.refsUsers(accountId)),
         RefUpdateCounter.projectRef(allUsers, RefNames.REFS_EXTERNAL_IDS),
@@ -274,8 +274,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   @UseSsh
   public void createWithSshKeysByAccountCreator() throws Exception {
-    Account.Id accountId =
-        createByAccountCreator(3); // account creation + external ID creation + adding SSH keys
+    Account.Id accountId = createByAccountCreator(2); // account creation + adding SSH keys
     refUpdateCounter.assertRefUpdateFor(
         ImmutableMap.of(
             RefUpdateCounter.projectRef(allUsers, RefNames.refsUsers(accountId)),
@@ -319,7 +318,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(accountInfo.status).isNull();
 
     Account.Id accountId = new Account.Id(accountInfo._accountId);
-    accountIndexedCounter.assertReindexOf(accountId, 2); // account creation + external ID creation
+    accountIndexedCounter.assertReindexOf(accountId, 1);
     assertThat(externalIds.byAccount(accountId))
         .containsExactly(
             ExternalId.createUsername(input.username, accountId, null),

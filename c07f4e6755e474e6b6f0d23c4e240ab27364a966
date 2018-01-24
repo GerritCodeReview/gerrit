@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1516805032 +0100\nnonce AGjzz3/KWfHAXLcT823NDcq1FZdyy2A4LPsdZTv4ILTpZfrHxy2lmBFwF14ryErZqF3VFLUJWmec\n\n0000000000000000000000000000000000000000 c07f4e6755e474e6b6f0d23c4e240ab27364a966 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlpom6gACgkQUbX9l6DQ\n71FAJQf/SxNk+JSFDWpFZaew8jt/WueAlHETk89hYKOSvU3+78YPA0mvpK4tixeQ\nARwk5lLLrZmGdAdukuSQ3BEsIaaynif6knzGeIIumqneKA8X8V09fhz1+2lO0ojN\nsu+3LbMABmjyPhr790Xsstnn/j0KV2/Xr+9iKMDlphkgsENXUdB6R7wY6n4A7kUh\nujZKjS0UXnuFuKJFLRvyVYjKsSW3HttPdQqmp0P/NJBx9U+yAVp0+AEAdIwVmFcH\nN+bkwahgh4pWA0H7angQ/BOEPuM82aKhvc1yPsIl3dQQ3NsSAdAlyQPqIjATmuiJ\nQELknpkK2igBR5UMv2GuK+dXKKJQOQ\u003d\u003d\n\u003dVUVj\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "77dc6628_aed95c55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-24T15:37:45Z",
+      "side": 1,
+      "message": "Nit: by",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "c07f4e6755e474e6b6f0d23c4e240ab27364a966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fcf46f3_b0f56f18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-24T15:37:45Z",
+      "side": 1,
+      "message": "Moreover, \"maybe\" is implied by the return type being Optional.",
+      "revId": "c07f4e6755e474e6b6f0d23c4e240ab27364a966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -91,6 +91,20 @@ public class GerritServer implements AutoCloseable {
           null); // @GlobalPluginConfigs is only valid on methods.
     }
 
+    public static Description kitchenSinkMemory() {
+      return new AutoValue_GerritServer_Description(
+          org.junit.runner.Description.createSuiteDescription("kitchensink"),
+          "kitchenSinkMemory",
+          true,
+          true,
+          false,
+          true,
+          null, // @GerritConfig is only valid on methods.
+          null, // @GerritConfigs is only valid on methods.
+          null, // @GlobalPluginConfig is only valid on methods.
+          null); // @GlobalPluginConfigs is only valid on methods.
+    }
+
     public static Description forTestMethod(
         org.junit.runner.Description testDesc, String configName) {
       return new AutoValue_GerritServer_Description(

@@ -177,8 +177,15 @@ import org.junit.runners.model.Statement;
 
 @RunWith(ConfigSuite.class)
 public abstract class AbstractDaemonTest {
-  private static GerritServer commonServer;
+
+  // per test-process server instance.
+  private static GerritServer globalServer;
+
+  // per test-class server instance.
+  private static GerritServer classServer;
   private static Description firstTest;
+
+  private boolean testRequiresSsh;
 
   @ConfigSuite.Parameter public Config baseConfig;
   @ConfigSuite.Name private String configName;
@@ -254,7 +261,6 @@ public abstract class AbstractDaemonTest {
   protected TestRepository<InMemoryRepository> testRepo;
   protected String resourcePrefix;
   protected Description description;
-  protected boolean testRequiresSsh;
   protected BlockStrategy noSleepBlockStrategy = t -> {}; // Don't sleep in tests.
 
   @Inject private ChangeIndexCollection changeIndexes;
@@ -292,17 +298,17 @@ public abstract class AbstractDaemonTest {
   }
 
   @AfterClass
-  public static void stopCommonServer() throws Exception {
-    if (commonServer != null) {
+  public static void stopClassServer() throws Exception {
+    if (classServer != null) {
       try {
-        commonServer.close();
+        classServer.close();
       } catch (Throwable t) {
         throw new AssertionError(
-            "Error stopping common server in "
+            "Error stopping test class server in "
                 + (firstTest != null ? firstTest.getTestClass().getName() : "unknown test class"),
             t);
       } finally {
-        commonServer = null;
+        classServer = null;
       }
     }
     TempFileUtil.cleanup();
@@ -341,27 +347,57 @@ public abstract class AbstractDaemonTest {
     return cfg.getBoolean("auth", null, "contributorAgreements", false);
   }
 
+  private void startServer() throws Exception {
+    GerritServer.Description classDesc =
+        GerritServer.Description.forTestClass(description, configName);
+    GerritServer.Description methodDesc =
+        GerritServer.Description.forTestMethod(description, configName);
+
+    Config cfg = new Config(baseConfig);
+    cfg.setInt("receive", null, "changeUpdateThreads", 4);
+
+    if (baseConfig.getSections().isEmpty()
+        && classDesc.config() == null
+        && methodDesc.config() == null
+        && classDesc.configs() == null
+        && methodDesc.configs() == null
+        && !classDesc.sandboxed()
+        && !methodDesc.sandboxed()
+        && (methodDesc.memory() || classDesc.memory())) {
+      // Vanilla configuration. Use the global instance.
+      System.err.println("vanilla " + description.getDisplayName());
+      if (globalServer == null) {
+        globalServer = GerritServer.initAndStart(GerritServer.Description.kitchenSinkMemory(), cfg);
+      }
+      server = globalServer;
+      return;
+    }
+    System.err.println("non-vanilla " + this.getClass().getName());
+
+    if (!testRequiresSsh) {
+      cfg.setString("sshd", null, "listenAddress", "off");
+    }
+
+    if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
+      if (classServer == null) {
+        classServer = GerritServer.initAndStart(classDesc, cfg);
+      }
+      server = classServer;
+    } else {
+      server = GerritServer.initAndStart(methodDesc, cfg);
+    }
+  }
+
   protected void beforeTest(Description description) throws Exception {
     this.description = description;
+
     GerritServer.Description classDesc =
         GerritServer.Description.forTestClass(description, configName);
     GerritServer.Description methodDesc =
         GerritServer.Description.forTestMethod(description, configName);
 
     testRequiresSsh = classDesc.useSshAnnotation() || methodDesc.useSshAnnotation();
-    if (!testRequiresSsh) {
-      baseConfig.setString("sshd", null, "listenAddress", "off");
-    }
-
-    baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
-    if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
-      if (commonServer == null) {
-        commonServer = GerritServer.initAndStart(classDesc, baseConfig);
-      }
-      server = commonServer;
-    } else {
-      server = GerritServer.initAndStart(methodDesc, baseConfig);
-    }
+    startServer();
 
     server.getTestInjector().injectMembers(this);
     Transport.register(inProcessProtocol);
@@ -560,7 +596,7 @@ public abstract class AbstractDaemonTest {
     if (userSshSession != null) {
       userSshSession.close();
     }
-    if (server != commonServer) {
+    if (server != classServer && server != globalServer) {
       server.close();
       server = null;
     }

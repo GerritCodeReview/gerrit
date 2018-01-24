@@ -103,7 +103,7 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
 
     ref = RefUtil.normalizeTagRef(ref);
     PermissionBackend.ForRef perm =
-        permissionBackend.user(identifiedUser).project(resource.getNameKey()).ref(ref);
+        permissionBackend.user(identifiedUser).repo(resource.getNameKey()).ref(ref);
 
     try (Repository repo = repoManager.openRepository(resource.getNameKey())) {
       ObjectId revid = RefUtil.parseBaseRevision(repo, resource.getNameKey(), input.revision);

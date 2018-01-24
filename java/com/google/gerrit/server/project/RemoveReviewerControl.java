@@ -120,8 +120,8 @@ public class RemoveReviewerControl {
     // Users with the remove reviewer permission, the branch owner, project
     // owner and site admin can remove anyone
     PermissionBackend.WithUser withUser = permissionBackend.user(currentUser);
-    PermissionBackend.ForProject forProject = withUser.project(change.getProject());
-    if (check(forProject.ref(change.getDest().get()), RefPermission.WRITE_CONFIG)
+    PermissionBackend.ForRepo forRepo = withUser.repo(change.getProject());
+    if (check(forRepo.ref(change.getDest().get()), RefPermission.WRITE_CONFIG)
         || check(withUser, GlobalPermission.ADMINISTRATE_SERVER)) {
       return true;
     }

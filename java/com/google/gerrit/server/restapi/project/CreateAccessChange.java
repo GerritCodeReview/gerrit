@@ -38,7 +38,7 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectResource;
@@ -95,12 +95,12 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
       throws PermissionBackendException, PermissionDeniedException, IOException,
           ConfigInvalidException, OrmException, InvalidNameException, UpdateException,
           RestApiException {
-    PermissionBackend.ForProject forProject =
-        permissionBackend.user(rsrc.getUser()).project(rsrc.getNameKey());
-    if (!check(forProject, ProjectPermission.READ_CONFIG)) {
+    PermissionBackend.ForRepo forProject =
+        permissionBackend.user(rsrc.getUser()).repo(rsrc.getNameKey());
+    if (!check(forProject, RepoPermission.READ_CONFIG)) {
       throw new PermissionDeniedException(RefNames.REFS_CONFIG + " not visible");
     }
-    if (!check(forProject, ProjectPermission.WRITE_CONFIG)) {
+    if (!check(forProject, RepoPermission.WRITE_CONFIG)) {
       try {
         forProject.ref(RefNames.REFS_CONFIG).check(RefPermission.CREATE_CHANGE);
       } catch (AuthException denied) {
@@ -165,7 +165,7 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
         .setUpdateRef(false);
   }
 
-  private boolean check(PermissionBackend.ForProject perm, ProjectPermission p)
+  private boolean check(PermissionBackend.ForRepo perm, RepoPermission p)
       throws PermissionBackendException {
     try {
       perm.check(p);

@@ -42,7 +42,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.project.BooleanProjectConfigTransformations;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectResource;
@@ -111,7 +111,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   @Override
   public ConfigInfo apply(ProjectResource rsrc, ConfigInput input)
       throws RestApiException, PermissionBackendException {
-    permissionBackend.user(user).project(rsrc.getNameKey()).check(ProjectPermission.WRITE_CONFIG);
+    permissionBackend.user(user).repo(rsrc.getNameKey()).check(RepoPermission.WRITE_CONFIG);
     return apply(rsrc.getProjectState(), input);
   }
 

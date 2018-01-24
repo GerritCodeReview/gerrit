@@ -34,7 +34,7 @@ import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
-import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
+import com.google.gerrit.server.permissions.PermissionBackend.ForRepo;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionMatcher;
@@ -102,8 +102,8 @@ class ProjectControl {
     return r;
   }
 
-  ForProject asForProject() {
-    return new ForProjectImpl();
+  ForRepo asForProject() {
+    return new ForRepoImpl();
   }
 
   ChangeControl controlFor(ReviewDb db, Change change) throws OrmException {
@@ -311,9 +311,9 @@ class ProjectControl {
     }
   }
 
-  private class ForProjectImpl extends ForProject {
+  private class ForRepoImpl extends ForRepo {
     @Override
-    public ForProject user(CurrentUser user) {
+    public ForRepo user(CurrentUser user) {
       return forUser(user).asForProject().database(db);
     }
 
@@ -348,17 +348,17 @@ class ProjectControl {
     }
 
     @Override
-    public void check(ProjectPermission perm) throws AuthException, PermissionBackendException {
+    public void check(RepoPermission perm) throws AuthException, PermissionBackendException {
       if (!can(perm)) {
         throw new AuthException(perm.describeForException() + " not permitted");
       }
     }
 
     @Override
-    public Set<ProjectPermission> test(Collection<ProjectPermission> permSet)
+    public Set<RepoPermission> test(Collection<RepoPermission> permSet)
         throws PermissionBackendException {
-      EnumSet<ProjectPermission> ok = EnumSet.noneOf(ProjectPermission.class);
-      for (ProjectPermission perm : permSet) {
+      EnumSet<RepoPermission> ok = EnumSet.noneOf(RepoPermission.class);
+      for (RepoPermission perm : permSet) {
         if (can(perm)) {
           ok.add(perm);
         }
@@ -366,7 +366,7 @@ class ProjectControl {
       return ok;
     }
 
-    private boolean can(ProjectPermission perm) throws PermissionBackendException {
+    private boolean can(RepoPermission perm) throws PermissionBackendException {
       switch (perm) {
         case ACCESS:
           return (!isHidden() && (user.isInternalUser() || canPerformOnAnyRef(Permission.READ)))

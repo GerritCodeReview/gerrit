@@ -91,7 +91,7 @@ public class CherryPickCommit
     contributorAgreements.check(projectName, user.get());
     permissionBackend
         .user(user)
-        .project(projectName)
+        .repo(projectName)
         .ref(refName)
         .check(RefPermission.CREATE_CHANGE);
     rsrc.getProjectState().checkStatePermitsWrite();

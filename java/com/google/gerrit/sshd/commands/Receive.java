@@ -25,7 +25,7 @@ import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshSession;
@@ -85,8 +85,8 @@ final class Receive extends AbstractGitCommand {
     try {
       permissionBackend
           .user(currentUser)
-          .project(project.getNameKey())
-          .check(ProjectPermission.RUN_RECEIVE_PACK);
+          .repo(project.getNameKey())
+          .check(RepoPermission.RUN_RECEIVE_PACK);
     } catch (AuthException e) {
       throw new Failure(1, "fatal: receive-pack not permitted on this server");
     } catch (PermissionBackendException e) {

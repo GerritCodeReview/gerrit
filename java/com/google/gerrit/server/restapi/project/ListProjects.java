@@ -43,7 +43,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.ioutil.StringUtil;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -417,8 +417,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
               try {
                 permissionBackend
                     .user(currentUser)
-                    .project(e.getNameKey())
-                    .check(ProjectPermission.READ);
+                    .repo(e.getNameKey())
+                    .check(RepoPermission.READ);
                 canReadAllRefs = true;
               } catch (AuthException ae) {
                 canReadAllRefs = false;
@@ -519,7 +519,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       matches = parentsOf(matches);
     }
     // TODO(dborowitz): Streamified PermissionBackend#filter.
-    return perm.filter(ProjectPermission.ACCESS, matches.collect(toList()))
+    return perm.filter(RepoPermission.ACCESS, matches.collect(toList()))
         .stream()
         .sorted()
         .collect(toList());
@@ -554,7 +554,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     Boolean b = checked.get(name);
     if (b == null) {
       try {
-        perm.project(name).check(ProjectPermission.ACCESS);
+        perm.repo(name).check(RepoPermission.ACCESS);
         b = true;
       } catch (AuthException denied) {
         b = false;
@@ -623,7 +623,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private List<Ref> getBranchRefs(Project.NameKey projectName, boolean canReadAllRefs) {
     Ref[] result = new Ref[showBranch.size()];
     try (Repository git = repoManager.openRepository(projectName)) {
-      PermissionBackend.ForProject perm = permissionBackend.user(currentUser).project(projectName);
+      PermissionBackend.ForRepo perm = permissionBackend.user(currentUser).repo(projectName);
       for (int i = 0; i < showBranch.size(); i++) {
         Ref ref = git.findRef(showBranch.get(i));
         if (all && canReadAllRefs) {

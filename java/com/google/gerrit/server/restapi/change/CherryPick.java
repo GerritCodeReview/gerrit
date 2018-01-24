@@ -31,7 +31,7 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -98,7 +98,7 @@ public class CherryPick
 
     permissionBackend
         .user(user)
-        .project(rsrc.getChange().getProject())
+        .repo(rsrc.getChange().getProject())
         .ref(refName)
         .check(RefPermission.CREATE_CHANGE);
     projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
@@ -135,7 +135,7 @@ public class CherryPick
                 rsrc.isCurrent() && projectStatePermitsWrite,
                 permissionBackend
                     .user(user)
-                    .project(rsrc.getProject())
-                    .testCond(ProjectPermission.CREATE_CHANGE)));
+                    .repo(rsrc.getProject())
+                    .testCond(RepoPermission.CREATE_CHANGE)));
   }
 }

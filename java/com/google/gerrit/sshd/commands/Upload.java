@@ -24,7 +24,7 @@ import com.google.gerrit.server.git.validators.UploadValidationException;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
@@ -52,8 +52,8 @@ final class Upload extends AbstractGitCommand {
     try {
       permissionBackend
           .user(user)
-          .project(projectState.getNameKey())
-          .check(ProjectPermission.RUN_UPLOAD_PACK);
+          .repo(projectState.getNameKey())
+          .check(RepoPermission.RUN_UPLOAD_PACK);
     } catch (AuthException e) {
       throw new Failure(1, "fatal: upload-pack not permitted on this server");
     } catch (PermissionBackendException e) {

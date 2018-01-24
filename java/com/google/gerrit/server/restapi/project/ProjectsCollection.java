@@ -34,7 +34,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
@@ -151,7 +151,7 @@ public class ProjectsCollection
 
     if (checkAccess) {
       try {
-        permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
+        permissionBackend.user(user).repo(nameKey).check(RepoPermission.ACCESS);
       } catch (AuthException e) {
         return null; // Pretend like not found on access denied.
       }
@@ -161,7 +161,7 @@ public class ProjectsCollection
       // ACTIVE). Individual views should still check for checkStatePermitsRead() and this should
       // just serve as a safety net in case the individual check is forgotten.
       try {
-        permissionBackend.user(user).project(nameKey).check(ProjectPermission.WRITE_CONFIG);
+        permissionBackend.user(user).repo(nameKey).check(RepoPermission.WRITE_CONFIG);
       } catch (AuthException e) {
         state.checkStatePermitsRead();
       }

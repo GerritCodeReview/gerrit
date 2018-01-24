@@ -135,7 +135,7 @@ public class ListTags implements RestReadView<ProjectResource> {
 
     List<TagInfo> tags = new ArrayList<>();
 
-    PermissionBackend.ForProject perm = permissionBackend.user(user).project(resource.getNameKey());
+    PermissionBackend.ForRepo perm = permissionBackend.user(user).repo(resource.getNameKey());
     try (Repository repo = getRepository(resource.getNameKey());
         RevWalk rw = new RevWalk(repo)) {
       Map<String, Ref> all =
@@ -179,7 +179,7 @@ public class ListTags implements RestReadView<ProjectResource> {
         return createTagInfo(
             permissionBackend
                 .user(resource.getUser())
-                .project(resource.getNameKey())
+                .repo(resource.getNameKey())
                 .ref(ref.getName()),
             ref,
             rw,

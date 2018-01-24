@@ -108,12 +108,12 @@ public class RefControlTest {
   }
 
   private void assertCanAccess(ProjectControl u) {
-    boolean access = u.asForProject().testOrFalse(ProjectPermission.ACCESS);
+    boolean access = u.asForProject().testOrFalse(RepoPermission.ACCESS);
     assertThat(access).named("can access").isTrue();
   }
 
   private void assertAccessDenied(ProjectControl u) {
-    boolean access = u.asForProject().testOrFalse(ProjectPermission.ACCESS);
+    boolean access = u.asForProject().testOrFalse(RepoPermission.ACCESS);
     assertThat(access).named("cannot access").isFalse();
   }
 

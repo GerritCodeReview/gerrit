@@ -24,7 +24,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.project.ChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectJson;
@@ -91,7 +91,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
     }
     return permissionBackend
         .user(user)
-        .filter(ProjectPermission.ACCESS, children.keySet())
+        .filter(RepoPermission.ACCESS, children.keySet())
         .stream()
         .sorted()
         .map((p) -> json.format(children.get(p)))

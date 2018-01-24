@@ -29,7 +29,7 @@ import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -81,8 +81,8 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
       try {
         permissionBackend
             .user(user)
-            .project(((ProjectTask<?>) task).getProjectNameKey())
-            .check(ProjectPermission.ACCESS);
+            .repo(((ProjectTask<?>) task).getProjectNameKey())
+            .check(RepoPermission.ACCESS);
         return new TaskResource(task);
       } catch (AuthException e) {
         // Fall through and try view queue permission.

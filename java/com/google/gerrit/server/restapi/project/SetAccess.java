@@ -103,7 +103,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
         } else {
           permissionBackend
               .user(identifiedUser)
-              .project(rsrc.getNameKey())
+              .repo(rsrc.getNameKey())
               .ref(section.getName())
               .check(RefPermission.WRITE_CONFIG);
         }

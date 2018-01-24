@@ -28,7 +28,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -150,7 +150,7 @@ public class EventBroker implements EventDispatcher {
 
   protected boolean isVisibleTo(Project.NameKey project, CurrentUser user) {
     try {
-      permissionBackend.user(user).project(project).check(ProjectPermission.ACCESS);
+      permissionBackend.user(user).repo(project).check(RepoPermission.ACCESS);
       return true;
     } catch (AuthException | PermissionBackendException e) {
       return false;

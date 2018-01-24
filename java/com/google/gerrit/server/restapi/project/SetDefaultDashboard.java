@@ -30,7 +30,7 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.project.DashboardResource;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectResource;
@@ -75,8 +75,8 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
 
     permissionBackend
         .user(rsrc.getUser())
-        .project(rsrc.getProjectState().getNameKey())
-        .check(ProjectPermission.WRITE_CONFIG);
+        .repo(rsrc.getProjectState().getNameKey())
+        .check(RepoPermission.WRITE_CONFIG);
 
     DashboardResource target = null;
     if (input.id != null) {

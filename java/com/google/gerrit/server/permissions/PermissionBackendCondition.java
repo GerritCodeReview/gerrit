@@ -66,20 +66,20 @@ public abstract class PermissionBackendCondition
     }
   }
 
-  public static class ForProject extends PermissionBackendCondition {
-    private final PermissionBackend.ForProject impl;
-    private final ProjectPermission perm;
+  public static class ForRepo extends PermissionBackendCondition {
+    private final PermissionBackend.ForRepo impl;
+    private final RepoPermission perm;
 
-    ForProject(PermissionBackend.ForProject impl, ProjectPermission perm) {
+    ForRepo(PermissionBackend.ForRepo impl, RepoPermission perm) {
       this.impl = impl;
       this.perm = perm;
     }
 
-    public PermissionBackend.ForProject project() {
+    public PermissionBackend.ForRepo project() {
       return impl;
     }
 
-    public ProjectPermission permission() {
+    public RepoPermission permission() {
       return perm;
     }
 

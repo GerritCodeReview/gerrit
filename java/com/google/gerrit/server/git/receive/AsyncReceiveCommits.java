@@ -31,7 +31,7 @@ import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -165,7 +165,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   }
 
   private final ReceiveCommits.Factory factory;
-  private final PermissionBackend.ForProject perm;
+  private final PermissionBackend.ForRepo perm;
   private final ReceivePack rp;
   private final ExecutorService executor;
   private final RequestScopePropagator scopePropagator;
@@ -226,9 +226,9 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
     // If the user lacks READ permission, some references may be filtered and hidden from view.
     // Check objects mentioned inside the incoming pack file are reachable from visible refs.
-    this.perm = permissionBackend.user(user).project(projectName);
+    this.perm = permissionBackend.user(user).repo(projectName);
     try {
-      this.perm.check(ProjectPermission.READ);
+      this.perm.check(RepoPermission.READ);
     } catch (AuthException e) {
       rp.setCheckReferencedObjectsAreReachable(receiveConfig.checkReferencedObjectsAreReachable);
     }
@@ -245,7 +245,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   /** Determine if the user can upload commits. */
   public Capable canUpload() throws IOException, PermissionBackendException {
     try {
-      perm.check(ProjectPermission.PUSH_AT_LEAST_ONE_REF);
+      perm.check(RepoPermission.PUSH_AT_LEAST_ONE_REF);
     } catch (AuthException e) {
       return new Capable("Upload denied for project '" + projectState.getName() + "'");
     }

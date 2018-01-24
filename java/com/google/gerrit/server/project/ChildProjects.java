@@ -24,7 +24,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -98,7 +98,7 @@ public class ChildProjects {
       Project.NameKey parent)
       throws PermissionBackendException {
     List<Project.NameKey> canSee =
-        perm.filter(ProjectPermission.ACCESS, children.get(parent))
+        perm.filter(RepoPermission.ACCESS, children.get(parent))
             .stream()
             .sorted()
             .collect(toList());

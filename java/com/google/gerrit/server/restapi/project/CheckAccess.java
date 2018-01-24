@@ -29,7 +29,7 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gwtorm.server.OrmException;
@@ -79,7 +79,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
 
     IdentifiedUser user = userFactory.create(match.getId());
     try {
-      permissionBackend.user(user).project(rsrc.getNameKey()).check(ProjectPermission.ACCESS);
+      permissionBackend.user(user).repo(rsrc.getNameKey()).check(RepoPermission.ACCESS);
     } catch (AuthException | PermissionBackendException e) {
       info.message =
           String.format(

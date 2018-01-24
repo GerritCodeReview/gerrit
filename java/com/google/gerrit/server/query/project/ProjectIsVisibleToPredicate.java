@@ -18,7 +18,7 @@ import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.project.ProjectData;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gwtorm.server.OrmException;
@@ -37,8 +37,8 @@ public class ProjectIsVisibleToPredicate extends IsVisibleToPredicate<ProjectDat
   public boolean match(ProjectData pd) throws OrmException {
     return permissionBackend
         .user(user)
-        .project(pd.getProject().getNameKey())
-        .testOrFalse(ProjectPermission.READ);
+        .repo(pd.getProject().getNameKey())
+        .testOrFalse(RepoPermission.READ);
   }
 
   @Override

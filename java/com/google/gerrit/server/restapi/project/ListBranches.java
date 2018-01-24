@@ -183,7 +183,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
       }
     }
 
-    PermissionBackend.ForProject perm = permissionBackend.user(user).project(rsrc.getNameKey());
+    PermissionBackend.ForRepo perm = permissionBackend.user(user).repo(rsrc.getNameKey());
     List<BranchInfo> branches = new ArrayList<>(refs.size());
     for (Ref ref : refs) {
       if (ref.isSymbolic()) {

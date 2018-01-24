@@ -27,7 +27,7 @@ import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RepoPermission;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -80,8 +80,8 @@ public class ListTasks implements RestReadView<ConfigResource> {
           try {
             permissionBackend
                 .user(user)
-                .project(new Project.NameKey(task.projectName))
-                .check(ProjectPermission.ACCESS);
+                .repo(new Project.NameKey(task.projectName))
+                .check(RepoPermission.ACCESS);
             visible = true;
           } catch (AuthException e) {
             visible = false;

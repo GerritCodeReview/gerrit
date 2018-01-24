@@ -436,6 +436,7 @@ limitations under the License.
         assert.isOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
         assert.isOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
         assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
+        assert.isOk(element.$$('gr-button[data-action-key="doneEdit"]'));
       });
 
       test('edit patchset is loaded, does not need rebase', () => {
@@ -449,6 +450,7 @@ limitations under the License.
         assert.isNotOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
         assert.isOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
         assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
+        assert.isOk(element.$$('gr-button[data-action-key="doneEdit"]'));
       });
 
       test('edit mode is loaded, no edit patchset', () => {
@@ -461,6 +463,7 @@ limitations under the License.
         assert.isNotOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
         assert.isNotOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
         assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
+        assert.isOk(element.$$('gr-button[data-action-key="doneEdit"]'));
       });
 
       test('normal patch set', () => {
@@ -473,6 +476,7 @@ limitations under the License.
         assert.isNotOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
         assert.isNotOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
         assert.isOk(element.$$('gr-button[data-action-key="edit"]'));
+        assert.isNotOk(element.$$('gr-button[data-action-key="doneEdit"]'));
       });
 
       test('edit action', done => {
@@ -481,6 +485,7 @@ limitations under the License.
         flushAsynchronousOperations();
 
         assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
+        assert.isOk(element.$$('gr-button[data-action-key="doneEdit"]'));
         element.set('editMode', false);
         flushAsynchronousOperations();
 

@@ -46,6 +46,30 @@
       "revId": "9d968a8d1c89b1483be589405e14e9ffaee34f9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5727715_18538060",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-24T18:01:02Z",
+      "side": 1,
+      "message": "The issue is that with the regular padding, since the buttons are flat, it looks like they are misaligned. However, when you hover, the background coloring looks a little strange due to this. I support the change proposed.",
+      "parentUuid": "8032d31f_c3317315",
+      "range": {
+        "startLine": 97,
+        "startChar": 8,
+        "endLine": 97,
+        "endChar": 23
+      },
+      "revId": "9d968a8d1c89b1483be589405e14e9ffaee34f9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

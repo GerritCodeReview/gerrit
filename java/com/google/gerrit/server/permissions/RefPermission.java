@@ -15,6 +15,7 @@
 package com.google.gerrit.server.permissions;
 
 import com.google.gerrit.common.data.Permission;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -79,5 +80,10 @@ public enum RefPermission {
 
   public String describeForException() {
     return toString().toLowerCase(Locale.US).replace('_', ' ');
+  }
+
+  /** @return the enum constant for a given permission name if present. */
+  public static Optional<RefPermission> fromName(String name) {
+    return Arrays.stream(RefPermission.values()).filter(p -> name.equals(p.name)).findFirst();
   }
 }

@@ -35,6 +35,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AuthConfig;
@@ -53,6 +54,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -158,9 +160,9 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
         case LDAP:
           if (accountResolver.find(nameOrEmailOrId) == null) {
             // account does not exist, try to create it
-            Account a = createAccountByLdap(nameOrEmailOrId);
-            if (a != null) {
-              return a;
+            Optional<Account> a = createAccountByLdap(nameOrEmailOrId);
+            if (a.isPresent()) {
+              return a.get();
             }
           }
           break;
@@ -186,17 +188,19 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     groupsUpdateProvider.get().updateGroup(db.get(), groupUuid, groupUpdate);
   }
 
-  private Account createAccountByLdap(String user) throws IOException {
+  private Optional<Account> createAccountByLdap(String user) throws IOException {
     if (!user.matches(Account.USER_NAME_PATTERN)) {
-      return null;
+      return Optional.empty();
     }
 
     try {
       AuthRequest req = AuthRequest.forUser(user);
       req.setSkipAuthentication(true);
-      return accountCache.get(accountManager.authenticate(req).getAccountId()).getAccount();
+      return accountCache
+          .maybeGet(accountManager.authenticate(req).getAccountId())
+          .map(AccountState::getAccount);
     } catch (AccountException e) {
-      return null;
+      return Optional.empty();
     }
   }
 

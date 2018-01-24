@@ -94,6 +94,13 @@ public class AccessIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createAccessChangeNop() throws Exception {
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    exception.expect(BadRequestException.class);
+    pApi.accessChange(accessInput);
+  }
+
+  @Test
   public void createAccessChange() throws Exception {
     // User can see the branch
     setApiUser(user);

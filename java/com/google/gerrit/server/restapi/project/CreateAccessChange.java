@@ -22,6 +22,7 @@ import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -51,6 +52,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -118,6 +120,7 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
 
     try (MetaDataUpdate md = metaDataUpdateUser.create(rsrc.getNameKey())) {
       ProjectConfig config = ProjectConfig.read(md);
+      ObjectId oldCommit = config.getRevision();
 
       setAccess.validateChanges(config, removals, additions);
       setAccess.applyChanges(config, removals, additions);
@@ -135,9 +138,14 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
       md.setMessage("Review access change");
       md.setInsertChangeId(true);
       Change.Id changeId = new Change.Id(seq.nextChangeId());
+
       RevCommit commit =
           config.commitToNewRef(
               md, new PatchSet.Id(changeId, Change.INITIAL_PATCH_SET_ID).toRefName());
+
+      if (commit.name().equals(oldCommit.getName())) {
+        throw new BadRequestException("no change");
+      }
 
       try (ObjectInserter objInserter = md.getRepository().newObjectInserter();
           ObjectReader objReader = objInserter.newReader();

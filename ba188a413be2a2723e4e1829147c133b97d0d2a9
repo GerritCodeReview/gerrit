@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7613712_3351e7af",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-24T18:26:31Z",
+      "side": 1,
+      "message": "Dot at the end of the line.",
+      "revId": "ba188a413be2a2723e4e1829147c133b97d0d2a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbbb03bc_b175a1e0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-24T18:26:31Z",
+      "side": 1,
+      "message": "I think you could remove quotes.",
+      "range": {
+        "startLine": 479,
+        "startChar": 17,
+        "endLine": 479,
+        "endChar": 22
+      },
+      "revId": "ba188a413be2a2723e4e1829147c133b97d0d2a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

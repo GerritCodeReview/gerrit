@@ -403,10 +403,10 @@ limitations under the License.
       test('shows confirm dialog for delete edit', () => {
         element.set('editMode', true);
         element.set('editPatchsetLoaded', true);
+
         const fireActionStub = sandbox.stub(element, '_fireAction');
         element._handleDeleteEditTap();
-        assert.isFalse(element.$$('#confirmDeleteEditDialog').hidden);
-        assert.ok(element.$$('gr-button[data-action-key="deleteEdit"]'));
+        assert.isFalse(element.$.confirmDeleteEditDialog.hidden);
         MockInteractions.tap(
             element.$$('#confirmDeleteEditDialog').$$('gr-button[primary]'));
         flushAsynchronousOperations();

@@ -160,11 +160,14 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     Element userlistElement = HtmlDomUtil.find(doc, "userlist");
     try (ReviewDb db = schema.open()) {
       for (Account.Id accountId : accounts.firstNIds(100)) {
-        AccountState accountState = accountCache.get(accountId);
-        Account account = accountState.getAccount();
+        Optional<AccountState> accountState = accountCache.maybeGet(accountId);
+        if (!accountState.isPresent()) {
+          continue;
+        }
+        Account account = accountState.get().getAccount();
         String displayName;
-        if (accountState.getUserName().isPresent()) {
-          displayName = accountState.getUserName().get();
+        if (accountState.get().getUserName().isPresent()) {
+          displayName = accountState.get().getUserName().get();
         } else if (account.getFullName() != null && !account.getFullName().isEmpty()) {
           displayName = account.getFullName();
         } else if (account.getPreferredEmail() != null) {

@@ -37,6 +37,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -65,6 +66,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -163,13 +165,18 @@ public class MailProcessor {
               metadata.author, accountIds));
       return;
     }
-    Account.Id account = accountIds.iterator().next();
-    if (!accountCache.get(account).getAccount().isActive()) {
-      log.warn(String.format("Mail: Account %s is inactive. Will delete message.", account));
+    Account.Id accountId = accountIds.iterator().next();
+    Optional<AccountState> accountState = accountCache.maybeGet(accountId);
+    if (!accountState.isPresent()) {
+      log.warn(String.format("Mail: Account %s doesn't exist. Will delete message.", accountId));
+      return;
+    }
+    if (!accountState.get().getAccount().isActive()) {
+      log.warn(String.format("Mail: Account %s is inactive. Will delete message.", accountId));
       return;
     }
 
-    persistComments(buf, message, metadata, account);
+    persistComments(buf, message, metadata, accountId);
   }
 
   private void persistComments(

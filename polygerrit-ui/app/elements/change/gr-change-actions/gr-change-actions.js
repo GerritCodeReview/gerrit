@@ -320,8 +320,8 @@
         type: Boolean,
         value: false,
       },
-      // editLoaded == "is edit mode enabled in the file list".
-      editLoaded: {
+      // editMode == "is edit mode enabled in the file list".
+      editMode: {
         type: Boolean,
         value: false,
       },
@@ -342,7 +342,7 @@
 
     observers: [
       '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*, ' +
-          'editPatchsetLoaded, editLoaded, editBasedOnCurrentPatchSet, change)',
+          'editPatchsetLoaded, editMode, editBasedOnCurrentPatchSet, change)',
       '_changeChanged(change)',
     ],
 
@@ -489,7 +489,7 @@
     },
 
     _actionsChanged(actionsChangeRecord, revisionActionsChangeRecord,
-        additionalActionsChangeRecord, editPatchsetLoaded, editLoaded,
+        additionalActionsChangeRecord, editPatchsetLoaded, editMode,
         editBasedOnCurrentPatchSet, change) {
       const additionalActions = (additionalActionsChangeRecord &&
           additionalActionsChangeRecord.base) || [];
@@ -549,7 +549,7 @@
 
         // Only show edit button if there is no edit patchset loaded and the
         // file list is not in edit mode.
-        if (editPatchsetLoaded || editLoaded) {
+        if (editPatchsetLoaded || editMode) {
           if (changeActions.edit) {
             delete this.actions.edit;
             this.notifyPath('actions.edit');

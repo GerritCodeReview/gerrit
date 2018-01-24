@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cb90d73b_03145a84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-24T16:43:45Z",
+      "side": 1,
+      "message": "@David Ostrobsky you can either do npm update -g or npm install -g web-component-tester or npm install -g web-component-tester@6.5.0\n\nIt was included in this release https://github.com/Polymer/web-component-tester/releases/tag/v6.5.0",
+      "parentUuid": "14b152fe_41bcd3d8",
+      "revId": "b540c6cc31ff6158459ca1ef7685fe6ad6b644fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "228e8fc7_e051ae9a",
         "filename": "polygerrit-ui/README.md",
         "patchSetId": 11
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "c4e97669_234a62ec",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-24T16:43:45Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "228e8fc7_e051ae9a",
+      "range": {
+        "startLine": 71,
+        "startChar": 80,
+        "endLine": 71,
+        "endChar": 86
+      },
+      "revId": "b540c6cc31ff6158459ca1ef7685fe6ad6b644fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76487174_ef409e94",
         "filename": "polygerrit-ui/README.md",
         "patchSetId": 11
@@ -53,6 +95,24 @@
       "writtenOn": "2018-01-24T16:34:52Z",
       "side": 1,
       "message": "On line 125 below, we already pass some option via WCT_ARGS. Couldn\u0027t we pass there also new browserOption?",
+      "revId": "b540c6cc31ff6158459ca1ef7685fe6ad6b644fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51c3ec13_fe5d4add",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-24T16:43:45Z",
+      "side": 1,
+      "message": "Nope we carn\u0027t othetwise we will break this as it\u0027s only possibly to set it in the config file not through the command line.",
+      "parentUuid": "76487174_ef409e94",
       "revId": "b540c6cc31ff6158459ca1ef7685fe6ad6b644fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

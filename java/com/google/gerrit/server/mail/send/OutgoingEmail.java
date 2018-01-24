@@ -46,6 +46,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
 import org.eclipse.jgit.util.SystemReader;
@@ -121,9 +122,9 @@ public abstract class OutgoingEmail {
     Set<Address> smtpRcptToPlaintextOnly = new HashSet<>();
     if (shouldSendMessage()) {
       if (fromId != null) {
-        AccountState fromUser = args.accountCache.get(fromId);
-        if (fromUser != null) {
-          GeneralPreferencesInfo senderPrefs = fromUser.getGeneralPreferences();
+        Optional<AccountState> fromUser = args.accountCache.maybeGet(fromId);
+        if (fromUser.isPresent()) {
+          GeneralPreferencesInfo senderPrefs = fromUser.get().getGeneralPreferences();
           if (senderPrefs != null && senderPrefs.getEmailStrategy() == CC_ON_OWN_COMMENTS) {
             // If we are impersonating a user, make sure they receive a CC of
             // this message so they can always review and audit what we sent
@@ -134,7 +135,7 @@ public abstract class OutgoingEmail {
             // If they don't want a copy, but we queued one up anyway,
             // drop them from the recipient lists.
             //
-            removeUser(fromUser.getAccount());
+            removeUser(fromUser.get().getAccount());
           }
         }
       }

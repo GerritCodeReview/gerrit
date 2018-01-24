@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "422b7001_bc184edd",
+        "filename": "java/com/google/gerrit/server/restapi/account/SetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-24T16:26:47Z",
+      "side": 1,
+      "message": "Sigh. No need to tackle further cleanup of the constructors now.",
+      "parentUuid": "76eff8f0_ba7471b3",
+      "revId": "828507cf6fae535ef584dd1d7390169433908070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4250b083_0f42ec4a",
         "filename": "java/com/google/gerrit/server/restapi/account/SetEditPreferences.java",
         "patchSetId": 1

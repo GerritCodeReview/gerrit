@@ -46,7 +46,6 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeJson;
@@ -100,7 +99,6 @@ public class CreateChange
   private final String anonymousCowardName;
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
-  private final AccountCache accountCache;
   private final Sequences seq;
   private final TimeZone serverTimeZone;
   private final PermissionBackend permissionBackend;
@@ -122,7 +120,6 @@ public class CreateChange
       @AnonymousCowardName String anonymousCowardName,
       Provider<ReviewDb> db,
       GitRepositoryManager gitManager,
-      AccountCache accountCache,
       Sequences seq,
       @GerritPersonIdent PersonIdent myIdent,
       PermissionBackend permissionBackend,
@@ -142,7 +139,6 @@ public class CreateChange
     this.anonymousCowardName = anonymousCowardName;
     this.db = db;
     this.gitManager = gitManager;
-    this.accountCache = accountCache;
     this.seq = seq;
     this.serverTimeZone = myIdent.getTimeZone();
     this.permissionBackend = permissionBackend;
@@ -241,8 +237,8 @@ public class CreateChange
       Timestamp now = TimeUtil.nowTs();
       IdentifiedUser me = user.get().asIdentifiedUser();
       PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
-      AccountState account = accountCache.get(me.getAccountId());
-      GeneralPreferencesInfo info = account.getGeneralPreferences();
+      AccountState accountState = me.state();
+      GeneralPreferencesInfo info = accountState.getGeneralPreferences();
 
       ObjectId treeId = mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree();
       ObjectId id = ChangeIdUtil.computeChangeId(treeId, mergeTip, author, author, input.subject);
@@ -250,7 +246,8 @@ public class CreateChange
       if (Boolean.TRUE.equals(info.signedOffBy)) {
         commitMessage +=
             String.format(
-                "%s%s", SIGNED_OFF_BY_TAG, account.getAccount().getNameEmail(anonymousCowardName));
+                "%s%s",
+                SIGNED_OFF_BY_TAG, accountState.getAccount().getNameEmail(anonymousCowardName));
       }
 
       RevCommit c;

@@ -398,6 +398,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
     GeneralPreferencesInfo o = newGson().fromJson(r.getReader(), GeneralPreferencesInfo.class);
 
     assertThat(o.signedOffBy).isTrue();
+
+    resetCurrentApiUser();
   }
 
   private ChangeInput newMergeChangeInput(String targetBranch, String sourceRef, String strategy) {

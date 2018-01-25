@@ -16,6 +16,9 @@ link:rest-api.html[REST API].
 The change input link:#change-input[ChangeInput] entity must be provided in the
 request body.
 
+To create a change the calling user must be allowed to
+link:access-control.html#category_push_review[upload to code review].
+
 .Request
 ----
   POST /changes/ HTTP/1.0

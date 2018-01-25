@@ -1280,18 +1280,18 @@ limitations under the License.
       assert.isFalse(element._displayLine);
     });
 
-    suite('editLoaded behavior', () => {
+    suite('editMode behavior', () => {
       test('reviewed checkbox', () => {
         const alertStub = sandbox.stub();
         const saveReviewStub = sandbox.stub(element, '_saveReviewedState');
 
         element.addEventListener('show-alert', alertStub);
-        element.editLoaded = false;
+        element.editMode = false;
         MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
         assert.isFalse(alertStub.called);
         assert.isTrue(saveReviewStub.calledOnce);
 
-        element.editLoaded = true;
+        element.editMode = true;
         flushAsynchronousOperations();
 
         MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
@@ -1301,7 +1301,7 @@ limitations under the License.
 
       test('_getReviewedFiles does not call API', () => {
         const apiSpy = sandbox.spy(element.$.restAPI, 'getReviewedFiles');
-        element.editLoaded = true;
+        element.editMode = true;
         return element._getReviewedFiles().then(files => {
           assert.equal(files.length, 0);
           assert.isFalse(apiSpy.called);
@@ -1310,7 +1310,7 @@ limitations under the License.
     });
 
     test('editing actions', () => {
-      element.editLoaded = true;
+      element.editMode = true;
       const editControls =
           Polymer.dom(element.root).querySelectorAll('.row:not(.header)')
             .map(row => row.querySelector('gr-edit-file-controls'));

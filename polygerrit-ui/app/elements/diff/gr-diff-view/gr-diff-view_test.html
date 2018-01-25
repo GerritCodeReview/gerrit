@@ -551,7 +551,7 @@ limitations under the License.
       element._patchRange = {patchNum: element.EDIT_NAME};
       flushAsynchronousOperations();
 
-      assert.isTrue(element._editLoaded);
+      assert.isTrue(element._editMode);
       element._setReviewed();
       assert.isFalse(saveReviewedStub.called);
     });
@@ -868,15 +868,15 @@ limitations under the License.
       });
     });
 
-    test('_computeEditLoaded', () => {
-      const callCompute = range => element._computeEditLoaded({base: range});
+    test('_computeEditMode', () => {
+      const callCompute = range => element._computeEditMode({base: range});
       assert.isFalse(callCompute({}));
       assert.isFalse(callCompute({basePatchNum: 'PARENT', patchNum: 1}));
       assert.isFalse(callCompute({basePatchNum: 'edit', patchNum: 1}));
       assert.isTrue(callCompute({basePatchNum: 1, patchNum: 'edit'}));
     });
 
-    suite('editLoaded behavior', () => {
+    suite('editMode behavior', () => {
       setup(() => {
         element._loggedIn = true;
       });

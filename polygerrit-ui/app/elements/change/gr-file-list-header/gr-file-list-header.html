@@ -118,16 +118,16 @@ limitations under the License.
       .fileViewActions > *:not(:last-child) {
         margin-right: 5px;
       }
-      .editLoaded .hideOnEdit {
+      .editMode .hideOnEdit {
         display: none;
       }
       .showOnEdit {
         display: none;
       }
-      .editLoaded .showOnEdit {
+      .editMode .showOnEdit {
         display: initial;
       }
-      .editLoaded .showOnEdit.flexContainer {
+      .editMode .showOnEdit.flexContainer {
         align-items: center;
         display: flex;
       }
@@ -144,7 +144,7 @@ limitations under the License.
         }
       }
     </style>
-    <div class$="patchInfo-header [[_computeEditLoadedClass(editLoaded)]] [[_computePatchInfoClass(patchNum, allPatchSets)]]">
+    <div class$="patchInfo-header [[_computeEditModeClass(editMode)]] [[_computePatchInfoClass(patchNum, allPatchSets)]]">
       <div class="patchInfo-left">
         <h3 class="label">Files</h3>
         <div class="patchInfoContent">

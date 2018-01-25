@@ -50,6 +50,7 @@
   // TODO(davido): Add the rest of the change actions.
   const ChangeActions = {
     ABANDON: 'abandon',
+    DONE_EDIT: 'doneEdit',
     DELETE: '/',
     DELETE_EDIT: 'deleteEdit',
     EDIT: 'edit',
@@ -154,6 +155,15 @@
     label: 'Edit',
     title: 'Edit this change',
     __key: 'edit',
+    __primary: false,
+    __type: 'change',
+  };
+
+  const DONE_EDIT = {
+    enabled: true,
+    label: 'Done Editing',
+    title: 'Stop editing this change',
+    __key: 'doneEdit',
     __primary: false,
     __type: 'change',
   };
@@ -320,8 +330,8 @@
         type: Boolean,
         value: false,
       },
-      // editLoaded == "is edit mode enabled in the file list".
-      editLoaded: {
+      // editMode == "is edit mode enabled in the file list".
+      editMode: {
         type: Boolean,
         value: false,
       },
@@ -341,9 +351,10 @@
     ],
 
     observers: [
-      '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*, ' +
-          'editPatchsetLoaded, editLoaded, editBasedOnCurrentPatchSet, change)',
+      '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*)',
       '_changeChanged(change)',
+      '_editStatusChanged(editMode, editPatchsetLoaded, ' +
+          'editBasedOnCurrentPatchSet, actions.*, change)',
     ],
 
     listeners: {
@@ -489,8 +500,7 @@
     },
 
     _actionsChanged(actionsChangeRecord, revisionActionsChangeRecord,
-        additionalActionsChangeRecord, editPatchsetLoaded, editLoaded,
-        editBasedOnCurrentPatchSet, change) {
+        additionalActionsChangeRecord) {
       const additionalActions = (additionalActionsChangeRecord &&
           additionalActionsChangeRecord.base) || [];
       this.hidden = this._keyCount(actionsChangeRecord) === 0 &&
@@ -500,64 +510,72 @@
       this._disabledMenuActions = [];
 
       const revisionActions = revisionActionsChangeRecord.base || {};
-      if (Object.keys(revisionActions).length !== 0 &&
-          !revisionActions.download) {
-        this.set('revisionActions.download', DOWNLOAD_ACTION);
+      if (Object.keys(revisionActions).length !== 0) {
+        if (!revisionActions.download) {
+          this.set('revisionActions.download', DOWNLOAD_ACTION);
+        }
       }
+    },
 
-      const changeActions = actionsChangeRecord.base || {};
-      if (Object.keys(changeActions).length !== 0) {
-        if (editPatchsetLoaded) {
-          // Only show actions that mutate an edit if an actual edit patch set
-          // is loaded.
-          if (this.changeIsOpen(change.status)) {
-            if (editBasedOnCurrentPatchSet) {
-              if (!changeActions.publishEdit) {
-                this.set('actions.publishEdit', PUBLISH_EDIT);
-              }
-              if (changeActions.rebaseEdit) {
-                delete this.actions.rebaseEdit;
-                this.notifyPath('actions.rebaseEdit');
-              }
-            } else {
-              if (!changeActions.rebaseEdit) {
-                this.set('actions.rebaseEdit', REBASE_EDIT);
-              }
-              if (changeActions.publishEdit) {
-                delete this.actions.publishEdit;
-                this.notifyPath('actions.publishEdit');
-              }
+    _editStatusChanged(editMode, editPatchsetLoaded,
+        editBasedOnCurrentPatchSet) {
+      const changeActions = this.actions;
+
+      if (editPatchsetLoaded) {
+        // Only show actions that mutate an edit if an actual edit patch set
+        // is loaded.
+        if (this.changeIsOpen(this.change.status)) {
+          if (editBasedOnCurrentPatchSet) {
+            if (!changeActions.publishEdit) {
+              this.set('actions.publishEdit', PUBLISH_EDIT);
+            }
+            if (changeActions.rebaseEdit) {
+              delete this.actions.rebaseEdit;
+              this.notifyPath('actions.rebaseEdit');
+            }
+          } else {
+            if (!changeActions.rebaseEdit) {
+              this.set('actions.rebaseEdit', REBASE_EDIT);
+            }
+            if (changeActions.publishEdit) {
+              delete this.actions.publishEdit;
+              this.notifyPath('actions.publishEdit');
             }
           }
-          if (!changeActions.deleteEdit) {
-            this.set('actions.deleteEdit', DELETE_EDIT);
-          }
-        } else {
-          if (changeActions.publishEdit) {
-            delete this.actions.publishEdit;
-            this.notifyPath('actions.publishEdit');
-          }
-          if (changeActions.rebaseEdit) {
-            delete this.actions.rebaseEdit;
-            this.notifyPath('actions.rebaseEdit');
-          }
-          if (changeActions.deleteEdit) {
-            delete this.actions.deleteEdit;
-            this.notifyPath('actions.deleteEdit');
-          }
         }
+        if (!changeActions.deleteEdit) {
+          this.set('actions.deleteEdit', DELETE_EDIT);
+        }
+      } else {
+        if (changeActions.publishEdit) {
+          delete this.actions.publishEdit;
+          this.notifyPath('actions.publishEdit');
+        }
+        if (changeActions.rebaseEdit) {
+          delete this.actions.rebaseEdit;
+          this.notifyPath('actions.rebaseEdit');
+        }
+        if (changeActions.deleteEdit) {
+          delete this.actions.deleteEdit;
+          this.notifyPath('actions.deleteEdit');
+        }
+      }
 
-        // Only show edit button if there is no edit patchset loaded and the
-        // file list is not in edit mode.
-        if (editPatchsetLoaded || editLoaded) {
-          if (changeActions.edit) {
-            delete this.actions.edit;
-            this.notifyPath('actions.edit');
-          }
-        } else {
-          if (!changeActions.edit) {
-            this.set('actions.edit', EDIT);
-          }
+      // Only show edit button if there is no edit patchset loaded and the
+      // file list is not in edit mode.
+      if (editPatchsetLoaded || editMode) {
+        if (changeActions.edit) {
+          delete this.actions.edit;
+          this.notifyPath('actions.edit');
+        }
+        if (!changeActions.doneEdit) {
+          this.set('actions.doneEdit', DONE_EDIT);
+        }
+      } else {
+        if (!changeActions.edit) { this.set('actions.edit', EDIT); }
+        if (changeActions.doneEdit) {
+          delete this.actions.doneEdit;
+          this.notifyPath('actions.doneEdit');
         }
       }
     },
@@ -809,6 +827,9 @@
           break;
         case ChangeActions.EDIT:
           this._handleEditTap();
+          break;
+        case ChangeActions.DONE_EDIT:
+          this._handleDoneEditTap();
           break;
         case ChangeActions.DELETE:
           this._handleDeleteTap();
@@ -1181,6 +1202,7 @@
       if (quickApprove) {
         changeActionValues.unshift(quickApprove);
       }
+
       return revisionActionValues
           .concat(changeActionValues)
           .sort(this._actionComparator.bind(this));
@@ -1289,6 +1311,10 @@
 
     _handleEditTap() {
       this.dispatchEvent(new CustomEvent('edit-tap', {bubbles: false}));
+    },
+
+    _handleDoneEditTap() {
+      this.dispatchEvent(new CustomEvent('done-edit-tap', {bubbles: false}));
     },
   });
 })();

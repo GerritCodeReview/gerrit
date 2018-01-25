@@ -29,7 +29,7 @@
       changeUrl: String,
       changeComments: Object,
       commitInfo: Object,
-      editLoaded: Boolean,
+      editMode: Boolean,
       loggedIn: Boolean,
       serverConfig: Object,
       shownFileCount: Number,
@@ -201,8 +201,8 @@
       this.fire('open-download-dialog');
     },
 
-    _computeEditLoadedClass(editLoaded) {
-      return editLoaded ? 'editLoaded' : '';
+    _computeEditModeClass(editMode) {
+      return editMode ? 'editMode' : '';
     },
 
     _computePatchInfoClass(patchNum, allPatchSets) {

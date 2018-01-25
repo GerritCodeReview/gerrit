@@ -116,7 +116,7 @@ limitations under the License.
         display: block;
         overflow: auto;
       }
-      .editLoaded .hideOnEdit {
+      .editMode .hideOnEdit {
         display: none;
       }
       .blameLoader {
@@ -188,7 +188,7 @@ limitations under the License.
       }
     </style>
     <gr-fixed-panel
-        class$="[[_computeContainerClass(_editLoaded)]]"
+        class$="[[_computeContainerClass(_editMode)]]"
         floating-disabled="[[_panelFloatingDisabled]]"
         keep-on-scroll
         ready-for-measure="[[!_loading]]">

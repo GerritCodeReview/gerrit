@@ -1335,9 +1335,9 @@ limitations under the License.
       assert.isTrue(element.$.relatedChanges.reload.calledOnce);
     });
 
-    test('_computeEditLoaded', () => {
+    test('_computeEditMode', () => {
       const callCompute = (range, params) =>
-          element._computeEditLoaded({base: range}, {base: params});
+          element._computeEditMode({base: range}, {base: params});
       assert.isFalse(callCompute({}, {}));
       assert.isTrue(callCompute({}, {edit: true}));
       assert.isFalse(callCompute({basePatchNum: 'PARENT', patchNum: 1}, {}));
@@ -1516,6 +1516,44 @@ limitations under the License.
         flushAsynchronousOperations();
 
         fireEdit();
+      });
+    });
+
+    suite('_handleDoneEditTap', () => {
+      let fireDone;
+
+      setup(() => {
+        fireDone = () => {
+          element.$.actions.dispatchEvent(new CustomEvent('done-edit-tap',
+              {bubbles: false}));
+        };
+        sandbox.stub(element.$.metadata, '_computeShowLabelStatus');
+        sandbox.stub(element.$.metadata, '_computeLabelNames');
+        navigateToChangeStub.restore();
+      });
+
+      test('edit patchset loaded', done => {
+        sandbox.stub(element, 'computeLatestPatchNum').returns(1);
+        sandbox.stub(Gerrit.Nav, 'navigateToChange', (...args) => {
+          assert.equal(args.length, 2);
+          assert.equal(args[1], 1); // patchNum
+          done();
+        });
+
+        element._patchRange = {patchNum: element.EDIT_NAME};
+        fireDone();
+      });
+
+      test('edit patchset loaded', done => {
+        sandbox.stub(element, 'computeLatestPatchNum').returns(1);
+        sandbox.stub(Gerrit.Nav, 'navigateToChange', (...args) => {
+          assert.equal(args.length, 2);
+          assert.equal(args[1], 1); // patchNum
+          done();
+        });
+
+        element._patchRange = {patchNum: 1};
+        fireDone();
       });
     });
 

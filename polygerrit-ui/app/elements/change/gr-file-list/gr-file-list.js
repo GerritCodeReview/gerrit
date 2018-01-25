@@ -63,9 +63,9 @@
         notify: true,
         observer: '_updateDiffPreferences',
       },
-      editLoaded: {
+      editMode: {
         type: Boolean,
-        observer: '_editLoadedChanged',
+        observer: '_editModeChanged',
       },
       filesExpanded: {
         type: String,
@@ -377,7 +377,7 @@
     },
 
     _reviewFile(path) {
-      if (this.editLoaded) {
+      if (this.editMode) {
         this.fire('show-alert', {message: ERR_EDIT_LOADED});
         return;
       }
@@ -402,7 +402,7 @@
     },
 
     _getReviewedFiles() {
-      if (this.editLoaded) { return Promise.resolve([]); }
+      if (this.editMode) { return Promise.resolve([]); }
       return this.$.restAPI.getReviewedFiles(this.changeNum,
           this.patchRange.patchNum);
     },
@@ -935,8 +935,8 @@
       }, LOADING_DEBOUNCE_INTERVAL);
     },
 
-    _editLoadedChanged(editLoaded) {
-      this.classList.toggle('editLoaded', editLoaded);
+    _editModeChanged(editMode) {
+      this.classList.toggle('editMode', editMode);
     },
 
     _computeReviewedClass(isReviewed) {

@@ -71,6 +71,7 @@ breaking changes to gr-change-actions won’t be noticed.
     suite('normal init', () => {
       setup(() => {
         element = fixture('basic');
+        sinon.stub(element, '_editStatusChanged');
         element.change = {};
         element._hasKnownChainState = false;
         Gerrit.install(p => { plugin = p; }, '0.1',

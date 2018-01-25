@@ -401,12 +401,12 @@ limitations under the License.
 
     suite('change edits', () => {
       test('shows confirm dialog for delete edit', () => {
-        element.set('editLoaded', true);
+        element.set('editMode', true);
         element.set('editPatchsetLoaded', true);
+
         const fireActionStub = sandbox.stub(element, '_fireAction');
         element._handleDeleteEditTap();
-        assert.isFalse(element.$$('#confirmDeleteEditDialog').hidden);
-        assert.ok(element.$$('gr-button[data-action-key="deleteEdit"]'));
+        assert.isFalse(element.$.confirmDeleteEditDialog.hidden);
         MockInteractions.tap(
             element.$$('#confirmDeleteEditDialog').$$('gr-button[primary]'));
         flushAsynchronousOperations();
@@ -415,7 +415,7 @@ limitations under the License.
       });
 
       test('hide publishEdit and rebaseEdit if change is not open', () => {
-        element.set('editLoaded', true);
+        element.set('editMode', true);
         element.set('editPatchsetLoaded', true);
         element.change = {status: 'MERGED'};
         flushAsynchronousOperations();
@@ -426,7 +426,7 @@ limitations under the License.
       });
 
       test('edit patchset is loaded, needs rebase', () => {
-        element.set('editLoaded', true);
+        element.set('editMode', true);
         element.set('editPatchsetLoaded', true);
         element.change = {status: 'NEW'};
         element.editBasedOnCurrentPatchSet = false;
@@ -436,10 +436,11 @@ limitations under the License.
         assert.isOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
         assert.isOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
         assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
+        assert.isOk(element.$$('gr-button[data-action-key="doneEdit"]'));
       });
 
       test('edit patchset is loaded, does not need rebase', () => {
-        element.set('editLoaded', true);
+        element.set('editMode', true);
         element.set('editPatchsetLoaded', true);
         element.change = {status: 'NEW'};
         element.editBasedOnCurrentPatchSet = true;
@@ -449,10 +450,11 @@ limitations under the License.
         assert.isNotOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
         assert.isOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
         assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
+        assert.isOk(element.$$('gr-button[data-action-key="doneEdit"]'));
       });
 
       test('edit mode is loaded, no edit patchset', () => {
-        element.set('editLoaded', true);
+        element.set('editMode', true);
         element.set('editPatchsetLoaded', false);
         element.change = {status: 'NEW'};
         flushAsynchronousOperations();
@@ -461,10 +463,11 @@ limitations under the License.
         assert.isNotOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
         assert.isNotOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
         assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
+        assert.isOk(element.$$('gr-button[data-action-key="doneEdit"]'));
       });
 
       test('normal patch set', () => {
-        element.set('editLoaded', false);
+        element.set('editMode', false);
         element.set('editPatchsetLoaded', false);
         element.change = {status: 'NEW'};
         flushAsynchronousOperations();
@@ -473,15 +476,17 @@ limitations under the License.
         assert.isNotOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
         assert.isNotOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
         assert.isOk(element.$$('gr-button[data-action-key="edit"]'));
+        assert.isNotOk(element.$$('gr-button[data-action-key="doneEdit"]'));
       });
 
       test('edit action', done => {
         element.addEventListener('edit-tap', () => { done(); });
-        element.set('editLoaded', true);
+        element.set('editMode', true);
         flushAsynchronousOperations();
 
         assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
-        element.set('editLoaded', false);
+        assert.isOk(element.$$('gr-button[data-action-key="doneEdit"]'));
+        element.set('editMode', false);
         flushAsynchronousOperations();
 
         const editButton = element.$$('gr-button[data-action-key="edit"]');

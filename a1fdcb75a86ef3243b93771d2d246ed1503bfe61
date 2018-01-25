@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e3666e3_56df3f70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-25T13:42:20Z",
+      "side": 1,
+      "message": "web-component-tester: Support headless mode",
+      "revId": "a1fdcb75a86ef3243b93771d2d246ed1503bfe61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33346e25_548283de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-25T13:42:20Z",
+      "side": 1,
+      "message": "May be drop this section and just say, that this change enables headless modes for Chrome and Firefox?",
+      "revId": "a1fdcb75a86ef3243b93771d2d246ed1503bfe61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b34b380_de70d88e",
+        "filename": "polygerrit-ui/app/embed_test.sh",
+        "patchSetId": 18
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-25T13:42:20Z",
+      "side": 1,
+      "message": "Not needed?",
+      "range": {
+        "startLine": 22,
+        "startChar": 26,
+        "endLine": 22,
+        "endChar": 30
+      },
+      "revId": "a1fdcb75a86ef3243b93771d2d246ed1503bfe61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e70d4912_40d3a9dc",
+        "filename": "polygerrit-ui/app/embed_test.sh",
+        "patchSetId": 18
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-25T13:42:20Z",
+      "side": 1,
+      "message": "May be call this BROWSER_OPTIONS_CHROME?",
+      "range": {
+        "startLine": 47,
+        "startChar": 24,
+        "endLine": 47,
+        "endChar": 39
+      },
+      "revId": "a1fdcb75a86ef3243b93771d2d246ed1503bfe61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "780acc8a_482e7686",
+        "filename": "polygerrit-ui/app/run_test.sh",
+        "patchSetId": 18
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-25T13:42:20Z",
+      "side": 1,
+      "message": "Not needed?",
+      "revId": "a1fdcb75a86ef3243b93771d2d246ed1503bfe61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f4cc960_dac813e3",
+        "filename": "polygerrit-ui/app/run_test.sh",
+        "patchSetId": 18
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-25T13:42:20Z",
+      "side": 1,
+      "message": "Just:\n\n  --test_env\u003d\"WCT_HEADLESS_MODE\u003d${WCT_HEADLESS_MODE}\" \\",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 25,
+        "endChar": 57
+      },
+      "revId": "a1fdcb75a86ef3243b93771d2d246ed1503bfe61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a112ca0c_871ff88d",
+        "filename": "polygerrit-ui/app/wct_test.sh",
+        "patchSetId": 18
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-25T13:42:20Z",
+      "side": 1,
+      "message": "In other place (api.sh) we do something like:\n\n  if [[ \"${WCT_HEADLESS_MODE:-x}\" !\u003d \"x\" ]]; then",
+      "revId": "a1fdcb75a86ef3243b93771d2d246ed1503bfe61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1770f2c4_d7b42d59",
+        "filename": "polygerrit-ui/app/wct_test.sh",
+        "patchSetId": 18
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-25T13:42:20Z",
+      "side": 1,
+      "message": "May be just called this: CHROME_OPTIONS and FIREFOX_OPTIONS?",
+      "range": {
+        "startLine": 17,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 24
+      },
+      "revId": "a1fdcb75a86ef3243b93771d2d246ed1503bfe61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f367241_1fddc8f8",
+        "filename": "polygerrit-ui/app/wct_test.sh",
+        "patchSetId": 18
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-25T13:42:20Z",
+      "side": 1,
+      "message": "Is this needed? Just [] doesn\u0027t work?",
+      "range": {
+        "startLine": 20,
+        "startChar": 26,
+        "endLine": 20,
+        "endChar": 30
+      },
+      "revId": "a1fdcb75a86ef3243b93771d2d246ed1503bfe61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1516882055 +0100\nnonce AGjzz3843WUpa5dY8BbVZB6+CybsqTGHaEz6vHebcANo37JnIz5hd8vVzfP8lPZglGXvvgvKilaw\n\n0000000000000000000000000000000000000000 7ce2bdc2596972dcf375c26886bb5c739fb87b92 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlppyIcACgkQUbX9l6DQ\n71EeKQgAq7hv64WgEmS/YwbbvxWShMw7fshfnbOCHHHXvQGN7mVzq2bQOIdtTWDs\nhlq73tu5zZJMiRgPYIwDjXNIfwCPlh/Buk3CJ7wAPE7/l/z5IPf2m1+ZbQFkGPRO\nzYmF4oImQE3o1TWAOAAKei5dgbi4W9ECO8FCyC9rKfLWP3tJTt/pEUyT0+nCIi08\nibyOxkFadHLvqwaU+t9TL590YF6qsXXlcELqCs8r2FQ/6yVFKsl+Gliw64GulG/e\nlPp51GBjbs0yFOPSHU1HdeYexswEHIkUYOn3yf3khr3jqRRBjoa0kcoX24roHDPt\nIc0EsCcMTdQKqO5t1E7THEcScSD7hQ\u003d\u003d\n\u003dOqEz\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0267a39_2bed7e84",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-25T13:37:42Z",
+      "side": 1,
+      "message": "I think one thing that\u0027s throwing me off is the syntactic ambiguity of this sentence.\n\nI am reading: \"(Skip accounts that are updated) (when evicting the account cache)\", i.e. \"When evicting the account cache, skip accounts that are updated\"\n\nI think you might mean: \"(Skip accounts that are (updated when evicting the account cache))\", i.e. \"You know those accounts that get updated when evicting the account cache? Skip them.\"\n\n\u003e For modified external IDs ExternalIdNotes#updateCaches evicts the corresponding accounts from the account cache which triggers a reindex of those accounts\n\nSorry if I\u0027m being dense...I understand this sentence, but I really don\u0027t see what this sentence has to do with the code here.\n\nRewriting it slightly as:\n\n Set\u003cAccount.Id\u003e theAccounts \u003d getUpdatedAccounts(batchRefUpdate);\n updateCaches(theAccounts);\n\nWhat I am still not getting is: in what sense is this code \"skipping\" or \"excluding\" theAccounts? It looks like what it is doing is updating the cache. Where is the \"skipping\"?",
+      "revId": "7ce2bdc2596972dcf375c26886bb5c739fb87b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

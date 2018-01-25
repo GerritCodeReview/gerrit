@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e155f6d_799bbed9",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 19
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-25T18:26:27Z",
+      "side": 1,
+      "message": "Now, that FF headless mode is also supported, mention the minimum required FF version as well: 56+.\n\nAlso, I think, now, that we are adding yet another \"WCT_\" option, it would be appropriate to move the whole section to the tests section below, around the line 135, where other WCT related options described, may be say something like:\n\n\"\n\nTo run tests in headless mode on both supported browsers:\n\n  ```sh\n  WCT_HEADLESS_MODE\u003d1 ./polygerrit-ui/app/run_test.sh\n  ```\n\nToolchain requirements for headless mode:\n\n* Chrome: 59+\n* Firefox: 56+\n* web-component-rester: v6.5.0+\n\n\"",
+      "range": {
+        "startLine": 71,
+        "startChar": 1,
+        "endLine": 72,
+        "endChar": 102
+      },
+      "revId": "38c87d28d0424106d1915b6bf63cadb0f73be852",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

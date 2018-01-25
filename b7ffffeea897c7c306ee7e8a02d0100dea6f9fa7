@@ -95,6 +95,30 @@
       "revId": "b7ffffeea897c7c306ee7e8a02d0100dea6f9fa7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53056b29_43250028",
+        "filename": "java/com/google/gerrit/server/restapi/account/AccountsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2018-01-25T21:09:59Z",
+      "side": 1,
+      "message": "I did read the commit message. I was not suggesting that you differentiate between the different kinds of 4XX. I was attempting to get at the fact that the error *I* saw was a 500, and this code is still throwing the same kind of exception (albeit with a better message). So it seemed to me that this would still result in 500s, which doesn\u0027t seem like the right status for a message that sounds like something in the 4XX range.\n\nUpon further inspection, I see where the confusion arose: The PG UI prints \"Server Error\" even when the response code is in the 4XX range. I read that message and assumed that it was representing a 5XX. I\u0027ll file another bug against the PG UI to not display \"Server Error\" for http status codes in the 4XX range. I apologize for the misunderstanding that arose from my confusion.",
+      "parentUuid": "c056d94e_c1484c3b",
+      "range": {
+        "startLine": 77,
+        "startChar": 50,
+        "endLine": 77,
+        "endChar": 51
+      },
+      "revId": "b7ffffeea897c7c306ee7e8a02d0100dea6f9fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -78,11 +78,15 @@
     },
 
     _handleValueChange() {
-      this.section.value.modified = this.section.id !== this._originalId;
+      if (!this.section.value.added) {
+        this.section.value.modified = this.section.id !== this._originalId;
+        // Allows overall access page to know a change has been made.
+        // For a new section, this is not fired because new permissions and
+        // rules have to be added in order to save, modifying the ref is not
+        // enough.
+        this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
+      }
       this.section.value.updatedId = this.section.id;
-
-      // Allows overall access page to know a change has been made.
-      this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
     },
 
     _handleEditingChanged(editing, editingOld) {
@@ -187,8 +191,9 @@
       delete this.section.value.deleted;
     },
 
-    _handleEditReference() {
+    editReference() {
       this._editingRef = true;
+      this.$.editRefInput.focus();
     },
 
     _computeSectionClass(editing, editingRef, deleted) {

@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "70d510a4_2dc9b53e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-01-25T14:28:12Z",
+      "side": 1,
+      "message": "\u003e As your suggestion, I\u0027m planning to go as follows:\n\u003e 1- Define interface \"GroupAuditEvent\" with method: \"getActor\", \"getModifiedGroup\", \"getTimestamp\".\n\u003e 2- \"GroupMemberAuditEvent\" implements the \"GroupAuditEvent\" with an additional \"getModifiedMembers\".\n\u003e    \"GroupSubgroupAuditEvent\" implements the \"GroupAuditEvent\" with an additional \"getModifiedSubgroups\".\n\u003e 3- The four dedidated event methods will be:\n\u003e    void onAddAccountsToGroup(GroupMemberAuditEvent);\n\u003e    void onDeleteAccountsFromGroup(GroupMemberAuditEvent);\n\u003e    void onAddGroupsToGroup(GroupSubgroupAuditEvent);\n\u003e    void onDeleteGroupsFromGroup(GroupSubGroupAuditEvent);\n\nSGTM.\n\nSome further thoughts:\n* If we already define new/different methods, why not choose names which are consistent with the terminology we use throughout our code: onAddMembers(..), onDeleteMembers(..), onAddSubgroup(..), and onDeleteSubgroup(..)?\n* As we are breaking existing listeners anyway, we could also adjust the name of the interface. GroupMemberAuditListener was suitable when it was introduced but the name doesn\u0027t serve its purpose properly anymore. It\u0027s not just about *members* anymore. What about GroupAuditListener? That name would also be better in case we add an onRename(..) method in the future.\n\n\u003e The 4 new methods could be defined as default. \n\u003e \n\u003e For those 4 old methods, existing listeners may only notice they have to adjust when we remove those 4 methods. Thus we might choose to delete them directly. If we do like above, hopefully, we only need to break them once.\n\nWhy should we try not to break existing listeners with this change? The change I55b8d10eb9 already broke existing listeners. In my opinion, breaking them again right now (in the same release) is better than postponing it to another release.",
+      "parentUuid": "19539421_0f124bf2",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 34
+      },
+      "revId": "a8ea8492394a7c50cc3c296c96da8c1d5307fee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b98a22bc_1b48a103",
         "filename": "java/com/google/gerrit/server/audit/GroupMemberAuditListener.java",
         "patchSetId": 3

@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.audit.group;
 
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
+
+@ExtensionPoint
 public interface GroupAuditListener {
   void onAddMembers(GroupMemberAuditEvent groupMemberAuditEvent);
 

@@ -210,12 +210,14 @@ public class GroupsUpdate {
 
       if (!groupsMigration.writeToNoteDb()) {
         updateCachesOnGroupCreation(createdGroupInReviewDb);
+        dispatchAuditEventsOnGroupCreation(createdGroupInReviewDb);
         return createdGroupInReviewDb;
       }
     }
 
     InternalGroup createdGroup = createGroupInNoteDbWithRetry(groupCreation, groupUpdate);
     updateCachesOnGroupCreation(createdGroup);
+    dispatchAuditEventsOnGroupCreation(createdGroup);
     return createdGroup;
   }
 
@@ -234,8 +236,17 @@ public class GroupsUpdate {
    */
   public void updateGroup(ReviewDb db, AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
       throws OrmException, IOException, NoSuchGroupException, ConfigInvalidException {
+    Optional<Timestamp> updatedOn = groupUpdate.getUpdatedOn();
+    if (!updatedOn.isPresent()) {
+      // Set updatedOn to a specific value so that the same timestamp is used for ReviewDb and
+      // NoteDb. This timestamp is also used by audit events.
+      updatedOn = Optional.of(TimeUtil.nowTs());
+      groupUpdate = groupUpdate.toBuilder().setUpdatedOn(updatedOn.get()).build();
+    }
+
     UpdateResult result = updateGroupInDb(db, groupUuid, groupUpdate);
     updateCachesOnGroupUpdate(result);
+    dispatchAuditEventsOnGroupUpdate(result, updatedOn.get());
   }
 
   @VisibleForTesting
@@ -244,12 +255,6 @@ public class GroupsUpdate {
       throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
     UpdateResult reviewDbUpdateResult = null;
     if (!groupsMigration.disableGroupReviewDb()) {
-      if (!groupUpdate.getUpdatedOn().isPresent()) {
-        // Set updatedOn to a specific value so that the same timestamp is used for ReviewDb and
-        // NoteDb.
-        groupUpdate = groupUpdate.toBuilder().setUpdatedOn(TimeUtil.nowTs()).build();
-      }
-
       AccountGroup group = getExistingGroupFromReviewDb(ReviewDbUtil.unwrapDb(db), groupUuid);
       reviewDbUpdateResult = updateGroupInReviewDb(ReviewDbUtil.unwrapDb(db), group, groupUpdate);
 
@@ -278,8 +283,8 @@ public class GroupsUpdate {
     UpdateResult updateResult = updateGroupInReviewDb(db, group, groupUpdate);
     return InternalGroup.create(
         group,
-        updateResult.getModifiedMembers(),
-        updateResult.getModifiedSubgroups(),
+        updateResult.getAddedMembers(),
+        updateResult.getAddedSubgroups(),
         updateResult.getRefState());
   }
 
@@ -315,18 +320,35 @@ public class GroupsUpdate {
     // The name must be inserted first so that we stop early for already used names.
     updateNameInReviewDb(db, group.getId(), originalName, updatedName);
     db.accountGroups().upsert(ImmutableList.of(group));
-    ImmutableSet<Account.Id> modifiedMembers =
-        updateMembersInReviewDb(db, group.getId(), groupUpdate);
-    ImmutableSet<AccountGroup.UUID> modifiedSubgroups =
-        updateSubgroupsInReviewDb(db, group.getId(), groupUpdate);
 
+    ImmutableSet<Account.Id> originalMembers =
+        Groups.getMembersFromReviewDb(db, group.getId()).collect(toImmutableSet());
+    ImmutableSet<Account.Id> updatedMembers =
+        ImmutableSet.copyOf(groupUpdate.getMemberModification().apply(originalMembers));
+    ImmutableSet<AccountGroup.UUID> originalSubgroups =
+        Groups.getSubgroupsFromReviewDb(db, group.getId()).collect(toImmutableSet());
+    ImmutableSet<AccountGroup.UUID> updatedSubgroups =
+        ImmutableSet.copyOf(groupUpdate.getSubgroupModification().apply(originalSubgroups));
+
+    Set<Account.Id> addedMembers =
+        addGroupMembersInReviewDb(db, group.getId(), originalMembers, updatedMembers);
+    Set<Account.Id> deletedMembers =
+        deleteGroupMembersInReviewDb(db, group.getId(), originalMembers, updatedMembers);
+    Set<AccountGroup.UUID> addedSubgroups =
+        addSubgroupsInReviewDb(db, group.getId(), originalSubgroups, updatedSubgroups);
+    Set<AccountGroup.UUID> deletedSubgroups =
+        deleteSubgroupsInReviewDb(db, group.getId(), originalSubgroups, updatedSubgroups);
+
+    Timestamp updatedOn = groupUpdate.getUpdatedOn().orElseGet(TimeUtil::nowTs);
     UpdateResult.Builder resultBuilder =
         UpdateResult.builder()
             .setGroupUuid(group.getGroupUUID())
             .setGroupId(group.getId())
             .setGroupName(group.getNameKey())
-            .setModifiedMembers(modifiedMembers)
-            .setModifiedSubgroups(modifiedSubgroups);
+            .setAddedMembers(addedMembers)
+            .setDeletedMembers(deletedMembers)
+            .setAddedSubgroups(addedSubgroups)
+            .setDeletedSubgroups(deletedSubgroups);
     if (!Objects.equals(originalName, updatedName)) {
       resultBuilder.setPreviousGroupName(originalName);
     }
@@ -355,118 +377,87 @@ public class GroupsUpdate {
     db.accountGroupNames().deleteKeys(ImmutableList.of(originalName));
   }
 
-  private ImmutableSet<Account.Id> updateMembersInReviewDb(
-      ReviewDb db, AccountGroup.Id groupId, InternalGroupUpdate groupUpdate) throws OrmException {
-    Timestamp updatedOn = groupUpdate.getUpdatedOn().orElseGet(TimeUtil::nowTs);
-    ImmutableSet<Account.Id> originalMembers =
-        Groups.getMembersFromReviewDb(db, groupId).collect(toImmutableSet());
-    ImmutableSet<Account.Id> updatedMembers =
-        ImmutableSet.copyOf(groupUpdate.getMemberModification().apply(originalMembers));
-
-    Set<Account.Id> addedMembers = Sets.difference(updatedMembers, originalMembers);
-    if (!addedMembers.isEmpty()) {
-      addGroupMembersInReviewDb(db, groupId, addedMembers, updatedOn);
-    }
-
-    Set<Account.Id> removedMembers = Sets.difference(originalMembers, updatedMembers);
-    if (!removedMembers.isEmpty()) {
-      removeGroupMembersInReviewDb(db, groupId, removedMembers, updatedOn);
-    }
-
-    return Sets.union(addedMembers, removedMembers).immutableCopy();
-  }
-
-  private void addGroupMembersInReviewDb(
-      ReviewDb db, AccountGroup.Id groupId, Set<Account.Id> newMemberIds, Timestamp addedOn)
+  private static Set<Account.Id> addGroupMembersInReviewDb(
+      ReviewDb db,
+      AccountGroup.Id groupId,
+      ImmutableSet<Account.Id> originalMembers,
+      ImmutableSet<Account.Id> updatedMembers)
       throws OrmException {
-    Set<AccountGroupMember> newMembers =
-        newMemberIds
-            .stream()
-            .map(accountId -> new AccountGroupMember.Key(accountId, groupId))
-            .map(AccountGroupMember::new)
-            .collect(toImmutableSet());
-
-    if (currentUser != null) {
-      auditService.dispatchAddAccountsToGroup(currentUser.getAccountId(), newMembers, addedOn);
+    Set<Account.Id> accountIds = Sets.difference(updatedMembers, originalMembers);
+    if (accountIds.isEmpty()) {
+      return accountIds;
     }
+
+    ImmutableSet<AccountGroupMember> newMembers = toAccountGroupMembers(groupId, accountIds);
     db.accountGroupMembers().insert(newMembers);
+    return accountIds;
   }
 
-  private void removeGroupMembersInReviewDb(
-      ReviewDb db, AccountGroup.Id groupId, Set<Account.Id> accountIds, Timestamp removedOn)
+  private static Set<Account.Id> deleteGroupMembersInReviewDb(
+      ReviewDb db,
+      AccountGroup.Id groupId,
+      ImmutableSet<Account.Id> originalMembers,
+      ImmutableSet<Account.Id> updatedMembers)
       throws OrmException {
-    Set<AccountGroupMember> membersToRemove =
-        accountIds
-            .stream()
-            .map(accountId -> new AccountGroupMember.Key(accountId, groupId))
-            .map(AccountGroupMember::new)
-            .collect(toImmutableSet());
-
-    if (currentUser != null) {
-      auditService.dispatchDeleteAccountsFromGroup(
-          currentUser.getAccountId(), membersToRemove, removedOn);
+    Set<Account.Id> accountIds = Sets.difference(originalMembers, updatedMembers);
+    if (accountIds.isEmpty()) {
+      return accountIds;
     }
+
+    ImmutableSet<AccountGroupMember> membersToRemove = toAccountGroupMembers(groupId, accountIds);
     db.accountGroupMembers().delete(membersToRemove);
+    return accountIds;
   }
 
-  private ImmutableSet<AccountGroup.UUID> updateSubgroupsInReviewDb(
-      ReviewDb db, AccountGroup.Id groupId, InternalGroupUpdate groupUpdate) throws OrmException {
-    Timestamp updatedOn = groupUpdate.getUpdatedOn().orElseGet(TimeUtil::nowTs);
-    ImmutableSet<AccountGroup.UUID> originalSubgroups =
-        Groups.getSubgroupsFromReviewDb(db, groupId).collect(toImmutableSet());
-    ImmutableSet<AccountGroup.UUID> updatedSubgroups =
-        ImmutableSet.copyOf(groupUpdate.getSubgroupModification().apply(originalSubgroups));
-
-    Set<AccountGroup.UUID> addedSubgroups = Sets.difference(updatedSubgroups, originalSubgroups);
-    if (!addedSubgroups.isEmpty()) {
-      addSubgroupsInReviewDb(db, groupId, addedSubgroups, updatedOn);
-    }
-
-    Set<AccountGroup.UUID> removedSubgroups = Sets.difference(originalSubgroups, updatedSubgroups);
-    if (!removedSubgroups.isEmpty()) {
-      removeSubgroupsInReviewDb(db, groupId, removedSubgroups, updatedOn);
-    }
-
-    return Sets.union(addedSubgroups, removedSubgroups).immutableCopy();
+  private static ImmutableSet<AccountGroupMember> toAccountGroupMembers(
+      AccountGroup.Id groupId, Set<Account.Id> accountIds) {
+    return accountIds
+        .stream()
+        .map(accountId -> new AccountGroupMember.Key(accountId, groupId))
+        .map(AccountGroupMember::new)
+        .collect(toImmutableSet());
   }
 
-  private void addSubgroupsInReviewDb(
+  private static Set<AccountGroup.UUID> addSubgroupsInReviewDb(
       ReviewDb db,
       AccountGroup.Id parentGroupId,
-      Set<AccountGroup.UUID> subgroupUuids,
-      Timestamp addedOn)
+      ImmutableSet<AccountGroup.UUID> originalSubgroups,
+      ImmutableSet<AccountGroup.UUID> updatedSubgroups)
       throws OrmException {
-    Set<AccountGroupById> newSubgroups =
-        subgroupUuids
-            .stream()
-            .map(subgroupUuid -> new AccountGroupById.Key(parentGroupId, subgroupUuid))
-            .map(AccountGroupById::new)
-            .collect(toImmutableSet());
-
-    if (currentUser != null) {
-      auditService.dispatchAddGroupsToGroup(currentUser.getAccountId(), newSubgroups, addedOn);
+    Set<AccountGroup.UUID> subgroupUuids = Sets.difference(updatedSubgroups, originalSubgroups);
+    if (subgroupUuids.isEmpty()) {
+      return subgroupUuids;
     }
+
+    ImmutableSet<AccountGroupById> newSubgroups = toAccountGroupByIds(parentGroupId, subgroupUuids);
     db.accountGroupById().insert(newSubgroups);
+    return subgroupUuids;
   }
 
-  private void removeSubgroupsInReviewDb(
+  private static Set<AccountGroup.UUID> deleteSubgroupsInReviewDb(
       ReviewDb db,
       AccountGroup.Id parentGroupId,
-      Set<AccountGroup.UUID> subgroupUuids,
-      Timestamp removedOn)
+      ImmutableSet<AccountGroup.UUID> originalSubgroups,
+      ImmutableSet<AccountGroup.UUID> updatedSubgroups)
       throws OrmException {
-    Set<AccountGroupById> subgroupsToRemove =
-        subgroupUuids
-            .stream()
-            .map(subgroupUuid -> new AccountGroupById.Key(parentGroupId, subgroupUuid))
-            .map(AccountGroupById::new)
-            .collect(toImmutableSet());
-
-    if (currentUser != null) {
-      auditService.dispatchDeleteGroupsFromGroup(
-          currentUser.getAccountId(), subgroupsToRemove, removedOn);
+    Set<AccountGroup.UUID> subgroupUuids = Sets.difference(originalSubgroups, updatedSubgroups);
+    if (subgroupUuids.isEmpty()) {
+      return subgroupUuids;
     }
+
+    ImmutableSet<AccountGroupById> subgroupsToRemove =
+        toAccountGroupByIds(parentGroupId, subgroupUuids);
     db.accountGroupById().delete(subgroupsToRemove);
+    return subgroupUuids;
+  }
+
+  private static ImmutableSet<AccountGroupById> toAccountGroupByIds(
+      AccountGroup.Id parentGroupId, Set<AccountGroup.UUID> subgroupUuids) {
+    return subgroupUuids
+        .stream()
+        .map(subgroupUuid -> new AccountGroupById.Key(parentGroupId, subgroupUuid))
+        .map(AccountGroupById::new)
+        .collect(toImmutableSet());
   }
 
   private InternalGroup createGroupInNoteDbWithRetry(
@@ -538,7 +529,6 @@ public class GroupsUpdate {
       }
 
       InternalGroup originalGroup = groupConfig.getLoadedGroup().get();
-
       GroupNameNotes groupNameNotes = null;
       if (groupUpdate.getName().isPresent()) {
         AccountGroup.NameKey oldName = originalGroup.getNameKey();
@@ -559,18 +549,24 @@ public class GroupsUpdate {
 
   private static UpdateResult getUpdateResult(
       InternalGroup originalGroup, InternalGroup updatedGroup) {
-    Set<Account.Id> modifiedMembers =
-        Sets.symmetricDifference(originalGroup.getMembers(), updatedGroup.getMembers());
-    Set<AccountGroup.UUID> modifiedSubgroups =
-        Sets.symmetricDifference(originalGroup.getSubgroups(), updatedGroup.getSubgroups());
+    Set<Account.Id> addedMembers =
+        Sets.difference(updatedGroup.getMembers(), originalGroup.getMembers());
+    Set<Account.Id> deletedMembers =
+        Sets.difference(originalGroup.getMembers(), updatedGroup.getMembers());
+    Set<AccountGroup.UUID> addedSubgroups =
+        Sets.difference(updatedGroup.getSubgroups(), originalGroup.getSubgroups());
+    Set<AccountGroup.UUID> deletedSubgroups =
+        Sets.difference(originalGroup.getSubgroups(), updatedGroup.getSubgroups());
 
     UpdateResult.Builder resultBuilder =
         UpdateResult.builder()
             .setGroupUuid(updatedGroup.getGroupUUID())
             .setGroupId(updatedGroup.getId())
             .setGroupName(updatedGroup.getNameKey())
-            .setModifiedMembers(modifiedMembers)
-            .setModifiedSubgroups(modifiedSubgroups)
+            .setAddedMembers(addedMembers)
+            .setDeletedMembers(deletedMembers)
+            .setAddedSubgroups(addedSubgroups)
+            .setDeletedSubgroups(deletedSubgroups)
             .setRefState(updatedGroup.getRefState());
     if (!Objects.equals(originalGroup.getNameKey(), updatedGroup.getNameKey())) {
       resultBuilder.setPreviousGroupName(originalGroup.getNameKey());
@@ -626,17 +622,63 @@ public class GroupsUpdate {
               .start(0, TimeUnit.MILLISECONDS);
     }
     groupCache.evict(result.getGroupUuid(), result.getGroupId(), result.getGroupName());
-    for (Account.Id modifiedMember : result.getModifiedMembers()) {
-      groupIncludeCache.evictGroupsWithMember(modifiedMember);
-    }
-    for (AccountGroup.UUID modifiedSubgroup : result.getModifiedSubgroups()) {
-      groupIncludeCache.evictParentGroupsOf(modifiedSubgroup);
-    }
+
+    result.getAddedMembers().forEach(groupIncludeCache::evictGroupsWithMember);
+    result.getDeletedMembers().forEach(groupIncludeCache::evictGroupsWithMember);
+    result.getAddedSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
+    result.getDeletedSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
   }
 
   private void checkIfReviewDbUpdatesAreBlocked() throws OrmException {
     if (reviewDbUpdatesAreBlocked) {
       throw new OrmException("Updates to groups in ReviewDb are blocked");
+    }
+  }
+
+  private void dispatchAuditEventsOnGroupCreation(InternalGroup createdGroup) {
+    if (currentUser == null) {
+      return;
+    }
+
+    if (!createdGroup.getMembers().isEmpty()) {
+      auditService.dispatchAddMembers(
+          currentUser.getAccountId(),
+          createdGroup.getGroupUUID(),
+          createdGroup.getMembers(),
+          createdGroup.getCreatedOn());
+    }
+    if (!createdGroup.getSubgroups().isEmpty()) {
+      auditService.dispatchAddSubgroups(
+          currentUser.getAccountId(),
+          createdGroup.getGroupUUID(),
+          createdGroup.getSubgroups(),
+          createdGroup.getCreatedOn());
+    }
+  }
+
+  private void dispatchAuditEventsOnGroupUpdate(UpdateResult result, Timestamp updatedOn) {
+    if (currentUser == null) {
+      return;
+    }
+
+    if (!result.getAddedMembers().isEmpty()) {
+      auditService.dispatchAddMembers(
+          currentUser.getAccountId(), result.getGroupUuid(), result.getAddedMembers(), updatedOn);
+    }
+    if (!result.getDeletedMembers().isEmpty()) {
+      auditService.dispatchDeleteMembers(
+          currentUser.getAccountId(), result.getGroupUuid(), result.getDeletedMembers(), updatedOn);
+    }
+    if (!result.getAddedSubgroups().isEmpty()) {
+      auditService.dispatchAddSubgroups(
+          currentUser.getAccountId(), result.getGroupUuid(), result.getAddedSubgroups(), updatedOn);
+    }
+    if (!result.getDeletedSubgroups().isEmpty()) {
+      auditService.dispatchDeleteSubgroups(
+          currentUser.getAccountId(),
+          result.getGroupUuid(),
+          result.getDeletedSubgroups(),
+          updatedOn);
     }
   }
 
@@ -657,9 +699,13 @@ public class GroupsUpdate {
 
     abstract Optional<AccountGroup.NameKey> getPreviousGroupName();
 
-    abstract ImmutableSet<Account.Id> getModifiedMembers();
+    abstract ImmutableSet<Account.Id> getAddedMembers();
 
-    abstract ImmutableSet<AccountGroup.UUID> getModifiedSubgroups();
+    abstract ImmutableSet<Account.Id> getDeletedMembers();
+
+    abstract ImmutableSet<AccountGroup.UUID> getAddedSubgroups();
+
+    abstract ImmutableSet<AccountGroup.UUID> getDeletedSubgroups();
 
     @Nullable
     public abstract ObjectId getRefState();
@@ -678,9 +724,13 @@ public class GroupsUpdate {
 
       abstract Builder setPreviousGroupName(AccountGroup.NameKey previousName);
 
-      abstract Builder setModifiedMembers(Set<Account.Id> modifiedMembers);
+      abstract Builder setAddedMembers(Set<Account.Id> addedMembers);
 
-      abstract Builder setModifiedSubgroups(Set<AccountGroup.UUID> modifiedSubgroups);
+      abstract Builder setDeletedMembers(Set<Account.Id> deletedMembers);
+
+      abstract Builder setAddedSubgroups(Set<AccountGroup.UUID> addedSubgroups);
+
+      abstract Builder setDeletedSubgroups(Set<AccountGroup.UUID> deletedSubgroups);
 
       public abstract Builder setRefState(ObjectId refState);
 

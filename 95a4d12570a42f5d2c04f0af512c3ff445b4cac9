@@ -34,6 +34,24 @@
       "revId": "95a4d12570a42f5d2c04f0af512c3ff445b4cac9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4f220fb_19bf790e",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-25T23:24:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0aba2ad9_7660984b",
+      "revId": "95a4d12570a42f5d2c04f0af512c3ff445b4cac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

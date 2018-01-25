@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d9c7af36_f6e70f33",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-25T22:26:43Z",
+      "side": 1,
+      "message": "I think I\u0027d rather keep it like this, as removing it entirely makes the computation for generating the access object less complicated than leaving it there.",
+      "parentUuid": "86acd54f_d54b4b21",
+      "range": {
+        "startLine": 102,
+        "startChar": 12,
+        "endLine": 102,
+        "endChar": 55
+      },
+      "revId": "40fe6a03f02589aa4c6bcc452e376806b8e3803f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3ac279d_889e849f",
         "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.html",
         "patchSetId": 7
@@ -39,6 +63,24 @@
       "revId": "40fe6a03f02589aa4c6bcc452e376806b8e3803f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1eb625a8_9c063342",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-25T22:26:43Z",
+      "side": 1,
+      "message": "Not needed. removing.",
+      "parentUuid": "a3ac279d_889e849f",
+      "revId": "40fe6a03f02589aa4c6bcc452e376806b8e3803f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

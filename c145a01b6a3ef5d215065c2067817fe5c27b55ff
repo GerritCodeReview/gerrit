@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf917bd1_9c4658da",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 21
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-25T22:57:49Z",
+      "side": 1,
+      "message": "Outdent this block, like it is on lines 123-125 above. I used indent in my original suggestion, to format that block in the change message comment.",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 5
+      },
+      "revId": "c145a01b6a3ef5d215065c2067817fe5c27b55ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

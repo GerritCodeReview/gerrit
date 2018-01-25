@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e7e414c_55928b15",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetAccessUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-25T05:16:53Z",
+      "side": 1,
+      "message": "\"Sets\"?\n\nOr if not, at least \"Updates\" with capitalisation.",
+      "range": {
+        "startLine": 206,
+        "startChar": 6,
+        "endLine": 206,
+        "endChar": 13
+      },
+      "revId": "d6f579ff4d9709126e0c8d2b6ffbfd14b9f8a3e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "692287f3_853b5eb3",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetAccessUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-25T05:16:53Z",
+      "side": 1,
+      "message": "If we\u0027re adding javadoc, why no go all the way and add @param tags describing the parameters.",
+      "range": {
+        "startLine": 208,
+        "startChar": 6,
+        "endLine": 212,
+        "endChar": 24
+      },
+      "revId": "d6f579ff4d9709126e0c8d2b6ffbfd14b9f8a3e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

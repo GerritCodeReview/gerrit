@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb7e2586_6251feac",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 20
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-25T19:09:51Z",
+      "side": 1,
+      "message": "Nit: Add \"*\" on the beginning of each line.",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 29
+      },
+      "revId": "ec11e5c4b7e99ce03ba41a81b046583bf5819e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

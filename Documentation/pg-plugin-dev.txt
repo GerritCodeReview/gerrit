@@ -24,7 +24,7 @@ spec.
   located in `gerrit-site/plugins` folder, where `pluginname` is an alphanumeric
   plugin name.
 
-Note: Code examples target modern browsers (Chrome, Firefox, Safari, Edge).
+Note: Code examples target modern brosers (Chrome, Firefox, Safari, Edge)
 
 Here's a recommended starter `myplugin.html`:
 
@@ -45,7 +45,7 @@ Here's a recommended starter `myplugin.html`:
 
 Basically, the DOM is the API surface. Low-level API provides methods for
 decorating, replacing, and styling DOM elements exposed through a set of
-link:pg-plugin-endpoints.html[endpoints].
+endpoints.
 
 PolyGerrit provides a simple way for accessing the DOM via DOM hooks API. A DOM
 hook is a custom element that is instantiated for the plugin endpoint. In the
@@ -72,6 +72,8 @@ Gerrit.install(plugin => {
 
 For each endpoint, PolyGerrit provides a list of DOM properties (such as
 attributes and events) that are supported in the long-term.
+
+NOTE: TODO: Insert link to the full endpoints API.
 
 ``` js
 Gerrit.install(plugin => {
@@ -135,28 +137,22 @@ Note: TODO: Insert link to the full styling API.
 [[high-level-api-concepts]]
 == High-level DOM API concepts
 
-High level API is based on low-level DOM API and is essentially a standardized
+High leve API is based on low-level DOM API and is essentially a standartized
 way for doing common tasks. It's less flexible, but will be a bit more stable.
 
-The common way to access high-level API is through `plugin` instance passed
-into setup callback parameter of `Gerrit.install()`, also sometimes referred to
-as `self`.
+Common way to access high-leve API is through `plugin` instance passed into
+setup callback parameter of `Gerrit.install()`, also sometimes referred as
+`self`.
 
 [[low-level-api]]
 == Low-level DOM API
 
-The low-level DOM API methods are the base of all UI customization.
+Low-level DOM API methods are the base of all UI customization.
 
 === attributeHelper
 `plugin.attributeHelper(element)`
 
-Alternative for
-link:https://www.polymer-project.org/1.0/docs/devguide/data-binding[Polymer data
-binding] for plugins that don't use Polymer. Can be used to bind element
-attribute changes to callbacks.
-
-See `samples/bind-parameters.html` for examples on both Polymer data bindings
-and `attibuteHelper` usage.
+Note: TODO
 
 === eventHelper
 `plugin.eventHelper(element)`
@@ -166,14 +162,10 @@ Note: TODO
 === hook
 `plugin.hook(endpointName, opt_options)`
 
-See list of supported link:pg-plugin-endpoints.html[endpoints].
-
 Note: TODO
 
 === registerCustomComponent
 `plugin.registerCustomComponent(endpointName, opt_moduleName, opt_options)`
-
-See list of supported link:pg-plugin-endpoints.html[endpoints].
 
 Note: TODO
 
@@ -223,53 +215,6 @@ Note: TODO
 
 Note: TODO
 
-=== panel
-`plugin.panel(extensionpoint, callback)`
-
-Deprecated. Use `plugin.registerCustomComponent()` instead.
-
-``` js
-Gerrit.install(function(self) {
-  self.panel('CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK', function(context) {
-    context.body.innerHTML =
-      'Sample link: <a href="http://some.com/foo">Foo</a>';
-    context.show();
-  });
-});
-```
-
-Here's the recommended approach that uses Polymer for generating custom elements:
-
-``` html
-<dom-module id="some-plugin">
-  <script>
-    Gerrit.install(plugin => {
-      plugin.registerCustomComponent(
-        'change-view-integration', 'some-ci-module');
-    });
-  </script>
-</dom-module>
-
-<dom-module id="some-ci-module">
-  <template>
-    Sample link: <a href="http://some.com/foo">Foo</a>
-  </template>
-  <script>
-    Polymer({is: 'some-ci-module'});
-  </script>
-</dom-module>
-```
-
-Here's a minimal example that uses low-level DOM Hooks API for the same purpose:
-
-``` js
-Gerrit.install(plugin => {
-  plugin.hook('change-view-integration', el => {
-    el.innerHTML = 'Sample link: <a href="http://some.com/foo">Foo</a>';
-  });
-});
-```
-
 === popup
 `plugin.popup(moduleName)`
 
@@ -280,57 +225,20 @@ Note: TODO
 
 Note: TODO
 
-[plugin-repo]
-=== repo
-`plugin.repo()`
+[plugin-project]
+=== project
+`plugin.project()`
 
 .Params:
 - none
 
 .Returns:
-- Instance of link:pg-plugin-repo-api.html[GrRepoApi].
+- Instance of link:pg-plugin-project-api.html[GrProjectApi].
 
 === put
 `plugin.put(url, payload, opt_callback)`
 
 Note: TODO
-
-=== screen
-`plugin.screen(screenName, opt_moduleName)`
-
-.Params:
-- `*string* screenName` URL path fragment of the screen, e.g.
-`/x/pluginname/*screenname*`
-- `*string* opt_moduleName` (Optional) Web component to be instantiated for this
-screen.
-
-.Returns:
-- Instance of GrDomHook.
-
-=== screenUrl
-`plugin.url(opt_screenName)`
-
-.Params:
-- `*string* screenName` (optional) URL path fragment of the screen, e.g.
-`/x/pluginname/*screenname*`
-
-.Returns:
-- Absolute URL for the screen, e.g. `http://localhost/base/x/pluginname/screenname`
-
-[[plugin-settings]]
-=== settings
-`plugin.settings()`
-
-.Params:
-- none
-
-.Returns:
-- Instance of link:pg-plugin-settings-api.html[GrSettingsApi].
-
-=== settingsScreen
-`plugin.settingsScreen(path, menu, callback)`
-
-Deprecated. Use link:#plugin-settings[`plugin.settings()`] instead.
 
 === theme
 `plugin.theme()`
@@ -342,89 +250,3 @@ Note: TODO
 
 Note: TODO
 
-[[deprecated-api]]
-== Deprecated APIs
-
-Some of the deprecated APIs have limited implementation in PolyGerrit to serve
-as a "stepping stone" to allow gradual migration.
-
-=== install
-`plugin.deprecated.install()`
-
-.Params:
-- none
-
-Replaces plugin APIs with a deprecated version. This allows use of deprecated
-APIs without changing JS code. For example, `onAction` is not available by
-default, and after `plugin.deprecated.install()` it's accessible via
-`self.onAction()`.
-
-=== onAction
-`plugin.deprecated.onAction(type, view_name, callback)`
-
-.Params:
-- `*string* type` Action type.
-- `*string* view_name` REST API action.
-- `*function(actionContext)* callback` Callback invoked on action button click.
-
-Adds a button to the UI with a click callback. Exact button location depends on
-parameters. Callback is triggered with an instance of
-link:#deprecated-action-context[action context].
-
-Support is limited:
-
-- type is either `change` or `revision`.
-
-See link:js-api.html#self_onAction[self.onAction] for more info.
-
-=== panel
-`plugin.deprecated.panel(extensionpoint, callback)`
-
-.Params:
-- `*string* extensionpoint`
-- `*function(screenContext)* callback`
-
-Adds a UI DOM element and triggers a callback with context to allow direct DOM
-access.
-
-Support is limited:
-
-- extensionpoint is one of the following:
- * CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK
- * CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK
-
-See link:js-api.html#self_panel[self.panel] for more info.
-
-=== settingsScreen
-`plugin.deprecated.settingsScreent(path, menu, callback)`
-
-.Params:
-- `*string* path` URL path fragment of the screen for direct link.
-- `*string* menu` Menu item title.
-- `*function(settingsScreenContext)* callback`
-
-Adds a settings menu item and a section in the settings screen that is provided
-to plugin for setup.
-
-See link:js-api.html#self_settingsScreen[self.settingsScreen] for more info.
-
-[[deprecated-action-context]]
-=== Action Context (deprecated)
-Instance of Action Context is passed to `onAction()` callback.
-
-Support is limited:
-
-- `popup()`
-- `hide()`
-- `refresh()`
-- `textfield()`
-- `br()`
-- `msg()`
-- `div()`
-- `button()`
-- `checkbox()`
-- `label()`
-- `prependLabel()`
-- `call()`
-
-See link:js-api.html#ActionContext[Action Context] for more info.

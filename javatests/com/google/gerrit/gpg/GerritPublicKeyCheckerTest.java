@@ -142,10 +142,9 @@ public class GerritPublicKeyCheckerTest {
     storeRepo.close();
   }
 
-  private IdentifiedUser addUser(String name) throws Exception {
+  private Account.Id addUser(String name) throws Exception {
     AuthRequest req = AuthRequest.forUser(name);
-    Account.Id id = accountManager.authenticate(req).getAccountId();
-    return userFactory.create(id);
+    return accountManager.authenticate(req).getAccountId();
   }
 
   private IdentifiedUser reloadUser() {
@@ -167,7 +166,7 @@ public class GerritPublicKeyCheckerTest {
   @Test
   public void defaultGpgCertificationMatchesEmail() throws Exception {
     TestKey key = validKeyWithSecondUserId();
-    PublicKeyChecker checker = checkerFactory.create(user, store).disableTrust();
+    PublicKeyChecker checker = createPublicKeyChecker(userId).disableTrust();
     assertProblems(
         checker.check(key.getPublicKey()),
         Status.BAD,
@@ -177,14 +176,14 @@ public class GerritPublicKeyCheckerTest {
             + "  username:user");
 
     addExternalId("test", "test", "test5@example.com");
-    checker = checkerFactory.create(user, store).disableTrust();
+    checker = createPublicKeyChecker(userId).disableTrust();
     assertNoProblems(checker.check(key.getPublicKey()));
   }
 
   @Test
   public void defaultGpgCertificationDoesNotMatchEmail() throws Exception {
     addExternalId("test", "test", "nobody@example.com");
-    PublicKeyChecker checker = checkerFactory.create(user, store).disableTrust();
+    PublicKeyChecker checker = createPublicKeyChecker(userId).disableTrust();
     assertProblems(
         checker.check(validKeyWithSecondUserId().getPublicKey()),
         Status.BAD,
@@ -199,14 +198,14 @@ public class GerritPublicKeyCheckerTest {
   @Test
   public void manualCertificationMatchesExternalId() throws Exception {
     addExternalId("foo", "myId", null);
-    PublicKeyChecker checker = checkerFactory.create(user, store).disableTrust();
+    PublicKeyChecker checker = createPublicKeyChecker(userId).disableTrust();
     assertNoProblems(checker.check(validKeyWithSecondUserId().getPublicKey()));
   }
 
   @Test
   public void manualCertificationDoesNotMatchExternalId() throws Exception {
     addExternalId("foo", "otherId", null);
-    PublicKeyChecker checker = checkerFactory.create(user, store).disableTrust();
+    PublicKeyChecker checker = createPublicKeyChecker(userId).disableTrust();
     assertProblems(
         checker.check(validKeyWithSecondUserId().getPublicKey()),
         Status.BAD,
@@ -228,7 +227,7 @@ public class GerritPublicKeyCheckerTest {
     reloadUser();
 
     TestKey key = validKeyWithSecondUserId();
-    PublicKeyChecker checker = checkerFactory.create(user, store).disableTrust();
+    PublicKeyChecker checker = createPublicKeyChecker(userId).disableTrust();
     assertProblems(
         checker.check(key.getPublicKey()),
         Status.BAD,
@@ -251,20 +250,20 @@ public class GerritPublicKeyCheckerTest {
     //
     // The server ultimately trusts B and D.
     // D and E trust C to be a valid introducer of depth 2.
-    IdentifiedUser userB = addUser("userB");
-    TestKey keyA = add(keyA(), user);
-    TestKey keyB = add(keyB(), userB);
+    Account.Id userBId = addUser("userB");
+    TestKey keyA = add(keyA(), userId);
+    TestKey keyB = add(keyB(), userBId);
     add(keyC(), addUser("userC"));
     add(keyD(), addUser("userD"));
     add(keyE(), addUser("userE"));
 
     // Checker for A, checking A.
-    PublicKeyChecker checkerA = checkerFactory.create(user, store);
+    PublicKeyChecker checkerA = createPublicKeyChecker(userId);
     assertNoProblems(checkerA.check(keyA.getPublicKey()));
 
     // Checker for B, checking B. Trust chain and IDs are correct, so the only
     // problem is with the key itself.
-    PublicKeyChecker checkerB = checkerFactory.create(userB, store);
+    PublicKeyChecker checkerB = createPublicKeyChecker(userBId);
     assertProblems(checkerB.check(keyB.getPublicKey()), Status.BAD, "Key is expired");
   }
 
@@ -278,15 +277,15 @@ public class GerritPublicKeyCheckerTest {
     //
     // The server ultimately trusts B and D.
     // D and E trust C to be a valid introducer of depth 2.
-    IdentifiedUser userB = addUser("userB");
-    TestKey keyA = add(keyA(), user);
-    TestKey keyB = add(keyB(), userB);
+    Account.Id userBId = addUser("userB");
+    TestKey keyA = add(keyA(), userId);
+    TestKey keyB = add(keyB(), userBId);
     add(keyC(), addUser("userC"));
     add(keyD(), addUser("userD"));
     add(keyE(), addUser("userE"));
 
     // Checker for A, checking B.
-    PublicKeyChecker checkerA = checkerFactory.create(user, store);
+    PublicKeyChecker checkerA = createPublicKeyChecker(userId);
     assertProblems(
         checkerA.check(keyB.getPublicKey()),
         Status.BAD,
@@ -299,7 +298,7 @@ public class GerritPublicKeyCheckerTest {
             + "  username:user");
 
     // Checker for B, checking A.
-    PublicKeyChecker checkerB = checkerFactory.create(userB, store);
+    PublicKeyChecker checkerB = createPublicKeyChecker(userBId);
     assertProblems(
         checkerB.check(keyA.getPublicKey()),
         Status.BAD,
@@ -316,10 +315,10 @@ public class GerritPublicKeyCheckerTest {
     // A---Bx
     //
     // The server ultimately trusts B.
-    TestKey keyA = add(keyA(), user);
+    TestKey keyA = add(keyA(), userId);
     TestKey keyB = add(keyB(), addUser("userB"));
 
-    PublicKeyChecker checker = checkerFactory.create(user, store);
+    PublicKeyChecker checker = createPublicKeyChecker(userId);
     assertProblems(
         checker.check(keyA.getPublicKey()),
         Status.OK,
@@ -340,7 +339,7 @@ public class GerritPublicKeyCheckerTest {
     //
     // The server ultimately trusts B and D.
     // D and E trust C to be a valid introducer of depth 2.
-    TestKey keyA = add(keyA(), user);
+    TestKey keyA = add(keyA(), userId);
     TestKey keyB = add(keyB(), addUser("userB"));
     TestKey keyC = add(keyC(), addUser("userC"));
     TestKey keyD = add(keyD(), addUser("userD"));
@@ -368,7 +367,7 @@ public class GerritPublicKeyCheckerTest {
     //
     // The server ultimately trusts B.
     // C signed A's key but is not in the store.
-    TestKey keyA = add(keyA(), user);
+    TestKey keyA = add(keyA(), userId);
 
     PGPPublicKeyRing keyRingB = keyB().getPublicKeyRing();
     PGPPublicKey keyB = keyRingB.getPublicKey();
@@ -376,7 +375,7 @@ public class GerritPublicKeyCheckerTest {
     keyRingB = PGPPublicKeyRing.insertPublicKey(keyRingB, keyB);
     add(keyRingB, addUser("userB"));
 
-    PublicKeyChecker checkerA = checkerFactory.create(user, store);
+    PublicKeyChecker checkerA = createPublicKeyChecker(userId);
     assertProblems(
         checkerA.check(keyA.getPublicKey()),
         Status.OK,
@@ -385,16 +384,15 @@ public class GerritPublicKeyCheckerTest {
         "Key D24FE467 used for certification is not in store");
   }
 
-  private void add(PGPPublicKeyRing kr, IdentifiedUser user) throws Exception {
-    Account.Id id = user.getAccountId();
+  private void add(PGPPublicKeyRing kr, Account.Id accountId) throws Exception {
     List<ExternalId> newExtIds = new ArrayList<>(2);
-    newExtIds.add(ExternalId.create(toExtIdKey(kr.getPublicKey()), id));
+    newExtIds.add(ExternalId.create(toExtIdKey(kr.getPublicKey()), accountId));
 
     String userId = Iterators.getOnlyElement(kr.getPublicKey().getUserIDs(), null);
     if (userId != null) {
       String email = PushCertificateIdent.parse(userId).getEmailAddress();
       assertThat(email).contains("@");
-      newExtIds.add(ExternalId.createEmail(id, email));
+      newExtIds.add(ExternalId.createEmail(accountId, email));
     }
 
     store.add(kr);
@@ -404,12 +402,19 @@ public class GerritPublicKeyCheckerTest {
     cb.setCommitter(ident);
     assertThat(store.save(cb)).isAnyOf(NEW, FAST_FORWARD, FORCED);
 
-    accountsUpdateProvider.get().update("Add External IDs", id, u -> u.addExternalIds(newExtIds));
+    accountsUpdateProvider
+        .get()
+        .update("Add External IDs", accountId, u -> u.addExternalIds(newExtIds));
   }
 
-  private TestKey add(TestKey k, IdentifiedUser user) throws Exception {
-    add(k.getPublicKeyRing(), user);
+  private TestKey add(TestKey k, Account.Id accountId) throws Exception {
+    add(k.getPublicKeyRing(), accountId);
     return k;
+  }
+
+  private PublicKeyChecker createPublicKeyChecker(Account.Id accountId) {
+    IdentifiedUser user = userFactory.create(accountId);
+    return checkerFactory.create(user, store);
   }
 
   private void assertProblems(

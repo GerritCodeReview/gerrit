@@ -99,6 +99,7 @@ public class IdentifiedUserTest {
     injector.injectMembers(this);
 
     Account account = new Account(new Account.Id(1), TimeUtil.nowTs());
+    accountCache.put(account);
     Account.Id ownerId = account.getId();
 
     identifiedUser = identifiedUserFactory.create(ownerId);

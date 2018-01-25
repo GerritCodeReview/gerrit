@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71f5fcf1_83af737d",
+        "filename": "javatests/com/google/gerrit/extensions/conditions/BooleanConditionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-01-25T10:01:30Z",
+      "side": 1,
+      "message": "Happy to see more small tests with good name for their motivations. :)",
+      "range": {
+        "startLine": 51,
+        "startChar": 14,
+        "endLine": 51,
+        "endChar": 52
+      },
+      "revId": "2ce34c2b9e25120384de65cb4b8bf9b735dcd796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8e6c219_19da2ece",
+        "filename": "javatests/com/google/gerrit/extensions/conditions/BooleanConditionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-01-25T10:01:30Z",
+      "side": 1,
+      "message": "\"BooleanCondition reduced \u003d valueOf(false);\" looks more like the expected result. We just need to check the result with/without reduce() is the same. Should we use the following pattern for those tests?\n\nBooleanCondition nonReduced \u003d and(false, NO_TRIVIAL_EVALUATION);\nBooleanCondition reduced \u003d nonReduced.reduce();\nassertEquals(nonReduced, reduced);",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 47
+      },
+      "revId": "2ce34c2b9e25120384de65cb4b8bf9b735dcd796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f0e7ae9_e844f510",
+        "filename": "javatests/com/google/gerrit/extensions/conditions/BooleanConditionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-01-25T10:01:30Z",
+      "side": 1,
+      "message": "Should it rather be:\nBooleanCondition reduced \u003d and(NO_TRIVIAL_EVALUATION, valueOf(true)).reduce();\nassertEquals(nonReduced, reduced);\n\nThe current \"BooleanCondidtion reduced\" doesn\u0027t call \"reduce()\", so it\u0027s actually \"nonReduce()\". Same for other tests.",
+      "range": {
+        "startLine": 75,
+        "startChar": 27,
+        "endLine": 75,
+        "endChar": 36
+      },
+      "revId": "2ce34c2b9e25120384de65cb4b8bf9b735dcd796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "441a5178_32602959",
+        "filename": "javatests/com/google/gerrit/extensions/conditions/BooleanConditionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-01-25T10:01:30Z",
+      "side": 1,
+      "message": "No need to copy?",
+      "range": {
+        "startLine": 149,
+        "startChar": 31,
+        "endLine": 149,
+        "endChar": 99
+      },
+      "revId": "2ce34c2b9e25120384de65cb4b8bf9b735dcd796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

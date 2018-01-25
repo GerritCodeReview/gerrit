@@ -1459,6 +1459,22 @@ limitations under the License.
       });
     });
 
+    test('_sendShowChangeEvent', () => {
+      element._change = {labels: {}};
+      element._patchRange = {patchNum: 4};
+      element._mergeable = true;
+      const showStub = sandbox.stub(element.$.jsAPI, 'handleEvent');
+      element._sendShowChangeEvent();
+      assert.isTrue(showStub.calledOnce);
+      assert.equal(
+          showStub.lastCall.args[0], element.$.jsAPI.EventType.SHOW_CHANGE);
+      assert.deepEqual(showStub.lastCall.args[1], {
+        change: {labels: {}},
+        patchNum: 4,
+        info: {mergeable: true},
+      });
+    });
+
     suite('_handleEditTap', () => {
       let fireEdit;
 

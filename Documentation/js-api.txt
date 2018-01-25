@@ -167,7 +167,8 @@ Supported events:
 * `showchange`: Invoked when a change is made visible. A
   link:rest-api-changes.html#change-info[ChangeInfo] and
   link:rest-api-changes.html#revision-info[RevisionInfo]
-  are passed as arguments.
+  are passed as arguments. PolyGerrit provides a third parameter which
+  is an object with a `mergeable` boolean.
 
 * `submitchange`: Invoked when the submit button is clicked
   on a change. A link:rest-api-changes.html#change-info[ChangeInfo]

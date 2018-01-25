@@ -554,10 +554,7 @@
           patchRange.patchNum = this.computeLatestPatchNum(this._allPatchSets);
         }
         this._reloadPatchNumDependentResources().then(() => {
-          this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
-            change: this._change,
-            patchNum: patchRange.patchNum,
-          });
+          this._sendShowChangeEvent();
         });
         return;
       }
@@ -570,15 +567,20 @@
       });
     },
 
+    _sendShowChangeEvent() {
+      this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
+        change: this._change,
+        patchNum: this._patchRange.patchNum,
+        info: {mergeable: this._mergeable},
+      });
+    },
+
     _performPostLoadTasks() {
       this.$.relatedChanges.reload();
       this._maybeShowReplyDialog();
       this._maybeShowRevertDialog();
 
-      this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
-        change: this._change,
-        patchNum: this._patchRange.patchNum,
-      });
+      this._sendShowChangeEvent();
 
       this.async(() => {
         if (this.viewState.scrollTop) {

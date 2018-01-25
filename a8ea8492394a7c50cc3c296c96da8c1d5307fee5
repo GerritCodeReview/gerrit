@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "f3f004f3_04968f27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-01-25T14:36:18Z",
+      "side": 1,
+      "message": "\u003e If we already define new/different methods, why not choose names which are consistent with the terminology we use throughout our code: onAddMembers(..), onDeleteMembers(..), onAddSubgroup(..), and onDeleteSubgroup(..)?\n\nAgree. We should do like that.\n\n\u003e As we are breaking existing listeners anyway, we could also adjust the name of the interface. GroupMemberAuditListener was suitable when it was introduced but the name doesn\u0027t serve its purpose properly anymore. It\u0027s not just about *members* anymore. What about GroupAuditListener? That name would also be better in case we add an onRename(..) method in the future.\n\nYes. The name \"GroupMemberAuditListener\" is not accurate enough. Let\u0027s pick up a better name \"GroupAuditListener\".\n\n\u003e Why should we try not to break existing listeners with this change? The change I55b8d10eb9 already broke existing listeners. In my opinion, breaking them again right now (in the same release) is better than postponing it to another release.\n\nThen let\u0027s redefine this listener and update its document accordingly.",
+      "parentUuid": "70d510a4_2dc9b53e",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 34
+      },
+      "revId": "a8ea8492394a7c50cc3c296c96da8c1d5307fee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b98a22bc_1b48a103",
         "filename": "java/com/google/gerrit/server/audit/GroupMemberAuditListener.java",
         "patchSetId": 3

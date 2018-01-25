@@ -38,6 +38,7 @@ limitations under the License.
         padding: .3em .5em;
       }
       th {
+        position: relative;
         text-align: left;
       }
       .groupHeader {
@@ -54,6 +55,23 @@ limitations under the License.
       .headerRow + tr {
         border: none;
       }
+      .grip {
+        border-left: 1px dashed rgba(0, 0, 0, .3);
+        border-right: 1px dashed rgba(0, 0, 0, .3);
+
+        top: 0;
+        right: 0;
+        bottom: 0;
+        position: absolute;
+        cursor: col-resize;
+        width: 5px;
+      }
+      .indicator {
+        background-color: rgba(0, 0, 0, .3);
+        height: 100%;
+        margin-left: 2px;
+        width: 1px;
+      }
     </style>
     <style include="gr-change-list-styles"></style>
     <table id="changeList">
@@ -64,6 +82,7 @@ limitations under the License.
         <template is="dom-repeat" items="[[changeTableColumns]]" as="item">
           <th class$="[[_lowerCase(item)]] topHeader"
               hidden$="[[isColumnHidden(item, visibleChangeTableColumns)]]">
+            <div class="grip" on-mousedown="_handleGripDrag"></div>
             [[item]]
           </th>
         </template>

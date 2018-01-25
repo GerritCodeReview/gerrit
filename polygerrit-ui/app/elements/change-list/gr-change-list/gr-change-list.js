@@ -170,6 +170,25 @@
           NUMBER_FIXED_COLUMNS;
     },
 
+    _handleGripDrag(e) {
+      let th = e.target.parentElement;
+      let startOffset = th.offsetWidth - e.pageX;
+
+      const handleMouseDrag = (e) => {
+        if (th) {
+          th.style.width = startOffset + e.pageX + 'px';
+        }
+      }
+
+      const handleMouseRelease = (e) => {
+        window.removeEventListener('mousemove', handleMouseDrag);
+        window.removeEventListener('mouseup', handleMouseRelease);
+      }
+
+      window.addEventListener('mousemove', handleMouseDrag);
+      window.addEventListener('mouseup', handleMouseRelease);
+    },
+
     _computeLabelNames(sections) {
       if (!sections) { return []; }
       let labels = [];

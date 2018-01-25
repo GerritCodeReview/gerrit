@@ -135,12 +135,20 @@ limitations under the License.
     </td>
     <td class="cell owner"
         hidden$="[[isColumnHidden('Owner', visibleChangeTableColumns)]]">
-      <gr-account-link account="[[change.owner]]"></gr-account-link>
+        <div class="container">
+          <div class="content">
+            <gr-account-link account="[[change.owner]]"></gr-account-link>
+          </div>
+        </div>
     </td>
     <td class="cell assignee"
         hidden$="[[isColumnHidden('Assignee', visibleChangeTableColumns)]]">
       <template is="dom-if" if="[[change.assignee]]">
-        <gr-account-link account="[[change.assignee]]"></gr-account-link>
+        <div class="container">
+          <div class="content">
+            <gr-account-link account="[[change.assignee]]"></gr-account-link>
+          </div>
+        </div>
       </template>
     </td>
     <td class="cell project"
@@ -149,15 +157,19 @@ limitations under the License.
     </td>
     <td class="cell branch"
         hidden$="[[isColumnHidden('Branch', visibleChangeTableColumns)]]">
-      <a href$="[[_computeProjectBranchURL(change)]]">
-        [[change.branch]]
-      </a>
-      <template is="dom-if" if="[[change.topic]]">
-        (<a href$="[[_computeTopicURL(change)]]"><!--
-       --><gr-limited-text limit="30" text="[[change.topic]]">
-          </gr-limited-text><!--
-     --></a>)
-      </template>
+        <div class="container">
+          <div class="content">
+          <a href$="[[_computeProjectBranchURL(change)]]">
+            [[change.branch]]
+          </a>
+          <template is="dom-if" if="[[change.topic]]">
+            (<a href$="[[_computeTopicURL(change)]]"><!--
+          --><gr-limited-text limit="30" text="[[change.topic]]">
+              </gr-limited-text><!--
+        --></a>)
+          </template>
+        </div>
+      </div>
     </td>
     <td class="cell updated"
         hidden$="[[isColumnHidden('Updated', visibleChangeTableColumns)]]">

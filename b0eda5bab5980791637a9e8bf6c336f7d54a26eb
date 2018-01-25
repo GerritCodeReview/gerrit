@@ -70,6 +70,30 @@
       "revId": "b0eda5bab5980791637a9e8bf6c336f7d54a26eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3745bb7b_5826f51a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-25T15:11:47Z",
+      "side": 1,
+      "message": "\u003e But are we sure that it is a guarantee that diff_summary is populated, and not just an accident?\n\nI think it is a guarantee, given the current code. It is first populated when reindexing the new change, specifically via ChangeField#getFileParts which calls ChangeData#currentFilePaths. This always calls into PatchListCacheImpl#getDiffSummary.\n\nWhat I was worried about is if maybe #currentFilePaths had a fallback path where it looked for an already-loaded PatchListEntry and skipped #getDiffSummary if so. Then it wouldn\u0027t be a guarantee, it would be sensitive to the order in which ChangeData fields are lazily populated. But fortunately, that is not the case here.\n\nSo I think we are safe to proceed, unless Saša has more to add.",
+      "parentUuid": "a6311c77_a5280d83",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 43
+      },
+      "revId": "b0eda5bab5980791637a9e8bf6c336f7d54a26eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

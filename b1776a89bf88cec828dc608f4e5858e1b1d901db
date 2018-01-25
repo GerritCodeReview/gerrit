@@ -265,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "f5509f16_9afa5e50",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-01-25T16:41:59Z",
+      "side": 1,
+      "message": "\u003e One reason to not have an additional safety net is if the safety net code contains significant\n\u003e complexity that is never exercised, because it\u0027s by definition in a branch of the code that is\n\u003e covered by tests. Given the choice between complex-but-untested fallback code and throwing ISE\n\u003e or similar, I would argue for throwing the exception. If we are writing complex fallbacks,\n\u003e those should at least be unit tested in isolation.\n\nI completely agree. The code shouldn\u0027t get much more complex just because of the fallback. Most of the time, such a complex fallback isn\u0027t necessary, though.\n\n\u003e This is a complete digression, but the opening part of the comment (not the part you\u0027re\n\u003e referencing) rings rather hollow to me\n\nI don\u0027t share Brian\u0027s opinion regarding the first part either. Personally, I\u0027m very much in favor of using Optional as a field.\n\nWhat I still find useful is to know which original ideas/intentions (and possibly constraints) the creators of a new Java language feature had. For instance for streams, it\u0027s important to know that most operations should be stateless. Given that knowledge, I find it much safer to use new Java features in a creative way. Regarding Optionals, I took from the original idea that we should exercise reasonable care when using Optional#get.",
+      "parentUuid": "180ee016_c921a94d",
+      "revId": "b1776a89bf88cec828dc608f4e5858e1b1d901db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40670414_afbff932",
         "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
         "patchSetId": 1

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d511a69f_0d77f3b2",
+        "filename": "java/com/google/gerrit/httpd/HttpCanonicalWebUrlProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-01-25T13:48:53Z",
+      "side": 1,
+      "message": "We never return null anymore. Theoretically, we might remove the @Nullable annotation from most injections of canonicalWebUrl. What I\u0027m not sure about is whether we always provide a CanonicalWebUrlProvider (or HttpCanonicalWebUrlProvider) and hence whether it\u0027s safe to assume that we always provide a canonicalWebUrl. Any thoughts on this?",
+      "range": {
+        "startLine": 43,
+        "startChar": 9,
+        "endLine": 43,
+        "endChar": 15
+      },
+      "revId": "31c9b810da1ddec0d34c377606fe5a19fa60bc9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

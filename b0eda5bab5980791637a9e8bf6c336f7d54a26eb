@@ -22,6 +22,30 @@
       "revId": "b0eda5bab5980791637a9e8bf6c336f7d54a26eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "709735f1_2803d536",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-01-25T14:04:14Z",
+      "side": 1,
+      "message": "@Saša, As far as I know, removing the circular dependency should not prevent the reindexing from being fast. Reidexing would be slow if diff_summary is never populated but according to my testing, diff_summary is populated even if the line in diff_loader to populate diff_summary is removed.\n\nI just retested: an entry is loaded in the diff_summary as soon as Gerrit receive the commit and create the change/patchset. Reidexing a change is also getting/and or loading the entry from diff_summary.\n\nSo why do we need to populate diff_summary when getting a value from diff cache?",
+      "parentUuid": "7e3a8542_dcf39850",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 43
+      },
+      "revId": "b0eda5bab5980791637a9e8bf6c336f7d54a26eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1516888228 +0100\nnonce AGjzz3+ODRBh+Z+8iNZPhzVGBozy8wtvr/ORLyq05yOUDdfI8PkbPigVvQ+iXstjEhmU9qstjT6u\n\n0000000000000000000000000000000000000000 ef78c358014c241bb84f49bf3d3920fd85e5c715 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlpp4KQACgkQUbX9l6DQ\n71H/Jgf/enwr52fToOpfH0M5wGLVKs+It3PKTl0jB4NbQitjBVtcNlOhWto4bVzH\nmn3GK9+P1rlUbhHIRfIxBbhY+r3FeyASlXS2bSdO+F2ct78qmpBC+2u2T9Mbaico\nGCTjYYJP4G9EPK+avJf8ppq9H1oC7K/lqfxnS2+l2sSfpVhodNKdLu3R6z79y0pR\nHjhwGca45PkCZ5R19ZWq/DuZ79kVvYGzCC6/K1UisCQBli7Taky8qTESVsJnPf59\nk66fGJ8TlOmaVO/brntBuOtP/CeSMZ2PtsZz/QDCpb39Tco820BWmnHoFANXlvv8\nbwTnf7y0nYQWmoYTb65aiih0pPcRDw\u003d\u003d\n\u003d3jKj\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d55d82b_8f0cbfa8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-25T16:24:15Z",
+      "side": 1,
+      "message": "I think this statement is 100% true about, say, creating an IdentifiedUser to set in the request context.\n\nI am not sure it\u0027s 100% true in all cases though. One particular case: creating an IdentifiedUser is a convenient way to get a PersonIdent for an account (e.g. via newCommitterIdent). I\u0027m wondering if we are depending on this working for nonexistent accounts in rebuilding NoteDb changes or something.",
+      "range": {
+        "startLine": 14,
+        "startChar": 9,
+        "endLine": 15,
+        "endChar": 7
+      },
+      "revId": "ef78c358014c241bb84f49bf3d3920fd85e5c715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

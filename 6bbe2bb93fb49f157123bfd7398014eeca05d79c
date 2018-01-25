@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a0930c3d_6267de03",
+        "filename": "polygerrit-ui/app/run_test.sh",
+        "patchSetId": 15
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-01-25T08:07:01Z",
+      "side": 1,
+      "message": "True, default should behave as before.",
+      "parentUuid": "d8a265a4_aa27455a",
+      "revId": "6bbe2bb93fb49f157123bfd7398014eeca05d79c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "344eb090_f360f566",
         "filename": "polygerrit-ui/app/wct_test.sh",
         "patchSetId": 15

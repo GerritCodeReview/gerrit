@@ -22,6 +22,30 @@
       "revId": "a6ff34ae02ac0ad6c276a5ad56c23405db05a148",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4791219_52c8bf5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-25T01:52:05Z",
+      "side": 1,
+      "message": "Thanks.  I thought I\u0027d caught all of those before pushing.\n\nDone.",
+      "parentUuid": "c59c6db0_5456d0df",
+      "range": {
+        "startLine": 167,
+        "startChar": 4,
+        "endLine": 167,
+        "endChar": 41
+      },
+      "revId": "a6ff34ae02ac0ad6c276a5ad56c23405db05a148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

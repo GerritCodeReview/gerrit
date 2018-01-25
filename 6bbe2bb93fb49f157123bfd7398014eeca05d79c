@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "4424204c_a858146d",
+        "filename": "polygerrit-ui/app/run_test.sh",
+        "patchSetId": 15
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-01-25T08:59:04Z",
+      "side": 1,
+      "message": "Default should stay as before otherwise it may cause confusion to the PolyGerrit devs that are running tests interactively.",
+      "parentUuid": "b1d505e1_a8fd99b2",
+      "revId": "6bbe2bb93fb49f157123bfd7398014eeca05d79c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "344eb090_f360f566",
         "filename": "polygerrit-ui/app/wct_test.sh",
         "patchSetId": 15

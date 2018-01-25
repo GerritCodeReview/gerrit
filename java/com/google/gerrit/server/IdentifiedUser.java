@@ -114,6 +114,7 @@ public class IdentifiedUser extends CurrentUser {
           disableReverseDnsLookup,
           Providers.of(remotePeer),
           id,
+          null,
           caller);
     }
   }
@@ -166,6 +167,7 @@ public class IdentifiedUser extends CurrentUser {
           disableReverseDnsLookup,
           remotePeerProvider,
           id,
+          null,
           null);
     }
 
@@ -180,6 +182,7 @@ public class IdentifiedUser extends CurrentUser {
           disableReverseDnsLookup,
           remotePeerProvider,
           id,
+          null,
           caller);
     }
   }
@@ -200,8 +203,8 @@ public class IdentifiedUser extends CurrentUser {
 
   private final Provider<SocketAddress> remotePeerProvider;
   private final Account.Id accountId;
+  private final AccountState state;
 
-  private AccountState state;
   private boolean loadedAllEmails;
   private Set<String> invalidEmails;
   private GroupMembership effectiveGroups;
@@ -228,8 +231,8 @@ public class IdentifiedUser extends CurrentUser {
         disableReverseDnsLookup,
         remotePeerProvider,
         state.getAccount().getId(),
+        state,
         realUser);
-    this.state = state;
   }
 
   private IdentifiedUser(
@@ -242,6 +245,7 @@ public class IdentifiedUser extends CurrentUser {
       Boolean disableReverseDnsLookup,
       @Nullable Provider<SocketAddress> remotePeerProvider,
       Account.Id id,
+      @Nullable AccountState state,
       @Nullable CurrentUser realUser) {
     this.canonicalUrl = canonicalUrl;
     this.accountCache = accountCache;
@@ -252,6 +256,17 @@ public class IdentifiedUser extends CurrentUser {
     this.disableReverseDnsLookup = disableReverseDnsLookup;
     this.remotePeerProvider = remotePeerProvider;
     this.accountId = id;
+    this.state =
+        state != null
+            ? state
+            : accountCache
+                .maybeGet(accountId)
+                .orElseThrow(
+                    () ->
+                        new IllegalStateException(
+                            String.format(
+                                "cannot create %s for missing account %s",
+                                getClass().getSimpleName(), accountId)));
     this.realUser = realUser != null ? realUser : this;
   }
 
@@ -275,9 +290,6 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   public AccountState state() {
-    if (state == null) {
-      state = accountCache.get(getAccountId());
-    }
     return state;
   }
 

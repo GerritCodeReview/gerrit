@@ -287,7 +287,7 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
             new ConfirmationCallback() {
               @Override
               public void onOk() {
-                //do nothing
+                // do nothing
               }
             });
     confirmationDialog.center();

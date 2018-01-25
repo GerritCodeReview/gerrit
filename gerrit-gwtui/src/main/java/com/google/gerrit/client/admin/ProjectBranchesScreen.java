@@ -283,7 +283,7 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
             new ConfirmationCallback() {
               @Override
               public void onOk() {
-                //do nothing
+                // do nothing
               }
             });
     confirmationDialog.center();

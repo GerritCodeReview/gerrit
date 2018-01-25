@@ -183,7 +183,7 @@ public final class PatchSet {
   @Column(id = 6, notNull = false, length = Integer.MAX_VALUE)
   protected String groups;
 
-  //DELETED id = 7 (pushCertficate)
+  // DELETED id = 7 (pushCertficate)
 
   /** Certificate sent with a push that created this patch set. */
   @Column(id = 8, notNull = false, length = Integer.MAX_VALUE)

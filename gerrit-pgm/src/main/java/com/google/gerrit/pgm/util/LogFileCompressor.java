@@ -60,7 +60,7 @@ public class LogFileCompressor implements Runnable {
 
     @Override
     public void start() {
-      //compress log once and then schedule compression every day at 11:00pm
+      // compress log once and then schedule compression every day at 11:00pm
       queue.getDefaultQueue().execute(compressor);
       ZoneId zone = ZoneId.systemDefault();
       LocalDateTime now = LocalDateTime.now(zone);

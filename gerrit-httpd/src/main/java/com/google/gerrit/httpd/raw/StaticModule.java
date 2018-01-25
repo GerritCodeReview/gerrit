@@ -75,8 +75,8 @@ public class StaticModule extends ServletModule {
       ImmutableList.of("/", "/c/*", "/q/*", "/x/*", "/admin/*", "/dashboard/*", "/settings/*");
   // TODO(dborowitz): These fragments conflict with the REST API
   // namespace, so they will need to use a different path.
-  //"/groups/*",
-  //"/projects/*");
+  // "/groups/*",
+  // "/projects/*");
   //
 
   /**

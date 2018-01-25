@@ -154,7 +154,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
               }
               refPrefix = RefUtil.getRefPrefix(refPrefix);
             }
-            //$FALL-THROUGH$
+            // $FALL-THROUGH$
           case FORCED:
           case IO_FAILURE:
           case NOT_ATTEMPTED:

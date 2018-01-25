@@ -66,7 +66,8 @@ public class Schema_105 extends SchemaVersion {
   private Set<String> listChangesIndexes(JdbcSchema schema) throws SQLException {
     // List of all changes indexes ever created or dropped, found with the
     // following command:
-    //   find g* -name \*.sql | xargs git log -i -p -S' index changes_' | grep -io ' index changes_\w*' | cut -d' ' -f3 | tr A-Z a-z | sort -u
+    //   find g* -name \*.sql | xargs git log -i -p -S' index changes_' | grep -io ' index
+    // changes_\w*' | cut -d' ' -f3 | tr A-Z a-z | sort -u
     // Used rather than listIndexes as we're not sure whether it might include
     // primary key indexes.
     Set<String> allChanges =

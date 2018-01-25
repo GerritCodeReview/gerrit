@@ -428,8 +428,8 @@ public class WorkQueue {
 
     @Override
     public String toString() {
-      //This is a workaround to be able to print a proper name when the task
-      //is wrapped into a TrustedListenableFutureTask.
+      // This is a workaround to be able to print a proper name when the task
+      // is wrapped into a TrustedListenableFutureTask.
       try {
         if (runnable
             .getClass()

@@ -104,7 +104,7 @@ public class ProjectConfigEntry {
     this(displayName, defaultValue, null);
   }
 
-  //For inheritable boolean use 'LIST' type with InheritableBoolean
+  // For inheritable boolean use 'LIST' type with InheritableBoolean
   public ProjectConfigEntry(String displayName, boolean defaultValue, String description) {
     this(
         displayName,

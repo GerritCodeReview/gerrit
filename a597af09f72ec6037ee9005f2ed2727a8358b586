@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "1022a4c8_2f12c6db",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-25T13:49:40Z",
+      "side": 1,
+      "message": "Yeah, basically we should never create an IdentifiedUser for a missing account (and since we don\u0027t support account deletion it should also never happen that the account gets deleted after we created IdentifiedUser). I\u0027m thinking how bad it would be if we would just eagerly load the account state in the IdentifiedUser constructor and then fail hard if the account is missing. I wouldn\u0027t like to make the state() method return an Optional just for a theoretical case that should never happen.\n\nhttps://gerrit-review.googlesource.com/154990 to address this.",
+      "parentUuid": "b6bf93ab_70432edd",
+      "revId": "a597af09f72ec6037ee9005f2ed2727a8358b586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "08172f39_7620af3c",
         "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
         "patchSetId": 3

@@ -22,6 +22,30 @@
       "revId": "bacda46233aaf32656f83e50bc5507f5cf4b0ff5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6506b88_e58103c2",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-01-25T12:27:39Z",
+      "side": 1,
+      "message": "I agree, this shouldn\u0027t be current_user.\n\nHowever, commit_author is also not nice because, in most of the cases,\nwe cannot tell that it was commit_author who approved the CR label.\nFor example: if the commit author is johndoe and we have two votes\n[CR+1 from janeroe, CR+1 from maxpower] then we shouldn\u0027t tell that the CR label is satisfied because of the johndoe. johndoe didn\u0027t even vote on this change.\n\nIIUC, the idea in the old code was to pick one user who voted in CR and make this user \"responsible\" for the satisified CR label. This is also not very nice because in reality CR is satisfied because of multiple votes from multiple users... but because of the label/2 predicate we must provide exactly one.\n\nLooks like unification of R (R \u003d reviewer) in the line 900 doesn\u0027t work.\nIf this is the case then we could here randomly pick one user who voted CR+1 (or higher):\n\n  gerrit:commit_label(label(Category, V), U),\n  V \u003e\u003d 1,\n  !,\n  P \u003d [label(Category,ok(U)) | In].\n\nI haven\u0027t tested this code.",
+      "parentUuid": "2d438b5e_98cc350b",
+      "range": {
+        "startLine": 903,
+        "startChar": 4,
+        "endLine": 903,
+        "endChar": 27
+      },
+      "revId": "bacda46233aaf32656f83e50bc5507f5cf4b0ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

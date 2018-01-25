@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4eb3804_0ee745d4",
+        "filename": "java/com/google/gerrit/extensions/conditions/BooleanCondition.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-01-25T08:43:19Z",
+      "side": 1,
+      "message": "\"(\" -\u003e \",\"?",
+      "range": {
+        "startLine": 88,
+        "startChar": 51,
+        "endLine": 88,
+        "endChar": 52
+      },
+      "revId": "251ab52db29331cb8982910453d6ff94bff2a478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e312a586_f551dca0",
+        "filename": "java/com/google/gerrit/extensions/conditions/BooleanCondition.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-01-25T08:43:19Z",
+      "side": 1,
+      "message": "It could be just:\n\nreturn cond.evaluatesTrivially() \u0026\u0026 (cond.value() \u003d\u003d expectedValue);",
+      "range": {
+        "startLine": 318,
+        "startChar": 3,
+        "endLine": 321,
+        "endChar": 41
+      },
+      "revId": "251ab52db29331cb8982910453d6ff94bff2a478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "867dab1b_e7482c15",
+        "filename": "javatests/com/google/gerrit/extensions/conditions/BooleanConditionTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-01-25T08:43:19Z",
+      "side": 1,
+      "message": "Another test to verify no existing check is changed?\n assertThat(and(NO_TRIVIAL_EVALUATION, valueOf(true).reduce())\n        .isEqualTo(and(NO_TRIVIAL_EVALUATION, valueOf(true));",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 53
+      },
+      "revId": "251ab52db29331cb8982910453d6ff94bff2a478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a881870_01897bac",
+        "filename": "javatests/com/google/gerrit/extensions/conditions/BooleanConditionTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-01-25T08:43:19Z",
+      "side": 1,
+      "message": "same here.",
+      "range": {
+        "startLine": 59,
+        "startChar": 14,
+        "endLine": 59,
+        "endChar": 22
+      },
+      "revId": "251ab52db29331cb8982910453d6ff94bff2a478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fabc72a_dd811795",
+        "filename": "javatests/com/google/gerrit/extensions/conditions/BooleanConditionTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-01-25T08:43:19Z",
+      "side": 1,
+      "message": "I would prefer to assign the two BooleanCondition to two variables to make it more clear. This could apply to most of the above tests.\n\nBooleanCondition nonReducedCond \u003d\n        and(or(NO_TRIVIAL_EVALUATION, NO_TRIVIAL_EVALUATION), or(valueOf(true), valueOf(false)));\nBooleanCondition reducedCond \u003d nonReducedCond.reduce();\nassertThat(reducedCond).isEqualTo(nonReducedCond);",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 89
+      },
+      "revId": "251ab52db29331cb8982910453d6ff94bff2a478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

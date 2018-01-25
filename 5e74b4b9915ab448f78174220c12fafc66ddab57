@@ -17,6 +17,24 @@
       "revId": "5e74b4b9915ab448f78174220c12fafc66ddab57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b44f458b_e573bd3f",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-01-25T10:12:16Z",
+      "side": 1,
+      "message": "Thanks for adding this check and not calling Optional#get without it. Yes, it may confound static analyzers but I\u0027m confident that they either learn (at some point in the hopefully not too far future) to put such a Truth assertion on the same level as calling Optional#isPresent or that they will have appropriate configuration options. In my opinion, this check is absolutely sufficient.",
+      "parentUuid": "a9783f5a_0028a209",
+      "revId": "5e74b4b9915ab448f78174220c12fafc66ddab57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

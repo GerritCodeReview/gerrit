@@ -23,6 +23,30 @@
       "revId": "ee50223f23cf9c8a0a96269a52836fa57abd19ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "636a0081_59d7f76d",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-25T12:15:37Z",
+      "side": 1,
+      "message": "For modified external IDs ExternalIdNotes#updateCaches evicts the corresponding accounts from the account cache which triggers a reindex of those accounts. If in the same transaction any of these accounts is otherwise modified so that its user branch changes in addition to the external IDs, then this account is reindexed twice. The second reindex happens due to the ref updated event for the user branch which is received by ReindexAfterRefUpdate. So to avoid the double reindexing we tell ExternalIdNotes#updateCaches to skip/ignore/exclude the updated accounts when doing the cache eviction because ReindexAfterRefUpdate already takes care to reindex them.\n\nHope with \"skip\" it\u0027s clearer now?",
+      "parentUuid": "c658450b_95bf0212",
+      "range": {
+        "startLine": 580,
+        "startChar": 7,
+        "endLine": 580,
+        "endChar": 31
+      },
+      "revId": "ee50223f23cf9c8a0a96269a52836fa57abd19ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbba16d0_b31a6432",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-25T19:42:22Z",
+      "side": 1,
+      "message": "Can we enumerate all reported interactions in a enum?",
+      "revId": "c4fb7976b20166e91d22a0e3e5030e6e3bbec650",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

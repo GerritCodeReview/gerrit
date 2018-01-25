@@ -1559,7 +1559,7 @@ public abstract class AbstractDaemonTest {
           tip == null
               ? builder.commit().message("commit 1").add(file, content).create()
               : builder.commit().parent(tip).message("commit 1").add(file, content).create();
-      assertThat(GitUtil.getChangeId(testSrcRepo, revCommit).isPresent()).isFalse();
+      assertThat(GitUtil.getChangeId(testSrcRepo, revCommit)).isEmpty();
       return revCommit;
     }
   }

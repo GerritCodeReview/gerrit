@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.group;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
@@ -395,7 +396,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
                     10,
                     indexes.getSearchIndex().getSchema().getStoredFields().keySet()));
 
-    assertThat(rawFields.isPresent()).isTrue();
+    assertThat(rawFields).isPresent();
     assertThat(rawFields.get().getValue(GroupField.UUID)).isEqualTo(uuid.get());
   }
 

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
@@ -558,7 +559,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
                     1,
                     indexes.getSearchIndex().getSchema().getStoredFields().keySet()));
 
-    assertThat(rawFields.isPresent()).isTrue();
+    assertThat(rawFields).isPresent();
     assertThat(rawFields.get().getValue(AccountField.ID)).isEqualTo(userInfo._accountId);
 
     // The field EXTERNAL_ID_STATE is only supported from schema version 6.

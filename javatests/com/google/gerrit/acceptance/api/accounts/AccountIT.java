@@ -1950,7 +1950,7 @@ public class AccountIT extends AbstractDaemonTest {
     // metaId is set when account is updated
     Optional<AccountState> updatedAccountState =
         au.update("Set Full Name", accountId, u -> u.setFullName("foo"));
-    assertThat(updatedAccountState.isPresent()).isTrue();
+    assertThat(updatedAccountState).isPresent();
     Account updatedAccount = updatedAccountState.get().getAccount();
     assertThat(accountState.getAccount().getMetaId()).isNotEqualTo(updatedAccount.getMetaId());
     assertThat(updatedAccount.getMetaId()).isEqualTo(getMetaId(accountId));
@@ -2058,7 +2058,7 @@ public class AccountIT extends AbstractDaemonTest {
         update.update("Set Full Name", admin.id, u -> u.setFullName(fullName));
     assertThat(doneBgUpdate.get()).isTrue();
 
-    assertThat(updatedAccountState.isPresent()).isTrue();
+    assertThat(updatedAccountState).isPresent();
     Account updatedAccount = updatedAccountState.get().getAccount();
     assertThat(updatedAccount.getStatus()).isEqualTo(status);
     assertThat(updatedAccount.getFullName()).isEqualTo(fullName);
@@ -2185,7 +2185,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(bgCounterA1.get()).isEqualTo(1);
     assertThat(bgCounterA2.get()).isEqualTo(1);
 
-    assertThat(updatedAccountState.isPresent()).isTrue();
+    assertThat(updatedAccountState).isPresent();
     assertThat(updatedAccountState.get().getAccount().getStatus()).isEqualTo("B-2");
     assertThat(accounts.get(admin.id).get().getAccount().getStatus()).isEqualTo("B-2");
     assertThat(gApi.accounts().id(admin.id.get()).get().status).isEqualTo("B-2");
@@ -2266,7 +2266,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(bgCounterA1.get()).isEqualTo(1);
     assertThat(bgCounterA2.get()).isEqualTo(1);
 
-    assertThat(updatedAccount.isPresent()).isTrue();
+    assertThat(updatedAccount).isPresent();
     assertThat(updatedAccount.get().getExternalIds()).containsExactly(extIdB2);
     assertThat(accounts.get(accountId).get().getExternalIds()).containsExactly(extIdB2);
     assertThat(

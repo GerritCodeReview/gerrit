@@ -16,6 +16,7 @@ java_library(
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:truth",
+        "//lib:truth-java8-extension",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
     ],

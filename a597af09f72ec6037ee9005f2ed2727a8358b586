@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "46ea11a3_572085a4",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-25T16:21:43Z",
+      "side": 1,
+      "message": "Agreed that that other change is the way to go.",
+      "parentUuid": "1022a4c8_2f12c6db",
+      "revId": "a597af09f72ec6037ee9005f2ed2727a8358b586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08172f39_7620af3c",
         "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
         "patchSetId": 3

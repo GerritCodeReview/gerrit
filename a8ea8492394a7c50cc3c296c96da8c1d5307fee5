@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "19539421_0f124bf2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-01-25T13:19:06Z",
+      "side": 1,
+      "message": "As your suggestion, I\u0027m planning to go as follows:\n1- Define interface \"GroupAuditEvent\" with method: \"getActor\", \"getModifiedGroup\", \"getTimestamp\".\n2- \"GroupMemberAuditEvent\" implements the \"GroupAuditEvent\" with an additional \"getModifiedMembers\".\n   \"GroupSubgroupAuditEvent\" implements the \"GroupAuditEvent\" with an additional \"getModifiedSubgroups\".\n3- The four dedidated event methods will be:\n   void onAddAccountsToGroup(GroupMemberAuditEvent);\n   void onDeleteAccountsFromGroup(GroupMemberAuditEvent);\n   void onAddGroupsToGroup(GroupSubgroupAuditEvent);\n   void onDeleteGroupsFromGroup(GroupSubGroupAuditEvent);\n\nThe 4 new methods could be defined as default. \n\nFor those 4 old methods, existing listeners may only notice they have to adjust when we remove those 4 methods. Thus we might choose to delete them directly. If we do like above, hopefully, we only need to break them once.",
+      "parentUuid": "cedc8849_439cd1c6",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 34
+      },
+      "revId": "a8ea8492394a7c50cc3c296c96da8c1d5307fee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b98a22bc_1b48a103",
         "filename": "java/com/google/gerrit/server/audit/GroupMemberAuditListener.java",
         "patchSetId": 3

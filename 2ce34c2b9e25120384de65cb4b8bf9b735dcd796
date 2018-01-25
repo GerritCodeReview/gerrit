@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "b5229730_a8647812",
+        "filename": "javatests/com/google/gerrit/extensions/conditions/BooleanConditionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-01-25T14:47:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "47b2ad71_d0299be3",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 47
+      },
+      "revId": "2ce34c2b9e25120384de65cb4b8bf9b735dcd796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f0e7ae9_e844f510",
         "filename": "javatests/com/google/gerrit/extensions/conditions/BooleanConditionTest.java",
         "patchSetId": 5
@@ -119,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "0c31e8ea_f3511e35",
+        "filename": "javatests/com/google/gerrit/extensions/conditions/BooleanConditionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-01-25T14:47:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0e8948e5_9f7f74e9",
+      "range": {
+        "startLine": 75,
+        "startChar": 27,
+        "endLine": 75,
+        "endChar": 36
+      },
+      "revId": "2ce34c2b9e25120384de65cb4b8bf9b735dcd796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "441a5178_32602959",
         "filename": "javatests/com/google/gerrit/extensions/conditions/BooleanConditionTest.java",
         "patchSetId": 5
@@ -154,6 +202,30 @@
       "side": 1,
       "message": "IMHO it is better to compare two fully distinct objects containing the state we have pre-reduction and post-reduction and they should not reference each other in any way.",
       "parentUuid": "441a5178_32602959",
+      "range": {
+        "startLine": 149,
+        "startChar": 31,
+        "endLine": 149,
+        "endChar": 99
+      },
+      "revId": "2ce34c2b9e25120384de65cb4b8bf9b735dcd796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2429d40_49fe2e58",
+        "filename": "javatests/com/google/gerrit/extensions/conditions/BooleanConditionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-01-25T14:47:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "554a446d_60b61d66",
       "range": {
         "startLine": 149,
         "startChar": 31,

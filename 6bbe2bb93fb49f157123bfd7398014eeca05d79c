@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8a265a4_aa27455a",
+        "filename": "polygerrit-ui/app/run_test.sh",
+        "patchSetId": 15
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-25T07:32:58Z",
+      "side": 1,
+      "message": "Why start-maximized is necessary per default? To make the command below work? Couldn\u0027t it just be:\n\n  browser_options\u003d${BROWSER_OPTIONS:-[]}",
+      "revId": "6bbe2bb93fb49f157123bfd7398014eeca05d79c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "344eb090_f360f566",
+        "filename": "polygerrit-ui/app/wct_test.sh",
+        "patchSetId": 15
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-25T07:32:58Z",
+      "side": 1,
+      "message": "Have you tried to make firefox also work in headless mode? According to: [1] it should just work. So may be instead of having BROWSER_OPTIONS we should split it in two: CHROME_OPTIONS and FIREFOX_OPTIONS, in case they mst be disjunct?\n\n* [1] https://developer.mozilla.org/en-US/Firefox/Headless_mode",
+      "range": {
+        "startLine": 35,
+        "startChar": 10,
+        "endLine": 37,
+        "endChar": 11
+      },
+      "revId": "6bbe2bb93fb49f157123bfd7398014eeca05d79c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

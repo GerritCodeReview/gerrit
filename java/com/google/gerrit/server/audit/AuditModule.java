@@ -15,6 +15,7 @@
 package com.google.gerrit.server.audit;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.audit.group.GroupAuditListener;
 import com.google.inject.AbstractModule;
 
 public class AuditModule extends AbstractModule {
@@ -22,7 +23,7 @@ public class AuditModule extends AbstractModule {
   @Override
   protected void configure() {
     DynamicSet.setOf(binder(), AuditListener.class);
-    DynamicSet.setOf(binder(), GroupMemberAuditListener.class);
+    DynamicSet.setOf(binder(), GroupAuditListener.class);
     bind(AuditService.class);
   }
 }

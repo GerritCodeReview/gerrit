@@ -17,6 +17,24 @@
       "revId": "7ce2bdc2596972dcf375c26886bb5c739fb87b92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f21ccc4_c93fe44e",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-25T16:10:56Z",
+      "side": 1,
+      "message": "Sorry that this is still confusing :(\n\n\u003e I think one thing that\u0027s throwing me off is the syntactic ambiguity of this sentence.\n\u003e I am reading: \"(Skip accounts that are updated) (when evicting the account cache)\",\n\u003e i.e. \"When evicting the account cache, skip accounts that are updated\"\n\nExactly, this is what I mean. When ExternalIdNotes#updateCaches evicts accounts from the account cache it should *not* evict those accounts that are updated. Because the updated accounts are already evicted by ReindexAfterRefUpdate. ExternalIdNotes#updateCaches should only evict those accounts for which external IDs have been changed, but which haven\u0027t been updated otherwise.\n\n\u003e I think you might mean: \"(Skip accounts that are (updated when evicting the account cache))\", i.e. \"You know\n\u003e those accounts that get updated when evicting the account cache? Skip them.\"\n\nNo, accounts don\u0027t get updated by eviction. I know those accounts which will be updated by AccountConfig and those accounts don\u0027t need to be evicted by ExternalIdNotes#updateCaches even if also external IDs for them have been touched. It\u0027s ReindexAfterRefUpdate which takes care to evict the accounts that are updated by AccountConfig.\n\nMaybe examples make it clearer:\nA. Full name is updated by AccountConfig -\u003e ReindexAfterRefUpdate gets the event for the update of the user branch and evicts the account.\nB. An external ID is added by ExternalIdNotes -\u003e ExternalIdNotes#updateCaches evicts the corresponding account.\nC. Full name is updated by AccountConfig *and* an external ID is added by ExternalIdNotes -\u003e the account is evicted twice, once by ReindexAfterRefUpdate and once by ExternalIdNotes#updateCaches\n\nAll I\u0027m trying to do is that in case C the account is indexed only once. This reindex should be done by ReindexAfterRefUpdate (because we can\u0027t prevent this if we send out a ref updated event for the user branch). So ExternalIdNotes#updateCaches should not do the cache eviction for the account that was updated by setting the full name. In other words ExternalIdNotes#updateCaches should just skip this account when it does cache evictions.",
+      "parentUuid": "e0267a39_2bed7e84",
+      "revId": "7ce2bdc2596972dcf375c26886bb5c739fb87b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5308b60e_69f6bd1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-25T03:24:26Z",
+      "side": 1,
+      "message": "A limitation of this is that since the query itself uses the index, it will possibly miss any change for which the index is already stale.",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "b9bb3c86db406863f0428c5691eb3e11b3441af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96a3f4d1_50320050",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeQueryInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-25T03:24:26Z",
+      "side": 1,
+      "message": "Can this go in a more specific package?  Maybe api/changes?",
+      "range": {
+        "startLine": 15,
+        "startChar": 37,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "b9bb3c86db406863f0428c5691eb3e11b3441af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2c8bde9_6aae79ec",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeQueryInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-25T03:24:26Z",
+      "side": 1,
+      "message": "Is the default constructor needed?",
+      "range": {
+        "startLine": 20,
+        "startChar": 9,
+        "endLine": 20,
+        "endChar": 25
+      },
+      "revId": "b9bb3c86db406863f0428c5691eb3e11b3441af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3466b3a5_1382615b",
+        "filename": "java/com/google/gerrit/server/change/ChangesIndexCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-25T03:24:26Z",
+      "side": 1,
+      "message": "Is it OK for this method to return null?  In RestCollection it is not annotated as @Nullable.\n\nMaybe better to throw a NotImplementedException?",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 16
+      },
+      "revId": "b9bb3c86db406863f0428c5691eb3e11b3441af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebdd003d_9cb34d02",
+        "filename": "java/com/google/gerrit/server/change/ChangesIndexCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-25T03:24:26Z",
+      "side": 1,
+      "message": "Same here",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 16
+      },
+      "revId": "b9bb3c86db406863f0428c5691eb3e11b3441af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

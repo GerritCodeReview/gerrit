@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42916996_a5ebade1",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-25T23:37:29Z",
+      "side": 1,
+      "message": "Should update this to include all the changes done to the master branch recently like java 6 being dropped.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 1
+      },
+      "revId": "e3254869f2a75a5cfc3065e78c5f05cd7cae66c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

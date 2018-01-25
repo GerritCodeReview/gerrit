@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "47b2ad71_d0299be3",
+        "filename": "javatests/com/google/gerrit/extensions/conditions/BooleanConditionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-01-25T12:27:49Z",
+      "side": 1,
+      "message": "No, I really want to check the trees for equality to assert specifically on what the reduce operation is doing to the trees.",
+      "parentUuid": "b8e6c219_19da2ece",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 47
+      },
+      "revId": "2ce34c2b9e25120384de65cb4b8bf9b735dcd796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f0e7ae9_e844f510",
         "filename": "javatests/com/google/gerrit/extensions/conditions/BooleanConditionTest.java",
         "patchSetId": 5
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "0e8948e5_9f7f74e9",
+        "filename": "javatests/com/google/gerrit/extensions/conditions/BooleanConditionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-01-25T12:27:49Z",
+      "side": 1,
+      "message": "We could rename \u0027reduced\u0027 to \u0027expectedResultAfterReduction\u0027 but IMHO that is clunky and since the tests are so small it should be clear what these mean :)",
+      "parentUuid": "2f0e7ae9_e844f510",
+      "range": {
+        "startLine": 75,
+        "startChar": 27,
+        "endLine": 75,
+        "endChar": 36
+      },
+      "revId": "2ce34c2b9e25120384de65cb4b8bf9b735dcd796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "441a5178_32602959",
         "filename": "javatests/com/google/gerrit/extensions/conditions/BooleanConditionTest.java",
         "patchSetId": 5
@@ -91,6 +139,30 @@
       "revId": "2ce34c2b9e25120384de65cb4b8bf9b735dcd796",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "554a446d_60b61d66",
+        "filename": "javatests/com/google/gerrit/extensions/conditions/BooleanConditionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-01-25T12:27:49Z",
+      "side": 1,
+      "message": "IMHO it is better to compare two fully distinct objects containing the state we have pre-reduction and post-reduction and they should not reference each other in any way.",
+      "parentUuid": "441a5178_32602959",
+      "range": {
+        "startLine": 149,
+        "startChar": 31,
+        "endLine": 149,
+        "endChar": 99
+      },
+      "revId": "2ce34c2b9e25120384de65cb4b8bf9b735dcd796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

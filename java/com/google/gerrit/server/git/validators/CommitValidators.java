@@ -20,7 +20,6 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
@@ -372,8 +371,8 @@ public class CommitValidators {
       if (hostKeys.isEmpty()) {
         String p = "${gitdir}/hooks/commit-msg";
         return String.format(
-            "  gitdir=$(git rev-parse --git-dir); curl -o %s %s/tools/hooks/commit-msg ; chmod +x %s",
-            p, getGerritUrl(canonicalWebUrl), p);
+            "  gitdir=$(git rev-parse --git-dir); curl -o %s %stools/hooks/commit-msg ; chmod +x %s",
+            p, canonicalWebUrl, p);
       }
 
       // SSH keys exist, so the hook can be installed with scp.
@@ -883,37 +882,20 @@ public class CommitValidators {
   }
 
   /**
-   * Get the Gerrit URL.
-   *
-   * @return the canonical URL (with any trailing slash removed) if it is configured, otherwise fall
-   *     back to "http://hostname" where hostname is the value returned by {@link
-   *     #getGerritHost(String)}.
-   */
-  private static String getGerritUrl(String canonicalWebUrl) {
-    if (canonicalWebUrl != null) {
-      return CharMatcher.is('/').trimTrailingFrom(canonicalWebUrl);
-    }
-    return "http://" + getGerritHost(canonicalWebUrl);
-  }
-
-  /**
    * Get the Gerrit hostname.
    *
    * @return the hostname from the canonical URL if it is configured, otherwise whatever the OS says
    *     the hostname is.
    */
   private static String getGerritHost(String canonicalWebUrl) {
-    String host;
     if (canonicalWebUrl != null) {
       try {
-        host = new URL(canonicalWebUrl).getHost();
-      } catch (MalformedURLException e) {
-        host = SystemReader.getInstance().getHostname();
+        return new URL(canonicalWebUrl).getHost();
+      } catch (MalformedURLException ignored) {
       }
-    } else {
-      host = SystemReader.getInstance().getHostname();
     }
-    return host;
+
+    return SystemReader.getInstance().getHostname();
   }
 
   private static void addError(String error, List<CommitValidationMessage> messages) {

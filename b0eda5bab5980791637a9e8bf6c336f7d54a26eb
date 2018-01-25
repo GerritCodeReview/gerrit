@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e3a8542_dcf39850",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-01-25T11:13:07Z",
+      "side": 1,
+      "message": "I understand why we need to remove this circular dependency. To be honest, I toyed with the idea of removing it some months ago (for other reasons) and asked Saša why we had it in the first place. He said that the main concern was the speed of reindexing of the whole site.\n\nMy plan was to get rid of this specialty when restructuring the diff caches (but to make sure that we wouldn\u0027t loose too much performance by choosing a better general structure).\n\nAll in all, I really like this circular dependency to be gone. I just wanted to point out that large Gerrit hosts which have a limited PatchList cache might see a negative impact on the speed of reindexing of the whole site.",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 43
+      },
+      "revId": "b0eda5bab5980791637a9e8bf6c336f7d54a26eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

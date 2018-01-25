@@ -14,12 +14,13 @@
 
 package com.google.gerrit.server.group;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
@@ -27,18 +28,20 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.UniversalGroupBackend;
-import com.google.gerrit.server.audit.GroupMemberAuditListener;
+import com.google.gerrit.server.audit.group.GroupAuditListener;
+import com.google.gerrit.server.audit.group.GroupMemberAuditEvent;
+import com.google.gerrit.server.audit.group.GroupSubgroupAuditEvent;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import org.slf4j.Logger;
 
-class DbGroupMemberAuditListener implements GroupMemberAuditListener {
+class DbGroupMemberAuditListener implements GroupAuditListener {
   private static final Logger log =
       org.slf4j.LoggerFactory.getLogger(DbGroupMemberAuditListener.class);
 
@@ -60,31 +63,25 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
   }
 
   @Override
-  public void onAddAccountsToGroup(
-      Account.Id me, Collection<AccountGroupMember> added, Timestamp addedOn) {
-    List<AccountGroupMemberAudit> auditInserts = new ArrayList<>();
-    for (AccountGroupMember m : added) {
-      AccountGroupMemberAudit audit = new AccountGroupMemberAudit(m, me, addedOn);
-      auditInserts.add(audit);
-    }
+  public void onAddMembers(GroupMemberAuditEvent event) {
     try (ReviewDb db = unwrapDb(schema.open())) {
-      db.accountGroupMembersAudit().insert(auditInserts);
+      db.accountGroupMembersAudit().insert(toAccountGroupMemberAudits(event));
     } catch (OrmException e) {
-      logOrmExceptionForAccounts(
-          "Cannot log add accounts to group event performed by user", me, added, e);
+      logOrmExceptionForMembersEvent(
+          "Cannot log add accounts to group event performed by user", event, e);
     }
   }
 
   @Override
-  public void onDeleteAccountsFromGroup(
-      Account.Id me, Collection<AccountGroupMember> removed, Timestamp removedOn) {
+  public void onDeleteMembers(GroupMemberAuditEvent event) {
     List<AccountGroupMemberAudit> auditInserts = new ArrayList<>();
     List<AccountGroupMemberAudit> auditUpdates = new ArrayList<>();
     try (ReviewDb db = unwrapDb(schema.open())) {
-      for (AccountGroupMember m : removed) {
+      for (Account.Id accountId : event.getModifiedMembers()) {
         AccountGroupMemberAudit audit = null;
-        for (AccountGroupMemberAudit a :
-            db.accountGroupMembersAudit().byGroupAccount(m.getAccountGroupId(), m.getAccountId())) {
+        ResultSet<AccountGroupMemberAudit> audits =
+            db.accountGroupMembersAudit().byGroupAccount(event.getUpdatedGroup(), accountId);
+        for (AccountGroupMemberAudit a : audits) {
           if (a.isActive()) {
             audit = a;
             break;
@@ -92,47 +89,44 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
         }
 
         if (audit != null) {
-          audit.removed(me, removedOn);
+          audit.removed(event.getActor(), event.getTimestamp());
           auditUpdates.add(audit);
-        } else {
-          audit = new AccountGroupMemberAudit(m, me, removedOn);
-          audit.removedLegacy();
-          auditInserts.add(audit);
+          continue;
         }
+        AccountGroupMember.Key key = new AccountGroupMember.Key(accountId, event.getUpdatedGroup());
+        audit =
+            new AccountGroupMemberAudit(
+                new AccountGroupMember(key), event.getActor(), event.getTimestamp());
+        audit.removedLegacy();
+        auditInserts.add(audit);
       }
       db.accountGroupMembersAudit().update(auditUpdates);
       db.accountGroupMembersAudit().insert(auditInserts);
     } catch (OrmException e) {
-      logOrmExceptionForAccounts(
-          "Cannot log delete accounts from group event performed by user", me, removed, e);
+      logOrmExceptionForMembersEvent(
+          "Cannot log delete accounts from group event performed by user", event, e);
     }
   }
 
   @Override
-  public void onAddGroupsToGroup(
-      Account.Id me, Collection<AccountGroupById> added, Timestamp addedOn) {
-    List<AccountGroupByIdAud> includesAudit = new ArrayList<>();
-    for (AccountGroupById groupInclude : added) {
-      AccountGroupByIdAud audit = new AccountGroupByIdAud(groupInclude, me, addedOn);
-      includesAudit.add(audit);
-    }
+  public void onAddSubgroups(GroupSubgroupAuditEvent event) {
     try (ReviewDb db = unwrapDb(schema.open())) {
-      db.accountGroupByIdAud().insert(includesAudit);
+      db.accountGroupByIdAud().insert(toAccountGroupByIdAudits(event));
     } catch (OrmException e) {
-      logOrmExceptionForGroups(
-          "Cannot log add groups to group event performed by user", me, added, e);
+      logOrmExceptionForSubgroupsEvent(
+          "Cannot log add groups to group event performed by user", event, e);
     }
   }
 
   @Override
-  public void onDeleteGroupsFromGroup(
-      Account.Id me, Collection<AccountGroupById> removed, Timestamp removedOn) {
+  public void onDeleteSubgroups(GroupSubgroupAuditEvent event) {
     final List<AccountGroupByIdAud> auditUpdates = new ArrayList<>();
     try (ReviewDb db = unwrapDb(schema.open())) {
-      for (AccountGroupById g : removed) {
+      for (AccountGroup.UUID uuid : event.getModifiedSubgroups()) {
         AccountGroupByIdAud audit = null;
-        for (AccountGroupByIdAud a :
-            db.accountGroupByIdAud().byGroupInclude(g.getGroupId(), g.getIncludeUUID())) {
+        ResultSet<AccountGroupByIdAud> audits =
+            db.accountGroupByIdAud().byGroupInclude(event.getUpdatedGroup(), uuid);
+        for (AccountGroupByIdAud a : audits) {
           if (a.isActive()) {
             audit = a;
             break;
@@ -140,48 +134,46 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
         }
 
         if (audit != null) {
-          audit.removed(me, removedOn);
+          audit.removed(event.getActor(), event.getTimestamp());
           auditUpdates.add(audit);
         }
       }
       db.accountGroupByIdAud().update(auditUpdates);
     } catch (OrmException e) {
-      logOrmExceptionForGroups(
-          "Cannot log delete groups from group event performed by user", me, removed, e);
+      logOrmExceptionForSubgroupsEvent(
+          "Cannot log delete groups from group event performed by user", event, e);
     }
   }
 
-  private void logOrmExceptionForAccounts(
-      String header, Account.Id me, Collection<AccountGroupMember> values, OrmException e) {
-    List<String> descriptions = new ArrayList<>();
-    for (AccountGroupMember m : values) {
-      Account.Id accountId = m.getAccountId();
-      String userName = accountCache.get(accountId).getUserName().orElse(null);
-      AccountGroup.Id groupId = m.getAccountGroupId();
-      String groupName = getGroupName(groupId);
+  private void logOrmExceptionForMembersEvent(
+      String header, GroupMemberAuditEvent event, OrmException e) {
+    AccountGroup.Id groupId = event.getUpdatedGroup();
+    String groupName = getGroupName(groupId);
 
+    List<String> descriptions = new ArrayList<>();
+    for (Account.Id accountId : event.getModifiedMembers()) {
+      String userName = accountCache.get(accountId).getUserName().orElse(null);
       descriptions.add(
           MessageFormat.format(
               "account {0}/{1}, group {2}/{3}", accountId, userName, groupId, groupName));
     }
-    logOrmException(header, me, descriptions, e);
+    logOrmException(header, event.getActor(), descriptions, e);
   }
 
-  private void logOrmExceptionForGroups(
-      String header, Account.Id me, Collection<AccountGroupById> values, OrmException e) {
-    List<String> descriptions = new ArrayList<>();
-    for (AccountGroupById m : values) {
-      AccountGroup.UUID groupUuid = m.getIncludeUUID();
-      String groupName = groupBackend.get(groupUuid).getName();
-      AccountGroup.Id targetGroupId = m.getGroupId();
-      String targetGroupName = getGroupName(targetGroupId);
+  private void logOrmExceptionForSubgroupsEvent(
+      String header, GroupSubgroupAuditEvent event, OrmException e) {
+    AccountGroup.Id parentGroupId = event.getUpdatedGroup();
+    String parentGroupName = getGroupName(parentGroupId);
 
+    List<String> descriptions = new ArrayList<>();
+    for (AccountGroup.UUID groupUuid : event.getModifiedSubgroups()) {
+      String groupName = groupBackend.get(groupUuid).getName();
       descriptions.add(
           MessageFormat.format(
               "group {0}/{1}, group {2}/{3}",
-              groupUuid, groupName, targetGroupId, targetGroupName));
+              groupUuid, groupName, parentGroupId, parentGroupName));
     }
-    logOrmException(header, me, descriptions, e);
+    logOrmException(header, event.getActor(), descriptions, e);
   }
 
   private String getGroupName(AccountGroup.Id groupId) {
@@ -197,5 +189,35 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
     message.append(": ");
     message.append(Joiner.on("; ").join(values));
     log.error(message.toString(), e);
+  }
+
+  private static ImmutableSet<AccountGroupMemberAudit> toAccountGroupMemberAudits(
+      GroupMemberAuditEvent event) {
+    AccountGroup.Id updatedGroupId = event.getUpdatedGroup();
+    Timestamp timestamp = event.getTimestamp();
+    Account.Id actor = event.getActor();
+    return event
+        .getModifiedMembers()
+        .stream()
+        .map(
+            t ->
+                new AccountGroupMemberAudit(
+                    new AccountGroupMemberAudit.Key(t, updatedGroupId, timestamp), actor))
+        .collect(toImmutableSet());
+  }
+
+  private static ImmutableSet<AccountGroupByIdAud> toAccountGroupByIdAudits(
+      GroupSubgroupAuditEvent event) {
+    AccountGroup.Id updatedGroupId = event.getUpdatedGroup();
+    Timestamp timestamp = event.getTimestamp();
+    Account.Id actor = event.getActor();
+    return event
+        .getModifiedSubgroups()
+        .stream()
+        .map(
+            t ->
+                new AccountGroupByIdAud(
+                    new AccountGroupByIdAud.Key(updatedGroupId, t, timestamp), actor))
+        .collect(toImmutableSet());
   }
 }

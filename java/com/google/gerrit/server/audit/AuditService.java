@@ -14,14 +14,17 @@
 
 package com.google.gerrit.server.audit;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroupById;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.audit.group.GroupAuditListener;
+import com.google.gerrit.server.audit.group.GroupMemberAuditEvent;
+import com.google.gerrit.server.audit.group.GroupSubgroupAuditEvent;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.Timestamp;
-import java.util.Collection;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,14 +33,14 @@ public class AuditService {
   private static final Logger log = LoggerFactory.getLogger(AuditService.class);
 
   private final DynamicSet<AuditListener> auditListeners;
-  private final DynamicSet<GroupMemberAuditListener> groupMemberAuditListeners;
+  private final DynamicSet<GroupAuditListener> groupAuditListeners;
 
   @Inject
   public AuditService(
       DynamicSet<AuditListener> auditListeners,
-      DynamicSet<GroupMemberAuditListener> groupMemberAuditListeners) {
+      DynamicSet<GroupAuditListener> groupAuditListeners) {
     this.auditListeners = auditListeners;
-    this.groupMemberAuditListeners = groupMemberAuditListeners;
+    this.groupAuditListeners = groupAuditListeners;
   }
 
   public void dispatch(AuditEvent action) {
@@ -46,44 +49,68 @@ public class AuditService {
     }
   }
 
-  public void dispatchAddAccountsToGroup(
-      Account.Id actor, Collection<AccountGroupMember> added, Timestamp addedOn) {
-    for (GroupMemberAuditListener auditListener : groupMemberAuditListeners) {
+  public void dispatchAddMembers(
+      Account.Id actor,
+      AccountGroup.Id updatedGroup,
+      Set<Account.Id> addedMembers,
+      Timestamp addedOn) {
+    for (GroupAuditListener auditListener : groupAuditListeners) {
       try {
-        auditListener.onAddAccountsToGroup(actor, added, addedOn);
+        GroupMemberAuditEvent event =
+            GroupMemberAuditEvent.create(
+                actor, updatedGroup, ImmutableSet.copyOf(addedMembers), addedOn);
+        auditListener.onAddMembers(event);
       } catch (RuntimeException e) {
         log.error("failed to log add accounts to group event", e);
       }
     }
   }
 
-  public void dispatchDeleteAccountsFromGroup(
-      Account.Id actor, Collection<AccountGroupMember> removed, Timestamp removedOn) {
-    for (GroupMemberAuditListener auditListener : groupMemberAuditListeners) {
+  public void dispatchDeleteMembers(
+      Account.Id actor,
+      AccountGroup.Id updatedGroup,
+      Set<Account.Id> deletedMembers,
+      Timestamp deletedOn) {
+    for (GroupAuditListener auditListener : groupAuditListeners) {
       try {
-        auditListener.onDeleteAccountsFromGroup(actor, removed, removedOn);
+        GroupMemberAuditEvent event =
+            GroupMemberAuditEvent.create(
+                actor, updatedGroup, ImmutableSet.copyOf(deletedMembers), deletedOn);
+        auditListener.onDeleteMembers(event);
       } catch (RuntimeException e) {
         log.error("failed to log delete accounts from group event", e);
       }
     }
   }
 
-  public void dispatchAddGroupsToGroup(
-      Account.Id actor, Collection<AccountGroupById> added, Timestamp addedOn) {
-    for (GroupMemberAuditListener auditListener : groupMemberAuditListeners) {
+  public void dispatchAddSubgroups(
+      Account.Id actor,
+      AccountGroup.Id updatedGroup,
+      Set<AccountGroup.UUID> addedSubgroups,
+      Timestamp addedOn) {
+    for (GroupAuditListener auditListener : groupAuditListeners) {
       try {
-        auditListener.onAddGroupsToGroup(actor, added, addedOn);
+        GroupSubgroupAuditEvent event =
+            GroupSubgroupAuditEvent.create(
+                actor, updatedGroup, ImmutableSet.copyOf(addedSubgroups), addedOn);
+        auditListener.onAddSubgroups(event);
       } catch (RuntimeException e) {
         log.error("failed to log add groups to group event", e);
       }
     }
   }
 
-  public void dispatchDeleteGroupsFromGroup(
-      Account.Id actor, Collection<AccountGroupById> removed, Timestamp removedOn) {
-    for (GroupMemberAuditListener auditListener : groupMemberAuditListeners) {
+  public void dispatchDeleteSubgroups(
+      Account.Id actor,
+      AccountGroup.Id updatedGroup,
+      Set<AccountGroup.UUID> deletedSubgroups,
+      Timestamp deletedOn) {
+    for (GroupAuditListener auditListener : groupAuditListeners) {
       try {
-        auditListener.onDeleteGroupsFromGroup(actor, removed, removedOn);
+        GroupSubgroupAuditEvent event =
+            GroupSubgroupAuditEvent.create(
+                actor, updatedGroup, ImmutableSet.copyOf(deletedSubgroups), deletedOn);
+        auditListener.onDeleteSubgroups(event);
       } catch (RuntimeException e) {
         log.error("failed to log delete groups from group event", e);
       }

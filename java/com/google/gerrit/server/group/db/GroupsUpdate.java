@@ -377,19 +377,19 @@ public class GroupsUpdate {
   }
 
   private void addGroupMembersInReviewDb(
-      ReviewDb db, AccountGroup.Id groupId, Set<Account.Id> newMemberIds, Timestamp addedOn)
+      ReviewDb db, AccountGroup.Id groupId, Set<Account.Id> accountIds, Timestamp addedOn)
       throws OrmException {
     Set<AccountGroupMember> newMembers =
-        newMemberIds
+        accountIds
             .stream()
             .map(accountId -> new AccountGroupMember.Key(accountId, groupId))
             .map(AccountGroupMember::new)
             .collect(toImmutableSet());
+    db.accountGroupMembers().insert(newMembers);
 
     if (currentUser != null) {
-      auditService.dispatchAddAccountsToGroup(currentUser.getAccountId(), newMembers, addedOn);
+      auditService.dispatchAddMembers(currentUser.getAccountId(), groupId, accountIds, addedOn);
     }
-    db.accountGroupMembers().insert(newMembers);
   }
 
   private void removeGroupMembersInReviewDb(
@@ -401,12 +401,12 @@ public class GroupsUpdate {
             .map(accountId -> new AccountGroupMember.Key(accountId, groupId))
             .map(AccountGroupMember::new)
             .collect(toImmutableSet());
+    db.accountGroupMembers().delete(membersToRemove);
 
     if (currentUser != null) {
-      auditService.dispatchDeleteAccountsFromGroup(
-          currentUser.getAccountId(), membersToRemove, removedOn);
+      auditService.dispatchDeleteMembers(
+          currentUser.getAccountId(), groupId, accountIds, removedOn);
     }
-    db.accountGroupMembers().delete(membersToRemove);
   }
 
   private ImmutableSet<AccountGroup.UUID> updateSubgroupsInReviewDb(
@@ -442,11 +442,12 @@ public class GroupsUpdate {
             .map(subgroupUuid -> new AccountGroupById.Key(parentGroupId, subgroupUuid))
             .map(AccountGroupById::new)
             .collect(toImmutableSet());
+    db.accountGroupById().insert(newSubgroups);
 
     if (currentUser != null) {
-      auditService.dispatchAddGroupsToGroup(currentUser.getAccountId(), newSubgroups, addedOn);
+      auditService.dispatchAddSubgroups(
+          currentUser.getAccountId(), parentGroupId, subgroupUuids, addedOn);
     }
-    db.accountGroupById().insert(newSubgroups);
   }
 
   private void removeSubgroupsInReviewDb(
@@ -461,12 +462,12 @@ public class GroupsUpdate {
             .map(subgroupUuid -> new AccountGroupById.Key(parentGroupId, subgroupUuid))
             .map(AccountGroupById::new)
             .collect(toImmutableSet());
+    db.accountGroupById().delete(subgroupsToRemove);
 
     if (currentUser != null) {
-      auditService.dispatchDeleteGroupsFromGroup(
-          currentUser.getAccountId(), subgroupsToRemove, removedOn);
+      auditService.dispatchDeleteSubgroups(
+          currentUser.getAccountId(), parentGroupId, subgroupUuids, removedOn);
     }
-    db.accountGroupById().delete(subgroupsToRemove);
   }
 
   private InternalGroup createGroupInNoteDbWithRetry(

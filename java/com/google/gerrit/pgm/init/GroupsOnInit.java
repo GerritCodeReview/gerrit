@@ -33,11 +33,12 @@ import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdentProvider;
-import com.google.gerrit.server.config.AnonymousCowardNameProvider;
+import com.google.gerrit.server.config.GerritServerIdProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.group.db.AuditLogFormatter;
 import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.group.db.Groups;
@@ -234,8 +235,8 @@ public class GroupsOnInit {
         groupConfig.getLoadedGroup().orElseThrow(() -> new NoSuchGroupException(groupUuid));
 
     InternalGroupUpdate groupUpdate = getMemberAdditionUpdate(account);
-    groupConfig.setGroupUpdate(
-        groupUpdate, accountId -> getAccountNameEmail(account, accountId), AccountGroup.UUID::get);
+    AuditLogFormatter auditLogFormatter = getAuditLogFormatter(account);
+    groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
 
     commit(repository, groupConfig, group.getCreatedOn());
   }
@@ -253,12 +254,10 @@ public class GroupsOnInit {
         .build();
   }
 
-  private String getAccountNameEmail(Account knownAccount, Account.Id someAccountId) {
-    if (knownAccount.getId().equals(someAccountId)) {
-      String anonymousCowardName = new AnonymousCowardNameProvider(flags.cfg).get();
-      return knownAccount.getNameEmail(anonymousCowardName);
-    }
-    return String.valueOf(someAccountId);
+  private AuditLogFormatter getAuditLogFormatter(Account account)
+      throws IOException, ConfigInvalidException {
+    String serverId = new GerritServerIdProvider(flags.cfg, site).get();
+    return AuditLogFormatter.createBackedBy(ImmutableSet.of(account), ImmutableSet.of(), serverId);
   }
 
   private void commit(Repository repository, GroupConfig groupConfig, Timestamp groupCreatedOn)

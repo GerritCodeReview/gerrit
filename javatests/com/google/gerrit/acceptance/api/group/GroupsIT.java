@@ -73,7 +73,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.GroupsConsistencyChecker;
 import com.google.gerrit.server.index.group.GroupIndexer;
@@ -986,13 +985,7 @@ public class GroupsIT extends AbstractDaemonTest {
     repo.reset("groupRef");
     PushOneCommit.Result r =
         pushFactory
-            .create(
-                db,
-                admin.getIdent(),
-                repo,
-                "Update group config",
-                GroupConfig.GROUP_CONFIG_FILE,
-                "some content")
+            .create(db, admin.getIdent(), repo, "Update group", "arbitraryFile.txt", "some content")
             .to(groupRefName);
     if (expectedErrorOnUpdate != null) {
       r.assertErrorStatus(expectedErrorOnUpdate);
@@ -1008,13 +1001,7 @@ public class GroupsIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> repo = cloneProject(project);
     PushOneCommit.Result r =
         pushFactory
-            .create(
-                db,
-                admin.getIdent(),
-                repo,
-                "Update group config",
-                GroupConfig.GROUP_CONFIG_FILE,
-                "some content")
+            .create(db, admin.getIdent(), repo, "Update group", "arbitraryFile.txt", "some content")
             .setParents(ImmutableList.of())
             .to(RefNames.REFS_GROUPS + name("bar"));
     if (expectedErrorOnCreate != null) {

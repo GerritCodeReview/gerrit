@@ -5,6 +5,7 @@ junit_tests(
     size = "small",
     srcs = glob(["*.java"]),
     deps = [
+        "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/common/data/testing:common-data-test-util",
         "//java/com/google/gerrit/extensions:api",
@@ -12,6 +13,7 @@ junit_tests(
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/group/db/testing",
+        "//java/com/google/gerrit/server/group/testing",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//java/com/google/gerrit/truth",
         "//lib:gwtorm",

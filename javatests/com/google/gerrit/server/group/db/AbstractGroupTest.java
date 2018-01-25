@@ -16,7 +16,9 @@ package com.google.gerrit.server.group.db;
 
 import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.assertThat;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -24,11 +26,11 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import java.sql.Timestamp;
+import java.util.Optional;
 import java.util.TimeZone;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -80,17 +82,6 @@ public class AbstractGroupTest extends GerritBaseTests {
     }
   }
 
-  protected void assertTipCommit(AccountGroup.UUID uuid, String expectedMessage) throws Exception {
-    try (RevWalk rw = new RevWalk(allUsersRepo)) {
-      Ref ref = allUsersRepo.exactRef(RefNames.refsGroups(uuid));
-      assertCommit(
-          CommitUtil.toCommitInfo(rw.parseCommit(ref.getObjectId()), rw),
-          expectedMessage,
-          getAccountName(userId),
-          getAccountEmail(userId));
-    }
-  }
-
   protected static void assertServerCommit(CommitInfo commitInfo, String expectedMessage) {
     assertCommit(commitInfo, expectedMessage, SERVER_NAME, SERVER_EMAIL);
   }
@@ -125,12 +116,43 @@ public class AbstractGroupTest extends GerritBaseTests {
         getAccountName(id), getAccountEmail(id), ident.getWhen(), ident.getTimeZone());
   }
 
-  protected static String getAccountNameEmail(Account.Id id) {
-    return String.format("%s <%s>", getAccountName(id), getAccountEmail(id));
+  protected static AuditLogFormatter getAuditLogFormatter() {
+    return AuditLogFormatter.create(
+        AbstractGroupTest::getAccount, AbstractGroupTest::getGroup, SERVER_ID);
   }
 
-  protected static String getGroupName(AccountGroup.UUID uuid) {
-    return String.format("Group <%s>", uuid);
+  private static Optional<Account> getAccount(Account.Id id) {
+    Account account = new Account(id, TimeUtil.nowTs());
+    account.setFullName("Account " + id);
+    return Optional.of(account);
+  }
+
+  private static Optional<GroupDescription.Basic> getGroup(AccountGroup.UUID uuid) {
+    GroupDescription.Basic group =
+        new GroupDescription.Basic() {
+          @Override
+          public AccountGroup.UUID getGroupUUID() {
+            return uuid;
+          }
+
+          @Override
+          public String getName() {
+            return "Group";
+          }
+
+          @Nullable
+          @Override
+          public String getEmailAddress() {
+            return null;
+          }
+
+          @Nullable
+          @Override
+          public String getUrl() {
+            return null;
+          }
+        };
+    return Optional.of(group);
   }
 
   protected static String getAccountName(Account.Id id) {

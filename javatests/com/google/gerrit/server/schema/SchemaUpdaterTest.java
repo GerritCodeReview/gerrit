@@ -29,6 +29,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -102,6 +103,8 @@ public class SchemaUpdaterTest {
                     bind(PersonIdent.class) //
                         .annotatedWith(GerritPersonIdent.class) //
                         .toProvider(GerritPersonIdentProvider.class);
+
+                    bind(String.class).annotatedWith(GerritServerId.class).toInstance("gerrit");
 
                     bind(AllProjectsName.class).toInstance(new AllProjectsName("All-Projects"));
                     bind(AllUsersName.class).toInstance(new AllUsersName("All-Users"));

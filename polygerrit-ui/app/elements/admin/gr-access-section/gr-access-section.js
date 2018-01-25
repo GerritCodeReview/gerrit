@@ -78,7 +78,9 @@
     },
 
     _handleValueChange() {
-      this.section.value.modified = this.section.id !== this._originalId;
+      if (!this.section.value.added) {
+        this.section.value.modified = this.section.id !== this._originalId;
+      }
       this.section.value.updatedId = this.section.id;
 
       // Allows overall access page to know a change has been made.
@@ -187,8 +189,9 @@
       delete this.section.value.deleted;
     },
 
-    _handleEditReference() {
+    editReference() {
       this._editingRef = true;
+      this.$.editRefInput.focus();
     },
 
     _computeSectionClass(editing, editingRef, deleted) {

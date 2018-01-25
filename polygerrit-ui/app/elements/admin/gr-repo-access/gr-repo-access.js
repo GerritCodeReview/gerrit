@@ -202,6 +202,8 @@
       for (const k in obj) {
         if (!obj.hasOwnProperty(k)) { return; }
         if (typeof obj[k] == 'object') {
+          const updatedId = obj[k].updatedId;
+          const ref = updatedId ? updatedId : k;
           if (obj[k].deleted) {
             this._updateAddRemoveObj(addRemoveObj,
                 path.concat(k), 'remove');
@@ -209,9 +211,6 @@
           } else if (obj[k].modified) {
             this._updateAddRemoveObj(addRemoveObj,
                 path.concat(k), 'remove');
-
-            const updatedId = obj[k].updatedId;
-            const ref = updatedId ? updatedId : k;
             this._updateAddRemoveObj(addRemoveObj, path.concat(ref), 'add',
                 obj[k]);
             /* Special case for ref changes because they need to be added and
@@ -225,7 +224,7 @@
             continue;
           } else if (obj[k].added) {
             this._updateAddRemoveObj(addRemoveObj,
-                path.concat(k), 'add', obj[k]);
+                path.concat(ref), 'add', obj[k]);
             continue;
           }
           this._recursivelyUpdateAddRemoveObj(obj[k], addRemoveObj,
@@ -248,6 +247,16 @@
 
       this._recursivelyUpdateAddRemoveObj(this._local, addRemoveObj);
       return addRemoveObj;
+    },
+
+    _handleCreateSection() {
+      const DEFAULT_REF = 'refs/for/*';
+      let section = {permissions: {}, added: true}
+      this.push('_sections', {id: DEFAULT_REF, value: section});
+      this.set(['_local', DEFAULT_REF], section);
+      Polymer.dom.flush();
+      Polymer.dom(this.root).querySelectorAll('gr-access-section')
+          [this._sections.length - 1].editReference();
     },
 
     _handleSaveForReview() {

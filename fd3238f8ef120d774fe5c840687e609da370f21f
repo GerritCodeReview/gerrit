@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "02ea9c0f_1babdc96",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-01-25T13:45:20Z",
+      "side": 1,
+      "message": "Not applicable anymore. I removed CanonicalServer in favor of I7ba0f9a14f.",
+      "parentUuid": "d87a5248_e0961cd9",
+      "range": {
+        "startLine": 490,
+        "startChar": 4,
+        "endLine": 490,
+        "endChar": 59
+      },
+      "revId": "fd3238f8ef120d774fe5c840687e609da370f21f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee3b6307_fcfee955",
         "filename": "java/com/google/gerrit/server/git/validators/CanonicalServer.java",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "fd3238f8ef120d774fe5c840687e609da370f21f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bff84e77_00e2fdcf",
+        "filename": "java/com/google/gerrit/server/git/validators/CanonicalServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-01-25T13:45:20Z",
+      "side": 1,
+      "message": "I removed CanonicalServer in favor of I7ba0f9a14f.",
+      "parentUuid": "ee3b6307_fcfee955",
+      "revId": "fd3238f8ef120d774fe5c840687e609da370f21f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

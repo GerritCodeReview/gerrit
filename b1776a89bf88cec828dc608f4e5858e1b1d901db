@@ -241,6 +241,30 @@
     },
     {
       "key": {
+        "uuid": "0c492787_372c8e9f",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-25T16:08:39Z",
+      "side": 1,
+      "message": "Nevermind, this code is removed in the followup, in a much cleaner way than just having a helper method. Maybe that means that this kind of duplication is a smell that the problem can be addressed in a better way.",
+      "parentUuid": "088328f8_905bc8b0",
+      "range": {
+        "startLine": 372,
+        "startChar": 8,
+        "endLine": 373,
+        "endChar": 90
+      },
+      "revId": "b1776a89bf88cec828dc608f4e5858e1b1d901db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40670414_afbff932",
         "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
         "patchSetId": 1

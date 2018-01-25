@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44c24c4e_1912b531",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefPermissionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-25T05:23:13Z",
+      "side": 1,
+      "message": "If you import assertThat from Truth8 instead of Truth, these can be simplified:\n\n assertThat(...).isPresent();\n assertThat(...).isAbsent();\n assertThat(...).hasValue(...);",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 28,
+        "endChar": 55
+      },
+      "revId": "af80f6a24738f3d4dbcf598e85bf9cae68bb2494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

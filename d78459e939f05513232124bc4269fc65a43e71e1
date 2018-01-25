@@ -35,6 +35,24 @@
       "revId": "d78459e939f05513232124bc4269fc65a43e71e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4d082fb_e67db1bd",
+        "filename": "java/com/google/gerrit/server/permissions/RefPermission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-25T15:33:52Z",
+      "side": 1,
+      "message": "\u003e (I don\u0027t really understand why null pointers have to be wrapped in Optional, but, .. shrug)\n\nTwo brief answers:\n\n* It conveys in the type itself that the value may be present or empty; readers and authors of downstream code don\u0027t have to inspect the annotations/javadoc to learn this fact.\n* Optional has emptiness-aware convenience methods that may make things nicer for downstream callers. It doesn\u0027t *always* make things nicer, but the more general-purpose a library you\u0027re building, the greater likelihood that it will make things nicer for at least some of your callers.\n\nAnyway, I\u0027m not necessarily arguing strongly for or against using Optional in this class\u0027s methods; this decision can be made on a case-by-case basis if you like.\n\nBut I am arguing for consistency within a single class.",
+      "parentUuid": "5fd77a9d_a77fca49",
+      "revId": "d78459e939f05513232124bc4269fc65a43e71e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

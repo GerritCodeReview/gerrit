@@ -182,6 +182,47 @@
     },
     {
       "key": {
+        "uuid": "088328f8_905bc8b0",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-25T15:58:35Z",
+      "side": 1,
+      "message": "I think this is independent of the more general discussion we were having: is there a reason you would prefer not to have a private helper method that returns auditLogFormatter.orElseThrow(...)? I still don\u0027t especially like hard-coding this string twice.\n\nDoesn\u0027t need to block this change, though.",
+      "range": {
+        "startLine": 372,
+        "startChar": 8,
+        "endLine": 373,
+        "endChar": 90
+      },
+      "revId": "b1776a89bf88cec828dc608f4e5858e1b1d901db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "423a6c45_e1deb01f",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-25T15:58:35Z",
+      "side": 1,
+      "message": "Thank you for the detailed explanations. The arguments about static analyzers and developing good habits are quite convincing.\n\nI do want to mention one point here:\n\n\u003e Of course, tests should catch those cases but why not have an additional safety net.\n\nOne reason to not have an additional safety net is if the safety net code contains significant complexity that is never exercised, because it\u0027s by definition in a branch of the code that is covered by tests. Given the choice between complex-but-untested fallback code and throwing ISE or similar, I would argue for throwing the exception. If we are writing complex fallbacks, those should at least be unit tested in isolation.\n\nI don\u0027t want to mischaracterize what you\u0027re saying here; I certainly don\u0027t think you\u0027re arguing in favor of writing complex, untested code, and I don\u0027t think you\u0027ve done that in this change. But I do think that this caveat needs to be mentioned in this discussion, given the likelihood that we will refer back to this thread later.\n\nOf course, there is still the question of what constitutes \"significant complexity\", which should be decided on a case-by-case basis. Concretely, I agree that your fallback AuditLogFormatter[1] is not complex enough to require a unit test, and for that reason I am totally fine with this change as-is.\n\n\u003e In the meantime, I changed my opinion and created I5466e586ee. I can squash it into this change if you prefer that.\n\nNo need to squash, I will go review that now.\n\n\n\u003e I finally found the comment from Brian Goetz which I had in mind all along. It\u0027s the last part in the brackets of http://stackoverflow.com/a/26328555/1487809.\n\nThis is a complete digression, but the opening part of the comment (not the part you\u0027re referencing) rings rather hollow to me:\n\n\"Of course, people will do what they want. But we did have a clear intention when adding this feature, and it was not to be a general purpose Maybe or Some type, as much as many people would have liked us to do so.\"\n\nIt sounds like what he is saying is: people wanted a Maybe type, and we designed a thing that looks an awful lot like a Maybe type, but we didn\u0027t intend it to actually *be* one. And then he acts surprised that people are using it like a Maybe type instead of like the thing that they intended. Come on, you coulda seen that one coming.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/146010/3/java/com/google/gerrit/server/schema/SchemaCreator.java#244",
+      "parentUuid": "905bd991_d24e169e",
+      "revId": "b1776a89bf88cec828dc608f4e5858e1b1d901db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40670414_afbff932",
         "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
         "patchSetId": 1
@@ -196,6 +237,24 @@
       "revId": "b1776a89bf88cec828dc608f4e5858e1b1d901db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "621aad34_4241083e",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-25T15:58:35Z",
+      "side": 1,
+      "message": "Resolved",
+      "parentUuid": "40670414_afbff932",
+      "revId": "b1776a89bf88cec828dc608f4e5858e1b1d901db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

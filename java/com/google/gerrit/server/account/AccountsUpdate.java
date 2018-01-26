@@ -93,10 +93,10 @@ import org.eclipse.jgit.lib.Repository;
  * <p>On updating an account the account is evicted from the account cache and thus reindexed. The
  * eviction from the account cache is done by the {@link ReindexAfterRefUpdate} class which receives
  * the event about updating the user branch that is triggered by this class. By passing an {@link
- * ExternalIdNotes.FactoryNoReindex} factory as parameter of {@link
- * AccountsUpdate.Factory#create(IdentifiedUser, ExternalIdNotesLoader)}, reindexing and flushing
- * the account from the account cache can be disabled. If external IDs are updated, the
- * ExternalIdCache is automatically updated.
+ * com.google.gerrit.server.account.externalids.ExternalIdNotes.FactoryNoReindex} factory as
+ * parameter of {@link AccountsUpdate.Factory#create(IdentifiedUser, ExternalIdNotesLoader)},
+ * reindexing and flushing the account from the account cache can be disabled. If external IDs are
+ * updated, the ExternalIdCache is automatically updated.
  *
  * <p>If there are concurrent account updates updating the user branch in NoteDb may fail with
  * {@link LockFailureException}. In this case the account update is automatically retried and the

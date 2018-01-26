@@ -99,6 +99,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.edit.ChangeEdit;
@@ -187,6 +188,7 @@ import java.util.regex.Matcher;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -349,6 +351,7 @@ class ReceiveCommits {
   private final ReceivePack rp;
 
   // Immutable fields derived from constructor arguments.
+  private final boolean allowPushToRefsChanges;
   private final LabelTypes labelTypes;
   private final NoteMap rejectCommits;
   private final PermissionBackend.ForProject permissions;
@@ -397,6 +400,7 @@ class ReceiveCommits {
       AccountsUpdate.Server accountsUpdate,
       AllProjectsName allProjectsName,
       BatchUpdate.Factory batchUpdateFactory,
+      @GerritServerConfig Config cfg,
       ChangeEditUtil editUtil,
       ChangeIndexer indexer,
       ChangeInserter.Factory changeInserterFactory,
@@ -480,6 +484,7 @@ class ReceiveCommits {
     this.rp = rp;
 
     // Immutable fields derived from constructor arguments.
+    allowPushToRefsChanges = cfg.getBoolean("receive", "allowPushToRefsChanges", false);
     repo = rp.getRepository();
     project = projectState.getProject();
     labelTypes = projectState.getLabelTypes();
@@ -861,10 +866,14 @@ class ReceiveCommits {
 
       Matcher m = NEW_PATCHSET_PATTERN.matcher(cmd.getRefName());
       if (m.matches()) {
-        // The referenced change must exist and must still be open.
-        //
-        Change.Id changeId = Change.Id.parse(m.group(1));
-        parseReplaceCommand(cmd, changeId);
+        if (allowPushToRefsChanges) {
+          // The referenced change must exist and must still be open.
+          //
+          Change.Id changeId = Change.Id.parse(m.group(1));
+          parseReplaceCommand(cmd, changeId);
+        } else {
+          reject(cmd, "upload to refs/changes not allowed");
+        }
         continue;
       }
 

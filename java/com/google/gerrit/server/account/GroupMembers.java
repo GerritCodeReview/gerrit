@@ -56,6 +56,8 @@ public class GroupMembers {
   /**
    * Recursively enumerate the members of the given group. Should not be used with the
    * PROJECT_OWNERS magical group.
+   *
+   * <p>Group members for which an account doesn't exist are filtered out.
    */
   public Set<Account> listAccounts(AccountGroup.UUID groupUUID) throws IOException {
     if (SystemGroupBackend.PROJECT_OWNERS.equals(groupUUID)) {
@@ -71,6 +73,8 @@ public class GroupMembers {
   /**
    * Recursively enumerate the members of the given group. The project should be specified so the
    * PROJECT_OWNERS magical group can be expanded.
+   *
+   * <p>Group members for which an account doesn't exist are filtered out.
    */
   public Set<Account> listAccounts(AccountGroup.UUID groupUUID, Project.NameKey project)
       throws NoSuchProjectException, IOException {
@@ -124,7 +128,9 @@ public class GroupMembers {
             .getMembers()
             .stream()
             .filter(groupControl::canSeeMember)
-            .map(accountCache::get)
+            .map(accountCache::maybeGet)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
             .map(AccountState::getAccount)
             .collect(toImmutableSet());
 

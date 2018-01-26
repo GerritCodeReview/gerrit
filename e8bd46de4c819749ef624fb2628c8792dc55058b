@@ -70,6 +70,30 @@
       "revId": "e8bd46de4c819749ef624fb2628c8792dc55058b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ef958d7_11a14205",
+        "filename": "polygerrit-ui/app/wct_test.sh",
+        "patchSetId": 22
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-01-26T21:08:58Z",
+      "side": 1,
+      "message": "@Becky can you verify again and validate that it works now with start-maximized?",
+      "parentUuid": "9f610d75_416fd3a6",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 23
+      },
+      "revId": "e8bd46de4c819749ef624fb2628c8792dc55058b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

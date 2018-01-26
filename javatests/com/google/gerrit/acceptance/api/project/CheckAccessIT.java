@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import java.util.List;
@@ -75,8 +74,6 @@ public class CheckAccessIT extends AbstractDaemonTest {
         Permission.READ,
         false,
         SystemGroupBackend.REGISTERED_USERS);
-
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
 
     // Ref permission
     grant(

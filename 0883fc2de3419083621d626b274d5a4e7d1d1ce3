@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54cbaaab_39fec697",
+        "filename": "polygerrit-ui/app/test/functional/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-26T23:23:12Z",
+      "side": 1,
+      "message": "Should include instructions to install docker?",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 3
+      },
+      "revId": "0883fc2de3419083621d626b274d5a4e7d1d1ce3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dadce78b_4a37528f",
+        "filename": "polygerrit-ui/app/test/functional/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-26T23:23:12Z",
+      "side": 1,
+      "message": "I can\u0027t tell if tests got run? I don\u0027t seen output that tests passed. I also tried chganging the test to one that would fail (change the title text) and don\u0027t see it failing?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 64
+      },
+      "revId": "0883fc2de3419083621d626b274d5a4e7d1d1ce3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

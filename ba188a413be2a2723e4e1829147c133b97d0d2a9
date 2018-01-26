@@ -108,6 +108,30 @@
       "revId": "ba188a413be2a2723e4e1829147c133b97d0d2a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab9cecfa_18e09c32",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-26T18:47:58Z",
+      "side": 1,
+      "message": "Werd, why? Also, label isn\u0027t quoted..",
+      "parentUuid": "6b55b39a_de8b758e",
+      "range": {
+        "startLine": 479,
+        "startChar": 17,
+        "endLine": 479,
+        "endChar": 22
+      },
+      "revId": "ba188a413be2a2723e4e1829147c133b97d0d2a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

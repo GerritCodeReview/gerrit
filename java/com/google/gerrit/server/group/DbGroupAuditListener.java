@@ -41,9 +41,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 
-class DbGroupMemberAuditListener implements GroupAuditListener {
+class DbGroupAuditListener implements GroupAuditListener {
   private static final Logger log =
-      org.slf4j.LoggerFactory.getLogger(DbGroupMemberAuditListener.class);
+      org.slf4j.LoggerFactory.getLogger(DbGroupAuditListener.class);
 
   private final SchemaFactory<ReviewDb> schema;
   private final AccountCache accountCache;
@@ -51,7 +51,7 @@ class DbGroupMemberAuditListener implements GroupAuditListener {
   private final UniversalGroupBackend groupBackend;
 
   @Inject
-  DbGroupMemberAuditListener(
+  DbGroupAuditListener(
       SchemaFactory<ReviewDb> schema,
       AccountCache accountCache,
       GroupCache groupCache,

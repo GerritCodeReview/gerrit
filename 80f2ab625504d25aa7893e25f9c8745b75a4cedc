@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce70ccf2_976a1a17",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-26T16:57:16Z",
+      "side": 1,
+      "message": "New abstract methods in the For* implementations will require internal changes, and should generally be -2\u0027ed until those are prepared.\n\nIn this case, I see why our internal tests were failing to fail when we tried to import this; will fix that first.",
+      "revId": "80f2ab625504d25aa7893e25f9c8745b75a4cedc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

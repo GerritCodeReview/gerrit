@@ -70,6 +70,30 @@
       "revId": "1b975d85ff6471b95e8189ea7aa487b82813f5a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a349315_28e2b592",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-26T23:10:57Z",
+      "side": 1,
+      "message": "We do have a variety of other font sizes that are close but not exactly these. It might be worth it to do some clean up afterwards to check and see if we can consolidate.",
+      "parentUuid": "ec54acab_44460854",
+      "range": {
+        "startLine": 202,
+        "startChar": 19,
+        "endLine": 202,
+        "endChar": 25
+      },
+      "revId": "1b975d85ff6471b95e8189ea7aa487b82813f5a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "e8bd46de4c819749ef624fb2628c8792dc55058b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35e4130e_9334e79a",
+        "filename": "polygerrit-ui/app/wct_test.sh",
+        "patchSetId": 22
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-26T01:03:31Z",
+      "side": 1,
+      "message": "I think that may be because we need to add \\\u0027start-maximized\\\u0027.\n\nWhat error do you get with headless. It was working in the docker image that i am updating.",
+      "parentUuid": "3369aa46_e4bf3cd5",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 23
+      },
+      "revId": "e8bd46de4c819749ef624fb2628c8792dc55058b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

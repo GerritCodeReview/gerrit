@@ -69,7 +69,7 @@ public class AccountResolver {
   public Account find(String nameOrEmail) throws OrmException, IOException, ConfigInvalidException {
     Set<Account.Id> r = findAll(nameOrEmail);
     if (r.size() == 1) {
-      return byId.get(r.iterator().next()).getAccount();
+      return byId.maybeGet(r.iterator().next()).map(AccountState::getAccount).orElse(null);
     }
 
     Account match = null;
@@ -127,7 +127,9 @@ public class AccountResolver {
    */
   public Account findByNameOrEmail(String nameOrEmail) throws OrmException, IOException {
     Set<Account.Id> r = findAllByNameOrEmail(nameOrEmail);
-    return r.size() == 1 ? byId.get(r.iterator().next()).getAccount() : null;
+    return r.size() == 1
+        ? byId.maybeGet(r.iterator().next()).map(AccountState::getAccount).orElse(null)
+        : null;
   }
 
   /**

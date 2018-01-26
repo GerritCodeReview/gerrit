@@ -40,10 +40,11 @@ means:
 If you need to re-push a commit you may rewrite this commit by
 link:http://www.kernel.org/pub/software/scm/git/docs/git-commit.html[amending] it or doing an interactive link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[git rebase]. By rewriting the
 commit you actually create a new commit (with a new commit ID in
-project scope) which can then be pushed to Gerrit. If the old commit
-contains a Change-Id in the commit message you also need to replace
-it with a new Change-Id (case 1. and 3. above), otherwise the push
-will fail with another error message.
+project scope) which can then be pushed to Gerrit.
+
+If you are pushing the new change to the same destination branch as
+the old commit (case 1 above), you also need to replace it with a new
+Change-Id, otherwise the push will fail with another error message.
 
 == Fast-forward merges
 

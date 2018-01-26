@@ -17,6 +17,24 @@
       "revId": "288d9e4b7525da6665db428cafb47878f4c4df8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4591d49_f5a896d6",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-26T17:19:12Z",
+      "side": 1,
+      "message": "No, on the LHS externalIds was never null. The fill method only has one caller and this caller was passing state.getExternalIds() in for the externalIds, but AccountState#getExternalIds never returns null (but an empty set if there are no external IDs).",
+      "parentUuid": "579689c9_43f2fc39",
+      "revId": "288d9e4b7525da6665db428cafb47878f4c4df8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

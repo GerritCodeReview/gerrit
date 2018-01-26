@@ -1,0 +1,28 @@
+Respect default font size preference from browsers
+
+We encountered an issue where PolyGerrit was not respecting browser
+font preferences. Browser font preferences include both a default font
+size and a minimum font size.
+
+In the even that a font declared in px is smaller than the minimum font
+size, the size is increased to equal the minimum font size. However,
+if the font is declared in px and greater than the minimum, the
+preferred font size is not taken into account.
+
+Browsers' default font size is 16px [1], So instead of declaring the
+base font in px (previously 13px), this change makes it a percentage
+of the default font size. If the user has changed their default, this
+is taken into account.
+
+From this point, all other fonts will be declared in rems, which makes
+it easier to base the new size off of the base font size of the <html>
+tag, rather than ems which bases it on the container[2]. This allows us
+to declare font sizes in a way more similar to pixels, yet relative.
+
+A follow-up change will change all font size declaration to use rem from
+em for consistency.
+
+[1] https://stackoverflow.com/questions/29511983/is-the-default-font-size-of-every-browser-16px-why
+[2] https://webdesign.tutsplus.com/tutorials/comprehensive-guide-when-to-use-em-vs-rem--cms-23984
+
+Bug: Issue 8157

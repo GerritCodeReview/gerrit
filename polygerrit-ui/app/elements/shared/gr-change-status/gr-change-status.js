@@ -37,16 +37,10 @@
         type: String,
         observer: '_updateChipDetails',
       },
-      tooltipText: String,
-      hasTooltip: {
-        type: Boolean,
-        reflectToAttribute: true,
-        computed: '_determineHasTooltip(title)',
+      tooltipText: {
+        type: String,
+        value: '',
       },
-    },
-
-    _determineHasTooltip(title) {
-      return !!title;
     },
 
     _computeStatusString(status) {
@@ -72,6 +66,9 @@
           break;
         case ChangeStates.PRIVATE:
           this.tooltipText = PRIVATE_TOOLTIP;
+          break;
+        default:
+          this.tooltipText = '';
           break;
       }
     },

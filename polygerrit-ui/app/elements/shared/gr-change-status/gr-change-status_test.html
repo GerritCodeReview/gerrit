@@ -55,21 +55,21 @@ limitations under the License.
     test('merged', () => {
       element.status = 'Merged';
       assert.equal(element.$$('.chip').innerText, element.status);
-      assert.isUndefined(element.tooltipText);
+      assert.equal(element.tooltipText, '');
       assert.isTrue(element.classList.contains('merged'));
     });
 
     test('abandoned', () => {
       element.status = 'Abandoned';
       assert.equal(element.$$('.chip').innerText, element.status);
-      assert.isUndefined(element.tooltipText);
+      assert.equal(element.tooltipText, '');
       assert.isTrue(element.classList.contains('abandoned'));
     });
 
     test('merge conflict', () => {
       element.status = 'Merge Conflict';
       assert.equal(element.$$('.chip').innerText, element.status);
-      assert.isUndefined(element.tooltipText);
+      assert.equal(element.tooltipText, '');
       assert.isTrue(element.classList.contains('merge-conflict'));
     });
 
@@ -83,14 +83,14 @@ limitations under the License.
     test('active', () => {
       element.status = 'Active';
       assert.equal(element.$$('.chip').innerText, element.status);
-      assert.isUndefined(element.tooltipText);
+      assert.equal(element.tooltipText, '');
       assert.isTrue(element.classList.contains('active'));
     });
 
     test('ready to submit', () => {
       element.status = 'Ready to submit';
       assert.equal(element.$$('.chip').innerText, element.status);
-      assert.isUndefined(element.tooltipText);
+      assert.equal(element.tooltipText, '');
       assert.isTrue(element.classList.contains('ready-to-submit'));
     });
 

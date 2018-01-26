@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3369aa46_e4bf3cd5",
+        "filename": "polygerrit-ui/app/wct_test.sh",
+        "patchSetId": 22
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-26T00:25:47Z",
+      "side": 1,
+      "message": "I think something is not working correctly with this. When I run without headless mode, ~50 tabs open for me and different options appear to be in their address bars. things like:\n--disable-sync\n--disable-hang-monitor\n\netc.\n\nWhen running with headless, the tests did not pass for me either (in chrome).\n\nPrior to this change, tests passed in chrome.",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 23
+      },
+      "revId": "e8bd46de4c819749ef624fb2628c8792dc55058b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

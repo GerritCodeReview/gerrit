@@ -57,7 +57,7 @@ limitations under the License.
       paper-item {
         cursor: pointer;
         flex-direction: column;
-        font-size: 1em;
+        font-size: var(--font-size-normal);
         --paper-item: {
           min-height: 0;
           padding: 10px 16px;
@@ -77,13 +77,21 @@ limitations under the License.
       }
       .bottomContent {
         color: rgba(0,0,0,.54);
-        font-size: .9em;
-        line-height: 16px;
+        font-size: var(--font-size-small);
+        /*
+         * Should be 16px when the base font size is 13px (browser default of
+         * 16px.
+         */
+        line-height: 1.37rem;
       }
       .bottomContent,
       .topContent {
         display: flex;
-        line-height: 16px;
+        /*
+         * Should be 16px when the base font size is 13px (browser default of
+         * 16px.
+         */
+        line-height: 1.37rem;
         justify-content: space-between;
         flex-direction: row;
         width: 100%;

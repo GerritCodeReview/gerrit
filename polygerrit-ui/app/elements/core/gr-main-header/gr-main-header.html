@@ -35,7 +35,7 @@ limitations under the License.
       }
       .bigTitle {
         color: var(--primary-text-color);
-        font-size: 1.75em;
+        font-size: 1.75rem;
         text-decoration: none;
       }
       .bigTitle:hover {
@@ -125,7 +125,11 @@ limitations under the License.
       }
       @media screen and (max-width: 50em) {
         .bigTitle {
-          font-size: 14px;
+         /*
+          * Default browser base html fonts is 13px. We want users with default
+          * settings to see a base font of 14px. 14/13 = 1.076.
+          */
+          font-size: var(--font-size-large);
           font-family: var(--font-family-bold);
         }
         gr-search-bar,

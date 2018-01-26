@@ -150,8 +150,11 @@ public class ReplaceOp implements BatchUpdateOp {
       ChangeData.Factory changeDataFactory,
       ChangeKindCache changeKindCache,
       ChangeMessagesUtil cmUtil,
+<<<<<<< HEAD:gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReplaceOp.java
       CommentsUtil commentsUtil,
       EmailReviewComments.Factory emailCommentsFactory,
+=======
+>>>>>>> stable-2.14:gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java
       RevisionCreated revisionCreated,
       CommentAdded commentAdded,
       MergedByPushOp.Factory mergedByPushOpFactory,
@@ -176,8 +179,11 @@ public class ReplaceOp implements BatchUpdateOp {
     this.changeDataFactory = changeDataFactory;
     this.changeKindCache = changeKindCache;
     this.cmUtil = cmUtil;
+<<<<<<< HEAD:gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReplaceOp.java
     this.commentsUtil = commentsUtil;
     this.emailCommentsFactory = emailCommentsFactory;
+=======
+>>>>>>> stable-2.14:gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java
     this.revisionCreated = revisionCreated;
     this.commentAdded = commentAdded;
     this.mergedByPushOpFactory = mergedByPushOpFactory;
@@ -435,6 +441,7 @@ public class ReplaceOp implements BatchUpdateOp {
     }
   }
 
+<<<<<<< HEAD:gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReplaceOp.java
   private List<Comment> publishComments(ChangeContext ctx, boolean workInProgress)
       throws OrmException {
     List<Comment> comments =
@@ -449,6 +456,40 @@ public class ReplaceOp implements BatchUpdateOp {
     if (changeKind != ChangeKind.TRIVIAL_REBASE) {
       // TODO(dborowitz): Merge email templates so we only have to send one.
       Runnable e = new ReplaceEmailTask(ctx);
+=======
+  @Override
+  public void postUpdate(final Context ctx) throws Exception {
+    if (changeKind != ChangeKind.TRIVIAL_REBASE) {
+      Runnable sender =
+          new Runnable() {
+            @Override
+            public void run() {
+              try {
+                ReplacePatchSetSender cm =
+                    replacePatchSetFactory.create(
+                        projectControl.getProject().getNameKey(), change.getId());
+                cm.setFrom(ctx.getAccount().getId());
+                cm.setPatchSet(newPatchSet, info);
+                cm.setChangeMessage(msg.getMessage(), ctx.getWhen());
+                if (magicBranch != null) {
+                  cm.setNotify(magicBranch.notify);
+                  cm.setAccountsToNotify(magicBranch.getAccountsToNotify());
+                }
+                cm.addReviewers(recipients.getReviewers());
+                cm.addExtraCC(recipients.getCcOnly());
+                cm.send();
+              } catch (Exception e) {
+                log.error("Cannot send email for new patch set " + newPatchSet.getId(), e);
+              }
+            }
+
+            @Override
+            public String toString() {
+              return "send-email newpatchset";
+            }
+          };
+
+>>>>>>> stable-2.14:gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java
       if (requestScopePropagator != null) {
         @SuppressWarnings("unused")
         Future<?> possiblyIgnoredError = sendEmailExecutor.submit(requestScopePropagator.wrap(e));

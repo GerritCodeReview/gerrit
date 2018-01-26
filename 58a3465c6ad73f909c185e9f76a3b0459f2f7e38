@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c1fbaf16_b2b4aeed",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3561,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-01-26T07:31:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7342dd49_f91902d2",
+      "range": {
+        "startLine": 3560,
+        "startChar": 26,
+        "endLine": 3561,
+        "endChar": 3
+      },
+      "revId": "58a3465c6ad73f909c185e9f76a3b0459f2f7e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ad2497a_355d4beb",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4
@@ -36,6 +60,24 @@
       "writtenOn": "2018-01-25T05:12:53Z",
       "side": 1,
       "message": "Nit: Missing period at the end of the sentence.",
+      "revId": "58a3465c6ad73f909c185e9f76a3b0459f2f7e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91df6acd_2c251a96",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3565,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-01-26T07:31:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ad2497a_355d4beb",
       "revId": "58a3465c6ad73f909c185e9f76a3b0459f2f7e38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

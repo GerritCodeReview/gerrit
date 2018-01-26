@@ -23,6 +23,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -204,7 +205,11 @@ public class PostReviewersOp implements BatchUpdateOp {
         accountsToNotify);
     if (!addedReviewers.isEmpty()) {
       List<AccountState> reviewers =
-          addedReviewers.stream().map(r -> accountCache.get(r.getAccountId())).collect(toList());
+          addedReviewers
+              .stream()
+              .map(r -> accountCache.maybeGet(r.getAccountId()))
+              .flatMap(Streams::stream)
+              .collect(toList());
       reviewerAdded.fire(rsrc.getChange(), patchSet, reviewers, ctx.getAccount(), ctx.getWhen());
     }
   }

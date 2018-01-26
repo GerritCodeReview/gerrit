@@ -20,8 +20,10 @@ import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.util.SystemReader;
 
 /** Sets {@code CanonicalWebUrl} to current HTTP request if not configured. */
 public class HttpCanonicalWebUrlProvider extends CanonicalWebUrlProvider {
@@ -44,28 +46,31 @@ public class HttpCanonicalWebUrlProvider extends CanonicalWebUrlProvider {
       return canonicalUrl;
     }
 
-    if (requestProvider != null) {
-      // No canonical URL configured? Maybe we can get a reasonable
-      // guess from the incoming HTTP request, if we are currently
-      // inside of an HTTP request scope.
-      //
-      final HttpServletRequest req;
-      try {
-        req = requestProvider.get();
-      } catch (ProvisionException noWeb) {
-        if (noWeb.getCause() instanceof OutOfScopeException) {
-          // We can't obtain the request as we are not inside of
-          // an HTTP request scope. Callers must handle null.
-          //
-          return null;
-        }
-        throw noWeb;
-      }
-      return CanonicalWebUrl.computeFromRequest(req);
+    return guessUrlFromHttpRequest()
+        .orElseGet(() -> "http://" + SystemReader.getInstance().getHostname() + '/');
+  }
+
+  private Optional<String> guessUrlFromHttpRequest() {
+    if (requestProvider == null) {
+      // We have no way of guessing our HTTP url.
+      return Optional.empty();
     }
 
-    // We have no way of guessing our HTTP url.
+    // No canonical URL configured? Maybe we can get a reasonable
+    // guess from the incoming HTTP request, if we are currently
+    // inside of an HTTP request scope.
     //
-    return null;
+    final HttpServletRequest req;
+    try {
+      req = requestProvider.get();
+    } catch (ProvisionException noWeb) {
+      if (noWeb.getCause() instanceof OutOfScopeException) {
+        // We can't obtain the request as we are not inside of
+        // an HTTP request scope. Callers must handle null.
+        return Optional.empty();
+      }
+      throw noWeb;
+    }
+    return Optional.of(CanonicalWebUrl.computeFromRequest(req));
   }
 }

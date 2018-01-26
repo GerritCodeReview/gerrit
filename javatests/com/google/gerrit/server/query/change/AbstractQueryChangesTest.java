@@ -77,6 +77,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
@@ -146,7 +147,7 @@ import org.junit.Test;
 public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected Accounts accounts;
   @Inject protected AccountCache accountCache;
-  @Inject protected AccountsUpdate.Server accountsUpdate;
+  @Inject @ServerInitiated protected Provider<AccountsUpdate> accountsUpdate;
   @Inject protected AccountManager accountManager;
   @Inject protected AllUsersName allUsersName;
   @Inject protected BatchUpdate.Factory updateFactory;
@@ -222,7 +223,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     String email = "user@example.com";
     accountsUpdate
-        .create()
+        .get()
         .update(
             "Add Email",
             userId,
@@ -2729,7 +2730,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         accountManager.link(id, AuthRequest.forEmail(email));
       }
       accountsUpdate
-          .create()
+          .get()
           .update(
               "Update Test Account",
               id,

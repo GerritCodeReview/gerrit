@@ -25,12 +25,12 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.ssh.SshKeyCache;
@@ -59,7 +59,7 @@ public class AccountCreator {
 
   private final SchemaFactory<ReviewDb> reviewDbProvider;
   private final Sequences sequences;
-  private final AccountsUpdate.Server accountsUpdate;
+  private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final GroupCache groupCache;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
@@ -70,7 +70,7 @@ public class AccountCreator {
   AccountCreator(
       SchemaFactory<ReviewDb> schema,
       Sequences sequences,
-      AccountsUpdate.Server accountsUpdate,
+      @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       GroupCache groupCache,
       @ServerInitiated Provider<GroupsUpdate> groupsUpdateProvider,
@@ -79,7 +79,7 @@ public class AccountCreator {
     accounts = new HashMap<>();
     reviewDbProvider = schema;
     this.sequences = sequences;
-    this.accountsUpdate = accountsUpdate;
+    this.accountsUpdateProvider = accountsUpdateProvider;
     this.authorizedKeys = authorizedKeys;
     this.groupCache = groupCache;
     this.groupsUpdateProvider = groupsUpdateProvider;
@@ -112,8 +112,8 @@ public class AccountCreator {
         extIds.add(ExternalId.createEmail(id, email));
       }
 
-      accountsUpdate
-          .create()
+      accountsUpdateProvider
+          .get()
           .insert(
               "Create Test Account",
               id,

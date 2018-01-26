@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountsUpdate.AccountUpdater;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -44,6 +45,7 @@ import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,7 +68,7 @@ public class AccountManager {
   private final SchemaFactory<ReviewDb> schema;
   private final Sequences sequences;
   private final Accounts accounts;
-  private final AccountsUpdate.Server accountsUpdateFactory;
+  private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final AccountCache byIdCache;
   private final Realm realm;
   private final IdentifiedUser.GenericFactory userFactory;
@@ -84,7 +86,7 @@ public class AccountManager {
       Sequences sequences,
       @GerritServerConfig Config cfg,
       Accounts accounts,
-      AccountsUpdate.Server accountsUpdateFactory,
+      @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       AccountCache byIdCache,
       Realm accountMapper,
       IdentifiedUser.GenericFactory userFactory,
@@ -96,7 +98,7 @@ public class AccountManager {
     this.schema = schema;
     this.sequences = sequences;
     this.accounts = accounts;
-    this.accountsUpdateFactory = accountsUpdateFactory;
+    this.accountsUpdateProvider = accountsUpdateProvider;
     this.byIdCache = byIdCache;
     this.realm = accountMapper;
     this.userFactory = userFactory;
@@ -255,8 +257,8 @@ public class AccountManager {
     }
 
     if (!accountUpdates.isEmpty()) {
-      accountsUpdateFactory
-          .create()
+      accountsUpdateProvider
+          .get()
           .update(
               "Update Account on Login",
               user.getAccountId(),
@@ -280,8 +282,8 @@ public class AccountManager {
     AccountState accountState;
     try {
       accountState =
-          accountsUpdateFactory
-              .create()
+          accountsUpdateProvider
+              .get()
               .insert(
                   "Create Account on First Login",
                   newId,
@@ -381,8 +383,8 @@ public class AccountManager {
       }
       update(who, extId);
     } else {
-      accountsUpdateFactory
-          .create()
+      accountsUpdateProvider
+          .get()
           .update(
               "Link External ID",
               to,
@@ -412,8 +414,8 @@ public class AccountManager {
    */
   public AuthResult updateLink(Account.Id to, AuthRequest who)
       throws OrmException, AccountException, IOException, ConfigInvalidException {
-    accountsUpdateFactory
-        .create()
+    accountsUpdateProvider
+        .get()
         .update(
             "Delete External IDs on Update Link",
             to,
@@ -475,8 +477,8 @@ public class AccountManager {
       }
     }
 
-    accountsUpdateFactory
-        .create()
+    accountsUpdateProvider
+        .get()
         .update(
             "Unlink External ID" + (extIds.size() > 1 ? "s" : ""),
             from,

@@ -39,6 +39,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.Accounts;
@@ -47,7 +48,6 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupField;
@@ -77,7 +77,7 @@ import org.junit.Test;
 public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   @Inject protected Accounts accounts;
 
-  @Inject protected AccountsUpdate.Server accountsUpdate;
+  @Inject @ServerInitiated protected Provider<AccountsUpdate> accountsUpdate;
 
   @Inject protected AccountCache accountCache;
 
@@ -408,7 +408,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
         accountManager.link(id, AuthRequest.forEmail(email));
       }
       accountsUpdate
-          .create()
+          .get()
           .update(
               "Update Test Account",
               id,

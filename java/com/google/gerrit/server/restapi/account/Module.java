@@ -23,6 +23,12 @@ import static com.google.gerrit.server.account.AccountResource.Star.STAR_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.UserInitiated;
+import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.externalids.ExternalIdNotes;
+import com.google.inject.Provides;
 
 public class Module extends RestApiModule {
   @Override
@@ -100,5 +106,22 @@ public class Module extends RestApiModule {
 
     factory(CreateAccount.Factory.class);
     factory(CreateEmail.Factory.class);
+    factory(AccountsUpdate.Factory.class);
+  }
+
+  @Provides
+  @ServerInitiated
+  AccountsUpdate provideServerInitiatedAccountsUpdate(
+      AccountsUpdate.Factory accountsUpdateFactory, ExternalIdNotes.Factory extIdNotesFactory) {
+    return accountsUpdateFactory.create(null, extIdNotesFactory);
+  }
+
+  @Provides
+  @UserInitiated
+  AccountsUpdate provideUserInitiatedAccountsUpdate(
+      AccountsUpdate.Factory accountsUpdateFactory,
+      IdentifiedUser currentUser,
+      ExternalIdNotes.Factory extIdNotesFactory) {
+    return accountsUpdateFactory.create(currentUser, extIdNotesFactory);
   }
 }

@@ -41,6 +41,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
@@ -82,7 +83,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
   private final AddKeySender.Factory addKeyFactory;
   private final Provider<InternalAccountQuery> accountQueryProvider;
   private final ExternalIds externalIds;
-  private final AccountsUpdate.User accountsUpdateFactory;
+  private final Provider<AccountsUpdate> accountsUpdateProvider;
 
   @Inject
   PostGpgKeys(
@@ -93,7 +94,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
       AddKeySender.Factory addKeyFactory,
       Provider<InternalAccountQuery> accountQueryProvider,
       ExternalIds externalIds,
-      AccountsUpdate.User accountsUpdateFactory) {
+      @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
     this.serverIdent = serverIdent;
     this.self = self;
     this.storeProvider = storeProvider;
@@ -101,7 +102,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
     this.addKeyFactory = addKeyFactory;
     this.accountQueryProvider = accountQueryProvider;
     this.externalIds = externalIds;
-    this.accountsUpdateFactory = accountsUpdateFactory;
+    this.accountsUpdateProvider = accountsUpdateProvider;
   }
 
   @Override
@@ -133,8 +134,8 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
 
       storeKeys(rsrc, newKeys, fingerprintsToRemove);
 
-      accountsUpdateFactory
-          .create()
+      accountsUpdateProvider
+          .get()
           .update(
               "Update GPG Keys via API",
               rsrc.getUser().getAccountId(),

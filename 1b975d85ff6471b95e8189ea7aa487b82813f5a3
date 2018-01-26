@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d8c4fb1_1740b25b",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-26T22:52:06Z",
+      "side": 1,
+      "message": "Nit: remove this space.",
+      "range": {
+        "startLine": 129,
+        "startChar": 12,
+        "endLine": 129,
+        "endChar": 13
+      },
+      "revId": "1b975d85ff6471b95e8189ea7aa487b82813f5a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fd363a8_a1be0941",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-26T22:52:06Z",
+      "side": 1,
+      "message": "Since we reuse these a few times, do you think it\u0027d make sense to create named CSS variables in app-theme.html.\n\n:root {\n  ...\n  --font-size-normal: 1rem;\n  --font-size-small: .92rem;\n  --font-size-large: 1.076rem;\n  ...\n}",
+      "range": {
+        "startLine": 202,
+        "startChar": 19,
+        "endLine": 202,
+        "endChar": 25
+      },
+      "revId": "1b975d85ff6471b95e8189ea7aa487b82813f5a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

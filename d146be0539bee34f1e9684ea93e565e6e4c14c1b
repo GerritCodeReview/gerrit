@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7d8d10f_68f192b6",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-26T22:44:43Z",
+      "side": 1,
+      "message": "Done. And I moved this to the first change since it was a px \u003e rem change.",
+      "parentUuid": "959cd597_94e4f3c6",
+      "revId": "d146be0539bee34f1e9684ea93e565e6e4c14c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "270ba2b8_dfab88d6",
         "filename": "polygerrit-ui/app/styles/Untitled-1",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "d146be0539bee34f1e9684ea93e565e6e4c14c1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26fe2bce_db4dd255",
+        "filename": "polygerrit-ui/app/styles/Untitled-1",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-26T22:44:43Z",
+      "side": 1,
+      "message": "Yep, removed.",
+      "parentUuid": "270ba2b8_dfab88d6",
+      "revId": "d146be0539bee34f1e9684ea93e565e6e4c14c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

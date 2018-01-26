@@ -46,6 +46,30 @@
       "revId": "e8bd46de4c819749ef624fb2628c8792dc55058b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f610d75_416fd3a6",
+        "filename": "polygerrit-ui/app/wct_test.sh",
+        "patchSetId": 22
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-26T01:09:07Z",
+      "side": 1,
+      "message": "Yep tested locally without \\\u0027start-maximized\\\u0027 for non headless chrome it caused 50 tabs to open and tests did not run.\n\nWith \\\u0027start-maximized\\\u0027 added the tests ran in a seperate window.\n\nHeadless mode error about that one, you may be hitting a bug where by you updated java to very latest version ie it\u0027s build 1.8.0_161-b12 the  you get this https://github.com/bazelbuild/bazel/issues/4483\n\nThough this is fixed upstream.",
+      "parentUuid": "35e4130e_9334e79a",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 23
+      },
+      "revId": "e8bd46de4c819749ef624fb2628c8792dc55058b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

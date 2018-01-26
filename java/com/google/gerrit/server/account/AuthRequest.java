@@ -18,7 +18,10 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_EXT
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 
+import com.google.common.base.Strings;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import java.util.Optional;
 
 /**
  * Information for {@link AccountManager#authenticate(AuthRequest)}.
@@ -59,7 +62,7 @@ public class AuthRequest {
   private String password;
   private String displayName;
   private String emailAddress;
-  private String userName;
+  private Optional<String> userName;
   private boolean skipAuthentication;
   private String authPlugin;
   private String authProvider;
@@ -111,12 +114,12 @@ public class AuthRequest {
     emailAddress = email != null && email.length() > 0 ? email : null;
   }
 
-  public String getUserName() {
+  public Optional<String> getUserName() {
     return userName;
   }
 
-  public void setUserName(String user) {
-    userName = user;
+  public void setUserName(@Nullable String user) {
+    userName = Optional.ofNullable(Strings.emptyToNull(user));
   }
 
   public boolean isSkipAuthentication() {

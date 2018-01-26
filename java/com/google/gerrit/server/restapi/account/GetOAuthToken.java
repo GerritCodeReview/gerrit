@@ -61,7 +61,7 @@ class GetOAuthToken implements RestReadView<AccountResource> {
       throw new ResourceNotFoundException();
     }
     OAuthTokenInfo accessTokenInfo = new OAuthTokenInfo();
-    accessTokenInfo.username = rsrc.getUser().state().getUserName().orElse(null);
+    accessTokenInfo.username = rsrc.getUser().getUserName().orElse(null);
     accessTokenInfo.resourceHost = getHostName(canonicalWebUrlProvider.get());
     accessTokenInfo.accessToken = accessToken.getToken();
     accessTokenInfo.providerId = accessToken.getProviderId();

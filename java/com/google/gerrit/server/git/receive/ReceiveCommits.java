@@ -583,7 +583,7 @@ class ReceiveCommits {
       for (ReceiveError error : errors.keySet()) {
         rp.sendMessage(buildError(error, errors.get(error)));
       }
-      rp.sendMessage(String.format("User: %s", displayName(user)));
+      rp.sendMessage(String.format("User: %s", user.getLoggableName()));
       rp.sendMessage(COMMAND_REJECTION_MESSAGE_FOOTER);
     }
 
@@ -809,14 +809,6 @@ class ReceiveCommits {
       delim = ", ";
     }
     return sb.append(":\n").append(error.get()).toString();
-  }
-
-  private static String displayName(IdentifiedUser user) {
-    String displayName = user.getUserName();
-    if (displayName == null) {
-      displayName = user.getAccount().getPreferredEmail();
-    }
-    return displayName;
   }
 
   private void parseCommands(Collection<ReceiveCommand> commands)

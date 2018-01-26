@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.Optional;
 
 /** User identity for plugin code that needs an identity. */
 public class PluginUser extends InternalUser {
@@ -31,8 +32,8 @@ public class PluginUser extends InternalUser {
   }
 
   @Override
-  public String getUserName() {
-    return "plugin " + pluginName;
+  public Optional<String> getUserName() {
+    return Optional.of("plugin " + pluginName);
   }
 
   @Override

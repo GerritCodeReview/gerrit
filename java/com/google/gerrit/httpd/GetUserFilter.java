@@ -15,7 +15,6 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -65,12 +64,7 @@ public class GetUserFilter implements Filter {
       throws IOException, ServletException {
     CurrentUser user = userProvider.get();
     if (user != null && user.isIdentifiedUser()) {
-      IdentifiedUser who = user.asIdentifiedUser();
-      if (who.getUserName() != null) {
-        req.setAttribute(REQ_ATTR_KEY, who.getUserName());
-      } else {
-        req.setAttribute(REQ_ATTR_KEY, "a/" + who.getAccountId());
-      }
+      req.setAttribute(REQ_ATTR_KEY, user.asIdentifiedUser().getLoggableName());
     }
     chain.doFilter(req, resp);
   }

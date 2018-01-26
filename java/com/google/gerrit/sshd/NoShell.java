@@ -152,7 +152,7 @@ class NoShell implements Factory<Command> {
       Account account = user.getAccount();
       String name = account.getFullName();
       if (name == null || name.isEmpty()) {
-        name = user.getUserName() != null ? user.getUserName() : anonymousCowardName;
+        name = user.getUserName().orElse(anonymousCowardName);
       }
       msg.append("  Hi ");
       msg.append(name);
@@ -171,8 +171,8 @@ class NoShell implements Factory<Command> {
         }
 
         msg.append("  git clone ssh://");
-        if (user.getUserName() != null) {
-          msg.append(user.getUserName());
+        if (user.getUserName().isPresent()) {
+          msg.append(user.getUserName().get());
           msg.append("@");
         }
         msg.append(host);

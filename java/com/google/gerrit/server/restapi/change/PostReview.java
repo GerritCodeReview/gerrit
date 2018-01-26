@@ -135,6 +135,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -333,9 +334,11 @@ public class PostReview
         // User posting this review isn't currently in the reviewer or CC list,
         // isn't being explicitly added, and isn't voting on any label.
         // Automatically CC them on this change so they receive replies.
-        PostReviewers.Addition selfAddition =
+        Optional<PostReviewers.Addition> selfAddition =
             postReviewers.ccCurrentUser(revision.getUser(), revision);
-        bu.addOp(revision.getChange().getId(), selfAddition.op);
+        if (selfAddition.isPresent()) {
+          bu.addOp(revision.getChange().getId(), selfAddition.get().op);
+        }
       }
 
       // Add WorkInProgressOp if requested.

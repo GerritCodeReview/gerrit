@@ -28,6 +28,6 @@ public class GetUsername implements RestReadView<AccountResource> {
 
   @Override
   public String apply(AccountResource rsrc) throws AuthException, ResourceNotFoundException {
-    return rsrc.getUser().state().getUserName().orElseThrow(ResourceNotFoundException::new);
+    return rsrc.getUser().getUserName().orElseThrow(ResourceNotFoundException::new);
   }
 }

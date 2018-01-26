@@ -95,6 +95,13 @@
         delete this.section.value.deleted;
         // Restore section ref.
         this.set(['section', 'id'], this._originalId);
+        // Remove any unsaved but added permissions.
+        this._permissions = this._permissions.filter(p => !p.value.added);
+        for (const key of Object.keys(this.section.value.permissions)) {
+          if (this.section.value.permissions[key].added) {
+            delete this.section.value.permissions[key];
+          }
+        }
       }
     },
 
@@ -206,7 +213,7 @@
       const value = this.$.permissionSelect.value;
       const permission = {
         id: value,
-        value: {rules: {}},
+        value: {rules: {}, added: true},
       };
 
       // This is needed to update the 'label' property of the

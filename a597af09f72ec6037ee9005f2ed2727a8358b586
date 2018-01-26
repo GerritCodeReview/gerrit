@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "0b4bb9c0_3db088d5",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-26T09:35:28Z",
+      "side": 1,
+      "message": "Makes sense to me. Done in https://gerrit-review.googlesource.com/c/gerrit/+/154973",
+      "parentUuid": "08172f39_7620af3c",
+      "revId": "a597af09f72ec6037ee9005f2ed2727a8358b586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56a4dc36_bc104c76",
         "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
         "patchSetId": 3
@@ -87,6 +105,24 @@
       "revId": "a597af09f72ec6037ee9005f2ed2727a8358b586",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f3c7580_7f288a9f",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-26T09:35:28Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/154973",
+      "parentUuid": "56a4dc36_bc104c76",
+      "revId": "a597af09f72ec6037ee9005f2ed2727a8358b586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

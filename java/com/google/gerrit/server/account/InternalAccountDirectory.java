@@ -32,6 +32,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Singleton
@@ -67,8 +68,12 @@ public class InternalAccountDirectory extends AccountDirectory {
     }
     for (AccountInfo info : in) {
       Account.Id id = new Account.Id(info._accountId);
-      AccountState state = accountCache.get(id);
-      fill(info, state, options);
+      Optional<AccountState> state = accountCache.maybeGet(id);
+      if (state.isPresent()) {
+        fill(info, state.get(), options);
+      } else {
+        info._accountId = options.contains(FillOptions.ID) ? id.get() : null;
+      }
     }
   }
 

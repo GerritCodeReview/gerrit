@@ -23,6 +23,30 @@
       "revId": "ef78c358014c241bb84f49bf3d3920fd85e5c715",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "585188d9_0504516a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-26T07:46:27Z",
+      "side": 1,
+      "message": "I was wondering about this too, but all tests are green. I also tried offline/online migration to NoteDb now and this works too. Looks like there is no issue. Anything else to test?",
+      "parentUuid": "2d55d82b_8f0cbfa8",
+      "range": {
+        "startLine": 14,
+        "startChar": 9,
+        "endLine": 15,
+        "endChar": 7
+      },
+      "revId": "ef78c358014c241bb84f49bf3d3920fd85e5c715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

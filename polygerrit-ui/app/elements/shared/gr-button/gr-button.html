@@ -30,7 +30,11 @@ limitations under the License.
         --button-color: var(--gr-button-color, var(--color-link));
         display: inline-block;
         font-family: var(--font-family-bold);
-        font-size: 12px;
+        /*
+         * Default browser base html fonts is 13px. We want users with default
+         * settings to see a base font of 12px. 12/13 = .92.
+         */
+        font-size: var(--font-family-small)
         position: relative;
       }
       :host([hidden]) {

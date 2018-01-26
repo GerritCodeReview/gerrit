@@ -23,6 +23,30 @@
       "revId": "7b25bac23b583ed77c38e98b3252a6c9e64eca15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e6f3189_83a49768",
+        "filename": "java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-26T13:21:31Z",
+      "side": 1,
+      "message": "Thanks, this should get fixed by https://gerrit-review.googlesource.com/c/gerrit/+/153310",
+      "parentUuid": "28051efc_fb0ef4cf",
+      "range": {
+        "startLine": 137,
+        "startChar": 3,
+        "endLine": 139,
+        "endChar": 61
+      },
+      "revId": "7b25bac23b583ed77c38e98b3252a6c9e64eca15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

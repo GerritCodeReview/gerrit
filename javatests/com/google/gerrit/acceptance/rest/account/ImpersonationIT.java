@@ -278,7 +278,8 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.label("Code-Review", 1);
 
     exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("Account Not Found: doesnotexist");
+    exception.expectMessage("not found");
+    exception.expectMessage("doesnotexist");
     revision.review(in);
   }
 
@@ -314,7 +315,8 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.label("Code-Review", 1);
 
     exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("Account Not Found: " + in.onBehalfOf);
+    exception.expectMessage("not found");
+    exception.expectMessage(in.onBehalfOf);
     revision.review(in);
   }
 
@@ -345,7 +347,8 @@ public class ImpersonationIT extends AbstractDaemonTest {
     SubmitInput in = new SubmitInput();
     in.onBehalfOf = "doesnotexist";
     exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("Account Not Found: doesnotexist");
+    exception.expectMessage("not found");
+    exception.expectMessage("doesnotexist");
     gApi.changes().id(changeId).current().submit(in);
   }
 
@@ -391,7 +394,8 @@ public class ImpersonationIT extends AbstractDaemonTest {
     SubmitInput in = new SubmitInput();
     in.onBehalfOf = user.email;
     exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("Account Not Found: " + in.onBehalfOf);
+    exception.expectMessage("not found");
+    exception.expectMessage(in.onBehalfOf);
     gApi.changes().id(changeId).current().submit(in);
   }
 

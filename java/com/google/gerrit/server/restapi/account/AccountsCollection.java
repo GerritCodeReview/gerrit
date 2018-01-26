@@ -72,10 +72,9 @@ public class AccountsCollection
       throws ResourceNotFoundException, AuthException, OrmException, IOException,
           ConfigInvalidException {
     IdentifiedUser user = parseId(id.get());
-    if (user == null) {
-      throw new ResourceNotFoundException(id);
-    } else if (!accountControlFactory.get().canSee(user.getAccount())) {
-      throw new ResourceNotFoundException(id);
+    if (user == null || !accountControlFactory.get().canSee(user.getAccount())) {
+      throw new ResourceNotFoundException(
+          String.format("Account '%s' is not found or ambiguous", id));
     }
     return new AccountResource(user);
   }
@@ -122,10 +121,9 @@ public class AccountsCollection
       throws AuthException, UnprocessableEntityException, OrmException, IOException,
           ConfigInvalidException {
     IdentifiedUser user = parseIdOnBehalfOf(caller, id);
-    if (user == null) {
-      throw new UnprocessableEntityException(String.format("Account Not Found: %s", id));
-    } else if (!accountControlFactory.get().canSee(user.getAccount())) {
-      throw new UnprocessableEntityException(String.format("Account Not Found: %s", id));
+    if (user == null || !accountControlFactory.get().canSee(user.getAccount())) {
+      throw new UnprocessableEntityException(
+          String.format("Account '%s' is not found or ambiguous", id));
     }
     return user;
   }

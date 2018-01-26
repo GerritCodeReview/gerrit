@@ -135,6 +135,9 @@ public abstract class PermissionBackend {
 
   /** PermissionBackend scoped to a specific user. */
   public abstract static class WithUser extends AcceptsReviewDb<WithUser> {
+    /** @return user this instance is scoped to. */
+    public abstract CurrentUser user();
+
     /** @return instance scoped for the specified project. */
     public abstract ForProject project(Project.NameKey project);
 
@@ -247,6 +250,12 @@ public abstract class PermissionBackend {
 
   /** PermissionBackend scoped to a user and project. */
   public abstract static class ForProject extends AcceptsReviewDb<ForProject> {
+    /** @return user this instance is scoped to. */
+    public abstract CurrentUser user();
+
+    /** @return fully qualified resource path that this instance is scoped to. */
+    public abstract String resourcePath();
+
     /** @return new instance rescoped to same project, but different {@code user}. */
     public abstract ForProject user(CurrentUser user);
 
@@ -304,6 +313,12 @@ public abstract class PermissionBackend {
 
   /** PermissionBackend scoped to a user, project and reference. */
   public abstract static class ForRef extends AcceptsReviewDb<ForRef> {
+    /** @return user this instance is scoped to. */
+    public abstract CurrentUser user();
+
+    /** @return fully qualified resource path that this instance is scoped to. */
+    public abstract String resourcePath();
+
     /** @return new instance rescoped to same reference, but different {@code user}. */
     public abstract ForRef user(CurrentUser user);
 
@@ -358,6 +373,9 @@ public abstract class PermissionBackend {
   public abstract static class ForChange extends AcceptsReviewDb<ForChange> {
     /** @return user this instance is scoped to. */
     public abstract CurrentUser user();
+
+    /** @return fully qualified resource path that this instance is scoped to. */
+    public abstract String resourcePath();
 
     /** @return new instance rescoped to same change, but different {@code user}. */
     public abstract ForChange user(CurrentUser user);

@@ -432,8 +432,19 @@ class RefControl {
 
   private class ForRefImpl extends ForRef {
     @Override
+    public CurrentUser user() {
+      return getUser();
+    }
+
+    @Override
     public ForRef user(CurrentUser user) {
       return forUser(user).asForRef().database(db);
+    }
+
+    @Override
+    public String resourcePath() {
+      return String.format(
+          "/projects/%s/+refs/%s", getProjectControl().getProjectState().getName(), refName);
     }
 
     @Override

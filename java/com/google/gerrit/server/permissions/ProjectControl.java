@@ -313,8 +313,18 @@ class ProjectControl {
 
   private class ForProjectImpl extends ForProject {
     @Override
+    public CurrentUser user() {
+      return getUser();
+    }
+
+    @Override
     public ForProject user(CurrentUser user) {
       return forUser(user).asForProject().database(db);
+    }
+
+    @Override
+    public String resourcePath() {
+      return "/projects/" + getProjectState().getName();
     }
 
     @Override

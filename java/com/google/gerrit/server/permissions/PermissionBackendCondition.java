@@ -17,6 +17,8 @@ package com.google.gerrit.server.permissions;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.conditions.PrivateInternals_BooleanCondition;
+import com.google.gerrit.server.CurrentUser;
+import java.util.Objects;
 
 /** {@link BooleanCondition} to evaluate a permission. */
 public abstract class PermissionBackendCondition
@@ -77,6 +79,20 @@ public abstract class PermissionBackendCondition
     public String toString() {
       return "PermissionBackendCondition.WithUser(" + perm + ")";
     }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(perm, hashForUser(impl.user()));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (!(obj instanceof WithUser)) {
+        return false;
+      }
+      WithUser other = (WithUser) obj;
+      return Objects.equals(perm, other.perm) && usersAreEqual(impl.user(), other.impl.user());
+    }
   }
 
   public static class ForProject extends PermissionBackendCondition {
@@ -104,6 +120,22 @@ public abstract class PermissionBackendCondition
     @Override
     public String toString() {
       return "PermissionBackendCondition.ForProject(" + perm + ")";
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(perm, impl.resourcePath(), hashForUser(impl.user()));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (!(obj instanceof ForProject)) {
+        return false;
+      }
+      ForProject other = (ForProject) obj;
+      return Objects.equals(perm, other.perm)
+          && Objects.equals(impl.resourcePath(), other.impl.resourcePath())
+          && usersAreEqual(impl.user(), other.impl.user());
     }
   }
 
@@ -133,6 +165,22 @@ public abstract class PermissionBackendCondition
     public String toString() {
       return "PermissionBackendCondition.ForRef(" + perm + ")";
     }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(perm, impl.resourcePath(), hashForUser(impl.user()));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (!(obj instanceof ForRef)) {
+        return false;
+      }
+      ForRef other = (ForRef) obj;
+      return Objects.equals(perm, other.perm)
+          && Objects.equals(impl.resourcePath(), other.impl.resourcePath())
+          && usersAreEqual(impl.user(), other.impl.user());
+    }
   }
 
   public static class ForChange extends PermissionBackendCondition {
@@ -161,5 +209,35 @@ public abstract class PermissionBackendCondition
     public String toString() {
       return "PermissionBackendCondition.ForChange(" + perm + ")";
     }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(perm, impl.resourcePath(), hashForUser(impl.user()));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (!(obj instanceof ForChange)) {
+        return false;
+      }
+      ForChange other = (ForChange) obj;
+      return Objects.equals(perm, other.perm)
+          && Objects.equals(impl.resourcePath(), other.impl.resourcePath())
+          && usersAreEqual(impl.user(), other.impl.user());
+    }
+  }
+
+  private static int hashForUser(CurrentUser user) {
+    if (!user.isIdentifiedUser()) {
+      return 0;
+    }
+    return user.getAccountId().get();
+  }
+
+  private static boolean usersAreEqual(CurrentUser user1, CurrentUser user2) {
+    if (user1.isIdentifiedUser() && user2.isIdentifiedUser()) {
+      return user1.getAccountId().equals(user2.getAccountId());
+    }
+    return false;
   }
 }

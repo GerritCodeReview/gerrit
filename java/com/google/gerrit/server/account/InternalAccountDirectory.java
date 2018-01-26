@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AvatarInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -33,6 +32,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Singleton
@@ -68,16 +68,16 @@ public class InternalAccountDirectory extends AccountDirectory {
     }
     for (AccountInfo info : in) {
       Account.Id id = new Account.Id(info._accountId);
-      AccountState state = accountCache.get(id);
-      fill(info, state, state.getExternalIds(), options);
+      Optional<AccountState> state = accountCache.maybeGet(id);
+      if (state.isPresent()) {
+        fill(info, state.get(), options);
+      } else {
+        info._accountId = options.contains(FillOptions.ID) ? id.get() : null;
+      }
     }
   }
 
-  private void fill(
-      AccountInfo info,
-      AccountState accountState,
-      @Nullable Collection<ExternalId> externalIds,
-      Set<FillOptions> options) {
+  private void fill(AccountInfo info, AccountState accountState, Set<FillOptions> options) {
     Account account = accountState.getAccount();
     if (options.contains(FillOptions.ID)) {
       info._accountId = account.getId().get();
@@ -95,10 +95,10 @@ public class InternalAccountDirectory extends AccountDirectory {
       info.email = account.getPreferredEmail();
     }
     if (options.contains(FillOptions.SECONDARY_EMAILS)) {
-      info.secondaryEmails = externalIds != null ? getSecondaryEmails(account, externalIds) : null;
+      info.secondaryEmails = getSecondaryEmails(account, accountState.getExternalIds());
     }
     if (options.contains(FillOptions.USERNAME)) {
-      info.username = externalIds != null ? ExternalId.getUserName(externalIds).orElse(null) : null;
+      info.username = accountState.getUserName().orElse(null);
     }
 
     if (options.contains(FillOptions.STATUS)) {

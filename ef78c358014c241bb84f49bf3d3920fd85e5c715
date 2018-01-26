@@ -47,6 +47,30 @@
       "revId": "ef78c358014c241bb84f49bf3d3920fd85e5c715",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e24b4edb_2e8f2df9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-26T14:57:01Z",
+      "side": 1,
+      "message": "Look at other callers in the call hierarchy of IdentifiedUser#newCommitterIdent and friends for more use cases?",
+      "parentUuid": "585188d9_0504516a",
+      "range": {
+        "startLine": 14,
+        "startChar": 9,
+        "endLine": 15,
+        "endChar": 7
+      },
+      "revId": "ef78c358014c241bb84f49bf3d3920fd85e5c715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

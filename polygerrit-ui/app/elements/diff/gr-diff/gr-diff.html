@@ -51,7 +51,7 @@ limitations under the License.
         border-bottom: 1px solid #eee;
         border-top: 1px solid #eee;
         display: flex;
-        font: 12px var(--monospace-font-family);
+        font: var(--font-size-small) var(--monospace-font-family);
       }
       .diffContainer.hiddenscroll {
         padding-bottom: .8em;
@@ -102,7 +102,7 @@ limitations under the License.
       .lineNum,
       .content {
         /* Set font size based the user's diff preference. */
-        font-size: var(--font-size, 12px);
+        font-size: var(--font-size, var(--font-size-small));
         vertical-align: top;
         white-space: pre;
       }
@@ -197,7 +197,7 @@ limitations under the License.
         background-color: #F9F9F9;
         color: #2A00FF;
         font-family: var(--monospace-font-family);
-        font-size: var(--font-size, 12px);
+        font-size: var(--font-size, var(--font-size-small));
         padding: 0.5em 0 0.5em 4em;
       }
       #sizeWarning {
@@ -221,7 +221,7 @@ limitations under the License.
       td.blame {
         display: none;
         font-family: var(--font-family);
-        font-size: var(--font-size, 12px);
+        font-size: var(--font-size, var(--font-size-small));
         padding: 0 .5em;
         white-space: pre;
       }

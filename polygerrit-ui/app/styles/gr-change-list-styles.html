@@ -17,7 +17,7 @@ limitations under the License.
   <template>
     <style>
       :host {
-        font-size: 13px;
+        font-size: var(--font-size-normal);
       }
       .topHeader,
       .groupHeader {
@@ -82,7 +82,7 @@ limitations under the License.
       }
       @media only screen and (max-width: 50em) {
         :host {
-          font-size: 14px;
+          font-size: var(--font-size-large);
         }
         gr-change-list-item {
           flex-wrap: wrap;

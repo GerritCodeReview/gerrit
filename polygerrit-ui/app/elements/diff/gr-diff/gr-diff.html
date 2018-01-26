@@ -46,9 +46,13 @@ limitations under the License.
       :host(.no-left) .sideBySide ::content .right:not([data-value]) + td {
         display: none;
       }
+      /*
+       * Default browser base html fonts is 13px. We want users with default
+       * settings to see a base font of 12px. 12/13 = .92.
+       */
       .diffContainer {
         display: flex;
-        font: 12px var(--monospace-font-family);
+        font: .92rem var(--monospace-font-family);
         @apply --diff-container-styles;
       }
       .diffContainer.hiddenscroll {
@@ -101,7 +105,7 @@ limitations under the License.
       .lineNum,
       .content {
         /* Set font size based the user's diff preference. */
-        font-size: var(--font-size, 12px);
+        font-size: var(--font-size, .75rem);
         vertical-align: top;
         white-space: pre;
       }
@@ -196,7 +200,7 @@ limitations under the License.
         background-color: #F9F9F9;
         color: #2A00FF;
         font-family: var(--monospace-font-family);
-        font-size: var(--font-size, 12px);
+        font-size: var(--font-size, .75rem);
         padding: 0.5em 0 0.5em 4em;
       }
       #sizeWarning {
@@ -220,7 +224,7 @@ limitations under the License.
       td.blame {
         display: none;
         font-family: var(--font-family);
-        font-size: var(--font-size, 12px);
+        font-size: var(--font-size, .75rem);
         padding: 0 .5em;
         white-space: pre;
       }

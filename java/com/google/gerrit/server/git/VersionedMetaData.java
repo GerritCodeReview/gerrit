@@ -180,7 +180,8 @@ public abstract class VersionedMetaData {
   }
 
   /**
-   * Update this metadata branch, recording a new commit on its reference.
+   * Update this metadata branch, recording a new commit on its reference. This method mutates its
+   * receiver.
    *
    * @param update helper information to define the update that will occur.
    * @return the commit that was created
@@ -195,7 +196,7 @@ public abstract class VersionedMetaData {
   }
 
   /**
-   * Creates a new commit and a new ref based on this commit.
+   * Creates a new commit and a new ref based on this commit. This method mutates its receiver.
    *
    * @param update helper information to define the update that will occur.
    * @param refName name of the ref that should be created

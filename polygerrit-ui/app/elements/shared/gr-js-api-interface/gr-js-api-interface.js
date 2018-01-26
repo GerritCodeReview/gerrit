@@ -120,18 +120,34 @@
     },
 
     _handleShowChange(detail) {
-      for (const cb of this._getEventCallbacks(EventType.SHOW_CHANGE)) {
-        const change = detail.change;
-        const patchNum = detail.patchNum;
-        let revision;
-        for (const rev of Object.values(change.revisions || {})) {
-          if (this.patchNumEquals(rev._number, patchNum)) {
-            revision = rev;
-            break;
-          }
+      // Note (issue 8221) Shallow clone the change object and add a mergeable
+      // getter with deprecation warning. This makes the change detail appear as
+      // though SKIP_MERGEABLE was not set, so that plugins that expect it can
+      // still access.
+      //
+      // This clone and getter can be removed after plugins migrate to use
+      // info.mergeable.
+      const change = Object.assign({
+        get mergeable() {
+          console.warn('Accessing change.mergeable from SHOW_CHANGE is ' +
+              'deprecated! Use info.mergeable instead.');
+          return detail.info.mergeable;
+        },
+      }, detail.change);
+      const patchNum = detail.patchNum;
+      const info = detail.info;
+
+      let revision;
+      for (const rev of Object.values(change.revisions || {})) {
+        if (this.patchNumEquals(rev._number, patchNum)) {
+          revision = rev;
+          break;
         }
+      }
+
+      for (const cb of this._getEventCallbacks(EventType.SHOW_CHANGE)) {
         try {
-          cb(change, revision);
+          cb(change, revision, info);
         } catch (err) {
           console.error(err);
         }

@@ -34,6 +34,24 @@
       "revId": "c4fb7976b20166e91d22a0e3e5030e6e3bbec650",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea236241_fcd105a8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-26T18:45:24Z",
+      "side": 1,
+      "message": "Up to you, this isn\u0027t critical.\n\nThis line of code has potential to add meaningless results for reporting, and complicating potential investigations.",
+      "parentUuid": "9f1a89f7_f2f78315",
+      "revId": "c4fb7976b20166e91d22a0e3e5030e6e3bbec650",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

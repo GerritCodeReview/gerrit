@@ -140,6 +140,24 @@
       "revId": "a597af09f72ec6037ee9005f2ed2727a8358b586",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3786a6e7_4496e75f",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-26T10:02:46Z",
+      "side": 1,
+      "message": "I tend to keep it with getEvenIfMissing. If there was an approval that was taken into account on submit, we should include the account info even if the account is missing. At least the account ID would be set which might be still useful. Otherwise having a label that was applied by nobody would be more confusing.",
+      "parentUuid": "029edd12_e154be03",
+      "revId": "a597af09f72ec6037ee9005f2ed2727a8358b586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

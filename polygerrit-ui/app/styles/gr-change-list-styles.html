@@ -17,7 +17,7 @@ limitations under the License.
   <template>
     <style>
       :host {
-        font-size: 13px;
+        font-size: 1rem;
       }
       .topHeader,
       .groupHeader {
@@ -64,7 +64,11 @@ limitations under the License.
       }
       @media only screen and (max-width: 50em) {
         :host {
-          font-size: 14px;
+           /*
+            *  Default browser base html fonts is 13px. We want users with default
+            * settings to see a base font of 14px. 14/13 = 1.076.
+            */
+           font-size: 1.076rem;
         }
         gr-change-list-item {
           flex-wrap: wrap;

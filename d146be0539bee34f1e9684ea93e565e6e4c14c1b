@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "959cd597_94e4f3c6",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-26T22:24:45Z",
+      "side": 1,
+      "message": "Nit: line exceeds 80 characters.",
+      "revId": "d146be0539bee34f1e9684ea93e565e6e4c14c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "270ba2b8_dfab88d6",
+        "filename": "polygerrit-ui/app/styles/Untitled-1",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-26T22:24:45Z",
+      "side": 1,
+      "message": "Is this included on accident?",
+      "revId": "d146be0539bee34f1e9684ea93e565e6e4c14c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

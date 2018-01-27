@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bad6a325_932ce119",
+        "filename": "polygerrit-ui/app/embed_test.sh",
+        "patchSetId": 24
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-27T15:15:32Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b84b7c3d_78f1a1d1",
+      "range": {
+        "startLine": 17,
+        "startChar": 31,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "dd14198e259896610a8c8ab3192cc1de94c142c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29714374_6c493b11",
         "filename": "polygerrit-ui/app/wct_test.sh",
         "patchSetId": 24
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "8c2153f8_e514ed46",
+        "filename": "polygerrit-ui/app/wct_test.sh",
+        "patchSetId": 24
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-27T15:15:32Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "29714374_6c493b11",
+      "range": {
+        "startLine": 15,
+        "startChar": 31,
+        "endLine": 15,
+        "endChar": 33
+      },
+      "revId": "dd14198e259896610a8c8ab3192cc1de94c142c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dabe1669_ad14b257",
         "filename": "polygerrit-ui/app/wct_test.sh",
         "patchSetId": 24
@@ -59,6 +107,30 @@
       "writtenOn": "2018-01-27T10:06:16Z",
       "side": 1,
       "message": "Again, who ever tested that FF actually works in headless mode? Gerrit Forge CI doesn\u0027t run FF tests. For me locally firefox in interactive mode works, headless mode is failing.\n\nLocally on my laptop, headless mode:\n\nchrome 64                Beginning tests via http://localhost:8081/components/tmp.DlRU7Iai87/generated-index.html?cli_browser_id\u003d0\nchrome failed to maximize\n[BABEL] Note: The code generator has deoptimised the styling of \"unknown\" as it exceeds the max of \"500KB\".\nfirefox 57               Beginning tests via http://localhost:8081/components/tmp.DlRU7Iai87/generated-index.html?cli_browser_id\u003d1\nfirefox 57               Tests failed: Timed out\nchrome 64                Tests passed\nTest run ended in failure: Timed out\nchrome 64 (3659/0/0)\nfirefox 57 (1094/0/0 error)\n\nOn debian docker image, headless mode, with the posix fix above, only chrome tests are executed, no firefox tests:\n\nStarting Selenium server for local browsers\nSelenium server running on port 34807\nno bower.json found, defaulting to packageName\u003dtmp.L5eRQVVMa1\nchrome 63                Beginning tests via http://localhost:8000/components/tmp.L5eRQVVMa1/generated-index.html?cli_browser_id\u003d0\nchrome failed to maximize\nchrome 63                Tests passed\nTest run ended with great success\nchrome 63 (3659/0/0)\n\nNoticed the difference? That\u0027s because FF is not installed on CI docker image.\n\nSo my suggestion to proceed here would be to disable headless mode for Firefox and add a TODO, that currently, we don\u0027t know how to make firefox tests work in headless mode and only propagate the headless mode to chrome browser if this option is passed, and keep interactive mode for FF.",
+      "range": {
+        "startLine": 17,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 34
+      },
+      "revId": "dd14198e259896610a8c8ab3192cc1de94c142c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fa1debd_e3867735",
+        "filename": "polygerrit-ui/app/wct_test.sh",
+        "patchSetId": 24
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-27T15:15:32Z",
+      "side": 1,
+      "message": "I guess remove it for now yeh.",
+      "parentUuid": "dabe1669_ad14b257",
       "range": {
         "startLine": 17,
         "startChar": 2,

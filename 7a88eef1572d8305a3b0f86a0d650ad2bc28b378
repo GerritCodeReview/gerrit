@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "d2cd9ff9_1bf47c25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-27T00:30:10Z",
+      "side": 1,
+      "message": "I am seriously struggling with this commit message today! Yeah, mistake.",
+      "parentUuid": "07c5a161_9c0a16c0",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 15
+      },
+      "revId": "7a88eef1572d8305a3b0f86a0d650ad2bc28b378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3049aa21_80e0105a",
         "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
         "patchSetId": 7

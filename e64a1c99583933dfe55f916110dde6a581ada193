@@ -46,6 +46,30 @@
       "revId": "e64a1c99583933dfe55f916110dde6a581ada193",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e40153c_fb7ae20c",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-27T01:47:03Z",
+      "side": 1,
+      "message": "Oh. Oops. I thought I was reading font sizes.",
+      "parentUuid": "efec4c55_384516db",
+      "range": {
+        "startLine": 51,
+        "startChar": 18,
+        "endLine": 51,
+        "endChar": 20
+      },
+      "revId": "e64a1c99583933dfe55f916110dde6a581ada193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

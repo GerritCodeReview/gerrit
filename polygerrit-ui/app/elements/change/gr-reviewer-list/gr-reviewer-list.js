@@ -129,6 +129,25 @@
       return detailed.permitted_voting_range.max;
     },
 
+    _computeReviewerVote(reviewer, change) {
+      if (!change || !change.labels || !change.labels['Code-Review']) return '';
+      const detailed = change.labels['Code-Review'].all.filter(
+          ({_account_id}) => reviewer._account_id === _account_id).pop();
+      if (detailed) {
+        if (detailed.hasOwnProperty('permitted_voting_range')) {
+          if (detailed.value === detailed.permitted_voting_range.max)
+            return 'max';
+          if (detailed.value === detailed.permitted_voting_range.min)
+            return 'min';
+        }
+        if (detailed.value < 0)
+          return 'negative';
+        if (detailed.value > 0)
+          return 'positive';
+      }
+      return '';
+    },
+
     _computeReviewerTooltip(reviewer, change) {
       if (!change || !change.permitted_labels) return '';
       const maxScores = [];

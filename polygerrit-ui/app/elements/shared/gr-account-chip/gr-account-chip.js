@@ -43,6 +43,7 @@
         type: Boolean,
         value: false,
       },
+      reviewVote: String,
       showAvatar: {
         type: Boolean,
         reflectToAttribute: true,

@@ -299,5 +299,48 @@ suite('gr-editor-view tests', () => {
     element._viewEditInChangeView();
     assert.equal(navStub.lastCall.args[1], element.EDIT_NAME);
   });
+
+  suite('keyboard shortcuts', () => {
+    // Used as the spy on the handler for each entry in keyBindings.
+    let handleSpy;
+
+    suite('_handleSaveShortcut', () => {
+      let saveStub;
+      setup(() => {
+        handleSpy = sandbox.spy(element, '_handleSaveShortcut');
+        saveStub = sandbox.stub(element, '_saveEdit');
+      });
+
+      test('save enabled', () => {
+        element._content = '';
+        element._newContent = '_test';
+        MockInteractions.pressAndReleaseKeyOn(element, 83, 'ctrl', 's');
+        flushAsynchronousOperations();
+
+        assert.isTrue(handleSpy.calledOnce);
+        assert.isTrue(saveStub.calledOnce);
+
+        MockInteractions.pressAndReleaseKeyOn(element, 83, 'meta', 's');
+        flushAsynchronousOperations();
+
+        assert.equal(handleSpy.callCount, 2);
+        assert.equal(saveStub.callCount, 2);
+      });
+
+      test('save disabled', () => {
+        MockInteractions.pressAndReleaseKeyOn(element, 83, 'ctrl', 's');
+        flushAsynchronousOperations();
+
+        assert.isTrue(handleSpy.calledOnce);
+        assert.isFalse(saveStub.called);
+
+        MockInteractions.pressAndReleaseKeyOn(element, 83, 'meta', 's');
+        flushAsynchronousOperations();
+
+        assert.equal(handleSpy.callCount, 2);
+        assert.isFalse(saveStub.called);
+      });
+    });
+  });
 });
 </script>

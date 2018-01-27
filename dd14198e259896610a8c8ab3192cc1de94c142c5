@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b84b7c3d_78f1a1d1",
+        "filename": "polygerrit-ui/app/embed_test.sh",
+        "patchSetId": 24
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-27T10:06:16Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 17,
+        "startChar": 31,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "dd14198e259896610a8c8ab3192cc1de94c142c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29714374_6c493b11",
+        "filename": "polygerrit-ui/app/wct_test.sh",
+        "patchSetId": 24
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-27T10:06:16Z",
+      "side": 1,
+      "message": "\"\u003d\u003d\" doesn\u0027t work on sh on posix you have to use \"\u003d\", see: [1]. I also find confusing you are using equality to \"1\", so that when a user say: WCT_HEADLESS_MODE\u003dy it wouldn\u0027t work. I suggested we follow a similar pattern as in my api.sh:\n\n  if [ \"${WCT_HEADLESS_MODE:-x}\" !\u003d \"x\" ]; then\n    CHROME_OPTIONS\u003d[\\\u0027start-maximized\\\u0027,\\\u0027headless\\\u0027,\\\u0027disable-gpu\\\u0027,\\\u0027no-sandbox\\\u0027]\n    FIREFOX_OPTIONS\u003d[\\\u0027--headless\\\u0027]\n  else\n    CHROME_OPTIONS\u003d[\\\u0027start-maximized\\\u0027]\n    FIREFOX_OPTIONS\u003d[\\\u0027\\\u0027]\n  fi  \n\n* [1] https://stackoverflow.com/a/3411105",
+      "range": {
+        "startLine": 15,
+        "startChar": 31,
+        "endLine": 15,
+        "endChar": 33
+      },
+      "revId": "dd14198e259896610a8c8ab3192cc1de94c142c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabe1669_ad14b257",
+        "filename": "polygerrit-ui/app/wct_test.sh",
+        "patchSetId": 24
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-27T10:06:16Z",
+      "side": 1,
+      "message": "Again, who ever tested that FF actually works in headless mode? Gerrit Forge CI doesn\u0027t run FF tests. For me locally firefox in interactive mode works, headless mode is failing.\n\nLocally on my laptop, headless mode:\n\nchrome 64                Beginning tests via http://localhost:8081/components/tmp.DlRU7Iai87/generated-index.html?cli_browser_id\u003d0\nchrome failed to maximize\n[BABEL] Note: The code generator has deoptimised the styling of \"unknown\" as it exceeds the max of \"500KB\".\nfirefox 57               Beginning tests via http://localhost:8081/components/tmp.DlRU7Iai87/generated-index.html?cli_browser_id\u003d1\nfirefox 57               Tests failed: Timed out\nchrome 64                Tests passed\nTest run ended in failure: Timed out\nchrome 64 (3659/0/0)\nfirefox 57 (1094/0/0 error)\n\nOn debian docker image, headless mode, with the posix fix above, only chrome tests are executed, no firefox tests:\n\nStarting Selenium server for local browsers\nSelenium server running on port 34807\nno bower.json found, defaulting to packageName\u003dtmp.L5eRQVVMa1\nchrome 63                Beginning tests via http://localhost:8000/components/tmp.L5eRQVVMa1/generated-index.html?cli_browser_id\u003d0\nchrome failed to maximize\nchrome 63                Tests passed\nTest run ended with great success\nchrome 63 (3659/0/0)\n\nNoticed the difference? That\u0027s because FF is not installed on CI docker image.\n\nSo my suggestion to proceed here would be to disable headless mode for Firefox and add a TODO, that currently, we don\u0027t know how to make firefox tests work in headless mode and only propagate the headless mode to chrome browser if this option is passed, and keep interactive mode for FF.",
+      "range": {
+        "startLine": 17,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 34
+      },
+      "revId": "dd14198e259896610a8c8ab3192cc1de94c142c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

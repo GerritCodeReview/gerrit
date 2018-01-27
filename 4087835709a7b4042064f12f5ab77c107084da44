@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0fac3ee_ae3712d9",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 25
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-27T15:23:49Z",
+      "side": 1,
+      "message": "This is stale and should be:\n\n  To run Chrome tests in headless mode:",
+      "revId": "4087835709a7b4042064f12f5ab77c107084da44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c22a10c_18885523",
+        "filename": "polygerrit-ui/app/embed_test.sh",
+        "patchSetId": 25
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-27T15:23:49Z",
+      "side": 1,
+      "message": "Nit: Add your username in this format:\n\n  TODO(davido): Fix Firefox support for headless mode",
+      "range": {
+        "startLine": 19,
+        "startChar": 6,
+        "endLine": 19,
+        "endChar": 10
+      },
+      "revId": "4087835709a7b4042064f12f5ab77c107084da44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38cc6010_63ca14b0",
+        "filename": "polygerrit-ui/app/embed_test.sh",
+        "patchSetId": 25
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-27T15:23:49Z",
+      "side": 1,
+      "message": "[Optional]: Just omit firefox option.",
+      "range": {
+        "startLine": 48,
+        "startChar": 12,
+        "endLine": 48,
+        "endChar": 41
+      },
+      "revId": "4087835709a7b4042064f12f5ab77c107084da44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "877330fd_75217daa",
+        "filename": "polygerrit-ui/app/wct_test.sh",
+        "patchSetId": 25
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-27T15:23:49Z",
+      "side": 1,
+      "message": "Same comments here.",
+      "range": {
+        "startLine": 17,
+        "startChar": 4,
+        "endLine": 17,
+        "endChar": 41
+      },
+      "revId": "4087835709a7b4042064f12f5ab77c107084da44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

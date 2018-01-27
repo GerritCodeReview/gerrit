@@ -129,6 +129,29 @@
       return detailed.permitted_voting_range.max;
     },
 
+    _computeReviewerVote(reviewer, change) {
+      console.log(change);
+      console.log(reviewer.email);
+      if (!change || !change.labels || !change.labels['Code-Review']) return '';
+      const all = change.labels['Code-Review'].all;
+      for (const label of all) {
+        if (label.email == reviewer.email) {
+          if (label.permitted_voting_range) {
+            if (label.value === label.permitted_voting_range.max)
+              return 'max';
+            if (label.value === label.permitted_voting_range.min)
+              return 'min';
+          }
+          if (label.value < 0)
+            return 'negative';
+          if (label.value > 0)
+            return 'positive';
+          return '';
+        }
+      }
+      return '';
+    },
+
     _computeReviewerTooltip(reviewer, change) {
       if (!change || !change.permitted_labels) return '';
       const maxScores = [];

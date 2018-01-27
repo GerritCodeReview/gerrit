@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04f51fcb_a3101d0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-27T15:35:08Z",
+      "side": 1,
+      "message": "Opps, still stale, remove Firefix and even say, that it should be supported, but it didn\u0027t work.",
+      "range": {
+        "startLine": 9,
+        "startChar": 30,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "73eafd3b79078d99a35357fcf13b80f7e79fb6a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

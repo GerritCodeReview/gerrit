@@ -22,6 +22,30 @@
       "revId": "e64a1c99583933dfe55f916110dde6a581ada193",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efec4c55_384516db",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-01-27T01:34:10Z",
+      "side": 1,
+      "message": "I was only changing fonts so far so didn\u0027t do this. I just noticed it was missing a semi colon.",
+      "parentUuid": "4a1b0aa9_2ac13b81",
+      "range": {
+        "startLine": 51,
+        "startChar": 18,
+        "endLine": 51,
+        "endChar": 20
+      },
+      "revId": "e64a1c99583933dfe55f916110dde6a581ada193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

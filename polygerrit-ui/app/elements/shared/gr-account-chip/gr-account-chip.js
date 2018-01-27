@@ -43,6 +43,7 @@
         type: Boolean,
         value: false,
       },
+      reviewVote: String,
       showAvatar: {
         type: Boolean,
         reflectToAttribute: true,
@@ -59,8 +60,8 @@
       });
     },
 
-    _getBackgroundClass(transparent) {
-      return transparent ? 'transparentBackground' : '';
+    _getBackgroundClass(transparent, review) {
+      return transparent ? 'transparentBackground' : review;
     },
 
     _handleRemoveTap(e) {

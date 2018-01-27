@@ -37,6 +37,18 @@ limitations under the License.
       :host([show-avatar]) .container {
         padding-left: 0;
       }
+      .max {
+        background-color: var(--vote-color-max);
+      }
+      .min {
+        background-color: var(--vote-color-min);
+      }
+      .positive {
+        background-color: var(--vote-color-positive);
+      }
+      .negative {
+        background-color: var(--vote-color-negative);
+      }
       gr-button.remove:hover,
       gr-button.remove:focus {
         --gr-button: {
@@ -75,7 +87,7 @@ limitations under the License.
         pointer-events: none;
       }
     </style>
-    <div class$="container [[_getBackgroundClass(transparentBackground)]]">
+    <div class$="container [[_getBackgroundClass(transparentBackground, reviewVote)]]">
       <gr-account-link account="[[account]]"
           additional-text="[[additionalText]]">
       </gr-account-link>

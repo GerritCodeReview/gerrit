@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffefac37_30adcbcd",
+        "filename": "tools/setup_gjf.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-28T08:06:16Z",
+      "side": 1,
+      "message": "This update approach: just replace the current gjf 1.3 version with the new one is way too disruptive. I suggest to use multiple gjf versions in parallel: [1]. \n\nMoreover, we could even support different gjf versions on different branches dynamically, by putting a marker in gerrit tree and wsitch CI dynamically, e.g.:\n\n $ cat version.bzl \n  GERRIT_VERSION \u003d \"2.16-SNAPSHOT\"\n  GJF_VERSION \u003d \"1.5\"\n\nI think we should not adjust all stable (and even obsolete gerrit branches) to newer gjf versions. We started to use gjf since 2.14 and say gjf will change the indentation rule entirely, from blanks to tabs (please don\u0027t), like it\u0027s in JGit now and current gerrit version is 17.0. Should we really apply the \"everything changing formatting change\" on all 15 stable obsolete branches and try to merge and resolve all those non trivial conflicts? What would be the benefit for doing that? Can we merge any commits today to stable-2.6 or even older? Our policy is not to reject any changes to obsolete stable branches.\n\nInstead, we could select gjf version dynamically during CI check.\n\nMoreover, we could extend the ./tools/format/google-java-format facility to also dynamically switch the user gjf verion depending on the gjf version used on the current branch.\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/155330",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 47
+      },
+      "revId": "4037d773277ad1ec932ce419a45baccbb2fef81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

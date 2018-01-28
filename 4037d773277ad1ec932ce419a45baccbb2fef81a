@@ -22,6 +22,30 @@
       "revId": "4037d773277ad1ec932ce419a45baccbb2fef81a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7219817_ae1119d7",
+        "filename": "tools/setup_gjf.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-28T08:09:11Z",
+      "side": 1,
+      "message": "Type in: \"Our policy is not to reject any changes to obsolete stable branches.\" This should have been: \"Our policy is to reject any changes to obsolete stable branches.\"",
+      "parentUuid": "ffefac37_30adcbcd",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 47
+      },
+      "revId": "4037d773277ad1ec932ce419a45baccbb2fef81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

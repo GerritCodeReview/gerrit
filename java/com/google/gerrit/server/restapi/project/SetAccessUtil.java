@@ -203,6 +203,15 @@ public class SetAccessUtil {
     }
   }
 
+  /**
+   * Updates the parent project in the given config.
+   *
+   * @param identifiedUser the user
+   * @param config the config to modify
+   * @param projectName the project for which to change access.
+   * @param newParentProjectName the new parent to set.
+   * @param checkAdmin if set, verify that user has administrateServer permission
+   */
   public void setParentName(
       IdentifiedUser identifiedUser,
       ProjectConfig config,

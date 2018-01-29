@@ -23,6 +23,16 @@
         observer: '_accountChanged',
       },
 
+      showDashboardLink: {
+        type: Boolean,
+        value: false,
+      },
+
+      loggedIn: {
+        type: Boolean,
+        value: false,
+      },
+
       /**
        * @type {?{name: ?, email: ?, registered_on: ?}}
        */
@@ -63,6 +73,15 @@
 
     _computeStatusClass(accountDetails) {
       return this._computeDetail(accountDetails, 'status') ? '' : 'hide';
+    },
+
+    _computeDashboardUrl(email) {
+      return Gerrit.Nav.getUrlForUserDashboard(email);
+    },
+
+    _computeDashboardLinkClass(showDashboardLink, loggedIn) {
+      return showDashboardLink && loggedIn ?
+          'dashboardLink' : 'dashboardLink hide';
     },
   });
 })();

@@ -21,9 +21,9 @@ limitations under the License.
   window.Gerrit = window.Gerrit || {};
 
   const PROJECT_DASHBOARD_PATTERN = /\/p\/(.+)\/\+\/dashboard\/(.*)/;
-  const REPO_URL = '/admin/repos/';
-  const PROJECT_URL = '/admin/projects/';
+  const REPO_URL_PATTERN = /^\/admin\/repos/;
   /** @polymerBehavior Gerrit.BaseUrlBehavior */
+  const PROJECT_URL = '/admin/projects';
   Gerrit.BaseUrlBehavior = {
     /** @return {string} */
     getBaseUrl() {
@@ -33,12 +33,13 @@ limitations under the License.
     computeGwtUrl(path) {
       const base = this.getBaseUrl();
       let clientPath = path.substring(base.length);
-      const match = clientPath.match(PROJECT_DASHBOARD_PATTERN);
-      if (match) {
+      const dashbordMatch = clientPath.match(PROJECT_DASHBOARD_PATTERN);
+      const projectMatch = clientPath.match(REPO_URL_PATTERN);
+      if (dashbordMatch) {
         clientPath = `/projects/${match[1]},dashboards/${match[2]}`;
       }
       // Replace any '/admin/project' links to '/admin/repo'
-      clientPath = clientPath.replace(REPO_URL, PROJECT_URL);
+      clientPath = clientPath.replace(REPO_URL_PATTERN, PROJECT_URL);
       return base + '/?polygerrit=0#' + clientPath;
     },
   };

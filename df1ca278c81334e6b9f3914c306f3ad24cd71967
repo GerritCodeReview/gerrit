@@ -139,6 +139,30 @@
       "revId": "df1ca278c81334e6b9f3914c306f3ad24cd71967",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4357d30a_5eee9b80",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-01-29T09:39:19Z",
+      "side": 1,
+      "message": "OK. I agree we should not add this as a by-product of this commit. Let\u0027s leave it to the following up commit.",
+      "parentUuid": "56122ef8_dd9d6ebc",
+      "range": {
+        "startLine": 388,
+        "startChar": 4,
+        "endLine": 392,
+        "endChar": 5
+      },
+      "revId": "df1ca278c81334e6b9f3914c306f3ad24cd71967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

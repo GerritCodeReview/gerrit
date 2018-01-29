@@ -91,6 +91,30 @@
       "revId": "df1ca278c81334e6b9f3914c306f3ad24cd71967",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6326c468_766d36b2",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-01-29T09:24:45Z",
+      "side": 1,
+      "message": "Insert to ReviewDb could result in OrmException which means the group update fails. In that case we should not trigger those events? Swap the order could make sure we only send out events after we insert data successfully?",
+      "parentUuid": "35c2c276_d4126cfe",
+      "range": {
+        "startLine": 388,
+        "startChar": 4,
+        "endLine": 392,
+        "endChar": 5
+      },
+      "revId": "df1ca278c81334e6b9f3914c306f3ad24cd71967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

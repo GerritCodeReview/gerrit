@@ -312,6 +312,8 @@ class ProjectControl {
   }
 
   private class ForProjectImpl extends ForProject {
+    private String resourcePath;
+
     @Override
     public CurrentUser user() {
       return getUser();
@@ -324,7 +326,10 @@ class ProjectControl {
 
     @Override
     public String resourcePath() {
-      return "/projects/" + getProjectState().getName();
+      if (resourcePath == null) {
+        resourcePath = "/projects/" + getProjectState().getName();
+      }
+      return resourcePath;
     }
 
     @Override

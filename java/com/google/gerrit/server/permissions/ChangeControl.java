@@ -283,6 +283,7 @@ class ChangeControl {
   private class ForChangeImpl extends ForChange {
     private ChangeData cd;
     private Map<String, PermissionRange> labels;
+    private String resourcePath;
 
     ForChangeImpl(@Nullable ChangeData cd, @Nullable Provider<ReviewDb> db) {
       this.cd = cd;
@@ -320,9 +321,13 @@ class ChangeControl {
 
     @Override
     public String resourcePath() {
-      return String.format(
-          "/projects/%s/+changes/%s",
-          getProjectControl().getProjectState().getName(), changeData().getId().get());
+      if (resourcePath == null) {
+        resourcePath =
+            String.format(
+                "/projects/%s/+changes/%s",
+                getProjectControl().getProjectState().getName(), changeData().getId().get());
+      }
+      return resourcePath;
     }
 
     @Override

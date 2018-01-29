@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-avatar/gr-avatar.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
@@ -26,35 +27,36 @@ limitations under the License.
       :host {
         display: block;
         height: 9em;
-        position: relative;
         width: 100%;
       }
       gr-avatar {
+        display: inline-block;
         height: 7em;
         left: 1em;
-        position: absolute;
+        margin: 1em;
         top: 1em;
         width: 7em;
       }
       .info {
-        left: 9em;
-        position: absolute;
-        top: 1em;
+        display: inline-block;
+        padding: 1em;
+        vertical-align: top;
       }
       .info > div > span {
         display: inline-block;
         font-weight: bold;
         text-align: right;
-        width: 6em;
+        width: 4em;
       }
       .name {
-        margin-bottom: .25em;
+        display: inline-block;
       }
       .name hr {
         width: 100%;
       }
       .status.hide,
-      .name.hide {
+      .name.hide,
+      .dashboardLink.hide {
         display: none;
       }
     </style>
@@ -63,10 +65,10 @@ limitations under the License.
         image-size="100"
         aria-label="Account avatar"></gr-avatar>
     <div class="info">
-      <h1 class$="name">
+      <h1 class="name">
         [[_computeDetail(_accountDetails, 'name')]]
-        <hr/>
       </h1>
+      <hr/>
       <div class$="status [[_computeStatusClass(_accountDetails)]]">
         <span>Status:</span> [[_status]]
       </div>
@@ -80,6 +82,11 @@ limitations under the License.
         <gr-date-formatter
             date-str="[[_computeDetail(_accountDetails, 'registered_on')]]">
         </gr-date-formatter>
+      </div>
+    </div>
+    <div class="info">
+      <div class$="[[_computeDashboardLinkClass(showDashboardLink, loggedIn)]]">
+        <a href$="[[_computeDashboardUrl(_accountDetails)]]">View dashboard</a>
       </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

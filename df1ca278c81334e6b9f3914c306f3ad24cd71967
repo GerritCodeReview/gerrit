@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3f6453b_b45cbeb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-01-29T09:17:35Z",
+      "side": 1,
+      "message": "In the future, we don\u0027t want to keep AccountGroup.Id here. I tried to migrate most other code to AccountGroup.UUID and think that we should do it here, too.\n\nIn my opinion, doing the additional lookup in DbGroupMemberAuditListener is acceptable (especially as we don\u0027t keep the ReviewDb approach for long). We only have to ensure that the listener is notified as one of the last steps of a group creation/update. We could do that by adjusting Iefe2369939 appropriately (e.g. notify the audit listener as last step in GroupsUpdate#updateCachesOnGroupCreation and in GroupsUpdate#updateCachesOnGroupUpdate) and using a common topic for both changes.\n\nAlternatively, we could retrieve the group for a given UUID directly from the database and thus get the ID.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 62
+      },
+      "revId": "df1ca278c81334e6b9f3914c306f3ad24cd71967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f738e987_8287b837",
+        "filename": "java/com/google/gerrit/server/audit/group/GroupAuditEvent.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-01-29T09:17:35Z",
+      "side": 1,
+      "message": "optionally: Technically speaking, this should say \"An audit event for a group.\". (This interface represents only one event, not multiple ones.)",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 27
+      },
+      "revId": "df1ca278c81334e6b9f3914c306f3ad24cd71967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8269911a_b05c9fcf",
+        "filename": "java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-01-29T09:17:35Z",
+      "side": 1,
+      "message": "optional here and below: If we are using single letter variable names, can we at least use the first letter of an appropriate term (e.g. \u0027m\u0027 for \u0027member\u0027)?",
+      "range": {
+        "startLine": 203,
+        "startChar": 12,
+        "endLine": 203,
+        "endChar": 13
+      },
+      "revId": "df1ca278c81334e6b9f3914c306f3ad24cd71967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35c2c276_d4126cfe",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-01-29T09:17:35Z",
+      "side": 1,
+      "message": "Is there a reason why we need to swap the order of these two calls for this change?",
+      "range": {
+        "startLine": 388,
+        "startChar": 4,
+        "endLine": 392,
+        "endChar": 5
+      },
+      "revId": "df1ca278c81334e6b9f3914c306f3ad24cd71967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

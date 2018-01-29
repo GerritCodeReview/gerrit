@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b865450_9e23487a",
+        "filename": "polygerrit-ui/app/behaviors/base-url-behavior/base-url-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-29T22:42:19Z",
+      "side": 1,
+      "message": "Nit: it looks like this will match this string appearing anywhere in the url. E.g. if I had a repo *named\" admin/repos (unlikely), then this would match project-relative change urls.\n\nDoes it work if this becomes\n\n const REPO_URL_PATTERN /^\\/admin\\/repos/;",
+      "revId": "921104c801159002c065c9a8a7af562904e6f8a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

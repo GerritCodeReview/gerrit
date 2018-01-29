@@ -17,8 +17,20 @@
 set -eu
 
 # Keep this version in sync with dev-contributing.txt.
-VERSION="1.3"
-SHA1="a73cfe6f9af01bd6ff150c0b50c9d620400f784c"
+VERSION=${1:-1.3}
+
+case "$VERSION" in
+1.3)
+    SHA1="a73cfe6f9af01bd6ff150c0b50c9d620400f784c"
+    ;;
+1.5)
+    SHA1="b1f79e4d39a3c501f07c0ce7e8b03ac6964ed1f1"
+    ;;
+*)
+    echo "unknown google-java-format version: $VERSION"
+    exit 1
+    ;;
+esac
 
 root="$(git rev-parse --show-toplevel)"
 if [[ -z "$root" ]]; then
@@ -33,7 +45,7 @@ name="google-java-format-$VERSION-all-deps.jar"
 url="https://github.com/google/google-java-format/releases/download/google-java-format-$VERSION/$name"
 "$root/tools/download_file.py" -o "$dir/$name" -u "$url" -v "$SHA1"
 
-launcher="$dir/google-java-format"
+launcher="$dir/google-java-format-$VERSION"
 cat > "$launcher" <<EOF
 #!/bin/bash
 #

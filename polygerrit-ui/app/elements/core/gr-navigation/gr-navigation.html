@@ -298,8 +298,19 @@ limitations under the License.
        */
       getUrlForOwner(owner) {
         return this._getUrlFor({
+          view: Gerrit.Nav.View.SEARCH,
+          owner,
+        });
+      },
+
+      /**
+       * @param {string} user The name of the user.
+       * @return {string}
+       */
+      getUrlForUserDashboard(user) {
+        return this._getUrlFor({
           view: Gerrit.Nav.View.DASHBOARD,
-          user: owner,
+          user,
         });
       },
 

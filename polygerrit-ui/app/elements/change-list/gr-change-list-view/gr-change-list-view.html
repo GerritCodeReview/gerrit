@@ -61,6 +61,8 @@ limitations under the License.
     <div hidden$="[[_loading]]" hidden>
       <gr-user-header
           user-id="[[_userId]]"
+          show-dashboard-link
+          logged-in="[[loggedIn]]"
           class$="[[_computeUserHeaderClass(_userId)]]"></gr-user-header>
       <gr-change-list
           changes="{{_changes}}"

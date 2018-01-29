@@ -414,6 +414,9 @@ public abstract class BaseCommand implements Command {
   }
 
   private void maskSensitiveParameters() {
+    if (argv == null) {
+      return;
+    }
     sensitiveParameters = cache.get(this.getClass());
     maskedArgv = new ArrayList<>();
     maskedArgv.add(commandName);

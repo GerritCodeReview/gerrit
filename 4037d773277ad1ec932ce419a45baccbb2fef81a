@@ -46,6 +46,30 @@
       "revId": "4037d773277ad1ec932ce419a45baccbb2fef81a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88c156bb_53c67550",
+        "filename": "tools/setup_gjf.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-01-29T15:19:29Z",
+      "side": 1,
+      "message": "\u003e Instead, we could select gjf version dynamically during CI check.\n\nAgreed, this is definitely the way to go for now.\n\nOriginally, I thought that the output of gjf would remain very stable over time, but it appears that this was not true as much as I\u0027d hoped. Given that, it definitely makes sense to pin versions on stable branches to avoid unnecessary churn.\n\nAnother (largely orthogonal) option is to run google-java-format-diff.py[1] during CI instead. I had kinda always planned on doing that but never got around to it.\n\n[1] https://github.com/google/google-java-format/blob/master/scripts/google-java-format-diff.py",
+      "parentUuid": "c7219817_ae1119d7",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 47
+      },
+      "revId": "4037d773277ad1ec932ce419a45baccbb2fef81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

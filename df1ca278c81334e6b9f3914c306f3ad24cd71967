@@ -115,6 +115,30 @@
       "revId": "df1ca278c81334e6b9f3914c306f3ad24cd71967",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56122ef8_dd9d6ebc",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-01-29T09:37:05Z",
+      "side": 1,
+      "message": "That\u0027s true. I just think we shouldn\u0027t simply change the order as a by-product of this change without a valid reason on its own. Having another change which explains the reason in the commit message would be preferable in my opinion.\n\nBy the way, I wondered about the order of those methods, too, when I added the NoteDb code into this class. As I didn\u0027t want to change the ReviewDb behavior (and possibly cause other issues I hadn\u0027t thought of), I kept the old order of those methods.",
+      "parentUuid": "6326c468_766d36b2",
+      "range": {
+        "startLine": 388,
+        "startChar": 4,
+        "endLine": 392,
+        "endChar": 5
+      },
+      "revId": "df1ca278c81334e6b9f3914c306f3ad24cd71967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

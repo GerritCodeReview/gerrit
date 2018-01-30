@@ -246,8 +246,7 @@ public class EventFactory {
         la.label = lbl.label;
         la.status = lbl.status.name();
         if (lbl.appliedBy != null) {
-          AccountState accountState = accountCache.get(lbl.appliedBy);
-          la.by = asAccountAttribute(accountState);
+          la.by = asAccountAttribute(lbl.appliedBy);
         }
         sa.labels.add(la);
       }
@@ -573,7 +572,7 @@ public class EventFactory {
     if (id == null) {
       return null;
     }
-    return asAccountAttribute(accountCache.get(id));
+    return accountCache.maybeGet(id).map(a -> asAccountAttribute(a)).orElse(null);
   }
 
   /**
@@ -583,10 +582,6 @@ public class EventFactory {
    * @return object suitable for serialization to JSON
    */
   public AccountAttribute asAccountAttribute(AccountState accountState) {
-    if (accountState == null) {
-      return null;
-    }
-
     AccountAttribute who = new AccountAttribute();
     who.name = accountState.getAccount().getFullName();
     who.email = accountState.getAccount().getPreferredEmail();

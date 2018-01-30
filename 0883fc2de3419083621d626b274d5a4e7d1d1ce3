@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f6430f46_b6684ae2",
+        "filename": "polygerrit-ui/app/test/functional/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-30T19:34:53Z",
+      "side": 1,
+      "message": "Thanks Becky! Apparently, there\u0027s more than one way to install this.\nInstructions added.",
+      "parentUuid": "54cbaaab_39fec697",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 3
+      },
+      "revId": "0883fc2de3419083621d626b274d5a4e7d1d1ce3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dadce78b_4a37528f",
         "filename": "polygerrit-ui/app/test/functional/README.md",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "0883fc2de3419083621d626b274d5a4e7d1d1ce3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c4220d6_3ec09ee0",
+        "filename": "polygerrit-ui/app/test/functional/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-30T19:34:53Z",
+      "side": 1,
+      "message": "Added sample output for clarity.",
+      "parentUuid": "dadce78b_4a37528f",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 64
+      },
+      "revId": "0883fc2de3419083621d626b274d5a4e7d1d1ce3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

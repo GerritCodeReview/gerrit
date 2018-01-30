@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d257c6d7_2bfb029c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-30T17:53:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c55f0db7_5f111e56",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "536aa7444dd0fca39a4654e87c3cd65beecc9f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8474b5e_c6c813c5",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-01-30T03:27:08Z",
       "side": 1,
       "message": "Optional: Add a test for ABANDONED change status.",
+      "range": {
+        "startLine": 420,
+        "startChar": 8,
+        "endLine": 420,
+        "endChar": 44
+      },
+      "revId": "536aa7444dd0fca39a4654e87c3cd65beecc9f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "164f4c2d_862a6b6c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-30T17:53:06Z",
+      "side": 1,
+      "message": "Testing of the `changeIsOpen` function should be done in a different suite. I can do that in a followup, but it\u0027s a pretty simple function and may not really need testing.",
+      "parentUuid": "b8474b5e_c6c813c5",
       "range": {
         "startLine": 420,
         "startChar": 8,

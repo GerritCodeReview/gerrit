@@ -423,6 +423,7 @@ limitations under the License.
         assert.isNotOk(element.$$('gr-button[data-action-key="publishEdit"]'));
         assert.isNotOk(element.$$('gr-button[data-action-key="rebaseEdit"]'));
         assert.isOk(element.$$('gr-button[data-action-key="deleteEdit"]'));
+        assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
       });
 
       test('edit patchset is loaded, needs rebase', () => {
@@ -482,6 +483,7 @@ limitations under the License.
       test('edit action', done => {
         element.addEventListener('edit-tap', () => { done(); });
         element.set('editMode', true);
+        element.change = {status: 'NEW'};
         flushAsynchronousOperations();
 
         assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));

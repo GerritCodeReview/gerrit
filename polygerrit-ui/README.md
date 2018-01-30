@@ -101,6 +101,9 @@ bazel build polygerrit &&
 
 This step requires the `web-component-tester` npm module.
 
+Note: it may be necessary to add the options `--unsafe-perm=true --allow-root`
+to the `npm install` command to avoid file permission errors.
+
 Run all web tests:
 
 ```sh

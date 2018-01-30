@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7914e983_4deb10cb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-30T21:31:13Z",
+      "side": 1,
+      "message": "I\u0027d expect that .flush() is somewhat expensive.\nI wonder if we could/should be using data instead of iterating over elements..",
+      "revId": "c90a7a22f0f0efb92a2becdfbab6b86c8707f14c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "240086dd_ef1ec48c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-01-30T21:31:13Z",
+      "side": 1,
+      "message": "Could :last-of-type be used here?",
+      "revId": "c90a7a22f0f0efb92a2becdfbab6b86c8707f14c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

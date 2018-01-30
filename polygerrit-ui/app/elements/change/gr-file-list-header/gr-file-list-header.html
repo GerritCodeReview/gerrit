@@ -110,13 +110,18 @@ limitations under the License.
         align-items: center;
         display: flex;
       }
+      .rightControls gr-button,
+      gr-patch-range-select {
+        margin: 0 -4px;
+      }
       .fileViewActions gr-button {
+        margin: 0;
         --gr-button: {
           padding: 2px 4px;
         }
       }
-      .fileViewActions > *:not(:last-child) {
-        margin-right: 5px;
+      .fileViewActions gr-button:first-of-type {
+        margin-left: 4px;
       }
       .editMode .hideOnEdit {
         display: none;

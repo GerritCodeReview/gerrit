@@ -431,6 +431,8 @@ class RefControl {
   }
 
   private class ForRefImpl extends ForRef {
+    private String resourcePath;
+
     @Override
     public CurrentUser user() {
       return getUser();
@@ -443,8 +445,12 @@ class RefControl {
 
     @Override
     public String resourcePath() {
-      return String.format(
-          "/projects/%s/+refs/%s", getProjectControl().getProjectState().getName(), refName);
+      if (resourcePath == null) {
+        resourcePath =
+            String.format(
+                "/projects/%s/+refs/%s", getProjectControl().getProjectState().getName(), refName);
+      }
+      return resourcePath;
     }
 
     @Override

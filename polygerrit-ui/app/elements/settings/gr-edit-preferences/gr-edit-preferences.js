@@ -49,6 +49,12 @@
       this._handleEditPrefsChanged();
     },
 
+    _handleLineNumbersChanged() {
+      this.set('editPrefs.hide_line_numbers',
+          this.$.showLineNumbers.checked);
+      this._handleEditPrefsChanged();
+    },
+
     _handleMatchBracketsChanged() {
       this.set('editPrefs.match_brackets', this.$.showMatchBrackets.checked);
       this._handleEditPrefsChanged();

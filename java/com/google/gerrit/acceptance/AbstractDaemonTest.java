@@ -814,7 +814,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected AccountState getAccountState(Account.Id accountId) {
-    Optional<AccountState> accountState = accountCache.maybeGet(accountId);
+    Optional<AccountState> accountState = accountCache.get(accountId);
     assertThat(accountState).named("account %s", accountId.get()).isPresent();
     return accountState.get();
   }

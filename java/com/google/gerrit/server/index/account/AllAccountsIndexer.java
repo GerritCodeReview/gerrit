@@ -89,7 +89,7 @@ public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, Ac
               () -> {
                 try {
                   accountCache.evict(id);
-                  Optional<AccountState> a = accountCache.maybeGet(id);
+                  Optional<AccountState> a = accountCache.get(id);
                   if (a.isPresent()) {
                     index.replace(a.get());
                   } else {

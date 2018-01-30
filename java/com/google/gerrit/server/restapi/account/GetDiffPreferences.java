@@ -56,7 +56,7 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
 
     Account.Id id = rsrc.getUser().getAccountId();
     return accountCache
-        .maybeGet(id)
+        .get(id)
         .map(AccountState::getDiffPreferences)
         .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString())));
   }

@@ -69,12 +69,12 @@ public class AccountResolver {
   public Account find(String nameOrEmail) throws OrmException, IOException, ConfigInvalidException {
     Set<Account.Id> r = findAll(nameOrEmail);
     if (r.size() == 1) {
-      return byId.maybeGet(r.iterator().next()).map(AccountState::getAccount).orElse(null);
+      return byId.get(r.iterator().next()).map(AccountState::getAccount).orElse(null);
     }
 
     Account match = null;
     for (Account.Id id : r) {
-      Optional<Account> account = byId.maybeGet(id).map(AccountState::getAccount);
+      Optional<Account> account = byId.get(id).map(AccountState::getAccount);
       if (!account.map(Account::isActive).orElse(false)) {
         continue;
       }
@@ -128,7 +128,7 @@ public class AccountResolver {
   public Account findByNameOrEmail(String nameOrEmail) throws OrmException, IOException {
     Set<Account.Id> r = findAllByNameOrEmail(nameOrEmail);
     return r.size() == 1
-        ? byId.maybeGet(r.iterator().next()).map(AccountState::getAccount).orElse(null)
+        ? byId.get(r.iterator().next()).map(AccountState::getAccount).orElse(null)
         : null;
   }
 
@@ -152,7 +152,7 @@ public class AccountResolver {
       String name = nameOrEmail.substring(0, lt - 1);
       Set<Account.Id> nameMatches = new HashSet<>();
       for (Account.Id id : ids) {
-        Optional<Account> a = byId.maybeGet(id).map(AccountState::getAccount);
+        Optional<Account> a = byId.get(id).map(AccountState::getAccount);
         if (a.isPresent() && name.equals(a.get().getFullName())) {
           nameMatches.add(id);
         }

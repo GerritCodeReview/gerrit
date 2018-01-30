@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e70519b_8384386b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-user-header/gr-user-header.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-30T20:30:20Z",
+      "side": 1,
+      "message": "This should be sentence case here, no?",
+      "range": {
+        "startLine": 89,
+        "startChar": 61,
+        "endLine": 89,
+        "endChar": 75
+      },
+      "revId": "6286ae3b51b5bf82e7abba4765e02785cc353a10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -622,9 +622,9 @@ maven_jar(
 # https://issues.apache.org/jira/browse/SSHD-736
 maven_jar(
     name = "sshd",
-    artifact = "org.apache.sshd:sshd-core:1.6.0",
+    artifact = "org.apache.sshd:sshd-core:1.7.0",
     exclude = ["META-INF/services/java.nio.file.spi.FileSystemProvider"],
-    sha1 = "548e2da643e88cda9d313efb2564a74f9943e491",
+    sha1 = "2e8b14f6d841b098e46bf407b6fdccab4c19fa41",
 )
 
 maven_jar(

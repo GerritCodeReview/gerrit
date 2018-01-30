@@ -132,9 +132,9 @@ public class ChangeNoteUtil {
   }
 
   public PersonIdent newIdent(Account.Id authorId, Date when, PersonIdent serverIdent) {
-    Optional<Account> author = accountCache.maybeGet(authorId).map(AccountState::getAccount);
+    Optional<Account> author = accountCache.get(authorId).map(AccountState::getAccount);
     return new PersonIdent(
-        author.map(Account::getName).orElse(Account.getName(authorId)),
+        author.map(Account::getName).orElseGet(() -> Account.getName(authorId)),
         authorId.get() + "@" + serverId,
         when,
         serverIdent.getTimeZone());

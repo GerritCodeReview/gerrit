@@ -142,7 +142,7 @@ public class SetMembersCommand extends SshCommand {
             .stream()
             .map(
                 accountId -> {
-                  Optional<AccountState> accountState = accountCache.maybeGet(accountId);
+                  Optional<AccountState> accountState = accountCache.get(accountId);
                   if (!accountState.isPresent()) {
                     return "n/a";
                   }

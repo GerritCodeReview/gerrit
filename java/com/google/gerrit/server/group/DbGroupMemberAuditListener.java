@@ -202,6 +202,6 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
   }
 
   private Optional<String> getUserName(Account.Id accountId) {
-    return accountCache.maybeGet(accountId).map(AccountState::getUserName).orElse(Optional.empty());
+    return accountCache.get(accountId).map(AccountState::getUserName).orElse(Optional.empty());
   }
 }

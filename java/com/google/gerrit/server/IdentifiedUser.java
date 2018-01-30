@@ -277,9 +277,28 @@ public class IdentifiedUser extends CurrentUser {
     return true;
   }
 
+  /**
+   * Returns the account state of the identified user.
+   *
+   * @return the account state of the identified user, an empty account state if the account is
+   *     missing
+   */
   public AccountState state() {
     if (state == null) {
-      state = accountCache.get(getAccountId());
+      // TODO(ekempin):
+      // Ideally we would only create IdentifiedUser instances for existing accounts. To ensure
+      // this we could load the account state eagerly on the creation of IdentifiedUser and fail is
+      // the account is missing. In most cases, e.g. when creating an IdentifiedUser for a request
+      // context, we really want to fail early if the account is missing. However there are some
+      // usages where an IdentifiedUser may be instantiated for a missing account. We may go
+      // through all of them and ensure that they never try to create an IdentifiedUser for a
+      // missing account or make this explicit by adding a createEvenIfMissing method to
+      // IdentifiedUser.GenericFactory. However since this is a lot of effort we stick with calling
+      // AccountCache#getEvenIfMissing(Account.Id) for now.
+      // Alternatively we could be could also return an Optional<AccountState> from the state()
+      // method and let callers handle the missing account case explicitly. But this would be a lot
+      // of work too.
+      state = accountCache.getEvenIfMissing(getAccountId());
     }
     return state;
   }
@@ -310,6 +329,11 @@ public class IdentifiedUser extends CurrentUser {
             () -> firstNonNull(getAccount().getPreferredEmail(), "a/" + getAccountId().get()));
   }
 
+  /**
+   * Returns the account of the identified user.
+   *
+   * @return the account of the identified user, an empty account if the account is missing
+   */
   public Account getAccount() {
     return state().getAccount();
   }

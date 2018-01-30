@@ -50,7 +50,7 @@
     },
 
     _handleLineNumbersChanged() {
-      this.set('editPrefs.hide_line_numbers', !this.$.showLineNumbers.checked);
+      this.set('editPrefs.hide_line_numbers', this.$.showLineNumbers.checked);
       this._handleEditPrefsChanged();
     },
 

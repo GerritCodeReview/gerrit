@@ -23,24 +23,29 @@ import java.util.Optional;
 public interface AccountCache {
   /**
    * Returns an {@code AccountState} instance for the given account ID. If not cached yet the
+   * account is loaded. Returns {@link Optional#empty()} if the account is missing.
+   *
+   * @param accountId ID of the account that should be retrieved
+   * @return {@code AccountState} instance for the given account ID, if no account with this ID
+   *     exists {@link Optional#empty()} is returned
+   */
+  Optional<AccountState> maybeGet(Account.Id accountId);
+
+  /**
+   * Returns an {@code AccountState} instance for the given account ID. If not cached yet the
    * account is loaded. Returns an empty {@code AccountState} instance to represent a missing
    * account.
+   *
+   * <p>This method should only be used in exceptional cases where it is required to get an account
+   * state even if the account is missing. Callers should leave a comment with the method invocation
+   * explaining why this method is used. Most callers of {@link AccountCache} should use {@link
+   * #maybeGet(Account.Id)} instead and handle the missing account case explicitly.
    *
    * @param accountId ID of the account that should be retrieved
    * @return {@code AccountState} instance for the given account ID, if no account with this ID
    *     exists an empty {@code AccountState} instance is returned to represent the missing account
    */
-  AccountState get(Account.Id accountId);
-
-  /**
-   * Returns an {@code AccountState} instance for the given account ID. If not cached yet the
-   * account is loaded. Returns {@link Optional#empty()} if the account is missing.
-   *
-   * @param accountId ID of the account that should be retrieved
-   * @return {@code AccountState} instance for the given account ID, if no account with this ID
-   *     exists {@link Optional#empty()}is returned
-   */
-  Optional<AccountState> maybeGet(Account.Id accountId);
+  AccountState getEvenIfMissing(Account.Id accountId);
 
   /**
    * Returns an {@code AccountState} instance for the given username.

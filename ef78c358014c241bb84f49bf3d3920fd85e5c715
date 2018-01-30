@@ -71,6 +71,30 @@
       "revId": "ef78c358014c241bb84f49bf3d3920fd85e5c715",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14d33da3_09cc2c4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-30T14:09:29Z",
+      "side": 1,
+      "message": "The callers of IdentifiedUser#newCommitterIdent seem to be okay, but I found quite some callers of IdentifiedUser.GenericFactory#create(Account.Id) that potentially invoke this method for a missing account. There are many callers and I didn\u0027t look at all of them and there are also more create methods that accept an account ID. I feel that pursueing this change is too much effort and risk for only little benefit. Hence for now I would rather abandon it.",
+      "parentUuid": "e24b4edb_2e8f2df9",
+      "range": {
+        "startLine": 14,
+        "startChar": 9,
+        "endLine": 15,
+        "endChar": 7
+      },
+      "revId": "ef78c358014c241bb84f49bf3d3920fd85e5c715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

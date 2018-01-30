@@ -24,6 +24,7 @@ java_library2(
         "//java/org/eclipse/jgit:libclient-src.jar",
         "//java/org/eclipse/jgit:libEdit-src.jar",
         "//java/com/google/gerrit/common:libclient-src.jar",
+        "//java/com/google/gerrit/extensions:libapi-src.jar",
         "//java/com/google/gwtexpui/clippy:libclippy-src.jar",
         "//java/com/google/gwtexpui/globalkey:libglobalkey-src.jar",
         "//java/com/google/gwtexpui/progress:libprogress-src.jar",

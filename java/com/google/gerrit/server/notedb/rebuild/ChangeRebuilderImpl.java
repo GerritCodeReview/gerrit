@@ -49,7 +49,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.notedb.ChangeBundle;
@@ -113,7 +112,6 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
    */
   static final long MAX_DELTA_MS = SECONDS.toMillis(1);
 
-  private final AccountCache accountCache;
   private final ChangeBundleReader bundleReader;
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final ChangeNoteUtil changeNoteUtil;
@@ -132,7 +130,6 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   ChangeRebuilderImpl(
       @GerritServerConfig Config cfg,
       SchemaFactory<ReviewDb> schemaFactory,
-      AccountCache accountCache,
       ChangeBundleReader bundleReader,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       ChangeNoteUtil changeNoteUtil,
@@ -146,7 +143,6 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       @Nullable ProjectCache projectCache,
       @GerritServerId String serverId) {
     super(schemaFactory);
-    this.accountCache = accountCache;
     this.bundleReader = bundleReader;
     this.draftUpdateFactory = draftUpdateFactory;
     this.changeNoteUtil = changeNoteUtil;
@@ -551,8 +547,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     if (id == null) {
       return new PersonIdent(serverIdent, events.getWhen());
     }
-    return changeNoteUtil.newIdent(
-        accountCache.get(id).getAccount(), events.getWhen(), serverIdent);
+    return changeNoteUtil.newIdent(id, events.getWhen(), serverIdent);
   }
 
   private List<HashtagsEvent> getHashtagsEvents(Change change, NoteDbUpdateManager manager)

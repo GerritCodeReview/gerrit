@@ -174,8 +174,8 @@ public abstract class AbstractChangeUpdate {
     return accountId;
   }
 
-  protected PersonIdent newIdent(Account author, Date when) {
-    return noteUtil.newIdent(author, when, serverIdent);
+  protected PersonIdent newIdent(Account.Id authorId, Date when) {
+    return noteUtil.newIdent(authorId, when, serverIdent);
   }
 
   /** Whether no updates have been done. */

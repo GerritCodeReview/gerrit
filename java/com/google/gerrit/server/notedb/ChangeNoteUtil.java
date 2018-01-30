@@ -129,6 +129,12 @@ public class ChangeNoteUtil {
     this.writeJson = config.getBoolean("notedb", "writeJson", true);
   }
 
+  public PersonIdent newIdent(Account.Id authorId, Date when, PersonIdent serverIdent) {
+    Account author = accountCache.get(authorId).getAccount();
+    return new PersonIdent(
+        author.getName(), author.getId().get() + "@" + serverId, when, serverIdent.getTimeZone());
+  }
+
   @VisibleForTesting
   public PersonIdent newIdent(Account author, Date when, PersonIdent serverIdent) {
     return new PersonIdent(
@@ -609,7 +615,7 @@ public class ChangeNoteUtil {
   }
 
   private void appendIdent(PrintWriter writer, String header, Account.Id id, Timestamp ts) {
-    PersonIdent ident = newIdent(accountCache.get(id).getAccount(), ts, serverIdent);
+    PersonIdent ident = newIdent(id, ts, serverIdent);
     StringBuilder name = new StringBuilder();
     PersonIdent.appendSanitized(name, ident.getName());
     name.append(" <");

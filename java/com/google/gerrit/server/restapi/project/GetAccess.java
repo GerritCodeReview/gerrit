@@ -41,6 +41,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -98,6 +99,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
   private final MetaDataUpdate.Server metaDataUpdateFactory;
   private final GroupBackend groupBackend;
   private final GroupJson groupJson;
+  private final WebLinks webLinks;
 
   @Inject
   public GetAccess(
@@ -109,7 +111,8 @@ public class GetAccess implements RestReadView<ProjectResource> {
       MetaDataUpdate.Server metaDataUpdateFactory,
       ProjectJson projectJson,
       GroupBackend groupBackend,
-      GroupJson groupJson) {
+      GroupJson groupJson,
+      WebLinks webLinks) {
     this.user = self;
     this.permissionBackend = permissionBackend;
     this.groupControlFactory = groupControlFactory;
@@ -119,6 +122,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.groupBackend = groupBackend;
     this.groupJson = groupJson;
+    this.webLinks = webLinks;
   }
 
   public ProjectAccessInfo apply(Project.NameKey nameKey)
@@ -147,6 +151,9 @@ public class GetAccess implements RestReadView<ProjectResource> {
     ProjectConfig config;
     try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
       config = ProjectConfig.read(md);
+      info.configWebLinks =
+          webLinks.getFileHistoryLinks(
+              projectName.toString(), config.getRevision().getName(), ProjectConfig.PROJECT_CONFIG);
 
       if (config.updateGroupNames(groupBackend)) {
         md.setMessage("Update group names\n");

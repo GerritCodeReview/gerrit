@@ -118,10 +118,27 @@
    * @return {!Object}
    */
   ChangeComments.prototype.getAllPublishedComments = function(opt_patchNum) {
+    return this.getAllComments(false, opt_patchNum);
+  };
+
+
+  /**
+   * Gets all the comments and robot comments for the given change.
+   *
+   * @param {boolean=} opt_includeDrafts
+   * @param {number=} opt_patchNum
+   * @return {!Object}
+   */
+  ChangeComments.prototype.getAllComments = function(opt_includeDrafts,
+      opt_patchNum) {
     const paths = this.getPaths();
     const publishedComments = {};
     for (const path of Object.keys(paths)) {
-      publishedComments[path] = this.getAllCommentsForPath(path, opt_patchNum);
+      let commentsToAdd = this.getAllCommentsForPath(path, opt_patchNum);
+      if (opt_includeDrafts) {
+        commentsToAdd = commentsToAdd.concat(this.getAllDraftsForPath(path));
+      }
+      publishedComments[path] = commentsToAdd;
     }
     return publishedComments;
   };
@@ -214,6 +231,17 @@
     };
   };
 
+  ChangeComments.prototype._commentObjToArrayWithFile = function(comments) {
+    let commentArr = [];
+    for (const file of Object.keys(comments)) {
+      for (const comment of comments[file]) {
+        comment.__path = file;
+      }
+      commentArr = commentArr.concat(comments[file]);
+    }
+    return commentArr;
+  };
+
   ChangeComments.prototype._commentObjToArray = function(comments) {
     let commentArr = [];
     for (const file of Object.keys(comments)) {
@@ -293,6 +321,46 @@
       return idMap[key];
     });
     return unresolvedLeaves.length;
+  };
+
+  /**
+   * Computes all of the comments in thread format.
+   *
+   * @param {number} patchNum
+   * @return {number}
+   */
+  ChangeComments.prototype.computeCommentThreads = function(opt_path) {
+    const comments = this._commentObjToArrayWithFile(this.getAllComments(true));
+
+    const threads = comments.reduce((groups, comment) => {
+      const path = comment.__path;
+      const patchset = comment.patch_set;
+      const line = comment.line;
+      const range = comment.range;
+      const side = comment.side;
+      let key = `${path}-${patchset}-${line}`;
+      if (range) {
+        key = `${key}-${range.start_line}-${range.start_character}-` +
+            `${range.end_line}-${range.end_character}`;
+      }
+      if (side) {
+        key = `${key}-${side}`;
+      }
+      const groupObj = {
+        comments: [],
+        patchNum: patchset,
+        path,
+        line,
+      };
+      if (comment.side) {
+        groupObj.commentSide = side;
+      }
+      groups[key] = groups[key] || groupObj;
+      groups[key].comments.push(comment);
+      return groups;
+    }, {});
+
+    return Object.values(threads);
   };
 
   /**

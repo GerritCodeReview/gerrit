@@ -349,7 +349,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected void removeUsersThatIgnoredTheChange() {
     for (Map.Entry<Account.Id, Collection<String>> e : stars.asMap().entrySet()) {
       if (e.getValue().contains(StarredChangesUtil.IGNORE_LABEL)) {
-        args.accountCache.maybeGet(e.getKey()).ifPresent(a -> removeUser(a.getAccount()));
+        args.accountCache.get(e.getKey()).ifPresent(a -> removeUser(a.getAccount()));
       }
     }
   }

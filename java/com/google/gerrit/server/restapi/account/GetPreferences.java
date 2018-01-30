@@ -54,7 +54,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
 
     Account.Id id = rsrc.getUser().getAccountId();
     return accountCache
-        .maybeGet(id)
+        .get(id)
         .map(AccountState::getGeneralPreferences)
         .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString())));
   }

@@ -207,7 +207,7 @@ public class PostReviewersOp implements BatchUpdateOp {
       List<AccountState> reviewers =
           addedReviewers
               .stream()
-              .map(r -> accountCache.maybeGet(r.getAccountId()))
+              .map(r -> accountCache.get(r.getAccountId()))
               .flatMap(Streams::stream)
               .collect(toList());
       reviewerAdded.fire(rsrc.getChange(), patchSet, reviewers, ctx.getAccount(), ctx.getWhen());

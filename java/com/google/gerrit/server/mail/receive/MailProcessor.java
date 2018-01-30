@@ -166,7 +166,7 @@ public class MailProcessor {
       return;
     }
     Account.Id accountId = accountIds.iterator().next();
-    Optional<AccountState> accountState = accountCache.maybeGet(accountId);
+    Optional<AccountState> accountState = accountCache.get(accountId);
     if (!accountState.isPresent()) {
       log.warn(String.format("Mail: Account %s doesn't exist. Will delete message.", accountId));
       return;

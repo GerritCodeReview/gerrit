@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.api.group;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
@@ -1221,6 +1222,25 @@ public class GroupsIT extends AbstractDaemonTest {
         assertThat(g.name).isEqualTo(name);
       }
     }
+  }
+
+  @Test
+  @Sandboxed
+  public void groupsOfUserCanBeListedInSlaveMode() throws Exception {
+    // TODO(aliceks): Remove this line when we have a group index in slave mode.
+    assume().that(readGroupsFromNoteDb()).isFalse();
+
+    GroupInput groupInput = new GroupInput();
+    groupInput.name = name("contributors");
+    groupInput.members = ImmutableList.of(user.username);
+    gApi.groups().create(groupInput).get();
+    restartAsSlave();
+
+    setApiUser(user);
+    List<GroupInfo> groups = gApi.groups().list().withUser(user.username).get();
+    ImmutableList<String> groupNames =
+        groups.stream().map(group -> group.name).collect(toImmutableList());
+    assertThat(groupNames).contains(groupInput.name);
   }
 
   private void assertStaleGroupAndReindex(AccountGroup.UUID groupUuid) throws IOException {

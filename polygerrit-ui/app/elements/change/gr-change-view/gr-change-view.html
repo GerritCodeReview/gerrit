@@ -364,7 +364,7 @@ limitations under the License.
               reply-disabled="[[_replyDisabled]]"
               reply-button-label="[[_replyButtonLabel]]"
               commit-message="[[_latestCommitMessage]]"
-              edit-patchset-loaded="[[hasEditPatchsetLoaded(_patchRange)]]"
+              edit-patchset-loaded="[[hasEditPatchsetLoaded(_patchRange.*)]]"
               edit-mode="[[_editMode]]"
               edit-based-on-current-patch-set="[[hasEditBasedOnCurrentPatchSet(_allPatchSets)]]"
               on-reload-change="_handleReloadChange"

@@ -561,21 +561,23 @@
         }
       }
 
-      // Only show edit button if there is no edit patchset loaded and the
-      // file list is not in edit mode.
-      if (editPatchsetLoaded || editMode) {
-        if (changeActions.edit) {
-          delete this.actions.edit;
-          this.notifyPath('actions.edit');
-        }
-        if (!changeActions.doneEdit) {
-          this.set('actions.doneEdit', DONE_EDIT);
-        }
-      } else {
-        if (!changeActions.edit) { this.set('actions.edit', EDIT); }
-        if (changeActions.doneEdit) {
-          delete this.actions.doneEdit;
-          this.notifyPath('actions.doneEdit');
+      if (this.changeIsOpen(this.change.status)) {
+        // Only show edit button if there is no edit patchset loaded and the
+        // file list is not in edit mode.
+        if (editPatchsetLoaded || editMode) {
+          if (changeActions.edit) {
+            delete this.actions.edit;
+            this.notifyPath('actions.edit');
+          }
+          if (!changeActions.doneEdit) {
+            this.set('actions.doneEdit', DONE_EDIT);
+          }
+        } else {
+          if (!changeActions.edit) { this.set('actions.edit', EDIT); }
+          if (changeActions.doneEdit) {
+            delete this.actions.doneEdit;
+            this.notifyPath('actions.doneEdit');
+          }
         }
       }
     },

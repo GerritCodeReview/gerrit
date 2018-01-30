@@ -42,7 +42,6 @@ limitations under the License.
         display: flex;
       }
       .header,
-      .editingRef .editContainer,
       #deletedContainer {
         align-items: center;
         background: #f6f6f6;
@@ -55,9 +54,6 @@ limitations under the License.
       #deletedContainer {
         border-bottom: 0;
       }
-      #editRefInput {
-        width: 70%;
-      }
       .sectionContent {
         padding: .7em;
       }
@@ -67,11 +63,12 @@ limitations under the License.
       .deleted #mainContainer,
       #addPermission,
       #deleteBtn,
-      .editingRef .header,
-      .editContainer {
+      .editingRef .name,
+      #editRefInput {
         display: none;
       }
-      .editing #editBtn {
+      .editing #editBtn,
+      .editingRef #editRefInput {
         display: flex;
       }
       .deleted #deletedContainer {
@@ -86,9 +83,6 @@ limitations under the License.
       #undoRemoveBtn {
         padding-right: .7em;
       }
-      .editingRef .editContainer {
-        display: flex;
-      }
     </style>
     <style include="gr-form-styles"></style>
     <fieldset id="section"
@@ -101,23 +95,21 @@ limitations under the License.
                 id="editBtn"
                 link
                 class$="[[_computeEditBtnClass(section.id)]]"
-                on-tap="_handleEditReference">
+                on-tap="editReference">
               <iron-icon id="icon" icon="gr-icons:create"></iron-icon>
             </gr-button>
           </div>
-          <gr-button
-              link
-              id="deleteBtn"
-              on-tap="_handleRemoveReference">Remove</gr-button>
-        </div><!-- end header -->
-        <div class="editContainer">
           <input
               id="editRefInput"
               bind-value="{{section.id}}"
               is="iron-input"
               type="text"
               on-input="_handleValueChange">
-        </div><!-- end editContainer -->
+          <gr-button
+              link
+              id="deleteBtn"
+              on-tap="_handleRemoveReference">Remove</gr-button>
+        </div><!-- end header -->
         <div class="sectionContent">
           <template
               is="dom-repeat"

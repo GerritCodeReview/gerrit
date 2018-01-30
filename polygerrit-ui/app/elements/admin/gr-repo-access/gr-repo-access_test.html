@@ -523,6 +523,99 @@ limitations under the License.
         assert.deepEqual(element._computeAddAndRemove(), expectedInput);
       });
 
+      test('_computeAddAndRemove new section', () => {
+        // Add a new permission to a section
+        expectedInput = {
+          add: {
+            'refs/for/*': {
+              added: true,
+              permissions: {},
+            },
+          },
+          remove: {},
+        };
+        MockInteractions.tap(element.$.addReferenceBtn);
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+        expectedInput = {
+          add: {
+            'refs/for/*': {
+              added: true,
+              permissions: {
+                'label-Code-Review': {
+                  added: true,
+                  rules: {},
+                  label: 'Code-Review',
+                },
+              },
+            },
+          },
+          remove: {},
+        };
+        const newSection = Polymer.dom(element.root)
+            .querySelectorAll('gr-access-section')[1];
+        newSection._handleAddPermission();
+        flushAsynchronousOperations();
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+        // Add rule to the new permission.
+        expectedInput = {
+          add: {
+            'refs/for/*': {
+              added: true,
+              permissions: {
+                'label-Code-Review': {
+                  added: true,
+                  rules: {
+                    Maintainers: {
+                      action: 'ALLOW',
+                      added: true,
+                      max: 2,
+                      min: -2,
+                    },
+                  },
+                  label: 'Code-Review',
+                },
+              },
+            },
+          },
+          remove: {},
+        };
+
+        newSection.$$('gr-permission')._handleAddRuleItem(
+            {detail: {value: {id: 'Maintainers'}}});
+
+        flushAsynchronousOperations();
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+        // Modify a the reference from the default value.
+        element._local['refs/for/*'].updatedId = 'refs/for/new';
+        expectedInput = {
+          add: {
+            'refs/for/new': {
+              added: true,
+              updatedId: 'refs/for/new',
+              permissions: {
+                'label-Code-Review': {
+                  added: true,
+                  rules: {
+                    Maintainers: {
+                      action: 'ALLOW',
+                      added: true,
+                      max: 2,
+                      min: -2,
+                    },
+                  },
+                  label: 'Code-Review',
+                },
+              },
+            },
+          },
+          remove: {},
+        };
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+      });
+
       test('_computeAddAndRemove combinations', () => {
         // Modify rule and delete permission that it is inside of.
         element._local['refs/*'].permissions.owner.rules[123].modified = true;
@@ -671,6 +764,150 @@ limitations under the License.
         };
         element._local['refs/*'].deleted = true;
         assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+        // Add a new section.
+        MockInteractions.tap(element.$.addReferenceBtn);
+        let newSection = Polymer.dom(element.root)
+            .querySelectorAll('gr-access-section')[1];
+        newSection._handleAddPermission();
+        flushAsynchronousOperations();
+        newSection.$$('gr-permission')._handleAddRuleItem(
+            {detail: {value: {id: 'Maintainers'}}});
+        // Modify a the reference from the default value.
+        element._local['refs/for/*'].updatedId = 'refs/for/new';
+
+        expectedInput = {
+          add: {
+            'refs/for/new': {
+              added: true,
+              updatedId: 'refs/for/new',
+              permissions: {
+                'label-Code-Review': {
+                  added: true,
+                  rules: {
+                    Maintainers: {
+                      action: 'ALLOW',
+                      added: true,
+                      max: 2,
+                      min: -2,
+                    },
+                  },
+                  label: 'Code-Review',
+                },
+              },
+            },
+          },
+          remove: {
+            'refs/*': {
+              permissions: {},
+            },
+          },
+        };
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+        // Modify newly added rule inside new ref.
+        element._local['refs/for/*'].permissions['label-Code-Review'].
+            rules['Maintainers'].modified = true;
+        expectedInput = {
+          add: {
+            'refs/for/new': {
+              added: true,
+              updatedId: 'refs/for/new',
+              permissions: {
+                'label-Code-Review': {
+                  added: true,
+                  rules: {
+                    Maintainers: {
+                      action: 'ALLOW',
+                      added: true,
+                      modified: true,
+                      max: 2,
+                      min: -2,
+                    },
+                  },
+                  label: 'Code-Review',
+                },
+              },
+            },
+          },
+          remove: {
+            'refs/*': {
+              permissions: {},
+            },
+          },
+        };
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+
+        // Add a second new section.
+        MockInteractions.tap(element.$.addReferenceBtn);
+        newSection = Polymer.dom(element.root)
+            .querySelectorAll('gr-access-section')[2];
+        newSection._handleAddPermission();
+        flushAsynchronousOperations();
+        newSection.$$('gr-permission')._handleAddRuleItem(
+            {detail: {value: {id: 'Maintainers'}}});
+        // Modify a the reference from the default value.
+        element._local['refs/for/**'].updatedId = 'refs/for/new2';
+        expectedInput = {
+          add: {
+            'refs/for/new': {
+              added: true,
+              updatedId: 'refs/for/new',
+              permissions: {
+                'label-Code-Review': {
+                  added: true,
+                  rules: {
+                    Maintainers: {
+                      action: 'ALLOW',
+                      added: true,
+                      modified: true,
+                      max: 2,
+                      min: -2,
+                    },
+                  },
+                  label: 'Code-Review',
+                },
+              },
+            },
+            'refs/for/new2': {
+              added: true,
+              updatedId: 'refs/for/new2',
+              permissions: {
+                'label-Code-Review': {
+                  added: true,
+                  rules: {
+                    Maintainers: {
+                      action: 'ALLOW',
+                      added: true,
+                      max: 2,
+                      min: -2,
+                    },
+                  },
+                  label: 'Code-Review',
+                },
+              },
+            },
+          },
+          remove: {
+            'refs/*': {
+              permissions: {},
+            },
+          },
+        };
+        assert.deepEqual(element._computeAddAndRemove(), expectedInput);
+      });
+
+      test('Unsaved added refs are discarded when edit cancelled', () => {
+        // Unsaved changes are discarded when editing is cancelled.
+        MockInteractions.tap(element.$.editBtn);
+        assert.equal(element._sections.length, 1);
+        assert.equal(Object.keys(element._local).length, 1);
+        MockInteractions.tap(element.$.addReferenceBtn);
+        assert.equal(element._sections.length, 2);
+        assert.equal(Object.keys(element._local).length, 2);
+        MockInteractions.tap(element.$.editBtn);
+        assert.equal(element._sections.length, 1);
+        assert.equal(Object.keys(element._local).length, 1);
       });
 
       test('_handleSaveForReview', done => {

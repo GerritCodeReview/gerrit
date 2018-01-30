@@ -80,6 +80,9 @@ limitations under the License.
             editing="[[_editing]]"
             groups="[[_groups]]"></gr-access-section>
       </template>
+      <gr-button id="addReferenceBtn"
+          class$="[[_computeShowSaveClass(_editing)]]"
+          on-tap="_handleCreateSection">Add Reference</gr-button>
     </main>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

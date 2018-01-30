@@ -30,6 +30,7 @@ import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.mail.Address;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Before;
@@ -368,7 +369,7 @@ public class FromAddressGeneratorProviderTest {
 
   private Account.Id user(String name, String email) {
     final AccountState s = makeUser(name, email);
-    expect(accountCache.get(eq(s.getAccount().getId()))).andReturn(s);
+    expect(accountCache.maybeGet(eq(s.getAccount().getId()))).andReturn(Optional.of(s));
     return s.getAccount().getId();
   }
 

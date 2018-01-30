@@ -20,6 +20,7 @@ import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.Address;
@@ -29,6 +30,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
@@ -121,9 +123,9 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
     public Address from(Account.Id fromId) {
       String senderName;
       if (fromId != null) {
-        Account a = accountCache.get(fromId).getAccount();
-        String fullName = a.getFullName();
-        String userEmail = a.getPreferredEmail();
+        Optional<Account> a = accountCache.maybeGet(fromId).map(AccountState::getAccount);
+        String fullName = a.map(Account::getFullName).orElse(null);
+        String userEmail = a.map(Account::getPreferredEmail).orElse(null);
         if (canRelay(userEmail)) {
           return new Address(fullName, userEmail);
         }
@@ -206,8 +208,8 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
       final String senderName;
 
       if (fromId != null) {
-        final Account account = accountCache.get(fromId).getAccount();
-        String fullName = account.getFullName();
+        String fullName =
+            accountCache.maybeGet(fromId).map(a -> a.getAccount().getFullName()).orElse(null);
         if (fullName == null || "".equals(fullName)) {
           fullName = anonymousCowardName;
         }

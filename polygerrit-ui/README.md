@@ -91,6 +91,9 @@ brew install npm
 sudo npm install -g web-component-tester
 ```
 
+Note: it may be necessary to add the options `--unsafe-perm=true --allow-root`
+to the `npm install` command to avoid file permission errors.
+
 Run all web tests:
 
 ```sh

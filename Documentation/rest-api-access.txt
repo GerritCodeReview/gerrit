@@ -406,6 +406,9 @@ project.
 link:rest-api-groups.html#group-info[GroupInfo] objects, describing
 the group UUIDs used in the `local` map. Groups that are not visible
 are omitted from the `groups` map.
+|`configWebLinks`    ||
+A list of URLs that display the history of the configuration file
+governing this project's access rights.
 |==================================
 
 

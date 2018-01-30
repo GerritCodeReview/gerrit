@@ -27,12 +27,14 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.common.data.WebLinkInfoCommon;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.api.access.AccessSectionInfo;
 import com.google.gerrit.extensions.api.access.PermissionInfo;
 import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -41,6 +43,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -61,6 +64,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -98,6 +102,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
   private final MetaDataUpdate.Server metaDataUpdateFactory;
   private final GroupBackend groupBackend;
   private final GroupJson groupJson;
+  private final WebLinks webLinks;
 
   @Inject
   public GetAccess(
@@ -109,7 +114,8 @@ public class GetAccess implements RestReadView<ProjectResource> {
       MetaDataUpdate.Server metaDataUpdateFactory,
       ProjectJson projectJson,
       GroupBackend groupBackend,
-      GroupJson groupJson) {
+      GroupJson groupJson,
+      WebLinks webLinks) {
     this.user = self;
     this.permissionBackend = permissionBackend;
     this.groupControlFactory = groupControlFactory;
@@ -119,6 +125,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.groupBackend = groupBackend;
     this.groupJson = groupJson;
+    this.webLinks = webLinks;
   }
 
   public ProjectAccessInfo apply(Project.NameKey nameKey)
@@ -147,6 +154,15 @@ public class GetAccess implements RestReadView<ProjectResource> {
     ProjectConfig config;
     try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
       config = ProjectConfig.read(md);
+      info.configWebLinks = new ArrayList<>();
+
+      // WebLinks operates in terms of the data types used in the GWT UI. Once the GWT UI is gone,
+      // WebLinks should be fixed to use the extension data types.
+      for (WebLinkInfoCommon wl :
+          webLinks.getFileHistoryLinks(
+              projectName.get(), config.getRevision().getName(), ProjectConfig.PROJECT_CONFIG)) {
+        info.configWebLinks.add(new WebLinkInfo(wl.name, wl.imageUrl, wl.url, wl.target));
+      }
 
       if (config.updateGroupNames(groupBackend)) {
         md.setMessage("Update group names\n");

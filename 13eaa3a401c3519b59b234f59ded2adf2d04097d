@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2fc9f627_7823bcf0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-30T17:48:45Z",
+      "side": 1,
+      "message": "sp.",
+      "range": {
+        "startLine": 459,
+        "startChar": 28,
+        "endLine": 459,
+        "endChar": 36
+      },
+      "revId": "13eaa3a401c3519b59b234f59ded2adf2d04097d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd4defb0_b92244b7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-30T17:48:45Z",
+      "side": 1,
+      "message": "These two if\u0027s can be combined, and the remainder of the method lifted to the top-level.\n\n if (!editingOld || editing) { return; }",
+      "range": {
+        "startLine": 158,
+        "startChar": 6,
+        "endLine": 159,
+        "endChar": 21
+      },
+      "revId": "13eaa3a401c3519b59b234f59ded2adf2d04097d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5abea996_83e2a5fe",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-01-30T17:48:45Z",
+      "side": 1,
+      "message": "Looks like this adds a double-star to the end.",
+      "range": {
+        "startLine": 272,
+        "startChar": 27,
+        "endLine": 272,
+        "endChar": 28
+      },
+      "revId": "13eaa3a401c3519b59b234f59ded2adf2d04097d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

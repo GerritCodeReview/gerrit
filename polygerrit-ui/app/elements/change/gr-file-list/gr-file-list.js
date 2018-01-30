@@ -696,12 +696,11 @@
     /**
      * @param {string} baseClass
      * @param {string} path
-     * @param {boolean=} opt_keepSpace
      */
-    _computeClass(baseClass, path, opt_keepSpace) {
+    _computeClass(baseClass, path) {
       const classes = [baseClass];
       if (path === this.COMMIT_MESSAGE_PATH || path === this.MERGE_LIST_PATH) {
-        classes.push(!opt_keepSpace ? 'invisible' : 'hideContent');
+        classes.push('invisible');
       }
       return classes.join(' ');
     },

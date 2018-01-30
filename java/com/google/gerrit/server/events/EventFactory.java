@@ -572,7 +572,7 @@ public class EventFactory {
     if (id == null) {
       return null;
     }
-    return accountCache.maybeGet(id).map(a -> asAccountAttribute(a)).orElse(null);
+    return accountCache.get(id).map(a -> asAccountAttribute(a)).orElse(null);
   }
 
   /**

@@ -51,7 +51,7 @@ public class AuditLogFormatter {
   }
 
   private static Optional<Account> getAccount(AccountCache accountCache, Account.Id accountId) {
-    return accountCache.maybeGet(accountId).map(AccountState::getAccount);
+    return accountCache.get(accountId).map(AccountState::getAccount);
   }
 
   private static Optional<GroupDescription.Basic> getGroup(

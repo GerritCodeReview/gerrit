@@ -369,7 +369,7 @@ public class FromAddressGeneratorProviderTest {
 
   private Account.Id user(String name, String email) {
     final AccountState s = makeUser(name, email);
-    expect(accountCache.maybeGet(eq(s.getAccount().getId()))).andReturn(Optional.of(s));
+    expect(accountCache.get(eq(s.getAccount().getId()))).andReturn(Optional.of(s));
     return s.getAccount().getId();
   }
 

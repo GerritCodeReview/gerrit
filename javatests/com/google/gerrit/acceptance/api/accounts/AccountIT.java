@@ -1682,7 +1682,7 @@ public class AccountIT extends AbstractDaemonTest {
       assertThat(repo.exactRef(userRef)).isNull();
     }
 
-    assertThat(accountCache.maybeGet(admin.id)).isEmpty();
+    assertThat(accountCache.get(admin.id)).isEmpty();
     assertThat(accountQueryProvider.get().byDefault(admin.id.toString())).isEmpty();
   }
 

@@ -173,7 +173,7 @@ public class ChangeResource implements RestResource, HasETag {
     }
 
     for (Account.Id accountId : accounts) {
-      Optional<AccountState> accountState = accountCache.maybeGet(accountId);
+      Optional<AccountState> accountState = accountCache.get(accountId);
       if (accountState.isPresent()) {
         hashAccount(h, accountState.get(), buf);
       } else {

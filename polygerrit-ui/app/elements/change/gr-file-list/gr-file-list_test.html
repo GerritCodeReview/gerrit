@@ -610,8 +610,6 @@ limitations under the License.
       assert.equal(element._computeClass('clazz', '/foo/bar/baz'), 'clazz');
       assert.equal(element._computeClass('clazz', '/COMMIT_MSG'),
           'clazz invisible');
-      assert.equal(element._computeClass('clazz', '/COMMIT_MSG', true),
-          'clazz hideContent');
     });
 
     test('file review status', () => {

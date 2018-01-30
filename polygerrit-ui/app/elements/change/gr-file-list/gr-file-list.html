@@ -59,11 +59,18 @@ limitations under the License.
       :host(.editMode) .showOnEdit {
         display: initial;
       }
+      .invisible {
+        visibility: hidden;
+      }
       .controlRow {
         align-items: center;
         display: flex;
         height: 2.25em;
         justify-content: center;
+      }
+      .controlRow.invisible,
+      .show-hide.invisible {
+        display: none;
       }
       .reviewed,
       .status {
@@ -118,12 +125,6 @@ limitations under the License.
       }
       .stats {
         min-width: 7em;
-      }
-      .invisible {
-        display: none;
-      }
-      .hideContent {
-        visibility: hidden;
       }
       .row:not(.header) .stats,
       .total-stats {
@@ -256,7 +257,7 @@ limitations under the License.
         <div class="stickyArea">
           <div class$="file-row row [[_computePathClass(file.__path, _expandedFilePaths.*)]]"
               data-path$="[[file.__path]]" tabindex="-1">
-              <div class$="[[_computeClass('status', file.__path, 'true')]]"
+              <div class$="[[_computeClass('status', file.__path)]]"
                   tabindex="0"
                   aria-label$="[[_computeFileStatusLabel(file.status)]]">
               [[_computeFileStatus(file.status)]]

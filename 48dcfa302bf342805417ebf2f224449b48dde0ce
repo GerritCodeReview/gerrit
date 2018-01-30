@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d22e7565_96642a0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-30T20:40:52Z",
+      "side": 1,
+      "message": "Example for the breakage that was fixed by this CL: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/plugins/reviewers/+/155712/",
+      "revId": "48dcfa302bf342805417ebf2f224449b48dde0ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1657c42c_f4e9df42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-31T02:48:28Z",
+      "side": 1,
+      "message": "Please link to the upstream issue reports, if there are any.",
+      "revId": "ab733290902c0f2b0a89fd4642292652f5467e6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83fbea2d_7060532c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-31T02:48:28Z",
+      "side": 1,
+      "message": "Not necessary to mention this.  Please remove.",
+      "range": {
+        "startLine": 14,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 6
+      },
+      "revId": "ab733290902c0f2b0a89fd4642292652f5467e6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b034122_fd9bbb41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-31T02:48:28Z",
+      "side": 1,
+      "message": "Not necessary to mention this.  Please remove.",
+      "range": {
+        "startLine": 18,
+        "startChar": 2,
+        "endLine": 18,
+        "endChar": 72
+      },
+      "revId": "ab733290902c0f2b0a89fd4642292652f5467e6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2306d821_9f3bcbf0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-01-31T02:48:28Z",
+      "side": 1,
+      "message": "The PR linked here was closed without being merged.  The author mentions that someone else did the work, so it would be better to link to that if possible.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 51
+      },
+      "revId": "ab733290902c0f2b0a89fd4642292652f5467e6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

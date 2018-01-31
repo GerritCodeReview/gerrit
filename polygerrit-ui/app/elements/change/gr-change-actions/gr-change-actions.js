@@ -50,9 +50,9 @@
   // TODO(davido): Add the rest of the change actions.
   const ChangeActions = {
     ABANDON: 'abandon',
-    DONE_EDIT: 'doneEdit',
     DELETE: '/',
     DELETE_EDIT: 'deleteEdit',
+    DONE_EDIT: 'doneEdit',
     EDIT: 'edit',
     IGNORE: 'ignore',
     MOVE: 'move',

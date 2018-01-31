@@ -141,6 +141,30 @@
       "revId": "b0eda5bab5980791637a9e8bf6c336f7d54a26eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e4b145c_6dd77cdc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-01-31T14:07:12Z",
+      "side": 1,
+      "message": "\u003e IIRC, this was only a small optimization as you can see in the relevant code review [1].\n\nBy the way, change 86814 (the review of I45f90deeba) isn\u0027t visible for me.\n\n\u003e @Alice: I remember from our discussion that I expressed concern about invalidating diff_summary cache (by changing its version) and thus forcing all entries to be computed again. I don\u0027t recall that I said something about that circular dependency.\n\nThat\u0027s where our email thread ended but I started with some questions including one about the line of code leading to this circular dependency. Anyway, I\u0027m happy that we remove that line of code. It will make my life easier when I restructure the caches.",
+      "parentUuid": "742de7a3_727601a9",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 43
+      },
+      "revId": "b0eda5bab5980791637a9e8bf6c336f7d54a26eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

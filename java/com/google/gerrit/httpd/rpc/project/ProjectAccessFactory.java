@@ -27,7 +27,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.RefConfigSection;
-import com.google.gerrit.common.data.WebLinkInfoCommon;
+import com.google.gerrit.extensions.common.WebLinkInfoCommon;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;

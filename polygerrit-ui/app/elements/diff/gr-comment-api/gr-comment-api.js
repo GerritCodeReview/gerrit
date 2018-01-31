@@ -118,10 +118,26 @@
    * @return {!Object}
    */
   ChangeComments.prototype.getAllPublishedComments = function(opt_patchNum) {
+    return this.getAllComments(false, opt_patchNum);
+  };
+
+  /**
+   * Gets all the comments and robot comments for the given change.
+   *
+   * @param {boolean=} opt_includeDrafts
+   * @param {number=} opt_patchNum
+   * @return {!Object}
+   */
+  ChangeComments.prototype.getAllComments = function(opt_includeDrafts,
+      opt_patchNum) {
     const paths = this.getPaths();
     const publishedComments = {};
     for (const path of Object.keys(paths)) {
-      publishedComments[path] = this.getAllCommentsForPath(path, opt_patchNum);
+      let commentsToAdd = this.getAllCommentsForPath(path, opt_patchNum);
+      if (opt_includeDrafts) {
+        commentsToAdd = commentsToAdd.concat(this.getAllDraftsForPath(path));
+      }
+      publishedComments[path] = commentsToAdd;
     }
     return publishedComments;
   };
@@ -214,6 +230,25 @@
     };
   };
 
+  /**
+   * @param {!Object} comments Object keyed by file, with a value of an array
+   *   of comments left on that file.
+   * @return {!Array} A flattened list of all comments, where each comment
+   *   also includes the file that it was left on, which was the key of the
+   *   originall object.
+   */
+  ChangeComments.prototype._commentObjToArrayWithFile = function(comments) {
+    let commentArr = [];
+    for (const file of Object.keys(comments)) {
+      const commentsForFile = [];
+      for (const comment of comments[file]) {
+        commentsForFile.push(Object.assign({__path: file}, comment));
+      }
+      commentArr = commentArr.concat(commentsForFile);
+    }
+    return commentArr;
+  };
+
   ChangeComments.prototype._commentObjToArray = function(comments) {
     let commentArr = [];
     for (const file of Object.keys(comments)) {
@@ -293,6 +328,49 @@
       return idMap[key];
     });
     return unresolvedLeaves.length;
+  };
+
+  ChangeComments.prototype.getAllThreadsForChange = function() {
+    const comments = this._commentObjToArrayWithFile(this.getAllComments(true));
+    return this.getCommentThreads(comments);
+  };
+
+  /**
+   * Computes all of the comments in thread format.
+   *
+   * @param {!Array} comments
+   * @return {!Array}
+   */
+  ChangeComments.prototype.getCommentThreads = function(comments) {
+    const threads = comments.reduce((groups, comment) => {
+      const path = comment.__path;
+      const patchset = comment.patch_set;
+      const line = comment.line;
+      const range = comment.range;
+      const side = comment.side;
+      let key = `${path}-${patchset}-${line}`;
+      if (range) {
+        key = `${key}-${range.start_line}-${range.start_character}-` +
+            `${range.end_line}-${range.end_character}`;
+      }
+      if (side) {
+        key = `${key}-${side}`;
+      }
+      const groupObj = {
+        comments: [],
+        patchNum: patchset,
+        path,
+        line,
+      };
+      if (comment.side) {
+        groupObj.commentSide = side;
+      }
+      groups[key] = groups[key] || groupObj;
+      groups[key].comments.push(comment);
+      return groups;
+    }, {});
+
+    return Object.values(threads);
   };
 
   /**
@@ -385,7 +463,6 @@
         return this._changeComments;
       });
     },
-
 
     /**
      * Re-initialize _changeComments with a new ChangeComments object, that

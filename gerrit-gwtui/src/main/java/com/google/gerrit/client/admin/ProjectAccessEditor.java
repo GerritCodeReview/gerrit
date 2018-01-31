@@ -19,7 +19,7 @@ import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.ParentProjectBox;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
-import com.google.gerrit.common.data.WebLinkInfoCommon;
+import com.google.gerrit.extensions.common.WebLinkInfoCommon;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;

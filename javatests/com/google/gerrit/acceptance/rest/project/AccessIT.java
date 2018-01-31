@@ -33,9 +33,13 @@ import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.WebLinkInfo;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.webui.FileHistoryWebLink;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
@@ -43,6 +47,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import java.util.HashMap;
 import java.util.Map;
+import javax.inject.Inject;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -63,6 +68,8 @@ public class AccessIT extends AbstractDaemonTest {
   private String newProjectName;
   private ProjectApi pApi;
 
+  @Inject private DynamicSet<FileHistoryWebLink> fileHistoryWebLinkDynamicSet;
+
   @Before
   public void setUp() throws Exception {
     newProjectName = createProject(PROJECT_NAME).get();
@@ -73,6 +80,30 @@ public class AccessIT extends AbstractDaemonTest {
   public void getDefaultInheritance() throws Exception {
     String inheritedName = pApi.access().inheritsFrom.name;
     assertThat(inheritedName).isEqualTo(AllProjectsNameProvider.DEFAULT);
+  }
+
+  @Test
+  public void webLinks() throws Exception {
+    RegistrationHandle handle =
+        fileHistoryWebLinkDynamicSet.add(
+            new FileHistoryWebLink() {
+              @Override
+              public WebLinkInfo getFileHistoryWebLink(
+                  String projectName, String revision, String fileName) {
+                WebLinkInfo info =
+                    new WebLinkInfo(
+                        "name", "imageURL", "http://view/" + projectName + "/" + fileName);
+                return info;
+              }
+            });
+    try {
+      ProjectAccessInfo info = pApi.access();
+      assertThat(info.configWebLinks).hasSize(1);
+      assertThat(info.configWebLinks.get(0).url)
+          .isEqualTo("http://view/" + newProjectName + "/project.config");
+    } finally {
+      handle.remove();
+    }
   }
 
   @Test

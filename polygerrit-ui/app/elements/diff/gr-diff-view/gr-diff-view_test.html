@@ -876,6 +876,19 @@ limitations under the License.
       assert.isTrue(callCompute({basePatchNum: 1, patchNum: 'edit'}));
     });
 
+    test('_computeFileNum', () => {
+      assert.equal(element._computeFileNum('/foo',
+          [{value: '/foo'}, {value: '/bar'}]), 1);
+      assert.equal(element._computeFileNum('/bar',
+          [{value: '/foo'}, {value: '/bar'}]), 2);
+    });
+
+    test('_computeFileNumVisible', () => {
+      assert.equal(element._computeFileNumVisible('', []), 'hidden');
+      assert.equal(element._computeFileNumVisible('/bar',
+          [{value: '/foo'}, {value: '/bar'}]), '');
+    });
+
     suite('editMode behavior', () => {
       setup(() => {
         element._loggedIn = true;

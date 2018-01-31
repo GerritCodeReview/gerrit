@@ -41,6 +41,9 @@ limitations under the License.
       :host {
         background-color: var(--view-background-color);
       }
+      .hidden {
+        display: none;
+      }
       gr-patch-range-select {
         display: block;
       }
@@ -214,6 +217,10 @@ limitations under the License.
           </div>
         </h3>
         <div class="navLinks desktop">
+          <span class$="fileNum [[_computeFileNumVisible(_fileNum, _formattedFiles)]]">
+            File [[_fileNum]] of [[_formattedFiles.length]]
+            <span class="separator"></span>
+          </span>
           <a class="navLink"
               href$="[[_computeNavLinkURL(_change, _path, _fileList, -1, 1)]]">
             Prev</a>

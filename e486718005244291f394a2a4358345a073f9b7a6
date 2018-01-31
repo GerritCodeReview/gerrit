@@ -81,6 +81,30 @@
       "revId": "e486718005244291f394a2a4358345a073f9b7a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70e790c9_399d93d6",
+        "filename": "gerrit-antlr/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-01-31T20:17:40Z",
+      "side": 1,
+      "message": "Does the zip command even work on windows?",
+      "parentUuid": "8e683236_b4414f02",
+      "range": {
+        "startLine": 16,
+        "startChar": 8,
+        "endLine": 16,
+        "endChar": 43
+      },
+      "revId": "e486718005244291f394a2a4358345a073f9b7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -31,7 +31,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Caches the order AccessSections should be sorted for evaluation. */
+/** Caches the order AccessSections should be sorted for evaluation.
+ *
+ * <p>Access specifications for a more specific ref (eg. refs/heads/master rather than refs/heads/*)
+ * take precedence in ACL evaluations. So for each combination of (ref, list of access specs)
+ * we have to order the access specs by their distance from the ref to be matched.
+ * This is expensive, so cache the sorted ordering.
+ */
 @Singleton
 public class SectionSortCache {
   private static final Logger log = LoggerFactory.getLogger(SectionSortCache.class);

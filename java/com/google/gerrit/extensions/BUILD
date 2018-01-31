@@ -2,8 +2,6 @@ load("//lib:guava.bzl", "GUAVA_DOC_URL")
 load("//lib/jgit:jgit.bzl", "JGIT_DOC_URL")
 load("//tools/bzl:gwt.bzl", "gwt_module")
 
-SRCS = glob(["**/*.java"])
-
 EXT_API_SRCS = glob(["client/*.java"])
 
 gwt_module(

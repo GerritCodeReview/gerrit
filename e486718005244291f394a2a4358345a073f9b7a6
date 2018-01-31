@@ -105,6 +105,30 @@
       "revId": "e486718005244291f394a2a4358345a073f9b7a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86dbe10f_3b7ce396",
+        "filename": "gerrit-antlr/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-31T20:23:43Z",
+      "side": 1,
+      "message": "Yes, because we support only MSYS or Cygwin. Both installation ship zip utility.",
+      "parentUuid": "70e790c9_399d93d6",
+      "range": {
+        "startLine": 16,
+        "startChar": 8,
+        "endLine": 16,
+        "endChar": 43
+      },
+      "revId": "e486718005244291f394a2a4358345a073f9b7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

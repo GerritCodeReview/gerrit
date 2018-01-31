@@ -204,7 +204,8 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
     @Override
     public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key) throws OrmException {
-      if (groupIndexProvider.get().getSchema().hasField(GroupField.SUBGROUP)) {
+      GroupIndex groupIndex = groupIndexProvider.get();
+      if (groupIndex != null && groupIndex.getSchema().hasField(GroupField.SUBGROUP)) {
         return groupQueryProvider
             .get()
             .bySubgroup(key)

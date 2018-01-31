@@ -165,6 +165,30 @@
       "revId": "b0eda5bab5980791637a9e8bf6c336f7d54a26eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02966243_4478bdff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-31T14:07:40Z",
+      "side": 1,
+      "message": "\u003e Sorry for waiting on me.\n \u003e \n \u003e IIRC, this was only a small optimization as you can see in the\n \u003e relevant code review [1]. I think it is a good thing to remove that\n \u003e circular dependency.\n\nOn second thought (now, that it\u0027s confirmed): we should separate these changes: removal of circular dependency and migration from Guava caches to Caffeine.",
+      "parentUuid": "742de7a3_727601a9",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 43
+      },
+      "revId": "b0eda5bab5980791637a9e8bf6c336f7d54a26eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

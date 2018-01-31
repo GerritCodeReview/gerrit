@@ -94,6 +94,30 @@
       "revId": "b0eda5bab5980791637a9e8bf6c336f7d54a26eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "742de7a3_727601a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-01-31T13:41:52Z",
+      "side": 1,
+      "message": "Sorry for waiting on me.\n\nIIRC, this was only a small optimization as you can see in the relevant code review [1]. I think it is a good thing to remove that circular dependency.\nIn the worst case, if something is not in the diff_summary cache it will be computed when it is needed. But the current code looks good as Hugo and Dave pointed out.\n\n@Alice: I remember from our discussion that I expressed concern about invalidating diff_summary cache (by changing its version) and thus forcing all entries to be computed again. I don\u0027t recall that I said something about that circular dependency.\n\nNOTE: after [1] we also renamed the cache from diff_file_list to diff_summary. Don\u0027t get confused with the old cache name in [1] :-)\n\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/86814/3/gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java#97",
+      "parentUuid": "3745bb7b_5826f51a",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 43
+      },
+      "revId": "b0eda5bab5980791637a9e8bf6c336f7d54a26eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

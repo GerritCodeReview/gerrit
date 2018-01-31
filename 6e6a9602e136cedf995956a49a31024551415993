@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c649b3db_e2ae27c0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-31T00:52:41Z",
+      "side": 1,
+      "message": "Nit: Maybe the class property should go before the href? Or perhaps on its own line. This compute call is long, and it could be easy to miss the class prop.",
+      "revId": "6e6a9602e136cedf995956a49a31024551415993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bba65c1_570660b0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-31T00:52:41Z",
+      "side": 1,
+      "message": "Optional nit: a similar-ish function (\"_elementDescendedFromClass\") exists in gr-diff-selection. There may be merit in generalizing this, putting it in a behavior, and using it there.",
+      "range": {
+        "startLine": 927,
+        "startChar": 4,
+        "endLine": 927,
+        "endChar": 23
+      },
+      "revId": "6e6a9602e136cedf995956a49a31024551415993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -189,6 +189,30 @@
       "revId": "b0eda5bab5980791637a9e8bf6c336f7d54a26eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2104464a_20e59a54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-01-31T15:07:16Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "02966243_4478bdff",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 43
+      },
+      "revId": "b0eda5bab5980791637a9e8bf6c336f7d54a26eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

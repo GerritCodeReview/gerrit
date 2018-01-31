@@ -61,7 +61,8 @@ public class PermissionCollection {
     }
 
     /**
-     * Get all permissions that apply to a reference.
+     * Get all permissions that apply to a reference. The user is only used for per-user ref names,
+     * so the return value may include permissions for groups the user is not part of.
      *
      * @param matcherList collection of sections that should be considered, in priority order
      *     (project specific definitions must appear before inherited ones).

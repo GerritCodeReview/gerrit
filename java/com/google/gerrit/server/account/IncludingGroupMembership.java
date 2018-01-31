@@ -31,7 +31,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Group membership checker for the internal group system.
+ * Determines membership in the internal group system for a given user.
  *
  * <p>Groups the user is directly a member of are pulled from the in-memory AccountCache by way of
  * the IdentifiedUser. Transitive group memberhips are resolved on demand starting from the

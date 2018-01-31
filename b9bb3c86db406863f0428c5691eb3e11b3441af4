@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2801340c_a82ba0d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2018-01-31T23:30:37Z",
+      "side": 1,
+      "message": "Indeed, and this has been a source of discussion because, let\u0027s say, if for any reason a change never does it to the index, we will be missing it also. The other option (not necessarily exclusive) would be to read from real source (the repositories) but this can be expensive if NoteDB is the backend. Even with ReviewDB, we\u0027d need to convert every possible query to the respective SQL command which is doable but a lot more work. So yes, it is a limitation; any idea how we can overcome this?\n\nThis change will allow us, at least, to cover the two other limitations we have now: one, there is no way of removing a change from the index and two, we can only re-index either the whole site or a project at a time. In our master - hot standby setup there are cases when we need to re-index the changes created/updated in the last given time. This is mainly after an issue is detected in the master and we need to move the traffic to the hot-standby. In some situations we see that the changes are inconsistent between the two indexes (despite high-availability) and we need to start re-indexing changes one by one. Given the amount of traffic in our servers, this become unrealistic pretty quickly.",
+      "parentUuid": "5308b60e_69f6bd1a",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "b9bb3c86db406863f0428c5691eb3e11b3441af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "96a3f4d1_50320050",
         "filename": "java/com/google/gerrit/extensions/common/ChangeQueryInput.java",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "b9bb3c86db406863f0428c5691eb3e11b3441af4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50e84b2b_cfe50d54",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeQueryInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2018-01-31T23:30:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96a3f4d1_50320050",
+      "range": {
+        "startLine": 15,
+        "startChar": 37,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "b9bb3c86db406863f0428c5691eb3e11b3441af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f5941cb3_1f64c54c",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeQueryInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2018-01-31T23:30:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2c8bde9_6aae79ec",
+      "range": {
+        "startLine": 20,
+        "startChar": 9,
+        "endLine": 20,
+        "endChar": 25
+      },
+      "revId": "b9bb3c86db406863f0428c5691eb3e11b3441af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3466b3a5_1382615b",
         "filename": "java/com/google/gerrit/server/change/ChangesIndexCollection.java",
         "patchSetId": 4
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "784a30d6_b749e178",
+        "filename": "java/com/google/gerrit/server/change/ChangesIndexCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2018-01-31T23:30:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3466b3a5_1382615b",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 16
+      },
+      "revId": "b9bb3c86db406863f0428c5691eb3e11b3441af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebdd003d_9cb34d02",
         "filename": "java/com/google/gerrit/server/change/ChangesIndexCollection.java",
         "patchSetId": 4
@@ -114,6 +210,30 @@
       "revId": "b9bb3c86db406863f0428c5691eb3e11b3441af4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e22755c6_4e57703a",
+        "filename": "java/com/google/gerrit/server/change/ChangesIndexCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2018-01-31T23:30:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebdd003d_9cb34d02",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 16
+      },
+      "revId": "b9bb3c86db406863f0428c5691eb3e11b3441af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

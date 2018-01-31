@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48fb7258_d9ad42a9",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SensitiveData.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-01-31T15:20:21Z",
+      "side": 1,
+      "message": "I was expecting some fields to be tagged with this annotation but none are, am I missing something?\n\nIs this change mainly done for plugins?",
+      "range": {
+        "startLine": 28,
+        "startChar": 18,
+        "endLine": 28,
+        "endChar": 31
+      },
+      "revId": "a8a7a84ae55dd9b70cce8d7eb1dfbfd43600893a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

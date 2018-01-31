@@ -87,6 +87,7 @@
       _editing: {
         type: Boolean,
         value: false,
+        observer: '_handleEditingChanged',
       },
       _modified: {
         type: Boolean,
@@ -152,6 +153,18 @@
       return editing ? 'Cancel' : 'Edit';
     },
 
+    _handleEditingChanged(editing, editingOld) {
+      // Ignore when editing gets set initially.
+      if (!editingOld || editing) { return; }
+      // Remove any unsaved but added refs.
+      this._sections = this._sections.filter(p => !p.value.added);
+      for (const key of Object.keys(this._local)) {
+        if (this._local[key].added) {
+          delete this._local[key];
+        }
+      }
+    },
+
     /**
      * @param {!Defs.projectAccessInput} addRemoveObj
      * @param {!Array} path
@@ -202,6 +215,8 @@
       for (const k in obj) {
         if (!obj.hasOwnProperty(k)) { return; }
         if (typeof obj[k] == 'object') {
+          const updatedId = obj[k].updatedId;
+          const ref = updatedId ? updatedId : k;
           if (obj[k].deleted) {
             this._updateAddRemoveObj(addRemoveObj,
                 path.concat(k), 'remove');
@@ -209,9 +224,6 @@
           } else if (obj[k].modified) {
             this._updateAddRemoveObj(addRemoveObj,
                 path.concat(k), 'remove');
-
-            const updatedId = obj[k].updatedId;
-            const ref = updatedId ? updatedId : k;
             this._updateAddRemoveObj(addRemoveObj, path.concat(ref), 'add',
                 obj[k]);
             /* Special case for ref changes because they need to be added and
@@ -225,7 +237,7 @@
             continue;
           } else if (obj[k].added) {
             this._updateAddRemoveObj(addRemoveObj,
-                path.concat(k), 'add', obj[k]);
+                path.concat(ref), 'add', obj[k]);
             continue;
           }
           this._recursivelyUpdateAddRemoveObj(obj[k], addRemoveObj,
@@ -248,6 +260,21 @@
 
       this._recursivelyUpdateAddRemoveObj(this._local, addRemoveObj);
       return addRemoveObj;
+    },
+
+    _handleCreateSection() {
+      let newRef = 'refs/for/*';
+      // Avoid using an already used key for the placeholder, since it
+      // immediately gets added to an object.
+      while (this._local[newRef]) {
+        newRef = `${newRef}*`;
+      }
+      const section = {permissions: {}, added: true};
+      this.push('_sections', {id: newRef, value: section});
+      this.set(['_local', newRef], section);
+      Polymer.dom.flush();
+      Polymer.dom(this.root).querySelector('gr-access-section:last-of-type')
+          .editReference();
     },
 
     _handleSaveForReview() {

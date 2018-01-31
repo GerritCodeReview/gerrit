@@ -264,8 +264,8 @@ limitations under the License.
         assert.isFalse(element._editingRef);
       });
 
-      test('_handleEditReference', () => {
-        element._handleEditReference();
+      test('editReference', () => {
+        element.editReference();
         assert.isTrue(element._editingRef);
       });
 
@@ -456,6 +456,7 @@ limitations under the License.
         });
 
         test('_handleValueChange', () => {
+          // For an exising section.
           const modifiedHandler = sandbox.stub();
           element.section = {id: 'refs/for/bar', value: {permissions: {}}};
           assert.notOk(element.section.value.updatedId);
@@ -465,10 +466,21 @@ limitations under the License.
           element._handleValueChange();
           assert.equal(element.section.value.updatedId, 'refs/for/baz');
           assert.isTrue(element.section.value.modified);
-          assert.isTrue(modifiedHandler.called);
+          assert.equal(modifiedHandler.callCount, 1);
           element.section.id = 'refs/for/bar';
           element._handleValueChange();
           assert.isFalse(element.section.value.modified);
+          assert.equal(modifiedHandler.callCount, 2);
+
+          // For a new section.
+          element.section.value.added = true;
+          element._handleValueChange();
+          assert.isFalse(element.section.value.modified);
+          assert.equal(modifiedHandler.callCount, 2);
+          element.section.id = 'refs/for/bar';
+          element._handleValueChange();
+          assert.isFalse(element.section.value.modified);
+          assert.equal(modifiedHandler.callCount, 2);
         });
 
         test('remove section', () => {

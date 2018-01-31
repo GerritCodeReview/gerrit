@@ -19,7 +19,7 @@ genrule2(
     cmd = " && ".join([
         "$(location //lib/antlr:antlr-tool) -o $$TMP $<",
         "cd $$TMP",
-        "$$ROOT/$(location @bazel_tools//tools/zip:zipper) cC $$ROOT/$@ $$(find *)",
+        "zip $$ROOT/$@ $$(find . -type f )",
     ]),
     tools = [
         "//lib/antlr:antlr-tool",

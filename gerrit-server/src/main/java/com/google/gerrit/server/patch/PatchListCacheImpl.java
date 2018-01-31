@@ -15,8 +15,6 @@
 
 package com.google.gerrit.server.patch;
 
-import static com.google.gerrit.server.patch.DiffSummaryLoader.toDiffSummary;
-
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
 import com.google.common.util.concurrent.UncheckedExecutionException;
@@ -105,9 +103,6 @@ public class PatchListCacheImpl implements PatchListCache {
       if (pl instanceof LargeObjectTombstone) {
         throw new PatchListNotAvailableException(
             "Error computing " + key + ". Previous attempt failed with LargeObjectException");
-      }
-      if (key.getAlgorithm() == PatchListKey.Algorithm.OPTIMIZED_DIFF) {
-        diffSummaryCache.put(DiffSummaryKey.fromPatchListKey(key), toDiffSummary(pl));
       }
       return pl;
     } catch (ExecutionException e) {

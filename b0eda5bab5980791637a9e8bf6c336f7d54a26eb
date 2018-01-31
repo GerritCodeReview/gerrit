@@ -237,6 +237,30 @@
       "revId": "b0eda5bab5980791637a9e8bf6c336f7d54a26eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ccd7714_f38e8605",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-31T15:40:45Z",
+      "side": 1,
+      "message": "\u003e The change was marked as private, probably due to a bug in some\n \u003e migration code. Should be visible to you now.\n\nThis is not a bug but a feature. Theis is the way we implemented the migration from Draft workflow to either Private- (default) or WIP-Workflow. Private flag cannot be set on patch set level, only on change level, so it is sufficient, that any of your changes have at least on draft pacth set, for that change to be marked as private. Yes, it is most probably noch what you want, especially for merged  changes. Edwin wrote announcement to the repo-discuss explaining this problem, of unwanted private changes, and asked every contributor check her changes, with is:private predicate and unmark all private changes that were erroneously marked as private during migration. I suspect you have dozens of private changes in system around, e.g:\n\n  https://gerrit-review.googlesource.com/#/c/gerrit/+/72891",
+      "parentUuid": "c21caeda_9ee1b845",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 43
+      },
+      "revId": "b0eda5bab5980791637a9e8bf6c336f7d54a26eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -59,17 +59,17 @@ public class IncludingGroupMembership implements GroupMembership {
   }
 
   @Override
-  public boolean contains(AccountGroup.UUID id) {
+  public boolean memberOf(AccountGroup.UUID id) {
     if (id == null) {
       return false;
     }
 
     Boolean b = memberOf.get(id);
-    return b != null ? b : containsAnyOf(ImmutableSet.of(id));
+    return b != null ? b : memberOfAny(ImmutableSet.of(id));
   }
 
   @Override
-  public boolean containsAnyOf(Iterable<AccountGroup.UUID> queryIds) {
+  public boolean memberOfAny(Iterable<AccountGroup.UUID> queryIds) {
     // Prefer lookup of a cached result over expanding includes.
     boolean tryExpanding = false;
     for (AccountGroup.UUID id : queryIds) {
@@ -111,7 +111,7 @@ public class IncludingGroupMembership implements GroupMembership {
   public Set<AccountGroup.UUID> intersection(Iterable<AccountGroup.UUID> groupIds) {
     Set<AccountGroup.UUID> r = new HashSet<>();
     for (AccountGroup.UUID id : groupIds) {
-      if (contains(id)) {
+      if (memberOf(id)) {
         r.add(id);
       }
     }
@@ -119,7 +119,7 @@ public class IncludingGroupMembership implements GroupMembership {
   }
 
   private boolean search(Iterable<AccountGroup.UUID> ids) {
-    return user.getEffectiveGroups().containsAnyOf(ids);
+    return user.getEffectiveGroups().memberOfAny(ids);
   }
 
   private ImmutableSet<AccountGroup.UUID> computeKnownGroups() {

@@ -134,7 +134,7 @@ public class GroupControl {
      */
     return user.isInternalUser()
         || groupBackend.isVisibleToAll(group.getGroupUUID())
-        || user.getEffectiveGroups().contains(group.getGroupUUID())
+        || user.getEffectiveGroups().memberOf(group.getGroupUUID())
         || isOwner()
         || canAdministrateServer();
   }
@@ -147,7 +147,7 @@ public class GroupControl {
     // Keep this logic in sync with VisibleRefFilter#isOwner(...).
     if (group instanceof GroupDescription.Internal) {
       AccountGroup.UUID ownerUUID = ((GroupDescription.Internal) group).getOwnerGroupUUID();
-      isOwner = getUser().getEffectiveGroups().contains(ownerUUID) || canAdministrateServer();
+      isOwner = getUser().getEffectiveGroups().memberOf(ownerUUID) || canAdministrateServer();
     } else {
       isOwner = false;
     }

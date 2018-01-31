@@ -83,9 +83,9 @@ public class UniversalGroupBackendTest extends GerritBaseTests {
   @Test
   public void sytemGroupMemberships() {
     GroupMembership checker = backend.membershipsOf(user);
-    assertTrue(checker.contains(REGISTERED_USERS));
-    assertFalse(checker.contains(OTHER_UUID));
-    assertFalse(checker.contains(PROJECT_OWNERS));
+    assertTrue(checker.memberOf(REGISTERED_USERS));
+    assertFalse(checker.memberOf(OTHER_UUID));
+    assertFalse(checker.memberOf(PROJECT_OWNERS));
   }
 
   @Test
@@ -114,8 +114,8 @@ public class UniversalGroupBackendTest extends GerritBaseTests {
               public GroupMembership answer() throws Throwable {
                 Object[] args = getCurrentArguments();
                 GroupMembership membership = createMock(GroupMembership.class);
-                expect(membership.contains(eq(handled))).andStubReturn(args[0] == member);
-                expect(membership.contains(not(eq(notHandled)))).andStubReturn(false);
+                expect(membership.memberOf(eq(handled))).andStubReturn(args[0] == member);
+                expect(membership.memberOf(not(eq(notHandled)))).andStubReturn(false);
                 replay(membership);
                 return membership;
               }
@@ -127,12 +127,12 @@ public class UniversalGroupBackendTest extends GerritBaseTests {
     backend = new UniversalGroupBackend(backends);
 
     GroupMembership checker = backend.membershipsOf(member);
-    assertFalse(checker.contains(REGISTERED_USERS));
-    assertFalse(checker.contains(OTHER_UUID));
-    assertTrue(checker.contains(handled));
-    assertFalse(checker.contains(notHandled));
+    assertFalse(checker.memberOf(REGISTERED_USERS));
+    assertFalse(checker.memberOf(OTHER_UUID));
+    assertTrue(checker.memberOf(handled));
+    assertFalse(checker.memberOf(notHandled));
     checker = backend.membershipsOf(notMember);
-    assertFalse(checker.contains(handled));
-    assertFalse(checker.contains(notHandled));
+    assertFalse(checker.memberOf(handled));
+    assertFalse(checker.memberOf(notHandled));
   }
 }

@@ -174,7 +174,7 @@ public class AccountControl {
             }
           }
 
-          if (user.getEffectiveGroups().containsAnyOf(usersGroups)) {
+          if (user.getEffectiveGroups().memberOfAny(usersGroups)) {
             return true;
           }
           break;

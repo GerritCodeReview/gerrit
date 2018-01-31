@@ -106,7 +106,7 @@ public class ContributorAgreementsChecker {
       }
     }
 
-    if (!iUser.getEffectiveGroups().containsAnyOf(okGroupIds)) {
+    if (!iUser.getEffectiveGroups().memberOfAny(okGroupIds)) {
       final StringBuilder msg = new StringBuilder();
       msg.append("A Contributor Agreement must be completed before uploading");
       if (canonicalWebUrl != null) {

@@ -144,6 +144,6 @@ public class AccountLimits {
   }
 
   private static boolean match(GroupMembership groups, PermissionRule rule) {
-    return groups.contains(rule.getGroup().getUUID());
+    return groups.memberOf(rule.getGroup().getUUID());
   }
 }

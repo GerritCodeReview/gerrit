@@ -39,13 +39,13 @@ class LdapGroupMembership implements GroupMembership {
   }
 
   @Override
-  public boolean contains(AccountGroup.UUID groupId) {
-    return get().contains(groupId);
+  public boolean memberOf(AccountGroup.UUID groupId) {
+    return get().memberOf(groupId);
   }
 
   @Override
-  public boolean containsAnyOf(Iterable<AccountGroup.UUID> groupIds) {
-    return get().containsAnyOf(groupIds);
+  public boolean memberOfAny(Iterable<AccountGroup.UUID> groupIds) {
+    return get().memberOfAny(groupIds);
   }
 
   @Override

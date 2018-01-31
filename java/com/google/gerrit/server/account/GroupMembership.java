@@ -29,13 +29,13 @@ public interface GroupMembership {
    * Returns {@code true} when the user this object was created for is a member of the specified
    * group.
    */
-  boolean contains(AccountGroup.UUID groupId);
+  boolean memberOf(AccountGroup.UUID groupId);
 
   /**
    * Returns {@code true} when the user this object was created for is a member of any of the
    * specified group.
    */
-  boolean containsAnyOf(Iterable<AccountGroup.UUID> groupIds);
+  boolean memberOfAny(Iterable<AccountGroup.UUID> groupIds);
 
   /**
    * Returns a set containing an input member of {@code contains(id)} is true.
@@ -53,7 +53,7 @@ public interface GroupMembership {
 
   /**
    * Returns the set of groups that can be determined by the implementation. This may not return all
-   * groups the {@link #contains(AccountGroup.UUID)} would return {@code true} for, but will at
+   * groups the {@link #memberOf(AccountGroup.UUID)} would return {@code true} for, but will at
    * least contain all top level groups. This restriction stems from the API of some group systems,
    * which make it expensive to enumerate the members of a group.
    */

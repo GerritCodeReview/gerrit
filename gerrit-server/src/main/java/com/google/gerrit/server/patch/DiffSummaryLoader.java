@@ -49,7 +49,7 @@ public class DiffSummaryLoader implements Callable<DiffSummary> {
     return toDiffSummary(patchList);
   }
 
-  static DiffSummary toDiffSummary(PatchList patchList) {
+  private DiffSummary toDiffSummary(PatchList patchList) {
     List<String> r = new ArrayList<>(patchList.getPatches().size());
     for (PatchListEntry e : patchList.getPatches()) {
       if (Patch.isMagic(e.getNewName())) {

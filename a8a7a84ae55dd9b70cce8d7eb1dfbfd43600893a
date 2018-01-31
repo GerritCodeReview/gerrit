@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "48aaeb2b_33138434",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-01-31T15:34:29Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we do all this processing only if there is at least one sensitive parameter?",
+      "range": {
+        "startLine": 418,
+        "startChar": 4,
+        "endLine": 436,
+        "endChar": 7
+      },
+      "revId": "a8a7a84ae55dd9b70cce8d7eb1dfbfd43600893a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48fb7258_d9ad42a9",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SensitiveData.java",
         "patchSetId": 18

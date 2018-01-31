@@ -18,9 +18,9 @@ load('//tools/bzl:java.bzl', 'java_library2')
 
 def gwt_module(gwt_xml=None, resources=[], srcs=[], **kwargs):
   if gwt_xml:
-    resources += [gwt_xml]
+    resources = resources + [gwt_xml]
   if srcs:
-    resources += srcs
+    resources = resources + srcs
 
   java_library2(
     srcs = srcs,

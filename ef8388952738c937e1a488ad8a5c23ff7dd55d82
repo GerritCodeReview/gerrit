@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "805714c1_fa81d9d6",
+        "filename": "java/com/google/gerrit/extensions/api/access/ProjectAccessInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-31T14:32:08Z",
+      "side": 1,
+      "message": "Please document this new field in rest-api-access.txt",
+      "revId": "ef8388952738c937e1a488ad8a5c23ff7dd55d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "316fef7b_f26e5cf5",
+        "filename": "java/com/google/gerrit/server/restapi/project/GetAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-31T14:32:08Z",
+      "side": 1,
+      "message": "Should be: projectName.get()",
+      "range": {
+        "startLine": 156,
+        "startChar": 14,
+        "endLine": 156,
+        "endChar": 36
+      },
+      "revId": "ef8388952738c937e1a488ad8a5c23ff7dd55d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a51df0c5_b6e3f492",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-01-31T14:32:08Z",
+      "side": 1,
+      "message": "nit: unneeded blank line",
+      "revId": "ef8388952738c937e1a488ad8a5c23ff7dd55d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

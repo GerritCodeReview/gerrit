@@ -429,27 +429,11 @@
         return this._reviewFile(path);
       }
 
-      // If the user prefers to expand inline diffs rather than opening the diff
-      // view, intercept the click event.
-      if (!path || e.detail.sourceEvent.metaKey ||
-          e.detail.sourceEvent.ctrlKey) {
-        return;
-      }
+      // If the user clicked the link, defer to the native link behavior.
+      if (this._descendedFromClass(e.target, 'pathLink')) { return; }
 
-      if (e.target.dataset.expand ||
-          this._userPrefs && this._userPrefs.expand_inline_diffs) {
-        e.preventDefault();
-        this._togglePathExpanded(path);
-        return;
-      }
-
-      // If we clicked the row but not the link, then simulate a click on the
-      // anchor.
-      if (e.target.classList.contains('path') ||
-          e.target.classList.contains('oldPath')) {
-        const a = row.querySelector('a');
-        if (a) { a.click(); }
-      }
+      e.preventDefault();
+      this._togglePathExpanded(path);
     },
 
     _handleShiftLeftKey(e) {
@@ -554,16 +538,14 @@
     _handleOKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
-
       e.preventDefault();
+
       if (this._showInlineDiffs) {
         this._openCursorFile();
-      } else if (this._userPrefs && this._userPrefs.expand_inline_diffs) {
-        if (this.$.fileCursor.index === -1) { return; }
-        this._togglePathExpandedByIndex(this.$.fileCursor.index);
-      } else {
-        this._openSelectedFile();
+        return;
       }
+
+      this._openSelectedFile();
     },
 
     _handleNKey(e) {
@@ -703,10 +685,6 @@
         classes.push('invisible');
       }
       return classes.join(' ');
-    },
-
-    _computeShowToggle(expandInlineDiffs) {
-      return expandInlineDiffs ? 'invisible' : '';
     },
 
     _computePathClass(path, expandedFilesRecord) {
@@ -944,6 +922,15 @@
 
     _computeReviewedText(isReviewed) {
       return isReviewed ? 'MARK UNREVIEWED' : 'MARK REVIEWED';
+    },
+
+    _descendedFromClass(element, className) {
+      let isDescendant = element.classList.contains(className);
+      while (!isDescendant && element.parentElement) {
+        isDescendant = element.classList.contains(className);
+        element = element.parentElement;
+      }
+      return isDescendant;
     },
   });
 })();

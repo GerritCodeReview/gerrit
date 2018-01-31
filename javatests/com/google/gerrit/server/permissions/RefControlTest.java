@@ -440,6 +440,16 @@ public class RefControlTest {
   }
 
   @Test
+  public void unblockRead_NotPossible() {
+    block(parent, READ, ANONYMOUS_USERS, "refs/*");
+    allow(parent, READ, ADMIN, "refs/*");
+    allow(local, READ, ANONYMOUS_USERS, "refs/*");
+    allow(local, READ, ADMIN, "refs/*");
+    ProjectControl u = user(local);
+    assertBlocked(READ, "refs/heads/master", u);
+  }
+
+  @Test
   public void inheritDuplicateSections() throws Exception {
     allow(parent, READ, ADMIN, "refs/*");
     allow(local, READ, DEVS, "refs/heads/*");

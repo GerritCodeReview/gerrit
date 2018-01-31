@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f9d9d17_aff21ffd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-31T00:24:18Z",
+      "side": 1,
+      "message": "Needs spaces surrounding.",
+      "range": {
+        "startLine": 937,
+        "startChar": 38,
+        "endLine": 937,
+        "endChar": 40
+      },
+      "revId": "812fea14c5b2484a17259dabe32149812eafcac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d580a1f_7a8c0655",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 943,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-01-31T00:24:18Z",
+      "side": 1,
+      "message": "When did you encounter the cases of fileNum being NaN or infinity?",
+      "range": {
+        "startLine": 943,
+        "startChar": 6,
+        "endLine": 943,
+        "endChar": 64
+      },
+      "revId": "812fea14c5b2484a17259dabe32149812eafcac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

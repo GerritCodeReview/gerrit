@@ -213,6 +213,30 @@
       "revId": "b0eda5bab5980791637a9e8bf6c336f7d54a26eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c21caeda_9ee1b845",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-01-31T15:09:17Z",
+      "side": 1,
+      "message": "\u003e By the way, change 86814 (the review of I45f90deeba) isn\u0027t visible\n \u003e for me.\n\nThe change was marked as private, probably due to a bug in some migration code. Should be visible to you now.",
+      "parentUuid": "0e4b145c_6dd77cdc",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 43
+      },
+      "revId": "b0eda5bab5980791637a9e8bf6c336f7d54a26eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

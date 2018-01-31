@@ -18,6 +18,7 @@
     is: 'gr-diff-comment-thread-group',
 
     properties: {
+      changeComments: Object,
       changeNum: String,
       comments: {
         type: Array,
@@ -111,35 +112,8 @@
     },
 
     _getThreadGroups(comments) {
-      const threadGroups = {};
-
-      for (const comment of comments) {
-        let locationRange;
-        if (!comment.range) {
-          locationRange = 'line-' + comment.__commentSide;
-        } else {
-          locationRange = this._calculateLocationRange(comment.range, comment);
-        }
-
-        if (threadGroups[locationRange]) {
-          threadGroups[locationRange].comments.push(comment);
-        } else {
-          threadGroups[locationRange] = {
-            start_datetime: comment.updated,
-            comments: [comment],
-            locationRange,
-            commentSide: comment.__commentSide,
-            patchNum: this._getPatchNum(comment),
-          };
-        }
-      }
-
-      const threadGroupArr = [];
-      const threadGroupKeys = Object.keys(threadGroups);
-      for (const threadGroupKey of threadGroupKeys) {
-        threadGroupArr.push(threadGroups[threadGroupKey]);
-      }
-
+      if (!comments.length) { return; }
+      const threadGroupArr = this.changeComments.computeCommentThreads(comments);
       return this._sortByDate(threadGroupArr);
     },
   });

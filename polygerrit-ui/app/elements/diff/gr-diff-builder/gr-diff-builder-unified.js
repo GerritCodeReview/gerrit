@@ -18,9 +18,10 @@
   if (window.GrDiffBuilderUnified) { return; }
 
   function GrDiffBuilderUnified(
-      diff, comments, prefs, projectName, outputEl, layers) {
+      diff, comments, prefs, projectName, outputEl, layers, changeComments) {
     GrDiffBuilder.call(
-        this, diff, comments, prefs, projectName, outputEl, layers);
+        this, diff, comments, prefs, projectName, outputEl, layers,
+        changeComments);
   }
   GrDiffBuilderUnified.prototype = Object.create(GrDiffBuilder.prototype);
   GrDiffBuilderUnified.prototype.constructor = GrDiffBuilderUnified;

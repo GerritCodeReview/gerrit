@@ -39,7 +39,8 @@
    */
   const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
-  function GrDiffBuilder(diff, comments, prefs, projectName, outputEl, layers) {
+  function GrDiffBuilder(diff, comments, prefs, projectName, outputEl, layers,
+      changeComments) {
     this._diff = diff;
     this._comments = comments;
     this._prefs = prefs;
@@ -48,6 +49,7 @@
     this.groups = [];
     this._blameInfo = null;
     this._parentIndex = undefined;
+    this._changeComments = changeComments;
 
     this.layers = layers || [];
 
@@ -350,9 +352,10 @@
   };
 
   GrDiffBuilder.prototype.createCommentThreadGroup = function(changeNum,
-      patchNum, path, isOnParent, range) {
+      patchNum, path, isOnParent, changeComments, range) {
     const threadGroupEl =
         document.createElement('gr-diff-comment-thread-group');
+    threadGroupEl.changeComments = changeComments;
     threadGroupEl.changeNum = changeNum;
     threadGroupEl.patchForNewThreads = patchNum;
     threadGroupEl.path = path;
@@ -385,7 +388,7 @@
     }
     const threadGroupEl = this.createCommentThreadGroup(
         this._comments.meta.changeNum, patchNum, this._comments.meta.path,
-        isOnParent);
+        isOnParent, this._changeComments);
     threadGroupEl.comments = comments;
     if (opt_side) {
       threadGroupEl.setAttribute('data-side', opt_side);

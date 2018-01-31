@@ -258,10 +258,11 @@ limitations under the License.
         <gr-diff-highlight
             id="highlights"
             logged-in="[[_loggedIn]]"
-            comments="{{comments}}">
+            comments="{{_comments}}">
           <gr-diff-builder
               id="diffBuilder"
-              comments="[[comments]]"
+              change-comments="[[changeComments]]"
+              comments="[[_comments]]"
               project-name="[[projectName]]"
               diff="[[_diff]]"
               diff-path="[[path]]"

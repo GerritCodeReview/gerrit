@@ -84,7 +84,7 @@
         reflectToAttribute: true,
       },
       noRenderOnPrefsChange: Boolean,
-      comments: Object,
+      changeComments: Object,
       lineWrapping: {
         type: Boolean,
         value: false,
@@ -105,6 +105,7 @@
        */
       lineOfInterest: Object,
 
+      _comments: Object,
       _loggedIn: {
         type: Boolean,
         value: false,
@@ -167,6 +168,10 @@
       'comment-save': '_handleCommentSave',
       'create-comment': '_handleCreateComment',
     },
+
+    observers: [
+      '_computeComments(changeComments, path, patchRange, projectConfig)',
+    ],
 
     attached() {
       this._getLoggedIn().then(loggedIn => {
@@ -245,6 +250,10 @@
       return !!blame;
     },
 
+    _computeComments(changeComments, path, patchRange, projectConfig) {
+      this._comments = changeComments.getCommentsBySideForPath(path, patchRange,
+          projectConfig);
+    },
     /**
      * Unload blame information for the diff.
      */
@@ -417,7 +426,8 @@
       let threadGroupEl = this._getThreadGroupForLine(contentEl);
       if (!threadGroupEl) {
         threadGroupEl = this.$.diffBuilder.createCommentThreadGroup(
-            this.changeNum, patchNum, this.path, isOnParent);
+            this.changeNum, patchNum, this.path, isOnParent,
+            this.changeComments);
         contentEl.appendChild(threadGroupEl);
       }
 
@@ -498,7 +508,7 @@
       const comment = e.detail.comment;
       const side = e.detail.comment.__commentSide;
       const idx = this._findDraftIndex(comment, side);
-      this.set(['comments', side, idx], comment);
+      this.set(['_comments', side, idx], comment);
     },
 
     /**
@@ -515,9 +525,9 @@
         idx = this._findDraftIndex(comment, side);
       }
       if (idx !== -1) { // Update draft or comment.
-        this.set(['comments', side, idx], comment);
+        this.set(['_comments', side, idx], comment);
       } else { // Create new draft.
-        this.push(['comments', side], comment);
+        this.push(['_comments', side], comment);
       }
     },
 
@@ -527,26 +537,26 @@
         idx = this._findDraftIndex(comment, side);
       }
       if (idx !== -1) {
-        this.splice('comments.' + side, idx, 1);
+        this.splice('_comments.' + side, idx, 1);
       }
     },
 
     /** @return {number} */
     _findCommentIndex(comment, side) {
-      if (!comment.id || !this.comments[side]) {
+      if (!comment.id || !this._comments[side]) {
         return -1;
       }
-      return this.comments[side].findIndex(item => {
+      return this._comments[side].findIndex(item => {
         return item.id === comment.id;
       });
     },
 
     /** @return {number} */
     _findDraftIndex(comment, side) {
-      if (!comment.__draftID || !this.comments[side]) {
+      if (!comment.__draftID || !this._comments[side]) {
         return -1;
       }
-      return this.comments[side].findIndex(item => {
+      return this._comments[side].findIndex(item => {
         return item.__draftID === comment.__draftID;
       });
     },
@@ -598,7 +608,7 @@
 
       this.updateStyles(stylesToUpdate);
 
-      if (this._diff && this.comments && !this.noRenderOnPrefsChange) {
+      if (this._diff && this._comments && !this.noRenderOnPrefsChange) {
         this._renderDiffTable();
       }
     },
@@ -612,7 +622,7 @@
       }
 
       this._showWarning = false;
-      return this.$.diffBuilder.render(this.comments, this._getBypassPrefs());
+      return this.$.diffBuilder.render(this._comments, this._getBypassPrefs());
     },
 
     /**

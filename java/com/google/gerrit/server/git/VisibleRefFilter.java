@@ -406,6 +406,6 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
 
     // Keep this logic in sync with GroupControl#isOwner().
     return isAdmin
-        || (user != null && user.getEffectiveGroups().contains(group.getOwnerGroupUUID()));
+        || (user != null && user.getEffectiveGroups().memberOf(group.getOwnerGroupUUID()));
   }
 }

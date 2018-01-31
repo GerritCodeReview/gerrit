@@ -116,7 +116,7 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     }
 
     IdentifiedUser reviewer = userFactory.create(approver);
-    if (group != null && !reviewer.getEffectiveGroups().contains(group)) {
+    if (group != null && !reviewer.getEffectiveGroups().memberOf(group)) {
       return false;
     }
 

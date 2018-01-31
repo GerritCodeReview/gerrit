@@ -28,14 +28,14 @@ public class ListGroupMembership implements GroupMembership {
   }
 
   @Override
-  public boolean contains(AccountGroup.UUID groupId) {
+  public boolean memberOf(AccountGroup.UUID groupId) {
     return groups.contains(groupId);
   }
 
   @Override
-  public boolean containsAnyOf(Iterable<AccountGroup.UUID> groupIds) {
+  public boolean memberOfAny(Iterable<AccountGroup.UUID> groupIds) {
     for (AccountGroup.UUID groupId : groupIds) {
-      if (contains(groupId)) {
+      if (memberOf(groupId)) {
         return true;
       }
     }

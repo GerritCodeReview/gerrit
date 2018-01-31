@@ -221,7 +221,7 @@ class ProjectControl {
   private boolean isDeclaredOwner() {
     if (declaredOwner == null) {
       GroupMembership effectiveGroups = user.getEffectiveGroups();
-      declaredOwner = effectiveGroups.containsAnyOf(state.getAllOwners());
+      declaredOwner = effectiveGroups.memberOfAny(state.getAllOwners());
     }
     return declaredOwner;
   }
@@ -307,7 +307,7 @@ class ProjectControl {
     } else if (SystemGroupBackend.CHANGE_OWNER.equals(uuid)) {
       return isChangeOwner;
     } else {
-      return user.getEffectiveGroups().contains(uuid);
+      return user.getEffectiveGroups().memberOf(uuid);
     }
   }
 

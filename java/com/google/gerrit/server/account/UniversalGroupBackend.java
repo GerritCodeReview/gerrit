@@ -124,7 +124,7 @@ public class UniversalGroupBackend implements GroupBackend {
     }
 
     @Override
-    public boolean contains(AccountGroup.UUID uuid) {
+    public boolean memberOf(AccountGroup.UUID uuid) {
       if (uuid == null) {
         return false;
       }
@@ -133,11 +133,11 @@ public class UniversalGroupBackend implements GroupBackend {
         log.debug("Unknown GroupMembership for UUID: " + uuid);
         return false;
       }
-      return m.contains(uuid);
+      return m.memberOf(uuid);
     }
 
     @Override
-    public boolean containsAnyOf(Iterable<AccountGroup.UUID> uuids) {
+    public boolean memberOfAny(Iterable<AccountGroup.UUID> uuids) {
       ListMultimap<GroupMembership, AccountGroup.UUID> lookups =
           MultimapBuilder.hashKeys().arrayListValues().build();
       for (AccountGroup.UUID uuid : uuids) {
@@ -156,10 +156,10 @@ public class UniversalGroupBackend implements GroupBackend {
         GroupMembership m = entry.getKey();
         Collection<AccountGroup.UUID> ids = entry.getValue();
         if (ids.size() == 1) {
-          if (m.contains(Iterables.getOnlyElement(ids))) {
+          if (m.memberOf(Iterables.getOnlyElement(ids))) {
             return true;
           }
-        } else if (m.containsAnyOf(ids)) {
+        } else if (m.memberOfAny(ids)) {
           return true;
         }
       }

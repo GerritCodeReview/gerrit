@@ -40,7 +40,7 @@ public class OwnerinPredicate extends ChangeOperatorPredicate {
       return false;
     }
     final IdentifiedUser owner = userFactory.create(change.getOwner());
-    return owner.getEffectiveGroups().contains(uuid);
+    return owner.getEffectiveGroups().memberOf(uuid);
   }
 
   @Override

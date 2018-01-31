@@ -96,7 +96,7 @@ public class GetAgreements implements RestReadView<AccountResource> {
         }
       }
 
-      if (user.getEffectiveGroups().containsAnyOf(groupIds)) {
+      if (user.getEffectiveGroups().memberOfAny(groupIds)) {
         results.add(agreementJson.format(ca));
       }
     }

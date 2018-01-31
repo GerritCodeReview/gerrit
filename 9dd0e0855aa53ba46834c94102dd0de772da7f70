@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "681736da_3bc76afe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-01-31T16:05:51Z",
+      "side": 1,
+      "message": "Sorry for the late comment, I did not have time to keep up with open source community lately.\n\nI do not like the idea of loosing the information of the other arguments of the review command, e.g. which change is gerrit reviewed.\n\nI agree that arguments spanning over multiple lines are not a good thing(you should see our logstash config to handle these) but maybe we should have fixed this problem differently.\n\nWe have few options:\n\n-only exclude --message for ReviewCommands\n-only exclude --message for ReviewCommands if it is multi-line\n-keep --message but only keep the first line if it is multi-line.\n\nThis is only addressing the multi-line problem for one option of one ssh command, maybe we could do a general fix in BaseCommand to trim any arguments of the command line that is multi-line?",
+      "revId": "9dd0e0855aa53ba46834c94102dd0de772da7f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

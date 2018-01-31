@@ -56,6 +56,10 @@ add_ChangeId() {
 	fi
 
 	id=`_gen_ChangeId`
+	if test -z "$id"
+	then
+		return
+	fi
 	T="$MSG.tmp.$$"
 	AWK=awk
 	if [ -x /usr/xpg4/bin/awk ]; then

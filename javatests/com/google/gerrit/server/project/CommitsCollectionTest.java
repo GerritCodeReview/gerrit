@@ -19,118 +19,61 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
-import com.google.gerrit.server.schema.SchemaCreator;
-import com.google.gerrit.server.util.RequestContext;
-import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.gerrit.testing.InMemoryDatabase;
-import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
-import com.google.inject.Guice;
+import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Provider;
-import com.google.inject.util.Providers;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 /** Unit tests for {@link CommitsCollection}. */
 public class CommitsCollectionTest {
+  @Rule public InMemoryTestEnvironment testEnvironment = new InMemoryTestEnvironment();
+
   @Inject private AccountManager accountManager;
-  @Inject private IdentifiedUser.GenericFactory userFactory;
-  @Inject private InMemoryDatabase schemaFactory;
   @Inject private InMemoryRepositoryManager repoManager;
-  @Inject private SchemaCreator schemaCreator;
-  @Inject private ThreadLocalRequestContext requestContext;
   @Inject protected ProjectCache projectCache;
   @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
   @Inject protected AllProjectsName allProjects;
-  @Inject protected GroupCache groupCache;
   @Inject private CommitsCollection commits;
 
-  private LifecycleManager lifecycle;
-  private ReviewDb db;
   private TestRepository<InMemoryRepository> repo;
   private ProjectConfig project;
-  private IdentifiedUser user;
-  private AccountGroup.UUID admins;
 
   @Before
   public void setUp() throws Exception {
-    Injector injector = Guice.createInjector(new InMemoryModule());
-    injector.injectMembers(this);
-    lifecycle = new LifecycleManager();
-    lifecycle.add(injector);
-    lifecycle.start();
-
-    db = schemaFactory.open();
-    schemaCreator.create(db);
-    // Need to create at least one user to be admin before creating a "normal"
-    // registered user.
-    // See AccountManager#create().
-    accountManager.authenticate(AuthRequest.forUser("admin")).getAccountId();
-    admins = groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null).getGroupUUID();
     setUpPermissions();
 
-    Account.Id userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
-    user = userFactory.create(userId);
+    Account.Id user = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
+    testEnvironment.setApiUser(user);
 
     Project.NameKey name = new Project.NameKey("project");
     InMemoryRepository inMemoryRepo = repoManager.createRepository(name);
     project = new ProjectConfig(name);
     project.load(inMemoryRepo);
     repo = new TestRepository<>(inMemoryRepo);
-
-    requestContext.setContext(
-        new RequestContext() {
-          @Override
-          public CurrentUser getUser() {
-            return user;
-          }
-
-          @Override
-          public Provider<ReviewDb> getReviewDbProvider() {
-            return Providers.of(db);
-          }
-        });
-  }
-
-  @After
-  public void tearDown() {
-    if (repo != null) {
-      repo.getRepository().close();
-    }
-    if (lifecycle != null) {
-      lifecycle.stop();
-    }
-    requestContext.setContext(null);
-    if (db != null) {
-      db.close();
-    }
-    InMemoryDatabase.drop(schemaFactory);
   }
 
   @Test
@@ -256,6 +199,8 @@ public class CommitsCollectionTest {
   }
 
   private void setUpPermissions() throws Exception {
+    ImmutableList<AccountGroup.UUID> admins = getAdmins();
+
     // Remove read permissions for all users besides admin, because by default
     // Anonymous user group has ALLOW READ permission in refs/*.
     // This method is idempotent, so is safe to call on every test setup.
@@ -263,6 +208,24 @@ public class CommitsCollectionTest {
     for (AccessSection sec : pc.getAccessSections()) {
       sec.removePermission(Permission.READ);
     }
-    allow(pc, Permission.READ, admins, "refs/*");
+    for (AccountGroup.UUID admin : admins) {
+      allow(pc, Permission.READ, admin, "refs/*");
+    }
+  }
+
+  private ImmutableList<AccountGroup.UUID> getAdmins() {
+    Permission adminPermission =
+        projectCache
+            .getAllProjects()
+            .getConfig()
+            .getAccessSection(AccessSection.GLOBAL_CAPABILITIES)
+            .getPermission(GlobalCapability.ADMINISTRATE_SERVER);
+
+    return adminPermission
+        .getRules()
+        .stream()
+        .map(PermissionRule::getGroup)
+        .map(GroupReference::getUUID)
+        .collect(ImmutableList.toImmutableList());
   }
 }

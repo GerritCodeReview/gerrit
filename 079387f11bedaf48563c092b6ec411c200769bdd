@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c723dc46_1c96f0ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-01-31T07:34:10Z",
+      "side": 1,
+      "message": "Unfortunately, since: [1] rules_closure switched from consuming pre-built binaries from protobuf distribution to build protobuf from source: @com_google_protobuf//:protobuf_java. This broke working Java 9 support in gerrit, because protobuf cannot be built with Java 9, as they use non Public API that was discontinued in Java 9. I filed this issue to track this: [2]\n\n* [1] https://github.com/bazelbuild/rules_closure/commit/d3e0437b6964db0719d71f075833614df3348fa7\n* [2] https://github.com/google/protobuf/issues/4256",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 35
+      },
+      "revId": "079387f11bedaf48563c092b6ec411c200769bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

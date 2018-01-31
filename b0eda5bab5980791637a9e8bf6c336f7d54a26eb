@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "829956a6_cff8a6f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-01-31T14:03:21Z",
+      "side": 1,
+      "message": "This is no longer true.... :(\n\nYesterday, we had the cache lock again which looks like the kernel bug that Ben Manes pointed us to https://github.com/torvalds/linux/commit/76835b0ebf8a7fe85beb03c75121419a7dec52f0\n\nThe weird thing is our kernel version is supposed to have the fix already. Anyway, we are looking into upgrading or changing os and kernel.\n\nThat said, with Caffeine, we get the issue less often(almost 2 weeks without issue vs once a day) so I will keep using caffeine. FYI I will test 2.6.1 (currently using 2.6.0) in prod to confirm it works.\n\nI still think we should migrate to caffeine for the performance gain and also because it reduce the chance to be hit by the deadlock. I will reword the commit message if we still want this change.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 67
+      },
+      "revId": "b0eda5bab5980791637a9e8bf6c336f7d54a26eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e3a8542_dcf39850",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

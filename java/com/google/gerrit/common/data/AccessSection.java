@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Project;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -52,10 +53,12 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
     permissions = list;
   }
 
+  @Nullable
   public Permission getPermission(String name) {
     return getPermission(name, false);
   }
 
+  @Nullable
   public Permission getPermission(String name, boolean create) {
     for (Permission p : getPermissions()) {
       if (p.getName().equalsIgnoreCase(name)) {

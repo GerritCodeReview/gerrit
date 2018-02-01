@@ -87,6 +87,7 @@ limitations under the License.
         diff_view: 'UNIFIED_DIFF',
         email_strategy: 'ENABLED',
         email_format: 'HTML_PLAINTEXT',
+        size_bar_in_change_table: true,
 
         my: [
           {url: '/first/url', name: 'first name', target: '_blank'},
@@ -168,6 +169,8 @@ limitations under the License.
           .firstElementChild.bindValue, preferences.email_format);
       assert.equal(valueOf('Diff view', 'preferences')
           .firstElementChild.bindValue, preferences.diff_view);
+      assert.equal(valueOf('Show size bars in file list', 'preferences')
+          .firstElementChild.checked, true);
       assert.equal(valueOf('Publish comments on push', 'preferences')
           .firstElementChild.checked, false);
       assert.equal(valueOf(

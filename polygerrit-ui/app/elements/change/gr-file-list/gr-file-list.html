@@ -131,6 +131,12 @@ limitations under the License.
       .total-stats {
         font-family: var(--monospace-font-family);
       }
+      .sizeBars {
+        margin-left: .5em;
+      }
+      .sizeBars.hide {
+        display: none;
+      }
       .added,
       .removed {
         display: inline-block;
@@ -300,6 +306,25 @@ limitations under the License.
               </span>
               [[_computeCommentsStringMobile(changeComments, patchRange.patchNum,
                   file.__path)]]
+            </div>
+            <div class$="[[_computeSizeBarsClass(_showSizeBars, file.__path)]]">
+              <svg width="101" height="8">
+                <rect
+                    x="50"
+                    y="0"
+                    height="8"
+                    fill="#388E3C"
+                    transform="translate(100, 0) scale(-1,1)"
+                    width$="[[_computeSizeBarWidth(
+                        _sizeBarScale, file.lines_inserted)]]" />
+                <rect
+                    x="51"
+                    y="0"
+                    height="8"
+                    fill="#D32F2F"
+                    width$="[[_computeSizeBarWidth(
+                        _sizeBarScale, file.lines_deleted)]]" />
+              </svg>
             </div>
             <div class$="[[_computeClass('stats', file.__path)]]">
               <span

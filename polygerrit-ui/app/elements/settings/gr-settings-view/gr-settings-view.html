@@ -177,6 +177,16 @@ limitations under the License.
             </span>
           </section>
           <section>
+            <span class="title">Show size bars in file list</span>
+            <span class="value">
+              <input
+                  id="showSizeBarsInFileList"
+                  type="checkbox"
+                  checked$="[[_localPrefs.size_bar_in_change_table]]"
+                  on-change="_handleShowSizeBarsInFileListChanged">
+            </span>
+          </section>
+          <section>
             <span class="title">Publish comments on push</span>
             <span class="value">
               <input

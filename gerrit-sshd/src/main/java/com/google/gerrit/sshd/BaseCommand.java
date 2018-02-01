@@ -42,9 +42,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
@@ -106,9 +103,11 @@ public abstract class BaseCommand implements Command {
   /** Unparsed command line options. */
   private String[] argv;
 
-  private List<String> maskedArgv = new ArrayList<>();
+  /** Unparsed command line options with sensitive data masked. */
+  private String[] maskedArgv;
 
-  private Set<String> sensitiveParameters = new HashSet<>();
+  /** Set of parameter names to be masked. */
+  protected Set<String> sensitiveParameters;
 
   public BaseCommand() {
     task = Atomics.newReference();
@@ -155,20 +154,20 @@ public abstract class BaseCommand implements Command {
     this.argv = argv;
   }
 
-  public List<String> getMaskedArguments() {
+  public String[] getMaskedArguments() {
     return maskedArgv;
   }
 
   public String getFormattedMaskedArguments(String delimiter) {
-    return String.join(delimiter, maskedArgv);
+    return commandName.replace(" ", delimiter) + String.join(delimiter, maskedArgv);
   }
 
-  public void setMaskedArguments(List<String> argv) {
+  public void setMaskedArguments(String[] argv) {
     this.maskedArgv = argv;
   }
 
   public boolean isSensitiveParameter(String param) {
-    return sensitiveParameters.contains(param);
+    return sensitiveParameters == null ? false : sensitiveParameters.contains(param);
   }
 
   @Override
@@ -399,6 +398,7 @@ public abstract class BaseCommand implements Command {
 
   protected String getTaskDescription() {
     StringBuilder m = new StringBuilder();
+    maskedArgv = maskSensitiveParameters(argv);
     m.append(getFormattedMaskedArguments(" "));
     return m.toString();
   }
@@ -413,17 +413,21 @@ public abstract class BaseCommand implements Command {
     return m.toString();
   }
 
-  private void maskSensitiveParameters() {
+  protected String[] maskSensitiveParameters(String[] argv) {
     if (argv == null) {
-      return;
+      return new String[0];
     }
-    sensitiveParameters = cache.get(this.getClass());
-    maskedArgv = new ArrayList<>();
-    maskedArgv.add(commandName);
+    String[] maskedArgv = new String[argv.length];
+    if (sensitiveParameters == null) {
+      sensitiveParameters = cache.get(this.getClass());
+    }
+    if (sensitiveParameters.isEmpty()) {
+      return argv;
+    }
     boolean maskNext = false;
     for (int i = 0; i < argv.length; i++) {
       if (maskNext) {
-        maskedArgv.add(MASK);
+        maskedArgv[i] = MASK;
         maskNext = false;
         continue;
       }
@@ -437,8 +441,9 @@ public abstract class BaseCommand implements Command {
           arg = key + "=" + MASK;
         }
       }
-      maskedArgv.add(arg);
+      maskedArgv[i] = arg;
     }
+    return maskedArgv;
   }
 
   private String extractKey(String arg) {
@@ -455,7 +460,6 @@ public abstract class BaseCommand implements Command {
     private Project.NameKey projectName;
 
     private TaskThunk(final CommandRunnable thunk) {
-      maskSensitiveParameters();
       this.thunk = thunk;
       this.taskName = getTaskName();
     }

@@ -101,7 +101,8 @@ final class DispatchCommand extends BaseCommand {
       cmd.start(env);
 
       if (cmd instanceof BaseCommand) {
-        setMaskedArguments(((BaseCommand) cmd).getMaskedArguments());
+        sensitiveParameters = ((BaseCommand) cmd).sensitiveParameters;
+        setMaskedArguments(((BaseCommand) cmd).maskSensitiveParameters(getArguments()));
       }
 
     } catch (UnloggedFailure e) {

@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -180,10 +179,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
         try {
           cmd = dispatcher.get();
           cmd.setArguments(argv);
-          cmd.setMaskedArguments(
-              argv.length > 0
-                  ? Arrays.asList(argv[0])
-                  : Arrays.asList(ctx.getCommandLine().split(" ")[0]));
+          setMaskedArguments();
           cmd.setInputStream(in);
           cmd.setOutputStream(out);
           cmd.setErrorStream(err);
@@ -206,6 +202,21 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
           sshScope.set(old);
         }
       }
+    }
+
+    /**
+     * In case the command failed very early, try to display only command name to avoid leaking
+     * sensitive data in parameters.
+     */
+    private void setMaskedArguments() {
+      String[] args = new String[1];
+      if (argv.length > 0) {
+        args[0] = argv[0];
+      } else {
+        String[] cmds = ctx.getCommandLine().split(" ");
+        args[0] = cmds.length > 0 ? cmds[0] : "";
+      }
+      cmd.setMaskedArguments(args);
     }
 
     private int translateExit(final int rc) {

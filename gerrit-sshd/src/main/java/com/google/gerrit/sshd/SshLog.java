@@ -287,13 +287,9 @@ class SshLog implements LifecycleListener {
     if (dcmd == null) {
       return "Command was already destroyed";
     }
-    return hideSensitive ? dcmd.getFormattedMaskedArguments(".") : extractWhat(dcmd);
-  }
-
-  private String extractWhat(DispatchCommand dcmd) {
     String name = dcmd.getCommandName();
     StringBuilder commandName = new StringBuilder(name == null ? "" : name);
-    String[] args = dcmd.getArguments();
+    String[] args = hideSensitive ? dcmd.getMaskedArguments() : dcmd.getArguments();
     for (int i = 1; i < args.length; i++) {
       commandName.append(".").append(args[i]);
     }

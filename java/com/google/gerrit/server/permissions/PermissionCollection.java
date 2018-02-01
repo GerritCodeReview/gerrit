@@ -14,14 +14,12 @@
 
 package com.google.gerrit.server.permissions;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.gerrit.common.data.PermissionRule.Action.BLOCK;
 import static com.google.gerrit.server.project.RefPattern.isRE;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.collect.ListMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
@@ -35,7 +33,6 @@ import com.google.gerrit.server.project.SectionMatcher;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -126,78 +123,182 @@ public class PermissionCollection {
       // LinkedHashMap to maintain input ordering.
       Map<AccessSection, Project.NameKey> sectionToProject = new LinkedHashMap<>();
       boolean perUser = filterRefMatchingSections(matcherList, ref, user, sectionToProject);
-
       List<AccessSection> sections = Lists.newArrayList(sectionToProject.keySet());
 
       // Sort by ref pattern specificity. For equally specific patterns, the sections from the
       // project closer to the current one come first.
       sorter.sort(ref, sections);
 
-      Set<SeenRule> seen = new HashSet<>();
-      Set<String> exclusiveGroupPermissions = new HashSet<>();
+      Set<String> permissionNames = new HashSet<>();
+      for (AccessSection s : sections) {
+        for (Permission p : s.getPermissions()) {
+          permissionNames.add(p.getName());
+        }
+      }
+      Map<String, List<PermissionRule>> rulesByPermission = new HashMap<>();
+      Map<String, List<BlockAccessSection>> blockByPermission = new HashMap<>();
 
-      HashMap<String, List<PermissionRule>> permissions = new HashMap<>();
-      HashMap<String, List<PermissionRule>> overridden = new HashMap<>();
-      Map<PermissionRule, ProjectRef> ruleProps = Maps.newIdentityHashMap();
-      ListMultimap<Project.NameKey, String> exclusivePermissionsByProject =
-          MultimapBuilder.hashKeys().arrayListValues().build();
-      for (AccessSection section : sections) {
-        Project.NameKey project = sectionToProject.get(section);
-        for (Permission permission : section.getPermissions()) {
-          boolean exclusivePermissionExists =
-              exclusiveGroupPermissions.contains(permission.getName());
+      for (String pn : permissionNames) {
+        // TODO - do this body on demand?
+        List<BlockAccessSection> blocks = findBlocks(sectionToProject, pn);
+        if (!blocks.isEmpty()) {
+          blockByPermission.put(pn, blocks);
+        }
 
-          for (PermissionRule rule : permission.getRules()) {
-            SeenRule s = SeenRule.create(section, permission, rule);
-            boolean addRule;
-            if (rule.isBlock()) {
-              addRule = !exclusivePermissionsByProject.containsEntry(project, permission.getName());
-            } else {
-              addRule = seen.add(s) && !rule.isDeny() && !exclusivePermissionExists;
-            }
-
-            HashMap<String, List<PermissionRule>> p = null;
-            if (addRule) {
-              p = permissions;
-            } else if (!rule.isDeny() && !exclusivePermissionExists) {
-              p = overridden;
-            }
-
-            if (p != null) {
-              List<PermissionRule> r = p.get(permission.getName());
-              if (r == null) {
-                r = new ArrayList<>(2);
-                p.put(permission.getName(), r);
-              }
-              r.add(rule);
-              ruleProps.put(rule, ProjectRef.create(project, section.getName()));
-            }
-          }
-
-          if (permission.getExclusiveGroup()) {
-            exclusivePermissionsByProject.put(project, permission.getName());
-            exclusiveGroupPermissions.add(permission.getName());
-          }
+        List<PermissionRule> rules = calculateAllowRules(sections, pn);
+        if (!rules.isEmpty()) {
+          rulesByPermission.put(pn, rules);
         }
       }
 
-      return new PermissionCollection(permissions, overridden, ruleProps, perUser);
+      return new PermissionCollection(rulesByPermission, blockByPermission, perUser);
     }
   }
 
-  private final Map<String, List<PermissionRule>> rules;
-  private final Map<String, List<PermissionRule>> overridden;
-  private final Map<PermissionRule, ProjectRef> ruleProps;
+  static List<PermissionRule> calculateAllowRules(List<AccessSection> sections, String permName) {
+    Set<SeenRule> seen = new HashSet<>();
+
+    List<PermissionRule> r = new ArrayList<>();
+    for (AccessSection s : sections) {
+      Permission p = s.getPermission(permName);
+      if (p == null) {
+        continue;
+      }
+      for (PermissionRule pr : p.getRules()) {
+        SeenRule sr = SeenRule.create(s, pr);
+        if (!seen.add(sr)) {
+          // We allow only one rule per (ref-pattern, group) tuple. This is used to implement DENY:
+          // If we see a DENY before an ALLOW rule, that causes the ALLOW rule to be skipped here, negating access.
+          continue;
+        }
+        if (pr.getAction() == BLOCK) {
+          // Block rules are handled elsewhere.
+          continue;
+        }
+
+        if (pr.getAction() == PermissionRule.Action.DENY) {
+          // DENY rules work by not adding ALLOW rules. Nothing else to do.
+          continue;
+        }
+        r.add(pr);
+      }
+      if (p.getExclusiveGroup()) {
+        // We found an exclusive permission, so no need to further go up the hierarchy.
+        break;
+      }
+    }
+    return r;
+  }
+
+  /**
+   * BlockAccessSections has the block / override logic.
+   *
+   * <p>if a user matches any of the rules in {@code blocks}, they can only get access if they match
+   * any of the rules in {@code overrides}.
+   */
+  static class BlockAccessSection {
+    List<PermissionRule> blocks;
+    List<PermissionRule> overrides;
+
+    BlockAccessSection() {
+      blocks = new ArrayList<>();
+      overrides = new ArrayList<>();
+    }
+  };
+
+  static List<BlockAccessSection> findBlocks(
+      Map<AccessSection, Project.NameKey> sectionToProjectMap, String permName) {
+    // For block permissions, we don't care about more specific refs vs less specific refs. We only
+    // want to go from parent to child.
+    List<Map.Entry<AccessSection, Project.NameKey>> entries =
+        Lists.reverse(Lists.newArrayList(sectionToProjectMap.entrySet()));
+
+    // Invert; there probably is a better way for this.
+    Map<Project.NameKey, List<AccessSection>> sectionsByProject = new HashMap<>();
+    for (Map.Entry<AccessSection, Project.NameKey> e : sectionToProjectMap.entrySet()) {
+      List<AccessSection> l = sectionsByProject.get(e.getValue());
+      if (l == null) {
+        l = new ArrayList<>();
+        sectionsByProject.put(e.getValue(), l);
+      }
+
+      l.add(e.getKey());
+    }
+
+    // Find all BLOCK PermissionRules
+    Map<Permission, Project.NameKey> blockPerms = new LinkedHashMap<>();
+    for (Map.Entry<AccessSection, Project.NameKey> e : entries) {
+      Permission p = e.getKey().getPermission(permName);
+      if (p == null) {
+        continue;
+      }
+
+      for (PermissionRule pr : p.getRules()) {
+        if (pr.getAction() == PermissionRule.Action.BLOCK) {
+          blockPerms.put(p, e.getValue());
+          break;
+        }
+      }
+    }
+
+    // Populate the BlockAccessSections, one per project in the inheritance chain.
+    Map<Project.NameKey, BlockAccessSection> result = new LinkedHashMap<>();
+    for (Map.Entry<Permission, Project.NameKey> e : blockPerms.entrySet()) {
+      BlockAccessSection blockSect = result.get(e.getValue());
+      if (blockSect == null) {
+        blockSect = new BlockAccessSection();
+        result.put(e.getValue(), blockSect);
+      }
+
+      for (PermissionRule r : e.getKey().getRules()) {
+        if (r.getAction() == BLOCK) {
+          blockSect.blocks.add(r);
+        } else {
+          blockSect.overrides.add(r);
+        }
+      }
+    }
+
+    // Exclusive permissions on the same project also override BLOCK.
+    for (Project.NameKey proj : result.keySet()) {
+      BlockAccessSection blockSection = result.get(proj);
+
+      for (AccessSection s : sectionsByProject.get(proj)) {
+        Permission p = s.getPermission(permName);
+
+        if (p == null || !p.getExclusiveGroup()) {
+          continue;
+        }
+
+        for (PermissionRule pr : p.getRules()) {
+          if (pr.getAction() == PermissionRule.Action.ALLOW) {
+            blockSection.overrides.add(pr);
+          }
+        }
+      }
+    }
+
+    return Lists.newArrayList(result.values());
+  }
+
+  private final Map<String, List<PermissionRule>> rulesByPermission;
+  private final Map<String, List<BlockAccessSection>> blockByPermission;
   private final boolean perUser;
 
+  public List<PermissionRule> getRules(String perm) {
+    return rulesByPermission.getOrDefault(perm, ImmutableList.of());
+  }
+
+  public List<BlockAccessSection> getBlocks(String perm) {
+    return blockByPermission.getOrDefault(perm, ImmutableList.of());
+  }
+
   private PermissionCollection(
-      Map<String, List<PermissionRule>> rules,
-      Map<String, List<PermissionRule>> overridden,
-      Map<PermissionRule, ProjectRef> ruleProps,
+      Map<String, List<PermissionRule>> rulesByPermission,
+      Map<String, List<BlockAccessSection>> blockByPermission,
       boolean perUser) {
-    this.rules = rules;
-    this.overridden = overridden;
-    this.ruleProps = ruleProps;
+    this.rulesByPermission = rulesByPermission;
+    this.blockByPermission = blockByPermission;
     this.perUser = perUser;
   }
 
@@ -209,55 +310,18 @@ public class PermissionCollection {
     return perUser;
   }
 
-  /**
-   * Obtain all permission rules for a given type of permission.
-   *
-   * @param permissionName type of permission.
-   * @return all rules that apply to this reference, for any group. Never null; the empty list is
-   *     returned when there are no rules for the requested permission name.
-   */
-  public List<PermissionRule> getPermission(String permissionName) {
-    List<PermissionRule> r = rules.get(permissionName);
-    return r != null ? r : Collections.<PermissionRule>emptyList();
-  }
-
-  List<PermissionRule> getOverridden(String permissionName) {
-    return firstNonNull(overridden.get(permissionName), Collections.<PermissionRule>emptyList());
-  }
-
-  ProjectRef getRuleProps(PermissionRule rule) {
-    return ruleProps.get(rule);
-  }
-
-  /**
-   * Obtain all declared permission rules that match the reference.
-   *
-   * @return all rules. The collection will iterate a permission if it was declared in the project
-   *     configuration, either directly or inherited. If the project owner did not use a known
-   *     permission (for example {@link Permission#FORGE_SERVER}, then it will not be represented in
-   *     the result even if {@link #getPermission(String)} returns an empty list for the same
-   *     permission.
-   */
-  public Iterable<Map.Entry<String, List<PermissionRule>>> getDeclaredPermissions() {
-    return rules.entrySet();
-  }
-
   /** (ref, permission, group) tuple. */
   @AutoValue
   abstract static class SeenRule {
     public abstract String refPattern();
 
-    public abstract String permissionName();
-
     @Nullable
     public abstract AccountGroup.UUID group();
 
-    static SeenRule create(
-        AccessSection section, Permission permission, @Nullable PermissionRule rule) {
+    static SeenRule create(AccessSection section, @Nullable PermissionRule rule) {
       AccountGroup.UUID group =
           rule != null && rule.getGroup() != null ? rule.getGroup().getUUID() : null;
-      return new AutoValue_PermissionCollection_SeenRule(
-          section.getName(), permission.getName(), group);
+      return new AutoValue_PermissionCollection_SeenRule(section.getName(), group);
     }
   }
 }

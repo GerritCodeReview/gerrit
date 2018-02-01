@@ -54,6 +54,7 @@
     DELETE_EDIT: 'deleteEdit',
     DONE_EDIT: 'doneEdit',
     EDIT: 'edit',
+    FOLLOW_UP: 'followup',
     IGNORE: 'ignore',
     MOVE: 'move',
     PRIVATE: 'private',
@@ -80,6 +81,7 @@
     abandon: 'Abandoning...',
     cherrypick: 'Cherry-picking...',
     delete: 'Deleting...',
+    followup: 'Creating follow-up change...',
     move: 'Moving..',
     rebase: 'Rebasing...',
     restore: 'Restoring...',
@@ -303,6 +305,10 @@
             {
               type: ActionType.CHANGE,
               key: ChangeActions.PRIVATE_DELETE,
+            },
+            {
+              type: ActionType.CHANGE,
+              key: ChangeActions.FOLLOW_UP,
             },
           ];
           return value;
@@ -840,6 +846,9 @@
         case ChangeActions.DELETE_EDIT:
           this._handleDeleteEditTap();
           break;
+        case ChangeActions.FOLLOW_UP:
+          this._showActionDialog(this.$.confirmFollowUpDialog);
+          break;
         case ChangeActions.WIP:
           this._handleWipTap();
           break;
@@ -977,6 +986,26 @@
           {message: el.message});
     },
 
+    _handleFollowUpDialogConfirm() {
+      const el = this.$.confirmFollowUpDialog;
+      this.$.overlay.close();
+      el.hidden = true;
+      // TODO(davido): Support WIP and private change markers
+      this.$.restAPI.createChange(this.change.project, this.change.branch,
+          el.subject, this.topic, null, null, this.change.id)
+          .then(changeCreated => {
+            if (!changeCreated) {
+              return;
+            }
+            Gerrit.Nav.navigateToChange(changeCreated);
+          });
+    },
+
+    _changeId() {
+      return this.change.project + '~' + this.change.branch + '~' +
+          this.change.key;
+    },
+
     _handleDeleteConfirm() {
       this._fireAction('/', this.actions[ChangeActions.DELETE], false);
     },
@@ -1056,6 +1085,12 @@
           case ChangeActions.REVERT:
             this._waitForChangeReachable(obj._number)
                 .then(() => this._setLabelValuesOnRevert(obj._number))
+                .then(() => {
+                  Gerrit.Nav.navigateToChange(obj);
+                });
+            break;
+          case ChangeActions.FOLLOW_UP:
+            this._waitForChangeReachable(obj._number)
                 .then(() => {
                   Gerrit.Nav.navigateToChange(obj);
                 });

@@ -123,10 +123,14 @@ public class PermissionCollection {
         ref = ref.substring(0, ref.length() - 1);
       }
 
+      // LinkedHashMap to maintain input ordering.
       Map<AccessSection, Project.NameKey> sectionToProject = new LinkedHashMap<>();
       boolean perUser = filterRefMatchingSections(matcherList, ref, user, sectionToProject);
 
       List<AccessSection> sections = Lists.newArrayList(sectionToProject.keySet());
+
+      // Sort by ref pattern specificity. For equally specific patterns, the sections from the
+      // project closer to the current one come first.
       sorter.sort(ref, sections);
 
       Set<SeenRule> seen = new HashSet<>();
@@ -238,7 +242,7 @@ public class PermissionCollection {
     return rules.entrySet();
   }
 
-  /** Tracks whether or not a permission has been overridden. */
+  /** (ref, permission, group) tuple. */
   @AutoValue
   abstract static class SeenRule {
     public abstract String refPattern();

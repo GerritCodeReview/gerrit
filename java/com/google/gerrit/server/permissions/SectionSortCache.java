@@ -62,6 +62,7 @@ public class SectionSortCache {
     this.cache = cache;
   }
 
+  // Sorts the given sections, but does not disturb ordering between equally exact sections.
   void sort(String ref, List<AccessSection> sections) {
     final int cnt = sections.size();
     if (cnt <= 1) {

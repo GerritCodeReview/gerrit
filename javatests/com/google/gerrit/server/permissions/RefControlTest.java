@@ -332,6 +332,7 @@ public class RefControlTest {
   @Test
   public void denyOwnerProject() {
     allow(local, OWNER, ADMIN, "refs/*");
+    // wtf. the following line is not necessary.
     deny(local, OWNER, DEVS, "refs/*");
 
     assertAdminsAreOwnersAndDevsAreNot();
@@ -472,6 +473,7 @@ public class RefControlTest {
     assertCanAccess(u);
     assertCanRead("refs/master", u);
     assertCanRead("refs/tags/foobar", u);
+    // wtf? refs/heads/* is more specific, so should take precedence?
     assertCanRead("refs/heads/master", u);
   }
 
@@ -638,6 +640,16 @@ public class RefControlTest {
   }
 
   @Test
+  public void unblockRead_NotPossible() {
+    block(parent, READ, ANONYMOUS_USERS, "refs/*");
+    allow(parent, READ, ADMIN, "refs/*");
+    allow(local, READ, ANONYMOUS_USERS, "refs/*");
+    allow(local, READ, ADMIN, "refs/*");
+    ProjectControl u = user(local);
+    assertCannotRead("refs/heads/master", u);
+  }
+
+  @Test
   public void unblockForceWithAllowNoForce_NotPossible() {
     PermissionRule r = block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     r.setForce(true);
@@ -665,6 +677,7 @@ public class RefControlTest {
     assertCannotUpdate("refs/heads/master", u);
   }
 
+  // NOSUBMIT - make this test pass too.
   @Test
   public void unblockMoreSpecificRefWithExclusiveFlag() {
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");

@@ -145,11 +145,6 @@ class RefControl {
     return null;
   }
 
-  /** True if the user is blocked from using this permission. */
-  boolean isBlocked(String permissionName) {
-    return !doCanPerform(permissionName, false, true);
-  }
-
   /** True if the user has this permission. Works only for non labels. */
   boolean canPerform(String permissionName) {
     return canPerform(permissionName, false);
@@ -157,10 +152,6 @@ class RefControl {
 
   ForRef asForRef() {
     return new ForRefImpl();
-  }
-
-  private boolean canPerform(String permissionName, boolean isChangeOwner) {
-    return doCanPerform(permissionName, isChangeOwner, false);
   }
 
   private boolean canUpload() {
@@ -339,7 +330,7 @@ class RefControl {
     return new PermissionRange(permissionName, min, max);
   }
 
-  private boolean doCanPerform(String permissionName, boolean isChangeOwner, boolean blockOnly) {
+  private boolean canPerform(String permissionName, boolean isChangeOwner) {
     List<PermissionRule> access = access(permissionName, isChangeOwner);
     List<PermissionRule> overridden = relevant.getOverridden(permissionName);
     Set<ProjectRef> allows = new HashSet<>();
@@ -355,7 +346,7 @@ class RefControl {
       blocks.remove(relevant.getRuleProps(rule));
     }
     blocks.removeAll(allows);
-    return blocks.isEmpty() && (!allows.isEmpty() || blockOnly);
+    return blocks.isEmpty() && !allows.isEmpty();
   }
 
   /** True if the user has force this permission. Works only for non labels. */

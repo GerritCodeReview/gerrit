@@ -553,6 +553,28 @@ limitations under the License.
       });
     });
 
+    suite('follow-up', () => {
+      let handleCreateChangeStub;
+
+      setup(() => {
+        handleCreateChangeStub = sandbox.stub(element, '_handleCreateChange');
+        sandbox.stub(window, 'alert');
+      });
+
+      test('works', () => {
+        element._handleCherrypickTap();
+        element._handleFollowUpDialogConfirm();
+        assert.equal(handleCreateChangeStub.callCount, 0); // Still needs a message.
+
+        element.$.confirmFollowUpDialog.message = 'Follow-Up change';
+        element._handleFollowUpDialogConfirm();
+        assert.equal(element.$.confirmFollowUpDialog.$.messageInput.value,
+            'Follow-Up change');
+
+        assert.equal(handleCreateChangeStub.callCount, 1);
+      });
+    });
+
     suite('move change', () => {
       let fireActionStub;
 

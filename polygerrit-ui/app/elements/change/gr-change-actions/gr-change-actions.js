@@ -53,6 +53,7 @@
     DELETE: '/',
     DELETE_EDIT: 'deleteEdit',
     EDIT: 'edit',
+    FOLLOW_UP: 'followup',
     IGNORE: 'ignore',
     MOVE: 'move',
     PRIVATE: 'private',
@@ -207,6 +208,7 @@
           ];
         },
       },
+      config: Object,
       _hasKnownChainState: {
         type: Boolean,
         value: false,
@@ -303,6 +305,10 @@
             {
               type: ActionType.CHANGE,
               key: ChangeActions.PRIVATE_DELETE,
+            },
+            {
+              type: ActionType.CHANGE,
+              key: ChangeActions.FOLLOW_UP,
             },
           ];
           return value;
@@ -845,6 +851,9 @@
         case ChangeActions.DELETE_EDIT:
           this._handleDeleteEditTap();
           break;
+        case ChangeActions.FOLLOW_UP:
+          this._showActionDialog(this.$.confirmFollowUpDialog);
+          break;
         case ChangeActions.WIP:
           this._handleWipTap();
           break;
@@ -980,6 +989,30 @@
       el.hidden = true;
       this._fireAction('/abandon', this.actions.abandon, false,
           {message: el.message});
+    },
+
+    _handleFollowUpDialogConfirm() {
+      const el = this.$.confirmFollowUpDialog;
+      const isPrivate = el.$.privateChangeCheckBox.checked;
+      const isWip = el.$.wipChangeCheckBox.checked;
+      if (!el.message) {
+        this.fire('show-alert', {message: ERR_COMMIT_EMPTY});
+        return;
+      }
+      this.$.overlay.close();
+      el.hidden = true;
+      this._handleCreateChange(el.message, isPrivate, isWip);
+    },
+
+    _handleCreateChange(message, isPrivate, isWip) {
+      this.$.restAPI.createChange(this.change.project, this.change.branch,
+          message, this.topic, isPrivate, isWip, this.change.id)
+          .then(changeCreated => {
+            if (!changeCreated) {
+              return;
+            }
+            Gerrit.Nav.navigateToChange(changeCreated);
+          });
     },
 
     _handleDeleteConfirm() {

@@ -317,8 +317,8 @@ _download_ command. All we need to do to get the change is copy
 paste this command and run it in our Gerrit checkout.
 
 ----
-$ git fetch http://gerrithost:8080/p/RecipeBook refs/changes/68/68/2
-From http://gerrithost:8080/p/RecipeBook
+$ git fetch ssh://gerrithost:29418/RecipeBook refs/changes/68/68/2
+From ssh://gerrithost:29418/RecipeBook
  * branch            refs/changes/68/68/2 -> FETCH_HEAD
 $ git checkout FETCH_HEAD
 Note: checking out 'FETCH_HEAD'.

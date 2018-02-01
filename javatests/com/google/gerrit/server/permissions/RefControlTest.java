@@ -472,6 +472,7 @@ public class RefControlTest {
     assertCanAccess(u);
     assertCanRead("refs/master", u);
     assertCanRead("refs/tags/foobar", u);
+    // wtf? refs/heads/* is more specific, so should take precedence?
     assertCanRead("refs/heads/master", u);
   }
 
@@ -665,6 +666,7 @@ public class RefControlTest {
     assertCannotUpdate("refs/heads/master", u);
   }
 
+  // NOSUBMIT - make this test pass too.
   @Test
   public void unblockMoreSpecificRefWithExclusiveFlag() {
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");

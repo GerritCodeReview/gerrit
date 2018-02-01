@@ -53,6 +53,7 @@
     DELETE: '/',
     DELETE_EDIT: 'deleteEdit',
     EDIT: 'edit',
+    FOLLOW_UP: 'followup',
     IGNORE: 'ignore',
     MOVE: 'move',
     PRIVATE: 'private',
@@ -307,6 +308,10 @@
             {
               type: ActionType.CHANGE,
               key: ChangeActions.PRIVATE_DELETE,
+            },
+            {
+              type: ActionType.CHANGE,
+              key: ChangeActions.FOLLOW_UP,
             },
           ];
           return value;
@@ -860,6 +865,9 @@
         case ChangeActions.DELETE_EDIT:
           this._handleDeleteEditTap();
           break;
+        case ChangeActions.FOLLOW_UP:
+          this._handleFollowUpTap();
+          break;
         case ChangeActions.WIP:
           this._handleWipTap();
           break;
@@ -995,6 +1003,15 @@
       el.hidden = true;
       this._fireAction('/abandon', this.actions.abandon, false,
           {message: el.message});
+    },
+
+    _handleCreateFollowUpChange() {
+      this.$.createFollowUpChange.handleCreateChange();
+      this._handleCloseCreateFollowUpChange();
+    },
+
+    _handleCloseCreateFollowUpChange() {
+      this.$.overlay.close();
     },
 
     _handleDeleteConfirm() {
@@ -1183,6 +1200,10 @@
 
     _handleDeleteEditTap() {
       this._showActionDialog(this.$.confirmDeleteEditDialog);
+    },
+
+    _handleFollowUpTap() {
+      this._showActionDialog(this.$.createFollowUpDialog);
     },
 
     _handleWipTap() {

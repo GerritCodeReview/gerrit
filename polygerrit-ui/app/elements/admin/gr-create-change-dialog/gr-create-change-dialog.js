@@ -33,6 +33,7 @@
           return this._getRepoBranchesSuggestions.bind(this);
         },
       },
+      baseChange: String,
       canCreate: {
         type: Boolean,
         notify: true,
@@ -55,6 +56,10 @@
       '_allowCreate(branch, subject)',
     ],
 
+    _computeBranchClass(baseChange) {
+      return baseChange ? 'hideBranch' : '';
+    },
+
     _allowCreate(branch, subject) {
       this.canCreate = !!branch && !!subject;
     },
@@ -63,7 +68,7 @@
       const isPrivate = this.$.privateChangeCheckBox.checked;
       const isWip = true;
       return this.$.restAPI.createChange(this.repoName, this.branch,
-          this.subject, this.topic, isPrivate, isWip)
+          this.subject, this.topic, isPrivate, isWip, this.baseChange)
           .then(changeCreated => {
             if (!changeCreated) { return; }
             Gerrit.Nav.navigateToChange(changeCreated);

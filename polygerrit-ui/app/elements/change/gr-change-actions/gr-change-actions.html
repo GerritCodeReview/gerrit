@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../admin/gr-create-change-dialog/gr-create-change-dialog.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
@@ -160,6 +161,22 @@ limitations under the License.
           on-confirm="_handleAbandonDialogConfirm"
           on-cancel="_handleConfirmDialogCancel"
           hidden></gr-confirm-abandon-dialog>
+      <gr-confirm-dialog id="createFollowUpDialog"
+          class="confirmDialog"
+          confirm-label="Create"
+          on-confirm="_handleCreateFollowUpChange"
+          on-cancel="_handleCloseCreateFollowUpChange">
+        <div class="header" slot="header">
+          Create Follow-Up Change
+        </div>
+        <div class="main" slot="main">
+          <gr-create-change-dialog
+              id="createFollowUpChange"
+              branch="[[change.branch]]"
+              base-change="[[change.id]]"
+              repo-name="[[change.project]]"></gr-create-change-dialog>
+        </div>
+      </gr-confirm-dialog>
       <gr-confirm-dialog
           id="confirmDeleteDialog"
           class="confirmDialog"

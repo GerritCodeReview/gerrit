@@ -1422,6 +1422,177 @@ allows the granted group to
 link:cmd-show-queue.html[look at the Gerrit task queue via ssh].
 
 
+[[reference]]
+== Permission evaluation reference
+
+Permission evaluation is expressed in the following concepts:
+
+* PermisssionRule: a single combination of {ALLOW, DENY, BLOCK} and
+group, and optionally a vote range and an 'exclusive' bit.
+
+* Permission: groups PermissionRule by permission name. All
+PermissionRules for same access type (eg. "read", "push") are grouped
+into a Permission implicitly. The exclusive bit lives here.
+
+* AccessSection: ties a list of Permissions to a single ref pattern.
+Each AccessSection comes from a single project.
+
+
+
+Here is how these play out in a link:config-project-config.html[project.config] file:
+
+----
+  # An AccessSection
+  [access "refs/heads/stable/*"]
+     exclusiveGroupPermissions = create
+
+     # Each of the following lines corresponds to a PermissionRule
+     # The next two PermissionRule together form the "read" Permission
+     read = group Administrators
+     read = group Registered Users
+
+     # A Permission with a block and block-override
+     create = block group Registered Users
+     create = group Project Owners
+
+     # A Permission and PermissionRule for a label
+     label-Code-Review = -2..+2 group Project Owners
+----
+
+=== Ref permissions
+
+Access to refs can be blocked, allowed or denied.
+
+==== BLOCK
+
+For blocking access, all rules marked BLOCK are tested, and if one
+such rule matches, the user is denied access.
+
+The rules are ordered by inheritance, starting from All-Projects down.
+Within a project, more specific ref patterns come first. The downward
+ordering lets administrators enforce access rules across all projects
+in a site.
+
+BLOCK rules can have exceptions defined on the same project (eg. BLOCK
+anonymous users, ie. everyone, but make an exception for Admin users),
+either by:
+
+1. adding ALLOW PermissionRules in the same Permission. This implies
+they apply to the same ref pattern.
+
+2. adding an ALLOW Permission in the same project with a more specific
+ref pattern, but marked "exclusive". This allows them to apply to
+different ref patterns.
+
+Such additions not only bypass BLOCK rules, but they will also grant
+permissions when they are processed in the ALLOW/DENY processing, as
+described in the next subsection.
+
+==== ALLOW
+
+For allowing access, all ALLOW/DENY rules that might apply to a ref
+are tested until one granting access is found, or until either an
+"exclusive" rule ends the search, or all rules have been tested.
+
+The rules are ordered from specific ref patterns to general patterns,
+and for equally specific patterns, from originating project up to
+All-Projects.
+
+This ordering lets project owners apply permissions specific to their
+project, overwriting the site defaults specified in All-Projects.
+
+==== DENY
+
+DENY is processed together with ALLOW.
+
+As said, during ALLOW/DENY processing, rules are tried out one by one.
+For each (permission, ref-pattern, group) only a single rule
+ALLOW/DENY rule is picked. If that first rule is a DENY rule, any
+following ALLOW rules for the same (permission, ref-pattern, group)
+will be ignored, canceling out their effect.
+
+DENY is confusing because it only works on a specific (ref-pattern,
+group) pair. The parent project can undo the effect of a DENY rule by
+introducing an extra rule which features a more general ref pattern or
+a different group.
+
+==== DENY/ALLOW example
+
+Consider the ref "refs/a" and the following configuration:
+----
+
+child-project: project.config
+    [access "refs/a"]
+      read = deny group A
+
+All-Projects: project.config
+    [access "refs/a"]
+      read = group A      # ALLOW
+    [access "refs/*"]
+      read = group B      # ALLOW
+----
+
+When determining access, first "read = DENY group A" on "refs/a" is
+encountered. The following rule to consider is "ALLOW read group A" on
+"refs/a". The latter rule applies to the same (permission,
+ref-pattern, group) tuple, so it it is ignored.
+
+The DENY rule does not affect the last rule for "refs/*", since that
+has a different ref pattern and a different group. If group B is a
+superset of group A, the last rule will still grant group A access to
+"refs/a".
+
+
+==== Double use of exclusive
+
+An 'exclusive' permission is evaluated both during BLOCK processing
+and during ALLOW/DENY: when looking BLOCK, 'exclusive' stops the
+search downward, while the same permission in the ALLOW/DENY
+processing will stop looking upward for further rule matches
+
+==== Force permission
+
+The 'force' setting may be set on ALLOW and BLOCK rules. In the case
+of ALLOW, the 'force' option makes the permission stronger (allowing
+both forced and unforced actions). For BLOCK, the 'force' option makes
+it weaker (the BLOCK with 'force' only blocks forced actions).
+
+
+=== Labels
+
+Labels use the same mechanism, with the following observations:
+
+* The 'force' setting has no effect on label ranges.
+
+* BLOCK specifies the values that a group cannot vote, eg.
+----
+  label-Code-Review = block -2..+2 group Anonymous Users
+----
+prevents all users from voting -2 or +2.
+
+* DENY works for votes too, with the same caveats
+
+* The blocked vote range is the union of the all the blocked vote
+ranges across projects, so in
+----
+All-Projects: project.config
+     label-Code-Review = block -2..+1 group A
+
+Child-Project: project-config
+     label-Code-Review = block -1..+2 group A
+----
+members of group A cannot vote at all in the Child-Project.
+
+
+* The allowed vote range is the union of vote ranges allowed by all of
+the ALLOW rules. For example, in
+----
+     label-Code-Review = -2..+1 group A
+     label-Code-Review = -1..+2 group B
+----
+a user that is both in A and B can vote -2..2.
+
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

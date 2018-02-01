@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbe483bd_5399d1de",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-01T19:49:36Z",
+      "side": 1,
+      "message": "This method could use a note describing the output format.",
+      "range": {
+        "startLine": 233,
+        "startChar": 27,
+        "endLine": 233,
+        "endChar": 53
+      },
+      "revId": "0548260e082f7d4c7ae6910a4f25a7109c532e8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a8fb410_28f1adef",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-01T19:49:36Z",
+      "side": 1,
+      "message": "If I read correctly, this will modify the comment objects that underly this API. As a result, the data coming out of the API will differ based on whether this method has been called — making for a hidden side-effect.\n\nWould it make sense for this method to always clone the comment object to avoid modification.\n\nThat way, instead of ..\n\nfor (const comment of comments[file]) {\n  comment.__path \u003d file;\n}\ncommentArr \u003d commentArr.concat(comments[file]);\n\n.. this could be ..\n\nfor (const comment of comments[file]) {\n  commentArr.push(Object.assign({__path: file}, comment));\n}",
+      "range": {
+        "startLine": 236,
+        "startChar": 6,
+        "endLine": 239,
+        "endChar": 53
+      },
+      "revId": "0548260e082f7d4c7ae6910a4f25a7109c532e8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a65c25a3_0c7f1607",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-01T19:49:36Z",
+      "side": 1,
+      "message": "Do you envision this replacing the existing logic to thread comments together? (I think it\u0027s all in the gr-diff-builder.js methods.)",
+      "range": {
+        "startLine": 331,
+        "startChar": 27,
+        "endLine": 331,
+        "endChar": 48
+      },
+      "revId": "0548260e082f7d4c7ae6910a4f25a7109c532e8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

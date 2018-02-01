@@ -61,6 +61,49 @@ public class PermissionCollection {
     }
 
     /**
+     * Drop the SectionMatchers that don't apply to the current ref. The user is only used for
+     * expanding per-user ref patterns, and not for checking group memberships.
+     *
+     * @param matcherList the input sections.
+     * @param ref the ref name for which to filter.
+     * @param user Only used for expanding per-user ref patterns.
+     * @param out the filtered sections.
+     * @return true if the result is only valid for this user.
+     */
+    private static boolean filterRefMatchingSections(
+        Iterable<SectionMatcher> matcherList,
+        String ref,
+        CurrentUser user,
+        Map<AccessSection, Project.NameKey> out) {
+      boolean perUser = false;
+      for (SectionMatcher sm : matcherList) {
+        // If the matcher has to expand parameters and its prefix matches the
+        // reference there is a very good chance the reference is actually user
+        // specific, even if the matcher does not match the reference. Since its
+        // difficult to prove this is true all of the time, use an approximation
+        // to prevent reuse of collections across users accessing the same
+        // reference at the same time.
+        //
+        // This check usually gets caching right, as most per-user references
+        // use a common prefix like "refs/sandbox/" or "refs/heads/users/"
+        // that will never be shared with non-user references, and the per-user
+        // references are usually less frequent than the non-user references.
+        if (sm.getMatcher() instanceof ExpandParameters) {
+          if (!((ExpandParameters) sm.getMatcher()).matchPrefix(ref)) {
+            continue;
+          }
+          perUser = true;
+          if (sm.match(ref, user)) {
+            out.put(sm.getSection(), sm.getProject());
+          }
+        } else if (sm.match(ref, null)) {
+          out.put(sm.getSection(), sm.getProject());
+        }
+      }
+      return perUser;
+    }
+
+    /**
      * Get all permissions that apply to a reference. The user is only used for per-user ref names,
      * so the return value may include permissions for groups the user is not part of.
      *
@@ -80,33 +123,9 @@ public class PermissionCollection {
         ref = ref.substring(0, ref.length() - 1);
       }
 
-      boolean perUser = false;
       Map<AccessSection, Project.NameKey> sectionToProject = new LinkedHashMap<>();
-      for (SectionMatcher sm : matcherList) {
-        // If the matcher has to expand parameters and its prefix matches the
-        // reference there is a very good chance the reference is actually user
-        // specific, even if the matcher does not match the reference. Since its
-        // difficult to prove this is true all of the time, use an approximation
-        // to prevent reuse of collections across users accessing the same
-        // reference at the same time.
-        //
-        // This check usually gets caching right, as most per-user references
-        // use a common prefix like "refs/sandbox/" or "refs/heads/users/"
-        // that will never be shared with non-user references, and the per-user
-        // references are usually less frequent than the non-user references.
-        //
-        if (sm.getMatcher() instanceof ExpandParameters) {
-          if (!((ExpandParameters) sm.getMatcher()).matchPrefix(ref)) {
-            continue;
-          }
-          perUser = true;
-          if (sm.match(ref, user)) {
-            sectionToProject.put(sm.getSection(), sm.getProject());
-          }
-        } else if (sm.match(ref, null)) {
-          sectionToProject.put(sm.getSection(), sm.getProject());
-        }
-      }
+      boolean perUser = filterRefMatchingSections(matcherList, ref, user, sectionToProject);
+
       List<AccessSection> sections = Lists.newArrayList(sectionToProject.keySet());
       sorter.sort(ref, sections);
 

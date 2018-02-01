@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07e8458f_fd72ebe7",
+        "filename": "polygerrit-ui/app/behaviors/dom-util-behavior/dom-util-behavior_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-01T20:18:21Z",
+      "side": 1,
+      "message": "Woah. Never seen this before.",
+      "revId": "117e449efbc3f78f5a9d3c67f6279cb125d66069",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -49,6 +49,10 @@
       down: '_handleDown',
     },
 
+    behaviors: [
+      Gerrit.DomUtilBehavior,
+    ],
+
     attached() {
       this.classList.add(SelectionClass.RIGHT);
     },
@@ -127,14 +131,8 @@
      * @return {boolean}
      */
     _elementDescendedFromClass(element, className) {
-      while (!element.classList.contains(className)) {
-        if (!element.parentElement ||
-            element === this.diffBuilder.diffElement) {
-          return false;
-        }
-        element = element.parentElement;
-      }
-      return true;
+      return this.descendedFromClass(element, className,
+          this.diffBuilder.diffElement);
     },
 
     _handleCopy(e) {

@@ -129,6 +129,7 @@
 
     behaviors: [
       Gerrit.AsyncForeachBehavior,
+      Gerrit.DomUtilBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.PatchSetBehavior,
       Gerrit.PathListBehavior,
@@ -430,7 +431,7 @@
       }
 
       // If the user clicked the link, defer to the native link behavior.
-      if (this._descendedFromClass(e.target, 'pathLink')) { return; }
+      if (this.descendedFromClass(e.target, 'pathLink')) { return; }
 
       e.preventDefault();
       this._togglePathExpanded(path);
@@ -922,15 +923,6 @@
 
     _computeReviewedText(isReviewed) {
       return isReviewed ? 'MARK UNREVIEWED' : 'MARK REVIEWED';
-    },
-
-    _descendedFromClass(element, className) {
-      let isDescendant = element.classList.contains(className);
-      while (!isDescendant && element.parentElement) {
-        isDescendant = element.classList.contains(className);
-        element = element.parentElement;
-      }
-      return isDescendant;
     },
   });
 })();

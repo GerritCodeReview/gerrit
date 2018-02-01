@@ -19,8 +19,9 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
- * Implementations of GroupMembership provide methods to test the presence of a user in a particular
- * group.
+ * Represents the set of groups that a single user is part of.
+ *
+ * <p>Different accounts systems (eg. LDAP, gerrit groups) provide concrete implementations.
  */
 public interface GroupMembership {
   GroupMembership EMPTY = new ListGroupMembership(Collections.<AccountGroup.UUID>emptySet());

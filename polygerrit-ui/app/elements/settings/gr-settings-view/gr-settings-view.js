@@ -20,7 +20,6 @@
     'time_format',
     'email_strategy',
     'diff_view',
-    'expand_inline_diffs',
     'publish_comments_on_push',
     'signed_off_by',
     'email_format',
@@ -257,11 +256,6 @@
     _handleDiffPrefsChanged() {
       if (this._isLoading()) { return; }
       this._diffPrefsChanged = true;
-    },
-
-    _handleExpandInlineDiffsChanged() {
-      this.set('_localPrefs.expand_inline_diffs',
-          this.$.expandInlineDiffs.checked);
     },
 
     _handlePublishCommentsOnPushChanged() {

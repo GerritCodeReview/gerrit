@@ -585,10 +585,6 @@ limitations under the License.
         test('open from diff cursor', () => {
           element._showInlineDiffs = true;
           assert.deepEqual(interact(), {opened_cursor: true});
-
-          // "Show diffs" mode overrides userPrefs.expand_inline_diffs
-          element._userPrefs = {expand_inline_diffs: true};
-          assert.deepEqual(interact(), {opened_cursor: true});
         });
 
         test('expand when user prefers', () => {
@@ -596,8 +592,6 @@ limitations under the License.
           assert.deepEqual(interact(), {opened_selected: true});
           element._userPrefs = {};
           assert.deepEqual(interact(), {opened_selected: true});
-          element._userPrefs.expand_inline_diffs = true;
-          assert.deepEqual(interact(), {expanded: true});
         });
       });
     });
@@ -737,7 +731,7 @@ limitations under the License.
       assert.isNotOk(element.$$('.expanded'));
     });
 
-    test('expand_inline_diffs user preference', () => {
+    test('tapping row ignores links', () => {
       element._files = [
         {__path: '/COMMIT_MSG'},
       ];
@@ -749,7 +743,7 @@ limitations under the License.
       sandbox.stub(element, '_expandedPathsChanged');
       flushAsynchronousOperations();
       const commitMsgFile = Polymer.dom(element.root)
-          .querySelectorAll('.row:not(.header) a')[0];
+          .querySelectorAll('.row:not(.header) a.pathLink')[0];
 
       // Remove href attribute so the app doesn't route to a diff view
       commitMsgFile.removeAttribute('href');
@@ -760,15 +754,6 @@ limitations under the License.
       assert(togglePathSpy.notCalled, 'file is opened as diff view');
       assert.isNotOk(element.$$('.expanded'));
       assert.notEqual(getComputedStyle(element.$$('.show-hide')).display,
-          'none');
-
-      element._userPrefs = {expand_inline_diffs: true};
-      flushAsynchronousOperations();
-      MockInteractions.tap(commitMsgFile);
-      flushAsynchronousOperations();
-      assert(togglePathSpy.calledOnce, 'file is expanded');
-      assert.isOk(element.$$('.expanded'));
-      assert.equal(getComputedStyle(element.$$('.show-hide')).display,
           'none');
     });
 
@@ -853,41 +838,6 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.equal(element.filesExpanded,
           GrFileListConstants.FilesExpandedState.ALL);
-    });
-
-    suite('_handleFileListTap', () => {
-      function testForModifier(modifier) {
-        const e = {preventDefault() {}};
-        e.detail = {sourceEvent: {}};
-        e.target = {
-          dataset: {path: '/test'},
-          classList: element.classList,
-        };
-
-        e.detail.sourceEvent[modifier] = true;
-
-        const togglePathStub = sandbox.stub(element, '_togglePathExpanded');
-        element._userPrefs = {expand_inline_diffs: true};
-
-        element._handleFileListTap(e);
-        assert.isFalse(togglePathStub.called);
-
-        e.detail.sourceEvent[modifier] = false;
-        element._handleFileListTap(e);
-        assert.equal(togglePathStub.callCount, 1);
-
-        element._userPrefs = {expand_inline_diffs: false};
-        element._handleFileListTap(e);
-        assert.equal(togglePathStub.callCount, 1);
-      }
-
-      test('_handleFileListTap meta', () => {
-        testForModifier('metaKey');
-      });
-
-      test('_handleFileListTap ctrl', () => {
-        testForModifier('ctrlKey');
-      });
     });
 
     test('_renderInOrder', done => {

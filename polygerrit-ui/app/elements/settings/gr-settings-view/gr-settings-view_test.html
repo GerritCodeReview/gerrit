@@ -168,8 +168,6 @@ limitations under the License.
           .firstElementChild.bindValue, preferences.email_format);
       assert.equal(valueOf('Diff view', 'preferences')
           .firstElementChild.bindValue, preferences.diff_view);
-      assert.equal(valueOf('Expand inline diffs', 'preferences')
-          .firstElementChild.checked, false);
       assert.equal(valueOf('Publish comments on push', 'preferences')
           .firstElementChild.checked, false);
       assert.equal(valueOf(
@@ -183,11 +181,11 @@ limitations under the License.
       const diffSelect = valueOf('Diff view', 'preferences').firstElementChild;
       diffSelect.bindValue = 'SIDE_BY_SIDE';
 
-      const expandInlineDiffs =
-          valueOf('Expand inline diffs', 'preferences').firstElementChild;
+      const publishOnPush =
+          valueOf('Publish comments on push', 'preferences').firstElementChild;
       diffSelect.fire('change');
 
-      MockInteractions.tap(expandInlineDiffs);
+      MockInteractions.tap(publishOnPush);
 
       assert.isTrue(element._prefsChanged);
       assert.isFalse(element._menuChanged);
@@ -196,7 +194,7 @@ limitations under the License.
         savePreferences(prefs) {
           assert.equal(prefs.diff_view, 'SIDE_BY_SIDE');
           assertMenusEqual(prefs.my, preferences.my);
-          assert.equal(prefs.expand_inline_diffs, true);
+          assert.equal(prefs.publish_comments_on_push, true);
           return Promise.resolve();
         },
       });

@@ -19,18 +19,46 @@ limitations under the License.
       :host {
         font-size: var(--font-size-normal);
       }
+      gr-change-list-item,
+      tr {
+        border-top: 1px solid #ddd;
+      }
+      tbody {
+        border: 1px solid #ddd;
+        border-top: none;
+      }
+      th {
+        text-align: left;
+      }
+      th,
+      .cell {
+        vertical-align: middle;
+      }
+      th:not(.label),
+      .cell:not(.label) {
+        padding-right: 8px;
+      }
       .topHeader,
       .groupHeader {
-        border-bottom: 1px solid #eee;
         font-family: var(--font-family-bold);
-        padding: .3em .5em;
       }
       .topHeader {
-        background-color: #ddd;
+        background-color: #fafafa;
+        font-size: var(--font-size-large);
+        height: 3rem;
       }
-      .noChanges {
-        border-bottom: 1px solid #eee;
-        padding: .3em .5em;
+      .groupHeader {
+        background-color: #f4f4f4;
+      }
+      .groupHeader a {
+        color: #000;
+        text-decoration: none;
+      }
+      .groupHeader a:hover {
+        text-decoration: underline;
+      }
+      .cell {
+        height: 2.25rem;
       }
       .keyboard,
       .star {
@@ -52,15 +80,12 @@ limitations under the License.
       .project {
         white-space: nowrap;
       }
-      .updated {
-        text-align: right;
-      }
-      .size,
-      .updated {
-        text-align: right;
-      }
       .label {
         text-align: center;
+        width: 3rem;
+      }
+      .label:not(.topHeader) {
+        border-left: 1px solid #ddd;
       }
       @media only screen and (max-width: 50em) {
         :host {
@@ -81,12 +106,16 @@ limitations under the License.
         .branch,
         .updated,
         .label,
-        .assignee {
+        .assignee,
+        .groupHeader .star {
           display: none;
         }
         .star {
           padding-left: .35em;
           padding-top: .25em;
+        }
+        .groupHeader .cell {
+          padding: 0 .5em;
         }
         .subject {
           margin-bottom: .25em;

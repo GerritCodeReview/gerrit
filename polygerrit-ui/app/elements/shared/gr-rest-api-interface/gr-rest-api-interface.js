@@ -766,6 +766,7 @@
           default_diff_view: this._isNarrowScreen() ?
               DiffViewMode.UNIFIED : DiffViewMode.SIDE_BY_SIDE,
           diff_view: 'SIDE_BY_SIDE',
+          size_bar_in_change_table: true,
         });
       });
     },

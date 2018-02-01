@@ -125,6 +125,15 @@
         type: Boolean,
         observer: '_loadingChanged',
       },
+      _sizeBarScale: {
+        type: Number,
+        computed: '_computeSizeBarScale(_shownFiles)',
+      },
+      _showSizeBars: {
+        type: Boolean,
+        value: true,
+        computed: '_computeShowSizeBars(_userPrefs)',
+      },
     },
 
     behaviors: [
@@ -923,6 +932,32 @@
 
     _computeReviewedText(isReviewed) {
       return isReviewed ? 'MARK UNREVIEWED' : 'MARK REVIEWED';
+    },
+
+    _computeSizeBarScale(shownFiles) {
+      if (!shownFiles || !shownFiles.length) { return undefined; }
+      return shownFiles.reduce((acc, f) =>
+          Math.max(acc, f.lines_inserted, f.lines_deleted), 0);
+    },
+
+    _computeSizeBarWidth(sizeBarScale, stat) {
+      if (!sizeBarScale || !stat) { return 0; }
+      return Math.max(1.5, 50 * (stat / sizeBarScale));
+    },
+
+    _computeShowSizeBars(userPrefs) {
+      return !!userPrefs.size_bar_in_change_table;
+    },
+
+    _computeSizeBarsClass(showSizeBars, path) {
+      let hideClass = '';
+      if (!showSizeBars) {
+        hideClass = ' hide';
+      } else if (path === this.COMMIT_MESSAGE_PATH ||
+          path === this.MERGE_LIST_PATH) {
+        hideClass = ' invisible';
+      }
+      return `sizeBars desktop ${hideClass}`;
     },
   });
 })();

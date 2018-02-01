@@ -1398,9 +1398,10 @@
      * @param {string=} opt_topic
      * @param {boolean=} opt_isPrivate
      * @param {boolean=} opt_workInProgress
+     * @param {string=} opt_baseChange
      */
     createChange(project, branch, subject, opt_topic, opt_isPrivate,
-        opt_workInProgress) {
+        opt_workInProgress, opt_baseChange) {
       return this.send('POST', '/changes/', {
         project,
         branch,
@@ -1408,6 +1409,7 @@
         topic: opt_topic,
         is_private: opt_isPrivate,
         work_in_progress: opt_workInProgress,
+        base_change: opt_baseChange,
       }).then(response => this.getResponseObject(response));
     },
 

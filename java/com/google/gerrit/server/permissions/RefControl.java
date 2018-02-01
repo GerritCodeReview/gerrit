@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Change;
@@ -28,6 +29,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
+import com.google.gerrit.server.permissions.PermissionCollection.BlockAccessSection;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gwtorm.server.OrmException;
@@ -37,7 +39,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -124,12 +125,12 @@ class RefControl {
       // granting of powers beyond submitting to the configuration.
       return projectControl.isOwner();
     }
-    return canPerform(Permission.SUBMIT, isChangeOwner);
+    return canPerform(Permission.SUBMIT, isChangeOwner, false);
   }
 
   /** @return true if this user can force edit topic names. */
   boolean canForceEditTopicName() {
-    return canForcePerform(Permission.EDIT_TOPIC_NAME);
+    return canPerform(Permission.EDIT_TOPIC_NAME);
   }
 
   /** The range of permitted values associated with a label permission. */
@@ -147,7 +148,7 @@ class RefControl {
 
   /** True if the user has this permission. Works only for non labels. */
   boolean canPerform(String permissionName) {
-    return canPerform(permissionName, false);
+    return canPerform(permissionName, false, false);
   }
 
   ForRef asForRef() {
@@ -198,7 +199,7 @@ class RefControl {
       case UNKNOWN:
       case WEB_BROWSER:
       default:
-        return (isOwner() && !isForceBlocked(Permission.PUSH)) || projectControl.isAdmin();
+        return (isOwner() && !canPerform(Permission.PUSH, true, true)) || projectControl.isAdmin();
     }
   }
 
@@ -211,7 +212,7 @@ class RefControl {
       // granting of powers beyond pushing to the configuration.
       return false;
     }
-    return canForcePerform(Permission.PUSH);
+    return canPerform(Permission.PUSH, false, true);
   }
 
   /**
@@ -239,7 +240,7 @@ class RefControl {
       case UNKNOWN:
       case WEB_BROWSER:
       default:
-        return (isOwner() && !isForceBlocked(Permission.PUSH))
+        return (isOwner())
             || canPushWithForce()
             || canPerform(Permission.DELETE)
             || projectControl.isAdmin();
@@ -303,6 +304,7 @@ class RefControl {
   }
 
   private PermissionRange toRange(String permissionName, List<PermissionRule> ruleList) {
+    /*
     Map<ProjectRef, AllowedRange> ranges = new HashMap<>();
     for (PermissionRule rule : ruleList) {
       ProjectRef p = relevant.getRuleProps(rule);
@@ -328,69 +330,50 @@ class RefControl {
     int min = Math.max(allowMin, blockMin + 1);
     int max = Math.min(allowMax, blockMax - 1);
     return new PermissionRange(permissionName, min, max);
-  }
+    */
 
-  private boolean canPerform(String permissionName, boolean isChangeOwner) {
-    List<PermissionRule> access = access(permissionName, isChangeOwner);
-    List<PermissionRule> overridden = relevant.getOverridden(permissionName);
-    Set<ProjectRef> allows = new HashSet<>();
-    Set<ProjectRef> blocks = new HashSet<>();
-    for (PermissionRule rule : access) {
-      if (rule.isBlock() && !rule.getForce()) {
-        blocks.add(relevant.getRuleProps(rule));
-      } else {
-        allows.add(relevant.getRuleProps(rule));
-      }
-    }
-    for (PermissionRule rule : overridden) {
-      blocks.remove(relevant.getRuleProps(rule));
-    }
-    blocks.removeAll(allows);
-    return blocks.isEmpty() && !allows.isEmpty();
+    // TODO.
+    return new PermissionRange(permissionName, -1, 1);
   }
 
   /** True if the user has force this permission. Works only for non labels. */
-  private boolean canForcePerform(String permissionName) {
-    List<PermissionRule> access = access(permissionName);
-    List<PermissionRule> overridden = relevant.getOverridden(permissionName);
-    Set<ProjectRef> allows = new HashSet<>();
-    Set<ProjectRef> blocks = new HashSet<>();
-    for (PermissionRule rule : access) {
-      if (rule.isBlock()) {
-        blocks.add(relevant.getRuleProps(rule));
-      } else if (rule.getForce()) {
-        allows.add(relevant.getRuleProps(rule));
+  private boolean canPerform(String permissionName, boolean isChangeOwner, boolean withForce) {
+    for (BlockAccessSection s : relevant.getBlocks(permissionName)) {
+      boolean blocked = false;
+      for (PermissionRule pr : s.blocks) {
+        if (projectControl.match(pr, isChangeOwner)) {
+          blocked = true;
+          break;
+        }
       }
-    }
-    for (PermissionRule rule : overridden) {
-      if (rule.getForce()) {
-        blocks.remove(relevant.getRuleProps(rule));
-      }
-    }
-    blocks.removeAll(allows);
-    return blocks.isEmpty() && !allows.isEmpty();
-  }
 
-  /** True if for this permission force is blocked for the user. Works only for non labels. */
-  private boolean isForceBlocked(String permissionName) {
-    List<PermissionRule> access = access(permissionName);
-    List<PermissionRule> overridden = relevant.getOverridden(permissionName);
-    Set<ProjectRef> allows = new HashSet<>();
-    Set<ProjectRef> blocks = new HashSet<>();
-    for (PermissionRule rule : access) {
-      if (rule.isBlock()) {
-        blocks.add(relevant.getRuleProps(rule));
-      } else if (rule.getForce()) {
-        allows.add(relevant.getRuleProps(rule));
+      if (blocked) {
+        for (PermissionRule pr : s.overrides) {
+          if (projectControl.match(pr, isChangeOwner)) {
+            return pr.getAction() == Action.ALLOW;
+          }
+        }
+        // TODO: something with withForce?
       }
     }
-    for (PermissionRule rule : overridden) {
-      if (rule.getForce()) {
-        blocks.remove(relevant.getRuleProps(rule));
+
+    for (PermissionRule pr : relevant.getRules(permissionName)) {
+      if (projectControl.match(pr, isChangeOwner)) {
+        if (pr.getAction() == PermissionRule.Action.DENY) {
+          return false;
+        }
+
+        if (withForce) {
+          if (pr.getAction() == Action.ALLOW && pr.getForce()) {
+            return true;
+          }
+        } else if (pr.getAction() == Action.ALLOW) {
+          return true;
+        }
       }
     }
-    blocks.removeAll(allows);
-    return !blocks.isEmpty();
+
+    return false;
   }
 
   /** Rules for the given permission, or the empty list. */

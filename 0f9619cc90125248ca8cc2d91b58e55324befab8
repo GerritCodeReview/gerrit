@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7acbd739_780a62f6",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-01T23:28:01Z",
+      "side": 1,
+      "message": "drafts",
+      "range": {
+        "startLine": 413,
+        "startChar": 37,
+        "endLine": 413,
+        "endChar": 43
+      },
+      "revId": "0f9619cc90125248ca8cc2d91b58e55324befab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4571efc0_e88c62b3",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-01T23:28:01Z",
+      "side": 1,
+      "message": "optional: while we\u0027re in here, maybe rename this from \u0027a\u0027 and \u0027u\u0027 to \u0027admin\u0027 and \u0027user\u0027.  Abbreviating them doesn\u0027t really save much, and because they\u0027re short at first glance I thought the assertions at L425 and L428 were the same.",
+      "revId": "0f9619cc90125248ca8cc2d91b58e55324befab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

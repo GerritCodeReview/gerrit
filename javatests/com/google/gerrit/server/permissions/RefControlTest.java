@@ -152,12 +152,8 @@ public class RefControlTest {
     assertThat(create).named("cannot create change " + ref).isFalse();
   }
 
-  private void assertBlocked(String p, String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).isBlocked(p)).named(p + " is blocked for " + ref).isTrue();
-  }
-
   private void assertNotBlocked(String p, String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).isBlocked(p)).named(p + " is blocked for " + ref).isFalse();
+    assertThat(u.controlForRef(ref).canPerform(p)).named(p + " is blocked for " + ref).isTrue();
   }
 
   private void assertCanUpdate(String ref, ProjectControl u) {
@@ -410,21 +406,28 @@ public class RefControlTest {
   public void blockPushDrafts() {
     allow(parent, PUSH, REGISTERED_USERS, "refs/for/refs/*");
     block(parent, PUSH, ANONYMOUS_USERS, "refs/drafts/*");
+    allow(local, PUSH, REGISTERED_USERS, "refs/drafts/*");
 
     ProjectControl u = user(local);
     assertCreateChange("refs/heads/master", u);
-    assertBlocked(PUSH, "refs/drafts/refs/heads/master", u);
+    assertThat(u.controlForRef("refs/drafst/master").canPerform(PUSH)).isFalse();
   }
 
   @Test
   public void blockPushDraftsUnblockAdmin() {
     block(parent, PUSH, ANONYMOUS_USERS, "refs/drafts/*");
     allow(parent, PUSH, ADMIN, "refs/drafts/*");
+    allow(local, PUSH, REGISTERED_USERS, "refs/drafts/*");
 
     ProjectControl u = user(local);
     ProjectControl a = user(local, "a", ADMIN);
-    assertBlocked(PUSH, "refs/drafts/refs/heads/master", u);
-    assertNotBlocked(PUSH, "refs/drafts/refs/heads/master", a);
+
+    assertThat(a.controlForRef("refs/drafts/master").canPerform(PUSH))
+        .named("push is allowed")
+        .isTrue();
+    assertThat(u.controlForRef("refs/drafts/master").canPerform(PUSH))
+        .named("push is not allowed")
+        .isFalse();
   }
 
   @Test
@@ -610,7 +613,9 @@ public class RefControlTest {
     allow(local, SUBMIT, REGISTERED_USERS, "refs/heads/*");
 
     ProjectControl u = user(local);
-    assertNotBlocked(SUBMIT, "refs/heads/master", u);
+    assertThat(u.controlForRef("refs/heads/master").canPerform(SUBMIT))
+        .named("submit is allowed")
+        .isTrue();
   }
 
   @Test

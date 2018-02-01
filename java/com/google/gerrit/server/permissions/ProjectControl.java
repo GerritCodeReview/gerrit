@@ -146,7 +146,7 @@ class ProjectControl {
 
   /** Is this user a project owner? */
   boolean isOwner() {
-    return (isDeclaredOwner() && !controlForRef("refs/*").isBlocked(Permission.OWNER)) || isAdmin();
+    return (isDeclaredOwner() && controlForRef("refs/*").canPerform(Permission.OWNER)) || isAdmin();
   }
 
   /**

@@ -31,12 +31,47 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Set;
+import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
 @AutoValue
 public abstract class ExternalId implements Serializable {
+  // If these regular expressions are modified the same modifications should be done to the
+  // corresponding regular expressions in the
+  // com.google.gerrit.client.account.UsernameField class.
+  private static final String USER_NAME_PATTERN_FIRST_REGEX = "[a-zA-Z0-9]";
+  private static final String USER_NAME_PATTERN_REST_REGEX = "[a-zA-Z0-9._@-]";
+  private static final String USER_NAME_PATTERN_LAST_REGEX = "[a-zA-Z0-9]";
+
+  /** Regular expression that a username must match. */
+  public static final String USER_NAME_PATTERN_REGEX =
+      "^("
+          + //
+          USER_NAME_PATTERN_FIRST_REGEX
+          + //
+          USER_NAME_PATTERN_REST_REGEX
+          + "*"
+          + //
+          USER_NAME_PATTERN_LAST_REGEX
+          + //
+          "|"
+          + //
+          USER_NAME_PATTERN_FIRST_REGEX
+          + //
+          ")$";
+
+  private static final Pattern USER_NAME_PATTERN = Pattern.compile(USER_NAME_PATTERN_REGEX);
+
+  public static boolean isValidUsername(String username) {
+    return USER_NAME_PATTERN.matcher(username).matches();
+  }
+
+  public static String validUsernamePattern() {
+    return USER_NAME_PATTERN_REGEX;
+  }
+
   private static final long serialVersionUID = 1L;
 
   private static final String EXTERNAL_ID_SECTION = "externalId";

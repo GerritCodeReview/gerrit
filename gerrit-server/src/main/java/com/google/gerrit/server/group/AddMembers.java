@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.group;
 
-import static com.google.gerrit.reviewdb.client.Account.USER_NAME_PATTERN_COMPILED;
-
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.audit.AuditService;
@@ -39,6 +37,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.group.AddMembers.Input;
@@ -200,7 +199,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   }
 
   private Account createAccountByLdap(String user) throws IOException {
-    if (!USER_NAME_PATTERN_COMPILED.matcher(user).matches()) {
+    if (!user.matches(ExternalId.USER_NAME_PATTERN_REGEX)) {
       return null;
     }
 

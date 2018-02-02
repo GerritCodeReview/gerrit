@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1517324741 +0100\nnonce AGjzz39eaBnJA+qceAsLdO1yDMWFHzoDoAfRhotG+Zlvx4V274H+j05PTek5Jeaht/U/PDbnqZUB\n\n0000000000000000000000000000000000000000 2d5a1180c70fa30496ba57cdfd3ba640f8a0eab8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJacInFAAoJEHFVO370GiZW/IQH/2UGeHPVXiHOpvOigBcn7z2Z\nBxWSrwzlfhu9qLvnKwQXEIbYsUPqU3wWfaFCI6NnF67BqVs51mgXx6PRlI/bCJ93\n8Dhoekco6LfFYz9B2guTdzbascOkU+3QDVzeVkVgXzLIYPL6sJpYoTizBN6DbmhP\nznpSSEgC3XP2QKyqNQLCBRnMl3Y1ncf+PB+ceyVXSfDLpphjXO0+Gesdj/xlMc2Q\nxb95keqiFS7400hL8SCkrit44x0lIfG8S/Ft7gEMiGC5OOXYzSILggVb5O/z6ZFG\naliPbM4b4FH+ue5vfKMEqFWlsQt8Y6DDtS44FHU+JNQAMlFwVxQ20Ri+ueOpNnI\u003d\n\u003dezke\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "89653d06_d703df01",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-02T14:53:43Z",
+      "side": 1,
+      "message": "Not a huge fan of this string. First, I don\u0027t think we ever use the string \"GerritAccount\" anywhere in code or documentation; I would say either \"Gerrit Account\" or just \"Account\".\n\nSecond, it seems a bit repetitious to include the account number twice in a row:\n\n GerritAccount #1234 \u003c1234@serverId\u003e\n\nI guess in some contexts it\u0027s possible you might just be displaying the name part so maybe it\u0027s useful to have the account number there? But I\u0027m not sure what contexts those would actually be. For example, \"git log\" will always show both.",
+      "range": {
+        "startLine": 137,
+        "startChar": 45,
+        "endLine": 137,
+        "endChar": 58
+      },
+      "revId": "25b97393c93549fc34faae8730b03ccd406057a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

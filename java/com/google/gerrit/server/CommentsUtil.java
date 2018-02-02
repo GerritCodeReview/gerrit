@@ -267,9 +267,9 @@ public class CommentsUtil {
 
     List<Comment> comments = new ArrayList<>();
     for (Ref ref : getDraftRefs(notes.getChangeId())) {
-      Account.Id account = Account.Id.fromRefSuffix(ref.getName());
-      if (account != null) {
-        comments.addAll(draftByChangeAuthor(db, notes, account));
+      Optional<Account.Id> account = Account.Id.fromRefSuffix(ref.getName());
+      if (account.isPresent()) {
+        comments.addAll(draftByChangeAuthor(db, notes, account.get()));
       }
     }
     return sort(comments);
@@ -290,9 +290,9 @@ public class CommentsUtil {
     comments.addAll(publishedByPatchSet(db, notes, psId));
 
     for (Ref ref : getDraftRefs(notes.getChangeId())) {
-      Account.Id account = Account.Id.fromRefSuffix(ref.getName());
-      if (account != null) {
-        comments.addAll(draftByPatchSetAuthor(db, psId, account, notes));
+      Optional<Account.Id> account = Account.Id.fromRefSuffix(ref.getName());
+      if (account.isPresent()) {
+        comments.addAll(draftByPatchSetAuthor(db, psId, account.get(), notes));
       }
     }
     return sort(comments);
@@ -386,9 +386,9 @@ public class CommentsUtil {
     List<Change.Id> changes = new ArrayList<>();
     try (Repository repo = repoManager.openRepository(allUsers)) {
       for (String refName : repo.getRefDatabase().getRefs(RefNames.REFS_DRAFT_COMMENTS).keySet()) {
-        Account.Id accountId = Account.Id.fromRefSuffix(refName);
+        Optional<Account.Id> accountId = Account.Id.fromRefSuffix(refName);
         Change.Id changeId = Change.Id.fromRefPart(refName);
-        if (accountId == null || changeId == null) {
+        if (!accountId.isPresent() || changeId == null) {
           continue;
         }
         changes.add(changeId);

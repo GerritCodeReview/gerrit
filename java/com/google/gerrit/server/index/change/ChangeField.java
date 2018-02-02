@@ -261,32 +261,32 @@ public class ChangeField {
         ImmutableTable.builder();
     for (String v : values) {
 
-      int firstIndex = v.indexOf(',');
-      if (firstIndex < 0) {
+      int i = v.indexOf(',');
+      if (i < 0) {
         log.error("Invalid value for reviewer field: %s", v);
         continue;
       }
 
-      int lastIndex = v.lastIndexOf(',');
-      if (lastIndex == firstIndex) {
+      int i2 = v.lastIndexOf(',');
+      if (i2 == i) {
         log.error("Invalid value for reviewer field: %s", v);
         continue;
       }
 
       Optional<ReviewerStateInternal> reviewerState =
-          Enums.getIfPresent(ReviewerStateInternal.class, v.substring(0, firstIndex));
+          Enums.getIfPresent(ReviewerStateInternal.class, v.substring(0, i));
       if (!reviewerState.isPresent()) {
         log.error("Failed to parse reviewer state from reviewer field: %s", v);
         continue;
       }
 
-      Account.Id accountId = Account.Id.parse(v.substring(firstIndex + 1, lastIndex));
+      Account.Id accountId = Account.Id.parse(v.substring(i + 1, i2));
       if (accountId == null) {
         log.error("Failed to parse account ID from reviewer field: %s", v);
         continue;
       }
 
-      Long l = Longs.tryParse(v.substring(lastIndex + 1, v.length()));
+      Long l = Longs.tryParse(v.substring(i2 + 1, v.length()));
       if (l == null) {
         log.error("Failed to parse timestamp from reviewer field: %s", v);
         continue;
@@ -301,32 +301,32 @@ public class ChangeField {
   public static ReviewerByEmailSet parseReviewerByEmailFieldValues(Iterable<String> values) {
     ImmutableTable.Builder<ReviewerStateInternal, Address, Timestamp> b = ImmutableTable.builder();
     for (String v : values) {
-      int firstIndex = v.indexOf(',');
-      if (firstIndex < 0) {
+      int i = v.indexOf(',');
+      if (i < 0) {
         log.error("Invalid value for reviewer by email field: %s", v);
         continue;
       }
 
-      int lastIndex = v.lastIndexOf(',');
-      if (lastIndex == firstIndex) {
+      int i2 = v.lastIndexOf(',');
+      if (i2 == i) {
         log.error("Invalid value for reviewer by email field: %s", v);
         continue;
       }
 
       Optional<ReviewerStateInternal> reviewerState =
-          Enums.getIfPresent(ReviewerStateInternal.class, v.substring(0, firstIndex));
+          Enums.getIfPresent(ReviewerStateInternal.class, v.substring(0, i));
       if (!reviewerState.isPresent()) {
         log.error("Failed to parse reviewer state from reviewer by email field: %s", v);
         continue;
       }
 
-      Address address = Address.tryParse(v.substring(firstIndex + 1, lastIndex));
+      Address address = Address.tryParse(v.substring(i + 1, i2));
       if (address == null) {
         log.error("Failed to parse address from reviewer by email field: %s", v);
         continue;
       }
 
-      Long l = Longs.tryParse(v.substring(lastIndex + 1, v.length()));
+      Long l = Longs.tryParse(v.substring(i2 + 1, v.length()));
       if (l == null) {
         log.error("Failed to parse timestamp from reviewer by email field: %s", v);
         continue;

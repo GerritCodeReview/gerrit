@@ -48,14 +48,14 @@ limitations under the License.
 
     test('star visibility states', () => {
       element.set('change.starred', true);
-      assert.isTrue(element.$$('button').classList.contains('starButton'));
-      assert.isTrue(
-          element.$$('button').classList.contains('starButton-active'));
+      let icon = element.$$('iron-icon');
+      assert.isTrue(icon.classList.contains('active'));
+      assert.equal(icon.icon, 'gr-icons:star');
 
       element.set('change.starred', false);
-      assert.isTrue(element.$$('button').classList.contains('starButton'));
-      assert.isFalse(
-          element.$$('button').classList.contains('starButton-active'));
+      icon = element.$$('iron-icon');
+      assert.isFalse(icon.classList.contains('active'));
+      assert.equal(icon.icon, 'gr-icons:star-border');
     });
 
     test('starring', done => {

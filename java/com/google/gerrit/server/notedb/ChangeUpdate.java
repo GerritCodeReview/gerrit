@@ -61,7 +61,6 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.ProjectCache;
@@ -124,7 +123,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         ChangeNotes notes, CurrentUser user, Date when, Comparator<String> labelNameComparator);
   }
 
-  private final AccountCache accountCache;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final RobotCommentUpdate.Factory robotCommentUpdateFactory;
@@ -168,7 +166,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
       NotesMigration migration,
-      AccountCache accountCache,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
@@ -181,7 +178,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         cfg,
         serverIdent,
         migration,
-        accountCache,
         updateManagerFactory,
         draftUpdateFactory,
         robotCommentUpdateFactory,
@@ -198,7 +194,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
       NotesMigration migration,
-      AccountCache accountCache,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
@@ -212,7 +207,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         cfg,
         serverIdent,
         migration,
-        accountCache,
         updateManagerFactory,
         draftUpdateFactory,
         robotCommentUpdateFactory,
@@ -234,7 +228,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
       NotesMigration migration,
-      AccountCache accountCache,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
@@ -245,7 +238,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted Comparator<String> labelNameComparator,
       ChangeNoteUtil noteUtil) {
     super(cfg, migration, notes, user, serverIdent, noteUtil, when);
-    this.accountCache = accountCache;
     this.updateManagerFactory = updateManagerFactory;
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
@@ -258,7 +250,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
       NotesMigration migration,
-      AccountCache accountCache,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
@@ -281,7 +272,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         realAccountId,
         authorIdent,
         when);
-    this.accountCache = accountCache;
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
     this.updateManagerFactory = updateManagerFactory;
@@ -861,8 +851,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private StringBuilder addIdent(StringBuilder sb, Account.Id accountId) {
-    Account account = accountCache.get(accountId).getAccount();
-    PersonIdent ident = newIdent(account, when);
+    PersonIdent ident = newIdent(accountId, when);
 
     PersonIdent.appendSanitized(sb, ident.getName());
     sb.append(" <");

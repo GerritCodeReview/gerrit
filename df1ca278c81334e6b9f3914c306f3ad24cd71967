@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "9b7e72fe_2210b654",
+        "filename": "java/com/google/gerrit/server/audit/group/GroupAuditEvent.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-02T14:34:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f738e987_8287b837",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 27
+      },
+      "revId": "df1ca278c81334e6b9f3914c306f3ad24cd71967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8269911a_b05c9fcf",
         "filename": "java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
         "patchSetId": 4
@@ -68,6 +92,30 @@
       "revId": "df1ca278c81334e6b9f3914c306f3ad24cd71967",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f762b7fb_3b078a66",
+        "filename": "java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-02T14:34:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8269911a_b05c9fcf",
+      "range": {
+        "startLine": 203,
+        "startChar": 12,
+        "endLine": 203,
+        "endChar": 13
+      },
+      "revId": "df1ca278c81334e6b9f3914c306f3ad24cd71967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +211,30 @@
       "revId": "df1ca278c81334e6b9f3914c306f3ad24cd71967",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51715ca2_13ab3db2",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-02T14:34:05Z",
+      "side": 1,
+      "message": "To use AccountGroup.UUID, we now need to do most of the work in this commit.",
+      "parentUuid": "4357d30a_5eee9b80",
+      "range": {
+        "startLine": 388,
+        "startChar": 4,
+        "endLine": 392,
+        "endChar": 5
+      },
+      "revId": "df1ca278c81334e6b9f3914c306f3ad24cd71967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

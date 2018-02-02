@@ -98,10 +98,10 @@ public class GitOverHttpServlet extends GitServlet {
 
   static class Module extends AbstractModule {
 
-    private final boolean enableReceive;
+    private final boolean enableMasterFeatures;
 
-    Module(boolean enableReceive) {
-      this.enableReceive = enableReceive;
+    Module(boolean enableMasterFeatures) {
+      this.enableMasterFeatures = enableMasterFeatures;
     }
 
     @Override
@@ -110,7 +110,7 @@ public class GitOverHttpServlet extends GitServlet {
       bind(UploadFactory.class);
       bind(UploadFilter.class);
       bind(new TypeLiteral<ReceivePackFactory<HttpServletRequest>>() {})
-          .to(enableReceive ? ReceiveFactory.class : DisabledReceiveFactory.class);
+          .to(enableMasterFeatures ? ReceiveFactory.class : SlaveModeReceiveFactory.class);
       bind(ReceiveFilter.class);
       install(
           new CacheModule() {
@@ -313,6 +313,8 @@ public class GitOverHttpServlet extends GitServlet {
 
       if (!(userProvider.get().isIdentifiedUser())) {
         // Anonymous users are not permitted to push.
+        // The first Git request always happens unauthorized. We have to use exactly this exception
+        // to prompt Git to send an authorized request.
         throw new ServiceNotAuthorizedException();
       }
 
@@ -325,11 +327,42 @@ public class GitOverHttpServlet extends GitServlet {
     }
   }
 
-  static class DisabledReceiveFactory implements ReceivePackFactory<HttpServletRequest> {
+  static class SlaveModeReceiveFactory implements ReceivePackFactory<HttpServletRequest> {
+    private final Provider<CurrentUser> userProvider;
+    private final ReceiveFactory receiveFactory;
+
+    @Inject
+    public SlaveModeReceiveFactory(
+        Provider<CurrentUser> userProvider, ReceiveFactory receiveFactory) {
+      this.userProvider = userProvider;
+      this.receiveFactory = receiveFactory;
+    }
+
     @Override
     public ReceivePack create(HttpServletRequest req, Repository db)
-        throws ServiceNotEnabledException {
-      throw new ServiceNotEnabledException();
+        throws ServiceNotEnabledException, ServiceNotAuthorizedException {
+
+      if (!(userProvider.get().isIdentifiedUser())) {
+        // The first Git request always happens unauthorized. We have to use exactly this exception
+        // to prompt Git to send an authorized request.
+        throw new ServiceNotAuthorizedException();
+      }
+
+      // TODO(aliceks): Read from config and accept any account identifier.
+      // TODO(aliceks): Consider to let only requests to group branches pass here.
+      boolean isReplicationUser =
+          userProvider
+              .get()
+              .asIdentifiedUser()
+              .getUserName()
+              .filter("replicationuser"::equals)
+              .isPresent();
+      if (!isReplicationUser) {
+        // Most pushes are disabled in slave mode.
+        throw new ServiceNotEnabledException();
+      }
+
+      return receiveFactory.create(req, db);
     }
   }
 

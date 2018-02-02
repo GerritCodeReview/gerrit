@@ -123,9 +123,9 @@ maven_jar(
 
 maven_jar(
     name = "jsinterop_annotations",
-    artifact = "com.google.jsinterop:jsinterop-annotations:1.0.0",
-    sha1 = "23c3a3c060ffe4817e67673cc8294e154b0a4a95",
-    src_sha1 = "5d7c478efbfccc191430d7c118d7bd2635e43750",
+    artifact = "com.google.jsinterop:jsinterop-annotations:1.0.2",
+    sha1 = "abd7319f53d018e11108a88f599bd16492448dd2",
+    src_sha1 = "33716f8aef043f2f02b78ab4a1acda6cd90a7602",
 )
 
 maven_jar(

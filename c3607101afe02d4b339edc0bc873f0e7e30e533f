@@ -22,6 +22,30 @@
       "revId": "c3607101afe02d4b339edc0bc873f0e7e30e533f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "60d59f87_7769fe6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-02T21:15:09Z",
+      "side": 1,
+      "message": "Yes, messed up and added the reference to this change instead. Done.",
+      "parentUuid": "ab926244_0a1ed35c",
+      "range": {
+        "startLine": 9,
+        "startChar": 60,
+        "endLine": 9,
+        "endChar": 70
+      },
+      "revId": "c3607101afe02d4b339edc0bc873f0e7e30e533f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

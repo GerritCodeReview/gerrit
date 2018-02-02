@@ -419,10 +419,8 @@ public class PrimaryStorageMigrator {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       for (Ref draftRef :
           repo.getRefDatabase().getRefs(RefNames.refsDraftCommentsPrefix(id)).values()) {
-        Account.Id accountId = Account.Id.fromRef(draftRef.getName());
-        if (accountId != null) {
-          draftIds.put(accountId, draftRef.getObjectId().copy());
-        }
+        Account.Id.fromRef(draftRef.getName())
+            .ifPresent(accountId -> draftIds.put(accountId, draftRef.getObjectId().copy()));
       }
     }
     NoteDbChangeState newState =

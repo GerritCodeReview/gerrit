@@ -9,5 +9,6 @@ junit_tests(
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:gwtorm",
         "//lib:truth",
+        "//lib:truth-java8-extension",
     ],
 )

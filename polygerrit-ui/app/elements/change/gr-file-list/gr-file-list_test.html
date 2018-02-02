@@ -652,6 +652,47 @@ limitations under the License.
       assert.isTrue(tapSpy.lastCall.args[0].defaultPrevented);
     });
 
+    test('_handleFileListTap', () => {
+      element._files = [
+        {__path: '/COMMIT_MSG'},
+        {__path: 'f1.txt'},
+        {__path: 'f2.txt'},
+      ];
+      element.changeNum = '42';
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '2',
+      };
+
+      const tapSpy = sandbox.spy(element, '_handleFileListTap');
+      const reviewStub = sandbox.stub(element, '_reviewFile');
+      const toggleExpandSpy = sandbox.spy(element, '_togglePathExpanded');
+
+      const row = Polymer.dom(element.root)
+          .querySelector('.row[data-path="f1.txt"]');
+
+      // Click on the expand button, resulting in _togglePathExpanded being
+      // called and not resulting in a call to _reviewFile.
+      row.querySelector('div.show-hide').click();
+      assert.isTrue(tapSpy.calledOnce);
+      assert.isTrue(toggleExpandSpy.calledOnce);
+      assert.isFalse(reviewStub.called);
+
+      // Click inside the diff. This should result in no additional calls to
+      // _togglePathExpanded or _reviewFile.
+      Polymer.dom(element.root).querySelector('gr-diff').click();
+      assert.isTrue(tapSpy.calledTwice);
+      assert.isTrue(toggleExpandSpy.calledOnce);
+      assert.isFalse(reviewStub.called);
+
+      // Click the reviewed checkbox, resulting in a call to _reviewFile, but
+      // no additional call to _togglePathExpanded.
+      row.querySelector('.markReviewed').click();
+      assert.isTrue(tapSpy.calledThrice);
+      assert.isTrue(toggleExpandSpy.calledOnce);
+      assert.isTrue(reviewStub.calledOnce);
+    });
+
     test('patch set from revisions', () => {
       const expected = [
         {num: 4, desc: 'test'},

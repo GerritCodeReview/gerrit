@@ -85,7 +85,7 @@ class AuditLogReader {
           AccountGroupMemberAudit audit = adds.remove(0);
           audit.removed(pc.authorId(), pc.when());
         } else {
-          // Match old behavior of DbGroupMemberAuditListener and add a "legacy" add/remove pair.
+          // Match old behavior of DbGroupAuditListener and add a "legacy" add/remove pair.
           AccountGroupMemberAudit audit =
               new AccountGroupMemberAudit(
                   new AccountGroupMemberAudit.Key(id, groupId, pc.when()), pc.authorId());
@@ -122,7 +122,7 @@ class AuditLogReader {
           AccountGroupByIdAud audit = adds.remove(0);
           audit.removed(pc.authorId(), pc.when());
         } else {
-          // Unlike members, DbGroupMemberAuditListener didn't insert an add/remove pair here.
+          // Unlike members, DbGroupAuditListener didn't insert an add/remove pair here.
         }
       }
     }

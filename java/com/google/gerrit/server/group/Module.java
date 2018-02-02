@@ -15,10 +15,10 @@ public class Module extends FactoryModule {
   @Override
   protected void configure() {
     if (!groupsMigration.disableGroupReviewDb()) {
-      // DbGroupMemberAuditListener is used solely for the ReviewDb audit log. It does not respect
+      // DbGroupAuditListener is used solely for the ReviewDb audit log. It does not respect
       // ReviewDb wrappers that disable reads. Hence, we don't want to bind it if ReviewDb is
       // disabled.
-      DynamicSet.bind(binder(), GroupAuditListener.class).to(DbGroupMemberAuditListener.class);
+      DynamicSet.bind(binder(), GroupAuditListener.class).to(DbGroupAuditListener.class);
     }
   }
 }

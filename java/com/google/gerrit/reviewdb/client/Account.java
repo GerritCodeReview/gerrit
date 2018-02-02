@@ -243,6 +243,10 @@ public final class Account {
     if (preferredEmail != null) {
       return preferredEmail;
     }
+    return getName(accountId);
+  }
+
+  public static String getName(Account.Id accountId) {
     return "GerritAccount #" + accountId.get();
   }
 

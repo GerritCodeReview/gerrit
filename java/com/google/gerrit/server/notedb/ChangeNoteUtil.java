@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gson.Gson;
@@ -47,6 +48,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -130,9 +132,12 @@ public class ChangeNoteUtil {
   }
 
   public PersonIdent newIdent(Account.Id authorId, Date when, PersonIdent serverIdent) {
-    Account author = accountCache.get(authorId).getAccount();
+    Optional<Account> author = accountCache.maybeGet(authorId).map(AccountState::getAccount);
     return new PersonIdent(
-        author.getName(), author.getId().get() + "@" + serverId, when, serverIdent.getTimeZone());
+        author.map(Account::getName).orElseGet(() -> Account.getName(authorId)),
+        authorId.get() + "@" + serverId,
+        when,
+        serverIdent.getTimeZone());
   }
 
   @VisibleForTesting

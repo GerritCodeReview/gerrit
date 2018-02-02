@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "beacf3c4_ed4001a6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-02T23:05:53Z",
+      "side": 1,
+      "message": "I don\u0027t think the star would ever show in this section would it? in that case I think this can be removed, and the hidden attribute after will always take effect.",
+      "range": {
+        "startLine": 73,
+        "startChar": 28,
+        "endLine": 73,
+        "endChar": 52
+      },
+      "revId": "bdec6dd460ad13945adca990abca9500e15a9331",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

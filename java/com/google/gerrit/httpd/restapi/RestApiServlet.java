@@ -518,7 +518,7 @@ public class RestApiServlet extends HttpServlet {
     String method = qp.xdMethod();
     String contentType = qp.xdContentType();
     if (method.equals("POST") || method.equals("PUT")) {
-      if (!PLAIN_TEXT.equals(req.getContentType())) {
+      if (!isType(PLAIN_TEXT, req.getContentType())) {
         throw new BadRequestException("invalid " + CONTENT_TYPE);
       } else if (Strings.isNullOrEmpty(contentType)) {
         throw new BadRequestException(XD_CONTENT_TYPE + " required");

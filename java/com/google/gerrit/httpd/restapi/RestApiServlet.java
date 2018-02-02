@@ -1078,12 +1078,10 @@ public class RestApiServlet extends HttpServlet {
         return new ViewData(p.get(0), view);
       }
       view = views.get(p.get(0), "GET." + viewname);
-      if (view != null) {
-        if (view instanceof AcceptsPost && "POST".equals(method)) {
-          @SuppressWarnings("unchecked")
-          AcceptsPost<RestResource> ap = (AcceptsPost<RestResource>) view;
-          return new ViewData(p.get(0), ap.post(rsrc));
-        }
+      if (view != null && view instanceof AcceptsPost && "POST".equals(method)) {
+        @SuppressWarnings("unchecked")
+        AcceptsPost<RestResource> ap = (AcceptsPost<RestResource>) view;
+        return new ViewData(p.get(0), ap.post(rsrc));
       }
       throw new ResourceNotFoundException(projection);
     }

@@ -189,6 +189,7 @@ public class RestApiServlet extends HttpServlet {
   public static final String XD_METHOD = "$m";
 
   private static final int HEAP_EST_SIZE = 10 * 8 * 1024; // Presize 10 blocks.
+  private static final String PLAIN_TEXT = "text/plain";
 
   /**
    * Garbage prefix inserted before JSON output to prevent XSSI.
@@ -517,7 +518,7 @@ public class RestApiServlet extends HttpServlet {
     String method = qp.xdMethod();
     String contentType = qp.xdContentType();
     if (method.equals("POST") || method.equals("PUT")) {
-      if (!"text/plain".equals(req.getContentType())) {
+      if (!PLAIN_TEXT.equals(req.getContentType())) {
         throw new BadRequestException("invalid " + CONTENT_TYPE);
       } else if (Strings.isNullOrEmpty(contentType)) {
         throw new BadRequestException(XD_CONTENT_TYPE + " required");
@@ -594,7 +595,7 @@ public class RestApiServlet extends HttpServlet {
 
     res.setStatus(SC_OK);
     setCorsHeaders(res, origin);
-    res.setContentType("text/plain");
+    res.setContentType(PLAIN_TEXT);
     res.setContentLength(0);
   }
 
@@ -748,7 +749,7 @@ public class RestApiServlet extends HttpServlet {
       return null;
     } else if (hasNoBody(req)) {
       return createInstance(type);
-    } else if (isType("text/plain", req.getContentType())) {
+    } else if (isType(PLAIN_TEXT, req.getContentType())) {
       try (BufferedReader br = req.getReader()) {
         char[] tmp = new char[256];
         StringBuilder sb = new StringBuilder();
@@ -1013,7 +1014,7 @@ public class RestApiServlet extends HttpServlet {
     }
     res.setHeader("X-FYI-Content-Encoding", "base64");
     res.setHeader("X-FYI-Content-Type", src.getContentType());
-    return b64.setContentType("text/plain").setCharacterEncoding(ISO_8859_1);
+    return b64.setContentType(PLAIN_TEXT).setCharacterEncoding(ISO_8859_1);
   }
 
   private static BinaryResult stackGzip(HttpServletResponse res, BinaryResult src)
@@ -1225,7 +1226,7 @@ public class RestApiServlet extends HttpServlet {
     if (!text.endsWith("\n")) {
       text += "\n";
     }
-    return replyBinaryResult(req, res, BinaryResult.create(text).setContentType("text/plain"));
+    return replyBinaryResult(req, res, BinaryResult.create(text).setContentType(PLAIN_TEXT));
   }
 
   private static boolean isMaybeHTML(String text) {

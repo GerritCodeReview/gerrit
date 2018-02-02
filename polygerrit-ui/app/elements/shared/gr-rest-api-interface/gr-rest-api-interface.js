@@ -311,7 +311,9 @@
 
     getGroupConfig(group) {
       const encodeName = encodeURIComponent(group);
-      return this.fetchJSON(`/groups/${encodeName}/detail`);
+      return this.fetchJSON(`/groups/${encodeName}/detail`, err => {
+        throw Error(`Error: ${err.status}: ${err.statusText}`);
+      });
     },
 
     /**

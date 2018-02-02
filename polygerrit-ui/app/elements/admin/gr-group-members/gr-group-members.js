@@ -64,7 +64,6 @@
 
     attached() {
       this._loadGroupDetails();
-
       this.fire('title-change', {title: 'Members'});
     },
 
@@ -101,6 +100,9 @@
             return Promise.all(promises).then(() => {
               this._loading = false;
             });
+          }, err => {
+            this.dispatchEvent(new CustomEvent('show-alert',
+                {detail: {message: 'ERROR'}, bubbles: true}));
           });
     },
 

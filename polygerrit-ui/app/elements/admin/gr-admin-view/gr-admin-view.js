@@ -39,6 +39,7 @@
     view: 'gr-plugin-list',
   }];
 
+  const GLOBAL_GROUP_PREFIX = 'global:';
   const ACCOUNT_CAPABILITIES = ['createProject', 'createGroup', 'viewPlugins'];
 
   Polymer({
@@ -157,15 +158,18 @@
             name: this._groupName,
             view: Gerrit.Nav.View.GROUP,
             url: Gerrit.Nav.getUrlForGroup(this._groupId),
-            children: [
-              {
-                name: 'Members',
-                detailType: Gerrit.Nav.GroupDetailView.MEMBERS,
-                view: Gerrit.Nav.View.GROUP,
-                url: Gerrit.Nav.getUrlForGroupMembers(this._groupId),
-              },
-            ],
+            children: [],
           };
+          if (!this._groupName.startsWith(GLOBAL_GROUP_PREFIX)) {
+            linkCopy.subsection.children.push(
+                {
+                  name: 'Members',
+                  detailType: Gerrit.Nav.GroupDetailView.MEMBERS,
+                  view: Gerrit.Nav.View.GROUP,
+                  url: Gerrit.Nav.getUrlForGroupMembers(this._groupId),
+                }
+            );
+          }
           if (this._isAdmin || this._groupOwner) {
             linkCopy.subsection.children.push(
                 {

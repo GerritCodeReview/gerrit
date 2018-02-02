@@ -45,6 +45,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.slf4j.Logger;
@@ -170,7 +171,15 @@ public class ChangeResource implements RestResource, HasETag {
     } catch (OrmException e) {
       // This ETag will be invalidated if it loads next time.
     }
-    accounts.stream().forEach(a -> hashAccount(h, accountCache.get(a), buf));
+
+    for (Account.Id accountId : accounts) {
+      Optional<AccountState> accountState = accountCache.maybeGet(accountId);
+      if (accountState.isPresent()) {
+        hashAccount(h, accountState.get(), buf);
+      } else {
+        h.putInt(accountId.get());
+      }
+    }
 
     ObjectId noteId;
     try {
@@ -211,6 +220,7 @@ public class ChangeResource implements RestResource, HasETag {
   }
 
   private void hashAccount(Hasher h, AccountState accountState, byte[] buf) {
+    h.putInt(accountState.getAccount().getId().get());
     h.putString(
         MoreObjects.firstNonNull(accountState.getAccount().getMetaId(), ZERO_ID_STRING), UTF_8);
     accountState.getExternalIds().stream().forEach(e -> hashObjectId(h, e.blobId(), buf));

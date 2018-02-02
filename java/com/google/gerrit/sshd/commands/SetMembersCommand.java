@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.InternalGroup;
@@ -40,6 +41,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -139,9 +141,14 @@ public class SetMembersCommand extends SshCommand {
         accountIdList
             .stream()
             .map(
-                accountId ->
-                    MoreObjects.firstNonNull(
-                        accountCache.get(accountId).getAccount().getPreferredEmail(), "n/a"))
+                accountId -> {
+                  Optional<AccountState> accountState = accountCache.maybeGet(accountId);
+                  if (!accountState.isPresent()) {
+                    return "n/a";
+                  }
+                  return MoreObjects.firstNonNull(
+                      accountState.get().getAccount().getPreferredEmail(), "n/a");
+                })
             .collect(joining(", "));
     out.write(
         String.format("Members %s group %s: %s\n", action, group.getName(), names).getBytes(ENC));

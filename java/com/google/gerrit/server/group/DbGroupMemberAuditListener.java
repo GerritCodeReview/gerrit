@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.audit.GroupMemberAuditListener;
@@ -36,6 +37,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import org.slf4j.Logger;
 
 class DbGroupMemberAuditListener implements GroupMemberAuditListener {
@@ -156,7 +158,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
     List<String> descriptions = new ArrayList<>();
     for (AccountGroupMember m : values) {
       Account.Id accountId = m.getAccountId();
-      String userName = accountCache.get(accountId).getUserName().orElse(null);
+      String userName = getUserName(accountId).orElse(null);
       AccountGroup.Id groupId = m.getAccountGroupId();
       String groupName = getGroupName(groupId);
 
@@ -193,9 +195,13 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
     message.append(" ");
     message.append(me);
     message.append("/");
-    message.append(accountCache.get(me).getUserName().orElse(null));
+    message.append(getUserName(me).orElse(null));
     message.append(": ");
     message.append(Joiner.on("; ").join(values));
     log.error(message.toString(), e);
+  }
+
+  private Optional<String> getUserName(Account.Id accountId) {
+    return accountCache.maybeGet(accountId).map(AccountState::getUserName).orElse(Optional.empty());
   }
 }

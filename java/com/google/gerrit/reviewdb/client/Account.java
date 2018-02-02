@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import java.sql.Timestamp;
+import java.util.Optional;
 
 /**
  * Information about a single user.
@@ -94,10 +95,12 @@ public final class Account {
     }
 
     /** Parse an Account.Id out of a string representation. */
-    public static Id parse(String str) {
-      Id r = new Id();
-      r.fromString(str);
-      return r;
+    public static Optional<Id> tryParse(String str) {
+      try {
+        return Optional.of(new Id(Integer.parseInt(str)));
+      } catch (NumberFormatException e) {
+        return Optional.empty();
+      }
     }
 
     public static Id fromRef(String name) {

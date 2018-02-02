@@ -71,6 +71,30 @@
       "revId": "25b97393c93549fc34faae8730b03ccd406057a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cfe71bde_04c36fe7",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-02T15:32:31Z",
+      "side": 1,
+      "message": "Thanks, I see I was wrong about us never using that string anywhere.",
+      "parentUuid": "7e95842c_d45f4023",
+      "range": {
+        "startLine": 137,
+        "startChar": 45,
+        "endLine": 137,
+        "endChar": 58
+      },
+      "revId": "25b97393c93549fc34faae8730b03ccd406057a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

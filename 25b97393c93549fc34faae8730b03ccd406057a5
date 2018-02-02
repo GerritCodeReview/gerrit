@@ -23,6 +23,30 @@
       "revId": "25b97393c93549fc34faae8730b03ccd406057a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca98dc0f_3cc8518a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-02T14:57:39Z",
+      "side": 1,
+      "message": "Yes, I also don\u0027t like this name, but this change does only refactoring and doesn\u0027t want to change the behaviour. \"GerritAccount #\" + authorId is what you get from the Account#getName method on an empty/missing account. I\u0027m fine with changing the name, but this should rather be a follow-up change.",
+      "parentUuid": "89653d06_d703df01",
+      "range": {
+        "startLine": 137,
+        "startChar": 45,
+        "endLine": 137,
+        "endChar": 58
+      },
+      "revId": "25b97393c93549fc34faae8730b03ccd406057a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

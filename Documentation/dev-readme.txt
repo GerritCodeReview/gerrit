@@ -266,7 +266,7 @@ the browser and on the server side.
 
 Google Web Toolkit:
 
-* http://code.google.com/webtoolkit/download.html[Download]
+* http://www.gwtproject.org/download.html[Download]
 
 Apache SSHD:
 

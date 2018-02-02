@@ -78,6 +78,8 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Fields indexed on change documents.
@@ -90,6 +92,8 @@ import org.eclipse.jgit.lib.PersonIdent;
  * unambiguous derived field names containing other characters.
  */
 public class ChangeField {
+  private static final Logger log = LoggerFactory.getLogger(ChangeField.class);
+
   public static final int NO_ASSIGNEE = -1;
 
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
@@ -253,18 +257,42 @@ public class ChangeField {
     ImmutableTable.Builder<ReviewerStateInternal, Account.Id, Timestamp> b =
         ImmutableTable.builder();
     for (String v : values) {
+
       int f = v.indexOf(',');
       if (f < 0) {
+        log.error("Invalid value for reviewer field: %s", v);
         continue;
       }
+
       int l = v.lastIndexOf(',');
       if (l == f) {
+        log.error("Invalid value for reviewer field: %s", v);
         continue;
       }
-      b.put(
-          ReviewerStateInternal.valueOf(v.substring(0, f)),
-          Account.Id.parse(v.substring(f + 1, l)),
-          new Timestamp(Long.valueOf(v.substring(l + 1, v.length()))));
+
+      ReviewerStateInternal reviewerState;
+      try {
+        reviewerState = ReviewerStateInternal.valueOf(v.substring(0, f));
+      } catch (IllegalArgumentException e) {
+        log.error("Failed to parse reviewer state from reviewer field: %s", v);
+        continue;
+      }
+
+      Account.Id accountId = Account.Id.parse(v.substring(f + 1, l));
+      if (accountId == null) {
+        log.error("Failed to parse account ID from reviewer field: %s", v);
+        continue;
+      }
+
+      Timestamp timestamp;
+      try {
+        timestamp = new Timestamp(Long.valueOf(v.substring(l + 1, v.length())));
+      } catch (NumberFormatException e) {
+        log.error("Failed to parse timestamp from reviewer field: %s", v);
+        continue;
+      }
+
+      b.put(reviewerState, accountId, timestamp);
     }
     return ReviewerSet.fromTable(b.build());
   }
@@ -274,16 +302,39 @@ public class ChangeField {
     for (String v : values) {
       int f = v.indexOf(',');
       if (f < 0) {
+        log.error("Invalid value for reviewer by email field: %s", v);
         continue;
       }
+
       int l = v.lastIndexOf(',');
       if (l == f) {
+        log.error("Invalid value for reviewer by email field: %s", v);
         continue;
       }
-      b.put(
-          ReviewerStateInternal.valueOf(v.substring(0, f)),
-          Address.parse(v.substring(f + 1, l)),
-          new Timestamp(Long.valueOf(v.substring(l + 1, v.length()))));
+
+      ReviewerStateInternal reviewerState;
+      try {
+        reviewerState = ReviewerStateInternal.valueOf(v.substring(0, f));
+      } catch (IllegalArgumentException e) {
+        log.error("Failed to parse reviewer state from reviewer by email field: %s", v);
+        continue;
+      }
+
+      Address address = Address.tryParse(v.substring(f + 1, l));
+      if (address == null) {
+        log.error("Failed to parse address from reviewer by email field: %s", v);
+        continue;
+      }
+
+      Timestamp timestamp;
+      try {
+        timestamp = new Timestamp(Long.valueOf(v.substring(l + 1, v.length())));
+      } catch (NumberFormatException e) {
+        log.error("Failed to parse timestamp from reviewer by email field: %s", v);
+        continue;
+      }
+
+      b.put(reviewerState, address, timestamp);
     }
     return ReviewerByEmailSet.fromTable(b.build());
   }

@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import java.sql.Timestamp;
+import java.util.Optional;
 
 /**
  * Information about a single user.
@@ -100,9 +101,9 @@ public final class Account {
       return r;
     }
 
-    public static Id fromRef(String name) {
+    public static Optional<Id> fromRef(String name) {
       if (name == null) {
-        return null;
+        return Optional.empty();
       }
       if (name.startsWith(REFS_USERS)) {
         return fromRefPart(name.substring(REFS_USERS.length()));
@@ -111,7 +112,7 @@ public final class Account {
       } else if (name.startsWith(REFS_STARRED_CHANGES)) {
         return parseAfterShardedRefPart(name.substring(REFS_STARRED_CHANGES.length()));
       }
-      return null;
+      return Optional.empty();
     }
 
     /**
@@ -120,14 +121,14 @@ public final class Account {
      * @param name a ref name with the following syntax: {@code "34/1234..."}. We assume that the
      *     caller has trimmed any prefix.
      */
-    public static Id fromRefPart(String name) {
+    public static Optional<Id> fromRefPart(String name) {
       Integer id = RefNames.parseShardedRefPart(name);
-      return id != null ? new Account.Id(id) : null;
+      return Optional.ofNullable(id).map(Account.Id::new);
     }
 
-    public static Id parseAfterShardedRefPart(String name) {
+    public static Optional<Id> parseAfterShardedRefPart(String name) {
       Integer id = RefNames.parseAfterShardedRefPart(name);
-      return id != null ? new Account.Id(id) : null;
+      return Optional.ofNullable(id).map(Account.Id::new);
     }
 
     /**
@@ -138,11 +139,11 @@ public final class Account {
      * greater safety.
      *
      * @param name ref name
-     * @return account ID, or null if not numeric.
+     * @return account ID, or {@link Optional#empty()} if not numeric.
      */
-    public static Id fromRefSuffix(String name) {
+    public static Optional<Id> fromRefSuffix(String name) {
       Integer id = RefNames.parseRefSuffix(name);
-      return id != null ? new Account.Id(id) : null;
+      return Optional.ofNullable(id).map(Account.Id::new);
     }
   }
 

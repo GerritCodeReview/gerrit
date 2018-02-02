@@ -16,6 +16,7 @@ package com.google.gerrit.server.schema;
 
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -29,7 +30,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -60,7 +60,7 @@ public class Schema_147 extends SchemaVersion {
               .values()
               .stream()
               .map(r -> Account.Id.fromRef(r.getName()))
-              .filter(Objects::nonNull)
+              .flatMap(Streams::stream)
               .collect(toSet());
       accountIdsFromUserBranches.removeAll(accountIdsFromReviewDb);
       for (Account.Id accountId : accountIdsFromUserBranches) {

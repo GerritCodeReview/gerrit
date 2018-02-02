@@ -229,14 +229,13 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   }
 
   private Optional<AuthResult> byAccountId(String idStr) {
-    final Account.Id id;
-    try {
-      id = Account.Id.parse(idStr);
-    } catch (NumberFormatException nfe) {
+    Optional<Account.Id> id = Account.Id.parse(idStr);
+    if (!id.isPresent()) {
       return Optional.empty();
     }
+
     try {
-      return auth(accounts.get(id));
+      return auth(accounts.get(id.get()));
     } catch (IOException | ConfigInvalidException e) {
       getServletContext().log("cannot query database", e);
       return Optional.empty();

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e600776b_a1106dca",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-02T23:01:47Z",
+      "side": 1,
+      "message": "I think we should start using rem in cases like this.  If a user has a default font size browser preference, their text is going to be larger across the board. For this reason, rem should be used instead of px in cases where text is going to be inside an area (here and .cell)",
+      "range": {
+        "startLine": 48,
+        "startChar": 8,
+        "endLine": 48,
+        "endChar": 21
+      },
+      "revId": "28a657415dbf0faf8c963a5e06efd798d2019885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

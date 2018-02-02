@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66211533_a1c42a5a",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-02T19:28:19Z",
+      "side": 1,
+      "message": "Does this override a right alignment somewhere?",
+      "range": {
+        "startLine": 32,
+        "startChar": 8,
+        "endLine": 32,
+        "endChar": 25
+      },
+      "revId": "3d7a2444b83ae428e24fdfbfdb342957c5fa03d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "350f8843_1203e7ec",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-02T19:28:19Z",
+      "side": 1,
+      "message": "What is this for?\n\nIf we don\u0027t align to the baseline, can the cell text become jagged?",
+      "revId": "3d7a2444b83ae428e24fdfbfdb342957c5fa03d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f60027a_b4949f95",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-02T19:28:19Z",
+      "side": 1,
+      "message": "Why is this moved to the shared styles? It doesn\u0027t seem to be what\u0027s shared between the users of the shared styles element (e.g. gr-change-list and gr-change-list-item).",
+      "range": {
+        "startLine": 61,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 19
+      },
+      "revId": "3d7a2444b83ae428e24fdfbfdb342957c5fa03d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

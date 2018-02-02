@@ -436,10 +436,7 @@ public class RestApiServlet extends HttpServlet {
           responseBytes = replyJson(req, res, qp.config(), result);
         }
       }
-    } catch (MalformedJsonException e) {
-      responseBytes =
-          replyError(req, res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request", e);
-    } catch (JsonParseException e) {
+    } catch (MalformedJsonException | JsonParseException e) {
       responseBytes =
           replyError(req, res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request", e);
     } catch (BadRequestException e) {
@@ -922,9 +919,7 @@ public class RestApiServlet extends HttpServlet {
                       FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES.translateName( //
                           field.getDeclaringClass().getDeclaredField(field.getName()));
                   names.put(field.getName(), name);
-                } catch (SecurityException e) {
-                  return true;
-                } catch (NoSuchFieldException e) {
+                } catch (SecurityException | NoSuchFieldException e) {
                   return true;
                 }
               }

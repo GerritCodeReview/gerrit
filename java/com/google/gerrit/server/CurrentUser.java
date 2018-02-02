@@ -125,11 +125,10 @@ public abstract class CurrentUser {
    * Lookup a previously stored property.
    *
    * @param key unique property key.
-   * @return previously stored value, or {@code null}.
+   * @return previously stored value, or {@code Optional#empty()}.
    */
-  @Nullable
-  public <T> T get(PropertyKey<T> key) {
-    return null;
+  public <T> Optional<T> get(PropertyKey<T> key) {
+    return Optional.empty();
   }
 
   /**
@@ -144,7 +143,7 @@ public abstract class CurrentUser {
     put(lastLoginExternalIdPropertyKey, externalIdKey);
   }
 
-  public ExternalId.Key getLastLoginExternalIdKey() {
+  public Optional<ExternalId.Key> getLastLoginExternalIdKey() {
     return get(lastLoginExternalIdPropertyKey);
   }
 }

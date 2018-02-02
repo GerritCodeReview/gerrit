@@ -28,7 +28,6 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Enums;
-import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -77,6 +76,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -273,15 +273,15 @@ public class ChangeField {
         continue;
       }
 
-      Optional<ReviewerStateInternal> reviewerState =
+      com.google.common.base.Optional<ReviewerStateInternal> reviewerState =
           Enums.getIfPresent(ReviewerStateInternal.class, v.substring(0, i));
       if (!reviewerState.isPresent()) {
         log.error("Failed to parse reviewer state from reviewer field: %s", v);
         continue;
       }
 
-      Account.Id accountId = Account.Id.parse(v.substring(i + 1, i2));
-      if (accountId == null) {
+      Optional<Account.Id> accountId = Account.Id.tryParse(v.substring(i + 1, i2));
+      if (!accountId.isPresent()) {
         log.error("Failed to parse account ID from reviewer field: %s", v);
         continue;
       }
@@ -293,7 +293,7 @@ public class ChangeField {
       }
       Timestamp timestamp = new Timestamp(l);
 
-      b.put(reviewerState.get(), accountId, timestamp);
+      b.put(reviewerState.get(), accountId.get(), timestamp);
     }
     return ReviewerSet.fromTable(b.build());
   }
@@ -313,7 +313,7 @@ public class ChangeField {
         continue;
       }
 
-      Optional<ReviewerStateInternal> reviewerState =
+      com.google.common.base.Optional<ReviewerStateInternal> reviewerState =
           Enums.getIfPresent(ReviewerStateInternal.class, v.substring(0, i));
       if (!reviewerState.isPresent()) {
         log.error("Failed to parse reviewer state from reviewer by email field: %s", v);

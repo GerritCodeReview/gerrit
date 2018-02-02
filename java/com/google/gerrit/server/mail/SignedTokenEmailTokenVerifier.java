@@ -78,14 +78,7 @@ public class SignedTokenEmailTokenVerifier implements EmailTokenVerifier {
     if (!matcher.matches()) {
       throw new InvalidTokenException();
     }
-
-    Account.Id id;
-    try {
-      id = Account.Id.parse(matcher.group(1));
-    } catch (IllegalArgumentException err) {
-      throw new InvalidTokenException(err);
-    }
-
+    Account.Id id = Account.Id.parse(matcher.group(1)).orElseThrow(InvalidTokenException::new);
     String newEmail = matcher.group(2);
     return new ParsedToken(id, newEmail);
   }

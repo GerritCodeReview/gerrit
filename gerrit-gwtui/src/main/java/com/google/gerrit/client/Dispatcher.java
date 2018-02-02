@@ -107,6 +107,7 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.http.client.URL;
 import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtorm.client.KeyUtil;
+import java.util.Optional;
 
 public class Dispatcher {
   public static String toPatch(
@@ -308,8 +309,9 @@ public class Dispatcher {
 
   private static void dashboard(String token) {
     String rest = skip(token);
-    if (rest.matches("[0-9]+")) {
-      Gerrit.display(token, new AccountDashboardScreen(Account.Id.parse(rest)));
+    Optional<Account.Id> accountId = Account.Id.parse(rest);
+    if (accountId.isPresent()) {
+      Gerrit.display(token, new AccountDashboardScreen(accountId.get()));
       return;
     }
 

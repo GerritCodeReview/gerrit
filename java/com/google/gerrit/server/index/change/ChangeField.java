@@ -74,6 +74,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -278,8 +279,8 @@ public class ChangeField {
         continue;
       }
 
-      Account.Id accountId = Account.Id.parse(v.substring(f + 1, l));
-      if (accountId == null) {
+      Optional<Account.Id> accountId = Account.Id.parse(v.substring(f + 1, l));
+      if (!accountId.isPresent()) {
         log.error("Failed to parse account ID from reviewer field: %s", v);
         continue;
       }
@@ -292,7 +293,7 @@ public class ChangeField {
         continue;
       }
 
-      b.put(reviewerState, accountId, timestamp);
+      b.put(reviewerState, accountId.get(), timestamp);
     }
     return ReviewerSet.fromTable(b.build());
   }

@@ -430,8 +430,10 @@
         return this._reviewFile(path);
       }
 
-      // If the user clicked the link, defer to the native link behavior.
-      if (this.descendedFromClass(e.target, 'pathLink')) { return; }
+      // If a path cannot be interpreted from the click target (meaning it's not
+      // somewhere in the row, e.g. diff content) or if the user clicked the
+      // link, defer to the native behavior.
+      if (!path || this.descendedFromClass(e.target, 'pathLink')) { return; }
 
       e.preventDefault();
       this._togglePathExpanded(path);

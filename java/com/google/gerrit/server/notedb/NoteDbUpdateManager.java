@@ -560,9 +560,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
       String r = cmd.getRefName();
       if (r.startsWith(REFS_DRAFT_COMMENTS)) {
         Change.Id changeId = Change.Id.fromRefPart(r.substring(REFS_DRAFT_COMMENTS.length()));
-        Account.Id accountId = Account.Id.fromRefSuffix(r);
-        checkDraftRef(accountId != null && changeId != null, r);
-        draftIds.put(changeId, accountId, cmd.getNewId());
+        Optional<Account.Id> accountId = Account.Id.fromRefSuffix(r);
+        checkDraftRef(accountId.isPresent() && changeId != null, r);
+        draftIds.put(changeId, accountId.get(), cmd.getNewId());
       }
     }
     return draftIds;

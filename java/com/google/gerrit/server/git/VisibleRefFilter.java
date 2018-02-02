@@ -55,6 +55,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -156,7 +157,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     for (Ref ref : refs.values()) {
       String name = ref.getName();
       Change.Id changeId;
-      Account.Id accountId;
+      Optional<Account.Id> accountId;
       AccountGroup.UUID accountGroupUuid;
       if (name.startsWith(REFS_CACHE_AUTOMERGE) || (!showMetadata && isMetadata(name))) {
         continue;
@@ -170,9 +171,9 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
         if (viewMetadata || visible(changeId)) {
           result.put(name, ref);
         }
-      } else if ((accountId = Account.Id.fromRef(name)) != null) {
+      } else if ((accountId = Account.Id.fromRef(name)).isPresent()) {
         // Account ref is visible only to the corresponding account.
-        if (viewMetadata || (accountId.equals(userId) && canReadRef(name))) {
+        if (viewMetadata || (accountId.get().equals(userId) && canReadRef(name))) {
           result.put(name, ref);
         }
       } else if ((accountGroupUuid = AccountGroup.UUID.fromRef(name)) != null) {

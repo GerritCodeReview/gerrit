@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
+import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
@@ -39,7 +40,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -314,7 +314,7 @@ public class ProjectResetter implements AutoCloseable {
     return refs.stream()
         .filter(r -> r.startsWith(REFS_USERS))
         .map(r -> Account.Id.fromRef(r))
-        .filter(Objects::nonNull)
+        .flatMap(Streams::stream)
         .collect(toSet());
   }
 }

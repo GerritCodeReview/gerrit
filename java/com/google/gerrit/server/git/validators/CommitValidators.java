@@ -64,6 +64,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -765,15 +766,15 @@ public class CommitValidators {
         return Collections.emptyList();
       }
 
-      Account.Id accountId = Account.Id.fromRef(receiveEvent.refName);
-      if (accountId == null) {
+      Optional<Account.Id> accountId = Account.Id.fromRef(receiveEvent.refName);
+      if (!accountId.isPresent()) {
         return Collections.emptyList();
       }
 
       try (Repository repo = repoManager.openRepository(allUsers)) {
         List<String> errorMessages =
             accountValidator.validate(
-                accountId,
+                accountId.get(),
                 repo,
                 receiveEvent.revWalk,
                 receiveEvent.command.getOldId(),

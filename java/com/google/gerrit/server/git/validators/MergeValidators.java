@@ -46,6 +46,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -267,8 +268,8 @@ public class MergeValidators {
         PatchSet.Id patchSetId,
         IdentifiedUser caller)
         throws MergeValidationException {
-      Account.Id accountId = Account.Id.fromRef(destBranch.get());
-      if (!allUsersName.equals(destProject.getNameKey()) || accountId == null) {
+      Optional<Account.Id> accountId = Account.Id.fromRef(destBranch.get());
+      if (!allUsersName.equals(destProject.getNameKey()) || !accountId.isPresent()) {
         return;
       }
 
@@ -285,7 +286,8 @@ public class MergeValidators {
       }
 
       try (RevWalk rw = new RevWalk(repo)) {
-        List<String> errorMessages = accountValidator.validate(accountId, repo, rw, null, commit);
+        List<String> errorMessages =
+            accountValidator.validate(accountId.get(), repo, rw, null, commit);
         if (!errorMessages.isEmpty()) {
           throw new MergeValidationException(
               "invalid account configuration: " + Joiner.on("; ").join(errorMessages));

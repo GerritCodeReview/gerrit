@@ -1011,10 +1011,8 @@ public class ChangeData {
         for (Map.Entry<String, Ref> e :
             repo.getRefDatabase().getRefs(RefNames.REFS_USERS).entrySet()) {
           if (id.equals(Change.Id.fromEditRefPart(e.getKey()))) {
-            Account.Id accountId = Account.Id.fromRefPart(e.getKey());
-            if (accountId != null) {
-              editsByUser.put(accountId, e.getValue());
-            }
+            Account.Id.fromRefPart(e.getKey())
+                .ifPresent(accountId -> editsByUser.put(accountId, e.getValue()));
           }
         }
       } catch (IOException e) {
@@ -1041,16 +1039,16 @@ public class ChangeData {
       draftsByUser = new HashMap<>();
       if (notesMigration.readChanges()) {
         for (Ref ref : commentsUtil.getDraftRefs(notes.getChangeId())) {
-          Account.Id account = Account.Id.fromRefSuffix(ref.getName());
-          if (account != null
+          Optional<Account.Id> account = Account.Id.fromRefSuffix(ref.getName());
+          if (account.isPresent()
               // Double-check that any drafts exist for this user after
               // filtering out zombies. If some but not all drafts in the ref
               // were zombies, the returned Ref still includes those zombies;
               // this is suboptimal, but is ok for the purposes of
               // draftsByUser(), and easier than trying to rebuild the change at
               // this point.
-              && !notes().getDraftComments(account, ref).isEmpty()) {
-            draftsByUser.put(account, ref);
+              && !notes().getDraftComments(account.get(), ref).isEmpty()) {
+            draftsByUser.put(account.get(), ref);
           }
         }
       } else {

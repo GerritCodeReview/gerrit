@@ -43,6 +43,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Config;
@@ -87,10 +88,10 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
   @Override
   public void onGitReferenceUpdated(Event event) {
     if (allUsersName.get().equals(event.getProjectName())) {
-      Account.Id accountId = Account.Id.fromRef(event.getRefName());
-      if (accountId != null && !event.getRefName().startsWith(RefNames.REFS_STARRED_CHANGES)) {
+      Optional<Account.Id> accountId = Account.Id.fromRef(event.getRefName());
+      if (accountId.isPresent() && !event.getRefName().startsWith(RefNames.REFS_STARRED_CHANGES)) {
         try {
-          accountCache.evict(accountId);
+          accountCache.evict(accountId.get());
         } catch (IOException e) {
           log.error(String.format("Reindex account %s failed.", accountId), e);
         }

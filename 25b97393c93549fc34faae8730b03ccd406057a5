@@ -47,6 +47,30 @@
       "revId": "25b97393c93549fc34faae8730b03ccd406057a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e95842c_d45f4023",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-02T15:27:31Z",
+      "side": 1,
+      "message": "In any case it\u0027s probably bad to repeat this string here. Refactored it.\n\nDone.",
+      "parentUuid": "ca98dc0f_3cc8518a",
+      "range": {
+        "startLine": 137,
+        "startChar": 45,
+        "endLine": 137,
+        "endChar": 58
+      },
+      "revId": "25b97393c93549fc34faae8730b03ccd406057a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

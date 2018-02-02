@@ -16,6 +16,7 @@ package com.google.gerrit.common.data.testing;
 
 import static com.google.common.truth.Truth.assertAbout;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.truth.ComparableSubject;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
@@ -24,6 +25,7 @@ import com.google.common.truth.Truth;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
+@GwtIncompatible("Unemulated com.google.gerrit.common.data.testing.GroupReferenceSubject")
 public class GroupReferenceSubject extends Subject<GroupReferenceSubject, GroupReference> {
 
   public static GroupReferenceSubject assertThat(GroupReference group) {

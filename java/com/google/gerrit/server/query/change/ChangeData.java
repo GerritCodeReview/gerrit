@@ -1011,10 +1011,8 @@ public class ChangeData {
         for (Map.Entry<String, Ref> e :
             repo.getRefDatabase().getRefs(RefNames.REFS_USERS).entrySet()) {
           if (id.equals(Change.Id.fromEditRefPart(e.getKey()))) {
-            Account.Id accountId = Account.Id.fromRefPart(e.getKey());
-            if (accountId != null) {
-              editsByUser.put(accountId, e.getValue());
-            }
+            Account.Id.fromRefPart(e.getKey())
+                .ifPresent(accountId -> editsByUser.put(accountId, e.getValue()));
           }
         }
       } catch (IOException e) {

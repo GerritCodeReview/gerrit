@@ -135,7 +135,7 @@ public class RefOperationValidators {
             } catch (AuthException | PermissionBackendException e) {
               throw new ValidationException("Not allowed to create user branch.");
             }
-            if (Account.Id.fromRef(refEvent.command.getRefName()) == null) {
+            if (!Account.Id.fromRef(refEvent.command.getRefName()).isPresent()) {
               throw new ValidationException(
                   String.format(
                       "Not allowed to create non-user branch under %s.", RefNames.REFS_USERS));

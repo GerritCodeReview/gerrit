@@ -15,6 +15,7 @@
 package com.google.gerrit.reviewdb.client;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.reviewdb.client.Account.Id.fromRef;
 import static com.google.gerrit.reviewdb.client.Account.Id.fromRefPart;
 import static com.google.gerrit.reviewdb.client.Account.Id.fromRefSuffix;
@@ -24,65 +25,65 @@ import org.junit.Test;
 public class AccountTest {
   @Test
   public void parseRefName() {
-    assertThat(fromRef("refs/users/01/1")).isEqualTo(id(1));
-    assertThat(fromRef("refs/users/01/1-drafts")).isEqualTo(id(1));
-    assertThat(fromRef("refs/users/01/1-drafts/2")).isEqualTo(id(1));
-    assertThat(fromRef("refs/users/01/1/edit/2")).isEqualTo(id(1));
+    assertThat(fromRef("refs/users/01/1")).hasValue(id(1));
+    assertThat(fromRef("refs/users/01/1-drafts")).hasValue(id(1));
+    assertThat(fromRef("refs/users/01/1-drafts/2")).hasValue(id(1));
+    assertThat(fromRef("refs/users/01/1/edit/2")).hasValue(id(1));
 
-    assertThat(fromRef(null)).isNull();
-    assertThat(fromRef("")).isNull();
+    assertThat(fromRef(null)).isEmpty();
+    assertThat(fromRef("")).isEmpty();
 
     // Invalid characters.
-    assertThat(fromRef("refs/users/01a/1")).isNull();
-    assertThat(fromRef("refs/users/01/a1")).isNull();
+    assertThat(fromRef("refs/users/01a/1")).isEmpty();
+    assertThat(fromRef("refs/users/01/a1")).isEmpty();
 
     // Mismatched shard.
-    assertThat(fromRef("refs/users/01/23")).isNull();
+    assertThat(fromRef("refs/users/01/23")).isEmpty();
 
     // Shard too short.
-    assertThat(fromRef("refs/users/1/1")).isNull();
+    assertThat(fromRef("refs/users/1/1")).isEmpty();
   }
 
   @Test
   public void parseDraftCommentsRefName() {
-    assertThat(fromRef("refs/draft-comments/35/135/1")).isEqualTo(id(1));
-    assertThat(fromRef("refs/draft-comments/35/135/1-foo/2")).isEqualTo(id(1));
-    assertThat(fromRef("refs/draft-comments/35/135/1/foo/2")).isEqualTo(id(1));
+    assertThat(fromRef("refs/draft-comments/35/135/1")).hasValue(id(1));
+    assertThat(fromRef("refs/draft-comments/35/135/1-foo/2")).hasValue(id(1));
+    assertThat(fromRef("refs/draft-comments/35/135/1/foo/2")).hasValue(id(1));
 
     // Invalid characters.
-    assertThat(fromRef("refs/draft-comments/35a/135/1")).isNull();
-    assertThat(fromRef("refs/draft-comments/35/135a/1")).isNull();
-    assertThat(fromRef("refs/draft-comments/35/135/a1")).isNull();
+    assertThat(fromRef("refs/draft-comments/35a/135/1")).isEmpty();
+    assertThat(fromRef("refs/draft-comments/35/135a/1")).isEmpty();
+    assertThat(fromRef("refs/draft-comments/35/135/a1")).isEmpty();
 
     // Mismatched shard.
-    assertThat(fromRef("refs/draft-comments/02/135/1")).isNull();
+    assertThat(fromRef("refs/draft-comments/02/135/1")).isEmpty();
 
     // Shard too short.
-    assertThat(fromRef("refs/draft-comments/2/2/1")).isNull();
+    assertThat(fromRef("refs/draft-comments/2/2/1")).isEmpty();
   }
 
   @Test
   public void parseStarredChangesRefName() {
-    assertThat(fromRef("refs/starred-changes/35/135/1")).isEqualTo(id(1));
-    assertThat(fromRef("refs/starred-changes/35/135/1-foo/2")).isEqualTo(id(1));
-    assertThat(fromRef("refs/starred-changes/35/135/1/foo/2")).isEqualTo(id(1));
+    assertThat(fromRef("refs/starred-changes/35/135/1")).hasValue(id(1));
+    assertThat(fromRef("refs/starred-changes/35/135/1-foo/2")).hasValue(id(1));
+    assertThat(fromRef("refs/starred-changes/35/135/1/foo/2")).hasValue(id(1));
 
     // Invalid characters.
-    assertThat(fromRef("refs/starred-changes/35a/135/1")).isNull();
-    assertThat(fromRef("refs/starred-changes/35/135a/1")).isNull();
-    assertThat(fromRef("refs/starred-changes/35/135/a1")).isNull();
+    assertThat(fromRef("refs/starred-changes/35a/135/1")).isEmpty();
+    assertThat(fromRef("refs/starred-changes/35/135a/1")).isEmpty();
+    assertThat(fromRef("refs/starred-changes/35/135/a1")).isEmpty();
 
     // Mismatched shard.
-    assertThat(fromRef("refs/starred-changes/02/135/1")).isNull();
+    assertThat(fromRef("refs/starred-changes/02/135/1")).isEmpty();
 
     // Shard too short.
-    assertThat(fromRef("refs/starred-changes/2/2/1")).isNull();
+    assertThat(fromRef("refs/starred-changes/2/2/1")).isEmpty();
   }
 
   @Test
   public void parseRefNameParts() {
-    assertThat(fromRefPart("01/1")).isEqualTo(id(1));
-    assertThat(fromRefPart("ab/cd")).isNull();
+    assertThat(fromRefPart("01/1")).hasValue(id(1));
+    assertThat(fromRefPart("ab/cd")).isEmpty();
   }
 
   @Test

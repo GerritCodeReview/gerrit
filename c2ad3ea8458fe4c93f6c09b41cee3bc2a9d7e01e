@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a843dd6_e0159307",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-02T18:43:54Z",
+      "side": 1,
+      "message": "Should remove this line.",
+      "range": {
+        "startLine": 246,
+        "startChar": 8,
+        "endLine": 246,
+        "endChar": 30
+      },
+      "revId": "c2ad3ea8458fe4c93f6c09b41cee3bc2a9d7e01e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e09ae7d0_2fbbde33",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-02T18:43:54Z",
+      "side": 1,
+      "message": "Small wording nit: can this be \"get\" rather than \"compute\"?\n\nI think we use \"compute\" where it\u0027s the convention in Polymer data bindings, but this is a vanilla method.",
+      "range": {
+        "startLine": 334,
+        "startChar": 27,
+        "endLine": 334,
+        "endChar": 33
+      },
+      "revId": "c2ad3ea8458fe4c93f6c09b41cee3bc2a9d7e01e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8232bedb_c7c18e7f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-02T18:43:54Z",
+      "side": 1,
+      "message": "Should this have been deleted?",
+      "range": {
+        "startLine": 408,
+        "startChar": 2,
+        "endLine": 414,
+        "endChar": 7
+      },
+      "revId": "c2ad3ea8458fe4c93f6c09b41cee3bc2a9d7e01e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

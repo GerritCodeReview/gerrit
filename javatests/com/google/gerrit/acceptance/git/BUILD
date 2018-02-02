@@ -1,27 +1,20 @@
 load("//javatests/com/google/gerrit/acceptance:tests.bzl", "acceptance_tests")
 
+ABSTRACT_TEST_DEFINITIONS_SRC = glob(["Abstract*.java"])
+
 acceptance_tests(
-    srcs = glob(["*IT.java"]),
+    srcs = glob(
+        ["*IT.java"],
+        exclude = ABSTRACT_TEST_DEFINITIONS_SRC,
+    ),
     group = "git",
     labels = ["git"],
-    deps = [
-        ":push_for_review",
-        ":submodule_util",
-    ],
+    deps = [":abstract_test_definitions"],
 )
 
 java_library(
-    name = "push_for_review",
+    name = "abstract_test_definitions",
     testonly = 1,
-    srcs = ["AbstractPushForReview.java"],
-    deps = [
-        "//java/com/google/gerrit/acceptance:lib",
-    ],
-)
-
-java_library(
-    name = "submodule_util",
-    testonly = 1,
-    srcs = ["AbstractSubmoduleSubscription.java"],
+    srcs = ABSTRACT_TEST_DEFINITIONS_SRC,
     deps = ["//java/com/google/gerrit/acceptance:lib"],
 )

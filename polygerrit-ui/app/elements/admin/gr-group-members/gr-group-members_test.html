@@ -58,13 +58,13 @@ limitations under the License.
           _account_id: 1000096,
           name: 'Test User',
           email: 'john.doe@example.com',
-          username: 'john',
         },
         {
           _account_id: 1000095,
           name: 'Gerrit',
-          email: 'gerrit@example.com',
-          username: 'git',
+        },
+        {
+          _account_id: 1000098,
         },
       ];
 
@@ -161,39 +161,41 @@ limitations under the License.
 
       const memberName = 'test-admin';
 
-      sandbox.stub(element.$.restAPI, 'saveGroupMembers', () => {
-        return Promise.resolve({});
-      });
+      const saveStub = sandbox.stub(element.$.restAPI, 'saveGroupMembers',
+          () => {
+            return Promise.resolve({});
+          });
 
       const button = Polymer.dom(element.root).querySelector('gr-button');
 
       assert.isTrue(button.hasAttribute('disabled'));
 
       element.$.groupMemberSearchInput.text = memberName;
+      element.$.groupMemberSearchInput.value = 1234;
 
       assert.isFalse(button.hasAttribute('disabled'));
 
-      element._handleSavingGroupMember().then(() => {
+      return element._handleSavingGroupMember().then(() => {
         assert.isTrue(button.hasAttribute('disabled'));
         assert.isFalse(element.$.Title.classList.contains('edited'));
+        assert.isTrue(saveStub.lastCall.calledWithExactly('Administrators',
+            1234));
       });
     });
 
-    test('_getAccountSuggestions empty', done => {
-      element._getAccountSuggestions('nonexistent').then(accounts => {
+    test('_getAccountSuggestions empty', () => {
+      return element._getAccountSuggestions('nonexistent').then(accounts => {
         assert.equal(accounts.length, 0);
-        done();
       });
     });
 
-    test('_getAccountSuggestions non-empty', done => {
-      element._getAccountSuggestions('test-').then(accounts => {
+    test('_getAccountSuggestions non-empty', () => {
+      return element._getAccountSuggestions('test-').then(accounts => {
         assert.equal(accounts.length, 3);
         assert.equal(accounts[0].name,
             'test-account <test.account@example.com>');
         assert.equal(accounts[1].name, 'test-admin <test.admin@example.com>');
         assert.equal(accounts[2].name, 'test-git');
-        done();
       });
     });
 
@@ -213,6 +215,23 @@ limitations under the License.
       const admin = false;
       const owner = true;
       assert.equal(element._computeHideItemClass(owner, admin), '');
+    });
+
+    test('delete member', () => {
+      const deletelBtns = Polymer.dom(element.root)
+          .querySelectorAll('.deleteButton');
+      MockInteractions.tap(deletelBtns[0]);
+      assert.equal(element._itemId, '1000097');
+      assert.equal(element._itemName, 'jane');
+      MockInteractions.tap(deletelBtns[1]);
+      assert.equal(element._itemId, '1000096');
+      assert.equal(element._itemName, 'Test User');
+      MockInteractions.tap(deletelBtns[2]);
+      assert.equal(element._itemId, '1000095');
+      assert.equal(element._itemName, 'Gerrit');
+      MockInteractions.tap(deletelBtns[3]);
+      assert.equal(element._itemId, '1000098');
+      assert.equal(element._itemName, '1000098');
     });
   });
 </script>

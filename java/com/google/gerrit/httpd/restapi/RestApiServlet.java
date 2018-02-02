@@ -302,7 +302,7 @@ public class RestApiServlet extends HttpServlet {
 
         if (isRead(req)) {
           viewData = new ViewData(null, rc.list());
-        } else if (rc instanceof AcceptsPost && "POST".equals(req.getMethod())) {
+        } else if (rc instanceof AcceptsPost && isPost(req)) {
           @SuppressWarnings("unchecked")
           AcceptsPost<RestResource> ac = (AcceptsPost<RestResource>) rc;
           viewData = new ViewData(null, ac.post(rsrc));
@@ -317,9 +317,7 @@ public class RestApiServlet extends HttpServlet {
             checkPreconditions(req);
           }
         } catch (ResourceNotFoundException e) {
-          if (rc instanceof AcceptsCreate
-              && path.isEmpty()
-              && ("POST".equals(req.getMethod()) || "PUT".equals(req.getMethod()))) {
+          if (rc instanceof AcceptsCreate && path.isEmpty() && (isPost(req) || isPut(req))) {
             @SuppressWarnings("unchecked")
             AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) rc;
             viewData = new ViewData(null, ac.create(rsrc, id));
@@ -342,11 +340,11 @@ public class RestApiServlet extends HttpServlet {
         if (path.isEmpty()) {
           if (isRead(req)) {
             viewData = new ViewData(null, c.list());
-          } else if (c instanceof AcceptsPost && "POST".equals(req.getMethod())) {
+          } else if (c instanceof AcceptsPost && isPost(req)) {
             @SuppressWarnings("unchecked")
             AcceptsPost<RestResource> ac = (AcceptsPost<RestResource>) c;
             viewData = new ViewData(null, ac.post(rsrc));
-          } else if (c instanceof AcceptsDelete && "DELETE".equals(req.getMethod())) {
+          } else if (c instanceof AcceptsDelete && isDelete(req)) {
             @SuppressWarnings("unchecked")
             AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) c;
             viewData = new ViewData(null, ac.delete(rsrc, null));
@@ -361,16 +359,12 @@ public class RestApiServlet extends HttpServlet {
           checkPreconditions(req);
           viewData = new ViewData(null, null);
         } catch (ResourceNotFoundException e) {
-          if (c instanceof AcceptsCreate
-              && path.isEmpty()
-              && ("POST".equals(req.getMethod()) || "PUT".equals(req.getMethod()))) {
+          if (c instanceof AcceptsCreate && path.isEmpty() && (isPost(req) || isPut(req))) {
             @SuppressWarnings("unchecked")
             AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) c;
             viewData = new ViewData(viewData.pluginName, ac.create(rsrc, id));
             status = SC_CREATED;
-          } else if (c instanceof AcceptsDelete
-              && path.isEmpty()
-              && "DELETE".equals(req.getMethod())) {
+          } else if (c instanceof AcceptsDelete && path.isEmpty() && isDelete(req)) {
             @SuppressWarnings("unchecked")
             AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) c;
             viewData = new ViewData(viewData.pluginName, ac.delete(rsrc, id));
@@ -516,7 +510,7 @@ public class RestApiServlet extends HttpServlet {
 
   private static HttpServletRequest applyXdOverrides(HttpServletRequest req, QueryParams qp)
       throws BadRequestException {
-    if (!"POST".equals(req.getMethod())) {
+    if (!isPost(req)) {
       throw new BadRequestException("POST required");
     }
 
@@ -750,7 +744,7 @@ public class RestApiServlet extends HttpServlet {
       }
     } else if (rawInputRequest(req, type)) {
       return parseRawInput(req, type);
-    } else if ("DELETE".equals(req.getMethod()) && hasNoBody(req)) {
+    } else if (isDelete(req) && hasNoBody(req)) {
       return null;
     } else if (hasNoBody(req)) {
       return createInstance(type);
@@ -764,7 +758,7 @@ public class RestApiServlet extends HttpServlet {
         }
         return parseString(sb.toString(), type);
       }
-    } else if ("POST".equals(req.getMethod()) && isType(FORM_TYPE, req.getContentType())) {
+    } else if (isPost(req) && isType(FORM_TYPE, req.getContentType())) {
       return OutputFormat.JSON.newGson().fromJson(ParameterParser.formToJson(req), type);
     } else {
       throw new BadRequestException("Expected Content-Type: " + JSON_TYPE);
@@ -1155,6 +1149,18 @@ public class RestApiServlet extends HttpServlet {
     if (user.isIdentifiedUser()) {
       user.setLastLoginExternalIdKey(globals.webSession.get().getLastLoginExternalId());
     }
+  }
+
+  private boolean isDelete(HttpServletRequest req) {
+    return "DELETE".equals(req.getMethod());
+  }
+
+  private static boolean isPost(HttpServletRequest req) {
+    return "POST".equals(req.getMethod());
+  }
+
+  private boolean isPut(HttpServletRequest req) {
+    return "PUT".equals(req.getMethod());
   }
 
   private static boolean isRead(HttpServletRequest req) {

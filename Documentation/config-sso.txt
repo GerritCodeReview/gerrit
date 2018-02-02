@@ -64,7 +64,7 @@ Users wishing to link an alternative identity should *NOT* log in separately
 with that identity. Doing so will result in a new account being created, and
 subsequent attempts to link that account with the existing account will fail.
 In cases where this happens, the administrator will need to manually merge the
-accounts.  See link:https://code.google.com/p/gerrit/wiki/SqlMergeUserAccounts[
+accounts.  See link:https://gerrit.googlesource.com/homepage/+/md-pages/docs/SqlMergeUserAccounts.md[
 Merging Gerrit User Accounts] on the Gerrit Wiki for details.
 
 Linking another identity is also useful for users whose primary OpenID provider

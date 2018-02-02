@@ -62,7 +62,7 @@ public class AuthRequest {
   private String password;
   private String displayName;
   private String emailAddress;
-  private Optional<String> userName;
+  private Optional<String> userName = Optional.empty();
   private boolean skipAuthentication;
   private String authPlugin;
   private String authProvider;

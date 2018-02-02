@@ -282,7 +282,9 @@ public class EditPreferencesBox extends Composite {
             Gerrit.setEditPreferences(p.copyTo(new EditPreferencesInfo()));
           }
         });
-    close();
+    if (view != null) {
+      close();
+    }
   }
 
   @UiHandler("close")

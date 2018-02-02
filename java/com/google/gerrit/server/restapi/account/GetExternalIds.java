@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Singleton
 public class GetExternalIds implements RestReadView<AccountResource> {
@@ -78,8 +79,8 @@ public class GetExternalIds implements RestReadView<AccountResource> {
       // establish this web session, and if only if an identity was
       // actually used to establish this web session.
       if (!id.isScheme(SCHEME_USERNAME)) {
-        ExternalId.Key last = resource.getUser().getLastLoginExternalIdKey();
-        info.canDelete = toBoolean(last == null || !last.get().equals(info.identity));
+        Optional<ExternalId.Key> last = resource.getUser().getLastLoginExternalIdKey();
+        info.canDelete = toBoolean(!last.isPresent() || !last.get().get().equals(info.identity));
       }
       result.add(info);
     }

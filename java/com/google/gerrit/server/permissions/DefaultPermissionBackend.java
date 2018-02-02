@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Singleton
@@ -159,18 +160,21 @@ public class DefaultPermissionBackend extends PermissionBackend {
     }
 
     private Boolean computeAdmin() {
-      Boolean r = user.get(IS_ADMIN);
-      if (r == null) {
-        if (user.isImpersonating()) {
-          r = false;
-        } else if (user instanceof PeerDaemonUser) {
-          r = true;
-        } else {
-          r = allow(capabilities().administrateServer);
-        }
-        user.put(IS_ADMIN, r);
+      Optional<Boolean> r = user.get(IS_ADMIN);
+      if (r.isPresent()) {
+        return r.get();
       }
-      return r;
+
+      boolean isAdmin;
+      if (user.isImpersonating()) {
+        isAdmin = false;
+      } else if (user instanceof PeerDaemonUser) {
+        isAdmin = true;
+      } else {
+        isAdmin = allow(capabilities().administrateServer);
+      }
+      user.put(IS_ADMIN, isAdmin);
+      return isAdmin;
     }
 
     private boolean canEmailReviewers() {

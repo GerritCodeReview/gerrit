@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
@@ -81,7 +82,7 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
             .collect(toMap(i -> i.key(), i -> i));
 
     List<ExternalId> toDelete = new ArrayList<>();
-    ExternalId.Key last = resource.getUser().getLastLoginExternalIdKey();
+    Optional<ExternalId.Key> last = resource.getUser().getLastLoginExternalIdKey();
     for (String externalIdStr : extIds) {
       ExternalId id = externalIdMap.get(ExternalId.Key.parse(externalIdStr));
 
@@ -91,7 +92,7 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
       }
 
       if ((!id.isScheme(SCHEME_USERNAME))
-          && ((last == null) || (!last.get().equals(id.key().get())))) {
+          && (!last.isPresent() || (!last.get().get().equals(id.key().get())))) {
         toDelete.add(id);
       } else {
         throw new ResourceConflictException(

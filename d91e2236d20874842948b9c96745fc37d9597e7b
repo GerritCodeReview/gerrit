@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "299fa25f_8b52ba74",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-02T23:24:27Z",
+      "side": 1,
+      "message": "If it\u0027s okay, I\u0027d prefer not to, mainly to lighten the DOM inside the rows for changes with very many files.\n\nI think the attributes make this look complex, but it\u0027s really only 4 little elements.",
+      "parentUuid": "26bb65da_867044cc",
+      "range": {
+        "startLine": 310,
+        "startChar": 12,
+        "endLine": 328,
+        "endChar": 18
+      },
+      "revId": "d91e2236d20874842948b9c96745fc37d9597e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec7f307e_24fc44c2",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2018-02-02T23:17:44Z",
       "side": 1,
       "message": "Thanks for considering the mobile view! Was something I tested for, and I believe this is the correct solution 😊",
+      "range": {
+        "startLine": 975,
+        "startChar": 23,
+        "endLine": 975,
+        "endChar": 30
+      },
+      "revId": "d91e2236d20874842948b9c96745fc37d9597e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03e9d470_7ac92e63",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 975,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-02T23:24:27Z",
+      "side": 1,
+      "message": "Hooray!",
+      "parentUuid": "ec7f307e_24fc44c2",
       "range": {
         "startLine": 975,
         "startChar": 23,
@@ -62,6 +110,24 @@
       "revId": "d91e2236d20874842948b9c96745fc37d9597e7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "409c5a92_149596b7",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-02T23:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d99d8cc3_acf559df",
+      "revId": "d91e2236d20874842948b9c96745fc37d9597e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

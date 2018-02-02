@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1517580212 +0100\nnonce AFD2Vu0cllFee/NZelgXRYO3ka7qu94p/13WaRx7244O9KDzFDX5uYBcVsgF5wLMnxcJqFBsIUFV\n\n0000000000000000000000000000000000000000 c57c134b45a1d72836aca4a030a6c75a86a12347 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlp0b7QACgkQUbX9l6DQ\n71G2pAf+MFGkEGU62odKlTuaxbiMmqNSTDurEMZ5Q8VUSlr9cebL3p1+9LYhrhBv\nXBpMk4P0x481gXTe5eAL3C8475+bLP7eiH9fDnHv7G6/eOaOjF/Xq1/uxSXp+Hbb\nxKbV/dDjr2/yCLWOhqfwe6/k25KmWqvnxQikmdFbmlzKCTeqdJfq3jiOvxPLqbP9\nwiF1aLOrcZJFhllSjRX7QYuOi3vrtesTfm5aH+Uqmn+yxrAbT753kqxoFsZBks3M\nQrS1mD7RMsPvOZwiHXTr1vfemR+hHgfOCG0C/t0O//2NRD3rWqScCBLIkfqS3knE\nfxahDH8KTd3gcs2QFaXXDtWcLYFErw\u003d\u003d\n\u003dYFdb\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "549aedf4_377c39fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-02T14:41:58Z",
+      "side": 1,
+      "message": "Account.Id",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "c57c134b45a1d72836aca4a030a6c75a86a12347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "642d4751_8958eaea",
+        "filename": "java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-02T14:41:58Z",
+      "side": 1,
+      "message": "Rename to tryParse to match the Guava convention?",
+      "revId": "c57c134b45a1d72836aca4a030a6c75a86a12347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72118e71_3f35a540",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-02T14:41:58Z",
+      "side": 1,
+      "message": "Huh, I just noticed that this doesn\u0027t actually take the id from a (didn\u0027t before either). I guess that\u0027s ok because it should match, but it reads weird.",
+      "range": {
+        "startLine": 103,
+        "startChar": 63,
+        "endLine": 103,
+        "endChar": 71
+      },
+      "revId": "c57c134b45a1d72836aca4a030a6c75a86a12347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

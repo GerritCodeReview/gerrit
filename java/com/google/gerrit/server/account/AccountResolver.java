@@ -99,12 +99,16 @@ public class AccountResolver {
     Matcher m = Pattern.compile("^.* \\(([1-9][0-9]*)\\)$").matcher(nameOrEmail);
     if (m.matches()) {
       Account.Id id = Account.Id.parse(m.group(1));
-      return Streams.stream(accounts.get(id)).map(a -> id).collect(toImmutableSet());
+      return Streams.stream(accounts.get(id))
+          .map(a -> a.getAccount().getId())
+          .collect(toImmutableSet());
     }
 
     if (nameOrEmail.matches("^[1-9][0-9]*$")) {
       Account.Id id = Account.Id.parse(nameOrEmail);
-      return Streams.stream(accounts.get(id)).map(a -> id).collect(toImmutableSet());
+      return Streams.stream(accounts.get(id))
+          .map(a -> a.getAccount().getId())
+          .collect(toImmutableSet());
     }
 
     if (nameOrEmail.matches(Account.USER_NAME_PATTERN)) {

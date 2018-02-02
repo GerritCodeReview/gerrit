@@ -33,6 +33,7 @@ import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -447,11 +448,15 @@ public class ChangeIndexer {
 
     @Override
     public Boolean callImpl(Provider<ReviewDb> db) throws Exception {
-      if (!stalenessChecker.isStale(id)) {
-        return false;
+      try {
+        if (stalenessChecker.isStale(id)) {
+          index(newChangeData(db.get(), project, id));
+          return true;
+        }
+      } catch (NoSuchChangeException e) {
+        log.debug("Change: " + id + " was deleted, aborting reindexing the change");
       }
-      index(newChangeData(db.get(), project, id));
-      return true;
+      return false;
     }
 
     @Override

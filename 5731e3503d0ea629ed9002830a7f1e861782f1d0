@@ -17,6 +17,24 @@
       "revId": "5731e3503d0ea629ed9002830a7f1e861782f1d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b467d8ed_343011a5",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-02T15:39:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aaf69c06_3eb21cbe",
+      "revId": "5731e3503d0ea629ed9002830a7f1e861782f1d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -69,6 +69,8 @@ limitations under the License.
         </template>
         <template is="dom-if" if="[[!changeSection.results.length]]">
           <tr class="noChanges">
+            <td class="keyboard"></td>
+            <td class="star" hidden$="[[!showStar]]" hidden></td>
             <td class="cell"
                 colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
               No changes

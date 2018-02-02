@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.HookUtil;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.MagicBranch;
@@ -52,11 +53,15 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
     public abstract Set<ObjectId> additionalHaves();
   }
 
+  private final Provider<ChangeIndex> changeIndexProvider;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Project.NameKey projectName;
 
   public ReceiveCommitsAdvertiseRefsHook(
-      Provider<InternalChangeQuery> queryProvider, Project.NameKey projectName) {
+      Provider<ChangeIndex> changeIndexProvider,
+      Provider<InternalChangeQuery> queryProvider,
+      Project.NameKey projectName) {
+    this.changeIndexProvider = changeIndexProvider;
     this.queryProvider = queryProvider;
     this.projectName = projectName;
   }
@@ -91,6 +96,11 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
   }
 
   private Set<ObjectId> advertiseOpenChanges(Set<ObjectId> allPatchSets) {
+    if (changeIndexProvider.get() == null) {
+      // No change index (e.g. in slave mode) -> no queries possible.
+      return Collections.emptySet();
+    }
+
     // Advertise some recent open changes, in case a commit is based on one.
     int limit = 32;
     try {

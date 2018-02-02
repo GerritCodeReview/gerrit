@@ -3679,6 +3679,12 @@ link:#receive.trustedKey[trusted].
 +
 Default is 0, meaning only explicitly trusted keys are allowed.
 
+[[receive.replicationUser]]receive.replicationUser::
++
+The numeric account ID of the replication user in a master-slave Gerrit
+installation. This settings allows slave hosts to receive and process
+NoteDb updates.
+
 [[receive.threadPoolSize]]receive.threadPoolSize::
 +
 Maximum size of the thread pool in which the change data in received packs is

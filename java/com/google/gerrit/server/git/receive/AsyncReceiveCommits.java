@@ -28,6 +28,7 @@ import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
+import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -184,6 +185,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       ReceiveCommits.Factory factory,
       PermissionBackend permissionBackend,
       VisibleRefFilter.Factory refFilterFactory,
+      ChangeIndexCollection changeIndices,
       Provider<InternalChangeQuery> queryProvider,
       @ReceiveCommitsExecutor ExecutorService executor,
       RequestScopePropagator scopePropagator,
@@ -237,7 +239,9 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     allRefsWatcher = new AllRefsWatcher();
     advHooks.add(allRefsWatcher);
     advHooks.add(refFilterFactory.create(projectState, repo).setShowMetadata(false));
-    advHooks.add(new ReceiveCommitsAdvertiseRefsHook(queryProvider, projectName));
+    advHooks.add(
+        new ReceiveCommitsAdvertiseRefsHook(
+            changeIndices::getSearchIndex, queryProvider, projectName));
     advHooks.add(new HackPushNegotiateHook());
     rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
   }

@@ -46,10 +46,10 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.receive.ReceiveCommitsAdvertiseRefsHook;
+import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.testing.Util;
@@ -79,8 +79,8 @@ import org.junit.Test;
 public class RefAdvertisementIT extends AbstractDaemonTest {
   @Inject private VisibleRefFilter.Factory refFilterFactory;
   @Inject private ChangeNoteUtil noteUtil;
-  @Inject @AnonymousCowardName private String anonymousCowardName;
   @Inject private AllUsersName allUsersName;
+  @Inject private ChangeIndexCollection changeIndices;
 
   private AccountGroup.UUID admins;
   private AccountGroup.UUID nonInteractiveUsers;
@@ -737,7 +737,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   private ReceiveCommitsAdvertiseRefsHook.Result getReceivePackRefs() throws Exception {
     ReceiveCommitsAdvertiseRefsHook hook =
-        new ReceiveCommitsAdvertiseRefsHook(queryProvider, project);
+        new ReceiveCommitsAdvertiseRefsHook(changeIndices::getSearchIndex, queryProvider, project);
     try (Repository repo = repoManager.openRepository(project)) {
       return hook.advertiseRefs(repo.getAllRefs());
     }

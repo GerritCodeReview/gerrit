@@ -90,7 +90,8 @@ limitations under the License.
             <span class="value">
               <gr-autocomplete
                   id="groupMemberSearchInput"
-                  text="{{_groupMemberSearch}}"
+                  text="{{_groupMemberSearchName}}"
+                  value="{{_groupMemberSearchId}}"
                   query="[[_queryMembers]]"
                   placeholder="Name Or Email">
               </gr-autocomplete>
@@ -98,7 +99,7 @@ limitations under the License.
             <gr-button
                 id="saveGroupMember"
                 on-tap="_handleSavingGroupMember"
-                disabled="[[!_groupMemberSearch]]">
+                disabled="[[!_groupMemberSearchId]]">
               Add
             </gr-button>
             <table id="groupMembers">

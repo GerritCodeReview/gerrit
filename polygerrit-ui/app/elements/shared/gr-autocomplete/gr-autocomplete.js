@@ -106,7 +106,10 @@
         value: false,
       },
 
-      value: String,
+      value: {
+        type: String,
+        notify: true,
+      },
 
       /**
        * Multi mode appends autocompleted entries to the value.

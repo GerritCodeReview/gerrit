@@ -23,7 +23,8 @@
 
     properties: {
       groupId: Number,
-      _groupMemberSearch: String,
+      _groupMemberSearchId: String,
+      _groupMemberSearchName: String,
       _includedGroupSearch: String,
       _loading: {
         type: Boolean,
@@ -126,14 +127,14 @@
 
     _handleSavingGroupMember() {
       return this.$.restAPI.saveGroupMembers(this._groupName,
-          this._groupMemberSearch).then(config => {
+          this._groupMemberSearchId).then(config => {
             if (!config) {
               return;
             }
             this.$.restAPI.getGroupMembers(this._groupName).then(members => {
               this._groupMembers = members;
             });
-            this._groupMemberSearch = '';
+            this._groupMemberSearchId = '';
           });
     },
 
@@ -141,7 +142,7 @@
       this.$.overlay.close();
       if (this._itemType === 'member') {
         return this.$.restAPI.deleteGroupMembers(this._groupName,
-            this._itemName)
+            this._itemId)
             .then(itemDeleted => {
               if (itemDeleted.status === 204) {
                 this.$.restAPI.getGroupMembers(this._groupName)
@@ -169,21 +170,16 @@
     },
 
     _handleDeleteMember(e) {
-      let item;
+      const id = e.model.get('item._account_id');
       const name = e.model.get('item.name');
       const username = e.model.get('item.username');
       const email = e.model.get('item.email');
-      if (username) {
-        item = username;
-      } else if (name) {
-        item = name;
-      } else if (email) {
-        item = email;
-      }
+      const item = username || name || email || id;
       if (!item) {
         return '';
       }
       this._itemName = item;
+      this._itemId = id;
       this._itemType = 'member';
       this.$.overlay.open();
     },
@@ -230,6 +226,7 @@
               }
               accountSuggestions.push({
                 name: nameAndEmail,
+                value: accounts[key]._account_id,
               });
             }
             return accountSuggestions;

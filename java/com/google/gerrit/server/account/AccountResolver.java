@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -115,7 +116,7 @@ public class AccountResolver {
       }
     }
 
-    if (nameOrEmail.matches(Account.USER_NAME_PATTERN)) {
+    if (nameOrEmail.matches(ExternalId.USER_NAME_PATTERN_REGEX)) {
       Optional<AccountState> who = byId.getByUsername(nameOrEmail);
       if (who.isPresent()) {
         return ImmutableSet.of(who.map(a -> a.getAccount().getId()).get());

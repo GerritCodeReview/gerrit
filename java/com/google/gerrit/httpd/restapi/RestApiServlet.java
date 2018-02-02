@@ -520,7 +520,8 @@ public class RestApiServlet extends HttpServlet {
     if (method.equals("POST") || method.equals("PUT")) {
       if (!isType(PLAIN_TEXT, req.getContentType())) {
         throw new BadRequestException("invalid " + CONTENT_TYPE);
-      } else if (Strings.isNullOrEmpty(contentType)) {
+      }
+      if (Strings.isNullOrEmpty(contentType)) {
         throw new BadRequestException(XD_CONTENT_TYPE + " required");
       }
     }
@@ -743,13 +744,17 @@ public class RestApiServlet extends HttpServlet {
           br.skip(Long.MAX_VALUE);
         }
       }
-    } else if (rawInputRequest(req, type)) {
+    }
+    if (rawInputRequest(req, type)) {
       return parseRawInput(req, type);
-    } else if (isDelete(req) && hasNoBody(req)) {
+    }
+    if (isDelete(req) && hasNoBody(req)) {
       return null;
-    } else if (hasNoBody(req)) {
+    }
+    if (hasNoBody(req)) {
       return createInstance(type);
-    } else if (isType(PLAIN_TEXT, req.getContentType())) {
+    }
+    if (isType(PLAIN_TEXT, req.getContentType())) {
       try (BufferedReader br = req.getReader()) {
         char[] tmp = new char[256];
         StringBuilder sb = new StringBuilder();
@@ -759,11 +764,11 @@ public class RestApiServlet extends HttpServlet {
         }
         return parseString(sb.toString(), type);
       }
-    } else if (isPost(req) && isType(FORM_TYPE, req.getContentType())) {
-      return OutputFormat.JSON.newGson().fromJson(ParameterParser.formToJson(req), type);
-    } else {
-      throw new BadRequestException("Expected Content-Type: " + JSON_TYPE);
     }
+    if (isPost(req) && isType(FORM_TYPE, req.getContentType())) {
+      return OutputFormat.JSON.newGson().fromJson(ParameterParser.formToJson(req), type);
+    }
+    throw new BadRequestException("Expected Content-Type: " + JSON_TYPE);
   }
 
   private void consumeRawInputRequestBody(HttpServletRequest req, Type type) throws IOException {
@@ -1023,7 +1028,8 @@ public class RestApiServlet extends HttpServlet {
     long len = src.getContentLength();
     if (len < 256) {
       return src; // Do not compress very small payloads.
-    } else if (len <= (10 << 20)) {
+    }
+    if (len <= (10 << 20)) {
       gz = compress(src);
       if (len <= gz.getContentLength()) {
         return src;
@@ -1105,14 +1111,14 @@ public class RestApiServlet extends HttpServlet {
     if (r.size() == 1) {
       Map.Entry<String, RestView<RestResource>> entry = Iterables.getOnlyElement(r.entrySet());
       return new ViewData(entry.getKey(), entry.getValue());
-    } else if (r.isEmpty()) {
-      throw new ResourceNotFoundException(projection);
-    } else {
-      throw new AmbiguousViewException(
-          String.format(
-              "Projection %s is ambiguous: %s",
-              name, r.keySet().stream().map(in -> in + "~" + projection).collect(joining(", "))));
     }
+    if (r.isEmpty()) {
+      throw new ResourceNotFoundException(projection);
+    }
+    throw new AmbiguousViewException(
+        String.format(
+            "Projection %s is ambiguous: %s",
+            name, r.keySet().stream().map(in -> in + "~" + projection).collect(joining(", "))));
   }
 
   private static List<IdString> splitPath(HttpServletRequest req) {
@@ -1248,9 +1254,11 @@ public class RestApiServlet extends HttpServlet {
   private static boolean isType(String expect, String given) {
     if (given == null) {
       return false;
-    } else if (expect.equals(given)) {
+    }
+    if (expect.equals(given)) {
       return true;
-    } else if (given.startsWith(expect + ",")) {
+    }
+    if (given.startsWith(expect + ",")) {
       return true;
     }
     for (String p : given.split("[ ,;][ ,;]*")) {

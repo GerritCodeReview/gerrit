@@ -17,6 +17,24 @@
       "revId": "be6d7788928a0e3cdcd0351a0a1c36af57109671",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfab2c90_beec2d2a",
+        "filename": "java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-02T14:35:20Z",
+      "side": 1,
+      "message": "How did you benchmark this?\n\n\u003e I am not crazy about the idea of having Account.Id.fromRef return an Optional and Change.Id not.\n\nOf course if would do the same change for all other fromRef methods if this change gets approved.",
+      "parentUuid": "a66c3be9_4ed022c6",
+      "revId": "be6d7788928a0e3cdcd0351a0a1c36af57109671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

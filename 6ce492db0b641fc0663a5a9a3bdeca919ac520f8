@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dbcc30e6_1fff0884",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-02T23:29:04Z",
+      "side": 1,
+      "message": "Is wrapping strings like this a thing we do in DOM?",
+      "range": {
+        "startLine": 318,
+        "startChar": 20,
+        "endLine": 319,
+        "endChar": 62
+      },
+      "revId": "6ce492db0b641fc0663a5a9a3bdeca919ac520f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

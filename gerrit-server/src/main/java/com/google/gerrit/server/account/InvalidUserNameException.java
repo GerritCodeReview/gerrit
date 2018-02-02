@@ -14,11 +14,9 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.reviewdb.client.Account;
-
 /**
- * Error indicating the SSH user name does not match {@link Account#USER_NAME_PATTERN_COMPILED}
- * pattern.
+ * Error indicating the SSH user name does not match {@link
+ * com.google.gerrit.server.account.ExternalId#USER_NAME_PATTERN_REGEX} pattern.
  */
 public class InvalidUserNameException extends Exception {
 

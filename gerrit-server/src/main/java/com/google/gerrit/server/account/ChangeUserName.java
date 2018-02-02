@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.reviewdb.client.Account.USER_NAME_PATTERN_COMPILED;
 import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
 import static java.util.stream.Collectors.toSet;
 
@@ -88,7 +87,7 @@ public class ChangeUserName implements Callable<VoidResult> {
 
     ExternalIdsUpdate externalIdsUpdate = externalIdsUpdateFactory.create();
     if (newUsername != null && !newUsername.isEmpty()) {
-      if (!USER_NAME_PATTERN_COMPILED.matcher(newUsername).matches()) {
+      if (!newUsername.matches(ExternalId.USER_NAME_PATTERN_REGEX)) {
         throw new InvalidUserNameException();
       }
 

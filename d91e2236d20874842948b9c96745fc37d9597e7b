@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26bb65da_867044cc",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-02T23:17:44Z",
+      "side": 1,
+      "message": "Optional: I feel like this might benefit from being its own element. But while it\u0027s only used here, I don\u0027t think it\u0027s necessary.",
+      "range": {
+        "startLine": 310,
+        "startChar": 12,
+        "endLine": 328,
+        "endChar": 18
+      },
+      "revId": "d91e2236d20874842948b9c96745fc37d9597e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec7f307e_24fc44c2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 975,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-02T23:17:44Z",
+      "side": 1,
+      "message": "Thanks for considering the mobile view! Was something I tested for, and I believe this is the correct solution 😊",
+      "range": {
+        "startLine": 975,
+        "startChar": 23,
+        "endLine": 975,
+        "endChar": 30
+      },
+      "revId": "d91e2236d20874842948b9c96745fc37d9597e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d99d8cc3_acf559df",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-02T23:17:44Z",
+      "side": 1,
+      "message": "I think gr-settings-view_test.html could use a simiple test.",
+      "revId": "d91e2236d20874842948b9c96745fc37d9597e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

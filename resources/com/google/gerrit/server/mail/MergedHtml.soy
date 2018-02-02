@@ -19,11 +19,16 @@
 /**
  * @param diffLines
  * @param email
+ * @param fromEmail
  * @param fromName
+ * @param patchSetInfo
  */
 {template .MergedHtml}
   <p>
-    {$fromName} <strong>merged</strong> this change.
+    {$fromName} <strong>merged</strong> this change
+    {if $patchSetInfo.authorEmail != $fromEmail}
+      {sp}by {$patchSetInfo.authorName}
+    {/if}.
   </p>
 
   {if $email.changeUrl}

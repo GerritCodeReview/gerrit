@@ -24,6 +24,9 @@ java_library(
         ["**/*.java"],
         exclude = CONSTANTS_SRC + GERRIT_GLOBAL_MODULE_SRC,
     ),
+    plugins = [
+        "//:nullaway",
+    ],
     resource_strip_prefix = "resources",
     resources = ["//resources/com/google/gerrit/server"],
     visibility = ["//visibility:public"],

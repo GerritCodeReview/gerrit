@@ -12,6 +12,14 @@ genrule(
     visibility = ["//visibility:public"],
 )
 
+java_plugin(
+    name = "nullaway",
+    deps = [
+    "//lib:guava",
+        "@nullaway//jar",
+    ],
+)
+
 genrule(
     name = "LICENSES",
     srcs = ["//Documentation:licenses.txt"],

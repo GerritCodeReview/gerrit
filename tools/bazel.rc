@@ -1,2 +1,2 @@
-build --workspace_status_command=./tools/workspace-status.sh --strategy=Closure=worker
+build --workspace_status_command=./tools/workspace-status.sh --strategy=Closure=worker --javacopt="-XepOpt:NullAway:AnnotatedPackages=com.google.gerrit -Xep:NullAway:WARN"
 test --build_tests_only

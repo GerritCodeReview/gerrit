@@ -421,6 +421,12 @@ maven_jar(
 )
 
 maven_jar(
+    name = "nullaway",
+    artifact = "com.uber.nullaway:nullaway:0.3.2",
+    sha1 = "cb4b7bd1f7c7f194d6a36353fc81681749cbc862",
+)
+
+maven_jar(
     name = "auto_value",
     artifact = "com.google.auto.value:auto-value:1.5.3",
     sha1 = "514df6a7c7938de35c7f68dc8b8f22df86037f38",

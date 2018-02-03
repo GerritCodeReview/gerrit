@@ -1,6 +1,9 @@
 java_library(
     name = "httpd",
     srcs = glob(["**/*.java"]),
+    plugins = [
+        "//:nullaway",
+    ],
     resource_strip_prefix = "resources",
     resources = ["//resources/com/google/gerrit/httpd"],
     visibility = ["//visibility:public"],

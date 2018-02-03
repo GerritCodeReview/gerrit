@@ -45,7 +45,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.LabelType;
@@ -1958,7 +1957,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushDraftGetsPrivateChange() throws Exception {
+  public void pushDraftGetsRegularChange() throws Exception {
     String changeId1 = createChange("refs/drafts/master").getChangeId();
     String changeId2 = createChange("refs/for/master%draft").getChangeId();
 
@@ -1967,15 +1966,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     assertThat(info1.status).isEqualTo(ChangeStatus.NEW);
     assertThat(info2.status).isEqualTo(ChangeStatus.NEW);
-    assertThat(info1.isPrivate).isTrue();
-    assertThat(info2.isPrivate).isTrue();
+    assertThat(info1.isPrivate).isNull();
+    assertThat(info2.isPrivate).isNull();
     assertThat(info1.revisions).hasSize(1);
     assertThat(info2.revisions).hasSize(1);
   }
 
-  @Sandboxed
   @Test
-  public void pushWithDraftOptionToExistingNewChangeGetsChangeEdit() throws Exception {
+  public void pushWithDraftOptionToExistingNewChangeGetsRegularPatchSet() throws Exception {
     String changeId = createChange().getChangeId();
     EditInfoSubject.assertThat(getEdit(changeId)).isAbsent();
 
@@ -1988,9 +1986,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     changeInfo = gApi.changes().id(changeId).get();
     assertThat(changeInfo.status).isEqualTo(originalChangeStatus);
     assertThat(changeInfo.isPrivate).isNull();
-    assertThat(changeInfo.revisions).hasSize(1);
+    assertThat(changeInfo.revisions).hasSize(2);
 
-    EditInfoSubject.assertThat(getEdit(changeId)).isPresent();
+    EditInfoSubject.assertThat(getEdit(changeId)).isAbsent();
   }
 
   @GerritConfig(name = "receive.maxBatchCommits", value = "2")

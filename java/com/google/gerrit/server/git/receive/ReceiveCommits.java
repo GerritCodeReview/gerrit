@@ -654,7 +654,7 @@ class ReceiveCommits {
     if (!updated.isEmpty()) {
       addMessage("");
       addMessage("Updated Changes:");
-      boolean edit = magicBranch != null && (magicBranch.edit || magicBranch.draft);
+      boolean edit = magicBranch != null && magicBranch.edit;
       Boolean isPrivate = null;
       Boolean wip = null;
       if (magicBranch != null) {
@@ -1202,12 +1202,7 @@ class ReceiveCommits {
     @Option(name = "--topic", metaVar = "NAME", usage = "attach topic to changes")
     String topic;
 
-    @Option(
-      name = "--draft",
-      usage =
-          "Will be removed. Before that, this option will be mapped to '--private'"
-              + "for new changes and '--edit' for existing changes"
-    )
+    @Option(name = "--draft", usage = "Noop")
     boolean draft;
 
     boolean publish;
@@ -1543,10 +1538,7 @@ class ReceiveCommits {
 
     boolean privateByDefault =
         projectCache.get(project.getNameKey()).is(BooleanProjectConfig.PRIVATE_BY_DEFAULT);
-    setChangeAsPrivate =
-        magicBranch.draft
-            || magicBranch.isPrivate
-            || (privateByDefault && !magicBranch.removePrivate);
+    setChangeAsPrivate = magicBranch.isPrivate || (privateByDefault && !magicBranch.removePrivate);
 
     if (receiveConfig.disablePrivateChanges && setChangeAsPrivate) {
       reject(cmd, "private changes are disabled");
@@ -2492,7 +2484,7 @@ class ReceiveCommits {
         return false;
       }
 
-      if (magicBranch != null && (magicBranch.edit || magicBranch.draft)) {
+      if (magicBranch != null && magicBranch.edit) {
         return newEdit();
       }
 
@@ -2548,7 +2540,7 @@ class ReceiveCommits {
     }
 
     void addOps(BatchUpdate bu, @Nullable Task progress) throws IOException {
-      if (magicBranch != null && (magicBranch.edit || magicBranch.draft)) {
+      if (magicBranch != null && magicBranch.edit) {
         bu.addOp(notes.getChangeId(), new ReindexOnlyOp());
         if (prev != null) {
           bu.addRepoOnlyOp(new UpdateOneRefOp(prev));

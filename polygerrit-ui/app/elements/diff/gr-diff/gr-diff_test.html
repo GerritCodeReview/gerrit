@@ -191,12 +191,30 @@ limitations under the License.
 
       test('loads files weblinks', () => {
         const weblinksStub = sandbox.stub(Gerrit.Nav, '_generateWeblinks')
-            .returns([{name: 'stubb', url: '#s'}]);
+        .returns({name: 'stubb', url: '#s'});
         sandbox.stub(element.$.restAPI, 'getDiff').returns(Promise.resolve({}));
-        element.commitRange = {};
+        element.projectName = 'test-project';
+        element.path = 'test-path';
+        element.commitRange = {baseCommit: 'test-base', commit: 'test-commit'};
         element.patchRange = {};
         return element._getDiff().then(() => {
-          assert.isTrue(weblinksStub.called);
+          assert.isTrue(weblinksStub.calledTwice);
+          assert.isTrue(weblinksStub.firstCall.calledWith({
+            commit: 'test-base',
+            file: 'test-path',
+            options: {
+              weblinks: undefined,
+            },
+            repo: 'test-project',
+            type: Gerrit.Nav.WeblinkType.FILE}));
+          assert.isTrue(weblinksStub.secondCall.calledWith({
+            commit: 'test-commit',
+            file: 'test-path',
+            options: {
+              weblinks: undefined,
+            },
+            repo: 'test-project',
+            type: Gerrit.Nav.WeblinkType.FILE}));
           assert.deepEqual(element.filesWeblinks, {
             meta_a: [{name: 'stubb', url: '#s'}],
             meta_b: [{name: 'stubb', url: '#s'}],

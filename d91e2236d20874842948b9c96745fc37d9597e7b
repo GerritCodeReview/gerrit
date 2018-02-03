@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "6d891749_ed99c0aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-03T00:01:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "299fa25f_8b52ba74",
+      "range": {
+        "startLine": 310,
+        "startChar": 12,
+        "endLine": 328,
+        "endChar": 18
+      },
+      "revId": "d91e2236d20874842948b9c96745fc37d9597e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec7f307e_24fc44c2",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 4

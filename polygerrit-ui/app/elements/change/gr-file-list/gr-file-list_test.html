@@ -984,6 +984,42 @@ limitations under the License.
         });
       });
     });
+
+    suite('size bars', () => {
+      test('_computeSizeBarScale', () => {
+        assert.isUndefined(element._computeSizeBarScale(null));
+        assert.isUndefined(element._computeSizeBarScale({}));
+        assert.equal(element._computeSizeBarScale({base: []}), 0);
+
+        const files = [
+          {__path: 'foo', lines_inserted: 12, lines_deleted: 15},
+          {__path: 'bar', lines_inserted: 13, lines_deleted: 2},
+        ];
+        assert.equal(element._computeSizeBarScale({base: files}), 15);
+
+        files.push({__path: 'baz', lines_inserted: 123, lines_deleted: 0});
+        assert.equal(element._computeSizeBarScale({base: files}), 123);
+
+        files.push(
+            {__path: '/COMMIT_MSG', lines_inserted: 12345, lines_deleted: 0});
+        assert.equal(element._computeSizeBarScale({base: files}), 123);
+      });
+
+      test('_computeSizeBarWidth', () => {
+        assert.equal(element._computeSizeBarWidth(1000, 1000), 50);
+        assert.equal(element._computeSizeBarWidth(1000, 1), 1.5);
+        assert.equal(element._computeSizeBarWidth(2, 1), 25);
+      });
+
+      test('_computeSizeBarsClass', () => {
+        assert.equal(element._computeSizeBarsClass(false, 'foo/bar.baz'),
+            'sizeBars desktop hide');
+        assert.equal(element._computeSizeBarsClass(true, '/COMMIT_MSG'),
+            'sizeBars desktop invisible');
+        assert.equal(element._computeSizeBarsClass(true, 'foo/bar.baz'),
+            'sizeBars desktop ');
+      });
+    });
   });
 
   suite('gr-file-list inline diff tests', () => {

@@ -21,6 +21,9 @@
   const WARN_SHOW_ALL_THRESHOLD = 1000;
   const LOADING_DEBOUNCE_INTERVAL = 100;
 
+  const SIZE_BAR_MAX_WIDTH = 50;
+  const SIZE_BAR_MIN_WIDTH = 1.5;
+
   const FileStatus = {
     A: 'Added',
     C: 'Copied',
@@ -124,6 +127,15 @@
       _loading: {
         type: Boolean,
         observer: '_loadingChanged',
+      },
+      _sizeBarScale: {
+        type: Number,
+        computed: '_computeSizeBarScale(_shownFiles.*)',
+      },
+      _showSizeBars: {
+        type: Boolean,
+        value: true,
+        computed: '_computeShowSizeBars(_userPrefs)',
       },
     },
 
@@ -925,6 +937,48 @@
 
     _computeReviewedText(isReviewed) {
       return isReviewed ? 'MARK UNREVIEWED' : 'MARK REVIEWED';
+    },
+
+    /**
+     * Find the size bar scaling factor by computing the largest value of the
+     * lines_inserted or lines_deleted properties of the visible files.
+     * @return {number|undefined}
+     */
+    _computeSizeBarScale(shownFilesRecord) {
+      if (!shownFilesRecord || !shownFilesRecord.base) { return undefined; }
+      return shownFilesRecord.base
+          .filter(f =>
+              f.__path !== this.COMMIT_MESSAGE_PATH &&
+              f.__path !== this.MERGE_LIST_PATH)
+          .reduce((acc, f) =>
+              Math.max(acc, f.lines_inserted, f.lines_deleted), 0);
+    },
+
+    /**
+     * Compute the width of the size bar for given delta stat and scale.
+     * @param {number} sizeBarScale
+     * @param {number} stat
+     * @return {number} the width of the bar
+     */
+    _computeSizeBarWidth(sizeBarScale, stat) {
+      if (!sizeBarScale || !stat) { return 0; }
+      return Math.max(
+          SIZE_BAR_MIN_WIDTH, SIZE_BAR_MAX_WIDTH * stat / sizeBarScale);
+    },
+
+    _computeShowSizeBars(userPrefs) {
+      return !!userPrefs.size_bar_in_change_table;
+    },
+
+    _computeSizeBarsClass(showSizeBars, path) {
+      let hideClass = '';
+      if (!showSizeBars) {
+        hideClass = 'hide';
+      } else if (path === this.COMMIT_MESSAGE_PATH ||
+          path === this.MERGE_LIST_PATH) {
+        hideClass = 'invisible';
+      }
+      return `sizeBars desktop ${hideClass}`;
     },
   });
 })();

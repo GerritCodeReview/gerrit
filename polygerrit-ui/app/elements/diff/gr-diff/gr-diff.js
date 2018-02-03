@@ -653,10 +653,10 @@
             }
             this.filesWeblinks = {
               meta_a: Gerrit.Nav.getFileWebLinks(
-                  this.projectName, this.commitRange.commit, this.path,
+                  this.projectName, this.commitRange.baseCommit, this.path,
                   {weblinks: diff && diff.meta_a && diff.meta_a.web_links}),
               meta_b: Gerrit.Nav.getFileWebLinks(
-                  this.projectName, this.commitRange.baseCommit, this.path,
+                  this.projectName, this.commitRange.commit, this.path,
                   {weblinks: diff && diff.meta_b && diff.meta_b.web_links}),
             };
             return diff;

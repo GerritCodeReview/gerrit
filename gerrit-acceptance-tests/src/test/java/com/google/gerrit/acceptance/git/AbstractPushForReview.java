@@ -674,9 +674,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pushForReviewRejected(testRepo,
         "missing Change-Id in commit message footer");
 
-    ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config.getProject().setRequireChangeID(InheritableBoolean.FALSE);
-    saveProjectConfig(project, config);
+    setRequireChangeId(InheritableBoolean.FALSE);
     pushForReviewOk(testRepo);
   }
 
@@ -701,9 +699,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pushForReviewRejected(testRepo,
         "multiple Change-Id lines in commit message footer");
 
-    ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config.getProject().setRequireChangeID(InheritableBoolean.FALSE);
-    saveProjectConfig(project, config);
+    setRequireChangeId(InheritableBoolean.FALSE);
     pushForReviewRejected(testRepo,
         "multiple Change-Id lines in commit message footer");
   }
@@ -727,9 +723,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pushForReviewRejected(testRepo,
         "invalid Change-Id line format in commit message footer");
 
-    ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config.getProject().setRequireChangeID(InheritableBoolean.FALSE);
-    saveProjectConfig(project, config);
+    setRequireChangeId(InheritableBoolean.FALSE);
     pushForReviewRejected(testRepo,
         "invalid Change-Id line format in commit message footer");
   }
@@ -753,9 +747,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pushForReviewRejected(testRepo,
         "invalid Change-Id line format in commit message footer");
 
-    ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config.getProject().setRequireChangeID(InheritableBoolean.FALSE);
-    saveProjectConfig(project, config);
+    setRequireChangeId(InheritableBoolean.FALSE);
     pushForReviewRejected(testRepo,
         "invalid Change-Id line format in commit message footer");
   }

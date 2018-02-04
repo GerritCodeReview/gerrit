@@ -93,6 +93,8 @@ limitations under the License.
           .firstElementChild.checked, editPreferences.syntax_highlighting);
       assert.equal(valueOf('Show tabs', 'editPreferences')
           .firstElementChild.checked, editPreferences.show_tabs);
+      assert.equal(valueOf('Whitespace errors', 'editPreferences')
+          .firstElementChild.checked, editPreferences.show_whitespace_errors);
       assert.equal(valueOf('Line numbers', 'editPreferences')
           .firstElementChild.checked, editPreferences.hide_line_numbers);
       assert.equal(valueOf('Match brackets', 'editPreferences')

@@ -38,6 +38,21 @@
       this.hasUnsavedChanges = true;
     },
 
+    _handleEditTabWidthChanged() {
+      this.set('editPrefs.tab_size', this.$.editTabWidth.bindValue);
+      this._handleEditPrefsChanged();
+    },
+
+    _handleEditColumnsChanged() {
+      this.set('editPrefs.line_length', this.$.editColumns.bindValue);
+      this._handleEditPrefsChanged();
+    },
+
+    _handleEditIndentUnitChanged() {
+      this.set('editPrefs.indent_unit', this.$.editIndentUnit.bindValue);
+      this._handleEditPrefsChanged();
+    },
+
     _handleEditSyntaxHighlightingChanged() {
       this.set('editPrefs.syntax_highlighting',
           this.$.editSyntaxHighlighting.checked);

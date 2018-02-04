@@ -938,8 +938,7 @@ public class RestApiServlet extends HttpServlet {
   static long replyBinaryResult(
       @Nullable HttpServletRequest req, HttpServletResponse res, BinaryResult bin)
       throws IOException {
-    final BinaryResult appResult = bin;
-    try {
+    try (BinaryResult appResult = bin) {
       if (bin.getAttachmentName() != null) {
         res.setHeader(
             "Content-Disposition", "attachment; filename=\"" + bin.getAttachmentName() + "\"");
@@ -970,8 +969,6 @@ public class RestApiServlet extends HttpServlet {
         }
       }
       return 0;
-    } finally {
-      appResult.close();
     }
   }
 

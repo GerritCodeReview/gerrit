@@ -30,11 +30,12 @@ limitations under the License.
         <span class="value">
           <input
               is="iron-input"
+              id="editTabWidth"
               type="number"
               prevent-invalid-input
               allowed-pattern="[0-9]"
-              bind-value="{{editPrefs.tab_size}}"
-              on-change="_handleEditPrefsChanged">
+              bind-value="[[editPrefs.tab_size]]"
+              on-change="_handleEditTabWidthChanged">
         </span>
       </section>
       <section>
@@ -42,11 +43,12 @@ limitations under the License.
         <span class="value">
           <input
               is="iron-input"
+              id="editColumns"
               type="number"
               prevent-invalid-input
               allowed-pattern="[0-9]"
-              bind-value="{{editPrefs.line_length}}"
-              on-change="_handleEditPrefsChanged">
+              bind-value="[[editPrefs.line_length]]"
+              on-change="_handleEditColumnsChanged">
         </span>
       </section>
       <section>
@@ -54,11 +56,12 @@ limitations under the License.
         <span class="value">
           <input
               is="iron-input"
+              id="editIndentUnit"
               type="number"
               prevent-invalid-input
               allowed-pattern="[0-9]"
-              bind-value="{{editPrefs.indent_unit}}"
-              on-change="_handleEditPrefsChanged">
+              bind-value="[[editPrefs.indent_unit]]"
+              on-change="_handleEditIndentUnitChanged">
         </span>
       </section>
       <section>

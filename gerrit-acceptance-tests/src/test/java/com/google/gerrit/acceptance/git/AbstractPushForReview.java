@@ -752,6 +752,17 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         "invalid Change-Id line format in commit message footer");
   }
 
+  @Test
+  public void pushWithChangeIdInSubjectLine() throws Exception {
+    createCommit(testRepo, "Change-Id: I1234000000000000000000000000000000000000");
+    pushForReviewRejected(testRepo,
+        "missing subject; Change-Id must be in commit message footer");
+
+    setRequireChangeId(InheritableBoolean.FALSE);
+    pushForReviewRejected(testRepo,
+        "missing subject; Change-Id must be in commit message footer");
+  }
+
   private static RevCommit createCommit(TestRepository<?> testRepo,
       String message) throws Exception {
     return testRepo.branch("HEAD").commit().message(message)

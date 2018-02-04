@@ -25,4 +25,9 @@ public class HttpPushForReviewIT extends AbstractPushForReview {
         admin.username, admin.httpPassword));
     selectProtocol(Protocol.HTTP);
   }
+
+  @Override
+  public void pushWithChangeIdInSubjectLine() throws Exception {
+    super.pushWithChangeIdInSubjectLine();
+  }
 }

@@ -34,6 +34,7 @@ limitations under the License.
               prevent-invalid-input
               allowed-pattern="[0-9]"
               bind-value="{{editPrefs.tab_size}}"
+              on-keypress="_handleEditPrefsChanged"
               on-change="_handleEditPrefsChanged">
         </span>
       </section>
@@ -46,6 +47,7 @@ limitations under the License.
               prevent-invalid-input
               allowed-pattern="[0-9]"
               bind-value="{{editPrefs.line_length}}"
+              on-keypress="_handleEditPrefsChanged"
               on-change="_handleEditPrefsChanged">
         </span>
       </section>
@@ -58,6 +60,7 @@ limitations under the License.
               prevent-invalid-input
               allowed-pattern="[0-9]"
               bind-value="{{editPrefs.indent_unit}}"
+              on-keypress="_handleEditPrefsChanged"
               on-change="_handleEditPrefsChanged">
         </span>
       </section>

@@ -49,6 +49,12 @@
       this._handleEditPrefsChanged();
     },
 
+    _handleWhitespaceErrorsChanged() {
+      this.set('editPrefs.show_whitespace_errors',
+          this.$.whitespaceErrors.checked);
+      this._handleEditPrefsChanged();
+    },
+
     _handleLineNumbersChanged() {
       this.set('editPrefs.hide_line_numbers', this.$.hideLineNumbers.checked);
       this._handleEditPrefsChanged();

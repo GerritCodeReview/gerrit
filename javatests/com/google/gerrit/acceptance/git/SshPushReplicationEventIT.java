@@ -28,8 +28,6 @@ import org.junit.Ignore;
 
 @NoHttpd
 @UseSsh
-// TODO(aliceks): Find a way to make the SSH tests work.
-@Ignore("Doesn't work yet.")
 public class SshPushReplicationEventIT extends AbstractPushReplicationEventIT {
   private SshSession currentUserSession;
 
@@ -49,4 +47,9 @@ public class SshPushReplicationEventIT extends AbstractPushReplicationEventIT {
     String url = currentUserSession.getUrl();
     return GitUtil.cloneProject(project, url + "/" + project.get());
   }
+
+  // TODO (ekempin): Make this test work.
+  @Ignore("Doesn't work yet.")
+  @Override
+  public void pushToGroupNamesBranchIsAllowedForReplicationUserInSlaveMode() {}
 }

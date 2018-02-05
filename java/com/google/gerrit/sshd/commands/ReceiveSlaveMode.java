@@ -14,12 +14,22 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.sshd.SshCommand;
+import com.google.gerrit.sshd.AbstractGitCommand;
+import java.io.IOException;
+import org.eclipse.jgit.transport.PacketLineOut;
+import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 
-/* Failure command, that produces verbose failure message in slave mode */
-public class NotSupportedInSlaveModeFailureCommand extends SshCommand {
+/* Receive command when running in slave mode. */
+public class ReceiveSlaveMode extends AbstractGitCommand {
   @Override
-  protected void run() throws UnloggedFailure {
-    throw die(getName() + ": is not supported in slave mode");
+  protected void runImpl() throws UnloggedFailure, IOException {
+    ServiceNotEnabledException ex = new ServiceNotEnabledException();
+
+    PacketLineOut packetOut = new PacketLineOut(out);
+    packetOut.setFlushOnEnd(true);
+    packetOut.writeString("ERR " + ex.getMessage());
+    packetOut.end();
+
+    throw die(ex);
   }
 }

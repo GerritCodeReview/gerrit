@@ -76,7 +76,7 @@ public class CommitValidators {
   private static final Logger log = LoggerFactory.getLogger(CommitValidators.class);
 
   public static final Pattern NEW_PATCHSET_PATTERN =
-      Pattern.compile("^" + REFS_CHANGES + "(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
+      Pattern.compile("^" + REFS_CHANGES + "(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/[1-9][0-9]*)?$");
 
   @Singleton
   public static class Factory {
@@ -251,15 +251,13 @@ public class CommitValidators {
       String sha1 = commit.abbreviate(RevId.ABBREV_LEN).name();
 
       if (idList.isEmpty()) {
+        String shortMsg = commit.getShortMessage();
+        if (shortMsg.startsWith(CHANGE_ID_PREFIX)
+            && CHANGE_ID.matcher(shortMsg.substring(CHANGE_ID_PREFIX.length()).trim()).matches()) {
+          String errMsg = String.format(MISSING_SUBJECT_MSG, sha1);
+          throw new CommitValidationException(errMsg);
+        }
         if (projectState.isRequireChangeID()) {
-          String shortMsg = commit.getShortMessage();
-          if (shortMsg.startsWith(CHANGE_ID_PREFIX)
-              && CHANGE_ID
-                  .matcher(shortMsg.substring(CHANGE_ID_PREFIX.length()).trim())
-                  .matches()) {
-            String errMsg = String.format(MISSING_SUBJECT_MSG, sha1);
-            throw new CommitValidationException(errMsg);
-          }
           String errMsg = String.format(MISSING_CHANGE_ID_MSG, sha1);
           messages.add(getMissingChangeIdErrorMsg(errMsg, commit));
           throw new CommitValidationException(errMsg, messages);

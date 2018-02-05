@@ -849,6 +849,15 @@ public abstract class AbstractDaemonTest {
     }
   }
 
+  protected void setRequireChangeId(InheritableBoolean value) throws Exception {
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      ProjectConfig config = ProjectConfig.read(md);
+      config.getProject().setRequireChangeID(value);
+      config.commit(md);
+      projectCache.evict(config.getProject());
+    }
+  }
+
   protected void deny(String ref, String permission, AccountGroup.UUID id) throws Exception {
     deny(project, ref, permission, id);
   }

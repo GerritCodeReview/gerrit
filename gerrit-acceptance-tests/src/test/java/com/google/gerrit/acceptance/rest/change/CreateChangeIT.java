@@ -42,6 +42,7 @@ import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -94,6 +95,16 @@ public class CreateChangeIT extends AbstractDaemonTest {
   public void createEmptyChange_InvalidStatus() throws Exception {
     ChangeInput ci = newChangeInput(ChangeStatus.MERGED);
     assertCreateFails(ci, BadRequestException.class, "unsupported change status");
+  }
+
+  @Test
+  public void createEmptyChange_InvalidChangeId() throws Exception {
+    ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+    ci.subject = "Subject\n\nChange-Id: I0000000000000000000000000000000000000000";
+    assertCreateFails(
+        ci,
+        ResourceConflictException.class,
+        "invalid Change-Id line format in commit message footer");
   }
 
   @Test

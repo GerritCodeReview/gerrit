@@ -36,6 +36,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-change-actions/gr-change-actions.html">
+<link rel="import" href="../gr-change-comment-threads/gr-change-comment-threads.html">
 <link rel="import" href="../gr-change-metadata/gr-change-metadata.html">
 <link rel="import" href="../gr-commit-info/gr-commit-info.html">
 <link rel="import" href="../gr-download-dialog/gr-download-dialog.html">
@@ -518,6 +519,10 @@ limitations under the License.
         <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
         </gr-endpoint-param>
       </gr-endpoint-decorator>
+      <gr-change-comment-threads
+          threads="[[_commentThreads]]"
+          change="[[_change]]"
+          change-num="[[_changeNum]]"></gr-change-comment-threads>
       <gr-messages-list id="messageList"
           class="hideOnMobileOverlay"
           change-num="[[_changeNum]]"

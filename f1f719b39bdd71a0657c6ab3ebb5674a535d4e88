@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cad7234e_2343bded",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-05T23:15:26Z",
+      "side": 1,
+      "message": "🤔 I think I\u0027ll need to find a new way to serve plugins from app/samples",
+      "revId": "f1f719b39bdd71a0657c6ab3ebb5674a535d4e88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6cde8668_89634993",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-05T23:15:26Z",
+      "side": 1,
+      "message": "Nit: This one, too.",
+      "range": {
+        "startLine": 58,
+        "startChar": 36,
+        "endLine": 58,
+        "endChar": 49
+      },
+      "revId": "f1f719b39bdd71a0657c6ab3ebb5674a535d4e88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1517568154 +0100\nnonce AFD2Vu3RiXnEMF6bdr90YU1GCQnQAAKz/f7OkgC18QdPnGZKIVO4juKe+IoDEWr0GsHqd711S2F7\n\n0000000000000000000000000000000000000000 e1b55d453f9de45a56ac3578275ce5bfa195e28b refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlp0QJsACgkQUbX9l6DQ\n71FuHQf+IZj5rwidbouh7RtRhL83mc3WSuqviUKzQUmSLWv7C0ah0Rx50Vxt/3MT\nwocc9yE5a8jDmSGAUFDq5tcba7SKHrtBDpFcLHmC2nmKFJ91sLhFP9xYAdsCvEe2\nISW3UejIVI2yJH1fQiui9ch9xnswp6/iVkvULWkpyKTQOf0ieNJJYbysTv8mub2S\n711quBJfIs7Rnpyk1YHwAawiU3FPbdyASQ6OHICWuBo5XygqLEWj6lBk9dqPx7Fz\nT3fp9GR/eHeNB481m+Ag8Jm5xcymib1bn5KhqYEr6BWuoJc7Gu5ma9x5urHtaajI\nkaI8rNEN9D51pdySnLoEVl/jNTn10A\u003d\u003d\n\u003dvZww\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9daa6f9_504b147f",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteExternalIds.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-05T17:36:27Z",
+      "side": 1,
+      "message": "Optional: can this just be !last.get().equals(id.key())? I\u0027m pretty sure it\u0027s equivalent, unless there\u0027s something subtle I\u0027m not seeing about get(), and would definitely improve readability.\n\n(As an aside, I kinda wish Optional had a hasValue(T) method, which would make a lot of these constructions simpler.)",
+      "revId": "e1b55d453f9de45a56ac3578275ce5bfa195e28b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

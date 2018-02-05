@@ -248,15 +248,13 @@ public class CommitValidators {
       String sha1 = commit.abbreviate(RevId.ABBREV_LEN).name();
 
       if (idList.isEmpty()) {
+        String shortMsg = commit.getShortMessage();
+        if (shortMsg.startsWith(CHANGE_ID_PREFIX)
+            && CHANGE_ID.matcher(shortMsg.substring(CHANGE_ID_PREFIX.length()).trim()).matches()) {
+          String errMsg = String.format(MISSING_SUBJECT_MSG, sha1);
+          throw new CommitValidationException(errMsg);
+        }
         if (projectControl.getProjectState().isRequireChangeID()) {
-          String shortMsg = commit.getShortMessage();
-          if (shortMsg.startsWith(CHANGE_ID_PREFIX)
-              && CHANGE_ID
-                  .matcher(shortMsg.substring(CHANGE_ID_PREFIX.length()).trim())
-                  .matches()) {
-            String errMsg = String.format(MISSING_SUBJECT_MSG, sha1);
-            throw new CommitValidationException(errMsg);
-          }
           String errMsg = String.format(MISSING_CHANGE_ID_MSG, sha1);
           messages.add(getMissingChangeIdErrorMsg(errMsg, commit));
           throw new CommitValidationException(errMsg, messages);

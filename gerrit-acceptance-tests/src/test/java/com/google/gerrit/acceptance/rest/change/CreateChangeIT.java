@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -95,6 +96,14 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createEmptyChange_InvalidChangeId() throws Exception {
+   ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+   ci.subject = "Subject\n\nChange-Id: I0000000000000000000000000000000000000000";
+   assertCreateFails(ci, ResourceConflictException.class,
+       "invalid Change-Id line format in commit message footer");
+  }
+
+  @Test
   public void createNewChange() throws Exception {
     assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
   }
@@ -124,7 +133,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createNewChangeSignedOffByFooter() throws Exception {
-    assume().that(isAllowDrafts()).isTrue();
     setSignedOffByFooter();
     ChangeInfo info = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
     String message = info.revisions.get(info.currentRevision).commit.message;

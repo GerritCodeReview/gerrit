@@ -22,6 +22,30 @@
       "revId": "0f894e2c2f734953b015b801b663cf88c946c5a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c089e917_2a26fba2",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2018-02-05T22:57:17Z",
+      "side": 1,
+      "message": "good catch. Added the folder with a .keep file.",
+      "parentUuid": "bdd22bdc_534cc4d6",
+      "range": {
+        "startLine": 57,
+        "startChar": 29,
+        "endLine": 57,
+        "endChar": 40
+      },
+      "revId": "0f894e2c2f734953b015b801b663cf88c946c5a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

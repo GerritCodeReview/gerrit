@@ -25,7 +25,7 @@ def license_map(name, targets = [], opts = [], **kwargs):
   # post process the XML into our favorite format.
   native.genrule(
     name = "gen_license_txt_" + name,
-    cmd = "python $(location //tools/bzl:license-map.py) %s %s > $@" % (" ".join(opts), " ".join(xmls)),
+    cmd = "python2 $(location //tools/bzl:license-map.py) %s %s > $@" % (" ".join(opts), " ".join(xmls)),
     outs = [ name + ".txt" ],
     tools = tools,
     **kwargs

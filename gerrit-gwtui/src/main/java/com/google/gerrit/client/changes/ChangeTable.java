@@ -259,7 +259,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       if (c.assignee() != null) {
         table.setWidget(row, C_ASSIGNEE, AccountLinkPanel.forAssignee(c.assignee()));
         if (Gerrit.getUserPreferences().highlightAssigneeInChangeTable()
-            && Objects.equals(c.assignee().getId(), Gerrit.getUserAccount().getId())) {
+            && Objects.equals(c.assignee()._accountId(), Gerrit.getUserAccount()._accountId())) {
           table.getRowFormatter().addStyleName(row, Gerrit.RESOURCES.css().cASSIGNEDTOME());
         }
       } else {

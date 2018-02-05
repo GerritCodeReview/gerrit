@@ -23,7 +23,6 @@ import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.client.ListChangesOption;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
@@ -43,7 +42,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
     MY_DASHBOARD_OPTIONS = Collections.unmodifiableSet(options);
   }
 
-  private final Account.Id ownerId;
+  private final Integer ownerId;
   private final boolean mine;
   private ChangeTable table;
   private ChangeTable.Section workInProgress;
@@ -51,9 +50,9 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
   private ChangeTable.Section incoming;
   private ChangeTable.Section closed;
 
-  public AccountDashboardScreen(Account.Id id) {
-    ownerId = id;
-    mine = Gerrit.isSignedIn() && ownerId.equals(Gerrit.getUserAccount().getId());
+  public AccountDashboardScreen(Integer accountId) {
+    ownerId = accountId;
+    mine = Gerrit.isSignedIn() && ownerId == Gerrit.getUserAccount()._accountId();
   }
 
   @Override

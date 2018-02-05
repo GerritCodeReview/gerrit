@@ -122,6 +122,6 @@ public class MyProfileScreen extends SettingsScreen {
     info.setText(row++, fieldIdx, account.name());
     info.setText(row++, fieldIdx, account.email());
     info.setText(row++, fieldIdx, mediumFormat(account.registeredOn()));
-    info.setText(row, fieldIdx, account.getId().toString());
+    info.setText(row, fieldIdx, Integer.toString(account._accountId()));
   }
 }

@@ -373,7 +373,7 @@ public class ReplyBox extends Composite {
     fmt.setStyleName(row, labelHelpColumn, style.label_help());
 
     ApprovalInfo self =
-        Gerrit.isSignedIn() ? lv.info.forUser(Gerrit.getUserAccount().getId().get()) : null;
+        Gerrit.isSignedIn() ? lv.info.forUser(Gerrit.getUserAccount()._accountId()) : null;
 
     final LabelRadioGroup group = new LabelRadioGroup(row, id, lv.permitted.size());
     for (int i = 0; i < columns.size(); i++) {
@@ -395,7 +395,7 @@ public class ReplyBox extends Composite {
 
   private void renderCheckBox(int row, LabelAndValues lv) {
     ApprovalInfo self =
-        Gerrit.isSignedIn() ? lv.info.forUser(Gerrit.getUserAccount().getId().get()) : null;
+        Gerrit.isSignedIn() ? lv.info.forUser(Gerrit.getUserAccount()._accountId()) : null;
 
     final String id = lv.info.name();
     final CheckBox b = new CheckBox();

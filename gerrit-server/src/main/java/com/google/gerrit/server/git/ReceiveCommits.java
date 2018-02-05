@@ -180,7 +180,7 @@ public class ReceiveCommits {
       LoggerFactory.getLogger(ReceiveCommits.class);
 
   public static final Pattern NEW_PATCHSET = Pattern.compile(
-      "^" + REFS_CHANGES + "(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
+      "^" + REFS_CHANGES + "(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/[1-9][0-9]*)?$");
 
   private static final String COMMAND_REJECTION_MESSAGE_FOOTER =
       "Please read the documentation and contact an administrator\n"

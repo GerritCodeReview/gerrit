@@ -50,7 +50,7 @@
     },
 
     _handleLineNumbersChanged() {
-      this.set('editPrefs.hide_line_numbers', !this.$.showLineNumbers.checked);
+      this.set('editPrefs.hide_line_numbers', this.$.hideLineNumbers.checked);
       this._handleEditPrefsChanged();
     },
 
@@ -75,14 +75,10 @@
       this._handleEditPrefsChanged();
     },
 
-    _handleShowBaseVersionChanged() {
-      this.set('editPrefs.show_base', this.$.showShowBaseVersion.checked);
-      this._handleEditPrefsChanged();
-    },
-
     save() {
-      return this.$.restAPI.saveEditPreferences(this.editPrefs)
-          .then(() => { this.hasUnsavedChanges = false; });
+      return this.$.restAPI.saveEditPreferences(this.editPrefs).then(res => {
+        this.hasUnsavedChanges = false;
+      });
     },
   });
 })();

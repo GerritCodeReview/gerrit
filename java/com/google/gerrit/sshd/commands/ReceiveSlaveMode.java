@@ -14,22 +14,51 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
+
+import com.google.gerrit.server.git.validators.ReplicationUserVerifier;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.sshd.AbstractGitCommand;
+import com.google.gerrit.sshd.CommandMetaData;
+import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 
-/* Receive command when running in slave mode. */
-public class ReceiveSlaveMode extends AbstractGitCommand {
+/** Receive command when running in slave mode. */
+@CommandMetaData(
+  name = "receive-pack",
+  description = "Standard Git server side command for client side git push",
+  runsAt = MASTER_OR_SLAVE
+)
+class ReceiveSlaveMode extends AbstractGitCommand {
+  @Inject private Receive receive;
+  @Inject private ReplicationUserVerifier replicationUserVerifier;
+
   @Override
-  protected void runImpl() throws UnloggedFailure, IOException {
-    ServiceNotEnabledException ex = new ServiceNotEnabledException();
+  public void service() throws IOException, PermissionBackendException, Failure {
+    if (!replicationUserVerifier.isReplicationUser(user.asIdentifiedUser())) {
+      ServiceNotEnabledException ex = new ServiceNotEnabledException();
 
-    PacketLineOut packetOut = new PacketLineOut(out);
-    packetOut.setFlushOnEnd(true);
-    packetOut.writeString("ERR " + ex.getMessage());
-    packetOut.end();
+      PacketLineOut packetOut = new PacketLineOut(out);
+      packetOut.setFlushOnEnd(true);
+      packetOut.writeString("ERR " + ex.getMessage());
+      packetOut.end();
 
-    throw die(ex);
+      throw die(ex);
+    }
+
+    receive.setInputStream(in);
+    receive.setOutputStream(out);
+    receive.setErrorStream(err);
+    receive.setExitCallback(exit);
+    receive.setProjectState(projectState);
+    receive.service();
+  }
+
+  @Override
+  protected void runImpl() throws IOException, PermissionBackendException, Failure {
+    // This method should never be called.
+    throw new IllegalStateException();
   }
 }

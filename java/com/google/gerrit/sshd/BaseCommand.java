@@ -83,7 +83,7 @@ public abstract class BaseCommand implements Command {
   protected OutputStream out;
   protected OutputStream err;
 
-  private ExitCallback exit;
+  protected ExitCallback exit;
 
   @Inject protected CurrentUser user;
 

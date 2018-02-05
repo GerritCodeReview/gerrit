@@ -22,6 +22,30 @@
       "revId": "181a3d0ba0aa41bcc2a86f539db8c3dc6727f3e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa1fb5b5_b9039efb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-05T07:21:01Z",
+      "side": 0,
+      "message": "With your fix of the regex, this condition is now true:\n\n  ReceiveCommits.NEW_PATCHSET.matcher(\n            receiveEvent.command.getRefName()).matches()\n\nAlso in 2.14, that i checked with this series, the validation is ran:\n\n    @Override\n    public List\u003cCommitValidationMessage\u003e onCommitReceived(CommitReceivedEvent receiveEvent)\n        throws CommitValidationException {\n      if (!shouldValidateChangeId(receiveEvent)) {\n        return Collections.emptyList();\n      }\n[...]\n\nwhere the shouldValidateChangeId contains this if:\n\n  private static boolean \n  shouldValidateChangeId(CommitReceivedEvent event) {\n      return MagicBranch.isMagicBranch(event.command.getRefName())\n          || NEW_PATCHSET.matcher(event.command.getRefName()).matches();\n    }",
+      "parentUuid": "28ca2137_9bfa6996",
+      "range": {
+        "startLine": 161,
+        "startChar": 4,
+        "endLine": 163,
+        "endChar": 59
+      },
+      "revId": "181a3d0ba0aa41bcc2a86f539db8c3dc6727f3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

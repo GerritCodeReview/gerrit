@@ -158,12 +158,8 @@ public class CommitValidators {
         refControl, gerritIdent));
     validators.add(new AuthorUploaderValidator(refControl, canonicalWebUrl));
     validators.add(new SignedOffByValidator(refControl));
-    if (MagicBranch.isMagicBranch(receiveEvent.command.getRefName())
-        || ReceiveCommits.NEW_PATCHSET.matcher(
-            receiveEvent.command.getRefName()).matches()) {
-      validators.add(new ChangeIdValidator(refControl, canonicalWebUrl,
-          installCommitMsgHookCommand, sshInfo));
-    }
+    validators.add(new ChangeIdValidator(refControl, canonicalWebUrl,
+        installCommitMsgHookCommand, sshInfo));
     validators.add(new ConfigValidator(refControl, repo, allUsers));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
 

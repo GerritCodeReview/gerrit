@@ -81,6 +81,24 @@
       "revId": "0f9619cc90125248ca8cc2d91b58e55324befab8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82d47d73_7e210153",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-05T09:21:22Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e9439c88_d86dcd59",
+      "revId": "0f9619cc90125248ca8cc2d91b58e55324befab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

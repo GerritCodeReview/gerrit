@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3a23969a_8b77ad85",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-05T18:54:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f9d9d17_aff21ffd",
+      "range": {
+        "startLine": 937,
+        "startChar": 38,
+        "endLine": 937,
+        "endChar": 40
+      },
+      "revId": "812fea14c5b2484a17259dabe32149812eafcac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d580a1f_7a8c0655",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "812fea14c5b2484a17259dabe32149812eafcac7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e8b0a88_a19001d1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 943,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-05T18:54:20Z",
+      "side": 1,
+      "message": "I did not. Since file and files come through chain of computed properties, it seemed necessary to add a guard.",
+      "parentUuid": "6d580a1f_7a8c0655",
+      "range": {
+        "startLine": 943,
+        "startChar": 6,
+        "endLine": 943,
+        "endChar": 64
+      },
+      "revId": "812fea14c5b2484a17259dabe32149812eafcac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -17,6 +17,24 @@
       "revId": "3fd01579b5abf27f62dae6fd023d287f41e22f2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93d98018_bd7091e8",
+        "filename": "java/com/google/gerrit/reviewdb/client/AccountSshKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-05T14:50:32Z",
+      "side": 1,
+      "message": "I know, but the GWT UI doesn\u0027t use this class. Updated the commit message.\n\nDone",
+      "parentUuid": "9dc4a6f7_44433d64",
+      "revId": "3fd01579b5abf27f62dae6fd023d287f41e22f2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2ddcfa5_c77ac6c7",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-05T19:42:48Z",
+      "side": 1,
+      "message": "We need to update the daemon documentation to mention that those 2 options are implicitly set when using --slave.\n\nCurrent documentation from Documentation/pgm-daemon.txt:\n\n--enable-httpd::\n--disable-httpd::\n\tEnable (or disable) the internal HTTP daemon, answering\n\tweb requests. Enabled by default when --slave is not used.\n...\n\n--slave::\n\tRun in slave mode, permitting only read operations\n        by clients. Commands which modify state such as\n        link:cmd-receive-pack.html[receive-pack] (creates new changes\n        or updates existing ones) or link:cmd-review.html[review]\n        (sets approve marks) are disabled.\n+\nThis option automatically implies \u0027--enable-sshd\u0027.",
+      "range": {
+        "startLine": 349,
+        "startChar": 30,
+        "endLine": 349,
+        "endChar": 55
+      },
+      "revId": "34001e4dbe6f52fdb0925a55c6ea107f3c3d302b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

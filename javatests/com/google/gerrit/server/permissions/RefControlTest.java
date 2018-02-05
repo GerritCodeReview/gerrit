@@ -773,6 +773,16 @@ public class RefControlTest {
   }
 
   @Test
+  public void nonconfiguredCannotVote() {
+    allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
+
+    ProjectControl u = user(local, REGISTERED_USERS);
+    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    assertCannotVote(-1, range);
+    assertCannotVote(1, range);
+  }
+
+  @Test
   public void unblockInLocalRange_Fails() {
     block(parent, LABEL + "Code-Review", -1, 1, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
@@ -802,6 +812,38 @@ public class RefControlTest {
     PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
     assertCannotVote(-2, range);
     assertCannotVote(2, range);
+  }
+
+  @Test
+  public void blockChangeOwnerVote() {
+    block(local, LABEL + "Code-Review", -2, +2, CHANGE_OWNER, "refs/heads/*");
+
+    ProjectControl u = user(local, DEVS);
+    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    assertCannotVote(-2, range);
+    assertCannotVote(2, range);
+  }
+
+  @Test
+  public void unionOfPermissibleVotes() {
+    allow(local, LABEL + "Code-Review", -1, +1, DEVS, "refs/heads/*");
+    allow(local, LABEL + "Code-Review", -2, +2, REGISTERED_USERS, "refs/heads/*");
+
+    ProjectControl u = user(local, DEVS);
+    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    assertCanVote(-2, range);
+    assertCanVote(2, range);
+  }
+
+  @Test
+  public void unionOfPermissibleVotesPermissionOrder() {
+    allow(local, LABEL + "Code-Review", -2, +2, REGISTERED_USERS, "refs/heads/*");
+    allow(local, LABEL + "Code-Review", -1, +1, DEVS, "refs/heads/*");
+
+    ProjectControl u = user(local, DEVS);
+    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    assertCanVote(-2, range);
+    assertCanVote(2, range);
   }
 
   @Test

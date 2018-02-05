@@ -46,6 +46,10 @@ public abstract class AbstractGitCommand extends BaseCommand {
   protected Project.NameKey projectName;
   protected Project project;
 
+  public void setProjectState(ProjectState projectState) {
+    this.projectState = projectState;
+  }
+
   @Override
   public void start(Environment env) {
     Context ctx = context.subContext(newSession(), context.getCommandLine());
@@ -83,7 +87,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
     return n;
   }
 
-  private void service() throws IOException, PermissionBackendException, Failure {
+  public void service() throws IOException, PermissionBackendException, Failure {
     project = projectState.getProject();
     projectName = project.getNameKey();
 

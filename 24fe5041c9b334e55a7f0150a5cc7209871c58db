@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "0edbfcc2_01acb91f",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-05T14:10:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98c1e72a_2624c191",
+      "range": {
+        "startLine": 379,
+        "startChar": 26,
+        "endLine": 379,
+        "endChar": 51
+      },
+      "revId": "24fe5041c9b334e55a7f0150a5cc7209871c58db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "484963b2_69e91939",
         "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
         "patchSetId": 5

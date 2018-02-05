@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cca5acc6_37ee80de",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-05T11:46:32Z",
+      "side": 1,
+      "message": "Nit: this file is not checked by the buildifier. And on the stable-2.14 this code was still in BUILD that was checked, and 3 spaces indent was rejected. Here the indentation level sems to be 2, so we could adjust it here to have consistently 2 spaces indentation level.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 37
+      },
+      "revId": "79f8561402d6f200718c409965b2492f1d505fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

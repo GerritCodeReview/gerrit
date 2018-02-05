@@ -70,6 +70,24 @@
       "revId": "d46006cff54ce6eaf2499406c5d4eacc2108b7ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df3cabc0_22c83584",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-05T10:33:51Z",
+      "side": 1,
+      "message": "Updated the commit message.\n\nI also checked the docs and didn\u0027t find any place which says that, in the slave mode, Gerrit will only start the SSH daemon. Therefore, this change looks OK for me.\n\nIf we want to document the slave mode more then let\u0027s do it in a follow-up change.",
+      "parentUuid": "b5bf5361_dd9d1bbf",
+      "revId": "d46006cff54ce6eaf2499406c5d4eacc2108b7ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

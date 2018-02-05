@@ -23,6 +23,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import java.io.IOException;
+import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
@@ -45,6 +46,27 @@ public abstract class AbstractGitCommand extends BaseCommand {
   protected Repository repo;
   protected Project.NameKey projectName;
   protected Project project;
+
+  public void setProjectState(ProjectState projectState) {
+    this.projectState = projectState;
+    this.projectName = projectState.getNameKey();
+    this.project = projectState.getProject();
+  }
+
+  public void setRepo(Repository repo) {
+    this.repo = repo;
+  }
+
+  @Override
+  protected void provideStateTo(Command cmd) {
+    super.provideStateTo(cmd);
+
+    if (cmd instanceof AbstractGitCommand) {
+      AbstractGitCommand gitCmd = (AbstractGitCommand) cmd;
+      gitCmd.setProjectState(projectState);
+      gitCmd.setRepo(repo);
+    }
+  }
 
   @Override
   public void start(Environment env) {

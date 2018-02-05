@@ -105,6 +105,14 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createEmptyChange_InvalidSubject() throws Exception {
+   ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+   ci.subject = "Change-Id: I1234000000000000000000000000000000000000";
+   assertCreateFails(ci, ResourceConflictException.class,
+       "missing subject; Change-Id must be in commit message footer");
+  }
+
+  @Test
   public void createNewChange() throws Exception {
     assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
   }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0d707356_9a65574b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-05T14:07:09Z",
+      "side": 1,
+      "message": "Hmm. Instead of changing  this summary line to say two things, I tried to separate this commit into two:\n1- Redefine the interface\n2- Migrate the existing users to the new interface and delete the old.",
+      "parentUuid": "70ca1378_cf49fecc",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "24fe5041c9b334e55a7f0150a5cc7209871c58db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facda9cc_ff460e92",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "43c2100d_93252a34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-05T14:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facda9cc_ff460e92",
+      "range": {
+        "startLine": 12,
+        "startChar": 20,
+        "endLine": 12,
+        "endChar": 21
+      },
+      "revId": "24fe5041c9b334e55a7f0150a5cc7209871c58db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da225735_f30f6d75",
         "filename": "java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
         "patchSetId": 5
@@ -68,6 +116,30 @@
       "revId": "24fe5041c9b334e55a7f0150a5cc7209871c58db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52d6795d_3141341a",
+        "filename": "java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-05T14:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da225735_f30f6d75",
+      "range": {
+        "startLine": 198,
+        "startChar": 44,
+        "endLine": 198,
+        "endChar": 71
+      },
+      "revId": "24fe5041c9b334e55a7f0150a5cc7209871c58db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "44905ec1_7904ff6a",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-05T14:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "484963b2_69e91939",
+      "range": {
+        "startLine": 609,
+        "startChar": 29,
+        "endLine": 609,
+        "endChar": 95
+      },
+      "revId": "24fe5041c9b334e55a7f0150a5cc7209871c58db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36a15af3_b4dc835b",
         "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
         "patchSetId": 5
@@ -140,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "242f2778_e67dfb83",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-05T14:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36a15af3_b4dc835b",
+      "range": {
+        "startLine": 677,
+        "startChar": 50,
+        "endLine": 677,
+        "endChar": 71
+      },
+      "revId": "24fe5041c9b334e55a7f0150a5cc7209871c58db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db0637ac_772700d6",
         "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
         "patchSetId": 5
@@ -160,6 +280,30 @@
       "revId": "24fe5041c9b334e55a7f0150a5cc7209871c58db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0aa8fd5_f52d7f9c",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-05T14:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db0637ac_772700d6",
+      "range": {
+        "startLine": 747,
+        "startChar": 23,
+        "endLine": 747,
+        "endChar": 56
+      },
+      "revId": "24fe5041c9b334e55a7f0150a5cc7209871c58db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

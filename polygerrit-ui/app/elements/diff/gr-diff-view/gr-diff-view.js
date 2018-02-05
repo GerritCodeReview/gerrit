@@ -93,6 +93,10 @@
         type: String,
         observer: '_pathChanged',
       },
+      _fileNum: {
+        type: Number,
+        computed: '_computeFileNum(_path, _formattedFiles)',
+      },
       _loggedIn: {
         type: Boolean,
         value: false,
@@ -927,6 +931,20 @@
 
     _getRevisionInfo(change) {
       return new Gerrit.RevisionInfo(change);
+    },
+
+    _computeFileNum(file, files) {
+      return files.findIndex(({value}) => value === file) + 1;
+    },
+
+    _computeFileNumVisible(file, files) {
+      if (!files) { return 'hidden'; }
+      const fileNum = this._computeFileNum(file, files);
+      if (!isNaN(fileNum) && isFinite(fileNum) && fileNum > 0) {
+        return '';
+      } else {
+        return 'hidden';
+      }
     },
   });
 })();

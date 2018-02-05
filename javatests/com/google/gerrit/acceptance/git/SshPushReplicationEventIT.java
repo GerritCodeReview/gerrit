@@ -24,17 +24,25 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.jcraft.jsch.JSchException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
-import org.junit.Ignore;
+import org.junit.After;
 
 @NoHttpd
 @UseSsh
-// TODO(aliceks): Find a way to make the SSH tests work.
-@Ignore("Doesn't work yet.")
 public class SshPushReplicationEventIT extends AbstractPushReplicationEventIT {
   private SshSession currentUserSession;
 
+  @After
+  public void closeSession() {
+    if (currentUserSession != null) {
+      currentUserSession.close();
+      currentUserSession = null;
+    }
+  }
+
   @Override
   protected void setProtocolUser(AcceptanceTestRequestScope.Context context, TestAccount user) {
+    closeSession();
+    GitUtil.initSsh(user);
     currentUserSession = context.getSession();
     try {
       currentUserSession.open();

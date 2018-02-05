@@ -55,26 +55,16 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
     return injector.getInstance(InMemoryDatabase.class);
   }
 
-  private static int dbCnt;
-
-  private static synchronized DataSource newDataSource() throws SQLException {
-    final Properties p = new Properties();
-    p.setProperty("driver", org.h2.Driver.class.getName());
-    p.setProperty("url", "jdbc:h2:mem:Test_" + (++dbCnt));
-    return new SimpleDataSource(p);
-  }
-
   /** Drop the database from memory; does nothing if the instance was null. */
   public static void drop(InMemoryDatabase db) {
     if (db != null) {
-      db.drop();
+      db.dbInstance.drop();
     }
   }
 
   private final SchemaCreator schemaCreator;
+  private final Instance dbInstance;
 
-  private Connection openHandle;
-  private Database<ReviewDb> database;
   private boolean created;
 
   @Inject
@@ -97,35 +87,26 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
               }
             });
     this.schemaCreator = childInjector.getInstance(SchemaCreator.class);
-    initDatabase();
+    Instance dbInstanceFromInjector = childInjector.getInstance(Instance.class);
+    if (dbInstanceFromInjector != null) {
+      this.dbInstance = dbInstanceFromInjector;
+      this.created = true;
+    } else {
+      this.dbInstance = new Instance();
+    }
   }
 
   InMemoryDatabase(SchemaCreator schemaCreator) throws OrmException {
     this.schemaCreator = schemaCreator;
-    initDatabase();
+    this.dbInstance = new Instance();
   }
 
-  private void initDatabase() throws OrmException {
-    try {
-      DataSource dataSource = newDataSource();
-
-      // Open one connection. This will peg the database into memory
-      // until someone calls drop on us, allowing subsequent connections
-      // opened against the same URL to go to the same set of tables.
-      //
-      openHandle = dataSource.getConnection();
-
-      // Build the access layer around the connection factory.
-      //
-      database = new Database<>(dataSource, ReviewDb.class);
-
-    } catch (SQLException e) {
-      throw new OrmException(e);
-    }
+  public Instance getDbInstance() {
+    return dbInstance;
   }
 
   public Database<ReviewDb> getDatabase() {
-    return database;
+    return dbInstance.database;
   }
 
   @Override
@@ -146,20 +127,6 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
     return this;
   }
 
-  /** Drop this database from memory so it no longer exists. */
-  public void drop() {
-    if (openHandle != null) {
-      try {
-        openHandle.close();
-      } catch (SQLException e) {
-        System.err.println("WARNING: Cannot close database connection");
-        e.printStackTrace(System.err);
-      }
-      openHandle = null;
-      database = null;
-    }
-  }
-
   public SystemConfig getSystemConfig() throws OrmException {
     try (ReviewDb c = open()) {
       return c.systemConfig().get(new SystemConfig.Key());
@@ -174,5 +141,61 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
 
   public void assertSchemaVersion() throws OrmException {
     assertThat(getSchemaVersion().versionNbr).isEqualTo(SchemaVersion.getBinaryVersion());
+  }
+
+  public static class Instance {
+    private static int dbCnt;
+
+    private Connection openHandle;
+    private Database<ReviewDb> database;
+    private boolean keepOpen;
+
+    private static synchronized DataSource newDataSource() throws SQLException {
+      final Properties p = new Properties();
+      p.setProperty("driver", org.h2.Driver.class.getName());
+      p.setProperty("url", "jdbc:h2:mem:Test_" + (++dbCnt));
+      return new SimpleDataSource(p);
+    }
+
+    private Instance() throws OrmException {
+      try {
+        DataSource dataSource = newDataSource();
+
+        // Open one connection. This will peg the database into memory
+        // until someone calls drop on us, allowing subsequent connections
+        // opened against the same URL to go to the same set of tables.
+        //
+        openHandle = dataSource.getConnection();
+
+        // Build the access layer around the connection factory.
+        //
+        database = new Database<>(dataSource, ReviewDb.class);
+
+      } catch (SQLException e) {
+        throw new OrmException(e);
+      }
+    }
+
+    public void setKeepOpen(boolean keepOpen) {
+      this.keepOpen = keepOpen;
+    }
+
+    /** Drop this database from memory so it no longer exists. */
+    public void drop() {
+      if (keepOpen) {
+        return;
+      }
+
+      if (openHandle != null) {
+        try {
+          openHandle.close();
+        } catch (SQLException e) {
+          System.err.println("WARNING: Cannot close database connection");
+          e.printStackTrace(System.err);
+        }
+        openHandle = null;
+        database = null;
+      }
+    }
   }
 }

@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
@@ -129,6 +128,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.jcraft.jsch.JSchException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -201,8 +201,10 @@ public abstract class AbstractDaemonTest {
               }
               beforeTest(description);
               try (ProjectResetter resetter = resetProjects(projectResetter.builder())) {
+                AbstractDaemonTest.this.resetter = resetter;
                 base.evaluate();
               } finally {
+                AbstractDaemonTest.this.resetter = null;
                 afterTest();
               }
             }
@@ -267,6 +269,7 @@ public abstract class AbstractDaemonTest {
   @Inject private SchemaFactory<ReviewDb> reviewDbProvider;
   @Inject private Groups groups;
 
+  private ProjectResetter resetter;
   private List<Repository> toClose;
 
   @Before
@@ -328,6 +331,16 @@ public abstract class AbstractDaemonTest {
             RefNames.REFS_STARRED_CHANGES + "*",
             RefNames.REFS_DRAFT_COMMENTS + "*")
         .build();
+  }
+
+  protected void restartAsSlave() throws Exception {
+    closeSsh();
+    server = GerritServer.restartAsSlave(server);
+    server.getTestInjector().injectMembers(this);
+    if (resetter != null) {
+      server.getTestInjector().injectMembers(resetter);
+    }
+    initSsh();
   }
 
   protected static Config submitWholeTopicEnabledConfig() {
@@ -396,20 +409,7 @@ public abstract class AbstractDaemonTest {
     adminRestSession = new RestSession(server, admin);
     userRestSession = new RestSession(server, user);
 
-    if (testRequiresSsh
-        && SshMode.useSsh()
-        && (adminSshSession == null || userSshSession == null)) {
-      // Create Ssh sessions
-      initSsh(admin);
-      Context ctx = newRequestContext(user);
-      atrScope.set(ctx);
-      userSshSession = ctx.getSession();
-      userSshSession.open();
-      ctx = newRequestContext(admin);
-      atrScope.set(ctx);
-      adminSshSession = ctx.getSession();
-      adminSshSession.open();
-    }
+    initSsh();
 
     resourcePrefix =
         UNSAFE_PROJECT_NAME
@@ -420,6 +420,23 @@ public abstract class AbstractDaemonTest {
     atrScope.set(ctx);
     project = createProject(projectInput(description));
     testRepo = cloneProject(project, getCloneAsAccount(description));
+  }
+
+  protected void initSsh() throws JSchException {
+    if (testRequiresSsh
+        && SshMode.useSsh()
+        && (adminSshSession == null || userSshSession == null)) {
+      // Create Ssh sessions
+      GitUtil.initSsh(admin);
+      Context ctx = newRequestContext(user);
+      atrScope.set(ctx);
+      userSshSession = ctx.getSession();
+      userSshSession.open();
+      ctx = newRequestContext(admin);
+      atrScope.set(ctx);
+      adminSshSession = ctx.getSession();
+      adminSshSession.open();
+    }
   }
 
   private TestAccount getCloneAsAccount(Description description) {
@@ -557,17 +574,23 @@ public abstract class AbstractDaemonTest {
       repo.close();
     }
     db.close();
-    if (adminSshSession != null) {
-      adminSshSession.close();
-    }
-    if (userSshSession != null) {
-      userSshSession.close();
-    }
+    closeSsh();
     if (server != commonServer) {
       server.close();
       server = null;
     }
     NoteDbMode.resetFromEnv(notesMigration);
+  }
+
+  protected void closeSsh() {
+    if (adminSshSession != null) {
+      adminSshSession.close();
+      adminSshSession = null;
+    }
+    if (userSshSession != null) {
+      userSshSession.close();
+      userSshSession = null;
+    }
   }
 
   protected TestRepository<?>.CommitBuilder commitBuilder() throws Exception {

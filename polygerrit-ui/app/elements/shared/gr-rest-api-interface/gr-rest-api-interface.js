@@ -1420,7 +1420,7 @@
     getFileContent(changeNum, path, patchNum) {
       const promise = this.patchNumEquals(patchNum, this.EDIT_NAME) ?
           this._getFileInChangeEdit(changeNum, path) :
-          this._getFileInRevision(changeNum, path, patchNum);
+          this._getFileInRevision(changeNum, path, patchNum, true);
 
       return promise.then(res => {
         if (!res.ok) { return res; }
@@ -1439,12 +1439,13 @@
      * @param {number|string} changeNum
      * @param {string} path
      * @param {number|string} patchNum
+     * @param {boolean=} opt_suppressErrors used to suppress server errors.
      */
-    _getFileInRevision(changeNum, path, patchNum) {
+    _getFileInRevision(changeNum, path, patchNum, opt_suppressErrors) {
       const e = `/files/${encodeURIComponent(path)}/content`;
       const headers = {Accept: 'application/json'};
       return this.getChangeURLAndSend(changeNum, 'GET', patchNum, e, null, null,
-          null, null, headers);
+          null, null, headers, opt_suppressErrors);
     },
 
     /**
@@ -1522,9 +1523,10 @@
      * @param {?=} opt_ctx
      * @param {?string=} opt_contentType
      * @param {Object=} opt_headers
+     * @param {boolean=} opt_suppressErrors used to suppress server errors.
      */
     send(method, url, opt_body, opt_errFn, opt_ctx, opt_contentType,
-        opt_headers) {
+        opt_headers, opt_suppressErrors) {
       const options = {method};
       if (opt_body) {
         options.headers = new Headers();
@@ -1550,7 +1552,7 @@
           if (opt_errFn) {
             return opt_errFn.call(opt_ctx || null, response);
           }
-          this.fire('server-error', {response});
+          if (!opt_suppressErrors) { this.fire('server-error', {response}); }
         }
         return response;
       }).catch(err => {
@@ -2087,13 +2089,14 @@
      * @param {?=} opt_ctx
      * @param {?=} opt_contentType
      * @param {Object=} opt_headers
+     * @param {boolean=} opt_suppressErrors
      * @return {!Promise<!Object>}
      */
     getChangeURLAndSend(changeNum, method, patchNum, endpoint, opt_payload,
-        opt_errFn, opt_ctx, opt_contentType, opt_headers) {
+        opt_errFn, opt_ctx, opt_contentType, opt_headers, opt_suppressErrors) {
       return this._changeBaseURL(changeNum, patchNum).then(url => {
         return this.send(method, url + endpoint, opt_payload, opt_errFn,
-            opt_ctx, opt_contentType, opt_headers);
+            opt_ctx, opt_contentType, opt_headers, opt_suppressErrors);
       });
     },
 

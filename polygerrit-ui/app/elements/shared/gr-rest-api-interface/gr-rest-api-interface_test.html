@@ -56,6 +56,22 @@ limitations under the License.
       sandbox.restore();
     });
 
+    test('send respects opt_suppressErrors', () => {
+      sandbox.stub(Gerrit.Auth, 'fetch').returns(Promise.resolve({}));
+      const handler = sinon.stub();
+      element.addEventListener('server-error', handler);
+
+      return element.send('PUT', 'test', null, null, null, null, null, true)
+          .then(res => {
+            flushAsynchronousOperations();
+            assert.isFalse(handler.called);
+            return element.send('PUT', 'test').then(res => {
+              flushAsynchronousOperations();
+              assert.isTrue(handler.called);
+            });
+          });
+    });
+
     test('JSON prefix is properly removed', done => {
       element.fetchJSON('/dummy/url').then(obj => {
         assert.deepEqual(obj, {hello: 'bonjour'});

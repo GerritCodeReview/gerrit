@@ -1277,6 +1277,23 @@ limitations under the License.
       return Promise.all([edit, normal]);
     });
 
+    test('getFileContent suppresses 404s', done => {
+      const res = {status: 404};
+      const handler = e => {
+        assert.isFalse(e.detail.res.status === 404);
+        done();
+      };
+      element.addEventListener('server-error', handler);
+      sandbox.stub(Gerrit.Auth, 'fetch').returns(Promise.resolve(res));
+      sandbox.stub(element, '_changeBaseURL').returns(Promise.resolve(''));
+      element.getFileContent('1', 'tst/path', '1').then(() => {
+        flushAsynchronousOperations();
+
+        res.status = 500;
+        element.getFileContent('1', 'tst/path', '1');
+      });
+    });
+
     test('getChangeFilesAsSpeciallySortedArray is edit-sensitive', () => {
       const fn = element.getChangeFilesAsSpeciallySortedArray.bind(element);
       const getChangeFilesStub = sandbox.stub(element, 'getChangeFiles')

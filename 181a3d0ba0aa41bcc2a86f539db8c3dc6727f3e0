@@ -46,6 +46,30 @@
       "revId": "181a3d0ba0aa41bcc2a86f539db8c3dc6727f3e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d511ea2_10967e96",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-05T07:35:25Z",
+      "side": 0,
+      "message": "Yes, on stable-2.14 the check here has been factored out to a separate method.\n\nFixing it in the regex has the nice side effect of reducing the amount of merge conflict.",
+      "parentUuid": "fa1fb5b5_b9039efb",
+      "range": {
+        "startLine": 161,
+        "startChar": 4,
+        "endLine": 163,
+        "endChar": 59
+      },
+      "revId": "181a3d0ba0aa41bcc2a86f539db8c3dc6727f3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

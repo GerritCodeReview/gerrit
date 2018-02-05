@@ -568,13 +568,19 @@
       promises.push(this._getChangeDetail(this._changeNum).then(change => {
         let commit;
         let baseCommit;
-        for (const k in change.revisions) {
-          if (!change.revisions.hasOwnProperty(k)) continue;
-          const patchNum = change.revisions[k]._number.toString();
+        for (const commitSha in change.revisions) {
+          if (!change.revisions.hasOwnProperty(commitSha)) continue;
+          const revision = change.revisions[commitSha];
+          const patchNum = revision._number.toString();
           if (patchNum === this._patchRange.patchNum) {
-            commit = k;
+            commit = commitSha;
+            const commitObj = revision.commit || {};
+            const parents = commitObj.parents || [];
+            if (this._patchRange.basePatchNum === PARENT && parents.length) {
+              baseCommit = parents[parents.length - 1].commit;
+            }
           } else if (patchNum === this._patchRange.basePatchNum) {
-            baseCommit = k;
+            baseCommit = commitSha;
           }
         }
         this._commitRange = {commit, baseCommit};

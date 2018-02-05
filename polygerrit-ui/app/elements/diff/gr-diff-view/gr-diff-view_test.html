@@ -622,6 +622,66 @@ limitations under the License.
       assert.equal(select.nativeSelect.value, 'SIDE_BY_SIDE');
     });
 
+    suite('_commitRange', () => {
+      setup(() => {
+        sandbox.stub(element.$.diff, 'reload');
+        sandbox.stub(element, '_initCursor');
+        sandbox.stub(element, '_getChangeDetail').returns(Promise.resolve({
+          _number: 42,
+          revisions: {
+            'commit-sha-1': {
+              _number: 1,
+              commit: {
+                parents: [{commit: 'sha-1-parent'}],
+              },
+            },
+            'commit-sha-2': {_number: 2},
+            'commit-sha-3': {_number: 3},
+            'commit-sha-4': {_number: 4},
+            'commit-sha-5': {
+              _number: 5,
+              commit: {
+                parents: [{commit: 'sha-5-parent'}],
+              },
+            },
+          },
+        }));
+      });
+
+      test('uses the patchNum and basePatchNum ', done => {
+        element.params = {
+          view: Gerrit.Nav.View.DIFF,
+          changeNum: '42',
+          patchNum: '4',
+          basePatchNum: '2',
+          path: '/COMMIT_MSG',
+        };
+        flush(() => {
+          assert.deepEqual(element._commitRange, {
+            baseCommit: 'commit-sha-2',
+            commit: 'commit-sha-4',
+          });
+          done();
+        });
+      });
+
+      test('uses the parent when there is no base patch num ', done => {
+        element.params = {
+          view: Gerrit.Nav.View.DIFF,
+          changeNum: '42',
+          patchNum: '5',
+          path: '/COMMIT_MSG',
+        };
+        flush(() => {
+          assert.deepEqual(element._commitRange, {
+            commit: 'commit-sha-5',
+            baseCommit: 'sha-5-parent',
+          });
+          done();
+        });
+      });
+    });
+
     test('_initCursor', () => {
       assert.isNotOk(element.$.cursor.initialLineNumber);
 

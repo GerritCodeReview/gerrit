@@ -53,7 +53,7 @@ limitations under the License.
         padding: .5em .7em;
       }
     </style>
-    <div id="container" class$="[[_computeHostClass(_unresolved)]]">
+    <div id="container" class$="[[_computeHostClass(unresolved)]]">
       <template id="commentList" is="dom-repeat" items="[[_orderedComments]]"
           as="comment">
         <gr-diff-comment
@@ -71,7 +71,7 @@ limitations under the License.
       </template>
       <div id="commentInfoContainer"
           hidden$="[[_hideActions(_showActions, _lastComment)]]">
-        <span id="unresolvedLabel" hidden$="[[!_unresolved]]">Unresolved</span>
+        <span id="unresolvedLabel" hidden$="[[!unresolved]]">Unresolved</span>
         <div id="actions">
           <gr-button
               id="replyBtn"

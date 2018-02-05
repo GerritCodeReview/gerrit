@@ -57,13 +57,9 @@ public final class AccountSshKey {
     }
   }
 
-  protected AccountSshKey.Id id;
-
-  protected String sshPublicKey;
-
-  protected boolean valid;
-
-  protected AccountSshKey() {}
+  private AccountSshKey.Id id;
+  private String sshPublicKey;
+  private boolean valid;
 
   public AccountSshKey(AccountSshKey.Id i, String pub) {
     id = i;

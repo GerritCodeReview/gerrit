@@ -96,7 +96,6 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -107,7 +106,6 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.http.client.URL;
 import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtorm.client.KeyUtil;
-import java.util.Optional;
 
 public class Dispatcher {
   public static String toPatch(
@@ -300,7 +298,7 @@ public class Dispatcher {
 
   private static Screen mine() {
     if (Gerrit.isSignedIn()) {
-      return new AccountDashboardScreen(Gerrit.getUserAccount().getId());
+      return new AccountDashboardScreen(Gerrit.getUserAccount()._accountId());
     }
     Screen r = new AccountDashboardScreen(null);
     r.setRequiresSignIn(true);
@@ -309,15 +307,15 @@ public class Dispatcher {
 
   private static void dashboard(String token) {
     String rest = skip(token);
-    Optional<Account.Id> accountId = Account.Id.tryParse(rest);
-    if (accountId.isPresent()) {
-      Gerrit.display(token, new AccountDashboardScreen(accountId.get()));
+    if (rest.matches("[0-9]+")) {
+      int accountId = Integer.parseInt(rest);
+      Gerrit.display(token, new AccountDashboardScreen(accountId));
       return;
     }
 
     if (rest.equals("self")) {
       if (Gerrit.isSignedIn()) {
-        Gerrit.display(token, new AccountDashboardScreen(Gerrit.getUserAccount().getId()));
+        Gerrit.display(token, new AccountDashboardScreen(Gerrit.getUserAccount()._accountId()));
       } else {
         Screen s = new AccountDashboardScreen(null);
         s.setRequiresSignIn(true);

@@ -152,10 +152,6 @@ public class RefControlTest {
     assertThat(create).named("cannot create change " + ref).isFalse();
   }
 
-  private void assertNotBlocked(String p, String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).canPerform(p)).named(p + " is blocked for " + ref).isTrue();
-  }
-
   private void assertCanUpdate(String ref, ProjectControl u) {
     boolean update = u.asForProject().ref(ref).testOrFalse(RefPermission.UPDATE);
     assertThat(update).named("can update " + ref).isTrue();

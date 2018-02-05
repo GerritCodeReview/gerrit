@@ -39,6 +39,30 @@
       "revId": "f1f719b39bdd71a0657c6ab3ebb5674a535d4e88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "263edc20_0ff1c3cb",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2018-02-05T23:20:25Z",
+      "side": 1,
+      "message": ":) all set",
+      "parentUuid": "6cde8668_89634993",
+      "range": {
+        "startLine": 58,
+        "startChar": 36,
+        "endLine": 58,
+        "endChar": 49
+      },
+      "revId": "f1f719b39bdd71a0657c6ab3ebb5674a535d4e88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,57 @@
+<!--
+Copyright (C) 2018 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
+<link rel="import" href="../../diff/gr-diff-comment-thread/gr-diff-comment-thread.html">
+
+
+<dom-module id="gr-thread-list">
+  <template>
+    <style include="shared-styles">
+      .draftsOnly gr-diff-comment-thread,
+      .unresolvedOnly gr-diff-comment-thread {
+        display: none
+      }
+      .draftsOnly:not(.unresolvedOnly) gr-diff-comment-thread[has-draft],
+      .unresolvedOnly:not(.draftsOnly) gr-diff-comment-thread[unresolved],
+      .draftsOnly.unresolvedOnly gr-diff-comment-thread[has-draft][unresolved] {
+        display: block
+      }
+    </style>
+    <div id="threads">
+      <div>
+        <paper-toggle-button
+            id="unresolvedToggle"
+            on-change="_toggleUnresolved"></paper-toggle-button>Only Unresolved threads
+        <paper-toggle-button
+            id="draftToggle"
+            on-change="_toggleDrafts"></paper-toggle-button>Only threads with drafts
+      </div>
+      <template is="dom-repeat" items="[[threads]]" as="thread">
+          <a href$="[[_getDiffUrlForComment(change, thread.path, thread.patchNum, thread.line)]]">[[thread.path]]</a>
+          <gr-diff-comment-thread
+              comments="[[thread.comments]]"
+              comment-side="[[thread.commentSide]]"
+              patch-num="[[thread.patchNum]]"
+              path="[[thread.path]]"></gr-diff-comment-thread>
+      </template>
+    </div>
+  </template>
+  <script src="gr-thread-list.js"></script>
+</dom-module>

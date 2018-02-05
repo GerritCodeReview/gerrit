@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -98,16 +99,24 @@ public class AccountResolver {
       throws OrmException, IOException, ConfigInvalidException {
     Matcher m = Pattern.compile("^.* \\(([1-9][0-9]*)\\)$").matcher(nameOrEmail);
     if (m.matches()) {
-      Account.Id id = Account.Id.parse(m.group(1));
-      return Streams.stream(accounts.get(id)).map(a -> id).collect(toImmutableSet());
+      Optional<Account.Id> id = Account.Id.tryParse(m.group(1));
+      if (id.isPresent()) {
+        return Streams.stream(accounts.get(id.get()))
+            .map(a -> a.getAccount().getId())
+            .collect(toImmutableSet());
+      }
     }
 
     if (nameOrEmail.matches("^[1-9][0-9]*$")) {
-      Account.Id id = Account.Id.parse(nameOrEmail);
-      return Streams.stream(accounts.get(id)).map(a -> id).collect(toImmutableSet());
+      Optional<Account.Id> id = Account.Id.tryParse(nameOrEmail);
+      if (id.isPresent()) {
+        return Streams.stream(accounts.get(id.get()))
+            .map(a -> a.getAccount().getId())
+            .collect(toImmutableSet());
+      }
     }
 
-    if (nameOrEmail.matches(Account.USER_NAME_PATTERN)) {
+    if (nameOrEmail.matches(ExternalId.USER_NAME_PATTERN_REGEX)) {
       Optional<AccountState> who = byId.getByUsername(nameOrEmail);
       if (who.isPresent()) {
         return ImmutableSet.of(who.map(a -> a.getAccount().getId()).get());

@@ -39,6 +39,7 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.MemberResource;
@@ -189,7 +190,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   }
 
   private Optional<Account> createAccountByLdap(String user) throws IOException {
-    if (!user.matches(Account.USER_NAME_PATTERN)) {
+    if (!user.matches(ExternalId.USER_NAME_PATTERN_REGEX)) {
       return Optional.empty();
     }
 

@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import java.sql.Timestamp;
+import java.util.Optional;
 
 /**
  * Information about a single user.
@@ -45,31 +46,6 @@ import java.sql.Timestamp;
  * </ul>
  */
 public final class Account {
-  public static final String USER_NAME_PATTERN_FIRST = "[a-zA-Z0-9]";
-  public static final String USER_NAME_PATTERN_REST = "[a-zA-Z0-9._@-]";
-  public static final String USER_NAME_PATTERN_LAST = "[a-zA-Z0-9]";
-
-  /** Regular expression that a username must match. */
-  public static final String USER_NAME_PATTERN =
-      "^"
-          + //
-          "("
-          + //
-          USER_NAME_PATTERN_FIRST
-          + //
-          USER_NAME_PATTERN_REST
-          + "*"
-          + //
-          USER_NAME_PATTERN_LAST
-          + //
-          "|"
-          + //
-          USER_NAME_PATTERN_FIRST
-          + //
-          ")"
-          + //
-          "$";
-
   /** Key local to Gerrit to identify a user. */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
@@ -94,10 +70,12 @@ public final class Account {
     }
 
     /** Parse an Account.Id out of a string representation. */
-    public static Id parse(String str) {
-      Id r = new Id();
-      r.fromString(str);
-      return r;
+    public static Optional<Id> tryParse(String str) {
+      try {
+        return Optional.of(new Id(Integer.parseInt(str)));
+      } catch (NumberFormatException e) {
+        return Optional.empty();
+      }
     }
 
     public static Id fromRef(String name) {

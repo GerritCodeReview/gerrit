@@ -96,7 +96,6 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -299,7 +298,7 @@ public class Dispatcher {
 
   private static Screen mine() {
     if (Gerrit.isSignedIn()) {
-      return new AccountDashboardScreen(Gerrit.getUserAccount().getId());
+      return new AccountDashboardScreen(Gerrit.getUserAccount()._accountId());
     }
     Screen r = new AccountDashboardScreen(null);
     r.setRequiresSignIn(true);
@@ -309,13 +308,14 @@ public class Dispatcher {
   private static void dashboard(String token) {
     String rest = skip(token);
     if (rest.matches("[0-9]+")) {
-      Gerrit.display(token, new AccountDashboardScreen(Account.Id.parse(rest)));
+      int accountId = Integer.parseInt(rest);
+      Gerrit.display(token, new AccountDashboardScreen(accountId));
       return;
     }
 
     if (rest.equals("self")) {
       if (Gerrit.isSignedIn()) {
-        Gerrit.display(token, new AccountDashboardScreen(Gerrit.getUserAccount().getId()));
+        Gerrit.display(token, new AccountDashboardScreen(Gerrit.getUserAccount()._accountId()));
       } else {
         Screen s = new AccountDashboardScreen(null);
         s.setRequiresSignIn(true);

@@ -127,7 +127,13 @@ public class NoteDbChangeState {
         List<String> draftParts = s.splitToList(p);
         checkArgument(
             draftParts.size() == 2, "invalid draft state part for change %s: %s", changeId, p);
-        draftIds.put(Account.Id.parse(draftParts.get(0)), ObjectId.fromString(draftParts.get(1)));
+        Optional<Account.Id> accountId = Account.Id.tryParse(draftParts.get(0));
+        checkArgument(
+            accountId.isPresent(),
+            "invalid account ID in draft state part for change %s: %s",
+            changeId,
+            p);
+        draftIds.put(accountId.get(), ObjectId.fromString(draftParts.get(1)));
       }
       return Optional.of(create(changeMetaId, draftIds));
     }

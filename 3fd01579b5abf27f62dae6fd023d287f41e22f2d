@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1517827912 +0100\nnonce AFD2Vu2BxrrZOti1S/RKsM7SPa9j5hlB0V9Z853Om6qoUKa5fTnvUeFrdkO8qRmpOxl6sYfpgYTN\n\n0000000000000000000000000000000000000000 3fd01579b5abf27f62dae6fd023d287f41e22f2d refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlp4N0gACgkQUbX9l6DQ\n71FLwAf/SCJlrORkn/qX82kqerZXCaDQNbhVDWcBwnVUqQMEVMoyf5xXzrUDMwbI\njYyyRjEPGG05LVyQA4bNKHZC5BA0VRYQ0X7ruKvIH8yXI6SoS982UsxDhkTv2cH9\nYCfJ53DLn8ukImzAzd7Wm5ggRWz+ovNN0K8aSJx/cG0yF0lLCANluEw6HxY9Lbw/\nAYLbadfn5NL5lTy2OZQqUancghO630eWTgtursvYLwjN8dnbNZiiInSiE+U605x5\n3RPzh25rJNl7BbFPbbN8n8wZwnHiMaaQioYEEQ1BqSnyezAs3Q3GQ/tR8nLsSkJm\nVgZE6U2kSJgGxO5OxqFb1FYPGDuVAw\u003d\u003d\n\u003dfMpv\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9dc4a6f7_44433d64",
+        "filename": "java/com/google/gerrit/reviewdb/client/AccountSshKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-05T13:30:55Z",
+      "side": 1,
+      "message": "IIRC protected is maybe required for some GWT reason, e.g. so it can be created with GWT.create()?\n\nBut as long as the relevant parts of the UI still work, LGTM.",
+      "revId": "3fd01579b5abf27f62dae6fd023d287f41e22f2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

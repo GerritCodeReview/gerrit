@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70ca1378_cf49fecc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-05T12:39:39Z",
+      "side": 1,
+      "message": "Should we maybe change the summary line for this commit now that this change impacts the sending of audit events? In my opinion, this change of behavior would be more important than the modification of the interface.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "24fe5041c9b334e55a7f0150a5cc7209871c58db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "facda9cc_ff460e92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-05T12:39:39Z",
+      "side": 1,
+      "message": "nit: Should this be a colon? To me, the previous sentence doesn\u0027t sound complete if we have a full stop here.",
+      "range": {
+        "startLine": 12,
+        "startChar": 20,
+        "endLine": 12,
+        "endChar": 21
+      },
+      "revId": "24fe5041c9b334e55a7f0150a5cc7209871c58db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da225735_f30f6d75",
+        "filename": "java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-05T12:39:39Z",
+      "side": 1,
+      "message": "nit: This statement refers to the raw class. It would be better to either use the diamond operator on the constructor or replace it with ImmutableList.builder().",
+      "range": {
+        "startLine": 198,
+        "startChar": 44,
+        "endLine": 198,
+        "endChar": 71
+      },
+      "revId": "24fe5041c9b334e55a7f0150a5cc7209871c58db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98c1e72a_2624c191",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-05T12:39:39Z",
+      "side": 1,
+      "message": "nit: This method and the ones below can be static.",
+      "range": {
+        "startLine": 379,
+        "startChar": 26,
+        "endLine": 379,
+        "endChar": 51
+      },
+      "revId": "24fe5041c9b334e55a7f0150a5cc7209871c58db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "484963b2_69e91939",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-05T12:39:39Z",
+      "side": 1,
+      "message": "nit: Here and below, this could be replaced with a direct call of forEach() (stream() is not necessary) and a method reference:\n\n forEach(groupIncludeCache::evictGroupsWithMember)",
+      "range": {
+        "startLine": 609,
+        "startChar": 29,
+        "endLine": 609,
+        "endChar": 95
+      },
+      "revId": "24fe5041c9b334e55a7f0150a5cc7209871c58db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36a15af3_b4dc835b",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-05T12:39:39Z",
+      "side": 1,
+      "message": "nit: I would prefer if this method (as well as toAccountGroupByIds) was located close to the calling methods and hence above createGroupInNoteDbWithRetry().",
+      "range": {
+        "startLine": 677,
+        "startChar": 50,
+        "endLine": 677,
+        "endChar": 71
+      },
+      "revId": "24fe5041c9b334e55a7f0150a5cc7209871c58db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db0637ac_772700d6",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-05T12:39:39Z",
+      "side": 1,
+      "message": "Because of this, we have two lines in the code which set a default for the updatedOn timestamp which will never be used due to lines 250-254. I can imagine that this might cause confusion for others in the future.\n\nMy suggestion would be:\n- Move lines 250-254 from updateGroupInDb() to updateGroup(). (We should probably adjust the comment as well as we now need the same timestamp for NoteDb and audit logs in general, not just ReviewDb.)\n- Add a Timestamp parameter to dispatchAuditEventsOnGroupUpdate().\n- In updateGroup(), extract the set updatedOn timestamp and pass it to dispatchAuditEventsOnGroupUpdate().\n- In updateGroup(), if updateOn is not set on the InternalGroupUpdate, generate a default value. Set that value on the groupUpdate and also pass it to dispatchAuditEventsOnGroupUpdate().",
+      "range": {
+        "startLine": 747,
+        "startChar": 23,
+        "endLine": 747,
+        "endChar": 56
+      },
+      "revId": "24fe5041c9b334e55a7f0150a5cc7209871c58db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

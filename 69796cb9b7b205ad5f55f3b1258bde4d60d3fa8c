@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed08fd20_4d73db70",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-02-05T10:40:46Z",
+      "side": 1,
+      "message": "the message doesn\u0027t match the assertion.",
+      "revId": "69796cb9b7b205ad5f55f3b1258bde4d60d3fa8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

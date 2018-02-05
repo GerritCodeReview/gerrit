@@ -16,6 +16,24 @@
       "revId": "61b34f7deef1f1a186420113a3abb1dc5a472c59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a71c4a3f_dd5fd58b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-02-05T19:47:19Z",
+      "side": 1,
+      "message": "Yes i think so, at least when i click on a user it takes me to there dashboard on 2.15. See http://gerrit-test.wmflabs.org/gerrit/dashboard/jenkins@gerrit-test.wmflabs.org\n\nhttp://gerrit-test.wmflabs.org/gerrit/c/testing/test/+/1068",
+      "parentUuid": "4880d50f_06eade78",
+      "revId": "61b34f7deef1f1a186420113a3abb1dc5a472c59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

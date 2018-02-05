@@ -18,7 +18,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.gerrit.reviewdb.client.AccountSshKey;
+import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;

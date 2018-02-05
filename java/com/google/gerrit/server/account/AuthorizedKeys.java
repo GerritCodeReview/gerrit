@@ -16,7 +16,6 @@ package com.google.gerrit.server.account;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountSshKey;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

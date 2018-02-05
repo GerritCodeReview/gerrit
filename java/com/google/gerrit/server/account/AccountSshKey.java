@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.reviewdb.client;
+package com.google.gerrit.server.account;
 
+import com.google.gerrit.reviewdb.client.Account;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -57,13 +58,9 @@ public final class AccountSshKey {
     }
   }
 
-  protected AccountSshKey.Id id;
-
-  protected String sshPublicKey;
-
-  protected boolean valid;
-
-  protected AccountSshKey() {}
+  private AccountSshKey.Id id;
+  private String sshPublicKey;
+  private boolean valid;
 
   public AccountSshKey(AccountSshKey.Id i, String pub) {
     id = i;

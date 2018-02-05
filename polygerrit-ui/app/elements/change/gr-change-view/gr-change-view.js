@@ -1112,6 +1112,8 @@
           .then(comments => {
             this._changeComments = comments;
             this._diffDrafts = Object.assign({}, this._changeComments.drafts);
+            this._commentThreads = this._changeComments.
+                getAllThreadsForChange();
           });
     },
 

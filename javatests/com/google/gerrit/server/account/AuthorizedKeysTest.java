@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountSshKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +27,11 @@ public class AuthorizedKeysTest {
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCgug5VyMXQGnem2H1KVC4/HcRcD4zzBqS"
           + "uJBRWVonSSoz3RoAZ7bWXCVVGwchtXwUURD689wFYdiPecOrWOUgeeyRq754YWRhU+W28"
           + "vf8IZixgjCmiBhaL2gt3wff6pP+NXJpTSA4aeWE5DfNK5tZlxlSxqkKOS8JRSUeNQov5T"
+          + "w== john.doe@example.com";
+  private static final String KEY1_WITH_NEWLINES =
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCgug5VyMXQGnem2H1KVC4/HcRcD4zzBqS\n"
+          + "uJBRWVonSSoz3RoAZ7bWXCVVGwchtXwUURD689wFYdiPecOrWOUgeeyRq754YWRhU+W28\n"
+          + "vf8IZixgjCmiBhaL2gt3wff6pP+NXJpTSA4aeWE5DfNK5tZlxlSxqkKOS8JRSUeNQov5T\n"
           + "w== john.doe@example.com";
   private static final String KEY2 =
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDm5yP7FmEoqzQRDyskX+9+N0q9GrvZeh5"
@@ -49,6 +53,8 @@ public class AuthorizedKeysTest {
           + "rqIyUiYIMJK93/AXc8qR/J/p3OIFQAxvLz1qozAur3j5HaiwvxVU19IiSA0vafdhaDLRi"
           + "zRuEL5e/QOu9yGq9xkWApCmg6edpWAHG+Bx4AldU78MiZvzoB7gMMdxc9RmZ1gYj/DjxV"
           + "w== john.doe@example.com";
+
+  private final Account.Id accountId = new Account.Id(1);
 
   @Test
   public void test() throws Exception {
@@ -103,6 +109,34 @@ public class AuthorizedKeysTest {
 
     authorizedKeys.append(toWindowsLineEndings(addKey(keys, KEY5)));
     assertParse(authorizedKeys, keys);
+  }
+
+  @Test
+  public void validity() throws Exception {
+    AccountSshKey key = new AccountSshKey(new AccountSshKey.Id(accountId, -1), KEY1);
+    assertThat(key.isValid()).isFalse();
+    key = new AccountSshKey(new AccountSshKey.Id(accountId, 0), KEY1);
+    assertThat(key.isValid()).isFalse();
+    key = new AccountSshKey(new AccountSshKey.Id(accountId, 1), KEY1);
+    assertThat(key.isValid()).isTrue();
+  }
+
+  @Test
+  public void getters() throws Exception {
+    AccountSshKey key = new AccountSshKey(new AccountSshKey.Id(accountId, 1), KEY1);
+    assertThat(key.getSshPublicKey()).isEqualTo(KEY1);
+    assertThat(key.getAlgorithm()).isEqualTo(KEY1.split(" ")[0]);
+    assertThat(key.getEncodedKey()).isEqualTo(KEY1.split(" ")[1]);
+    assertThat(key.getComment()).isEqualTo(KEY1.split(" ")[2]);
+  }
+
+  @Test
+  public void keyWithNewLines() throws Exception {
+    AccountSshKey key = new AccountSshKey(new AccountSshKey.Id(accountId, 1), KEY1_WITH_NEWLINES);
+    assertThat(key.getSshPublicKey()).isEqualTo(KEY1);
+    assertThat(key.getAlgorithm()).isEqualTo(KEY1.split(" ")[0]);
+    assertThat(key.getEncodedKey()).isEqualTo(KEY1.split(" ")[1]);
+    assertThat(key.getComment()).isEqualTo(KEY1.split(" ")[2]);
   }
 
   private static String toWindowsLineEndings(String s) {

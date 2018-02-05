@@ -39,9 +39,9 @@ import java.util.Optional;
  *       and a personal email address.
  *   <li>{@link AccountGroupMember}: membership of the user in a specific human managed {@link
  *       AccountGroup}. Multiple records can exist when the user is a member of more than one group.
- *   <li>{@link AccountSshKey}: user's public SSH keys, for authentication through the internal SSH
- *       daemon. One record per SSH key uploaded by the user, keys are checked in random order until
- *       a match is found.
+ *   <li>AccountSshKey: user's public SSH keys, for authentication through the internal SSH daemon.
+ *       One record per SSH key uploaded by the user, keys are checked in random order until a match
+ *       is found.
  *   <li>{@link DiffPreferencesInfo}: user's preferences for rendering side-to-side and unified diff
  * </ul>
  */

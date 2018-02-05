@@ -15,7 +15,7 @@
 package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.common.errors.InvalidSshKeyException;
-import com.google.gerrit.reviewdb.client.AccountSshKey;
+import com.google.gerrit.server.account.AccountSshKey;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;

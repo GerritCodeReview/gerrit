@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.reviewdb.client;
+package com.google.gerrit.server.account;
 
+import com.google.gerrit.reviewdb.client.Account;
 import java.io.Serializable;
 import java.util.Objects;
 

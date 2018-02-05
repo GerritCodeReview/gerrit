@@ -19,6 +19,7 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -327,7 +328,10 @@ class TagSet {
   }
 
   static boolean skip(Ref ref) {
-    return ref.isSymbolic() || ref.getObjectId() == null || PatchSet.isChangeRef(ref.getName());
+    return ref.isSymbolic()
+        || ref.getObjectId() == null
+        || PatchSet.isChangeRef(ref.getName())
+        || RefNames.isNoteDbMetaRef(ref.getName());
   }
 
   private static boolean isTag(Ref ref) {

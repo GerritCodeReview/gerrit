@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1509613934 +0100\nnonce AMT3iFjn83r5JlISY/K/5IfK4WjT1Sp+rlpZ2AS0rjZaKFtOKHf+tlwFuuM9E6sfjldjwxM+N6RZ\n\n0000000000000000000000000000000000000000 901b351e4915d962d77c48158a47dc3270fffabf refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZ+uFvAAoJEFG1/Zeg0O9RH0sH/2+acRjmJMCzSyVYBYRHMrc0\ndR2yVUCebMCCYRksVCG7zDCRg5N/QKpXEkj3q3KGYwYaVw9YKs0K/1MdAckywqNI\ndRkJHJSn+iEd2QK0T5jlOiOehgHQmrb26LYXIFQYGIe0ZKUkmAV7zZO+m93LP+6J\nXiAnBSgRU+5UB4yicKGMsp1I8GEm2zmri6UmpEb+1Vr2y4X1hg7ukzzBamayn3pl\nw709tQmxDK8thesSd+4VdEPtNFYG/PUQKAR9i0PLTRTFxz4dcr2417c3GKKd8QHR\nXUMmNmuAWvuhC6TVMjsP7ScSgzLL7crbweugwbIAiCp0t7IKg7MfP0aChYLgWcc\u003d\n\u003dUZT+\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "592d1a1d_1a4a6ab4",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-05T19:12:36Z",
+      "side": 1,
+      "message": "Optional: I believe you can save some boilerplate by creating a local helper class:\n\n class Helper {\n   @Inject @SitePath Path site;\n   @Inject @GerritServerConfig Config cfg;\n   @Inject(optional \u003d true) InMemoryRepositoryManager inMemoryRepoManager;\n }\n Helper h \u003d new Helper();\n server.testInjector.injectMembers(h);\n\nOften I think this idiom looks weird enough that it\u0027s not worth the characters saved, but actually in this instance I think the optional injection makes it a win.",
+      "revId": "901b351e4915d962d77c48158a47dc3270fffabf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

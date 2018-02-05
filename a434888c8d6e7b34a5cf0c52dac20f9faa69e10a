@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bae3041_4781c23d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-05T22:05:47Z",
+      "side": 1,
+      "message": "sp.",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "a434888c8d6e7b34a5cf0c52dac20f9faa69e10a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4779432_66571b3e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-05T22:05:47Z",
+      "side": 1,
+      "message": "This looks like another instance of modifying the response to create a hidden side effect. Can this clone instead, like ..\n\nconst drafts \u003d this.getAllDraftsForPath(path)\n    .map(d \u003d\u003e Object.assign({__draft: true}, d));",
+      "range": {
+        "startLine": 138,
+        "startChar": 7,
+        "endLine": 139,
+        "endChar": 51
+      },
+      "revId": "a434888c8d6e7b34a5cf0c52dac20f9faa69e10a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80445bc2_396bc3f6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-05T22:05:47Z",
+      "side": 1,
+      "message": "Is this needed?",
+      "range": {
+        "startLine": 63,
+        "startChar": 8,
+        "endLine": 63,
+        "endChar": 33
+      },
+      "revId": "a434888c8d6e7b34a5cf0c52dac20f9faa69e10a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66a451cf_dbaf1704",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-05T22:05:47Z",
+      "side": 1,
+      "message": "Looks like this was changed in a find-replace.\n\n opt_unresolved",
+      "range": {
+        "startLine": 112,
+        "startChar": 37,
+        "endLine": 112,
+        "endChar": 50
+      },
+      "revId": "a434888c8d6e7b34a5cf0c52dac20f9faa69e10a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

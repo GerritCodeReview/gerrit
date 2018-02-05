@@ -35,6 +35,24 @@
       "revId": "be6d7788928a0e3cdcd0351a0a1c36af57109671",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15083cb4_d5b7ee40",
+        "filename": "java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-05T13:25:42Z",
+      "side": 1,
+      "message": "\u003e How did you benchmark this?\n\nBasically I instrumented ls-remote on a modest-sized repo. https://gerrit-review.googlesource.com/c/gerrit/+/58941 has details.\n\n(That change actually talks about PatchSet.Id.fromRef; this code was changed to use Change.Id.fromRef later in https://gerrit-review.googlesource.com/c/gerrit/+/58946. Change.Id.fromRef was rewritten with similar techniques in https://gerrit-review.googlesource.com/c/gerrit/+/58943.)",
+      "parentUuid": "bfab2c90_beec2d2a",
+      "revId": "be6d7788928a0e3cdcd0351a0a1c36af57109671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -68,7 +68,7 @@ public class InternalAccountDirectory extends AccountDirectory {
     }
     for (AccountInfo info : in) {
       Account.Id id = new Account.Id(info._accountId);
-      Optional<AccountState> state = accountCache.maybeGet(id);
+      Optional<AccountState> state = accountCache.get(id);
       if (state.isPresent()) {
         fill(info, state.get(), options);
       } else {

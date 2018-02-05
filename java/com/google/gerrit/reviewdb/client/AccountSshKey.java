@@ -14,44 +14,46 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import com.google.gwtorm.client.IntKey;
+import java.io.Serializable;
 import java.util.Objects;
 
 /** An SSH key approved for use by an {@link Account}. */
 public final class AccountSshKey {
-  public static class Id extends IntKey<Account.Id> {
-    private static final long serialVersionUID = 1L;
+  public static class Id implements Serializable {
+    private static final long serialVersionUID = 2L;
 
-    protected Account.Id accountId;
-
-    protected int seq;
-
-    protected Id() {
-      accountId = new Account.Id();
-    }
+    private Account.Id accountId;
+    private int seq;
 
     public Id(Account.Id a, int s) {
       accountId = a;
       seq = s;
     }
 
-    @Override
     public Account.Id getParentKey() {
       return accountId;
     }
 
-    @Override
     public int get() {
       return seq;
     }
 
-    @Override
-    protected void set(int newValue) {
-      seq = newValue;
-    }
-
     public boolean isValid() {
       return seq > 0;
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(accountId, seq);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (!(obj instanceof Id)) {
+        return false;
+      }
+      Id otherId = (Id) obj;
+      return Objects.equals(accountId, otherId.accountId) && Objects.equals(seq, otherId.seq);
     }
   }
 

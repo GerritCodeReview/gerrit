@@ -91,19 +91,18 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit, SetHeadCommand.class);
     command(gerrit, AdminQueryShell.class);
 
+    if (sshEnabled()) {
+      command("git-receive-pack").to(Commands.key(git, "receive-pack"));
+      command("gerrit-receive-pack").to(Commands.key(git, "receive-pack"));
+      command(git, "receive-pack").to(Commands.key(gerrit, "receive-pack"));
+    }
+
     if (slaveMode) {
-      command("git-receive-pack").to(ReceiveSlaveMode.class);
-      command("gerrit-receive-pack").to(ReceiveSlaveMode.class);
-      command(git, "receive-pack").to(ReceiveSlaveMode.class);
+      command(gerrit, ReceiveSlaveMode.class);
     } else {
-      if (sshEnabled()) {
-        command("git-receive-pack").to(Commands.key(git, "receive-pack"));
-        command("gerrit-receive-pack").to(Commands.key(git, "receive-pack"));
-        command(git, "receive-pack").to(Commands.key(gerrit, "receive-pack"));
-      }
+      command(gerrit, Receive.class);
       command(gerrit, "test-submit").toProvider(new DispatchCommandProvider(testSubmit));
     }
-    command(gerrit, Receive.class);
 
     command(gerrit, RenameGroupCommand.class);
     command(gerrit, ReviewCommand.class);

@@ -49,11 +49,12 @@ import org.slf4j.LoggerFactory;
   name = "receive-pack",
   description = "Standard Git server side command for client side git push"
 )
-final class Receive extends AbstractGitCommand {
+class Receive extends AbstractGitCommand {
   private static final Logger log = LoggerFactory.getLogger(Receive.class);
 
+  @Inject protected IdentifiedUser currentUser;
+
   @Inject private AsyncReceiveCommits.Factory factory;
-  @Inject private IdentifiedUser currentUser;
   @Inject private SshSession session;
   @Inject private PermissionBackend permissionBackend;
 

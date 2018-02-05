@@ -102,7 +102,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createNewChangeSignedOffByFooter() throws Exception {
-    assume().that(isAllowDrafts()).isTrue();
     setSignedOffByFooter();
     ChangeInfo info = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
     String message = info.revisions.get(info.currentRevision).commit.message;

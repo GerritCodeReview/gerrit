@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28ca2137_9bfa6996",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-05T01:45:32Z",
+      "side": 0,
+      "message": "I\u0027m not 100% sure that removing this is correct.\n\nWhen a change is created from the UI it ends up here with the refname of the patchset, like \"refs/changes/34/1234/1\", and neither of the conditions is true.",
+      "range": {
+        "startLine": 161,
+        "startChar": 4,
+        "endLine": 163,
+        "endChar": 59
+      },
+      "revId": "181a3d0ba0aa41bcc2a86f539db8c3dc6727f3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

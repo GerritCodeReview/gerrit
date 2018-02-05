@@ -231,11 +231,16 @@ public class CreateChange implements
       GeneralPreferencesInfo info =
           account.getAccount().getGeneralPreferencesInfo();
 
-      ObjectId treeId =
-          mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree();
-      ObjectId id = ChangeIdUtil.computeChangeId(treeId,
-          mergeTip, author, author, input.subject);
-      String commitMessage = ChangeIdUtil.insertId(input.subject, id);
+      // Add a Change-Id line if there isn't already one
+      String commitMessage = input.subject;
+      if (ChangeIdUtil.indexOfChangeId(commitMessage, "\n") == -1) {
+        ObjectId treeId =
+            mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree();
+        ObjectId id = ChangeIdUtil.computeChangeId(treeId,
+            mergeTip, author, author, commitMessage);
+        commitMessage = ChangeIdUtil.insertId(commitMessage, id);
+      }
+
       if (Boolean.TRUE.equals(info.signedOffBy)) {
         commitMessage += String.format("%s%s",
             SIGNED_OFF_BY_TAG,

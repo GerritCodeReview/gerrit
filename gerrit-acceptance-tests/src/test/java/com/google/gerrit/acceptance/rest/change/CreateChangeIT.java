@@ -105,8 +105,29 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createEmptyChange_InvalidSubject() throws Exception {
+   ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+   ci.subject = "Change-Id: I1234000000000000000000000000000000000000";
+   assertCreateFails(ci, ResourceConflictException.class,
+       "missing subject; Change-Id must be in commit message footer");
+  }
+
+  @Test
   public void createNewChange() throws Exception {
-    assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
+    ChangeInfo info = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
+    assertThat(info.revisions.get(info.currentRevision).commit.message)
+        .contains("Change-Id: " + info.changeId);
+  }
+
+  @Test
+  public void createNewChangeWithChangeId() throws Exception {
+    ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+    String changeId = "I1234000000000000000000000000000000000000";
+    String changeIdLine = "Change-Id: " + changeId;
+    ci.subject = "Subject\n\n" + changeIdLine;
+    ChangeInfo info = assertCreateSucceeds(ci);
+    assertThat(info.changeId).isEqualTo(changeId);
+    assertThat(info.revisions.get(info.currentRevision).commit.message).contains(changeIdLine);
   }
 
   @Test
@@ -266,7 +287,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
   private ChangeInfo assertCreateSucceeds(ChangeInput in) throws Exception {
     ChangeInfo out = gApi.changes().create(in).get();
     assertThat(out.branch).isEqualTo(in.branch);
-    assertThat(out.subject).isEqualTo(in.subject);
+    assertThat(out.subject).isEqualTo(in.subject.split("\n")[0]);
     assertThat(out.topic).isEqualTo(in.topic);
     assertThat(out.status).isEqualTo(in.status);
     assertThat(out.revisions).hasSize(1);

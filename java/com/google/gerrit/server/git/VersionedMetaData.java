@@ -102,6 +102,7 @@ public abstract class VersionedMetaData {
       throws IOException, ConfigInvalidException;
 
   /** @return revision of the metadata that was loaded. */
+  @Nullable
   public ObjectId getRevision() {
     return revision != null ? revision.copy() : null;
   }
@@ -487,6 +488,7 @@ public abstract class VersionedMetaData {
     return new byte[] {};
   }
 
+  @Nullable
   protected ObjectId getObjectId(String fileName) throws IOException {
     if (revision == null) {
       return null;

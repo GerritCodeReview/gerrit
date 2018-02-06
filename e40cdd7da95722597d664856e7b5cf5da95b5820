@@ -68,6 +68,23 @@
       "revId": "e40cdd7da95722597d664856e7b5cf5da95b5820",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8326045e_f1a42179",
+        "filename": "java/com/google/gerrit/server/git/validators/ReplicationUserVerifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-06T08:06:58Z",
+      "side": 1,
+      "message": "If this is a problem we don\u0027t need to support all account identifiers as replication user in the gerrit config.  I think it would be okay to just do the simplest possible thing, e.g. just support the account ID.",
+      "revId": "e40cdd7da95722597d664856e7b5cf5da95b5820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

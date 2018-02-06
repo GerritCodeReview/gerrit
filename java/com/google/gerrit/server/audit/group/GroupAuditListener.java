@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,18 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.audit;
+package com.google.gerrit.server.audit.group;
 
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.server.audit.group.GroupAuditListener;
-import com.google.inject.AbstractModule;
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
-public class AuditModule extends AbstractModule {
+@ExtensionPoint
+public interface GroupAuditListener {
+  void onAddMembers(GroupMemberAuditEvent groupMemberAuditEvent);
 
-  @Override
-  protected void configure() {
-    DynamicSet.setOf(binder(), AuditListener.class);
-    DynamicSet.setOf(binder(), GroupAuditListener.class);
-    bind(AuditService.class);
-  }
+  void onDeleteMembers(GroupMemberAuditEvent groupMemberAuditEvent);
+
+  void onAddSubgroups(GroupSubgroupAuditEvent groupSubgroupAuditEvent);
+
+  void onDeleteSubgroups(GroupSubgroupAuditEvent groupSubgroupAuditEvent);
 }

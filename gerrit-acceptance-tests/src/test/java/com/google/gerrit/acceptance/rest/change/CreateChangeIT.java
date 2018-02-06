@@ -145,6 +145,26 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createNewChangeSignedOffByFooterWithChangeId() throws Exception {
+    setSignedOffByFooter(true);
+    try {
+      ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+      String changeId = "I1234000000000000000000000000000000000000";
+      String changeIdLine = "Change-Id: " + changeId;
+      ci.subject = "Subject\n\n" + changeIdLine;
+      ChangeInfo info = assertCreateSucceeds(ci);
+      assertThat(info.changeId).isEqualTo(changeId);
+      String message = info.revisions.get(info.currentRevision).commit.message;
+      assertThat(message).contains(changeIdLine);
+      assertThat(message).contains(
+          String.format("%sAdministrator <%s>", SIGNED_OFF_BY_TAG,
+              admin.getIdent().getEmailAddress()));
+    } finally {
+      setSignedOffByFooter(false);
+    }
+  }
+
+  @Test
   public void createNewDraftChange() throws Exception {
     assume().that(isAllowDrafts()).isTrue();
     assertCreateSucceeds(newChangeInput(ChangeStatus.DRAFT));

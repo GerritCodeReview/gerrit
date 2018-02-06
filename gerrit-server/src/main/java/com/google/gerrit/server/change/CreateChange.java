@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
@@ -242,9 +243,10 @@ public class CreateChange implements
       }
 
       if (Boolean.TRUE.equals(info.signedOffBy)) {
-        commitMessage += String.format("%s%s",
-            SIGNED_OFF_BY_TAG,
-            account.getAccount().getNameEmail(anonymousCowardName));
+        commitMessage =
+            Joiner.on("\n").join(commitMessage.trim(), String.format(
+                "%s%s", SIGNED_OFF_BY_TAG,
+                account.getAccount().getNameEmail(anonymousCowardName)));
       }
 
       RevCommit c;

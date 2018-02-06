@@ -57,6 +57,24 @@
       "revId": "14d64060be2ade674aafedf04f82e0b65d6395ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23888286_e11facb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-06T08:24:27Z",
+      "side": 1,
+      "message": "\u003e Moreover, you added this feature: \"Add config to disable private changes\" here: [1]. This raises the question: does this change accounts for \"disabled private changes workflow\"? I havn\u0027t checked the code, but the commit message doesn\u0027t reflect that use case and what would be the alternative?\n\nThat configuration is added for a security concern for google internal users. Basically, it\u0027s probably the same reason you disagree with the private change workflow.",
+      "parentUuid": "92f1a139_2633574a",
+      "revId": "14d64060be2ade674aafedf04f82e0b65d6395ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -93,6 +93,24 @@
       "revId": "14d64060be2ade674aafedf04f82e0b65d6395ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0cf476a_d7e15ecb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-06T09:53:02Z",
+      "side": 1,
+      "message": "\u003e if this change is merged as is, pushing to refs/drafts/master would (hard coded) trigger marking that change as private, even though the private workflow is disabled on that site.\n\nThis change needs to respect that config in the new patch set if we still want to adjust the current behavior. I\u0027m happy to implement whatever our final choice is.\n\nYour proposal for no-op will make those users who don\u0027t have private change feature lose the security review feature. For example, Android people are using repo-tool, that tool doesn\u0027t support private changes yet. We are mapping \"drafts -\u003e private\", they might already get used to this map. no-op is removing that feature completely without giving those users any alternatives.",
+      "parentUuid": "bfe4d640_e2c60cc8",
+      "revId": "14d64060be2ade674aafedf04f82e0b65d6395ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

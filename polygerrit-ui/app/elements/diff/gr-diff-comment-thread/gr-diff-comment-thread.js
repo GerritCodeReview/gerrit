@@ -44,6 +44,11 @@
         type: String,
         observer: '_projectNameChanged',
       },
+      hasDraft: {
+        type: Boolean,
+        notify: true,
+        reflectToAttribute: true,
+      },
       isOnParent: {
         type: Boolean,
         value: false,
@@ -52,13 +57,14 @@
         type: Number,
         value: null,
       },
+      unresolved: {
+        type: Boolean,
+        notify: true,
+        reflectToAttribute: true,
+      },
       _showActions: Boolean,
       _lastComment: Object,
       _orderedComments: Array,
-      _unresolved: {
-        type: Boolean,
-        notify: true,
-      },
       _projectConfig: Object,
     },
 
@@ -122,7 +128,7 @@
     updateThreadProperties() {
       if (this._orderedComments.length) {
         this._lastComment = this._getLastComment();
-        this._unresolved = this._lastComment.unresolved;
+        this.unresolved = this._lastComment.unresolved;
       }
     },
 
@@ -168,7 +174,7 @@
           const comment = this._orderedComments[i];
           const isRobotComment = !!comment.robot_id;
           // False if it's an unresolved comment under UNRESOLVED_EXPAND_COUNT.
-          const resolvedThread = !this._unresolved ||
+          const resolvedThread = !this.unresolved ||
                 this._orderedComments.length - i - 1 >= UNRESOLVED_EXPAND_COUNT;
           comment.collapsed = !isRobotComment && resolvedThread;
         }
@@ -180,6 +186,11 @@
         const c1Date = c1.__date || util.parseDate(c1.updated);
         const c2Date = c2.__date || util.parseDate(c2.updated);
         const dateCompare = c1Date - c2Date;
+        // Ensure drafts are at the end. There should only be one but in edge
+        // cases could be more. In the unlikely event two drafts are being
+        // compared, use the typical date compare.
+        if (c2.__draft && !c1.__draft ) { return 0; }
+        if (c1.__draft && !c2.__draft ) { return 1; }
         if (dateCompare === 0 && (!c1.id || !c1.id.localeCompare)) { return 0; }
         // If same date, fall back to sorting by id.
         return dateCompare ? dateCompare : c1.id.localeCompare(c2.id);

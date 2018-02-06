@@ -135,7 +135,9 @@
     for (const path of Object.keys(paths)) {
       let commentsToAdd = this.getAllCommentsForPath(path, opt_patchNum);
       if (opt_includeDrafts) {
-        commentsToAdd = commentsToAdd.concat(this.getAllDraftsForPath(path));
+        const drafts = this.getAllDraftsForPath(path)
+            .map(d => Object.assign({__draft: true}, d));
+        commentsToAdd = commentsToAdd.concat(drafts);
       }
       publishedComments[path] = commentsToAdd;
     }

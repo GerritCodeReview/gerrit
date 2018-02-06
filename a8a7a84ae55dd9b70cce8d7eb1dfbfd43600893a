@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a6550b66_175cef6a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-02-06T19:51:40Z",
+      "side": 1,
+      "message": "You\u0027re right. \nI have to make another change to handle ScpCommand better, and I incorporate your suggestion as well.\nPlease have a look. https://gerrit-review.googlesource.com/c/gerrit/+/157733",
+      "parentUuid": "48aaeb2b_33138434",
+      "range": {
+        "startLine": 418,
+        "startChar": 4,
+        "endLine": 436,
+        "endChar": 7
+      },
+      "revId": "a8a7a84ae55dd9b70cce8d7eb1dfbfd43600893a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48fb7258_d9ad42a9",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SensitiveData.java",
         "patchSetId": 18
@@ -36,6 +60,30 @@
       "writtenOn": "2018-01-31T15:20:21Z",
       "side": 1,
       "message": "I was expecting some fields to be tagged with this annotation but none are, am I missing something?\n\nIs this change mainly done for plugins?",
+      "range": {
+        "startLine": 28,
+        "startChar": 18,
+        "endLine": 28,
+        "endChar": 31
+      },
+      "revId": "a8a7a84ae55dd9b70cce8d7eb1dfbfd43600893a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aca29454_05db74e4",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SensitiveData.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-02-06T19:51:40Z",
+      "side": 1,
+      "message": "The first change to use this annotation is still on review. https://gerrit-review.googlesource.com/c/plugins/importer/+/155571\nBaseCommand subclass should be able to use this feature.",
+      "parentUuid": "48fb7258_d9ad42a9",
       "range": {
         "startLine": 28,
         "startChar": 18,

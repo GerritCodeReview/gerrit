@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "29d77165_c52c61a9",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-06T17:26:07Z",
+      "side": 1,
+      "message": "Is there a browser stylesheet that sets `text-align: right`?",
+      "parentUuid": "081a47b5_2fd47f4e",
+      "range": {
+        "startLine": 32,
+        "startChar": 8,
+        "endLine": 32,
+        "endChar": 25
+      },
+      "revId": "3d7a2444b83ae428e24fdfbfdb342957c5fa03d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "350f8843_1203e7ec",
         "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
         "patchSetId": 1

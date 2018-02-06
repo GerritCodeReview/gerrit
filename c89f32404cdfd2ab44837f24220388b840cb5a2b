@@ -35,6 +35,24 @@
       "revId": "c89f32404cdfd2ab44837f24220388b840cb5a2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e92fc72f_a80a4674",
+        "filename": "java/com/google/gerrit/server/account/InvalidUserNameException.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-06T09:40:36Z",
+      "side": 1,
+      "message": "Actually this class isn\u0027t used. Deleting it with https://gerrit-review.googlesource.com/c/gerrit/+/157650\n\nDone",
+      "parentUuid": "3a8163f2_f7fce417",
+      "revId": "c89f32404cdfd2ab44837f24220388b840cb5a2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "34001e4dbe6f52fdb0925a55c6ea107f3c3d302b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32a2f5f9_1a5cec95",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-06T08:30:50Z",
+      "side": 1,
+      "message": "I think that there is nothing to change in the documentation (pgm-daemon.txt).\nThis change doesn\u0027t touch Daemon.java. The meaning and default value of\neach option is unchanged. We only change the set of options we pass to the\nDaemon when starting it in slave mode.\n\nFor example httpd will be enabled in the slave mode because we pass the\n--enable-httpd option from here and not because the default value of the\n--enable-httpd is different with this change.",
+      "parentUuid": "c2ddcfa5_c77ac6c7",
+      "range": {
+        "startLine": 349,
+        "startChar": 30,
+        "endLine": 349,
+        "endChar": 55
+      },
+      "revId": "34001e4dbe6f52fdb0925a55c6ea107f3c3d302b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

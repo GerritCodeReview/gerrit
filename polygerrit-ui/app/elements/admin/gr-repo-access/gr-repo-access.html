@@ -47,6 +47,15 @@ limitations under the License.
         display: inline-block;
         margin: 1em 0;
       }
+      .weblink {
+        margin-right: .2em;
+      }
+      .weblinks {
+        display: none;
+      }
+      .weblinks.show {
+        display: block;
+      }
     </style>
     <style include="gr-menu-page-styles"></style>
     <main class$="[[_computeAdminClass(_isAdmin)]]">
@@ -60,6 +69,14 @@ limitations under the License.
               [[_inheritsFrom.name]]</a>
         </h3>
       </template>
+      <div class$="weblinks [[_computeWebLinkClass(_weblinks)]]">
+        History:
+        <template is="dom-repeat" items="[[_weblinks]]" as="link">
+          <a href="[[link.url]]" class="weblink" rel="noopener" target="[[link.target]]">
+            [[link.name]]
+          </a>
+        </template>
+      </div>
       <gr-button id="editBtn"
           class$="[[_computeShowEditClass(_sections)]]"
           on-tap="_handleEdit">[[_editOrCancel(_editing)]]</gr-button>

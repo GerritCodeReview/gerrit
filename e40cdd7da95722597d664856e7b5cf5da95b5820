@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "af56db03_3e881f69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-06T14:23:45Z",
+      "side": 1,
+      "message": "Sure, I was not trying to get a free ride, I just wanted to bring awareness :)\n\nWe already worked on ElasticSearch and planned to resume the work because we want it for our master cluster. Now, with slaves that will require index, we have one more reason to resume the work.\n\nI will also review and test the changes you guys do.",
+      "parentUuid": "afafab55_eb0090a2",
+      "range": {
+        "startLine": 14,
+        "startChar": 32,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "e40cdd7da95722597d664856e7b5cf5da95b5820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8c65cb6_d674f81b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

@@ -64,6 +64,11 @@ limitations under the License.
           name: 'Maintainers',
         },
       },
+      config_web_links: [{
+        name: 'gitiles',
+        target: '_blank',
+        url: 'https://my/site/+log/123/project.config',
+      }],
     };
     const accessRes2 = {
       local: {
@@ -147,11 +152,15 @@ limitations under the License.
         assert.deepEqual(element._sections,
             element.toSortedArray(accessRes.local));
         assert.deepEqual(element._labels, repoRes.labels);
+        assert.equal(getComputedStyle(element.$$('.weblinks')).display,
+            'block');
         return element._repoChanged('Another New Repo');
       })
           .then(() => {
             assert.deepEqual(element._sections,
                 element.toSortedArray(accessRes2.local));
+            assert.equal(getComputedStyle(element.$$('.weblinks')).display,
+                'none');
             done();
           });
     });

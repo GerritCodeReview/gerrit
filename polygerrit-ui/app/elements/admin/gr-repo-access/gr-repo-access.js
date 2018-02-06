@@ -94,6 +94,7 @@
         value: false,
       },
       _sections: Array,
+      _weblinks: Array,
     },
 
     behaviors: [
@@ -123,6 +124,7 @@
         this._inheritsFrom = res.inherits_from;
         this._local = res.local;
         this._groups = res.groups;
+        this._weblinks = res.config_web_links || [];
         return this.toSortedArray(this._local);
       }));
 
@@ -151,6 +153,10 @@
 
     _editOrCancel(editing) {
       return editing ? 'Cancel' : 'Edit';
+    },
+
+    _computeWebLinkClass(weblinks) {
+      return weblinks.length ? 'show' : '';
     },
 
     _handleEditingChanged(editing, editingOld) {

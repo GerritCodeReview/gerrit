@@ -52,6 +52,9 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
@@ -83,7 +86,7 @@ public class AccessIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void webLinks() throws Exception {
+  public void webLinkNoRefsMetaConfig() throws Exception {
     RegistrationHandle handle =
         fileHistoryWebLinkDynamicSet.add(
             new FileHistoryWebLink() {
@@ -101,6 +104,15 @@ public class AccessIT extends AbstractDaemonTest {
       assertThat(info.configWebLinks).hasSize(1);
       assertThat(info.configWebLinks.get(0).url)
           .isEqualTo("http://view/" + newProjectName + "/project.config");
+
+      try (Repository repo = repoManager.openRepository(new Project.NameKey(newProjectName))) {
+        RefUpdate u = repo.updateRef(RefNames.REFS_CONFIG);
+        u.setForceUpdate(true);
+        assertThat(u.delete()).isEqualTo(Result.FORCED);
+
+        // This should not crash.
+        pApi.access();
+      }
     } finally {
       handle.remove();
     }

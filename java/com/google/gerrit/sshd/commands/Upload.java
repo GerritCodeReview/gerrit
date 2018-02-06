@@ -17,12 +17,13 @@ package com.google.gerrit.sshd.commands;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UploadPackInitializer;
-import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.validators.UploadValidationException;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.sshd.AbstractGitCommand;
@@ -39,7 +40,6 @@ import org.eclipse.jgit.transport.UploadPack;
 /** Publishes Git repositories over SSH using the Git upload-pack protocol. */
 final class Upload extends AbstractGitCommand {
   @Inject private TransferConfig config;
-  @Inject private VisibleRefFilter.Factory refFilterFactory;
   @Inject private DynamicSet<PreUploadHook> preUploadHooks;
   @Inject private DynamicSet<PostUploadHook> postUploadHooks;
   @Inject private DynamicSet<UploadPackInitializer> uploadPackInitializers;
@@ -49,11 +49,11 @@ final class Upload extends AbstractGitCommand {
 
   @Override
   protected void runImpl() throws IOException, Failure {
+    PermissionBackend.ForProject perm =
+        permissionBackend.user(user).project(projectState.getNameKey());
     try {
-      permissionBackend
-          .user(user)
-          .project(projectState.getNameKey())
-          .check(ProjectPermission.RUN_UPLOAD_PACK);
+
+      perm.check(ProjectPermission.RUN_UPLOAD_PACK);
     } catch (AuthException e) {
       throw new Failure(1, "fatal: upload-pack not permitted on this server");
     } catch (PermissionBackendException e) {
@@ -61,7 +61,7 @@ final class Upload extends AbstractGitCommand {
     }
 
     final UploadPack up = new UploadPack(repo);
-    up.setAdvertiseRefsHook(refFilterFactory.create(projectState, repo));
+    up.setAdvertiseRefsHook(new DefaultAdvertiseRefsHook(perm, RefFilterOptions.defaults()));
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
     up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));

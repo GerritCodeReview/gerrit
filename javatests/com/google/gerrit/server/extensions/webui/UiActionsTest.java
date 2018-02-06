@@ -25,12 +25,16 @@ import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
+import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendCondition;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 import org.easymock.EasyMock;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
 public class UiActionsTest {
@@ -83,6 +87,12 @@ public class UiActionsTest {
         throws PermissionBackendException {
       assertThat(allowValueQueries).isTrue();
       return ImmutableSet.of(ProjectPermission.READ);
+    }
+
+    @Override
+    public Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
+        throws PermissionBackendException {
+      throw new UnsupportedOperationException("not implemented");
     }
 
     private void disallowValueQueries() {

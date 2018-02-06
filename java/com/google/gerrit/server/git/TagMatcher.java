@@ -23,7 +23,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
-class TagMatcher {
+public class TagMatcher {
   final BitSet mask = new BitSet();
   final List<Ref> newRefs = new ArrayList<>();
   final List<LostRef> lostRefs = new ArrayList<>();
@@ -50,7 +50,7 @@ class TagMatcher {
     this.updated = updated;
   }
 
-  boolean isReachable(Ref tagRef) {
+  public boolean isReachable(Ref tagRef) {
     tagRef = db.peel(tagRef);
 
     ObjectId tagObj = tagRef.getPeeledObjectId();

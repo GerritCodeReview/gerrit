@@ -20,7 +20,7 @@ import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.git.VisibleRefFilter;
+import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -134,14 +134,14 @@ final class Receive extends AbstractGitCommand {
       msg.append("  AdvertiseRefsHook: ").append(rp.getAdvertiseRefsHook());
       if (rp.getAdvertiseRefsHook() == AdvertiseRefsHook.DEFAULT) {
         msg.append("DEFAULT");
-      } else if (rp.getAdvertiseRefsHook() instanceof VisibleRefFilter) {
+      } else if (rp.getAdvertiseRefsHook() instanceof DefaultAdvertiseRefsHook) {
         msg.append("VisibleRefFilter");
       } else {
         msg.append(rp.getAdvertiseRefsHook().getClass());
       }
       msg.append("\n");
 
-      if (rp.getAdvertiseRefsHook() instanceof VisibleRefFilter) {
+      if (rp.getAdvertiseRefsHook() instanceof DefaultAdvertiseRefsHook) {
         Map<String, Ref> adv = rp.getAdvertisedRefs();
         msg.append("  Visible references (").append(adv.size()).append("):\n");
         for (Ref ref : adv.values()) {

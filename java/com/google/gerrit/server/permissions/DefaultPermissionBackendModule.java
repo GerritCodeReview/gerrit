@@ -28,8 +28,9 @@ public class DefaultPermissionBackendModule extends AbstractModule {
   public static class LegacyControlsModule extends FactoryModule {
     @Override
     protected void configure() {
-      // TODO(sop) Hide ProjectControl, RefControl, ChangeControl related bindings.
+      // TODO(hiesel) Hide ProjectControl, RefControl, ChangeControl related bindings.
       factory(ProjectControl.Factory.class);
+      factory(DefaultRefFilter.Factory.class);
       bind(ChangeControl.Factory.class);
     }
   }

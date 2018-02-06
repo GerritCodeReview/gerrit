@@ -20,10 +20,14 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
+import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Provider;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 
 /**
  * Helpers for {@link PermissionBackend} that must fail.
@@ -100,6 +104,12 @@ public class FailedPermissionBackend {
 
     @Override
     public Set<ProjectPermission> test(Collection<ProjectPermission> permSet)
+        throws PermissionBackendException {
+      throw new PermissionBackendException(message, cause);
+    }
+
+    @Override
+    public Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
         throws PermissionBackendException {
       throw new PermissionBackendException(message, cause);
     }

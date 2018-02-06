@@ -24,7 +24,9 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.VisibleRefFilter;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -49,7 +51,7 @@ import org.kohsuke.args4j.Option;
 public class LsUserRefs extends SshCommand {
   @Inject private AccountResolver accountResolver;
   @Inject private OneOffRequestContext requestContext;
-  @Inject private VisibleRefFilter.Factory refFilterFactory;
+  @Inject private PermissionBackend permissionBackend;
   @Inject private GitRepositoryManager repoManager;
 
   @Option(
@@ -92,16 +94,17 @@ public class LsUserRefs extends SshCommand {
         ManualRequestContext ctx = requestContext.openAs(userAccount.getId())) {
       try {
         Map<String, Ref> refsMap =
-            refFilterFactory
-                .create(projectState, repo)
-                .filter(repo.getRefDatabase().getRefs(ALL), false);
+            permissionBackend
+                .user(user)
+                .project(projectName)
+                .filter(repo.getRefDatabase().getRefs(ALL), repo, RefFilterOptions.defaults());
 
         for (String ref : refsMap.keySet()) {
           if (!onlyRefsHeads || ref.startsWith(RefNames.REFS_HEADS)) {
             stdout.println(ref);
           }
         }
-      } catch (IOException e) {
+      } catch (IOException | PermissionBackendException e) {
         throw new Failure(1, "fatal: Error reading refs: '" + projectName, e);
       }
     } catch (RepositoryNotFoundException e) {

@@ -27,8 +27,9 @@ import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
@@ -58,7 +59,6 @@ public class ListTags implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> user;
-  private final VisibleRefFilter.Factory refFilterFactory;
   private final WebLinks links;
 
   @Option(
@@ -111,12 +111,10 @@ public class ListTags implements RestReadView<ProjectResource> {
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
       Provider<CurrentUser> user,
-      VisibleRefFilter.Factory refFilterFactory,
       WebLinks webLinks) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.user = user;
-    this.refFilterFactory = refFilterFactory;
     this.links = webLinks;
   }
 
@@ -130,7 +128,7 @@ public class ListTags implements RestReadView<ProjectResource> {
 
   @Override
   public List<TagInfo> apply(ProjectResource resource)
-      throws IOException, ResourceNotFoundException, RestApiException {
+      throws IOException, ResourceNotFoundException, RestApiException, PermissionBackendException {
     resource.getProjectState().checkStatePermitsRead();
 
     List<TagInfo> tags = new ArrayList<>();
@@ -139,8 +137,7 @@ public class ListTags implements RestReadView<ProjectResource> {
     try (Repository repo = getRepository(resource.getNameKey());
         RevWalk rw = new RevWalk(repo)) {
       Map<String, Ref> all =
-          visibleTags(
-              resource.getProjectState(), repo, repo.getRefDatabase().getRefs(Constants.R_TAGS));
+          visibleTags(resource.getNameKey(), repo, repo.getRefDatabase().getRefs(Constants.R_TAGS));
       for (Ref ref : all.values()) {
         tags.add(
             createTagInfo(perm.ref(ref.getName()), ref, rw, resource.getProjectState(), links));
@@ -165,7 +162,7 @@ public class ListTags implements RestReadView<ProjectResource> {
   }
 
   public TagInfo get(ProjectResource resource, IdString id)
-      throws ResourceNotFoundException, IOException {
+      throws ResourceNotFoundException, IOException, PermissionBackendException {
     try (Repository repo = getRepository(resource.getNameKey());
         RevWalk rw = new RevWalk(repo)) {
       String tagName = id.get();
@@ -174,7 +171,7 @@ public class ListTags implements RestReadView<ProjectResource> {
       }
       Ref ref = repo.getRefDatabase().exactRef(tagName);
       if (ref != null
-          && !visibleTags(resource.getProjectState(), repo, ImmutableMap.of(ref.getName(), ref))
+          && !visibleTags(resource.getNameKey(), repo, ImmutableMap.of(ref.getName(), ref))
               .isEmpty()) {
         return createTagInfo(
             permissionBackend
@@ -235,7 +232,15 @@ public class ListTags implements RestReadView<ProjectResource> {
     }
   }
 
-  private Map<String, Ref> visibleTags(ProjectState state, Repository repo, Map<String, Ref> tags) {
-    return refFilterFactory.create(state, repo).setShowMetadata(false).filter(tags, true);
+  private Map<String, Ref> visibleTags(
+      Project.NameKey project, Repository repo, Map<String, Ref> tags)
+      throws PermissionBackendException {
+    return permissionBackend
+        .user(user)
+        .project(project)
+        .filter(
+            tags,
+            repo,
+            RefFilterOptions.builder().setFilterMeta(true).setFilterTagsSeparately(true).build());
   }
 }

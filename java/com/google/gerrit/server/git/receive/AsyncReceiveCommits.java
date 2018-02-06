@@ -23,13 +23,14 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.HackPushNegotiateHook;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.TransferConfig;
-import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
@@ -183,7 +184,6 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   AsyncReceiveCommits(
       ReceiveCommits.Factory factory,
       PermissionBackend permissionBackend,
-      VisibleRefFilter.Factory refFilterFactory,
       Provider<InternalChangeQuery> queryProvider,
       @ReceiveCommitsExecutor ExecutorService executor,
       RequestScopePropagator scopePropagator,
@@ -236,7 +236,8 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     List<AdvertiseRefsHook> advHooks = new ArrayList<>(4);
     allRefsWatcher = new AllRefsWatcher();
     advHooks.add(allRefsWatcher);
-    advHooks.add(refFilterFactory.create(projectState, repo).setShowMetadata(false));
+    advHooks.add(
+        new DefaultAdvertiseRefsHook(perm, RefFilterOptions.builder().setFilterMeta(true).build()));
     advHooks.add(new ReceiveCommitsAdvertiseRefsHook(queryProvider, projectName));
     advHooks.add(new HackPushNegotiateHook());
     rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));

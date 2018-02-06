@@ -74,6 +74,30 @@
     },
     {
       "key": {
+        "uuid": "e582d293_f1e8d544",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-06T17:34:53Z",
+      "side": 1,
+      "message": "Nope. \u003cth\u003e elements have centered text, at least in Chrome.\n\nhttps://i.imgur.com/NqPqgpv.png",
+      "parentUuid": "29d77165_c52c61a9",
+      "range": {
+        "startLine": 32,
+        "startChar": 8,
+        "endLine": 32,
+        "endChar": 25
+      },
+      "revId": "3d7a2444b83ae428e24fdfbfdb342957c5fa03d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "350f8843_1203e7ec",
         "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
         "patchSetId": 1

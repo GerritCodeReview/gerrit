@@ -353,7 +353,11 @@
             this.patchRange.basePatchNum :
             this.patchRange.patchNum;
 
-        if (this.patchNumEquals(patchNum, this.EDIT_NAME)) {
+        const isEdit = this.patchNumEquals(patchNum, this.EDIT_NAME);
+        const isEditBase = this.patchNumEquals(patchNum, this.PARENT_NAME) &&
+            this.patchNumEquals(this.patchRange.patchNum, this.EDIT_NAME);
+
+        if (isEdit || isEditBase) {
           this.fire('show-alert', {message: ERR_COMMENT_ON_EDIT});
           return false;
         }

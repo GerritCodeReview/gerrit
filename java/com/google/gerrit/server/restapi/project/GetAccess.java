@@ -156,12 +156,15 @@ public class GetAccess implements RestReadView<ProjectResource> {
       config = ProjectConfig.read(md);
       info.configWebLinks = new ArrayList<>();
 
-      // WebLinks operates in terms of the data types used in the GWT UI. Once the GWT UI is gone,
-      // WebLinks should be fixed to use the extension data types.
-      for (WebLinkInfoCommon wl :
-          webLinks.getFileHistoryLinks(
-              projectName.get(), config.getRevision().getName(), ProjectConfig.PROJECT_CONFIG)) {
-        info.configWebLinks.add(new WebLinkInfo(wl.name, wl.imageUrl, wl.url, wl.target));
+      // config may have a null revision if the repo doesn't have its own refs/meta/config.
+      if (config.getRevision() != null) {
+        // WebLinks operates in terms of the data types used in the GWT UI. Once the GWT UI is
+        // gone, WebLinks should be fixed to use the extension data types.
+        for (WebLinkInfoCommon wl :
+            webLinks.getFileHistoryLinks(
+                projectName.get(), config.getRevision().getName(), ProjectConfig.PROJECT_CONFIG)) {
+          info.configWebLinks.add(new WebLinkInfo(wl.name, wl.imageUrl, wl.url, wl.target));
+        }
       }
 
       if (config.updateGroupNames(groupBackend)) {

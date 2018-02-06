@@ -17,6 +17,7 @@ package com.google.gerrit.server.permissions;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
@@ -36,7 +37,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -304,6 +308,43 @@ public abstract class PermissionBackend {
 
     public BooleanCondition testCond(ProjectPermission perm) {
       return new PermissionBackendCondition.ForProject(this, perm);
+    }
+
+    /**
+     * @return a partition of the provided refs that are visible to the user that this instance is
+     *     scoped to.
+     */
+    public abstract Map<String, Ref> filter(
+        Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
+        throws PermissionBackendException;
+  }
+
+  /** Options for filtering refs using {@link ForProject}. */
+  @AutoValue
+  public abstract static class RefFilterOptions {
+    public abstract boolean filterMeta();
+
+    public abstract boolean filterTagsSeparately();
+
+    public abstract Builder toBuilder();
+
+    public static Builder builder() {
+      return new AutoValue_PermissionBackend_RefFilterOptions.Builder()
+          .setFilterMeta(false)
+          .setFilterTagsSeparately(false);
+    }
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+      public abstract Builder setFilterMeta(boolean val);
+
+      public abstract Builder setFilterTagsSeparately(boolean val);
+
+      public abstract RefFilterOptions build();
+    }
+
+    public static RefFilterOptions defaults() {
+      return RefFilterOptions.builder().setFilterMeta(false).setFilterTagsSeparately(false).build();
     }
   }
 

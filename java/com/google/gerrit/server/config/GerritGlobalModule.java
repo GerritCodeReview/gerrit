@@ -121,7 +121,6 @@ import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
-import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.receive.ReceiveCommitsModule;
 import com.google.gerrit.server.git.strategy.SubmitStrategy;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
@@ -266,7 +265,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(RegisterNewEmailSender.Factory.class);
     factory(ReplacePatchSetSender.Factory.class);
     factory(SetAssigneeSender.Factory.class);
-    factory(VisibleRefFilter.Factory.class);
     bind(PermissionCollection.Factory.class);
     bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);
     factory(ProjectOwnerGroupsProvider.Factory.class);

@@ -48,10 +48,11 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.receive.ReceiveCommitsAdvertiseRefsHook;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.NoteDbMode;
@@ -77,7 +78,7 @@ import org.junit.Test;
 
 @NoHttpd
 public class RefAdvertisementIT extends AbstractDaemonTest {
-  @Inject private VisibleRefFilter.Factory refFilterFactory;
+  @Inject private PermissionBackend permissionBackend;
   @Inject private ChangeNoteUtil noteUtil;
   @Inject @AnonymousCowardName private String anonymousCowardName;
   @Inject private AllUsersName allUsersName;
@@ -346,7 +347,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project)) {
       assertRefs(
           repo,
-          refFilterFactory.create(projectCache.get(project), repo),
+          permissionBackend.user(user(user)).project(project),
           // Can't use stored values from the index so DB must be enabled.
           false,
           "HEAD",
@@ -369,12 +370,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   public void uploadPackSequencesWithAccessDatabase() throws Exception {
     assume().that(notesMigration.readChangeSequence()).isTrue();
     try (Repository repo = repoManager.openRepository(allProjects)) {
-      setApiUser(user);
-      assertRefs(repo, newFilter(repo, allProjects), true);
+      assertRefs(repo, newFilter(allProjects, user), true);
 
       allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
-      setApiUser(user);
-      assertRefs(repo, newFilter(repo, allProjects), true, "refs/sequences/changes");
+      assertRefs(repo, newFilter(allProjects, user), true, "refs/sequences/changes");
     }
   }
 
@@ -665,10 +664,13 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       Map<String, Ref> all = repo.getAllRefs();
 
-      VisibleRefFilter filter = refFilterFactory.create(projectCache.get(allUsers), repo);
-      assertThat(filter.filter(all, false).keySet()).containsExactlyElementsIn(expectedAllRefs);
-
-      assertThat(filter.setShowMetadata(false).filter(all, false).keySet())
+      PermissionBackend.ForProject forProject = newFilter(allUsers, admin);
+      assertThat(forProject.filter(all, repo, RefFilterOptions.defaults()).keySet())
+          .containsExactlyElementsIn(expectedAllRefs);
+      assertThat(
+              forProject
+                  .filter(all, repo, RefFilterOptions.builder().setFilterMeta(true).build())
+                  .keySet())
           .containsExactlyElementsIn(expectedNonMetaRefs);
     }
   }
@@ -706,13 +708,15 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
    */
   private void assertUploadPackRefs(String... expectedWithMeta) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
-      assertRefs(
-          repo, refFilterFactory.create(projectCache.get(project), repo), true, expectedWithMeta);
+      assertRefs(repo, permissionBackend.user(user(user)).project(project), true, expectedWithMeta);
     }
   }
 
   private void assertRefs(
-      Repository repo, VisibleRefFilter filter, boolean disableDb, String... expectedWithMeta)
+      Repository repo,
+      PermissionBackend.ForProject forProject,
+      boolean disableDb,
+      String... expectedWithMeta)
       throws Exception {
     List<String> expected = new ArrayList<>(expectedWithMeta.length);
     for (String r : expectedWithMeta) {
@@ -727,7 +731,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     }
     try {
       Map<String, Ref> all = repo.getAllRefs();
-      assertThat(filter.filter(all, false).keySet()).containsExactlyElementsIn(expected);
+      assertThat(forProject.filter(all, repo, RefFilterOptions.defaults()).keySet())
+          .containsExactlyElementsIn(expected);
     } finally {
       if (disableDb) {
         enableDb(ctx);
@@ -743,8 +748,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     }
   }
 
-  private VisibleRefFilter newFilter(Repository repo, Project.NameKey project) {
-    return refFilterFactory.create(projectCache.get(project), repo);
+  private PermissionBackend.ForProject newFilter(Project.NameKey project, TestAccount u) {
+    return permissionBackend.user(user(u)).project(project);
   }
 
   private static ObjectId obj(ChangeData cd, int psNum) throws Exception {

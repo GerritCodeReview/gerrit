@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CACHE_AUTOMERGE;
@@ -33,15 +33,13 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl;
+import com.google.gerrit.server.git.TagCache;
+import com.google.gerrit.server.git.TagMatcher;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -58,67 +56,54 @@ import java.util.Objects;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SymbolicRef;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.AbstractAdvertiseRefsHook;
-import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
-  private static final Logger log = LoggerFactory.getLogger(VisibleRefFilter.class);
+class DefaultRefFilter {
+  private static final Logger log = LoggerFactory.getLogger(DefaultRefFilter.class);
 
-  public interface Factory {
-    VisibleRefFilter create(ProjectState projectState, Repository git);
+  interface Factory {
+    DefaultRefFilter create(CurrentUser who, ProjectState projectState);
   }
 
   private final TagCache tagCache;
   private final ChangeNotes.Factory changeNotesFactory;
   @Nullable private final SearchingChangeCacheImpl changeCache;
   private final Provider<ReviewDb> db;
-  private final Provider<CurrentUser> user;
   private final GroupCache groupCache;
   private final PermissionBackend permissionBackend;
-  private final PermissionBackend.ForProject perm;
+  private final PermissionBackend.ForProject permissionBackendForProject;
+  private final CurrentUser user;
   private final ProjectState projectState;
-  private final Repository git;
-  private boolean showMetadata = true;
-  private String userEditPrefix;
+
   private Map<Change.Id, Branch.NameKey> visibleChanges;
 
   @Inject
-  VisibleRefFilter(
+  DefaultRefFilter(
       TagCache tagCache,
       ChangeNotes.Factory changeNotesFactory,
       @Nullable SearchingChangeCacheImpl changeCache,
       Provider<ReviewDb> db,
-      Provider<CurrentUser> user,
       GroupCache groupCache,
       PermissionBackend permissionBackend,
-      @Assisted ProjectState projectState,
-      @Assisted Repository git) {
+      @Assisted CurrentUser user,
+      @Assisted ProjectState projectState) {
     this.tagCache = tagCache;
     this.changeNotesFactory = changeNotesFactory;
     this.changeCache = changeCache;
     this.db = db;
-    this.user = user;
     this.groupCache = groupCache;
     this.permissionBackend = permissionBackend;
-    this.perm =
-        permissionBackend.user(user).database(db).project(projectState.getProject().getNameKey());
+    this.permissionBackendForProject =
+        permissionBackend.user(user).database(db).project(projectState.getNameKey());
+    this.user = user;
     this.projectState = projectState;
-    this.git = git;
   }
 
-  /** Show change references. Default is {@code true}. */
-  public VisibleRefFilter setShowMetadata(boolean show) {
-    showMetadata = show;
-    return this;
-  }
-
-  public Map<String, Ref> filter(Map<String, Ref> refs, boolean filterTagsSeparately) {
+  Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
+      throws PermissionBackendException {
     if (projectState.isAllUsers()) {
       refs = addUsersSelfSymref(refs);
     }
@@ -137,12 +122,11 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     boolean isAdmin;
     Account.Id userId;
     IdentifiedUser identifiedUser;
-    if (user.get().isIdentifiedUser()) {
+    if (user.isIdentifiedUser()) {
       viewMetadata = withUser.testOrFalse(GlobalPermission.ACCESS_DATABASE);
       isAdmin = withUser.testOrFalse(GlobalPermission.ADMINISTRATE_SERVER);
-      identifiedUser = user.get().asIdentifiedUser();
+      identifiedUser = user.asIdentifiedUser();
       userId = identifiedUser.getAccountId();
-      userEditPrefix = RefNames.refsEditPrefix(userId);
     } else {
       viewMetadata = false;
       isAdmin = false;
@@ -158,16 +142,16 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       Change.Id changeId;
       Account.Id accountId;
       AccountGroup.UUID accountGroupUuid;
-      if (name.startsWith(REFS_CACHE_AUTOMERGE) || (!showMetadata && isMetadata(name))) {
+      if (name.startsWith(REFS_CACHE_AUTOMERGE) || (opts.filterMeta() && isMetadata(name))) {
         continue;
       } else if (RefNames.isRefsEdit(name)) {
         // Edits are visible only to the owning user, if change is visible.
-        if (viewMetadata || visibleEdit(name)) {
+        if (viewMetadata || visibleEdit(repo, name)) {
           result.put(name, ref);
         }
       } else if ((changeId = Change.Id.fromRef(name)) != null) {
         // Change ref is visible only if the change is visible.
-        if (viewMetadata || visible(changeId)) {
+        if (viewMetadata || visible(repo, changeId)) {
           result.put(name, ref);
         }
       } else if ((accountId = Account.Id.fromRef(name)) != null) {
@@ -218,14 +202,20 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     // If we have tags that were deferred, we need to do a revision walk
     // to identify what tags we can actually reach, and what we cannot.
     //
-    if (!deferredTags.isEmpty() && (!result.isEmpty() || filterTagsSeparately)) {
+    if (!deferredTags.isEmpty() && (!result.isEmpty() || opts.filterTagsSeparately())) {
       TagMatcher tags =
           tagCache
               .get(projectState.getNameKey())
               .matcher(
                   tagCache,
-                  git,
-                  filterTagsSeparately ? filter(git.getAllRefs()).values() : result.values());
+                  repo,
+                  opts.filterTagsSeparately()
+                      ? filter(
+                              repo.getAllRefs(),
+                              repo,
+                              opts.toBuilder().setFilterTagsSeparately(false).build())
+                          .values()
+                      : result.values());
       for (Ref tag : deferredTags) {
         if (tags.isReachable(tag)) {
           result.put(tag.getName(), tag);
@@ -246,8 +236,8 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   }
 
   private Map<String, Ref> addUsersSelfSymref(Map<String, Ref> refs) {
-    if (user.get().isIdentifiedUser()) {
-      Ref r = refs.get(RefNames.refsUsers(user.get().getAccountId()));
+    if (user.isIdentifiedUser()) {
+      Ref r = refs.get(RefNames.refsUsers(user.getAccountId()));
       if (r != null) {
         SymbolicRef s = new SymbolicRef(REFS_USERS_SELF, r);
         refs = new HashMap<>(refs);
@@ -257,28 +247,10 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     return refs;
   }
 
-  @Override
-  protected Map<String, Ref> getAdvertisedRefs(Repository repository, RevWalk revWalk)
-      throws ServiceMayNotContinueException {
-    try {
-      return filter(repository.getRefDatabase().getRefs(RefDatabase.ALL));
-    } catch (ServiceMayNotContinueException e) {
-      throw e;
-    } catch (IOException e) {
-      ServiceMayNotContinueException ex = new ServiceMayNotContinueException();
-      ex.initCause(e);
-      throw ex;
-    }
-  }
-
-  private Map<String, Ref> filter(Map<String, Ref> refs) {
-    return filter(refs, false);
-  }
-
-  private boolean visible(Change.Id changeId) {
+  private boolean visible(Repository repo, Change.Id changeId) {
     if (visibleChanges == null) {
       if (changeCache == null) {
-        visibleChanges = visibleChangesByScan();
+        visibleChanges = visibleChangesByScan(repo);
       } else {
         visibleChanges = visibleChangesBySearch();
       }
@@ -286,22 +258,26 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     return visibleChanges.containsKey(changeId);
   }
 
-  private boolean visibleEdit(String name) {
+  private boolean visibleEdit(Repository repo, String name) {
     Change.Id id = Change.Id.fromEditRefPart(name);
     // Initialize if it wasn't yet
     if (visibleChanges == null) {
-      visible(id);
+      visible(repo, id);
     }
     if (id == null) {
       return false;
     }
-    if (userEditPrefix != null && name.startsWith(userEditPrefix) && visible(id)) {
+    if (user.isIdentifiedUser()
+        && name.startsWith(RefNames.refsEditPrefix(user.asIdentifiedUser().getAccountId()))
+        && visible(repo, id)) {
       return true;
     }
     if (visibleChanges.containsKey(id)) {
       try {
         // Default to READ_PRIVATE_CHANGES as there is no special permission for reading edits.
-        perm.ref(visibleChanges.get(id).get()).check(RefPermission.READ_PRIVATE_CHANGES);
+        permissionBackendForProject
+            .ref(visibleChanges.get(id).get())
+            .check(RefPermission.READ_PRIVATE_CHANGES);
         return true;
       } catch (PermissionBackendException | AuthException e) {
         return false;
@@ -317,7 +293,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       for (ChangeData cd : changeCache.getChangeData(db.get(), project)) {
         ChangeNotes notes = changeNotesFactory.createFromIndexedChange(cd.change());
         if (projectState.statePermitsRead()
-            && perm.indexedChange(cd, notes).test(ChangePermission.READ)) {
+            && permissionBackendForProject.indexedChange(cd, notes).test(ChangePermission.READ)) {
           visibleChanges.put(cd.getId(), cd.change().getDest());
         }
       }
@@ -329,32 +305,34 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     }
   }
 
-  private Map<Change.Id, Branch.NameKey> visibleChangesByScan() {
+  private Map<Change.Id, Branch.NameKey> visibleChangesByScan(Repository repo) {
     Project.NameKey p = projectState.getNameKey();
     Stream<ChangeNotesResult> s;
     try {
-      s = changeNotesFactory.scan(git, db.get(), p);
+      s = changeNotesFactory.scan(repo, db.get(), p);
     } catch (IOException e) {
       log.error("Cannot load changes for project " + p + ", assuming no changes are visible", e);
       return Collections.emptyMap();
     }
-    return s.map(r -> toNotes(p, r))
+    return s.map(r -> toNotes(r))
         .filter(Objects::nonNull)
         .collect(toMap(n -> n.getChangeId(), n -> n.getChange().getDest()));
   }
 
   @Nullable
-  private ChangeNotes toNotes(Project.NameKey p, ChangeNotesResult r) {
+  private ChangeNotes toNotes(ChangeNotesResult r) {
     if (r.error().isPresent()) {
-      log.warn("Failed to load change " + r.id() + " in " + p, r.error().get());
+      log.warn(
+          "Failed to load change " + r.id() + " in " + projectState.getName(), r.error().get());
       return null;
     }
     try {
-      if (projectState.statePermitsRead() && perm.change(r.notes()).test(ChangePermission.READ)) {
+      if (projectState.statePermitsRead()
+          && permissionBackendForProject.change(r.notes()).test(ChangePermission.READ)) {
         return r.notes();
       }
     } catch (PermissionBackendException e) {
-      log.warn("Failed to check permission for " + r.id() + " in " + p, e);
+      log.warn("Failed to check permission for " + r.id() + " in " + projectState.getName(), e);
     }
     return null;
   }
@@ -373,7 +351,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
 
   private boolean canReadRef(String ref) {
     try {
-      perm.ref(ref).check(RefPermission.READ);
+      permissionBackendForProject.ref(ref).check(RefPermission.READ);
     } catch (AuthException e) {
       return false;
     } catch (PermissionBackendException e) {
@@ -392,8 +370,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     } catch (PermissionBackendException e) {
       log.error(
           String.format(
-              "Can't check permission for user %s on project %s",
-              user.get(), projectState.getName()),
+              "Can't check permission for user %s on project %s", user, projectState.getName()),
           e);
       return false;
     }

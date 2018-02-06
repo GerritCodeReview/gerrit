@@ -15,6 +15,8 @@
   'use strict';
 
   const ERR_COMMENT_ON_EDIT = 'You cannot comment on an edit.';
+  const ERR_COMMENT_ON_EDIT_BASE = 'You cannot comment on the base patch set ' +
+      'of an edit.';
   const ERR_INVALID_LINE = 'Invalid line number: ';
   const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -358,8 +360,15 @@
             this.patchRange.basePatchNum :
             this.patchRange.patchNum;
 
-        if (this.patchNumEquals(patchNum, this.EDIT_NAME)) {
+        const isEdit = this.patchNumEquals(patchNum, this.EDIT_NAME);
+        const isEditBase = this.patchNumEquals(patchNum, this.PARENT_NAME) &&
+            this.patchNumEquals(this.patchRange.patchNum, this.EDIT_NAME);
+
+        if (isEdit) {
           this.fire('show-alert', {message: ERR_COMMENT_ON_EDIT});
+          return false;
+        } else if (isEditBase) {
+          this.fire('show-alert', {message: ERR_COMMENT_ON_EDIT_BASE});
           return false;
         }
         return true;

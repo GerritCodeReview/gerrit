@@ -838,6 +838,7 @@ limitations under the License.
           getPreferences() {
             return Promise.resolve({time_format: 'HHMM_12'});
           },
+          getAccountCapabilities() { return Promise.resolve(); },
         });
         element = fixture('basic');
         element.patchRange = {};
@@ -866,6 +867,24 @@ limitations under the License.
 
       test('addDraftAtLine on an edit', done => {
         element.patchRange.basePatchNum = element.EDIT_NAME;
+        sandbox.stub(element, '_selectLine');
+        sandbox.stub(element, '_createComment');
+        const loggedInErrorSpy = sandbox.spy();
+        const alertSpy = sandbox.spy();
+        element.addEventListener('show-auth-required', loggedInErrorSpy);
+        element.addEventListener('show-alert', alertSpy);
+        element.addDraftAtLine(fakeLineEl);
+        flush(() => {
+          assert.isFalse(loggedInErrorSpy.called);
+          assert.isTrue(alertSpy.called);
+          assert.isFalse(element._createComment.called);
+          done();
+        });
+      });
+
+      test('addDraftAtLine on an edit base', done => {
+        element.patchRange.patchNum = element.EDIT_NAME;
+        element.patchRange.basePatchNum = element.PARENT_NAME;
         sandbox.stub(element, '_selectLine');
         sandbox.stub(element, '_createComment');
         const loggedInErrorSpy = sandbox.spy();

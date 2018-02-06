@@ -70,12 +70,12 @@ public class GetSshKeys implements RestReadView<AccountResource> {
 
   public static SshKeyInfo newSshKeyInfo(AccountSshKey sshKey) {
     SshKeyInfo info = new SshKeyInfo();
-    info.seq = sshKey.getKey().get();
-    info.sshPublicKey = sshKey.getSshPublicKey();
-    info.encodedKey = sshKey.getEncodedKey();
-    info.algorithm = sshKey.getAlgorithm();
-    info.comment = Strings.emptyToNull(sshKey.getComment());
-    info.valid = sshKey.isValid();
+    info.seq = sshKey.seq();
+    info.sshPublicKey = sshKey.sshPublicKey();
+    info.encodedKey = sshKey.encodedKey();
+    info.algorithm = sshKey.algorithm();
+    info.comment = Strings.emptyToNull(sshKey.comment());
+    info.valid = sshKey.valid();
     return info;
   }
 }

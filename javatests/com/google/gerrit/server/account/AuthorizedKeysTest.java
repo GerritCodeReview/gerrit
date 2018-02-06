@@ -113,30 +113,30 @@ public class AuthorizedKeysTest {
 
   @Test
   public void validity() throws Exception {
-    AccountSshKey key = new AccountSshKey(new AccountSshKey.Id(accountId, -1), KEY1);
-    assertThat(key.isValid()).isFalse();
-    key = new AccountSshKey(new AccountSshKey.Id(accountId, 0), KEY1);
-    assertThat(key.isValid()).isFalse();
-    key = new AccountSshKey(new AccountSshKey.Id(accountId, 1), KEY1);
-    assertThat(key.isValid()).isTrue();
+    AccountSshKey key = AccountSshKey.create(accountId, -1, KEY1);
+    assertThat(key.valid()).isFalse();
+    key = AccountSshKey.create(accountId, 0, KEY1);
+    assertThat(key.valid()).isFalse();
+    key = AccountSshKey.create(accountId, 1, KEY1);
+    assertThat(key.valid()).isTrue();
   }
 
   @Test
   public void getters() throws Exception {
-    AccountSshKey key = new AccountSshKey(new AccountSshKey.Id(accountId, 1), KEY1);
-    assertThat(key.getSshPublicKey()).isEqualTo(KEY1);
-    assertThat(key.getAlgorithm()).isEqualTo(KEY1.split(" ")[0]);
-    assertThat(key.getEncodedKey()).isEqualTo(KEY1.split(" ")[1]);
-    assertThat(key.getComment()).isEqualTo(KEY1.split(" ")[2]);
+    AccountSshKey key = AccountSshKey.create(accountId, 1, KEY1);
+    assertThat(key.sshPublicKey()).isEqualTo(KEY1);
+    assertThat(key.algorithm()).isEqualTo(KEY1.split(" ")[0]);
+    assertThat(key.encodedKey()).isEqualTo(KEY1.split(" ")[1]);
+    assertThat(key.comment()).isEqualTo(KEY1.split(" ")[2]);
   }
 
   @Test
   public void keyWithNewLines() throws Exception {
-    AccountSshKey key = new AccountSshKey(new AccountSshKey.Id(accountId, 1), KEY1_WITH_NEWLINES);
-    assertThat(key.getSshPublicKey()).isEqualTo(KEY1);
-    assertThat(key.getAlgorithm()).isEqualTo(KEY1.split(" ")[0]);
-    assertThat(key.getEncodedKey()).isEqualTo(KEY1.split(" ")[1]);
-    assertThat(key.getComment()).isEqualTo(KEY1.split(" ")[2]);
+    AccountSshKey key = AccountSshKey.create(accountId, 1, KEY1_WITH_NEWLINES);
+    assertThat(key.sshPublicKey()).isEqualTo(KEY1);
+    assertThat(key.algorithm()).isEqualTo(KEY1.split(" ")[0]);
+    assertThat(key.encodedKey()).isEqualTo(KEY1.split(" ")[1]);
+    assertThat(key.comment()).isEqualTo(KEY1.split(" ")[2]);
   }
 
   private static String toWindowsLineEndings(String s) {
@@ -157,8 +157,8 @@ public class AuthorizedKeysTest {
     int seq = 1;
     for (Optional<AccountSshKey> sshKey : parsedKeys) {
       if (sshKey.isPresent()) {
-        assertThat(sshKey.get().getAccount()).isEqualTo(accountId);
-        assertThat(sshKey.get().getKey().get()).isEqualTo(seq);
+        assertThat(sshKey.get().accountId()).isEqualTo(accountId);
+        assertThat(sshKey.get().seq()).isEqualTo(seq);
       }
       seq++;
     }
@@ -170,10 +170,9 @@ public class AuthorizedKeysTest {
    * @return the expected line for this key in the authorized_keys file
    */
   private static String addKey(List<Optional<AccountSshKey>> keys, String pub) {
-    AccountSshKey.Id keyId = new AccountSshKey.Id(new Account.Id(1), keys.size() + 1);
-    AccountSshKey key = new AccountSshKey(keyId, pub);
+    AccountSshKey key = AccountSshKey.create(new Account.Id(1), keys.size() + 1, pub);
     keys.add(Optional.of(key));
-    return key.getSshPublicKey() + "\n";
+    return key.sshPublicKey() + "\n";
   }
 
   /**
@@ -182,11 +181,9 @@ public class AuthorizedKeysTest {
    * @return the expected line for this key in the authorized_keys file
    */
   private static String addInvalidKey(List<Optional<AccountSshKey>> keys, String pub) {
-    AccountSshKey.Id keyId = new AccountSshKey.Id(new Account.Id(1), keys.size() + 1);
-    AccountSshKey key = new AccountSshKey(keyId, pub);
-    key.setInvalid();
+    AccountSshKey key = AccountSshKey.createInvalid(new Account.Id(1), keys.size() + 1, pub);
     keys.add(Optional.of(key));
-    return AuthorizedKeys.INVALID_KEY_COMMENT_PREFIX + key.getSshPublicKey() + "\n";
+    return AuthorizedKeys.INVALID_KEY_COMMENT_PREFIX + key.sshPublicKey() + "\n";
   }
 
   /**

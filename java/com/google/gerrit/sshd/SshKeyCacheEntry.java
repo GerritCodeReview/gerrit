@@ -15,20 +15,19 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.account.AccountSshKey;
 import java.security.PublicKey;
 
 class SshKeyCacheEntry {
-  private final AccountSshKey.Id id;
+  private final Account.Id accountId;
   private final PublicKey publicKey;
 
-  SshKeyCacheEntry(AccountSshKey.Id i, PublicKey k) {
-    id = i;
-    publicKey = k;
+  SshKeyCacheEntry(Account.Id accountId, PublicKey publicKey) {
+    this.accountId = accountId;
+    this.publicKey = publicKey;
   }
 
   Account.Id getAccount() {
-    return id.getParentKey();
+    return accountId;
   }
 
   boolean match(PublicKey inkey) {

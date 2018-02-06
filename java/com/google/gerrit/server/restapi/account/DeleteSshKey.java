@@ -61,7 +61,7 @@ public class DeleteSshKey implements RestModifyView<AccountResource.SshKey, Inpu
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 
-    authorizedKeys.deleteKey(rsrc.getUser().getAccountId(), rsrc.getSshKey().getKey().get());
+    authorizedKeys.deleteKey(rsrc.getUser().getAccountId(), rsrc.getSshKey().seq());
     rsrc.getUser().getUserName().ifPresent(sshKeyCache::evict);
 
     return Response.none();

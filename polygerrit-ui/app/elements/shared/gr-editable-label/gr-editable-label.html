@@ -44,6 +44,7 @@ limitations under the License.
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        @apply --label-style;
       }
       label.editable {
         color: var(--color-link);
@@ -53,13 +54,14 @@ limitations under the License.
         box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
       }
       .inputContainer {
-        padding: .8em;
         background-color: #fff;
+        padding: .8em;
+        @apply --input-style;
       }
       .buttons {
         display: flex;
-        padding-top: 1.2em;
         justify-content: flex-end;
+        padding-top: 1.2em;
         width: 100%;
       }
       .buttons gr-button {

@@ -50,6 +50,14 @@ limitations under the License.
       header gr-editable-label {
         font-size: 1.2rem;
         font-weight: bold;
+        --label-style: {
+          text-overflow: initial;
+          white-space: initial;
+          word-break: break-all;
+        }
+        --input-style: {
+          margin-top: 1em;
+        }
       }
       .textareaWrapper {
         border: 1px solid #ddd;
@@ -61,6 +69,15 @@ limitations under the License.
       }
       .rightControls {
         justify-content: flex-end;
+      }
+      @media screen and (max-width: 50em) {
+        header,
+        .subHeader {
+          display: block;
+        }
+        .rightControls {
+          float: right;
+        }
       }
     </style>
     <gr-fixed-panel keep-on-scroll>

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96a5341c_6a1f431e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-06T01:55:41Z",
+      "side": 1,
+      "message": "This will allow to simplify setting up a slave cluster, thanks for working on this.\n\nCurrently, we need to setup something on the side to receive replication such as git daemon with ssh tunnel or apache server with git smart http. We will be able to get rid of extra component and make use of the same Gerrit process for handling user traffic as well as replication from master.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 63
+      },
+      "revId": "e40cdd7da95722597d664856e7b5cf5da95b5820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b50821c_f4af364d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-06T01:55:41Z",
+      "side": 1,
+      "message": "FYI: Because slaves are read only, some people (including us) setup slaves as a cluster, i.e. multiple Gerrit processes (sharing repos and database) behind a load balancer.\n\nIf we need secondary index on slaves, anyone having such a setup will also require to use ElasticSearch(which is not yet fully supported in Gerrit) as the secondary index implementation on slaves in order to have a sharable index for the cluster.",
+      "range": {
+        "startLine": 14,
+        "startChar": 32,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "e40cdd7da95722597d664856e7b5cf5da95b5820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8c65cb6_d674f81b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-06T01:55:41Z",
+      "side": 1,
+      "message": "FWIW:\n\nI do not think any setup that needs to scale is using replication over ssh as the performance is not as good as http or git protocol.\n\nOn our side we use Apache with git smart http so migrating to replicate directly to Gerrit using http will be easy.\n\nAnother option that we used in the past that would no longer be supported, if replicating through Gerrit becomes mandatory, is replication using git protocol inside an ssh tunnel.",
+      "range": {
+        "startLine": 24,
+        "startChar": 52,
+        "endLine": 25,
+        "endChar": 40
+      },
+      "revId": "e40cdd7da95722597d664856e7b5cf5da95b5820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

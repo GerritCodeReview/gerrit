@@ -493,19 +493,19 @@ limitations under the License.
       });
 
       test('resolvable comments', () => {
-        assert.isFalse(element._unresolved);
+        assert.isFalse(element.unresolved);
         element._createReplyComment(element.comments[3], 'dummy', true, true);
         flushAsynchronousOperations();
-        assert.isTrue(element._unresolved);
+        assert.isTrue(element.unresolved);
       });
 
       test('_setInitialExpandedState', () => {
-        element._unresolved = true;
+        element.unresolved = true;
         element._setInitialExpandedState();
         for (let i = 0; i < element.comments.length; i++) {
           assert.isFalse(element.comments[i].collapsed);
         }
-        element._unresolved = false;
+        element.unresolved = false;
         element._setInitialExpandedState();
         for (let i = 0; i < element.comments.length; i++) {
           assert.isTrue(element.comments[i].collapsed);
@@ -561,10 +561,48 @@ limitations under the License.
     });
 
     test('unresolved label', () => {
-      element._unresolved = false;
+      element.unresolved = false;
       assert.isTrue(element.$.unresolvedLabel.hasAttribute('hidden'));
-      element._unresolved = true;
+      element.unresolved = true;
       assert.isFalse(element.$.unresolvedLabel.hasAttribute('hidden'));
+    });
+
+    test('draft comments are at the end of orderedComments', () => {
+      element.comments = [{
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        id: 2,
+        line: 5,
+        message: 'Earlier draft',
+        updated: '2015-12-08 19:48:33.843000000',
+        __draft: true,
+      },
+      {
+        author: {
+          name: 'Mr. Peanutbutter2',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        id: 1,
+        line: 5,
+        message: 'This comment was left last but is not a draft',
+        updated: '2015-12-10 19:48:33.843000000',
+      },
+      {
+        author: {
+          name: 'Mr. Peanutbutter2',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        id: 3,
+        line: 5,
+        message: 'Later draft',
+        updated: '2015-12-09 19:48:33.843000000',
+        __draft: true,
+      }];
+      assert.equal(element._orderedComments[0].id, '1');
+      assert.equal(element._orderedComments[1].id, '2');
+      assert.equal(element._orderedComments[2].id, '3');
     });
   });
 </script>

@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.TagResource;
 import com.google.inject.Inject;
@@ -52,7 +53,7 @@ public class TagsCollection
 
   @Override
   public TagResource parse(ProjectResource parent, IdString id)
-      throws RestApiException, IOException {
+      throws RestApiException, IOException, PermissionBackendException {
     parent.getProjectState().checkStatePermitsRead();
     return new TagResource(parent.getProjectState(), parent.getUser(), list.get().get(parent, id));
   }

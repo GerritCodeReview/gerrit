@@ -61,8 +61,9 @@ limitations under the License.
         }, {
           id: 'jacks_reply',
           message: 'i like you, too',
-          updated: '2015-12-24 15:00:20.396000000',
+          updated: '2015-12-24 15:01:20.396000000',
           __commentSide: 'left',
+          in_reply_to: 'sallys_confession',
         },
       ];
 
@@ -78,8 +79,9 @@ limitations under the License.
           }, {
             id: 'jacks_reply',
             message: 'i like you, too',
-            updated: '2015-12-24 15:00:20.396000000',
+            updated: '2015-12-24 15:01:20.396000000',
             __commentSide: 'left',
+            in_reply_to: 'sallys_confession',
           }],
           locationRange: 'line-left',
           patchNum: 3,
@@ -114,8 +116,9 @@ limitations under the License.
             __commentSide: 'left',
           }, {
             id: 'jacks_reply',
+            in_reply_to: 'sallys_confession',
             message: 'i like you, too',
-            updated: '2015-12-24 15:00:20.396000000',
+            updated: '2015-12-24 15:01:20.396000000',
             __commentSide: 'left',
           }],
           patchNum: 3,
@@ -143,6 +146,24 @@ limitations under the License.
 
       assert.deepEqual(element._getThreadGroups(comments),
           expectedThreadGroups);
+    });
+
+    test('multiple comments at same location but not threaded', () => {
+      element.patchForNewThreads = 3;
+      const comments = [
+        {
+          id: 'sallys_confession',
+          message: 'i like you, jack',
+          updated: '2015-12-23 15:00:20.396000000',
+          __commentSide: 'left',
+        }, {
+          id: 'jacks_reply',
+          message: 'i like you, too',
+          updated: '2015-12-24 15:01:20.396000000',
+          __commentSide: 'left',
+        },
+      ];
+      assert.equal(element._getThreadGroups(comments).length, 2);
     });
 
     test('_sortByDate', () => {

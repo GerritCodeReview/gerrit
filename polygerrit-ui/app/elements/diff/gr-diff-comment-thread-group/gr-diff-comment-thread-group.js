@@ -111,9 +111,11 @@
     },
 
     _getThreadGroups(comments) {
-      const threadGroups = {};
+      const sortedComments = comments.slice(0).sort((a, b) =>
+          util.parseDate(a.updated) - util.parseDate(b.updated));
 
-      for (const comment of comments) {
+      const threads = [];
+      for (const comment of sortedComments) {
         let locationRange;
         if (!comment.range) {
           locationRange = 'line-' + comment.__commentSide;
@@ -121,26 +123,27 @@
           locationRange = this._calculateLocationRange(comment.range, comment);
         }
 
-        if (threadGroups[locationRange]) {
-          threadGroups[locationRange].comments.push(comment);
-        } else {
-          threadGroups[locationRange] = {
-            start_datetime: comment.updated,
-            comments: [comment],
-            locationRange,
-            commentSide: comment.__commentSide,
-            patchNum: this._getPatchNum(comment),
-          };
+        // If the comment is in reply to another comment, find that comment's
+        // thread and append to it.
+        if (comment.in_reply_to) {
+          const thread = threads.find(thread =>
+              thread.comments.some(c => c.id === comment.in_reply_to));
+          if (thread) {
+            thread.comments.push(comment);
+            continue;
+          }
         }
-      }
 
-      const threadGroupArr = [];
-      const threadGroupKeys = Object.keys(threadGroups);
-      for (const threadGroupKey of threadGroupKeys) {
-        threadGroupArr.push(threadGroups[threadGroupKey]);
+        // Otherwise, this comment starts its own thread.
+        threads.push({
+          start_datetime: comment.updated,
+          comments: [comment],
+          locationRange,
+          commentSide: comment.__commentSide,
+          patchNum: this._getPatchNum(comment),
+        });
       }
-
-      return this._sortByDate(threadGroupArr);
+      return threads;
     },
   });
 })();

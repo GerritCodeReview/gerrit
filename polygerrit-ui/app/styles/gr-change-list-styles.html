@@ -19,7 +19,7 @@ limitations under the License.
       :host {
         font-size: var(--font-size-normal);
       }
-      gr-change-list-item,
+      gr-change-list-item:not([selected]),
       tr {
         border-top: 1px solid #ddd;
       }
@@ -106,8 +106,9 @@ limitations under the License.
           justify-content: space-between;
           padding: .25em .5em;
         }
-        gr-change-list-item[selected] {
-          background-color: transparent;
+        .cell {
+          align-items: center;
+          display: flex;
         }
         .topHeader,
         .keyboard,
@@ -120,10 +121,6 @@ limitations under the License.
         .groupHeader .star,
         .noChanges .star {
           display: none;
-        }
-        .star {
-          padding-left: .35em;
-          padding-top: .25em;
         }
         .groupHeader .cell,
         .noChanges .cell {

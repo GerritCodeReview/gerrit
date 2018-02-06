@@ -46,6 +46,30 @@
       "revId": "34001e4dbe6f52fdb0925a55c6ea107f3c3d302b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1850cbf9_772c51d4",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-06T12:22:39Z",
+      "side": 1,
+      "message": "Sorry for the noise, I confused deamon and sh script",
+      "parentUuid": "32a2f5f9_1a5cec95",
+      "range": {
+        "startLine": 349,
+        "startChar": 30,
+        "endLine": 349,
+        "endChar": 55
+      },
+      "revId": "34001e4dbe6f52fdb0925a55c6ea107f3c3d302b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

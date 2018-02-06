@@ -334,45 +334,45 @@
 
   ChangeComments.prototype.getAllThreadsForChange = function() {
     const comments = this._commentObjToArrayWithFile(this.getAllComments(true));
-    return this.getCommentThreads(comments);
+    const sortedComments = comments.slice(0).sort((c1, c2) => {
+      return util.parseDate(c1.updated) - util.parseDate(c2.updated);
+    });
+    return this.getCommentThreads(sortedComments);
   };
 
   /**
    * Computes all of the comments in thread format.
    *
-   * @param {!Array} comments
+   * @param {!Array} comments sorted by updated timestamp.
    * @return {!Array}
    */
   ChangeComments.prototype.getCommentThreads = function(comments) {
-    const threads = comments.reduce((groups, comment) => {
-      const path = comment.__path;
-      const patchset = comment.patch_set;
-      const line = comment.line;
-      const range = comment.range;
-      const side = comment.side;
-      let key = `${path}-${patchset}-${line}`;
-      if (range) {
-        key = `${key}-${range.start_line}-${range.start_character}-` +
-            `${range.end_line}-${range.end_character}`;
+    const threads = [];
+    for (const comment of comments) {
+      // If the comment is in reply to another comment, find that comment's
+      // thread and append to it.
+      if (comment.in_reply_to) {
+        const thread = threads.find(thread =>
+            thread.comments.some(c => c.id === comment.in_reply_to));
+        if (thread) {
+          thread.comments.push(comment);
+          continue;
+        }
       }
-      if (side) {
-        key = `${key}-${side}`;
-      }
-      const groupObj = {
-        comments: [],
-        patchNum: patchset,
-        path,
-        line,
+
+      // Otherwise, this comment starts its own thread.
+      const newThread = {
+        comments: [comment],
+        patchNum: comment.patch_set,
+        path: comment.__path,
+        line: comment.line,
       };
       if (comment.side) {
-        groupObj.commentSide = side;
+        newThread.commentSide = comment.side;
       }
-      groups[key] = groups[key] || groupObj;
-      groups[key].comments.push(comment);
-      return groups;
-    }, {});
-
-    return Object.values(threads);
+      threads.push(newThread);
+    }
+    return threads;
   };
 
   /**

@@ -85,6 +85,24 @@
       "revId": "e40cdd7da95722597d664856e7b5cf5da95b5820",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce03a625_f99118ce",
+        "filename": "java/com/google/gerrit/server/git/validators/ReplicationUserVerifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-06T11:19:18Z",
+      "side": 1,
+      "message": "I agree that we should keep it simple for now. We can always refine it later on. (I thought about just comparing the configured string with the ID, name, user name, and email but then we have to be careful not to allow identifiers which might not be unique. That\u0027s why I went with only the account ID as you suggested in the next patch set.)",
+      "parentUuid": "8326045e_f1a42179",
+      "revId": "e40cdd7da95722597d664856e7b5cf5da95b5820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

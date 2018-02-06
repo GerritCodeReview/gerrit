@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.group;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.inject.Singleton;
@@ -24,9 +23,9 @@ import com.google.inject.Singleton;
 @Singleton
 public class GetDescription implements RestReadView<GroupResource> {
   @Override
-  public String apply(GroupResource resource) throws MethodNotAllowedException {
+  public String apply(GroupResource resource) throws NotInternalGroupException {
     GroupDescription.Internal group =
-        resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
+        resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
     return Strings.nullToEmpty(group.getDescription());
   }
 }

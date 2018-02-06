@@ -61,10 +61,10 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
 
   @Override
   public Response<?> apply(GroupResource resource, Input input)
-      throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
+      throws AuthException, NotInternalGroupException, UnprocessableEntityException, OrmException,
           IOException, ConfigInvalidException, ResourceNotFoundException {
     GroupDescription.Internal internalGroup =
-        resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
+        resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
     input = Input.init(input);
 
     final GroupControl control = resource.getControl();

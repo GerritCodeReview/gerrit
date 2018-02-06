@@ -19,7 +19,6 @@ import static com.google.common.base.Strings.nullToEmpty;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupInfo;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupControl;
@@ -47,9 +46,9 @@ public class ListSubgroups implements RestReadView<GroupResource> {
   }
 
   @Override
-  public List<GroupInfo> apply(GroupResource rsrc) throws MethodNotAllowedException, OrmException {
+  public List<GroupInfo> apply(GroupResource rsrc) throws NotInternalGroupException, OrmException {
     GroupDescription.Internal group =
-        rsrc.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
+        rsrc.asInternalGroup().orElseThrow(NotInternalGroupException::new);
 
     return getDirectSubgroups(group, rsrc.getControl());
   }

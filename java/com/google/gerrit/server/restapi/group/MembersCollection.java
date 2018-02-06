@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -63,10 +62,10 @@ public class MembersCollection
 
   @Override
   public MemberResource parse(GroupResource parent, IdString id)
-      throws MethodNotAllowedException, AuthException, ResourceNotFoundException, OrmException,
+      throws NotInternalGroupException, AuthException, ResourceNotFoundException, OrmException,
           IOException, ConfigInvalidException {
     GroupDescription.Internal group =
-        parent.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
+        parent.asInternalGroup().orElseThrow(NotInternalGroupException::new);
 
     IdentifiedUser user = accounts.parse(TopLevelResource.INSTANCE, id).getUser();
     if (parent.getControl().canSeeMember(user.getAccountId()) && isMember(group, user)) {

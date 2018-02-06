@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -67,9 +66,9 @@ public class ListMembers implements RestReadView<GroupResource> {
 
   @Override
   public List<AccountInfo> apply(GroupResource resource)
-      throws MethodNotAllowedException, OrmException {
+      throws NotInternalGroupException, OrmException {
     GroupDescription.Internal group =
-        resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
+        resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
     if (recursive) {
       return getTransitiveMembers(group, resource.getControl());
     }

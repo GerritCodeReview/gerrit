@@ -54,6 +54,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -453,8 +454,14 @@ public class ChangeIndexer {
           index(newChangeData(db.get(), project, id));
           return true;
         }
-      } catch (NoSuchChangeException e) {
+      } catch (NoSuchChangeException nsce) {
         log.debug("Change {} was deleted, aborting reindexing the change.", id.get());
+      } catch (Exception e) {
+        if (!isCausedByRepositoryNotFoundException(e)) {
+          throw e;
+        }
+        log.debug(
+            "Change {} belong to a deleted project, aborting reindexing the change.", id.get());
       }
       return false;
     }
@@ -463,6 +470,16 @@ public class ChangeIndexer {
     public String toString() {
       return "reindex-if-stale-change-" + id;
     }
+  }
+
+  private boolean isCausedByRepositoryNotFoundException(Throwable throwable) {
+    while (throwable != null) {
+      if (throwable instanceof RepositoryNotFoundException) {
+        return true;
+      }
+      throwable = throwable.getCause();
+    }
+    return false;
   }
 
   // Avoid auto-rebuilding when reindexing if reading is disabled. This just

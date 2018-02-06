@@ -15,8 +15,9 @@
 package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.common.errors.InvalidSshKeyException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountSshKey;
 
 public interface SshKeyCreator {
-  AccountSshKey create(AccountSshKey.Id id, String encoded) throws InvalidSshKeyException;
+  AccountSshKey create(Account.Id accountId, int seq, String encoded) throws InvalidSshKeyException;
 }

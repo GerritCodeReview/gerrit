@@ -145,7 +145,7 @@ public class InitAdminUser implements InitStep {
 
           if (sshKey != null) {
             VersionedAuthorizedKeysOnInit authorizedKeys = authorizedKeysFactory.create(id).load();
-            authorizedKeys.addKey(sshKey.getSshPublicKey());
+            authorizedKeys.addKey(sshKey.sshPublicKey());
             authorizedKeys.save("Add SSH key for initial admin user\n");
           }
 
@@ -165,8 +165,8 @@ public class InitAdminUser implements InitStep {
 
   private String readEmail(AccountSshKey sshKey) {
     String defaultEmail = "admin@example.com";
-    if (sshKey != null && sshKey.getComment() != null) {
-      String c = sshKey.getComment().trim();
+    if (sshKey != null && sshKey.comment() != null) {
+      String c = sshKey.comment().trim();
       if (EmailValidator.getInstance().isValid(c)) {
         defaultEmail = c;
       }
@@ -199,6 +199,6 @@ public class InitAdminUser implements InitStep {
       throw new IOException(String.format("Cannot add public SSH key: %s is not a file", keyFile));
     }
     String content = new String(Files.readAllBytes(p), UTF_8);
-    return new AccountSshKey(new AccountSshKey.Id(id, 1), content);
+    return AccountSshKey.create(id, 1, content);
   }
 }

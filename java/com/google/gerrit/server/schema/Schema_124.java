@@ -84,11 +84,8 @@ public class Schema_124 extends SchemaVersion {
         Account.Id accountId = new Account.Id(rs.getInt(1));
         int seq = rs.getInt(2);
         String sshPublicKey = rs.getString(3);
-        AccountSshKey key = new AccountSshKey(new AccountSshKey.Id(accountId, seq), sshPublicKey);
         boolean valid = toBoolean(rs.getString(4));
-        if (!valid) {
-          key.setInvalid();
-        }
+        AccountSshKey key = AccountSshKey.create(accountId, seq, sshPublicKey, valid);
         imports.put(accountId, key);
       }
     }
@@ -122,15 +119,13 @@ public class Schema_124 extends SchemaVersion {
   }
 
   private Collection<AccountSshKey> fixInvalidSequenceNumbers(Collection<AccountSshKey> keys) {
-    Ordering<AccountSshKey> o = Ordering.from(comparing(k -> k.getKey().get()));
+    Ordering<AccountSshKey> o = Ordering.from(comparing(k -> k.seq()));
     List<AccountSshKey> fixedKeys = new ArrayList<>(keys);
     AccountSshKey minKey = o.min(keys);
-    while (minKey.getKey().get() <= 0) {
+    while (minKey.seq() <= 0) {
       AccountSshKey fixedKey =
-          new AccountSshKey(
-              new AccountSshKey.Id(
-                  minKey.getKey().getParentKey(), Math.max(o.max(keys).getKey().get() + 1, 1)),
-              minKey.getSshPublicKey());
+          AccountSshKey.create(
+              minKey.accountId(), Math.max(o.max(keys).seq() + 1, 1), minKey.sshPublicKey());
       Collections.replaceAll(fixedKeys, minKey, fixedKey);
       minKey = o.min(fixedKeys);
     }

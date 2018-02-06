@@ -24,7 +24,6 @@ import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountSshKey.Id;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -139,8 +138,8 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
 
   public static class SimpleSshKeyCreator implements SshKeyCreator {
     @Override
-    public AccountSshKey create(Id id, String encoded) {
-      return new AccountSshKey(id, encoded);
+    public AccountSshKey create(Account.Id accountId, int seq, String encoded) {
+      return AccountSshKey.create(accountId, seq, encoded);
     }
   }
 
@@ -211,14 +210,13 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
     checkLoaded();
 
     for (Optional<AccountSshKey> key : keys) {
-      if (key.isPresent() && key.get().getSshPublicKey().trim().equals(pub.trim())) {
+      if (key.isPresent() && key.get().sshPublicKey().trim().equals(pub.trim())) {
         return key.get();
       }
     }
 
     int seq = keys.size() + 1;
-    AccountSshKey.Id keyId = new AccountSshKey.Id(accountId, seq);
-    AccountSshKey key = sshKeyCreator.create(keyId, pub);
+    AccountSshKey key = sshKeyCreator.create(accountId, seq, pub);
     keys.add(Optional.of(key));
     return key;
   }
@@ -249,9 +247,10 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
    */
   private boolean markKeyInvalid(int seq) {
     checkLoaded();
-    AccountSshKey key = getKey(seq);
-    if (key != null && key.isValid()) {
-      key.setInvalid();
+
+    Optional<AccountSshKey> key = keys.get(seq - 1);
+    if (key.isPresent() && key.get().valid()) {
+      keys.set(seq - 1, Optional.of(AccountSshKey.createInvalid(key.get())));
       return true;
     }
     return false;
@@ -265,10 +264,10 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
    * @param newKeys the new public SSH keys
    */
   public void setKeys(Collection<AccountSshKey> newKeys) {
-    Ordering<AccountSshKey> o = Ordering.from(comparing(k -> k.getKey().get()));
-    keys = new ArrayList<>(Collections.nCopies(o.max(newKeys).getKey().get(), Optional.empty()));
+    Ordering<AccountSshKey> o = Ordering.from(comparing(k -> k.seq()));
+    keys = new ArrayList<>(Collections.nCopies(o.max(newKeys).seq(), Optional.empty()));
     for (AccountSshKey key : newKeys) {
-      keys.set(key.getKey().get() - 1, Optional.of(key));
+      keys.set(key.seq() - 1, Optional.of(key));
     }
   }
 

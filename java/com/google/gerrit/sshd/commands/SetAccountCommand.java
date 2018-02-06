@@ -263,8 +263,7 @@ final class SetAccountCommand extends SshCommand {
   private void deleteSshKey(SshKeyInfo i)
       throws AuthException, OrmException, RepositoryNotFoundException, IOException,
           ConfigInvalidException, PermissionBackendException {
-    AccountSshKey sshKey =
-        new AccountSshKey(new AccountSshKey.Id(user.getAccountId(), i.seq), i.sshPublicKey);
+    AccountSshKey sshKey = AccountSshKey.create(user.getAccountId(), i.seq, i.sshPublicKey);
     deleteSshKey.apply(new AccountResource.SshKey(user.asIdentifiedUser(), sshKey), null);
   }
 

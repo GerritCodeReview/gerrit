@@ -69,6 +69,7 @@ limitations under the License.
         target: '_blank',
         url: 'https://my/site/+log/123/project.config',
       }],
+      can_upload: true,
     };
     const accessRes2 = {
       local: {
@@ -211,25 +212,7 @@ limitations under the License.
     });
 
     suite('with defined sections', () => {
-      setup(() => {
-        // Create deep copies of these objects so the originals are not modified
-        // by any tests.
-        element._local = JSON.parse(JSON.stringify(accessRes.local));
-        element._sections = element.toSortedArray(element._local);
-        element._groups = JSON.parse(JSON.stringify(accessRes.groups));
-        element._capabilities = JSON.parse(JSON.stringify(capabilitiesRes));
-        element._labels = JSON.parse(JSON.stringify(repoRes.labels));
-        flushAsynchronousOperations();
-      });
-
-      test('button visibility for non admin', () => {
-        assert.equal(getComputedStyle(element.$.saveBtn).display, 'none');
-        assert.equal(getComputedStyle(element.$.editBtn).display, 'none');
-      });
-
-      test('button visibility for admin', () => {
-        element._isAdmin = true;
-
+      const testEditSaveCancelBtns = () => {
         // Edit button is visible and Save button is hidden.
         assert.equal(getComputedStyle(element.$.saveBtn).display, 'none');
         assert.notEqual(getComputedStyle(element.$.editBtn).display, 'none');
@@ -246,6 +229,32 @@ limitations under the License.
         // Save button should be enabled after access is modified
         element.fire('access-modified');
         assert.isFalse(element.$.saveBtn.disabled);
+      };
+
+      setup(() => {
+        // Create deep copies of these objects so the originals are not modified
+        // by any tests.
+        element._local = JSON.parse(JSON.stringify(accessRes.local));
+        element._sections = element.toSortedArray(element._local);
+        element._groups = JSON.parse(JSON.stringify(accessRes.groups));
+        element._capabilities = JSON.parse(JSON.stringify(capabilitiesRes));
+        element._labels = JSON.parse(JSON.stringify(repoRes.labels));
+        flushAsynchronousOperations();
+      });
+
+      test('button visibility for non admin', () => {
+        assert.equal(getComputedStyle(element.$.saveBtn).display, 'none');
+        assert.equal(getComputedStyle(element.$.editBtn).display, 'none');
+      });
+
+      test('button visibility for non admin with upload privilege', () => {
+        element._canUpload = true;
+        testEditSaveCancelBtns();
+      });
+
+      test('button visibility for admin', () => {
+        element._isAdmin = true;
+        testEditSaveCancelBtns();
       });
 
       test('_handleAccessModified called with event fired', () => {

@@ -126,17 +126,17 @@ limitations under the License.
       </section>
       <section hidden$="[[!_submittedTogether.length]]" hidden>
         <h4>Submitted together</h4>
-        <template is="dom-repeat" items="[[_submittedTogether]]" as="change">
-          <div>
-            <a href$="[[_computeChangeURL(change._number, change.project)]]"
-                class$="[[_computeLinkClass(change)]]"
-                title$="[[change.project]]: [[change.branch]]: [[change.subject]]">
-              [[change.project]]: [[change.branch]]: [[change.subject]]
+        <template is="dom-repeat" items="[[_submittedTogether]]" as="related">
+          <div class$="[[_computeChangeContainerClass(change, related)]]">
+            <a href$="[[_computeChangeURL(related._number, related.project)]]"
+                class$="[[_computeLinkClass(related)]]"
+                title$="[[related.project]]: [[related.branch]]: [[related.subject]]">
+              [[related.project]]: [[related.branch]]: [[related.subject]]
             </a>
             <span
                 tabindex="-1"
                 title="Submittable"
-                class$="submittableCheck [[_computeLinkClass(change)]]">✓</span>
+                class$="submittableCheck [[_computeLinkClass(related)]]">✓</span>
           </div>
         </template>
       </section>

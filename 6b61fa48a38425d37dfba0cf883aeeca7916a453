@@ -47,6 +47,30 @@
       "revId": "6b61fa48a38425d37dfba0cf883aeeca7916a453",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2900565_364fc7b3",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-06T17:05:21Z",
+      "side": 1,
+      "message": "(We can bikeshed later if necessary.)",
+      "parentUuid": "16e90108_1c554cea",
+      "range": {
+        "startLine": 388,
+        "startChar": 39,
+        "endLine": 388,
+        "endChar": 48
+      },
+      "revId": "6b61fa48a38425d37dfba0cf883aeeca7916a453",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

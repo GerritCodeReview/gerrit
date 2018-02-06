@@ -34,6 +34,24 @@
       "revId": "7f577fd81cb6f28fdaf6689d3f00e55b3d85900a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e732bddf_8176ac62",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1528,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-06T23:13:33Z",
+      "side": 1,
+      "message": "When there are several optional params I\u0027d prefer an opt_params object, \n@param !Object\u003d opt_params\n\nThen I think using object deconstruction would be a good way to go:\n({errFn, ctx, contentType, headers, suppressErrors} \u003d opt_params)\n\n... and carry on from there",
+      "parentUuid": "18b0f61d_b49effea",
+      "revId": "7f577fd81cb6f28fdaf6689d3f00e55b3d85900a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

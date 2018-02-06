@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1517918170 +0100\nnonce AFD2Vu1MVjhuUVTR4dmuoZrGgKAkpVqZRHamVZKm+yd3f8l2MewzIxthqoozzkxCdErqGz+ut6yM\n\n0000000000000000000000000000000000000000 80e95a98b448128a1ec7b442ae0db2f12e986924 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlp5l9oACgkQUbX9l6DQ\n71EaXQf+J2x1FkT/Saydgx07rTPZnHVJQUCBmkt37ZWOhXEkiyazzYIxTmlEk422\nKKvCKy8jJ3rSYC1Ct0RGkKmBF6rcbEU/o34wOMYXFQquZSJA9LKFxiQk27Gj696W\npDPN8JTmGDuLSZdCTOG9dcgCaacT24LTDvBSNLwrxB+Djif8bYSpfmM1czdckI9x\nQVsJTePtLXCUPWRF9+dI8wYTfo13EnfFUHmaZG3DkwZFmRGzbNbjetgFJfLvgrML\nOMQ8Ud/Ks0Nt7GVcccrLKaMc7Wm9tALYmnB8zRzx5FqtW6Z979WoYO6XGn/aXlqs\nhBOXuaQ80XiGo+/8R3Dai7z+3a+aZQ\u003d\u003d\n\u003d8fvA\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "76920f63_09578522",
+        "filename": "java/com/google/gerrit/server/account/AccountSshKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-06T12:51:16Z",
+      "side": 1,
+      "message": "Should this also be immutable? The whole parent key thing seems like it\u0027s no longer necessary.\n\n(Haven\u0027t yet reviewed past this point.)",
+      "revId": "80e95a98b448128a1ec7b442ae0db2f12e986924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

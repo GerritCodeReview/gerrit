@@ -81,6 +81,30 @@
       "revId": "719d6a94c693784c70b3099b5c2b2ff70781fceb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef2d01f7_3e2c6172",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-06T15:16:08Z",
+      "side": 1,
+      "message": "Ok, we will do this in a another change.",
+      "parentUuid": "cef653d2_a5a32aa9",
+      "range": {
+        "startLine": 456,
+        "startChar": 6,
+        "endLine": 458,
+        "endChar": 7
+      },
+      "revId": "719d6a94c693784c70b3099b5c2b2ff70781fceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

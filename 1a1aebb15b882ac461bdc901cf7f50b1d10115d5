@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1517928794 -0500\nnonce AFD2Vu0G/69Z65fM3Z1KdqFd/SCUNsvGNMxS6ZQ1EqlPFMi1OWBp4DxRb8wPCckJMCgRdW4OXJXX\n\n0000000000000000000000000000000000000000 1a1aebb15b882ac461bdc901cf7f50b1d10115d5 refs/for/master%r\u003dhanwen@google.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlp5wVoVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMeFEQAKLmdusBNAhokdAQXsN7zRQlQhjh\nGk77fi6fc6xXh54szROyJUgzpxhnbRdda+it0IjxP9vKbC8Axe3gsLgeAaqdIdGy\nyLv2qcKNwJHApWvPmQJIXVjy+tlhBM+d3bGhe56HxfpgnL5FCwmQq+ddj+A0F/gY\nYU66gctA01I4t79P+m4iepYyzw+56jWaK/lq2na+1bgWkbUVvkr8zz7BhqhHvmVD\nVWu4T2RIN8Ess9tjvTvaV14FkwrsX84PoYImQ3EmMAkN7Yk0UmfSPmzCXeW3Wxxc\nrfL7Q9+f+YjXNash+rAviND6f/JKHH7L2gfkYsDJi/4EZVHMWU8dwe2YYV2H0XCz\nMrNRTGbMLJZxer9snfXeS/Q+Dr6Jlx1t5p8oCKkwAjKRQb92Q410m7R7uwYCDqNy\nvCFTIsSIKeCcKq6BsN7f+w5Ex+jqWL2ELNh2wyxgFBWvY4Xkr2agygjUR8TnYwEe\nzCtgxa3XfWgWS9unGZKzl73NkhraSh8Rvpr6djBmpwJn61GD0BiRAPQ8ozW5Un1M\nl72woBVEAgml0uDmkcPm1w21k0wmNaTMqpq34Jx8YKtdpqV/WJFd3kqmpHW0cBdx\nExLBPy1hLONfQ1gmrR+PaXaOiF+52p+6PIlYZH8BCDXRdGH6i8DRCxf49J/wBuSB\nWs1FiOfU1daW0CTl\n\u003dnORk\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff7f53be_e49ef7dd",
+        "filename": "java/com/google/gerrit/server/restapi/group/ListMembers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-06T14:58:22Z",
+      "side": 1,
+      "message": "Should the same be done for ListSubgroups, MembersCollection#parse and SubgroupsCollection#parse?",
+      "revId": "1a1aebb15b882ac461bdc901cf7f50b1d10115d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

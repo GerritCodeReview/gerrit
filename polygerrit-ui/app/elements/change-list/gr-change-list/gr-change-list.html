@@ -29,46 +29,26 @@ limitations under the License.
 
 <dom-module id="gr-change-list">
   <template>
-    <style include="shared-styles">
+    <style include="shared-styles"></style>
+    <style include="gr-change-list-styles">
       #changeList {
         border-collapse: collapse;
         width: 100%;
       }
-      .cell {
-        padding: .3em .5em;
-      }
-      th {
-        text-align: left;
-      }
-      .groupHeader {
-        background-color: #eee;
-        border-top: 1em solid #fff;
-      }
-      .groupHeader a {
-        color: #000;
-        text-decoration: none;
-      }
-      .groupHeader a:hover {
-        text-decoration: underline;
-      }
-      .headerRow + tr {
-        border: none;
-      }
     </style>
-    <style include="gr-change-list-styles"></style>
     <table id="changeList">
-      <tr class="headerRow">
-        <th class="topHeader keyboard"></th>
-        <th class="topHeader star" hidden$="[[!showStar]]" hidden></th>
-        <th class="topHeader number" hidden$="[[!showNumber]]" hidden>#</th>
+      <tr class="topHeader">
+        <th class="keyboard"></th>
+        <th class="star" hidden$="[[!showStar]]" hidden></th>
+        <th class="number" hidden$="[[!showNumber]]" hidden>#</th>
         <template is="dom-repeat" items="[[changeTableColumns]]" as="item">
-          <th class$="[[_lowerCase(item)]] topHeader"
+          <th class$="[[_lowerCase(item)]]"
               hidden$="[[isColumnHidden(item, visibleChangeTableColumns)]]">
             [[item]]
           </th>
         </template>
         <template is="dom-repeat" items="[[labelNames]]" as="labelName">
-          <th class="topHeader label" title$="[[labelName]]">
+          <th class="label" title$="[[labelName]]">
             [[_computeLabelShortcut(labelName)]]
           </th>
         </template>
@@ -77,6 +57,8 @@ limitations under the License.
           index-as="sectionIndex">
         <template is="dom-if" if="[[changeSection.sectionName]]">
           <tr class="groupHeader">
+            <td class="keyboard"></td>
+            <td class="star" hidden$="[[!showStar]]" hidden></td>
             <td class="cell"
                 colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
               <a href$="[[_sectionHref(changeSection.query)]]">
@@ -87,6 +69,8 @@ limitations under the License.
         </template>
         <template is="dom-if" if="[[!changeSection.results.length]]">
           <tr class="noChanges">
+            <td class="keyboard"></td>
+            <td class="star" hidden$="[[!showStar]]" hidden></td>
             <td class="cell"
                 colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
               No changes

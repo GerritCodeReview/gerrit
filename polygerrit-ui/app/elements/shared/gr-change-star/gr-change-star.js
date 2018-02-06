@@ -28,11 +28,12 @@
     },
 
     _computeStarClass(starred) {
-      const classes = ['starButton'];
-      if (starred) {
-        classes.push('starButton-active');
-      }
-      return classes.join(' ');
+      return starred ? 'active' : '';
+    },
+
+    _computeStarIcon(starred) {
+      // Hollow star is used to indicate inactive state.
+      return `gr-icons:star${starred ? '' : '-border'}`;
     },
 
     toggleStar() {

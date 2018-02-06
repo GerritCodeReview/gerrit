@@ -23,6 +23,30 @@
       "revId": "1ce72eff4338fb0c39ec2117c354c1b6efb7b024",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27d9f388_fa353413",
+        "filename": "java/com/google/gerrit/sshd/commands/ReceiveSlaveMode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-06T09:07:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f849f5e_a4c8fcab",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "1ce72eff4338fb0c39ec2117c354c1b6efb7b024",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

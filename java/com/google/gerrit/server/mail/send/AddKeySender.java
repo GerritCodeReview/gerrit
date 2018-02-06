@@ -127,7 +127,7 @@ public class AddKeySender extends OutgoingEmail {
   }
 
   public String getSshKey() {
-    return (sshKey != null) ? sshKey.getSshPublicKey() + "\n" : null;
+    return (sshKey != null) ? sshKey.sshPublicKey() + "\n" : null;
   }
 
   public String getGpgKeys() {

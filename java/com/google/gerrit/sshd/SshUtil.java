@@ -51,7 +51,7 @@ public class SshUtil {
   public static PublicKey parse(AccountSshKey key)
       throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException {
     try {
-      final String s = key.getEncodedKey();
+      final String s = key.encodedKey();
       if (s == null) {
         throw new InvalidKeySpecException("No key string");
       }

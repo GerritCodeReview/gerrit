@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "014a0eef_246273b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-06T11:58:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a185616_4a5b06d6",
+      "range": {
+        "startLine": 13,
+        "startChar": 54,
+        "endLine": 13,
+        "endChar": 59
+      },
+      "revId": "032eac9aa5ef42c1ad4871649ae9c6c3e3fa2a98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6fc7974d_564c2bb2",
         "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "032eac9aa5ef42c1ad4871649ae9c6c3e3fa2a98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "515ebc3d_8de331f5",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-06T11:58:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fc7974d_564c2bb2",
+      "range": {
+        "startLine": 342,
+        "startChar": 4,
+        "endLine": 342,
+        "endChar": 23
+      },
+      "revId": "032eac9aa5ef42c1ad4871649ae9c6c3e3fa2a98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89efb85b_c18937c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-06T05:59:02Z",
+      "side": 1,
+      "message": "Could we consider to extract part of this code to ChangeIdUtil? Of course not on stable-2.13 branch.",
+      "revId": "c8c55e2131638509dcd8d5b8b31afea636de311a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

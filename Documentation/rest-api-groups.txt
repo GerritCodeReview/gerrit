@@ -965,6 +965,9 @@ As result a list of detailed link:rest-api-accounts.html#account-info[
 AccountInfo] entries is returned. The entries in the list are sorted by
 full name, preferred email and id.
 
+Members can only be listed for Gerrit internal groups; attempting to list
+members for a non-internal group will return 405 Method Not Allowed.
+
 .Request
 ----
   GET /groups/834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7/members/ HTTP/1.0

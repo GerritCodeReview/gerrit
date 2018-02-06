@@ -69,7 +69,9 @@ public class ListMembers implements RestReadView<GroupResource> {
   public List<AccountInfo> apply(GroupResource resource)
       throws MethodNotAllowedException, OrmException {
     GroupDescription.Internal group =
-        resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
+        resource
+            .asInternalGroup()
+            .orElseThrow(() -> new MethodNotAllowedException("not a Gerrit internal group"));
     if (recursive) {
       return getTransitiveMembers(group, resource.getControl());
     }

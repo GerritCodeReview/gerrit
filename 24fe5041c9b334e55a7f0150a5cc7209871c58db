@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "fab6bb90_f7ca8624",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-06T11:54:43Z",
+      "side": 1,
+      "message": "optional: Could we still rename the summary line of this change to something like \"Send group audit events also when completely on NoteDb\". This change of behavior seems to be more important than the technical aspect of a migration of an interface in my opinion.",
+      "parentUuid": "0d707356_9a65574b",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "24fe5041c9b334e55a7f0150a5cc7209871c58db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "facda9cc_ff460e92",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

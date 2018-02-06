@@ -17,6 +17,24 @@
       "revId": "e1b55d453f9de45a56ac3578275ce5bfa195e28b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b154205_a6aa02cb",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteExternalIds.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-06T08:23:15Z",
+      "side": 1,
+      "message": "You are right, this should be the same.\n\nDone",
+      "parentUuid": "d9daa6f9_504b147f",
+      "revId": "e1b55d453f9de45a56ac3578275ce5bfa195e28b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

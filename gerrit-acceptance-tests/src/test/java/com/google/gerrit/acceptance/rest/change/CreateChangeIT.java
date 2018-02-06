@@ -111,12 +111,16 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createNewChangeSignedOffByFooter() throws Exception {
-    setSignedOffByFooter();
-    ChangeInfo info = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
-    String message = info.revisions.get(info.currentRevision).commit.message;
-    assertThat(message).contains(
-        String.format("%sAdministrator <%s>", SIGNED_OFF_BY_TAG,
-            admin.getIdent().getEmailAddress()));
+    setSignedOffByFooter(true);
+    try {
+      ChangeInfo info = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
+      String message = info.revisions.get(info.currentRevision).commit.message;
+      assertThat(message).contains(
+          String.format("%sAdministrator <%s>", SIGNED_OFF_BY_TAG,
+              admin.getIdent().getEmailAddress()));
+    } finally {
+      setSignedOffByFooter(false);
+    }
   }
 
   @Test
@@ -288,20 +292,24 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   // TODO(davido): Expose setting of account preferences in the API
-  private void setSignedOffByFooter() throws Exception {
+  private void setSignedOffByFooter(boolean value) throws Exception {
     RestResponse r = adminRestSession.get("/accounts/" + admin.email
         + "/preferences");
     r.assertOK();
     GeneralPreferencesInfo i =
         newGson().fromJson(r.getReader(), GeneralPreferencesInfo.class);
-    i.signedOffBy = true;
+    i.signedOffBy = value;
 
     r = adminRestSession.put("/accounts/" + admin.email + "/preferences", i);
     r.assertOK();
     GeneralPreferencesInfo o = newGson().fromJson(r.getReader(),
         GeneralPreferencesInfo.class);
 
-    assertThat(o.signedOffBy).isTrue();
+    if (value) {
+      assertThat(o.signedOffBy).isTrue();
+    } else {
+      assertThat(o.signedOffBy).isNull();
+    }
   }
 
   private ChangeInput newMergeChangeInput(String targetBranch, String sourceRef,

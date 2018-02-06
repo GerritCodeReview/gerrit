@@ -29,7 +29,7 @@ public class SshKeyCreatorImpl implements SshKeyCreator {
   @Override
   public AccountSshKey create(AccountSshKey.Id id, String encoded) throws InvalidSshKeyException {
     try {
-      AccountSshKey key = new AccountSshKey(id, SshUtil.toOpenSshPublicKey(encoded));
+      AccountSshKey key = AccountSshKey.create(id, SshUtil.toOpenSshPublicKey(encoded));
       SshUtil.parse(key);
       return key;
     } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {

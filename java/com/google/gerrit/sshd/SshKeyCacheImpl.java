@@ -108,7 +108,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
 
       List<SshKeyCacheEntry> kl = new ArrayList<>(4);
       for (AccountSshKey k : authorizedKeys.getKeys(user.accountId())) {
-        if (k.isValid()) {
+        if (k.valid()) {
           add(kl, k);
         }
       }
@@ -121,7 +121,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
 
     private void add(List<SshKeyCacheEntry> kl, AccountSshKey k) {
       try {
-        kl.add(new SshKeyCacheEntry(k.getKey(), SshUtil.parse(k)));
+        kl.add(new SshKeyCacheEntry(k.id(), SshUtil.parse(k)));
       } catch (OutOfMemoryError e) {
         // This is the only case where we assume the problem has nothing
         // to do with the key object, and instead we must abort this load.
@@ -134,11 +134,10 @@ public class SshKeyCacheImpl implements SshKeyCache {
 
     private void markInvalid(AccountSshKey k) {
       try {
-        log.info("Flagging SSH key " + k.getKey() + " invalid");
-        authorizedKeys.markKeyInvalid(k.getAccount(), k.getKey().get());
-        k.setInvalid();
+        log.info("Flagging SSH key " + k.id() + " invalid");
+        authorizedKeys.markKeyInvalid(k.account(), k.id().get());
       } catch (IOException | ConfigInvalidException e) {
-        log.error("Failed to mark SSH key" + k.getKey() + " invalid", e);
+        log.error("Failed to mark SSH key" + k.id() + " invalid", e);
       }
     }
   }

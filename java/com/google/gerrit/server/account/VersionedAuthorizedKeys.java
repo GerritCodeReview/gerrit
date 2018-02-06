@@ -140,7 +140,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   public static class SimpleSshKeyCreator implements SshKeyCreator {
     @Override
     public AccountSshKey create(Id id, String encoded) {
-      return new AccountSshKey(id, encoded);
+      return AccountSshKey.create(id, encoded);
     }
   }
 
@@ -211,7 +211,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
     checkLoaded();
 
     for (Optional<AccountSshKey> key : keys) {
-      if (key.isPresent() && key.get().getSshPublicKey().trim().equals(pub.trim())) {
+      if (key.isPresent() && key.get().sshPublicKey().trim().equals(pub.trim())) {
         return key.get();
       }
     }
@@ -249,9 +249,10 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
    */
   private boolean markKeyInvalid(int seq) {
     checkLoaded();
-    AccountSshKey key = getKey(seq);
-    if (key != null && key.isValid()) {
-      key.setInvalid();
+
+    Optional<AccountSshKey> key = keys.get(seq - 1);
+    if (key.isPresent() && key.get().valid()) {
+      keys.add(seq - 1, Optional.of(AccountSshKey.createInvalid(key.get())));
       return true;
     }
     return false;
@@ -265,10 +266,10 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
    * @param newKeys the new public SSH keys
    */
   public void setKeys(Collection<AccountSshKey> newKeys) {
-    Ordering<AccountSshKey> o = Ordering.from(comparing(k -> k.getKey().get()));
-    keys = new ArrayList<>(Collections.nCopies(o.max(newKeys).getKey().get(), Optional.empty()));
+    Ordering<AccountSshKey> o = Ordering.from(comparing(k -> k.id().get()));
+    keys = new ArrayList<>(Collections.nCopies(o.max(newKeys).id().get(), Optional.empty()));
     for (AccountSshKey key : newKeys) {
-      keys.set(key.getKey().get() - 1, Optional.of(key));
+      keys.set(key.id().get() - 1, Optional.of(key));
     }
   }
 

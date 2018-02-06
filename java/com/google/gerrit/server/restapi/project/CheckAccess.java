@@ -24,8 +24,10 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -39,21 +41,25 @@ import java.io.IOException;
 import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckInput> {
   private final AccountResolver accountResolver;
   private final IdentifiedUser.GenericFactory userFactory;
   private final PermissionBackend permissionBackend;
+  private final GitRepositoryManager gitRepositoryManager;
 
   @Inject
   CheckAccess(
       AccountResolver resolver,
       IdentifiedUser.GenericFactory userFactory,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      GitRepositoryManager gitRepositoryManager) {
     this.accountResolver = resolver;
     this.userFactory = userFactory;
     this.permissionBackend = permissionBackend;
+    this.gitRepositoryManager = gitRepositoryManager;
   }
 
   @Override
@@ -124,8 +130,14 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
                 rsrc.getName());
         return info;
       }
+    } else {
+      // We say access is okay if there are no refs, but this warrants a warning.
+      try (Repository repo = gitRepositoryManager.openRepository(rsrc.getNameKey())) {
+        if (repo.getRefDatabase().getRefs(RefNames.REFS_HEADS).isEmpty()) {
+          info.message = "access is OK, but repository has no branches unders refs/heads/";
+        }
+      }
     }
-
     info.status = HttpServletResponse.SC_OK;
     return info;
   }

@@ -52,6 +52,23 @@
       "revId": "7f577fd81cb6f28fdaf6689d3f00e55b3d85900a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7988dd6d_ffc82e2f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1555,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-06T23:21:47Z",
+      "side": 1,
+      "message": "Reflecting my chat comments here: is it correct that we are only suppressing errors because 404s are meaningful? The problem being that this approach in PS1 will also swallow 500s, 403s, etc..\n\nCan this be restricted to only suppress the meaningful error?\n\nEven better: if a 404 is meaningful, then maybe `gr-editor-view#_getFileData` could precede the `getFileContent` request with a separate HEAD request to probe whether it would be a 404. (Or some other equivalent check.)\n\nThat way we can always call `getFileContent` with the expectation that it\u0027ll succeed and we don\u0027t have to rework our error handling or add yet another optional argument.",
+      "revId": "7f577fd81cb6f28fdaf6689d3f00e55b3d85900a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

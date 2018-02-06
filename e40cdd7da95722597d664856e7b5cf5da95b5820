@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "029b33c1_98ca42d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-06T14:33:27Z",
+      "side": 1,
+      "message": "Sounds great, thanks!\nWe are definitely thankful for any input you can provide. And yes, we were not aware of this, so it\u0027s good to know :)",
+      "parentUuid": "af56db03_3e881f69",
+      "range": {
+        "startLine": 14,
+        "startChar": 32,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "e40cdd7da95722597d664856e7b5cf5da95b5820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8c65cb6_d674f81b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

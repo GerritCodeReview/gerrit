@@ -25,13 +25,14 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UploadPackInitializer;
-import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ProjectCache;
@@ -238,18 +239,15 @@ public class GitOverHttpServlet extends GitServlet {
   }
 
   static class UploadFilter implements Filter {
-    private final VisibleRefFilter.Factory refFilterFactory;
     private final UploadValidators.Factory uploadValidatorsFactory;
     private final PermissionBackend permissionBackend;
     private final Provider<CurrentUser> userProvider;
 
     @Inject
     UploadFilter(
-        VisibleRefFilter.Factory refFilterFactory,
         UploadValidators.Factory uploadValidatorsFactory,
         PermissionBackend permissionBackend,
         Provider<CurrentUser> userProvider) {
-      this.refFilterFactory = refFilterFactory;
       this.uploadValidatorsFactory = uploadValidatorsFactory;
       this.permissionBackend = permissionBackend;
       this.userProvider = userProvider;
@@ -262,12 +260,10 @@ public class GitOverHttpServlet extends GitServlet {
       Repository repo = ServletUtils.getRepository(request);
       ProjectState state = (ProjectState) request.getAttribute(ATT_STATE);
       UploadPack up = (UploadPack) request.getAttribute(ServletUtils.ATTRIBUTE_HANDLER);
-
+      PermissionBackend.ForProject perm =
+          permissionBackend.user(userProvider).project(state.getNameKey());
       try {
-        permissionBackend
-            .user(userProvider)
-            .project(state.getNameKey())
-            .check(ProjectPermission.RUN_UPLOAD_PACK);
+        perm.check(ProjectPermission.RUN_UPLOAD_PACK);
       } catch (AuthException e) {
         GitSmartHttpTools.sendError(
             (HttpServletRequest) request,
@@ -284,8 +280,7 @@ public class GitOverHttpServlet extends GitServlet {
           uploadValidatorsFactory.create(state.getProject(), repo, request.getRemoteHost());
       up.setPreUploadHook(
           PreUploadHookChain.newChain(Lists.newArrayList(up.getPreUploadHook(), uploadValidators)));
-      up.setAdvertiseRefsHook(refFilterFactory.create(state, repo));
-
+      up.setAdvertiseRefsHook(new DefaultAdvertiseRefsHook(perm, RefFilterOptions.defaults()));
       next.doFilter(request, response);
     }
 

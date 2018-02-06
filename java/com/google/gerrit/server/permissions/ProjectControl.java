@@ -36,6 +36,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
+import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionMatcher;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -50,6 +51,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 
 /** Access control management for a user accessing a project's data. */
 class ProjectControl {
@@ -64,6 +67,7 @@ class ProjectControl {
   private final ProjectState state;
   private final ChangeControl.Factory changeControlFactory;
   private final PermissionCollection.Factory permissionFilter;
+  private final DefaultRefFilter.Factory refFilterFactory;
 
   private List<SectionMatcher> allSections;
   private Map<String, RefControl> refControls;
@@ -76,6 +80,7 @@ class ProjectControl {
       PermissionCollection.Factory permissionFilter,
       ChangeControl.Factory changeControlFactory,
       PermissionBackend permissionBackend,
+      DefaultRefFilter.Factory refFilterFactory,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps) {
     this.changeControlFactory = changeControlFactory;
@@ -83,6 +88,7 @@ class ProjectControl {
     this.receiveGroups = receiveGroups;
     this.permissionFilter = permissionFilter;
     this.permissionBackend = permissionBackend;
+    this.refFilterFactory = refFilterFactory;
     user = who;
     state = ps;
   }
@@ -95,6 +101,7 @@ class ProjectControl {
             permissionFilter,
             changeControlFactory,
             permissionBackend,
+            refFilterFactory,
             who,
             state);
     // Not per-user, and reusing saves lookup time.
@@ -379,6 +386,12 @@ class ProjectControl {
         }
       }
       return ok;
+    }
+
+    @Override
+    public Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
+        throws PermissionBackendException {
+      return refFilterFactory.create(getUser(), getProjectState()).filter(refs, repo, opts);
     }
 
     private boolean can(ProjectPermission perm) throws PermissionBackendException {

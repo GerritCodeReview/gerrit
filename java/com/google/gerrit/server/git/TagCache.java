@@ -82,7 +82,7 @@ public class TagCache {
     }
   }
 
-  TagSetHolder get(Project.NameKey name) {
+  public TagSetHolder get(Project.NameKey name) {
     EntryVal val = cache.getIfPresent(name.get());
     if (val == null) {
       synchronized (createLock) {

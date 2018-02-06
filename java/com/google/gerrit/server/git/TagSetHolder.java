@@ -21,7 +21,7 @@ import java.util.Collection;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
-class TagSetHolder {
+public class TagSetHolder {
   private final Object buildLock = new Object();
   private final Project.NameKey projectName;
   private volatile TagSet tags;
@@ -42,7 +42,7 @@ class TagSetHolder {
     this.tags = tags;
   }
 
-  TagMatcher matcher(TagCache cache, Repository db, Collection<Ref> include) {
+  public TagMatcher matcher(TagCache cache, Repository db, Collection<Ref> include) {
     include = include.stream().filter(r -> !TagSet.skip(r)).collect(toList());
 
     TagSet tags = this.tags;

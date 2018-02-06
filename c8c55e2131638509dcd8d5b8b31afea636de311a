@@ -34,6 +34,24 @@
       "revId": "c8c55e2131638509dcd8d5b8b31afea636de311a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d719b35e_cdb538d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-06T06:41:10Z",
+      "side": 1,
+      "message": "Sure, but it was added there mostly for gerrit. If we add new methods to JGit, nobody would notice.",
+      "parentUuid": "b641fb4b_a8687825",
+      "revId": "c8c55e2131638509dcd8d5b8b31afea636de311a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

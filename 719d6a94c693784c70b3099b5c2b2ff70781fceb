@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2c32782a_690ad147",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-06T08:04:29Z",
+      "side": 1,
+      "message": "Include the change ID in the debug message?",
+      "revId": "719d6a94c693784c70b3099b5c2b2ff70781fceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "356d9874_0ebc64f2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexer.java",
         "patchSetId": 1

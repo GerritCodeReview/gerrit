@@ -16,6 +16,24 @@
       "revId": "c8c55e2131638509dcd8d5b8b31afea636de311a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b641fb4b_a8687825",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-06T06:38:07Z",
+      "side": 1,
+      "message": "ChangeIdUtil is part of JGit. I\u0027d rather not attempt to change that, in case it breaks someone else\u0027s use cases.",
+      "parentUuid": "89efb85b_c18937c9",
+      "revId": "c8c55e2131638509dcd8d5b8b31afea636de311a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

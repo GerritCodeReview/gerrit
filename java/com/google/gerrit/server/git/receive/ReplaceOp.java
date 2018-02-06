@@ -377,9 +377,17 @@ public class ReplaceOp implements BatchUpdateOp {
   private String changeKindMessage(ChangeKind changeKind) {
     switch (changeKind) {
       case MERGE_FIRST_PARENT_UPDATE:
+        return ": New merge patch set was added with a new first parent relative to "
+            + priorPatchSetId.get()
+            + ".";
       case TRIVIAL_REBASE:
-      case NO_CHANGE:
         return ": Patch Set " + priorPatchSetId.get() + " was rebased.";
+      case NO_CHANGE:
+        return ": New patch set was added with same tree, parent"
+            + (commit.getParentCount() != 1 ? "s" : "")
+            + ", and commit message as Patch Set "
+            + priorPatchSetId.get()
+            + ".";
       case NO_CODE_CHANGE:
         return ": Commit message was updated.";
       case REWORK:

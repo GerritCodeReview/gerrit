@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1168e17e_bf319d2a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-06T17:35:28Z",
+      "side": 1,
+      "message": "Optional: These are just to add space to the left, correct? Another, possibly clearer option might be ..\n\n \u003ctd colspan$\u003d\"[[_computeSpacerColspan(showStar)]]\u003e\u003c/td\u003e\n\n.. where  ..\n\n_computeSpacerColspan(showStar) {\n  return showStar ? 2 : 1;\n},\n\n.. but that\u0027s more complex, obviously.",
+      "range": {
+        "startLine": 72,
+        "startChar": 12,
+        "endLine": 73,
+        "endChar": 65
+      },
+      "revId": "f506f5c9eb8a4f2f9156499439b4fee083ef9b4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

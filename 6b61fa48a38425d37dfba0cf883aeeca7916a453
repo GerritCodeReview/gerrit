@@ -23,6 +23,30 @@
       "revId": "6b61fa48a38425d37dfba0cf883aeeca7916a453",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16e90108_1c554cea",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-06T16:14:51Z",
+      "side": 1,
+      "message": "This was intentional. In TRIVIAL_REBASE, it uses capital \"Patch Set N\", as if it\u0027s a proper noun denoting the name of this specific patch set. The usage you\u0027ve highlighted is consistent with that. I used lowercase \"patch set\" to refer to a generic patch set without using its proper name; I hope you agree it wouldn\u0027t make sense to say \"New (merge) Patch Set was added...\".\n\nI did this for two reasons. First, I didn\u0027t want to change the existing message for TRIVIAL_REBASE, which is not a very strong argument; I would be fine with \"Patch set N was rebased.\"\n\nSecond, capital \"Patch Set\" is an established convention, although by no means universal and we are fairly inconsistent. However, within the specific context of auto-generated ChangeMessages, it is prevalent, specifically in the \"Patch Set N: (M comments)\" header when there are inline comments.",
+      "parentUuid": "b7c10b9e_eb3c8aa2",
+      "range": {
+        "startLine": 388,
+        "startChar": 39,
+        "endLine": 388,
+        "endChar": 48
+      },
+      "revId": "6b61fa48a38425d37dfba0cf883aeeca7916a453",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -201,6 +201,7 @@ public class RefControlTest {
   @Inject private SingleVersionListener singleVersionListener;
   @Inject private InMemoryDatabase schemaFactory;
   @Inject private ThreadLocalRequestContext requestContext;
+  @Inject private DefaultRefFilter.Factory refFilterFactory;
 
   @Before
   public void setUp() throws Exception {
@@ -919,6 +920,7 @@ public class RefControlTest {
         sectionSorter,
         changeControlFactory,
         permissionBackend,
+        refFilterFactory,
         new MockUser(name, memberOf),
         newProjectState(local));
   }

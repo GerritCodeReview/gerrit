@@ -46,6 +46,30 @@
       "revId": "96f7adbad0edcefde8bc08ad5e05f3fb428c2b95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ee4b3f1_73983742",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-02-06T17:08:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a20aaa98_dc9ae0f8",
+      "range": {
+        "startLine": 89,
+        "startChar": 14,
+        "endLine": 89,
+        "endChar": 37
+      },
+      "revId": "96f7adbad0edcefde8bc08ad5e05f3fb428c2b95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

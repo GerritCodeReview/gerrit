@@ -75,6 +75,24 @@
       "revId": "14d64060be2ade674aafedf04f82e0b65d6395ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfe4d640_e2c60cc8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-06T09:39:45Z",
+      "side": 1,
+      "message": "\u003e That configuration is added for a security concern for google\n \u003e internal users.\n\nNo matter what were the reasons for adding this configuration option to the public/open source gerrit version. Now that this option is there, and now that a gerrit site can disable private workflow: if this change is merged as is, pushing to refs/drafts/master would (hard coded) trigger marking that change as private, even though the private workflow is disabled on that site.",
+      "parentUuid": "23888286_e11facb4",
+      "revId": "14d64060be2ade674aafedf04f82e0b65d6395ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

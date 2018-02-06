@@ -32,20 +32,21 @@ limitations under the License.
       :host {
         display: table-row;
       }
+      :host:focus {
+        outline: none;
+      }
       :host(:hover) {
         background-color: #f5fafd;
       }
       :host([selected]) {
-        background-color: #ebf5fb;
+        border: 1px solid #2a66d9;
+        border-left-width: .5rem;
       }
       :host([needs-review]) {
         font-family: var(--font-family-bold);
       }
       :host([assigned]) {
         background-color: #fcfad6;
-      }
-      :host([selected][assigned]) {
-        background-color: #fcfaa6;
       }
       .container {
         position: relative;
@@ -99,13 +100,15 @@ limitations under the License.
         :host {
           display: flex;
         }
+        :host([selected]) {
+          border: none;
+          border-top: 1px solid #ddd;
+        }
       }
     </style>
     <style include="gr-change-list-styles"></style>
-    <td class="keyboard">
-      <span class="positionIndicator">&#x25b6;</span>
-    </td>
-    <td class="star" hidden$="[[!showStar]]" hidden>
+    <td class="cell keyboard"></td>
+    <td class="cell star" hidden$="[[!showStar]]" hidden>
       <gr-change-star change="{{change}}"></gr-change-star>
     </td>
     <td class="cell number" hidden$="[[!showNumber]]" hidden>

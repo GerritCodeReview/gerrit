@@ -17,6 +17,24 @@
       "revId": "b385dcfb1065d8a25946bd6f73a090e44de78732",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f4efc2a_8b848cdc",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushReplicationEventIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-07T12:24:31Z",
+      "side": 1,
+      "message": "I agree that we need more tests. If it\u0027s okay for you, I\u0027ll add them in another change.",
+      "parentUuid": "196c98f4_5486cdbe",
+      "revId": "b385dcfb1065d8a25946bd6f73a090e44de78732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

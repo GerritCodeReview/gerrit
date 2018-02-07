@@ -35,5 +35,19 @@ limitations under the License.
             assert.equal(fn.getCall(2).args[0], 3);
           });
     });
+
+    test('halts on stop condition', () => {
+      const stub = sinon.stub();
+      const fn = (e, stop) => {
+        stub(e);
+        stop();
+        return Promise.resolve();
+      };
+      return Gerrit.AsyncForeachBehavior.asyncForeach([1, 2, 3], fn)
+          .then(() => {
+            assert.isTrue(stub.calledOnce);
+            assert.equal(stub.lastCall.args[0], 1);
+          });
+    });
   });
 </script>

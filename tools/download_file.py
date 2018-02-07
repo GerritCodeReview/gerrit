@@ -25,8 +25,7 @@ from util import hash_file, resolve_url
 from zipfile import ZipFile, BadZipfile, LargeZipFile
 
 GERRIT_HOME = path.expanduser('~/.gerritcodereview')
-# TODO(davido): Rename in bazel-cache
-CACHE_DIR = path.join(GERRIT_HOME, 'buck-cache', 'downloaded-artifacts')
+CACHE_DIR = path.join(GERRIT_HOME, 'bazel-cache', 'downloaded-artifacts')
 LOCAL_PROPERTIES = 'local.properties'
 
 

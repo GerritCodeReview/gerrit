@@ -45,6 +45,7 @@ limitations under the License.
     //    - `statuses`, optional, Array<String>: the list of change statuses to
     //        search for. If more than one is provided, the search will OR them
     //        together.
+    //    - `offset`, optional, Number: the offset for the query.
     //
     //  - Gerrit.Nav.View.DIFF:
     //    - `changeNum`, required, String: the numeric ID of the change.
@@ -163,10 +164,11 @@ limitations under the License.
         return this._generateUrl(params);
       },
 
-      getUrlForSearchQuery(query) {
+      getUrlForSearchQuery(query, opt_offset) {
         return this._getUrlFor({
           view: Gerrit.Nav.View.SEARCH,
           query,
+          offset: opt_offset,
         });
       },
 

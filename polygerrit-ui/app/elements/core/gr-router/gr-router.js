@@ -334,8 +334,13 @@
      * @return {string}
      */
     _generateSearchUrl(params) {
+      let offsetExpr = '';
+      if (params.offset && params.offset > 0) {
+        offsetExpr = ',' + params.offset;
+      }
+
       if (params.query) {
-        return '/q/' + this.encodeURL(params.query, true);
+        return '/q/' + this.encodeURL(params.query, true) + offsetExpr;
       }
 
       const operators = [];
@@ -367,7 +372,8 @@
               ')');
         }
       }
-      return '/q/' + operators.join('+');
+
+      return '/q/' + operators.join('+') + offsetExpr;
     },
 
     /**

@@ -176,12 +176,7 @@
       offset = +(offset || 0);
       const limit = this._limitFor(query, changesPerPage);
       const newOffset = Math.max(0, offset + (limit * direction));
-      // Double encode URI component.
-      let href = this.getBaseUrl() + '/q/' + this.encodeURL(query, false);
-      if (newOffset > 0) {
-        href += ',' + newOffset;
-      }
-      return href;
+      return Gerrit.Nav.getUrlForSearchQuery(query, newOffset);
     },
 
     _hidePrevArrow(offset) {

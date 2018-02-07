@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
@@ -240,14 +241,23 @@ public class CreateChange
       AccountState accountState = me.state();
       GeneralPreferencesInfo info = accountState.getGeneralPreferences();
 
-      ObjectId treeId = mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree();
-      ObjectId id = ChangeIdUtil.computeChangeId(treeId, mergeTip, author, author, input.subject);
-      String commitMessage = ChangeIdUtil.insertId(input.subject, id);
+      // Add a Change-Id line if there isn't already one
+      String commitMessage = input.subject;
+      if (ChangeIdUtil.indexOfChangeId(commitMessage, "\n") == -1) {
+        ObjectId treeId = mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree();
+        ObjectId id = ChangeIdUtil.computeChangeId(treeId, mergeTip, author, author, commitMessage);
+        commitMessage = ChangeIdUtil.insertId(commitMessage, id);
+      }
+
       if (Boolean.TRUE.equals(info.signedOffBy)) {
-        commitMessage +=
-            String.format(
-                "%s%s",
-                SIGNED_OFF_BY_TAG, accountState.getAccount().getNameEmail(anonymousCowardName));
+        commitMessage =
+            Joiner.on("\n")
+                .join(
+                    commitMessage.trim(),
+                    String.format(
+                        "%s%s",
+                        SIGNED_OFF_BY_TAG,
+                        accountState.getAccount().getNameEmail(anonymousCowardName)));
       }
 
       RevCommit c;

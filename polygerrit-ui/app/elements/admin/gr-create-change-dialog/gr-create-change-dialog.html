@@ -35,19 +35,24 @@ limitations under the License.
       :host {
         display: inline-block;
       }
-      input {
-        width: 25em;
+      input:not([type="checkbox"]),
+      gr-autocomplete,
+      iron-autogrow-textarea {
+        width: 100%;
+      }
+      .value {
+        width: 32em;
+      }
+      section {
+        align-items: center;
+        display: flex;
+      }
+      #description {
+        align-items: initial;
       }
       gr-autocomplete {
-        border: none;
-        float: right;
         --gr-autocomplete: {
-          border: 1px solid #d1d2d3;
-          border-radius: 2px;
-          font-size: var(--font-size-normal);
-          height: 2em;
           padding: 0 .15em;
-          width: 20em;
         }
       }
     </style>
@@ -65,40 +70,50 @@ limitations under the License.
           </span>
         </section>
         <section>
-          <span class="title">Enter topic for new change (optional)</span>
-          <input
-              is="iron-input"
-              id="tagNameInput"
-              maxlength="1024"
-              bind-value="{{topic}}">
+          <span class="title">Enter topic for new change</span>
+          <span class="value">
+            <input
+                is="iron-input"
+                id="tagNameInput"
+                maxlength="1024"
+                placeholder="(optional)"
+                bind-value="{{topic}}">
+          </span>
         </section>
-        <section>
+        <section id="description">
           <span class="title">Description</span>
-          <iron-autogrow-textarea
-              id="messageInput"
-              class="message"
-              autocomplete="on"
-              rows="4"
-              max-rows="15"
-              bind-value="{{subject}}"
-              placeholder="Insert the description of the change.">
-          </iron-autogrow-textarea>
+          <span class="value">
+            <iron-autogrow-textarea
+                id="messageInput"
+                class="message"
+                autocomplete="on"
+                rows="4"
+                max-rows="15"
+                bind-value="{{subject}}"
+                placeholder="Insert the description of the change.">
+            </iron-autogrow-textarea>
+          </span>
         </section>
         <section>
-          <span class="title">Options</span>
-          <section>
-            <label for="privateChangeCheckBox">Private Change</label>
+          <label
+              class="title"
+              for="privateChangeCheckBox">Private Change</label>
+          <span class="value">
             <input
                 type="checkbox"
                 id="privateChangeCheckBox"
                 checked$="[[_repoConfig.private_by_default.inherited_value]]">
-          </section>
-          <section>
-            <label for="wipChangeCheckBox">WIP Change</label>
+          </span>
+        </section>
+        <section>
+          <label
+              class="title"
+              for="wipChangeCheckBox">WIP Change</label>
+          <span class="value">
             <input
                 type="checkbox"
                 id="wipChangeCheckBox">
-          </section>
+          </span>
         </section>
       </div>
     </div>

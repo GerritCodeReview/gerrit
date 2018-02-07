@@ -30,14 +30,10 @@ class SshPluginStarterCallback implements StartPluginListener, ReloadPluginListe
   private static final Logger log = LoggerFactory.getLogger(SshPluginStarterCallback.class);
 
   private final DispatchCommandProvider root;
-  private final SshCommandSensitiveFieldsCache cache;
 
   @Inject
-  SshPluginStarterCallback(
-      @CommandName(Commands.ROOT) DispatchCommandProvider root,
-      SshCommandSensitiveFieldsCache cache) {
+  SshPluginStarterCallback(@CommandName(Commands.ROOT) DispatchCommandProvider root) {
     this.root = root;
-    this.cache = cache;
   }
 
   @Override
@@ -54,7 +50,6 @@ class SshPluginStarterCallback implements StartPluginListener, ReloadPluginListe
     if (cmd != null) {
       newPlugin.add(root.replace(Commands.named(newPlugin.getName()), cmd));
     }
-    cache.evictAll();
   }
 
   private Provider<Command> load(Plugin plugin) {

@@ -58,17 +58,6 @@ limitations under the License.
       });
     });
 
-    test('url is properly encoded', () => {
-      assert.equal(element._computeNavLink(
-          'status:open project:platform/frameworks/base', 0, -1, 25),
-          '/q/status:open+project:platform%252Fframeworks%252Fbase'
-      );
-      assert.equal(element._computeNavLink(
-          'status:open project:platform/frameworks/base', 0, 1, 25),
-          '/q/status:open+project:platform%252Fframeworks%252Fbase,25'
-      );
-    });
-
     test('_limitFor', () => {
       const defaultLimit = 25;
       const _limitFor = q => element._limitFor(q, defaultLimit);
@@ -79,48 +68,24 @@ limitations under the License.
     });
 
     test('_computeNavLink', () => {
+      const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForSearchQuery')
+          .returns('');
       const query = 'status:open';
       let offset = 0;
       let direction = 1;
       const changesPerPage = 5;
-      assert.equal(
-          element._computeNavLink(query, offset, direction, changesPerPage),
-          '/q/status:open,5');
-      direction = -1;
-      assert.equal(
-          element._computeNavLink(query, offset, direction, changesPerPage),
-          '/q/status:open');
-      offset = 5;
-      direction = 1;
-      assert.equal(
-          element._computeNavLink(query, offset, direction, changesPerPage),
-          '/q/status:open,10');
-      assert.equal(
-          element._computeNavLink(
-              query + ' limit:10', offset, direction, changesPerPage),
-          '/q/status:open+limit:10,15');
-    });
 
-    test('_computeNavLink with path', () => {
-      const oldCanonicalPath = window.CANONICAL_PATH;
-      window.CANONICAL_PATH = '/r';
-      const query = 'status:open';
-      let offset = 0;
-      let direction = 1;
-      const changesPerPage = 5;
-      assert.equal(
-          element._computeNavLink(query, offset, direction, changesPerPage),
-          '/r/q/status:open,5');
+      element._computeNavLink(query, offset, direction, changesPerPage);
+      assert.equal(getUrlStub.lastCall.args[1], 5);
+
       direction = -1;
-      assert.equal(
-          element._computeNavLink(query, offset, direction, changesPerPage),
-          '/r/q/status:open');
+      element._computeNavLink(query, offset, direction, changesPerPage);
+      assert.equal(getUrlStub.lastCall.args[1], 0);
+
       offset = 5;
       direction = 1;
-      assert.equal(
-          element._computeNavLink(query, offset, direction, changesPerPage),
-          '/r/q/status:open,10');
-      window.CANONICAL_PATH = oldCanonicalPath;
+      element._computeNavLink(query, offset, direction, changesPerPage);
+      assert.equal(getUrlStub.lastCall.args[1], 10);
     });
 
     test('_hidePrevArrow', () => {

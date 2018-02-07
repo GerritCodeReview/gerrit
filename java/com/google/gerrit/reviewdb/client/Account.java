@@ -46,7 +46,14 @@ import java.util.Optional;
  * </ul>
  */
 public final class Account {
-  /** Key local to Gerrit to identify a user. */
+  /**
+   * Key local to Gerrit to identify a user.
+   *
+   * <p>Fields in this type must be annotated with {@link Column} so that account IDs can be
+   * converted into protos (protobuf requires the {@link Column} annotations for decoding/encoding).
+   * We need to be able to store account IDs as protos because we store change protos in the change
+   * index and a change references account IDs for the change owner and the assignee.
+   */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
@@ -124,35 +131,25 @@ public final class Account {
     }
   }
 
-  @Column(id = 1)
-  protected Id accountId;
+  private Id accountId;
 
   /** Date and time the user registered with the review server. */
-  @Column(id = 2)
-  protected Timestamp registeredOn;
+  private Timestamp registeredOn;
 
   /** Full name of the user ("Given-name Surname" style). */
-  @Column(id = 3, notNull = false)
-  protected String fullName;
+  private String fullName;
 
   /** Email address the user prefers to be contacted through. */
-  @Column(id = 4, notNull = false)
-  protected String preferredEmail;
-
-  // DELETED: id = 5 (contactFiledOn)
-
-  // DELETED: id = 6 (generalPreferences)
+  private String preferredEmail;
 
   /**
    * Is this user inactive? This is used to avoid showing some users (eg. former employees) in
    * auto-suggest.
    */
-  @Column(id = 7)
-  protected boolean inactive;
+  private boolean inactive;
 
   /** The user-settable status of this account (e.g. busy, OOO, available) */
-  @Column(id = 8, notNull = false)
-  protected String status;
+  private String status;
 
   /**
    * ID of the user branch from which the account was read, {@code null} if the account was read

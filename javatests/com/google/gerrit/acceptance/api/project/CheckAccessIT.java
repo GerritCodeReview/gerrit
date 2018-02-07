@@ -98,47 +98,48 @@ public class CheckAccessIT extends AbstractDaemonTest {
 
   @Test
   public void nonexistentPermission() throws Exception {
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("not recognized");
-
     AccessCheckInput in = new AccessCheckInput();
     in.account = user.email;
     in.permission = "notapermission";
     in.ref = "refs/heads/master";
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("not recognized");
     gApi.projects().name(normalProject.get()).checkAccess(in);
   }
 
   @Test
   public void permissionLacksRef() throws Exception {
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("must set 'ref'");
     AccessCheckInput in = new AccessCheckInput();
     in.account = user.email;
     in.permission = "forge_author";
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("must set 'ref'");
     gApi.projects().name(normalProject.get()).checkAccess(in);
   }
 
   @Test
   public void changePermission() throws Exception {
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("recognized as ref permission");
-
     AccessCheckInput in = new AccessCheckInput();
     in.account = user.email;
     in.permission = "rebase";
     in.ref = "refs/heads/master";
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("recognized as ref permission");
     gApi.projects().name(normalProject.get()).checkAccess(in);
   }
 
   @Test
   public void nonexistentEmail() throws Exception {
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("cannot find account doesnotexist@invalid.com");
-
     AccessCheckInput in = new AccessCheckInput();
     in.account = "doesnotexist@invalid.com";
     in.permission = "rebase";
     in.ref = "refs/heads/master";
+
+    exception.expect(UnprocessableEntityException.class);
+    exception.expectMessage("cannot find account doesnotexist@invalid.com");
     gApi.projects().name(normalProject.get()).checkAccess(in);
   }
 

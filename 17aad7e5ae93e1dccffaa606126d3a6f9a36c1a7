@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1518017582 +0100\nnonce AFD2Vu3l3Y0Uqy8bU3eSChLQZ0OsRiGBpl/5XBQGu2F84dCDT6x07jHqLcCsCwcAU/kdY5kaCdjQ\n\n0000000000000000000000000000000000000000 17aad7e5ae93e1dccffaa606126d3a6f9a36c1a7 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlp7HC4ACgkQUbX9l6DQ\n71FfkAf9FpNxnqiiO1TNBR48EwAkq6u6QtvxgncnXi0m2qNx5z+dDyTcN2G26pk0\nAnUnOnPWI3L56uSbvO0a1xHifPKN7qqT5Uw5uYihYZMAB/Znh2mNuGpKCX9DBxIA\nnJ5Hm+NXo58TS+1Sr/NAmete1C2XNLQsXX4ECz5GT4I5SkXHXa//kBhr9ndGpN+G\nwPv9KD3VnzsSrKSN8fg9Lw99ndGADG7vOZlxO8tA8GEY6HqqMZFkEMMxFRo6or9h\nq+djSj6XTbZpwZoH7M1Xdxn4MGp0lAkcy49tQDarOjv1KB8aEVik0O4jvyiaObQu\nfU6GGlHC7eqk+a4z4dQN69TbmEVSLw\u003d\u003d\n\u003d5Gbq\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb1574bb_2564d010",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2018-02-07T17:31:09Z",
+      "side": 1,
+      "message": "Do we expect this approach to work when multiple slaves share a common NFS backend?  It seems that only one slave would receive the push, so the other slaves would not get updated?",
+      "revId": "17aad7e5ae93e1dccffaa606126d3a6f9a36c1a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

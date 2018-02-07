@@ -509,6 +509,29 @@ limitations under the License.
       assert.isTrue(link.hasAttribute('download'));
     });
 
+    test('_prefs.manual_review is respected', () => {
+      const saveReviewedStub = sandbox.stub(element, '_saveReviewedState',
+          () => Promise.resolve());
+      sandbox.stub(element.$.diff, 'reload');
+
+      element._loggedIn = true;
+      element.params = {
+        view: Gerrit.Nav.View.DIFF,
+        changeNum: '42',
+        patchNum: '2',
+        basePatchNum: '1',
+        path: '/COMMIT_MSG',
+      };
+      element._prefs = {manual_review: true};
+      flushAsynchronousOperations();
+
+      assert.isFalse(saveReviewedStub.called);
+      element._prefs = {};
+      flushAsynchronousOperations();
+
+      assert.isTrue(saveReviewedStub.called);
+    });
+
     test('file review status', () => {
       const saveReviewedStub = sandbox.stub(element, '_saveReviewedState',
           () => Promise.resolve());
@@ -522,6 +545,7 @@ limitations under the License.
         basePatchNum: '1',
         path: '/COMMIT_MSG',
       };
+      element._prefs = {};
       flushAsynchronousOperations();
 
       const commitMsg = Polymer.dom(element.root).querySelector(

@@ -53,6 +53,24 @@
       "revId": "17aad7e5ae93e1dccffaa606126d3a6f9a36c1a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bfd53fb_7caadb5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-07T18:24:36Z",
+      "side": 1,
+      "message": "\u003e I guess this would work if we had a multi-node index solution that\n \u003e gets updated whenever any slave receives a group push?   i.e.\n \u003e replicating the index updates the way some of the plugins do for\n \u003e masters, or using a slave site specific elastic search cluster? \n \u003e Are any of these solutions available to work on slaves yet?\n\nNo\n\n \u003e I am also concerned that high end sites could not handle this sort\n \u003e of load via Gerrit.  git-daemon tends to be more efficient and need\n \u003e less memory.  I don\u0027t think our Gerrit slave jvms could handle the\n \u003e additional heap requirements that this is likely to introduce.  I\n \u003e am curious if other large Gerrit sites think their slaves could\n \u003e handle this?\n\nOn our side, we use Apache with git smart http on the slave to receive\nreplication. We need to test if Gerrit/JVM can handle the extra load\nbut I think it could in our case. We already managed/tune very large heap\nfor the master so doing it for the slave should not be an issue.",
+      "parentUuid": "89c90eab_3239570c",
+      "revId": "17aad7e5ae93e1dccffaa606126d3a6f9a36c1a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -49,6 +49,11 @@
     NEW_MESSAGE: 'There are new messages on this change',
   };
 
+  const DiffViewMode = {
+    SIDE_BY_SIDE: 'SIDE_BY_SIDE',
+    UNIFIED: 'UNIFIED_DIFF',
+  };
+
   Polymer({
     is: 'gr-change-view',
 
@@ -251,6 +256,7 @@
       'shift+r': '_handleCapitalRKey',
       'a': '_handleAKey',
       'd': '_handleDKey',
+      'm': '_handleMKey',
       's': '_handleSKey',
       'u': '_handleUKey',
       'x': '_handleXKey',
@@ -309,6 +315,18 @@
           this.set('viewState.diffMode', 'SIDE_BY_SIDE');
         }
       });
+    },
+
+    _handleMKey(e) {
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
+
+      e.preventDefault();
+      if (this.viewState.diffMode === DiffViewMode.SIDE_BY_SIDE) {
+        this.set('viewState.diffMode', DiffViewMode.UNIFIED);
+      } else {
+        this.set('viewState.diffMode', DiffViewMode.SIDE_BY_SIDE);
+      }
     },
 
     _handleEditCommitMessage(e) {

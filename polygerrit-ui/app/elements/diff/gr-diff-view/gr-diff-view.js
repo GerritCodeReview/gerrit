@@ -25,6 +25,11 @@
     RIGHT: 'right',
   };
 
+  const DiffViewMode = {
+    SIDE_BY_SIDE: 'SIDE_BY_SIDE',
+    UNIFIED: 'UNIFIED_DIFF',
+  };
+
   Polymer({
     is: 'gr-diff-view',
 
@@ -186,7 +191,7 @@
       'a shift+a': '_handleAKey',
       'u': '_handleUKey',
       ',': '_handleCommaKey',
-      'v': '_handleVKey',
+      'm': '_handleMKey',
     },
 
     attached() {
@@ -426,15 +431,15 @@
       this.$.diffPreferences.open();
     },
 
-    _handleVKey(e) {
+    _handleMKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      if (this.changeViewState.diffMode=='SIDE_BY_SIDE') {
-        this.set('changeViewState.diffMode', 'UNIFIED_DIFF');
+      if (this._getDiffViewMode() === DiffViewMode.SIDE_BY_SIDE) {
+        this.set('changeViewState.diffMode', DiffViewMode.UNIFIED);
       } else {
-        this.set('changeViewState.diffMode', 'SIDE_BY_SIDE');
+        this.set('changeViewState.diffMode', DiffViewMode.SIDE_BY_SIDE);
       }
     },
 

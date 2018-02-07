@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d598a9b_6f6c92bb",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-07T18:05:17Z",
+      "side": 1,
+      "message": "This looks like a great place to use string templating.",
+      "range": {
+        "startLine": 376,
+        "startChar": 13,
+        "endLine": 376,
+        "endChar": 54
+      },
+      "revId": "07e76481ea59398f086ec391693a36f1f6b9f0a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

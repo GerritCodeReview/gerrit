@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "002d660e_8a7928e3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-07T20:05:22Z",
+      "side": -1,
+      "message": "Done",
+      "parentUuid": "74792734_0e944fc3",
+      "revId": "e32aa990ccd7b7fce710006e9a586ce839542333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

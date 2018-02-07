@@ -680,6 +680,15 @@ public class RefControlTest {
   }
 
   @Test
+  public void blockMoreSpecificRefWithinProject() {
+    block(local, PUSH, ANONYMOUS_USERS, "refs/heads/secret");
+    allow(local, PUSH, DEVS, "refs/heads/*", true);
+
+    ProjectControl u = user(local, DEVS);
+    assertCannotUpdate("refs/heads/master", u);
+  }
+
+  @Test
   public void unblockOtherPermissionWithMoreSpecificRefAndExclusiveFlag_Fails() {
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/heads/master");

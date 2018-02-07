@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# TODO(sop): Remove hack after Buck supports Eclipse
 
 from __future__ import print_function
 # TODO(davido): use Google style for importing instead:

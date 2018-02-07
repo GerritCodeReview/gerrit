@@ -20,7 +20,6 @@
 /.settings/org.maven.ide.eclipse.prefs
 /bazel-*
 /bin/
-/buck-out
 /eclipse-out
 /extras
 /gerrit-package-plugins

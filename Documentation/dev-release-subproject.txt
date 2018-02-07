@@ -32,7 +32,7 @@ Configuration for Subprojects in `pom.xml`]
 ----
 
 * Change the `id`, `bin_sha1`, and `src_sha1` values in the `maven_jar`
-for the subproject in `/lib/BUCK` to the `SNAPSHOT` version.
+for the subproject in `/WORKSPACE` to the `SNAPSHOT` version.
 +
 When Gerrit gets released, a release of the subproject has to be done
 and Gerrit has to reference the released subproject version.

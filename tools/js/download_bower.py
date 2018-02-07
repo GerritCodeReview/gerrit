@@ -26,7 +26,7 @@ import sys
 import bowerutil
 
 CACHE_DIR = os.path.expanduser(os.path.join(
-    '~', '.gerritcodereview', 'buck-cache', 'downloaded-artifacts'))
+    '~', '.gerritcodereview', 'bazel-cache', 'downloaded-artifacts'))
 
 
 def bower_cmd(bower, *args):

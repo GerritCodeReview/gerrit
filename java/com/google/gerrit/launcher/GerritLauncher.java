@@ -704,9 +704,7 @@ public final class GerritLauncher {
 
   private static boolean includeJar(URL u) {
     String path = u.getPath();
-    return path.endsWith(".jar")
-        && !path.endsWith("-src.jar")
-        && !path.contains("/buck-out/gen/lib/gwt/");
+    return path.endsWith(".jar") && !path.endsWith("-src.jar");
   }
 
   private GerritLauncher() {}

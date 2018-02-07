@@ -22,6 +22,30 @@
       "revId": "07e76481ea59398f086ec391693a36f1f6b9f0a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c1c7e55_33c358b7",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-07T18:07:36Z",
+      "side": 1,
+      "message": "Since there\u0027s nothing in between the tokens, IMO concatenation is a lot clearer.",
+      "parentUuid": "1d598a9b_6f6c92bb",
+      "range": {
+        "startLine": 376,
+        "startChar": 13,
+        "endLine": 376,
+        "endChar": 54
+      },
+      "revId": "07e76481ea59398f086ec391693a36f1f6b9f0a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

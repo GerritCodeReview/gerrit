@@ -16,7 +16,7 @@
 from __future__ import print_function
 from optparse import OptionParser
 from os import path, environ
-from subprocess import check_output
+from subprocess import check_output, CalledProcessError
 from sys import stderr
 
 opts = OptionParser()
@@ -67,6 +67,8 @@ for spec in args.s:
   except Exception as e:
     print('%s command failed: %s\n%s' % (args.a, ' '.join(exe), e),
       file=stderr)
+    if environ.get('VERBOSE') and isinstance(e, CalledProcessError):
+      print('Command output\n%s' % e.output, file=stderr)
     exit(1)
 
 

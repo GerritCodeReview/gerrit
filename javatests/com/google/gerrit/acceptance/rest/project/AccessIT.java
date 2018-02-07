@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
@@ -374,15 +375,19 @@ public class AccessIT extends AbstractDaemonTest {
     assertThat(loggedInResult.groups.keySet())
         .containsExactly(
             SystemGroupBackend.PROJECT_OWNERS.get(), SystemGroupBackend.ANONYMOUS_USERS.get());
-    assertThat(loggedInResult.groups.get(SystemGroupBackend.PROJECT_OWNERS.get()).name)
-        .isEqualTo("Project Owners");
-    assertThat(loggedInResult.groups.get(SystemGroupBackend.PROJECT_OWNERS.get()).id).isNull();
 
-    // PROJECT_OWNERS is invisible to anonymous user, so we strip it.
+    GroupInfo owners = loggedInResult.groups.get(SystemGroupBackend.PROJECT_OWNERS.get());
+    assertThat(owners.name).isEqualTo("Project Owners");
+    assertThat(owners.id).isNull();
+    assertThat(owners.members).isNull();
+    assertThat(owners.includes).isNull();
+
+    // PROJECT_OWNERS is invisible to anonymous user, but GetAccess disregards visibility.
     setApiUserAnonymous();
     ProjectAccessInfo anonResult = pApi.access();
     assertThat(anonResult.groups.keySet())
-        .containsExactly(SystemGroupBackend.ANONYMOUS_USERS.get());
+        .containsExactly(
+            SystemGroupBackend.PROJECT_OWNERS.get(), SystemGroupBackend.ANONYMOUS_USERS.get());
   }
 
   @Test

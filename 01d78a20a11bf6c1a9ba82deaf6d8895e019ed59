@@ -46,6 +46,30 @@
       "revId": "01d78a20a11bf6c1a9ba82deaf6d8895e019ed59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12053a4b_fbb22520",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-02-07T17:35:57Z",
+      "side": 1,
+      "message": "Turns out this does work today. Added a test case in\nhttps://gerrit-review.googlesource.com/c/gerrit/+/158070",
+      "parentUuid": "3efcc793_607bfc30",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 66
+      },
+      "revId": "01d78a20a11bf6c1a9ba82deaf6d8895e019ed59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

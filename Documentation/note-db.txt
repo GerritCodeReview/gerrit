@@ -104,6 +104,11 @@ To run the offline migration, run the `migrate-to-note-db` program:
 Once started, it is safe to cancel and restart the migration process, or to
 switch to the online process.
 
+[NOTE]
+Migration requires a heap size comparable to running a Gerrit server. If you
+normally run `gerrit.war daemon` with an `-Xmx` flag, pass that to the migration
+tool as well.
+
 *Advantages*
 
 * Much faster than online; can use all available CPUs, since no live traffic

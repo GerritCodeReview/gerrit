@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa32b072_97b4fc4e",
+        "filename": "tools/bzl/gwt.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-07T14:26:21Z",
+      "side": 0,
+      "message": ";-)",
+      "revId": "b457c1936c6c49f182947612ef6ad28a6c33d459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

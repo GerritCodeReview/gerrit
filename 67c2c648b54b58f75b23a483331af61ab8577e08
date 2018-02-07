@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1518005985 +0100\nnonce AFD2Vu3s+dtYbCv3sbxV7Cdnl9zs+3NMIdX9IUCOjpm816PH28jaa4FBqWLFRm93tMJqsI1Bwkzq\n\n0000000000000000000000000000000000000000 67c2c648b54b58f75b23a483331af61ab8577e08 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlp67uEACgkQUbX9l6DQ\n71GY7gf/VJO+s0nLy6Hq5ZC1FizKFfpUDkBIVeZScVpAHVK+ErbclQ3wBMUyaW80\nPaNb0HQpeqHhOXOLzIT9hq7c70z5XznVvWq2pJq7QVEBMUxyrAwxDiHKEkUCCorK\ntPnHa35T0y1K7UF5x+CXpeQeM5NVabI6vcfUMcl8H4lfA/WoFXxmU70X/auCUiVO\nlAsYk+VVL7ck2c+KahnGTuEFa0UabMYxthNkBqF6mHzh98Dsh66wOej0sqZboFwz\nbg2OrRSprVLPL00tQZrWsjQlIdsbDu9sqjBzEE2WLP2tKcKgqeNYvn2h0Ecm4wfP\nNyUo8yZYpro2VnkvBPf9Jppjp9qz4Q\u003d\u003d\n\u003d5MwP\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d6998ae_0f69db60",
+        "filename": "java/com/google/gerrit/sshd/commands/ReceiveSlaveMode.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-07T13:01:02Z",
+      "side": 1,
+      "message": "I see what you meant by this variant not being so nice. Some ideas I have:\n- BaseCommand#provideStateTo also copies \u0027in\u0027, \u0027out\u0027, \u0027err\u0027, and \u0027exit\u0027 just as above. We could use that method instead of copying those values manually.\n- We could override BaseCommand#provideStateTo in AbstractGitCommand and additionally copy \u0027projectState\u0027, \u0027repo\u0027, \u0027projectName\u0027, and \u0027project\u0027 if the passed command is also an AbstractGitCommand.\n- In this class, we would only implement runImpl() and execute provideStateTo(receive) as well as receive.runImpl().",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 63,
+        "endChar": 3
+      },
+      "revId": "67c2c648b54b58f75b23a483331af61ab8577e08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

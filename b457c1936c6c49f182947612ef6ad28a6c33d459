@@ -16,6 +16,24 @@
       "revId": "b457c1936c6c49f182947612ef6ad28a6c33d459",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "879925b8_b922c4c5",
+        "filename": "tools/bzl/gwt.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-07T14:48:53Z",
+      "side": 0,
+      "message": "Yeah, I didn\u0027t think this comment was adding much. This is not really exactly like buck\u0027s gwt_application, but I think it\u0027s not even worth documenting at this point considering the expected lifetime of GWT.",
+      "parentUuid": "aa32b072_97b4fc4e",
+      "revId": "b457c1936c6c49f182947612ef6ad28a6c33d459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "81eb7130a8b42094168a620dda34ca2ce368b943",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57fcd039_660715a9",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-02-07T19:37:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e3768a5_c20775ba",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 7
+      },
+      "revId": "81eb7130a8b42094168a620dda34ca2ce368b943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

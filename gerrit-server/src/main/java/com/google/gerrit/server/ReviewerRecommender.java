@@ -139,21 +139,16 @@ public class ReviewerRecommender {
                       changeNotes.getChangeId(),
                       query,
                       reviewerScores.keySet()));
-      String pluginWeight =
-          config.getString(
-              "addReviewer", plugin.getPluginName() + "-" + plugin.getExportName(), "weight");
+      String key = plugin.getPluginName() + "-" + plugin.getExportName();
+      String pluginWeight = config.getString("addReviewer", key, "weight");
       if (Strings.isNullOrEmpty(pluginWeight)) {
         pluginWeight = "1";
       }
+      log.debug("weight for {}: {}", key, pluginWeight);
       try {
         weights.add(Double.parseDouble(pluginWeight));
       } catch (NumberFormatException e) {
-        log.error(
-            "Exception while parsing weight for "
-                + plugin.getPluginName()
-                + "-"
-                + plugin.getExportName(),
-            e);
+        log.error("Exception while parsing weight for {}", key, e);
         weights.add(1d);
       }
     }

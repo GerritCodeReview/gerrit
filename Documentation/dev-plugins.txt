@@ -2646,15 +2646,18 @@ new RestApi("accounts").id("self").view("username")
 Gerrit provides an extension point that enables Plugins to rank
 the list of reviewer suggestion a user receives upon clicking "Add Reviewer" on
 the change screen.
+
 Gerrit supports both a default suggestion that appears when the user has not yet
 typed anything and a filtered suggestion that is shown as the user starts
 typing.
-Plugins receive a candidate list and can return a Set of suggested reviewers
-containing the Account.Id and a score for each reviewer.
-The candidate list is non-binding and plugins can choose to return reviewers not
-initially contained in the candidate list.
-Server administrators can configure the overall weight of each plugin using the
-weight config parameter on [addreviewer "<pluginName-exportName>"].
+
+Plugins receive a candidate list and can return a `Set` of suggested reviewers
+containing the `Account.Id` and a score for each reviewer. The candidate list is
+non-binding and plugins can choose to return reviewers not initially contained in
+the candidate list.
+
+Server administrators can configure the overall weight of each plugin by setting
+the `addreviewer.pluginName-exportName.weight` value in `gerrit.config`.
 
 [source, java]
 ----

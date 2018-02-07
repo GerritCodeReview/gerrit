@@ -33,6 +33,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -53,6 +54,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -443,17 +445,39 @@ public class ChangeIndexer {
 
     @Override
     public Boolean callImpl(Provider<ReviewDb> db) throws Exception {
-      if (!stalenessChecker.isStale(id)) {
-        return false;
+      try {
+        if (stalenessChecker.isStale(id)) {
+          index(newChangeData(db.get(), project, id));
+          return true;
+        }
+      } catch (NoSuchChangeException nsce) {
+        log.debug("Change {} was deleted, aborting reindexing the change.", id.get());
+      } catch (Exception e) {
+        if (!isCausedByRepositoryNotFoundException(e)) {
+          throw e;
+        }
+        log.debug(
+            "Change {} belongs to deleted project {}, aborting reindexing the change.",
+            id.get(),
+            project.get());
       }
-      index(newChangeData(db.get(), project, id));
-      return true;
+      return false;
     }
 
     @Override
     public String toString() {
       return "reindex-if-stale-change-" + id;
     }
+  }
+
+  private boolean isCausedByRepositoryNotFoundException(Throwable throwable) {
+    while (throwable != null) {
+      if (throwable instanceof RepositoryNotFoundException) {
+        return true;
+      }
+      throwable = throwable.getCause();
+    }
+    return false;
   }
 
   // Avoid auto-rebuilding when reindexing if reading is disabled. This just

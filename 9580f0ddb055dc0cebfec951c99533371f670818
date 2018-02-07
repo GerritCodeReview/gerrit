@@ -16,6 +16,24 @@
       "revId": "9580f0ddb055dc0cebfec951c99533371f670818",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b46894e5_87f96892",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventsMetrics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1015669
+      },
+      "writtenOn": "2018-02-07T11:50:59Z",
+      "side": 1,
+      "message": "yes. i guess it is not there because there are a lot of events which have\n\n* no \"person\" associated\n* multiple \"person\"s associated\n\nThe question always is, who is the one we\u0027re interested in :D\n\nIn this metrics case, I\u0027m always interested in the \"originator\" of the event, so the person pushing the button (tm). Not sure whether this is true always, what would be good naming for such a getter, etc.",
+      "parentUuid": "a4cbabcf_8bab5edc",
+      "revId": "9580f0ddb055dc0cebfec951c99533371f670818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

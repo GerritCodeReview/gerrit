@@ -134,7 +134,7 @@ public class ReviewerRecommender {
                   .get()
                   .suggestReviewers(
                       projectControl.getProject().getNameKey(),
-                      changeNotes.getChangeId(),
+                      changeNotes != null ? changeNotes.getChangeId() : null,
                       query,
                       reviewerScores.keySet()));
       String key = plugin.getPluginName() + "-" + plugin.getExportName();

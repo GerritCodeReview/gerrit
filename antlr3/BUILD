@@ -7,11 +7,11 @@ genrule2(
     cmd = " && ".join([
         "$(location //lib/antlr:antlr-tool) -o $$TMP $<",
         "cd $$TMP",
-        "zip -q $$ROOT/$@ $$(find . -type f )",
+        "find . -exec touch -t 198001010000 '{}' ';'",
+        "zip -q $$ROOT/$@ $$(find . -type f)",
     ]),
     tools = [
         "//lib/antlr:antlr-tool",
-        "@bazel_tools//tools/zip:zipper",
     ],
     visibility = ["//visibility:public"],
 )

@@ -26,9 +26,13 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import java.util.List;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -240,5 +244,20 @@ public class CheckAccessIT extends AbstractDaemonTest {
           fail(String.format("unknown code %d", want));
       }
     }
+  }
+
+  @Test
+  public void noBranches() throws Exception {
+    try (Repository repo = repoManager.openRepository(normalProject)) {
+      RefUpdate u = repo.updateRef(RefNames.REFS_HEADS + "master");
+      u.setForceUpdate(true);
+      assertThat(u.delete()).isEqualTo(Result.FORCED);
+    }
+    AccessCheckInput input = new AccessCheckInput();
+    input.account = privilegedUser.email;
+
+    AccessCheckInfo info = gApi.projects().name(normalProject.get()).checkAccess(input);
+    assertThat(info.status).isEqualTo(200);
+    assertThat(info.message).contains("no branches");
   }
 }

@@ -450,14 +450,13 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   @Override
-  @Nullable
-  public synchronized <T> T get(PropertyKey<T> key) {
+  public synchronized <T> Optional<T> get(PropertyKey<T> key) {
     if (properties != null) {
       @SuppressWarnings("unchecked")
       T value = (T) properties.get(key);
-      return value;
+      return Optional.ofNullable(value);
     }
-    return null;
+    return Optional.empty();
   }
 
   /**

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dced13ae_06048fd9",
+        "filename": "java/com/google/gerrit/sshd/SshKeyCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-07T13:44:11Z",
+      "side": 0,
+      "message": "Reasoning through through why it\u0027s ok to remove this line. This is only ever called via load -\u003e add. The key instances always come via authorizedKeys.getKeys, and don\u0027t escape the loop on line 110, so there is not a later caller that depends on the key itself having valid \u003d\u003d false.",
+      "revId": "9740f95c6fbb067d8abd65d83406f882e7c88735",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

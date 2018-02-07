@@ -17,6 +17,29 @@
       "revId": "80e95a98b448128a1ec7b442ae0db2f12e986924",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2341155_08c3cf85",
+        "filename": "java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-07T13:44:11Z",
+      "side": 1,
+      "message": "set? IIUC this is replacing the immutable key currently stored at (seq - 1) with an invalid copy. add would insert a duplicate.\n\nIf I\u0027m right and there\u0027s a bug: do we not have a test for this?",
+      "range": {
+        "startLine": 255,
+        "startChar": 11,
+        "endLine": 255,
+        "endChar": 14
+      },
+      "revId": "80e95a98b448128a1ec7b442ae0db2f12e986924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

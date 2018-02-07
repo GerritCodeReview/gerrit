@@ -1,4 +1,125 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1516876879 +0100\nnonce AGjzz38Py+frMTc6DsujNwrMsrF3zgf8iuTPNIZRR12KvtSjsPdAo8UozgwpgJ2Th2qNgBlHBXYf\n\n0000000000000000000000000000000000000000 e21f539f155c302003c8f765797cfec12ec753fb refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlpptFAACgkQUbX9l6DQ\n71Eyfwf8C/FJwha8vGYFB2sm8HRJV/2pykvEuCEwXvF3dAto3hWbmLr1tCJU5ZvH\nKChDOXXT4kCChghb5fbyJbRV1L6YIPGMf05bJp37wm8zW48TiaJaTjATumRv8K66\nzoZanIajC/xTtaaqt25ia9JB74Me9JMYbbkYtyXAvAVZAKdMmN0MmoxOM6FsQ0mc\nDVxHGtGPv7kDhOnEcp+EDS6n37lwpSe8c4MYmHHS8PE8k1MI2UI34JuTzaCPGGUx\nx0hZkGAkvQJvyXd2qEDmGcF3xvut3Ll3I0T3lzfuvucrAmMkYf3kkbnVIDZp8HE8\nSP3lmg/KDfKZascnh9Yznm9Gzh1s3g\u003d\u003d\n\u003dI/Dl\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "202c10aa_49970004",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1380,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-07T13:59:08Z",
+      "side": 1,
+      "message": "patch set",
+      "range": {
+        "startLine": 1380,
+        "startChar": 24,
+        "endLine": 1380,
+        "endChar": 30
+      },
+      "revId": "e21f539f155c302003c8f765797cfec12ec753fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3206fc5b_40798ddd",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1384,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-07T13:59:08Z",
+      "side": 1,
+      "message": "or if the branch is updated behind Gerrit\u0027s back?",
+      "range": {
+        "startLine": 1384,
+        "startChar": 16,
+        "endLine": 1384,
+        "endChar": 59
+      },
+      "revId": "e21f539f155c302003c8f765797cfec12ec753fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55760e80_cebbb9fa",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2868,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-07T13:59:08Z",
+      "side": 1,
+      "message": "In the case where fix is true, ISTM it would be more accurate to describe these as \"closed\" rather than \"closeable\". Not a big deal though.\n\nIn the case of checking changes, we also use a ProblemInfo to indicate whether the fix was successful or not; how do you indicate that with this endpoint? Looking at the code, I think the answer is the \"problems\" field of the resulting ChangeInfo will be populated. Possibly worth mentioning explicitly.",
+      "revId": "e21f539f155c302003c8f765797cfec12ec753fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ba2f131_2d01b2ba",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-07T13:59:08Z",
+      "side": 1,
+      "message": "branch \u003d RefNames.fullName(branch)\n\nThough arguably you could also skip this and do repo.findRef instead (although the semantics are slightly different than fullName)",
+      "range": {
+        "startLine": 94,
+        "startChar": 8,
+        "endLine": 96,
+        "endChar": 9
+      },
+      "revId": "e21f539f155c302003c8f765797cfec12ec753fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3ac928c_a0f77ef6",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-07T13:59:08Z",
+      "side": 1,
+      "message": "This is too many sequential queries. At the very least, these need to be batched up to the limit supported by the index backend. But even so, if we can use a batch size of 100 and there are 500k commits in the history of the repo, that\u0027s 5k sequential queries, which is still a lot. I am thinking we need to provide some way to limit the search, perhaps by providing a maximum age or an earliest date.",
+      "revId": "e21f539f155c302003c8f765797cfec12ec753fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f900ef5_0e533979",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-07T13:59:08Z",
+      "side": 1,
+      "message": "query.run(queryProvider.get()).stream().findFirst() (but this code will go away if we switch to batching).",
+      "revId": "e21f539f155c302003c8f765797cfec12ec753fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

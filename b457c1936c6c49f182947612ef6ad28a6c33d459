@@ -34,6 +34,24 @@
       "revId": "b457c1936c6c49f182947612ef6ad28a6c33d459",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8523d39e_b2c68b00",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-07T18:48:23Z",
+      "side": -1,
+      "message": "Huh? This comment is on parent 1, it\u0027s already on the left.",
+      "parentUuid": "b0f8ab09_097f7c56",
+      "revId": "b457c1936c6c49f182947612ef6ad28a6c33d459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

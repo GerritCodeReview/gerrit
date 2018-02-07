@@ -851,11 +851,22 @@ limitations under the License.
         reload() {
           done();
         },
+        cancel() {},
       }];
       sinon.stub(element, 'diffs', {
         get() { return diffs; },
       });
       element.push('_expandedFilePaths', path);
+    });
+
+    test('_clearCollapsedDiffs', () => {
+      const diff = {
+        cancel: sinon.stub(),
+        clearDiffContent: sinon.stub(),
+      };
+      element._clearCollapsedDiffs([diff]);
+      assert.isTrue(diff.cancel.calledOnce);
+      assert.isTrue(diff.clearDiffContent.calledOnce);
     });
 
     test('filesExpanded value updates to correct enum', () => {

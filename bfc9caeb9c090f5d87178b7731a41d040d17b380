@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71b80c20_0e0a176d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-07T21:55:19Z",
+      "side": 1,
+      "message": "I wonder if this should have a slightly different message. It seems confusing to me that if comparing PS1 to Edit you can comment on PS1 on the left, but comparing Base to edit you can\u0027t.\n\nMaybe a separate message like \u0027You cannot comment on the base against an edit\u0027",
+      "range": {
+        "startLine": 360,
+        "startChar": 22,
+        "endLine": 360,
+        "endChar": 32
+      },
+      "revId": "bfc9caeb9c090f5d87178b7731a41d040d17b380",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

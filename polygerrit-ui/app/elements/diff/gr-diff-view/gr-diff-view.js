@@ -169,7 +169,7 @@
     observers: [
       '_getProjectConfig(_change.project)',
       '_getFiles(_changeNum, _patchRange.*)',
-      '_setReviewedObserver(_loggedIn, params.*)',
+      '_setReviewedObserver(_loggedIn, params.*, _prefs)',
     ],
 
     keyBindings: {
@@ -615,9 +615,11 @@
       }
     },
 
-    _setReviewedObserver(_loggedIn, paramsRecord) {
+    _setReviewedObserver(_loggedIn, paramsRecord, _prefs) {
       const params = paramsRecord.base || {};
-      if (_loggedIn && params.view === Gerrit.Nav.View.DIFF) {
+      if (!_loggedIn || _prefs.manual_review) { return; }
+
+      if (params.view === Gerrit.Nav.View.DIFF) {
         this._setReviewed(true);
       }
     },

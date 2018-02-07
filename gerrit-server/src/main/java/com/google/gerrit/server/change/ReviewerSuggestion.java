@@ -29,14 +29,15 @@ import java.util.Set;
 @ExtensionPoint
 public interface ReviewerSuggestion {
   /**
-   * Reviewer suggestion.
+   * Suggest reviewers to add to a change.
    *
    * @param project The name key of the project the suggestion is for.
-   * @param changeId The changeId that the suggestion is for. Can be an {@code null}.
-   * @param query The query as typed by the user. Can be an {@code null}.
+   * @param changeId The changeId that the suggestion is for. Can be {@code null}.
+   * @param query The query as typed by the user. Can be {@code null}.
    * @param candidates A set of candidates for the ranking. Can be empty.
-   * @return Set of suggested reviewers as a tuple of account id and score. The account ids listed
-   *     here don't have to be a part of candidates.
+   * @return Set of {@link SuggestedReviewer}s. The {@link
+   *     com.google.gerrit.reviewdb.client.Account.Id}s listed here don't have to be included in
+   *     {@code candidates}.
    */
   Set<SuggestedReviewer> suggestReviewers(
       Project.NameKey project,

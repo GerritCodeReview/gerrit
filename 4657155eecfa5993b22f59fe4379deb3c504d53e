@@ -22,6 +22,30 @@
       "revId": "4657155eecfa5993b22f59fe4379deb3c504d53e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa184ebc_a56bb1da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-07T07:58:18Z",
+      "side": 1,
+      "message": "Yes, it\u0027s correct.  See: https://www.slf4j.org/faq.html#paramException",
+      "parentUuid": "a9eb4794_90da4234",
+      "range": {
+        "startLine": 149,
+        "startChar": 8,
+        "endLine": 149,
+        "endChar": 66
+      },
+      "revId": "4657155eecfa5993b22f59fe4379deb3c504d53e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -404,7 +404,7 @@ Whether the calling user can see the `refs/meta/config` branch of the
 project.
 |`groups`            |A map of group UUID to
 link:rest-api-groups.html#group-info[GroupInfo] objects, describing
-the group UUIDs used in the `local` map. Groups that are not visible
+the group UUIDs used in the `local` map. Names Groups that are not visible
 are omitted from the `groups` map.
 |`configWebLinks`    ||
 A list of URLs that display the history of the configuration file

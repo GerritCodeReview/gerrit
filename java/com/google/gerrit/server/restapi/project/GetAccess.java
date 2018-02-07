@@ -77,9 +77,6 @@ import org.slf4j.LoggerFactory;
 public class GetAccess implements RestReadView<ProjectResource> {
   private static final Logger LOG = LoggerFactory.getLogger(GetAccess.class);
 
-  /** Marker value used in {@code Map<?, GroupInfo>} for groups not visible to current user. */
-  private static final GroupInfo INVISIBLE_SENTINEL = new GroupInfo();
-
   public static final ImmutableBiMap<PermissionRule.Action, PermissionRuleInfo.Action> ACTION_TYPE =
       ImmutableBiMap.of(
           PermissionRule.Action.ALLOW,
@@ -189,7 +186,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
 
     info.local = new HashMap<>();
     info.ownerOf = new HashSet<>();
-    Map<AccountGroup.UUID, GroupInfo> visibleGroups = new HashMap<>();
+    Map<AccountGroup.UUID, GroupInfo> groups = new HashMap<>();
     boolean canReadConfig = check(perm, RefNames.REFS_CONFIG, READ);
     boolean canWriteConfig = check(perm, ProjectPermission.WRITE_CONFIG);
 
@@ -204,20 +201,20 @@ public class GetAccess implements RestReadView<ProjectResource> {
       String name = section.getName();
       if (AccessSection.GLOBAL_CAPABILITIES.equals(name)) {
         if (canWriteConfig) {
-          info.local.put(name, createAccessSection(visibleGroups, section));
+          info.local.put(name, createAccessSection(groups, section));
           info.ownerOf.add(name);
 
         } else if (canReadConfig) {
-          info.local.put(section.getName(), createAccessSection(visibleGroups, section));
+          info.local.put(section.getName(), createAccessSection(groups, section));
         }
 
       } else if (RefConfigSection.isValid(name)) {
         if (check(perm, name, WRITE_CONFIG)) {
-          info.local.put(name, createAccessSection(visibleGroups, section));
+          info.local.put(name, createAccessSection(groups, section));
           info.ownerOf.add(name);
 
         } else if (canReadConfig) {
-          info.local.put(name, createAccessSection(visibleGroups, section));
+          info.local.put(name, createAccessSection(groups, section));
 
         } else if (check(perm, name, READ)) {
           // Filter the section to only add rules describing groups that
@@ -235,18 +232,15 @@ public class GetAccess implements RestReadView<ProjectResource> {
                 continue;
               }
 
-              GroupInfo group = loadGroup(visibleGroups, groupId);
-
-              if (group != INVISIBLE_SENTINEL) {
-                if (dstPerm == null) {
-                  if (dst == null) {
-                    dst = new AccessSection(name);
-                    info.local.put(name, createAccessSection(visibleGroups, dst));
-                  }
-                  dstPerm = dst.getPermission(srcPerm.getName(), true);
+              loadGroup(groups, groupId);
+              if (dstPerm == null) {
+                if (dst == null) {
+                  dst = new AccessSection(name);
+                  info.local.put(name, createAccessSection(groups, dst));
                 }
-                dstPerm.add(srcRule);
+                dstPerm = dst.getPermission(srcPerm.getName(), true);
               }
+              dstPerm.add(srcRule);
             }
           }
         }
@@ -285,34 +279,29 @@ public class GetAccess implements RestReadView<ProjectResource> {
     info.configVisible = canReadConfig || canWriteConfig;
 
     info.groups =
-        visibleGroups
-            .entrySet()
-            .stream()
-            .filter(e -> e.getValue() != INVISIBLE_SENTINEL)
-            .collect(toMap(e -> e.getKey().get(), e -> e.getValue()));
+        groups.entrySet().stream().collect(toMap(e -> e.getKey().get(), e -> e.getValue()));
 
     return info;
   }
 
-  private GroupInfo loadGroup(Map<AccountGroup.UUID, GroupInfo> visibleGroups, AccountGroup.UUID id)
+  private void loadGroup(Map<AccountGroup.UUID, GroupInfo> visibleGroups, AccountGroup.UUID id)
       throws OrmException {
-    GroupInfo group = visibleGroups.get(id);
-    if (group == null) {
+    if (!visibleGroups.containsKey(id)) {
+      GroupInfo group;
       try {
         GroupControl control = groupControlFactory.controlFor(id);
-        group = INVISIBLE_SENTINEL;
-        if (control.isVisible()) {
-          group = groupJson.format(control.getGroup());
-          group.id = null;
-        }
+        group = groupJson.format(control.getGroup());
+        group.id = null;
+
+        // Paranoia: we don't check visibility, so make sure sensitive data isn't there.
+        group.members = null;
+        group.includes = null;
       } catch (NoSuchGroupException e) {
         LOG.warn("NoSuchGroupException; ignoring group " + id, e);
-        group = INVISIBLE_SENTINEL;
+        group = null;
       }
       visibleGroups.put(id, group);
     }
-
-    return group;
   }
 
   private static boolean check(PermissionBackend.ForProject ctx, String ref, RefPermission perm)

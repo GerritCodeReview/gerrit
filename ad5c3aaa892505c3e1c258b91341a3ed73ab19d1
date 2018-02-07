@@ -169,6 +169,30 @@
     },
     {
       "key": {
+        "uuid": "b21158ef_020985f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2018-02-07T16:11:44Z",
+      "side": 1,
+      "message": "\u003e \u003e till the better solution is implemented.\n\u003e \n\u003e Would adding an endpoint for the checkbox and using plugin.hook() be an acceptable middle ground? \n\u003e This way plugin will be much less susceptible to breakages if structure of DOM changes. Also, keep shadow DOM in mind.\n\u003e \n\u003e I don\u0027t have strong objections to skipping high-level API, even though deprecating it later wouldn\u0027t be an issue.\n\nI went ahead and addressed your earlier comments with a note above the API method saying that this method will be deprecated and eventually removed when https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d8077 is implemented.",
+      "parentUuid": "599b57d9_ba2165d0",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "ad5c3aaa892505c3e1c258b91341a3ed73ab19d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "776d4302_05befca1",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
         "patchSetId": 10
@@ -183,6 +207,24 @@
       "revId": "ad5c3aaa892505c3e1c258b91341a3ed73ab19d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "308d1167_d7a8e07e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2018-02-07T16:11:44Z",
+      "side": 1,
+      "message": "It will not. I now added a check to see if the label is already enabled and print an error msg and not run the onAttached func. Documented this as well.",
+      "parentUuid": "776d4302_05befca1",
+      "revId": "ad5c3aaa892505c3e1c258b91341a3ed73ab19d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -229,6 +271,54 @@
       "revId": "ad5c3aaa892505c3e1c258b91341a3ed73ab19d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfdaf1e1_b1624ac2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2018-02-07T16:11:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9bd8bd5_08352c79",
+      "range": {
+        "startLine": 62,
+        "startChar": 6,
+        "endLine": 62,
+        "endChar": 19
+      },
+      "revId": "ad5c3aaa892505c3e1c258b91341a3ed73ab19d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6e69980_517bdc89",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2018-02-07T16:11:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76af9a72_304d8c1f",
+      "range": {
+        "startLine": 62,
+        "startChar": 21,
+        "endLine": 62,
+        "endChar": 31
+      },
+      "revId": "ad5c3aaa892505c3e1c258b91341a3ed73ab19d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

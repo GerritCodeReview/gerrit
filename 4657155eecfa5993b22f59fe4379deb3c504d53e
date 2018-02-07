@@ -46,6 +46,30 @@
       "revId": "4657155eecfa5993b22f59fe4379deb3c504d53e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b059467_f6f4ed5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerRecommender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-07T07:59:59Z",
+      "side": 1,
+      "message": "Ah, nice that this is working.\nThanks for the pointer.",
+      "parentUuid": "fa184ebc_a56bb1da",
+      "range": {
+        "startLine": 149,
+        "startChar": 8,
+        "endLine": 149,
+        "endChar": 66
+      },
+      "revId": "4657155eecfa5993b22f59fe4379deb3c504d53e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

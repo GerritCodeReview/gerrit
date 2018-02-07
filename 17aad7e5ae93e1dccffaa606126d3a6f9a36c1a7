@@ -17,6 +17,24 @@
       "revId": "17aad7e5ae93e1dccffaa606126d3a6f9a36c1a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b340052d_b91473e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-07T17:46:46Z",
+      "side": 1,
+      "message": "No, we would be glad to get some help from the community to make it work for such a setup. See also discussion at: https://gerrit-review.googlesource.com/c/gerrit/+/156850/2//COMMIT_MSG#12",
+      "parentUuid": "eb1574bb_2564d010",
+      "revId": "17aad7e5ae93e1dccffaa606126d3a6f9a36c1a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

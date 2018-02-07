@@ -22,6 +22,30 @@
       "revId": "01d78a20a11bf6c1a9ba82deaf6d8895e019ed59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3efcc793_607bfc30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-02-07T16:50:29Z",
+      "side": 1,
+      "message": "Ugh!\n\nAfter this rewrite in its current state, if you do \n\n   refs/* ALLOW exclusive\n   refs/heads/secret BLOCK\n\nthe BLOCK would be useless, because the ALLOW is considered an override.\n\nThe behavior you describe is untested though (tests pass with the rewrite).",
+      "parentUuid": "e81fc3f6_c143df6a",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 66
+      },
+      "revId": "01d78a20a11bf6c1a9ba82deaf6d8895e019ed59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

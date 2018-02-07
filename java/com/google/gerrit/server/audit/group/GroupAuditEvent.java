@@ -23,14 +23,14 @@ public interface GroupAuditEvent {
   /**
    * Gets the acting user who is updating the group.
    *
-   * @return the {@link Account.Id} of the acting user.
+   * @return the {@link com.google.gerrit.reviewdb.client.Account.Id} of the acting user.
    */
   Account.Id getActor();
 
   /**
-   * Gets the {@link AccountGroup.UUID} of the updated group.
+   * Gets the {@link com.google.gerrit.reviewdb.client.AccountGroup.UUID} of the updated group.
    *
-   * @return the {@link AccountGroup.UUID} of the updated group.
+   * @return the {@link com.google.gerrit.reviewdb.client.AccountGroup.UUID} of the updated group.
    */
   AccountGroup.UUID getUpdatedGroup();
 

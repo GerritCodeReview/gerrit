@@ -71,6 +71,24 @@
       "revId": "17aad7e5ae93e1dccffaa606126d3a6f9a36c1a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf362e7f_c3608055",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2018-02-07T19:24:32Z",
+      "side": 1,
+      "message": "Most of our slaves are not nearly as RAM heavy as our masters.  Our slaves might be off in some small site and have 1/2 to 1/8 the RAM of the master.  No matter how much RAM the slaves have, we tend to scale the SSH threads to the RAM.  Which threads will handle these incoming requests, the current existing SSH threads?  If so, I guess we could handle them without changing any configs, but it would mean that replication would be robbing the number of SSH threads available to people syncing from the slave.",
+      "parentUuid": "0bfd53fb_7caadb5d",
+      "revId": "17aad7e5ae93e1dccffaa606126d3a6f9a36c1a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

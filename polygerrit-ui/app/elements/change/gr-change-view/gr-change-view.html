@@ -81,13 +81,13 @@ limitations under the License.
       gr-change-status:first-child {
         margin-left: 0;
       }
-      .header-title {
+      .headerTitle {
         align-items: center;
         display: flex;
         flex: 1;
         font-size: 1.2rem;
       }
-      .header-title .headerSubject {
+      .headerTitle .headerSubject {
         font-family: var(--font-family-bold);
       }
       .replyContainer {
@@ -147,7 +147,6 @@ limitations under the License.
         }
       }
       .changeStatuses,
-      .changeText,
       .commitActions,
       .statusText {
         align-items: center;
@@ -268,7 +267,7 @@ limitations under the License.
         gr-change-star {
           vertical-align: middle;
         }
-        .header-title {
+        .headerTitle {
           flex-wrap: wrap;
           font-size: 1.1rem;
         }
@@ -322,7 +321,7 @@ limitations under the License.
         class="container"
         hidden$="{{_loading}}">
       <div class$="[[_computeHeaderClass(_change)]]">
-        <div class="header-title">
+        <div class="headerTitle">
           <gr-change-star
               id="changeStar"
               change="{{_change}}" hidden$="[[!_loggedIn]]"></gr-change-star>
@@ -345,12 +344,11 @@ limitations under the License.
             </template>
           </div>
           <span class="separator"></span>
-          <div class="changeText">
-            <a aria-label$="[[_computeChangePermalinkAriaLabel(_change._number)]]"
-                href$="[[_computeChangeUrl(_change)]]">[[_change._number]]</a>
-            <span class="headerSubject">: [[_change.subject]]</span>
-          </div>
-        </div><!-- end header-title -->
+          <a aria-label$="[[_computeChangePermalinkAriaLabel(_change._number)]]"
+              href$="[[_computeChangeUrl(_change)]]">[[_change._number]]</a>
+          <pre>: </pre>
+          <span class="headerSubject">[[_change.subject]]</span>
+        </div><!-- end headerTitle -->
         <div class="commitActions" hidden$="[[!_loggedIn]]">
           <gr-change-actions id="actions"
               change="[[_change]]"

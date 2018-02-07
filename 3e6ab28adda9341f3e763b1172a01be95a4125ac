@@ -22,6 +22,30 @@
       "revId": "3e6ab28adda9341f3e763b1172a01be95a4125ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eccdd6d0_3edc8edd",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-07T21:59:11Z",
+      "side": 1,
+      "message": "This was discussed in both UX meetings and also in the team meetings last week. The reason is that we want to hide automated messages by default. UX stated that we should not have this toggle switched to \u0027on\u0027 by default, and instead it should be treated inversely. The language\u0027All activity\u0027 was suggested by UX and approved in the weekly meeting.",
+      "parentUuid": "41c06868_7333066e",
+      "range": {
+        "startLine": 73,
+        "startChar": 10,
+        "endLine": 75,
+        "endChar": 78
+      },
+      "revId": "3e6ab28adda9341f3e763b1172a01be95a4125ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

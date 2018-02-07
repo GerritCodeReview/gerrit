@@ -103,10 +103,7 @@ limitations under the License.
         border-top-color: #666;
       }
     </style>
-    <paper-button
-        raised="[[!link]]"
-        disabled="[[_computeDisabled(disabled, loading)]]"
-        tabindex="-1">
+    <paper-button raised="[[!link]]" disabled="[[disabled]]" tabindex="-1">
       <slot></slot>
       <i class="downArrow"></i>
     </paper-button>

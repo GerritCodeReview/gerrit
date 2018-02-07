@@ -24,7 +24,7 @@ import java.util.Set;
 /**
  * Listener to provide reviewer suggestions.
  *
- * <p>Invoked by Gerrit a user who is searching for a reviewer to add to a change.
+ * <p>Invoked by Gerrit when a user clicks "Add Reviewer" on a change.
  */
 @ExtensionPoint
 public interface ReviewerSuggestion {

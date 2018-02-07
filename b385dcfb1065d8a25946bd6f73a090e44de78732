@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1517922381 +0100\nnonce AFD2Vu1O7Y6P0bT2mD7BE9105Z986t6+r4nlTV4MhxnFvFwry8Wuwq2wFoKb7ovMETGeCQO0JPfo\n\n0000000000000000000000000000000000000000 b088a6e14a067f92ebd3994c375f5aaacd39850c refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlp5qE0ACgkQUbX9l6DQ\n71HvdAgAviFZqEBunOggUSyXO7cQpDen+f4NlEUCzhNz+ySThEsUk+QxkQZn4ywq\nXyMBYNnH2gHsKPYpzdK4uebZv2taFWBcq5m0Z+9lnazG1hakQwDq6BYCNovWNo/M\n9DudsENatvc56MvnMm12sAMpY0DWKp8bqIoedIzTJ9WTpyTeMxtUCHYrSHhfLJMV\nVS4cVgTATxqaLT7SB7iVisxGbG3HDNm0x7NEtpvs4+RnPlJTjXy+mHmBW4Ar0Yc0\nKDhPuivKUYVU6tCwel7yT6E59uq76eAB3iAZZo3eK/1lxjQ15PAa8c6JtYvEHCXF\nM9LvGUIU8laXKvHLFxCfWHEhDe/hOg\u003d\u003d\n\u003dKrkv\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "196c98f4_5486cdbe",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushReplicationEventIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-07T12:15:13Z",
+      "side": 1,
+      "message": "I think we probably must test replication for each ref kind, because we intend to redirect all replication events through Gerrit (not just group ref updates). E.g. I expect that pushing to the change meta refs is likely also forbidden.",
+      "revId": "b385dcfb1065d8a25946bd6f73a090e44de78732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

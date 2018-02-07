@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa9dc827_aaa62934",
+        "filename": "java/com/google/gerrit/server/restapi/project/CheckAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-07T12:27:18Z",
+      "side": 1,
+      "message": "[optional] use REFS_HEADS here too",
+      "range": {
+        "startLine": 139,
+        "startChar": 77,
+        "endLine": 139,
+        "endChar": 88
+      },
+      "revId": "8eb5f2bde0320df9bc4609ca6c7dd2ab517c7a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

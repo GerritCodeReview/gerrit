@@ -70,6 +70,30 @@
       "revId": "3e6ab28adda9341f3e763b1172a01be95a4125ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "709e7921_5597937f",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-07T23:06:56Z",
+      "side": 1,
+      "message": "I think I misunderstood, but my understanding was that we\u0027d leave the default of showing all of the messages, but would just swap the toggle/language.",
+      "parentUuid": "69a3418f_ae8bc989",
+      "range": {
+        "startLine": 73,
+        "startChar": 10,
+        "endLine": 75,
+        "endChar": 78
+      },
+      "revId": "3e6ab28adda9341f3e763b1172a01be95a4125ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

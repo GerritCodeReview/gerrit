@@ -20,7 +20,6 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -51,11 +50,11 @@ public class PutName implements RestModifyView<GroupResource, NameInput> {
 
   @Override
   public String apply(GroupResource rsrc, NameInput input)
-      throws MethodNotAllowedException, AuthException, BadRequestException,
+      throws NotInternalGroupException, AuthException, BadRequestException,
           ResourceConflictException, ResourceNotFoundException, OrmException, IOException,
           ConfigInvalidException {
     GroupDescription.Internal internalGroup =
-        rsrc.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
+        rsrc.asInternalGroup().orElseThrow(NotInternalGroupException::new);
     if (!rsrc.getControl().isOwner()) {
       throw new AuthException("Not group owner");
     } else if (input == null || Strings.isNullOrEmpty(input.name)) {

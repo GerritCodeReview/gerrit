@@ -19,7 +19,6 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -48,10 +47,10 @@ public class PutOptions implements RestModifyView<GroupResource, GroupOptionsInf
 
   @Override
   public GroupOptionsInfo apply(GroupResource resource, GroupOptionsInfo input)
-      throws MethodNotAllowedException, AuthException, BadRequestException,
+      throws NotInternalGroupException, AuthException, BadRequestException,
           ResourceNotFoundException, OrmException, IOException, ConfigInvalidException {
     GroupDescription.Internal internalGroup =
-        resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
+        resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
     if (!resource.getControl().isOwner()) {
       throw new AuthException("Not group owner");
     }

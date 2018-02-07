@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -57,9 +56,9 @@ public class SubgroupsCollection
 
   @Override
   public SubgroupResource parse(GroupResource resource, IdString id)
-      throws MethodNotAllowedException, AuthException, ResourceNotFoundException {
+      throws NotInternalGroupException, AuthException, ResourceNotFoundException {
     GroupDescription.Internal parent =
-        resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
+        resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
 
     GroupDescription.Basic member =
         groupsCollection.parse(TopLevelResource.INSTANCE, id).getGroup();

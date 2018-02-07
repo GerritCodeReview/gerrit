@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.api.groups.OwnerInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -59,11 +58,11 @@ public class PutOwner implements RestModifyView<GroupResource, OwnerInput> {
 
   @Override
   public GroupInfo apply(GroupResource resource, OwnerInput input)
-      throws ResourceNotFoundException, MethodNotAllowedException, AuthException,
+      throws ResourceNotFoundException, NotInternalGroupException, AuthException,
           BadRequestException, UnprocessableEntityException, OrmException, IOException,
           ConfigInvalidException {
     GroupDescription.Internal internalGroup =
-        resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
+        resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
     if (!resource.getControl().isOwner()) {
       throw new AuthException("Not group owner");
     }

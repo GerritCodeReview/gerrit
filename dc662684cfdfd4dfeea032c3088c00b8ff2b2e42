@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e04a774_43c52f89",
+        "filename": "javatests/com/google/gerrit/metrics/proc/BUILD",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-07T13:04:35Z",
+      "side": 1,
+      "message": "Would it make sense to move this into the junit_tests definition?",
+      "revId": "dc662684cfdfd4dfeea032c3088c00b8ff2b2e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4cbabcf_8bab5edc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventsMetrics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-07T08:57:40Z",
+      "side": 1,
+      "message": "This might be made simpler by introducing an overridable method somewhere in the Event class hierarchy.",
+      "revId": "9580f0ddb055dc0cebfec951c99533371f670818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

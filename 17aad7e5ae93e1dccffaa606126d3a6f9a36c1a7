@@ -35,6 +35,24 @@
       "revId": "17aad7e5ae93e1dccffaa606126d3a6f9a36c1a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89c90eab_3239570c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2018-02-07T17:52:45Z",
+      "side": 1,
+      "message": "I guess this would work if we had a multi-node index solution that gets updated whenever any slave receives a group push?   i.e. replicating the index updates the way some of the plugins do for masters, or using a slave site specific elastic search cluster?  Are any of these solutions available to work on slaves yet?\n\nI am also concerned that high end sites could not handle this sort of load via Gerrit.  git-daemon tends to be more efficient and need less memory.  I don\u0027t think our Gerrit slave jvms could handle the additional heap requirements that this is likely to introduce.  I am curious if other large Gerrit sites think their slaves could handle this?\n\nAnother approach would be to add a git-hook to the project containing groups that would call Gerrit either via ssh or REST and trigger this re-index on receiving a push to a group.  We use this approach for replication when we need multiple hops.  Combine this with a regular scheduled index for safety and it probably would be fairly reliable.  It isn\u0027t nearly as elegant pushing to Gerrit, but it might be more viable for most sites.",
+      "parentUuid": "eb1574bb_2564d010",
+      "revId": "17aad7e5ae93e1dccffaa606126d3a6f9a36c1a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

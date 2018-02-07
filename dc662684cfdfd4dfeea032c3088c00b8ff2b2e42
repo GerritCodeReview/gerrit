@@ -16,6 +16,24 @@
       "revId": "dc662684cfdfd4dfeea032c3088c00b8ff2b2e42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03a1d828_5597a1af",
+        "filename": "javatests/com/google/gerrit/metrics/proc/BUILD",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-07T13:08:42Z",
+      "side": 1,
+      "message": "Yes, we could do that, but then we would open this module for all other tests as well. I guess we don\u0027t care.",
+      "parentUuid": "1e04a774_43c52f89",
+      "revId": "dc662684cfdfd4dfeea032c3088c00b8ff2b2e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

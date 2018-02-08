@@ -67,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "9c42a3a9_e98973d1",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-02-08T14:08:32Z",
+      "side": 1,
+      "message": "I don\u0027t know: you tell me :-)\n\nit would only apply to the exclusive bit for BLOCK. The call to relevant.getRules() already handles exclusiveness.",
+      "parentUuid": "c5138ba7_e74d3eca",
+      "revId": "5d31b44972f89e4803829f716c71ebd9e92772d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "95f74233_7f23e86b",
         "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
         "patchSetId": 10

@@ -71,6 +71,7 @@ import com.google.gerrit.server.git.LocalMergeSuperSetComputation;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.receive.ReceiveCommitsExecutorModule;
+import com.google.gerrit.server.group.PeriodicGroupIndexer;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.VersionManager;
@@ -469,7 +470,9 @@ public class Daemon extends SiteProgram {
           }
         });
     modules.add(new GarbageCollectionModule());
-    if (!slave) {
+    if (slave) {
+      modules.add(new PeriodicGroupIndexer.Module());
+    } else {
       modules.add(new AccountDeactivator.Module());
       modules.add(new ChangeCleanupRunner.Module());
     }

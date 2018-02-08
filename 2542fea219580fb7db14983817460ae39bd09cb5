@@ -22,6 +22,30 @@
       "revId": "2542fea219580fb7db14983817460ae39bd09cb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a90770f8_7f8951a6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-08T20:53:19Z",
+      "side": 0,
+      "message": "Those places are the GWT UI (soon to be removed) and the docs for inline edit in GWT (soon to be replaced), so I don\u0027t personally think it\u0027s too necessary. If you\u0027d like to change them for consistency\u0027s sake, though, feel free!",
+      "parentUuid": "9e01be5f_d1a3c8bb",
+      "range": {
+        "startLine": 164,
+        "startChar": 12,
+        "endLine": 164,
+        "endChar": 24
+      },
+      "revId": "2542fea219580fb7db14983817460ae39bd09cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

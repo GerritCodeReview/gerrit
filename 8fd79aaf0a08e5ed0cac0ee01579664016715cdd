@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1732b0a1_55fa9791",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-08T00:53:43Z",
+      "side": 1,
+      "message": "What is this suppressing?",
+      "range": {
+        "startLine": 937,
+        "startChar": 2,
+        "endLine": 937,
+        "endChar": 31
+      },
+      "revId": "8fd79aaf0a08e5ed0cac0ee01579664016715cdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

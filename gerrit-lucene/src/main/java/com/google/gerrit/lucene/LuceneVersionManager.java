@@ -111,7 +111,7 @@ public class LuceneVersionManager implements LifecycleListener {
     if (!Files.exists(sitePaths.index_dir)) {
       throw new ProvisionException(runReindexMsg);
     } else if (!Files.exists(sitePaths.index_dir)) {
-      log.warn("Not a directory: %s", sitePaths.index_dir.toAbsolutePath());
+      log.warn("Not a directory: {}", sitePaths.index_dir.toAbsolutePath());
       throw new ProvisionException(runReindexMsg);
     }
 
@@ -233,7 +233,7 @@ public class LuceneVersionManager implements LifecycleListener {
       Path p = getDir(sitePaths, def.getName(), schema);
       boolean isDir = Files.isDirectory(p);
       if (Files.exists(p) && !isDir) {
-        log.warn("Not a directory: %s", p.toAbsolutePath());
+        log.warn("Not a directory: {}", p.toAbsolutePath());
       }
       int v = schema.getVersion();
       versions.put(v, new Version<>(

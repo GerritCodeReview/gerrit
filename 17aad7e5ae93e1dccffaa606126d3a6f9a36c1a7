@@ -89,6 +89,24 @@
       "revId": "17aad7e5ae93e1dccffaa606126d3a6f9a36c1a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b381361_cfa12814",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-08T17:28:40Z",
+      "side": 1,
+      "message": "Hugo, Martin, thanks for your input. It seems this solution doesn\u0027t work for everyone and for now we are giving up on it. Instead we are now going for a simpler solution: https://gerrit-review.googlesource.com/c/gerrit/+/158273",
+      "parentUuid": "bf362e7f_c3608055",
+      "revId": "17aad7e5ae93e1dccffaa606126d3a6f9a36c1a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

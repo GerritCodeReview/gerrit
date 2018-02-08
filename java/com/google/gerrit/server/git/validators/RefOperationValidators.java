@@ -53,6 +53,7 @@ public class RefOperationValidators {
   private final PermissionBackend.WithUser perm;
   private final AllUsersName allUsersName;
   private final DynamicSet<RefOperationValidationListener> refOperationValidationListeners;
+  private final ReplicationUserVerifier replicationUserVerifier;
   private final RefReceivedEvent event;
 
   @Inject
@@ -60,12 +61,14 @@ public class RefOperationValidators {
       PermissionBackend permissionBackend,
       AllUsersName allUsersName,
       DynamicSet<RefOperationValidationListener> refOperationValidationListeners,
+      ReplicationUserVerifier replicationUserVerifier,
       @Assisted Project project,
       @Assisted IdentifiedUser user,
       @Assisted ReceiveCommand cmd) {
     this.perm = permissionBackend.user(user);
     this.allUsersName = allUsersName;
     this.refOperationValidationListeners = refOperationValidationListeners;
+    this.replicationUserVerifier = replicationUserVerifier;
     event = new RefReceivedEvent();
     event.command = cmd;
     event.project = project;
@@ -76,7 +79,9 @@ public class RefOperationValidators {
     List<ValidationMessage> messages = new ArrayList<>();
     boolean withException = false;
     List<RefOperationValidationListener> listeners = new ArrayList<>();
-    listeners.add(new DisallowCreationAndDeletionOfUserBranches(perm, allUsersName));
+    listeners.add(
+        new DisallowCreationAndDeletionOfUserBranches(
+            perm, allUsersName, replicationUserVerifier, event.user));
     refOperationValidationListeners.forEach(l -> listeners.add(l));
     try {
       for (RefOperationValidationListener listener : listeners) {
@@ -116,11 +121,18 @@ public class RefOperationValidators {
       implements RefOperationValidationListener {
     private final PermissionBackend.WithUser perm;
     private final AllUsersName allUsersName;
+    private final ReplicationUserVerifier replicationUserVerifier;
+    private final IdentifiedUser user;
 
     DisallowCreationAndDeletionOfUserBranches(
-        PermissionBackend.WithUser perm, AllUsersName allUsersName) {
+        PermissionBackend.WithUser perm,
+        AllUsersName allUsersName,
+        ReplicationUserVerifier replicationUserVerifier,
+        IdentifiedUser user) {
       this.perm = perm;
       this.allUsersName = allUsersName;
+      this.replicationUserVerifier = replicationUserVerifier;
+      this.user = user;
     }
 
     @Override
@@ -149,7 +161,8 @@ public class RefOperationValidators {
           }
         }
 
-        if (RefNames.isGroupRef(refEvent.command.getRefName())) {
+        if (RefNames.isGroupRef(refEvent.command.getRefName())
+            && !replicationUserVerifier.isReplicationUser(user)) {
           if (refEvent.command.getType().equals(ReceiveCommand.Type.CREATE)) {
             throw new ValidationException("Not allowed to create group branch.");
           } else if (refEvent.command.getType().equals(ReceiveCommand.Type.DELETE)) {

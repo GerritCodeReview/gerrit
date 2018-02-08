@@ -96,6 +96,7 @@ public class CommitValidators {
     private final AccountValidator accountValidator;
     private final String installCommitMsgHookCommand;
     private final ProjectCache projectCache;
+    private final ReplicationUserVerifier replicationUserVerifier;
 
     @Inject
     Factory(
@@ -108,7 +109,8 @@ public class CommitValidators {
         AllProjectsName allProjects,
         ExternalIdsConsistencyChecker externalIdsConsistencyChecker,
         AccountValidator accountValidator,
-        ProjectCache projectCache) {
+        ProjectCache projectCache,
+        ReplicationUserVerifier replicationUserVerifier) {
       this.gerritIdent = gerritIdent;
       this.canonicalWebUrl = canonicalWebUrl;
       this.pluginValidators = pluginValidators;
@@ -120,6 +122,7 @@ public class CommitValidators {
       this.installCommitMsgHookCommand =
           cfg != null ? cfg.getString("gerrit", null, "installCommitMsgHookCommand") : null;
       this.projectCache = projectCache;
+      this.replicationUserVerifier = replicationUserVerifier;
     }
 
     public CommitValidators forReceiveCommits(
@@ -153,7 +156,7 @@ public class CommitValidators {
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
               new AccountCommitValidator(repoManager, allUsers, accountValidator),
-              new GroupCommitValidator(allUsers)));
+              new GroupCommitValidator(allUsers, replicationUserVerifier, user)));
     }
 
     public CommitValidators forGerritCommits(
@@ -183,7 +186,7 @@ public class CommitValidators {
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
               new AccountCommitValidator(repoManager, allUsers, accountValidator),
-              new GroupCommitValidator(allUsers)));
+              new GroupCommitValidator(allUsers, replicationUserVerifier, user)));
     }
 
     public CommitValidators forMergedCommits(
@@ -796,9 +799,16 @@ public class CommitValidators {
   /** Rejects updates to group branches. */
   public static class GroupCommitValidator implements CommitValidationListener {
     private final AllUsersName allUsers;
+    private final ReplicationUserVerifier replicationUserVerifier;
+    private final IdentifiedUser user;
 
-    public GroupCommitValidator(AllUsersName allUsers) {
+    public GroupCommitValidator(
+        AllUsersName allUsers,
+        ReplicationUserVerifier replicationUserVerifier,
+        IdentifiedUser user) {
       this.allUsers = allUsers;
+      this.replicationUserVerifier = replicationUserVerifier;
+      this.user = user;
     }
 
     @Override
@@ -812,6 +822,10 @@ public class CommitValidators {
       if (receiveEvent.command.getRefName().startsWith(MagicBranch.NEW_CHANGE)) {
         // no validation on push for review, will be checked on submit by
         // MergeValidators.GroupMergeValidator
+        return Collections.emptyList();
+      }
+
+      if (replicationUserVerifier.isReplicationUser(user)) {
         return Collections.emptyList();
       }
 

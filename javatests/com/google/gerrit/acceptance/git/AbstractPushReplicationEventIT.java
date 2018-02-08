@@ -21,9 +21,10 @@ import static com.google.gerrit.server.notedb.NotesMigration.READ;
 import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
 import static com.google.gerrit.server.notedb.NotesMigration.WRITE;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
-import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -32,7 +33,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.testing.ConfigSuite;
-import java.io.IOException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -40,9 +40,12 @@ import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TreeFormatter;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.PushResult;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -93,186 +96,189 @@ public abstract class AbstractPushReplicationEventIT extends AbstractDaemonTest 
   @Test
   @Sandboxed
   public void creationOfGroupBranchIsRejectedForRegularUserInSlaveMode() throws Exception {
-    grantUsersWriteAccessToGroupBranches(allUsers);
+    grantUsersWriteAccessToAllBranches(allUsers);
     restartAsSlave();
 
     setApiUser(admin);
     TestRepository<InMemoryRepository> allUsersRepo = createTestRepository(allUsers);
+    ObjectId newCommit = createArbitraryRootCommit(allUsersRepo);
     exception.expect(TransportException.class);
     exception.expectMessage("not enabled");
-    pushCommitTo(allUsersRepo, RefNames.refsGroups(new AccountGroup.UUID("newGroupUuid")));
+    updateRef(allUsersRepo, RefNames.refsGroups(new AccountGroup.UUID("newGroupUuid")), newCommit);
   }
 
   @Test
   @Sandboxed
   public void updateOfGroupNamesBranchIsRejectedForRegularUserInSlaveMode() throws Exception {
-    grantUsersWriteAccessToGroupBranches(allUsers);
-    createRefInServerRepo(RefNames.REFS_GROUPNAMES);
+    grantUsersWriteAccessToAllBranches(allUsers);
+    createRefInServerRepo(allUsers, RefNames.REFS_GROUPNAMES);
     restartAsSlave();
 
     setApiUser(admin);
     TestRepository<InMemoryRepository> allUsersRepo = createTestRepository(allUsers);
+    RevCommit tipCommit = fetchTipCommitOfRef(allUsersRepo, allUsers, RefNames.REFS_GROUPNAMES);
+    ObjectId newCommit = createArbitraryCommit(allUsersRepo, tipCommit);
     exception.expect(TransportException.class);
     exception.expectMessage("not enabled");
-    pushCommitTo(allUsersRepo, RefNames.REFS_GROUPNAMES);
+    updateRef(allUsersRepo, RefNames.REFS_GROUPNAMES, newCommit);
   }
 
   @Test
   @Sandboxed
   public void selfReferenceDoesNotAllowRegularUsersToImpersonateReplicationUser() throws Exception {
     cfg.setString("receive", null, "replicationUser", "self");
-    grantUsersWriteAccessToGroupBranches(allUsers);
+    grantUsersWriteAccessToAllBranches(allUsers);
     restartAsSlave();
 
     setApiUser(admin);
     TestRepository<InMemoryRepository> allUsersRepo = createTestRepository(allUsers);
+    ObjectId newCommit = createArbitraryRootCommit(allUsersRepo);
     exception.expect(TransportException.class);
     exception.expectMessage("not enabled");
-    pushCommitTo(allUsersRepo, RefNames.refsGroups(new AccountGroup.UUID("newGroupUuid")));
+    updateRef(allUsersRepo, RefNames.refsGroups(new AccountGroup.UUID("newGroupUuid")), newCommit);
   }
 
   @Test
   @Sandboxed
   public void creationOfGroupBranchIsAllowedForReplicationUserInSlaveMode() throws Exception {
-    grantUsersWriteAccessToGroupBranches(allUsers);
+    grantUsersWriteAccessToAllBranches(allUsers);
     restartAsSlave();
 
     setApiUser(replicationUser);
     TestRepository<InMemoryRepository> allUsersRepo = createTestRepository(allUsers);
-    PushOneCommit.Result result =
-        pushCommitTo(allUsersRepo, RefNames.refsGroups(new AccountGroup.UUID("newGroupUuid")));
+    String groupRef = RefNames.refsGroups(new AccountGroup.UUID("newGroupUuid"));
+    ObjectId newCommit = createArbitraryRootCommit(allUsersRepo);
+    PushResult pushResult = updateRef(allUsersRepo, groupRef, newCommit);
 
-    // TODO(aliceks): Adjust this part as soon as we allow group updates for the replication user.
-    result.assertErrorStatus("Not allowed to create");
+    GitUtil.assertPushOk(pushResult, groupRef);
   }
 
   @Test
   @Sandboxed
   public void updateOfGroupBranchIsAllowedForReplicationUserInSlaveMode() throws Exception {
-    grantUsersWriteAccessToGroupBranches(allUsers);
+    grantUsersWriteAccessToAllBranches(allUsers);
     String groupRef = RefNames.refsGroups(new AccountGroup.UUID("newGroupUuid"));
-    createRefInServerRepo(groupRef);
+    createRefInServerRepo(allUsers, groupRef);
     restartAsSlave();
 
     setApiUser(replicationUser);
     TestRepository<InMemoryRepository> allUsersRepo = createTestRepository(allUsers);
-    PushOneCommit.Result result = pushCommitTo(allUsersRepo, groupRef);
+    RevCommit tipCommit = fetchTipCommitOfRef(allUsersRepo, allUsers, groupRef);
+    ObjectId newCommit = createArbitraryCommit(allUsersRepo, tipCommit);
+    PushResult pushResult = updateRef(allUsersRepo, groupRef, newCommit);
 
-    // TODO(aliceks): Adjust this part as soon as we allow group updates for the replication user.
-    result.assertErrorStatus("group update not allowed");
+    GitUtil.assertPushOk(pushResult, groupRef);
   }
 
   @Test
   @Sandboxed
   public void deletionOfGroupBranchIsAllowedForReplicationUserInSlaveMode() throws Exception {
-    grantUsersWriteAccessToGroupBranches(allUsers);
+    grantUsersWriteAccessToAllBranches(allUsers);
     String groupRef = RefNames.refsGroups(new AccountGroup.UUID("newGroupUuid"));
-    createRefInServerRepo(groupRef);
+    createRefInServerRepo(allUsers, groupRef);
     restartAsSlave();
 
     setApiUser(replicationUser);
     TestRepository<InMemoryRepository> allUsersRepo = createTestRepository(allUsers);
-    PushOneCommit.Result result = deleteRef(allUsersRepo, groupRef);
+    PushResult pushResult = deleteRef(allUsersRepo, groupRef);
 
-    // TODO(aliceks): Adjust this part as soon as we allow group updates for the replication user.
-    result.assertErrorStatus("group update not allowed");
+    GitUtil.assertPushOk(pushResult, groupRef);
   }
 
   @Test
   @Sandboxed
   public void creationOfGroupNamesBranchIsAllowedForReplicationUserInSlaveMode() throws Exception {
-    grantUsersWriteAccessToGroupBranches(allUsers);
-    deleteRefInServerRepo(RefNames.REFS_GROUPNAMES);
+    grantUsersWriteAccessToAllBranches(allUsers);
+    deleteRefInServerRepo(allUsers, RefNames.REFS_GROUPNAMES);
     restartAsSlave();
 
     setApiUser(replicationUser);
     TestRepository<InMemoryRepository> allUsersRepo = createTestRepository(allUsers);
-    PushOneCommit.Result result = pushCommitTo(allUsersRepo, RefNames.REFS_GROUPNAMES);
+    ObjectId newCommit = createArbitraryRootCommit(allUsersRepo);
+    PushResult pushResult = updateRef(allUsersRepo, RefNames.REFS_GROUPNAMES, newCommit);
 
-    // TODO(aliceks): Adjust this part as soon as we allow group updates for the replication
-    result.assertErrorStatus("Not allowed to create");
+    GitUtil.assertPushOk(pushResult, RefNames.REFS_GROUPNAMES);
   }
 
   @Test
   @Sandboxed
   public void updateOfGroupNamesBranchIsAllowedForReplicationUserInSlaveMode() throws Exception {
-    grantUsersWriteAccessToGroupBranches(allUsers);
-    createRefInServerRepo(RefNames.REFS_GROUPNAMES);
+    grantUsersWriteAccessToAllBranches(allUsers);
+    createRefInServerRepo(allUsers, RefNames.REFS_GROUPNAMES);
     restartAsSlave();
 
     setApiUser(replicationUser);
     TestRepository<InMemoryRepository> allUsersRepo = createTestRepository(allUsers);
-    PushOneCommit.Result result = pushCommitTo(allUsersRepo, RefNames.REFS_GROUPNAMES);
+    RevCommit tipCommit = fetchTipCommitOfRef(allUsersRepo, allUsers, RefNames.REFS_GROUPNAMES);
+    ObjectId newCommit = createArbitraryCommit(allUsersRepo, tipCommit);
+    PushResult pushResult = updateRef(allUsersRepo, RefNames.REFS_GROUPNAMES, newCommit);
 
-    // TODO(aliceks): Adjust this part as soon as we allow group updates for the replication user.
-    result.assertErrorStatus("group update not allowed");
+    GitUtil.assertPushOk(pushResult, RefNames.REFS_GROUPNAMES);
   }
 
   @Test
   @Sandboxed
   public void creationOfBranchOfDeletedGroupIsAllowedForReplicationUserInSlaveMode()
       throws Exception {
-    grantUsersWriteAccessToGroupBranches(allUsers);
+    grantUsersWriteAccessToAllBranches(allUsers);
     restartAsSlave();
 
     setApiUser(replicationUser);
     TestRepository<InMemoryRepository> allUsersRepo = createTestRepository(allUsers);
-    PushOneCommit.Result result =
-        pushCommitTo(
-            allUsersRepo, RefNames.refsDeletedGroups(new AccountGroup.UUID("deletedGroupUuid")));
+    String deletedGroupRef = RefNames.refsDeletedGroups(new AccountGroup.UUID("deletedGroupUuid"));
+    ObjectId newCommit = createArbitraryRootCommit(allUsersRepo);
+    PushResult pushResult = updateRef(allUsersRepo, deletedGroupRef, newCommit);
 
-    // TODO(aliceks): Adjust this part as soon as we allow group updates for the replication user.
-    result.assertErrorStatus("Not allowed to create");
+    GitUtil.assertPushOk(pushResult, deletedGroupRef);
   }
 
   @Test
   @Sandboxed
   public void updateOfBranchOfDeletedGroupIsAllowedForReplicationUserInSlaveMode()
       throws Exception {
-    grantUsersWriteAccessToGroupBranches(allUsers);
+    grantUsersWriteAccessToAllBranches(allUsers);
     String deletedGroupRef = RefNames.refsDeletedGroups(new AccountGroup.UUID("deletedGroupUuid"));
-    createRefInServerRepo(deletedGroupRef);
+    createRefInServerRepo(allUsers, deletedGroupRef);
     restartAsSlave();
 
     setApiUser(replicationUser);
     TestRepository<InMemoryRepository> allUsersRepo = createTestRepository(allUsers);
-    PushOneCommit.Result result = pushCommitTo(allUsersRepo, deletedGroupRef);
+    RevCommit tipCommit = fetchTipCommitOfRef(allUsersRepo, allUsers, deletedGroupRef);
+    ObjectId newCommit = createArbitraryCommit(allUsersRepo, tipCommit);
+    PushResult pushResult = updateRef(allUsersRepo, deletedGroupRef, newCommit);
 
-    // TODO(aliceks): Adjust this part as soon as we allow group updates for the replication user.
-    result.assertErrorStatus("group update not allowed");
+    GitUtil.assertPushOk(pushResult, deletedGroupRef);
   }
 
   @Test
   @Sandboxed
   public void deletionOfBranchOfDeletedGroupIsAllowedForReplicationUserInSlaveMode()
       throws Exception {
-    grantUsersWriteAccessToGroupBranches(allUsers);
+    grantUsersWriteAccessToAllBranches(allUsers);
     String deletedGroupRef = RefNames.refsDeletedGroups(new AccountGroup.UUID("deletedGroupUuid"));
-    createRefInServerRepo(deletedGroupRef);
+    createRefInServerRepo(allUsers, deletedGroupRef);
     restartAsSlave();
 
     setApiUser(replicationUser);
     TestRepository<InMemoryRepository> allUsersRepo = createTestRepository(allUsers);
-    PushOneCommit.Result result = deleteRef(allUsersRepo, deletedGroupRef);
+    PushResult pushResult = deleteRef(allUsersRepo, deletedGroupRef);
 
-    // TODO(aliceks): Adjust this part as soon as we allow group updates for the replication user.
-    result.assertErrorStatus("group update not allowed");
+    GitUtil.assertPushOk(pushResult, deletedGroupRef);
   }
 
-  private void grantUsersWriteAccessToGroupBranches(Project.NameKey project) throws Exception {
-    grant(project, RefNames.REFS_GROUPS + "*", Permission.CREATE, false, REGISTERED_USERS);
-    grant(project, RefNames.REFS_GROUPS + "*", Permission.PUSH, false, REGISTERED_USERS);
-    grant(project, RefNames.REFS_DELETED_GROUPS + "*", Permission.CREATE, false, REGISTERED_USERS);
-    grant(project, RefNames.REFS_DELETED_GROUPS + "*", Permission.PUSH, false, REGISTERED_USERS);
-    grant(project, RefNames.REFS_GROUPNAMES, Permission.PUSH, false, REGISTERED_USERS);
-    grant(project, RefNames.REFS_GROUPNAMES, Permission.CREATE, false, REGISTERED_USERS);
+  private void grantUsersWriteAccessToAllBranches(Project.NameKey project) throws Exception {
+    grant(project, RefNames.REFS + "*", Permission.CREATE, false, REGISTERED_USERS);
+    grant(project, RefNames.REFS + "*", Permission.PUSH, false, REGISTERED_USERS);
+    grant(project, RefNames.REFS + "*", Permission.DELETE, false, REGISTERED_USERS);
+    grant(project, RefNames.REFS + "*", Permission.FORGE_AUTHOR, false, REGISTERED_USERS);
+    grant(project, RefNames.REFS + "*", Permission.FORGE_COMMITTER, false, REGISTERED_USERS);
 
     // RefNames.REFS_GROUPNAMES is only visible for users with ACCESS_DATABASE permission
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
   }
 
-  private void createRefInServerRepo(String refName) throws IOException {
-    try (Repository repository = repoManager.openRepository(allUsers);
+  private void createRefInServerRepo(Project.NameKey projectName, String refName) throws Exception {
+    try (Repository repository = repoManager.openRepository(projectName);
         ObjectInserter objectInserter = repository.newObjectInserter()) {
       ObjectId commitId = createEmptyCommit(objectInserter);
       RefUpdate refUpdate = repository.getRefDatabase().newUpdate(refName, false);
@@ -281,7 +287,7 @@ public abstract class AbstractPushReplicationEventIT extends AbstractDaemonTest 
     }
   }
 
-  private ObjectId createEmptyCommit(ObjectInserter objectInserter) throws IOException {
+  private ObjectId createEmptyCommit(ObjectInserter objectInserter) throws Exception {
     CommitBuilder commitBuilder = new CommitBuilder();
     commitBuilder.setMessage("New ref");
     commitBuilder.setAuthor(serverIdent.get());
@@ -292,27 +298,58 @@ public abstract class AbstractPushReplicationEventIT extends AbstractDaemonTest 
     return commitId;
   }
 
-  private void deleteRefInServerRepo(String refName) throws IOException {
-    try (Repository repository = repoManager.openRepository(allUsers)) {
+  private void deleteRefInServerRepo(Project.NameKey projectName, String refName) throws Exception {
+    try (Repository repository = repoManager.openRepository(projectName)) {
       RefUpdate refUpdate = repository.getRefDatabase().newUpdate(refName, false);
       refUpdate.setForceUpdate(true);
       refUpdate.delete();
     }
   }
 
-  private PushOneCommit.Result pushCommitTo(
-      TestRepository<InMemoryRepository> repo, String groupRefName) throws Exception {
-    PushOneCommit pushOneCommit =
-        pushFactory.create(
-            db, currentUser.getIdent(), repo, "Update group", "arbitraryFile.txt", "some content");
-    pushOneCommit.setForce(true);
-    return pushOneCommit.to(groupRefName);
+  private ObjectId getTipOfRefFromServerRepo(Project.NameKey projectName, String refName)
+      throws Exception {
+    try (Repository repository = repoManager.openRepository(projectName)) {
+      Ref ref = repository.getRefDatabase().exactRef(refName);
+      return ref.getObjectId();
+    }
   }
 
-  private PushOneCommit.Result deleteRef(TestRepository<InMemoryRepository> repo, String refName)
+  private ObjectId createArbitraryRootCommit(TestRepository<InMemoryRepository> repo)
       throws Exception {
-    PushOneCommit pushOneCommit = pushFactory.create(db, currentUser.getIdent(), repo);
-    pushOneCommit.setForce(true);
-    return pushOneCommit.rm(refName);
+    return repo.commit()
+        .author(serverIdent.get())
+        .committer(serverIdent.get())
+        .message("Replicated commit")
+        .create();
+  }
+
+  private ObjectId createArbitraryCommit(
+      TestRepository<InMemoryRepository> repo, RevCommit parentCommit) throws Exception {
+    return repo.commit()
+        .author(serverIdent.get())
+        .committer(serverIdent.get())
+        .message("Replicated commit")
+        .parent(parentCommit)
+        .create();
+  }
+
+  private static PushResult updateRef(
+      TestRepository<InMemoryRepository> repo, String refName, ObjectId commitId) throws Exception {
+    return GitUtil.pushOne(repo, commitId.getName(), refName, false, false, ImmutableList.of());
+  }
+
+  private static PushResult deleteRef(TestRepository<InMemoryRepository> repo, String refName)
+      throws Exception {
+    return GitUtil.deleteRef(repo, refName);
+  }
+
+  private RevCommit fetchTipCommitOfRef(
+      TestRepository<InMemoryRepository> repo, Project.NameKey projectName, String refName)
+      throws Exception {
+    // The ref might not be advertised but the commits are nevertheless.
+    // -> Fetch the tip commit directly.
+    ObjectId tipCommitId = getTipOfRefFromServerRepo(projectName, refName);
+    repo.git().fetch().setRefSpecs(tipCommitId.getName()).call();
+    return repo.getRevWalk().parseCommit(tipCommitId);
   }
 }

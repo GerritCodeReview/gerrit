@@ -22,6 +22,30 @@
       "revId": "8d294fcbed7c1f83788e3cfe35d48fb9aa6f7316",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62193880_4b7a2e56",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-02-08T10:30:59Z",
+      "side": 1,
+      "message": "yes, and now we test it so we can be sure we don\u0027t regress :)",
+      "parentUuid": "c1d0d0cc_fa12ea68",
+      "range": {
+        "startLine": 684,
+        "startChar": 4,
+        "endLine": 686,
+        "endChar": 0
+      },
+      "revId": "8d294fcbed7c1f83788e3cfe35d48fb9aa6f7316",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

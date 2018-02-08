@@ -35,14 +35,6 @@ public enum ProjectPermission {
   READ(Permission.READ),
 
   /**
-   * Can read all non-config references in the repository.
-   *
-   * <p>This is the same as {@code READ} but does not check if they user can see refs/meta/config.
-   * Therefore, callers should check {@code READ} before excluding config refs in a short-circuit.
-   */
-  READ_NO_CONFIG,
-
-  /**
    * Can create at least one reference in the project.
    *
    * <p>This project level permission only validates the user may create some type of reference

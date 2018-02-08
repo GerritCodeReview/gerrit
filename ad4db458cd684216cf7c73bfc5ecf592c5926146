@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfeb009a_cf14602b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-08T22:23:24Z",
+      "side": 1,
+      "message": "I could have reverted this commit: [1], but decided  not to do it in a separate change.\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/156971",
+      "range": {
+        "startLine": 13,
+        "startChar": 16,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "ad4db458cd684216cf7c73bfc5ecf592c5926146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d32fa2b_9c71303a",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-08T00:48:57Z",
+      "side": 1,
+      "message": "A further improvement would be to use constants for these, if they exist.",
+      "range": {
+        "startLine": 1155,
+        "startChar": 12,
+        "endLine": 1155,
+        "endChar": 18
+      },
+      "revId": "6a23b311c98f69efa8a21206c4c945e40cb86c6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       "revId": "68a6e6b032ee9fe074e42ebd99cfdf7ce8b837e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ccc9204c_f0817a5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2018-02-08T17:49:04Z",
+      "side": 1,
+      "message": "Yes, I was thinking that we should be thinking of this the way we would caches and just accept that there will be a delay (basically a polling system for reliability) and that this delay could be reduced with other event systems later for lower latency.  Thanks for this solution Edwin!",
+      "parentUuid": "0f48e6fb_1f0b25f7",
+      "range": {
+        "startLine": 20,
+        "startChar": 23,
+        "endLine": 20,
+        "endChar": 32
+      },
+      "revId": "68a6e6b032ee9fe074e42ebd99cfdf7ce8b837e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

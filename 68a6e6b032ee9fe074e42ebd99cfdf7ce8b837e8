@@ -70,6 +70,29 @@
       "revId": "68a6e6b032ee9fe074e42ebd99cfdf7ce8b837e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e36829e7_e2897cac",
+        "filename": "java/com/google/gerrit/server/group/PeriodicGroupIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-08T17:59:23Z",
+      "side": 1,
+      "message": "We need to catch more than just IOEception.\n\nIf an uncaught exception happens in a periodic task, subsequent executions will be cancelled.\n\nMaybe not Throwable but at least Exception?",
+      "range": {
+        "startLine": 155,
+        "startChar": 4,
+        "endLine": 157,
+        "endChar": 5
+      },
+      "revId": "68a6e6b032ee9fe074e42ebd99cfdf7ce8b837e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

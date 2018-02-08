@@ -46,6 +46,8 @@ limitations under the License.
         getChanges(num, query) {
           return Promise.resolve([]);
         },
+        getAccountDetails() { return Promise.resolve({}); },
+        getAccountStatus() { return Promise.resolve({}); },
       });
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
@@ -56,6 +58,11 @@ limitations under the License.
         sandbox.restore();
         done();
       });
+    });
+
+    test('_computePage', () => {
+      assert.equal(element._computePage(0, 25), 1);
+      assert.equal(element._computePage(50, 25), 3);
     });
 
     test('_limitFor', () => {
@@ -88,30 +95,29 @@ limitations under the License.
       assert.equal(getUrlStub.lastCall.args[1], 10);
     });
 
-    test('_hidePrevArrow', () => {
+    test('_computePrevArrowClass', () => {
       let offset = 0;
-      assert.isTrue(element._hidePrevArrow(offset));
+      assert.equal(element._computePrevArrowClass(offset), 'hide');
       offset = 5;
-      assert.isFalse(element._hidePrevArrow(offset));
+      assert.equal(element._computePrevArrowClass(offset), '');
     });
 
-    test('_hideNextArrow', () => {
+    test('_computeNextArrowClass', () => {
+      let changes = _.times(25, _.constant({_more_changes: true}));
+      assert.equal(element._computeNextArrowClass(changes), '');
+      changes = _.times(25, _.constant({}));
+      assert.equal(element._computeNextArrowClass(changes), 'hide');
+    });
+
+    test('_computeNavClass', () => {
       let loading = true;
-      assert.isTrue(element._hideNextArrow(loading));
+      assert.equal(element._computeNavClass(loading), 'hide');
       loading = false;
-      assert.isTrue(element._hideNextArrow(loading));
+      assert.equal(element._computeNavClass(loading), 'hide');
       element._changes = [];
-      assert.isTrue(element._hideNextArrow(loading));
-      element._changes =
-          Array(...Array(5)).map(Object.prototype.valueOf, {});
-      assert.isTrue(element._hideNextArrow(loading));
-      element._changes =
-          Array(...Array(25)).map(Object.prototype.valueOf,
-          {_more_changes: true});
-      assert.isFalse(element._hideNextArrow(loading));
-      element._changes =
-          Array(...Array(25)).map(Object.prototype.valueOf, {});
-      assert.isTrue(element._hideNextArrow(loading));
+      assert.equal(element._computeNavClass(loading), 'hide');
+      element._changes = _.times(5, _.constant({}));
+      assert.equal(element._computeNavClass(loading), '');
     });
 
     test('_handleNextPage', () => {

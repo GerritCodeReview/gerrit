@@ -2756,6 +2756,52 @@ index. The check to avoid this does consume some resources.
 +
 Defaults to true.
 
+[[index.scheduledIndexer]]
+==== Subsection index.scheduledIndexer
+
+This section configures periodic indexing. Periodic indexing is
+intended to run only on slaves and only updates the group index.
+Replication to slaves happens on Git level so that Gerrit is not aware
+of incoming replication events. But slaves need an updated group index
+to resolve memberships of users for ACL validation. To keep the group
+index in slaves up-to-date the Gerrit slave periodically scans the
+group refs in the All-Users repository to reindex groups if they are
+stale.
+
+The scheduled reindexer is not able to detect group deletions that
+happened while the slave was offline, but since group deletions are not
+supported this should never happen. If nevertheless groups refs were
+deleted while a slave was offline a full offline link:pgm-reindex.html[
+reindex] must be performed.
+
+This section is only used if Gerrit runs in slave mode, otherwise it is
+ignored.
+
+[[index.scheduledIndexer.enabled]]index.scheduledIndexer.enabled::
++
+Whether the scheduled indexer is enabled. If the scheduled indexer is
+disabled you must implement other means to keep the group index for the
+slave up-to-date (e.g. by using ElasticSearch for the indexes).
++
+Defaults to `true`.
+
+[[index.scheduledIndexer.startTime]]index.scheduledIndexer.startTime::
++
+The link:#schedule-configuration-startTime[start time] for running
+the scheduled indexer.
++
+Defaults to `00:00`.
+
+[[index.scheduledIndexer.interval]]index.scheduledIndexer.interval::
++
+The link:#schedule-configuration-interval[interval] for running
+the scheduled indexer.
++
+Defaults to `5m`.
+
+link:#schedule-configuration-examples[Schedule examples] can be found
+in the link:#schedule-configuration[Schedule Configuration] section.
+
 ==== Lucene configuration
 
 Open and closed changes are indexed in separate indexes named

@@ -2822,6 +2822,60 @@ index. The check to avoid this does consume some resources.
 +
 Defaults to true.
 
+[[index.scheduledIndexer]]
+=== Subsection index.scheduledIndexer
+
+This section configures periodic indexing. Periodic indexing is
+intended to run only on slaves and only updates the group index.
+Replication to slaves happens on Git level so that Gerrit is not aware
+of incoming replication events. But slaves need an updated group index
+to resolve memberships of users for ACL validation. To keep the group
+index in slaves up-to-date the Gerrit slave periodically scans the
+group refs in the All-Users repository to reindex groups.
+
+This section is only used if Gerrit runs it slave mode, otherwise it is
+ignored.
+
+[[index.scheduledIndexer.startTime]]index.scheduledIndexer.startTime::
++
+Start time to define the first execution of the scheduled indexing.
+If the configured `'index.scheduledIndexer.interval'` is shorter than
+`'index.scheduledIdexer.startTime - now'` the start time will be
+preponed by the maximum integral multiple of
+`'index.scheduledIndexer.interval'` so that the start time is still
+in the future.
++
+----
+<day of week> <hours>:<minutes>
+or
+<hours>:<minutes>
+
+<day of week> : Mon, Tue, Wed, Thu, Fri, Sat, Sun
+<hours>       : 00-23
+<minutes>     : 0-59
+----
++
+Defaults to `00:00`.
+
+[[index.scheduledIndexer.interval]]index.scheduledIndexer.interval::
++
+Interval for periodic repetition of indexing.
+The interval must be larger than zero. The following suffixes are supported
+to define the time unit for the interval:
++
+* `s, sec, second, seconds`
+* `m, min, minute, minutes`
+* `h, hr, hour, hours`
+* `d, day, days`
+* `w, week, weeks` (`1 week` is treated as `7 days`)
+* `mon, month, months` (`1 month` is treated as `30 days`)
+* `y, year, years` (`1 year` is treated as `365 days`)
+
+Defaults to `5m`.
+
+link:#schedule-examples[Schedule examples] can be found in the
+link:#gc[gc] section.
+
 ==== Lucene configuration
 
 Open and closed changes are indexed in separate indexes named

@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1518111058 +0100\nnonce AFD2Vu2X0BYPo2i9/OoGnWzPZwLWHQWp67fqNwSes6tvAMbcT7xXDvAgAr278PaNd+chidoVQI3+\n\n0000000000000000000000000000000000000000 83a9540f5ee5ae48a4045d57fd8b5e616353cc78 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlp8iVIACgkQUbX9l6DQ\n71EtPwgAmIBf2+oQghcadtHOwczsKqj3pFK6n8/MqKX6PXDmjfdfAgMakF/t6Lv3\nRLZfYwcPF8TeSMX9O9D/fS8V+3G6dPbpXtFY3d+Iqtv4sODkjLFrBApeQ74v9ovv\nolf0HhKDBDNxI/MxWGg7Yj4ozq5nVeC1zz3HOdJhFqqGCQgHNQEVdxw/52aRlCtR\nXeuqZZK+0YVX+2yAhHn+RV7u2w5lqd4yZfod+3viATn4CixigvD5YVxIVxewG9XQ\n00HvcV6hEWu6YZqF8og9XVdib24ucG9xW4RuWWFGMB1rwQ7IJjub1KEE9q+OmWvL\nrqKJUkzdCxKBQIH4Be0qI5SJkrHqqQ\u003d\u003d\n\u003dka7c\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "29c753ab_200a0972",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-08T17:45:44Z",
+      "side": 1,
+      "message": "I like this approach, it is backward compatible, no need to change existing slave cluster setup.\n\nPeople with slaves currently need to configure a low value for maxAge for group related caches so having a delay before a group change take effect on a slave is already something we are used to.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "68a6e6b032ee9fe074e42ebd99cfdf7ce8b837e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f48e6fb_1f0b25f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-08T17:45:44Z",
+      "side": 1,
+      "message": "It\u0027s funny, 5 minutes is exactly the time we configure our groups related cache maxAge, I like this default :)",
+      "range": {
+        "startLine": 20,
+        "startChar": 23,
+        "endLine": 20,
+        "endChar": 32
+      },
+      "revId": "68a6e6b032ee9fe074e42ebd99cfdf7ce8b837e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

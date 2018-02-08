@@ -18,6 +18,7 @@
   <inherits name='com.google.gwtjsonrpc.GWTJSONRPC'/>
   <inherits name="com.google.gwt.logging.Logging"/>
   <source path="">
+    <exclude name='**/testing/**/*.java'/>
     <include name='**/*.java'/>
   </source>
 </module>

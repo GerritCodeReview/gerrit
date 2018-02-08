@@ -380,8 +380,13 @@
       threadEl.addOrEditDraft(opt_lineNum, opt_range);
     },
 
-    _getThreadForRange(threadGroupEl, rangeToCheck) {
-      return threadGroupEl.getThreadForRange(rangeToCheck);
+    /**
+     * @param {!Object} threadGroupEl
+     * @param {!Object=} opt_range
+     * @return {!Object}
+     */
+    _getThreadForRange(threadGroupEl, opt_range) {
+      return threadGroupEl.getThreadForRange(opt_range);
     },
 
     _getThreadGroupForLine(contentEl) {
@@ -408,26 +413,24 @@
      * @param {string} commentSide
      * @param {boolean} isOnParent
      * @param {!Object=} opt_range
+     * @return {!Object}
      */
     _getOrCreateThreadAtLineRange(contentEl, patchNum, commentSide,
         isOnParent, opt_range) {
-      const rangeToCheck = this._getRangeString(commentSide, opt_range);
-
       // Check if thread group exists.
       let threadGroupEl = this._getThreadGroupForLine(contentEl);
       if (!threadGroupEl) {
         threadGroupEl = this.$.diffBuilder.createCommentThreadGroup(
-            this.changeNum, patchNum, this.path, isOnParent);
+            this.changeNum, patchNum, this.path, isOnParent, commentSide);
         contentEl.appendChild(threadGroupEl);
       }
 
-      let threadEl = this._getThreadForRange(threadGroupEl, rangeToCheck);
+      let threadEl = this._getThreadForRange(threadGroupEl, opt_range);
 
       if (!threadEl) {
-        threadGroupEl.addNewThread(rangeToCheck, commentSide);
+        threadGroupEl.addNewThread(opt_range);
         Polymer.dom.flush();
-        threadEl = this._getThreadForRange(threadGroupEl, rangeToCheck);
-        threadEl.commentSide = commentSide;
+        threadEl = this._getThreadForRange(threadGroupEl, opt_range);
       }
       return threadEl;
     },
@@ -481,7 +484,7 @@
 
     _handleThreadDiscard(e) {
       const el = Polymer.dom(e).rootTarget;
-      el.parentNode.removeThread(el.locationRange);
+      el.parentNode.removeThread(el.parentId);
     },
 
     _handleCommentDiscard(e) {

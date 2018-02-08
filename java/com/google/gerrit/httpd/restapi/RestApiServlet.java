@@ -189,6 +189,7 @@ public class RestApiServlet extends HttpServlet {
   public static final String XD_METHOD = "$m";
 
   private static final int HEAP_EST_SIZE = 10 * 8 * 1024; // Presize 10 blocks.
+  private static final String PLAIN_TEXT = "text/plain";
 
   /**
    * Garbage prefix inserted before JSON output to prevent XSSI.
@@ -302,7 +303,7 @@ public class RestApiServlet extends HttpServlet {
 
         if (isRead(req)) {
           viewData = new ViewData(null, rc.list());
-        } else if (rc instanceof AcceptsPost && "POST".equals(req.getMethod())) {
+        } else if (rc instanceof AcceptsPost && isPost(req)) {
           @SuppressWarnings("unchecked")
           AcceptsPost<RestResource> ac = (AcceptsPost<RestResource>) rc;
           viewData = new ViewData(null, ac.post(rsrc));
@@ -317,9 +318,7 @@ public class RestApiServlet extends HttpServlet {
             checkPreconditions(req);
           }
         } catch (ResourceNotFoundException e) {
-          if (rc instanceof AcceptsCreate
-              && path.isEmpty()
-              && ("POST".equals(req.getMethod()) || "PUT".equals(req.getMethod()))) {
+          if (rc instanceof AcceptsCreate && path.isEmpty() && (isPost(req) || isPut(req))) {
             @SuppressWarnings("unchecked")
             AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) rc;
             viewData = new ViewData(null, ac.create(rsrc, id));
@@ -342,11 +341,11 @@ public class RestApiServlet extends HttpServlet {
         if (path.isEmpty()) {
           if (isRead(req)) {
             viewData = new ViewData(null, c.list());
-          } else if (c instanceof AcceptsPost && "POST".equals(req.getMethod())) {
+          } else if (c instanceof AcceptsPost && isPost(req)) {
             @SuppressWarnings("unchecked")
             AcceptsPost<RestResource> ac = (AcceptsPost<RestResource>) c;
             viewData = new ViewData(null, ac.post(rsrc));
-          } else if (c instanceof AcceptsDelete && "DELETE".equals(req.getMethod())) {
+          } else if (c instanceof AcceptsDelete && isDelete(req)) {
             @SuppressWarnings("unchecked")
             AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) c;
             viewData = new ViewData(null, ac.delete(rsrc, null));
@@ -361,16 +360,12 @@ public class RestApiServlet extends HttpServlet {
           checkPreconditions(req);
           viewData = new ViewData(null, null);
         } catch (ResourceNotFoundException e) {
-          if (c instanceof AcceptsCreate
-              && path.isEmpty()
-              && ("POST".equals(req.getMethod()) || "PUT".equals(req.getMethod()))) {
+          if (c instanceof AcceptsCreate && path.isEmpty() && (isPost(req) || isPut(req))) {
             @SuppressWarnings("unchecked")
             AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) c;
             viewData = new ViewData(viewData.pluginName, ac.create(rsrc, id));
             status = SC_CREATED;
-          } else if (c instanceof AcceptsDelete
-              && path.isEmpty()
-              && "DELETE".equals(req.getMethod())) {
+          } else if (c instanceof AcceptsDelete && path.isEmpty() && isDelete(req)) {
             @SuppressWarnings("unchecked")
             AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) c;
             viewData = new ViewData(viewData.pluginName, ac.delete(rsrc, id));
@@ -436,10 +431,7 @@ public class RestApiServlet extends HttpServlet {
           responseBytes = replyJson(req, res, qp.config(), result);
         }
       }
-    } catch (MalformedJsonException e) {
-      responseBytes =
-          replyError(req, res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request", e);
-    } catch (JsonParseException e) {
+    } catch (MalformedJsonException | JsonParseException e) {
       responseBytes =
           replyError(req, res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request", e);
     } catch (BadRequestException e) {
@@ -519,16 +511,17 @@ public class RestApiServlet extends HttpServlet {
 
   private static HttpServletRequest applyXdOverrides(HttpServletRequest req, QueryParams qp)
       throws BadRequestException {
-    if (!"POST".equals(req.getMethod())) {
+    if (!isPost(req)) {
       throw new BadRequestException("POST required");
     }
 
     String method = qp.xdMethod();
     String contentType = qp.xdContentType();
     if (method.equals("POST") || method.equals("PUT")) {
-      if (!"text/plain".equals(req.getContentType())) {
+      if (!isType(PLAIN_TEXT, req.getContentType())) {
         throw new BadRequestException("invalid " + CONTENT_TYPE);
-      } else if (Strings.isNullOrEmpty(contentType)) {
+      }
+      if (Strings.isNullOrEmpty(contentType)) {
         throw new BadRequestException(XD_CONTENT_TYPE + " required");
       }
     }
@@ -603,7 +596,7 @@ public class RestApiServlet extends HttpServlet {
 
     res.setStatus(SC_OK);
     setCorsHeaders(res, origin);
-    res.setContentType("text/plain");
+    res.setContentType(PLAIN_TEXT);
     res.setContentLength(0);
   }
 
@@ -751,13 +744,17 @@ public class RestApiServlet extends HttpServlet {
           br.skip(Long.MAX_VALUE);
         }
       }
-    } else if (rawInputRequest(req, type)) {
+    }
+    if (rawInputRequest(req, type)) {
       return parseRawInput(req, type);
-    } else if ("DELETE".equals(req.getMethod()) && hasNoBody(req)) {
+    }
+    if (isDelete(req) && hasNoBody(req)) {
       return null;
-    } else if (hasNoBody(req)) {
+    }
+    if (hasNoBody(req)) {
       return createInstance(type);
-    } else if (isType("text/plain", req.getContentType())) {
+    }
+    if (isType(PLAIN_TEXT, req.getContentType())) {
       try (BufferedReader br = req.getReader()) {
         char[] tmp = new char[256];
         StringBuilder sb = new StringBuilder();
@@ -767,11 +764,11 @@ public class RestApiServlet extends HttpServlet {
         }
         return parseString(sb.toString(), type);
       }
-    } else if ("POST".equals(req.getMethod()) && isType(FORM_TYPE, req.getContentType())) {
-      return OutputFormat.JSON.newGson().fromJson(ParameterParser.formToJson(req), type);
-    } else {
-      throw new BadRequestException("Expected Content-Type: " + JSON_TYPE);
     }
+    if (isPost(req) && isType(FORM_TYPE, req.getContentType())) {
+      return OutputFormat.JSON.newGson().fromJson(ParameterParser.formToJson(req), type);
+    }
+    throw new BadRequestException("Expected Content-Type: " + JSON_TYPE);
   }
 
   private void consumeRawInputRequestBody(HttpServletRequest req, Type type) throws IOException {
@@ -922,9 +919,7 @@ public class RestApiServlet extends HttpServlet {
                       FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES.translateName( //
                           field.getDeclaringClass().getDeclaredField(field.getName()));
                   names.put(field.getName(), name);
-                } catch (SecurityException e) {
-                  return true;
-                } catch (NoSuchFieldException e) {
+                } catch (SecurityException | NoSuchFieldException e) {
                   return true;
                 }
               }
@@ -1024,7 +1019,7 @@ public class RestApiServlet extends HttpServlet {
     }
     res.setHeader("X-FYI-Content-Encoding", "base64");
     res.setHeader("X-FYI-Content-Type", src.getContentType());
-    return b64.setContentType("text/plain").setCharacterEncoding(ISO_8859_1);
+    return b64.setContentType(PLAIN_TEXT).setCharacterEncoding(ISO_8859_1);
   }
 
   private static BinaryResult stackGzip(HttpServletResponse res, BinaryResult src)
@@ -1033,7 +1028,8 @@ public class RestApiServlet extends HttpServlet {
     long len = src.getContentLength();
     if (len < 256) {
       return src; // Do not compress very small payloads.
-    } else if (len <= (10 << 20)) {
+    }
+    if (len <= (10 << 20)) {
       gz = compress(src);
       if (len <= gz.getContentLength()) {
         return src;
@@ -1082,12 +1078,10 @@ public class RestApiServlet extends HttpServlet {
         return new ViewData(p.get(0), view);
       }
       view = views.get(p.get(0), "GET." + viewname);
-      if (view != null) {
-        if (view instanceof AcceptsPost && "POST".equals(method)) {
-          @SuppressWarnings("unchecked")
-          AcceptsPost<RestResource> ap = (AcceptsPost<RestResource>) view;
-          return new ViewData(p.get(0), ap.post(rsrc));
-        }
+      if (view != null && view instanceof AcceptsPost && "POST".equals(method)) {
+        @SuppressWarnings("unchecked")
+        AcceptsPost<RestResource> ap = (AcceptsPost<RestResource>) view;
+        return new ViewData(p.get(0), ap.post(rsrc));
       }
       throw new ResourceNotFoundException(projection);
     }
@@ -1115,14 +1109,14 @@ public class RestApiServlet extends HttpServlet {
     if (r.size() == 1) {
       Map.Entry<String, RestView<RestResource>> entry = Iterables.getOnlyElement(r.entrySet());
       return new ViewData(entry.getKey(), entry.getValue());
-    } else if (r.isEmpty()) {
-      throw new ResourceNotFoundException(projection);
-    } else {
-      throw new AmbiguousViewException(
-          String.format(
-              "Projection %s is ambiguous: %s",
-              name, r.keySet().stream().map(in -> in + "~" + projection).collect(joining(", "))));
     }
+    if (r.isEmpty()) {
+      throw new ResourceNotFoundException(projection);
+    }
+    throw new AmbiguousViewException(
+        String.format(
+            "Projection %s is ambiguous: %s",
+            name, r.keySet().stream().map(in -> in + "~" + projection).collect(joining(", "))));
   }
 
   private static List<IdString> splitPath(HttpServletRequest req) {
@@ -1162,6 +1156,18 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
+  private boolean isDelete(HttpServletRequest req) {
+    return "DELETE".equals(req.getMethod());
+  }
+
+  private static boolean isPost(HttpServletRequest req) {
+    return "POST".equals(req.getMethod());
+  }
+
+  private boolean isPut(HttpServletRequest req) {
+    return "PUT".equals(req.getMethod());
+  }
+
   private static boolean isRead(HttpServletRequest req) {
     return "GET".equals(req.getMethod()) || "HEAD".equals(req.getMethod());
   }
@@ -1180,7 +1186,7 @@ public class RestApiServlet extends HttpServlet {
     if (!Strings.isNullOrEmpty(req.getQueryString())) {
       uri += "?" + req.getQueryString();
     }
-    log.error(String.format("Error in %s %s", req.getMethod(), uri), err);
+    log.error("Error in {} {}", req.getMethod(), uri, err);
 
     if (!res.isCommitted()) {
       res.reset();
@@ -1224,7 +1230,7 @@ public class RestApiServlet extends HttpServlet {
     if (!text.endsWith("\n")) {
       text += "\n";
     }
-    return replyBinaryResult(req, res, BinaryResult.create(text).setContentType("text/plain"));
+    return replyBinaryResult(req, res, BinaryResult.create(text).setContentType(PLAIN_TEXT));
   }
 
   private static boolean isMaybeHTML(String text) {
@@ -1246,9 +1252,11 @@ public class RestApiServlet extends HttpServlet {
   private static boolean isType(String expect, String given) {
     if (given == null) {
       return false;
-    } else if (expect.equals(given)) {
+    }
+    if (expect.equals(given)) {
       return true;
-    } else if (given.startsWith(expect + ",")) {
+    }
+    if (given.startsWith(expect + ",")) {
       return true;
     }
     for (String p : given.split("[ ,;][ ,;]*")) {

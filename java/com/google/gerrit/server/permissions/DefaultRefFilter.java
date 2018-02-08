@@ -21,6 +21,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS_SELF;
 import static java.util.stream.Collectors.toMap;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -65,7 +66,7 @@ class DefaultRefFilter {
   private static final Logger log = LoggerFactory.getLogger(DefaultRefFilter.class);
 
   interface Factory {
-    DefaultRefFilter create(CurrentUser who, ProjectState projectState);
+    DefaultRefFilter create(ProjectControl projectControl);
   }
 
   private final TagCache tagCache;
@@ -74,9 +75,10 @@ class DefaultRefFilter {
   private final Provider<ReviewDb> db;
   private final GroupCache groupCache;
   private final PermissionBackend permissionBackend;
-  private final PermissionBackend.ForProject permissionBackendForProject;
+  private final ProjectControl projectControl;
   private final CurrentUser user;
   private final ProjectState projectState;
+  private final PermissionBackend.ForProject permissionBackendForProject;
 
   private Map<Change.Id, Branch.NameKey> visibleChanges;
 
@@ -88,18 +90,19 @@ class DefaultRefFilter {
       Provider<ReviewDb> db,
       GroupCache groupCache,
       PermissionBackend permissionBackend,
-      @Assisted CurrentUser user,
-      @Assisted ProjectState projectState) {
+      @Assisted ProjectControl projectControl) {
     this.tagCache = tagCache;
     this.changeNotesFactory = changeNotesFactory;
     this.changeCache = changeCache;
     this.db = db;
     this.groupCache = groupCache;
     this.permissionBackend = permissionBackend;
+    this.projectControl = projectControl;
+
+    this.user = projectControl.getUser();
+    this.projectState = projectControl.getProjectState();
     this.permissionBackendForProject =
         permissionBackend.user(user).database(db).project(projectState.getNameKey());
-    this.user = user;
-    this.projectState = projectState;
   }
 
   Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
@@ -113,7 +116,7 @@ class DefaultRefFilter {
     if (!projectState.isAllUsers()) {
       if (checkProjectPermission(forProject, ProjectPermission.READ)) {
         return refs;
-      } else if (checkProjectPermission(forProject, ProjectPermission.READ_NO_CONFIG)) {
+      } else if (projectControl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG))) {
         return fastHideRefsMetaConfig(refs);
       }
     }

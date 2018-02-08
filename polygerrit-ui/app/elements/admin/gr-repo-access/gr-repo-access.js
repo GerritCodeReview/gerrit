@@ -78,6 +78,11 @@
         type: Boolean,
         value: false,
       },
+      _canUpload: {
+        type: Boolean,
+        value: false,
+      },
+      _ownerOf: Array,
       _capabilities: Object,
       _groups: Object,
       /** @type {?} */
@@ -125,6 +130,7 @@
         this._local = res.local;
         this._groups = res.groups;
         this._weblinks = res.config_web_links || [];
+        this._canUpload = res.can_upload;
         return this.toSortedArray(this._local);
       }));
 
@@ -311,8 +317,8 @@
       return 'visible';
     },
 
-    _computeAdminClass(isAdmin) {
-      return isAdmin ? 'admin' : '';
+    _computeAdminClass(isAdmin, canUpload) {
+      return isAdmin || canUpload ? 'admin' : '';
     },
 
     _computeParentHref(repoName) {

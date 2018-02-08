@@ -26,6 +26,29 @@
     },
     {
       "key": {
+        "uuid": "2ad3a2a4_0e53261a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-08T20:44:43Z",
+      "side": 1,
+      "message": "background",
+      "range": {
+        "startLine": 12,
+        "startChar": 29,
+        "endLine": 12,
+        "endChar": 38
+      },
+      "revId": "68a6e6b032ee9fe074e42ebd99cfdf7ce8b837e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f48e6fb_1f0b25f7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -66,6 +89,29 @@
         "startChar": 23,
         "endLine": 20,
         "endChar": 32
+      },
+      "revId": "68a6e6b032ee9fe074e42ebd99cfdf7ce8b837e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a9773f4_64af4f96",
+        "filename": "java/com/google/gerrit/server/group/PeriodicGroupIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-08T20:44:43Z",
+      "side": 1,
+      "message": "Can provider resolution be called outside of the loop? And in the loop below?",
+      "range": {
+        "startLine": 140,
+        "startChar": 10,
+        "endLine": 140,
+        "endChar": 28
       },
       "revId": "68a6e6b032ee9fe074e42ebd99cfdf7ce8b837e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

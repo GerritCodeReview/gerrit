@@ -317,7 +317,7 @@ public class GerritServer implements AutoCloseable {
     daemon.setEmailModuleForTesting(new FakeEmailSender.Module());
     daemon.setAdditionalSysModuleForTesting(testSysModule);
     daemon.setEnableSshd(desc.useSsh());
-    daemon.setSlave(baseConfig.getBoolean("container", "slave", false));
+    daemon.setSlave(isSlave(baseConfig));
 
     if (desc.memory()) {
       checkArgument(additionalArgs.length == 0, "cannot pass args to in-memory server");
@@ -345,13 +345,17 @@ public class GerritServer implements AutoCloseable {
     cfg.setBoolean("index", "lucene", "testInmemory", true);
     cfg.setString("gitweb", null, "cgi", "");
     daemon.setEnableHttpd(desc.httpd());
-    daemon.setLuceneModule(LuceneIndexModule.singleVersionAllLatest(0));
+    daemon.setLuceneModule(LuceneIndexModule.singleVersionAllLatest(0, isSlave(baseConfig)));
     daemon.setDatabaseForTesting(
         ImmutableList.<Module>of(
             new InMemoryTestingDatabaseModule(
                 cfg, site, inMemoryRepoManager, inMemoryDatabaseInstance)));
     daemon.start();
     return new GerritServer(desc, null, createTestInjector(daemon), daemon, null);
+  }
+
+  private static boolean isSlave(Config baseConfig) {
+    return baseConfig.getBoolean("container", "slave", false);
   }
 
   private static GerritServer startOnDisk(

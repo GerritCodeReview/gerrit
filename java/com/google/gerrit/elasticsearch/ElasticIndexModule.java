@@ -17,6 +17,7 @@ package com.google.gerrit.elasticsearch;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.Schema;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexModule;
@@ -36,57 +37,70 @@ import org.eclipse.jgit.lib.Config;
 
 public class ElasticIndexModule extends AbstractModule {
   public static ElasticIndexModule singleVersionWithExplicitVersions(
-      Map<String, Integer> versions, int threads) {
-    return new ElasticIndexModule(versions, threads, false);
+      Map<String, Integer> versions, int threads, boolean slave) {
+    return new ElasticIndexModule(versions, threads, false, slave);
   }
 
-  public static ElasticIndexModule latestVersionWithOnlineUpgrade() {
-    return new ElasticIndexModule(null, 0, true);
+  public static ElasticIndexModule latestVersionWithOnlineUpgrade(boolean slave) {
+    return new ElasticIndexModule(null, 0, true, slave);
   }
 
-  public static ElasticIndexModule latestVersionWithoutOnlineUpgrade() {
-    return new ElasticIndexModule(null, 0, false);
+  public static ElasticIndexModule latestVersionWithoutOnlineUpgrade(boolean slave) {
+    return new ElasticIndexModule(null, 0, false, slave);
   }
 
   private final Map<String, Integer> singleVersions;
   private final int threads;
   private final boolean onlineUpgrade;
+  private final boolean slave;
 
   private ElasticIndexModule(
-      Map<String, Integer> singleVersions, int threads, boolean onlineUpgrade) {
+      Map<String, Integer> singleVersions, int threads, boolean onlineUpgrade, boolean slave) {
     if (singleVersions != null) {
       checkArgument(!onlineUpgrade, "online upgrade is incompatible with single version map");
     }
     this.singleVersions = singleVersions;
     this.threads = threads;
     this.onlineUpgrade = onlineUpgrade;
+    this.slave = slave;
   }
 
   @Override
   protected void configure() {
-    install(
-        new FactoryModuleBuilder()
-            .implement(AccountIndex.class, ElasticAccountIndex.class)
-            .build(AccountIndex.Factory.class));
-    install(
-        new FactoryModuleBuilder()
-            .implement(ChangeIndex.class, ElasticChangeIndex.class)
-            .build(ChangeIndex.Factory.class));
+    if (slave) {
+      bind(AccountIndex.Factory.class).toInstance(ElasticIndexModule::createDummyIndexFactory);
+      bind(ChangeIndex.Factory.class).toInstance(ElasticIndexModule::createDummyIndexFactory);
+      bind(ProjectIndex.Factory.class).toInstance(ElasticIndexModule::createDummyIndexFactory);
+    } else {
+      install(
+          new FactoryModuleBuilder()
+              .implement(AccountIndex.class, ElasticAccountIndex.class)
+              .build(AccountIndex.Factory.class));
+      install(
+          new FactoryModuleBuilder()
+              .implement(ChangeIndex.class, ElasticChangeIndex.class)
+              .build(ChangeIndex.Factory.class));
+      install(
+          new FactoryModuleBuilder()
+              .implement(ProjectIndex.class, ElasticProjectIndex.class)
+              .build(ProjectIndex.Factory.class));
+    }
     install(
         new FactoryModuleBuilder()
             .implement(GroupIndex.class, ElasticGroupIndex.class)
             .build(GroupIndex.Factory.class));
-    install(
-        new FactoryModuleBuilder()
-            .implement(ProjectIndex.class, ElasticProjectIndex.class)
-            .build(ProjectIndex.Factory.class));
 
-    install(new IndexModule(threads));
+    install(new IndexModule(threads, slave));
     if (singleVersions == null) {
       install(new MultiVersionModule());
     } else {
       install(new SingleVersionModule(singleVersions));
     }
+  }
+
+  @SuppressWarnings("unused")
+  private static <T> T createDummyIndexFactory(Schema<?> schema) {
+    throw new UnsupportedOperationException();
   }
 
   @Provides

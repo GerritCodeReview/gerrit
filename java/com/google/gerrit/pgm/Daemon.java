@@ -71,7 +71,6 @@ import com.google.gerrit.server.git.LocalMergeSuperSetComputation;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.receive.ReceiveCommitsExecutorModule;
-import com.google.gerrit.server.index.DummyIndexModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.VersionManager;
@@ -334,9 +333,7 @@ public class Daemon extends SiteProgram {
     }
     cfgInjector = createCfgInjector();
     config = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
-    if (!slave) {
-      initIndexType();
-    }
+    initIndexType();
     sysInjector = createSysInjector();
     sysInjector.getInstance(PluginGuiceEnvironment.class).setDbCfgInjector(dbInjector, cfgInjector);
     manager.add(dbInjector, cfgInjector, sysInjector);
@@ -493,9 +490,6 @@ public class Daemon extends SiteProgram {
   }
 
   private Module createIndexModule() {
-    if (slave) {
-      return new DummyIndexModule();
-    }
     if (luceneModule != null) {
       return luceneModule;
     }
@@ -506,12 +500,12 @@ public class Daemon extends SiteProgram {
     switch (indexType) {
       case LUCENE:
         return onlineUpgrade
-            ? LuceneIndexModule.latestVersionWithOnlineUpgrade()
-            : LuceneIndexModule.latestVersionWithoutOnlineUpgrade();
+            ? LuceneIndexModule.latestVersionWithOnlineUpgrade(slave)
+            : LuceneIndexModule.latestVersionWithoutOnlineUpgrade(slave);
       case ELASTICSEARCH:
         return onlineUpgrade
-            ? ElasticIndexModule.latestVersionWithOnlineUpgrade()
-            : ElasticIndexModule.latestVersionWithoutOnlineUpgrade();
+            ? ElasticIndexModule.latestVersionWithOnlineUpgrade(slave)
+            : ElasticIndexModule.latestVersionWithoutOnlineUpgrade(slave);
       default:
         throw new IllegalStateException("unsupported index.type = " + indexType);
     }

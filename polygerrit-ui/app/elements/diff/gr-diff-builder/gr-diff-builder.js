@@ -349,20 +349,33 @@
     return result;
   };
 
+  /**
+   * @param {number} changeNum
+   * @param {number|string} patchNum
+   * @param {string} path
+   * @param {boolean} isOnParent
+   * @param {string} commentSide
+   * @return {!Object}
+   */
   GrDiffBuilder.prototype.createCommentThreadGroup = function(changeNum,
-      patchNum, path, isOnParent, range) {
+      patchNum, path, isOnParent, commentSide) {
     const threadGroupEl =
         document.createElement('gr-diff-comment-thread-group');
     threadGroupEl.changeNum = changeNum;
+    threadGroupEl.commentSide = commentSide;
     threadGroupEl.patchForNewThreads = patchNum;
     threadGroupEl.path = path;
     threadGroupEl.isOnParent = isOnParent;
     threadGroupEl.projectName = this._projectName;
-    threadGroupEl.range = range;
     threadGroupEl.parentIndex = this._parentIndex;
     return threadGroupEl;
   };
 
+  /**
+   * @param {number} line
+   * @param {string=} opt_side
+   * @return {!Object}
+   */
   GrDiffBuilder.prototype._commentThreadGroupForLine = function(
       line, opt_side) {
     const comments =
@@ -385,7 +398,7 @@
     }
     const threadGroupEl = this.createCommentThreadGroup(
         this._comments.meta.changeNum, patchNum, this._comments.meta.path,
-        isOnParent);
+        isOnParent, opt_side);
     threadGroupEl.comments = comments;
     if (opt_side) {
       threadGroupEl.setAttribute('data-side', opt_side);

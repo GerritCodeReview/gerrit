@@ -72,9 +72,6 @@ public class StalenessChecker {
     if (i == null) {
       return false; // No index; caller couldn't do anything if it is stale.
     }
-    if (!i.getSchema().hasField(GroupField.REF_STATE)) {
-      return false; // Index version not new enough for this check.
-    }
 
     Optional<FieldBundle> result =
         i.getRaw(uuid, IndexedGroupQuery.createOptions(indexConfig, 0, 1, FIELDS));

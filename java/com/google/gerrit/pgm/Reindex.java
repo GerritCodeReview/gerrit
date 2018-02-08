@@ -156,10 +156,11 @@ public class Reindex extends SiteProgram {
     Module indexModule;
     switch (IndexModule.getIndexType(dbInjector)) {
       case LUCENE:
-        indexModule = LuceneIndexModule.singleVersionWithExplicitVersions(versions, threads);
+        indexModule = LuceneIndexModule.singleVersionWithExplicitVersions(versions, threads, false);
         break;
       case ELASTICSEARCH:
-        indexModule = ElasticIndexModule.singleVersionWithExplicitVersions(versions, threads);
+        indexModule =
+            ElasticIndexModule.singleVersionWithExplicitVersions(versions, threads, false);
         break;
       default:
         throw new IllegalStateException("unsupported index.type");

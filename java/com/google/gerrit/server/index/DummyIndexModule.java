@@ -59,7 +59,7 @@ public class DummyIndexModule extends AbstractModule {
 
   @Override
   protected void configure() {
-    install(new IndexModule(1));
+    install(new IndexModule(1, true));
     bind(IndexConfig.class).toInstance(IndexConfig.createDefault());
     bind(Index.class).toInstance(new DummyChangeIndex());
     bind(AccountIndex.Factory.class).toInstance(new DummyAccountIndexFactory());

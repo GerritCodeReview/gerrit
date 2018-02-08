@@ -65,7 +65,6 @@ public class SshModule extends LifecycleModule {
     configureRequestScope();
     install(new AsyncReceiveCommits.Module());
     configureAliases();
-    install(SshCommandSensitiveFieldsCacheImpl.module());
 
     bind(SshLog.class);
     bind(SshInfo.class).to(SshDaemon.class).in(SINGLETON);

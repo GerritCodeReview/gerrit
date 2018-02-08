@@ -107,8 +107,31 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createEmptyChange_InvalidSubject() throws Exception {
+    ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+    ci.subject = "Change-Id: I1234000000000000000000000000000000000000";
+    assertCreateFails(
+        ci,
+        ResourceConflictException.class,
+        "missing subject; Change-Id must be in commit message footer");
+  }
+
+  @Test
   public void createNewChange() throws Exception {
-    assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
+    ChangeInfo info = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
+    assertThat(info.revisions.get(info.currentRevision).commit.message)
+        .contains("Change-Id: " + info.changeId);
+  }
+
+  @Test
+  public void createNewChangeWithChangeId() throws Exception {
+    ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+    String changeId = "I1234000000000000000000000000000000000000";
+    String changeIdLine = "Change-Id: " + changeId;
+    ci.subject = "Subject\n\n" + changeIdLine;
+    ChangeInfo info = assertCreateSucceeds(ci);
+    assertThat(info.changeId).isEqualTo(changeId);
+    assertThat(info.revisions.get(info.currentRevision).commit.message).contains(changeIdLine);
   }
 
   @Test
@@ -136,14 +159,38 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createNewChangeSignedOffByFooter() throws Exception {
-    setSignedOffByFooter();
+    setSignedOffByFooter(true);
+    try {
+      ChangeInfo info = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
+      String message = info.revisions.get(info.currentRevision).commit.message;
+      assertThat(message)
+          .contains(
+              String.format(
+                  "%sAdministrator <%s>", SIGNED_OFF_BY_TAG, admin.getIdent().getEmailAddress()));
+    } finally {
+      setSignedOffByFooter(false);
+    }
+  }
 
-    ChangeInfo info = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
-    String message = info.revisions.get(info.currentRevision).commit.message;
-    assertThat(message)
-        .contains(
-            String.format(
-                "%sAdministrator <%s>", SIGNED_OFF_BY_TAG, admin.getIdent().getEmailAddress()));
+  @Test
+  public void createNewChangeSignedOffByFooterWithChangeId() throws Exception {
+    setSignedOffByFooter(true);
+    try {
+      ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+      String changeId = "I1234000000000000000000000000000000000000";
+      String changeIdLine = "Change-Id: " + changeId;
+      ci.subject = "Subject\n\n" + changeIdLine;
+      ChangeInfo info = assertCreateSucceeds(ci);
+      assertThat(info.changeId).isEqualTo(changeId);
+      String message = info.revisions.get(info.currentRevision).commit.message;
+      assertThat(message).contains(changeIdLine);
+      assertThat(message)
+          .contains(
+              String.format(
+                  "%sAdministrator <%s>", SIGNED_OFF_BY_TAG, admin.getIdent().getEmailAddress()));
+    } finally {
+      setSignedOffByFooter(false);
+    }
   }
 
   @Test
@@ -378,7 +425,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInfo out = gApi.changes().create(in).get();
     assertThat(out.project).isEqualTo(in.project);
     assertThat(out.branch).isEqualTo(in.branch);
-    assertThat(out.subject).isEqualTo(in.subject);
+    assertThat(out.subject).isEqualTo(in.subject.split("\n")[0]);
     assertThat(out.topic).isEqualTo(in.topic);
     assertThat(out.status).isEqualTo(in.status);
     assertThat(out.isPrivate).isEqualTo(in.isPrivate);
@@ -398,17 +445,21 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   // TODO(davido): Expose setting of account preferences in the API
-  private void setSignedOffByFooter() throws Exception {
+  private void setSignedOffByFooter(boolean value) throws Exception {
     RestResponse r = adminRestSession.get("/accounts/" + admin.email + "/preferences");
     r.assertOK();
     GeneralPreferencesInfo i = newGson().fromJson(r.getReader(), GeneralPreferencesInfo.class);
-    i.signedOffBy = true;
+    i.signedOffBy = value;
 
     r = adminRestSession.put("/accounts/" + admin.email + "/preferences", i);
     r.assertOK();
     GeneralPreferencesInfo o = newGson().fromJson(r.getReader(), GeneralPreferencesInfo.class);
 
-    assertThat(o.signedOffBy).isTrue();
+    if (value) {
+      assertThat(o.signedOffBy).isTrue();
+    } else {
+      assertThat(o.signedOffBy).isNull();
+    }
 
     resetCurrentApiUser();
   }

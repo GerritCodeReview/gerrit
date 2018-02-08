@@ -24,6 +24,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LAB
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.junit.Assert.fail;
@@ -38,6 +39,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.DraftApi;
@@ -66,11 +68,15 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import java.io.ByteArrayOutputStream;
@@ -86,6 +92,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -657,6 +665,45 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit.Result r2 = push2.to("refs/for/master");
     assertMergeable(r2.getChangeId(), false);
     // TODO(dborowitz): Test for other-branches.
+  }
+
+  @Test
+  public void mergeableWhenOwnerLosesVisibility() throws Exception {
+    // Create a new project, clone it and push a change as a regular user
+    Project.NameKey p = createProject("p");
+    TestRepository<InMemoryRepository> repo = cloneProject(p, user);
+    PushOneCommit push = pushFactory.create(db, user.getIdent(), repo);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertOkStatus();
+    assertThat(result.getChange().change().getOwner()).isEqualTo(user.id);
+    String changeId = result.getChangeId();
+
+    // The change is mergeable
+    assertMergeable(changeId, true);
+
+    // Change permissions so that the user can't see the project
+    ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
+    Util.allow(
+        cfg,
+        Permission.READ,
+        groupCache.get(new AccountGroup.NameKey("Administrators")).getGroupUUID(),
+        "refs/*");
+    Util.block(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
+    saveProjectConfig(p, cfg);
+
+    // The user can't see the change
+    setApiUser(user);
+    try {
+      gApi.changes().id(changeId).get();
+      fail("Expected ResourceNotFoundException");
+    } catch (ResourceNotFoundException e) {
+      // Expected exception ignored
+    }
+
+    // The change is still mergeable
+    setApiUser(admin);
+    gApi.changes().id(changeId).index();
+    assertMergeable(changeId, true);
   }
 
   @Test

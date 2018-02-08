@@ -22,7 +22,7 @@ public class CreateGroupArgs {
   private AccountGroup.NameKey groupName;
   public String groupDescription;
   public boolean visibleToAll;
-  public AccountGroup.Id ownerGroupId;
+  public AccountGroup.UUID ownerGroupUuid;
   public Collection<? extends Account.Id> initialMembers;
 
   public AccountGroup.NameKey getGroup() {

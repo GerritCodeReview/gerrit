@@ -139,12 +139,12 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
       throw new BadRequestException("name must match URL");
     }
 
-    AccountGroup.Id ownerId = owner(input);
+    AccountGroup.UUID ownerUuid = owner(input);
     CreateGroupArgs args = new CreateGroupArgs();
     args.setGroupName(name);
     args.groupDescription = Strings.emptyToNull(input.description);
     args.visibleToAll = MoreObjects.firstNonNull(input.visibleToAll, defaultVisibleToAll);
-    args.ownerGroupId = ownerId;
+    args.ownerGroupUuid = ownerUuid;
     if (input.members != null && !input.members.isEmpty()) {
       List<Account.Id> members = new ArrayList<>();
       for (String nameOrEmailOrId : input.members) {
@@ -158,7 +158,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
       args.initialMembers = members;
     } else {
       args.initialMembers =
-          ownerId == null
+          ownerUuid == null
               ? Collections.singleton(self.get().getAccountId())
               : Collections.<Account.Id>emptySet();
     }
@@ -174,10 +174,10 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     return json.format(new InternalGroupDescription(createGroup(args)));
   }
 
-  private AccountGroup.Id owner(GroupInput input) throws UnprocessableEntityException {
+  private AccountGroup.UUID owner(GroupInput input) throws UnprocessableEntityException {
     if (input.ownerId != null) {
       GroupDescription.Internal d = groups.parseInternal(Url.decode(input.ownerId));
-      return d.getId();
+      return d.getGroupUUID();
     }
     return null;
   }
@@ -212,8 +212,8 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
             .build();
     InternalGroupUpdate.Builder groupUpdateBuilder =
         InternalGroupUpdate.builder().setVisibleToAll(createGroupArgs.visibleToAll);
-    if (createGroupArgs.ownerGroupId != null) {
-      Optional<InternalGroup> ownerGroup = groupCache.get(createGroupArgs.ownerGroupId);
+    if (createGroupArgs.ownerGroupUuid != null) {
+      Optional<InternalGroup> ownerGroup = groupCache.get(createGroupArgs.ownerGroupUuid);
       ownerGroup.map(InternalGroup::getGroupUUID).ifPresent(groupUpdateBuilder::setOwnerGroupUUID);
     }
     if (createGroupArgs.groupDescription != null) {

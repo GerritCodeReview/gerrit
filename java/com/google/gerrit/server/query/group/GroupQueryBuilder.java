@@ -20,7 +20,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.LimitPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
@@ -32,9 +31,6 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.index.group.GroupField;
-import com.google.gerrit.server.index.group.GroupIndex;
-import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -56,18 +52,12 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
       new QueryBuilder.Definition<>(GroupQueryBuilder.class);
 
   public static class Arguments {
-    final GroupIndex groupIndex;
     final GroupCache groupCache;
     final GroupBackend groupBackend;
     final AccountResolver accountResolver;
 
     @Inject
-    Arguments(
-        GroupIndexCollection groupIndexCollection,
-        GroupCache groupCache,
-        GroupBackend groupBackend,
-        AccountResolver accountResolver) {
-      this.groupIndex = groupIndexCollection.getSearchIndex();
+    Arguments(GroupCache groupCache, GroupBackend groupBackend, AccountResolver accountResolver) {
       this.groupCache = groupCache;
       this.groupBackend = groupBackend;
       this.accountResolver = accountResolver;
@@ -144,10 +134,6 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
   @Operator
   public Predicate<InternalGroup> member(String query)
       throws QueryParseException, OrmException, ConfigInvalidException, IOException {
-    if (isFieldAbsentFromIndex(GroupField.MEMBER)) {
-      throw getExceptionForUnsupportedOperator("member");
-    }
-
     Set<Account.Id> accounts = parseAccount(query);
     List<Predicate<InternalGroup>> predicates =
         accounts.stream().map(GroupPredicates::member).collect(toImmutableList());
@@ -156,10 +142,6 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
 
   @Operator
   public Predicate<InternalGroup> subgroup(String query) throws QueryParseException {
-    if (isFieldAbsentFromIndex(GroupField.SUBGROUP)) {
-      throw getExceptionForUnsupportedOperator("subgroup");
-    }
-
     AccountGroup.UUID groupUuid = parseGroup(query);
     return GroupPredicates.subgroup(groupUuid);
   }
@@ -171,15 +153,6 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
       throw error("Invalid limit: " + query);
     }
     return new LimitPredicate<>(FIELD_LIMIT, limit);
-  }
-
-  private boolean isFieldAbsentFromIndex(FieldDef<InternalGroup, ?> field) {
-    return !args.groupIndex.getSchema().hasField(field);
-  }
-
-  private static QueryParseException getExceptionForUnsupportedOperator(String operatorName) {
-    return new QueryParseException(
-        String.format("'%s' operator is not supported by group index version", operatorName));
   }
 
   private Set<Account.Id> parseAccount(String nameOrEmail)

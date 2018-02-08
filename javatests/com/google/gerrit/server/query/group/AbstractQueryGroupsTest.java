@@ -16,8 +16,8 @@ package com.google.gerrit.server.query.group;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static java.util.stream.Collectors.toList;
-import static org.junit.Assert.fail;
 
 import com.google.common.base.CharMatcher;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -27,7 +27,6 @@ import com.google.gerrit.extensions.api.groups.Groups.QueryRequest;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
@@ -263,12 +262,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
   @Test
   public void byMember() throws Exception {
-    if (getSchemaVersion() < 4) {
-      assertMissingField(GroupField.MEMBER);
-      assertFailingQuery(
-          "member:someName", "'member' operator is not supported by group index version");
-      return;
-    }
+    assume().that(getSchemaVersion() >= 4).isTrue();
 
     AccountInfo user1 = createAccount("user1", "User1", "user1@example.com");
     AccountInfo user2 = createAccount("user2", "User2", "user2@example.com");
@@ -288,12 +282,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
   @Test
   public void bySubgroups() throws Exception {
-    if (getSchemaVersion() < 4) {
-      assertMissingField(GroupField.SUBGROUP);
-      assertFailingQuery(
-          "subgroup:someGroupName", "'subgroup' operator is not supported by group index version");
-      return;
-    }
+    assume().that(getSchemaVersion() >= 4).isTrue();
 
     GroupInfo superParentGroup = createGroup(name("superParentGroup"));
     GroupInfo parentGroup1 = createGroup(name("parentGroup1"));
@@ -547,21 +536,6 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     }
 
     return name + "_" + getSanitizedMethodName();
-  }
-
-  protected void assertMissingField(FieldDef<InternalGroup, ?> field) {
-    assertThat(getSchema().hasField(field))
-        .named("schema %s has field %s", getSchemaVersion(), field.getName())
-        .isFalse();
-  }
-
-  protected void assertFailingQuery(String query, String expectedMessage) throws Exception {
-    try {
-      assertQuery(query);
-      fail("expected BadRequestException for query '" + query + "'");
-    } catch (BadRequestException e) {
-      assertThat(e.getMessage()).isEqualTo(expectedMessage);
-    }
   }
 
   protected int getSchemaVersion() {

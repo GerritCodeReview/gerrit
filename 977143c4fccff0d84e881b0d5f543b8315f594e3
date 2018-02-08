@@ -16,6 +16,24 @@
       "revId": "977143c4fccff0d84e881b0d5f543b8315f594e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c12e40d1_320e6699",
+        "filename": "plugins/codemirror-editor",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-08T18:01:22Z",
+      "side": 1,
+      "message": "nope",
+      "parentUuid": "37a70edf_7f48a7db",
+      "revId": "977143c4fccff0d84e881b0d5f543b8315f594e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -139,7 +139,7 @@ DIRECTORIES = [
 
 [sh_test(
     name = "template_test_" + directory,
-    size = "large",
+    size = "enormous",
     srcs = ["template_test.sh"],
     args = [directory],
     data = [

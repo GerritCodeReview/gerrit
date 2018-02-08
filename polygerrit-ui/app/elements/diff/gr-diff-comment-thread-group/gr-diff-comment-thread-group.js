@@ -19,6 +19,7 @@
 
     properties: {
       changeNum: String,
+      commentSide: String,
       comments: {
         type: Array,
         value() { return []; },
@@ -44,28 +45,41 @@
       '_commentsChanged(comments.*)',
     ],
 
-    addNewThread(locationRange) {
+    /**
+     * Adds a new thread. Range is optional because a comment can be
+     * added to a line without a range selected.
+     *
+     * @param {!Object} opt_range
+     */
+    addNewThread(opt_range) {
       this.push('_threads', {
         comments: [],
-        locationRange,
         patchNum: this.patchForNewThreads,
+        range: opt_range,
       });
     },
 
-    removeThread(locationRange) {
+    removeThread(rootId) {
       for (let i = 0; i < this._threads.length; i++) {
-        if (this._threads[i].locationRange === locationRange) {
+        if (this._threads[i].rootId === rootId) {
           this.splice('_threads', i, 1);
           return;
         }
       }
     },
 
-    getThreadForRange(rangeToCheck) {
+    /**
+     * Fetch the thread group at the given range, or the range-less thread
+     * on the line if no range is provided.
+     *
+     * @param {!Object=} opt_range
+     * @return {!Object|undefined}
+     */
+    getThread(opt_range) {
       const threads = [].filter.call(
           Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread'),
           thread => {
-            return thread.locationRange === rangeToCheck;
+            return thread.range === opt_range;
           });
       if (threads.length === 1) {
         return threads[0];
@@ -116,13 +130,6 @@
 
       const threads = [];
       for (const comment of sortedComments) {
-        let locationRange;
-        if (!comment.range) {
-          locationRange = 'line-' + comment.__commentSide;
-        } else {
-          locationRange = this._calculateLocationRange(comment.range, comment);
-        }
-
         // If the comment is in reply to another comment, find that comment's
         // thread and append to it.
         if (comment.in_reply_to) {
@@ -138,9 +145,9 @@
         threads.push({
           start_datetime: comment.updated,
           comments: [comment],
-          locationRange,
           commentSide: comment.__commentSide,
           patchNum: this._getPatchNum(comment),
+          rootId: comment.id,
         });
       }
       return threads;

@@ -57,6 +57,7 @@
         type: Number,
         value: null,
       },
+      rootId: String,
       unresolved: {
         type: Boolean,
         notify: true,

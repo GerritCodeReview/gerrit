@@ -20,15 +20,12 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.util.Optional;
 
 /** Access control management for a group of accounts managed in Gerrit. */
 public class GroupControl {
@@ -56,28 +53,14 @@ public class GroupControl {
 
   public static class Factory {
     private final PermissionBackend permissionBackend;
-    private final GroupCache groupCache;
     private final Provider<CurrentUser> user;
     private final GroupBackend groupBackend;
 
     @Inject
-    Factory(
-        PermissionBackend permissionBackend,
-        GroupCache gc,
-        Provider<CurrentUser> cu,
-        GroupBackend gb) {
+    Factory(PermissionBackend permissionBackend, Provider<CurrentUser> cu, GroupBackend gb) {
       this.permissionBackend = permissionBackend;
-      groupCache = gc;
       user = cu;
       groupBackend = gb;
-    }
-
-    public GroupControl controlFor(AccountGroup.Id groupId) throws NoSuchGroupException {
-      Optional<InternalGroup> group = groupCache.get(groupId);
-      return group
-          .map(InternalGroupDescription::new)
-          .map(this::controlFor)
-          .orElseThrow(() -> new NoSuchGroupException(groupId));
     }
 
     public GroupControl controlFor(AccountGroup.UUID groupId) throws NoSuchGroupException {

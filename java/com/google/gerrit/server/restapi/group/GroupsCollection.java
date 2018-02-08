@@ -17,7 +17,6 @@ package com.google.gerrit.server.restapi.group;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -34,10 +33,14 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupResource;
+import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.util.Optional;
 
 public class GroupsCollection
     implements RestCollection<TopLevelResource, GroupResource>,
@@ -49,6 +52,7 @@ public class GroupsCollection
   private final CreateGroup.Factory createGroup;
   private final GroupControl.Factory groupControlFactory;
   private final GroupBackend groupBackend;
+  private final GroupCache groupCache;
   private final Provider<CurrentUser> self;
 
   private boolean hasQuery2;
@@ -61,6 +65,7 @@ public class GroupsCollection
       CreateGroup.Factory createGroup,
       GroupControl.Factory groupControlFactory,
       GroupBackend groupBackend,
+      GroupCache groupCache,
       Provider<CurrentUser> self) {
     this.views = views;
     this.list = list;
@@ -68,6 +73,7 @@ public class GroupsCollection
     this.createGroup = createGroup;
     this.groupControlFactory = groupControlFactory;
     this.groupBackend = groupBackend;
+    this.groupCache = groupCache;
     this.self = self;
   }
 
@@ -167,12 +173,15 @@ public class GroupsCollection
       }
     }
 
-    // Might be a legacy AccountGroup.Id.
+    // Might be a numeric AccountGroup.Id. -> Internal group.
     if (id.matches("^[1-9][0-9]*$")) {
       try {
-        AccountGroup.Id legacyId = AccountGroup.Id.parse(id);
-        return groupControlFactory.controlFor(legacyId).getGroup();
-      } catch (IllegalArgumentException | NoSuchGroupException e) {
+        AccountGroup.Id groupId = AccountGroup.Id.parse(id);
+        Optional<InternalGroup> group = groupCache.get(groupId);
+        if (group.isPresent()) {
+          return new InternalGroupDescription(group.get());
+        }
+      } catch (IllegalArgumentException e) {
         // Ignored
       }
     }

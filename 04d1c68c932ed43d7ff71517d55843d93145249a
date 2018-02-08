@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1518016615 +0100\nnonce AFD2Vu080FL3ESz8yU6226bCY8Vk+vRZCAsf0HCNB59c0xSVsqVjOCu1rA9dHn2GO1IEKk83462y\n\n0000000000000000000000000000000000000000 04d1c68c932ed43d7ff71517d55843d93145249a refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlp7GGcACgkQUbX9l6DQ\n71EAcgf9GEjlMDp+Sn5hkCXcC7RZRntVxQvjt6KI7nr5a+67kkWBAG4InumM0Vme\nRwpTAKPYydfe9zWL146rsHVhpLTa3NmVlaP5Zjhi9ZE6vapOy63BG4Mmv3L9P4lJ\nOfxxM7Qb+mHDucAAjZn8Vta8sO68Aiod/3mUjiPwOCzGK+YE2FgOfEzIR0Xrhm7G\n8NuEWXN14f+xw/hncPADb+rbDpdbnlTR2n/FDz5zj9OHKC0PFLuDpbShduC8ztYJ\nmjaIV9CC1dODgK+HC0eqknQMb0Zkz3pp/9IXZLmlYYH/FWO2DbNf1zTKbJSQ4axj\n89+JJTVHiCmIa4WmejTstopWh9ss0w\u003d\u003d\n\u003dXmBX\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "7532018d_62c2fc52",
+        "filename": "java/com/google/gerrit/server/audit/group/GroupAuditEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-08T06:59:13Z",
+      "side": 1,
+      "message": "Did this warning come from Eclipse?\n\n\"Account\" has been imported above, thus we should be able to use it directly?",
+      "range": {
+        "startLine": 26,
+        "startChar": 24,
+        "endLine": 26,
+        "endChar": 68
+      },
+      "revId": "04d1c68c932ed43d7ff71517d55843d93145249a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

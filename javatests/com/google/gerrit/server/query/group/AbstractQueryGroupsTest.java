@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.group;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
@@ -263,12 +264,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
   @Test
   public void byMember() throws Exception {
-    if (getSchemaVersion() < 4) {
-      assertMissingField(GroupField.MEMBER);
-      assertFailingQuery(
-          "member:someName", "'member' operator is not supported by group index version");
-      return;
-    }
+    assume().that(getSchemaVersion() >= 4).isTrue();
 
     AccountInfo user1 = createAccount("user1", "User1", "user1@example.com");
     AccountInfo user2 = createAccount("user2", "User2", "user2@example.com");
@@ -288,12 +284,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
   @Test
   public void bySubgroups() throws Exception {
-    if (getSchemaVersion() < 4) {
-      assertMissingField(GroupField.SUBGROUP);
-      assertFailingQuery(
-          "subgroup:someGroupName", "'subgroup' operator is not supported by group index version");
-      return;
-    }
+    assume().that(getSchemaVersion() >= 4).isTrue();
 
     GroupInfo superParentGroup = createGroup(name("superParentGroup"));
     GroupInfo parentGroup1 = createGroup(name("parentGroup1"));

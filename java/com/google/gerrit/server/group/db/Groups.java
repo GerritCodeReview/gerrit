@@ -236,45 +236,6 @@ public class Groups {
   }
 
   /**
-   * Returns the groups of which the specified account is a member.
-   *
-   * <p><strong>Note</strong>: This method returns an empty stream if the account doesn't exist.
-   * This method doesn't check whether the groups exist.
-   *
-   * @param db the {@code ReviewDb} instance to use for lookups
-   * @param accountId the ID of the account
-   * @return a stream of the IDs of the groups of which the account is a member
-   * @throws OrmException if an error occurs while reading from ReviewDb
-   */
-  public static Stream<AccountGroup.Id> getGroupsWithMemberFromReviewDb(
-      ReviewDb db, Account.Id accountId) throws OrmException {
-    ResultSet<AccountGroupMember> accountGroupMembers =
-        db.accountGroupMembers().byAccount(accountId);
-    return Streams.stream(accountGroupMembers).map(AccountGroupMember::getAccountGroupId);
-  }
-
-  /**
-   * Returns the parent groups of the specified (sub)group.
-   *
-   * <p>The subgroup may either be an internal or an external group whereas the returned parent
-   * groups represent only internal groups.
-   *
-   * <p><strong>Note</strong>: This method returns an empty stream if the specified group doesn't
-   * exist. This method doesn't check whether the parent groups exist.
-   *
-   * @param db the {@code ReviewDb} instance to use for lookups
-   * @param subgroupUuid the UUID of the subgroup
-   * @return a stream of the IDs of the parent groups
-   * @throws OrmException if an error occurs while reading from ReviewDb
-   */
-  public static Stream<AccountGroup.Id> getParentGroupsFromReviewDb(
-      ReviewDb db, AccountGroup.UUID subgroupUuid) throws OrmException {
-    ResultSet<AccountGroupById> accountGroupByIds =
-        db.accountGroupById().byIncludeUUID(subgroupUuid);
-    return Streams.stream(accountGroupByIds).map(AccountGroupById::getGroupId);
-  }
-
-  /**
    * Returns all known external groups. External groups are 'known' when they are specified as a
    * subgroup of an internal group.
    *

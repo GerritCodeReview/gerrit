@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import static com.google.common.base.Preconditions.checkState;
 import static java.time.ZoneId.systemDefault;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -43,8 +44,12 @@ public class ScheduleConfig {
   private final String subsection;
   private final String keyInterval;
   private final String keyStartTime;
-  private final long initialDelay;
-  private final long interval;
+  private final ZonedDateTime now;
+
+  private String defaultStartTime;
+  private long defaultInterval = MISSING_CONFIG;
+  private Long initialDelay;
+  private Long interval;
 
   public ScheduleConfig(Config rc, String section) {
     this(rc, section, null);
@@ -77,12 +82,13 @@ public class ScheduleConfig {
     this.subsection = subsection;
     this.keyInterval = keyInterval;
     this.keyStartTime = keyStartTime;
-    this.interval = interval(rc, section, subsection, keyInterval);
-    if (interval > 0) {
-      this.initialDelay = initialDelay(rc, section, subsection, keyStartTime, now, interval);
-    } else {
-      this.initialDelay = interval;
-    }
+    this.now = now;
+  }
+
+  public void setDefaults(String defaultStartTime, long defaultInterval) {
+    checkState(initialDelay == null && interval == null, "already loaded");
+    this.defaultStartTime = defaultStartTime;
+    this.defaultInterval = defaultInterval;
   }
 
   /**
@@ -92,19 +98,37 @@ public class ScheduleConfig {
    * executor the event will run later, as there is no method to adjust for the scheduling delay.
    */
   public long getInitialDelay() {
+    if (initialDelay == null) {
+      load();
+    }
     return initialDelay;
   }
 
   /** Number of milliseconds between events. */
   public long getInterval() {
+    if (interval == null) {
+      load();
+    }
     return interval;
   }
 
-  private static long interval(Config rc, String section, String subsection, String keyInterval) {
+  private void load() {
+    this.interval = interval(rc, section, subsection, keyInterval, defaultInterval);
+    if (interval > 0) {
+      this.initialDelay =
+          initialDelay(rc, section, subsection, keyStartTime, defaultStartTime, now, interval);
+    } else {
+      this.initialDelay = interval;
+    }
+  }
+
+  private static long interval(
+      Config rc, String section, String subsection, String keyInterval, long defaultInterval) {
     long interval = MISSING_CONFIG;
     try {
       interval =
-          ConfigUtil.getTimeUnit(rc, section, subsection, keyInterval, -1, TimeUnit.MILLISECONDS);
+          ConfigUtil.getTimeUnit(
+              rc, section, subsection, keyInterval, defaultInterval, TimeUnit.MILLISECONDS);
       if (interval == MISSING_CONFIG) {
         log.info(
             MessageFormat.format(
@@ -124,11 +148,25 @@ public class ScheduleConfig {
       String section,
       String subsection,
       String keyStartTime,
+      String defaultStart,
       ZonedDateTime now,
       long interval) {
     long delay = MISSING_CONFIG;
     String start = rc.getString(section, subsection, keyStartTime);
     try {
+      if (start == null) {
+        if (defaultStart != null) {
+          start = defaultStart;
+          log.info(
+              MessageFormat.format(
+                  "{0} schedule parameter \"{0}.{1}\" is not configured, using default {2}",
+                  section, keyStartTime, defaultStart));
+        } else {
+          log.info(
+              MessageFormat.format(
+                  "{0} schedule parameter \"{0}.{1}\" is not configured", section, keyStartTime));
+        }
+      }
       if (start != null) {
         DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("[E ]HH:mm").withLocale(Locale.US);
@@ -145,10 +183,6 @@ public class ScheduleConfig {
         if (delay <= 0) {
           delay += interval;
         }
-      } else {
-        log.info(
-            MessageFormat.format(
-                "{0} schedule parameter \"{0}.{1}\" is not configured", section, keyStartTime));
       }
     } catch (IllegalArgumentException e2) {
       log.error(

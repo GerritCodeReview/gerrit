@@ -341,6 +341,16 @@ public abstract class AbstractDaemonTest {
       server.getTestInjector().injectMembers(resetter);
     }
     initSsh();
+    // The server restart threw away all indices. Only reindex all groups as we only have the group
+    // index in slave mode.
+    reindexAllGroups();
+  }
+
+  private void reindexAllGroups() throws OrmException, IOException, ConfigInvalidException {
+    Iterable<GroupReference> allGroups = groups.getAllGroupReferences(db)::iterator;
+    for (GroupReference group : allGroups) {
+      groupCache.onCreateGroup(group.getUUID());
+    }
   }
 
   protected static Config submitWholeTopicEnabledConfig() {
@@ -394,10 +404,7 @@ public abstract class AbstractDaemonTest {
     // later on. As test indexes are non-permanent, closing an instance and opening another one
     // removes all indexed data.
     // As a workaround, we simply reindex all available groups here.
-    Iterable<GroupReference> allGroups = groups.getAllGroupReferences(db)::iterator;
-    for (GroupReference group : allGroups) {
-      groupCache.onCreateGroup(group.getUUID());
-    }
+    reindexAllGroups();
 
     admin = accountCreator.admin();
     user = accountCreator.user();

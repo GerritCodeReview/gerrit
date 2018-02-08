@@ -281,9 +281,11 @@ public class InMemoryModule extends FactoryModule {
 
   private Module indexModule(String moduleClassName) {
     try {
+      boolean slave = cfg.getBoolean("container", "slave", false);
       Class<?> clazz = Class.forName(moduleClassName);
-      Method m = clazz.getMethod("singleVersionWithExplicitVersions", Map.class, int.class);
-      return (Module) m.invoke(null, getSingleSchemaVersions(), 0);
+      Method m =
+          clazz.getMethod("singleVersionWithExplicitVersions", Map.class, int.class, boolean.class);
+      return (Module) m.invoke(null, getSingleSchemaVersions(), 0, slave);
     } catch (ClassNotFoundException
         | SecurityException
         | NoSuchMethodException

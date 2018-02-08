@@ -1227,9 +1227,6 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   @Sandboxed
   public void groupsOfUserCanBeListedInSlaveMode() throws Exception {
-    // TODO(aliceks): Remove this line when we have a group index in slave mode.
-    assume().that(readGroupsFromNoteDb()).isFalse();
-
     GroupInput groupInput = new GroupInput();
     groupInput.name = name("contributors");
     groupInput.members = ImmutableList.of(user.username);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e01be5f_d1a3c8bb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-08T20:50:25Z",
+      "side": 0,
+      "message": "Currently, there are three places in this repository with this name: [1]. In this CL only one place is changed. Should other places be also adapted?\n\n  $ git grep \"Done Editing\" | wc -l\n  3",
+      "range": {
+        "startLine": 164,
+        "startChar": 12,
+        "endLine": 164,
+        "endChar": 24
+      },
+      "revId": "2542fea219580fb7db14983817460ae39bd09cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

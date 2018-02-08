@@ -72,6 +72,14 @@ public class ScheduleConfigTest {
     assertEquals(s.getInitialDelay(), ScheduleConfig.MISSING_CONFIG);
   }
 
+  @Test
+  public void defaultValues() {
+    ScheduleConfig sc = new ScheduleConfig(new Config(), "section", "subsection", NOW);
+    sc.setDefaults("00:05", ms(10, MINUTES));
+    assertEquals(ms(5, MINUTES), sc.getInitialDelay());
+    assertEquals(ms(10, MINUTES), sc.getInterval());
+  }
+
   private static long initialDelay(String startTime, String interval) {
     return new ScheduleConfig(config(startTime, interval), "section", "subsection", NOW)
         .getInitialDelay();

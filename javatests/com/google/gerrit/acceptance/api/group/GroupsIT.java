@@ -36,6 +36,7 @@ import com.google.common.base.Throwables;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -60,6 +61,9 @@ import com.google.gerrit.extensions.common.GroupAuditEventInfo.Type;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo.UserMemberAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
+import com.google.gerrit.extensions.events.GroupIndexedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -71,11 +75,17 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.group.PeriodicGroupIndexer;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.GroupsConsistencyChecker;
+import com.google.gerrit.server.group.db.GroupsUpdate;
+import com.google.gerrit.server.group.db.InternalGroupCreation;
+import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.index.group.StalenessChecker;
 import com.google.gerrit.server.util.MagicBranch;
@@ -132,10 +142,14 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Inject private Groups groups;
+  @Inject @ServerInitiated private GroupsUpdate groupsUpdate;
   @Inject private GroupIncludeCache groupIncludeCache;
   @Inject private StalenessChecker stalenessChecker;
   @Inject private GroupIndexer groupIndexer;
   @Inject private GroupsConsistencyChecker consistencyChecker;
+  @Inject private PeriodicGroupIndexer slaveGroupIndexer;
+  @Inject private DynamicSet<GroupIndexedListener> groupIndexedListeners;
+  @Inject private Sequences seq;
 
   @Inject
   @Named("groups_byuuid")
@@ -1227,6 +1241,8 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   @Sandboxed
   public void groupsOfUserCanBeListedInSlaveMode() throws Exception {
+    assume().that(readGroupsFromNoteDb()).isTrue();
+
     GroupInput groupInput = new GroupInput();
     groupInput.name = name("contributors");
     groupInput.members = ImmutableList.of(user.username);
@@ -1238,6 +1254,67 @@ public class GroupsIT extends AbstractDaemonTest {
     ImmutableList<String> groupNames =
         groups.stream().map(group -> group.name).collect(toImmutableList());
     assertThat(groupNames).contains(groupInput.name);
+  }
+
+  @Test
+  @Sandboxed
+  @GerritConfig(name = "index.scheduledIndexer.interval", value = "0")
+  @GerritConfig(name = "index.autoReindexIfStale", value = "false")
+  @IgnoreGroupInconsistencies
+  public void reindexGroupsInSlaveMode() throws Exception {
+    assume().that(readGroupsFromNoteDb()).isTrue();
+
+    List<AccountGroup.UUID> expectedGroups =
+        groups.getAllGroupReferences(db).map(GroupReference::getUUID).sorted().collect(toList());
+    assertThat(expectedGroups.size()).isAtLeast(2);
+
+    restartAsSlave();
+
+    GroupIndexedCounter groupIndexedCounter = new GroupIndexedCounter();
+    RegistrationHandle groupIndexEventCounterHandle =
+        groupIndexedListeners.add(groupIndexedCounter);
+    try {
+      // run the reindexer for the first time, no refs cached yet -> reindexes all groups
+      slaveGroupIndexer.run();
+      groupIndexedCounter.assertReindexOf(expectedGroups);
+
+      // run the reindexer again, no group refs have changed -> no groups are reindexed
+      slaveGroupIndexer.run();
+      groupIndexedCounter.assertNoReindex();
+
+      // Create a group and run the reindexer -> only the new group is reindexed
+      String groupName = "foo";
+      AccountGroup.UUID groupUuid = new AccountGroup.UUID(groupName + "-UUID");
+      groupsUpdate.createGroup(
+          db,
+          InternalGroupCreation.builder()
+              .setGroupUUID(groupUuid)
+              .setNameKey(new AccountGroup.NameKey(groupName))
+              .setId(new AccountGroup.Id(seq.nextGroupId()))
+              .build(),
+          InternalGroupUpdate.builder().build());
+      groupIndexedCounter.clear();
+      slaveGroupIndexer.run();
+      groupIndexedCounter.assertReindexOf(groupUuid);
+
+      // Update a group and run the reindexer -> only the updated group is reindexed
+      groupsUpdate.updateGroup(
+          db, groupUuid, InternalGroupUpdate.builder().setDescription("bar").build());
+      groupIndexedCounter.clear();
+      slaveGroupIndexer.run();
+      groupIndexedCounter.assertReindexOf(groupUuid);
+
+      // Delete a group and run the reindexer -> only the updated group is reindexed
+      try (Repository repo = repoManager.openRepository(allUsers)) {
+        RefUpdate u = repo.updateRef(RefNames.refsGroups(groupUuid));
+        u.setForceUpdate(true);
+        assertThat(u.delete()).isEqualTo(RefUpdate.Result.FORCED);
+      }
+      slaveGroupIndexer.run();
+      groupIndexedCounter.assertReindexOf(groupUuid);
+    } finally {
+      groupIndexEventCounterHandle.remove();
+    }
   }
 
   private void assertStaleGroupAndReindex(AccountGroup.UUID groupUuid) throws IOException {
@@ -1399,4 +1476,38 @@ public class GroupsIT extends AbstractDaemonTest {
   @Target({METHOD})
   @Retention(RUNTIME)
   private @interface IgnoreGroupInconsistencies {}
+
+  /** Checks if a group is indexed the correct number of times. */
+  private static class GroupIndexedCounter implements GroupIndexedListener {
+    private final AtomicLongMap<String> countsByGroup = AtomicLongMap.create();
+
+    @Override
+    public void onGroupIndexed(String uuid) {
+      countsByGroup.incrementAndGet(uuid);
+    }
+
+    void clear() {
+      countsByGroup.clear();
+    }
+
+    long getCount(AccountGroup.UUID groupUuid) {
+      return countsByGroup.get(groupUuid.get());
+    }
+
+    void assertReindexOf(AccountGroup.UUID groupUuid) {
+      assertReindexOf(ImmutableList.of(groupUuid));
+    }
+
+    void assertReindexOf(List<AccountGroup.UUID> groupUuids) {
+      for (AccountGroup.UUID groupUuid : groupUuids) {
+        assertThat(getCount(groupUuid)).named(groupUuid.get()).isEqualTo(1);
+      }
+      assertThat(countsByGroup).hasSize(groupUuids.size());
+      clear();
+    }
+
+    void assertNoReindex() {
+      assertThat(countsByGroup).isEmpty();
+    }
+  }
 }

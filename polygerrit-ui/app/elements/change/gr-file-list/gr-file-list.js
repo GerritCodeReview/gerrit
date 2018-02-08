@@ -137,6 +137,9 @@
         value: true,
         computed: '_computeShowSizeBars(_userPrefs)',
       },
+
+      /** @type {Function} */
+      _cancelForEachDiff: Function,
     },
 
     behaviors: [
@@ -172,6 +175,10 @@
 
     listeners: {
       keydown: '_scopedKeydownHandler',
+    },
+
+    detached() {
+      this._cancelDiffs();
     },
 
     /**
@@ -849,6 +856,7 @@
 
     _clearCollapsedDiffs(collapsedDiffs) {
       for (const diff of collapsedDiffs) {
+        diff.cancel();
         diff.clearDiffContent();
       }
     },
@@ -871,7 +879,9 @@
       return (new Promise(resolve => {
         this.fire('reload-drafts', {resolve});
       })).then(() => {
-        return this.asyncForeach(paths, path => {
+        return this.asyncForeach(paths, (path, cancel) => {
+          this._cancelForEachDiff = cancel;
+
           iter++;
           console.log('Expanding diff', iter, 'of', initialCount, ':',
               path);
@@ -884,12 +894,19 @@
           }
           return Promise.all(promises);
         }).then(() => {
+          this._cancelForEachDiff = null;
           this._nextRenderParams = null;
           console.log('Finished expanding', initialCount, 'diff(s)');
           this.$.reporting.timeEnd(timerName);
           this.$.diffCursor.handleDiffUpdate();
         });
       });
+    },
+
+    /** Cancel the rendering work of every diff in the list */
+    _cancelDiffs() {
+      if (this._cancelForEachDiff) { this._cancelForEachDiff(); }
+      this._forEachDiff(d => d.cancel());
     },
 
     /**

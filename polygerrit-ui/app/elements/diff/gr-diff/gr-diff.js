@@ -182,7 +182,7 @@
 
     /** @return {!Promise} */
     reload() {
-      this.$.diffBuilder.cancel();
+      this.cancel();
       this.clearBlame();
       this._safetyBypass = null;
       this._showWarning = false;
@@ -201,6 +201,11 @@
         }
         return Promise.resolve();
       });
+    },
+
+    /** Cancel any remaining diff builder rendering work. */
+    cancel() {
+      this.$.diffBuilder.cancel();
     },
 
     /** @return {!Array<!HTMLElement>} */

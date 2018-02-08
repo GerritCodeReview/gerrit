@@ -49,7 +49,7 @@ limitations under the License.
 
     test('reload cancels before network resolves', () => {
       element = fixture('basic');
-      const cancelStub = sandbox.stub(element.$.diffBuilder, 'cancel');
+      const cancelStub = sandbox.stub(element, 'cancel');
 
       // Stub the network calls into requests that never resolve.
       sandbox.stub(element, '_getDiff', () => new Promise(() => {}));
@@ -58,12 +58,17 @@ limitations under the License.
       assert.isTrue(cancelStub.called);
     });
 
+    test('cancel', () => {
+      const cancelStub = sandbox.stub(element.$.diffBuilder, 'cancel');
+      element.cancel();
+      assert.isTrue(cancelStub.calledOnce);
+    });
+
     test('_diffLength', () => {
       element = fixture('basic');
       const mock = document.createElement('mock-diff-response');
       assert.equal(element._diffLength(mock.diffResponse), 52);
     });
-
 
     suite('_get{PatchNum|IsParentComment}ByLineAndContent', () => {
       let lineEl;

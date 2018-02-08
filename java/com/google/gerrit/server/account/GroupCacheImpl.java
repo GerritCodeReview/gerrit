@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.Groups;
-import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.query.group.InternalGroupQuery;
 import com.google.gwtorm.server.SchemaFactory;
@@ -34,7 +33,6 @@ import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
-import java.util.function.BooleanSupplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -152,29 +150,16 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   static class ByIdLoader extends CacheLoader<AccountGroup.Id, Optional<InternalGroup>> {
-    private final SchemaFactory<ReviewDb> schema;
-    private final BooleanSupplier hasGroupIndex;
     private final Provider<InternalGroupQuery> groupQueryProvider;
 
     @Inject
-    ByIdLoader(
-        SchemaFactory<ReviewDb> schema,
-        GroupIndexCollection groupIndexCollection,
-        Provider<InternalGroupQuery> groupQueryProvider) {
-      this.schema = schema;
-      hasGroupIndex = () -> groupIndexCollection.getSearchIndex() != null;
+    ByIdLoader(Provider<InternalGroupQuery> groupQueryProvider) {
       this.groupQueryProvider = groupQueryProvider;
     }
 
     @Override
     public Optional<InternalGroup> load(AccountGroup.Id key) throws Exception {
-      if (hasGroupIndex.getAsBoolean()) {
-        return groupQueryProvider.get().byId(key);
-      }
-
-      try (ReviewDb db = schema.open()) {
-        return Groups.getGroupFromReviewDb(db, key);
-      }
+      return groupQueryProvider.get().byId(key);
     }
   }
 

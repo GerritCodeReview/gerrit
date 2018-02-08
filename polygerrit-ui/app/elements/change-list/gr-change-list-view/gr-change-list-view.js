@@ -179,13 +179,14 @@
       return Gerrit.Nav.getUrlForSearchQuery(query, newOffset);
     },
 
-    _hidePrevArrow(offset) {
-      return offset === 0;
+    _computePrevArrowClass(offset) {
+      return offset === 0 ? 'hide' : '';
     },
 
-    _hideNextArrow(loading) {
-      return loading || !this._changes || !this._changes.length ||
+    _computeNavClass(loading) {
+      const shouldHide = loading || !this._changes || !this._changes.length ||
           !this._changes[this._changes.length - 1]._more_changes;
+      return shouldHide ? 'hide' : '';
     },
 
     _handleNextPage() {
@@ -211,6 +212,10 @@
 
     _computeUserHeaderClass(userId) {
       return userId ? '' : 'hide';
+    },
+
+    _computePage(offset, changesPerPage) {
+      return offset / changesPerPage + 1;
     },
   });
 })();

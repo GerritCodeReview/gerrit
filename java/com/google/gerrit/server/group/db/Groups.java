@@ -78,23 +78,6 @@ public class Groups {
   }
 
   /**
-   * Returns the {@code AccountGroup} for the specified ID if it exists.
-   *
-   * @param db the {@code ReviewDb} instance to use for lookups
-   * @param groupId the ID of the group
-   * @return the found {@code AccountGroup} if it exists, or else an empty {@code Optional}
-   * @throws OrmException if the group couldn't be retrieved from ReviewDb
-   */
-  public static Optional<InternalGroup> getGroupFromReviewDb(ReviewDb db, AccountGroup.Id groupId)
-      throws OrmException {
-    AccountGroup accountGroup = db.accountGroups().get(groupId);
-    if (accountGroup == null) {
-      return Optional.empty();
-    }
-    return Optional.of(asInternalGroup(db, accountGroup));
-  }
-
-  /**
    * Returns the {@code InternalGroup} for the specified UUID if it exists.
    *
    * @param db the {@code ReviewDb} instance to use for lookups
@@ -210,7 +193,7 @@ public class Groups {
    * @return a stream of the IDs of the members
    * @throws OrmException if an error occurs while reading from ReviewDb
    */
-  public static Stream<Account.Id> getMembersFromReviewDb(ReviewDb db, AccountGroup.Id groupId)
+  static Stream<Account.Id> getMembersFromReviewDb(ReviewDb db, AccountGroup.Id groupId)
       throws OrmException {
     ResultSet<AccountGroupMember> accountGroupMembers = db.accountGroupMembers().byGroup(groupId);
     return Streams.stream(accountGroupMembers).map(AccountGroupMember::getAccountId);
@@ -229,49 +212,10 @@ public class Groups {
    * @return a stream of the UUIDs of the subgroups
    * @throws OrmException if an error occurs while reading from ReviewDb
    */
-  public static Stream<AccountGroup.UUID> getSubgroupsFromReviewDb(
-      ReviewDb db, AccountGroup.Id groupId) throws OrmException {
+  static Stream<AccountGroup.UUID> getSubgroupsFromReviewDb(ReviewDb db, AccountGroup.Id groupId)
+      throws OrmException {
     ResultSet<AccountGroupById> accountGroupByIds = db.accountGroupById().byGroup(groupId);
     return Streams.stream(accountGroupByIds).map(AccountGroupById::getIncludeUUID).distinct();
-  }
-
-  /**
-   * Returns the groups of which the specified account is a member.
-   *
-   * <p><strong>Note</strong>: This method returns an empty stream if the account doesn't exist.
-   * This method doesn't check whether the groups exist.
-   *
-   * @param db the {@code ReviewDb} instance to use for lookups
-   * @param accountId the ID of the account
-   * @return a stream of the IDs of the groups of which the account is a member
-   * @throws OrmException if an error occurs while reading from ReviewDb
-   */
-  public static Stream<AccountGroup.Id> getGroupsWithMemberFromReviewDb(
-      ReviewDb db, Account.Id accountId) throws OrmException {
-    ResultSet<AccountGroupMember> accountGroupMembers =
-        db.accountGroupMembers().byAccount(accountId);
-    return Streams.stream(accountGroupMembers).map(AccountGroupMember::getAccountGroupId);
-  }
-
-  /**
-   * Returns the parent groups of the specified (sub)group.
-   *
-   * <p>The subgroup may either be an internal or an external group whereas the returned parent
-   * groups represent only internal groups.
-   *
-   * <p><strong>Note</strong>: This method returns an empty stream if the specified group doesn't
-   * exist. This method doesn't check whether the parent groups exist.
-   *
-   * @param db the {@code ReviewDb} instance to use for lookups
-   * @param subgroupUuid the UUID of the subgroup
-   * @return a stream of the IDs of the parent groups
-   * @throws OrmException if an error occurs while reading from ReviewDb
-   */
-  public static Stream<AccountGroup.Id> getParentGroupsFromReviewDb(
-      ReviewDb db, AccountGroup.UUID subgroupUuid) throws OrmException {
-    ResultSet<AccountGroupById> accountGroupByIds =
-        db.accountGroupById().byIncludeUUID(subgroupUuid);
-    return Streams.stream(accountGroupByIds).map(AccountGroupById::getGroupId);
   }
 
   /**

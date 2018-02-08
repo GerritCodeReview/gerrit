@@ -21,16 +21,12 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.Groups;
-import com.google.gerrit.server.index.group.GroupField;
-import com.google.gerrit.server.index.group.GroupIndex;
-import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.query.group.InternalGroupQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -145,81 +141,41 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
   static class GroupsWithMemberLoader
       extends CacheLoader<Account.Id, ImmutableSet<AccountGroup.UUID>> {
-    private final SchemaFactory<ReviewDb> schema;
-    private final Provider<GroupIndex> groupIndexProvider;
     private final Provider<InternalGroupQuery> groupQueryProvider;
-    private final GroupCache groupCache;
 
     @Inject
-    GroupsWithMemberLoader(
-        SchemaFactory<ReviewDb> schema,
-        GroupIndexCollection groupIndexCollection,
-        Provider<InternalGroupQuery> groupQueryProvider,
-        GroupCache groupCache) {
-      this.schema = schema;
-      groupIndexProvider = groupIndexCollection::getSearchIndex;
+    GroupsWithMemberLoader(Provider<InternalGroupQuery> groupQueryProvider) {
       this.groupQueryProvider = groupQueryProvider;
-      this.groupCache = groupCache;
     }
 
     @Override
     public ImmutableSet<AccountGroup.UUID> load(Account.Id memberId) throws OrmException {
-      GroupIndex groupIndex = groupIndexProvider.get();
-      if (groupIndex != null && groupIndex.getSchema().hasField(GroupField.MEMBER)) {
-        return groupQueryProvider
-            .get()
-            .byMember(memberId)
-            .stream()
-            .map(InternalGroup::getGroupUUID)
-            .collect(toImmutableSet());
-      }
-      try (ReviewDb db = schema.open()) {
-        return Groups.getGroupsWithMemberFromReviewDb(db, memberId)
-            .map(groupCache::get)
-            .flatMap(Streams::stream)
-            .map(InternalGroup::getGroupUUID)
-            .collect(toImmutableSet());
-      }
+      return groupQueryProvider
+          .get()
+          .byMember(memberId)
+          .stream()
+          .map(InternalGroup::getGroupUUID)
+          .collect(toImmutableSet());
     }
   }
 
   static class ParentGroupsLoader
       extends CacheLoader<AccountGroup.UUID, ImmutableList<AccountGroup.UUID>> {
-    private final SchemaFactory<ReviewDb> schema;
-    private final Provider<GroupIndex> groupIndexProvider;
     private final Provider<InternalGroupQuery> groupQueryProvider;
-    private final GroupCache groupCache;
 
     @Inject
-    ParentGroupsLoader(
-        SchemaFactory<ReviewDb> sf,
-        GroupIndexCollection groupIndexCollection,
-        Provider<InternalGroupQuery> groupQueryProvider,
-        GroupCache groupCache) {
-      schema = sf;
-      this.groupIndexProvider = groupIndexCollection::getSearchIndex;
+    ParentGroupsLoader(Provider<InternalGroupQuery> groupQueryProvider) {
       this.groupQueryProvider = groupQueryProvider;
-      this.groupCache = groupCache;
     }
 
     @Override
     public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key) throws OrmException {
-      GroupIndex groupIndex = groupIndexProvider.get();
-      if (groupIndex != null && groupIndex.getSchema().hasField(GroupField.SUBGROUP)) {
-        return groupQueryProvider
-            .get()
-            .bySubgroup(key)
-            .stream()
-            .map(InternalGroup::getGroupUUID)
-            .collect(toImmutableList());
-      }
-      try (ReviewDb db = schema.open()) {
-        return Groups.getParentGroupsFromReviewDb(db, key)
-            .map(groupCache::get)
-            .flatMap(Streams::stream)
-            .map(InternalGroup::getGroupUUID)
-            .collect(toImmutableList());
-      }
+      return groupQueryProvider
+          .get()
+          .bySubgroup(key)
+          .stream()
+          .map(InternalGroup::getGroupUUID)
+          .collect(toImmutableList());
     }
   }
 

@@ -49,7 +49,7 @@
       },
       _hideAutomated: {
         type: Boolean,
-        value: true,
+        value: false,
       },
       /**
        * The messages after processing and including merged reviewer updates.

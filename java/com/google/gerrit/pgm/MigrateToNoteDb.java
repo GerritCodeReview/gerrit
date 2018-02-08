@@ -203,9 +203,11 @@ public class MigrateToNoteDb extends SiteProgram {
   private Module getIndexModule() {
     switch (IndexModule.getIndexType(dbInjector)) {
       case LUCENE:
-        return LuceneIndexModule.singleVersionWithExplicitVersions(ImmutableMap.of(), threads);
+        return LuceneIndexModule.singleVersionWithExplicitVersions(
+            ImmutableMap.of(), threads, false);
       case ELASTICSEARCH:
-        return ElasticIndexModule.singleVersionWithExplicitVersions(ImmutableMap.of(), threads);
+        return ElasticIndexModule.singleVersionWithExplicitVersions(
+            ImmutableMap.of(), threads, false);
       default:
         throw new IllegalStateException("unsupported index.type");
     }

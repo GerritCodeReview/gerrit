@@ -392,9 +392,9 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
   private Module createIndexModule() {
     switch (indexType) {
       case LUCENE:
-        return LuceneIndexModule.latestVersionWithOnlineUpgrade();
+        return LuceneIndexModule.latestVersionWithOnlineUpgrade(false);
       case ELASTICSEARCH:
-        return ElasticIndexModule.latestVersionWithOnlineUpgrade();
+        return ElasticIndexModule.latestVersionWithOnlineUpgrade(false);
       default:
         throw new IllegalStateException("unsupported index.type = " + indexType);
     }

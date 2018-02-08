@@ -1535,42 +1535,20 @@ limitations under the License.
       });
     });
 
-    suite('_handleDoneEditTap', () => {
-      let fireDone;
-
-      setup(() => {
-        fireDone = () => {
-          element.$.actions.dispatchEvent(new CustomEvent('done-edit-tap',
-              {bubbles: false}));
-        };
-        sandbox.stub(element.$.metadata, '_computeShowLabelStatus');
-        sandbox.stub(element.$.metadata, '_computeLabelNames');
-        navigateToChangeStub.restore();
+    test('_handleStopEditTap', done => {
+      sandbox.stub(element.$.metadata, '_computeShowLabelStatus');
+      sandbox.stub(element.$.metadata, '_computeLabelNames');
+      navigateToChangeStub.restore();
+      sandbox.stub(element, 'computeLatestPatchNum').returns(1);
+      sandbox.stub(Gerrit.Nav, 'navigateToChange', (...args) => {
+        assert.equal(args.length, 2);
+        assert.equal(args[1], 1); // patchNum
+        done();
       });
 
-      test('edit patchset loaded', done => {
-        sandbox.stub(element, 'computeLatestPatchNum').returns(1);
-        sandbox.stub(Gerrit.Nav, 'navigateToChange', (...args) => {
-          assert.equal(args.length, 2);
-          assert.equal(args[1], 1); // patchNum
-          done();
-        });
-
-        element._patchRange = {patchNum: element.EDIT_NAME};
-        fireDone();
-      });
-
-      test('edit patchset loaded', done => {
-        sandbox.stub(element, 'computeLatestPatchNum').returns(1);
-        sandbox.stub(Gerrit.Nav, 'navigateToChange', (...args) => {
-          assert.equal(args.length, 2);
-          assert.equal(args[1], 1); // patchNum
-          done();
-        });
-
-        element._patchRange = {patchNum: 1};
-        fireDone();
-      });
+      element._patchRange = {patchNum: 1};
+      element.$.actions.dispatchEvent(new CustomEvent('stop-edit-tap',
+            {bubbles: false}));
     });
 
     suite('plugin endpoints', () => {

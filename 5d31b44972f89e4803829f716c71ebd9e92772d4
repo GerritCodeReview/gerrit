@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e77d2236_2ed7226a",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-08T10:45:35Z",
+      "side": 1,
+      "message": "nit: not needed?",
+      "range": {
+        "startLine": 236,
+        "startChar": 15,
+        "endLine": 236,
+        "endChar": 16
+      },
+      "revId": "5d31b44972f89e4803829f716c71ebd9e92772d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5138ba7_e74d3eca",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-08T10:45:35Z",
+      "side": 1,
+      "message": "Do we need handling for the exclusive flag in this method too?",
+      "revId": "5d31b44972f89e4803829f716c71ebd9e92772d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95f74233_7f23e86b",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-08T10:45:35Z",
+      "side": 1,
+      "message": "[optional] Maybe there should be an isAllow() method on PermissionRule",
+      "range": {
+        "startLine": 318,
+        "startChar": 14,
+        "endLine": 318,
+        "endChar": 44
+      },
+      "revId": "5d31b44972f89e4803829f716c71ebd9e92772d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "755e65b0_ec7a6e3c",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-08T10:45:35Z",
+      "side": 1,
+      "message": "nit: or other permissions that allow force (e.g. Edit Topic)",
+      "range": {
+        "startLine": 329,
+        "startChar": 59,
+        "endLine": 329,
+        "endChar": 65
+      },
+      "revId": "5d31b44972f89e4803829f716c71ebd9e92772d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51bc7642_622906f3",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-08T10:45:35Z",
+      "side": 1,
+      "message": "[optional] pr.isBlock()\n\nhere and in other places",
+      "range": {
+        "startLine": 333,
+        "startChar": 12,
+        "endLine": 333,
+        "endChar": 42
+      },
+      "revId": "5d31b44972f89e4803829f716c71ebd9e92772d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b0fdb88_e827b462",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 1438,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-08T23:05:33Z",
+      "side": 1,
+      "message": "I very much like that this is documented. Just I wonder if this is too technical\nfor user documentation and should rather go into a javadoc?",
+      "range": {
+        "startLine": 1430,
+        "startChar": 0,
+        "endLine": 1438,
+        "endChar": 25
+      },
+      "revId": "768ebbe73e8a0823416fd1be2d6b17ccefeafdba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ecc1e9a_d0aa38c6",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionCollection.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-08T23:05:33Z",
+      "side": 1,
+      "message": "[optional] This should rather be javadoc of this method.\n\nSame for several other methods below",
+      "revId": "768ebbe73e8a0823416fd1be2d6b17ccefeafdba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a036b673_9abba8be",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-08T23:05:33Z",
+      "side": 1,
+      "message": "Now that the member variable is deleted, should this comment be deleted too?",
+      "revId": "768ebbe73e8a0823416fd1be2d6b17ccefeafdba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3cde8a3_9b93dd86",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-08T23:05:33Z",
+      "side": 1,
+      "message": "Delete these lines if they are not needed",
+      "revId": "768ebbe73e8a0823416fd1be2d6b17ccefeafdba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

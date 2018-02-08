@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1d0d0cc_fa12ea68",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-08T08:57:20Z",
+      "side": 1,
+      "message": "Hey, but this works as intended.\nAn exclusive ALLOW rule on the same project, but different refs only overwrites the block if it is on a more specific ref than the block rule. The block on refs/heads/secret is more specific than refs/heads/*, hence it isn\u0027t overwritten.",
+      "range": {
+        "startLine": 684,
+        "startChar": 4,
+        "endLine": 686,
+        "endChar": 0
+      },
+      "revId": "8d294fcbed7c1f83788e3cfe35d48fb9aa6f7316",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

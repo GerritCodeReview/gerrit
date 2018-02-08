@@ -671,6 +671,15 @@ public class RefControlTest {
   }
 
   @Test
+  public void unblockFromParentDoesNotAffectChild() {
+    allow(parent, PUSH, DEVS, "refs/heads/master", true);
+    block(local, PUSH, DEVS, "refs/heads/master");
+
+    ProjectControl u = user(local, DEVS);
+    assertCannotUpdate("refs/heads/master", u);
+  }
+
+  @Test
   public void unblockMoreSpecificRefInLocalWithExclusiveFlag_Fails() {
     block(parent, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/heads/master", true);

@@ -16,7 +16,6 @@ package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
@@ -25,7 +24,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupMembership;
@@ -179,6 +177,10 @@ class ProjectControl {
     return match(rule.getGroup().getUUID(), isChangeOwner);
   }
 
+  boolean allRefsAreVisible(Set<String> ignore) {
+    return user.isInternalUser() || canPerformOnAllRefs(Permission.READ, ignore);
+  }
+
   /** Can the user run upload pack? */
   private boolean canRunUploadPack() {
     for (AccountGroup.UUID group : uploadGroups) {
@@ -197,10 +199,6 @@ class ProjectControl {
       }
     }
     return false;
-  }
-
-  private boolean allRefsAreVisible(Set<String> ignore) {
-    return user.isInternalUser() || canPerformOnAllRefs(Permission.READ, ignore);
   }
 
   /** Returns whether the project is hidden. */
@@ -391,7 +389,7 @@ class ProjectControl {
     @Override
     public Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
         throws PermissionBackendException {
-      return refFilterFactory.create(getUser(), getProjectState()).filter(refs, repo, opts);
+      return refFilterFactory.create(ProjectControl.this).filter(refs, repo, opts);
     }
 
     private boolean can(ProjectPermission perm) throws PermissionBackendException {
@@ -402,9 +400,6 @@ class ProjectControl {
 
         case READ:
           return !isHidden() && allRefsAreVisible(Collections.emptySet());
-
-        case READ_NO_CONFIG:
-          return !isHidden() && allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG));
 
         case CREATE_REF:
           return canAddRefs();

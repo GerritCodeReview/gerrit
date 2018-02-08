@@ -129,6 +129,30 @@
       "revId": "e486718005244291f394a2a4358345a073f9b7a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d955e3b_7d86036c",
+        "filename": "gerrit-antlr/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-08T05:57:51Z",
+      "side": 1,
+      "message": "This change added unwanted verbose output: [1]. In all other places, we always invoke zip with -q option:\n\n  $ find . -name BUILD | xargs grep \"zip -q\" | wc -l\n  5\n\n* [1] http://paste.openstack.org/show/665914/",
+      "parentUuid": "8e683236_b4414f02",
+      "range": {
+        "startLine": 16,
+        "startChar": 8,
+        "endLine": 16,
+        "endChar": 43
+      },
+      "revId": "e486718005244291f394a2a4358345a073f9b7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

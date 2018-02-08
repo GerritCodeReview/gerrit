@@ -481,7 +481,8 @@ public class GroupsUpdate {
     }
   }
 
-  private InternalGroup createGroupInNoteDb(
+  @VisibleForTesting
+  public InternalGroup createGroupInNoteDb(
       InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {

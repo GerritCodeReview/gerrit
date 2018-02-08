@@ -92,9 +92,11 @@ public class IndexModule extends LifecycleModule {
   private final ListeningExecutorService interactiveExecutor;
   private final ListeningExecutorService batchExecutor;
   private final boolean closeExecutorsOnShutdown;
+  private final boolean slave;
 
-  public IndexModule(int threads) {
+  public IndexModule(int threads, boolean slave) {
     this.threads = threads;
+    this.slave = slave;
     this.interactiveExecutor = null;
     this.batchExecutor = null;
     this.closeExecutorsOnShutdown = true;
@@ -106,6 +108,7 @@ public class IndexModule extends LifecycleModule {
     this.interactiveExecutor = interactiveExecutor;
     this.batchExecutor = batchExecutor;
     this.closeExecutorsOnShutdown = false;
+    slave = false;
   }
 
   @Override
@@ -151,6 +154,11 @@ public class IndexModule extends LifecycleModule {
       ChangeIndexDefinition changes,
       GroupIndexDefinition groups,
       ProjectIndexDefinition projects) {
+    if (slave) {
+      // In slave mode, we only have the group index.
+      return ImmutableList.of(groups);
+    }
+
     Collection<IndexDefinition<?, ?, ?>> result =
         ImmutableList.<IndexDefinition<?, ?, ?>>of(accounts, groups, changes, projects);
     Set<String> expected =

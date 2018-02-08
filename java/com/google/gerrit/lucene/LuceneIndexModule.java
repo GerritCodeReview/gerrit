@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.Schema;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexModule;
@@ -37,21 +38,21 @@ import org.apache.lucene.search.BooleanQuery;
 import org.eclipse.jgit.lib.Config;
 
 public class LuceneIndexModule extends AbstractModule {
-  public static LuceneIndexModule singleVersionAllLatest(int threads) {
-    return new LuceneIndexModule(ImmutableMap.<String, Integer>of(), threads, false);
+  public static LuceneIndexModule singleVersionAllLatest(int threads, boolean slave) {
+    return new LuceneIndexModule(ImmutableMap.of(), threads, false, slave);
   }
 
   public static LuceneIndexModule singleVersionWithExplicitVersions(
-      Map<String, Integer> versions, int threads) {
-    return new LuceneIndexModule(versions, threads, false);
+      Map<String, Integer> versions, int threads, boolean slave) {
+    return new LuceneIndexModule(versions, threads, false, slave);
   }
 
-  public static LuceneIndexModule latestVersionWithOnlineUpgrade() {
-    return new LuceneIndexModule(null, 0, true);
+  public static LuceneIndexModule latestVersionWithOnlineUpgrade(boolean slave) {
+    return new LuceneIndexModule(null, 0, true, slave);
   }
 
-  public static LuceneIndexModule latestVersionWithoutOnlineUpgrade() {
-    return new LuceneIndexModule(null, 0, false);
+  public static LuceneIndexModule latestVersionWithoutOnlineUpgrade(boolean slave) {
+    return new LuceneIndexModule(null, 0, false, slave);
   }
 
   static boolean isInMemoryTest(Config cfg) {
@@ -61,41 +62,55 @@ public class LuceneIndexModule extends AbstractModule {
   private final Map<String, Integer> singleVersions;
   private final int threads;
   private final boolean onlineUpgrade;
+  private final boolean slave;
 
   private LuceneIndexModule(
-      Map<String, Integer> singleVersions, int threads, boolean onlineUpgrade) {
+      Map<String, Integer> singleVersions, int threads, boolean onlineUpgrade, boolean slave) {
     if (singleVersions != null) {
       checkArgument(!onlineUpgrade, "online upgrade is incompatible with single version map");
     }
     this.singleVersions = singleVersions;
     this.threads = threads;
     this.onlineUpgrade = onlineUpgrade;
+    this.slave = slave;
   }
 
   @Override
   protected void configure() {
-    install(
-        new FactoryModuleBuilder()
-            .implement(AccountIndex.class, LuceneAccountIndex.class)
-            .build(AccountIndex.Factory.class));
-    install(
-        new FactoryModuleBuilder()
-            .implement(ChangeIndex.class, LuceneChangeIndex.class)
-            .build(ChangeIndex.Factory.class));
+    if (slave) {
+      bind(AccountIndex.Factory.class).toInstance(LuceneIndexModule::createDummyIndexFactory);
+      bind(ChangeIndex.Factory.class).toInstance(LuceneIndexModule::createDummyIndexFactory);
+      bind(ProjectIndex.Factory.class).toInstance(LuceneIndexModule::createDummyIndexFactory);
+    } else {
+      install(
+          new FactoryModuleBuilder()
+              .implement(AccountIndex.class, LuceneAccountIndex.class)
+              .build(AccountIndex.Factory.class));
+      install(
+          new FactoryModuleBuilder()
+              .implement(ChangeIndex.class, LuceneChangeIndex.class)
+              .build(ChangeIndex.Factory.class));
+      install(
+          new FactoryModuleBuilder()
+              .implement(ProjectIndex.class, LuceneProjectIndex.class)
+              .build(ProjectIndex.Factory.class));
+    }
     install(
         new FactoryModuleBuilder()
             .implement(GroupIndex.class, LuceneGroupIndex.class)
             .build(GroupIndex.Factory.class));
-    install(
-        new FactoryModuleBuilder()
-            .implement(ProjectIndex.class, LuceneProjectIndex.class)
-            .build(ProjectIndex.Factory.class));
-    install(new IndexModule(threads));
+
+    install(new IndexModule(threads, slave));
     if (singleVersions == null) {
       install(new MultiVersionModule());
     } else {
       install(new SingleVersionModule(singleVersions));
     }
+  }
+
+  @SuppressWarnings("unused")
+  private static <T> T createDummyIndexFactory(Schema<?> schema) {
+    throw new UnsupportedOperationException();
   }
 
   @Provides

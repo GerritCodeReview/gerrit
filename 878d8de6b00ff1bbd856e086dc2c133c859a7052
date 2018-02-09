@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1518181829 +0100\nnonce AFD2Vu3ABvlYo6LVfC3F5aX0ke3M9tSlCmpacpiyTvka+X46mE5cZSkPBr+GygOpXTLrugP7V9hV\n\n0000000000000000000000000000000000000000 7f907f756e994f0cfc7d9e0750ede44db912a54b refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlp9ncUACgkQUbX9l6DQ\n71HAXAf/ec+dceABn7iUdG4b0fEaG1B/5yuyR7X36BQRMBUDYaN1dQQajxpk4aIj\nkLogdAqtk7Wn5Qec7IJt7C10uJ7CLbn/fFla3Nu0B/WOzWHAa14PKX47ZZ6YRy18\nH1oqFFVWj7MUxHAAxn73CEK5mIzgV87C/Fw6pjvm46M9aE4mai0sZ5vLVpSVt/vg\nlqLqPEaNhH6bXvtsOpO3/J5kZ00+CPyQDt9B0XjHjBisfZ2YlwlkfS898fORDMK+\nIrIBQlTYAwweKQySGW7ZXQFrJnMVU9MPPIpfsA12jwIu1U+c9nlqarvTu3TbSIFT\no96ZzxQ10OwqmUuDhHzVe1cD0QEsiA\u003d\u003d\n\u003dz3kp\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b16c3f7_d37dad09",
+        "filename": "java/com/google/gerrit/server/index/account/AccountIndexerImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-09T19:29:42Z",
+      "side": 1,
+      "message": "Can we just factor this out into reindexIfStale and have this method call that one? That way it doesn\u0027t tie up a second thread.",
+      "range": {
+        "startLine": 148,
+        "startChar": 10,
+        "endLine": 152,
+        "endChar": 23
+      },
+      "revId": "878d8de6b00ff1bbd856e086dc2c133c859a7052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "127b8073_d4e616ac",
+        "filename": "java/com/google/gerrit/server/index/group/GroupIndexerImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-09T19:29:42Z",
+      "side": 1,
+      "message": "Same comment as in account indexer.",
+      "revId": "878d8de6b00ff1bbd856e086dc2c133c859a7052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -27,6 +27,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.project.testing.Util.ADMIN;
 import static com.google.gerrit.server.project.testing.Util.DEVS;
 import static com.google.gerrit.server.project.testing.Util.allow;
+import static com.google.gerrit.server.project.testing.Util.allowExclusive;
 import static com.google.gerrit.server.project.testing.Util.block;
 import static com.google.gerrit.server.project.testing.Util.deny;
 import static com.google.gerrit.server.project.testing.Util.doNotInherit;
@@ -668,6 +669,18 @@ public class RefControlTest {
 
     ProjectControl u = user(local, DEVS);
     assertCanUpdate("refs/heads/master", u);
+  }
+
+  @Test
+  public void unblockVoteMoreSpecificRefWithExclusiveFlag() {
+    String perm = LABEL + "Code-Review";
+
+    block(local, perm, -1, 1, ANONYMOUS_USERS, "refs/heads/*");
+    allowExclusive(local, perm, -2, 2, DEVS, "refs/heads/master");
+
+    ProjectControl u = user(local, DEVS);
+    PermissionRange range = u.controlForRef("refs/heads/master").getRange(perm);
+    assertCanVote(-2, range);
   }
 
   @Test

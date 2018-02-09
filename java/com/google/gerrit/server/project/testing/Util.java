@@ -80,6 +80,19 @@ public class Util {
     return grant(project, permissionName, rule, ref);
   }
 
+  public static PermissionRule allowExclusive(
+      ProjectConfig project,
+      String permissionName,
+      int min,
+      int max,
+      AccountGroup.UUID group,
+      String ref) {
+    PermissionRule rule = newRule(project, group);
+    rule.setMin(min);
+    rule.setMax(max);
+    return grant(project, permissionName, rule, ref, true);
+  }
+
   public static PermissionRule block(
       ProjectConfig project,
       String permissionName,

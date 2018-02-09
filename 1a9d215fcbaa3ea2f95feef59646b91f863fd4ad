@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1dfeec8_ba5cb7fa",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-09T01:49:00Z",
+      "side": 1,
+      "message": "Should there be a ..\n\n \u003cspan class\u003d\"value\"\u003e  \u003c/span\u003e\n\n.. around this input (and the one one l.110-112)?",
+      "range": {
+        "startLine": 101,
+        "startChar": 10,
+        "endLine": 104,
+        "endChar": 76
+      },
+      "revId": "1a9d215fcbaa3ea2f95feef59646b91f863fd4ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

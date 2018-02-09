@@ -16,6 +16,24 @@
       "revId": "ea0accdd4cf7e5ffabbfa00206a737f2af2083cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e722a2d_3606811e",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-09T18:18:13Z",
+      "side": 1,
+      "message": "Yes! Good catch.",
+      "parentUuid": "03031675_40a59751",
+      "revId": "ea0accdd4cf7e5ffabbfa00206a737f2af2083cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

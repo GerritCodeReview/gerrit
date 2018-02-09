@@ -141,8 +141,12 @@ public class PeriodicGroupIndexer implements Runnable {
       GroupIndexer groupIndexer = groupIndexerProvider.get();
       int reindexCounter = 0;
       for (Map.Entry<String, ObjectId> e : newGroupRefs.entrySet()) {
-        if (groupRefs == null
-            || !groupRefs.containsKey(e.getKey())
+        if (groupRefs == null) {
+          // startup of Gerrit slave, reindex the group only if it is stale
+          if (groupIndexer.reindexIfStale(AccountGroup.UUID.fromRefPart(e.getKey()))) {
+            reindexCounter++;
+          }
+        } else if (!groupRefs.containsKey(e.getKey())
             || !groupRefs.get(e.getKey()).equals(e.getValue())) {
           // new group or updated group
           groupIndexer.index(AccountGroup.UUID.fromRefPart(e.getKey()));

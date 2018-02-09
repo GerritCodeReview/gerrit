@@ -16,6 +16,7 @@ package com.google.gerrit.server.index.group;
 
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -36,10 +37,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GroupIndexerImpl implements GroupIndexer {
+  private static final Logger log = LoggerFactory.getLogger(GroupIndexerImpl.class);
+
   public interface Factory {
     GroupIndexerImpl create(GroupIndexCollection indexes);
 
@@ -102,6 +108,17 @@ public class GroupIndexerImpl implements GroupIndexer {
     autoReindexIfStale(uuid);
   }
 
+  @Override
+  public boolean reindexIfStale(AccountGroup.UUID uuid) throws IOException {
+    try {
+      return reindexIfStaleAsync(uuid).get();
+    } catch (ExecutionException | InterruptedException e) {
+      log.warn("reindex of possibly stale group {} failed", uuid.get());
+      Throwables.throwIfInstanceOf(e.getCause(), IOException.class);
+      throw new IOException(e);
+    }
+  }
+
   private static boolean autoReindexIfStale(Config cfg) {
     return cfg.getBoolean("index", null, "autoReindexIfStale", true);
   }
@@ -110,7 +127,7 @@ public class GroupIndexerImpl implements GroupIndexer {
     if (autoReindexIfStale) {
       // Don't retry indefinitely; if this fails the group will be stale.
       @SuppressWarnings("unused")
-      Future<?> possiblyIgnoredError = reindexIfStale(uuid);
+      Future<?> possiblyIgnoredError = reindexIfStaleAsync(uuid);
     }
   }
 
@@ -124,7 +141,7 @@ public class GroupIndexerImpl implements GroupIndexer {
    * @return future for reindexing the group; returns true if the group was stale.
    */
   @SuppressWarnings("deprecation")
-  public com.google.common.util.concurrent.CheckedFuture<Boolean, IOException> reindexIfStale(
+  private com.google.common.util.concurrent.CheckedFuture<Boolean, IOException> reindexIfStaleAsync(
       AccountGroup.UUID uuid) {
     Callable<Boolean> task =
         () -> {

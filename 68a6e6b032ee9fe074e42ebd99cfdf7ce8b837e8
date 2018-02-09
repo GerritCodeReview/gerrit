@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "313f34b9_790b7c34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-09T09:24:04Z",
+      "side": 1,
+      "message": "Good point. I should mention this in the commit message.\n\nDone.",
+      "parentUuid": "29c753ab_200a0972",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "68a6e6b032ee9fe074e42ebd99cfdf7ce8b837e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ad3a2a4_0e53261a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2018-02-08T20:44:43Z",
       "side": 1,
       "message": "background",
+      "range": {
+        "startLine": 12,
+        "startChar": 29,
+        "endLine": 12,
+        "endChar": 38
+      },
+      "revId": "68a6e6b032ee9fe074e42ebd99cfdf7ce8b837e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5216a05e_0467d7a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-09T09:24:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ad3a2a4_0e53261a",
       "range": {
         "startLine": 12,
         "startChar": 29,
@@ -96,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "a53c88b2_26b00697",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-09T09:24:04Z",
+      "side": 1,
+      "message": "I\u0027m glad that we could find an easy solution that makes everyone happy. \nComing to this solution was a group effort and it was shaped in a discussion with Alice and Han-Wen based on your feedback.",
+      "parentUuid": "ccc9204c_f0817a5b",
+      "range": {
+        "startLine": 20,
+        "startChar": 23,
+        "endLine": 20,
+        "endChar": 32
+      },
+      "revId": "68a6e6b032ee9fe074e42ebd99cfdf7ce8b837e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a9773f4_64af4f96",
         "filename": "java/com/google/gerrit/server/group/PeriodicGroupIndexer.java",
         "patchSetId": 2
@@ -119,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "0894825c_25452ce7",
+        "filename": "java/com/google/gerrit/server/group/PeriodicGroupIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-09T09:24:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a9773f4_64af4f96",
+      "range": {
+        "startLine": 140,
+        "startChar": 10,
+        "endLine": 140,
+        "endChar": 28
+      },
+      "revId": "68a6e6b032ee9fe074e42ebd99cfdf7ce8b837e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e36829e7_e2897cac",
         "filename": "java/com/google/gerrit/server/group/PeriodicGroupIndexer.java",
         "patchSetId": 2
@@ -130,6 +226,30 @@
       "writtenOn": "2018-02-08T17:59:23Z",
       "side": 1,
       "message": "We need to catch more than just IOEception.\n\nIf an uncaught exception happens in a periodic task, subsequent executions will be cancelled.\n\nMaybe not Throwable but at least Exception?",
+      "range": {
+        "startLine": 155,
+        "startChar": 4,
+        "endLine": 157,
+        "endChar": 5
+      },
+      "revId": "68a6e6b032ee9fe074e42ebd99cfdf7ce8b837e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cb7eb88_e1432fbc",
+        "filename": "java/com/google/gerrit/server/group/PeriodicGroupIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-09T09:24:04Z",
+      "side": 1,
+      "message": "Good catch. Done.",
+      "parentUuid": "e36829e7_e2897cac",
       "range": {
         "startLine": 155,
         "startChar": 4,

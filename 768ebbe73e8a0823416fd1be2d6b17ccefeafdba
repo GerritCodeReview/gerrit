@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7905cbc8_25cce058",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 1433,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-09T16:47:44Z",
+      "side": 1,
+      "message": "ALLOW",
+      "range": {
+        "startLine": 1433,
+        "startChar": 45,
+        "endLine": 1433,
+        "endChar": 51
+      },
+      "revId": "768ebbe73e8a0823416fd1be2d6b17ccefeafdba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7b0fdb88_e827b462",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 17
@@ -19,6 +42,109 @@
         "endLine": 1438,
         "endChar": 25
       },
+      "revId": "768ebbe73e8a0823416fd1be2d6b17ccefeafdba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d724efb3_8413e97d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 1479,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-09T16:47:44Z",
+      "side": 1,
+      "message": "Maybe worth mentioning that this ALLOW PermissionRule actually has another\nside effect: it also grants access to that group. In other words:\n\n  block Anonymous Users\n  allow Foo\n\nmeans: block for everyone except Foo and also grant to Foo.",
+      "revId": "768ebbe73e8a0823416fd1be2d6b17ccefeafdba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc652e72_e40a4617",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 1481,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-09T16:47:44Z",
+      "side": 1,
+      "message": "adding ALLOW PermissionRules in the same project ...",
+      "range": {
+        "startLine": 1481,
+        "startChar": 3,
+        "endLine": 1481,
+        "endChar": 29
+      },
+      "revId": "768ebbe73e8a0823416fd1be2d6b17ccefeafdba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "006957a6_40be5007",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 1502,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-09T16:47:44Z",
+      "side": 1,
+      "message": "I don\u0027t understand this sentence. Maybe providing example would help\nclarify this?",
+      "range": {
+        "startLine": 1500,
+        "startChar": 39,
+        "endLine": 1502,
+        "endChar": 9
+      },
+      "revId": "768ebbe73e8a0823416fd1be2d6b17ccefeafdba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd6fa00b_ffd12426",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 1503,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-09T16:47:44Z",
+      "side": 1,
+      "message": "Looks like a typo for me",
+      "range": {
+        "startLine": 1503,
+        "startChar": 34,
+        "endLine": 1503,
+        "endChar": 47
+      },
+      "revId": "768ebbe73e8a0823416fd1be2d6b17ccefeafdba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0a0dabe_81ff2e38",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 1510,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-09T16:47:44Z",
+      "side": 1,
+      "message": "Agreed. This is why we almost never use DENY rules and why we invented BLOCK rules :-)",
       "revId": "768ebbe73e8a0823416fd1be2d6b17ccefeafdba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -74,6 +200,23 @@
       "revId": "768ebbe73e8a0823416fd1be2d6b17ccefeafdba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "489d030d_d2364aed",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-09T16:47:44Z",
+      "side": 1,
+      "message": "remove this empty line because all these four fields are actually result of a canPerform call?",
+      "revId": "768ebbe73e8a0823416fd1be2d6b17ccefeafdba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

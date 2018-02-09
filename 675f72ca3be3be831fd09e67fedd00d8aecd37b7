@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "658db7f7_4048a576",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-09T18:10:18Z",
+      "side": 1,
+      "message": "This is confusing to read. Not sure if this is a typo, or if there\u0027s a missing line maybe?",
+      "range": {
+        "startLine": 18,
+        "startChar": 68,
+        "endLine": 19,
+        "endChar": 17
+      },
+      "revId": "675f72ca3be3be831fd09e67fedd00d8aecd37b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15463d87_72d7e215",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-09T18:10:18Z",
+      "side": 1,
+      "message": "I\u0027m sorry to nitpick on wording, but it looks like this change uses `parentId` to mean what I think of as `rootId`.\n\nIOW, \"parent\" is a relation between comments, but threads themselves are not organized hierarchically.\n\nIs it possible that `rootId` or `rootCommentId` would make sense here?",
+      "range": {
+        "startLine": 40,
+        "startChar": 10,
+        "endLine": 40,
+        "endChar": 41
+      },
+      "revId": "675f72ca3be3be831fd09e67fedd00d8aecd37b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75a059a2_bded2a05",
+        "filename": "antlr3/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-09T10:27:47Z",
+      "side": 0,
+      "message": "Nice catch!",
+      "revId": "f8c86b2e8b76df7bc6f3f4525434460ba961d49e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

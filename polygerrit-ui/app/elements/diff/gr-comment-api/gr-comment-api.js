@@ -344,9 +344,11 @@
    * Computes all of the comments in thread format.
    *
    * @param {!Array} comments sorted by updated timestamp.
+   * @param {number=} opt_patchForNewThreads
    * @return {!Array}
    */
-  ChangeComments.prototype.getCommentThreads = function(comments) {
+  ChangeComments.prototype.getCommentThreads = function(comments,
+      opt_patchForNewThreads) {
     const threads = [];
     for (const comment of comments) {
       // If the comment is in reply to another comment, find that comment's
@@ -363,12 +365,16 @@
       // Otherwise, this comment starts its own thread.
       const newThread = {
         comments: [comment],
-        patchNum: comment.patch_set,
+        patchNum: comment.patch_set || comment.patchNum ||
+            opt_patchForNewThreads,
         path: comment.__path,
         line: comment.line,
+        rootId: comment.id,
+        start_datetime: comment.updated,
       };
-      if (comment.side) {
-        newThread.commentSide = comment.side;
+      const commentSide = comment.side || comment.__commentSide;
+      if (commentSide) {
+        newThread.commentSide = commentSide;
       }
       threads.push(newThread);
     }

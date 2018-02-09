@@ -127,7 +127,6 @@
        */
       _commentMap: Object,
 
-      _commentsForDiff: Object,
 
       /**
        * Object to contain the path of the next and previous file in the current
@@ -606,7 +605,6 @@
           });
         }
         this._loading = false;
-        this.$.diff.comments = this._commentsForDiff;
         this.$.diff.reload();
       });
     },
@@ -847,19 +845,11 @@
       return this.$.commentAPI.loadAll(this._changeNum).then(comments => {
         this._changeComments = comments;
         this._commentMap = this._getPaths(this._patchRange);
-
-        this._commentsForDiff = this._getCommentsForPath(this._path,
-            this._patchRange, this._projectConfig);
       });
     },
 
     _getPaths(patchRange) {
       return this._changeComments.getPaths(patchRange);
-    },
-
-    _getCommentsForPath(path, patchRange, projectConfig) {
-      return this._changeComments.getCommentsBySideForPath(path, patchRange,
-          projectConfig);
     },
 
     _getDiffDrafts() {

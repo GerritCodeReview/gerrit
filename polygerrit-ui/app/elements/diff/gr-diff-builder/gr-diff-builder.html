@@ -250,9 +250,9 @@ limitations under the License.
         },
 
         createCommentThreadGroup(changeNum, patchNum, path,
-            isOnParent, commentSide) {
+            isOnParent, commentSide, changeComments) {
           return this._builder.createCommentThreadGroup(changeNum, patchNum,
-              path, isOnParent, commentSide);
+              path, isOnParent, commentSide, changeComments);
         },
 
         emitGroup(group, sectionEl) {
@@ -312,10 +312,12 @@ limitations under the License.
                 this.projectName, this.diffElement);
           } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
             builder = new GrDiffBuilderSideBySide(diff, comments, prefs,
-                this.projectName, this.diffElement, this._layers);
+                this.projectName, this.diffElement, this._layers,
+                this.changeComments);
           } else if (this.viewMode === DiffViewMode.UNIFIED) {
             builder = new GrDiffBuilderUnified(diff, comments, prefs,
-                this.projectName, this.diffElement, this._layers);
+                this.projectName, this.diffElement, this._layers,
+                this.changeComments);
           }
           if (!builder) {
             throw Error('Unsupported diff view mode: ' + this.viewMode);

@@ -190,7 +190,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   }
 
   private Optional<Account> createAccountByLdap(String user) throws IOException {
-    if (!user.matches(ExternalId.USER_NAME_PATTERN_REGEX)) {
+    if (!ExternalId.isValidUsername(user)) {
       return Optional.empty();
     }
 

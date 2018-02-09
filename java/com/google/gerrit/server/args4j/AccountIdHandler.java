@@ -91,7 +91,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
   }
 
   private Account.Id createAccountByLdap(String user) throws CmdLineException, IOException {
-    if (!user.matches(ExternalId.USER_NAME_PATTERN_REGEX)) {
+    if (!ExternalId.isValidUsername(user)) {
       throw new CmdLineException(owner, "user \"" + user + "\" not found");
     }
 

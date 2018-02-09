@@ -75,17 +75,17 @@ suite('gr-edit-controls tests', () => {
       assert.isTrue(element._isValidPath('test.js'));
     });
 
-    test('edit', () => {
-      MockInteractions.tap(element.$$('#edit'));
+    test('open', () => {
+      MockInteractions.tap(element.$$('#open'));
       element.patchNum = 1;
       return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.editDialog.disabled);
+        assert.isTrue(element.$.openDialog.disabled);
         assert.isFalse(queryStub.called);
-        element.$.editDialog.querySelector('gr-autocomplete').text =
+        element.$.openDialog.querySelector('gr-autocomplete').text =
             'src/test.cpp';
         assert.isTrue(queryStub.called);
-        assert.isFalse(element.$.editDialog.disabled);
-        MockInteractions.tap(element.$.editDialog.$$('gr-button[primary]'));
+        assert.isFalse(element.$.openDialog.disabled);
+        MockInteractions.tap(element.$.openDialog.$$('gr-button[primary]'));
         for (const stub of navStubs) { assert.isTrue(stub.called); }
         assert.deepEqual(Gerrit.Nav.getEditUrlForDiff.lastCall.args,
             [element.change, 'src/test.cpp', element.patchNum]);
@@ -94,13 +94,13 @@ suite('gr-edit-controls tests', () => {
     });
 
     test('cancel', () => {
-      MockInteractions.tap(element.$$('#edit'));
+      MockInteractions.tap(element.$$('#open'));
       return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.editDialog.disabled);
-        element.$.editDialog.querySelector('gr-autocomplete').text =
+        assert.isTrue(element.$.openDialog.disabled);
+        element.$.openDialog.querySelector('gr-autocomplete').text =
             'src/test.cpp';
-        assert.isFalse(element.$.editDialog.disabled);
-        MockInteractions.tap(element.$.editDialog.$$('gr-button'));
+        assert.isFalse(element.$.openDialog.disabled);
+        MockInteractions.tap(element.$.openDialog.$$('gr-button'));
         for (const stub of navStubs) { assert.isFalse(stub.called); }
         assert.isTrue(closeDialogSpy.called);
         assert.equal(element._path, 'src/test.cpp');
@@ -319,10 +319,10 @@ suite('gr-edit-controls tests', () => {
     });
   });
 
-  test('openEditDialog', () => {
-    return element.openEditDialog('test/path.cpp').then(() => {
-      assert.isFalse(element.$.editDialog.hasAttribute('hidden'));
-      assert.equal(element.$.editDialog.querySelector('gr-autocomplete').text,
+  test('openOpenDialog', () => {
+    return element.openOpenDialog('test/path.cpp').then(() => {
+      assert.isFalse(element.$.openDialog.hasAttribute('hidden'));
+      assert.equal(element.$.openDialog.querySelector('gr-autocomplete').text,
           'test/path.cpp');
     });
   });
@@ -331,9 +331,9 @@ suite('gr-edit-controls tests', () => {
     const spy = sandbox.spy(element, '_getDialogFromEvent');
     element.addEventListener('tap', element._getDialogFromEvent);
 
-    MockInteractions.tap(element.$.editDialog);
+    MockInteractions.tap(element.$.openDialog);
     flushAsynchronousOperations();
-    assert.equal(spy.lastCall.returnValue.id, 'editDialog');
+    assert.equal(spy.lastCall.returnValue.id, 'openDialog');
 
     MockInteractions.tap(element.$.deleteDialog);
     flushAsynchronousOperations();

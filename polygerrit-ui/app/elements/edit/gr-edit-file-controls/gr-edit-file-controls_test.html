@@ -47,55 +47,56 @@ suite('gr-edit-file-controls tests', () => {
 
   teardown(() => { sandbox.restore(); });
 
-  test('edit tap emits event', () => {
+  test('open tap emits event', () => {
+    const actions = element.$.actions;
     element.filePath = 'foo';
+    actions._open();
+    flushAsynchronousOperations();
 
-    MockInteractions.tap(element.$.edit);
+    MockInteractions.tap(actions.$$('li [data-id="open"]'));
     assert.isTrue(fileActionHandler.called);
     assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
-        {action: GrEditConstants.Actions.EDIT.id, path: 'foo'});
+        {action: GrEditConstants.Actions.OPEN.id, path: 'foo'});
   });
 
   test('delete tap emits event', () => {
-    const more = element.$.more;
+    const actions = element.$.actions;
     element.filePath = 'foo';
-    more._open();
+    actions._open();
     flushAsynchronousOperations();
 
-    MockInteractions.tap(more.$$('li [data-id="delete"]'));
+    MockInteractions.tap(actions.$$('li [data-id="delete"]'));
     assert.isTrue(fileActionHandler.called);
     assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
         {action: GrEditConstants.Actions.DELETE.id, path: 'foo'});
   });
 
   test('restore tap emits event', () => {
-    const more = element.$.more;
+    const actions = element.$.actions;
     element.filePath = 'foo';
-    more._open();
+    actions._open();
     flushAsynchronousOperations();
 
-    MockInteractions.tap(more.$$('li [data-id="restore"]'));
+    MockInteractions.tap(actions.$$('li [data-id="restore"]'));
     assert.isTrue(fileActionHandler.called);
     assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
         {action: GrEditConstants.Actions.RESTORE.id, path: 'foo'});
   });
 
   test('rename tap emits event', () => {
-    const more = element.$.more;
+    const actions = element.$.actions;
     element.filePath = 'foo';
-    more._open();
+    actions._open();
     flushAsynchronousOperations();
 
-    MockInteractions.tap(more.$$('li [data-id="rename"]'));
+    MockInteractions.tap(actions.$$('li [data-id="rename"]'));
     assert.isTrue(fileActionHandler.called);
     assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
         {action: GrEditConstants.Actions.RENAME.id, path: 'foo'});
   });
 
   test('computed properties', () => {
-    assert.equal(element._allFileActions.length, 3);
-    assert.notOk(element._allFileActions
-        .find(action => action.id === GrEditConstants.Actions.EDIT.id));
+    assert.equal(element._allFileActions.length, 4);
   });
 });
 </script>

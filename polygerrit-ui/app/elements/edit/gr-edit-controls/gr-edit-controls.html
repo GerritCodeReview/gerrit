@@ -79,13 +79,15 @@ limitations under the License.
     </template>
     <gr-overlay id="overlay" with-backdrop>
       <gr-confirm-dialog
-          id="editDialog"
+          id="openDialog"
           class="invisible dialog"
           disabled$="[[!_isValidPath(_path)]]"
-          confirm-label="Edit"
-          on-confirm="_handleEditConfirm"
+          confirm-label="Open"
+          on-confirm="_handleOpenConfirm"
           on-cancel="_handleDialogCancel">
-        <div class="header" slot="header">Edit a file</div>
+        <div class="header" slot="header">
+          Open an existing or new file
+        </div>
         <div class="main" slot="main">
           <gr-autocomplete
               placeholder="Enter an existing or new full file path."

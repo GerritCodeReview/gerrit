@@ -83,6 +83,32 @@ public abstract class HtmlParserTest extends AbstractParserTest {
   }
 
   @Test
+  public void simpleInlineCommentsWithLink() {
+    MailMessage.Builder b = newMailMessageBuilder();
+    b.htmlContent(
+        newHtmlBody(
+            "Looks good to me",
+            "How about [1]? This would help IMHO.</div><div>[1] "
+                + "<a href=\"http://gerritcodereview.com\">http://gerritcodereview.com</a>",
+            null,
+            "Also have a comment here.",
+            null,
+            null,
+            null));
+
+    List<Comment> comments = defaultComments();
+    List<MailComment> parsedComments = HtmlParser.parse(b.build(), comments, CHANGE_URL);
+
+    assertThat(parsedComments).hasSize(3);
+    assertChangeMessage("Looks good to me", parsedComments.get(0));
+    assertInlineComment(
+        "How about [1]? This would help IMHO.\n\n[1] http://gerritcodereview.com",
+        parsedComments.get(1),
+        comments.get(1));
+    assertInlineComment("Also have a comment here.", parsedComments.get(2), comments.get(4));
+  }
+
+  @Test
   public void simpleFileComment() {
     MailMessage.Builder b = newMailMessageBuilder();
     b.htmlContent(

@@ -53,16 +53,6 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/commit-message-length-validator/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
-[[cookbook-plugin]]
-=== cookbook-plugin
-
-Sample plugin to demonstrate features of Gerrit's plugin API.
-
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/cookbook-plugin[
-Project] |
-link:https://gerrit.googlesource.com/plugins/cookbook-plugin/+doc/master/src/main/resources/Documentation/about.md[
-Documentation]
-
 [[download-commands]]
 === download-commands
 
@@ -357,6 +347,16 @@ Plugin to integrate with Jira.
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-jira[
 Project] |
 link:https://gerrit.googlesource.com/plugins/its-jira/+doc/master/src/main/resources/Documentation/config.md[
+Configuration]
+
+[[its-phabricator]]
+==== its-phabricator
+
+Plugin to integrate with Phabricator.
+
+link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-phabricator[
+Project] |
+link:https://gerrit.googlesource.com/plugins/its-phabricator/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[its-rtc]]

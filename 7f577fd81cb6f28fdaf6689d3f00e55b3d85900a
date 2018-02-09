@@ -125,6 +125,24 @@
       "revId": "7f577fd81cb6f28fdaf6689d3f00e55b3d85900a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5dc6741_bd6bab2d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1555,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-09T17:14:45Z",
+      "side": 1,
+      "message": "I\u0027m not understanding what you mean by \"maybe `gr-editor-view#_getFileData` could precede the `getFileContent` request with a separate HEAD request to probe whether it would be a 404\". How is that meaningfully different than this request?\n\nIn my mind, if this request fails with a 404 but a HEAD request succeeds, that doesn\u0027t necessarily mean the user wants to modify the file at HEAD. It\u0027s entirely possible that the file was modified one or more times in one or more parent (not yet merged) patch sets. I think that, if this request 404s for some weird server-type bug and the user sees an empty file where they expected a populated one, they\u0027d likely refresh (retrying the request) -- that\u0027s the only thing we can do that\u0027d be correct 100% of the time.\n\nPerhaps you\u0027d be happier if, in the editor view, we show an alert when a 404 is returned from this request. Something like \"No file found with this name. Creating a new one...\". I can add that in a later change.",
+      "parentUuid": "9b16e014_31fd4ab9",
+      "revId": "7f577fd81cb6f28fdaf6689d3f00e55b3d85900a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

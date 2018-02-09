@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1518177642 +0100\nnonce AFD2Vu0WNrIfFr7bLpq7Qx7VCyPDYBLlDAN/BD5tEdwWAj7d008QH9+Mljy180i0ifOrZb/F59RT\n\n0000000000000000000000000000000000000000 bc6193e8242ed03379f1f910993bc41cad37f8b6 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlp9jWoACgkQUbX9l6DQ\n71EZkQf/XCzwCD5c8HpfC7/+fJLrWKNJDm7ag/7UNu7rdNrzNMXzJuCJAakt9Qqx\nOe9r5A9WlDjKrPlnoMJl1anQU74o01QvkkrTG6SXn346e51T5UnEM2G1YXZTPtMY\nn0EIEYaEOZvW8mfLuYYX+seV+VizM52zADvPhayX9a4yXjI+IArv04Y9tqLbo1oE\ndzDLo4v8U2z1OHGC/7xq6RJ4IMCVNsKIPCKEm3U0qwUrZ+CwdNUJcVj/x3IWq+o3\ncBqtpnUOA83xPo6Rx16T2rw+G8YNmJbzyPco7XH6ee/MwLGkDuOAnnqIl0HUWmvl\nWzZQom/SjbzGJj8s01dv1u/OW1eaMQ\u003d\u003d\n\u003dl3AN\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "45d12de2_c9fb55af",
+        "filename": "java/com/google/gerrit/server/group/PeriodicGroupIndexer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-09T13:07:00Z",
+      "side": 1,
+      "message": "I do not think that we should rethrow anything otherwise subsequent executions will be cancelled.",
+      "range": {
+        "startLine": 166,
+        "startChar": 6,
+        "endLine": 166,
+        "endChar": 37
+      },
+      "revId": "8d094e1629ed8302c08f01215ae6b4209ba4f579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

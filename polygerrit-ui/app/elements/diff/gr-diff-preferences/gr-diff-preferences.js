@@ -63,6 +63,7 @@
       this.$.showTrailingWhitespaceInput.checked = prefs.show_whitespace_errors;
       this.$.lineWrappingInput.checked = prefs.line_wrapping;
       this.$.syntaxHighlightInput.checked = prefs.syntax_highlighting;
+      this.$.automaticReviewInput.checked = !prefs.manual_review;
     },
 
     _localPrefsChanged(changeRecord) {
@@ -91,6 +92,10 @@
 
     _handlelineWrappingTap(e) {
       this.set('_newPrefs.line_wrapping', Polymer.dom(e).rootTarget.checked);
+    },
+
+    _handleAutomaticReviewTap(e) {
+      this.set('_newPrefs.manual_review', !Polymer.dom(e).rootTarget.checked);
     },
 
     _handleSave(e) {

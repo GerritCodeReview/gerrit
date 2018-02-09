@@ -78,13 +78,14 @@ limitations under the License.
       footer {
         color: var(--primary-text-color);
       }
-      gr-main-header.shadow {
-        /* Make it obvious for shadow dom testing */
-        border-bottom: 1px solid pink;
-      }
       gr-main-header {
         background-color: var(--header-background-color);
         padding: 0 var(--default-horizontal-margin);
+        border-bottom: 1px solid #ddd;
+      }
+      gr-main-header.shadow {
+        /* Make it obvious for shadow dom testing */
+        border-bottom: 1px solid pink;
       }
       footer {
         background-color: var(--footer-background-color);

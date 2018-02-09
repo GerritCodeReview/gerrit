@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "060868b7_12516558",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-09T01:30:24Z",
+      "side": 1,
+      "message": "Of all the plugins hosted on Gerrit review, the only one using CreateGroupsArgs is importer[1] so adapting to this change won\u0027t take long.\n\n[1]https://gerrit.googlesource.com/plugins/importer/+/b6e4dff0a386729be7147b46aff31d74dea56bb7/src/main/java/com/googlesource/gerrit/plugins/importer/ImportGroup.java#196",
+      "range": {
+        "startLine": 16,
+        "startChar": 21,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "9f7a20015d002ef5023a99533b818f3a1b5cf4dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

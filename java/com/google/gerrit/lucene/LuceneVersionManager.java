@@ -78,7 +78,7 @@ public class LuceneVersionManager extends VersionManager {
       Path p = getDir(sitePaths, def.getName(), schema);
       boolean isDir = Files.isDirectory(p);
       if (Files.exists(p) && !isDir) {
-        log.warn("Not a directory: %s", p.toAbsolutePath());
+        log.warn("Not a directory: {}", p.toAbsolutePath());
       }
       int v = schema.getVersion();
       versions.put(v, new Version<>(schema, v, isDir, cfg.getReady(def.getName(), v)));

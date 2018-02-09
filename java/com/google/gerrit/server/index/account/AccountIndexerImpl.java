@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Config;
 
@@ -102,6 +101,15 @@ public class AccountIndexerImpl implements AccountIndexer {
     autoReindexIfStale(id);
   }
 
+  @Override
+  public boolean reindexIfStale(Account.Id id) throws IOException {
+    if (stalenessChecker.isStale(id)) {
+      index(id);
+      return true;
+    }
+    return false;
+  }
+
   private static boolean autoReindexIfStale(Config cfg) {
     return cfg.getBoolean("index", null, "autoReindexIfStale", true);
   }
@@ -110,7 +118,7 @@ public class AccountIndexerImpl implements AccountIndexer {
     if (autoReindexIfStale) {
       // Don't retry indefinitely; if this fails the account will be stale.
       @SuppressWarnings("unused")
-      Future<?> possiblyIgnoredError = reindexIfStale(id);
+      Future<?> possiblyIgnoredError = reindexIfStaleAsync(id);
     }
   }
 
@@ -124,19 +132,11 @@ public class AccountIndexerImpl implements AccountIndexer {
    * @return future for reindexing the account; returns true if the account was stale.
    */
   @SuppressWarnings("deprecation")
-  public com.google.common.util.concurrent.CheckedFuture<Boolean, IOException> reindexIfStale(
+  private com.google.common.util.concurrent.CheckedFuture<Boolean, IOException> reindexIfStaleAsync(
       Account.Id id) {
-    Callable<Boolean> task =
-        () -> {
-          if (stalenessChecker.isStale(id)) {
-            index(id);
-            return true;
-          }
-          return false;
-        };
-
     return Futures.makeChecked(
-        Futures.nonCancellationPropagating(batchExecutor.submit(task)), IndexUtils.MAPPER);
+        Futures.nonCancellationPropagating(batchExecutor.submit(() -> reindexIfStale(id))),
+        IndexUtils.MAPPER);
   }
 
   private void fireAccountIndexedEvent(int id) {

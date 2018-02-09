@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Config;
 
@@ -102,6 +101,15 @@ public class GroupIndexerImpl implements GroupIndexer {
     autoReindexIfStale(uuid);
   }
 
+  @Override
+  public boolean reindexIfStale(AccountGroup.UUID uuid) throws IOException {
+    if (stalenessChecker.isStale(uuid)) {
+      index(uuid);
+      return true;
+    }
+    return false;
+  }
+
   private static boolean autoReindexIfStale(Config cfg) {
     return cfg.getBoolean("index", null, "autoReindexIfStale", true);
   }
@@ -110,7 +118,7 @@ public class GroupIndexerImpl implements GroupIndexer {
     if (autoReindexIfStale) {
       // Don't retry indefinitely; if this fails the group will be stale.
       @SuppressWarnings("unused")
-      Future<?> possiblyIgnoredError = reindexIfStale(uuid);
+      Future<?> possiblyIgnoredError = reindexIfStaleAsync(uuid);
     }
   }
 
@@ -124,19 +132,11 @@ public class GroupIndexerImpl implements GroupIndexer {
    * @return future for reindexing the group; returns true if the group was stale.
    */
   @SuppressWarnings("deprecation")
-  public com.google.common.util.concurrent.CheckedFuture<Boolean, IOException> reindexIfStale(
+  private com.google.common.util.concurrent.CheckedFuture<Boolean, IOException> reindexIfStaleAsync(
       AccountGroup.UUID uuid) {
-    Callable<Boolean> task =
-        () -> {
-          if (stalenessChecker.isStale(uuid)) {
-            index(uuid);
-            return true;
-          }
-          return false;
-        };
-
     return Futures.makeChecked(
-        Futures.nonCancellationPropagating(batchExecutor.submit(task)), IndexUtils.MAPPER);
+        Futures.nonCancellationPropagating(batchExecutor.submit(() -> reindexIfStale(uuid))),
+        IndexUtils.MAPPER);
   }
 
   private void fireGroupIndexedEvent(String uuid) {

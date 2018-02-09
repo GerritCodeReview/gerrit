@@ -17,6 +17,7 @@ package com.google.gerrit.server.mail.receive;
 import static com.google.gerrit.server.mail.MetadataName.toFooterWithDelimiter;
 import static com.google.gerrit.server.mail.MetadataName.toHeaderWithDelimiter;
 
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.server.mail.MailUtil;
@@ -62,7 +63,7 @@ public class MetadataParser {
 
     // If the required fields were not yet found, continue to parse the text
     if (!Strings.isNullOrEmpty(m.textContent())) {
-      String[] lines = m.textContent().replace("\r\n", "\n").split("\n");
+      Iterable<String> lines = Splitter.on('\n').split(m.textContent().replace("\r\n", "\n"));
       extractFooters(lines, metadata, m);
       if (metadata.hasRequiredFields()) {
         return metadata;
@@ -72,7 +73,7 @@ public class MetadataParser {
     // If the required fields were not yet found, continue to parse the HTML
     // HTML footer are contained inside a <div> tag
     if (!Strings.isNullOrEmpty(m.htmlContent())) {
-      String[] lines = m.htmlContent().replace("\r\n", "\n").split("</div>");
+      Iterable<String> lines = Splitter.on("</div>").split(m.htmlContent().replace("\r\n", "\n"));
       extractFooters(lines, metadata, m);
       if (metadata.hasRequiredFields()) {
         return metadata;
@@ -82,7 +83,7 @@ public class MetadataParser {
     return metadata;
   }
 
-  private static void extractFooters(String[] lines, MailMetadata metadata, MailMessage m) {
+  private static void extractFooters(Iterable<String> lines, MailMetadata metadata, MailMessage m) {
     for (String line : lines) {
       if (metadata.changeNumber == null && line.contains(MetadataName.CHANGE_NUMBER)) {
         metadata.changeNumber =

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65e9849e_ba703f33",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1451,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-09T21:49:28Z",
+      "side": 1,
+      "message": "Could this pass an error function and have that suppress the errors instead of adding this additional option?",
+      "range": {
+        "startLine": 1450,
+        "startChar": 6,
+        "endLine": 1451,
+        "endChar": 51
+      },
+      "revId": "e244b1a0eb247f9da08ed51c0bc214fe8e4be1ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

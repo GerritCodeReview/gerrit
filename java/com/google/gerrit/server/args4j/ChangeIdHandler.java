@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.args4j;
 
+import com.google.common.base.Splitter;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -23,6 +24,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import java.util.List;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
@@ -47,16 +49,16 @@ public class ChangeIdHandler extends OptionHandler<Change.Id> {
   @Override
   public final int parseArguments(Parameters params) throws CmdLineException {
     final String token = params.getParameter(0);
-    final String[] tokens = token.split(",");
-    if (tokens.length != 3) {
+    final List<String> tokens = Splitter.on(',').splitToList(token);
+    if (tokens.size() != 3) {
       throw new CmdLineException(
           owner, "change should be specified as <project>,<branch>,<change-id>");
     }
 
     try {
-      final Change.Key key = Change.Key.parse(tokens[2]);
-      final Project.NameKey project = new Project.NameKey(tokens[0]);
-      final Branch.NameKey branch = new Branch.NameKey(project, tokens[1]);
+      final Change.Key key = Change.Key.parse(tokens.get(2));
+      final Project.NameKey project = new Project.NameKey(tokens.get(0));
+      final Branch.NameKey branch = new Branch.NameKey(project, tokens.get(1));
       for (ChangeData cd : queryProvider.get().byBranchKey(branch, key)) {
         setter.addValue(cd.getId());
         return 1;

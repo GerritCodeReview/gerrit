@@ -1274,7 +1274,7 @@ public class GroupsIT extends AbstractDaemonTest {
     RegistrationHandle groupIndexEventCounterHandle =
         groupIndexedListeners.add(groupIndexedCounter);
     try {
-      // run the reindexer for the first time, no refs cached yet -> reindexes all groups
+      // run the reindexer for the first time, the group index is still empty -> indexes all groups
       slaveGroupIndexer.run();
       groupIndexedCounter.assertReindexOf(expectedGroups);
 

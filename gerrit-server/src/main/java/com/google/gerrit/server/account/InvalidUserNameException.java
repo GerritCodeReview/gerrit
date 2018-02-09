@@ -14,10 +14,7 @@
 
 package com.google.gerrit.server.account;
 
-/**
- * Error indicating the SSH user name does not match {@link
- * com.google.gerrit.server.account.ExternalId#USER_NAME_PATTERN_REGEX} pattern.
- */
+/** Error indicating the SSH user name does not match the expected pattern. */
 public class InvalidUserNameException extends Exception {
 
   private static final long serialVersionUID = 1L;

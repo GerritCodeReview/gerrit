@@ -63,6 +63,9 @@ limitations under the License.
         padding: .55em var(--default-horizontal-margin);
         z-index: 99;  /* Less than gr-overlay's backdrop */
       }
+      .header.editMode {
+        background-color: #ebf5fb;
+      }
       .header .download {
         margin-right: 1em;
       }
@@ -320,7 +323,7 @@ limitations under the License.
         id="mainContent"
         class="container"
         hidden$="{{_loading}}">
-      <div class$="[[_computeHeaderClass(_change)]]">
+      <div class$="[[_computeHeaderClass(_editMode)]]">
         <div class="headerTitle">
           <gr-change-star
               id="changeStar"

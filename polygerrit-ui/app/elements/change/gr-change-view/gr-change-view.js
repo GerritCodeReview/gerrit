@@ -1397,8 +1397,10 @@
       this.$.relatedChanges.reload();
     },
 
-    _computeHeaderClass(change) {
-      return change.work_in_progress ? 'header wip' : 'header';
+    _computeHeaderClass(editMode) {
+      const classes = ['header'];
+      if (editMode) { classes.push('editMode'); }
+      return classes.join(' ');
     },
 
     _computeEditMode(patchRangeRecord, paramsRecord) {

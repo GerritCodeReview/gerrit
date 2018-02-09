@@ -1451,15 +1451,8 @@
       Gerrit.Nav.navigateToChange(this._change, patchNum, null, true);
     },
 
-    /**
-     * Navigate to the latest non-edit patch set.
-     */
-    _handleDoneEditTap() {
-      let patchNum = this._patchRange.patchNum;
-      if (this.patchNumEquals(patchNum, this.EDIT_NAME)) {
-        patchNum = this.computeLatestPatchNum(this._allPatchSets);
-      }
-      Gerrit.Nav.navigateToChange(this._change, patchNum);
+    _handleStopEditTap() {
+      Gerrit.Nav.navigateToChange(this._change, this._patchRange.patchNum);
     },
   });
 })();

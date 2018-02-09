@@ -52,7 +52,6 @@
     ABANDON: 'abandon',
     DELETE: '/',
     DELETE_EDIT: 'deleteEdit',
-    DONE_EDIT: 'doneEdit',
     EDIT: 'edit',
     IGNORE: 'ignore',
     MOVE: 'move',
@@ -63,6 +62,7 @@
     RESTORE: 'restore',
     REVERT: 'revert',
     REVIEWED: 'reviewed',
+    STOP_EDIT: 'stopEdit',
     UNIGNORE: 'unignore',
     UNREVIEWED: 'unreviewed',
     WIP: 'wip',
@@ -159,11 +159,11 @@
     __type: 'change',
   };
 
-  const DONE_EDIT = {
+  const STOP_EDIT = {
     enabled: true,
-    label: 'Done Editing',
+    label: 'Stop editing',
     title: 'Stop editing this change',
-    __key: 'doneEdit',
+    __key: 'stopEdit',
     __primary: false,
     __type: 'change',
   };
@@ -569,14 +569,19 @@
             delete this.actions.edit;
             this.notifyPath('actions.edit');
           }
-          if (!changeActions.doneEdit) {
-            this.set('actions.doneEdit', DONE_EDIT);
-          }
         } else {
           if (!changeActions.edit) { this.set('actions.edit', EDIT); }
-          if (changeActions.doneEdit) {
-            delete this.actions.doneEdit;
-            this.notifyPath('actions.doneEdit');
+        }
+        // Only show STOP_EDIT if edit mode is enabled, but no edit patch set
+        // is loaded.
+        if (editMode && !editPatchsetLoaded) {
+          if (!changeActions.stopEdit) {
+            this.set('actions.stopEdit', STOP_EDIT);
+          }
+        } else {
+          if (changeActions.stopEdit) {
+            delete this.actions.stopEdit;
+            this.notifyPath('actions.stopEdit');
           }
         }
       }
@@ -831,8 +836,8 @@
         case ChangeActions.EDIT:
           this._handleEditTap();
           break;
-        case ChangeActions.DONE_EDIT:
-          this._handleDoneEditTap();
+        case ChangeActions.STOP_EDIT:
+          this._handleStopEditTap();
           break;
         case ChangeActions.DELETE:
           this._handleDeleteTap();
@@ -1316,8 +1321,8 @@
       this.dispatchEvent(new CustomEvent('edit-tap', {bubbles: false}));
     },
 
-    _handleDoneEditTap() {
-      this.dispatchEvent(new CustomEvent('done-edit-tap', {bubbles: false}));
+    _handleStopEditTap() {
+      this.dispatchEvent(new CustomEvent('stop-edit-tap', {bubbles: false}));
     },
   });
 })();

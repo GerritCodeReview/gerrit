@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import com.google.gerrit.index.query.QueryParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,18 +47,16 @@ public class PredicateArgs {
     positional = new ArrayList<>();
     keyValue = new HashMap<>();
 
-    String[] splitArgs = args.split(",");
+    for (String arg : Splitter.on(',').split(args)) {
+      List<String> splitKeyValue = Lists.newArrayList(Splitter.on('=').split(arg));
 
-    for (String arg : splitArgs) {
-      String[] splitKeyValue = arg.split("=");
-
-      if (splitKeyValue.length == 1) {
-        positional.add(splitKeyValue[0]);
-      } else if (splitKeyValue.length == 2) {
-        if (!keyValue.containsKey(splitKeyValue[0])) {
-          keyValue.put(splitKeyValue[0], splitKeyValue[1]);
+      if (splitKeyValue.size() == 1) {
+        positional.add(splitKeyValue.get(0));
+      } else if (splitKeyValue.size() == 2) {
+        if (!keyValue.containsKey(splitKeyValue.get(0))) {
+          keyValue.put(splitKeyValue.get(0), splitKeyValue.get(1));
         } else {
-          throw new QueryParseException("Duplicate key " + splitKeyValue[0]);
+          throw new QueryParseException("Duplicate key " + splitKeyValue.get(0));
         }
       } else {
         throw new QueryParseException("invalid arg " + arg);

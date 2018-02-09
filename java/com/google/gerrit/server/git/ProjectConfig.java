@@ -154,6 +154,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String EXTENSION_PANELS = "extension-panels";
   private static final String KEY_PANEL = "panel";
 
+  private static final Pattern EXCLUSIVE_PERMISSIONS_SPLIT_PATTERN = Pattern.compile("[, \t]{1,}");
+
   private Project.NameKey projectName;
   private Project project;
   private AccountsSection accountsSection;
@@ -678,7 +680,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         AccessSection as = getAccessSection(refName, true);
 
         for (String varName : rc.getStringList(ACCESS, refName, KEY_GROUP_PERMISSIONS)) {
-          for (String n : varName.split("[, \t]{1,}")) {
+          for (String n : Splitter.on(EXCLUSIVE_PERMISSIONS_SPLIT_PATTERN).split(varName)) {
             n = convertLegacyPermission(n);
             if (isPermission(n)) {
               as.getPermission(n, true).setExclusiveGroup(true);

@@ -18,6 +18,7 @@ import static com.google.gerrit.pgm.init.api.InitUtil.die;
 import static com.google.gerrit.pgm.init.api.InitUtil.savePublic;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Splitter;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
@@ -168,7 +169,7 @@ class UpgradeFrom2_0_x implements InitStep {
 
     if (url.contains("?")) {
       final int q = url.indexOf('?');
-      for (String pair : url.substring(q + 1).split("&")) {
+      for (String pair : Splitter.on("&").split(url.substring(q + 1))) {
         final int eq = pair.indexOf('=');
         if (0 < eq) {
           return false;

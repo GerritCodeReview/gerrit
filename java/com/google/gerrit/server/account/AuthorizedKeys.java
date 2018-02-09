@@ -15,11 +15,13 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Splitter;
 import com.google.gerrit.reviewdb.client.Account;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class AuthorizedKeys {
   public static final String FILE_NAME = "authorized_keys";
@@ -28,10 +30,12 @@ public class AuthorizedKeys {
 
   @VisibleForTesting public static final String DELETED_KEY_COMMENT = "# DELETED";
 
+  private static final Pattern LINE_SPLIT_PATTERN = Pattern.compile("\\r?\\n");
+
   public static List<Optional<AccountSshKey>> parse(Account.Id accountId, String s) {
     List<Optional<AccountSshKey>> keys = new ArrayList<>();
     int seq = 1;
-    for (String line : s.split("\\r?\\n")) {
+    for (String line : Splitter.on(LINE_SPLIT_PATTERN).split(s)) {
       line = line.trim();
       if (line.isEmpty()) {
         continue;

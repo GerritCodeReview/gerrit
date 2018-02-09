@@ -14,6 +14,8 @@
 
 package com.google.gerrit.pgm;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InstallAllPlugins;
@@ -49,13 +51,13 @@ public class Passwd extends SiteProgram {
   private String password;
 
   private void init() {
-    String[] varParts = sectionAndKey.split("\\.");
-    if (varParts.length != 2) {
+    List<String> varParts = Lists.newArrayList(Splitter.on('.').split(sectionAndKey));
+    if (varParts.size() != 2) {
       throw new IllegalArgumentException(
           "Invalid name '" + sectionAndKey + "': expected section.key format");
     }
-    section = varParts[0];
-    key = varParts[1];
+    section = varParts.get(0);
+    key = varParts.get(1);
   }
 
   @Override

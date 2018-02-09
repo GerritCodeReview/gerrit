@@ -14,8 +14,11 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Account;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 /** An SSH key approved for use by an {@link Account}. */
@@ -83,9 +86,9 @@ public final class AccountSshKey {
   private String getPublicKeyPart(int index, String defaultValue) {
     String s = getSshPublicKey();
     if (s != null && s.length() > 0) {
-      String[] parts = s.split(" ");
-      if (parts.length > index) {
-        return parts[index];
+      List<String> parts = Lists.newArrayList(Splitter.on(' ').split(s));
+      if (parts.size() > index) {
+        return parts.get(index);
       }
     }
     return defaultValue;

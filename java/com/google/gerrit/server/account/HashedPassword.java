@@ -15,10 +15,13 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import com.google.common.io.BaseEncoding;
 import com.google.common.primitives.Ints;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
+import java.util.List;
 import org.apache.commons.codec.DecoderException;
 import org.bouncycastle.crypto.generators.BCrypt;
 import org.bouncycastle.util.Arrays;
@@ -46,12 +49,12 @@ public class HashedPassword {
       throw new DecoderException("unrecognized algorithm");
     }
 
-    String[] fields = encoded.split(":");
-    if (fields.length != 4) {
+    List<String> fields = Lists.newArrayList(Splitter.on(':').split(encoded));
+    if (fields.size() != 4) {
       throw new DecoderException("want 4 fields");
     }
 
-    Integer cost = Ints.tryParse(fields[1]);
+    Integer cost = Ints.tryParse(fields.get(1));
     if (cost == null) {
       throw new DecoderException("cost parse failed");
     }
@@ -60,11 +63,11 @@ public class HashedPassword {
       throw new DecoderException("cost should be 4..31 inclusive, got " + cost);
     }
 
-    byte[] salt = codec.decode(fields[2]);
+    byte[] salt = codec.decode(fields.get(2));
     if (salt.length != 16) {
       throw new DecoderException("salt should be 16 bytes, got " + salt.length);
     }
-    return new HashedPassword(codec.decode(fields[3]), salt, cost);
+    return new HashedPassword(codec.decode(fields.get(3)), salt, cost);
   }
 
   private static byte[] hashPassword(String password, byte[] salt, int cost) {

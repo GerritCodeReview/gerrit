@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.mail.receive;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Comment;
 import java.util.List;
 import java.util.StringJoiner;
@@ -37,34 +39,34 @@ public class ParserUtil {
    */
   public static String trimQuotation(String comment) {
     StringJoiner j = new StringJoiner("\n");
-    String[] lines = comment.split("\n");
-    for (int i = 0; i < lines.length - 2; i++) {
-      j.add(lines[i]);
+    List<String> lines = Lists.newArrayList(Splitter.on('\n').split(comment));
+    for (int i = 0; i < lines.size() - 2; i++) {
+      j.add(lines.get(i));
     }
 
     // Check if the last line contains the full quotation pattern (date + email)
-    String lastLine = lines[lines.length - 1];
+    String lastLine = lines.get(lines.size() - 1);
     if (containsQuotationPattern(lastLine)) {
-      if (lines.length > 1) {
-        j.add(lines[lines.length - 2]);
+      if (lines.size() > 1) {
+        j.add(lines.get(lines.size() - 2));
       }
       return j.toString().trim();
     }
 
     // Check if the second last line + the last line contain the full quotation pattern. This is
     // necessary, as the quotation line can be split across the last two lines if it gets too long.
-    if (lines.length > 1) {
-      String lastLines = lines[lines.length - 2] + lastLine;
+    if (lines.size() > 1) {
+      String lastLines = lines.get(lines.size() - 2) + lastLine;
       if (containsQuotationPattern(lastLines)) {
         return j.toString().trim();
       }
     }
 
     // Add the last two lines
-    if (lines.length > 1) {
-      j.add(lines[lines.length - 2]);
+    if (lines.size() > 1) {
+      j.add(lines.get(lines.size() - 2));
     }
-    j.add(lines[lines.length - 1]);
+    j.add(lines.get(lines.size() - 1));
 
     return j.toString().trim();
   }

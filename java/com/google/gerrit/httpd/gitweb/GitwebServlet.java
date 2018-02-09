@@ -32,6 +32,8 @@ package com.google.gerrit.httpd.gitweb;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Url;
@@ -71,9 +73,11 @@ import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.regex.Pattern;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -90,6 +94,7 @@ class GitwebServlet extends HttpServlet {
   private static final Logger log = LoggerFactory.getLogger(GitwebServlet.class);
 
   private static final String PROJECT_LIST_ACTION = "project_list";
+  private static final Pattern QUERY_SPLIT_PATTERN = Pattern.compile("[&;]");
 
   private final Set<String> deniedActions;
   private final int bufferSize = 8192;
@@ -458,7 +463,7 @@ class GitwebServlet extends HttpServlet {
 
   private static Map<String, String> getParameters(HttpServletRequest req) {
     final Map<String, String> params = new HashMap<>();
-    for (String pair : req.getQueryString().split("[&;]")) {
+    for (String pair : Splitter.on(QUERY_SPLIT_PATTERN).split(req.getQueryString())) {
       final int eq = pair.indexOf('=');
       if (0 < eq) {
         String name = pair.substring(0, eq);
@@ -689,8 +694,8 @@ class GitwebServlet extends HttpServlet {
         res.sendRedirect(value);
 
       } else if ("Status".equalsIgnoreCase(key)) {
-        final String[] token = value.split(" ");
-        final int status = Integer.parseInt(token[0]);
+        final List<String> token = Lists.newArrayList(Splitter.on(' ').split(value));
+        final int status = Integer.parseInt(token.get(0));
         res.setStatus(status);
 
       } else {

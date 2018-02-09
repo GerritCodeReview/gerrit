@@ -17,6 +17,8 @@ package com.google.gerrit.sshd;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.DynamicOptions;
@@ -37,8 +39,10 @@ import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.RequestScoped;
 import java.net.SocketAddress;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.regex.Pattern;
 import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
@@ -46,6 +50,8 @@ import org.eclipse.jgit.lib.Config;
 
 /** Configures standard dependencies for {@link SshDaemon}. */
 public class SshModule extends LifecycleModule {
+  private static final Pattern ALIAS_SPLIT_PATTEN = Pattern.compile("[ \\t]+");
+
   private final Map<String, String> aliases;
 
   @Inject
@@ -108,10 +114,10 @@ public class SshModule extends LifecycleModule {
     CommandName gerrit = Commands.named("gerrit");
     for (Map.Entry<String, String> e : aliases.entrySet()) {
       String name = e.getKey();
-      String[] dest = e.getValue().split("[ \\t]+");
-      CommandName cmd = Commands.named(dest[0]);
-      for (int i = 1; i < dest.length; i++) {
-        cmd = Commands.named(cmd, dest[i]);
+      List<String> dest = Lists.newArrayList(Splitter.on(ALIAS_SPLIT_PATTEN).split(e.getValue()));
+      CommandName cmd = Commands.named(dest.get(0));
+      for (int i = 1; i < dest.size(); i++) {
+        cmd = Commands.named(cmd, dest.get(i));
       }
       bind(Commands.key(gerrit, name)).toProvider(new AliasCommandProvider(cmd));
     }

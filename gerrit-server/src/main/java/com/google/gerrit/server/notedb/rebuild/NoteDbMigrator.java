@@ -48,9 +48,11 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfigProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -68,11 +70,13 @@ import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
+import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -80,10 +84,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -92,14 +94,17 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.PackInserter;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.slf4j.Logger;
@@ -131,6 +136,8 @@ public class NoteDbMigrator implements AutoCloseable {
   public static class Builder {
     private final Config cfg;
     private final SitePaths sitePaths;
+    private final Provider<PersonIdent> serverIdent;
+    private final AllUsersName allUsers;
     private final SchemaFactory<ReviewDb> schemaFactory;
     private final GitRepositoryManager repoManager;
     private final NoteDbUpdateManager.Factory updateManagerFactory;
@@ -158,6 +165,8 @@ public class NoteDbMigrator implements AutoCloseable {
     Builder(
         GerritServerConfigProvider configProvider,
         SitePaths sitePaths,
+        @GerritPersonIdent Provider<PersonIdent> serverIdent,
+        AllUsersName allUsers,
         SchemaFactory<ReviewDb> schemaFactory,
         GitRepositoryManager repoManager,
         NoteDbUpdateManager.Factory updateManagerFactory,
@@ -175,6 +184,8 @@ public class NoteDbMigrator implements AutoCloseable {
       // trial/autoMigrate get set correctly below.
       this.cfg = configProvider.get();
       this.sitePaths = sitePaths;
+      this.serverIdent = serverIdent;
+      this.allUsers = allUsers;
       this.schemaFactory = schemaFactory;
       this.repoManager = repoManager;
       this.updateManagerFactory = updateManagerFactory;
@@ -337,6 +348,8 @@ public class NoteDbMigrator implements AutoCloseable {
       return new NoteDbMigrator(
           sitePaths,
           schemaFactory,
+          serverIdent,
+          allUsers,
           repoManager,
           updateManagerFactory,
           bundleReader,
@@ -364,6 +377,8 @@ public class NoteDbMigrator implements AutoCloseable {
   private final FileBasedConfig gerritConfig;
   private final FileBasedConfig noteDbConfig;
   private final SchemaFactory<ReviewDb> schemaFactory;
+  private final Provider<PersonIdent> serverIdent;
+  private final AllUsersName allUsers;
   private final GitRepositoryManager repoManager;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeBundleReader bundleReader;
@@ -388,6 +403,8 @@ public class NoteDbMigrator implements AutoCloseable {
   private NoteDbMigrator(
       SitePaths sitePaths,
       SchemaFactory<ReviewDb> schemaFactory,
+      Provider<PersonIdent> serverIdent,
+      AllUsersName allUsers,
       GitRepositoryManager repoManager,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeBundleReader bundleReader,
@@ -416,6 +433,8 @@ public class NoteDbMigrator implements AutoCloseable {
     }
 
     this.schemaFactory = schemaFactory;
+    this.serverIdent = serverIdent;
+    this.allUsers = allUsers;
     this.rebuilder = rebuilder;
     this.repoManager = repoManager;
     this.updateManagerFactory = updateManagerFactory;
@@ -768,59 +787,63 @@ public class NoteDbMigrator implements AutoCloseable {
         new TextProgressMonitor(
             new PrintWriter(new BufferedWriter(new OutputStreamWriter(progressOut, UTF_8))));
     try (Repository changeRepo = repoManager.openRepository(project);
+        // Only use a PackInserter for the change repo, not All-Users.
+        //
+        // It's not possible to share a single inserter for All-Users across all project tasks, and
+        // we don't want to add one pack per project to All-Users. Adding many loose objects is
+        // preferable to many packs.
+        //
+        // Anyway, the number of objects inserted into All-Users is proportional to the number
+        // of pending draft comments, which should not be high (relative to the total number of
+        // changes), so the number of loose objects shouldn't be too unreasonable.
         ObjectInserter changeIns = newPackInserter(changeRepo);
         ObjectReader changeReader = changeIns.newReader();
         RevWalk changeRw = new RevWalk(changeReader);
-        NoteDbUpdateManager manager =
-            updateManagerFactory
-                .create(project)
-                .setSaveObjects(false)
-                .setAtomicRefUpdates(false)
-                // Only use a PackInserter for the change repo, not All-Users.
-                //
-                // It's not possible to share a single inserter for All-Users across all project
-                // tasks, and we don't want to add one pack per project to All-Users. Adding many
-                // loose objects is preferable to many packs.
-                //
-                // Anyway, the number of objects inserted into All-Users is proportional to the
-                // number of pending draft comments, which should not be high (relative to the total
-                // number of changes), so the number of loose objects shouldn't be too unreasonable.
-                .setChangeRepo(
-                    changeRepo, changeRw, changeIns, new ChainedReceiveCommands(changeRepo))) {
-      Set<Change.Id> skipExecute = new HashSet<>();
+        Repository allUsersRepo = repoManager.openRepository(allUsers);
+        ObjectInserter allUsersIns = allUsersRepo.newObjectInserter();
+        ObjectReader allUsersReader = allUsersIns.newReader();
+        RevWalk allUsersRw = new RevWalk(allUsersReader)) {
+      ChainedReceiveCommands changeCmds = new ChainedReceiveCommands(changeRepo);
+      ChainedReceiveCommands allUsersCmds = new ChainedReceiveCommands(allUsersRepo);
+
       Collection<Change.Id> changes = allChanges.get(project);
       pm.beginTask(FormatUtil.elide("Rebuilding " + project.get(), 50), changes.size());
+      int toSave = 0;
       try {
         for (Change.Id changeId : changes) {
-          boolean staged = false;
-          try {
-            stage(db, changeId, manager);
-            staged = true;
+          // NoteDbUpdateManager assumes that all commands in its OpenRepo were added by itself, so
+          // we can't share the top-level ChainedReceiveCommands. Use a new set of commands sharing
+          // the same underlying repo, and copy commands back to the top-level
+          // ChainedReceiveCommands later. This also assumes that each ref in the final list of
+          // commands was only modified by a single NoteDbUpdateManager; since we use one manager
+          // per change, and each ref corresponds to exactly one change, this assumption should be
+          // safe.
+          ChainedReceiveCommands tmpChangeCmds =
+              new ChainedReceiveCommands(changeCmds.getRepoRefCache());
+          ChainedReceiveCommands tmpAllUsersCmds =
+              new ChainedReceiveCommands(allUsersCmds.getRepoRefCache());
+
+          try (NoteDbUpdateManager manager =
+              updateManagerFactory
+                  .create(project)
+                  .setAtomicRefUpdates(false)
+                  .setSaveObjects(false)
+                  .setChangeRepo(changeRepo, changeRw, changeIns, tmpChangeCmds)
+                  .setAllUsersRepo(allUsersRepo, allUsersRw, allUsersIns, tmpAllUsersCmds)) {
+            rebuild(db, changeId, manager);
+
+            // Executing with dryRun=true writes all objects to the underlying inserters and adds
+            // commands to the ChainedReceiveCommands. Afterwards, we can discard the manager, so we
+            // don't keep using any memory beyond what may be buffered in the PackInserter.
+            manager.execute(true);
+
+            tmpChangeCmds.getCommands().values().forEach(c -> addCommand(changeCmds, c));
+            tmpAllUsersCmds.getCommands().values().forEach(c -> addCommand(allUsersCmds, c));
+
+            toSave++;
           } catch (NoPatchSetsException e) {
             log.warn(e.getMessage());
-          } catch (Throwable t) {
-            log.error("Failed to rebuild change " + changeId, t);
-            ok = false;
-          }
-          pm.update(1);
-          if (!staged) {
-            skipExecute.add(changeId);
-          }
-        }
-      } finally {
-        pm.endTask();
-      }
-
-      pm.beginTask(
-          FormatUtil.elide("Saving " + project.get(), 50), changes.size() - skipExecute.size());
-      try {
-        for (Change.Id changeId : changes) {
-          if (skipExecute.contains(changeId)) {
-            continue;
-          }
-          try {
-            rebuilder.execute(db, changeId, manager, true, false);
-          } catch (ConflictingUpdateException e) {
+          } catch (ConflictingUpdateException ex) {
             log.warn(
                 "Rebuilding detected a conflicting ReviewDb update for change {};"
                     + " will be auto-rebuilt at runtime",
@@ -835,15 +858,23 @@ public class NoteDbMigrator implements AutoCloseable {
         pm.endTask();
       }
 
+      pm.beginTask(FormatUtil.elide("Saving " + project.get(), 50), ProgressMonitor.UNKNOWN);
       try {
-        manager.execute();
+        save(changeRepo, changeRw, changeIns, changeCmds);
+        save(allUsersRepo, allUsersRw, allUsersIns, allUsersCmds);
+        // This isn't really useful progress. If we passed a real ProgressMonitor to
+        // BatchRefUpdate#execute we might get something more incremental, but that doesn't allow us
+        // to specify the repo name in the task text.
+        pm.update(toSave);
       } catch (LockFailureException e) {
         log.warn(
             "Rebuilding detected a conflicting NoteDb update for the following refs, which will"
                 + " be auto-rebuilt at runtime: {}",
             e.getFailedRefs().stream().distinct().sorted().collect(joining(", ")));
-      } catch (OrmException | IOException e) {
+      } catch (IOException e) {
         log.error("Failed to save NoteDb state for " + project, e);
+      } finally {
+        pm.endTask();
       }
     } catch (RepositoryNotFoundException e) {
       log.warn("Repository {} not found", project);
@@ -853,7 +884,7 @@ public class NoteDbMigrator implements AutoCloseable {
     return ok;
   }
 
-  private void stage(ReviewDb db, Change.Id changeId, NoteDbUpdateManager manager)
+  private void rebuild(ReviewDb db, Change.Id changeId, NoteDbUpdateManager manager)
       throws OrmException, IOException {
     // Match ChangeRebuilderImpl#stage, but without calling manager.stage(), since that can only be
     // called after building updates for all changes.
@@ -864,6 +895,31 @@ public class NoteDbMigrator implements AutoCloseable {
       throw new NoSuchChangeException(changeId);
     }
     rebuilder.buildUpdates(manager, bundleReader.fromReviewDb(db, changeId));
+
+    rebuilder.execute(db, changeId, manager, true, false);
+  }
+
+  private static void addCommand(ChainedReceiveCommands cmds, ReceiveCommand cmd) {
+    // ChainedReceiveCommands doesn't allow no-ops, but these occur when rebuilding a
+    // previously-rebuilt change.
+    if (!cmd.getOldId().equals(cmd.getNewId())) {
+      cmds.add(cmd);
+    }
+  }
+
+  private void save(Repository repo, RevWalk rw, ObjectInserter ins, ChainedReceiveCommands cmds)
+      throws IOException {
+    if (cmds.isEmpty()) {
+      return;
+    }
+    ins.flush();
+    BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
+    bru.setRefLogMessage("Migrate changes to NoteDb", false);
+    bru.setRefLogIdent(serverIdent.get());
+    bru.setAtomic(false);
+    bru.setAllowNonFastForwards(true);
+    cmds.addTo(bru);
+    RefUpdateUtil.executeChecked(bru, rw);
   }
 
   private static boolean futuresToBoolean(List<ListenableFuture<Boolean>> futures, String errMsg) {

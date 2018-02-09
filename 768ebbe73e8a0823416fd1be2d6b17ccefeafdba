@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "5d48c18f_f31f05e9",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-09T07:32:45Z",
+      "side": 1,
+      "message": "I think this comment is still applicable. It refers to owner, canForgeAuthor, canForgeCommitter and isVisible below which are all results of a canPerform call.",
+      "parentUuid": "a036b673_9abba8be",
+      "revId": "768ebbe73e8a0823416fd1be2d6b17ccefeafdba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3cde8a3_9b93dd86",
         "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
         "patchSetId": 17

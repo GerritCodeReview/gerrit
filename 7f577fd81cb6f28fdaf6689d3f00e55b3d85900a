@@ -161,6 +161,24 @@
       "revId": "7f577fd81cb6f28fdaf6689d3f00e55b3d85900a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e445bfc_57722783",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1555,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-09T17:28:47Z",
+      "side": 1,
+      "message": "...well that went right over my HEAD. 😁\n\nI\u0027m not entirely sure how that\u0027d help here. If the file doesn\u0027t exist yet, the response for the GET should be the same (ish) size as the HEAD response, no? And if it isn\u0027t a 404, we need to do two synchronous roundtrips.",
+      "parentUuid": "63a5afb9_01e7103e",
+      "revId": "7f577fd81cb6f28fdaf6689d3f00e55b3d85900a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

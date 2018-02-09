@@ -25,4 +25,12 @@ public interface AccountIndexer {
    * @param id account id to index.
    */
   void index(Account.Id id) throws IOException;
+
+  /**
+   * Synchronously reindex an account if it is stale.
+   *
+   * @param id account id to index.
+   * @return whether the account was reindexed
+   */
+  boolean reindexIfStale(Account.Id id) throws IOException;
 }

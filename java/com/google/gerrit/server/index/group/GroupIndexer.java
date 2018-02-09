@@ -25,4 +25,12 @@ public interface GroupIndexer {
    * @param uuid group UUID to index.
    */
   void index(AccountGroup.UUID uuid) throws IOException;
+
+  /**
+   * Synchronously reindex a group if it is stale.
+   *
+   * @param uuid group UUID to index.
+   * @return whether the group was reindexed
+   */
+  boolean reindexIfStale(AccountGroup.UUID uuid) throws IOException;
 }

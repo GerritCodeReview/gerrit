@@ -107,6 +107,24 @@
       "revId": "7f577fd81cb6f28fdaf6689d3f00e55b3d85900a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b16e014_31fd4ab9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1555,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-09T01:18:12Z",
+      "side": 1,
+      "message": "I feel a bit more comfortable with the extra HEAD request (to avoid such extensive modification in the REST API interface), but I\u0027m okay with this approach if looks good to Becky and Viktar.",
+      "parentUuid": "25b37e73_a0b53adc",
+      "revId": "7f577fd81cb6f28fdaf6689d3f00e55b3d85900a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

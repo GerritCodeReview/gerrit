@@ -442,6 +442,7 @@
       while (!row.classList.contains('row') && row.parentElement) {
         row = row.parentElement;
       }
+
       const path = row.dataset.path;
       // Handle checkbox mark as reviewed.
       if (e.target.classList.contains('markReviewed')) {
@@ -667,7 +668,13 @@
       return status || 'M';
     },
 
-    _computeDiffURL(change, patchNum, basePatchNum, path) {
+    _computeDiffURL(change, patchNum, basePatchNum, path, editMode) {
+      // TODO(kaspern): Fix editing for commit messages and merge lists.
+      if (editMode && path !== this.COMMIT_MESSAGE_PATH &&
+          path !== this.MERGE_LIST_PATH) {
+        return Gerrit.Nav.getEditUrlForDiff(change, path, patchNum,
+            basePatchNum);
+      }
       return Gerrit.Nav.getUrlForDiff(change, path, patchNum, basePatchNum);
     },
 

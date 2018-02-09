@@ -25,11 +25,9 @@
 
     properties: {
       filePath: String,
-      // Edit action not needed in the overflow.
       _allFileActions: {
         type: Array,
-        value: () => Object.values(GrEditConstants.Actions)
-            .filter(action => action !== GrEditConstants.Actions.EDIT),
+        value: () => Object.values(GrEditConstants.Actions),
       },
       _fileActions: {
         type: Array,
@@ -37,13 +35,8 @@
       },
     },
 
-    _handleEditTap(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      this._dispatchFileAction(GrEditConstants.Actions.EDIT.id, this.filePath);
-    },
-
     _handleActionTap(e) {
+      debugger;
       e.preventDefault();
       e.stopPropagation();
       this._dispatchFileAction(e.detail.id, this.filePath);

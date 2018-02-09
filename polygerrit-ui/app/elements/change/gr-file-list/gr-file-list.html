@@ -225,8 +225,7 @@ limitations under the License.
         opacity: 100;
       }
       .editFileControls {
-        margin-left: 1em;
-        width: 10em;
+        width: 7em;
       }
       @media screen and (max-width: 50em) {
         .desktop {
@@ -279,9 +278,9 @@ limitations under the License.
               [[_computeFileStatus(file.status)]]
             </div>
             <span
-                data-url="[[_computeDiffURL(change, patchRange.patchNum, patchRange.basePatchNum, file.__path)]]"
+                data-url="[[_computeDiffURL(change, patchRange.patchNum, patchRange.basePatchNum, file.__path, editMode)]]"
                 class="path">
-              <a class="pathLink" href$="[[_computeDiffURL(change, patchRange.patchNum, patchRange.basePatchNum, file.__path)]]">
+              <a class="pathLink" href$="[[_computeDiffURL(change, patchRange.patchNum, patchRange.basePatchNum, file.__path, editMode)]]">
                 <span title$="[[computeDisplayPath(file.__path)]]"
                     class="fullFileName">
                   [[computeDisplayPath(file.__path)]]

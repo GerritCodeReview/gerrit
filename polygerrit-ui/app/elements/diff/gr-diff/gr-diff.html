@@ -81,10 +81,6 @@ limitations under the License.
       .diff-row.target-row.target-side-right .lineNum.right,
       .diff-row.target-row.unified .lineNum {
         background-color: #BBDEFB;
-      }
-      .diff-row.target-row.target-side-left .lineNum.left:before,
-      .diff-row.target-row.target-side-right .lineNum.right:before,
-      .diff-row.target-row.unified .lineNum:before {
         color: #000;
       }
       .blank,
@@ -105,21 +101,19 @@ limitations under the License.
         vertical-align: top;
         white-space: pre;
       }
-      .contextLineNum:before,
-      .lineNum:before {
-        box-sizing: border-box;
-        display: inline-block;
+      .contextLineNum,
+      .lineNum {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
         color: #666;
-        content: attr(data-value);
         padding: 0 .5em;
         text-align: right;
-        width: 100%;
       }
-      .canComment .lineNum[data-value] {
+      .canComment .lineNum {
         cursor: pointer;
-      }
-      .canComment .lineNum[data-value="FILE"]:before {
-        content: 'File';
       }
       .content {
         overflow: hidden;

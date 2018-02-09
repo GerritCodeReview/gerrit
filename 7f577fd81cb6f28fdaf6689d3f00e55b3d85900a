@@ -143,6 +143,24 @@
       "revId": "7f577fd81cb6f28fdaf6689d3f00e55b3d85900a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63a5afb9_01e7103e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1555,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-09T17:22:45Z",
+      "side": 1,
+      "message": "To be clear, I mean \"HEAD\" the HTTP method, not the concept in Git.\n\nNow that I look at it, I\u0027m not sure if it would make the API interface clearer, though.",
+      "parentUuid": "b5dc6741_bd6bab2d",
+      "revId": "7f577fd81cb6f28fdaf6689d3f00e55b3d85900a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

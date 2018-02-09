@@ -87,7 +87,7 @@ public class ChangeUserName implements Callable<VoidResult> {
 
     ExternalIdsUpdate externalIdsUpdate = externalIdsUpdateFactory.create();
     if (newUsername != null && !newUsername.isEmpty()) {
-      if (!newUsername.matches(ExternalId.USER_NAME_PATTERN_REGEX)) {
+      if (!ExternalId.isValidUsername(newUsername)) {
         throw new InvalidUserNameException();
       }
 

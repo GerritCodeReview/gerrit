@@ -105,7 +105,7 @@ public class AccountResolver {
       return Collections.emptySet();
     }
 
-    if (nameOrEmail.matches(ExternalId.USER_NAME_PATTERN_REGEX)) {
+    if (ExternalId.isValidUsername(nameOrEmail)) {
       AccountState who = byId.getByUsername(nameOrEmail);
       if (who != null) {
         return Collections.singleton(who.getAccount().getId());

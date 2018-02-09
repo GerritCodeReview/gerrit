@@ -111,7 +111,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       throw new BadRequestException("username must match URL");
     }
 
-    if (!username.matches(ExternalId.USER_NAME_PATTERN_REGEX)) {
+    if (!ExternalId.isValidUsername(username)) {
       throw new BadRequestException(
           "Username '" + username + "' must contain only letters, numbers, _, - or .");
     }

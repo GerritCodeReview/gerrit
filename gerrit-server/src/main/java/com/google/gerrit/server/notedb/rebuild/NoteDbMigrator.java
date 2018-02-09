@@ -691,10 +691,9 @@ public class NoteDbMigrator implements AutoCloseable {
     Stopwatch sw = Stopwatch.createStarted();
     log.info("Rebuilding changes in NoteDb");
 
+    ImmutableListMultimap<Project.NameKey, Change.Id> changesByProject = getChangesByProject();
     List<ListenableFuture<Boolean>> futures = new ArrayList<>();
     try (ContextHelper contextHelper = new ContextHelper()) {
-      ImmutableListMultimap<Project.NameKey, Change.Id> changesByProject =
-          getChangesByProject(contextHelper.getReviewDb());
       List<Project.NameKey> projectNames =
           Ordering.usingToString().sortedCopy(changesByProject.keySet());
       for (Project.NameKey project : projectNames) {
@@ -723,7 +722,7 @@ public class NoteDbMigrator implements AutoCloseable {
     }
   }
 
-  private ImmutableListMultimap<Project.NameKey, Change.Id> getChangesByProject(ReviewDb db)
+  private ImmutableListMultimap<Project.NameKey, Change.Id> getChangesByProject()
       throws OrmException {
     // Memoize all changes so we can close the db connection and allow other threads to use the full
     // connection pool.
@@ -731,13 +730,15 @@ public class NoteDbMigrator implements AutoCloseable {
         MultimapBuilder.treeKeys(comparing(Project.NameKey::get))
             .treeSetValues(comparing(Change.Id::get))
             .build();
-    if (!projects.isEmpty()) {
-      return byProject(db.changes().all(), c -> projects.contains(c.getProject()), out);
+    try (ReviewDb db = schemaFactory.open()) {
+      if (!projects.isEmpty()) {
+        return byProject(db.changes().all(), c -> projects.contains(c.getProject()), out);
+      }
+      if (!changes.isEmpty()) {
+        return byProject(db.changes().get(changes), c -> true, out);
+      }
+      return byProject(db.changes().all(), c -> true, out);
     }
-    if (!changes.isEmpty()) {
-      return byProject(db.changes().get(changes), c -> true, out);
-    }
-    return byProject(db.changes().all(), c -> true, out);
   }
 
   private static ImmutableListMultimap<Project.NameKey, Change.Id> byProject(

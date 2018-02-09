@@ -16,6 +16,7 @@ package com.google.gerrit.server.index.account;
 
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -36,10 +37,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AccountIndexerImpl implements AccountIndexer {
+  private static final Logger log = LoggerFactory.getLogger(AccountIndexerImpl.class);
+
   public interface Factory {
     AccountIndexerImpl create(AccountIndexCollection indexes);
 
@@ -102,6 +108,17 @@ public class AccountIndexerImpl implements AccountIndexer {
     autoReindexIfStale(id);
   }
 
+  @Override
+  public boolean reindexIfStale(Account.Id id) throws IOException {
+    try {
+      return reindexIfStaleAsync(id).get();
+    } catch (ExecutionException | InterruptedException e) {
+      log.warn("reindex of possibly stale account {} failed", id.get());
+      Throwables.throwIfInstanceOf(e.getCause(), IOException.class);
+      throw new IOException(e);
+    }
+  }
+
   private static boolean autoReindexIfStale(Config cfg) {
     return cfg.getBoolean("index", null, "autoReindexIfStale", true);
   }
@@ -110,7 +127,7 @@ public class AccountIndexerImpl implements AccountIndexer {
     if (autoReindexIfStale) {
       // Don't retry indefinitely; if this fails the account will be stale.
       @SuppressWarnings("unused")
-      Future<?> possiblyIgnoredError = reindexIfStale(id);
+      Future<?> possiblyIgnoredError = reindexIfStaleAsync(id);
     }
   }
 
@@ -124,7 +141,7 @@ public class AccountIndexerImpl implements AccountIndexer {
    * @return future for reindexing the account; returns true if the account was stale.
    */
   @SuppressWarnings("deprecation")
-  public com.google.common.util.concurrent.CheckedFuture<Boolean, IOException> reindexIfStale(
+  private com.google.common.util.concurrent.CheckedFuture<Boolean, IOException> reindexIfStaleAsync(
       Account.Id id) {
     Callable<Boolean> task =
         () -> {

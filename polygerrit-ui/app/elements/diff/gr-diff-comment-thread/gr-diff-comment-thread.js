@@ -304,13 +304,13 @@
      */
     _newDraft(opt_lineNum, opt_range) {
       const d = {
-        __draft: true,
-        __draftID: Math.random().toString(36),
-        __date: new Date(),
-        path: this.path,
-        patchNum: this.patchNum,
-        side: this._getSide(this.isOnParent),
-        __commentSide: this.commentSide,
+        '__draft': true,
+        '__draftID': Math.random().toString(36),
+        '__date': new Date(),
+        'path': this.path,
+        'patch-set': this.patchNum,
+        'side': this._getSide(this.isOnParent),
+        '__commentSide': this.commentSide,
       };
       if (opt_lineNum) {
         d.line = opt_lineNum;

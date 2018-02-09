@@ -546,7 +546,7 @@ limitations under the License.
       element.patchNum = 3;
       const draft = element._newDraft();
       assert.equal(draft.__commentSide, 'left');
-      assert.equal(draft.patchNum, 3);
+      assert.equal(draft['patch-set'], 3);
     });
 
     test('new comment gets created', () => {

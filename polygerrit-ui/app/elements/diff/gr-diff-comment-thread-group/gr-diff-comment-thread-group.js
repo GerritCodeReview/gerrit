@@ -18,6 +18,7 @@
     is: 'gr-diff-comment-thread-group',
 
     properties: {
+      changeComments: Object,
       changeNum: String,
       commentSide: String,
       comments: {
@@ -106,14 +107,6 @@
       });
     },
 
-    _calculateLocationRange(range, comment) {
-      return 'range-' + range.start_line + '-' +
-          range.start_character + '-' +
-          range.end_line + '-' +
-          range.end_character + '-' +
-          comment.__commentSide;
-    },
-
     /**
      * Determines what the patchNum of a thread should be. Use patchNum from
      * comment if it exists, otherwise the property of the thread group.
@@ -125,32 +118,12 @@
     },
 
     _getThreadGroups(comments) {
+      if (!comments.length) { return; }
       const sortedComments = comments.slice(0).sort((a, b) =>
           util.parseDate(a.updated) - util.parseDate(b.updated));
-
-      const threads = [];
-      for (const comment of sortedComments) {
-        // If the comment is in reply to another comment, find that comment's
-        // thread and append to it.
-        if (comment.in_reply_to) {
-          const thread = threads.find(thread =>
-              thread.comments.some(c => c.id === comment.in_reply_to));
-          if (thread) {
-            thread.comments.push(comment);
-            continue;
-          }
-        }
-
-        // Otherwise, this comment starts its own thread.
-        threads.push({
-          start_datetime: comment.updated,
-          comments: [comment],
-          commentSide: comment.__commentSide,
-          patchNum: this._getPatchNum(comment),
-          rootId: comment.id,
-        });
-      }
-      return threads;
+      const threadGroupArr = this.changeComments.getCommentThreads(
+          sortedComments, this.patchForNewThreads);
+      return this._sortByDate(threadGroupArr);
     },
   });
 })();

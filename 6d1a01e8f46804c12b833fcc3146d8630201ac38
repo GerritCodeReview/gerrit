@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31d7b722_462d82db",
+        "filename": "java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-09T12:13:35Z",
+      "side": 1,
+      "message": "In Eclipse this generates a warning about an unused parameter. Can we suppress this warning by using @SuppressWarnings(\"unused\")?",
+      "range": {
+        "startLine": 101,
+        "startChar": 47,
+        "endLine": 101,
+        "endChar": 63
+      },
+      "revId": "6d1a01e8f46804c12b833fcc3146d8630201ac38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f6b2473_efa61caf",
+        "filename": "java/com/google/gerrit/lucene/LuceneIndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-09T12:13:35Z",
+      "side": 1,
+      "message": "In Eclipse this generates a warning about an unused parameter. Can we suppress this warning by using @SuppressWarnings(\"unused\")?",
+      "range": {
+        "startLine": 111,
+        "startChar": 47,
+        "endLine": 111,
+        "endChar": 63
+      },
+      "revId": "6d1a01e8f46804c12b833fcc3146d8630201ac38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "caeaa562_5022dbed",
+        "filename": "java/com/google/gerrit/server/index/DummyIndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-09T12:13:35Z",
+      "side": 1,
+      "message": "Should this be false?",
+      "range": {
+        "startLine": 62,
+        "startChar": 31,
+        "endLine": 62,
+        "endChar": 35
+      },
+      "revId": "6d1a01e8f46804c12b833fcc3146d8630201ac38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

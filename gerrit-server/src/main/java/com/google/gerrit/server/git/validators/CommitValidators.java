@@ -195,6 +195,7 @@ public class CommitValidators {
         messages.addAll(commitValidator.onCommitReceived(receiveEvent));
       }
     } catch (CommitValidationException e) {
+      log.debug("CommitValidationException occurred: {}", e.getFullMessage(), e);
       // Keep the old messages (and their order) in case of an exception
       messages.addAll(e.getMessages());
       throw new CommitValidationException(e.getMessage(), messages);

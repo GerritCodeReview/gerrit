@@ -116,7 +116,7 @@ public class AccountResolver {
       }
     }
 
-    if (nameOrEmail.matches(ExternalId.USER_NAME_PATTERN_REGEX)) {
+    if (ExternalId.isValidUsername(nameOrEmail)) {
       Optional<AccountState> who = byId.getByUsername(nameOrEmail);
       if (who.isPresent()) {
         return ImmutableSet.of(who.map(a -> a.getAccount().getId()).get());

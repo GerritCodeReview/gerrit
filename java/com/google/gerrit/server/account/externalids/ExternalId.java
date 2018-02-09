@@ -51,7 +51,7 @@ public abstract class ExternalId implements Serializable {
   private static final String USER_NAME_PATTERN_LAST_REGEX = "[a-zA-Z0-9]";
 
   /** Regular expression that a username must match. */
-  public static final String USER_NAME_PATTERN_REGEX =
+  private static final String USER_NAME_PATTERN_REGEX =
       "^"
           + //
           "("

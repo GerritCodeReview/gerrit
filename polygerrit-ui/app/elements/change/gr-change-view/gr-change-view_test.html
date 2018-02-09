@@ -257,6 +257,21 @@ limitations under the License.
         MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
         assert.isTrue(stub.called);
       });
+
+      test('m should toggle diff mode', () => {
+        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+        const e = {preventDefault: () => {}};
+        flushAsynchronousOperations();
+
+        // Initial state.
+        element.viewState.diffMode = 'SIDE_BY_SIDE';
+
+        element._handleMKey(e);
+        assert.equal(element.viewState.diffMode, 'UNIFIED_DIFF');
+
+        element._handleMKey(e);
+        assert.equal(element.viewState.diffMode, 'SIDE_BY_SIDE');
+      });
     });
 
     suite('reloading drafts', () => {

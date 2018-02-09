@@ -798,6 +798,19 @@ limitations under the License.
       assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
     });
 
+    test('_handleMKey', () => {
+      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+      const e = {preventDefault: () => {}};
+      // Initial state.
+      assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
+
+      element._handleMKey(e);
+      assert.equal(element._getDiffViewMode(), 'UNIFIED_DIFF');
+
+      element._handleMKey(e);
+      assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
+    });
+
     suite('_loadComments', () => {
       test('empty', done => {
         element._loadComments().then(() => {

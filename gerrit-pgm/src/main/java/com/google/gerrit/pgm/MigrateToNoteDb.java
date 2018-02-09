@@ -50,8 +50,10 @@ public class MigrateToNoteDb extends SiteProgram {
       "Trial mode: migrate changes and turn on reading from NoteDb, but leave ReviewDb as the"
           + " source of truth";
 
+  private static final int ISSUE_8022_THREAD_LIMIT = 4;
+
   @Option(name = "--threads", usage = "Number of threads to use for rebuilding NoteDb")
-  private int threads = Runtime.getRuntime().availableProcessors();
+  private Integer threads;
 
   @Option(
     name = "--project",
@@ -106,16 +108,33 @@ public class MigrateToNoteDb extends SiteProgram {
   @Override
   public int run() throws Exception {
     RuntimeShutdown.add(this::stop);
+    int actualThreads;
     try {
       mustHaveValidSite();
       dbInjector = createDbInjector(MULTI_USER);
-      threads = ThreadLimiter.limitThreads(dbInjector, threads);
+
+      if (threads != null) {
+        actualThreads = threads;
+      } else {
+        int procs = Runtime.getRuntime().availableProcessors();
+        if (procs > ISSUE_8022_THREAD_LIMIT) {
+          System.out.println(
+              "Not using more than "
+                  + ISSUE_8022_THREAD_LIMIT
+                  + " threads due to http://crbug.com/gerrit/8022");
+          System.out.println("Can be increased by passing --threads, but may cause errors");
+          actualThreads = ISSUE_8022_THREAD_LIMIT;
+        } else {
+          actualThreads = procs;
+        }
+        actualThreads = ThreadLimiter.limitThreads(dbInjector, actualThreads);
+      }
 
       dbManager = new LifecycleManager();
       dbManager.add(dbInjector);
       dbManager.start();
 
-      sysInjector = createSysInjector();
+      sysInjector = createSysInjector(actualThreads);
       sysInjector.injectMembers(this);
       sysManager = new LifecycleManager();
       sysManager.add(sysInjector);
@@ -124,7 +143,7 @@ public class MigrateToNoteDb extends SiteProgram {
       try (NoteDbMigrator migrator =
           migratorBuilderProvider
               .get()
-              .setThreads(threads)
+              .setThreads(actualThreads)
               .setProgressOut(System.err)
               .setProjects(projects.stream().map(Project.NameKey::new).collect(toList()))
               .setChanges(changes.stream().map(Change.Id::new).collect(toList()))
@@ -153,7 +172,7 @@ public class MigrateToNoteDb extends SiteProgram {
             "--site-path",
             getSitePath().toString(),
             "--threads",
-            Integer.toString(threads),
+            Integer.toString(actualThreads),
             "--index",
             ChangeSchemaDefinitions.NAME);
     System.out.println("Migration complete, reindexing changes with:");
@@ -162,25 +181,27 @@ public class MigrateToNoteDb extends SiteProgram {
     return reindexPgm.main(reindexArgs.stream().toArray(String[]::new));
   }
 
-  private Injector createSysInjector() {
+  private Injector createSysInjector(int actualThreads) {
     return dbInjector.createChildInjector(
         new FactoryModule() {
           @Override
           public void configure() {
             install(dbInjector.getInstance(BatchProgramModule.class));
             bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
-            install(getIndexModule());
+            install(getIndexModule(actualThreads));
             factory(ChangeResource.Factory.class);
           }
         });
   }
 
-  private Module getIndexModule() {
+  private Module getIndexModule(int actualThreads) {
     switch (IndexModule.getIndexType(dbInjector)) {
       case LUCENE:
-        return LuceneIndexModule.singleVersionWithExplicitVersions(ImmutableMap.of(), threads);
+        return LuceneIndexModule.singleVersionWithExplicitVersions(
+            ImmutableMap.of(), actualThreads);
       case ELASTICSEARCH:
-        return ElasticIndexModule.singleVersionWithExplicitVersions(ImmutableMap.of(), threads);
+        return ElasticIndexModule.singleVersionWithExplicitVersions(
+            ImmutableMap.of(), actualThreads);
       default:
         throw new IllegalStateException("unsupported index.type");
     }

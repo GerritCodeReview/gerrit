@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "86b4a4f9_2d86cdc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-09T10:26:43Z",
+      "side": 1,
+      "message": "We changed this on stable-2.13. This change fixes this only on master. Should we rather apply this change to stable-2.13 and bring this change to all stable branches?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "8e93bcdf5b302184bb26042dbf4c4664da226f4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2fe21bb_7e008f3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-09T10:26:43Z",
+      "side": 1,
+      "message": "Nit: too long line.",
+      "revId": "8e93bcdf5b302184bb26042dbf4c4664da226f4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f29c1dd9_da0e8508",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -22,6 +62,29 @@
       "revId": "8e93bcdf5b302184bb26042dbf4c4664da226f4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8f21fd9_a5f050e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-09T10:26:43Z",
+      "side": 1,
+      "message": "Nit: trailing blank.",
+      "range": {
+        "startLine": 11,
+        "startChar": 64,
+        "endLine": 11,
+        "endChar": 65
+      },
+      "revId": "8e93bcdf5b302184bb26042dbf4c4664da226f4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

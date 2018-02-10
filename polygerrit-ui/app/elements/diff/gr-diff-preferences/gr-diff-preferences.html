@@ -76,7 +76,6 @@ limitations under the License.
         margin-left: 1em;
       }
     </style>
-
     <gr-overlay id="prefsOverlay" with-backdrop>
       <div class="header">
         Diff View Preferences
@@ -140,6 +139,14 @@ limitations under the License.
           <label for="syntaxHighlightInput">Syntax highlighting</label>
           <input is="iron-input" type="checkbox" id="syntaxHighlightInput"
               on-tap="_handleSyntaxHighlightTap">
+        </div>
+        <div class="pref">
+          <label for="automaticReviewInput">Automatically mark viewed files reviewed</label>
+          <input
+              is="iron-input"
+              id="automaticReviewInput"
+              type="checkbox"
+              on-tap="_handleAutomaticReviewTap">
         </div>
       </div>
       <div class="actions">

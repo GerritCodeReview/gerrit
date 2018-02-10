@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b7f6d3d_4d0a09f1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-10T04:57:09Z",
+      "side": 1,
+      "message": "FYI: Header height is different for different resolutions.",
+      "revId": "3c00a377160a58925f31bce39c30ade819997a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c6ad3b5_27e83787",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-10T04:57:09Z",
+      "side": 1,
+      "message": "FYI: This isn\u0027t supported in IE11",
+      "revId": "3c00a377160a58925f31bce39c30ade819997a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

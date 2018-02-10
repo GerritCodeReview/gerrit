@@ -17,6 +17,24 @@
       "revId": "9f9c731f7cd0865993a4e2ee64d39163541d93d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f32c2964_da50828d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-10T14:55:06Z",
+      "side": 1,
+      "message": "Good point, will limit this to H2.",
+      "parentUuid": "7ff64ad8_3a3f6199",
+      "revId": "9f9c731f7cd0865993a4e2ee64d39163541d93d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

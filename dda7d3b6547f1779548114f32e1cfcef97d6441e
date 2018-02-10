@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "672ac21c_a5aac90d",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-10T05:51:37Z",
+      "side": 1,
+      "message": "Nit: Point in the end of statement.",
+      "revId": "dda7d3b6547f1779548114f32e1cfcef97d6441e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

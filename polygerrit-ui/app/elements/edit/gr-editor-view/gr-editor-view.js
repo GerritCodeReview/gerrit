@@ -141,11 +141,17 @@
     _getFileData(changeNum, path, patchNum) {
       return this.$.restAPI.getFileContent(changeNum, path, patchNum)
           .then(res => {
-            if (!res.ok) { return; }
-
-            this._type = res.type || '';
             this._newContent = res.content || '';
             this._content = res.content || '';
+
+            // A non-ok response may result if the file does not yet exist.
+            // The `type` field of the response is only valid when the file
+            // already exists.
+            if (res.ok && res.type) {
+              this._type = res.type;
+            } else {
+              this._type = '';
+            }
           });
     },
 

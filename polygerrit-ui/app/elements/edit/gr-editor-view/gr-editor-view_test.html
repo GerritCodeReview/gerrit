@@ -242,9 +242,9 @@ suite('gr-editor-view tests', () => {
 
       // Ensure no data is set with a bad response.
       return element._getFileData('1', 'test/path', 'edit').then(() => {
-        assert.equal(element._newContent, 'initial');
-        assert.equal(element._content, 'initial');
-        assert.equal(element._type, 'initial');
+        assert.equal(element._newContent, '');
+        assert.equal(element._content, '');
+        assert.equal(element._type, '');
       });
     });
 

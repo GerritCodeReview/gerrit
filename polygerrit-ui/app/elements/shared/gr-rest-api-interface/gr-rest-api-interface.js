@@ -1418,9 +1418,15 @@
      * @param {number|string} patchNum
      */
     getFileContent(changeNum, path, patchNum) {
+      // 404s indicate the file does not exist yet in the revision, so suppress
+      // them.
+      const suppress404s = res => {
+        if (res && res.status !== 404) { this.fire('server-error', {res}); }
+        return res;
+      };
       const promise = this.patchNumEquals(patchNum, this.EDIT_NAME) ?
           this._getFileInChangeEdit(changeNum, path) :
-          this._getFileInRevision(changeNum, path, patchNum);
+          this._getFileInRevision(changeNum, path, patchNum, suppress404s);
 
       return promise.then(res => {
         if (!res.ok) { return res; }
@@ -1439,12 +1445,13 @@
      * @param {number|string} changeNum
      * @param {string} path
      * @param {number|string} patchNum
+     * @param {?function(?Response, string=)=} opt_errFn
      */
-    _getFileInRevision(changeNum, path, patchNum) {
+    _getFileInRevision(changeNum, path, patchNum, opt_errFn) {
       const e = `/files/${encodeURIComponent(path)}/content`;
       const headers = {Accept: 'application/json'};
-      return this.getChangeURLAndSend(changeNum, 'GET', patchNum, e, null, null,
-          null, null, headers);
+      return this.getChangeURLAndSend(changeNum, 'GET', patchNum, e, null,
+          opt_errFn, null, null, headers);
     },
 
     /**

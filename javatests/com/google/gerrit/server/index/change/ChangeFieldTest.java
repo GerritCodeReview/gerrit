@@ -24,6 +24,7 @@ import com.google.common.collect.Table;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.testing.GerritBaseTests;
@@ -60,7 +61,7 @@ public class ChangeFieldTest extends GerritBaseTests {
         .containsExactly(
             "REVIEWER,1", "REVIEWER,1," + t1.getTime(), "CC,2", "CC,2," + t2.getTime());
 
-    assertThat(ChangeField.parseReviewerFieldValues(values)).isEqualTo(reviewers);
+    assertThat(ChangeField.parseReviewerFieldValues(new Change.Id(1), values)).isEqualTo(reviewers);
   }
 
   @Test

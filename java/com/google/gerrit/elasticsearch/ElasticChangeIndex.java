@@ -290,6 +290,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     if (source.get(ChangeField.REVIEWER.getName()) != null) {
       cd.setReviewers(
           ChangeField.parseReviewerFieldValues(
+              cd.getId(),
               FluentIterable.from(source.get(ChangeField.REVIEWER.getName()).getAsJsonArray())
                   .transform(JsonElement::getAsString)));
     } else if (fields.contains(ChangeField.REVIEWER.getName())) {
@@ -300,6 +301,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     if (source.get(ChangeField.REVIEWER_BY_EMAIL.getName()) != null) {
       cd.setReviewersByEmail(
           ChangeField.parseReviewerByEmailFieldValues(
+              cd.getId(),
               FluentIterable.from(
                       source.get(ChangeField.REVIEWER_BY_EMAIL.getName()).getAsJsonArray())
                   .transform(JsonElement::getAsString)));
@@ -311,6 +313,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     if (source.get(ChangeField.PENDING_REVIEWER.getName()) != null) {
       cd.setPendingReviewers(
           ChangeField.parseReviewerFieldValues(
+              cd.getId(),
               FluentIterable.from(
                       source.get(ChangeField.PENDING_REVIEWER.getName()).getAsJsonArray())
                   .transform(JsonElement::getAsString)));
@@ -322,6 +325,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     if (source.get(ChangeField.PENDING_REVIEWER_BY_EMAIL.getName()) != null) {
       cd.setPendingReviewersByEmail(
           ChangeField.parseReviewerByEmailFieldValues(
+              cd.getId(),
               FluentIterable.from(
                       source.get(ChangeField.PENDING_REVIEWER_BY_EMAIL.getName()).getAsJsonArray())
                   .transform(JsonElement::getAsString)));

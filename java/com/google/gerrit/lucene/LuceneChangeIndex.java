@@ -586,12 +586,14 @@ public class LuceneChangeIndex implements ChangeIndex {
   private void decodeReviewers(ListMultimap<String, IndexableField> doc, ChangeData cd) {
     cd.setReviewers(
         ChangeField.parseReviewerFieldValues(
+            cd.getId(),
             FluentIterable.from(doc.get(REVIEWER_FIELD)).transform(IndexableField::stringValue)));
   }
 
   private void decodeReviewersByEmail(ListMultimap<String, IndexableField> doc, ChangeData cd) {
     cd.setReviewersByEmail(
         ChangeField.parseReviewerByEmailFieldValues(
+            cd.getId(),
             FluentIterable.from(doc.get(REVIEWER_BY_EMAIL_FIELD))
                 .transform(IndexableField::stringValue)));
   }
@@ -599,6 +601,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private void decodePendingReviewers(ListMultimap<String, IndexableField> doc, ChangeData cd) {
     cd.setPendingReviewers(
         ChangeField.parseReviewerFieldValues(
+            cd.getId(),
             FluentIterable.from(doc.get(PENDING_REVIEWER_FIELD))
                 .transform(IndexableField::stringValue)));
   }
@@ -607,6 +610,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       ListMultimap<String, IndexableField> doc, ChangeData cd) {
     cd.setPendingReviewersByEmail(
         ChangeField.parseReviewerByEmailFieldValues(
+            cd.getId(),
             FluentIterable.from(doc.get(PENDING_REVIEWER_BY_EMAIL_FIELD))
                 .transform(IndexableField::stringValue)));
   }

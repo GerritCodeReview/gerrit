@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d7614320_2d16d0ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-12T14:50:34Z",
+      "side": 1,
+      "message": "I\u0027m wondering if outdated caches wouldn\u0027t be a problem for the approach chosen in PeriodicGroupIndexer. Imagine that the group cache is outdated and we notice that the group ref in the All-Users repository doesn\u0027t refer to the SHA-1 we expect in PeriodicGroupIndexer#run. We would reindex the group but use the old value from the cache. Nevertheless, we would still remember the new SHA-1 in PeriodicGroupIndexer. This means that on a subsequent run of PeriodicGroupIndexer when the cache is finally updated, we don\u0027t detect that the group must be indexed again. Should we maybe not remember the refs found in the repository but rather the values which are really put in the index? I guess, alternatively, we could also invalidate the cache before indexing a group.",
+      "range": {
+        "startLine": 19,
+        "startChar": 54,
+        "endLine": 23,
+        "endChar": 41
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "439185ad_577259b1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -34,6 +57,259 @@
       "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ce3e7fb_02dc248d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2826,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-12T14:50:34Z",
+      "side": 1,
+      "message": "If this is a subsection of \u0027index\u0027, shouldn\u0027t we use a heading which is one level lower than the section of \u0027index\u0027 (e.g. \u003d\u003d\u003d\u003d)? (If not, we should move the description for the Lucene configuration up as it used to be a subsection of \u0027index\u0027.)",
+      "range": {
+        "startLine": 2826,
+        "startChar": 0,
+        "endLine": 2826,
+        "endChar": 3
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c97868e_36ce7855",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2841,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-12T14:50:34Z",
+      "side": 1,
+      "message": "My understanding of this sentence is that index.scheduledIndexer.startTime can be used to define the first time the reindexing is executed on Gerrit slaves after their startup. However, PeriodicGroupIndexer doesn\u0027t honor this setting for the first reindexing. It immediately runs a reindex and uses this configuration option only for the second reindexing. Isn\u0027t this a bit strange? Should we maybe consider to drop startTime for this case?\n\nIn any way, could we please clearly document the real behavior of the system?",
+      "range": {
+        "startLine": 2841,
+        "startChar": 0,
+        "endLine": 2841,
+        "endChar": 67
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92d4e5eb_b9a7bdd8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2851,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-12T14:50:34Z",
+      "side": 1,
+      "message": "Do we somewhere define in which timezone this setting is interpreted?",
+      "range": {
+        "startLine": 2849,
+        "startChar": 0,
+        "endLine": 2851,
+        "endChar": 17
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85842ebd_2e51f652",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2875,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-12T14:50:34Z",
+      "side": 1,
+      "message": "The indentation of this part seems to be different than the rest of this paragraph and the + is shown on the rendered documentation. I guess, we need to use a similar approach as for the paragraph of httpd.maxWait: Wrap this part with -- on top and below, add a + before the first --, and remove the + before \u0027Defaults\u0027.",
+      "range": {
+        "startLine": 2873,
+        "startChar": 0,
+        "endLine": 2875,
+        "endChar": 17
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2111e3e4_8d3e0521",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-12T14:50:34Z",
+      "side": 1,
+      "message": "Is there a reason that these parameters can be set via a method instead of in the constructor? If we are concerned about the number of parameters which go into the constructor of ScheduleConfig and also want to support optional parameters, we should consider to provide a builder to create a ScheduleConfig.",
+      "range": {
+        "startLine": 88,
+        "startChar": 14,
+        "endLine": 88,
+        "endChar": 72
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "081cc3f5_4699f52e",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-12T14:50:34Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we ensure somewhere in this class that those values are within reasonable bounds (e.g. non-negative)?",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 43
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca4556e0_3c9628f1",
+        "filename": "java/com/google/gerrit/server/group/PeriodicGroupIndexer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-12T14:50:34Z",
+      "side": 1,
+      "message": "How can this happen? Don\u0027t we set the defaults to another value in line 87?",
+      "range": {
+        "startLine": 90,
+        "startChar": 6,
+        "endLine": 92,
+        "endChar": 62
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8df57326_2be5dd0b",
+        "filename": "java/com/google/gerrit/server/group/PeriodicGroupIndexer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-12T14:50:34Z",
+      "side": 1,
+      "message": "I guess this can take a while. Are LifecycleListeners allowed to block the main thread so long?",
+      "range": {
+        "startLine": 97,
+        "startChar": 8,
+        "endLine": 97,
+        "endChar": 21
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82a96a73_2a77d49f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1268,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-12T14:50:34Z",
+      "side": 1,
+      "message": "Is there a reason that the result must be sorted?",
+      "range": {
+        "startLine": 1268,
+        "startChar": 69,
+        "endLine": 1268,
+        "endChar": 78
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6556e110_327946e2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1295,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-12T14:50:34Z",
+      "side": 1,
+      "message": "Isn\u0027t it possible to use gApi.groups().create(\"foo\") here? The UUID of the created group can be extracted by chaining a .get() call and accessing the \u0027id\u0027 field of the GroupInfo.",
+      "range": {
+        "startLine": 1288,
+        "startChar": 6,
+        "endLine": 1295,
+        "endChar": 49
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4148172_dfdf8b54",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1302,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-12T14:50:34Z",
+      "side": 1,
+      "message": "Could be replaced by:\n\n gApi.groups().id(groupUuid.get()).description(\"bar\");",
+      "range": {
+        "startLine": 1301,
+        "startChar": 6,
+        "endLine": 1302,
+        "endChar": 86
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

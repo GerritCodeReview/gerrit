@@ -118,7 +118,7 @@ public class ActionJson {
     // Include all fields from ChangeJson#toChangeInfo that are not protected by
     // any ListChangesOptions.
     ChangeInfo copy = new ChangeInfo();
-    copy.project = changeInfo.project;
+    copy.repository = changeInfo.repository;
     copy.branch = changeInfo.branch;
     copy.topic = changeInfo.topic;
     copy.assignee = changeInfo.assignee;

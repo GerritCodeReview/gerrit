@@ -22,9 +22,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+/** TEST */
 public class ChangeInfo {
   public String id;
-  public String project;
+  public String repository;
   public String branch;
   public String topic;
   public AccountInfo assignee;

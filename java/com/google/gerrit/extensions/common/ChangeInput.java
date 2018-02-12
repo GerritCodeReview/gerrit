@@ -21,7 +21,7 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import java.util.Map;
 
 public class ChangeInput {
-  public String project;
+  public String repository;
   public String branch;
   public String subject;
 
@@ -44,7 +44,7 @@ public class ChangeInput {
    * @param subject the subject (commit message) for the new change
    */
   public ChangeInput(String project, String branch, String subject) {
-    this.project = project;
+    this.repository = project;
     this.branch = branch;
     this.subject = subject;
   }

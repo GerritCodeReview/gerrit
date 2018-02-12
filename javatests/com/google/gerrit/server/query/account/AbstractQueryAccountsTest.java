@@ -622,7 +622,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       throws RestApiException {
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
     ProjectWatchInfo pwi = new ProjectWatchInfo();
-    pwi.project = project.get();
+    pwi.repository = project.get();
     pwi.filter = filter;
     pwi.notifyAbandonedChanges = true;
     pwi.notifyNewChanges = true;

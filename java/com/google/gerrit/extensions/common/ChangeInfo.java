@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class ChangeInfo {
   public String id;
-  public String project;
+  public String repository;
   public String branch;
   public String topic;
   public AccountInfo assignee;

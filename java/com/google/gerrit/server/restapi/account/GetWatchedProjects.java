@@ -72,7 +72,7 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
         account.getProjectWatches().entrySet()) {
       ProjectWatchInfo pwi = new ProjectWatchInfo();
       pwi.filter = e.getKey().filter();
-      pwi.project = e.getKey().project().get();
+      pwi.repository = e.getKey().project().get();
       pwi.notifyAbandonedChanges = toBoolean(e.getValue().contains(NotifyType.ABANDONED_CHANGES));
       pwi.notifyNewChanges = toBoolean(e.getValue().contains(NotifyType.NEW_CHANGES));
       pwi.notifyNewPatchSets = toBoolean(e.getValue().contains(NotifyType.NEW_PATCHSETS));
@@ -86,7 +86,7 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
           @Override
           public int compare(ProjectWatchInfo pwi1, ProjectWatchInfo pwi2) {
             return ComparisonChain.start()
-                .compare(pwi1.project, pwi2.project)
+                .compare(pwi1.repository, pwi2.repository)
                 .compare(Strings.nullToEmpty(pwi1.filter), Strings.nullToEmpty(pwi2.filter))
                 .result();
           }

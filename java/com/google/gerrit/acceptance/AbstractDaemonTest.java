@@ -1537,7 +1537,7 @@ public abstract class AbstractDaemonTest {
   protected void watch(String project, ProjectWatchInfoConfiguration config)
       throws RestApiException {
     ProjectWatchInfo pwi = new ProjectWatchInfo();
-    pwi.project = project;
+    pwi.repository = project;
     config.configure(pwi);
     gApi.accounts().self().setWatchedProjects(ImmutableList.of(pwi));
   }

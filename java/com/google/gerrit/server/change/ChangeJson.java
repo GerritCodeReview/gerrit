@@ -463,7 +463,7 @@ public class ChangeJson {
     Change c = result.change();
     if (c != null) {
       info = new ChangeInfo();
-      info.project = c.getProject().get();
+      info.repository = c.getProject().get();
       info.branch = c.getDest().getShortName();
       info.topic = c.getTopic();
       info.changeId = c.getKey().get();
@@ -505,7 +505,7 @@ public class ChangeJson {
 
     PermissionBackend.ForChange perm = permissionBackendForChange(user, cd);
     Change in = cd.change();
-    out.project = in.getProject().get();
+    out.repository = in.getProject().get();
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();
     if (indexes.getSearchIndex().getSchema().hasField(ChangeField.ASSIGNEE)) {
@@ -1447,7 +1447,7 @@ public class ChangeJson {
   static void finish(ChangeInfo info) {
     info.id =
         Joiner.on('~')
-            .join(Url.encode(info.project), Url.encode(info.branch), Url.encode(info.changeId));
+            .join(Url.encode(info.repository), Url.encode(info.branch), Url.encode(info.changeId));
   }
 
   private static void addApproval(LabelInfo label, ApprovalInfo approval) {

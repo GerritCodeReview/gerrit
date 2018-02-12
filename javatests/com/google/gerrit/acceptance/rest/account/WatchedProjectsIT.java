@@ -37,14 +37,14 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>(2);
 
     ProjectWatchInfo pwi = new ProjectWatchInfo();
-    pwi.project = projectName1;
+    pwi.repository = projectName1;
     pwi.notifyAbandonedChanges = true;
     pwi.notifyNewChanges = true;
     pwi.notifyAllComments = true;
     projectsToWatch.add(pwi);
 
     pwi = new ProjectWatchInfo();
-    pwi.project = projectName2;
+    pwi.repository = projectName2;
     pwi.filter = "branch:master";
     pwi.notifySubmittedChanges = true;
     pwi.notifyNewPatchSets = true;
@@ -63,14 +63,14 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 
     ProjectWatchInfo pwi = new ProjectWatchInfo();
-    pwi.project = projectName1;
+    pwi.repository = projectName1;
     pwi.notifyAbandonedChanges = true;
     pwi.notifyNewChanges = true;
     pwi.notifyAllComments = true;
     projectsToWatch.add(pwi);
 
     pwi = new ProjectWatchInfo();
-    pwi.project = projectName2;
+    pwi.repository = projectName2;
     pwi.filter = "branch:master";
     pwi.notifySubmittedChanges = true;
     pwi.notifyNewPatchSets = true;
@@ -96,14 +96,14 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 
     ProjectWatchInfo pwi = new ProjectWatchInfo();
-    pwi.project = projectName;
+    pwi.repository = projectName;
     pwi.notifyAbandonedChanges = true;
     pwi.notifyNewChanges = true;
     pwi.notifyAllComments = true;
     projectsToWatch.add(pwi);
 
     pwi = new ProjectWatchInfo();
-    pwi.project = projectName;
+    pwi.repository = projectName;
     pwi.notifySubmittedChanges = true;
     pwi.notifyNewPatchSets = true;
     projectsToWatch.add(pwi);
@@ -120,7 +120,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 
     ProjectWatchInfo pwi = new ProjectWatchInfo();
-    pwi.project = projectName;
+    pwi.repository = projectName;
     projectsToWatch.add(pwi);
 
     gApi.accounts().self().setWatchedProjects(projectsToWatch);
@@ -135,7 +135,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>(2);
 
     ProjectWatchInfo pwi = new ProjectWatchInfo();
-    pwi.project = projectName;
+    pwi.repository = projectName;
     pwi.notifyAbandonedChanges = true;
     pwi.notifyNewChanges = true;
     pwi.notifyAllComments = true;
@@ -154,7 +154,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 
     ProjectWatchInfo pwi = new ProjectWatchInfo();
-    pwi.project = projectName;
+    pwi.repository = projectName;
     pwi.notifyAbandonedChanges = true;
     pwi.notifyNewChanges = true;
     pwi.notifyAllComments = true;
@@ -180,7 +180,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 
     ProjectWatchInfo pwi = new ProjectWatchInfo();
-    pwi.project = projectName;
+    pwi.repository = projectName;
     pwi.notifyAbandonedChanges = true;
     pwi.notifyNewChanges = true;
     pwi.notifyAllComments = true;
@@ -209,7 +209,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 
     ProjectWatchInfo pwi = new ProjectWatchInfo();
-    pwi.project = projectName;
+    pwi.repository = projectName;
     pwi.filter = "branch:stable";
     pwi.notifyAbandonedChanges = true;
     pwi.notifyNewChanges = true;
@@ -217,7 +217,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     projectsToWatch.add(pwi);
 
     pwi = new ProjectWatchInfo();
-    pwi.project = projectName;
+    pwi.repository = projectName;
     pwi.filter = "branch:master";
     pwi.notifySubmittedChanges = true;
     pwi.notifyNewPatchSets = true;

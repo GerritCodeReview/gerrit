@@ -86,15 +86,16 @@ public class PostWatchedProjects
       throws RestApiException, IOException, PermissionBackendException {
     Map<ProjectWatchKey, Set<NotifyType>> m = new HashMap<>();
     for (ProjectWatchInfo info : input) {
-      if (info.project == null) {
+      if (info.repository == null) {
         throw new BadRequestException("project name must be specified");
       }
 
       ProjectWatchKey key =
-          ProjectWatchKey.create(projectsCollection.parse(info.project).getNameKey(), info.filter);
+          ProjectWatchKey.create(
+              projectsCollection.parse(info.repository).getNameKey(), info.filter);
       if (m.containsKey(key)) {
         throw new BadRequestException(
-            "duplicate entry for project " + format(info.project, info.filter));
+            "duplicate entry for project " + format(info.repository, info.filter));
       }
 
       Set<NotifyType> notifyValues = EnumSet.noneOf(NotifyType.class);

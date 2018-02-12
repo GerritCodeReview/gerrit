@@ -162,7 +162,7 @@ public class CreateChange
       BatchUpdate.Factory updateFactory, TopLevelResource parent, ChangeInput input)
       throws OrmException, IOException, InvalidChangeOperationException, RestApiException,
           UpdateException, PermissionBackendException, ConfigInvalidException {
-    if (Strings.isNullOrEmpty(input.project)) {
+    if (Strings.isNullOrEmpty(input.repository)) {
       throw new BadRequestException("project must be non-empty");
     }
 
@@ -180,7 +180,7 @@ public class CreateChange
       }
     }
 
-    ProjectResource rsrc = projectsCollection.parse(input.project);
+    ProjectResource rsrc = projectsCollection.parse(input.repository);
     boolean privateByDefault = rsrc.getProjectState().is(BooleanProjectConfig.PRIVATE_BY_DEFAULT);
     boolean isPrivate = input.isPrivate == null ? privateByDefault : input.isPrivate;
 

@@ -220,7 +220,7 @@ public class ChangeIT extends AbstractDaemonTest {
     String triplet = project.get() + "~master~" + r.getChangeId();
     ChangeInfo c = info(triplet);
     assertThat(c.id).isEqualTo(triplet);
-    assertThat(c.project).isEqualTo(project.get());
+    assertThat(c.repository).isEqualTo(project.get());
     assertThat(c.branch).isEqualTo("master");
     assertThat(c.status).isEqualTo(ChangeStatus.NEW);
     assertThat(c.subject).isEqualTo("test commit");
@@ -1994,9 +1994,9 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInput in = new ChangeInput();
     in.branch = Constants.MASTER;
     in.subject = "Create a change from the API";
-    in.project = project.get();
+    in.repository = project.get();
     ChangeInfo info = gApi.changes().create(in).get();
-    assertThat(info.project).isEqualTo(in.project);
+    assertThat(info.repository).isEqualTo(in.repository);
     assertThat(info.branch).isEqualTo(in.branch);
     assertThat(info.subject).isEqualTo(in.subject);
     assertThat(Iterables.getOnlyElement(info.messages).message).isEqualTo("Uploaded patch set 1.");
@@ -2438,10 +2438,10 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInput in = new ChangeInput();
     in.branch = "foo";
     in.subject = "Create a change on new branch from the API";
-    in.project = project.get();
+    in.repository = project.get();
     in.newBranch = true;
     ChangeInfo info = gApi.changes().create(in).get();
-    assertThat(info.project).isEqualTo(in.project);
+    assertThat(info.repository).isEqualTo(in.repository);
     assertThat(info.branch).isEqualTo(in.branch);
     assertThat(info.subject).isEqualTo(in.subject);
     assertThat(Iterables.getOnlyElement(info.messages).message).isEqualTo("Uploaded patch set 1.");
@@ -2452,7 +2452,7 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInput in = new ChangeInput();
     in.branch = Constants.MASTER;
     in.subject = "Create a change on new branch from the API";
-    in.project = project.get();
+    in.repository = project.get();
     in.newBranch = true;
 
     exception.expect(ResourceConflictException.class);

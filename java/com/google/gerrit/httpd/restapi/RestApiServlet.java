@@ -190,6 +190,7 @@ public class RestApiServlet extends HttpServlet {
 
   private static final int HEAP_EST_SIZE = 10 * 8 * 1024; // Presize 10 blocks.
   private static final String PLAIN_TEXT = "text/plain";
+  private static final Pattern TYPE_SPLIT_PATTERN = Pattern.compile("[ ,;][ ,;]*");
 
   /**
    * Garbage prefix inserted before JSON output to prevent XSSI.
@@ -1259,7 +1260,7 @@ public class RestApiServlet extends HttpServlet {
     if (given.startsWith(expect + ",")) {
       return true;
     }
-    for (String p : given.split("[ ,;][ ,;]*")) {
+    for (String p : Splitter.on(TYPE_SPLIT_PATTERN).split(given)) {
       if (expect.equals(p)) {
         return true;
       }

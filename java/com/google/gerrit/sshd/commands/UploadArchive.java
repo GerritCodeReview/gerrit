@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.change.ArchiveFormat;
@@ -142,8 +143,7 @@ public class UploadArchive extends AbstractGitCommand {
       if (!s.startsWith(argCmd)) {
         throw new Failure(1, "fatal: 'argument' token or flush expected, got " + s);
       }
-      String[] parts = s.substring(argCmd.length()).split("=", 2);
-      for (String p : parts) {
+      for (String p : Splitter.on('=').limit(2).split(s.substring(argCmd.length()))) {
         args.add(p);
       }
     }

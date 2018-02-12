@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.receive;
 
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
@@ -63,11 +64,10 @@ public class TextParser {
 
     PeekingIterator<Comment> iter = Iterators.peekingIterator(comments.iterator());
 
-    String[] lines = body.split("\n");
     MailComment currentComment = null;
     String lastEncounteredFileName = null;
     Comment lastEncounteredComment = null;
-    for (String line : lines) {
+    for (String line : Splitter.on('\n').split(body)) {
       if (line.equals(">")) {
         // Skip empty lines
         continue;

@@ -227,9 +227,9 @@ final class CreateProjectCommand extends SshCommand {
       throws UnloggedFailure {
     Map<String, Map<String, ConfigValue>> m = new HashMap<>();
     for (String pluginConfigValue : pluginConfigValues) {
-      String[] s = pluginConfigValue.split("=");
-      String[] s2 = s[0].split("\\.");
-      if (s.length != 2 || s2.length != 2) {
+      List<String> s = Splitter.on('=').splitToList(pluginConfigValue);
+      List<String> s2 = Splitter.on('.').splitToList(s.get(0));
+      if (s.size() != 2 || s2.size() != 2) {
         throw die(
             "Invalid plugin config value '"
                 + pluginConfigValue
@@ -237,14 +237,14 @@ final class CreateProjectCommand extends SshCommand {
                 + " or '<plugin-name>.<parameter-name>=<value1,value2,...>'");
       }
       ConfigValue value = new ConfigValue();
-      String v = s[1];
+      String v = s.get(1);
       if (v.contains(",")) {
-        value.values = Lists.newArrayList(Splitter.on(",").split(v));
+        value.values = Splitter.on(",").splitToList(v);
       } else {
         value.value = v;
       }
-      String pluginName = s2[0];
-      String paramName = s2[1];
+      String pluginName = s2.get(0);
+      String paramName = s2.get(1);
       Map<String, ConfigValue> l = m.get(pluginName);
       if (l == null) {
         l = new HashMap<>();

@@ -32,6 +32,8 @@ package com.google.gerrit.httpd.gitweb;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Splitter;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Url;
@@ -71,6 +73,7 @@ import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -458,7 +461,7 @@ class GitwebServlet extends HttpServlet {
 
   private static Map<String, String> getParameters(HttpServletRequest req) {
     final Map<String, String> params = new HashMap<>();
-    for (String pair : req.getQueryString().split("[&;]")) {
+    for (String pair : Splitter.on(CharMatcher.anyOf("&;")).split(req.getQueryString())) {
       final int eq = pair.indexOf('=');
       if (0 < eq) {
         String name = pair.substring(0, eq);
@@ -689,8 +692,8 @@ class GitwebServlet extends HttpServlet {
         res.sendRedirect(value);
 
       } else if ("Status".equalsIgnoreCase(key)) {
-        final String[] token = value.split(" ");
-        final int status = Integer.parseInt(token[0]);
+        final List<String> token = Splitter.on(' ').splitToList(value);
+        final int status = Integer.parseInt(token.get(0));
         res.setStatus(status);
 
       } else {

@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Enums;
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -526,9 +527,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     // for plugins the value will be operandName_pluginName
-    String[] names = value.split("_");
-    if (names.length == 2) {
-      ChangeHasOperandFactory op = args.hasOperands.get(names[1], names[0]);
+    List<String> names = Lists.newArrayList(Splitter.on('_').split(value));
+    if (names.size() == 2) {
+      ChangeHasOperandFactory op = args.hasOperands.get(names.get(1), names.get(0));
       if (op != null) {
         return op.create(this);
       }
@@ -729,12 +730,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     // Special case: votes by owners can be tracked with ",owner":
     // label:Code-Review+2,owner
     // label:Code-Review+2,user=owner
-    String[] splitReviewer = name.split(",", 2);
-    name = splitReviewer[0]; // remove all but the vote piece, e.g.'CodeReview=1'
+    List<String> splitReviewer = Lists.newArrayList(Splitter.on(',').limit(2).split(name));
+    name = splitReviewer.get(0); // remove all but the vote piece, e.g.'CodeReview=1'
 
-    if (splitReviewer.length == 2) {
+    if (splitReviewer.size() == 2) {
       // process the user/group piece
-      PredicateArgs lblArgs = new PredicateArgs(splitReviewer[1]);
+      PredicateArgs lblArgs = new PredicateArgs(splitReviewer.get(1));
 
       for (Map.Entry<String, String> pair : lblArgs.keyValue.entrySet()) {
         if (pair.getKey().equalsIgnoreCase(ARG_ID_USER)) {

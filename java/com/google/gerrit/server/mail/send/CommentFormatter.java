@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail.send;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
+import com.google.common.base.Splitter;
 import com.google.gerrit.common.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,7 +53,7 @@ public class CommentFormatter {
     }
 
     List<Block> result = new ArrayList<>();
-    for (String p : source.split("\n\n")) {
+    for (String p : Splitter.on("\n\n").split(source)) {
       if (isQuote(p)) {
         result.add(makeQuote(p));
       } else if (isPreFormat(p)) {
@@ -96,7 +97,7 @@ public class CommentFormatter {
     boolean inList = false;
     boolean inParagraph = false;
 
-    for (String line : p.split("\n")) {
+    for (String line : Splitter.on('\n').split(p)) {
       if (line.startsWith("-") || line.startsWith("*")) {
         // The next line looks like a list item. If not building a list already,
         // then create one. Remove the list item marker (* or -) from the line.

@@ -16,6 +16,24 @@
       "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cdd07c6_3adb6577",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-12T12:15:45Z",
+      "side": 1,
+      "message": "You mean by inspecting the history of this branch?\nYes, this would be possible. I think there are also other possibilities like asking the index which groups it knows and then compare that set with the groups that exist in NoteDb.\nAt the moment I\u0027m not intending to implement since we don\u0027t support group deletions and this should never happen. I think it\u0027s OK to address this only when we implement support for group deletions.",
+      "parentUuid": "439185ad_577259b1",
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -725,7 +725,7 @@ public class RestApiServlet extends HttpServlet {
     // 400). Consume the request body for all but raw input request types here.
     if (isType(JSON_TYPE, req.getContentType())) {
       try (BufferedReader br = req.getReader();
-          JsonReader json = new JsonReader(br)) {
+          JsonReader json = new LegacyProjectJsonReader(br)) {
         try {
           json.setLenient(true);
 

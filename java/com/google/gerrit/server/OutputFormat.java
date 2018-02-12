@@ -56,6 +56,7 @@ public enum OutputFormat {
     GsonBuilder gb =
         new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .registerTypeAdapterFactory(new LegacyProjectTypeAdapter())
             .registerTypeAdapter(Timestamp.class, new SqlTimestampDeserializer());
     if (this == OutputFormat.JSON) {
       gb.setPrettyPrinting();

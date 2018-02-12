@@ -256,39 +256,44 @@ public class ChangeField {
     return state.toString() + ',' + adr;
   }
 
-  public static ReviewerSet parseReviewerFieldValues(Iterable<String> values) {
+  public static ReviewerSet parseReviewerFieldValues(Change.Id changeId, Iterable<String> values) {
     ImmutableTable.Builder<ReviewerStateInternal, Account.Id, Timestamp> b =
         ImmutableTable.builder();
     for (String v : values) {
 
       int i = v.indexOf(',');
       if (i < 0) {
-        log.error("Invalid value for reviewer field: {}", v);
+        log.warn("Invalid value for reviewer field from change {}: {}", changeId.get(), v);
         continue;
       }
 
       int i2 = v.lastIndexOf(',');
       if (i2 == i) {
-        log.error("Invalid value for reviewer field: {}", v);
+        log.warn("Invalid value for reviewer field from change {}: {}", changeId.get(), v);
         continue;
       }
 
       com.google.common.base.Optional<ReviewerStateInternal> reviewerState =
           Enums.getIfPresent(ReviewerStateInternal.class, v.substring(0, i));
       if (!reviewerState.isPresent()) {
-        log.error("Failed to parse reviewer state from reviewer field: {}", v);
+        log.warn(
+            "Failed to parse reviewer state of reviewer field from change {}: {}",
+            changeId.get(),
+            v);
         continue;
       }
 
       Optional<Account.Id> accountId = Account.Id.tryParse(v.substring(i + 1, i2));
       if (!accountId.isPresent()) {
-        log.error("Failed to parse account ID from reviewer field: {}", v);
+        log.warn(
+            "Failed to parse account ID of reviewer field from change {}: {}", changeId.get(), v);
         continue;
       }
 
       Long l = Longs.tryParse(v.substring(i2 + 1, v.length()));
       if (l == null) {
-        log.error("Failed to parse timestamp from reviewer field: {}", v);
+        log.warn(
+            "Failed to parse timestamp of reviewer field from change {}: {}", changeId.get(), v);
         continue;
       }
       Timestamp timestamp = new Timestamp(l);
@@ -298,37 +303,47 @@ public class ChangeField {
     return ReviewerSet.fromTable(b.build());
   }
 
-  public static ReviewerByEmailSet parseReviewerByEmailFieldValues(Iterable<String> values) {
+  public static ReviewerByEmailSet parseReviewerByEmailFieldValues(
+      Change.Id changeId, Iterable<String> values) {
     ImmutableTable.Builder<ReviewerStateInternal, Address, Timestamp> b = ImmutableTable.builder();
     for (String v : values) {
       int i = v.indexOf(',');
       if (i < 0) {
-        log.error("Invalid value for reviewer by email field: {}", v);
+        log.warn("Invalid value for reviewer by email field from change {}: {}", changeId.get(), v);
         continue;
       }
 
       int i2 = v.lastIndexOf(',');
       if (i2 == i) {
-        log.error("Invalid value for reviewer by email field: {}", v);
+        log.warn("Invalid value for reviewer by email field from change {}: {}", changeId.get(), v);
         continue;
       }
 
       com.google.common.base.Optional<ReviewerStateInternal> reviewerState =
           Enums.getIfPresent(ReviewerStateInternal.class, v.substring(0, i));
       if (!reviewerState.isPresent()) {
-        log.error("Failed to parse reviewer state from reviewer by email field: {}", v);
+        log.warn(
+            "Failed to parse reviewer state of reviewer by email field from change {}: {}",
+            changeId.get(),
+            v);
         continue;
       }
 
       Address address = Address.tryParse(v.substring(i + 1, i2));
       if (address == null) {
-        log.error("Failed to parse address from reviewer by email field: {}", v);
+        log.warn(
+            "Failed to parse address of reviewer by email field from change {}: {}",
+            changeId.get(),
+            v);
         continue;
       }
 
       Long l = Longs.tryParse(v.substring(i2 + 1, v.length()));
       if (l == null) {
-        log.error("Failed to parse timestamp from reviewer by email field: {}", v);
+        log.warn(
+            "Failed to parse timestamp of reviewer by email field from change {}: {}",
+            changeId.get(),
+            v);
         continue;
       }
       Timestamp timestamp = new Timestamp(l);

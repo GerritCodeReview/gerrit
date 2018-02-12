@@ -193,6 +193,30 @@
     },
     {
       "key": {
+        "uuid": "509fa1ac_bcf7e98c",
+        "filename": "java/com/google/gerrit/server/restapi/project/GetAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-12T15:49:27Z",
+      "side": 1,
+      "message": "I\u0027m no expert in that area but I guess that we might want to expose as few details about invisible groups as possible if we are forced to leak their existence.\n\nBesides, you claim in the commit description that we only expose the name and descriptions of such groups. In my opinion, the commit description as well as the documentation in rest-api-access should clearly state which parameters are exposed.\n\nBy the way, is there a reason that we need the description in the result? Isn\u0027t a map from UUID to name sufficient for this REST endpoint?",
+      "parentUuid": "534c4bc5_34f5672d",
+      "range": {
+        "startLine": 297,
+        "startChar": 8,
+        "endLine": 298,
+        "endChar": 30
+      },
+      "revId": "0c9b9343bb0a901004bfd7f9851784f5a191d239",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ff457baa_13241578",
         "filename": "java/com/google/gerrit/server/restapi/project/GetAccess.java",
         "patchSetId": 2

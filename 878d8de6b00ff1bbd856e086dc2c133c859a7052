@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "a24045df_432a788c",
+        "filename": "java/com/google/gerrit/server/index/account/AccountIndexerImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-12T10:37:05Z",
+      "side": 1,
+      "message": "Good suggestion. Done.",
+      "parentUuid": "3b16c3f7_d37dad09",
+      "range": {
+        "startLine": 148,
+        "startChar": 10,
+        "endLine": 152,
+        "endChar": 23
+      },
+      "revId": "878d8de6b00ff1bbd856e086dc2c133c859a7052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "127b8073_d4e616ac",
         "filename": "java/com/google/gerrit/server/index/group/GroupIndexerImpl.java",
         "patchSetId": 3
@@ -40,6 +64,24 @@
       "revId": "878d8de6b00ff1bbd856e086dc2c133c859a7052",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13417715_394600ed",
+        "filename": "java/com/google/gerrit/server/index/group/GroupIndexerImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-12T10:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "127b8073_d4e616ac",
+      "revId": "878d8de6b00ff1bbd856e086dc2c133c859a7052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

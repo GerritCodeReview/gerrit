@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94538bf2_42345566",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-12T10:17:46Z",
+      "side": 1,
+      "message": "How did the GWT UI obtain the details for invisible groups if this REST endpoint didn\u0027t provide them?",
+      "range": {
+        "startLine": 9,
+        "startChar": 35,
+        "endLine": 10,
+        "endChar": 6
+      },
+      "revId": "0c9b9343bb0a901004bfd7f9851784f5a191d239",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e62463c_98d52f4a",
+        "filename": "Documentation/rest-api-access.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-12T10:17:46Z",
+      "side": 1,
+      "message": "FYI: The layout of this entry is currently broken. I fixed it in I8a764c845c.",
+      "range": {
+        "startLine": 405,
+        "startChar": 0,
+        "endLine": 409,
+        "endChar": 27
+      },
+      "revId": "0c9b9343bb0a901004bfd7f9851784f5a191d239",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9afe17f_f53e8d20",
+        "filename": "java/com/google/gerrit/server/restapi/project/GetAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-12T10:17:46Z",
+      "side": 1,
+      "message": "Now that we don\u0027t check for visibility anymore, can\u0027t we directly retrieve the group from the groupBackend and avoid an unnecessary instantiation of a GroupControl?",
+      "range": {
+        "startLine": 292,
+        "startChar": 8,
+        "endLine": 293,
+        "endChar": 0
+      },
+      "revId": "0c9b9343bb0a901004bfd7f9851784f5a191d239",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2094f06_b4bbe3e0",
+        "filename": "java/com/google/gerrit/server/restapi/project/GetAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-12T10:17:46Z",
+      "side": 1,
+      "message": "What about other fields like the owner, createdOn, the numeric ID, ...? Shouldn\u0027t we clear them, too?",
+      "range": {
+        "startLine": 297,
+        "startChar": 8,
+        "endLine": 298,
+        "endChar": 30
+      },
+      "revId": "0c9b9343bb0a901004bfd7f9851784f5a191d239",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff457baa_13241578",
+        "filename": "java/com/google/gerrit/server/restapi/project/GetAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-12T10:17:46Z",
+      "side": 1,
+      "message": "I didn\u0027t check all usages but putting \u0027null\u0027 as value into visibleGroups seems a bit dangerous to me. Did you check that \u0027null\u0027 values don\u0027t cause other issues/exceptions?",
+      "range": {
+        "startLine": 301,
+        "startChar": 8,
+        "endLine": 303,
+        "endChar": 35
+      },
+      "revId": "0c9b9343bb0a901004bfd7f9851784f5a191d239",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

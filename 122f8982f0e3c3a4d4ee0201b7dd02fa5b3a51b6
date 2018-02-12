@@ -46,6 +46,30 @@
       "revId": "122f8982f0e3c3a4d4ee0201b7dd02fa5b3a51b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90f13c38_4e74ba5b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-12T22:00:43Z",
+      "side": 1,
+      "message": "Oh man.. I don\u0027t know. I\u0027m ok with the blue if Aranb is, wasn\u0027t sure if he had input on this or not. \n\nAnother option is to use a symbol of some sort instead of a color?\n\nYou asked for bikeshedding 😊",
+      "parentUuid": "0e958062_4c95a28f",
+      "range": {
+        "startLine": 67,
+        "startChar": 26,
+        "endLine": 67,
+        "endChar": 34
+      },
+      "revId": "122f8982f0e3c3a4d4ee0201b7dd02fa5b3a51b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

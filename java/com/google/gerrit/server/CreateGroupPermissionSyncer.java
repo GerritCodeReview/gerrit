@@ -128,7 +128,7 @@ public class CreateGroupPermissionSyncer implements ChangeMergedListener {
 
   @Override
   public void onChangeMerged(Event event) {
-    if (!allProjects.get().equals(event.getChange().project)
+    if (!allProjects.get().equals(event.getChange().repository)
         || !RefNames.REFS_CONFIG.equals(event.getChange().branch)) {
       return;
     }

@@ -220,7 +220,7 @@ public class ChangeIT extends AbstractDaemonTest {
     String triplet = project.get() + "~master~" + r.getChangeId();
     ChangeInfo c = info(triplet);
     assertThat(c.id).isEqualTo(triplet);
-    assertThat(c.project).isEqualTo(project.get());
+    assertThat(c.repository).isEqualTo(project.get());
     assertThat(c.branch).isEqualTo("master");
     assertThat(c.status).isEqualTo(ChangeStatus.NEW);
     assertThat(c.subject).isEqualTo("test commit");
@@ -1996,7 +1996,7 @@ public class ChangeIT extends AbstractDaemonTest {
     in.subject = "Create a change from the API";
     in.project = project.get();
     ChangeInfo info = gApi.changes().create(in).get();
-    assertThat(info.project).isEqualTo(in.project);
+    assertThat(info.repository).isEqualTo(in.project);
     assertThat(info.branch).isEqualTo(in.branch);
     assertThat(info.subject).isEqualTo(in.subject);
     assertThat(Iterables.getOnlyElement(info.messages).message).isEqualTo("Uploaded patch set 1.");
@@ -2441,7 +2441,7 @@ public class ChangeIT extends AbstractDaemonTest {
     in.project = project.get();
     in.newBranch = true;
     ChangeInfo info = gApi.changes().create(in).get();
-    assertThat(info.project).isEqualTo(in.project);
+    assertThat(info.repository).isEqualTo(in.project);
     assertThat(info.branch).isEqualTo(in.branch);
     assertThat(info.subject).isEqualTo(in.subject);
     assertThat(Iterables.getOnlyElement(info.messages).message).isEqualTo("Uploaded patch set 1.");

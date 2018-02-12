@@ -1268,7 +1268,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(changes).hasSize(2);
     ChangeInfo c1 = get(changes.get(0).id, CURRENT_REVISION);
     ChangeInfo c2 = get(changes.get(1).id, CURRENT_REVISION);
-    assertThat(c1.project).isEqualTo(c2.project);
+    assertThat(c1.repository).isEqualTo(c2.repository);
     assertThat(c1.branch).isNotEqualTo(c2.branch);
     assertThat(c1.changeId).isEqualTo(c2.changeId);
     assertThat(c1.currentRevision).isEqualTo(c2.currentRevision);

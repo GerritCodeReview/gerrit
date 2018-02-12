@@ -402,6 +402,24 @@
     },
     {
       "key": {
+        "uuid": "46735c66_26c08ab6",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-02-12T10:54:27Z",
+      "side": 1,
+      "message": "this is mandated by GJF. I made it a normal comment instead.",
+      "parentUuid": "e63d2e96_956c21b0",
+      "revId": "768ebbe73e8a0823416fd1be2d6b17ccefeafdba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3cde8a3_9b93dd86",
         "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
         "patchSetId": 17

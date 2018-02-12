@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efbf5a30_7ab9b9ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-12T22:20:32Z",
+      "side": 1,
+      "message": "This list describes what this change does, correct? In that case it should be described in present-tense. Otherwise this looks like it describes future work.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 27
+      },
+      "revId": "e64de8b054cc3d15a0c89b86e042d60d47c32e05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0db2cd9_040dba75",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-12T22:20:32Z",
+      "side": 1,
+      "message": "Like my comments on the `getThreadForRange`s, can a comment describe what it means to omit the range parameter? (Assuming, it works the way I expected for the other optional range params.)",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 16
+      },
+      "revId": "e64de8b054cc3d15a0c89b86e042d60d47c32e05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0954bc8a_531603c6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-12T22:20:32Z",
+      "side": 1,
+      "message": "If the range parameter is optional, what does it `getThreadForRange` mean without a range? I assume if the range is omitted, then it gets the thread for the line.\n\nIs that right? Maybe this ought to be explained in the comment, or the method renamed perhaps.",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 30
+      },
+      "revId": "e64de8b054cc3d15a0c89b86e042d60d47c32e05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4052f5f0_e23d8468",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-12T22:20:32Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 388,
+        "startChar": 4,
+        "endLine": 388,
+        "endChar": 22
+      },
+      "revId": "e64de8b054cc3d15a0c89b86e042d60d47c32e05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

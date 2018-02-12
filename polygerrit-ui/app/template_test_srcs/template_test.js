@@ -42,14 +42,18 @@ fs.readdir('./polygerrit-ui/temp/behaviors/', (err, data) => {
     console.log('error /polygerrit-ui/temp/behaviors/ directory');
   }
   const behaviors = data;
-  const externs = [];
+  const additionalSources = [];
+  const externMap = {};
 
   for (const behavior of behaviors) {
-    externs.push({
-      path: `./polygerrit-ui/temp/behaviors/${behavior}`,
-      src: fs.readFileSync(
-          `./polygerrit-ui/temp/behaviors/${behavior}`, 'utf-8'),
-    });
+    if (!externMap[behavior]) {
+      additionalSources.push({
+        path: `./polygerrit-ui/temp/behaviors/${behavior}`,
+        src: fs.readFileSync(
+            `./polygerrit-ui/temp/behaviors/${behavior}`, 'utf-8'),
+      });
+      externMap[behavior] = true;
+    }
   }
 
   let mappings = JSON.parse(fs.readFileSync(
@@ -80,28 +84,30 @@ fs.readdir('./polygerrit-ui/temp/behaviors/', (err, data) => {
     mappings = mappingSpecificFile;
   }
 
-  externs.push({
+  additionalSources.push({
     path: 'custom-externs.js',
     src: '/** @externs */' +
         EXTERN_NAMES.map( name => { return `var ${name};`; }).join(' '),
   });
 
-  const promises = [];
-
+  const toCheck = [];
   for (key of Object.keys(mappings)) {
     if (mappings[key].html && mappings[key].js) {
-      promises.push(twinkie.checkTemplate(
-          mappings[key].html,
-          mappings[key].js,
-          'polygerrit.' + mappings[key].package,
-          externs
-      ));
+      toCheck.push({
+        htmlSrcPath: mappings[key].html,
+        jsSrcPath: mappings[key].js,
+        jsModule: 'polygerrit.' + mappings[key].package,
+      });
     }
   }
 
-  Promise.all(promises).then(() => {}, joinedErrors => {
-    if (joinedErrors) {
-      process.exit(1);
-    }
-  });
+  twinkie.checkTemplate(toCheck, additionalSources)
+      .then(() => {}, joinedErrors => {
+        if (joinedErrors) {
+          process.exit(1);
+        }
+      }).catch(e => {
+        console.error(e);
+        process.exit(1);
+      });
 });

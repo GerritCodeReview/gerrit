@@ -98,6 +98,30 @@
     },
     {
       "key": {
+        "uuid": "34470e1f_51c70063",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 1438,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-12T12:19:19Z",
+      "side": 1,
+      "message": "Agreed that this should clearly documented for the end users. In that sense we should probably avoid writing about implementation class names in the user documentation?",
+      "parentUuid": "3a7e2570_46c12257",
+      "range": {
+        "startLine": 1430,
+        "startChar": 0,
+        "endLine": 1438,
+        "endChar": 25
+      },
+      "revId": "768ebbe73e8a0823416fd1be2d6b17ccefeafdba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d724efb3_8413e97d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 17

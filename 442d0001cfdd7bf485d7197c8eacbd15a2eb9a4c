@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47e75f23_cf3fd667",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 1519,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-12T12:19:19Z",
+      "side": 1,
+      "message": "Based on the access permissions below, shouldn\u0027t this be just refs/a?\n\nI mean, a rule on refs/a has no effect on refs/a/b ref.",
+      "range": {
+        "startLine": 1519,
+        "startChar": 18,
+        "endLine": 1519,
+        "endChar": 26
+      },
+      "revId": "442d0001cfdd7bf485d7197c8eacbd15a2eb9a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "906c5599_8c559df3",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 1530,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-12T12:19:19Z",
+      "side": 1,
+      "message": "This is the only rule which matches refs/a/b, the intention of the example is not clear.",
+      "range": {
+        "startLine": 1529,
+        "startChar": 0,
+        "endLine": 1530,
+        "endChar": 33
+      },
+      "revId": "442d0001cfdd7bf485d7197c8eacbd15a2eb9a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71f35cf0_c4b25220",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 1538,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-12T12:19:19Z",
+      "side": 1,
+      "message": "effect",
+      "range": {
+        "startLine": 1538,
+        "startChar": 23,
+        "endLine": 1538,
+        "endChar": 29
+      },
+      "revId": "442d0001cfdd7bf485d7197c8eacbd15a2eb9a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

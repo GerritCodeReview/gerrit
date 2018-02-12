@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "ec53a8e3_f6498752",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-12T10:03:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5ed721b_176309ae",
+      "revId": "57d2fff434421708c679e0f225635285832799e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f73d337b_2478206f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2018-02-09T19:17:55Z",
       "side": 1,
       "message": "I think this is the only surprising one, TBH. The others all match Splitter.on(\u0027:\u0027).omitEmptyStrings().split(input).",
+      "revId": "57d2fff434421708c679e0f225635285832799e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb893821_f109a3ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-12T10:03:20Z",
+      "side": 1,
+      "message": "Maybe, but I found that more examples make it easier to see the difference.",
+      "parentUuid": "f73d337b_2478206f",
       "revId": "57d2fff434421708c679e0f225635285832799e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -51,6 +87,24 @@
       "revId": "57d2fff434421708c679e0f225635285832799e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae8c2a71_05551a33",
+        "filename": "java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-12T10:03:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "282a0c10_1d0a70eb",
+      "revId": "57d2fff434421708c679e0f225635285832799e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -77,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "fc48c3fa_bba996dd",
+        "filename": "java/com/google/gerrit/pgm/init/UpgradeFrom2_0_x.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-12T10:03:20Z",
+      "side": 1,
+      "message": "Did you mean \u0027\u0026\u0027?\n\nDone",
+      "parentUuid": "19980f0d_21761bcb",
+      "range": {
+        "startLine": 172,
+        "startChar": 37,
+        "endLine": 172,
+        "endChar": 40
+      },
+      "revId": "57d2fff434421708c679e0f225635285832799e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58f30784_2d46e45f",
         "filename": "java/com/google/gerrit/server/account/AuthorizedKeys.java",
         "patchSetId": 1
@@ -94,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "0d07db36_f915494d",
+        "filename": "java/com/google/gerrit/server/account/AuthorizedKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-12T10:03:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "58f30784_2d46e45f",
+      "revId": "57d2fff434421708c679e0f225635285832799e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c8b65a0_9040f4bb",
         "filename": "java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 1
@@ -105,6 +201,24 @@
       "writtenOn": "2018-02-09T19:17:55Z",
       "side": 1,
       "message": "Splitter.on(\u0027,\u0027).trimResults()? Though arguably that is more of a behavior change.",
+      "revId": "57d2fff434421708c679e0f225635285832799e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be6ad74f_0cece7f6",
+        "filename": "java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-12T10:03:20Z",
+      "side": 1,
+      "message": "Will do this as follow-up.",
+      "parentUuid": "6c8b65a0_9040f4bb",
       "revId": "57d2fff434421708c679e0f225635285832799e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -154,6 +268,54 @@
       "revId": "57d2fff434421708c679e0f225635285832799e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df4b870a_99ff2ba5",
+        "filename": "java/com/google/gerrit/sshd/SshModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-12T10:03:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d89b4cc6_462ed9d5",
+      "range": {
+        "startLine": 117,
+        "startChar": 57,
+        "endLine": 117,
+        "endChar": 75
+      },
+      "revId": "57d2fff434421708c679e0f225635285832799e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "466ab4a5_af1a524b",
+        "filename": "java/com/google/gerrit/sshd/SshModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-12T10:03:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c45a9be_5c41c31d",
+      "range": {
+        "startLine": 117,
+        "startChar": 26,
+        "endLine": 117,
+        "endChar": 44
+      },
+      "revId": "57d2fff434421708c679e0f225635285832799e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

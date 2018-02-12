@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7de57616_bf6ce6f4",
+        "filename": "java/com/google/gerrit/httpd/restapi/LegacyProjectJsonReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-12T14:21:00Z",
+      "side": 1,
+      "message": "instead of inheritance we could also use composition and delegate all calls. this would force us to take action in case new methods are added and potentially make us slightly more resilient against future changes",
+      "revId": "cb85a071e7d7dc687b5c4bb43656e137b2e3e443",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

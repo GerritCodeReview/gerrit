@@ -249,6 +249,24 @@
     },
     {
       "key": {
+        "uuid": "cef39741_811da2ee",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-12T16:16:29Z",
+      "side": 1,
+      "message": "\u003e Done with a hard-coded limit. How can I know the max number of\n \u003e queries that the index backend can execute at once?\n \u003e \n\n\nindex.maxLimit in gerrit.config but you cannot just use this parameter as it is configured to no limit per default.\n\nI think you want to define you own limit (e.g 1000) and use the min value of you own limit and \nindex.maxLimit",
+      "parentUuid": "8d1002d2_848fc451",
+      "revId": "e21f539f155c302003c8f765797cfec12ec753fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f900ef5_0e533979",
         "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
         "patchSetId": 6

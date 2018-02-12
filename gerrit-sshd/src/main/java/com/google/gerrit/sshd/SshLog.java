@@ -282,9 +282,11 @@ class SshLog implements LifecycleListener {
       return "Command was already destroyed";
     }
     StringBuilder commandName = new StringBuilder(dcmd.getCommandName());
-    String[] args = dcmd.getArguments();
-    for (int i = 1; i < args.length; i++) {
-      commandName.append(".").append(args[i]);
+    String[] trimmedArgs = dcmd.getTrimmedArguments();
+    if (trimmedArgs != null) {
+      for (int i = 1; i < trimmedArgs.length; i++) {
+        commandName.append(".").append(trimmedArgs[i]);
+      }
     }
     return commandName.toString();
   }

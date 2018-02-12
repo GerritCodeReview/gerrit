@@ -402,7 +402,7 @@ Whether the calling user can add any ref.
 |`config_visible`     |not set if `false`|
 Whether the calling user can see the `refs/meta/config` branch of the
 project.
-|`groups`            |A map of group UUID to
+|`groups`             ||A map of group UUID to
 link:rest-api-groups.html#group-info[GroupInfo] objects, describing
 the group UUIDs used in the `local` map. Groups that are not visible
 are omitted from the `groups` map.

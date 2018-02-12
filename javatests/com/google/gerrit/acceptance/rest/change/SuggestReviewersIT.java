@@ -506,7 +506,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
   private String createChangeFromApi(Project.NameKey project) throws RestApiException {
     ChangeInput ci = new ChangeInput();
-    ci.project = project.get();
+    ci.repository = project.get();
     ci.subject = "Test change at" + System.nanoTime();
     ci.branch = "master";
     return gApi.changes().create(ci).get().changeId;

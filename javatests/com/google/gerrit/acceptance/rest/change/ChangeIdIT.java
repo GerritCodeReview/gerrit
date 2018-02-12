@@ -99,13 +99,13 @@ public class ChangeIdIT extends AbstractDaemonTest {
   /** Convert a changeId (I0...01) to project~changeNumber (project~00001) */
   private String getProjectChangeNumber(String changeId) throws Exception {
     ChangeApi cApi = gApi.changes().id(changeId);
-    return cApi.get().project + "~" + cApi.get()._number;
+    return cApi.get().repository + "~" + cApi.get()._number;
   }
 
   /** Convert a changeId (I0...01) to a triplet (project~branch~I0...01) */
   private String getTriplet(String changeId) throws Exception {
     ChangeApi cApi = gApi.changes().id(changeId);
-    return cApi.get().project + "~" + cApi.get().branch + "~" + changeId;
+    return cApi.get().repository + "~" + cApi.get().branch + "~" + changeId;
   }
 
   /** Convert a changeId (I0...01) to a numeric changeId (00001) */

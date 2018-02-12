@@ -22,6 +22,30 @@
       "revId": "122f8982f0e3c3a4d4ee0201b7dd02fa5b3a51b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e958062_4c95a28f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-12T21:44:30Z",
+      "side": 1,
+      "message": "It\u0027s the same color, yeah -- but also the color Arnab told me to use. It was a pretty ad-hoc decision though.\n\nDo you have any ideas for other colors?",
+      "parentUuid": "f47bb26d_9e5353be",
+      "range": {
+        "startLine": 67,
+        "startChar": 26,
+        "endLine": 67,
+        "endChar": 34
+      },
+      "revId": "122f8982f0e3c3a4d4ee0201b7dd02fa5b3a51b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

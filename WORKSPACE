@@ -657,8 +657,9 @@ maven_jar(
 
 maven_jar(
     name = "h2",
-    artifact = "com.h2database:h2:1.3.176",
-    sha1 = "fd369423346b2f1525c413e33f8cf95b09c92cbd",
+    artifact = "com.h2database:h2:1.4.197-gerrit-1",
+    repository = MAVEN_LOCAL,
+    sha1 = "17e81ae1b80258c23e2ea28c24f83949c86bedcc",
 )
 
 # Note that all of the following org.apache.httpcomponents have newer versions,

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "e43a72dc_e66005c4",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1380,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-12T16:00:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "202c10aa_49970004",
+      "range": {
+        "startLine": 1380,
+        "startChar": 24,
+        "endLine": 1380,
+        "endChar": 30
+      },
+      "revId": "e21f539f155c302003c8f765797cfec12ec753fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3206fc5b_40798ddd",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 6
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "67422759_8a5df5cc",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1384,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-12T16:00:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3206fc5b_40798ddd",
+      "range": {
+        "startLine": 1384,
+        "startChar": 16,
+        "endLine": 1384,
+        "endChar": 59
+      },
+      "revId": "e21f539f155c302003c8f765797cfec12ec753fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd45bbc7_0b918e78",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 6
@@ -66,6 +114,24 @@
     },
     {
       "key": {
+        "uuid": "a8d095a9_f4011cf7",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1443,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-12T16:00:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd45bbc7_0b918e78",
+      "revId": "e21f539f155c302003c8f765797cfec12ec753fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55760e80_cebbb9fa",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 6
@@ -80,6 +146,24 @@
       "revId": "e21f539f155c302003c8f765797cfec12ec753fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cbea0b8_07abe580",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2868,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-12T16:00:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55760e80_cebbb9fa",
+      "revId": "e21f539f155c302003c8f765797cfec12ec753fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -106,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "f3f17b72_483b69cb",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-12T16:00:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ba2f131_2d01b2ba",
+      "range": {
+        "startLine": 94,
+        "startChar": 8,
+        "endLine": 96,
+        "endChar": 9
+      },
+      "revId": "e21f539f155c302003c8f765797cfec12ec753fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3ac928c_a0f77ef6",
         "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
         "patchSetId": 6
@@ -117,6 +225,24 @@
       "writtenOn": "2018-02-07T13:59:08Z",
       "side": 1,
       "message": "This is too many sequential queries. At the very least, these need to be batched up to the limit supported by the index backend. But even so, if we can use a batch size of 100 and there are 500k commits in the history of the repo, that\u0027s 5k sequential queries, which is still a lot. I am thinking we need to provide some way to limit the search, perhaps by providing a maximum age or an earliest date.",
+      "revId": "e21f539f155c302003c8f765797cfec12ec753fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d1002d2_848fc451",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-12T16:00:49Z",
+      "side": 1,
+      "message": "\u003e This is too many sequential queries. At the very least, these need to be batched up to the\n\u003e limit supported by the index backend. \n\nYeah, I was aware of this. Just didn\u0027t want to implement batching before agreeing that we want this REST endpoint.\n\nDone with a hard-coded limit. How can I know the max number of queries that the index backend can execute at once?\n\n\u003e But even so, if we can use a batch size of 100 and there are 500k commits in the history\n\u003e of the repo, that\u0027s 5k sequential queries, which is still a lot. I am thinking we need to\n\u003e provide some way to limit the search, perhaps by providing a maximum age or an earliest \n\u003e date.\n\nStill need to implement this, but in the meantime I would appreciate feedback on the batching.",
+      "parentUuid": "d3ac928c_a0f77ef6",
       "revId": "e21f539f155c302003c8f765797cfec12ec753fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

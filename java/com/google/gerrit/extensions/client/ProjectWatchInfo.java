@@ -17,7 +17,7 @@ package com.google.gerrit.extensions.client;
 import java.util.Objects;
 
 public class ProjectWatchInfo {
-  public String project;
+  public String repository;
   public String filter;
 
   public Boolean notifyNewChanges;
@@ -30,7 +30,7 @@ public class ProjectWatchInfo {
   public boolean equals(Object obj) {
     if (obj instanceof ProjectWatchInfo) {
       ProjectWatchInfo w = (ProjectWatchInfo) obj;
-      return Objects.equals(project, w.project)
+      return Objects.equals(repository, w.repository)
           && Objects.equals(filter, w.filter)
           && Objects.equals(notifyNewChanges, w.notifyNewChanges)
           && Objects.equals(notifyNewPatchSets, w.notifyNewPatchSets)
@@ -44,7 +44,7 @@ public class ProjectWatchInfo {
   @Override
   public int hashCode() {
     return Objects.hash(
-        project,
+        repository,
         filter,
         notifyNewChanges,
         notifyNewPatchSets,
@@ -56,7 +56,7 @@ public class ProjectWatchInfo {
   @Override
   public String toString() {
     StringBuilder b = new StringBuilder();
-    b.append(project);
+    b.append(repository);
     if (filter != null) {
       b.append("%filter=").append(filter);
     }

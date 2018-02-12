@@ -19,7 +19,7 @@ import java.util.List;
 
 public class DashboardInfo {
   public String id;
-  public String project;
+  public String repository;
   public String definingProject;
   public String ref;
   public String path;

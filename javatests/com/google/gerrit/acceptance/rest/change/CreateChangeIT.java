@@ -78,14 +78,14 @@ public class CreateChangeIT extends AbstractDaemonTest {
   @Test
   public void createEmptyChange_MissingBranch() throws Exception {
     ChangeInput ci = new ChangeInput();
-    ci.project = project.get();
+    ci.repository = project.get();
     assertCreateFails(ci, BadRequestException.class, "branch must be non-empty");
   }
 
   @Test
   public void createEmptyChange_MissingMessage() throws Exception {
     ChangeInput ci = new ChangeInput();
-    ci.project = project.get();
+    ci.repository = project.get();
     ci.branch = "master";
     assertCreateFails(ci, BadRequestException.class, "commit message must be non-empty");
   }
@@ -413,7 +413,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   private ChangeInput newChangeInput(ChangeStatus status) {
     ChangeInput in = new ChangeInput();
-    in.project = project.get();
+    in.repository = project.get();
     in.branch = "master";
     in.subject = "Empty change";
     in.topic = "support-gerrit-workflow-in-browser";
@@ -423,7 +423,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   private ChangeInfo assertCreateSucceeds(ChangeInput in) throws Exception {
     ChangeInfo out = gApi.changes().create(in).get();
-    assertThat(out.project).isEqualTo(in.project);
+    assertThat(out.repository).isEqualTo(in.repository);
     assertThat(out.branch).isEqualTo(in.branch);
     assertThat(out.subject).isEqualTo(in.subject.split("\n")[0]);
     assertThat(out.topic).isEqualTo(in.topic);
@@ -467,7 +467,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
   private ChangeInput newMergeChangeInput(String targetBranch, String sourceRef, String strategy) {
     // create a merge change from branchA to master in gerrit
     ChangeInput in = new ChangeInput();
-    in.project = project.get();
+    in.repository = project.get();
     in.branch = targetBranch;
     in.subject = "merge " + sourceRef + " to " + targetBranch;
     in.status = ChangeStatus.NEW;

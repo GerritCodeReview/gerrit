@@ -726,7 +726,7 @@ public class RestApiServlet extends HttpServlet {
     // 400). Consume the request body for all but raw input request types here.
     if (isType(JSON_TYPE, req.getContentType())) {
       try (BufferedReader br = req.getReader();
-          JsonReader json = new JsonReader(br)) {
+          JsonReader json = new ProjectCompatibilityJsonReader(br)) {
         try {
           json.setLenient(true);
 
@@ -867,7 +867,7 @@ public class RestApiServlet extends HttpServlet {
     if (result instanceof JsonElement) {
       gson.toJson((JsonElement) result, w);
     } else {
-      gson.toJson(result, w);
+      gson.toJson(result, result.getClass(), new ProjectCompatibilityJsonWriter(w));
     }
     w.write('\n');
     w.flush();

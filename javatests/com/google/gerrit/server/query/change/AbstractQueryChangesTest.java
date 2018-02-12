@@ -2682,7 +2682,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
           .append(c.changeId)
           .append("), ")
           .append("dest=")
-          .append(new Branch.NameKey(new Project.NameKey(c.project), c.branch))
+          .append(new Branch.NameKey(new Project.NameKey(c.repository), c.branch))
           .append(", ")
           .append("status=")
           .append(c.status)

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "5eb70fab_2c147483",
+        "filename": "Documentation/rest-api-access.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-02-12T12:01:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4e62463c_98d52f4a",
+      "range": {
+        "startLine": 405,
+        "startChar": 0,
+        "endLine": 409,
+        "endChar": 27
+      },
+      "revId": "0c9b9343bb0a901004bfd7f9851784f5a191d239",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9afe17f_f53e8d20",
         "filename": "java/com/google/gerrit/server/restapi/project/GetAccess.java",
         "patchSetId": 2

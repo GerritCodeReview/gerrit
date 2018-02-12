@@ -238,7 +238,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     ChangeInput in = new ChangeInput();
     in.branch = "master";
     in.subject = "test";
-    in.project = project.get();
+    in.repository = project.get();
     return in;
   }
 }

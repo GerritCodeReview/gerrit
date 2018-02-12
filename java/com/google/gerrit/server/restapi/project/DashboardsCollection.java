@@ -212,7 +212,7 @@ public class DashboardsCollection
       String project,
       boolean setDefault) {
     DashboardInfo info = newDashboardInfo(refName, path);
-    info.project = project;
+    info.repository = project;
     info.definingProject = definingProject.getName();
     String title = config.getString("dashboard", null, "title");
     info.title = replace(project, title == null ? info.path : title);

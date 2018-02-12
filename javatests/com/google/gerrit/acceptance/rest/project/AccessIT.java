@@ -177,7 +177,7 @@ public class AccessIT extends AbstractDaemonTest {
     setApiUser(user);
     ChangeInfo out = pApi.accessChange(accessInput);
 
-    assertThat(out.project).isEqualTo(newProjectName);
+    assertThat(out.repository).isEqualTo(newProjectName);
     assertThat(out.branch).isEqualTo(RefNames.REFS_CONFIG);
     assertThat(out.status).isEqualTo(ChangeStatus.NEW);
     assertThat(out.submitted).isNull();

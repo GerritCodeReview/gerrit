@@ -142,7 +142,7 @@ public class DashboardIT extends AbstractDaemonTest {
     assertThat(actual.id).isEqualTo(expected.id);
     assertThat(actual.path).isEqualTo(expected.path);
     assertThat(actual.ref).isEqualTo(expected.ref);
-    assertThat(actual.project).isEqualTo(project.get());
+    assertThat(actual.repository).isEqualTo(project.get());
     assertThat(actual.definingProject).isEqualTo(project.get());
     assertThat(actual.description).isEqualTo(expected.description);
     assertThat(actual.title).isEqualTo(expected.title);

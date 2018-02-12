@@ -79,7 +79,9 @@ public class DeleteWatchedProjects
                     input
                         .stream()
                         .filter(Objects::nonNull)
-                        .map(w -> ProjectWatchKey.create(new Project.NameKey(w.project), w.filter))
+                        .map(
+                            w ->
+                                ProjectWatchKey.create(new Project.NameKey(w.repository), w.filter))
                         .collect(toList())));
     return Response.none();
   }

@@ -21,7 +21,7 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import java.util.Map;
 
 public class ChangeInput {
-  public String project;
+  public String repository;
   public String branch;
   public String subject;
 
@@ -39,12 +39,12 @@ public class ChangeInput {
    * Creates a new {@code ChangeInput} with the minimal attributes required for a successful
    * creation of a new change.
    *
-   * @param project the project name for the new change
+   * @param repository the repository name for the new change
    * @param branch the branch name for the new change
    * @param subject the subject (commit message) for the new change
    */
-  public ChangeInput(String project, String branch, String subject) {
-    this.project = project;
+  public ChangeInput(String repository, String branch, String subject) {
+    this.repository = repository;
     this.branch = branch;
     this.subject = subject;
   }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "34699e1a_bc17ec5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-13T00:56:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efbf5a30_7ab9b9ef",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 27
+      },
+      "revId": "e64de8b054cc3d15a0c89b86e042d60d47c32e05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0db2cd9_040dba75",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
         "patchSetId": 3
@@ -70,6 +94,30 @@
       "revId": "e64de8b054cc3d15a0c89b86e042d60d47c32e05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e189b74f_039f181b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-13T00:56:29Z",
+      "side": 1,
+      "message": "Hmm. No comment is added as of PS4.",
+      "parentUuid": "1b04cbb1_68b691b5",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 16
+      },
+      "revId": "e64de8b054cc3d15a0c89b86e042d60d47c32e05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

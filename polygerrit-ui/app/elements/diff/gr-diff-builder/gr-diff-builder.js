@@ -411,9 +411,11 @@
     } else if (line.type === GrDiffLine.Type.CONTEXT_CONTROL) {
       td.classList.add('contextLineNum');
       td.setAttribute('data-value', '@@');
+      td.textContent = '@@';
     } else if (line.type === GrDiffLine.Type.BOTH || line.type === type) {
       td.classList.add('lineNum');
       td.setAttribute('data-value', number);
+      td.textContent = number === 'FILE' ? 'File' : number;
     }
     return td;
   };

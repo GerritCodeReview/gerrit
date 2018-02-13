@@ -16,6 +16,24 @@
       "revId": "f0aa440189fcee1bc7be8f6f88e32ada0d139a80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a65f347_8ecd6972",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-13T01:34:17Z",
+      "side": 1,
+      "message": "This test suite was actually consistently failing with a ton of network errors and some real ones on master, and still is. It passed on CI because this suite was never added to test/index.html.\n\nI\u0027ll update the commit msg with this info.",
+      "parentUuid": "5180a11e_c682623f",
+      "revId": "f0aa440189fcee1bc7be8f6f88e32ada0d139a80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

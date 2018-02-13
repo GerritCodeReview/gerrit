@@ -52,6 +52,24 @@
       "revId": "2246836c5157e7dfb24e06747c5848eb6416bb53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "898e8d57_bca12263",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-13T19:06:13Z",
+      "side": 1,
+      "message": "Fixed by https://gerrit-review.googlesource.com/c/gerrit/+/159250",
+      "parentUuid": "16b16bb3_747922e4",
+      "revId": "2246836c5157e7dfb24e06747c5848eb6416bb53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

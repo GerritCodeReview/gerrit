@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95b8a9a3_bd0f89de",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-02-13T13:04:11Z",
+      "side": 1,
+      "message": "You need to set user as change\u0027s owner here then do the reindex.\nThis is what gerrit do during reindex.",
+      "range": {
+        "startLine": 704,
+        "startChar": 4,
+        "endLine": 705,
+        "endChar": 40
+      },
+      "revId": "c7183dcbaf835986eeff7887985661a73e805770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

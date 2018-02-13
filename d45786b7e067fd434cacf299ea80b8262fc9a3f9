@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3ef5c226_d5c29fac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-13T08:26:00Z",
+      "side": 1,
+      "message": "The group index including all current fields certainly has to be created on slaves (but the content of the index doesn\u0027t need to be up-to-date). I\u0027m not familiar enough with the upgrade procedures for slaves. Up-to-now, did the init step for slaves create all indices but they were simply not used?\n\nFor the regular upgrade, I mentioned in I5143cd0d0 that we need a reindex for the group index. Should I mention in the same paragraph that this step is also mandatory for slave hosts? Or do we typically document slave upgrade procedures somewhere else?",
+      "parentUuid": "9ee490d4_210ea1de",
+      "range": {
+        "startLine": 18,
+        "startChar": 68,
+        "endLine": 19,
+        "endChar": 47
+      },
+      "revId": "d45786b7e067fd434cacf299ea80b8262fc9a3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8fe1bac_da6fa335",
         "filename": "java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "I meant \"Why shouldn\u0027t we be able to reindex in offline mode on Gerrit upgrades on the slaved nodes\"?",
       "parentUuid": "a8fe1bac_da6fa335",
+      "range": {
+        "startLine": 159,
+        "startChar": 93,
+        "endLine": 159,
+        "endChar": 98
+      },
+      "revId": "d45786b7e067fd434cacf299ea80b8262fc9a3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb907712_a82a69ab",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-13T08:26:00Z",
+      "side": 1,
+      "message": "I don\u0027t understand your question. \u0027false\u0027 means that the behavior of the non-slave mode is executed, no matter whether the Gerrit host is a master or a slave. Hence, all indices are provided for Reindex. This is exactly the behavior we had before this change.",
+      "parentUuid": "5a5ddad0_973da1a3",
       "range": {
         "startLine": 159,
         "startChar": 93,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54677876_44a6b88f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-13T01:28:24Z",
+      "side": 1,
+      "message": "Default to true sounds sensible for a confirm dialog. Are there dialogs that we know should not have this option?",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 10,
+        "endChar": 69
+      },
+      "revId": "954a9d8602f17b5a9569965db4e669a638735032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

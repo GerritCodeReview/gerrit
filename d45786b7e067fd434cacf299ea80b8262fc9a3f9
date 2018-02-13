@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ee490d4_210ea1de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-13T07:05:14Z",
+      "side": 1,
+      "message": "Another question is what implication group index activation on the slaves have on gerrit upgrade procedure. Should now reindex program be executed during upgrading on the slaves as well? Right now only init command is executed on the slaves. If this is the case, should this be documented in some place?",
+      "range": {
+        "startLine": 18,
+        "startChar": 68,
+        "endLine": 19,
+        "endChar": 47
+      },
+      "revId": "d45786b7e067fd434cacf299ea80b8262fc9a3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

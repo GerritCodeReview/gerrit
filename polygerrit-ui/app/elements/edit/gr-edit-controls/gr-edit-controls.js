@@ -74,21 +74,33 @@
       }
     },
 
+    /**
+     * @param {string=} opt_path
+     */
     openOpenDialog(opt_path) {
       if (opt_path) { this._path = opt_path; }
       return this._showDialog(this.$.openDialog);
     },
 
+    /**
+     * @param {string=} opt_path
+     */
     openDeleteDialog(opt_path) {
       if (opt_path) { this._path = opt_path; }
       return this._showDialog(this.$.deleteDialog);
     },
 
+    /**
+     * @param {string=} opt_path
+     */
     openRenameDialog(opt_path) {
       if (opt_path) { this._path = opt_path; }
       return this._showDialog(this.$.renameDialog);
     },
 
+    /**
+     * @param {string=} opt_path
+     */
     openRestoreDialog(opt_path) {
       if (opt_path) { this._path = opt_path; }
       return this._showDialog(this.$.restoreDialog);
@@ -111,7 +123,7 @@
     /**
      * Given a dom event, gets the dialog that lies along this event path.
      * @param {!Event} e
-     * @return {!Element}
+     * @return {!Element|undefined}
      */
     _getDialogFromEvent(e) {
       return Polymer.dom(e).path.find(element => {
@@ -129,7 +141,13 @@
       });
     },
 
+    /**
+     * @param {Element|undefined} dialog
+     * @param {boolean=} clearInputs
+     */
     _closeDialog(dialog, clearInputs) {
+      if (!dialog) { return; }
+
       if (clearInputs) {
         // Dialog may have autocompletes and plain inputs -- as these have
         // different properties representing their bound text, it is easier to

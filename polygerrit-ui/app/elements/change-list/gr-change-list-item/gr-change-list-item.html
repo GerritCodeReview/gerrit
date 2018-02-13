@@ -40,8 +40,7 @@ limitations under the License.
         background-color: #f5fafd;
       }
       :host([selected]) {
-        border: 1px solid #2a66d9;
-        border-left-width: .5rem;
+        border-left: .5rem solid #2a66d9;
       }
       :host([needs-review]) {
         font-family: var(--font-family-bold);
@@ -104,10 +103,6 @@ limitations under the License.
       @media only screen and (max-width: 50em) {
         :host {
           display: flex;
-        }
-        :host([selected]) {
-          border: none;
-          border-top: 1px solid #ddd;
         }
       }
     </style>

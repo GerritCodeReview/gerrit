@@ -838,6 +838,11 @@ class ReceiveCommits {
         continue;
       }
 
+      if (!projectState.getProject().getState().permitsWrite()) {
+        reject(cmd, "prohibited by Gerrit: project state does not permit write");
+        return;
+      }
+
       if (MagicBranch.isMagicBranch(cmd.getRefName())) {
         parseMagicBranch(cmd);
         continue;
@@ -1070,9 +1075,6 @@ class ReceiveCommits {
     } catch (AuthException err) {
       ok = false;
     }
-    if (!projectState.statePermitsWrite()) {
-      reject(cmd, "prohibited by Gerrit: project state does not permit write");
-    }
     if (ok) {
       if (isHead(cmd) && !isCommit(cmd)) {
         return;
@@ -1168,9 +1170,6 @@ class ReceiveCommits {
     if (ok) {
       if (!validRefOperation(cmd)) {
         return;
-      }
-      if (!projectState.statePermitsWrite()) {
-        cmd.setResult(REJECTED_NONFASTFORWARD, " project state does not permit write.");
       }
       actualCommands.add(cmd);
     } else {
@@ -1519,10 +1518,6 @@ class ReceiveCommits {
 
     magicBranch.dest = new Branch.NameKey(project.getNameKey(), ref);
     magicBranch.perm = permissions.ref(ref);
-    if (!projectState.getProject().getState().permitsWrite()) {
-      reject(cmd, "project state does not permit write");
-      return;
-    }
 
     try {
       magicBranch.perm.check(RefPermission.CREATE_CHANGE);
@@ -1568,10 +1563,6 @@ class ReceiveCommits {
         permissions.ref(ref).check(RefPermission.UPDATE_BY_SUBMIT);
       } catch (AuthException e) {
         reject(cmd, e.getMessage());
-        return;
-      }
-      if (!projectState.statePermitsWrite()) {
-        reject(cmd, "project state does not permit write");
         return;
       }
     }

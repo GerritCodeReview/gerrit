@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca126f59_6fd20da4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-13T00:49:38Z",
+      "side": 1,
+      "message": "Optional: that\u0027s only partially what this change does, no? Maybe \"Tighten specificity of label score regex\" would be more accurate.",
+      "revId": "d86e327a9a8c4748debe4c75dbdb8552e4cfa8c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

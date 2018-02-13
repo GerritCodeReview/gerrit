@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "55f0ef62_51bdae74",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-02-13T16:44:35Z",
+      "side": 1,
+      "message": "My latest finding is that .. after setUser as admin, the query is done as that admin user, so the patch visibility is true and mergeability is true.\n\nchangeControl().getUser() in ChangeData.isMergeable() result in admin user which nullify normal query when we open dashboard.",
+      "range": {
+        "startLine": 704,
+        "startChar": 4,
+        "endLine": 704,
+        "endChar": 22
+      },
+      "revId": "c7183dcbaf835986eeff7887985661a73e805770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "95b8a9a3_bd0f89de",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 1

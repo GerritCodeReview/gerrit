@@ -22,6 +22,30 @@
       "revId": "954a9d8602f17b5a9569965db4e669a638735032",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac095807_d45d58d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-13T02:12:14Z",
+      "side": 1,
+      "message": "I\u0027m pretty reluctant to add this option to any dialog that has more than one input. Thanks for mentioning that, actually, because I think this needs a tiny bit more thought.",
+      "parentUuid": "54677876_44a6b88f",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 10,
+        "endChar": 69
+      },
+      "revId": "954a9d8602f17b5a9569965db4e669a638735032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

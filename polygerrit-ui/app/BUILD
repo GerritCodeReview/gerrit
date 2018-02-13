@@ -124,6 +124,7 @@ DIRECTORIES = [
     "change-list",
     "core",
     "diff",
+    "edit",
     "plugins",
     "settings",
     "shared",

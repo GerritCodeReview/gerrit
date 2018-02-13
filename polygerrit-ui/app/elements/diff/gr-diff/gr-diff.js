@@ -389,13 +389,21 @@
       const patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
       const isOnParent =
         this._getIsParentCommentByLineAndContent(lineEl, contentEl);
-      const threadEl = this._getOrCreateThreadAtLineRange(contentEl, patchNum,
+      const threadEl = this._getOrCreateThread(contentEl, patchNum,
           side, isOnParent, opt_range);
       threadEl.addOrEditDraft(opt_lineNum, opt_range);
     },
 
-    _getThreadForRange(threadGroupEl, rangeToCheck) {
-      return threadGroupEl.getThreadForRange(rangeToCheck);
+    /**
+     * Fetch the thread group at the given range, or the range-less thread
+     * on the line if no range is provided.
+     *
+     * @param {!Object} threadGroupEl
+     * @param {!Object=} opt_range
+     * @return {!Object}
+     */
+    _getThread(threadGroupEl, opt_range) {
+      return threadGroupEl.getThread(opt_range);
     },
 
     _getThreadGroupForLine(contentEl) {
@@ -417,31 +425,32 @@
     },
 
     /**
+     * Gets or creates a comment thread for a specific spot on a diff.
+     * May include a range, if the comment is a range comment.
+     *
      * @param {!Object} contentEl
      * @param {number} patchNum
      * @param {string} commentSide
      * @param {boolean} isOnParent
      * @param {!Object=} opt_range
+     * @return {!Object}
      */
-    _getOrCreateThreadAtLineRange(contentEl, patchNum, commentSide,
+    _getOrCreateThread(contentEl, patchNum, commentSide,
         isOnParent, opt_range) {
-      const rangeToCheck = this._getRangeString(commentSide, opt_range);
-
       // Check if thread group exists.
       let threadGroupEl = this._getThreadGroupForLine(contentEl);
       if (!threadGroupEl) {
         threadGroupEl = this.$.diffBuilder.createCommentThreadGroup(
-            this.changeNum, patchNum, this.path, isOnParent);
+            this.changeNum, patchNum, this.path, isOnParent, commentSide);
         contentEl.appendChild(threadGroupEl);
       }
 
-      let threadEl = this._getThreadForRange(threadGroupEl, rangeToCheck);
+      let threadEl = this._getThread(threadGroupEl, opt_range);
 
       if (!threadEl) {
-        threadGroupEl.addNewThread(rangeToCheck, commentSide);
+        threadGroupEl.addNewThread(opt_range);
         Polymer.dom.flush();
-        threadEl = this._getThreadForRange(threadGroupEl, rangeToCheck);
-        threadEl.commentSide = commentSide;
+        threadEl = this._getThread(threadGroupEl, opt_range);
       }
       return threadEl;
     },
@@ -495,7 +504,7 @@
 
     _handleThreadDiscard(e) {
       const el = Polymer.dom(e).rootTarget;
-      el.parentNode.removeThread(el.locationRange);
+      el.parentNode.removeThread(el.rootId);
     },
 
     _handleCommentDiscard(e) {

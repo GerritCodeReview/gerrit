@@ -358,18 +358,15 @@ limitations under the License.
         element.patchRange = {basePatchNum: 1, patchNum: 2};
         element.path = 'file.txt';
 
-        sandbox.stub(element.$.diffBuilder, 'createCommentThreadGroup', () => {
-          const threadGroup =
-          document.createElement('gr-diff-comment-thread-group');
-          threadGroup.patchForNewThreads = 1;
-          return threadGroup;
-        });
+        const mock = document.createElement('mock-diff-response');
+        element.$.diffBuilder._builder = element.$.diffBuilder._getDiffBuilder(
+            mock.diffResponse, {}, {tab_size: 2, line_length: 80});
 
         // No thread groups.
         assert.isNotOk(element._getThreadGroupForLine(contentEl));
 
         // A thread group gets created.
-        assert.isOk(element._getOrCreateThreadAtLineRange(contentEl,
+        assert.isOk(element._getOrCreateThread(contentEl,
             patchNum, commentSide, side));
 
         // Try to fetch a thread with a different range.
@@ -380,7 +377,7 @@ limitations under the License.
           endChar: 3,
         };
 
-        assert.isOk(element._getOrCreateThreadAtLineRange(
+        assert.isOk(element._getOrCreateThread(
             contentEl, patchNum, commentSide, side, range));
         // The new thread group can be fetched.
         assert.isOk(element._getThreadGroupForLine(contentEl));

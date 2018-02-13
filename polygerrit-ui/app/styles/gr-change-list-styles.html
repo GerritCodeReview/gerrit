@@ -19,12 +19,12 @@ limitations under the License.
       :host {
         font-size: var(--font-size-normal);
       }
-      gr-change-list-item:not([selected]),
+      gr-change-list-item,
       tr {
-        border-top: 1px solid #ddd;
-      }
-      tbody {
         border-bottom: 1px solid #ddd;
+      }
+      tr.topHeader {
+        border: none;
       }
       th {
         text-align: left;
@@ -37,14 +37,35 @@ limitations under the License.
       .cell:not(.label) {
         padding-right: 8px;
       }
+      th.label {
+        border-left: none;
+      }
       .topHeader,
       .groupHeader {
         font-family: var(--font-family-bold);
       }
-      .topHeader {
+      .topHeader th {
         background-color: #fafafa;
         font-size: var(--font-size-large);
         height: 3rem;
+        position: -webkit-sticky;
+        position: sticky;
+        top: -1px; /* Offset for top borders */
+        z-index: 1;
+      }
+      /* :after pseudoelements are used here because borders on sticky table
+        headers with a background color are broken. */
+      th:after {
+        border-bottom: 1px solid #ddd;
+        bottom: 0;
+        content: '';
+        left: 0;
+        position: absolute;
+        width: 100%;
+      }
+      th.label:after {
+        border-left: 1px solid #ddd;
+        top: 0;
       }
       .groupHeader {
         background-color: #f4f4f4;
@@ -90,11 +111,12 @@ limitations under the License.
         width: 30px;
       }
       .label {
+        border-left: 1px solid #ddd;
         text-align: center;
         width: 3rem;
       }
-      .label:not(.topHeader) {
-        border-left: 1px solid #ddd;
+      .topHeader .label {
+        border: none;
       }
       .truncatedProject {
         display: none;

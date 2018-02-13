@@ -321,6 +321,24 @@
     },
     {
       "key": {
+        "uuid": "7a18cdf9_2e3a93ec",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-13T10:11:26Z",
+      "side": 1,
+      "message": "\u003e It\u0027s not the max number of queries, it\u0027s the max number of terms per query.\n\u003e This is IndexConfig#maxTerms. You need to remember to subtract out any constant terms.\n\nI\u0027m confused. We cannot have one query with lots of OR-conditions because then we cannot map back from the result to the query, e.g. know which change was found for which commit. What I\u0027m trying to do is to send multiple queries at once to the index backend. At least QueryProcessor#query allows me to pass a list of queries.",
+      "parentUuid": "6288cbc8_42269968",
+      "revId": "e21f539f155c302003c8f765797cfec12ec753fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f900ef5_0e533979",
         "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
         "patchSetId": 6

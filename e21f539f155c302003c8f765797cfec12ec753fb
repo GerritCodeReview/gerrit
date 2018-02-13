@@ -303,6 +303,24 @@
     },
     {
       "key": {
+        "uuid": "6288cbc8_42269968",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-13T10:02:33Z",
+      "side": 1,
+      "message": "\u003e Can you follow the approach of InternalChangeQuery#byProjectGroups?\n\u003e I think that should even work lazily, if you use the RevWalk as an iterable,\n\u003e and it\u0027s much less code.\n\nI looked at this code, but don\u0027t see how this can help me to simplify this code.\n\nThe problem is that from the query result we must be able to map back to the query that produced this result:\n\n- For a commit we create a change query, this change query contains a predicate with the commit ID or the Change-Id from the commit message.\n- Let\u0027s say this query returns change X.\n- To report the problem for change X (or to autoclose it) we need to pass the commit that merged it to ChangeJson. Just knowing the changes that should have been autoclosed is not enough, we also need to know which commit merged which change.",
+      "parentUuid": "676a6111_b84d70f6",
+      "revId": "e21f539f155c302003c8f765797cfec12ec753fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f900ef5_0e533979",
         "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
         "patchSetId": 6

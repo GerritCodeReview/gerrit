@@ -217,6 +217,30 @@
     },
     {
       "key": {
+        "uuid": "a10ef2ad_39017afc",
+        "filename": "java/com/google/gerrit/server/restapi/project/GetAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-02-13T14:24:13Z",
+      "side": 1,
+      "message": "Done.\n\nthe UI needs the URL, so I kept the GroupInfo as value type.",
+      "parentUuid": "509fa1ac_bcf7e98c",
+      "range": {
+        "startLine": 297,
+        "startChar": 8,
+        "endLine": 298,
+        "endChar": 30
+      },
+      "revId": "0c9b9343bb0a901004bfd7f9851784f5a191d239",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ff457baa_13241578",
         "filename": "java/com/google/gerrit/server/restapi/project/GetAccess.java",
         "patchSetId": 2

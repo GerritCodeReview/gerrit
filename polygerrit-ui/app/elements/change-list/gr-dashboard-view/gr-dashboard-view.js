@@ -43,6 +43,12 @@
           '(reviewer:${user} OR assignee:${user})',
     },
     {
+      // Open changes the viewed user is CCed on. Changes ignored by the viewing
+      // user are filtered out.
+      name: 'CCed on',
+      query: 'is:open -is:ignored cc:${user}',
+    },
+    {
       name: 'Recently closed',
       // Closed changes where viewed user is owner, reviewer, or assignee.
       // Changes ignored by the viewing user are filtered out, and so are WIP

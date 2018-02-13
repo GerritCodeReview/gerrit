@@ -60,6 +60,23 @@
     },
     {
       "key": {
+        "uuid": "6a0142d7_59b09aac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-13T06:57:29Z",
+      "side": 1,
+      "message": "Should we mention here or in the new section of gerrit-config, that account index currently is not handled that way (or even better write an issue to track this adaptation for the account index)?\n\nSpecifically, in: [1], the usage of secondary index during authentication was removed in favor of always reading the data from the primary storage. And this was done exactly because, quoting:\n\n  \"Since the account index is not available on Gerrit slaves this\n  means authentication with OAuth and OpenId fails on Gerrit slaves.\"\n\nNow, that we are about to implement a solution for this problem for group index, we should re-consider to do the same for account index.\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/138871",
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ce3e7fb_02dc248d",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 6

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da436ee1_2879a3df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-13T01:39:53Z",
+      "side": 1,
+      "message": "Nit: avoids?",
+      "range": {
+        "startLine": 11,
+        "startChar": 33,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "0d0fd11280b9ddbcd45a4ce3a48e434df77966c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "cb85a071e7d7dc687b5c4bb43656e137b2e3e443",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67af40bc_2e0f5ef5",
+        "filename": "java/com/google/gerrit/httpd/restapi/LegacyProjectJsonReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-13T10:58:29Z",
+      "side": 1,
+      "message": "unfortunately we can\u0027t use delegation because JsonReader exposes promoteNameToValue as an internal-only method in a static field\n\nhttps://github.com/google/gson/blob/master/gson/src/main/java/com/google/gson/stream/JsonReader.java#L1594",
+      "parentUuid": "7de57616_bf6ce6f4",
+      "revId": "cb85a071e7d7dc687b5c4bb43656e137b2e3e443",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1439,9 +1439,9 @@ limitations under the License.
       assert.isTrue(controls.openRenameDialog.called);
       assert.equal(controls.openRenameDialog.lastCall.args[0], 'foo');
 
-      // Edit
+      // Open
       fileList.dispatchEvent(new CustomEvent('file-action-tap',
-          {detail: {action: Actions.EDIT.id, path: 'foo'}, bubbles: true}));
+          {detail: {action: Actions.OPEN.id, path: 'foo'}, bubbles: true}));
       flushAsynchronousOperations();
 
       assert.isTrue(Gerrit.Nav.getEditUrlForDiff.called);

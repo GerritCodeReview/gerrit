@@ -30,11 +30,7 @@ limitations under the License.
         display: flex;
         justify-content: flex-end;
       }
-      #edit {
-        text-decoration: none;
-      }
-      #edit,
-      #more {
+      #actions {
         margin-right: 1em;
       }
       gr-button,
@@ -53,18 +49,13 @@ limitations under the License.
         }
       }
     </style>
-    <gr-button
-        id="edit"
-        link
-        on-tap="_handleEditTap">Edit</gr-button>
-    <!-- TODO(kaspern): implement more menu. -->
     <gr-dropdown
-        id="more"
+        id="actions"
         items="[[_fileActions]]"
         down-arrow
         vertical-offset="20"
         on-tap-item="_handleActionTap"
-        link>More</gr-dropdown>
+        link>Actions</gr-dropdown>
   </template>
   <script src="gr-edit-file-controls.js"></script>
 </dom-module>

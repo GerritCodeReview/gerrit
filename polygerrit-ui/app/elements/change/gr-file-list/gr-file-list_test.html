@@ -986,6 +986,7 @@ limitations under the License.
       element.change = {_number: 123};
       element.patchRange = {patchNum: undefined, basePatchNum: 'PARENT'};
       element._files = [{__path: 'foo/bar.cpp'}];
+      element.editMode = false;
       flush(() => {
         assert.isFalse(urlStub.called);
         element.set('patchRange.patchNum', 4);

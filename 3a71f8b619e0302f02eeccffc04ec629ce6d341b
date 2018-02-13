@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "246ff1c3_c89423c2",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-13T04:31:47Z",
+      "side": 1,
+      "message": "Is it optional, in other words?",
+      "range": {
+        "startLine": 145,
+        "startChar": 15,
+        "endLine": 145,
+        "endChar": 32
+      },
+      "revId": "3a71f8b619e0302f02eeccffc04ec629ce6d341b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

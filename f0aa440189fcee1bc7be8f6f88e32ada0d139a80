@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5180a11e_c682623f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-13T01:31:19Z",
+      "side": 1,
+      "message": "How does the change in the tests relate to the change in the code?",
+      "revId": "f0aa440189fcee1bc7be8f6f88e32ada0d139a80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

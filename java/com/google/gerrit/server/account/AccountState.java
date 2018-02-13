@@ -111,15 +111,24 @@ public class AccountState {
             ? externalIds.byAccount(account.getId(), extIdsRev.get())
             : ImmutableSet.of();
 
+    // Don't leak references to AccountConfig into the AccountState, since it holds a reference to
+    // an open Repository instance.
+    // TODO(ekempin): Find a way to lazily compute these that doesn't hold the repo open.
+    ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches =
+        accountConfig.getProjectWatches();
+    GeneralPreferencesInfo generalPreferences = accountConfig.getGeneralPreferences();
+    DiffPreferencesInfo diffPreferences = accountConfig.getDiffPreferences();
+    EditPreferencesInfo editPreferences = accountConfig.getEditPreferences();
+
     return Optional.of(
         new AccountState(
             allUsersName,
             account,
             extIds,
-            Suppliers.memoize(() -> accountConfig.getProjectWatches()),
-            Suppliers.memoize(() -> accountConfig.getGeneralPreferences()),
-            Suppliers.memoize(() -> accountConfig.getDiffPreferences()),
-            Suppliers.memoize(() -> accountConfig.getEditPreferences())));
+            Suppliers.ofInstance(projectWatches),
+            Suppliers.ofInstance(generalPreferences),
+            Suppliers.ofInstance(diffPreferences),
+            Suppliers.ofInstance(editPreferences)));
   }
 
   /**

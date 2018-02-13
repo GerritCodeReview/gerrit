@@ -69,6 +69,30 @@
       "revId": "c7183dcbaf835986eeff7887985661a73e805770",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "932cc0d6_0921f62a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-13T23:22:59Z",
+      "side": 1,
+      "message": "Indexing as the user should not work because the change is no longer visible to the user.",
+      "parentUuid": "cbbafa40_1b789923",
+      "range": {
+        "startLine": 704,
+        "startChar": 4,
+        "endLine": 705,
+        "endChar": 40
+      },
+      "revId": "c7183dcbaf835986eeff7887985661a73e805770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

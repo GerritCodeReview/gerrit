@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a45a259_6a28ad3a",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-13T23:37:43Z",
+      "side": 1,
+      "message": "Is this still true?",
+      "range": {
+        "startLine": 133,
+        "startChar": 40,
+        "endLine": 135,
+        "endChar": 18
+      },
+      "revId": "372855ef96d23ccfed670b7717f3aa1f0564c8cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

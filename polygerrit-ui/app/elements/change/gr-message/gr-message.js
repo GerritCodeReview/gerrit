@@ -16,7 +16,7 @@
 
   const CI_LABELS = ['Trybot-Ready', 'Tryjob-Request', 'Commit-Queue'];
   const PATCH_SET_PREFIX_PATTERN = /^Patch Set \d+: /;
-  const LABEL_TITLE_SCORE_PATTERN = /([A-Za-z0-9-]+)([+-]\d+)/;
+  const LABEL_TITLE_SCORE_PATTERN = /^([A-Za-z0-9-]+)([+-]\d+)$/;
 
   Polymer({
     is: 'gr-message',

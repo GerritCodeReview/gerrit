@@ -180,5 +180,14 @@ limitations under the License.
       };
       assert.isOk(Polymer.dom(element.root).querySelector('.positiveVote'));
     });
+
+    test('false negative vote', () => {
+      element.message = {
+        author: {},
+        expanded: false,
+        message: 'Patch Set 1: Cherry Picked from branch stable-2.14.',
+      };
+      assert.isNotOk(Polymer.dom(element.root).querySelector('.negativeVote'));
+    });
   });
 </script>

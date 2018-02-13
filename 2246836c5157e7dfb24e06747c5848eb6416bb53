@@ -35,6 +35,23 @@
       "revId": "2246836c5157e7dfb24e06747c5848eb6416bb53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16b16bb3_747922e4",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-13T18:24:37Z",
+      "side": 1,
+      "message": "This is a big problem :(\n\nThis lambda means each AccountState holds a reference to the AccountConfig, which contains the repository. In our backends, each Repository instance retains 4 MiB of heap.\n\nI will revert this change.",
+      "revId": "2246836c5157e7dfb24e06747c5848eb6416bb53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

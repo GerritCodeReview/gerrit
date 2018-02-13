@@ -83,6 +83,7 @@ limitations under the License.
           class="invisible dialog"
           disabled$="[[!_isValidPath(_path)]]"
           confirm-label="Open"
+          confirm-on-enter
           on-confirm="_handleOpenConfirm"
           on-cancel="_handleDialogCancel">
         <div class="header" slot="header">
@@ -100,6 +101,7 @@ limitations under the License.
           class="invisible dialog"
           disabled$="[[!_isValidPath(_path)]]"
           confirm-label="Delete"
+          confirm-on-enter
           on-confirm="_handleDeleteConfirm"
           on-cancel="_handleDialogCancel">
         <div class="header" slot="header">Delete a file from the repo</div>
@@ -115,6 +117,7 @@ limitations under the License.
           class="invisible dialog"
           disabled$="[[!_computeRenameDisabled(_path, _newPath)]]"
           confirm-label="Rename"
+          confirm-on-enter
           on-confirm="_handleRenameConfirm"
           on-cancel="_handleDialogCancel">
         <div class="header" slot="header">Rename a file in the repo</div>
@@ -134,6 +137,7 @@ limitations under the License.
           id="restoreDialog"
           class="invisible dialog"
           confirm-label="Restore"
+          confirm-on-enter
           on-confirm="_handleRestoreConfirm"
           on-cancel="_handleDialogCancel">
         <div class="header" slot="header">Restore this file?</div>

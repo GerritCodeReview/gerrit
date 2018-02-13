@@ -34,10 +34,14 @@ limitations under the License.
 <script>
   suite('gr-confirm-dialog tests', () => {
     let element;
+    let sandbox;
 
     setup(() => {
+      sandbox = sinon.sandbox.create();
       element = fixture('basic');
     });
+
+    teardown(() => { sandbox.restore(); });
 
     test('events', done => {
       let numEvents = 0;
@@ -48,6 +52,25 @@ limitations under the License.
 
       MockInteractions.tap(element.$$('gr-button[primary]'));
       MockInteractions.tap(element.$$('gr-button:not([primary])'));
+    });
+
+    test('confirmOnEnter', () => {
+      element.confirmOnEnter = false;
+      const handleConfirmStub = sandbox.stub(element, '_handleConfirm');
+      const handleKeydownSpy = sandbox.spy(element, '_handleKeydown');
+      MockInteractions.pressAndReleaseKeyOn(element.$$('main'),
+          13, null, 'enter');
+      flushAsynchronousOperations();
+
+      assert.isTrue(handleKeydownSpy.called);
+      assert.isFalse(handleConfirmStub.called);
+
+      element.confirmOnEnter = true;
+      MockInteractions.pressAndReleaseKeyOn(element.$$('main'),
+          13, null, 'enter');
+      flushAsynchronousOperations();
+
+      assert.isTrue(handleConfirmStub.called);
     });
   });
 </script>

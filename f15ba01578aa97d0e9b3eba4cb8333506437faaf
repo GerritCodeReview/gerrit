@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cbb93c4_4fa82466",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-13T14:22:48Z",
+      "side": 1,
+      "message": "These are implementation details which further justify removal of the current_user predicate.\nThe real reason is that the result of change submitability evaluation, should not depend\non the current user. Update the commit message?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 34
+      },
+      "revId": "f15ba01578aa97d0e9b3eba4cb8333506437faaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

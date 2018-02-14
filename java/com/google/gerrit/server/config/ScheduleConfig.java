@@ -29,6 +29,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -38,9 +39,8 @@ import org.slf4j.LoggerFactory;
 public abstract class ScheduleConfig {
   private static final Logger log = LoggerFactory.getLogger(ScheduleConfig.class);
 
-  public static final long MISSING_CONFIG = -1L;
-  public static final long INVALID_CONFIG = -2L;
-
+  private static final long MISSING_CONFIG = -1L;
+  private static final long INVALID_CONFIG = -2L;
   private static final String KEY_INTERVAL = "interval";
   private static final String KEY_STARTTIME = "startTime";
 
@@ -71,7 +71,7 @@ public abstract class ScheduleConfig {
   abstract ZonedDateTime now();
 
   @Memoized
-  public Schedule schedule() {
+  public Optional<Schedule> schedule() {
     long interval = computeInterval(config(), section(), subsection(), keyInterval());
 
     long initialDelay;
@@ -82,7 +82,11 @@ public abstract class ScheduleConfig {
       initialDelay = interval;
     }
 
-    return Schedule.create(interval, initialDelay);
+    if (interval == MISSING_CONFIG || initialDelay == MISSING_CONFIG) {
+      return Optional.empty();
+    }
+
+    return Optional.of(Schedule.create(interval, initialDelay));
   }
 
   @Override

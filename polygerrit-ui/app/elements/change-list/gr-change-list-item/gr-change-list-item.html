@@ -81,6 +81,9 @@ limitations under the License.
       .positionIndicator {
         visibility: hidden;
       }
+      .size {
+        text-align: center;
+      }
       :host([selected]) .positionIndicator {
         visibility: visible;
       }
@@ -187,10 +190,10 @@ limitations under the License.
           has-tooltip
           date-str="[[change.updated]]"></gr-date-formatter>
     </td>
-    <td class="cell size u-monospace"
+    <td class="cell size"
+        title$="[[_computeSizeTooltip(change)]]"
         hidden$="[[isColumnHidden('Size', visibleChangeTableColumns)]]">
-      <span class="u-green"><span>+</span>[[change.insertions]]</span>,
-      <span class="u-red"><span>-</span>[[change.deletions]]</span>
+      <span>[[_computeChangeSize(change)]]</span>
     </td>
     <template is="dom-repeat" items="[[labelNames]]" as="labelName">
       <td title$="[[_computeLabelTitle(change, labelName)]]"

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "346c10e1_148b12c8",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-14T01:17:54Z",
+      "side": 1,
+      "message": "Should this go in app/elements/edit?",
+      "revId": "d3c7a08fff1442865422e8da7dab929b071e36eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

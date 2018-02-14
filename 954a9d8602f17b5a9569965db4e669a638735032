@@ -46,6 +46,30 @@
       "revId": "954a9d8602f17b5a9569965db4e669a638735032",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f0490a6_b23ad0d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-14T00:36:36Z",
+      "side": 1,
+      "message": "Aha. I didn\u0027t realize the slot allows adding arbitrary inputs. This approach makes perfect sense.",
+      "parentUuid": "ac095807_d45d58d7",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 10,
+        "endChar": 69
+      },
+      "revId": "954a9d8602f17b5a9569965db4e669a638735032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

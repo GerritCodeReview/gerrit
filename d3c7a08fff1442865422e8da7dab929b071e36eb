@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "6ee2fda3_6e7b4569",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-14T17:42:36Z",
+      "side": 1,
+      "message": "This change is not intended to be an exhaustively complete run-through of everything a user can do with respect to editing in Gerrit. As the commit message states, it exists to give us something to point to in the old UI deprecation announcement.\n\nAs to the follow-up button change, I\u0027m waiting on you to implement tests to review that, as one of our peers on this project noted nearly two weeks ago.",
+      "parentUuid": "3f690123_6420bcb0",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "d3c7a08fff1442865422e8da7dab929b071e36eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb9e2cc3_fcf0eda6",
         "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
         "patchSetId": 1
@@ -53,6 +77,30 @@
       "writtenOn": "2018-02-14T08:03:49Z",
       "side": 1,
       "message": "I already said this in another review and issue, that Edit button is misplaced and must be moved to file table header instead, so that I only repeat myself here again, but this screenshot visualizes and emphasizes the UX inconsistency or even UX bug: You are clicking a primary button located in the change view  header, but this action does *not* affect anything fundamental in the change view. It neither changed (after it was fixed in recent CL) the loaded ref on the change screen, nor it deleted, published, restored or rebased the existing ref by creating and loading a new ref. But that would be the only justification for a button to be a primary change view button.\n\nThe only single thing that button does, is switching the file table, located far below from the change header\u0027s location of \"Edit\" button, in edit mode, by adding a couple of new buttons to the file table header. Now consider a big commit message on desktop screen, where the fie table header is not visible, or even, consider, Mobile device, where per definition you can see only a small part of the change view (for example open Chrome and switch to the mobile device view for this CL: [1], to see what I mean: [2]) and now the problem I\u0027m talking about would be much more clear: Pushing on the primary Edit button on change header does *not* provide any visual feedback, because the widget changed (file table header) is located far below.\n\nThe best way to reflect on something done wrong is compare it to something that was done right: Switching unified and side-by-side diff icons. Those icons were not (erroneously) implemented as primary buttons of the change view, but rather (correctly) as local icons to the file table, as those icons affect nothing else but the file table.\n\nThe resolution here of this UX bug is to move the primary buttons Edit/Stop editing from change header and make them local to file table, like it was done in the OLD UI. Even better, create a nice looking icon, like edit pen or similar, and swap the icon once activated with eye icon, or similar, that would visualize switching the file table back and force between \"files editing\"-mode and pure \"files review\"-mode.\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/156953/1\n* [2] https://imgur.com/a/nD0c7",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "d3c7a08fff1442865422e8da7dab929b071e36eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c40e22_e5d2e81b",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-14T17:42:36Z",
+      "side": 1,
+      "message": "\u003e I already said this in another review and issue [...]\n\n...and I have responded to this point both in that review and the issue. I\u0027ll quote myself.\n\n\u003e I thought about this quite a bit when I was implementing this. I see your point that the buttons really only affect the file list state, but we have a pretty specific pattern in PG of having every change/revision action in the change actions at the top right of the screen. We\u0027ve even put a stub that opens the download dialog there, as people often missed it inline with the file list (https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d5434)\n\n\u003e Due to that, I think the buttons should stay in the header. If we get more feedback that agrees that the buttons should be moved, we can revisit this point. How does that sound?",
+      "parentUuid": "bb9e2cc3_fcf0eda6",
       "range": {
         "startLine": 11,
         "startChar": 0,
@@ -88,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "fc0d18e8_13464e1d",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-14T17:42:36Z",
+      "side": 1,
+      "message": "This change is not intended to be an exhaustively complete run-through of everything a user can do with respect to editing in Gerrit. As the commit message states, it exists to give us something to point to in the old UI deprecation announcement.",
+      "parentUuid": "25fe6c31_3d7b84d3",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 73
+      },
+      "revId": "d3c7a08fff1442865422e8da7dab929b071e36eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2e840e5_ce1e30fc",
         "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
         "patchSetId": 1
@@ -111,6 +183,30 @@
     },
     {
       "key": {
+        "uuid": "995f7228_c718e444",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-14T17:42:36Z",
+      "side": 1,
+      "message": "This change is not intended to be an exhaustively complete run-through of everything a user can do with respect to editing in Gerrit. As the commit message states, it exists to give us something to point to in the old UI deprecation announcement.",
+      "parentUuid": "d2e840e5_ce1e30fc",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 47
+      },
+      "revId": "d3c7a08fff1442865422e8da7dab929b071e36eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa01f2ec_95cd3eee",
         "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
         "patchSetId": 1
@@ -122,6 +218,30 @@
       "writtenOn": "2018-02-14T08:03:49Z",
       "side": 1,
       "message": "I wouldn\u0027t oppose to that kind of feedback channel (still, I would like to hear Dave\u0027s opinion on restricting the Community feedback on any part of Gerrit to PG team @Google *only* or Backend Team @Google *only* for that matter), but, personally, I would certainly prefer, that the Gerrit Code Review community\u0027s feedback is provided publicly and open for every one by using our standard issue tracker (obviously).\n\nTo give you one example why this is problematic: Consider they ask you, over PG@Google channel to implement a feature request, that affects both back end and front end. Would you then forward that mail to Gerrit-Backend-Team@Googe feedback channel or write an issue in Gerrit issue tracker, or, ...?",
+      "range": {
+        "startLine": 60,
+        "startChar": 42,
+        "endLine": 60,
+        "endChar": 75
+      },
+      "revId": "d3c7a08fff1442865422e8da7dab929b071e36eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ca62532_3191619b",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-14T17:42:36Z",
+      "side": 1,
+      "message": "This is a good point, I will change this link to point to Monorail and repo-discuss.",
+      "parentUuid": "aa01f2ec_95cd3eee",
       "range": {
         "startLine": 60,
         "startChar": 42,

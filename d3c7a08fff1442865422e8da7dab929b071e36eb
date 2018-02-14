@@ -16,6 +16,121 @@
       "revId": "d3c7a08fff1442865422e8da7dab929b071e36eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f690123_6420bcb0",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-14T08:03:49Z",
+      "side": 1,
+      "message": "This is actually not the begin. You start In-browser Editing in Gerrit with Create new change in browser and not necessary starting to editing already uploaded change. So, something like this is missing, Repository \u003d\u003e Commands \u003d\u003e Create Change: [1]. See also the very first section of \"Manipulating Changes in Browser\" documentation: [2].\n\nThe next missing documentation section is: Creating new change from the change view, by pushing Follow-Up button, that I implemented in this CL: [3], and that is still pending for review. The corresponding section in current documentation is here: [4]:\n\n  By clicking the \u0027Follow-Up\u0027 button on the change screen,\n  to create a new change based on the selected change.\n\n* [1] https://imgur.com/a/kCPB7\n* [2] https://gerrit-review.googlesource.com/Documentation/user-inline-edit.html#create-change\n* [3] https://gerrit-review.googlesource.com/?polygerrit\u003d0#/c/gerrit/+/156590/\n* [4] https://gerrit-review.googlesource.com/Documentation/user-inline-edit.html#create-change-from-change-screen",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "d3c7a08fff1442865422e8da7dab929b071e36eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb9e2cc3_fcf0eda6",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-14T08:03:49Z",
+      "side": 1,
+      "message": "I already said this in another review and issue, that Edit button is misplaced and must be moved to file table header instead, so that I only repeat myself here again, but this screenshot visualizes and emphasizes the UX inconsistency or even UX bug: You are clicking a primary button located in the change view  header, but this action does *not* affect anything fundamental in the change view. It neither changed (after it was fixed in recent CL) the loaded ref on the change screen, nor it deleted, published, restored or rebased the existing ref by creating and loading a new ref. But that would be the only justification for a button to be a primary change view button.\n\nThe only single thing that button does, is switching the file table, located far below from the change header\u0027s location of \"Edit\" button, in edit mode, by adding a couple of new buttons to the file table header. Now consider a big commit message on desktop screen, where the fie table header is not visible, or even, consider, Mobile device, where per definition you can see only a small part of the change view (for example open Chrome and switch to the mobile device view for this CL: [1], to see what I mean: [2]) and now the problem I\u0027m talking about would be much more clear: Pushing on the primary Edit button on change header does *not* provide any visual feedback, because the widget changed (file table header) is located far below.\n\nThe best way to reflect on something done wrong is compare it to something that was done right: Switching unified and side-by-side diff icons. Those icons were not (erroneously) implemented as primary buttons of the change view, but rather (correctly) as local icons to the file table, as those icons affect nothing else but the file table.\n\nThe resolution here of this UX bug is to move the primary buttons Edit/Stop editing from change header and make them local to file table, like it was done in the OLD UI. Even better, create a nice looking icon, like edit pen or similar, and swap the icon once activated with eye icon, or similar, that would visualize switching the file table back and force between \"files editing\"-mode and pure \"files review\"-mode.\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/156953/1\n* [2] https://imgur.com/a/nD0c7",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "d3c7a08fff1442865422e8da7dab929b071e36eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25fe6c31_3d7b84d3",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-14T08:03:49Z",
+      "side": 1,
+      "message": "There are more actions, that just publish and delete.\n\nYou missed rebase button, if change edit is based on non latest patch set of the change. The rebase button would not work always, there could be complications, like rebase conflicts, in case new patch set changed something, that was also addressed by the change edit, in which case, the user would need to resolve the conflict locally and upload new change edit, using %edit magic branch option:\n\n  git push host HEAD:refs/for/master%edit\n\nAnd of course also the fact that a patch set that represents a change edit can be downloaded like a regular patch set:[1] should be mentioned. See this section in the old documentation: [2].\n\n* [1] https://imgur.com/a/SIutI\n* [2] https://gerrit-review.googlesource.com/Documentation/user-inline-edit.html#change-edit-actions",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 73
+      },
+      "revId": "d3c7a08fff1442865422e8da7dab929b071e36eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2e840e5_ce1e30fc",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-14T08:03:49Z",
+      "side": 1,
+      "message": "Help your users here and tell them that Gerrit team already considered a couple of features, that are in the pipe and list them here as list of not implemented features, that considered to be implemented later. See the corresponding section in the old documentatin: [1].\n\n* [1] https://gerrit-review.googlesource.com/Documentation/user-inline-edit.html#not-implemented-features",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 47
+      },
+      "revId": "d3c7a08fff1442865422e8da7dab929b071e36eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa01f2ec_95cd3eee",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-14T08:03:49Z",
+      "side": 1,
+      "message": "I wouldn\u0027t oppose to that kind of feedback channel (still, I would like to hear Dave\u0027s opinion on restricting the Community feedback on any part of Gerrit to PG team @Google *only* or Backend Team @Google *only* for that matter), but, personally, I would certainly prefer, that the Gerrit Code Review community\u0027s feedback is provided publicly and open for every one by using our standard issue tracker (obviously).\n\nTo give you one example why this is problematic: Consider they ask you, over PG@Google channel to implement a feature request, that affects both back end and front end. Would you then forward that mail to Gerrit-Backend-Team@Googe feedback channel or write an issue in Gerrit issue tracker, or, ...?",
+      "range": {
+        "startLine": 60,
+        "startChar": 42,
+        "endLine": 60,
+        "endChar": 75
+      },
+      "revId": "d3c7a08fff1442865422e8da7dab929b071e36eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "1d35e7ad_05f3ed03",
+        "filename": "java/com/google/gerrit/server/git/DefaultAdvertiseRefsHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-14T14:21:50Z",
+      "side": 1,
+      "message": "\u003e I think we wanted to take a closer look at exception handling in Gerrit in the future, which might be a good point to reconsider this.\n\nHere you\u0027ll run into JGit exception handling, which is if anything worse.\n\n\u003e For now, it is at least not a behavioral change since the old code would also only add the cause.\n\nAck.",
+      "parentUuid": "5850348e_1764066e",
+      "revId": "35299441c5415f491f7a7c40c087ae7b4cd4a9f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "998da369_6c54ddf3",
         "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
         "patchSetId": 4

@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ScheduleConfig;
+import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.query.account.AccountPredicates;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
@@ -62,18 +63,18 @@ public class AccountDeactivator implements Runnable {
       if (!supportAutomaticAccountActivityUpdate) {
         return;
       }
-      long interval = scheduleConfig.getInterval();
-      long delay = scheduleConfig.getInitialDelay();
-      if (delay == MISSING_CONFIG && interval == MISSING_CONFIG) {
+      Schedule schedule = scheduleConfig.schedule();
+      if (schedule.initialDelay() == MISSING_CONFIG && schedule.interval() == MISSING_CONFIG) {
         log.info("Ignoring missing accountDeactivator schedule configuration");
-      } else if (delay < 0 || interval <= 0) {
+      } else if (schedule.initialDelay() < 0 || schedule.interval() <= 0) {
         log.warn(
             String.format(
                 "Ignoring invalid accountDeactivator schedule configuration: %s", scheduleConfig));
       } else {
         queue
             .getDefaultQueue()
-            .scheduleAtFixedRate(deactivator, delay, interval, TimeUnit.MILLISECONDS);
+            .scheduleAtFixedRate(
+                deactivator, schedule.initialDelay(), schedule.interval(), TimeUnit.MILLISECONDS);
       }
     }
 

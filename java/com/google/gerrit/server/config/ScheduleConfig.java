@@ -79,38 +79,27 @@ public abstract class ScheduleConfig {
 
   abstract ZonedDateTime now();
 
-  private Long initialDelay;
-  private Long interval;
+  private Schedule schedule;
 
-  /**
-   * Milliseconds between constructor invocation and first event time.
-   *
-   * <p>If there is any lag between the constructor invocation and queuing the object into an
-   * executor the event will run later, as there is no method to adjust for the scheduling delay.
-   */
-  public long getInitialDelay() {
-    if (initialDelay == null) {
-      load();
+  public Schedule schedule() {
+    if (schedule == null) {
+      schedule = loadSchedule();
     }
-    return initialDelay;
+    return schedule;
   }
 
-  /** Number of milliseconds between events. */
-  public long getInterval() {
-    if (interval == null) {
-      load();
-    }
-    return interval;
-  }
+  private Schedule loadSchedule() {
+    long interval = interval(config(), section(), subsection(), keyInterval());
 
-  private void load() {
-    interval = interval(config(), section(), subsection(), keyInterval());
+    long initialDelay;
     if (interval > 0) {
       initialDelay =
           initialDelay(config(), section(), subsection(), keyStartTime(), now(), interval);
     } else {
       initialDelay = interval;
     }
+
+    return Schedule.create(interval, initialDelay);
   }
 
   @Override
@@ -216,5 +205,23 @@ public abstract class ScheduleConfig {
     abstract Builder setNow(ZonedDateTime now);
 
     public abstract ScheduleConfig build();
+  }
+
+  @AutoValue
+  public abstract static class Schedule {
+    /** Number of milliseconds between events. */
+    public abstract long interval();
+
+    /**
+     * Milliseconds between constructor invocation and first event time.
+     *
+     * <p>If there is any lag between the constructor invocation and queuing the object into an
+     * executor the event will run later, as there is no method to adjust for the scheduling delay.
+     */
+    public abstract long initialDelay();
+
+    static Schedule create(long interval, long initialDelay) {
+      return new AutoValue_ScheduleConfig_Schedule(interval, initialDelay);
+    }
   }
 }

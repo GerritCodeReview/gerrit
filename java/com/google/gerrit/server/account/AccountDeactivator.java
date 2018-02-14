@@ -63,13 +63,7 @@ public class AccountDeactivator implements Runnable {
         return;
       }
       Optional<Schedule> schedule = scheduleConfig.schedule();
-      if (!schedule.isPresent()) {
-        log.info("Ignoring missing accountDeactivator schedule configuration");
-      } else if (schedule.get().initialDelay() < 0 || schedule.get().interval() <= 0) {
-        log.warn(
-            String.format(
-                "Ignoring invalid accountDeactivator schedule configuration: %s", scheduleConfig));
-      } else {
+      if (schedule.isPresent()) {
         queue
             .getDefaultQueue()
             .scheduleAtFixedRate(

@@ -19,7 +19,6 @@ import static java.time.ZoneId.systemDefault;
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.Nullable;
-import java.text.MessageFormat;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalTime;
@@ -99,11 +98,42 @@ public abstract class ScheduleConfig {
       initialDelay = interval;
     }
 
-    if (interval == MISSING_CONFIG || initialDelay == MISSING_CONFIG) {
+    if (isInvalidOrMissing(interval, initialDelay)) {
       return Optional.empty();
     }
 
     return Optional.of(Schedule.create(interval, initialDelay));
+  }
+
+  private boolean isInvalidOrMissing(long interval, long initialDelay) {
+    String key = section() + (subsection() != null ? "." + subsection() : "");
+    if (interval == MISSING_CONFIG && initialDelay == MISSING_CONFIG) {
+      log.info("No schedule configuration for \"{}\".", key);
+      return true;
+    }
+
+    if (interval == MISSING_CONFIG) {
+      log.error(
+          "Incomplete schedule configuration for \"{}\" is ignored. Missing value for \"{}\".",
+          key,
+          key + "." + keyInterval());
+      return true;
+    }
+
+    if (initialDelay == MISSING_CONFIG) {
+      log.error(
+          "Incomplete schedule configuration for \"{}\" is ignored. Missing value for \"{}\".",
+          key,
+          key + "." + keyStartTime());
+      return true;
+    }
+
+    if (interval <= 0 && initialDelay < 0) {
+      log.error("Invalid schedule configuration for \"{}\" is ingnored. ", key);
+      return true;
+    }
+
+    return false;
   }
 
   @Override
@@ -135,22 +165,12 @@ public abstract class ScheduleConfig {
   }
 
   private static long interval(Config rc, String section, String subsection, String keyInterval) {
-    long interval = MISSING_CONFIG;
     try {
-      interval =
-          ConfigUtil.getTimeUnit(rc, section, subsection, keyInterval, -1, TimeUnit.MILLISECONDS);
-      if (interval == MISSING_CONFIG) {
-        log.info(
-            MessageFormat.format(
-                "{0} schedule parameter \"{0}.{1}\" is not configured", section, keyInterval));
-      }
+      return ConfigUtil.getTimeUnit(
+          rc, section, subsection, keyInterval, MISSING_CONFIG, TimeUnit.MILLISECONDS);
     } catch (IllegalArgumentException e) {
-      log.error(
-          MessageFormat.format("Invalid {0} schedule parameter \"{0}.{1}\"", section, keyInterval),
-          e);
-      interval = INVALID_CONFIG;
+      return INVALID_CONFIG;
     }
-    return interval;
   }
 
   private static long initialDelay(
@@ -179,15 +199,8 @@ public abstract class ScheduleConfig {
         if (delay <= 0) {
           delay += interval;
         }
-      } else {
-        log.info(
-            MessageFormat.format(
-                "{0} schedule parameter \"{0}.{1}\" is not configured", section, keyStartTime));
       }
     } catch (IllegalArgumentException e2) {
-      log.error(
-          MessageFormat.format("Invalid {0} schedule parameter \"{0}.{1}\"", section, keyStartTime),
-          e2);
       delay = INVALID_CONFIG;
     }
     return delay;

@@ -60,13 +60,7 @@ public class ChangeCleanupRunner implements Runnable {
     public void start() {
       ScheduleConfig scheduleConfig = cfg.getScheduleConfig();
       Optional<Schedule> schedule = scheduleConfig.schedule();
-      if (!schedule.isPresent()) {
-        log.info("Ignoring missing changeCleanup schedule configuration");
-      } else if (schedule.get().initialDelay() < 0 || schedule.get().interval() <= 0) {
-        log.warn(
-            String.format(
-                "Ignoring invalid changeCleanup schedule configuration: %s", scheduleConfig));
-      } else {
+      if (schedule.isPresent()) {
         @SuppressWarnings("unused")
         Future<?> possiblyIgnoredError =
             queue

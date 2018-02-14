@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1514f17c_ca3d68f6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-02-14T19:46:05Z",
+      "side": 1,
+      "message": "Hmm, according to our internal analytics plugin I think this becomes:\n\n    ga(\u0027send\u0027, \u0027event\u0027, {\n      eventCategory: \u0027diff\u0027,\n      eventAction: \u0027interaction\u0027,\n      eventLabel: \u0027rebase-delta\u0027,\n      eventValue: \u0027xx%\u0027,\n    });\n\nAccording to https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#eventValue the value of eventValue should be an integer. So, I think you should pass percentRebaseDelta directly.",
+      "revId": "d567405b03649bfa36cfcd66666b71ab0c200c24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

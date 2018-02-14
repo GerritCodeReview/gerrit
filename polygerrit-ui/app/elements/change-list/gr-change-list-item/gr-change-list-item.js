@@ -115,5 +115,28 @@
       if (!change.topic) { return ''; }
       return Gerrit.Nav.getUrlForTopic(change.topic);
     },
+
+    /**
+     * TShirt sizing is based on the following paper:
+     * http://dirkriehle.com/
+     *   wp-content/uploads/2008/09/hicss-42-csdistr-final-web.pdf
+     */
+    _computeChangeSize(change) {
+      const delta = change.insertions + change.deletions;
+      if (isNaN(delta) || delta === 0) {
+        return 'U';
+      }
+      if (delta < 10) {
+        return 'XS';
+      } else if (delta < 50) {
+        return 'S';
+      } else if (delta < 250) {
+        return 'M';
+      } else if (delta < 1000) {
+        return 'L';
+      } else {
+        return 'XL';
+      }
+    },
   });
 })();

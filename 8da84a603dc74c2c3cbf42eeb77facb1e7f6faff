@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fd37103_ee14b202",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-14T19:58:49Z",
+      "side": 1,
+      "message": "I think this still needs done here",
+      "revId": "8da84a603dc74c2c3cbf42eeb77facb1e7f6faff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

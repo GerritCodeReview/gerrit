@@ -63,17 +63,29 @@ public class ScheduleConfigTest {
     rc.setString("a", "b", "i", "1h");
     rc.setString("a", "b", "s", "01:00");
 
-    ScheduleConfig s = new ScheduleConfig(rc, "a", "b", "i", "s", NOW);
+    ScheduleConfig s =
+        ScheduleConfig.builder(rc, "a", "b")
+            .setKeyInterval("i")
+            .setKeyStartTime("s")
+            .setNow(NOW)
+            .build();
     assertEquals(ms(1, HOURS), s.getInterval());
     assertEquals(ms(1, HOURS), s.getInitialDelay());
 
-    s = new ScheduleConfig(rc, "a", "b", "myInterval", "myStart", NOW);
+    s =
+        ScheduleConfig.builder(rc, "a", "b")
+            .setKeyInterval("myInterval")
+            .setKeyStartTime("myStart")
+            .setNow(NOW)
+            .build();
     assertEquals(s.getInterval(), ScheduleConfig.MISSING_CONFIG);
     assertEquals(s.getInitialDelay(), ScheduleConfig.MISSING_CONFIG);
   }
 
   private static long initialDelay(String startTime, String interval) {
-    return new ScheduleConfig(config(startTime, interval), "section", "subsection", NOW)
+    return ScheduleConfig.builder(config(startTime, interval), "section", "subsection")
+        .setNow(NOW)
+        .build()
         .getInitialDelay();
   }
 

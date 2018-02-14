@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "676b12a0_a98c2963",
+        "filename": "java/com/google/gerrit/server/restapi/project/GetAccess.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-14T17:14:18Z",
+      "side": 1,
+      "message": "This exception isn\u0027t thrown anymore and can be removed from all methods to which it is propagated.",
+      "range": {
+        "startLine": 284,
+        "startChar": 6,
+        "endLine": 284,
+        "endChar": 25
+      },
+      "revId": "f4bdb90f9902d19c1b627c78f2283ad6c83eb36b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

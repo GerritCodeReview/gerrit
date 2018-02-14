@@ -41,7 +41,7 @@ public class ChangeCleanupConfig {
   @Inject
   ChangeCleanupConfig(
       @GerritServerConfig Config cfg, @CanonicalWebUrl @Nullable String canonicalWebUrl) {
-    scheduleConfig = new ScheduleConfig(cfg, SECTION);
+    scheduleConfig = ScheduleConfig.create(cfg, SECTION);
     abandonAfter = readAbandonAfter(cfg);
     abandonIfMergeable = cfg.getBoolean(SECTION, null, KEY_ABANDON_IF_MERGEABLE, true);
     abandonMessage = readAbandonMessage(cfg, canonicalWebUrl);

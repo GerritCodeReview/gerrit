@@ -52,7 +52,7 @@ public class AccountDeactivator implements Runnable {
     Lifecycle(WorkQueue queue, AccountDeactivator deactivator, @GerritServerConfig Config cfg) {
       this.queue = queue;
       this.deactivator = deactivator;
-      scheduleConfig = new ScheduleConfig(cfg, "accountDeactivation");
+      scheduleConfig = ScheduleConfig.create(cfg, "accountDeactivation");
       supportAutomaticAccountActivityUpdate =
           cfg.getBoolean("auth", "autoUpdateAccountActiveStatus", false);
     }
@@ -62,8 +62,8 @@ public class AccountDeactivator implements Runnable {
       if (!supportAutomaticAccountActivityUpdate) {
         return;
       }
-      long interval = scheduleConfig.getInterval();
-      long delay = scheduleConfig.getInitialDelay();
+      long interval = scheduleConfig.interval();
+      long delay = scheduleConfig.initialDelay();
       if (delay == MISSING_CONFIG && interval == MISSING_CONFIG) {
         log.info("Ignoring missing accountDeactivator schedule configuration");
       } else if (delay < 0 || interval <= 0) {

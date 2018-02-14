@@ -63,18 +63,33 @@ public class ScheduleConfigTest {
     rc.setString("a", "b", "i", "1h");
     rc.setString("a", "b", "s", "01:00");
 
-    ScheduleConfig s = new ScheduleConfig(rc, "a", "b", "i", "s", NOW);
-    assertEquals(ms(1, HOURS), s.getInterval());
-    assertEquals(ms(1, HOURS), s.getInitialDelay());
+    ScheduleConfig s =
+        ScheduleConfig.builder(rc, "a")
+            .setSubsection("b")
+            .setKeyInterval("i")
+            .setKeyStartTime("s")
+            .setNow(NOW)
+            .build();
+    assertEquals(ms(1, HOURS), s.interval());
+    assertEquals(ms(1, HOURS), s.initialDelay());
 
-    s = new ScheduleConfig(rc, "a", "b", "myInterval", "myStart", NOW);
-    assertEquals(s.getInterval(), ScheduleConfig.MISSING_CONFIG);
-    assertEquals(s.getInitialDelay(), ScheduleConfig.MISSING_CONFIG);
+    s =
+        ScheduleConfig.builder(rc, "a")
+            .setSubsection("b")
+            .setKeyInterval("myInterval")
+            .setKeyStartTime("myStart")
+            .setNow(NOW)
+            .build();
+    assertEquals(s.interval(), ScheduleConfig.MISSING_CONFIG);
+    assertEquals(s.initialDelay(), ScheduleConfig.MISSING_CONFIG);
   }
 
   private static long initialDelay(String startTime, String interval) {
-    return new ScheduleConfig(config(startTime, interval), "section", "subsection", NOW)
-        .getInitialDelay();
+    return ScheduleConfig.builder(config(startTime, interval), "section")
+        .setSubsection("subsection")
+        .setNow(NOW)
+        .build()
+        .initialDelay();
   }
 
   private static Config config(String startTime, String interval) {

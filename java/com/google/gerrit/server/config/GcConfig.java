@@ -26,7 +26,7 @@ public class GcConfig {
 
   @Inject
   GcConfig(@GerritServerConfig Config cfg) {
-    scheduleConfig = new ScheduleConfig(cfg, ConfigConstants.CONFIG_GC_SECTION);
+    scheduleConfig = ScheduleConfig.create(cfg, ConfigConstants.CONFIG_GC_SECTION);
     aggressive = cfg.getBoolean(ConfigConstants.CONFIG_GC_SECTION, "aggressive", false);
   }
 

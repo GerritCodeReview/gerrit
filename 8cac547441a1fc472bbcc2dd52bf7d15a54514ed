@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da123f46_7253b72a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-02-14T21:24:56Z",
+      "side": 1,
+      "message": "Nit: If you find yourself making a further revision, I consider URLs to be exceptions to line length rule (to encourage following them).",
+      "revId": "8cac547441a1fc472bbcc2dd52bf7d15a54514ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

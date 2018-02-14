@@ -26,7 +26,23 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
-
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.OptionalInt;
+import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ListMultimap;
@@ -123,24 +139,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.Set;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
 public class PostReview
@@ -334,11 +332,9 @@ public class PostReview
         // User posting this review isn't currently in the reviewer or CC list,
         // isn't being explicitly added, and isn't voting on any label.
         // Automatically CC them on this change so they receive replies.
-        Optional<PostReviewers.Addition> selfAddition =
+        PostReviewers.Addition selfAddition =
             postReviewers.ccCurrentUser(revision.getUser(), revision);
-        if (selfAddition.isPresent()) {
-          bu.addOp(revision.getChange().getId(), selfAddition.get().op);
-        }
+        bu.addOp(revision.getChange().getId(), selfAddition.op);
       }
 
       // Add WorkInProgressOp if requested.

@@ -240,6 +240,30 @@
     },
     {
       "key": {
+        "uuid": "f0d96ffe_8aa6a06c",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-14T13:02:50Z",
+      "side": 1,
+      "message": "[1] converts this class to an AutoValue class with builder.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/159431",
+      "parentUuid": "b2cc93d7_ac15c3d0",
+      "range": {
+        "startLine": 88,
+        "startChar": 14,
+        "endLine": 88,
+        "endChar": 72
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "081cc3f5_4699f52e",
         "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
         "patchSetId": 6

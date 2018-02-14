@@ -70,26 +70,19 @@ public abstract class ScheduleConfig {
 
   abstract ZonedDateTime now();
 
-  /** Number of milliseconds between events. */
   @Memoized
-  public long interval() {
-    return computeInterval(config(), section(), subsection(), keyInterval());
-  }
+  public Schedule schedule() {
+    long interval = computeInterval(config(), section(), subsection(), keyInterval());
 
-  /**
-   * Milliseconds between constructor invocation and first event time.
-   *
-   * <p>If there is any lag between the constructor invocation and queuing the object into an
-   * executor the event will run later, as there is no method to adjust for the scheduling delay.
-   */
-  @Memoized
-  public long initialDelay() {
-    long interval = interval();
-    if (interval <= 0) {
-      return interval;
+    long initialDelay;
+    if (interval > 0) {
+      initialDelay =
+          computeInitialDelay(config(), section(), subsection(), keyStartTime(), now(), interval);
+    } else {
+      initialDelay = interval;
     }
 
-    return computeInitialDelay(config(), section(), subsection(), keyStartTime(), now(), interval);
+    return Schedule.create(interval, initialDelay);
   }
 
   @Override
@@ -196,5 +189,23 @@ public abstract class ScheduleConfig {
     abstract Builder setNow(ZonedDateTime now);
 
     public abstract ScheduleConfig build();
+  }
+
+  @AutoValue
+  public abstract static class Schedule {
+    /** Number of milliseconds between events. */
+    public abstract long interval();
+
+    /**
+     * Milliseconds between constructor invocation and first event time.
+     *
+     * <p>If there is any lag between the constructor invocation and queuing the object into an
+     * executor the event will run later, as there is no method to adjust for the scheduling delay.
+     */
+    public abstract long initialDelay();
+
+    static Schedule create(long interval, long initialDelay) {
+      return new AutoValue_ScheduleConfig_Schedule(interval, initialDelay);
+    }
   }
 }

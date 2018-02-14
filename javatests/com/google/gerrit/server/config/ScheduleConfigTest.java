@@ -20,6 +20,7 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
+import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;
@@ -70,8 +71,7 @@ public class ScheduleConfigTest {
             .setKeyStartTime("s")
             .setNow(NOW)
             .build();
-    assertThat(s.interval()).isEqualTo(ms(1, HOURS));
-    assertThat(s.initialDelay()).isEqualTo(ms(1, HOURS));
+    assertThat(s.schedule()).isEqualTo(Schedule.create(ms(1, HOURS), ms(1, HOURS)));
 
     s =
         ScheduleConfig.builder(rc, "a")
@@ -80,8 +80,8 @@ public class ScheduleConfigTest {
             .setKeyStartTime("myStart")
             .setNow(NOW)
             .build();
-    assertThat(s.interval()).isEqualTo(ScheduleConfig.MISSING_CONFIG);
-    assertThat(s.initialDelay()).isEqualTo(ScheduleConfig.MISSING_CONFIG);
+    assertThat(s.schedule())
+        .isEqualTo(Schedule.create(ScheduleConfig.MISSING_CONFIG, ScheduleConfig.MISSING_CONFIG));
   }
 
   private static long initialDelay(String startTime, String interval) {
@@ -89,6 +89,7 @@ public class ScheduleConfigTest {
         .setSubsection("subsection")
         .setNow(NOW)
         .build()
+        .schedule()
         .initialDelay();
   }
 

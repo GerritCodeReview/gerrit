@@ -16,6 +16,24 @@
       "revId": "a4747d57a8db7289b52143ba4de38f6ee1c76e44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06f0d289_2a87cc4e",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-14T13:38:25Z",
+      "side": 1,
+      "message": "I was fixing a production problem and rolling this out ASAP. I am leaving it up to the author of this code (Edwin) to decide how to fix this in the long term. Have some patience, he\u0027ll get to it.",
+      "parentUuid": "57e1ea01_4e6a72a9",
+      "revId": "a4747d57a8db7289b52143ba4de38f6ee1c76e44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -69,7 +69,6 @@ public class ProtoGen extends AbstractProgram {
     } finally {
       lock.unlock();
     }
-    System.out.println("Created " + file.getPath());
     return 0;
   }
 }

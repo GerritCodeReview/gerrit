@@ -106,6 +106,7 @@ import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.send.EmailHeader;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
@@ -268,6 +269,7 @@ public abstract class AbstractDaemonTest {
   @Inject private Provider<AnonymousUser> anonymousUser;
   @Inject private SchemaFactory<ReviewDb> reviewDbProvider;
   @Inject private Groups groups;
+  @Inject private GroupIndexer groupIndexer;
 
   private ProjectResetter resetter;
   private List<Repository> toClose;
@@ -396,7 +398,7 @@ public abstract class AbstractDaemonTest {
     // As a workaround, we simply reindex all available groups here.
     Iterable<GroupReference> allGroups = groups.getAllGroupReferences(db)::iterator;
     for (GroupReference group : allGroups) {
-      groupCache.onCreateGroup(group.getUUID());
+      groupIndexer.index(group.getUUID());
     }
 
     admin = accountCreator.admin();

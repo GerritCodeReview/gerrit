@@ -47,8 +47,8 @@ public class GarbageCollectionRunner implements Runnable {
     @Override
     public void start() {
       ScheduleConfig scheduleConfig = gcConfig.getScheduleConfig();
-      long interval = scheduleConfig.getInterval();
-      long delay = scheduleConfig.getInitialDelay();
+      long interval = scheduleConfig.interval();
+      long delay = scheduleConfig.initialDelay();
       if (delay == MISSING_CONFIG && interval == MISSING_CONFIG) {
         log.info("Ignoring missing gc schedule configuration");
       } else if (delay < 0 || interval <= 0) {

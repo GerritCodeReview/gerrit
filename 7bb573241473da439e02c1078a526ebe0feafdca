@@ -16,6 +16,24 @@
       "revId": "7bb573241473da439e02c1078a526ebe0feafdca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87c65b6a_bf9bf6fb",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-14T19:05:25Z",
+      "side": 1,
+      "message": "We decided we don\u0027t mind it not sticking in IE11.",
+      "parentUuid": "a018158f_026d3034",
+      "revId": "7bb573241473da439e02c1078a526ebe0feafdca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

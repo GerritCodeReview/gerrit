@@ -154,7 +154,7 @@ limitations under the License.
           <gr-dropdown
               link
               down-arrow
-              items = [[linkGroup.links]]
+              items=[[_generateUrl(linkGroup.links)]]
               horizontal-align="left">
             <span class="linksTitle" id="[[linkGroup.title]]">
               [[linkGroup.title]]

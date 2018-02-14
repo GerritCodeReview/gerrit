@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1518617002 +0100\nnonce AFD2Vu3Up3k8NxHb+MBnvaURIo+c0RyDhUUnrp77GBY3UWPbGRXfrS6UKYACLda/4te4EJovWZtD\n\n0000000000000000000000000000000000000000 e0ecc180e42c8fdbac82983ab6a58477ec7957f1 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlqEQaoACgkQUbX9l6DQ\n71FUDAgApCF0Z4LMp234lHaud819+EhOFpwGPp8s5dp8Gy5u+jF+gswio+X3wB4B\ntR9kotwX8hl/vD72AA+HteRbStVW0Npi5gn4BD/A7T+gOmJcBwbV5qfTrLa+H9Qz\nVsbvWr3FU2CWyF09ICD6hFAh86juStmMqHvD9X0XlBXEd485jTA8eQSEOYah98sv\nFOQuxbzJNyVZxoHQ/Vh31a8/XYCJZSlN3KTtYZN6ju6c0LrVuDGbC+cxaBMdi66z\nOFCYz4fEmgSc6sP55kWhcoP3mvAplh/QqotW1ezN8Ouqw9kiTbzjB2SMkHQUjm+P\njlBhiMhWH2y7iJLwjVMc5l1Gt4yfsw\u003d\u003d\n\u003dQzvA\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa56bde4_105c39cf",
+        "filename": "javatests/com/google/gerrit/server/config/ScheduleConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-14T23:38:55Z",
+      "side": 1,
+      "message": "The AutoValue generated Schedule class includes implementations of equals and hashCode, right?",
+      "range": {
+        "startLine": 73,
+        "startChar": 29,
+        "endLine": 73,
+        "endChar": 38
+      },
+      "revId": "1649c0c96abca23552b172af1023ed9c2e6f13a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

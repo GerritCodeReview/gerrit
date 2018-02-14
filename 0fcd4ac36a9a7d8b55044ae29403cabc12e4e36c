@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4d102398_afbbc8b4",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1136,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-14T17:56:35Z",
+      "side": 1,
+      "message": "Not needed anymore",
+      "parentUuid": "d60ef91d_23b2d4b3",
+      "revId": "0fcd4ac36a9a7d8b55044ae29403cabc12e4e36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "600b83fb_2fc5d333",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "f79e317e_7f85e907",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-14T17:56:35Z",
+      "side": 1,
+      "message": "This is the result of refactoring https://gerrit-review.googlesource.com/c/gerrit/+/159311/1/polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js#b128\n\nFrom an  old comment: \nUse patchNum from comment if it exists, otherwise the property of the thread group. This is needed for switching between side-by-side and unified views when there are unsaved drafts.\n\nWill update to include this here.",
+      "parentUuid": "600b83fb_2fc5d333",
+      "revId": "0fcd4ac36a9a7d8b55044ae29403cabc12e4e36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23edc7db_f26b1763",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
         "patchSetId": 1
@@ -47,6 +83,30 @@
       "writtenOn": "2018-02-14T17:12:52Z",
       "side": 1,
       "message": "My feeling is that the different ways this API is used shouldn\u0027t affect this code -- this seems a little like breaking encapsulation.\n\nIs there a reason we can\u0027t encode \"side\" consistently in both situations?",
+      "range": {
+        "startLine": 375,
+        "startChar": 58,
+        "endLine": 376,
+        "endChar": 61
+      },
+      "revId": "0fcd4ac36a9a7d8b55044ae29403cabc12e4e36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ada4f463_e110fc30",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-14T17:56:35Z",
+      "side": 1,
+      "message": "Would love to discuss this point and the one below in person, as I think it might be difficult on the CL.",
+      "parentUuid": "23edc7db_f26b1763",
       "range": {
         "startLine": 375,
         "startChar": 58,
@@ -93,6 +153,30 @@
       "writtenOn": "2018-02-14T17:12:52Z",
       "side": 1,
       "message": "What\u0027s the difference between the `comments` and `changeComments` parameters?",
+      "range": {
+        "startLine": 42,
+        "startChar": 32,
+        "endLine": 43,
+        "endChar": 20
+      },
+      "revId": "0fcd4ac36a9a7d8b55044ae29403cabc12e4e36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cda0aaf2_f8380bf0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-14T17:56:35Z",
+      "side": 1,
+      "message": "comments have already been pre-determined by gr-diff as the comments for the change: https://gerrit-review.googlesource.com/c/gerrit/+/159311/1/polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js#112\n\ncomments are needed by gr-diff-highlight, which (at least now) doesn\u0027t have a copy of changeComments. Maybe it should?\n\nchangeComments are needed because they need to end up getting passed to the comment thread group, so that it can use helper functions for the threading.",
+      "parentUuid": "801b5d5e_855e7d6f",
       "range": {
         "startLine": 42,
         "startChar": 32,

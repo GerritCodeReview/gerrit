@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.config.ScheduleConfig.MISSING_CONFIG;
-
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -27,6 +25,7 @@ import com.google.gerrit.server.query.account.AccountPredicates;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -63,10 +62,10 @@ public class AccountDeactivator implements Runnable {
       if (!supportAutomaticAccountActivityUpdate) {
         return;
       }
-      Schedule schedule = scheduleConfig.schedule();
-      if (schedule.initialDelay() == MISSING_CONFIG && schedule.interval() == MISSING_CONFIG) {
+      Optional<Schedule> schedule = scheduleConfig.schedule();
+      if (!schedule.isPresent()) {
         log.info("Ignoring missing accountDeactivator schedule configuration");
-      } else if (schedule.initialDelay() < 0 || schedule.interval() <= 0) {
+      } else if (schedule.get().initialDelay() < 0 || schedule.get().interval() <= 0) {
         log.warn(
             String.format(
                 "Ignoring invalid accountDeactivator schedule configuration: %s", scheduleConfig));
@@ -74,7 +73,10 @@ public class AccountDeactivator implements Runnable {
         queue
             .getDefaultQueue()
             .scheduleAtFixedRate(
-                deactivator, schedule.initialDelay(), schedule.interval(), TimeUnit.MILLISECONDS);
+                deactivator,
+                schedule.get().initialDelay(),
+                schedule.get().interval(),
+                TimeUnit.MILLISECONDS);
       }
     }
 

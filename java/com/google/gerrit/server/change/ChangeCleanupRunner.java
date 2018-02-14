@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.server.config.ScheduleConfig.MISSING_CONFIG;
-
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -29,6 +27,7 @@ import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import java.util.Optional;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
@@ -60,10 +59,10 @@ public class ChangeCleanupRunner implements Runnable {
     @Override
     public void start() {
       ScheduleConfig scheduleConfig = cfg.getScheduleConfig();
-      Schedule schedule = scheduleConfig.schedule();
-      if (schedule.initialDelay() == MISSING_CONFIG && schedule.interval() == MISSING_CONFIG) {
+      Optional<Schedule> schedule = scheduleConfig.schedule();
+      if (!schedule.isPresent()) {
         log.info("Ignoring missing changeCleanup schedule configuration");
-      } else if (schedule.initialDelay() < 0 || schedule.interval() <= 0) {
+      } else if (schedule.get().initialDelay() < 0 || schedule.get().interval() <= 0) {
         log.warn(
             String.format(
                 "Ignoring invalid changeCleanup schedule configuration: %s", scheduleConfig));
@@ -73,7 +72,10 @@ public class ChangeCleanupRunner implements Runnable {
             queue
                 .getDefaultQueue()
                 .scheduleAtFixedRate(
-                    runner, schedule.initialDelay(), schedule.interval(), TimeUnit.MILLISECONDS);
+                    runner,
+                    schedule.get().initialDelay(),
+                    schedule.get().interval(),
+                    TimeUnit.MILLISECONDS);
       }
     }
 

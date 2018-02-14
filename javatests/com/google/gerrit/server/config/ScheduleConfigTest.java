@@ -15,6 +15,7 @@
 package com.google.gerrit.server.config;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -25,6 +26,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
@@ -70,7 +72,8 @@ public class ScheduleConfigTest {
             .setKeyStartTime("s")
             .setNow(NOW)
             .build();
-    assertThat(s.schedule()).isEqualTo(Schedule.create(ms(1, HOURS), ms(1, HOURS)));
+    assertThat(s.schedule()).isPresent();
+    assertThat(s.schedule().get()).isEqualTo(Schedule.create(ms(1, HOURS), ms(1, HOURS)));
 
     s =
         ScheduleConfig.builder(rc, "a", "b")
@@ -78,16 +81,17 @@ public class ScheduleConfigTest {
             .setKeyStartTime("myStart")
             .setNow(NOW)
             .build();
-    assertThat(s.schedule())
-        .isEqualTo(Schedule.create(ScheduleConfig.MISSING_CONFIG, ScheduleConfig.MISSING_CONFIG));
+    assertThat(s.schedule()).isEmpty();
   }
 
   private static long initialDelay(String startTime, String interval) {
-    return ScheduleConfig.builder(config(startTime, interval), "section", "subsection")
-        .setNow(NOW)
-        .build()
-        .schedule()
-        .initialDelay();
+    Optional<Schedule> schedule =
+        ScheduleConfig.builder(config(startTime, interval), "section", "subsection")
+            .setNow(NOW)
+            .build()
+            .schedule();
+    assertThat(schedule).isPresent();
+    return schedule.get().initialDelay();
   }
 
   private static Config config(String startTime, String interval) {

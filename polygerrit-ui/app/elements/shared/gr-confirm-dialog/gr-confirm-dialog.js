@@ -42,13 +42,19 @@
         type: Boolean,
         value: false,
       },
+      confirmOnEnter: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     hostAttributes: {
       role: 'dialog',
     },
 
-    _handleConfirmTap(e) {
+    _handleConfirm(e) {
+      if (this.disabled) { return; }
+
       e.preventDefault();
       this.fire('confirm', null, {bubbles: false});
     },
@@ -56,6 +62,10 @@
     _handleCancelTap(e) {
       e.preventDefault();
       this.fire('cancel', null, {bubbles: false});
+    },
+
+    _handleKeydown(e) {
+      if (this.confirmOnEnter && e.keyCode === 13) { this._handleConfirm(e); }
     },
   });
 })();

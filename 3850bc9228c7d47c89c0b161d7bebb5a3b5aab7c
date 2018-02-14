@@ -22,6 +22,30 @@
       "revId": "3850bc9228c7d47c89c0b161d7bebb5a3b5aab7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8d67f5d_7ab39c49",
+        "filename": "polygerrit-ui/app/test/functional/README.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-14T04:13:04Z",
+      "side": 1,
+      "message": "Good point. In fact I think the details aren\u0027t probably adding much value and can be omitted.\nDone.",
+      "parentUuid": "dea58360_64adf6d0",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 42
+      },
+      "revId": "3850bc9228c7d47c89c0b161d7bebb5a3b5aab7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

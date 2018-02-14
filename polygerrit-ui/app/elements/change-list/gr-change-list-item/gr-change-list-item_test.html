@@ -206,5 +206,47 @@ limitations under the License.
       assert.equal(element._computeAccountStatusString({status: 'Working'}),
           '(Working)');
     });
+
+    test('TShirt sizing tooltip', () => {
+      assert.equal(element._computeSizeTooltip({
+        insertions: 'foo',
+        deletions: 'bar',
+      }), 'Size unknown');
+      assert.equal(element._computeSizeTooltip({
+        insertions: 0,
+        deletions: 0,
+      }), 'Size unknown');
+      assert.equal(element._computeSizeTooltip({
+        insertions: 1,
+        deletions: 2,
+      }), '+1, -2');
+    });
+
+    test('TShirt sizing', () => {
+      assert.equal(element._computeChangeSize({
+        insertions: 'foo',
+        deletions: 'bar',
+      }), '🤷');
+      assert.equal(element._computeChangeSize({
+        insertions: 1,
+        deletions: 1,
+      }), 'XS');
+      assert.equal(element._computeChangeSize({
+        insertions: 9,
+        deletions: 1,
+      }), 'S');
+      assert.equal(element._computeChangeSize({
+        insertions: 10,
+        deletions: 200,
+      }), 'M');
+      assert.equal(element._computeChangeSize({
+        insertions: 99,
+        deletions: 900,
+      }), 'L');
+      assert.equal(element._computeChangeSize({
+        insertions: 99,
+        deletions: 999,
+      }), 'XL');
+    });
   });
 </script>

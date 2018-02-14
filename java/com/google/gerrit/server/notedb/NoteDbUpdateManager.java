@@ -619,7 +619,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
     } else {
       // OpenRepo buffers objects separately; caller may assume that objects are available in the
       // inserter it previously passed via setChangeRepo.
-      checkState(saveObjects, "cannot use dryrun with saveObjects = false");
       or.flushToFinalInserter();
     }
 

@@ -24,8 +24,8 @@ import org.eclipse.jgit.transport.AbstractAdvertiseRefsHook;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 
 /**
- * Wrapper around {@link PermissionBackend.ForProject} that implements {@link
- * org.eclipse.jgit.transport.AdvertiseRefsHook}.
+ * Wrapper around {@link com.google.gerrit.server.permissions.PermissionBackend.ForProject} that
+ * implements {@link org.eclipse.jgit.transport.AdvertiseRefsHook}.
  */
 public class DefaultAdvertiseRefsHook extends AbstractAdvertiseRefsHook {
 

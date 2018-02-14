@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "da4db65d_3f2c9b2e",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-02-14T20:51:04Z",
+      "side": 1,
+      "message": "I think it\u0027s reasonable to mention that this is possible. You can present it as a \"tip\" or note that helps fill out this section.",
+      "parentUuid": "6ee2fda3_6e7b4569",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "d3c7a08fff1442865422e8da7dab929b071e36eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb9e2cc3_fcf0eda6",
         "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
         "patchSetId": 1
@@ -113,6 +137,30 @@
     },
     {
       "key": {
+        "uuid": "7c2d4f01_098dda03",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-02-14T20:51:04Z",
+      "side": 1,
+      "message": "I agree that where Kasper has placed this button aligns more correctly with our current UX design. It\u0027s a change action and that\u0027s where change actions go.\n\nThat doesn\u0027t mean we can\u0027t ever offer additional ways to enter the user journey of making changes inline, but that\u0027s out of scope of this documentation. I\u0027ve CCed our UX designer Arnab to include this in his thoughts, but I believe he\u0027s already discussed this with Kasper.",
+      "parentUuid": "a7c40e22_e5d2e81b",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "d3c7a08fff1442865422e8da7dab929b071e36eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25fe6c31_3d7b84d3",
         "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
         "patchSetId": 1
@@ -148,6 +196,30 @@
       "side": 1,
       "message": "This change is not intended to be an exhaustively complete run-through of everything a user can do with respect to editing in Gerrit. As the commit message states, it exists to give us something to point to in the old UI deprecation announcement.",
       "parentUuid": "25fe6c31_3d7b84d3",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 73
+      },
+      "revId": "d3c7a08fff1442865422e8da7dab929b071e36eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82f9afac_5c67f442",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-02-14T20:51:04Z",
+      "side": 1,
+      "message": "Rebasing seems like a necessary action that comes up in the lifecycle of an edit. You\u0027ll avert an FAQ if you add a section about this. I think it would be a good idea to include a quick command-line tip there. It adds some sauce to the writeup and is useful to know about.",
+      "parentUuid": "fc0d18e8_13464e1d",
       "range": {
         "startLine": 54,
         "startChar": 0,

@@ -20,8 +20,11 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.BatchProgramModule;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
@@ -30,11 +33,13 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.index.DummyIndexModule;
+import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
+import com.google.gerrit.server.schema.DataSourceType;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +51,10 @@ public class MigrateToNoteDb extends SiteProgram {
       "Trial mode: migrate changes and turn on reading from NoteDb, but leave ReviewDb as the"
           + " source of truth";
 
+  private static final int ISSUE_8022_THREAD_LIMIT = 4;
+
   @Option(name = "--threads", usage = "Number of threads to use for rebuilding NoteDb")
-  private int threads = Runtime.getRuntime().availableProcessors();
+  private Integer threads;
 
   @Option(
     name = "--project",
@@ -105,11 +112,12 @@ public class MigrateToNoteDb extends SiteProgram {
     try {
       mustHaveValidSite();
       dbInjector = createDbInjector(MULTI_USER);
-      threads = ThreadLimiter.limitThreads(dbInjector, threads);
 
       dbManager = new LifecycleManager();
       dbManager.add(dbInjector);
       dbManager.start();
+
+      threads = limitThreads();
 
       sysInjector = createSysInjector();
       sysInjector.injectMembers(this);
@@ -158,6 +166,27 @@ public class MigrateToNoteDb extends SiteProgram {
     return reindexPgm.main(reindexArgs.stream().toArray(String[]::new));
   }
 
+  private int limitThreads() {
+    if (threads != null) {
+      return threads;
+    }
+    int actualThreads;
+    int procs = Runtime.getRuntime().availableProcessors();
+    DataSourceType dsType = dbInjector.getInstance(DataSourceType.class);
+    if (dsType.getDriver().equals("org.h2.Driver") && procs > ISSUE_8022_THREAD_LIMIT) {
+      System.out.println(
+          "Not using more than "
+              + ISSUE_8022_THREAD_LIMIT
+              + " threads due to http://crbug.com/gerrit/8022");
+      System.out.println("Can be increased by passing --threads, but may cause errors");
+      actualThreads = ISSUE_8022_THREAD_LIMIT;
+    } else {
+      actualThreads = procs;
+    }
+    actualThreads = ThreadLimiter.limitThreads(dbInjector, actualThreads);
+    return actualThreads;
+  }
+
   private Injector createSysInjector() {
     return dbInjector.createChildInjector(
         new FactoryModule() {
@@ -165,10 +194,21 @@ public class MigrateToNoteDb extends SiteProgram {
           public void configure() {
             install(dbInjector.getInstance(BatchProgramModule.class));
             bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
-            install(new DummyIndexModule());
+            install(getIndexModule());
             factory(ChangeResource.Factory.class);
           }
         });
+  }
+
+  private Module getIndexModule() {
+    switch (IndexModule.getIndexType(dbInjector)) {
+      case LUCENE:
+        return LuceneIndexModule.singleVersionWithExplicitVersions(ImmutableMap.of(), threads);
+      case ELASTICSEARCH:
+        return ElasticIndexModule.singleVersionWithExplicitVersions(ImmutableMap.of(), threads);
+      default:
+        throw new IllegalStateException("unsupported index.type");
+    }
   }
 
   private void stop() {

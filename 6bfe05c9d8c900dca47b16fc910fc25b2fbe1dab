@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b75d998f_505a269b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-02-14T20:34:57Z",
+      "side": 1,
+      "message": "Link to your source in a comment somewhere around here, to avert bikeshedding. :)",
+      "revId": "6bfe05c9d8c900dca47b16fc910fc25b2fbe1dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d21e2780_2be60c17",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-14T01:47:24Z",
+      "side": 1,
+      "message": "Maybe include this change in the commit message too? (Love it, by the way!)",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 42,
+        "endChar": 41
+      },
+      "revId": "361bb5d53eb3855e90088a0dd5f0c4537f48ca56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1fa9993_a3a25832",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-14T01:47:24Z",
+      "side": 1,
+      "message": "What does this do? I tried removing it and don\u0027t see a difference myself",
+      "range": {
+        "startLine": 45,
+        "startChar": 8,
+        "endLine": 45,
+        "endChar": 37
+      },
+      "revId": "361bb5d53eb3855e90088a0dd5f0c4537f48ca56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0129bb1_ccb47ba4",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-14T01:47:24Z",
+      "side": 1,
+      "message": "since th:after styles already get applied here, should be able to only include what is different:\n\nborder-left: 1px solid #ddd;\ntop: 0;",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 20
+      },
+      "revId": "361bb5d53eb3855e90088a0dd5f0c4537f48ca56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

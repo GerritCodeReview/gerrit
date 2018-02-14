@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-diff-builder/gr-diff-builder.html">
@@ -289,6 +290,7 @@ limitations under the License.
       </gr-button>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+    <gr-reporting id="reporting" category="diff"></gr-reporting>
   </template>
   <script src="gr-diff-line.js"></script>
   <script src="gr-diff-group.js"></script>

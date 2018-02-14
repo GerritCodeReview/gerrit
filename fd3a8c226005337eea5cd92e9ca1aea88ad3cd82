@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "54432e1e_5cc40e54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-14T16:44:17Z",
+      "side": 1,
+      "message": "I created I0b281d7b7 as discussed offline. As result, we can (and must) directly use the indexer and need not care about cached values.",
+      "parentUuid": "4540b67a_f12f720d",
+      "range": {
+        "startLine": 19,
+        "startChar": 54,
+        "endLine": 23,
+        "endChar": 41
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "439185ad_577259b1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

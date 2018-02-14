@@ -16,7 +16,6 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
-import java.io.IOException;
 import java.util.Optional;
 
 /** Tracks group objects in memory for efficient access. */
@@ -48,11 +47,45 @@ public interface GroupCache {
    */
   Optional<InternalGroup> get(AccountGroup.UUID groupUuid);
 
-  /** Notify the cache that a new group was constructed. */
-  void onCreateGroup(AccountGroup.UUID groupUuid) throws IOException;
+  /**
+   * Removes the association of the given ID with a group.
+   *
+   * <p>The next call to {@link #get(AccountGroup.Id)} won't provide a cached value.
+   *
+   * <p>It's safe to call this method if no association exists.
+   *
+   * <p><strong>Note: </strong>This method doesn't touch any associations between names/UUIDs and
+   * groups!
+   *
+   * @param groupId the ID of a possibly associated group
+   */
+  void evict(AccountGroup.Id groupId);
 
-  void evict(AccountGroup.UUID groupUuid, AccountGroup.Id groupId, AccountGroup.NameKey groupName)
-      throws IOException;
+  /**
+   * Removes the association of the given name with a group.
+   *
+   * <p>The next call to {@link #get(AccountGroup.NameKey)} won't provide a cached value.
+   *
+   * <p>It's safe to call this method if no association exists.
+   *
+   * <p><strong>Note: </strong>This method doesn't touch any associations between IDs/UUIDs and
+   * groups!
+   *
+   * @param groupName the name of a possibly associated group
+   */
+  void evict(AccountGroup.NameKey groupName);
 
-  void evictAfterRename(AccountGroup.NameKey oldName) throws IOException;
+  /**
+   * Removes the association of the given UUID with a group.
+   *
+   * <p>The next call to {@link #get(AccountGroup.UUID)} won't provide a cached value.
+   *
+   * <p>It's safe to call this method if no association exists.
+   *
+   * <p><strong>Note: </strong>This method doesn't touch any associations between names/IDs and
+   * groups!
+   *
+   * @param groupUuid the UUID of a possibly associated group
+   */
+  void evict(AccountGroup.UUID groupUuid);
 }

@@ -33,7 +33,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Throwables;
-import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -83,7 +82,6 @@ import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -94,7 +92,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -136,10 +133,6 @@ public class GroupsIT extends AbstractDaemonTest {
   @Inject private StalenessChecker stalenessChecker;
   @Inject private GroupIndexer groupIndexer;
   @Inject private GroupsConsistencyChecker consistencyChecker;
-
-  @Inject
-  @Named("groups_byuuid")
-  private LoadingCache<String, Optional<InternalGroup>> groupsByUUIDCache;
 
   @Before
   public void setTimeForTesting() {
@@ -1244,10 +1237,8 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private void assertStaleGroupAndReindex(AccountGroup.UUID groupUuid) throws IOException {
-    // Evict group from cache to be sure that we use the index state for staleness checks. This has
-    // to happen directly on the groupsByUUID cache because GroupsCacheImpl triggers a reindex for
-    // the group.
-    groupsByUUIDCache.invalidate(groupUuid.get());
+    // Evict group from cache to be sure that we use the index state for staleness checks.
+    groupCache.evict(groupUuid);
     assertThat(stalenessChecker.isStale(groupUuid)).isTrue();
 
     // Reindex fixes staleness

@@ -51,12 +51,14 @@ import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.RenameGroupOp;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -102,6 +104,7 @@ public class GroupsUpdate {
   private final AllUsersName allUsersName;
   private final GroupCache groupCache;
   private final GroupIncludeCache groupIncludeCache;
+  private final Provider<GroupIndexer> indexer;
   private final AuditService auditService;
   private final RenameGroupOp.Factory renameGroupOpFactory;
   @Nullable private final IdentifiedUser currentUser;
@@ -120,6 +123,7 @@ public class GroupsUpdate {
       GroupBackend groupBackend,
       GroupCache groupCache,
       GroupIncludeCache groupIncludeCache,
+      Provider<GroupIndexer> indexer,
       AuditService auditService,
       AccountCache accountCache,
       RenameGroupOp.Factory renameGroupOpFactory,
@@ -135,6 +139,7 @@ public class GroupsUpdate {
     this.allUsersName = allUsersName;
     this.groupCache = groupCache;
     this.groupIncludeCache = groupIncludeCache;
+    this.indexer = indexer;
     this.auditService = auditService;
     this.renameGroupOpFactory = renameGroupOpFactory;
     this.groupsMigration = groupsMigration;
@@ -595,7 +600,7 @@ public class GroupsUpdate {
   }
 
   private void updateCachesOnGroupCreation(InternalGroup createdGroup) throws IOException {
-    groupCache.onCreateGroup(createdGroup.getGroupUUID());
+    indexer.get().index(createdGroup.getGroupUUID());
     for (Account.Id modifiedMember : createdGroup.getMembers()) {
       groupIncludeCache.evictGroupsWithMember(modifiedMember);
     }
@@ -607,7 +612,7 @@ public class GroupsUpdate {
   private void updateCachesOnGroupUpdate(UpdateResult result) throws IOException {
     if (result.getPreviousGroupName().isPresent()) {
       AccountGroup.NameKey previousName = result.getPreviousGroupName().get();
-      groupCache.evictAfterRename(previousName);
+      groupCache.evict(previousName);
 
       // TODO(aliceks): After switching to NoteDb, consider to use a BatchRefUpdate.
       @SuppressWarnings("unused")
@@ -620,7 +625,10 @@ public class GroupsUpdate {
                   result.getGroupName().get())
               .start(0, TimeUnit.MILLISECONDS);
     }
-    groupCache.evict(result.getGroupUuid(), result.getGroupId(), result.getGroupName());
+    groupCache.evict(result.getGroupUuid());
+    groupCache.evict(result.getGroupId());
+    groupCache.evict(result.getGroupName());
+    indexer.get().index(result.getGroupUuid());
 
     result.getAddedMembers().forEach(groupIncludeCache::evictGroupsWithMember);
     result.getDeletedMembers().forEach(groupIncludeCache::evictGroupsWithMember);

@@ -20,22 +20,21 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.GroupResource;
-import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Optional;
 
 @Singleton
 public class Index implements RestModifyView<GroupResource, Input> {
 
-  private final GroupCache groupCache;
+  private final Provider<GroupIndexer> indexer;
 
   @Inject
-  Index(GroupCache groupCache) {
-    this.groupCache = groupCache;
+  Index(Provider<GroupIndexer> indexer) {
+    this.indexer = indexer;
   }
 
   @Override
@@ -51,11 +50,7 @@ public class Index implements RestModifyView<GroupResource, Input> {
           String.format("External Group Not Allowed: %s", groupUuid.get()));
     }
 
-    Optional<InternalGroup> group = groupCache.get(groupUuid);
-    // evicting the group from the cache, reindexes the group
-    if (group.isPresent()) {
-      groupCache.evict(group.get().getGroupUUID(), group.get().getId(), group.get().getNameKey());
-    }
+    indexer.get().index(groupUuid);
     return Response.none();
   }
 }

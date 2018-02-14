@@ -22,7 +22,6 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
-import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.query.group.InternalGroupQuery;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -31,7 +30,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
-import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.function.BooleanSupplier;
@@ -72,18 +70,15 @@ public class GroupCacheImpl implements GroupCache {
   private final LoadingCache<AccountGroup.Id, Optional<InternalGroup>> byId;
   private final LoadingCache<String, Optional<InternalGroup>> byName;
   private final LoadingCache<String, Optional<InternalGroup>> byUUID;
-  private final Provider<GroupIndexer> indexer;
 
   @Inject
   GroupCacheImpl(
       @Named(BYID_NAME) LoadingCache<AccountGroup.Id, Optional<InternalGroup>> byId,
       @Named(BYNAME_NAME) LoadingCache<String, Optional<InternalGroup>> byName,
-      @Named(BYUUID_NAME) LoadingCache<String, Optional<InternalGroup>> byUUID,
-      Provider<GroupIndexer> indexer) {
+      @Named(BYUUID_NAME) LoadingCache<String, Optional<InternalGroup>> byUUID) {
     this.byId = byId;
     this.byName = byName;
     this.byUUID = byUUID;
-    this.indexer = indexer;
   }
 
   @Override
@@ -93,29 +88,6 @@ public class GroupCacheImpl implements GroupCache {
     } catch (ExecutionException e) {
       log.warn("Cannot load group " + groupId, e);
       return Optional.empty();
-    }
-  }
-
-  @Override
-  public void evict(
-      AccountGroup.UUID groupUuid, AccountGroup.Id groupId, AccountGroup.NameKey groupName)
-      throws IOException {
-    if (groupId != null) {
-      byId.invalidate(groupId);
-    }
-    if (groupName != null) {
-      byName.invalidate(groupName.get());
-    }
-    if (groupUuid != null) {
-      byUUID.invalidate(groupUuid.get());
-    }
-    indexer.get().index(groupUuid);
-  }
-
-  @Override
-  public void evictAfterRename(AccountGroup.NameKey oldName) throws IOException {
-    if (oldName != null) {
-      byName.invalidate(oldName.get());
     }
   }
 
@@ -147,8 +119,24 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   @Override
-  public void onCreateGroup(AccountGroup.UUID groupUuid) throws IOException {
-    indexer.get().index(groupUuid);
+  public void evict(AccountGroup.Id groupId) {
+    if (groupId != null) {
+      byId.invalidate(groupId);
+    }
+  }
+
+  @Override
+  public void evict(AccountGroup.NameKey groupName) {
+    if (groupName != null) {
+      byName.invalidate(groupName.get());
+    }
+  }
+
+  @Override
+  public void evict(AccountGroup.UUID groupUuid) {
+    if (groupUuid != null) {
+      byUUID.invalidate(groupUuid.get());
+    }
   }
 
   static class ByIdLoader extends CacheLoader<AccountGroup.Id, Optional<InternalGroup>> {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57e1ea01_4e6a72a9",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-14T13:30:26Z",
+      "side": 1,
+      "message": "Using materialized suppliers is a hack that schould be removed or fixed to not be materialized. Yes it was mentioned in the commit message, to avoid conflicts, but I would expect that this is going to be fixed as a follow-up change?",
+      "revId": "a4747d57a8db7289b52143ba4de38f6ee1c76e44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

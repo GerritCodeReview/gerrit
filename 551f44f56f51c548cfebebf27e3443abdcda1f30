@@ -222,6 +222,30 @@
       "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972da9dc_9a86764a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-14T11:03:06Z",
+      "side": 1,
+      "message": "This is obviously a mistake, actually a left over from the first patch-set. When file_name_sha1 column was introduced, I should have reverted file_name column length back to 4096. \n\nWill provide a new PS",
+      "parentUuid": "304d3b6c_4f074957",
+      "range": {
+        "startLine": 195,
+        "startChar": 33,
+        "endLine": 195,
+        "endChar": 36
+      },
+      "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

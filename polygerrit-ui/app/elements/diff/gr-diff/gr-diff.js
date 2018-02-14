@@ -670,6 +670,7 @@
           this.patchRange.patchNum,
           this.path,
           this._handleGetDiffError.bind(this)).then(diff => {
+            this._reportDiff(diff);
             if (!this.commitRange) {
               this.filesWeblinks = {};
               return diff;
@@ -684,6 +685,38 @@
             };
             return diff;
           });
+    },
+
+    /**
+     * Report info about the diff response.
+     */
+    _reportDiff(diff) {
+      if (!diff || !diff.content) { return; }
+
+      // Count the delta lines stemming from normal deltas, and from
+      // due_to_rebase deltas.
+      let nonRebaseDelta = 0;
+      let rebaseDelta = 0;
+      diff.content.forEach(chunk => {
+        if (chunk.ab) { return; }
+        const deltaSize = Math.max(
+            chunk.a ? chunk.a.length : 0, chunk.b ? chunk.b.length : 0);
+        if (chunk.due_to_rebase) {
+          rebaseDelta += deltaSize;
+        } else {
+          nonRebaseDelta += deltaSize;
+        }
+      });
+
+      // Find the percent of the delta from due_to_rebase chunks rounded to two
+      // digits. Diffs with no delta are considered 0%.
+      const totalDelta = rebaseDelta + nonRebaseDelta;
+      const percentRebaseDelta = !totalDelta ? 0 :
+          Math.round(100 * rebaseDelta / totalDelta);
+
+      // Report the percentage in the "diff" category.
+      this.$.reporting.reportInteraction('rebase-delta-percent',
+          percentRebaseDelta);
     },
 
     /** @return {!Promise} */

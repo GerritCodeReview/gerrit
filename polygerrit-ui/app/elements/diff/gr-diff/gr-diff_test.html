@@ -196,7 +196,7 @@ limitations under the License.
 
       test('loads files weblinks', () => {
         const weblinksStub = sandbox.stub(Gerrit.Nav, '_generateWeblinks')
-        .returns({name: 'stubb', url: '#s'});
+            .returns({name: 'stubb', url: '#s'});
         sandbox.stub(element.$.restAPI, 'getDiff').returns(Promise.resolve({}));
         element.projectName = 'test-project';
         element.path = 'test-path';
@@ -1131,6 +1131,81 @@ limitations under the License.
               assert.isNull(element._blame);
               assert.isFalse(element.classList.contains('showBlame'));
             });
+      });
+    });
+
+    suite('_reportDiff', () => {
+      let reportStub;
+
+      setup(() => {
+        element = fixture('basic');
+        reportStub = sandbox.stub(element.$.reporting, 'reportInteraction');
+      });
+
+      test('null and content-less', () => {
+        element._reportDiff(null);
+        assert.isFalse(reportStub.called);
+
+        element._reportDiff({});
+        assert.isFalse(reportStub.called);
+      });
+
+      test('diff w/ no delta', () => {
+        const diff = {
+          content: [
+            {ab: ['foo', 'bar']},
+            {ab: ['baz', 'foo']},
+          ],
+        };
+        element._reportDiff(diff);
+        assert.isTrue(reportStub.calledOnce);
+        assert.strictEqual(reportStub.lastCall.args[1], 0);
+      });
+
+      test('diff w/ no rebase delta', () => {
+        const diff = {
+          content: [
+            {ab: ['foo', 'bar']},
+            {a: ['baz', 'foo']},
+            {ab: ['foo', 'bar']},
+            {a: ['baz', 'foo'], b: ['bar', 'baz']},
+            {ab: ['foo', 'bar']},
+            {b: ['baz', 'foo']},
+            {ab: ['foo', 'bar']},
+          ],
+        };
+        element._reportDiff(diff);
+        assert.isTrue(reportStub.calledOnce);
+        assert.strictEqual(reportStub.lastCall.args[1], 0);
+      });
+
+      test('diff w/ some rebase delta', () => {
+        const diff = {
+          content: [
+            {ab: ['foo', 'bar']},
+            {a: ['baz', 'foo'], due_to_rebase: true},
+            {ab: ['foo', 'bar']},
+            {a: ['baz', 'foo'], b: ['bar', 'baz']},
+            {ab: ['foo', 'bar']},
+            {b: ['baz', 'foo'], due_to_rebase: true},
+            {ab: ['foo', 'bar']},
+            {a: ['baz', 'foo']},
+          ],
+        };
+        element._reportDiff(diff);
+        assert.isTrue(reportStub.calledOnce);
+        assert.strictEqual(reportStub.lastCall.args[1], 50);
+      });
+
+      test('diff w/ all rebase delta', () => {
+        const diff = {content: [{
+          a: ['foo', 'bar'],
+          b: ['baz', 'foo'],
+          due_to_rebase: true,
+        }]};
+        element._reportDiff(diff);
+        assert.isTrue(reportStub.calledOnce);
+        assert.strictEqual(reportStub.lastCall.args[1], 100);
       });
     });
   });

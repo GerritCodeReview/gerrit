@@ -30,7 +30,6 @@ import org.slf4j.LoggerFactory;
 /** Runnable to enable scheduling gc to run periodically */
 public class GarbageCollectionRunner implements Runnable {
   private static final Logger gcLog = LoggerFactory.getLogger(GarbageCollection.LOG_NAME);
-  private static final Logger log = LoggerFactory.getLogger(GarbageCollectionRunner.class);
 
   static class Lifecycle implements LifecycleListener {
     private final WorkQueue queue;
@@ -48,11 +47,7 @@ public class GarbageCollectionRunner implements Runnable {
     public void start() {
       ScheduleConfig scheduleConfig = gcConfig.getScheduleConfig();
       Optional<Schedule> schedule = scheduleConfig.schedule();
-      if (!schedule.isPresent()) {
-        log.info("Ignoring missing gc schedule configuration");
-      } else if (schedule.get().initialDelay() < 0 || schedule.get().interval() <= 0) {
-        log.warn(String.format("Ignoring invalid gc schedule configuration: %s", scheduleConfig));
-      } else {
+      if (schedule.isPresent()) {
         @SuppressWarnings("unused")
         Future<?> possiblyIgnoredError =
             queue

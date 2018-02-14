@@ -69,8 +69,8 @@ public class ScheduleConfigTest {
             .setKeyStartTime("s")
             .setNow(NOW)
             .build();
-    assertEquals(ms(1, HOURS), s.getInterval());
-    assertEquals(ms(1, HOURS), s.getInitialDelay());
+    assertEquals(ms(1, HOURS), s.schedule().interval());
+    assertEquals(ms(1, HOURS), s.schedule().initialDelay());
 
     s =
         ScheduleConfig.builder(rc, "a", "b")
@@ -78,15 +78,16 @@ public class ScheduleConfigTest {
             .setKeyStartTime("myStart")
             .setNow(NOW)
             .build();
-    assertEquals(s.getInterval(), ScheduleConfig.MISSING_CONFIG);
-    assertEquals(s.getInitialDelay(), ScheduleConfig.MISSING_CONFIG);
+    assertEquals(s.schedule().interval(), ScheduleConfig.MISSING_CONFIG);
+    assertEquals(s.schedule().initialDelay(), ScheduleConfig.MISSING_CONFIG);
   }
 
   private static long initialDelay(String startTime, String interval) {
     return ScheduleConfig.builder(config(startTime, interval), "section", "subsection")
         .setNow(NOW)
         .build()
-        .getInitialDelay();
+        .schedule()
+        .initialDelay();
   }
 
   private static Config config(String startTime, String interval) {

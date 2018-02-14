@@ -194,19 +194,6 @@ limitations under the License.
       });
     });
 
-    test('diff mode selector is set correctly', () => {
-      const sideBySideBtn = element.$.sideBySideBtn;
-      const unifiedBtn = element.$.unifiedBtn;
-      element.diffViewMode = 'SIDE_BY_SIDE';
-      flushAsynchronousOperations();
-      assert.isTrue(sideBySideBtn.classList.contains('selected'));
-      assert.isFalse(unifiedBtn.classList.contains('selected'));
-      element.diffViewMode = 'UNIFIED_DIFF';
-      flushAsynchronousOperations();
-      assert.isFalse(sideBySideBtn.classList.contains('selected'));
-      assert.isTrue(unifiedBtn.classList.contains('selected'));
-    });
-
     test('fileViewActions are properly hidden', () => {
       const actions = element.$$('.fileViewActions');
       assert.equal(getComputedStyle(actions).display, 'none');

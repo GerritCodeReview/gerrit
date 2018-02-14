@@ -31,6 +31,7 @@ limitations under the License.
 <link rel="import" href="../../shared/revision-info/revision-info.html">
 <link rel="import" href="../gr-comment-api/gr-comment-api.html">
 <link rel="import" href="../gr-diff-cursor/gr-diff-cursor.html">
+<link rel="import" href="../gr-diff-mode-selector/gr-diff-mode-selector.html">
 <link rel="import" href="../gr-diff-preferences/gr-diff-preferences.html">
 <link rel="import" href="../gr-diff/gr-diff.html">
 <link rel="import" href="../gr-patch-range-select/gr-patch-range-select.html">
@@ -131,6 +132,14 @@ limitations under the License.
       .rightControls {
         align-items: center;
         display: flex;
+      }
+      .diffModeSelector {
+        align-items: center;
+        display: flex;
+      }
+      .diffModeSelector.hide,
+      .separator.hide {
+        display: none;
       }
       gr-dropdown-list {
         --trigger-style: {
@@ -259,19 +268,17 @@ limitations under the License.
           </span>
         </div>
         <div class="rightControls">
-          <gr-select
-              id="modeSelect"
-              bind-value="{{changeViewState.diffMode}}"
-              hidden$="[[_computeModeSelectHidden(_isImageDiff)]]">
-            <select>
-              <option value="SIDE_BY_SIDE">Side By Side</option>
-              <option value="UNIFIED_DIFF">Unified</option>
-            </select>
-          </gr-select>
+          <div class$="diffModeSelector [[_computeModeSelectHideClass(_isImageDiff)]]">
+            Diff view:
+            <gr-diff-mode-selector
+                id="modeSelect"
+                save-on-change="[[_loggedIn]]"
+                mode="{{changeViewState.diffMode}}"></gr-diff-mode-selector>
+          </div>
           <span id="diffPrefsContainer"
               hidden$="[[_computePrefsButtonHidden(_prefs, _loggedIn)]]" hidden>
             <span class="preferences desktop">
-              <span class="separator" hidden$="[[_computeModeSelectHidden(_isImageDiff)]]"></span>
+              <span class$="separator [[_computeModeSelectHideClass(_isImageDiff)]]"></span>
               <gr-button link
                   class="prefsButton"
                   on-tap="_handlePrefsTap">Preferences</gr-button>

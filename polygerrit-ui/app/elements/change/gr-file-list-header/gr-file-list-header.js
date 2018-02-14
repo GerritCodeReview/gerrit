@@ -56,15 +56,6 @@
         type: Boolean,
         computed: '_computeDescriptionReadOnly(loggedIn, change, account)',
       },
-      /** @type {?} */
-      _VIEW_MODES: {
-        type: Object,
-        readOnly: true,
-        value: {
-          SIDE_BY_SIDE: 'SIDE_BY_SIDE',
-          UNIFIED: 'UNIFIED_DIFF',
-        },
-      },
       _revisionInfo: {
         type: Object,
         computed: '_getRevisionInfo(change)',
@@ -89,10 +80,6 @@
       this.fire('collapse-diffs');
     },
 
-    _computeSelectedClass(diffViewMode, buttonViewMode) {
-      return buttonViewMode === diffViewMode ? 'selected' : '';
-    },
-
     _computeExpandedClass(filesExpanded) {
       const classes = [];
       if (filesExpanded === GrFileListConstants.FilesExpandedState.ALL) {
@@ -103,14 +90,6 @@
         classes.push('openFile');
       }
       return classes.join(' ');
-    },
-
-    _handleSideBySideTap() {
-      this.diffViewMode = this._VIEW_MODES.SIDE_BY_SIDE;
-    },
-
-    _handleUnifiedTap() {
-      this.diffViewMode = this._VIEW_MODES.UNIFIED;
     },
 
     _computeDescriptionPlaceholder(readOnly) {

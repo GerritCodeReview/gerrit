@@ -606,21 +606,21 @@ limitations under the License.
       element._userPrefs = {default_diff_view: 'SIDE_BY_SIDE'};
 
       // The mode selected in the view state reflects the selected option.
-      assert.equal(element._getDiffViewMode(), select.nativeSelect.value);
+      assert.equal(element._getDiffViewMode(), select.mode);
 
       // The mode selected in the view state reflects the view rednered in the
       // diff.
-      assert.equal(select.nativeSelect.value, diffDisplay.viewMode);
+      assert.equal(select.mode, diffDisplay.viewMode);
 
       // We will simulate a user change of the selected mode.
       const newMode = 'UNIFIED_DIFF';
-      // Set the actual value of the select, and simulate the change event.
-      select.nativeSelect.value = newMode;
-      element.fire('change', {}, {node: select.nativeSelect});
+
+      // Set the mode, and simulate the change event.
+      element.set('changeViewState.diffMode', newMode);
 
       // Make sure the handler was called and the state is still coherent.
       assert.equal(element._getDiffViewMode(), newMode);
-      assert.equal(element._getDiffViewMode(), select.nativeSelect.value);
+      assert.equal(element._getDiffViewMode(), select.mode);
       assert.equal(element._getDiffViewMode(), diffDisplay.viewMode);
     });
 
@@ -633,17 +633,16 @@ limitations under the License.
 
       // Attach a new gr-diff-view so we can intercept the preferences fetch.
       const view = document.createElement('gr-diff-view');
-      const select = view.$.modeSelect;
       fixture('blank').appendChild(view);
       flushAsynchronousOperations();
 
       // At this point the diff mode doesn't yet have the user's preference.
-      assert.equal(select.nativeSelect.value, 'SIDE_BY_SIDE');
+      assert.equal(view._getDiffViewMode(), 'SIDE_BY_SIDE');
 
       // Receive the overriding preference.
       resolvePrefs({default_diff_view: 'UNIFIED'});
       flushAsynchronousOperations();
-      assert.equal(select.nativeSelect.value, 'SIDE_BY_SIDE');
+      assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
     });
 
     suite('_commitRange', () => {

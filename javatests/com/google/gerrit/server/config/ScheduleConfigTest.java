@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.config;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
-import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -36,25 +36,25 @@ public class ScheduleConfigTest {
 
   @Test
   public void initialDelay() throws Exception {
-    assertEquals(ms(1, HOURS), initialDelay("11:00", "1h"));
-    assertEquals(ms(30, MINUTES), initialDelay("05:30", "1h"));
-    assertEquals(ms(30, MINUTES), initialDelay("09:30", "1h"));
-    assertEquals(ms(30, MINUTES), initialDelay("13:30", "1h"));
-    assertEquals(ms(59, MINUTES), initialDelay("13:59", "1h"));
+    assertThat(initialDelay("11:00", "1h")).isEqualTo(ms(1, HOURS));
+    assertThat(initialDelay("05:30", "1h")).isEqualTo(ms(30, MINUTES));
+    assertThat(initialDelay("09:30", "1h")).isEqualTo(ms(30, MINUTES));
+    assertThat(initialDelay("13:30", "1h")).isEqualTo(ms(30, MINUTES));
+    assertThat(initialDelay("13:59", "1h")).isEqualTo(ms(59, MINUTES));
 
-    assertEquals(ms(1, HOURS), initialDelay("11:00", "1d"));
-    assertEquals(ms(19, HOURS) + ms(30, MINUTES), initialDelay("05:30", "1d"));
+    assertThat(initialDelay("11:00", "1d")).isEqualTo(ms(1, HOURS));
+    assertThat(initialDelay("05:30", "1d")).isEqualTo(ms(19, HOURS) + ms(30, MINUTES));
 
-    assertEquals(ms(1, HOURS), initialDelay("11:00", "1w"));
-    assertEquals(ms(7, DAYS) - ms(4, HOURS) - ms(30, MINUTES), initialDelay("05:30", "1w"));
+    assertThat(initialDelay("11:00", "1w")).isEqualTo(ms(1, HOURS));
+    assertThat(initialDelay("05:30", "1w")).isEqualTo(ms(7, DAYS) - ms(4, HOURS) - ms(30, MINUTES));
 
-    assertEquals(ms(3, DAYS) + ms(1, HOURS), initialDelay("Mon 11:00", "1w"));
-    assertEquals(ms(1, HOURS), initialDelay("Fri 11:00", "1w"));
+    assertThat(initialDelay("Mon 11:00", "1w")).isEqualTo(ms(3, DAYS) + ms(1, HOURS));
+    assertThat(initialDelay("Fri 11:00", "1w")).isEqualTo(ms(1, HOURS));
 
-    assertEquals(ms(1, HOURS), initialDelay("Mon 11:00", "1d"));
-    assertEquals(ms(23, HOURS), initialDelay("Mon 09:00", "1d"));
-    assertEquals(ms(1, DAYS), initialDelay("Mon 10:00", "1d"));
-    assertEquals(ms(1, DAYS), initialDelay("Mon 10:00", "1d"));
+    assertThat(initialDelay("Mon 11:00", "1d")).isEqualTo(ms(1, HOURS));
+    assertThat(initialDelay("Mon 09:00", "1d")).isEqualTo(ms(23, HOURS));
+    assertThat(initialDelay("Mon 10:00", "1d")).isEqualTo(ms(1, DAYS));
+    assertThat(initialDelay("Mon 10:00", "1d")).isEqualTo(ms(1, DAYS));
   }
 
   @Test
@@ -70,8 +70,8 @@ public class ScheduleConfigTest {
             .setKeyStartTime("s")
             .setNow(NOW)
             .build();
-    assertEquals(ms(1, HOURS), s.interval());
-    assertEquals(ms(1, HOURS), s.initialDelay());
+    assertThat(s.interval()).isEqualTo(ms(1, HOURS));
+    assertThat(s.initialDelay()).isEqualTo(ms(1, HOURS));
 
     s =
         ScheduleConfig.builder(rc, "a")
@@ -80,8 +80,8 @@ public class ScheduleConfigTest {
             .setKeyStartTime("myStart")
             .setNow(NOW)
             .build();
-    assertEquals(s.interval(), ScheduleConfig.MISSING_CONFIG);
-    assertEquals(s.initialDelay(), ScheduleConfig.MISSING_CONFIG);
+    assertThat(s.interval()).isEqualTo(ScheduleConfig.MISSING_CONFIG);
+    assertThat(s.initialDelay()).isEqualTo(ScheduleConfig.MISSING_CONFIG);
   }
 
   private static long initialDelay(String startTime, String interval) {

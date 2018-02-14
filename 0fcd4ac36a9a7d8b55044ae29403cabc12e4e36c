@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d60ef91d_23b2d4b3",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1136,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-14T17:12:52Z",
+      "side": 1,
+      "message": "Why is this needed?",
+      "revId": "0fcd4ac36a9a7d8b55044ae29403cabc12e4e36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "600b83fb_2fc5d333",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-14T17:12:52Z",
+      "side": 1,
+      "message": "This parameter would benefit from a description in the JSDoc.\n\nI\u0027m genuinely a little confused: if I\u0027m \"getting\" the existing threads, why do I need to provide a patch number for creating new ones?\n\nSince, it\u0027s optional, what happens if you try to create a thread but don\u0027t provide this?",
+      "revId": "0fcd4ac36a9a7d8b55044ae29403cabc12e4e36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23edc7db_f26b1763",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-14T17:12:52Z",
+      "side": 1,
+      "message": "My feeling is that the different ways this API is used shouldn\u0027t affect this code -- this seems a little like breaking encapsulation.\n\nIs there a reason we can\u0027t encode \"side\" consistently in both situations?",
+      "range": {
+        "startLine": 375,
+        "startChar": 58,
+        "endLine": 376,
+        "endChar": 61
+      },
+      "revId": "0fcd4ac36a9a7d8b55044ae29403cabc12e4e36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2a44edc_52076345",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-14T17:12:52Z",
+      "side": 1,
+      "message": "If there\u0027s a patch range between numbered patches (e.g. 1..2), then `left` refers to PS1, not the parent of the commit. Maybe it\u0027s just confusing wording though.\n\nDo `left` and \u0027PARENT\u0027 always mean the same thing? Even for a range like 1..2?",
+      "range": {
+        "startLine": 377,
+        "startChar": 9,
+        "endLine": 377,
+        "endChar": 26
+      },
+      "revId": "0fcd4ac36a9a7d8b55044ae29403cabc12e4e36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "801b5d5e_855e7d6f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-14T17:12:52Z",
+      "side": 1,
+      "message": "What\u0027s the difference between the `comments` and `changeComments` parameters?",
+      "range": {
+        "startLine": 42,
+        "startChar": 32,
+        "endLine": 43,
+        "endChar": 20
+      },
+      "revId": "0fcd4ac36a9a7d8b55044ae29403cabc12e4e36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

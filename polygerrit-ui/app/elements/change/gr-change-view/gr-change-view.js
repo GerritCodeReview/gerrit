@@ -323,9 +323,9 @@
 
       e.preventDefault();
       if (this.viewState.diffMode === DiffViewMode.SIDE_BY_SIDE) {
-        this.set('viewState.diffMode', DiffViewMode.UNIFIED);
+        this.$.fileListHeader.setDiffViewMode(DiffViewMode.UNIFIED);
       } else {
-        this.set('viewState.diffMode', DiffViewMode.SIDE_BY_SIDE);
+        this.$.fileListHeader.setDiffViewMode(DiffViewMode.SIDE_BY_SIDE);
       }
     },
 

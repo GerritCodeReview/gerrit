@@ -309,15 +309,17 @@ limitations under the License.
           </div>
         </div>
         <div class="actions robotActions" hidden$="[[!_showRobotActions]]">
-          <gr-endpoint-decorator name="robot-comment-controls">
-            <gr-endpoint-param name="comment" value="[[comment]]">
-            </gr-endpoint-param>
-          </gr-endpoint-decorator>
-          <gr-button link class="action fix"
-              on-tap="_handleFix"
-              disabled="[[robotButtonDisabled]]">
-            Please Fix
-          </gr-button>
+          <template is="dom-if" if="[[isRobotComment]]">
+            <gr-endpoint-decorator name="robot-comment-controls">
+              <gr-endpoint-param name="comment" value="[[comment]]">
+              </gr-endpoint-param>
+            </gr-endpoint-decorator>
+            <gr-button link class="action fix"
+                on-tap="_handleFix"
+                disabled="[[robotButtonDisabled]]">
+              Please Fix
+            </gr-button>
+          </template>
         </div>
       </div>
     </div>

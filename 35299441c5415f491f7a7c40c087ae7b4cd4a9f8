@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8602c547_5101f421",
+        "filename": "java/com/google/gerrit/server/git/DefaultAdvertiseRefsHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-14T13:29:59Z",
+      "side": 1,
+      "message": "ServiceMayNotContinueException contains a user-visible message that IIRC is sent back over the wire protocol. Is there something sane you could use here? (Using e.getMessage() is probably not appropriate as that\u0027s a possibly-non-user-visible internal exception.)",
+      "revId": "35299441c5415f491f7a7c40c087ae7b4cd4a9f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "998da369_6c54ddf3",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-14T13:29:59Z",
+      "side": 1,
+      "message": "Documentation for these? Can be in a followup.",
+      "revId": "35299441c5415f491f7a7c40c087ae7b4cd4a9f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e774ab1_5e8e1e8e",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-14T13:29:59Z",
+      "side": 1,
+      "message": "I\u0027m not yet convinced that this set of options is exactly what\u0027s going to be supportable in all backends. But I think in terms of factoring out the functionality that\u0027s available now, this is the right way to go.",
+      "revId": "35299441c5415f491f7a7c40c087ae7b4cd4a9f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae534fbc_52ca7c19",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-14T13:29:59Z",
+      "side": 1,
+      "message": "Optional: builder().build() makes it clearer that these are not intended to be different from the defaults in a new builder.",
+      "revId": "35299441c5415f491f7a7c40c087ae7b4cd4a9f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

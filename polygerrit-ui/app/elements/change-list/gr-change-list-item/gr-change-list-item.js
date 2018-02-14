@@ -14,6 +14,13 @@
 (function() {
   'use strict';
 
+  const CHANGE_SIZE = {
+    XS: 10,
+    SMALL: 50,
+    MEDIUM: 250,
+    LARGE: 1000,
+  };
+
   Polymer({
     is: 'gr-change-list-item',
 
@@ -124,6 +131,28 @@
     _computeTruncatedProject(project) {
       if (!project) { return ''; }
       return this.truncatePath(project, 2);
+    },
+
+    /**
+     * TShirt sizing is based on the following paper:
+     * http://dirkriehle.com/wp-content/uploads/2008/09/hicss-42-csdistr-final-web.pdf
+     */
+    _computeChangeSize(change) {
+      const delta = change.insertions + change.deletions;
+      if (isNaN(delta) || delta === 0) {
+        return 'U'; // Unknown
+      }
+      if (delta < CHANGE_SIZE.XS) {
+        return 'XS';
+      } else if (delta < CHANGE_SIZE.SMALL) {
+        return 'S';
+      } else if (delta < CHANGE_SIZE.MEDIUM) {
+        return 'M';
+      } else if (delta < CHANGE_SIZE.LARGE) {
+        return 'L';
+      } else {
+        return 'XL';
+      }
     },
   });
 })();

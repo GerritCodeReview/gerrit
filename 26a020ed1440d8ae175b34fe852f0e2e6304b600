@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f9e3d5e_75daba83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-15T17:40:37Z",
+      "side": 1,
+      "message": "Nit: By \"page nav\" do you mean \"pagination\"?\n\nI was confused about the purpose of this change based on the title.",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "26a020ed1440d8ae175b34fe852f0e2e6304b600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0818256_b36d6344",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-15T17:40:37Z",
+      "side": 1,
+      "message": "Aside: I expect we want to use this style of paginator in other places, like the project list, tag list, branch list, etc.. Do you think we\u0027d want a pagination component ultimately?\n\nSomething like\n\n\u003cgr-paginator\n    page-number\"[[12]]\"\n    next-url\u003d\"[[null]]\" // Null meaning no next link.\n    previous-url\u003d\"[[...]]\"\u003e\n\nObviously not needed for this change.",
+      "range": {
+        "startLine": 80,
+        "startChar": 6,
+        "endLine": 80,
+        "endChar": 51
+      },
+      "revId": "26a020ed1440d8ae175b34fe852f0e2e6304b600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73356984_cda98000",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-15T17:40:37Z",
+      "side": 1,
+      "message": "In the shade of gray these show up with, these pagination buttons are a little harder to find than the blue links we had before.\n\nIn the design images I saw (at least the ones I just looked at) these buttons look a lot darker. Like maybe #000 black.\n\nShould these be black? I even wonder if the chevrons would be easier to use if they were blue like the links.",
+      "range": {
+        "startLine": 86,
+        "startChar": 12,
+        "endLine": 86,
+        "endChar": 74
+      },
+      "revId": "26a020ed1440d8ae175b34fe852f0e2e6304b600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "582f23cf_94e5cb68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-15T06:57:13Z",
+      "side": 1,
+      "message": "I understand the problem, but I would like to avoid to propagate MySQL restrictions to gerrit core and \"fix\" because of this MySQL restriction the account_patch_reviews handling for sane database dialects that support longer key sizes than 767 chars.\n\nThis change unnecessary complicates the code, migration/upgrade procedure increase storage (for huge gerrit installation sites we are seeing many millions of rows in this table) and even runtime, as SHA1 column is introduced and must be maintained. All this also for sane database dialects, that support longer key sizes.\n\nHave we considered other alternatives:\n\n* 1. For the reason you described in this commit message, we declare, that MySQL database is currently not supported for account_patch_reviews table. The gerrit users that rely on NySQL dialect for ReviewDb have two options: stay on H2, or use PostgreSQL or other databases, that were not tested but probably just work out of the box: Sap DB, Oracle, DB2, Derby.\n* 2. Extract the handling of account_patch_reviews to a plugin. Add a gerrit core plugin with standard implementation (basically like it is today for PostgreSQL) and implement custom plugins for other database dialects like MySQL. This should be trivial thing to do with the current code base already, because the main code path was already extracted to an interface, as Google already replaced the implementation from H2 to Megastore (NoSQL distributed database based on Big Table technology).\n* 3. If it is too much work for you atm and you don\u0027t have the time/resources for 1 and 2, apply the solution in this change to your gerrit fork and do the solution in 2 later.",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "859e57f4_c57e7470",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -75,6 +98,29 @@
       "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c3de4cf_64db9861",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/UpdateAccountPatchReviewDb.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-15T06:57:13Z",
+      "side": 1,
+      "message": "I see, that the check whether or not this update was already run is implemented. As mid/long term solution we may want to track the schema version, we used for ReviewDb. So that by future schema upgrades we wouldn\u0027t need to do investigation as what schema version we are currently running on.\n\nOf course we could use already this precedent and add schema_version table with version number 1 in this change.",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 35
+      },
+      "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

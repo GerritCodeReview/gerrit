@@ -1,13 +1,7 @@
 = PolyGerrit - GUI
 
 [IMPORTANT]
-PolyGerrit is still a beta feature...
-
-Missing features in PolyGerrit:
-
-- Inline Edit
-
-- And many more features missing.
+PolyGerrit is still a beta feature. Some features may be missing.
 
 == Configuring
 

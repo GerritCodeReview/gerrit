@@ -3,6 +3,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "b5df9bec_8e371b92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-15T10:57:12Z",
+      "side": 1,
+      "message": "A very good idea.",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 61
+      },
+      "revId": "1649c0c96abca23552b172af1023ed9c2e6f13a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a017b9d7_a6794cc8",
+        "filename": "java/com/google/gerrit/server/change/ChangeCleanupRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-15T10:57:12Z",
+      "side": 1,
+      "message": "All usages of ScheduleConfig and Schedule follow this pattern: Create ScheduleConfig and only call schedule() on it. I\u0027m wondering if we can\u0027t combine those steps. Ideally, we would have a builder to set all different options as ScheduleConfig.Builder currently allows and directly create a Schedule as resulting object. Do you think that would be possible?",
+      "range": {
+        "startLine": 62,
+        "startChar": 6,
+        "endLine": 63,
+        "endChar": 52
+      },
+      "revId": "1649c0c96abca23552b172af1023ed9c2e6f13a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fa56bde4_105c39cf",
         "filename": "javatests/com/google/gerrit/server/config/ScheduleConfigTest.java",
         "patchSetId": 2

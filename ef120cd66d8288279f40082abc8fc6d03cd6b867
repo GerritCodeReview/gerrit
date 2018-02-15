@@ -71,6 +71,30 @@
       "revId": "ef120cd66d8288279f40082abc8fc6d03cd6b867",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba6b78e1_0f25989f",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-15T07:08:03Z",
+      "side": 1,
+      "message": "Fixed by: https://gerrit-review.googlesource.com/c/gerrit/+/159651",
+      "parentUuid": "0c8c68ac_01533a33",
+      "range": {
+        "startLine": 212,
+        "startChar": 2,
+        "endLine": 224,
+        "endChar": 3
+      },
+      "revId": "ef120cd66d8288279f40082abc8fc6d03cd6b867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

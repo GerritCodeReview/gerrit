@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34031ff7_dfdd434e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-15T19:52:06Z",
+      "side": 1,
+      "message": "I didn\u0027t notice this before the CSS change, but this is a pretty generic name for something that only contains the pagination links. Can it be called `paginationContainer`?\n\nAside, what\u0027s the need for this container? It looks like it\u0027s the only child of the \u003cnav\u003e element. Why not just apply the container styles to the \u003cnav\u003e?",
+      "range": {
+        "startLine": 83,
+        "startChar": 20,
+        "endLine": 83,
+        "endChar": 29
+      },
+      "revId": "68ee325f53762d6bfdedc213c45c3977a7760bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

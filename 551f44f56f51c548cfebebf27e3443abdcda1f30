@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "86c2a1c1_b10dec6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-02-15T09:39:20Z",
+      "side": 1,
+      "message": "+1, this sounds like the way to go\n\nquestion is what\u0027s the max length when using utf-8:\n\nPRIMARY KEY (INT change_id, INT patch_set_id, INT account_id, VARCHAR file_name_sha1)\n\nINT                 4 bytes\nprimary key limit   767 bytes, \n                    3072 bytes if innodb_large_prefix is enabled for InnoDB tables that use DYNAMIC or COMPRESSED row format\n\n767 - 3*4 \u003d 755 bytes for file name \n\nassuming utf-8 this translates to max 755 chars a 1 byte, 377 chars a 2 bytes, 251 a 3 bytes",
+      "parentUuid": "9d34ebd2_5427dd33",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "859e57f4_c57e7470",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

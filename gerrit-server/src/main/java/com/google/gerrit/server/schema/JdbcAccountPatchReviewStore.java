@@ -181,7 +181,7 @@ public abstract class JdbcAccountPatchReviewStore
     }
   }
 
-  private static void doCreateTable(Statement stmt) throws SQLException {
+  protected void doCreateTable(Statement stmt) throws SQLException {
     stmt.executeUpdate(
         "CREATE TABLE IF NOT EXISTS account_patch_reviews ("
             + "account_id INTEGER DEFAULT 0 NOT NULL, "

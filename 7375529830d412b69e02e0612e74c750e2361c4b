@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "767bcc1e_fdad6bc5",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1567,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-15T08:21:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b4c9d9b_cd26ace3",
+      "revId": "7375529830d412b69e02e0612e74c750e2361c4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb680c67_f81b65ca",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -84,6 +102,30 @@
       "writtenOn": "2018-02-15T08:14:43Z",
       "side": 1,
       "message": "Do the same here as well.",
+      "range": {
+        "startLine": 1589,
+        "startChar": 14,
+        "endLine": 1589,
+        "endChar": 51
+      },
+      "revId": "7375529830d412b69e02e0612e74c750e2361c4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb8ab624_aa4f36bd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1589,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-15T08:21:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb680c67_f81b65ca",
       "range": {
         "startLine": 1589,
         "startChar": 14,

@@ -201,6 +201,16 @@ public class ScheduleConfigTest {
     assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
   }
 
+  @Test
+  public void createInvalidSchedule() {
+    assertThat(Schedule.create(-1, "00:00")).isEmpty();
+    assertThat(Schedule.create(1, "x")).isEmpty();
+    assertThat(Schedule.create(1, "Foo 00:00")).isEmpty();
+    assertThat(Schedule.create(0, "Mon 00:000")).isEmpty();
+    assertThat(Schedule.create(1, "000:00")).isEmpty();
+    assertThat(Schedule.create(1, "0000")).isEmpty();
+  }
+
   private static long initialDelay(String startTime, String interval) {
     Optional<Schedule> schedule =
         ScheduleConfig.builder(config(startTime, interval), "section")

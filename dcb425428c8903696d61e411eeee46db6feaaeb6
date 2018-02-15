@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c10d49de_6102b36c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-15T12:20:09Z",
+      "side": 1,
+      "message": "nit: GroupIndexer",
+      "range": {
+        "startLine": 56,
+        "startChar": 54,
+        "endLine": 56,
+        "endChar": 67
+      },
+      "revId": "dcb425428c8903696d61e411eeee46db6feaaeb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce893ba1_eaf178f7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupIndexerIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-15T12:20:09Z",
+      "side": 1,
+      "message": "Not needed, since index is up-to-date after group creation?",
+      "range": {
+        "startLine": 150,
+        "startChar": 4,
+        "endLine": 150,
+        "endChar": 34
+      },
+      "revId": "dcb425428c8903696d61e411eeee46db6feaaeb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

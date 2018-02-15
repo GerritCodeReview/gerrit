@@ -169,6 +169,30 @@
     },
     {
       "key": {
+        "uuid": "e27ae8e1_076bf426",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-15T12:13:14Z",
+      "side": 1,
+      "message": "Turns out that ucs-2 is considered obsolete. I will just use\nthe length of 255 and assume the utf8 is the default.",
+      "parentUuid": "6f54e356_6cd3106b",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "859e57f4_c57e7470",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

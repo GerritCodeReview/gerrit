@@ -23,6 +23,30 @@
       "revId": "1649c0c96abca23552b172af1023ed9c2e6f13a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f3d5d14_43e2bbe3",
+        "filename": "javatests/com/google/gerrit/server/config/ScheduleConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-15T06:58:40Z",
+      "side": 1,
+      "message": "Yes, that\u0027s a feature of AutoValue.",
+      "parentUuid": "fa56bde4_105c39cf",
+      "range": {
+        "startLine": 73,
+        "startChar": 29,
+        "endLine": 73,
+        "endChar": 38
+      },
+      "revId": "1649c0c96abca23552b172af1023ed9c2e6f13a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

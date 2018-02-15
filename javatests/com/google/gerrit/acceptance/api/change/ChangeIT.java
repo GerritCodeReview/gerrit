@@ -1558,9 +1558,19 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void implicitlyCcOnNonVotingReviewPgStyle() throws Exception {
+    testImplicitlyCcOnNonVotingReviewPgStyle(user);
+  }
+
+  @Test
+  public void implicitlyCcOnNonVotingReviewForUserWithoutUserNamePgStyle() throws Exception {
+    TestAccount accountWithoutUsername = accountCreator.create();
+    testImplicitlyCcOnNonVotingReviewPgStyle(accountWithoutUsername);
+  }
+
+  private void testImplicitlyCcOnNonVotingReviewPgStyle(TestAccount testAccount) throws Exception {
     PushOneCommit.Result r = createChange();
-    setApiUser(user);
-    assertThat(getReviewerState(r.getChangeId(), user.id)).isEmpty();
+    setApiUser(testAccount);
+    assertThat(getReviewerState(r.getChangeId(), testAccount.id)).isEmpty();
 
     // Exact request format made by PG UI at ddc6b7160fe416fed9e7e3180489d44c82fd64f8.
     ReviewInput in = new ReviewInput();
@@ -1571,7 +1581,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
 
     // If we're not reading from NoteDb, then the CCed user will be returned in the REVIEWER state.
-    assertThat(getReviewerState(r.getChangeId(), user.id))
+    assertThat(getReviewerState(r.getChangeId(), testAccount.id))
         .hasValue(notesMigration.readChanges() ? CC : REVIEWER);
   }
 

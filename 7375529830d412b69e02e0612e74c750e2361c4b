@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1518681756 +0100\nnonce AFD2Vu0oPUKQ82pWCYZpNa0uQETwANo1gmClr8BFmnkfHcw3Lhnwb4wxF0XqU5xY9CY9DVLespcH\n\n0000000000000000000000000000000000000000 7375529830d412b69e02e0612e74c750e2361c4b refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlqFPpwACgkQUbX9l6DQ\n71Fw/gf+NUFMdOCjhM0lIl16MGSZha3IGOPBh9CZ1bVhBX1GxRZ3IT8qG4gxog/4\nfuAFyLDT/ZyNko1DH5uPk8oFRm1cJF6llIfM4acy52xdMW5UT3GrGLF38o9hN9ld\nIDSw2lXbTkYp9okgmxsTtdkTD9+IDvvkQRC8L6FNRwaOIJPyFwz5WTuq6Eq5SayV\nogxmDT+GaxhYcrlhps1vpCMNHC80dZXAdob3rA7dOCXCmDeroRZRbn43XmB/xA7z\nrlhHR8nwZkyymocj/uWBkd79h2zzj0wk7sNdLh6vcw23XdRLdB1ZFwjoAYPz5LFh\nCF2pAbSnVJWoc5gCtySI6uu2n5QqjA\u003d\u003d\n\u003dlrwv\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c464b0e_ed7b15b4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1566,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-15T08:14:43Z",
+      "side": 1,
+      "message": "Are you sure, that thi creates the user without username? Can you confirm, that if you revert my fix, then this test is failing now? I was late yesterday, but my impression was that username is always set in gerrit acceptance tests.",
+      "revId": "7375529830d412b69e02e0612e74c750e2361c4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb680c67_f81b65ca",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1589,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-15T08:14:43Z",
+      "side": 1,
+      "message": "Do the same here as well.",
+      "range": {
+        "startLine": 1589,
+        "startChar": 14,
+        "endLine": 1589,
+        "endChar": 51
+      },
+      "revId": "7375529830d412b69e02e0612e74c750e2361c4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -141,6 +141,24 @@
       "revId": "f0b44c51a8964bf5dede88f97b08dca4e9433ddb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82d0b725_f2cfc365",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-15T21:02:31Z",
+      "side": 1,
+      "message": "That\u0027s exactly the problem here. I don\u0027t see right away how combining two different formats Markdown for this page to be rendered in gitiles (from the source): [1], with the rendered during the build process from Asciidoc to HTML:[2] could be currently combined.\n\nTry:\n\n $ bazel build :withdocs\n $ unzip -t bazel-bin/withdocs.war | grep inline-edit\n    testing: Documentation/user-inline-edit.html   OK\n    testing: Documentation/images/inline-edit-edit-in-diff-screen-patch-list.png   OK\n    testing: Documentation/images/inline-edit-create-change-project-screen-dialog.png   OK\n    testing: Documentation/images/inline-edit-confirm-unsaved-edits.png   OK\n    testing: Documentation/images/inline-edit-create-follow-up-change.png   OK\n    testing: Documentation/images/inline-edit-edit-in-patch-list.png   OK\n    testing: Documentation/images/inline-edit-file-list-in-edit-mode.png   OK\n    testing: Documentation/images/inline-edit-full-screen-editor.png   OK\n    testing: Documentation/images/inline-edit-enter-edit-mode-from-file-list.png   OK\n    testing: Documentation/images/inline-edit-create-change-project-screen.png   OK\n    testing: Documentation/images/inline-edit-enter-edit-mode-from-diff.png   OK\n    testing: Documentation/images/inline-edit-add-file-suggestion.png   OK\n\nI\u0027m afraid what we would need to do is: either to move/migrate from Markdown to Asciidoc, or copy/paste and adapt, in which case we would have this document more or less twice in the tree.\n\nBut we could clarify this later. Before we can submit is as is, should we just mention in the commit message, that TODO: find out the way to include this documentation in the final artifact (release.war)?\n\n* [1] https://gerrit.googlesource.com/gerrit/+/refs/changes/30/159330/1/polygerrit-ui/edit-walkthrough/edit-walkthrough.md\n* [2] https://gerrit-review.googlesource.com/Documentation/user-inline-edit.html",
+      "parentUuid": "97252da7_a812a5e4",
+      "revId": "f0b44c51a8964bf5dede88f97b08dca4e9433ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

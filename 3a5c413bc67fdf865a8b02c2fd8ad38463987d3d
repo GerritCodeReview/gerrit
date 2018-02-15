@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b7e9659e_c41a985d",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-15T12:51:57Z",
+      "side": 1,
+      "message": "It\u0027s not needed. I only offered it because I felt that section and subsection should be provided on the same level.\n\nDone.",
+      "parentUuid": "e2295158_c74787f9",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 52,
+        "endChar": 3
+      },
+      "revId": "3a5c413bc67fdf865a8b02c2fd8ad38463987d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c3993c0_33732e25",
         "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "587e8d64_d542ec7d",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-15T12:51:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c3993c0_33732e25",
+      "range": {
+        "startLine": 59,
+        "startChar": 37,
+        "endLine": 59,
+        "endChar": 64
+      },
+      "revId": "3a5c413bc67fdf865a8b02c2fd8ad38463987d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8203a84d_146dc9d2",
         "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
         "patchSetId": 2
@@ -68,6 +116,30 @@
       "revId": "3a5c413bc67fdf865a8b02c2fd8ad38463987d3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e30f5a0c_c5a6a066",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-15T12:51:57Z",
+      "side": 1,
+      "message": "Nice.\n\nDone",
+      "parentUuid": "8203a84d_146dc9d2",
+      "range": {
+        "startLine": 82,
+        "startChar": 2,
+        "endLine": 83,
+        "endChar": 24
+      },
+      "revId": "3a5c413bc67fdf865a8b02c2fd8ad38463987d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "c2dfffdb_8bd567c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-15T09:31:52Z",
+      "side": 1,
+      "message": "+1.",
+      "parentUuid": "e9d95f9d_d228bd27",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "859e57f4_c57e7470",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -208,6 +232,30 @@
       "side": 1,
       "message": "I believe we didn\u0027t expect to have schema versions/upgrades of the account_patch_reviews database. We also decided against using gwtorm for the account_patch_reviews (which\nwould provide schema versioning upgrade) because we wanted to eventually get rid of\nthe gwtorm completely (when ReviewDb is gone).\n\nTherefore, this change is more like a one time fix after which no further schema changes are expected.",
       "parentUuid": "4c3de4cf_64db9861",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 35
+      },
+      "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51489480_6a61ccbb",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/UpdateAccountPatchReviewDb.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-15T09:31:52Z",
+      "side": 1,
+      "message": "SGTM.",
+      "parentUuid": "7ca44884_f73fd5f0",
       "range": {
         "startLine": 46,
         "startChar": 6,

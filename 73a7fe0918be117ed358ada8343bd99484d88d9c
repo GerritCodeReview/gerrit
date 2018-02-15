@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1518699103 +0100\nnonce AFD2Vu3bbOQQeZN+vaiConUSDooEh6P4aDt74KhZkzrrI9d0kb//lshD9/XRY4YZvnHAVxgp6f6T\n\n0000000000000000000000000000000000000000 73a7fe0918be117ed358ada8343bd99484d88d9c refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlqFgl8ACgkQUbX9l6DQ\n71HzEwf/eHI3oepOecBQef7fYlUIXGfec1YxEovjlDswz1GGMwd/uqjJkv9Gjd7Y\nbei2GRNj4ESoL375zYMq4v+9JK4gicnR+t9LBeVaLRO8eLB638TKMo3CoXBSb64W\nJ0vLBK9xJ0jVZmbzGNCEUfIQlya4gA+EvHDg3VAxh3APL1kztRdoxPBND6EhA7Mp\nougOyRkBmAQ39Ch+7ZqwJFpHkMzHX93d1vlxC5XnuChq+KkhNY9aHsYxxboIAwFd\ne+fefPdkd89k6kvGd6YaPOyOT9qgNmMQ+0VtStGoIFdX6+Hs29XrHLTzj5gP+wT5\n3vJW/zM1FSCtgbdmHP5fR/DSn8wu2Q\u003d\u003d\n\u003doO33\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca0f1c43_003860a5",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-15T13:11:40Z",
+      "side": 1,
+      "message": "FYI: I\u0027m pretty sure that Error Prone would issue a warning that this method and as its overloaded version aren\u0027t close together. The same holds for initialDelay(). To avoid this, we could rename the method which does the computation to for example computeInterval().",
+      "range": {
+        "startLine": 75,
+        "startChar": 14,
+        "endLine": 75,
+        "endChar": 22
+      },
+      "revId": "73a7fe0918be117ed358ada8343bd99484d88d9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

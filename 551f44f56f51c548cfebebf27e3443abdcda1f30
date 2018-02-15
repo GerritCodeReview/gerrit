@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "6f54e356_6cd3106b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-02-15T10:26:05Z",
+      "side": 1,
+      "message": "I played with mysql tested many options. Turns out the 767 bytes limitation is per\nsingle column in the (primary key) index. If we use utf8 character set, then mysql\nassumes 3 bytes and the max length which doesn\u0027t exceed the limit of 767 bytes is:\n767 / 3 \u003d 255\n\nHowever, if we use the ucs2 character set which uses 2 bytes per character then the\nmax length can be 767 / 2 \u003d 383.",
+      "parentUuid": "86c2a1c1_b10dec6e",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "859e57f4_c57e7470",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

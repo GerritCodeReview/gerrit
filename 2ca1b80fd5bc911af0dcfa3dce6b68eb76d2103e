@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "722bd345_f853c83e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-15T19:31:18Z",
+      "side": 1,
+      "message": "When you revert a commit using \"git revert\", there is a line like: This reverts commit \u003csha1\u003e\n\nInclude this line in this revert.",
+      "revId": "2ca1b80fd5bc911af0dcfa3dce6b68eb76d2103e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "619a1297_b25ed298",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-15T19:31:18Z",
+      "side": 1,
+      "message": "follow-up",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 11
+      },
+      "revId": "2ca1b80fd5bc911af0dcfa3dce6b68eb76d2103e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

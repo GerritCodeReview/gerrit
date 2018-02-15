@@ -16,6 +16,24 @@
       "revId": "747f50316c6cef87560a2f5131025b80e86c0413",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5db504ba_676e63a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-15T23:18:05Z",
+      "side": 1,
+      "message": "Too much coffee? 😃☕☕☕",
+      "parentUuid": "73448fb9_8059e8a7",
+      "revId": "747f50316c6cef87560a2f5131025b80e86c0413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

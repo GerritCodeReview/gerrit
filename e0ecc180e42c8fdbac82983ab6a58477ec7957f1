@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1518617002 +0100\nnonce AFD2Vu3Up3k8NxHb+MBnvaURIo+c0RyDhUUnrp77GBY3UWPbGRXfrS6UKYACLda/4te4EJovWZtD\n\n0000000000000000000000000000000000000000 e0ecc180e42c8fdbac82983ab6a58477ec7957f1 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlqEQaoACgkQUbX9l6DQ\n71FUDAgApCF0Z4LMp234lHaud819+EhOFpwGPp8s5dp8Gy5u+jF+gswio+X3wB4B\ntR9kotwX8hl/vD72AA+HteRbStVW0Npi5gn4BD/A7T+gOmJcBwbV5qfTrLa+H9Qz\nVsbvWr3FU2CWyF09ICD6hFAh86juStmMqHvD9X0XlBXEd485jTA8eQSEOYah98sv\nFOQuxbzJNyVZxoHQ/Vh31a8/XYCJZSlN3KTtYZN6ju6c0LrVuDGbC+cxaBMdi66z\nOFCYz4fEmgSc6sP55kWhcoP3mvAplh/QqotW1ezN8Ouqw9kiTbzjB2SMkHQUjm+P\njlBhiMhWH2y7iJLwjVMc5l1Gt4yfsw\u003d\u003d\n\u003dQzvA\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "afa94b24_5aa2d17d",
+        "filename": "java/com/google/gerrit/server/account/AccountDeactivator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-15T12:56:03Z",
+      "side": 1,
+      "message": "optional: I would have preferred a variable for all these get() calls but since most of this code is removed in the follow-up change, I don\u0027t think we need to change it here.",
+      "range": {
+        "startLine": 68,
+        "startChar": 17,
+        "endLine": 68,
+        "endChar": 31
+      },
+      "revId": "e0ecc180e42c8fdbac82983ab6a58477ec7957f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b98af902_78973387",
+        "filename": "javatests/com/google/gerrit/server/config/ScheduleConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-15T12:56:03Z",
+      "side": 1,
+      "message": "optional: Could simply be\n\n assertThat(s.schedule()).hasValue(..)",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 44
+      },
+      "revId": "e0ecc180e42c8fdbac82983ab6a58477ec7957f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

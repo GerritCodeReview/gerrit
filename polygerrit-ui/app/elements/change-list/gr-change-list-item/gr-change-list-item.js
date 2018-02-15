@@ -39,6 +39,7 @@
     behaviors: [
       Gerrit.BaseUrlBehavior,
       Gerrit.ChangeTableBehavior,
+      Gerrit.PathListBehavior,
       Gerrit.RESTClientBehavior,
       Gerrit.URLEncodingBehavior,
     ],
@@ -115,5 +116,9 @@
       if (!change.topic) { return ''; }
       return Gerrit.Nav.getUrlForTopic(change.topic);
     },
+
+    _computeTruncatedProject(project) {
+      return this.truncatePath(project, 2);
+    }
   });
 })();

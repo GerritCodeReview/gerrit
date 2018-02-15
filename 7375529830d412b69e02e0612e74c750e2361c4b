@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "b58bd893_a9d8bf76",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1566,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-15T08:16:44Z",
+      "side": 1,
+      "message": "I confirmed that this test fails without your fix.",
+      "parentUuid": "8c464b0e_ed7b15b4",
+      "revId": "7375529830d412b69e02e0612e74c750e2361c4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b4c9d9b_cd26ace3",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1

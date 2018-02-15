@@ -123,6 +123,24 @@
       "revId": "f0b44c51a8964bf5dede88f97b08dca4e9433ddb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97252da7_a812a5e4",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-15T20:36:04Z",
+      "side": 1,
+      "message": "I see what you mean.\n\nI haven\u0027t got a long term plan yet. If you\u0027d like to link to this document somewhere in descendant changes, that\u0027s totally fine with me. As of right now, my focus is solely the one in the commit message.",
+      "parentUuid": "38a9165c_f5ae5e46",
+      "revId": "f0b44c51a8964bf5dede88f97b08dca4e9433ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "1e469f61_5a02a8b6",
+        "filename": "java/com/google/gerrit/server/account/AccountDeactivator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-15T14:02:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "878c8d8a_a9f44832",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 33
+      },
+      "revId": "4abe5f5ea56ddd35f547cac4e7e45529751df4ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2524fe4b_70ae31c6",
         "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
         "patchSetId": 2
@@ -46,6 +70,30 @@
       "revId": "4abe5f5ea56ddd35f547cac4e7e45529751df4ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85e4fb5f_496cc8eb",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-15T14:02:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2524fe4b_70ae31c6",
+      "range": {
+        "startLine": 131,
+        "startChar": 22,
+        "endLine": 131,
+        "endChar": 24
+      },
+      "revId": "4abe5f5ea56ddd35f547cac4e7e45529751df4ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

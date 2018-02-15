@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eab89450_335a8a6d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-15T22:42:15Z",
+      "side": 1,
+      "message": "If the limit is changed from 30→50, doesn\u0027t this mean *less* truncation?",
+      "range": {
+        "startLine": 166,
+        "startChar": 27,
+        "endLine": 166,
+        "endChar": 37
+      },
+      "revId": "e420236caab5fb1e46d07df4dac4010512a6b4de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19f31169_ca709cfb",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-15T22:42:15Z",
+      "side": 1,
+      "message": "If a topic is so long that it gets truncated by _both_ the gr-limited-text _and_ this `.branch{text-overflow:ellipsis;}` rule, then the tooltip gets positioned in the wrong spot.\n\nWith this new CSS-based truncation you\u0027ve added (which I kind of like better), do you think we can drop the gr-limited-text element? That way we\u0027d only truncate in one way.",
+      "range": {
+        "startLine": 104,
+        "startChar": 8,
+        "endLine": 104,
+        "endChar": 16
+      },
+      "revId": "e420236caab5fb1e46d07df4dac4010512a6b4de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

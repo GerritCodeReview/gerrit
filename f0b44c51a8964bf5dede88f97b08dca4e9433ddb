@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5fb63af8_a4f9a51f",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-15T19:59:56Z",
+      "side": 1,
+      "message": "I see your point, but I really don\u0027t know that this is all that important to be in this brief walkthrough in the first place. \n\nI don\u0027t have data to back this up, but I suspect creating a whole new change through the UI is pretty rare, and that the biggest use case for the in-browser editing feature is to fix a small error in a patch you\u0027ve already uploaded without opening a text editor or a command line. I want to detail that user journey in this document, and I\u0027d rather not add what would have to be a whole series of screenshots to detail a more rare case.",
+      "parentUuid": "3c1d73d6_b66e59cc",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 50
+      },
+      "revId": "f0b44c51a8964bf5dede88f97b08dca4e9433ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2c38886_28faaee6",
         "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2018-02-15T19:53:50Z",
       "side": 1,
       "message": "It\u0027s good that this is added here, but my point was actually an opposite one: How should gerrit users find this documentat? My suggestion is: should this document be migrated to asciidoc, like the rest of gerrit documentation in Documentation directory and include the generated document in index.txt, and have both links during transition period, something like:\n\n* .. link:user-inline-edit.html[Manipulating Changes in Browser (Old UI)]\n* .. link:user-inline-edit-pg.html[Manipulating Changes in Browser (Neu UI)]\n\nOr do you have a different plan to make this document accessible? I think we should preserve the old documentation unless the old UI is removed. What I would like to avoid is replace the old UI documentation with the new UI before the old UI was actually removed.",
+      "revId": "f0b44c51a8964bf5dede88f97b08dca4e9433ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b90ad27_1ba05f98",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-15T19:59:56Z",
+      "side": 1,
+      "message": "From the commit message:\n\n\u003e Once this change is merged, the rendered markdown can be linked to in the official GWTUI deprecation announcement.\n\nThat is the main purpose. All other ancillary use cases for this document can be figured out later.",
+      "parentUuid": "b2c38886_28faaee6",
       "revId": "f0b44c51a8964bf5dede88f97b08dca4e9433ddb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

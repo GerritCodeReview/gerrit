@@ -14,16 +14,19 @@
 
 package com.google.gerrit.server.config;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
-import static org.junit.Assert.assertEquals;
 
+import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
@@ -36,25 +39,25 @@ public class ScheduleConfigTest {
 
   @Test
   public void initialDelay() throws Exception {
-    assertEquals(ms(1, HOURS), initialDelay("11:00", "1h"));
-    assertEquals(ms(30, MINUTES), initialDelay("05:30", "1h"));
-    assertEquals(ms(30, MINUTES), initialDelay("09:30", "1h"));
-    assertEquals(ms(30, MINUTES), initialDelay("13:30", "1h"));
-    assertEquals(ms(59, MINUTES), initialDelay("13:59", "1h"));
+    assertThat(initialDelay("11:00", "1h")).isEqualTo(ms(1, HOURS));
+    assertThat(initialDelay("05:30", "1h")).isEqualTo(ms(30, MINUTES));
+    assertThat(initialDelay("09:30", "1h")).isEqualTo(ms(30, MINUTES));
+    assertThat(initialDelay("13:30", "1h")).isEqualTo(ms(30, MINUTES));
+    assertThat(initialDelay("13:59", "1h")).isEqualTo(ms(59, MINUTES));
 
-    assertEquals(ms(1, HOURS), initialDelay("11:00", "1d"));
-    assertEquals(ms(19, HOURS) + ms(30, MINUTES), initialDelay("05:30", "1d"));
+    assertThat(initialDelay("11:00", "1d")).isEqualTo(ms(1, HOURS));
+    assertThat(initialDelay("05:30", "1d")).isEqualTo(ms(19, HOURS) + ms(30, MINUTES));
 
-    assertEquals(ms(1, HOURS), initialDelay("11:00", "1w"));
-    assertEquals(ms(7, DAYS) - ms(4, HOURS) - ms(30, MINUTES), initialDelay("05:30", "1w"));
+    assertThat(initialDelay("11:00", "1w")).isEqualTo(ms(1, HOURS));
+    assertThat(initialDelay("05:30", "1w")).isEqualTo(ms(7, DAYS) - ms(4, HOURS) - ms(30, MINUTES));
 
-    assertEquals(ms(3, DAYS) + ms(1, HOURS), initialDelay("Mon 11:00", "1w"));
-    assertEquals(ms(1, HOURS), initialDelay("Fri 11:00", "1w"));
+    assertThat(initialDelay("Mon 11:00", "1w")).isEqualTo(ms(3, DAYS) + ms(1, HOURS));
+    assertThat(initialDelay("Fri 11:00", "1w")).isEqualTo(ms(1, HOURS));
 
-    assertEquals(ms(1, HOURS), initialDelay("Mon 11:00", "1d"));
-    assertEquals(ms(23, HOURS), initialDelay("Mon 09:00", "1d"));
-    assertEquals(ms(1, DAYS), initialDelay("Mon 10:00", "1d"));
-    assertEquals(ms(1, DAYS), initialDelay("Mon 10:00", "1d"));
+    assertThat(initialDelay("Mon 11:00", "1d")).isEqualTo(ms(1, HOURS));
+    assertThat(initialDelay("Mon 09:00", "1d")).isEqualTo(ms(23, HOURS));
+    assertThat(initialDelay("Mon 10:00", "1d")).isEqualTo(ms(1, DAYS));
+    assertThat(initialDelay("Mon 10:00", "1d")).isEqualTo(ms(1, DAYS));
   }
 
   @Test
@@ -63,18 +66,34 @@ public class ScheduleConfigTest {
     rc.setString("a", "b", "i", "1h");
     rc.setString("a", "b", "s", "01:00");
 
-    ScheduleConfig s = new ScheduleConfig(rc, "a", "b", "i", "s", NOW);
-    assertEquals(ms(1, HOURS), s.getInterval());
-    assertEquals(ms(1, HOURS), s.getInitialDelay());
+    ScheduleConfig s =
+        ScheduleConfig.builder(rc, "a")
+            .setSubsection("b")
+            .setKeyInterval("i")
+            .setKeyStartTime("s")
+            .setNow(NOW)
+            .build();
+    assertThat(s.schedule()).hasValue(Schedule.create(ms(1, HOURS), ms(1, HOURS)));
 
-    s = new ScheduleConfig(rc, "a", "b", "myInterval", "myStart", NOW);
-    assertEquals(s.getInterval(), ScheduleConfig.MISSING_CONFIG);
-    assertEquals(s.getInitialDelay(), ScheduleConfig.MISSING_CONFIG);
+    s =
+        ScheduleConfig.builder(rc, "a")
+            .setSubsection("b")
+            .setKeyInterval("myInterval")
+            .setKeyStartTime("myStart")
+            .setNow(NOW)
+            .build();
+    assertThat(s.schedule()).isEmpty();
   }
 
   private static long initialDelay(String startTime, String interval) {
-    return new ScheduleConfig(config(startTime, interval), "section", "subsection", NOW)
-        .getInitialDelay();
+    Optional<Schedule> schedule =
+        ScheduleConfig.builder(config(startTime, interval), "section")
+            .setSubsection("subsection")
+            .setNow(NOW)
+            .build()
+            .schedule();
+    assertThat(schedule).isPresent();
+    return schedule.get().initialDelay();
   }
 
   private static Config config(String startTime, String interval) {

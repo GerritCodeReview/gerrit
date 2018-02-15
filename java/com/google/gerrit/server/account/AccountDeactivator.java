@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.config.ScheduleConfig.MISSING_CONFIG;
-
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -26,6 +24,7 @@ import com.google.gerrit.server.query.account.AccountPredicates;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -52,7 +51,7 @@ public class AccountDeactivator implements Runnable {
     Lifecycle(WorkQueue queue, AccountDeactivator deactivator, @GerritServerConfig Config cfg) {
       this.queue = queue;
       this.deactivator = deactivator;
-      scheduleConfig = new ScheduleConfig(cfg, "accountDeactivation");
+      scheduleConfig = ScheduleConfig.create(cfg, "accountDeactivation");
       supportAutomaticAccountActivityUpdate =
           cfg.getBoolean("auth", "autoUpdateAccountActiveStatus", false);
     }
@@ -62,19 +61,17 @@ public class AccountDeactivator implements Runnable {
       if (!supportAutomaticAccountActivityUpdate) {
         return;
       }
-      long interval = scheduleConfig.getInterval();
-      long delay = scheduleConfig.getInitialDelay();
-      if (delay == MISSING_CONFIG && interval == MISSING_CONFIG) {
-        log.info("Ignoring missing accountDeactivator schedule configuration");
-      } else if (delay < 0 || interval <= 0) {
-        log.warn(
-            String.format(
-                "Ignoring invalid accountDeactivator schedule configuration: %s", scheduleConfig));
-      } else {
-        queue
-            .getDefaultQueue()
-            .scheduleAtFixedRate(deactivator, delay, interval, TimeUnit.MILLISECONDS);
-      }
+      scheduleConfig
+          .schedule()
+          .ifPresent(
+              s -> {
+                @SuppressWarnings("unused")
+                Future<?> possiblyIgnoredError =
+                    queue
+                        .getDefaultQueue()
+                        .scheduleAtFixedRate(
+                            deactivator, s.initialDelay(), s.interval(), TimeUnit.MILLISECONDS);
+              });
     }
 
     @Override

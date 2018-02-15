@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.gerrit.server.config.ScheduleConfig.MISSING_CONFIG;
-
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.GcConfig;
@@ -30,7 +28,6 @@ import org.slf4j.LoggerFactory;
 /** Runnable to enable scheduling gc to run periodically */
 public class GarbageCollectionRunner implements Runnable {
   private static final Logger gcLog = LoggerFactory.getLogger(GarbageCollection.LOG_NAME);
-  private static final Logger log = LoggerFactory.getLogger(GarbageCollectionRunner.class);
 
   static class Lifecycle implements LifecycleListener {
     private final WorkQueue queue;
@@ -47,19 +44,17 @@ public class GarbageCollectionRunner implements Runnable {
     @Override
     public void start() {
       ScheduleConfig scheduleConfig = gcConfig.getScheduleConfig();
-      long interval = scheduleConfig.getInterval();
-      long delay = scheduleConfig.getInitialDelay();
-      if (delay == MISSING_CONFIG && interval == MISSING_CONFIG) {
-        log.info("Ignoring missing gc schedule configuration");
-      } else if (delay < 0 || interval <= 0) {
-        log.warn(String.format("Ignoring invalid gc schedule configuration: %s", scheduleConfig));
-      } else {
-        @SuppressWarnings("unused")
-        Future<?> possiblyIgnoredError =
-            queue
-                .getDefaultQueue()
-                .scheduleAtFixedRate(gcRunner, delay, interval, TimeUnit.MILLISECONDS);
-      }
+      scheduleConfig
+          .schedule()
+          .ifPresent(
+              s -> {
+                @SuppressWarnings("unused")
+                Future<?> possiblyIgnoredError =
+                    queue
+                        .getDefaultQueue()
+                        .scheduleAtFixedRate(
+                            gcRunner, s.initialDelay(), s.interval(), TimeUnit.MILLISECONDS);
+              });
     }
 
     @Override

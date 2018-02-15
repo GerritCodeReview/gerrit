@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.server.config.ScheduleConfig.MISSING_CONFIG;
-
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -59,21 +57,17 @@ public class ChangeCleanupRunner implements Runnable {
     @Override
     public void start() {
       ScheduleConfig scheduleConfig = cfg.getScheduleConfig();
-      long interval = scheduleConfig.getInterval();
-      long delay = scheduleConfig.getInitialDelay();
-      if (delay == MISSING_CONFIG && interval == MISSING_CONFIG) {
-        log.info("Ignoring missing changeCleanup schedule configuration");
-      } else if (delay < 0 || interval <= 0) {
-        log.warn(
-            String.format(
-                "Ignoring invalid changeCleanup schedule configuration: %s", scheduleConfig));
-      } else {
-        @SuppressWarnings("unused")
-        Future<?> possiblyIgnoredError =
-            queue
-                .getDefaultQueue()
-                .scheduleAtFixedRate(runner, delay, interval, TimeUnit.MILLISECONDS);
-      }
+      scheduleConfig
+          .schedule()
+          .ifPresent(
+              s -> {
+                @SuppressWarnings("unused")
+                Future<?> possiblyIgnoredError =
+                    queue
+                        .getDefaultQueue()
+                        .scheduleAtFixedRate(
+                            runner, s.initialDelay(), s.interval(), TimeUnit.MILLISECONDS);
+              });
     }
 
     @Override

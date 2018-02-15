@@ -16,8 +16,10 @@ package com.google.gerrit.server.config;
 
 import static java.time.ZoneId.systemDefault;
 
+import com.google.auto.value.AutoValue;
+import com.google.auto.value.extension.memoized.Memoized;
 import com.google.common.annotations.VisibleForTesting;
-import java.text.MessageFormat;
+import com.google.gerrit.common.Nullable;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalTime;
@@ -26,100 +28,136 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ScheduleConfig {
+@AutoValue
+public abstract class ScheduleConfig {
   private static final Logger log = LoggerFactory.getLogger(ScheduleConfig.class);
-  public static final long MISSING_CONFIG = -1L;
-  public static final long INVALID_CONFIG = -2L;
+
+  private static final long MISSING_CONFIG = -1L;
+  private static final long INVALID_CONFIG = -2L;
   private static final String KEY_INTERVAL = "interval";
   private static final String KEY_STARTTIME = "startTime";
 
-  private final Config rc;
-  private final String section;
-  private final String subsection;
-  private final String keyInterval;
-  private final String keyStartTime;
-  private final long initialDelay;
-  private final long interval;
-
-  public ScheduleConfig(Config rc, String section) {
-    this(rc, section, null);
+  public static ScheduleConfig create(Config config, String section) {
+    return builder(config, section).build();
   }
 
-  public ScheduleConfig(Config rc, String section, String subsection) {
-    this(rc, section, subsection, ZonedDateTime.now(systemDefault()));
+  public static ScheduleConfig.Builder builder(Config config, String section) {
+    return new AutoValue_ScheduleConfig.Builder()
+        .setNow(ZonedDateTime.now(systemDefault()))
+        .setKeyInterval(KEY_INTERVAL)
+        .setKeyStartTime(KEY_STARTTIME)
+        .setConfig(config)
+        .setSection(section);
   }
 
-  public ScheduleConfig(
-      Config rc, String section, String subsection, String keyInterval, String keyStartTime) {
-    this(rc, section, subsection, keyInterval, keyStartTime, ZonedDateTime.now(systemDefault()));
-  }
+  abstract Config config();
 
-  @VisibleForTesting
-  ScheduleConfig(Config rc, String section, String subsection, ZonedDateTime now) {
-    this(rc, section, subsection, KEY_INTERVAL, KEY_STARTTIME, now);
-  }
+  abstract String section();
 
-  @VisibleForTesting
-  ScheduleConfig(
-      Config rc,
-      String section,
-      String subsection,
-      String keyInterval,
-      String keyStartTime,
-      ZonedDateTime now) {
-    this.rc = rc;
-    this.section = section;
-    this.subsection = subsection;
-    this.keyInterval = keyInterval;
-    this.keyStartTime = keyStartTime;
-    this.interval = interval(rc, section, subsection, keyInterval);
+  @Nullable
+  abstract String subsection();
+
+  abstract String keyInterval();
+
+  abstract String keyStartTime();
+
+  abstract ZonedDateTime now();
+
+  @Memoized
+  public Optional<Schedule> schedule() {
+    long interval = computeInterval(config(), section(), subsection(), keyInterval());
+
+    long initialDelay;
     if (interval > 0) {
-      this.initialDelay = initialDelay(rc, section, subsection, keyStartTime, now, interval);
+      initialDelay =
+          computeInitialDelay(config(), section(), subsection(), keyStartTime(), now(), interval);
     } else {
-      this.initialDelay = interval;
+      initialDelay = interval;
     }
+
+    if (isInvalidOrMissing(interval, initialDelay)) {
+      return Optional.empty();
+    }
+
+    return Optional.of(Schedule.create(interval, initialDelay));
   }
 
-  /**
-   * Milliseconds between constructor invocation and first event time.
-   *
-   * <p>If there is any lag between the constructor invocation and queuing the object into an
-   * executor the event will run later, as there is no method to adjust for the scheduling delay.
-   */
-  public long getInitialDelay() {
-    return initialDelay;
-  }
+  private boolean isInvalidOrMissing(long interval, long initialDelay) {
+    String key = section() + (subsection() != null ? "." + subsection() : "");
+    if (interval == MISSING_CONFIG && initialDelay == MISSING_CONFIG) {
+      log.info("No schedule configuration for \"{}\".", key);
+      return true;
+    }
 
-  /** Number of milliseconds between events. */
-  public long getInterval() {
-    return interval;
-  }
-
-  private static long interval(Config rc, String section, String subsection, String keyInterval) {
-    long interval = MISSING_CONFIG;
-    try {
-      interval =
-          ConfigUtil.getTimeUnit(rc, section, subsection, keyInterval, -1, TimeUnit.MILLISECONDS);
-      if (interval == MISSING_CONFIG) {
-        log.info(
-            MessageFormat.format(
-                "{0} schedule parameter \"{0}.{1}\" is not configured", section, keyInterval));
-      }
-    } catch (IllegalArgumentException e) {
+    if (interval == MISSING_CONFIG) {
       log.error(
-          MessageFormat.format("Invalid {0} schedule parameter \"{0}.{1}\"", section, keyInterval),
-          e);
-      interval = INVALID_CONFIG;
+          "Incomplete schedule configuration for \"{}\" is ignored. Missing value for \"{}\".",
+          key,
+          key + "." + keyInterval());
+      return true;
     }
-    return interval;
+
+    if (initialDelay == MISSING_CONFIG) {
+      log.error(
+          "Incomplete schedule configuration for \"{}\" is ignored. Missing value for \"{}\".",
+          key,
+          key + "." + keyStartTime());
+      return true;
+    }
+
+    if (interval <= 0 || initialDelay < 0) {
+      log.error("Invalid schedule configuration for \"{}\" is ignored. ", key);
+      return true;
+    }
+
+    return false;
   }
 
-  private static long initialDelay(
+  @Override
+  public String toString() {
+    StringBuilder b = new StringBuilder();
+    b.append(formatValue(keyInterval()));
+    b.append(", ");
+    b.append(formatValue(keyStartTime()));
+    return b.toString();
+  }
+
+  private String formatValue(String key) {
+    StringBuilder b = new StringBuilder();
+    b.append(section());
+    if (subsection() != null) {
+      b.append(".");
+      b.append(subsection());
+    }
+    b.append(".");
+    b.append(key);
+    String value = config().getString(section(), subsection(), key);
+    if (value != null) {
+      b.append(" = ");
+      b.append(value);
+    } else {
+      b.append(": NA");
+    }
+    return b.toString();
+  }
+
+  private static long computeInterval(
+      Config rc, String section, String subsection, String keyInterval) {
+    try {
+      return ConfigUtil.getTimeUnit(
+          rc, section, subsection, keyInterval, MISSING_CONFIG, TimeUnit.MILLISECONDS);
+    } catch (IllegalArgumentException e) {
+      return INVALID_CONFIG;
+    }
+  }
+
+  private static long computeInitialDelay(
       Config rc,
       String section,
       String subsection,
@@ -145,45 +183,46 @@ public class ScheduleConfig {
         if (delay <= 0) {
           delay += interval;
         }
-      } else {
-        log.info(
-            MessageFormat.format(
-                "{0} schedule parameter \"{0}.{1}\" is not configured", section, keyStartTime));
       }
     } catch (IllegalArgumentException e2) {
-      log.error(
-          MessageFormat.format("Invalid {0} schedule parameter \"{0}.{1}\"", section, keyStartTime),
-          e2);
       delay = INVALID_CONFIG;
     }
     return delay;
   }
 
-  @Override
-  public String toString() {
-    StringBuilder b = new StringBuilder();
-    b.append(formatValue(keyInterval));
-    b.append(", ");
-    b.append(formatValue(keyStartTime));
-    return b.toString();
+  @AutoValue.Builder
+  public abstract static class Builder {
+    public abstract Builder setConfig(Config config);
+
+    public abstract Builder setSection(String section);
+
+    public abstract Builder setSubsection(@Nullable String subsection);
+
+    public abstract Builder setKeyInterval(String keyInterval);
+
+    public abstract Builder setKeyStartTime(String keyStartTime);
+
+    @VisibleForTesting
+    abstract Builder setNow(ZonedDateTime now);
+
+    public abstract ScheduleConfig build();
   }
 
-  private String formatValue(String key) {
-    StringBuilder b = new StringBuilder();
-    b.append(section);
-    if (subsection != null) {
-      b.append(".");
-      b.append(subsection);
+  @AutoValue
+  public abstract static class Schedule {
+    /** Number of milliseconds between events. */
+    public abstract long interval();
+
+    /**
+     * Milliseconds between constructor invocation and first event time.
+     *
+     * <p>If there is any lag between the constructor invocation and queuing the object into an
+     * executor the event will run later, as there is no method to adjust for the scheduling delay.
+     */
+    public abstract long initialDelay();
+
+    static Schedule create(long interval, long initialDelay) {
+      return new AutoValue_ScheduleConfig_Schedule(interval, initialDelay);
     }
-    b.append(".");
-    b.append(key);
-    String value = rc.getString(section, subsection, key);
-    if (value != null) {
-      b.append(" = ");
-      b.append(value);
-    } else {
-      b.append(": NA");
-    }
-    return b.toString();
   }
 }

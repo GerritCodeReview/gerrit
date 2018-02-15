@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac044f01_cd6caa2f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-02-15T08:29:08Z",
+      "side": 1,
+      "message": "Querying the change here will cause the ChangeData to be recalculated with user admin hence the mergeability is true.\nWhat I\u0027m talking about \u0027Merge Conflict\u0027 is in the dashboard where you browse open changes. When you actually click the change, then there is no merge conflict there.",
+      "range": {
+        "startLine": 733,
+        "startChar": 0,
+        "endLine": 734,
+        "endChar": 0
+      },
+      "revId": "9b1a3149508144d53a78982a398d70880ce8517a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

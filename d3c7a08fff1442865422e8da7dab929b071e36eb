@@ -280,6 +280,30 @@
     },
     {
       "key": {
+        "uuid": "69379af8_e4c8fbc1",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-15T19:53:50Z",
+      "side": 1,
+      "message": "Agreed that rebase change edit is very rare action and it\u0027s  fine to document it later.",
+      "parentUuid": "d21fa136_dcac18b6",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 73
+      },
+      "revId": "d3c7a08fff1442865422e8da7dab929b071e36eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2e840e5_ce1e30fc",
         "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
         "patchSetId": 1

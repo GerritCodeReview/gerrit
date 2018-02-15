@@ -47,6 +47,30 @@
       "revId": "ef120cd66d8288279f40082abc8fc6d03cd6b867",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c8c68ac_01533a33",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-15T07:05:45Z",
+      "side": 1,
+      "message": "Thanks for finding this issue.",
+      "parentUuid": "01f6ed46_4710a64c",
+      "range": {
+        "startLine": 212,
+        "startChar": 2,
+        "endLine": 224,
+        "endChar": 3
+      },
+      "revId": "ef120cd66d8288279f40082abc8fc6d03cd6b867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

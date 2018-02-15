@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac6066fa_0327d3f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-15T13:13:58Z",
+      "side": 1,
+      "message": "[Optional] Document that this column length for MySQL dialect deviates from the standard 4096. May be in pgm-MigrateAccountPatchReviewDb.txt, because per default, H2 is used, and the problem would only arise when someone is using that site-program in combination with MySQL dialect.",
+      "revId": "c4423cdcc823cc41b272c244d60f68e78d9fe6be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

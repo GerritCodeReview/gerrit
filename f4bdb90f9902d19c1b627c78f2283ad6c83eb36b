@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "32d7fa49_3971013d",
+        "filename": "Documentation/rest-api-access.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-15T09:25:56Z",
+      "side": 1,
+      "message": "\"names and URLs\"?\n\nPlease also adjust the commit message accordingly.",
+      "range": {
+        "startLine": 406,
+        "startChar": 62,
+        "endLine": 407,
+        "endChar": 12
+      },
+      "revId": "f4bdb90f9902d19c1b627c78f2283ad6c83eb36b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "676b12a0_a98c2963",
         "filename": "java/com/google/gerrit/server/restapi/project/GetAccess.java",
         "patchSetId": 5
@@ -22,6 +45,29 @@
       "revId": "f4bdb90f9902d19c1b627c78f2283ad6c83eb36b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be307427_c92cc2b4",
+        "filename": "java/com/google/gerrit/server/restapi/project/GetAccess.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-15T09:25:56Z",
+      "side": 1,
+      "message": "I very much like the idea that we only copy the details we want to expose instead of removing them from a fully specified group. Thanks for doing it this way.",
+      "range": {
+        "startLine": 289,
+        "startChar": 8,
+        "endLine": 293,
+        "endChar": 35
+      },
+      "revId": "f4bdb90f9902d19c1b627c78f2283ad6c83eb36b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

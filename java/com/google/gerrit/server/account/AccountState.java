@@ -19,7 +19,6 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
-import com.google.common.base.Suppliers;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableMap;
@@ -40,7 +39,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.function.Supplier;
 import org.apache.commons.codec.DecoderException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.slf4j.Logger;
@@ -125,10 +123,10 @@ public class AccountState {
             allUsersName,
             account,
             extIds,
-            Suppliers.ofInstance(projectWatches),
-            Suppliers.ofInstance(generalPreferences),
-            Suppliers.ofInstance(diffPreferences),
-            Suppliers.ofInstance(editPreferences)));
+            projectWatches,
+            generalPreferences,
+            diffPreferences,
+            editPreferences));
   }
 
   /**
@@ -157,30 +155,30 @@ public class AccountState {
         allUsersName,
         account,
         ImmutableSet.copyOf(extIds),
-        Suppliers.ofInstance(ImmutableMap.of()),
-        Suppliers.ofInstance(GeneralPreferencesInfo.defaults()),
-        Suppliers.ofInstance(DiffPreferencesInfo.defaults()),
-        Suppliers.ofInstance(EditPreferencesInfo.defaults()));
+        ImmutableMap.of(),
+        GeneralPreferencesInfo.defaults(),
+        DiffPreferencesInfo.defaults(),
+        EditPreferencesInfo.defaults());
   }
 
   private final AllUsersName allUsersName;
   private final Account account;
   private final ImmutableSet<ExternalId> externalIds;
   private final Optional<String> userName;
-  private final Supplier<ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>>> projectWatches;
-  private final Supplier<GeneralPreferencesInfo> generalPreferences;
-  private final Supplier<DiffPreferencesInfo> diffPreferences;
-  private final Supplier<EditPreferencesInfo> editPreferences;
+  private final ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches;
+  private final GeneralPreferencesInfo generalPreferences;
+  private final DiffPreferencesInfo diffPreferences;
+  private final EditPreferencesInfo editPreferences;
   private Cache<IdentifiedUser.PropertyKey<Object>, Object> properties;
 
   private AccountState(
       AllUsersName allUsersName,
       Account account,
       ImmutableSet<ExternalId> externalIds,
-      Supplier<ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>>> projectWatches,
-      Supplier<GeneralPreferencesInfo> generalPreferences,
-      Supplier<DiffPreferencesInfo> diffPreferences,
-      Supplier<EditPreferencesInfo> editPreferences) {
+      ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches,
+      GeneralPreferencesInfo generalPreferences,
+      DiffPreferencesInfo diffPreferences,
+      EditPreferencesInfo editPreferences) {
     this.allUsersName = allUsersName;
     this.account = account;
     this.externalIds = externalIds;
@@ -248,22 +246,22 @@ public class AccountState {
 
   /** The project watches of the account. */
   public ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> getProjectWatches() {
-    return projectWatches.get();
+    return projectWatches;
   }
 
   /** The general preferences of the account. */
   public GeneralPreferencesInfo getGeneralPreferences() {
-    return generalPreferences.get();
+    return generalPreferences;
   }
 
   /** The diff preferences of the account. */
   public DiffPreferencesInfo getDiffPreferences() {
-    return diffPreferences.get();
+    return diffPreferences;
   }
 
   /** The edit preferences of the account. */
   public EditPreferencesInfo getEditPreferences() {
-    return editPreferences.get();
+    return editPreferences;
   }
 
   /**

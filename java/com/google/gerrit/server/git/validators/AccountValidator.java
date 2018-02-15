@@ -101,7 +101,7 @@ public class AccountValidator {
       throws IOException, ConfigInvalidException {
     rw.reset();
     AccountConfig accountConfig = new AccountConfig(accountId, repo);
-    accountConfig.setEagerParsing(true).load(rw, commit);
+    accountConfig.load(rw, commit);
     if (messages != null) {
       messages.addAll(
           accountConfig

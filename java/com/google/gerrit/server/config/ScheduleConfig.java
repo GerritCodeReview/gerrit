@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.time.ZoneId.systemDefault;
 
 import com.google.auto.value.AutoValue;
@@ -114,7 +115,7 @@ public abstract class ScheduleConfig {
 
   public static ScheduleConfig.Builder builder(Config config, String section) {
     return new AutoValue_ScheduleConfig.Builder()
-        .setNow(ZonedDateTime.now(systemDefault()))
+        .setNow(computeNow())
         .setKeyInterval(KEY_INTERVAL)
         .setKeyStartTime(KEY_STARTTIME)
         .setConfig(config)
@@ -229,30 +230,43 @@ public abstract class ScheduleConfig {
       String keyStartTime,
       ZonedDateTime now,
       long interval) {
-    long delay = MISSING_CONFIG;
     String start = rc.getString(section, subsection, keyStartTime);
-    try {
-      if (start != null) {
-        DateTimeFormatter formatter =
-            DateTimeFormatter.ofPattern("[E ]HH:mm").withLocale(Locale.US);
-        LocalTime firstStartTime = LocalTime.parse(start, formatter);
-        ZonedDateTime startTime = now.with(firstStartTime);
-        try {
-          DayOfWeek dayOfWeek = formatter.parse(start, DayOfWeek::from);
-          startTime = startTime.with(dayOfWeek);
-        } catch (DateTimeParseException ignored) {
-          // Day of week is an optional parameter.
-        }
-        startTime = startTime.truncatedTo(ChronoUnit.MINUTES);
-        delay = Duration.between(now, startTime).toMillis() % interval;
-        if (delay <= 0) {
-          delay += interval;
-        }
-      }
-    } catch (DateTimeParseException | IllegalArgumentException e) {
-      delay = INVALID_CONFIG;
+    if (start == null) {
+      return MISSING_CONFIG;
     }
-    return delay;
+    return computeInitialDelay(interval, start, now);
+  }
+
+  private static long computeInitialDelay(long interval, String start) {
+    return computeInitialDelay(interval, start, computeNow());
+  }
+
+  private static long computeInitialDelay(long interval, String start, ZonedDateTime now) {
+    checkNotNull(start);
+
+    try {
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("[E ]HH:mm").withLocale(Locale.US);
+      LocalTime firstStartTime = LocalTime.parse(start, formatter);
+      ZonedDateTime startTime = now.with(firstStartTime);
+      try {
+        DayOfWeek dayOfWeek = formatter.parse(start, DayOfWeek::from);
+        startTime = startTime.with(dayOfWeek);
+      } catch (DateTimeParseException ignored) {
+        // Day of week is an optional parameter.
+      }
+      startTime = startTime.truncatedTo(ChronoUnit.MINUTES);
+      long delay = Duration.between(now, startTime).toMillis() % interval;
+      if (delay <= 0) {
+        delay += interval;
+      }
+      return delay;
+    } catch (IllegalArgumentException | DateTimeParseException e) {
+      return INVALID_CONFIG;
+    }
+  }
+
+  private static ZonedDateTime computeNow() {
+    return ZonedDateTime.now(systemDefault());
   }
 
   @AutoValue.Builder
@@ -289,6 +303,41 @@ public abstract class ScheduleConfig {
      * executor the event will run later, as there is no method to adjust for the scheduling delay.
      */
     public abstract long initialDelay();
+
+    /**
+     * Creates a schedule.
+     *
+     * <p>{@link ScheduleConfig} defines details about which values are valid for the {@code
+     * interval} and {@code startTime} parameters.
+     *
+     * @param interval the interval in milliseconds
+     * @param startTime the start time as "{@code <day of week> <hours>:<minutes>}" or "{@code
+     *     <hours>:<minutes>}"
+     * @return the schedule
+     * @throws IllegalArgumentException if any of the parameters is invalid
+     */
+    public static Schedule createOrFail(long interval, String startTime) {
+      return create(interval, startTime).orElseThrow(IllegalArgumentException::new);
+    }
+
+    /**
+     * Creates a schedule.
+     *
+     * <p>{@link ScheduleConfig} defines details about which values are valid for the {@code
+     * interval} and {@code startTime} parameters.
+     *
+     * @param interval the interval in milliseconds
+     * @param startTime the start time as "{@code <day of week> <hours>:<minutes>}" or "{@code
+     *     <hours>:<minutes>}"
+     * @return the schedule or {@link Optional#empty()} if any of the parameters is invalid
+     */
+    public static Optional<Schedule> create(long interval, String startTime) {
+      long initialDelay = computeInitialDelay(interval, startTime);
+      if (interval <= 0 || initialDelay < 0) {
+        return Optional.empty();
+      }
+      return Optional.of(create(interval, initialDelay));
+    }
 
     static Schedule create(long interval, long initialDelay) {
       return new AutoValue_ScheduleConfig_Schedule(interval, initialDelay);

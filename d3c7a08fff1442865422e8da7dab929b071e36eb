@@ -90,6 +90,30 @@
     },
     {
       "key": {
+        "uuid": "4af08032_ba87924f",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-15T19:25:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da4db65d_3f2c9b2e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "d3c7a08fff1442865422e8da7dab929b071e36eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb9e2cc3_fcf0eda6",
         "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
         "patchSetId": 1
@@ -220,6 +244,30 @@
       "side": 1,
       "message": "Rebasing seems like a necessary action that comes up in the lifecycle of an edit. You\u0027ll avert an FAQ if you add a section about this. I think it would be a good idea to include a quick command-line tip there. It adds some sauce to the writeup and is useful to know about.",
       "parentUuid": "fc0d18e8_13464e1d",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 73
+      },
+      "revId": "d3c7a08fff1442865422e8da7dab929b071e36eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d21fa136_dcac18b6",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-15T19:25:13Z",
+      "side": 1,
+      "message": "Rebasing an edit is actually pretty rare, and I don\u0027t believe it really needs to be in this writeup.\n\nI think that, if the question comes up, I can add it in a separate section further down the file. \"What if someone pushes a patch set to a change I have an edit on?\" or something. I\u0027m just of the opinion that brevity is important for a preliminary walkthrough like this.",
+      "parentUuid": "82f9afac_5c67f442",
       "range": {
         "startLine": 54,
         "startChar": 0,

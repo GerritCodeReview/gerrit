@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1518678653 +0100\nnonce AFD2Vu1YRxYnPB8OentjfkniVDRV6zudd9gwxK+GLjAlqMsvtgM89LuOz3gFzBNeeOLPHY7UXlgW\n\n0000000000000000000000000000000000000000 4abe5f5ea56ddd35f547cac4e7e45529751df4ba refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlqFMn0ACgkQUbX9l6DQ\n71GfKgf8C8G9VULvg1Ej4cURn5OfHlEySAvZypB1I6btugQpJPnuwRsk0ELMOIOv\nMeR7piM5yzN1fTnpG5Pa4cFFUoOFGpZgzcUhmG5PS9JURaBhnaCSv+HneUZ8ddKF\n9E5ZQc15hLcVw1iRG5MXuQpGljf9mdjl4q0yPmv+rDbeyMGfLFwOmPJ5rc2eWAwp\n7QLlunAQm7VpOTWqi3HfLa9yZTW8BAA5t4fzWELbE7khodHx+0j9ca9FTzAMdIpo\ngF3vCPM90VocbcqG4VtX5dafg2fwEVXFXdlBvYf2rEtDyO4McFAxDPOVOiLpZN5M\nvS4GvB8cKK2UL4hTlIex6UuCB3rE9Q\u003d\u003d\n\u003dx7F7\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "878c8d8a_a9f44832",
+        "filename": "java/com/google/gerrit/server/account/AccountDeactivator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-15T12:50:19Z",
+      "side": 1,
+      "message": "Here and in the other files: This part could be transformed to schedule.ifPresent().",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 33
+      },
+      "revId": "4abe5f5ea56ddd35f547cac4e7e45529751df4ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2524fe4b_70ae31c6",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-15T12:50:19Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be an ||?",
+      "range": {
+        "startLine": 131,
+        "startChar": 22,
+        "endLine": 131,
+        "endChar": 24
+      },
+      "revId": "4abe5f5ea56ddd35f547cac4e7e45529751df4ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

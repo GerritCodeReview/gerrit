@@ -43,8 +43,8 @@ public abstract class ScheduleConfig {
   private static final String KEY_INTERVAL = "interval";
   private static final String KEY_STARTTIME = "startTime";
 
-  public static ScheduleConfig create(Config config, String section) {
-    return builder(config, section).build();
+  public static Optional<Schedule> createSchedule(Config config, String section) {
+    return builder(config, section).buildSchedule();
   }
 
   public static ScheduleConfig.Builder builder(Config config, String section) {
@@ -205,7 +205,11 @@ public abstract class ScheduleConfig {
     @VisibleForTesting
     abstract Builder setNow(ZonedDateTime now);
 
-    public abstract ScheduleConfig build();
+    abstract ScheduleConfig build();
+
+    public Optional<Schedule> buildSchedule() {
+      return build().schedule();
+    }
   }
 
   @AutoValue

@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.GcConfig;
-import com.google.gerrit.server.config.ScheduleConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import java.util.concurrent.Future;
@@ -43,9 +42,8 @@ public class GarbageCollectionRunner implements Runnable {
 
     @Override
     public void start() {
-      ScheduleConfig scheduleConfig = gcConfig.getScheduleConfig();
-      scheduleConfig
-          .schedule()
+      gcConfig
+          .getSchedule()
           .ifPresent(
               s -> {
                 @SuppressWarnings("unused")

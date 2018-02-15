@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2295158_c74787f9",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-15T10:55:11Z",
+      "side": 1,
+      "message": "Do we need this method? I guess it\u0027s only used by plugins. If a plugin needs to set the subsection, it could simply use the builder() method below, set the subsection, and call build() itself.",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 52,
+        "endChar": 3
+      },
+      "revId": "3a5c413bc67fdf865a8b02c2fd8ad38463987d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c3993c0_33732e25",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-15T10:55:11Z",
+      "side": 1,
+      "message": "I don\u0027t think we actually need this method with this nullable parameter. It would be sufficient to provide the build() method with only two parameters and not call setSubsection() at all. It is null by default. If a caller needs to specify the subsection, they can call setSubsection() on the builder. That\u0027s one of the charms of using the AutoValue.Builder. :-)",
+      "range": {
+        "startLine": 59,
+        "startChar": 37,
+        "endLine": 59,
+        "endChar": 64
+      },
+      "revId": "3a5c413bc67fdf865a8b02c2fd8ad38463987d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8203a84d_146dc9d2",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-15T10:55:11Z",
+      "side": 1,
+      "message": "We don\u0027t need to hold the state and do the lazy initialization manually. AutoValue allows to memoize derived properties. Simply annotate the getters with @Memoized. It\u0027s even thread-safe, which might be important for our scheduling tasks.",
+      "range": {
+        "startLine": 82,
+        "startChar": 2,
+        "endLine": 83,
+        "endChar": 24
+      },
+      "revId": "3a5c413bc67fdf865a8b02c2fd8ad38463987d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9d34ebd2_5427dd33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-15T08:54:30Z",
+      "side": 1,
+      "message": "The alternative number 4:\n\n* The trivial one and not invasive, and is actually what you have done in the patch set 1 of this change: partially revert I83ab98acb15 and restore the table size to be 256 (you could probably even increase it to 512 or even higher, as the other columns sizes in that table would allow this to not reach 767 limit), but do it only on MySQL database dialect.\n\nGerrit was in the wild for 9 years, before file_name column size in account_patch_reviews table was increased from 256 to 4096, and only for some reasons that change owner described that were needed by Linux based projects? Windows OS only supports file_name size limit of 256 chars. So I guess, reduce it again to 256/512 on MySQL, document it, and nobody would ever notice any difference and would have any problems with it. An in unprobable case, that someone do have a problem with 256/512 on MySQL, there are always an alternative to use PostgreSQL, other dialects, of write a plugin: mysql_account_patch_reviews, that do more complex things.",
+      "parentUuid": "582f23cf_94e5cb68",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "859e57f4_c57e7470",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

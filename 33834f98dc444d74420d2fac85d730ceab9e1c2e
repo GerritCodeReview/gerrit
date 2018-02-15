@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "51274d2f_63b3f3db",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2018-02-15T18:05:41Z",
+      "side": 1,
+      "message": "All @params in this file are String/Number/Function. Makes sense to be consistent with them (or to change them all). Same in gr-annotation-actions-context.js\nLet me know if you would like me to change all of them.",
+      "parentUuid": "01ac1618_67649e01",
+      "range": {
+        "startLine": 66,
+        "startChar": 13,
+        "endLine": 66,
+        "endChar": 19
+      },
+      "revId": "33834f98dc444d74420d2fac85d730ceab9e1c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0046e112_2ba448a3",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
         "patchSetId": 11
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "11c64ddc_0cd635c4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2018-02-15T18:05:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0046e112_2ba448a3",
+      "range": {
+        "startLine": 67,
+        "startChar": 3,
+        "endLine": 67,
+        "endChar": 4
+      },
+      "revId": "33834f98dc444d74420d2fac85d730ceab9e1c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "787ff0ce_9ac82130",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
         "patchSetId": 11
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "0b215a83_f6c6b124",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2018-02-15T18:05:41Z",
+      "side": 1,
+      "message": "Yes, that is better. Done.",
+      "parentUuid": "787ff0ce_9ac82130",
+      "revId": "33834f98dc444d74420d2fac85d730ceab9e1c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9074985_e63af342",
         "filename": "polygerrit-ui/app/samples/coverage-plugin.html",
         "patchSetId": 11
@@ -76,6 +142,24 @@
       "writtenOn": "2018-02-14T00:02:11Z",
       "side": 1,
       "message": "That\u0027s fine, but maybe registering a custom component directly into \u0027annotation-toggler\u0027 endpoint would decrease nesting level?\nUp to you. I\u0027m just intimidated by the number of nested functions.\n\n      plugin.registerCustomComponent(\n        \u0027annotation-toggler\u0027, \u0027coverage-annotation-toggler\u0027, {replace: true});\n\n\n\u003cdom-module id\u003d\"coverage-annotation-toggler\"\u003e\n  \u003ctemplate\u003e\n    \u003clabel\n        id\u003d\"annotation-label\"\n        for\u003d\"annotation-checkbox\"\u003e\u003c/label\u003e\n    \u003cinput disabled\n        id\u003d\"annotation-checkbox\"\n        is\u003d\"iron-input\"\n        type\u003d\"checkbox\"\n        on-tap\u003d\"_handleAnnotationTap\"\u003e\n  \u003c/template\u003e\n  \u003cscript\u003e\n    Polymer({\n      is: \u0027coverage-annotation-toggler\u0027,\n      _handleAnnotationTap(e) {\n        const checked \u003d Polymer.dom(e).rootTarget.checked\n        // plugin points to the same plugin in Gerrit.install()\n      }\n    });\n  \u003c/script\u003e\n\u003c/dom-module\u003e",
+      "revId": "33834f98dc444d74420d2fac85d730ceab9e1c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9cc18d0_023c6d25",
+        "filename": "polygerrit-ui/app/samples/coverage-plugin.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2018-02-15T18:05:41Z",
+      "side": 1,
+      "message": "I think that would work but the current flow will have to be restructured.\n\nCould also just extract out some functions to try to make this easier to read. Personally doesn\u0027t look too bad to me, but I have been staring at this for a while.",
+      "parentUuid": "a9074985_e63af342",
       "revId": "33834f98dc444d74420d2fac85d730ceab9e1c2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

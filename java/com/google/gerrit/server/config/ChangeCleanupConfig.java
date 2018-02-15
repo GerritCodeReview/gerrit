@@ -16,8 +16,10 @@ package com.google.gerrit.server.config;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
@@ -33,7 +35,7 @@ public class ChangeCleanupConfig {
           + "\n"
           + "If this change is still wanted it should be restored.";
 
-  private final ScheduleConfig scheduleConfig;
+  private final Optional<Schedule> schedule;
   private final long abandonAfter;
   private final boolean abandonIfMergeable;
   private final String abandonMessage;
@@ -41,7 +43,7 @@ public class ChangeCleanupConfig {
   @Inject
   ChangeCleanupConfig(
       @GerritServerConfig Config cfg, @CanonicalWebUrl @Nullable String canonicalWebUrl) {
-    scheduleConfig = ScheduleConfig.create(cfg, SECTION);
+    schedule = ScheduleConfig.createSchedule(cfg, SECTION);
     abandonAfter = readAbandonAfter(cfg);
     abandonIfMergeable = cfg.getBoolean(SECTION, null, KEY_ABANDON_IF_MERGEABLE, true);
     abandonMessage = readAbandonMessage(cfg, canonicalWebUrl);
@@ -64,8 +66,8 @@ public class ChangeCleanupConfig {
     return abandonMessage;
   }
 
-  public ScheduleConfig getScheduleConfig() {
-    return scheduleConfig;
+  public Optional<Schedule> getSchedule() {
+    return schedule;
   }
 
   public long getAbandonAfter() {

@@ -66,23 +66,23 @@ public class ScheduleConfigTest {
     rc.setString("a", "b", "i", "1h");
     rc.setString("a", "b", "s", "01:00");
 
-    ScheduleConfig s =
-        ScheduleConfig.builder(rc, "a")
-            .setSubsection("b")
-            .setKeyInterval("i")
-            .setKeyStartTime("s")
-            .setNow(NOW)
-            .build();
-    assertThat(s.schedule()).hasValue(Schedule.create(ms(1, HOURS), ms(1, HOURS)));
+    assertThat(
+            ScheduleConfig.builder(rc, "a")
+                .setSubsection("b")
+                .setKeyInterval("i")
+                .setKeyStartTime("s")
+                .setNow(NOW)
+                .buildSchedule())
+        .hasValue(Schedule.create(ms(1, HOURS), ms(1, HOURS)));
 
-    s =
-        ScheduleConfig.builder(rc, "a")
-            .setSubsection("b")
-            .setKeyInterval("myInterval")
-            .setKeyStartTime("myStart")
-            .setNow(NOW)
-            .build();
-    assertThat(s.schedule()).isEmpty();
+    assertThat(
+            ScheduleConfig.builder(rc, "a")
+                .setSubsection("b")
+                .setKeyInterval("myInterval")
+                .setKeyStartTime("myStart")
+                .setNow(NOW)
+                .buildSchedule())
+        .isEmpty();
   }
 
   private static long initialDelay(String startTime, String interval) {
@@ -90,8 +90,7 @@ public class ScheduleConfigTest {
         ScheduleConfig.builder(config(startTime, interval), "section")
             .setSubsection("subsection")
             .setNow(NOW)
-            .build()
-            .schedule();
+            .buildSchedule();
     assertThat(schedule).isPresent();
     return schedule.get().initialDelay();
   }

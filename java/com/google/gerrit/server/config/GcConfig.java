@@ -14,24 +14,26 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 
 @Singleton
 public class GcConfig {
-  private final ScheduleConfig scheduleConfig;
+  private final Optional<Schedule> schedule;
   private final boolean aggressive;
 
   @Inject
   GcConfig(@GerritServerConfig Config cfg) {
-    scheduleConfig = ScheduleConfig.create(cfg, ConfigConstants.CONFIG_GC_SECTION);
+    schedule = ScheduleConfig.createSchedule(cfg, ConfigConstants.CONFIG_GC_SECTION);
     aggressive = cfg.getBoolean(ConfigConstants.CONFIG_GC_SECTION, "aggressive", false);
   }
 
-  public ScheduleConfig getScheduleConfig() {
-    return scheduleConfig;
+  public Optional<Schedule> getSchedule() {
+    return schedule;
   }
 
   public boolean isAggressive() {

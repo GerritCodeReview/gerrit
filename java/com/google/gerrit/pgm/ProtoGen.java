@@ -58,8 +58,7 @@ public class ProtoGen extends AbstractProgram {
           header = new String(buf.array(), ptr, len, UTF_8);
         }
 
-        String version = com.google.gerrit.common.Version.getVersion();
-        out.write(header.replace("@@VERSION@@", version));
+        out.write(header);
         jsm.generateProto(out);
         out.flush();
       }
@@ -69,7 +68,6 @@ public class ProtoGen extends AbstractProgram {
     } finally {
       lock.unlock();
     }
-    System.out.println("Created " + file.getPath());
     return 0;
   }
 }

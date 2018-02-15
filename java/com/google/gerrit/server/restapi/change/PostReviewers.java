@@ -80,7 +80,6 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -209,18 +208,15 @@ public class PostReviewers
     return addByEmail(reviewer, rsrc, state, notify, accountsToNotify);
   }
 
-  Optional<Addition> ccCurrentUser(CurrentUser user, RevisionResource revision) {
-    return user.getUserName()
-        .map(
-            u ->
-                new Addition(
-                    u,
-                    revision.getChangeResource(),
-                    ImmutableSet.of(user.getAccountId()),
-                    null,
-                    CC,
-                    NotifyHandling.NONE,
-                    ImmutableListMultimap.of()));
+  Addition ccCurrentUser(CurrentUser user, RevisionResource revision) {
+    return new Addition(
+        user.getUserName().orElse(null),
+        revision.getChangeResource(),
+        ImmutableSet.of(user.getAccountId()),
+        null,
+        CC,
+        NotifyHandling.NONE,
+        ImmutableListMultimap.of());
   }
 
   @Nullable

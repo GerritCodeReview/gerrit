@@ -45,6 +45,30 @@
       "revId": "e420236caab5fb1e46d07df4dac4010512a6b4de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62779311_d371c041",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-15T22:53:20Z",
+      "side": 1,
+      "message": "I had that thought. I left this as is because it seemed from the original bug like you put the limited text element there to handle extremely long topics, not just long ones. Do you think we can just remove it?",
+      "parentUuid": "19f31169_ca709cfb",
+      "range": {
+        "startLine": 104,
+        "startChar": 8,
+        "endLine": 104,
+        "endChar": 16
+      },
+      "revId": "e420236caab5fb1e46d07df4dac4010512a6b4de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

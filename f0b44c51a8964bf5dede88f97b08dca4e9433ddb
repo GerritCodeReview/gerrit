@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ec8f3cbd_9c6ed935",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-15T20:22:02Z",
+      "side": 1,
+      "message": "Actually I regularly use create new change feature. It may be a specific for me, though.",
+      "parentUuid": "5fb63af8_a4f9a51f",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 50
+      },
+      "revId": "f0b44c51a8964bf5dede88f97b08dca4e9433ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2c38886_28faaee6",
         "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
         "patchSetId": 3
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "From the commit message:\n\n\u003e Once this change is merged, the rendered markdown can be linked to in the official GWTUI deprecation announcement.\n\nThat is the main purpose. All other ancillary use cases for this document can be figured out later.",
       "parentUuid": "b2c38886_28faaee6",
+      "revId": "f0b44c51a8964bf5dede88f97b08dca4e9433ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38a9165c_f5ae5e46",
+        "filename": "polygerrit-ui/edit-walkthrough/edit-walkthrough.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-15T20:22:02Z",
+      "side": 1,
+      "message": "I saw the commit message, and that\u0027s fine and does the job. My question was, what are the further steps with making this document accessible from gerrit site installation? Say in a couple of weeks/months, stable-2,16 is cut of from the master. How should gerrit user from specific gerrit site installations be able to access this documentation. To give you example, how it is working today, check this WMF links for index and user-inline-edit tutorial [1], [2]. I would expect, that given that in 2.16 inline edit in PG is ready, the Gerrit users would greatly benefit from this PG specific Workthrough documentation if they would be able to browse it in the same way, like the rest documentation in gerrit site.\n\n* [1] https://gerrit.wikimedia.org/r/Documentation/index.html\n* [2] https://gerrit.wikimedia.org/r/Documentation/user-inline-edit.html",
+      "parentUuid": "2b90ad27_1ba05f98",
       "revId": "f0b44c51a8964bf5dede88f97b08dca4e9433ddb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

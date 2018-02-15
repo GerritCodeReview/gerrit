@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "54cd932e_a40fadde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-15T07:03:01Z",
+      "side": 1,
+      "message": "I think having a plugin that implements this interface is already supported, see commit message of https://gerrit-review.googlesource.com/c/gerrit/+/78816",
+      "parentUuid": "582f23cf_94e5cb68",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "551f44f56f51c548cfebebf27e3443abdcda1f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "859e57f4_c57e7470",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

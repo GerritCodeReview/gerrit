@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.html">
 <link rel="import" href="../gr-button/gr-button.html">
+<link rel="import" href="../gr-icons/gr-icons.html">
 <link rel="import" href="../gr-limited-text/gr-limited-text.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -65,6 +66,10 @@ limitations under the License.
       a {
        color: var(--linked-chip-text-color);
       }
+      iron-icon {
+        height: 1.2rem;
+        width: 1.2rem;
+      }
     </style>
     <div class$="container [[_getBackgroundClass(transparentBackground)]]">
       <a href$="[[href]]">
@@ -78,7 +83,9 @@ limitations under the License.
           hidden$="[[!removable]]"
           hidden
           class$="remove [[_getBackgroundClass(transparentBackground)]]"
-          on-tap="_handleRemoveTap">×</gr-button>
+          on-tap="_handleRemoveTap">
+        <iron-icon icon="gr-icons:close"></iron-icon>
+      </gr-button>
     </div>
   </template>
   <script src="gr-linked-chip.js"></script>

@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.server.mail.MailHeader;
 import com.google.gerrit.server.mail.send.EmailHeader.AddressList;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
@@ -49,6 +50,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
+import org.apache.james.mime4j.dom.field.FieldName;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,9 +58,6 @@ import org.slf4j.LoggerFactory;
 /** Sends an email to one or more interested parties. */
 public abstract class OutgoingEmail {
   private static final Logger log = LoggerFactory.getLogger(OutgoingEmail.class);
-
-  private static final String HDR_TO = "To";
-  private static final String HDR_CC = "CC";
 
   protected String messageClass;
   private final HashSet<Account.Id> rcptTo = new HashSet<>();
@@ -163,7 +162,7 @@ public abstract class OutgoingEmail {
       // Set Reply-To only if it hasn't been set by a child class
       // Reply-To will already be populated for the message types where Gerrit supports
       // inbound email replies.
-      if (!headers.containsKey("Reply-To")) {
+      if (!headers.containsKey(FieldName.REPLY_TO)) {
         StringJoiner j = new StringJoiner(", ");
         if (fromId != null) {
           Address address = toAddress(fromId);
@@ -173,7 +172,7 @@ public abstract class OutgoingEmail {
         }
         smtpRcptTo.stream().forEach(a -> j.add(a.getEmail()));
         smtpRcptToPlaintextOnly.stream().forEach(a -> j.add(a.getEmail()));
-        setHeader("Reply-To", j.toString());
+        setHeader(FieldName.REPLY_TO, j.toString());
       }
 
       String textPart = textBody.toString();
@@ -208,13 +207,13 @@ public abstract class OutgoingEmail {
         Map<String, EmailHeader> shallowCopy = new HashMap<>();
         shallowCopy.putAll(headers);
         // Remove To and Cc
-        shallowCopy.remove(HDR_TO);
-        shallowCopy.remove(HDR_CC);
+        shallowCopy.remove(FieldName.TO);
+        shallowCopy.remove(FieldName.CC);
         for (Address a : smtpRcptToPlaintextOnly) {
           // Add new To
           EmailHeader.AddressList to = new EmailHeader.AddressList();
           to.add(a);
-          shallowCopy.put(HDR_TO, to);
+          shallowCopy.put(FieldName.TO, to);
         }
         args.emailSender.send(va.smtpFromAddress, smtpRcptToPlaintextOnly, shallowCopy, va.body);
       }
@@ -233,17 +232,19 @@ public abstract class OutgoingEmail {
     setupSoyContext();
 
     smtpFromAddress = args.fromAddressGenerator.from(fromId);
-    setHeader("Date", new Date());
-    headers.put("From", new EmailHeader.AddressList(smtpFromAddress));
-    headers.put(HDR_TO, new EmailHeader.AddressList());
-    headers.put(HDR_CC, new EmailHeader.AddressList());
-    setHeader("Message-ID", "");
+    setHeader(FieldName.DATE, new Date());
+    headers.put(FieldName.FROM, new EmailHeader.AddressList(smtpFromAddress));
+    headers.put(FieldName.TO, new EmailHeader.AddressList());
+    headers.put(FieldName.CC, new EmailHeader.AddressList());
+    setHeader(FieldName.MESSAGE_ID, "");
+    setHeader(MailHeader.AUTO_SUBMITTED.fieldName(), "auto-generated");
 
     for (RecipientType recipientType : accountsToNotify.keySet()) {
       add(recipientType, accountsToNotify.get(recipientType));
     }
 
-    setHeader("X-Gerrit-MessageType", messageClass);
+    setHeader(MailHeader.MESSAGE_TYPE.fieldName(), messageClass);
+    footers.add(MailHeader.MESSAGE_TYPE.withDelimiter() + messageClass);
     textBody = new StringBuilder();
     htmlBody = new StringBuilder();
 
@@ -500,15 +501,15 @@ public abstract class OutgoingEmail {
           if (!override) {
             return;
           }
-          ((EmailHeader.AddressList) headers.get(HDR_TO)).remove(addr.getEmail());
-          ((EmailHeader.AddressList) headers.get(HDR_CC)).remove(addr.getEmail());
+          ((EmailHeader.AddressList) headers.get(FieldName.TO)).remove(addr.getEmail());
+          ((EmailHeader.AddressList) headers.get(FieldName.CC)).remove(addr.getEmail());
         }
         switch (rt) {
           case TO:
-            ((EmailHeader.AddressList) headers.get(HDR_TO)).add(addr);
+            ((EmailHeader.AddressList) headers.get(FieldName.TO)).add(addr);
             break;
           case CC:
-            ((EmailHeader.AddressList) headers.get(HDR_CC)).add(addr);
+            ((EmailHeader.AddressList) headers.get(FieldName.CC)).add(addr);
             break;
           case BCC:
             break;

@@ -39,7 +39,7 @@ public abstract class MailMessage {
   public abstract ImmutableList<Address> to();
 
   public abstract ImmutableList<Address> cc();
-  // Metadata
+  // MailHeader
   public abstract Instant dateReceived();
 
   public abstract ImmutableList<String> additionalHeaders();

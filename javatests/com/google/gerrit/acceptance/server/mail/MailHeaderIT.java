@@ -39,7 +39,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /** Tests the presence of required metadata in email headers, text and html. */
-public class MailMetadataIT extends AbstractDaemonTest {
+public class MailHeaderIT extends AbstractDaemonTest {
   private String systemTimeZone;
 
   @Before

@@ -1508,7 +1508,7 @@ public abstract class AbstractDaemonTest {
     assertThat(m.rcpt()).containsExactly(expected);
     assertThat(((EmailHeader.AddressList) m.headers().get("To")).getAddressList())
         .containsExactly(expected);
-    assertThat(m.headers().get("CC").isEmpty()).isTrue();
+    assertThat(m.headers().get("Cc").isEmpty()).isTrue();
   }
 
   protected void assertNotifyCc(TestAccount expected) {
@@ -1520,7 +1520,7 @@ public abstract class AbstractDaemonTest {
     Message m = sender.getMessages().get(0);
     assertThat(m.rcpt()).containsExactly(expected);
     assertThat(m.headers().get("To").isEmpty()).isTrue();
-    assertThat(((EmailHeader.AddressList) m.headers().get("CC")).getAddressList())
+    assertThat(((EmailHeader.AddressList) m.headers().get("Cc")).getAddressList())
         .containsExactly(expected);
   }
 
@@ -1529,7 +1529,7 @@ public abstract class AbstractDaemonTest {
     Message m = sender.getMessages().get(0);
     assertThat(m.rcpt()).containsExactly(expected.emailAddress);
     assertThat(m.headers().get("To").isEmpty()).isTrue();
-    assertThat(m.headers().get("CC").isEmpty()).isTrue();
+    assertThat(m.headers().get("Cc").isEmpty()).isTrue();
   }
 
   protected interface ProjectWatchInfoConfiguration {

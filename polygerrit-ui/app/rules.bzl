@@ -16,7 +16,7 @@ def polygerrit_bundle(name, srcs, outs, app):
     # See: https://github.com/google/closure-compiler/issues/2042
     compilation_level = "WHITESPACE_ONLY",
     defs = [
-      "--polymer_pass",
+      "--polymer_version=1",
       "--jscomp_off=duplicate",
       "--force_inject_library=es6_runtime",
     ],

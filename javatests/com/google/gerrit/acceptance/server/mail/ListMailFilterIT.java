@@ -68,6 +68,9 @@ public class ListMailFilterIT extends AbstractMailIT {
     // Check that the comments from the email have NOT been persisted
     Collection<ChangeMessageInfo> messages = gApi.changes().id(changeInfo.id).get().messages;
     assertThat(messages).hasSize(2);
+
+    // Check that no emails were sent because of this error
+    assertThat(sender.getMessages()).isEmpty();
   }
 
   @Test

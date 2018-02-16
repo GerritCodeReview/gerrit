@@ -753,6 +753,13 @@
       });
     },
 
+    getDefaultPreferences() {
+      return this._fetchSharedCacheURL('/config/server/preferences').then(
+          res => {
+            return Promise.resolve(res);
+          });
+    },
+
     getPreferences() {
       return this.getLoggedIn().then(loggedIn => {
         if (loggedIn) {

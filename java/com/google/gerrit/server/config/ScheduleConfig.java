@@ -102,10 +102,11 @@ import org.slf4j.LoggerFactory;
 public abstract class ScheduleConfig {
   private static final Logger log = LoggerFactory.getLogger(ScheduleConfig.class);
 
+  @VisibleForTesting static final String KEY_INTERVAL = "interval";
+  @VisibleForTesting static final String KEY_STARTTIME = "startTime";
+
   private static final long MISSING_CONFIG = -1L;
   private static final long INVALID_CONFIG = -2L;
-  private static final String KEY_INTERVAL = "interval";
-  private static final String KEY_STARTTIME = "startTime";
 
   public static Optional<Schedule> createSchedule(Config config, String section) {
     return builder(config, section).buildSchedule();

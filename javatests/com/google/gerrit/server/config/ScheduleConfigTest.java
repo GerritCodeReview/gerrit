@@ -61,7 +61,42 @@ public class ScheduleConfigTest {
   }
 
   @Test
-  public void customKeys() {
+  public void defaultKeysWithoutSubsection() {
+    Config rc = new Config();
+    rc.setString("a", null, ScheduleConfig.KEY_INTERVAL, "1h");
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "01:00");
+
+    assertThat(ScheduleConfig.builder(rc, "a").setNow(NOW).buildSchedule())
+        .hasValue(Schedule.create(ms(1, HOURS), ms(1, HOURS)));
+  }
+
+  @Test
+  public void defaultKeysWithSubsection() {
+    Config rc = new Config();
+    rc.setString("a", "b", ScheduleConfig.KEY_INTERVAL, "1h");
+    rc.setString("a", "b", ScheduleConfig.KEY_STARTTIME, "01:00");
+
+    assertThat(ScheduleConfig.builder(rc, "a").setSubsection("b").setNow(NOW).buildSchedule())
+        .hasValue(Schedule.create(ms(1, HOURS), ms(1, HOURS)));
+  }
+
+  @Test
+  public void customKeysWithoutSubsection() {
+    Config rc = new Config();
+    rc.setString("a", null, "i", "1h");
+    rc.setString("a", null, "s", "01:00");
+
+    assertThat(
+            ScheduleConfig.builder(rc, "a")
+                .setKeyInterval("i")
+                .setKeyStartTime("s")
+                .setNow(NOW)
+                .buildSchedule())
+        .hasValue(Schedule.create(ms(1, HOURS), ms(1, HOURS)));
+  }
+
+  @Test
+  public void customKeysWithSubsection() {
     Config rc = new Config();
     rc.setString("a", "b", "i", "1h");
     rc.setString("a", "b", "s", "01:00");
@@ -74,15 +109,75 @@ public class ScheduleConfigTest {
                 .setNow(NOW)
                 .buildSchedule())
         .hasValue(Schedule.create(ms(1, HOURS), ms(1, HOURS)));
+  }
+
+  @Test
+  public void missingConfigWithoutSubsection() {
+    Config rc = new Config();
+    rc.setString("a", null, ScheduleConfig.KEY_INTERVAL, "1h");
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "01:00");
+
+    assertThat(
+            ScheduleConfig.builder(rc, "a")
+                .setKeyInterval("myInterval")
+                .setKeyStartTime("myStart")
+                .buildSchedule())
+        .isEmpty();
+
+    assertThat(ScheduleConfig.builder(rc, "x").buildSchedule()).isEmpty();
+  }
+
+  @Test
+  public void missingConfigWithSubsection() {
+    Config rc = new Config();
+    rc.setString("a", "b", ScheduleConfig.KEY_INTERVAL, "1h");
+    rc.setString("a", "b", ScheduleConfig.KEY_STARTTIME, "01:00");
 
     assertThat(
             ScheduleConfig.builder(rc, "a")
                 .setSubsection("b")
                 .setKeyInterval("myInterval")
                 .setKeyStartTime("myStart")
-                .setNow(NOW)
                 .buildSchedule())
         .isEmpty();
+
+    assertThat(ScheduleConfig.builder(rc, "a").setSubsection("x").buildSchedule()).isEmpty();
+
+    assertThat(ScheduleConfig.builder(rc, "x").setSubsection("b").buildSchedule()).isEmpty();
+  }
+
+  @Test
+  public void incompleteConfigMissingInterval() {
+    Config rc = new Config();
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "01:00");
+
+    assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
+  }
+
+  @Test
+  public void incompleteConfigMissingStartTime() {
+    Config rc = new Config();
+    rc.setString("a", null, ScheduleConfig.KEY_INTERVAL, "1h");
+
+    assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
+  }
+
+  @Test
+  public void invalidConfigBadInterval() {
+    Config rc = new Config();
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "01:00");
+
+    rc.setString("a", null, ScheduleConfig.KEY_INTERVAL, "x");
+    assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
+
+    rc.setString("a", null, ScheduleConfig.KEY_INTERVAL, "1x");
+    assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
+
+    rc.setString("a", null, ScheduleConfig.KEY_INTERVAL, "0");
+    assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
+
+    rc.setString("a", null, ScheduleConfig.KEY_INTERVAL, "-1");
+    assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
   }
 
   private static long initialDelay(String startTime, String interval) {

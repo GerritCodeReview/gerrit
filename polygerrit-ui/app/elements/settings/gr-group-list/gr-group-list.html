@@ -15,9 +15,11 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
+<link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-group-list">
   <template>
@@ -47,7 +49,11 @@ limitations under the License.
         <tbody>
           <template is="dom-repeat" items="[[_groups]]">
             <tr>
-              <td class="nameColumn">[[item.name]]</td>
+              <td class="nameColumn">
+                <a href$="[[_computeGroupPath(item)]]">
+                  [[item.name]]
+                </a>
+              </td>
               <td>[[item.description]]</td>
               <td class="visibleCell">[[_computeVisibleToAll(item)]]</td>
             </tr>

@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.server.mail.MailHeader;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
 import com.google.gwtorm.server.OrmException;
 import java.util.HashMap;
@@ -115,7 +116,7 @@ public abstract class NotificationEmail extends OutgoingEmail {
     branchData.put("shortName", branch.getShortName());
     soyContext.put("branch", branchData);
 
-    footers.add("Gerrit-Project: " + branch.getParentKey().get());
+    footers.add(MailHeader.PROJECT.withDelimiter() + branch.getParentKey().get());
     footers.add("Gerrit-Branch: " + branch.getShortName());
   }
 }

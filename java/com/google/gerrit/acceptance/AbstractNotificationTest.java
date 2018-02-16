@@ -113,7 +113,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       }
       recipients = new HashMap<>();
       recipients.put(TO, parseAddresses(message, "To"));
-      recipients.put(CC, parseAddresses(message, "CC"));
+      recipients.put(CC, parseAddresses(message, "Cc"));
       recipients.put(
           BCC,
           message

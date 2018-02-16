@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
+import com.google.gerrit.server.mail.MailHeader;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchList;
@@ -56,6 +57,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import org.apache.james.mime4j.dom.field.FieldName;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Repository;
@@ -158,7 +160,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
 
     if (patchSet != null) {
-      setHeader("X-Gerrit-PatchSet", patchSet.getPatchSetId() + "");
+      setHeader(MailHeader.PATCH_SET.fieldName(), patchSet.getPatchSetId() + "");
       if (patchSetInfo == null) {
         try {
           patchSetInfo =
@@ -178,11 +180,11 @@ public abstract class ChangeEmail extends NotificationEmail {
 
     super.init();
     if (timestamp != null) {
-      setHeader("Date", new Date(timestamp.getTime()));
+      setHeader(FieldName.DATE, new Date(timestamp.getTime()));
     }
     setChangeSubjectHeader();
-    setHeader("X-Gerrit-Change-Id", "" + change.getKey().get());
-    setHeader("X-Gerrit-Change-Number", "" + change.getChangeId());
+    setHeader(MailHeader.CHANGE_ID.fieldName(), "" + change.getKey().get());
+    setHeader(MailHeader.CHANGE_NUMBER.fieldName(), "" + change.getChangeId());
     setChangeUrlHeader();
     setCommitIdHeader();
 
@@ -202,7 +204,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   private void setChangeUrlHeader() {
     final String u = getChangeUrl();
     if (u != null) {
-      setHeader("X-Gerrit-ChangeURL", "<" + u + ">");
+      setHeader(MailHeader.CHANGE_URL.fieldName(), "<" + u + ">");
     }
   }
 
@@ -211,12 +213,12 @@ public abstract class ChangeEmail extends NotificationEmail {
         && patchSet.getRevision() != null
         && patchSet.getRevision().get() != null
         && patchSet.getRevision().get().length() > 0) {
-      setHeader("X-Gerrit-Commit", patchSet.getRevision().get());
+      setHeader(MailHeader.COMMIT.fieldName(), patchSet.getRevision().get());
     }
   }
 
   private void setChangeSubjectHeader() {
-    setHeader("Subject", textTemplate("ChangeSubject"));
+    setHeader(FieldName.SUBJECT, textTemplate("ChangeSubject"));
   }
 
   /** Get a link to the change; null if the server doesn't know its own address. */
@@ -481,19 +483,18 @@ public abstract class ChangeEmail extends NotificationEmail {
     patchSetInfoData.put("authorEmail", patchSetInfo.getAuthor().getEmail());
     soyContext.put("patchSetInfo", patchSetInfoData);
 
-    footers.add("Gerrit-MessageType: " + messageClass);
-    footers.add("Gerrit-Change-Id: " + change.getKey().get());
-    footers.add("Gerrit-Change-Number: " + Integer.toString(change.getChangeId()));
-    footers.add("Gerrit-PatchSet: " + patchSet.getPatchSetId());
-    footers.add("Gerrit-Owner: " + getNameEmailFor(change.getOwner()));
+    footers.add(MailHeader.CHANGE_ID.withDelimiter() + change.getKey().get());
+    footers.add(MailHeader.CHANGE_NUMBER.withDelimiter() + Integer.toString(change.getChangeId()));
+    footers.add(MailHeader.PATCH_SET.withDelimiter() + patchSet.getPatchSetId());
+    footers.add(MailHeader.OWNER.withDelimiter() + getNameEmailFor(change.getOwner()));
     if (change.getAssignee() != null) {
-      footers.add("Gerrit-Assignee: " + getNameEmailFor(change.getAssignee()));
+      footers.add(MailHeader.ASSIGNEE.withDelimiter() + getNameEmailFor(change.getAssignee()));
     }
     for (String reviewer : getEmailsByState(ReviewerStateInternal.REVIEWER)) {
-      footers.add("Gerrit-Reviewer: " + reviewer);
+      footers.add(MailHeader.REVIEWER.withDelimiter() + reviewer);
     }
     for (String reviewer : getEmailsByState(ReviewerStateInternal.CC)) {
-      footers.add("Gerrit-CC: " + reviewer);
+      footers.add(MailHeader.CC.withDelimiter() + reviewer);
     }
   }
 

@@ -23,6 +23,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.server.mail.MailHeader;
 import com.google.gerrit.server.mail.send.EmailHeader;
 import com.google.gerrit.server.mail.send.EmailSender;
 import com.google.inject.AbstractModule;
@@ -148,8 +149,8 @@ public class FakeEmailSender implements EmailSender {
   }
 
   public List<Message> getMessages(String changeId, String type) {
-    final String idFooter = "\nGerrit-Change-Id: " + changeId + "\n";
-    final String typeFooter = "\nGerrit-MessageType: " + type + "\n";
+    final String idFooter = "\n" + MailHeader.CHANGE_ID.withDelimiter() + changeId + "\n";
+    final String typeFooter = "\n" + MailHeader.MESSAGE_TYPE.withDelimiter() + type + "\n";
     return getMessages()
         .stream()
         .filter(in -> in.body().contains(idFooter) && in.body().contains(typeFooter))

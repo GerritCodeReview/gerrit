@@ -43,6 +43,7 @@ import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.mail.MailFilter;
+import com.google.gerrit.server.mail.send.InboundEmailRejectionSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -77,6 +78,7 @@ public class MailProcessor {
   private static final Logger log = LoggerFactory.getLogger(MailProcessor.class);
 
   private final Emails emails;
+  private final InboundEmailRejectionSender.Factory emailRejectionSender;
   private final RetryHelper retryHelper;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final CommentsUtil commentsUtil;
@@ -94,6 +96,7 @@ public class MailProcessor {
   @Inject
   public MailProcessor(
       Emails emails,
+      InboundEmailRejectionSender.Factory emailRejectionSender,
       RetryHelper retryHelper,
       ChangeMessagesUtil changeMessagesUtil,
       CommentsUtil commentsUtil,
@@ -108,6 +111,7 @@ public class MailProcessor {
       AccountCache accountCache,
       @CanonicalWebUrl Provider<String> canonicalUrl) {
     this.emails = emails;
+    this.emailRejectionSender = emailRejectionSender;
     this.retryHelper = retryHelper;
     this.changeMessagesUtil = changeMessagesUtil;
     this.commentsUtil = commentsUtil;
@@ -148,12 +152,14 @@ public class MailProcessor {
       }
     }
 
-    MailMetadata metadata = MetadataParser.parse(message);
+    MailMetadata metadata = MailHeaderParser.parse(message);
+
     if (!metadata.hasRequiredFields()) {
       log.error(
           String.format(
               "Message %s is missing required metadata, have %s. Will delete message.",
               message.id(), metadata));
+      warnInboundEmailRejected(message, InboundEmailRejectionSender.Error.PARSING_ERROR);
       return;
     }
 
@@ -163,6 +169,8 @@ public class MailProcessor {
           String.format(
               "Address %s could not be matched to a unique account. It was matched to %s. Will delete message.",
               metadata.author, accountIds));
+
+      warnInboundEmailRejected(message, InboundEmailRejectionSender.Error.UNKNOWN_ACCOUNT);
       return;
     }
     Account.Id accountId = accountIds.iterator().next();
@@ -173,10 +181,22 @@ public class MailProcessor {
     }
     if (!accountState.get().getAccount().isActive()) {
       log.warn(String.format("Mail: Account %s is inactive. Will delete message.", accountId));
+      warnInboundEmailRejected(message, InboundEmailRejectionSender.Error.INACTIVE_ACCOUNT);
       return;
     }
 
     persistComments(buf, message, metadata, accountId);
+  }
+
+  private void warnInboundEmailRejected(
+      MailMessage message, InboundEmailRejectionSender.Error reason) {
+    try {
+      InboundEmailRejectionSender em =
+          emailRejectionSender.create(message.from(), reason, message.id());
+      em.send();
+    } catch (Exception e) {
+      log.error("Cannot send email to warn for an error", e);
+    }
   }
 
   private void persistComments(
@@ -190,6 +210,8 @@ public class MailProcessor {
             String.format(
                 "Message %s references unique change %s, but there are %d matching changes in the index. Will delete message.",
                 message.id(), metadata.changeNumber, changeDataList.size()));
+
+        warnInboundEmailRejected(message, InboundEmailRejectionSender.Error.INTERNAL_EXCEPTION);
         return;
       }
       ChangeData cd = changeDataList.get(0);
@@ -221,6 +243,7 @@ public class MailProcessor {
         log.warn(
             String.format(
                 "Could not parse any comments from %s. Will delete message.", message.id()));
+        warnInboundEmailRejected(message, InboundEmailRejectionSender.Error.PARSING_ERROR);
         return;
       }
 

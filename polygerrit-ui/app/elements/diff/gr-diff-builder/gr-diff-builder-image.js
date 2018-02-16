@@ -20,9 +20,11 @@
   const IMAGE_MIME_PATTERN = /^image\/(bmp|gif|jpeg|jpg|png|tiff|webp)$/;
 
   function GrDiffBuilderImage(
-      diff, comments, prefs, projectName, outputEl, baseImage, revisionImage) {
+      diff, commentMetadata, comments, prefs, projectName, outputEl, baseImage,
+      revisionImage) {
     GrDiffBuilderSideBySide.call(
-        this, diff, comments, prefs, projectName, outputEl, []);
+        this, diff, commentMetadata, comments, prefs, projectName, outputEl,
+        []);
     this._baseImage = baseImage;
     this._revisionImage = revisionImage;
   }
@@ -44,11 +46,11 @@
     const tr = this._createElement('tr');
 
     tr.appendChild(this._createElement('td'));
-    tr.appendChild(this._createImageCell(this._baseImage, 'left', section));
+    tr.appendChild(this._createImageCell(this._baseImage, 'base', section));
 
     tr.appendChild(this._createElement('td'));
     tr.appendChild(this._createImageCell(
-        this._revisionImage, 'right', section));
+        this._revisionImage, 'revision', section));
 
     section.appendChild(tr);
   };
@@ -95,7 +97,7 @@
     }
 
     tr.appendChild(this._createElement('td'));
-    let td = this._createElement('td', 'left');
+    let td = this._createElement('td', 'base');
     let label = this._createElement('label');
     let nameSpan;
     let labelSpan = this._createElement('span', 'label');
@@ -114,7 +116,7 @@
     tr.appendChild(td);
 
     tr.appendChild(this._createElement('td'));
-    td = this._createElement('td', 'right');
+    td = this._createElement('td', 'revision');
     label = this._createElement('label');
     labelSpan = this._createElement('span', 'label');
 

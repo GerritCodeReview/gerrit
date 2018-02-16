@@ -58,7 +58,7 @@
    * @param {String} path The file path whose listeners should be notified.
    * @param {Number} start The line where the update starts.
    * @param {Number} end The line where the update ends.
-   * @param {String} side The side of the update ('left' or 'right').
+   * @param {String} side The side of the update ('base' or 'revision').
    */
   GrAnnotationActionsInterface.prototype.notify = function(
       path, startRange, endRange, side) {
@@ -130,7 +130,7 @@
    * Notify Layer listeners of changes to annotations.
    * @param {Number} start The line where the update starts.
    * @param {Number} end The line where the update ends.
-   * @param {String} side The side of the update. ('left' or 'right')
+   * @param {String} side The side of the update. ('base' or 'revision')
    */
   AnnotationLayer.prototype.notifyListeners = function(
       startRange, endRange, side) {

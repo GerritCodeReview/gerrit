@@ -25,8 +25,8 @@
     this.dueToRebase = undefined;
 
     this.lineRange = {
-      left: {start: null, end: null},
-      right: {start: null, end: null},
+      base: {start: null, end: null},
+      revision: {start: null, end: null},
     };
 
     if (opt_lines) {
@@ -65,8 +65,8 @@
         this.type === GrDiffGroup.Type.CONTEXT_CONTROL) {
       return this.lines.map(line => {
         return {
-          left: line,
-          right: line,
+          base: line,
+          revision: line,
         };
       });
     }
@@ -76,8 +76,8 @@
     let j = 0;
     while (i < this.removes.length || j < this.adds.length) {
       pairs.push({
-        left: this.removes[i] || GrDiffLine.BLANK_LINE,
-        right: this.adds[j] || GrDiffLine.BLANK_LINE,
+        base: this.removes[i] || GrDiffLine.BLANK_LINE,
+        revision: this.adds[j] || GrDiffLine.BLANK_LINE,
       });
       i++;
       j++;
@@ -90,25 +90,25 @@
 
     if (line.type === GrDiffLine.Type.ADD ||
         line.type === GrDiffLine.Type.BOTH) {
-      if (this.lineRange.right.start === null ||
-          line.afterNumber < this.lineRange.right.start) {
-        this.lineRange.right.start = line.afterNumber;
+      if (this.lineRange.revision.start === null ||
+          line.afterNumber < this.lineRange.revision.start) {
+        this.lineRange.revision.start = line.afterNumber;
       }
-      if (this.lineRange.right.end === null ||
-          line.afterNumber > this.lineRange.right.end) {
-        this.lineRange.right.end = line.afterNumber;
+      if (this.lineRange.revision.end === null ||
+          line.afterNumber > this.lineRange.revision.end) {
+        this.lineRange.revision.end = line.afterNumber;
       }
     }
 
     if (line.type === GrDiffLine.Type.REMOVE ||
         line.type === GrDiffLine.Type.BOTH) {
-      if (this.lineRange.left.start === null ||
-          line.beforeNumber < this.lineRange.left.start) {
-        this.lineRange.left.start = line.beforeNumber;
+      if (this.lineRange.base.start === null ||
+          line.beforeNumber < this.lineRange.base.start) {
+        this.lineRange.base.start = line.beforeNumber;
       }
-      if (this.lineRange.left.end === null ||
-          line.beforeNumber > this.lineRange.left.end) {
-        this.lineRange.left.end = line.beforeNumber;
+      if (this.lineRange.base.end === null ||
+          line.beforeNumber > this.lineRange.base.end) {
+        this.lineRange.base.end = line.beforeNumber;
       }
     }
   };

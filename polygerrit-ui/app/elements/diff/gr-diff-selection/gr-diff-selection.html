@@ -29,12 +29,12 @@ limitations under the License.
         user-select: none;
       }
 
-      :host-context(.selected-left:not(.selected-comment)) .contentWrapper ::content .side-by-side .left + .content .contentText,
-      :host-context(.selected-right:not(.selected-comment)) .contentWrapper ::content .side-by-side .right + .content .contentText,
-      :host-context(.selected-left:not(.selected-comment)) .contentWrapper ::content .unified .left.lineNum ~ .content:not(.both) .contentText,
-      :host-context(.selected-right:not(.selected-comment)) .contentWrapper ::content .unified .right.lineNum ~ .content .contentText,
-      :host-context(.selected-left.selected-comment) .contentWrapper ::content .side-by-side .left + .content .message,
-      :host-context(.selected-right.selected-comment) .contentWrapper ::content .side-by-side .right + .content .message :not(.collapsedContent),
+      :host-context(.selected-base:not(.selected-comment)) .contentWrapper ::content .side-by-side .base + .content .contentText,
+      :host-context(.selected-revision:not(.selected-comment)) .contentWrapper ::content .side-by-side .revision + .content .contentText,
+      :host-context(.selected-base:not(.selected-comment)) .contentWrapper ::content .unified .base.lineNum ~ .content:not(.both) .contentText,
+      :host-context(.selected-revision:not(.selected-comment)) .contentWrapper ::content .unified .revision.lineNum ~ .content .contentText,
+      :host-context(.selected-base.selected-comment) .contentWrapper ::content .side-by-side .base + .content .message,
+      :host-context(.selected-revision.selected-comment) .contentWrapper ::content .side-by-side .revision + .content .message :not(.collapsedContent),
       :host-context(.selected-comment) .contentWrapper ::content .unified .message :not(.collapsedContent),
       :host-context(.selected-blame) .contentWrapper ::content .blame {
         -webkit-user-select: text;

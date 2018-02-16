@@ -40,10 +40,10 @@ limitations under the License.
         --light-rebased-add-highlight-color: #edfffa;
         --dark-rebased-add-highlight-color: rgba(11, 255, 155, 0.15);
       }
-      :host(.no-left) .sideBySide ::content .left,
-      :host(.no-left) .sideBySide ::content .left + td,
-      :host(.no-left) .sideBySide ::content .right:not([data-value]),
-      :host(.no-left) .sideBySide ::content .right:not([data-value]) + td {
+      :host(.no-base) .sideBySide ::content .base,
+      :host(.no-base) .sideBySide ::content .base + td,
+      :host(.no-base) .sideBySide ::content .revision:not([data-value]),
+      :host(.no-base) .sideBySide ::content .revision:not([data-value]) + td {
         display: none;
       }
       .diffContainer {
@@ -77,8 +77,8 @@ limitations under the License.
       .diff-row {
         outline: none;
       }
-      .diff-row.target-row.target-side-left .lineNum.left,
-      .diff-row.target-row.target-side-right .lineNum.right,
+      .diff-row.target-row.target-side-base .lineNum.base,
+      .diff-row.target-row.target-side-revision .lineNum.revision,
       .diff-row.target-row.unified .lineNum {
         background-color: #BBDEFB;
         color: #000;
@@ -252,10 +252,11 @@ limitations under the License.
         <gr-diff-highlight
             id="highlights"
             logged-in="[[_loggedIn]]"
-            comments="{{comments}}">
+            comments="{{_commentThreadGroups}}">
           <gr-diff-builder
               id="diffBuilder"
-              comments="[[comments]]"
+              comments="[[_commentThreadGroups]]"
+              comment-metadata="[[_commentMetadata]]"
               project-name="[[projectName]]"
               diff="[[_diff]]"
               diff-path="[[path]]"

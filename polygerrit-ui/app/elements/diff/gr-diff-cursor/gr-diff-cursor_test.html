@@ -59,7 +59,10 @@ limitations under the License.
       // Register the diff with the cursor.
       cursorElement.push('diffs', diffElement);
 
-      diffElement.comments = {left: [], right: []};
+      sandbox.stub(diffElement, '_computeComments').returns(
+        {left: [], right: []});
+      diffElement.changeComments = {};
+
       diffElement.$.restAPI.getDiffPreferences().then(prefs => {
         diffElement.prefs = prefs;
       });

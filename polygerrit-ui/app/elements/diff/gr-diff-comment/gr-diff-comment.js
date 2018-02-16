@@ -208,7 +208,7 @@
           if (this.comment.__draftID) {
             resComment.__draftID = this.comment.__draftID;
           }
-          resComment.__commentSide = this.commentSide;
+          resComment.__side = this.commentSide;
           this.comment = resComment;
           this.editing = false;
           this._fireSave();
@@ -240,7 +240,7 @@
       this.editing = !!comment.__editing;
       this.resolved = !comment.unresolved;
       if (this.editing) { // It's a new draft/reply, notify.
-        this._fireUpdate();
+        // this._fireUpdate();
       }
     },
 
@@ -253,6 +253,7 @@
       return Object.assign({}, opt_mixin, {
         comment: this.comment,
         patchNum: this.patchNum,
+        rootId: this.rootId,
       });
     },
 
@@ -283,7 +284,7 @@
       }
       if (editing != !!previousValue) {
         // To prevent event firing on comment creation.
-        this._fireUpdate();
+        // this._fireUpdate();
       }
     },
 

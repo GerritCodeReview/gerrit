@@ -39,8 +39,10 @@
    */
   const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
-  function GrDiffBuilder(diff, comments, prefs, projectName, outputEl, layers) {
+  function GrDiffBuilder(diff, commentMetadata, comments, prefs, projectName,
+      outputEl, layers) {
     this._diff = diff;
+    this._commentMetadata = commentMetadata;
     this._comments = comments;
     this._prefs = prefs;
     this._projectName = projectName;
@@ -79,8 +81,8 @@
   };
 
   GrDiffBuilder.Side = {
-    LEFT: 'left',
-    RIGHT: 'right',
+    BASE: 'base',
+    REVISION: 'revision',
   };
 
   GrDiffBuilder.ContextButtonType = {
@@ -167,7 +169,7 @@
    *
    * @param {number} start The first line number
    * @param {number} end The last line number
-   * @param {string} opt_side The side of the range. Either 'left' or 'right'.
+   * @param {string} opt_side The side of the range. Either 'base' or 'revision'.
    * @param {!Array<GrDiffLine>} out_lines The output list of line objects. Use
    *     null if not desired.
    * @param  {!Array<HTMLElement>} out_elements The output list of line elements.
@@ -179,11 +181,11 @@
     for (const group of groups) {
       let content = null;
       for (const line of group.lines) {
-        if ((opt_side === 'left' && line.type === GrDiffLine.Type.ADD) ||
-            (opt_side === 'right' && line.type === GrDiffLine.Type.REMOVE)) {
+        if ((opt_side === 'base' && line.type === GrDiffLine.Type.ADD) ||
+            (opt_side === 'revision' && line.type === GrDiffLine.Type.REMOVE)) {
           continue;
         }
-        const lineNumber = opt_side === 'left' ?
+        const lineNumber = opt_side === 'base' ?
             line.beforeNumber : line.afterNumber;
         if (lineNumber < start || lineNumber > end) { continue; }
 
@@ -324,21 +326,24 @@
                (c.line === undefined && lineNum === GrDiffLine.FILE);
       };
     }
-    const leftComments =
-        comments[GrDiffBuilder.Side.LEFT].filter(byLineNum(line.beforeNumber));
-    const rightComments =
-        comments[GrDiffBuilder.Side.RIGHT].filter(byLineNum(line.afterNumber));
 
-    leftComments.forEach(c => { c.__commentSide = 'left'; });
-    rightComments.forEach(c => { c.__commentSide = 'right'; });
+    const leftComments = comments.filter(comment =>
+        comment.__side === 'BASE' || comment.__side === 'PARENT')
+            .filter(byLineNum(line.afterNumber));
+    const rightComments = comments.filter(comment =>
+        comment.__side === 'REVISION').filter(byLineNum(line.afterNumber));
+
+
+    leftComments.forEach(c => { c.__side = 'base'; });
+    rightComments.forEach(c => { c.__side = 'revision'; });
 
     let result;
 
     switch (opt_side) {
-      case GrDiffBuilder.Side.LEFT:
+      case GrDiffBuilder.Side.BASE:
         result = leftComments;
         break;
-      case GrDiffBuilder.Side.RIGHT:
+      case GrDiffBuilder.Side.REVISION:
         result = rightComments;
         break;
       default:
@@ -358,17 +363,26 @@
    * @return {!Object}
    */
   GrDiffBuilder.prototype.createCommentThreadGroup = function(changeNum,
-      patchNum, path, isOnParent, commentSide) {
+      patchNum, path, isOnParent, commentSide, line, range) {
     const threadGroupEl =
         document.createElement('gr-diff-comment-thread-group');
+    threadGroupEl.threads =
+        this.filterThreadsByPatchAndLine(this._comments, path, patchNum, line);
     threadGroupEl.changeNum = changeNum;
     threadGroupEl.commentSide = commentSide;
+    threadGroupEl.line = line;
     threadGroupEl.patchForNewThreads = patchNum;
     threadGroupEl.path = path;
     threadGroupEl.isOnParent = isOnParent;
     threadGroupEl.projectName = this._projectName;
     threadGroupEl.parentIndex = this._parentIndex;
     return threadGroupEl;
+  };
+
+  GrDiffBuilder.prototype.filterThreadsByPatchAndLine = function(allThreads,
+      path, patchNum, line) {
+    return allThreads.filter(thread => thread.path === path &&
+        thread.patch_set + '' === patchNum + '' && thread.line === line);
   };
 
   /**
@@ -384,21 +398,21 @@
       return null;
     }
 
-    let patchNum = this._comments.meta.patchRange.patchNum;
+    let patchNum = this._commentMetadata.patchRange.patchNum;
     let isOnParent = comments[0].side === 'PARENT' || false;
     if (line.type === GrDiffLine.Type.REMOVE ||
-        opt_side === GrDiffBuilder.Side.LEFT) {
-      if (this._comments.meta.patchRange.basePatchNum === 'PARENT' ||
+        opt_side === GrDiffBuilder.Side.BASE) {
+      if (this._commentMetadata.patchRange.basePatchNum === 'PARENT' ||
           Gerrit.PatchSetBehavior.isMergeParent(
-              this._comments.meta.patchRange.basePatchNum)) {
+              this._commentMetadata.patchRange.basePatchNum)) {
         isOnParent = true;
       } else {
-        patchNum = this._comments.meta.patchRange.basePatchNum;
+        patchNum = this._commentMetadata.patchRange.basePatchNum;
       }
     }
     const threadGroupEl = this.createCommentThreadGroup(
-        this._comments.meta.changeNum, patchNum, this._comments.meta.path,
-        isOnParent, opt_side);
+        this._commentMetadata.changeNum, patchNum, this._commentMetadata.path,
+        isOnParent, comments[0].side, line.afterNumber);
     threadGroupEl.comments = comments;
     if (opt_side) {
       threadGroupEl.setAttribute('data-side', opt_side);
@@ -563,7 +577,7 @@
    * Finds the next DIV.contentText element following the given element, and on
    * the same side. Will only search within a group.
    * @param {HTMLElement} content
-   * @param {string} side Either 'left' or 'right'
+   * @param {string} side Either 'base' or 'revision'
    * @return {HTMLElement}
    */
   GrDiffBuilder.prototype._getNextContentOnSide = function(content, side) {

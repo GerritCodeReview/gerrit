@@ -21,6 +21,7 @@ limitations under the License.
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="../../diff/gr-comment-api/gr-comment-api.html">
 <script src="../../../scripts/util.js"></script>
 <script src="../gr-diff/gr-diff-line.js"></script>
 <script src="../gr-diff/gr-diff-group.js"></script>
@@ -32,11 +33,23 @@ limitations under the License.
 
 <script>void(0);</script>
 
-<test-fixture id="basic">
+<dom-module id="comment-api-mock">
   <template>
-    <gr-diff-builder>
+    <gr-diff-builder
+        id="diffBuilder"
+        change-comments="[[_changeComments]]">
       <table id="diffTable"></table>
     </gr-diff-builder>
+    <gr-comment-api id="commentAPI"></gr-comment-api>
+  </template>
+  <script src="../../diff/gr-comment-api/gr-comment-api-mock.js"></script>
+</dom-module>
+
+<test-fixture id="basic">
+  <template>
+    <comment-api-mock>
+      <gr-diff-builder></gr-diff-builder>
+    </comment-api-mock>
   </template>
 </test-fixture>
 
@@ -63,10 +76,20 @@ limitations under the License.
 
     setup(() => {
       sandbox = sinon.sandbox.create();
-      element = fixture('basic');
+      // Element must be wrapped in an element with direct access to the
+      // comment API.
+      commentApiWrapper = fixture('basic');
+      element = commentApiWrapper.$.diffBuilder;
+      loadCommentSpy = sandbox.spy(commentApiWrapper.$.commentAPI, 'loadAll');
+
+      // Stub methods on the changeComments object after changeComments has
+      // been initalized.
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(false); },
         getProjectConfig() { return Promise.resolve({}); },
+        getDiffComments() { return Promise.resolve({}); },
+        getDiffRobotComments() { return Promise.resolve({}); },
+        getDiffDrafts() { return Promise.resolve({}); },
       });
       const prefs = {
         line_length: 10,
@@ -74,8 +97,13 @@ limitations under the License.
         tab_size: 4,
       };
       const projectName = 'my-project';
-      builder = new GrDiffBuilder(
-          {content: []}, {left: [], right: []}, prefs, projectName);
+
+      return commentApiWrapper.loadComments().then(() => {
+        sandbox.stub(element.changeComments, 'getCommentThreads').returns([]);
+        builder = new GrDiffBuilder(
+          {content: []}, {left: [], right: []}, prefs, projectName, null, null,
+          commentApiWrapper._changeComments);
+      });
     });
 
     teardown(() => { sandbox.restore(); });
@@ -591,11 +619,13 @@ limitations under the License.
     });
 
     suite('tab indicators', () => {
+      let commentApiWrapper;
       let element;
       let layer;
 
       setup(() => {
-        element = fixture('basic');
+        commentApiWrapper = fixture('basic');
+        element = commentApiWrapper.$.diffBuilder;
         element._showTabs = true;
         layer = element._createTabIndicatorLayer();
       });
@@ -702,11 +732,13 @@ limitations under the License.
     });
 
     suite('layers from plugins', () => {
+      let commentApiWrapper;
       let element;
       let initialLayersCount;
 
       setup(() => {
-        element = fixture('basic');
+        commentApiWrapper = fixture('basic');
+        element = commentApiWrapper.$.diffBuilder;
         element._showTrailingWhitespace = true;
         initialLayersCount = element._layers.length;
       });
@@ -729,11 +761,13 @@ limitations under the License.
     });
 
     suite('trailing whitespace', () => {
+      let commentApiWrapper;
       let element;
       let layer;
 
       setup(() => {
-        element = fixture('basic');
+        commentApiWrapper = fixture('basic');
+        element = commentApiWrapper.$.diffBuilder;
         element._showTrailingWhitespace = true;
         layer = element._createTrailingWhitespaceLayer();
       });
@@ -830,7 +864,8 @@ limitations under the License.
       let content;
 
       setup(() => {
-        element = fixture('basic');
+        commentApiWrapper = fixture('basic');
+        element = commentApiWrapper.$.diffBuilder;
         element.viewMode = 'SIDE_BY_SIDE';
         processStub = sandbox.stub(element.$.processor, 'process')
             .returns(Promise.resolve());
@@ -908,11 +943,13 @@ limitations under the License.
           time: sandbox.stub(),
           timeEnd: sandbox.stub(),
         });
-        element = fixture('basic');
+        commentApiWrapper = fixture('basic');
+        element = commentApiWrapper.$.diffBuilder;
         outputEl = element.queryEffectiveChildren('#diffTable');
         sandbox.stub(element, '_getDiffBuilder', () => {
           const builder = new GrDiffBuilder(
-              {content}, {left: [], right: []}, prefs, 'my-project', outputEl);
+              {content}, {left: [], right: []}, prefs, 'my-project', outputEl,
+              commentApiWrapper._changeComments);
           sandbox.stub(builder, 'addColumns');
           builder.buildSectionElement = function(group) {
             const section = document.createElement('stub');

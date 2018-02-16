@@ -136,18 +136,18 @@
       let side;
       if (line.type === GrDiffLine.Type.REMOVE || (
           line.type === GrDiffLine.Type.BOTH &&
-          el.getAttribute('data-side') !== 'right')) {
-        side = 'left';
+          el.getAttribute('data-side') !== 'revision')) {
+        side = 'base';
       } else if (line.type === GrDiffLine.Type.ADD || (
-          el.getAttribute('data-side') !== 'left')) {
-        side = 'right';
+          el.getAttribute('data-side') !== 'base')) {
+        side = 'revision';
       }
 
       // Find the relevant syntax ranges, if any.
       let ranges = [];
-      if (side === 'left' && this._baseRanges.length >= line.beforeNumber) {
+      if (side === 'base' && this._baseRanges.length >= line.beforeNumber) {
         ranges = this._baseRanges[line.beforeNumber - 1] || [];
-      } else if (side === 'right' &&
+      } else if (side === 'revision' &&
           this._revisionRanges.length >= line.afterNumber) {
         ranges = this._revisionRanges[line.afterNumber - 1] || [];
       }
@@ -190,8 +190,8 @@
         lineIndex: 0,
         baseContext: undefined,
         revisionContext: undefined,
-        lineNums: {left: 1, right: 1},
-        lastNotify: {left: 1, right: 1},
+        lineNums: {base: 1, revision: 1},
+        lastNotify: {base: 1, revision: 1},
       };
 
       return this._loadHLJS().then(() => {
@@ -294,16 +294,16 @@
       if (section.ab) {
         baseLine = section.ab[state.lineIndex];
         revisionLine = section.ab[state.lineIndex];
-        state.lineNums.left++;
-        state.lineNums.right++;
+        state.lineNums.base++;
+        state.lineNums.revision++;
       } else {
         if (section.a && section.a.length > state.lineIndex) {
           baseLine = section.a[state.lineIndex];
-          state.lineNums.left++;
+          state.lineNums.base++;
         }
         if (section.b && section.b.length > state.lineIndex) {
           revisionLine = section.b[state.lineIndex];
-          state.lineNums.right++;
+          state.lineNums.revision++;
         }
       }
 
@@ -415,19 +415,19 @@
      * @param {!Object} state
      */
     _notify(state) {
-      if (state.lineNums.left - state.lastNotify.left) {
+      if (state.lineNums.base - state.lastNotify.base) {
         this._notifyRange(
-            state.lastNotify.left,
-            state.lineNums.left,
-            'left');
-        state.lastNotify.left = state.lineNums.left;
+            state.lastNotify.base,
+            state.lineNums.base,
+            'base');
+        state.lastNotify.base = state.lineNums.base;
       }
-      if (state.lineNums.right - state.lastNotify.right) {
+      if (state.lineNums.revision - state.lastNotify.revision) {
         this._notifyRange(
-            state.lastNotify.right,
-            state.lineNums.right,
-            'right');
-        state.lastNotify.right = state.lineNums.right;
+            state.lastNotify.revision,
+            state.lineNums.revision,
+            'revision');
+        state.lastNotify.revision = state.lineNums.revision;
       }
     },
 

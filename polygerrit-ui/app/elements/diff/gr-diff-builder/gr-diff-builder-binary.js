@@ -17,8 +17,10 @@
   // Prevent redefinition.
   if (window.GrDiffBuilderBinary) { return; }
 
-  function GrDiffBuilderBinary(diff, comments, prefs, projectName, outputEl) {
-    GrDiffBuilder.call(this, diff, comments, prefs, projectName, outputEl);
+  function GrDiffBuilderBinary(diff, commentMetadata, comments, prefs,
+      projectName, outputEl) {
+    GrDiffBuilder.call(this, diff, commentMetadata, comments, prefs,
+        projectName, outputEl);
     console.log('binary village');
   }
 

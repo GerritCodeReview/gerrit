@@ -37,7 +37,7 @@
    * @param {Number} start The line number where the update starts.
    * @param {Number} end The line number where the update ends.
    * @param {String} cssClass The name of a CSS class created using Gerrit.css.
-   * @param {String} side The side of the update. ('left' or 'right')
+   * @param {String} side The side of the update. ('base' or 'revision')
    */
   GrAnnotationActionsContext.prototype.annotateRange = function(
       start, end, cssClass, side) {

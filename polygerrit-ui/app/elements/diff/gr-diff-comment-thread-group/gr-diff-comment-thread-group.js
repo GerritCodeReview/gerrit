@@ -25,6 +25,7 @@
         value() { return []; },
       },
       projectName: String,
+      patchNum: String,
       patchForNewThreads: String,
       range: Object,
       isOnParent: {
@@ -35,15 +36,11 @@
         type: Number,
         value: null,
       },
-      _threads: {
+      threads: {
         type: Array,
         value() { return []; },
       },
     },
-
-    observers: [
-      '_commentsChanged(comments.*)',
-    ],
 
     /**
      * Adds a new thread. Range is optional because a comment can be
@@ -52,7 +49,10 @@
      * @param {!Object} opt_range
      */
     addNewThread(opt_range) {
-      this.push('_threads', {
+      if (!this.patchNum) {
+        this.patchNum = this.patchForNewThreads;
+      }
+      this.push('threads', {
         comments: [],
         patchNum: this.patchForNewThreads,
         range: opt_range,
@@ -60,9 +60,9 @@
     },
 
     removeThread(rootId) {
-      for (let i = 0; i < this._threads.length; i++) {
-        if (this._threads[i].rootId === rootId) {
-          this.splice('_threads', i, 1);
+      for (let i = 0; i < this.threads.length; i++) {
+        if (this.threads[i].rootId === rootId) {
+          this.splice('threads', i, 1);
           return;
         }
       }
@@ -87,7 +87,7 @@
     },
 
     _commentsChanged() {
-      this._threads = this._getThreadGroups(this.comments);
+      this.threads = this._getThreadGroups(this.comments);
     },
 
     _sortByDate(threadGroups) {
@@ -106,14 +106,6 @@
       });
     },
 
-    _calculateLocationRange(range, comment) {
-      return 'range-' + range.start_line + '-' +
-          range.start_character + '-' +
-          range.end_line + '-' +
-          range.end_character + '-' +
-          comment.__commentSide;
-    },
-
     /**
      * Determines what the patchNum of a thread should be. Use patchNum from
      * comment if it exists, otherwise the property of the thread group.
@@ -122,35 +114,6 @@
      */
     _getPatchNum(comment) {
       return comment.patchNum || this.patchForNewThreads;
-    },
-
-    _getThreadGroups(comments) {
-      const sortedComments = comments.slice(0).sort((a, b) =>
-          util.parseDate(a.updated) - util.parseDate(b.updated));
-
-      const threads = [];
-      for (const comment of sortedComments) {
-        // If the comment is in reply to another comment, find that comment's
-        // thread and append to it.
-        if (comment.in_reply_to) {
-          const thread = threads.find(thread =>
-              thread.comments.some(c => c.id === comment.in_reply_to));
-          if (thread) {
-            thread.comments.push(comment);
-            continue;
-          }
-        }
-
-        // Otherwise, this comment starts its own thread.
-        threads.push({
-          start_datetime: comment.updated,
-          comments: [comment],
-          commentSide: comment.__commentSide,
-          patchNum: this._getPatchNum(comment),
-          rootId: comment.id,
-        });
-      }
-      return threads;
     },
   });
 })();

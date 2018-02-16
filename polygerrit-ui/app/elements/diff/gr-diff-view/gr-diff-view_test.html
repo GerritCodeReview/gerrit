@@ -824,7 +824,6 @@ limitations under the License.
           'path/to/file/one.cpp': [{patch_set: 3, message: 'lorem'}],
           'path-to/file/two.py': [{patch_set: 5, message: 'ipsum'}],
         });
-        sandbox.stub(element, '_getCommentsForPath').returns({meta: {}});
         element._changeNum = '42';
         element._patchRange = {
           basePatchNum: '3',

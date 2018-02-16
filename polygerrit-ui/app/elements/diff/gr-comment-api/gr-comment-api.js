@@ -39,8 +39,8 @@
   /**
    * @typedef {{
    *    meta: !Defs.commentMeta,
-   *    left: !Array,
-   *    right: !Array,
+   *    base: !Array,
+   *    revision: !Array,
    * }}
    */
   Defs.commentsBySide;
@@ -71,6 +71,9 @@
     },
     get robotComments() {
       return this._robotComments;
+    },
+    get changeNum() {
+      return this._changeNum;
     },
   };
 
@@ -111,6 +114,25 @@
     return commentMap;
   };
 
+  ChangeComments.prototype.getMetadata = function(path, patchRange,
+      opt_projectConfig) {
+    return {
+      changeNum: this._changeNum,
+      path,
+      patchRange,
+      projectConfig: opt_projectConfig,
+    };
+  };
+
+  ChangeComments.prototype._getSide = function(comment, patchRange) {
+    if (comment.side === 'PARENT') {
+      return 'PARENT';
+    } else if (comment.patch_set === patchRange.basePatchNum) {
+      return 'BASE';
+    }
+    return 'REVISION';
+  };
+
   /**
    * Gets all the comments and robot comments for the given change.
    *
@@ -135,13 +157,63 @@
     for (const path of Object.keys(paths)) {
       let commentsToAdd = this.getAllCommentsForPath(path, opt_patchNum);
       if (opt_includeDrafts) {
-        const drafts = this.getAllDraftsForPath(path)
+        const drafts = this.getAllDraftsForPath(path, opt_patchNum)
             .map(d => Object.assign({__draft: true}, d));
         commentsToAdd = commentsToAdd.concat(drafts);
+      }
+      // Filter for patchsets.
+      if (opt_patchNum) {
+        commentsToAdd = commentsToAdd.filter(c => c.patch_set + '' ===
+          opt_patchNum + '');
       }
       publishedComments[path] = commentsToAdd;
     }
     return publishedComments;
+  };
+
+  /**
+   * Gets all the comments and robot comments for the given change.
+   *
+   * @param {!Object} patchRange
+   * @param {string} patch
+   * @return {!Array}
+   */
+  ChangeComments.prototype.getCommentsForDiff = function(patchRange, path) {
+    const publishedComments = {};
+    let commentsToAdd = this._getAllCommentsForPathPatchRange(patchRange, path);
+    const drafts = this._getAllDraftsForPathPatchRange(patchRange, path)
+        .map(d => Object.assign({__draft: true}, d));
+    commentsToAdd = commentsToAdd.concat(drafts);
+    commentsToAdd = commentsToAdd.map(c => Object.assign(
+            {__side: this._getSide(c, patchRange)}, c));
+    publishedComments[path] = commentsToAdd;
+    return publishedComments;
+  };
+
+  /**
+   * Gets all the comments and robot comments for the given change.
+   *
+   * @param {!Object} patchRange
+   * @param {string} patch
+   * @return {!Array}
+   */
+  ChangeComments.prototype._getAllCommentsForPathPatchRange = function(
+      patchRange, path) {
+    return this.getAllCommentsForPath(path, patchRange.basePatchNum).concat(
+        this.getAllCommentsForPath(path, patchRange.patchNum));
+  };
+
+  /**
+   * Gets all the comments and robot comments for the given change.
+   *
+   * @param {!Object} patchRange
+   * @param {string} patch
+   * @return {!Array}
+   */
+  ChangeComments.prototype._getAllDraftsForPathPatchRange = function(
+      patchRange, path) {
+    return this.getAllDraftsForPath(path, patchRange.basePatchNum).concat(
+        this.getAllDraftsForPath(path, patchRange.patchNum));
   };
 
   /**
@@ -191,45 +263,6 @@
     return (comments || []).filter(c =>
       this._patchNumEquals(c.patch_set, opt_patchNum)
     );
-  };
-
-  /**
-   * Get the comments (with drafts and robot comments) for a path and
-   * patch-range. Returns an object with left and right properties mapping to
-   * arrays of comments in on either side of the patch range for that path.
-   *
-   * @param {!string} path
-   * @param {!Defs.patchRange} patchRange The patch-range object containing patchNum
-   *     and basePatchNum properties to represent the range.
-   * @param {Object=} opt_projectConfig Optional project config object to
-   *     include in the meta sub-object.
-   * @return {!Defs.commentsBySide}
-   */
-  ChangeComments.prototype.getCommentsBySideForPath = function(path,
-      patchRange, opt_projectConfig) {
-    const comments = this.comments[path] || [];
-    const drafts = this.drafts[path] || [];
-    const robotComments = this.robotComments[path] || [];
-
-    drafts.forEach(d => { d.__draft = true; });
-
-    const all = comments.concat(drafts).concat(robotComments);
-
-    const baseComments = all.filter(c =>
-        this._isInBaseOfPatchRange(c, patchRange));
-    const revisionComments = all.filter(c =>
-        this._isInRevisionOfPatchRange(c, patchRange));
-
-    return {
-      meta: {
-        changeNum: this._changeNum,
-        path,
-        patchRange,
-        projectConfig: opt_projectConfig,
-      },
-      left: baseComments,
-      right: revisionComments,
-    };
   };
 
   /**
@@ -332,7 +365,8 @@
     return unresolvedLeaves.length;
   };
 
-  ChangeComments.prototype.getAllThreadsForChange = function() {
+  ChangeComments.prototype.getThreadsForChange = function() {
+    // TODO SET BASE/PARENT/REVISION HERE
     const comments = this._commentObjToArrayWithFile(this.getAllComments(true));
     const sortedComments = comments.slice(0).sort((c1, c2) => {
       return util.parseDate(c1.updated) - util.parseDate(c2.updated);
@@ -340,13 +374,93 @@
     return this.getCommentThreads(sortedComments);
   };
 
+
+  ChangeComments.prototype.getThreadsForDiff = function(patchRange, path) {
+    // TODO SET BASE/PARENT/REVISION HERE
+    const comments = this._commentObjToArrayWithFile(
+        this.getCommentsForDiff(patchRange, path));
+    const sortedComments = comments.slice(0).sort((c1, c2) => {
+      return util.parseDate(c1.updated) - util.parseDate(c2.updated);
+    });
+    return this.getCommentThreads(sortedComments);
+  };
+
+  /**
+   * @param {number=} opt_lineNum
+   * @param {!Object=} opt_range
+   */
+  ChangeComments.prototype.createNewDraft = function(patchNum, path, isOnParent,
+      side, opt_lineNum, opt_range) {
+    const getSide = (isOnParent, side) => {
+      if (isOnParent) {
+        return 'PARENT';
+      } else if (side === 'base') {
+        return 'BASE';
+      }
+      return 'REVISION';
+    };
+
+    const d = {
+      patch_set: patchNum,
+      __draft: true,
+      __draftID: Math.random().toString(36),
+      __date: new Date(),
+      __path: path,
+      __side: getSide(isOnParent, side),
+    };
+    if (opt_lineNum) {
+      d.line = opt_lineNum;
+    }
+    if (opt_range) {
+      d.range = {
+        start_line: opt_range.startLine,
+        start_character: opt_range.startChar,
+        end_line: opt_range.endLine,
+        end_character: opt_range.endChar,
+      };
+    }
+    if (this.parentIndex) {
+      d.parent = this.parentIndex;
+    }
+    return d;
+  };
+
+  ChangeComments.prototype.createThreadGroup = function(comment,
+      opt_patchRange) {
+    const group = {
+      comments: [comment],
+      patch_set: comment.patch_set || opt_patchForNewThreads,
+      path: comment.__path,
+      line: comment.line,
+      range: comment.range,
+      rootId: comment.id,
+      start_datetime: comment.updated,
+      __side: comment.__side,
+    };
+
+    // comment.side is either 'PARENT' or undefined and is used in an all
+    // thread view and __commentSide is used in a diff view, which is either
+    // 'base' or 'revision'. In either case, comments are organized by either
+    // attribute in the same way.
+
+    if (comment.parent) {
+      group.parent = comment.parent;
+    }
+    return group;
+  };
+
   /**
    * Computes all of the comments in thread format.
    *
    * @param {!Array} comments sorted by updated timestamp.
+   * @param {number=} opt_patchForNewThreads Use patchNum from comment if it
+   *   exists, otherwise the property of the thread group. This is needed for
+   *   switching between side-by-side and unified views when there are unsaved
+   *   drafts.
    * @return {!Array}
    */
-  ChangeComments.prototype.getCommentThreads = function(comments) {
+  ChangeComments.prototype.getCommentThreads = function(comments,
+      opt_patchForNewThreads) {
     const threads = [];
     for (const comment of comments) {
       // If the comment is in reply to another comment, find that comment's
@@ -361,15 +475,7 @@
       }
 
       // Otherwise, this comment starts its own thread.
-      const newThread = {
-        comments: [comment],
-        patchNum: comment.patch_set,
-        path: comment.__path,
-        line: comment.line,
-      };
-      if (comment.side) {
-        newThread.commentSide = comment.side;
-      }
+      const newThread = this.createThreadGroup(comment, opt_patchForNewThreads);
       threads.push(newThread);
     }
     return threads;

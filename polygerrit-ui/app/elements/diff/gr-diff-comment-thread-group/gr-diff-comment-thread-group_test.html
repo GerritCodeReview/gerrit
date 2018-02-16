@@ -21,15 +21,29 @@ limitations under the License.
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="../../diff/gr-comment-api/gr-comment-api.html">
 <script src="../../../scripts/util.js"></script>
 
 <link rel="import" href="gr-diff-comment-thread-group.html">
 
 <script>void(0);</script>
 
+<dom-module id="comment-api-mock">
+  <template>
+    <gr-diff-comment-thread-group
+        id="threadGroup"
+        change-comments="[[_changeComments]]">
+    </gr-diff-comment-thread-group>
+    <gr-comment-api id="commentAPI"></gr-comment-api>
+  </template>
+  <script src="../../diff/gr-comment-api/gr-comment-api-mock.js"></script>
+</dom-module>
+
 <test-fixture id="basic">
   <template>
-    <gr-diff-comment-thread-group></gr-diff-comment-thread-group>
+    <comment-api-mock>
+      <gr-diff-comment-thread-group></gr-diff-comment-thread-group>
+    </comment-api-mock>
   </template>
 </test-fixture>
 
@@ -37,13 +51,27 @@ limitations under the License.
   suite('gr-diff-comment-thread-group tests', () => {
     let element;
     let sandbox;
+    let commentApiWrapper;
 
     setup(() => {
       sandbox = sinon.sandbox.create();
+      // Element must be wrapped in an element with direct access to the
+      // comment API.
+
+      commentApiWrapper = fixture('basic');
+      element = commentApiWrapper.$.threadGroup;
+      loadCommentSpy = sandbox.spy(commentApiWrapper.$.commentAPI, 'loadAll');
+
+      // Stub methods on the changeComments object after changeComments has
+      // been initalized.
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(false); },
+        getDiffComments() { return Promise.resolve({}); },
+        getDiffRobotComments() { return Promise.resolve({}); },
+        getDiffDrafts() { return Promise.resolve({}); },
       });
-      element = fixture('basic');
+
+      return commentApiWrapper.loadComments();
     });
 
     teardown(() => {
@@ -71,6 +99,8 @@ limitations under the License.
         {
           start_datetime: '2015-12-23 15:00:20.396000000',
           commentSide: 'left',
+          line: undefined,
+          path: undefined,
           comments: [{
             id: 'sallys_confession',
             message: 'i like you, jack',
@@ -107,6 +137,8 @@ limitations under the License.
 
       expectedThreadGroups = [
         {
+          line: undefined,
+          path: undefined,
           start_datetime: '2015-12-23 15:00:20.396000000',
           commentSide: 'left',
           comments: [{
@@ -125,6 +157,8 @@ limitations under the License.
           rootId: 'sallys_confession',
         },
         {
+          line: undefined,
+          path: undefined,
           start_datetime: '2015-12-24 15:00:10.396000000',
           commentSide: 'left',
           comments: [{
@@ -221,19 +255,6 @@ limitations under the License.
       ];
 
       assert.deepEqual(element._sortByDate(threadGroups), expectedResult);
-    });
-
-    test('_calculateLocationRange', () => {
-      const comment = {__commentSide: 'left'};
-      const range = {
-        start_line: 1,
-        start_character: 2,
-        end_line: 3,
-        end_character: 4,
-      };
-      assert.equal(
-          element._calculateLocationRange(range, comment),
-          'range-1-2-3-4-left');
     });
 
     test('thread groups are updated when comments change', () => {

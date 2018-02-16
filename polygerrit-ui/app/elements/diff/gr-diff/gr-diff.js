@@ -26,8 +26,8 @@
   };
 
   const DiffSide = {
-    LEFT: 'left',
-    RIGHT: 'right',
+    BASE: 'base',
+    REVISION: 'revision',
   };
 
   const LARGE_DIFF_THRESHOLD_LINES = 10000;
@@ -86,7 +86,7 @@
         reflectToAttribute: true,
       },
       noRenderOnPrefsChange: Boolean,
-      comments: Object,
+      changeComments: Object,
       lineWrapping: {
         type: Boolean,
         value: false,
@@ -107,6 +107,8 @@
        */
       lineOfInterest: Object,
 
+      _commentMetadata: Object,
+      _commentThreadGroups: Array,
       _loggedIn: {
         type: Boolean,
         value: false,
@@ -162,8 +164,14 @@
       Gerrit.PatchSetBehavior,
     ],
 
+    observers: [
+      'computeCommentDetails(changeComments)',
+    ],
+
     listeners: {
       'thread-discard': '_handleThreadDiscard',
+      'thread-hover': '_handleThreadHover',
+      'thread-hover-out': '_handleThreadHoverOut',
       'comment-discard': '_handleCommentDiscard',
       'comment-update': '_handleCommentUpdate',
       'comment-save': '_handleCommentSave',
@@ -225,7 +233,7 @@
     },
 
     toggleLeftDiff() {
-      this.toggleClass('no-left');
+      this.toggleClass('no-base');
     },
 
     /**
@@ -252,6 +260,18 @@
       return !!blame;
     },
 
+    computeCommentDetails(changeComments) {
+      this._commentThreadGroups =
+          changeComments.getThreadsForDiff(this.patchRange, this.path);
+
+      this._commentMetadata = this.changeComments.getMetadata(
+          this.path, this.patchRange, this.projectConfig);
+    },
+
+    // _computeComments(allThreads) {
+    //   return this.changeComments.getCommentsBySideForPath(this.path,
+    //       this.patchRange, this.projectConfig, allThreads);
+    // },
     /**
      * Unload blame information for the diff.
      */
@@ -314,7 +334,7 @@
 
     _selectLine(el) {
       this.fire('line-selected', {
-        side: el.classList.contains('left') ? DiffSide.LEFT : DiffSide.RIGHT,
+        side: el.classList.contains('base') ? DiffSide.BASE : DiffSide.REVISION,
         number: el.getAttribute('data-value'),
         path: this.path,
       });
@@ -356,7 +376,7 @@
           this.fire('show-auth-required');
           return false;
         }
-        const patchNum = el.classList.contains(DiffSide.LEFT) ?
+        const patchNum = el.classList.contains(DiffSide.BASE) ?
             this.patchRange.basePatchNum :
             this.patchRange.patchNum;
 
@@ -389,8 +409,29 @@
       const patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
       const isOnParent =
         this._getIsParentCommentByLineAndContent(lineEl, contentEl);
-      const threadEl = this._getOrCreateThread(contentEl, patchNum,
-          side, isOnParent, opt_range);
+
+      // See if there is an existing thread group in the comment thread object.
+      let threadGroup = this._commentThreadGroups.find(comment =>
+        comment.patch_set === patchNum && comment.side === side &&
+            comment.opt_lineNum === opt_lineNum);
+
+      // Generate a new draft object.
+      const draft = this.changeComments.createNewDraft(patchNum, this.path,
+          isOnParent, side, opt_lineNum, opt_range);
+
+      // Generate a new thread group object if it's needed, and add it to the
+      // comment thread group object.
+      if (!threadGroup) {
+        threadGroup = this.changeComments.createThreadGroup(draft,
+            this.patchRange, patchNum);
+        this._commentThreadGroups.push(threadGroup);
+      } else {
+        threadGroup.comments.push(draft);
+      }
+
+      // Use the new thread data to create a new thread element.
+      const threadEl = this._getOrCreateThread(contentEl, threadGroup,
+          isOnParent);
       threadEl.addOrEditDraft(opt_lineNum, opt_range);
     },
 
@@ -411,46 +452,30 @@
     },
 
     /**
-     * @param {string} commentSide
-     * @param {!Object=} opt_range
-     */
-    _getRangeString(commentSide, opt_range) {
-      return opt_range ?
-        'range-' +
-        opt_range.startLine + '-' +
-        opt_range.startChar + '-' +
-        opt_range.endLine + '-' +
-        opt_range.endChar + '-' +
-        commentSide : 'line-' + commentSide;
-    },
-
-    /**
      * Gets or creates a comment thread for a specific spot on a diff.
      * May include a range, if the comment is a range comment.
      *
      * @param {!Object} contentEl
-     * @param {number} patchNum
-     * @param {string} commentSide
+     * @param {Object} threadGroup
      * @param {boolean} isOnParent
-     * @param {!Object=} opt_range
      * @return {!Object}
      */
-    _getOrCreateThread(contentEl, patchNum, commentSide,
-        isOnParent, opt_range) {
+    _getOrCreateThread(contentEl, threadGroup, isOnParent) {
       // Check if thread group exists.
       let threadGroupEl = this._getThreadGroupForLine(contentEl);
       if (!threadGroupEl) {
         threadGroupEl = this.$.diffBuilder.createCommentThreadGroup(
-            this.changeNum, patchNum, this.path, isOnParent, commentSide);
+            this.changeNum, threadGroup.patch_set, this.path, isOnParent,
+            threadGroup.side, this._commentThreadGroups,
+            threadGroup.line, threadGroup.range);
         contentEl.appendChild(threadGroupEl);
       }
-
-      let threadEl = this._getThread(threadGroupEl, opt_range);
+      let threadEl = this._getThread(threadGroupEl, threadGroup.range);
 
       if (!threadEl) {
-        threadGroupEl.addNewThread(opt_range);
+        threadGroupEl.addNewThread(threadGroup.range);
         Polymer.dom.flush();
-        threadEl = this._getThread(threadGroupEl, opt_range);
+        threadEl = this._getThread(threadGroupEl, threadGroup.range);
       }
       return threadEl;
     },
@@ -472,7 +497,7 @@
     _getPatchNumByLineAndContent(lineEl, contentEl) {
       let patchNum = this.patchRange.patchNum;
 
-      if ((lineEl.classList.contains(DiffSide.LEFT) ||
+      if ((lineEl.classList.contains(DiffSide.BASE) ||
           contentEl.classList.contains('remove')) &&
           this.patchRange.basePatchNum !== 'PARENT' &&
           !this.isMergeParent(this.patchRange.basePatchNum)) {
@@ -483,7 +508,7 @@
 
     /** @return {boolean} */
     _getIsParentCommentByLineAndContent(lineEl, contentEl) {
-      if ((lineEl.classList.contains(DiffSide.LEFT) ||
+      if ((lineEl.classList.contains(DiffSide.BASE) ||
           contentEl.classList.contains('remove')) &&
           (this.patchRange.basePatchNum === 'PARENT' ||
           this.isMergeParent(this.patchRange.basePatchNum))) {
@@ -494,10 +519,10 @@
 
     /** @return {string} */
     _getCommentSideByLineAndContent(lineEl, contentEl) {
-      let side = 'right';
-      if (lineEl.classList.contains(DiffSide.LEFT) ||
+      let side = 'revision';
+      if (lineEl.classList.contains(DiffSide.BASE) ||
           contentEl.classList.contains('remove')) {
-        side = 'left';
+        side = 'base';
       }
       return side;
     },
@@ -507,21 +532,59 @@
       el.parentNode.removeThread(el.rootId);
     },
 
+    _handleThreadHover(e) {
+      const rootId = e.detail.rootId;
+      const line = e.detail.line;
+      const patchNum = e.detail.patchNum;
+      const side = e.detail.side;
+      const index = this._indexOfCommentThread(side, line, patchNum, rootId);
+      this.set(['_commentThreadGroups', index, '__hovering'], true);
+    },
+
+    _handleThreadHoverOut(e) {
+      const rootId = e.detail.rootId;
+      const line = e.detail.line;
+      const patchNum = e.detail.patchNum;
+      const side = e.detail.side;
+      const index = this._indexOfCommentThread(side, line, patchNum, rootId);
+      this.set(['_commentThreadGroups', index, '__hovering'], false);
+    },
+
+    _indexOfCommentThread(side, line, patchNum, rootId) {
+      for (let i = 0; i < this._commentThreadGroups.length; i++) {
+        const sameRootId = this._commentThreadGroups[i].rootId === rootId;
+        const sameLine = this._commentThreadGroups[i].line === line;
+        let samePatch = false;
+        if (side === 'REVISION' || side === 'PARENT') {
+          samePatch = this.patchNumEquals(
+              this._commentThreadGroups[i].patch_set, this.patchRange.patchNum);
+        } else if (side === 'BASE') {
+          samePatch = this.patchNumEquals(
+              this._commentThreadGroups[i].patch_set,
+              this.patchRange.basePatchNum);
+        }
+
+        if (sameRootId && sameLine && samePatch) {
+          return i;
+        }
+      }
+    },
+
     _handleCommentDiscard(e) {
       const comment = e.detail.comment;
       this._removeComment(comment);
     },
 
     _removeComment(comment) {
-      const side = comment.__commentSide;
+      const side = comment.__commentThreadGroupside;
       this._removeCommentFromSide(comment, side);
     },
 
     _handleCommentSave(e) {
       const comment = e.detail.comment;
-      const side = e.detail.comment.__commentSide;
+      const side = e.detail.comment.__side;
       const idx = this._findDraftIndex(comment, side);
-      this.set(['comments', side, idx], comment);
+      this.set(['_commentThreadGroups', side, idx], comment);
     },
 
     /**
@@ -532,15 +595,15 @@
      * @suppress {checkTypes} */
     _handleCommentUpdate(e) {
       const comment = e.detail.comment;
-      const side = e.detail.comment.__commentSide;
+      const side = e.detail.comment.__commentThreadGroupside;
       let idx = this._findCommentIndex(comment, side);
       if (idx === -1) {
         idx = this._findDraftIndex(comment, side);
       }
       if (idx !== -1) { // Update draft or comment.
-        this.set(['comments', side, idx], comment);
+        this.set(['_commentThreadGroups', side, idx], comment);
       } else { // Create new draft.
-        this.push(['comments', side], comment);
+        this.push(['_commentThreadGroups', side], comment);
       }
     },
 
@@ -550,26 +613,26 @@
         idx = this._findDraftIndex(comment, side);
       }
       if (idx !== -1) {
-        this.splice('comments.' + side, idx, 1);
+        this.splice('_commentThreadGroups.' + side, idx, 1);
       }
     },
 
     /** @return {number} */
     _findCommentIndex(comment, side) {
-      if (!comment.id || !this.comments[side]) {
+      if (!comment.id || !this._commentThreadGroups[side]) {
         return -1;
       }
-      return this.comments[side].findIndex(item => {
+      return this._commentThreadGroups[side].findIndex(item => {
         return item.id === comment.id;
       });
     },
 
     /** @return {number} */
     _findDraftIndex(comment, side) {
-      if (!comment.__draftID || !this.comments[side]) {
+      if (!comment.__draftID || !this._commentThreadGroups[side]) {
         return -1;
       }
-      return this.comments[side].findIndex(item => {
+      return this._commentThreadGroups[side].findIndex(item => {
         return item.__draftID === comment.__draftID;
       });
     },
@@ -621,7 +684,7 @@
 
       this.updateStyles(stylesToUpdate);
 
-      if (this._diff && this.comments && !this.noRenderOnPrefsChange) {
+      if (this._diff && this._commentThreadGroups && !this.noRenderOnPrefsChange) {
         this._renderDiffTable();
       }
     },
@@ -635,7 +698,7 @@
       }
 
       this._showWarning = false;
-      return this.$.diffBuilder.render(this.comments, this._getBypassPrefs());
+      return this.$.diffBuilder.render(this._commentMetadata, this._commentThreadGroups, this._getBypassPrefs());
     },
 
     /**

@@ -18,9 +18,10 @@
   if (window.GrDiffBuilderUnified) { return; }
 
   function GrDiffBuilderUnified(
-      diff, comments, prefs, projectName, outputEl, layers) {
+      diff, commentMetadata, comments, prefs, projectName, outputEl, layers) {
     GrDiffBuilder.call(
-        this, diff, comments, prefs, projectName, outputEl, layers);
+        this, diff, commentMetadata, comments, prefs, projectName, outputEl,
+        layers);
   }
   GrDiffBuilderUnified.prototype = Object.create(GrDiffBuilder.prototype);
   GrDiffBuilderUnified.prototype.constructor = GrDiffBuilderUnified;
@@ -49,12 +50,12 @@
     let col = this._createElement('col', 'blame');
     colgroup.appendChild(col);
 
-    // Add left-side line number.
+    // Add base-side line number.
     col = document.createElement('col');
     col.setAttribute('width', width);
     colgroup.appendChild(col);
 
-    // Add right-side line number.
+    // Add revision-side line number.
     col = document.createElement('col');
     col.setAttribute('width', width);
     colgroup.appendChild(col);
@@ -71,11 +72,11 @@
 
     let lineEl = this._createLineEl(line, line.beforeNumber,
         GrDiffLine.Type.REMOVE);
-    lineEl.classList.add('left');
+    lineEl.classList.add('base');
     row.appendChild(lineEl);
     lineEl = this._createLineEl(line, line.afterNumber,
         GrDiffLine.Type.ADD);
-    lineEl.classList.add('right');
+    lineEl.classList.add('revision');
     row.appendChild(lineEl);
     row.classList.add('diff-row', 'unified');
     row.tabIndex = -1;
@@ -99,8 +100,8 @@
     let tr = content.parentElement.parentElement;
     while (tr = tr.nextSibling) {
       if (tr.classList.contains('both') || (
-          (side === 'left' && tr.classList.contains('remove')) ||
-          (side === 'right' && tr.classList.contains('add')))) {
+          (side === 'base' && tr.classList.contains('remove')) ||
+          (side === 'revision' && tr.classList.contains('add')))) {
         return tr.querySelector('.contentText');
       }
     }

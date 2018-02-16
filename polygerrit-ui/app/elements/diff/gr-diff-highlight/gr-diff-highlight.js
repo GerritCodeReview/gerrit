@@ -70,23 +70,21 @@
     _handleCommentMouseOver(e) {
       const comment = e.detail.comment;
       if (!comment.range) { return; }
-      const lineEl = this.diffBuilder.getLineElByChild(e.target);
-      const side = this.diffBuilder.getSideByLineEl(lineEl);
-      const index = this._indexOfComment(side, comment);
-      if (index !== undefined) {
-        this.set(['comments', side, index, '__hovering'], true);
-      }
+      const rootId = e.detail.rootId;
+      this.fire('thread-hover', {rootId, line: comment.line,
+        patchNum: comment.patch_set,
+        side: comment.__side,
+      });
     },
 
     _handleCommentMouseOut(e) {
       const comment = e.detail.comment;
       if (!comment.range) { return; }
-      const lineEl = this.diffBuilder.getLineElByChild(e.target);
-      const side = this.diffBuilder.getSideByLineEl(lineEl);
-      const index = this._indexOfComment(side, comment);
-      if (index !== undefined) {
-        this.set(['comments', side, index, '__hovering'], false);
-      }
+      const rootId = e.detail.rootId;
+      this.fire('thread-hover-out', {rootId, line: comment.line,
+        patchNum: comment.patch_set,
+        side: comment.__side,
+      });
     },
 
     _indexOfComment(side, comment) {
@@ -172,8 +170,8 @@
       const endsAtOtherSideLineNum =
           domRange.endOffset === 0 &&
           domRange.endContainer.nodeName === 'TD' &&
-          (domRange.endContainer.classList.contains('left') ||
-              domRange.endContainer.classList.contains('right'));
+          (domRange.endContainer.classList.contains('base') ||
+              domRange.endContainer.classList.contains('revision'));
       const endsOnOtherSideStart = endsAtOtherSideLineNum ||
           end &&
           end.column === 0 &&
@@ -356,7 +354,7 @@
      * @param {Object=} opt_flags If flags.left is true, traverse left.
      */
     _traverseContentSiblings(startNode, callback, opt_flags) {
-      const travelLeft = opt_flags && opt_flags.left;
+      const travelLeft = opt_flags && opt_flags.base;
       let node = startNode;
       while (node) {
         if (node instanceof Element &&

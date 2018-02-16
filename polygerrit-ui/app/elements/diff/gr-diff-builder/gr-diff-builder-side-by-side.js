@@ -18,9 +18,10 @@
   if (window.GrDiffBuilderSideBySide) { return; }
 
   function GrDiffBuilderSideBySide(
-      diff, comments, prefs, projectName, outputEl, layers) {
+      diff, commentMetadata, comments, prefs, projectName, outputEl, layers) {
     GrDiffBuilder.call(
-        this, diff, comments, prefs, projectName, outputEl, layers);
+        this, diff, commentMetadata, comments, prefs, projectName, outputEl,
+        layers);
   }
   GrDiffBuilderSideBySide.prototype = Object.create(GrDiffBuilder.prototype);
   GrDiffBuilderSideBySide.prototype.constructor = GrDiffBuilderSideBySide;
@@ -36,8 +37,8 @@
     }
     const pairs = group.getSideBySidePairs();
     for (let i = 0; i < pairs.length; i++) {
-      sectionEl.appendChild(this._createRow(sectionEl, pairs[i].left,
-          pairs[i].right));
+      sectionEl.appendChild(this._createRow(sectionEl, pairs[i].base,
+          pairs[i].revision));
     }
     return sectionEl;
   };
@@ -50,39 +51,39 @@
     let col = this._createElement('col', 'blame');
     colgroup.appendChild(col);
 
-    // Add left-side line number.
+    // Add base-side line number.
     col = document.createElement('col');
     col.setAttribute('width', width);
     colgroup.appendChild(col);
 
-    // Add left-side content.
+    // Add base-side content.
     colgroup.appendChild(document.createElement('col'));
 
-    // Add right-side line number.
+    // Add revision-side line number.
     col = document.createElement('col');
     col.setAttribute('width', width);
     colgroup.appendChild(col);
 
-    // Add right-side content.
+    // Add revision-side content.
     colgroup.appendChild(document.createElement('col'));
 
     outputEl.appendChild(colgroup);
   };
 
-  GrDiffBuilderSideBySide.prototype._createRow = function(section, leftLine,
-      rightLine) {
+  GrDiffBuilderSideBySide.prototype._createRow = function(section, baseLine,
+      revisionLine) {
     const row = this._createElement('tr');
     row.classList.add('diff-row', 'side-by-side');
-    row.setAttribute('left-type', leftLine.type);
-    row.setAttribute('right-type', rightLine.type);
+    row.setAttribute('base-type', baseLine.type);
+    row.setAttribute('revision-type', revisionLine.type);
     row.tabIndex = -1;
 
-    row.appendChild(this._createBlameCell(leftLine));
+    row.appendChild(this._createBlameCell(baseLine));
 
-    this._appendPair(section, row, leftLine, leftLine.beforeNumber,
-        GrDiffBuilder.Side.LEFT);
-    this._appendPair(section, row, rightLine, rightLine.afterNumber,
-        GrDiffBuilder.Side.RIGHT);
+    this._appendPair(section, row, baseLine, baseLine.beforeNumber,
+        GrDiffBuilder.Side.BASE);
+    this._appendPair(section, row, revisionLine, revisionLine.afterNumber,
+        GrDiffBuilder.Side.REVISION);
     return row;
   };
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyrevision (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@
   const WHOLE_FILE = -1;
 
   const DiffSide = {
-    LEFT: 'left',
-    RIGHT: 'right',
+    base: 'base',
+    revision: 'revision',
   };
 
   const DiffGroupType = {
@@ -66,7 +66,7 @@
        */
       keyLocations: {
         type: Object,
-        value() { return {left: {}, right: {}}; },
+        value() { return {base: {}, revision: {}}; },
       },
 
       /**
@@ -114,7 +114,7 @@
 
       return new Promise(resolve => {
         const state = {
-          lineNums: {left: 0, right: 0},
+          lineNums: {base: 0, revision: 0},
           sectionIndex: 0,
         };
 
@@ -139,8 +139,8 @@
             this.push('groups', group);
             currentBatch += group.lines.length;
           }
-          state.lineNums.left += result.lineDelta.left;
-          state.lineNums.right += result.lineDelta.right;
+          state.lineNums.base += result.lineDelta.base;
+          state.lineNums.revision += result.lineDelta.revision;
 
           // Increment the index and recurse.
           state.sectionIndex++;
@@ -194,14 +194,14 @@
         const sharedGroups = this._sharedGroupsFromRows(
             rows.both,
             content.length > 1 ? this.context : WHOLE_FILE,
-            state.lineNums.left,
-            state.lineNums.right,
+            state.lineNums.base,
+            state.lineNums.revision,
             sectionEnd);
 
         return {
           lineDelta: {
-            left: rows.both.length,
-            right: rows.both.length,
+            base: rows.both.length,
+            revision: rows.both.length,
           },
           groups: sharedGroups,
         };
@@ -209,15 +209,15 @@
         const deltaGroup = this._deltaGroupFromRows(
             rows.added,
             rows.removed,
-            state.lineNums.left,
-            state.lineNums.right,
+            state.lineNums.base,
+            state.lineNums.revision,
             highlights);
         deltaGroup.dueToRebase = section.due_to_rebase;
 
         return {
           lineDelta: {
-            left: rows.removed ? rows.removed.length : 0,
-            right: rows.added ? rows.added.length : 0,
+            base: rows.removed ? rows.removed.length : 0,
+            revision: rows.added ? rows.added.length : 0,
           },
           groups: [deltaGroup],
         };
@@ -229,15 +229,15 @@
      * (potentially collapsed) groups.
      * @param {!Array<string>} rows
      * @param {number} context
-     * @param {number} startLineNumLeft
-     * @param {number} startLineNumRight
+     * @param {number} startLineNumbase
+     * @param {number} startLineNumrevision
      * @param {?string=} opt_sectionEnd String representing whether this is the
      *     first section or the last section or neither. Use the values 'first',
      *     'last' and null respectively.
      * @return {!Array<!Object>} Array of GrDiffGroup
      */
-    _sharedGroupsFromRows(rows, context, startLineNumLeft,
-        startLineNumRight, opt_sectionEnd) {
+    _sharedGroupsFromRows(rows, context, startLineNumbase,
+        startLineNumrevision, opt_sectionEnd) {
       const result = [];
       const lines = [];
       let line;
@@ -246,8 +246,8 @@
       for (let i = 0; i < rows.length; i++) {
         line = new GrDiffLine(GrDiffLine.Type.BOTH);
         line.text = rows[i];
-        line.beforeNumber = ++startLineNumLeft;
-        line.afterNumber = ++startLineNumRight;
+        line.beforeNumber = ++startLineNumbase;
+        line.afterNumber = ++startLineNumrevision;
         lines.push(line);
       }
 
@@ -292,20 +292,20 @@
      * group.
      * @param {!Array<string>} rowsAdded
      * @param {!Array<string>} rowsRemoved
-     * @param {number} startLineNumLeft
-     * @param {number} startLineNumRight
+     * @param {number} startLineNumbase
+     * @param {number} startLineNumrevision
      * @return {!Object} (Gr-Diff-Group)
      */
-    _deltaGroupFromRows(rowsAdded, rowsRemoved, startLineNumLeft,
-        startLineNumRight, highlights) {
+    _deltaGroupFromRows(rowsAdded, rowsRemoved, startLineNumbase,
+        startLineNumrevision, highlights) {
       let lines = [];
       if (rowsRemoved) {
         lines = lines.concat(this._deltaLinesFromRows(GrDiffLine.Type.REMOVE,
-            rowsRemoved, startLineNumLeft, highlights.removed));
+            rowsRemoved, startLineNumbase, highlights.removed));
       }
       if (rowsAdded) {
         lines = lines.concat(this._deltaLinesFromRows(GrDiffLine.Type.ADD,
-            rowsAdded, startLineNumRight, highlights.added));
+            rowsAdded, startLineNumrevision, highlights.added));
       }
       return new GrDiffGroup(GrDiffGroup.Type.DELTA, lines);
     },
@@ -355,8 +355,8 @@
      */
     _splitCommonGroupsWithComments(content) {
       const result = [];
-      let leftLineNum = 0;
-      let rightLineNum = 0;
+      let baseLineNum = 0;
+      let revisionLineNum = 0;
 
       // If the context is set to "whole file", then break down the shared
       // chunks so they can be rendered incrementally. Note: this is not enabled
@@ -382,10 +382,10 @@
         // If it isn't a common group, append it as-is and update line numbers.
         if (!content[i].ab) {
           if (content[i].a) {
-            leftLineNum += content[i].a.length;
+            baseLineNum += content[i].a.length;
           }
           if (content[i].b) {
-            rightLineNum += content[i].b.length;
+            revisionLineNum += content[i].b.length;
           }
 
           for (const group of this._breakdownGroup(content[i])) {
@@ -400,12 +400,12 @@
 
         // For each line in the common group.
         for (const subChunk of chunk) {
-          leftLineNum++;
-          rightLineNum++;
+          baseLineNum++;
+          revisionLineNum++;
 
           // If this line should not be collapsed.
-          if (this.keyLocations[DiffSide.LEFT][leftLineNum] ||
-              this.keyLocations[DiffSide.RIGHT][rightLineNum]) {
+          if (this.keyLocations[DiffSide.base][baseLineNum] ||
+              this.keyLocations[DiffSide.revision][revisionLineNum]) {
             // If any lines have been accumulated into the chunk leading up to
             // this non-collapse line, then add them as a chunk and start a new
             // one.

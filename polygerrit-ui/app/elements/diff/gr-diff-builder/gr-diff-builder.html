@@ -106,6 +106,7 @@ limitations under the License.
           patchNum: String,
           viewMode: String,
           comments: Object,
+          commentMetadata: Object,
           isImageDiff: Boolean,
           baseImage: Object,
           revisionImage: Object,
@@ -152,7 +153,7 @@ limitations under the License.
           });
         },
 
-        render(comments, prefs) {
+        render(commentMetadata, comments, prefs) {
           this.$.syntaxLayer.enabled = prefs.syntax_highlighting;
           this._showTabs = !!prefs.show_tabs;
           this._showTrailingWhitespace = !!prefs.show_whitespace_errors;
@@ -160,7 +161,7 @@ limitations under the License.
           // Stop the processor and syntax layer (if they're running).
           this.cancel();
 
-          this._builder = this._getDiffBuilder(this.diff, comments, prefs);
+          this._builder = this._getDiffBuilder(this.diff, commentMetadata, comments, prefs);
 
           this.$.processor.context = prefs.context;
           this.$.processor.keyLocations = this._getKeyLocations(comments,
@@ -245,14 +246,15 @@ limitations under the License.
         },
 
         getSideByLineEl(lineEl) {
-          return lineEl.classList.contains(GrDiffBuilder.Side.RIGHT) ?
-          GrDiffBuilder.Side.RIGHT : GrDiffBuilder.Side.LEFT;
+          return lineEl.classList.contains(GrDiffBuilder.Side.REVISION) ?
+          GrDiffBuilder.Side.REVISION : GrDiffBuilder.Side.BASE;
         },
 
         createCommentThreadGroup(changeNum, patchNum, path,
-            isOnParent, commentSide) {
+            isOnParent, commentSide, threadGroups, opt_line, opt_range) {
           return this._builder.createCommentThreadGroup(changeNum, patchNum,
-              path, isOnParent, commentSide);
+              path, isOnParent, commentSide, threadGroups, opt_line,
+              opt_range);
         },
 
         emitGroup(group, sectionEl) {
@@ -290,7 +292,7 @@ limitations under the License.
           throw Error(`Invalid preference value: ${pref}`);
         },
 
-        _getDiffBuilder(diff, comments, prefs) {
+        _getDiffBuilder(diff, commentMetadata, comments, prefs) {
           if (isNaN(prefs.tab_size) || prefs.tab_size <= 0) {
             this._handlePreferenceError('tab size');
             return;
@@ -303,18 +305,18 @@ limitations under the License.
 
           let builder = null;
           if (this.isImageDiff) {
-            builder = new GrDiffBuilderImage(diff, comments, prefs,
+            builder = new GrDiffBuilderImage(diff, commentMetadata, comments, prefs,
                 this.projectName, this.diffElement, this.baseImage,
                 this.revisionImage);
           } else if (diff.binary) {
             // If the diff is binary, but not an image.
-            return new GrDiffBuilderBinary(diff, comments, prefs,
+            return new GrDiffBuilderBinary(diff, commentMetadata, comments, prefs,
                 this.projectName, this.diffElement);
           } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
-            builder = new GrDiffBuilderSideBySide(diff, comments, prefs,
+            builder = new GrDiffBuilderSideBySide(diff, commentMetadata, comments, prefs,
                 this.projectName, this.diffElement, this._layers);
           } else if (this.viewMode === DiffViewMode.UNIFIED) {
-            builder = new GrDiffBuilderUnified(diff, comments, prefs,
+            builder = new GrDiffBuilderUnified(diff, commentMetadata, comments, prefs,
                 this.projectName, this.diffElement, this._layers);
           }
           if (!builder) {
@@ -336,12 +338,12 @@ limitations under the License.
          */
         _getKeyLocations(comments, lineOfInterest) {
           const result = {
-            left: {},
-            right: {},
+            base: {},
+            revision: {},
           };
           for (const side in comments) {
-            if (side !== GrDiffBuilder.Side.LEFT &&
-                side !== GrDiffBuilder.Side.RIGHT) {
+            if (side !== GrDiffBuilder.Side.BASE &&
+                side !== GrDiffBuilder.Side.REVISION) {
               continue;
             }
             for (const c of comments[side]) {
@@ -350,7 +352,7 @@ limitations under the License.
           }
 
           if (lineOfInterest) {
-            const side = lineOfInterest.leftSide ? 'left' : 'right';
+            const side = lineOfInterest.leftSide ? 'base' : 'revision';
             result[side][lineOfInterest.number] = true;
           }
 

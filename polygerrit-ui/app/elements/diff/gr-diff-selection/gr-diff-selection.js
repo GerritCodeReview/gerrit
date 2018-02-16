@@ -20,8 +20,8 @@
    */
   const SelectionClass = {
     COMMENT: 'selected-comment',
-    LEFT: 'selected-left',
-    RIGHT: 'selected-right',
+    BASE: 'selected-base',
+    REVISION: 'selected-revision',
     BLAME: 'selected-blame',
   };
 
@@ -54,7 +54,7 @@
     ],
 
     attached() {
-      this.classList.add(SelectionClass.RIGHT);
+      this.classList.add(SelectionClass.REVISION);
     },
 
     get diffBuilder() {
@@ -83,9 +83,9 @@
             this._elementDescendedFromClass(e.target, 'gr-diff-comment');
         const side = this.diffBuilder.getSideByLineEl(lineEl);
 
-        targetClasses.push(side === 'left' ?
-            SelectionClass.LEFT :
-            SelectionClass.RIGHT);
+        targetClasses.push(side === 'base' ?
+            SelectionClass.BASE :
+            SelectionClass.REVISION);
 
         if (commentSelected) {
           targetClasses.push(SelectionClass.COMMENT);
@@ -218,7 +218,7 @@
         return this._linesCache[side];
       }
       let lines = [];
-      const key = side === 'left' ? 'a' : 'b';
+      const key = side === 'base' ? 'a' : 'b';
       for (const chunk of this.diff.content) {
         if (chunk.ab) {
           lines = lines.concat(chunk.ab);

@@ -15,8 +15,8 @@
   'use strict';
 
   const DiffSides = {
-    LEFT: 'left',
-    RIGHT: 'right',
+    BASE: 'base',
+    REVISION: 'revision',
   };
 
   const DiffViewMode = {
@@ -29,19 +29,19 @@
     NEVER: 'never',
   };
 
-  const LEFT_SIDE_CLASS = 'target-side-left';
-  const RIGHT_SIDE_CLASS = 'target-side-right';
+  const BASE_SIDE_CLASS = 'target-side-base';
+  const REVISION_SIDE_CLASS = 'target-side-revision';
 
   Polymer({
     is: 'gr-diff-cursor',
 
     properties: {
       /**
-       * Either DiffSides.LEFT or DiffSides.RIGHT.
+       * Either DiffSides.base or DiffSides.revision.
        */
       side: {
         type: String,
-        value: DiffSides.RIGHT,
+        value: DiffSides.revision,
       },
       /** @type {!HTMLElement|undefined} */
       diffRow: {
@@ -103,14 +103,14 @@
     },
 
     moveLeft() {
-      this.side = DiffSides.LEFT;
+      this.side = DiffSides.base;
       if (this._isTargetBlank()) {
         this.moveUp();
       }
     },
 
     moveRight() {
-      this.side = DiffSides.RIGHT;
+      this.side = DiffSides.revision;
       if (this._isTargetBlank()) {
         this.moveUp();
       }
@@ -180,7 +180,7 @@
       }
 
       if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-        lineElSelector += this.side === DiffSides.LEFT ? '.left' : '.right';
+        lineElSelector += this.side === DiffSides.base ? '.base' : '.revision';
       }
 
       return this.diffRow.querySelector(lineElSelector);
@@ -246,9 +246,9 @@
       // then prefer the revision cell if available.
       let cell;
       if (this._getViewMode() === DiffViewMode.UNIFIED) {
-        cell = this.diffRow.querySelector('.lineNum.right');
+        cell = this.diffRow.querySelector('.lineNum.revision');
         if (!cell) {
-          cell = this.diffRow.querySelector('.lineNum.left');
+          cell = this.diffRow.querySelector('.lineNum.base');
         }
       } else {
         cell = this.diffRow.querySelector('.lineNum.' + this.side);
@@ -259,7 +259,7 @@
       if (!number || number === 'FILE') { return null; }
 
       return {
-        leftSide: cell.matches('.left'),
+        leftSide: cell.matches('.base'),
         number: parseInt(number, 10),
       };
     },
@@ -277,7 +277,7 @@
     },
 
     _rowHasSide(row) {
-      const selector = (this.side === DiffSides.LEFT ? '.left' : '.right') +
+      const selector = (this.side === DiffSides.base ? '.base' : '.revision') +
           ' + .content';
       return !!row.querySelector(selector);
     },
@@ -300,8 +300,8 @@
     _fixSide() {
       if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE &&
           this._isTargetBlank()) {
-        this.side = this.side === DiffSides.LEFT ?
-            DiffSides.RIGHT : DiffSides.LEFT;
+        this.side = this.side === DiffSides.base ?
+            DiffSides.revision : DiffSides.base;
       }
     },
 
@@ -311,13 +311,13 @@
       }
 
       const actions = this._getActionsForRow();
-      return (this.side === DiffSides.LEFT && !actions.left) ||
-          (this.side === DiffSides.RIGHT && !actions.right);
+      return (this.side === DiffSides.base && !actions.base) ||
+          (this.side === DiffSides.revision && !actions.revision);
     },
 
     _rowChanged(newRow, oldRow) {
       if (oldRow) {
-        oldRow.classList.remove(LEFT_SIDE_CLASS, RIGHT_SIDE_CLASS);
+        oldRow.classList.remove(BASE_SIDE_CLASS, REVISION_SIDE_CLASS);
       }
       this._updateSideClass();
     },
@@ -326,9 +326,9 @@
       if (!this.diffRow) {
         return;
       }
-      this.toggleClass(LEFT_SIDE_CLASS, this.side === DiffSides.LEFT,
+      this.toggleClass(BASE_SIDE_CLASS, this.side === DiffSides.base,
           this.diffRow);
-      this.toggleClass(RIGHT_SIDE_CLASS, this.side === DiffSides.RIGHT,
+      this.toggleClass(REVISION_SIDE_CLASS, this.side === DiffSides.revision,
           this.diffRow);
     },
 
@@ -337,12 +337,12 @@
     },
 
     _getActionsForRow() {
-      const actions = {left: false, right: false};
+      const actions = {base: false, revision: false};
       if (this.diffRow) {
-        actions.left = this._isActionType(
-            this.diffRow.getAttribute('left-type'));
-        actions.right = this._isActionType(
-            this.diffRow.getAttribute('right-type'));
+        actions.base = this._isActionType(
+            this.diffRow.getAttribute('base-type'));
+        actions.revision = this._isActionType(
+            this.diffRow.getAttribute('revision-type'));
       }
       return actions;
     },

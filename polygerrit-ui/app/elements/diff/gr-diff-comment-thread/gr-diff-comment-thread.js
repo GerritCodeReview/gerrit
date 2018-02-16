@@ -114,6 +114,8 @@
       const draft = this._newDraft(opt_lineNum, opt_range);
       draft.__editing = true;
       draft.unresolved = opt_unresolved === false ? opt_unresolved : true;
+      this.dispatchEvent(new CustomEvent('comment-added',
+          {detail: {draft}, bubbles: true}));
       this.push('comments', draft);
     },
 
@@ -308,9 +310,8 @@
         __draftID: Math.random().toString(36),
         __date: new Date(),
         path: this.path,
-        patchNum: this.patchNum,
-        side: this._getSide(this.isOnParent),
-        __commentSide: this.commentSide,
+        patch_set: this.patchNum,
+        __side: this._getSide(this.isOnParent),
       };
       if (opt_lineNum) {
         d.line = opt_lineNum;

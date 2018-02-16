@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyrevision (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,8 +14,8 @@
 (function() {
   'use strict';
 
-  const HOVER_PATH_PATTERN = /^comments\.(left|right)\.\#(\d+)\.__hovering$/;
-  const SPLICE_PATH_PATTERN = /^comments\.(left|right)\.splices$/;
+  const HOVER_PATH_PATTERN = /^comments\.\#(\d+)\.__hovering$/;
+  const SPLICE_PATH_PATTERN = /^comments\.(base|revision)\.splices$/;
 
   const RANGE_HIGHLIGHT = 'range';
   const HOVER_HIGHLIGHT = 'rangeHighlight';
@@ -33,7 +33,7 @@
       },
       _commentMap: {
         type: Object,
-        value() { return {left: [], right: []}; },
+        value() { return {base: [], revision: []}; },
       },
     },
 
@@ -51,13 +51,13 @@
       let ranges = [];
       if (line.type === GrDiffLine.Type.REMOVE || (
           line.type === GrDiffLine.Type.BOTH &&
-          el.getAttribute('data-side') !== 'right')) {
-        ranges = ranges.concat(this._getRangesForLine(line, 'left'));
+          el.getAttribute('data-side') !== 'revision')) {
+        ranges = ranges.concat(this._getRangesForLine(line, 'base'));
       }
       if (line.type === GrDiffLine.Type.ADD || (
           line.type === GrDiffLine.Type.BOTH &&
-          el.getAttribute('data-side') !== 'left')) {
-        ranges = ranges.concat(this._getRangesForLine(line, 'right'));
+          el.getAttribute('data-side') !== 'base')) {
+        ranges = ranges.concat(this._getRangesForLine(line, 'revision'));
       }
 
       for (const range of ranges) {
@@ -81,7 +81,7 @@
      * Notify Layer listeners of changes to annotations.
      * @param {number} start The line where the update starts.
      * @param {number} end The line where the update ends.
-     * @param {string} side The side of the update. ('left' or 'right')
+     * @param {string} side The side of the update. ('base' or 'revision')
      */
     _notifyUpdateRange(start, end, side) {
       for (const listener of this._listeners) {
@@ -99,21 +99,22 @@
 
       // If the entire set of comments was changed.
       if (record.path === 'comments') {
-        this._commentMap.left = this._computeCommentMap(this.comments.left);
-        this._commentMap.right = this._computeCommentMap(this.comments.right);
+        this._commentMap.base = this._computeCommentMap(this.comments,
+            'base');
+        this._commentMap.revision = this._computeCommentMap(this.comments,
+            'revision');
         return;
       }
 
       // If the change only changed the `hovering` property of a comment.
       let match = record.path.match(HOVER_PATH_PATTERN);
-      let side;
 
       if (match) {
-        side = match[1];
-        const index = match[2];
-        const comment = this.comments[side][index];
+        const index = match[1];
+        const comment = this.comments[index];
         if (comment && comment.range) {
-          this._commentMap[side] = this._computeCommentMap(this.comments[side]);
+          const side = comment.__side === 'REVISION' ? 'revision' : 'base';
+          this._commentMap[side] = this._computeCommentMap(this.comments, side);
           this._notifyUpdateRange(
               comment.range.start_line, comment.range.end_line, side);
         }
@@ -137,9 +138,18 @@
      *    Getting this param to match closure requirements caused problems.
      * @return {!Object} The sparse list.
      */
-    _computeCommentMap(commentList) {
+    _computeCommentMap(commentList, side) {
+      // Filter by either base or revision
+      let filteredComments = [];
+      if (side === 'base') {
+        filteredComments =
+            commentList.filter(comment => comment._isInBaseOfPatchRange);
+      } else if (side === 'revision') {
+        filteredComments =
+            commentList.filter(comment => comment._isInRevisionOfPatchRange);
+      }
       const result = {};
-      for (const comment of commentList) {
+      for (const comment of filteredComments) {
         if (!comment.range) { continue; }
         const range = comment.range;
         for (let line = range.start_line; line <= range.end_line; line++) {
@@ -172,7 +182,7 @@
     },
 
     _getRangesForLine(line, side) {
-      const lineNum = side === 'left' ? line.beforeNumber : line.afterNumber;
+      const lineNum = side === 'base' ? line.beforeNumber : line.afterNumber;
       const ranges = this.get(['_commentMap', side, lineNum]) || [];
       return ranges
           .map(range => {

@@ -2777,6 +2777,16 @@ reindex] must be performed.
 This section is only used if Gerrit runs in slave mode, otherwise it is
 ignored.
 
+[[index.scheduledIndexer.runOnStartup]]index.scheduledIndexer.runOnStartup::
++
+Whether the scheduled indexer should run once immediately on startup.
+If set to `true` the slave startup is blocked until all stale groups
+were reindexed. Enabling this allows to prevent that slaves that were
+offline for a longer period of time run with outdated group information
+until the first scheduled indexing is done.
++
+Defaults to `true`.
+
 [[index.scheduledIndexer.enabled]]index.scheduledIndexer.enabled::
 +
 Whether the scheduled indexer is enabled. If the scheduled indexer is

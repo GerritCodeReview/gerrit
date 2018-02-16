@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b9f000a5_e629a04a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-02-16T16:06:18Z",
+      "side": 1,
+      "message": "The reverted commit fixes the task name. Before the patch this could be multi-line due to the --message arg.\n\nBut since taskName in TaskThunk#run is used to name the thread:\n\n    thisThread.setName(\"SSH \" + taskName);\n\nwe now have a multi-line thread name.\n\nThe \"log-line\" that I pasted in the commit message is actually _not_ from sshd_log, it\u0027s from error_log:\n[timestamp] [thread name] log-level class : message.\n\nI did not change anything but the thread name, so I don\u0027t see how that would affect the sshd_log (where the thread-name is not used) or the show-queue command that doesn\u0027t contain the thread-name either. It could be that I\u0027m missing something, if that is the case please enlighten me.\n\nThe information that my patch removed was useful in fringe cases. For instance if the add-reviewer workflow failed somewhere and the cause was an ill-formatted \"gerrit review\" command (don\u0027t even know if that\u0027s possible). You lost the immediate traceability between a log line in the error_log and the arguments of the \"gerrit review\" command, and I fail to see when the loss of that immediate connection would be fatal. You can always compare the timestamps in the sshd_log and at least narrow it down to 2-3 review commands that could have been the instigator. That being said I fail to see how that would ever be useful.",
+      "parentUuid": "e48a82c8_01b83e6b",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "ac31d8b94c3c2b2953f74c35b3df48c61195a844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41130b22_3c6af52e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "From my site I ran some tests on your change. Basically I did the ssh review command and I opened the sshd_log file and show-queue to see the changes in the logs and task names respectively. It turned out that the task names were changed to \"gerrit review\" but the logs remained unchanged. Can you please let me know that did I miss anything or was there something wrong with my test?\n\nAnd yeah maybe it\u0027s not appropriate to use \"hide information\". I can rephrase this. Thank you.",
       "parentUuid": "41130b22_3c6af52e",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 19
+      },
+      "revId": "ac31d8b94c3c2b2953f74c35b3df48c61195a844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e590fa49_2b7b92f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-02-16T16:06:18Z",
+      "side": 1,
+      "message": "As I clarified in my other comment, the patch did not affect the sshd_log, it was fixing the fact that a multi-line thread-name was logged in error_log.",
+      "parentUuid": "ca44b79a_b278aec3",
       "range": {
         "startLine": 17,
         "startChar": 0,

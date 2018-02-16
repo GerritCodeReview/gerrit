@@ -180,6 +180,27 @@ public class ScheduleConfigTest {
     assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
   }
 
+  @Test
+  public void invalidConfigBadStartTime() {
+    Config rc = new Config();
+    rc.setString("a", null, ScheduleConfig.KEY_INTERVAL, "1h");
+
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "x");
+    assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
+
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "Foo 01:00");
+    assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
+
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "Mon 01:000");
+    assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
+
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "001:00");
+    assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
+
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "0100");
+    assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
+  }
+
   private static long initialDelay(String startTime, String interval) {
     Optional<Schedule> schedule =
         ScheduleConfig.builder(config(startTime, interval), "section")

@@ -249,7 +249,7 @@ public abstract class ScheduleConfig {
           delay += interval;
         }
       }
-    } catch (IllegalArgumentException e2) {
+    } catch (DateTimeParseException e) {
       delay = INVALID_CONFIG;
     }
     return delay;

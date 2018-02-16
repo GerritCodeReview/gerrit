@@ -53,14 +53,16 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('strip hash prefix', function() {
+    test('fix my menu item', function() {
       assert.deepEqual([
         {url: '#/q/owner:self+is:draft'},
         {url: 'https://awesometown.com/#hashyhash'},
-      ].map(element._stripHashPrefix),
+        {url: 'url', target: '_blank'},
+      ].map(element._fixMyMenuItem),
       [
-        {url: '/q/owner:self+is:draft'},
-        {url: 'https://awesometown.com/#hashyhash'},
+        {url: '/q/owner:self+is:draft', external: true},
+        {url: 'https://awesometown.com/#hashyhash', external: true},
+        {url: 'url', external: true},
       ]);
     });
 

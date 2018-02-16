@@ -15,11 +15,9 @@
 package com.google.gerrit.server.mail.receive;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.mail.MetadataName.toFooterWithDelimiter;
-import static com.google.gerrit.server.mail.MetadataName.toHeaderWithDelimiter;
 
 import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.server.mail.MetadataName;
+import com.google.gerrit.server.mail.Metadata;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -36,11 +34,11 @@ public class MetadataParserTest {
     b.dateReceived(Instant.now());
     b.subject("");
 
-    b.addAdditionalHeader(toHeaderWithDelimiter(MetadataName.CHANGE_NUMBER) + "123");
-    b.addAdditionalHeader(toHeaderWithDelimiter(MetadataName.PATCH_SET) + "1");
-    b.addAdditionalHeader(toHeaderWithDelimiter(MetadataName.MESSAGE_TYPE) + "comment");
+    b.addAdditionalHeader(Metadata.CHANGE_NUMBER.withDelimiter() + "123");
+    b.addAdditionalHeader(Metadata.PATCH_SET.withDelimiter() + "1");
+    b.addAdditionalHeader(Metadata.MESSAGE_TYPE.withDelimiter() + "comment");
     b.addAdditionalHeader(
-        toHeaderWithDelimiter(MetadataName.TIMESTAMP) + "Tue, 25 Oct 2016 02:11:35 -0700");
+        Metadata.TIMESTAMP.withDelimiter() + "Tue, 25 Oct 2016 02:11:35 -0700");
 
     Address author = new Address("Diffy", "test@gerritcodereview.com");
     b.from(author);
@@ -67,11 +65,11 @@ public class MetadataParserTest {
     b.subject("");
 
     StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append(toFooterWithDelimiter(MetadataName.CHANGE_NUMBER) + "123\r\n");
-    stringBuilder.append("> " + toFooterWithDelimiter(MetadataName.PATCH_SET) + "1\n");
-    stringBuilder.append(toFooterWithDelimiter(MetadataName.MESSAGE_TYPE) + "comment\n");
+    stringBuilder.append(Metadata.CHANGE_NUMBER.withDelimiter() + "123\r\n");
+    stringBuilder.append("> " + Metadata.PATCH_SET.withDelimiter() + "1\n");
+    stringBuilder.append(Metadata.MESSAGE_TYPE.withDelimiter() + "comment\n");
     stringBuilder.append(
-        toFooterWithDelimiter(MetadataName.TIMESTAMP) + "Tue, 25 Oct 2016 02:11:35 -0700\r\n");
+        Metadata.TIMESTAMP.withDelimiter() + "Tue, 25 Oct 2016 02:11:35 -0700\r\n");
     b.textContent(stringBuilder.toString());
 
     Address author = new Address("Diffy", "test@gerritcodereview.com");
@@ -100,13 +98,13 @@ public class MetadataParserTest {
 
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append(
-        "<div id\"someid\">" + toFooterWithDelimiter(MetadataName.CHANGE_NUMBER) + "123</div>");
-    stringBuilder.append("<div>" + toFooterWithDelimiter(MetadataName.PATCH_SET) + "1</div>");
+        "<div id\"someid\">" + Metadata.CHANGE_NUMBER.withDelimiter() + "123</div>");
+    stringBuilder.append("<div>" + Metadata.PATCH_SET.withDelimiter() + "1</div>");
     stringBuilder.append(
-        "<div>" + toFooterWithDelimiter(MetadataName.MESSAGE_TYPE) + "comment</div>");
+        "<div>" + Metadata.MESSAGE_TYPE.withDelimiter() + "comment</div>");
     stringBuilder.append(
         "<div>"
-            + toFooterWithDelimiter(MetadataName.TIMESTAMP)
+            + Metadata.TIMESTAMP.withDelimiter()
             + "Tue, 25 Oct 2016 02:11:35 -0700"
             + "</div>");
     b.htmlContent(stringBuilder.toString());

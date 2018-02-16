@@ -136,6 +136,7 @@ import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.git.validators.UploadValidationListener;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
+import com.google.gerrit.server.mail.AutoReplyMailFilter;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.ListMailFilter;
 import com.google.gerrit.server.mail.MailFilter;
@@ -145,6 +146,7 @@ import com.google.gerrit.server.mail.send.CreateChangeSender;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.mail.send.FromAddressGenerator;
 import com.google.gerrit.server.mail.send.FromAddressGeneratorProvider;
+import com.google.gerrit.server.mail.send.InboundEmailRejectionSender;
 import com.google.gerrit.server.mail.send.MailSoyTofuProvider;
 import com.google.gerrit.server.mail.send.MailTemplates;
 import com.google.gerrit.server.mail.send.MergedSender;
@@ -265,6 +267,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(RegisterNewEmailSender.Factory.class);
     factory(ReplacePatchSetSender.Factory.class);
     factory(SetAssigneeSender.Factory.class);
+    factory(InboundEmailRejectionSender.Factory.class);
     bind(PermissionCollection.Factory.class);
     bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);
     factory(ProjectOwnerGroupsProvider.Factory.class);
@@ -391,6 +394,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     DynamicMap.mapOf(binder(), MailFilter.class);
     bind(MailFilter.class).annotatedWith(Exports.named("ListMailFilter")).to(ListMailFilter.class);
+    bind(AutoReplyMailFilter.class).annotatedWith(Exports.named("AutoReplyMailFilter")).to(AutoReplyMailFilter.class);
 
     factory(UploadValidators.Factory.class);
     DynamicSet.setOf(binder(), UploadValidationListener.class);

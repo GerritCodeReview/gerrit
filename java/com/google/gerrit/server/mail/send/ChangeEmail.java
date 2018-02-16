@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
+import com.google.gerrit.server.mail.Metadata;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchList;
@@ -56,6 +57,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import org.apache.lucene.util.packed.DirectMonotonicReader.Meta;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Repository;
@@ -158,7 +160,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
 
     if (patchSet != null) {
-      setHeader("X-Gerrit-PatchSet", patchSet.getPatchSetId() + "");
+      setHeader(Metadata.PATCH_SET.fieldName(), patchSet.getPatchSetId() + "");
       if (patchSetInfo == null) {
         try {
           patchSetInfo =
@@ -182,7 +184,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
     setChangeSubjectHeader();
     setHeader("X-Gerrit-Change-Id", "" + change.getKey().get());
-    setHeader("X-Gerrit-Change-Number", "" + change.getChangeId());
+    setHeader(Metadata.CHANGE_NUMBER.fieldName(), "" + change.getChangeId());
     setChangeUrlHeader();
     setCommitIdHeader();
 
@@ -481,10 +483,9 @@ public abstract class ChangeEmail extends NotificationEmail {
     patchSetInfoData.put("authorEmail", patchSetInfo.getAuthor().getEmail());
     soyContext.put("patchSetInfo", patchSetInfoData);
 
-    footers.add("Gerrit-MessageType: " + messageClass);
     footers.add("Gerrit-Change-Id: " + change.getKey().get());
-    footers.add("Gerrit-Change-Number: " + Integer.toString(change.getChangeId()));
-    footers.add("Gerrit-PatchSet: " + patchSet.getPatchSetId());
+    footers.add(Metadata.CHANGE_NUMBER.withDelimiter() + Integer.toString(change.getChangeId()));
+    footers.add(Metadata.PATCH_SET.withDelimiter() + patchSet.getPatchSetId());
     footers.add("Gerrit-Owner: " + getNameEmailFor(change.getOwner()));
     if (change.getAssignee() != null) {
       footers.add("Gerrit-Assignee: " + getNameEmailFor(change.getAssignee()));

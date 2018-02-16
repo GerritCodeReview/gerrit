@@ -14,14 +14,11 @@
 
 package com.google.gerrit.server.mail.receive;
 
-import static com.google.gerrit.server.mail.MetadataName.toFooterWithDelimiter;
-import static com.google.gerrit.server.mail.MetadataName.toHeaderWithDelimiter;
-
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.server.mail.MailUtil;
-import com.google.gerrit.server.mail.MetadataName;
+import com.google.gerrit.server.mail.Metadata;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.format.DateTimeParseException;
@@ -39,22 +36,21 @@ public class MetadataParser {
 
     // Check email headers for X-Gerrit-<Name>
     for (String header : m.additionalHeaders()) {
-      if (header.startsWith(toHeaderWithDelimiter(MetadataName.CHANGE_NUMBER))) {
-        String num = header.substring(toHeaderWithDelimiter(MetadataName.CHANGE_NUMBER).length());
+      if (header.startsWith(Metadata.CHANGE_NUMBER.withDelimiter())) {
+        String num = header.substring(Metadata.CHANGE_NUMBER.withDelimiter().length());
         metadata.changeNumber = Ints.tryParse(num);
-      } else if (header.startsWith(toHeaderWithDelimiter(MetadataName.PATCH_SET))) {
-        String ps = header.substring(toHeaderWithDelimiter(MetadataName.PATCH_SET).length());
+      } else if (header.startsWith(Metadata.PATCH_SET.withDelimiter())) {
+        String ps = header.substring(Metadata.PATCH_SET.withDelimiter().length());
         metadata.patchSet = Ints.tryParse(ps);
-      } else if (header.startsWith(toHeaderWithDelimiter(MetadataName.TIMESTAMP))) {
-        String ts = header.substring(toHeaderWithDelimiter(MetadataName.TIMESTAMP).length()).trim();
+      } else if (header.startsWith(Metadata.TIMESTAMP.withDelimiter())) {
+        String ts = header.substring(Metadata.TIMESTAMP.withDelimiter().length()).trim();
         try {
           metadata.timestamp = Timestamp.from(MailUtil.rfcDateformatter.parse(ts, Instant::from));
         } catch (DateTimeParseException e) {
           log.error("Mail: Error while parsing timestamp from header of message " + m.id(), e);
         }
-      } else if (header.startsWith(toHeaderWithDelimiter(MetadataName.MESSAGE_TYPE))) {
-        metadata.messageType =
-            header.substring(toHeaderWithDelimiter(MetadataName.MESSAGE_TYPE).length());
+      } else if (header.startsWith(Metadata.MESSAGE_TYPE.withDelimiter())) {
+        metadata.messageType = header.substring(Metadata.MESSAGE_TYPE.withDelimiter().length());
       }
     }
     if (metadata.hasRequiredFields()) {
@@ -85,22 +81,20 @@ public class MetadataParser {
 
   private static void extractFooters(Iterable<String> lines, MailMetadata metadata, MailMessage m) {
     for (String line : lines) {
-      if (metadata.changeNumber == null && line.contains(MetadataName.CHANGE_NUMBER)) {
+      if (metadata.changeNumber == null && line.contains(Metadata.CHANGE_NUMBER.name())) {
         metadata.changeNumber =
-            Ints.tryParse(extractFooter(toFooterWithDelimiter(MetadataName.CHANGE_NUMBER), line));
-      } else if (metadata.patchSet == null && line.contains(MetadataName.PATCH_SET)) {
-        metadata.patchSet =
-            Ints.tryParse(extractFooter(toFooterWithDelimiter(MetadataName.PATCH_SET), line));
-      } else if (metadata.timestamp == null && line.contains(MetadataName.TIMESTAMP)) {
-        String ts = extractFooter(toFooterWithDelimiter(MetadataName.TIMESTAMP), line);
+            Ints.tryParse(extractFooter(Metadata.CHANGE_NUMBER.withDelimiter(), line));
+      } else if (metadata.patchSet == null && line.contains(Metadata.PATCH_SET.getName())) {
+        metadata.patchSet = Ints.tryParse(extractFooter(Metadata.PATCH_SET.withDelimiter(), line));
+      } else if (metadata.timestamp == null && line.contains(Metadata.TIMESTAMP.getName())) {
+        String ts = extractFooter(Metadata.TIMESTAMP.withDelimiter(), line);
         try {
           metadata.timestamp = Timestamp.from(MailUtil.rfcDateformatter.parse(ts, Instant::from));
         } catch (DateTimeParseException e) {
           log.error("Mail: Error while parsing timestamp from footer of message " + m.id(), e);
         }
-      } else if (metadata.messageType == null && line.contains(MetadataName.MESSAGE_TYPE)) {
-        metadata.messageType =
-            extractFooter(toFooterWithDelimiter(MetadataName.MESSAGE_TYPE), line);
+      } else if (metadata.messageType == null && line.contains(Metadata.MESSAGE_TYPE.getName())) {
+        metadata.messageType = extractFooter(Metadata.MESSAGE_TYPE.withDelimiter(), line);
       }
     }
   }

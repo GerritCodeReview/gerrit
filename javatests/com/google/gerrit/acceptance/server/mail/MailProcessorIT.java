@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.server.mail.MailUtil;
 import com.google.gerrit.server.mail.receive.MailMessage;
 import com.google.gerrit.server.mail.receive.MailProcessor;
+import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -225,5 +226,34 @@ public class MailProcessorIT extends AbstractMailIT {
     mailProcessor.process(b.build());
 
     assertNotifyTo(admin);
+  }
+
+  @Test
+  public void sendNotificationOnMissingMetadatas() throws Exception {
+    String changeId = createChangeWithReview();
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    assertThat(comments).hasSize(2);
+    String ts = "null"; // Erroneous timestamp to be used in erroneous metadatas
+
+    // Build Message
+    String txt =
+        newPlaintextBody(
+            canonicalWebUrl.get() + "#/c/" + changeInfo._number + "/1",
+            "Test Message",
+            null,
+            null,
+            null);
+    MailMessage.Builder b =
+        messageBuilderWithDefaultFields()
+            .from(user.emailAddress)
+            .textContent(txt + textFooterForChange(changeInfo._number, ts));
+
+    sender.clear();
+    mailProcessor.process(b.build());
+
+    assertNotifyTo(user);
+    Message message = sender.nextMessage();
+    assertThat(message.body()).contains("missing required metadata");
   }
 }

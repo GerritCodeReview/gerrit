@@ -1324,12 +1324,11 @@ limitations under the License.
         assert.isFalse(element._computeCanStartReview(false, change, account1));
         assert.isFalse(element._computeCanStartReview(true, change, account2));
       });
+    });
 
-      test('header class computation', () => {
-        assert.equal(element._computeHeaderClass({}), 'header');
-        assert.equal(element._computeHeaderClass({work_in_progress: true}),
-            'header wip');
-      });
+    test('header class computation', () => {
+      assert.equal(element._computeHeaderClass(), 'header');
+      assert.equal(element._computeHeaderClass(true), 'header editMode');
     });
 
     test('_maybeScrollToMessage', () => {

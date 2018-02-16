@@ -36,8 +36,8 @@ limitations under the License.
         background-color: var(--view-background-color);
       }
       gr-fixed-panel {
-        background-color: #fff;
-        border-bottom: 1px #eee solid;
+        background-color: #ebf5fb;
+        border-bottom: 1px #ddd solid;
         z-index: 1;
       }
       header,
@@ -48,7 +48,7 @@ limitations under the License.
         padding: .75em var(--default-horizontal-margin);
       }
       header gr-editable-label {
-        font-size: 1.2rem;
+        font-size: var(--font-size-large);
         font-weight: bold;
         --label-style: {
           text-overflow: initial;
@@ -67,6 +67,11 @@ limitations under the License.
       .textareaWrapper .editButtons {
         display: none;
       }
+      .controlGroup {
+        align-items: center;
+        display: flex;
+        font-size: var(--font-size-large);
+      }
       .rightControls {
         justify-content: flex-end;
       }
@@ -82,12 +87,16 @@ limitations under the License.
     </style>
     <gr-fixed-panel keep-on-scroll>
       <header>
-        <gr-editable-label
-            label-text="File path"
-            value="[[_path]]"
-            placeholder="File path..."
-            on-changed="_handlePathChanged"></gr-editable-label>
-        <span class="rightControls">
+        <span class="controlGroup">
+          <span>Edit mode</span>
+          <span class="separator"></span>
+          <gr-editable-label
+              label-text="File path"
+              value="[[_path]]"
+              placeholder="File path..."
+              on-changed="_handlePathChanged"></gr-editable-label>
+        </span>
+        <span class="controlGroup rightControls">
           <gr-button
               id="close"
               link

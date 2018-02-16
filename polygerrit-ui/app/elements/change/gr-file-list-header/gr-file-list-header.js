@@ -189,10 +189,6 @@
     },
 
     _computePatchInfoClass(patchNum, allPatchSets) {
-      if (this.patchNumEquals(patchNum, this.EDIT_NAME)) {
-        return 'patchInfoEdit';
-      }
-
       const latestNum = this.computeLatestPatchNum(allPatchSets);
       if (this.patchNumEquals(patchNum, latestNum)) {
         return '';

@@ -162,7 +162,7 @@
         this.prefs = prefs;
         this._showNumber = !!prefs.legacycid_in_change_table;
         this._copyPrefs('_localPrefs', 'prefs');
-        this._cloneMenu();
+        this._cloneMenu(prefs.my);
         this._cloneChangeTableColumns();
       }));
 
@@ -226,9 +226,9 @@
       }
     },
 
-    _cloneMenu() {
+    _cloneMenu(prefs) {
       const menu = [];
-      for (const item of this.prefs.my) {
+      for (const item of prefs) {
         menu.push({
           name: item.name,
           url: item.url,
@@ -343,9 +343,17 @@
 
     _handleSaveMenu() {
       this.set('prefs.my', this._localMenu);
-      this._cloneMenu();
+      this._cloneMenu(this.prefs.my);
       return this.$.restAPI.savePreferences(this.prefs).then(() => {
         this._menuChanged = false;
+      });
+    },
+
+    _handleResetMenuButton() {
+      return this.$.restAPI.getDefaultPreferences().then(data => {
+        if (data && data.my) {
+          this._cloneMenu(data.my);
+        }
       });
     },
 

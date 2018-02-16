@@ -756,6 +756,10 @@
       });
     },
 
+    getDefaultPreferences() {
+      return this._fetchSharedCacheURL('/config/server/preferences');
+    },
+
     getPreferences() {
       return this.getLoggedIn().then(loggedIn => {
         if (loggedIn) {

@@ -238,6 +238,7 @@ public abstract class OutgoingEmail {
     headers.put(HDR_TO, new EmailHeader.AddressList());
     headers.put(HDR_CC, new EmailHeader.AddressList());
     setHeader("Message-ID", "");
+    setHeader("Auto-Submitted", "auto-generated");
 
     for (RecipientType recipientType : accountsToNotify.keySet()) {
       add(recipientType, accountsToNotify.get(recipientType));

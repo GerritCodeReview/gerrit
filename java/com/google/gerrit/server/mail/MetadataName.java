@@ -19,6 +19,8 @@ public final class MetadataName {
   public static final String PATCH_SET = "Gerrit-PatchSet";
   public static final String MESSAGE_TYPE = "Gerrit-MessageType";
   public static final String TIMESTAMP = "Gerrit-Comment-Date";
+  public static final String PRECEDENCE = "Precedence";
+  public static final String AUTO_SUBMITTED = "Auto-Submitted";
 
   public static String toHeader(String metadataName) {
     return "X-" + metadataName;

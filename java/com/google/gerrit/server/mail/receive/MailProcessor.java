@@ -43,6 +43,7 @@ import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.mail.MailFilter;
+import com.google.gerrit.server.mail.send.ErrorEmail;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -77,6 +78,7 @@ public class MailProcessor {
   private static final Logger log = LoggerFactory.getLogger(MailProcessor.class);
 
   private final Emails emails;
+  private final ErrorEmail.Factory createErrorEmailFactory;
   private final RetryHelper retryHelper;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final CommentsUtil commentsUtil;
@@ -94,6 +96,7 @@ public class MailProcessor {
   @Inject
   public MailProcessor(
       Emails emails,
+      ErrorEmail.Factory createErrorEmailFactory,
       RetryHelper retryHelper,
       ChangeMessagesUtil changeMessagesUtil,
       CommentsUtil commentsUtil,
@@ -108,6 +111,7 @@ public class MailProcessor {
       AccountCache accountCache,
       @CanonicalWebUrl Provider<String> canonicalUrl) {
     this.emails = emails;
+    this.createErrorEmailFactory = createErrorEmailFactory;
     this.retryHelper = retryHelper;
     this.changeMessagesUtil = changeMessagesUtil;
     this.commentsUtil = commentsUtil;
@@ -138,6 +142,7 @@ public class MailProcessor {
 
   private void processImpl(BatchUpdate.Factory buf, MailMessage message)
       throws OrmException, UpdateException, RestApiException, IOException {
+
     for (DynamicMap.Entry<MailFilter> filter : mailFilters) {
       if (!filter.getProvider().get().shouldProcessMessage(message)) {
         log.warn(
@@ -154,6 +159,7 @@ public class MailProcessor {
           String.format(
               "Message %s is missing required metadata, have %s. Will delete message.",
               message.id(), metadata));
+      warnErrorEmail(message, "Your message is missing required metadata.");
       return;
     }
 
@@ -163,20 +169,46 @@ public class MailProcessor {
           String.format(
               "Address %s could not be matched to a unique account. It was matched to %s. Will delete message.",
               metadata.author, accountIds));
+
+      warnErrorEmail(
+          message,
+          String.format(
+              "Address %s could not be matched to a unique account. It was matched to %s. Will delete message.",
+              metadata.author, accountIds));
       return;
     }
     Account.Id accountId = accountIds.iterator().next();
     Optional<AccountState> accountState = accountCache.get(accountId);
     if (!accountState.isPresent()) {
       log.warn(String.format("Mail: Account %s doesn't exist. Will delete message.", accountId));
+      warnErrorEmail(
+          message,
+          String.format("Mail: Account %s doesn't exist. Will delete message.", accountId));
       return;
     }
     if (!accountState.get().getAccount().isActive()) {
       log.warn(String.format("Mail: Account %s is inactive. Will delete message.", accountId));
+      warnErrorEmail(
+          message, String.format("Mail: Account %s is inactive. Will delete message.", accountId));
       return;
     }
 
     persistComments(buf, message, metadata, accountId);
+  }
+
+  private void warnErrorEmail(MailMessage message, String reason) {
+    try {
+      ErrorEmail em = createErrorEmailFactory.create();
+      em.setTo(message.from());
+      // @TODO: add link to some help content, if such thing exists?
+      em.setReplyTo(message.id());
+      em.setReason(reason);
+      em.send();
+      // throw new Error("Successfully called send on e;ail");
+    } catch (Exception e) {
+      log.error("Cannot send email for erroneous email", e);
+      throw new Error(e);
+    }
   }
 
   private void persistComments(

@@ -407,6 +407,36 @@ limitations under the License.
       assert.isTrue(element.prefs.legacycid_in_change_table);
     });
 
+    test('reset menu item back to default', done => {
+      const originalMenu = {
+        my: [
+          {url: '/first/url', name: 'first name', target: '_blank'},
+          {url: '/second/url', name: 'second name', target: '_blank'},
+          {url: '/third/url', name: 'third name', target: '_blank'},
+        ],
+      };
+
+      stub('gr-rest-api-interface', {
+        getDefaultPreferences() { return Promise.resolve(originalMenu); },
+      });
+
+      const updatedMenu = [
+        {url: '/first/url', name: 'first name', target: '_blank'},
+        {url: '/second/url', name: 'second name', target: '_blank'},
+        {url: '/third/url', name: 'third name', target: '_blank'},
+        {url: '/fourth/url', name: 'fourth name', target: '_blank'},
+      ];
+
+      element.set('_localMenu', updatedMenu);
+
+      assertMenusEqual(element._localMenu, updatedMenu);
+
+      element._handleResetMenuButton().then(() => {
+        assertMenusEqual(element._localMenu, originalMenu.my);
+        done();
+      });
+    });
+
     suite('_getFilterDocsLink', () => {
       test('with http: docs base URL', () => {
         const base = 'http://example.com/';

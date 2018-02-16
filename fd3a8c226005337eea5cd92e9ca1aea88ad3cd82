@@ -148,6 +148,30 @@
     },
     {
       "key": {
+        "uuid": "909a4ba4_e8e4d090",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2826,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-16T15:47:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ce3e7fb_02dc248d",
+      "range": {
+        "startLine": 2826,
+        "startChar": 0,
+        "endLine": 2826,
+        "endChar": 3
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c97868e_36ce7855",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 6
@@ -168,6 +192,30 @@
       "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9d04ff8_f0bd017f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2841,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-16T15:47:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c97868e_36ce7855",
+      "range": {
+        "startLine": 2841,
+        "startChar": 0,
+        "endLine": 2841,
+        "endChar": 67
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -238,6 +286,30 @@
       "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "384353ec_1dbaafbf",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2875,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-16T15:47:19Z",
+      "side": 1,
+      "message": "no longer applicable",
+      "parentUuid": "85842ebd_2e51f652",
+      "range": {
+        "startLine": 2873,
+        "startChar": 0,
+        "endLine": 2875,
+        "endChar": 17
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -332,6 +404,30 @@
       "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0257551e_af3ccb2c",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-16T15:47:19Z",
+      "side": 1,
+      "message": "no longer applicable",
+      "parentUuid": "081cc3f5_4699f52e",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 43
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -453,6 +549,30 @@
     },
     {
       "key": {
+        "uuid": "82fe5cd0_429fba20",
+        "filename": "java/com/google/gerrit/server/group/PeriodicGroupIndexer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-16T15:47:19Z",
+      "side": 1,
+      "message": "I\u0027m removing this for now. In a follow-up change I will add an explicit option for reindexing on slave startup.",
+      "parentUuid": "97f0f07e_9eceeb1a",
+      "range": {
+        "startLine": 97,
+        "startChar": 8,
+        "endLine": 97,
+        "endChar": 21
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82a96a73_2a77d49f",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 6
@@ -497,6 +617,30 @@
       "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "368fd8c5_c211192f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1268,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-16T15:47:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1071fc1c_17cd6860",
+      "range": {
+        "startLine": 1268,
+        "startChar": 69,
+        "endLine": 1268,
+        "endChar": 78
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -568,6 +712,30 @@
       "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d8339fd_e57942e6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1295,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-16T15:47:19Z",
+      "side": 1,
+      "message": "Ah, right. But with the reworked indexing we now really must update group without updating the index.",
+      "parentUuid": "98b94858_7e8d3741",
+      "range": {
+        "startLine": 1288,
+        "startChar": 6,
+        "endLine": 1295,
+        "endChar": 49
+      },
+      "revId": "fd3a8c226005337eea5cd92e9ca1aea88ad3cd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -437,9 +437,9 @@
 
       e.preventDefault();
       if (this._getDiffViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-        this.set('changeViewState.diffMode', DiffViewMode.UNIFIED);
+        this.$.modeSelect.setMode(DiffViewMode.UNIFIED);
       } else {
-        this.set('changeViewState.diffMode', DiffViewMode.SIDE_BY_SIDE);
+        this.$.modeSelect.setMode(DiffViewMode.SIDE_BY_SIDE);
       }
     },
 
@@ -814,15 +814,15 @@
       if (this.changeViewState.diffMode) {
         return this.changeViewState.diffMode;
       } else if (this._userPrefs) {
-        return this.changeViewState.diffMode =
-            this._userPrefs.default_diff_view;
+        this.set('changeViewState.diffMode', this._userPrefs.default_diff_view);
+        return this._userPrefs.default_diff_view;
       } else {
         return 'SIDE_BY_SIDE';
       }
     },
 
-    _computeModeSelectHidden() {
-      return this._isImageDiff;
+    _computeModeSelectHideClass(isImageDiff) {
+      return isImageDiff ? 'hide' : '';
     },
 
     _onLineSelected(e, detail) {

@@ -56,15 +56,6 @@
         type: Boolean,
         computed: '_computeDescriptionReadOnly(loggedIn, change, account)',
       },
-      /** @type {?} */
-      _VIEW_MODES: {
-        type: Object,
-        readOnly: true,
-        value: {
-          SIDE_BY_SIDE: 'SIDE_BY_SIDE',
-          UNIFIED: 'UNIFIED_DIFF',
-        },
-      },
       _revisionInfo: {
         type: Object,
         computed: '_getRevisionInfo(change)',
@@ -79,6 +70,10 @@
       '_computePatchSetDescription(change, patchNum)',
     ],
 
+    setDiffViewMode(mode) {
+      this.$.modeSelect.setMode(mode);
+    },
+
     _expandAllDiffs() {
       this._expanded = true;
       this.fire('expand-diffs');
@@ -87,10 +82,6 @@
     _collapseAllDiffs() {
       this._expanded = false;
       this.fire('collapse-diffs');
-    },
-
-    _computeSelectedClass(diffViewMode, buttonViewMode) {
-      return buttonViewMode === diffViewMode ? 'selected' : '';
     },
 
     _computeExpandedClass(filesExpanded) {
@@ -103,14 +94,6 @@
         classes.push('openFile');
       }
       return classes.join(' ');
-    },
-
-    _handleSideBySideTap() {
-      this.diffViewMode = this._VIEW_MODES.SIDE_BY_SIDE;
-    },
-
-    _handleUnifiedTap() {
-      this.diffViewMode = this._VIEW_MODES.UNIFIED;
     },
 
     _computeDescriptionPlaceholder(readOnly) {

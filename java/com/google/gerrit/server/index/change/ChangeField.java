@@ -269,7 +269,12 @@ public class ChangeField {
 
       int i2 = v.lastIndexOf(',');
       if (i2 == i) {
-        log.warn("Invalid value for reviewer field from change {}: {}", changeId.get(), v);
+        // Don't log a warning here.
+        // For each reviewer we store 2 values in the reviewer field, one value with the format
+        // "<reviewer-type>,<account-id>" and one value with the format
+        // "<reviewer-type>,<account-id>,<timestamp>" (see #getReviewerFieldValues(ReviewerSet)).
+        // For parsing we are only interested in the "<reviewer-type>,<account-id>,<timestamp>"
+        // value and the "<reviewer-type>,<account-id>" value is ignored here.
         continue;
       }
 
@@ -315,7 +320,13 @@ public class ChangeField {
 
       int i2 = v.lastIndexOf(',');
       if (i2 == i) {
-        log.warn("Invalid value for reviewer by email field from change {}: {}", changeId.get(), v);
+        // Don't log a warning here.
+        // For each reviewer we store 2 values in the reviewer field, one value with the format
+        // "<reviewer-type>,<email>" and one value with the format
+        // "<reviewer-type>,<email>,<timestamp>" (see
+        // #getReviewerByEmailFieldValues(ReviewerByEmailSet)).
+        // For parsing we are only interested in the "<reviewer-type>,<email>,<timestamp>" value
+        // and the "<reviewer-type>,<email>" value is ignored here.
         continue;
       }
 

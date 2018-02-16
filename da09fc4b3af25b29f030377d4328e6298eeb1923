@@ -22,6 +22,30 @@
       "revId": "da09fc4b3af25b29f030377d4328e6298eeb1923",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7bebb6b_caee5fc7",
+        "filename": "polygerrit-ui/app/template_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-02-16T21:44:43Z",
+      "side": 1,
+      "message": "Possibly try\nif [ \"$twinkie_version\" -eq \"0\" ]; then\n\n  see line 19.",
+      "parentUuid": "90e26921_b346b68c",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 2
+      },
+      "revId": "da09fc4b3af25b29f030377d4328e6298eeb1923",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

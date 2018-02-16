@@ -18,7 +18,11 @@
     is: 'gr-menu-editor',
 
     properties: {
-      menuItems: Array,
+      // We use notify here to be used by _handleResetButton
+      menuItems: {
+        type: Array,
+        notify: true,
+      },
       _newName: String,
       _newUrl: String,
     },
@@ -55,6 +59,17 @@
 
       this._newName = '';
       this._newUrl = '';
+    },
+
+    _handleResetButton() {
+      this.$.restAPI.getDefaultPreferences().then(data => {
+        if (data && data.my) {
+          this.set('menuItems', data.my);
+        }
+
+        this._newName = '';
+        this._newUrl = '';
+      });
     },
 
     _computeAddDisabled(newName, newUrl) {

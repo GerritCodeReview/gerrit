@@ -84,11 +84,11 @@ import org.slf4j.LoggerFactory;
  * foo.startTime = Fri 10:30
  * foo.interval  = 2 day
  * </pre>
- *       Assuming that the server is started on {@code Mon 7:00} then {@code startTime - now} is {4
- *       days 3:30 hours}. This is larger than the interval hence the start time is preponed by the
- *       maximum integral multiple of the interval so that start time is still in the future, i.e.
- *       preponed by 4 days. This yields a start time of {@code Mon 10:30}, next executions are
- *       {@code Wed 10:30}, {@code Fri 10:30}. etc.
+ *       Assuming that the server is started on {@code Mon 7:00} then {@code startTime - now} is
+ *       {@code 4 days 3:30 hours}. This is larger than the interval hence the start time is
+ *       preponed by the maximum integral multiple of the interval so that start time is still in
+ *       the future, i.e. preponed by 4 days. This yields a start time of {@code Mon 10:30}, next
+ *       executions are {@code Wed 10:30}, {@code Fri 10:30}. etc.
  *   <li>
  *       <pre>
  * foo.startTime = 6:00

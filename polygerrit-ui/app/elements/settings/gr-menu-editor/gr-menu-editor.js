@@ -18,7 +18,10 @@
     is: 'gr-menu-editor',
 
     properties: {
-      menuItems: Array,
+      menuItems: {
+        type: Array,
+        notify: true,
+      },
       _newName: String,
       _newUrl: String,
     },
@@ -55,6 +58,20 @@
 
       this._newName = '';
       this._newUrl = '';
+    },
+
+    _handleResetButton() {
+      this.$.restAPI.getDefaultPreferences().then(data => {
+        this.splice('menuItems', this.menuItems.length, 0);
+
+        if (data && data.my) {
+          //this.menuItems = data.my;
+          //this.menuItems.push(data.my);
+          this.set('menuItems', data.my);
+        }
+        this._newName = '';
+        this._newUrl = '';
+      });
     },
 
     _computeAddDisabled(newName, newUrl) {

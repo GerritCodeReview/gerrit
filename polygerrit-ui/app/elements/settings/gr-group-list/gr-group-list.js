@@ -32,5 +32,13 @@
     _computeVisibleToAll(group) {
       return group.options.visible_to_all ? 'Yes' : 'No';
     },
+
+    _computeGroupPath(group) {
+      if (group && group.id) {
+        return `${this.getBaseUrl()}/admin/groups/${this.encodeURL(group.id, true)}`;
+      }
+
+      return '';
+    },
   });
 })();

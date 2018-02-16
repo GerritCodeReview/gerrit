@@ -69,6 +69,30 @@
       "revId": "e420236caab5fb1e46d07df4dac4010512a6b4de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "051e56f3_0ab581de",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-16T00:48:13Z",
+      "side": 1,
+      "message": "I think we can remove it if this new style of truncation handles really long topics well.",
+      "parentUuid": "62779311_d371c041",
+      "range": {
+        "startLine": 104,
+        "startChar": 8,
+        "endLine": 104,
+        "endChar": 16
+      },
+      "revId": "e420236caab5fb1e46d07df4dac4010512a6b4de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

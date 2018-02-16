@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
+<link rel="import" href="../../shared/gr-icons/gr-icons.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-change-list/gr-change-list.html">
 <link rel="import" href="../gr-user-header/gr-user-header.html">
@@ -38,14 +39,21 @@ limitations under the License.
         width: 100%;
       }
       nav {
-        padding: .5em 0;
-        text-align: center;
+        align-items: center;
+        background-color: var(--view-background-color);;
+        display: flex;
+        height: 3rem;
+        justify-content: flex-end;
+        margin-right: 20px;
       }
-      nav a {
-        display: inline-block;
+      nav,
+      iron-icon {
+        color: rgba(0, 0, 0, .87);
       }
-      nav a:first-of-type {
-        margin-right: .5em;
+      iron-icon {
+        height: 1.85rem;
+        margin-left: 16px;
+        width: 1.85rem;
       }
       .hide {
         display: none;
@@ -68,14 +76,18 @@ limitations under the License.
           changes="{{_changes}}"
           selected-index="{{viewState.selectedChangeIndex}}"
           show-star="[[loggedIn]]"></gr-change-list>
-      <nav>
-        <a id="prevArrow"
-            href$="[[_computeNavLink(_query, _offset, -1, _changesPerPage)]]"
-            hidden$="[[_hidePrevArrow(_offset)]]" hidden>&larr; Prev</a>
-        <a id="nextArrow"
-            href$="[[_computeNavLink(_query, _offset, 1, _changesPerPage)]]"
-            hidden$="[[_hideNextArrow(_loading)]]" hidden>
-          Next &rarr;</a>
+      <nav class$="[[_computeNavClass(_loading)]]">
+          Page [[_computePage(_offset, _changesPerPage)]]
+          <a id="prevArrow"
+              href$="[[_computeNavLink(_query, _offset, -1, _changesPerPage)]]"
+              class$="[[_computePrevArrowClass(_offset)]]">
+            <iron-icon id="icon" icon="gr-icons:chevron-left"></iron-icon>
+          </a>
+          <a id="nextArrow"
+              href$="[[_computeNavLink(_query, _offset, 1, _changesPerPage)]]"
+              class$="[[_computeNextArrowClass(_changes)]]">
+            <iron-icon id="icon" icon="gr-icons:chevron-right"></iron-icon>
+          </a>
       </nav>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

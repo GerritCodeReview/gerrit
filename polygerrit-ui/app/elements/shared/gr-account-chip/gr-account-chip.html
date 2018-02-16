@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../gr-account-link/gr-account-link.html">
 <link rel="import" href="../gr-button/gr-button.html">
+<link rel="import" href="../gr-icons/gr-icons.html">
 <link rel="import" href="../gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -52,7 +53,6 @@ limitations under the License.
           height: .6em;
           line-height: .6;
           margin-left: .15em;
-          margin-top: -.05em;
           padding: 0;
           text-decoration: none;
         }
@@ -74,6 +74,10 @@ limitations under the License.
         opacity: .6;
         pointer-events: none;
       }
+      iron-icon {
+        height: 1.2rem;
+        width: 1.2rem;
+      }
     </style>
     <div class$="container [[_getBackgroundClass(transparentBackground)]]">
       <gr-account-link account="[[account]]"
@@ -87,7 +91,9 @@ limitations under the License.
           tabindex="-1"
           aria-label="Remove"
           class$="remove [[_getBackgroundClass(transparentBackground)]]"
-          on-tap="_handleRemoveTap">×</gr-button>
+          on-tap="_handleRemoveTap">
+        <iron-icon icon="gr-icons:close"></iron-icon>
+      </gr-button>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

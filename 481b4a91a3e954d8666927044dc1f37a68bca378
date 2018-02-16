@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a32a980_080ba8ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-02-16T21:30:24Z",
+      "side": 1,
+      "message": "Please elaborate in the commit message about the approach you\u0027re taking in this change. It helps us understand where we should spend our review time if we know the limitations and tradeoffs up front.\n\nIs this for issue 6611?",
+      "revId": "481b4a91a3e954d8666927044dc1f37a68bca378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

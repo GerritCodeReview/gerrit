@@ -751,6 +751,30 @@
       });
     },
 
+    getDefaultPreferences() {
+      return this.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          return this._fetchSharedCacheURL('/config/server/preferences').then(
+              res => {
+                if (this._isNarrowScreen()) {
+                  res.default_diff_view = DiffViewMode.UNIFIED;
+                } else {
+                  res.default_diff_view = res.diff_view;
+                }
+                return Promise.resolve(res);
+              });
+        }
+
+        return Promise.resolve({
+          changes_per_page: 25,
+          default_diff_view: this._isNarrowScreen() ?
+              DiffViewMode.UNIFIED : DiffViewMode.SIDE_BY_SIDE,
+          diff_view: 'SIDE_BY_SIDE',
+          size_bar_in_change_table: true,
+        });
+      });
+    },
+
     getPreferences() {
       return this.getLoggedIn().then(loggedIn => {
         if (loggedIn) {

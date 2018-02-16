@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "23f9dd6e_57c697bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-16T22:41:20Z",
+      "side": 1,
+      "message": "FTR: This addressed Issue 8349.",
+      "revId": "122f8982f0e3c3a4d4ee0201b7dd02fa5b3a51b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f47bb26d_9e5353be",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 1

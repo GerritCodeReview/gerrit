@@ -223,14 +223,18 @@
       }
     },
 
-    _cloneMenu() {
-      const menu = [];
-      for (const item of this.prefs.my) {
-        menu.push({
-          name: item.name,
-          url: item.url,
-          target: item.target,
-        });
+    _cloneMenu(prefs) {
+      let menu = [];
+      if (!prefs) {
+        for (const item of this.prefs.my) {
+          menu.push({
+            name: item.name,
+            url: item.url,
+            target: item.target,
+          });
+        }
+      } else {
+        menu = prefs;
       }
       this._localMenu = menu;
     },
@@ -343,6 +347,14 @@
       this._cloneMenu();
       return this.$.restAPI.savePreferences(this.prefs).then(() => {
         this._menuChanged = false;
+      });
+    },
+
+    _handleResetMenuButton() {
+      return this.$.restAPI.getDefaultPreferences().then(data => {
+        if (data && data.my) {
+          this._cloneMenu(data.my);
+        }
       });
     },
 

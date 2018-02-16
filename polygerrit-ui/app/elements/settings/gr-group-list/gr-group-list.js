@@ -32,5 +32,11 @@
     _computeVisibleToAll(group) {
       return group.options.visible_to_all ? 'Yes' : 'No';
     },
+
+    _computeGroupPath(group) {
+      if (!group || !group.id) { return; }
+
+      return Gerrit.Nav.getUrlForGroup(group.id);
+    },
   });
 })();

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "7a584a96_09425b98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-16T14:16:48Z",
+      "side": 1,
+      "message": "Yeah, I also like this solution much more :)",
+      "parentUuid": "4e3e5de2_aa32ed14",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 72
+      },
+      "revId": "a2fbf21d5406b8ef673db0572b7355baab148429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24d843a7_f3571056",
         "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
         "patchSetId": 1
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "fed1856a_584680ce",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-16T14:16:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24d843a7_f3571056",
+      "range": {
+        "startLine": 313,
+        "startChar": 15,
+        "endLine": 313,
+        "endChar": 36
+      },
+      "revId": "a2fbf21d5406b8ef673db0572b7355baab148429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d41cf665_833a936c",
         "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
         "patchSetId": 1
@@ -69,6 +117,30 @@
       "revId": "a2fbf21d5406b8ef673db0572b7355baab148429",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0a74aa8_22cdb91a",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-16T14:16:48Z",
+      "side": 1,
+      "message": "Good idea to add some more tests, there was indeed a bug with handling of invalid start times.",
+      "parentUuid": "d41cf665_833a936c",
+      "range": {
+        "startLine": 332,
+        "startChar": 6,
+        "endLine": 334,
+        "endChar": 7
+      },
+      "revId": "a2fbf21d5406b8ef673db0572b7355baab148429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.mail.MailHeader;
 import com.google.gerrit.server.mail.MailUtil;
 import com.google.gerrit.server.mail.receive.Protocol;
 import com.google.gerrit.server.patch.PatchFile;
@@ -54,6 +55,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import org.apache.james.mime4j.dom.field.FieldName;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
@@ -163,14 +165,14 @@ public class CommentSender extends ReplyToChangeSender {
 
     // Add header that enables identifying comments on parsed email.
     // Grouping is currently done by timestamp.
-    setHeader("X-Gerrit-Comment-Date", timestamp);
+    setHeader(MailHeader.COMMENT_DATE.fieldName(), timestamp);
 
     if (incomingEmailEnabled) {
       if (replyToAddress == null) {
         // Remove Reply-To and use outbound SMTP (default) instead.
-        removeHeader("Reply-To");
+        removeHeader(FieldName.REPLY_TO);
       } else {
-        setHeader("Reply-To", replyToAddress);
+        setHeader(FieldName.REPLY_TO, replyToAddress);
       }
     }
   }
@@ -523,12 +525,12 @@ public class CommentSender extends ReplyToChangeSender {
     soyContext.put(
         "coverLetterBlocks", commentBlocksToSoyData(CommentFormatter.parse(getCoverLetter())));
 
-    footers.add("Gerrit-Comment-Date: " + getCommentTimestamp());
-    footers.add("Gerrit-HasComments: " + (hasComments ? "Yes" : "No"));
-    footers.add("Gerrit-HasLabels: " + (labels.isEmpty() ? "No" : "Yes"));
+    footers.add(MailHeader.COMMENT_DATE.withDelimiter() + getCommentTimestamp());
+    footers.add(MailHeader.HAS_COMMENTS.withDelimiter() + (hasComments ? "Yes" : "No"));
+    footers.add(MailHeader.HAS_LABELS.withDelimiter() + (labels.isEmpty() ? "No" : "Yes"));
 
     for (Account.Id account : getReplyAccounts()) {
-      footers.add("Gerrit-Comment-In-Reply-To: " + getNameEmailFor(account));
+      footers.add(MailHeader.COMMENT_IN_REPLY_TO.withDelimiter() + getNameEmailFor(account));
     }
   }
 

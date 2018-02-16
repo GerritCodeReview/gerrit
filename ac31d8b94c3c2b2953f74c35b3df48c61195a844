@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b610c89_dd69295d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-02-16T09:59:55Z",
+      "side": 1,
+      "message": "I\u0027m having a hard time comprehending how you can find the commit message misleading since it clearly states:\n\n    SSH commands: Set task name for ReviewCommand\n\n    Task name is otherwise set to the command line which in ReviewCommands\n    case can be a multi line string which leads to  pretty unreadable and\n    bordering on unparseable \"loglines\" like:\n\n    [2018-01-10 09:59:17,619] [SSH gerrit review 12345,4 --message \u0027Build:\n\n    http://jenkins.company.com/job/JOB_NAME/job/identifier/182/ : UNSTABLE\n\n    http://jenkins.company.com/job/JOB_NAME/job/other/13677/ : SUCCESS\u0027\\\n    --verified -1 --code-review 0 (jenkins)] WARN \u003cclass\u003e : \u003cmessage\u003e\n\nWherein would you say the contradiction lies? The subject, which is part of the subject of this commit, says exactly what the commit does.\nI would kindly ask you to remove these erroneous statements from the commit message.",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "ac31d8b94c3c2b2953f74c35b3df48c61195a844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41130b22_3c6af52e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-02-16T09:59:55Z",
+      "side": 1,
+      "message": "I would not say that it \"hides\" information, it removes the data about which change,patchset is reviewed and which labels are being set and which message are being posted from the task-name.\nThis behavior is also not restricted to the show-queue command it is also true for the logs.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 19
+      },
+      "revId": "ac31d8b94c3c2b2953f74c35b3df48c61195a844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

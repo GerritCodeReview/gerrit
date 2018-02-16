@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e48a82c8_01b83e6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-02-16T15:08:58Z",
+      "side": 1,
+      "message": "Hello Sven: \n\nI am sorry for the confusion. I think the title of your commit message indicates that you were fixing the task name, however from the commit message body it looks like you were actually fixing the logs instead of task names because the \"loglines\" you were posting was actually the logs (from sshd_log file) and the original task name (from show-queue command) looked like this: \n\nTask     State        StartTime         Command\n------------------------------------------------------------------------------\nQueue: SSH-Interactive-Worker\n3ce351ff              09:25:40.823      gerrit review--project pg3 --message GMDC Tests started: UPC_EBT_DUS52\nJob links:\n_LRATKI/9431\n d7d689a0c0 (eztaobo)\n\nthat\u0027s why I think there is a contradiction where the message title and message body talk about different things. Can you please let me know if I am right or wrong? Thank you.",
+      "parentUuid": "7b610c89_dd69295d",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "ac31d8b94c3c2b2953f74c35b3df48c61195a844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41130b22_3c6af52e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-02-16T09:59:55Z",
       "side": 1,
       "message": "I would not say that it \"hides\" information, it removes the data about which change,patchset is reviewed and which labels are being set and which message are being posted from the task-name.\nThis behavior is also not restricted to the show-queue command it is also true for the logs.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 19
+      },
+      "revId": "ac31d8b94c3c2b2953f74c35b3df48c61195a844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca44b79a_b278aec3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-02-16T15:08:58Z",
+      "side": 1,
+      "message": "From my site I ran some tests on your change. Basically I did the ssh review command and I opened the sshd_log file and show-queue to see the changes in the logs and task names respectively. It turned out that the task names were changed to \"gerrit review\" but the logs remained unchanged. Can you please let me know that did I miss anything or was there something wrong with my test?\n\nAnd yeah maybe it\u0027s not appropriate to use \"hide information\". I can rephrase this. Thank you.",
+      "parentUuid": "41130b22_3c6af52e",
       "range": {
         "startLine": 17,
         "startChar": 0,

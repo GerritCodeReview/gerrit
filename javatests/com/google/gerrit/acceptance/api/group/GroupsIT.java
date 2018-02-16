@@ -1262,12 +1262,17 @@ public class GroupsIT extends AbstractDaemonTest {
         groups.getAllGroupReferences(db).map(GroupReference::getUUID).collect(toList());
     assertThat(expectedGroups.size()).isAtLeast(2);
 
+    // Restart the server as slave, on startup of the slave all groups are indexed.
     restartAsSlave();
 
     GroupIndexedCounter groupIndexedCounter = new GroupIndexedCounter();
     RegistrationHandle groupIndexEventCounterHandle =
         groupIndexedListeners.add(groupIndexedCounter);
     try {
+      // Running the reindexer once more should not need to reindex any group.
+      slaveGroupIndexer.run();
+      groupIndexedCounter.assertNoReindex();
+
       // On startup of the slave the test framework ensures that the group index is up-to-date.
       // Hence running the reindexer doesn't need to reindex any group.
       slaveGroupIndexer.run();
@@ -1303,6 +1308,33 @@ public class GroupsIT extends AbstractDaemonTest {
       }
       slaveGroupIndexer.run();
       groupIndexedCounter.assertReindexOf(groupUuid);
+    } finally {
+      groupIndexEventCounterHandle.remove();
+    }
+  }
+
+  @Test
+  @Sandboxed
+  @GerritConfig(name = "index.scheduledIndexer.runOnStartup", value = "false")
+  @GerritConfig(name = "index.scheduledIndexer.enabled", value = "false")
+  @GerritConfig(name = "index.autoReindexIfStale", value = "false")
+  @IgnoreGroupInconsistencies
+  public void disabledReindexGroupsOnStartupSlaveMode() throws Exception {
+    assume().that(readGroupsFromNoteDb()).isTrue();
+
+    List<AccountGroup.UUID> expectedGroups =
+        groups.getAllGroupReferences(db).map(GroupReference::getUUID).collect(toList());
+    assertThat(expectedGroups.size()).isAtLeast(2);
+
+    restartAsSlave();
+
+    GroupIndexedCounter groupIndexedCounter = new GroupIndexedCounter();
+    RegistrationHandle groupIndexEventCounterHandle =
+        groupIndexedListeners.add(groupIndexedCounter);
+    try {
+      // No group indexing happened on startup. All groups should be reindexed now.
+      slaveGroupIndexer.run();
+      groupIndexedCounter.assertReindexOf(expectedGroups);
     } finally {
       groupIndexEventCounterHandle.remove();
     }

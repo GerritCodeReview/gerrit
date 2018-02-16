@@ -197,11 +197,14 @@ public class IndexModule extends LifecycleModule {
     if (batchExecutor != null) {
       return batchExecutor;
     }
-    int threads = config.getInt("index", null, "batchThreads", 0);
-    if (threads <= 0) {
-      threads = Runtime.getRuntime().availableProcessors();
+    int batchThreads = this.threads;
+    if (batchThreads <= 0) {
+      batchThreads = config.getInt("index", null, "batchThreads", 0);
     }
-    return MoreExecutors.listeningDecorator(workQueue.createQueue(threads, "Index-Batch"));
+    if (batchThreads <= 0) {
+      batchThreads = Runtime.getRuntime().availableProcessors();
+    }
+    return MoreExecutors.listeningDecorator(workQueue.createQueue(batchThreads, "Index-Batch"));
   }
 
   @Singleton

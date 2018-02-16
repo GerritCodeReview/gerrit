@@ -16,6 +16,24 @@
       "revId": "ffae724134ad210b58ea3d41630d3fe34537776b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53d28910_793c473d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-16T18:45:25Z",
+      "side": 1,
+      "message": "I see what you mean, and I think it\u0027s a good idea to DRY our constants, but it won\u0027t work in this case because this is the change view, and it doesn\u0027t have access to the new component inside the gr-file-list-header.\n\nThis particular set of constants has been floating around in various components for as long as I can recall, so I think what\u0027s called for is a general strategy for how we de-dupe constants.",
+      "parentUuid": "5dbf15f4_d5c70aec",
+      "revId": "ffae724134ad210b58ea3d41630d3fe34537776b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

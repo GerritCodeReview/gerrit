@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "c3214c28_100135de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-16T18:22:43Z",
+      "side": 1,
+      "message": "\u003e The reverted commit fixes the task name. Before the patch this\n \u003e could be multi-line due to the --message arg.\n \u003e \n \u003e But since taskName in TaskThunk#run is used to name the thread:\n \u003e \n \u003e thisThread.setName(\"SSH \" + taskName);\n \u003e \n \u003e we now have a multi-line thread name.\n \u003e \n \u003e The \"log-line\" that I pasted in the commit message is actually\n \u003e _not_ from sshd_log, it\u0027s from error_log:\n \u003e [timestamp] [thread name] log-level class : message.\n\nThat is where we were confused, we(Borui and I) thought that the intention was to fix sshd_log, not error_log. Now it\u0027s all clear.\n\n \u003e I did not change anything but the thread name, so I don\u0027t see how\n \u003e that would affect the sshd_log (where the thread-name is not used)\n \u003e or the show-queue command that doesn\u0027t contain the thread-name\n \u003e either. It could be that I\u0027m missing something, if that is the case\n \u003e please enlighten me.\n\nYou are right, it\u0027s not affecting the sshd_log but this change is also affecting the output of show-queue command in addition to the thread name in error_log. The taskName variable in TaskThunk class is also used in the toString() method which is used by show-queue command.\n\n \u003e \n \u003e The information that my patch removed was useful in fringe cases.\n \u003e For instance if the add-reviewer workflow failed somewhere and the\n \u003e cause was an ill-formatted \"gerrit review\" command (don\u0027t even know\n \u003e if that\u0027s possible). You lost the immediate traceability between a\n \u003e log line in the error_log and the arguments of the \"gerrit review\"\n \u003e command, and I fail to see when the loss of that immediate\n \u003e connection would be fatal. You can always compare the timestamps in\n \u003e the sshd_log and at least narrow it down to 2-3 review commands\n \u003e that could have been the instigator. That being said I fail to see\n \u003e how that would ever be useful.\n\nWe were not concerned at all by loosing the information in the error_log. We are concerned about loosing the info in the show-queue command. We use show-queue command to see what is going on on our servers. When there is a build up of tasks, we can quickly identify from the command column(taskname) of show-queue if the build up is for a specific change, project, type of task,... Setting the task name to \"gerrit review\" is removing the information about which change is being reviewed.\n\nThat is not a big deal but I would prefer to keep this information if possible. This is why we are proposing to revert this change and proposing one that will keep the command line as the task name and trim any multi line argument so we do not end up with a mutli line thread name in error_log or a multi line task name in output of show-queue.\n\nFor the sake of consistency, the proposed change is also fixing the command line in sshd_log to no span over multiple lines.",
+      "parentUuid": "b9f000a5_e629a04a",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "ac31d8b94c3c2b2953f74c35b3df48c61195a844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41130b22_3c6af52e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

@@ -57,6 +57,16 @@
       this._newUrl = '';
     },
 
+    _handleResetButton() {
+      this.$.restAPI.getDefaultPreference().then(data => {
+        if (data && data.my) {
+          this.menuItems = data.my;
+        }
+        this._newName = '';
+        this._newUrl = '';
+      });
+    },
+
     _computeAddDisabled(newName, newUrl) {
       return !newName.length || !newUrl.length;
     },

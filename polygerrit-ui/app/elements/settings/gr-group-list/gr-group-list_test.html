@@ -83,5 +83,18 @@ limitations under the License.
       assert.equal(element._computeVisibleToAll(groups[0]), 'No');
       assert.equal(element._computeVisibleToAll(groups[1]), 'Yes');
     });
+
+    test('_computeGroupPath', () => {
+      let group = {
+        id: 'e2cd66f88a2db4d391ac068a92d987effbe872f5',
+      };
+      assert.equal(element._computeGroupPath(group),
+          `/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5`);
+
+      group = {
+        name: 'admin',
+      };
+      assert.equal(element._computeGroupPath(group), '');
+    });
   });
 </script>

@@ -15,18 +15,16 @@
 package com.google.gerrit.server.mail.receive;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.mail.MetadataName.toFooterWithDelimiter;
-import static com.google.gerrit.server.mail.MetadataName.toHeaderWithDelimiter;
 
 import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.server.mail.MetadataName;
+import com.google.gerrit.server.mail.MailHeader;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;
 import org.junit.Test;
 
-public class MetadataParserTest {
+public class MailHeaderParserTest {
   @Test
   public void parseMetadataFromHeader() {
     // This tests if the metadata parser is able to parse metadata from the
@@ -36,16 +34,16 @@ public class MetadataParserTest {
     b.dateReceived(Instant.now());
     b.subject("");
 
-    b.addAdditionalHeader(toHeaderWithDelimiter(MetadataName.CHANGE_NUMBER) + "123");
-    b.addAdditionalHeader(toHeaderWithDelimiter(MetadataName.PATCH_SET) + "1");
-    b.addAdditionalHeader(toHeaderWithDelimiter(MetadataName.MESSAGE_TYPE) + "comment");
+    b.addAdditionalHeader(MailHeader.CHANGE_NUMBER.fieldWithDelimiter() + "123");
+    b.addAdditionalHeader(MailHeader.PATCH_SET.fieldWithDelimiter() + "1");
+    b.addAdditionalHeader(MailHeader.MESSAGE_TYPE.fieldWithDelimiter() + "comment");
     b.addAdditionalHeader(
-        toHeaderWithDelimiter(MetadataName.TIMESTAMP) + "Tue, 25 Oct 2016 02:11:35 -0700");
+        MailHeader.COMMENT_DATE.fieldWithDelimiter() + "Tue, 25 Oct 2016 02:11:35 -0700");
 
     Address author = new Address("Diffy", "test@gerritcodereview.com");
     b.from(author);
 
-    MailMetadata meta = MetadataParser.parse(b.build());
+    MailMetadata meta = MailHeaderParser.parse(b.build());
     assertThat(meta.author).isEqualTo(author.getEmail());
     assertThat(meta.changeNumber).isEqualTo(123);
     assertThat(meta.patchSet).isEqualTo(1);
@@ -67,17 +65,17 @@ public class MetadataParserTest {
     b.subject("");
 
     StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append(toFooterWithDelimiter(MetadataName.CHANGE_NUMBER) + "123\r\n");
-    stringBuilder.append("> " + toFooterWithDelimiter(MetadataName.PATCH_SET) + "1\n");
-    stringBuilder.append(toFooterWithDelimiter(MetadataName.MESSAGE_TYPE) + "comment\n");
+    stringBuilder.append(MailHeader.CHANGE_NUMBER.withDelimiter() + "123\r\n");
+    stringBuilder.append("> " + MailHeader.PATCH_SET.withDelimiter() + "1\n");
+    stringBuilder.append(MailHeader.MESSAGE_TYPE.withDelimiter() + "comment\n");
     stringBuilder.append(
-        toFooterWithDelimiter(MetadataName.TIMESTAMP) + "Tue, 25 Oct 2016 02:11:35 -0700\r\n");
+        MailHeader.COMMENT_DATE.withDelimiter() + "Tue, 25 Oct 2016 02:11:35 -0700\r\n");
     b.textContent(stringBuilder.toString());
 
     Address author = new Address("Diffy", "test@gerritcodereview.com");
     b.from(author);
 
-    MailMetadata meta = MetadataParser.parse(b.build());
+    MailMetadata meta = MailHeaderParser.parse(b.build());
     assertThat(meta.author).isEqualTo(author.getEmail());
     assertThat(meta.changeNumber).isEqualTo(123);
     assertThat(meta.patchSet).isEqualTo(1);
@@ -100,13 +98,12 @@ public class MetadataParserTest {
 
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append(
-        "<div id\"someid\">" + toFooterWithDelimiter(MetadataName.CHANGE_NUMBER) + "123</div>");
-    stringBuilder.append("<div>" + toFooterWithDelimiter(MetadataName.PATCH_SET) + "1</div>");
-    stringBuilder.append(
-        "<div>" + toFooterWithDelimiter(MetadataName.MESSAGE_TYPE) + "comment</div>");
+        "<div id\"someid\">" + MailHeader.CHANGE_NUMBER.withDelimiter() + "123</div>");
+    stringBuilder.append("<div>" + MailHeader.PATCH_SET.withDelimiter() + "1</div>");
+    stringBuilder.append("<div>" + MailHeader.MESSAGE_TYPE.withDelimiter() + "comment</div>");
     stringBuilder.append(
         "<div>"
-            + toFooterWithDelimiter(MetadataName.TIMESTAMP)
+            + MailHeader.COMMENT_DATE.withDelimiter()
             + "Tue, 25 Oct 2016 02:11:35 -0700"
             + "</div>");
     b.htmlContent(stringBuilder.toString());
@@ -114,7 +111,7 @@ public class MetadataParserTest {
     Address author = new Address("Diffy", "test@gerritcodereview.com");
     b.from(author);
 
-    MailMetadata meta = MetadataParser.parse(b.build());
+    MailMetadata meta = MailHeaderParser.parse(b.build());
     assertThat(meta.author).isEqualTo(author.getEmail());
     assertThat(meta.changeNumber).isEqualTo(123);
     assertThat(meta.patchSet).isEqualTo(1);

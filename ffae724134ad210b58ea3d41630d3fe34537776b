@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dbf15f4_d5c70aec",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-16T01:19:17Z",
+      "side": 1,
+      "message": "It looks like there\u0027s an opportunity to refactor this enum into a behavior, or maybe a static public property on the component you\u0027ve created. It seems like it\u0027s duplicated a few times in this change.",
+      "revId": "ffae724134ad210b58ea3d41630d3fe34537776b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

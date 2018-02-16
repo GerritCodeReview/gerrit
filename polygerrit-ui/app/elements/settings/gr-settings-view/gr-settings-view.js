@@ -346,6 +346,14 @@
       });
     },
 
+    _handleResetMenuButton() {
+      return this.$.restAPI.getDefaultPreferences().then(data => {
+        if (data && data.my) {
+          this.set('_localMenu', data.my);
+        }
+      });
+    },
+
     _handleSaveWatchedProjects() {
       this.$.watchedProjectsEditor.save();
     },

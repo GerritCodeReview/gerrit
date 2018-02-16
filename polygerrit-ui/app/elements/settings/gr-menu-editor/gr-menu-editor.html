@@ -42,6 +42,11 @@ limitations under the License.
       .newUrlInput {
         min-width: 23em;
       }
+      .navLinks {
+        align-items: center;
+        display: flex;
+        white-space: nowrap;
+      }
     </style>
     <style include="gr-form-styles"></style>
     <div class="gr-form-styles">
@@ -101,15 +106,23 @@ limitations under the License.
             <th></th>
             <th></th>
             <th>
-              <gr-button
-                  link
-                  disabled$="[[_computeAddDisabled(_newName, _newUrl)]]"
-                  on-tap="_handleAddButton">Add</gr-button>
+              <div class="navLinks">
+                <gr-button
+                    link
+                    disabled$="[[_computeAddDisabled(_newName, _newUrl)]]"
+                    on-tap="_handleAddButton">Add</gr-button>
+                <span class="separator"></span>
+                <gr-button
+                    id="resetButton"
+                    link
+                    on-tap="_handleResetButton">Reset</gr-button>
+              </div>
             </th>
           </tr>
         </tfoot>
       </table>
     </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-menu-editor.js"></script>
 </dom-module>

@@ -34,6 +34,7 @@ limitations under the License.
 <script>
   suite('gr-menu-editor tests', () => {
     let element;
+    let sandbox;
     let menu;
 
     function assertMenuNamesEqual(element, expected) {
@@ -55,6 +56,7 @@ limitations under the License.
     }
 
     setup(() => {
+      sandbox = sinon.sandbox.create();
       element = fixture('basic');
       menu = [
         {url: '/first/url', name: 'first name', target: '_blank'},
@@ -63,6 +65,10 @@ limitations under the License.
       ];
       element.set('menuItems', menu);
       Polymer.dom.flush();
+    });
+
+    teardown(() => {
+      sandbox.restore();
     });
 
     test('renders', () => {
@@ -104,6 +110,38 @@ limitations under the License.
       assert.equal(element.menuItems[element.menuItems.length - 1].name,
           newName);
       assert.equal(element.menuItems[element.menuItems.length - 1].url, newUrl);
+    });
+
+    test('reset menu item back to default', () => {
+      // makes sure to test that it has the same length as the one used above.
+      assert.equal(element.menuItems.length, element.menuItems.length);
+
+      menu = [
+        {url: '/first/url', name: 'first name', target: '_blank'},
+        {url: '/second/url', name: 'second name', target: '_blank'},
+        {url: '/third/url', name: 'third name', target: '_blank'},
+        {url: '/fourth/url', name: 'fourth name', target: '_blank'},
+      ];
+      element.set('menuItems', menu);
+
+      assert.equal(element.menuItems.length, element.menuItems.length);
+
+      assert.deepEqual(element.menuItems, menu);
+
+      menu = [
+        {url: '/first/url', name: 'first name', target: '_blank'},
+        {url: '/second/url', name: 'second name', target: '_blank'},
+        {url: '/third/url', name: 'third name', target: '_blank'},
+      ];
+
+      stub('gr-rest-api-interface', {
+        getLoggedIn() { return Promise.resolve(true); },
+        getDefaultPreferences() { return Promise.resolve(menu); },
+      });
+
+      MockInteractions.tap(element.$.resetButton);
+
+      assert.equal(element.menuItems.length, element.menuItems.length);
     });
 
     test('move items down', () => {

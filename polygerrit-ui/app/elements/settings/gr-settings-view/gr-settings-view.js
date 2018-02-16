@@ -346,6 +346,10 @@
       });
     },
 
+    _handleResetButton() {
+      return this.$.menuEditor._handleResetButton();
+    },
+
     _handleSaveWatchedProjects() {
       this.$.watchedProjectsEditor.save();
     },

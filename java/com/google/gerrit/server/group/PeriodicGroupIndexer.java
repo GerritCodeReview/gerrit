@@ -83,6 +83,11 @@ public class PeriodicGroupIndexer implements Runnable {
 
     @Override
     public void start() {
+      boolean runOnStartup = cfg.getBoolean("index", "scheduledIndexer", "runOnStartup", true);
+      if (runOnStartup) {
+        runner.run();
+      }
+
       boolean isEnabled = cfg.getBoolean("index", "scheduledIndexer", "enabled", true);
       if (!isEnabled) {
         log.warn("index.scheduledIndexer is disabled");

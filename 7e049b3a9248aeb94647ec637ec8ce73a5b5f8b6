@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec9cd970_f41988b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-02-16T10:32:25Z",
+      "side": 1,
+      "message": "This commit uses only the first line of any multi line argument of any ssh command.\nSuggestion: \"Trim multi-line arguments for task name and ssh_log\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 67
+      },
+      "revId": "7e049b3a9248aeb94647ec637ec8ce73a5b5f8b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4214db7a_fb73b6b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-02-16T10:32:25Z",
+      "side": 1,
+      "message": "Is this true, ATM, for any ssh command other than the \"review\" command?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "7e049b3a9248aeb94647ec637ec8ce73a5b5f8b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74de4948_65a11e29",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-02-16T10:32:25Z",
+      "side": 1,
+      "message": "Why not use the same approach as in BaseCommand?\n\n    m.append(Joiner.on(\".\").join(trimmedArgs))",
+      "range": {
+        "startLine": 287,
+        "startChar": 5,
+        "endLine": 289,
+        "endChar": 7
+      },
+      "revId": "7e049b3a9248aeb94647ec637ec8ce73a5b5f8b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

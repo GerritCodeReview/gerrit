@@ -93,16 +93,20 @@ limitations under the License.
      * Example
      * // returns 'text.html'
      * util.truncatePath.('text.html');
+     *
+     * @param {string} path
+     * @param {number=} opt_threshold
      * @return {string} Returns the truncated value of a URL.
      */
-    truncatePath(path) {
+    truncatePath(path, opt_threshold) {
+      const threshold = opt_threshold || 1;
       const pathPieces = path.split('/');
 
-      if (pathPieces.length < 2) {
-        return path;
-      }
+      if (pathPieces.length <= threshold) { return path; }
+
+      const index = pathPieces.length - threshold;
       // Character is an ellipsis.
-      return '\u2026/' + pathPieces[pathPieces.length - 1];
+      return `\u2026/${pathPieces.slice(index).join('/')}`;
     },
   };
 })(window);

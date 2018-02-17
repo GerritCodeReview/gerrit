@@ -75,7 +75,7 @@
 
       return this.$.restAPI.getGroupConfig(this.groupId).then(
           config => {
-            if (!config.name) { return; }
+            if (!config || !config.name) { return; }
 
             this._groupName = config.name;
 

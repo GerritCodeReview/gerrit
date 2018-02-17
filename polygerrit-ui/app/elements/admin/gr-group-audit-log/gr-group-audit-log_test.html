@@ -34,9 +34,15 @@ limitations under the License.
 <script>
   suite('gr-group-audit-log tests', () => {
     let element;
+    let sandbox;
 
     setup(() => {
+      sandbox = sinon.sandbox.create();
       element = fixture('basic');
+    });
+
+    teardown(() => {
+      sandbox.restore();
     });
 
     suite('members', () => {
@@ -115,6 +121,25 @@ limitations under the License.
           },
         };
         assert.equal(element._getNameForUser(account.user), 'test-email');
+      });
+    });
+
+    suite('404', () => {
+      test('fires page-error', done => {
+        element.groupId = 1;
+
+        const response = {status: 404};
+        sandbox.stub(
+            element.$.restAPI, 'getGroupAuditLog', (group, errFn) => {
+              errFn(response);
+            });
+
+        element.addEventListener('page-error', e => {
+          assert.deepEqual(e.detail.response, response);
+          done();
+        });
+
+        element._getAuditLogs();
       });
     });
   });

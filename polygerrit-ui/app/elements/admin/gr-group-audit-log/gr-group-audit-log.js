@@ -39,9 +39,8 @@
     },
 
     _getAuditLogs() {
-      if (!this.groupId) {
-        return '';
-      }
+      if (!this.groupId) { return ''; }
+
       return this.$.restAPI.getGroupAuditLog(this.groupId).then(auditLog => {
         if (!auditLog) {
           this._auditLog = [];
@@ -57,9 +56,8 @@
     },
 
     _computeGroupUrl(id) {
-      if (!id) {
-        return '';
-      }
+      if (!id) { return ''; }
+
       return this.getBaseUrl() + '/admin/groups/' + id;
     },
 

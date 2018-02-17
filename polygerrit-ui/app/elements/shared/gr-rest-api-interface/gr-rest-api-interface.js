@@ -309,9 +309,9 @@
           opt_ctx);
     },
 
-    getGroupConfig(group) {
+    getGroupConfig(group, opt_errFn) {
       const encodeName = encodeURIComponent(group);
-      return this.fetchJSON(`/groups/${encodeName}/detail`);
+      return this.fetchJSON(`/groups/${encodeName}/detail`, opt_errFn);
     },
 
     /**

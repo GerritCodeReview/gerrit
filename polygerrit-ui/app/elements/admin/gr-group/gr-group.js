@@ -92,35 +92,46 @@
       this._loadGroup();
     },
 
+    _handleGetChangeDetailError(response) {
+      this.fire('page-error-admin', {response});
+    },
+
     _loadGroup() {
       if (!this.groupId) { return; }
 
-      return this.$.restAPI.getGroupConfig(this.groupId).then(
-          config => {
-            this._groupName = config.name;
+      const promises = [];
 
-            this.$.restAPI.getIsAdmin().then(isAdmin => {
-              this._isAdmin = isAdmin ? true : false;
+      return this.$.restAPI.getGroupConfig(
+          this.groupId, this._handleGetChangeDetailError.bind(this)).then(
+            config => {
+              if (!config || !config.name) { return Promise.resolve(); }
+
+              this._groupName = config.name;
+
+              promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
+                this._isAdmin = isAdmin ? true : false;
+              }));
+
+              promises.push(this.$.restAPI.getIsGroupOwner(config.name)
+                  .then(isOwner => {
+                    this._groupOwner = isOwner ? true : false;
+                  }));
+
+              // If visible to all is undefined, set to false. If it is defined
+              // as false, setting to false is fine. If any optional values
+              // are added with a default of true, then this would need to be an
+              // undefined check and not a truthy/falsy check.
+              if (!config.options.visible_to_all) {
+                config.options.visible_to_all = false;
+              }
+              this._groupConfig = config;
+
+              this.fire('title-change', {title: config.name});
+
+              return Promise.all(promises).then(() => {
+                this._loading = false;
+              });
             });
-
-            this.$.restAPI.getIsGroupOwner(config.name)
-                .then(isOwner => {
-                  this._groupOwner = isOwner ? true : false;
-                });
-
-            // If visible to all is undefined, set to false. If it is defined
-            // as false, setting to false is fine. If any optional values
-            // are added with a default of true, then this would need to be an
-            // undefined check and not a truthy/falsy check.
-            if (!config.options.visible_to_all) {
-              config.options.visible_to_all = false;
-            }
-            this._groupConfig = config;
-
-            this.fire('title-change', {title: config.name});
-
-            this._loading = false;
-          });
     },
 
     _computeLoadingClass(loading) {

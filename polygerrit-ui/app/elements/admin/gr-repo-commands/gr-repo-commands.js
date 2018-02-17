@@ -48,6 +48,8 @@
       if (!this.repo) { return Promise.resolve(); }
 
       return this.$.restAPI.getProjectConfig(this.repo).then(config => {
+        if (!config) { return Promise.resolve(); }
+
         this._repoConfig = config;
         this._loading = false;
       });

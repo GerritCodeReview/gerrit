@@ -84,8 +84,13 @@
       Gerrit.URLEncodingBehavior,
     ],
 
+    _handleDetailError(response) {
+      this.fire('page-error', {response});
+    },
+
     _determineIfOwner(repo) {
-      return this.$.restAPI.getRepoAccess(repo)
+      return this.$.restAPI.getRepoAccess(
+          repo, this._handleGetChangeDetailError.bind(this))
           .then(access =>
                 this._isOwner = access && access[repo].is_owner);
     },
@@ -117,14 +122,18 @@
       Polymer.dom.flush();
       if (detailType === DETAIL_TYPES.BRANCHES) {
         return this.$.restAPI.getRepoBranches(
-            filter, repo, itemsPerPage, offset) .then(items => {
+            filter, repo, itemsPerPage, offset,
+            this._handleDetailError.bind(this))
+            .then(items => {
               if (!items) { return; }
               this._items = items;
               this._loading = false;
             });
       } else if (detailType === DETAIL_TYPES.TAGS) {
         return this.$.restAPI.getRepoTags(
-            filter, repo, itemsPerPage, offset) .then(items => {
+            filter, repo, itemsPerPage, offset,
+            this._handleDetailError.bind(this))
+            .then(items => {
               if (!items) { return; }
               this._items = items;
               this._loading = false;

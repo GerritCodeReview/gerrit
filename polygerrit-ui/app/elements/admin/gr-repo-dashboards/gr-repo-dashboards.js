@@ -33,6 +33,8 @@
       this._loading = true;
       if (!repo) { return Promise.resolve(); }
       this.$.restAPI.getRepoDashboards(this.repo).then(res => {
+        if (!res) { return Promise.resolve(); }
+
         // Flatten 2 dimenional array, and sort by id.
         const dashboards = res.concat.apply([], res).sort((a, b) =>
             a.id > b.id);

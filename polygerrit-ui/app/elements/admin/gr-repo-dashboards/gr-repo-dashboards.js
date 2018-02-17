@@ -29,33 +29,41 @@
       _dashboards: Array,
     },
 
+    _handleDetailError(response) {
+      this.fire('page-error', {response});
+    },
+
     _repoChanged(repo) {
       this._loading = true;
       if (!repo) { return Promise.resolve(); }
-      this.$.restAPI.getRepoDashboards(this.repo).then(res => {
-        // Flatten 2 dimenional array, and sort by id.
-        const dashboards = res.concat.apply([], res).sort((a, b) =>
-            a.id > b.id);
-        const customList = dashboards.filter(a => a.ref === 'custom');
-        const defaultList = dashboards.filter(a => a.ref === 'default');
-        const dashboardBuilder = [];
-        if (customList.length) {
-          dashboardBuilder.push({
-            section: 'Custom',
-            dashboards: customList,
-          });
-        }
-        if (defaultList.length) {
-          dashboardBuilder.push({
-            section: 'Default',
-            dashboards: defaultList,
-          });
-        }
+      this.$.restAPI.getRepoDashboards(
+          this.repo, this._handleDetailError.bind(this))
+          .then(res => {
+            if (!res) { return Promise.resolve(); }
 
-        this._dashboards = dashboardBuilder;
-        this._loading = false;
-        Polymer.dom.flush();
-      });
+            // Flatten 2 dimenional array, and sort by id.
+            const dashboards = res.concat.apply([], res).sort((a, b) =>
+                a.id > b.id);
+            const customList = dashboards.filter(a => a.ref === 'custom');
+            const defaultList = dashboards.filter(a => a.ref === 'default');
+            const dashboardBuilder = [];
+            if (customList.length) {
+              dashboardBuilder.push({
+                section: 'Custom',
+                dashboards: customList,
+              });
+            }
+            if (defaultList.length) {
+              dashboardBuilder.push({
+                section: 'Default',
+                dashboards: defaultList,
+              });
+            }
+
+            this._dashboards = dashboardBuilder;
+            this._loading = false;
+            Polymer.dom.flush();
+          });
     },
 
     _computeLoadingClass(loading) {

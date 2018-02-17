@@ -36,13 +36,14 @@ limitations under the License.
   suite('gr-repo-commands tests', () => {
     let element;
     let sandbox;
+    let repoStub;
 
     setup(() => {
       sandbox = sinon.sandbox.create();
-      stub('gr-rest-api-interface', {
-        getProjectConfig() { return Promise.resolve({}); },
-      });
       element = fixture('basic');
+      repoStub = sandbox.stub(element.$.restAPI, 'getProjectConfig', () => {
+        return Promise.resolve({});
+      });
     });
 
     teardown(() => {
@@ -111,6 +112,26 @@ limitations under the License.
               'Failed to create change.');
           assert.isFalse(urlStub.called);
         });
+      });
+    });
+
+    suite('404', () => {
+      test('404 page', done => {
+        repoStub.restore();
+
+        element.repo = 'test';
+
+        const response = {status: 404};
+        sandbox.stub(
+            element.$.restAPI, 'getProjectConfig', (repo, errFn) => {
+              errFn(response);
+            });
+        element.addEventListener('page-error', e => {
+          assert.strictEqual(e.detail.response, response);
+          done();
+        });
+
+        element._loadRepo();
       });
     });
   });

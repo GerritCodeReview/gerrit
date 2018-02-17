@@ -195,6 +195,7 @@
         '_showChangeView',
         '_showDiffView',
         '_showSettingsView',
+        '_showAdminView',
       ];
       for (const showProp of props) {
         this.set(showProp, false);

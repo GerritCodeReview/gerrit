@@ -47,11 +47,11 @@ public class AccountPredicates {
     if (canSeeSecondaryEmails) {
       preds.add(equalsNameIcludingSecondaryEmails(query));
     } else {
-      if (schema.hasField(AccountField.NAME_PART_NO_SECONDARY_EMAIL)) {
+      if (schema != null && schema.hasField(AccountField.NAME_PART_NO_SECONDARY_EMAIL)) {
         preds.add(equalsName(query));
       } else {
         preds.add(AccountPredicates.fullName(query));
-        if (schema.hasField(AccountField.PREFERRED_EMAIL)) {
+        if (schema != null && schema.hasField(AccountField.PREFERRED_EMAIL)) {
           preds.add(AccountPredicates.preferredEmail(query));
         }
       }

@@ -212,6 +212,9 @@ limitations under the License.
     });
 
     suite('with defined sections', () => {
+      sandbox.stub(element, '_computeLoadingClass').returns(
+          Promise.resolve(true));
+
       const testEditSaveCancelBtns = () => {
         // Edit button is visible and Save button is hidden.
         assert.equal(getComputedStyle(element.$.saveBtn).display, 'none');
@@ -253,6 +256,9 @@ limitations under the License.
       });
 
       test('button visibility for admin', () => {
+        sandbox.stub(element, '_computeLoadingClass').returns(
+            Promise.resolve(true));
+
         element._isAdmin = true;
         testEditSaveCancelBtns();
       });

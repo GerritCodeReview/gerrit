@@ -35,23 +35,22 @@ limitations under the License.
   suite('gr-group tests', () => {
     let element;
     let sandbox;
+    const group = {
+      id: '6a1e70e1a88782771a91808c8af9bbb7a9871389',
+      url: '#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389',
+      options: {
+      },
+      description: 'Gerrit Site Administrators',
+      group_id: 1,
+      owner: 'Administrators',
+      owner_id: '6a1e70e1a88782771a91808c8af9bbb7a9871389',
+      name: 'Administrators',
+    };
 
     setup(() => {
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(true); },
-        getGroupConfig() {
-          return Promise.resolve({
-            id: '6a1e70e1a88782771a91808c8af9bbb7a9871389',
-            url: '#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389',
-            options: {
-            },
-            description: 'Gerrit Site Administrators',
-            group_id: 1,
-            owner: 'Administrators',
-            owner_id: '6a1e70e1a88782771a91808c8af9bbb7a9871389',
-          });
-        },
       });
       element = fixture('basic');
     });
@@ -61,6 +60,9 @@ limitations under the License.
     });
 
     test('loading displays before group config is loaded', () => {
+      sandbox.stub(element.$.restAPI, 'getGroupConfig', () => {
+        return Promise.resolve(group);
+      });
       assert.isTrue(element.$.loading.classList.contains('loading'));
       assert.isFalse(getComputedStyle(element.$.loading).display === 'none');
       assert.isTrue(element.$.loadedContent.classList.contains('loading'));
@@ -69,6 +71,9 @@ limitations under the License.
     });
 
     test('default values are populated', done => {
+      sandbox.stub(element.$.restAPI, 'getGroupConfig', () => {
+        return Promise.resolve(group);
+      });
       sandbox.stub(element.$.restAPI, 'getIsGroupOwner', () => {
         return Promise.resolve(true);
       });
@@ -80,6 +85,10 @@ limitations under the License.
     });
 
     test('rename group', done => {
+      sandbox.stub(element.$.restAPI, 'getGroupConfig', () => {
+        return Promise.resolve(group);
+      });
+
       const groupName = 'test-group';
       const groupName2 = 'test-group2';
       element.groupId = 1;
@@ -117,7 +126,33 @@ limitations under the License.
       });
     });
 
+    test('test for undefined group name', done => {
+      sandbox.stub(element.$.restAPI, 'getGroupConfig', () => {
+        return Promise.resolve({});
+      });
+
+      assert.isUndefined(element.groupId);
+
+      element.groupId = 1;
+
+      assert.isDefined(element.groupId);
+
+      // Test that loading shows instead of filling
+      // in group details
+      element._loadGroup().then(() => {
+        assert.isTrue(element.$.loading.classList.contains('loading'));
+
+        assert.isTrue(element._loading);
+
+        done();
+      });
+    });
+
     test('test fire event', done => {
+      sandbox.stub(element.$.restAPI, 'getGroupConfig', () => {
+        return Promise.resolve(group);
+      });
+
       element._groupConfig = {
         name: 'test-group',
       };
@@ -155,6 +190,11 @@ limitations under the License.
       const admin = false;
       const owner = false;
       assert.equal(element._computeGroupDisabled(owner, admin), true);
+    });
+
+    test('_computeLoadingClass', () => {
+      assert.equal(element._computeLoadingClass(true), 'loading');
+      assert.equal(element._computeLoadingClass(false), '');
     });
   });
 </script>

@@ -80,6 +80,12 @@
       _showRepoMain: Boolean,
       _showRepoList: Boolean,
       _showPluginList: Boolean,
+      /** @type {?} */
+      _lastError: Object,
+    },
+
+    listeners: {
+      'page-error-admin': '_handlePageError',
     },
 
     behaviors: [
@@ -106,6 +112,31 @@
         }
         this._loadAccountCapabilities();
       });
+    },
+
+    _handlePageError(e) {
+      const props = [
+        '_showGroup',
+        '_showGroupAuditLog',
+        '_showGroupMembers',
+      ];
+      for (const showProp of props) {
+        this.set(showProp, false);
+      }
+
+      this.$.errorView.classList.add('show');
+      const response = e.detail.response;
+      const err = {text: [response.status, response.statusText].join(' ')};
+      if (response.status === 404) {
+        err.emoji = '¯\\_(ツ)_/¯';
+        this._lastError = err;
+      } else {
+        err.emoji = 'o_O';
+        response.text().then(text => {
+          err.moreInfo = text;
+          this._lastError = err;
+        });
+      }
     },
 
     _filterLinks(filterFn) {
@@ -197,6 +228,15 @@
       const isRepoView = params.view === Gerrit.Nav.View.REPO;
       const isAdminView = params.view === Gerrit.Nav.View.ADMIN;
 
+      // This is used to clean 404 when moving to the list
+      // list should be empty if it carn't find anything.
+      if (isAdminView &&
+          (params.adminView === 'gr-admin-group-list' ||
+           params.adminView === 'gr-repo-list' ||
+           params.adminView === 'gr-plugin-list')) {
+        this.$.errorView.classList.remove('show');
+      }
+
       this.set('_showGroup', isGroupView && !params.detail);
       this.set('_showGroupAuditLog', isGroupView &&
           params.detail === Gerrit.Nav.GroupDetailView.LOG);
@@ -286,17 +326,23 @@
 
     _computeGroupName(groupId) {
       if (!groupId) { return ''; }
+
       const promises = [];
       this.$.restAPI.getGroupConfig(groupId).then(group => {
+        if (!group || !group.name) { return; }
+
         this._groupName = group.name;
         this.reload();
+
         promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
           this._isAdmin = isAdmin;
         }));
+
         promises.push(this.$.restAPI.getIsGroupOwner(group.name).then(
             isOwner => {
               this._groupOwner = isOwner;
             }));
+
         return Promise.all(promises).then(() => {
           this.reload();
         });

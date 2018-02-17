@@ -309,9 +309,9 @@
           opt_ctx);
     },
 
-    getGroupConfig(group) {
+    getGroupConfig(group, opt_errFn) {
       const encodeName = encodeURIComponent(group);
-      return this.fetchJSON(`/groups/${encodeName}/detail`);
+      return this.fetchJSON(`/groups/${encodeName}/detail`, opt_errFn);
     },
 
     /**
@@ -393,9 +393,9 @@
           .then(configs => configs.hasOwnProperty(groupName));
     },
 
-    getGroupMembers(groupName) {
+    getGroupMembers(groupName, opt_errFn) {
       const encodeName = encodeURIComponent(groupName);
-      return this.send('GET', `/groups/${encodeName}/members/`)
+      return this.send('GET', `/groups/${encodeName}/members/`, null, opt_errFn)
           .then(response => this.getResponseObject(response));
     },
 
@@ -426,8 +426,8 @@
       return this.send('PUT', `/groups/${encodeId}/options`, options);
     },
 
-    getGroupAuditLog(group) {
-      return this._fetchSharedCacheURL('/groups/' + group + '/log.audit');
+    getGroupAuditLog(group, opt_errFn) {
+      return this._fetchSharedCacheURL('/groups/' + group + '/log.audit', opt_errFn);
     },
 
     saveGroupMembers(groupName, groupMembers) {

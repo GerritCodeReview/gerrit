@@ -70,40 +70,45 @@
       this.fire('title-change', {title: 'Members'});
     },
 
+    _handleGetChangeDetailError(response) {
+      this.fire('page-error-admin', {response});
+    },
+
     _loadGroupDetails() {
       if (!this.groupId) { return; }
 
       const promises = [];
 
-      return this.$.restAPI.getGroupConfig(this.groupId).then(
-          config => {
-            if (!config.name) { return; }
+      return this.$.restAPI.getGroupConfig(
+          this.groupId, this._handleGetChangeDetailError.bind(this))
+            .then(config => {
+              if (!config || !config.name) { return Promise.resolve(); }
 
-            this._groupName = config.name;
+              this._groupName = config.name;
 
-            promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
-              this._isAdmin = isAdmin ? true : false;
-            }));
+              promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
+                this._isAdmin = isAdmin ? true : false;
+              }));
 
-            promises.push(this.$.restAPI.getIsGroupOwner(config.name)
-                .then(isOwner => {
-                  this._groupOwner = isOwner ? true : false;
-                }));
+              promises.push(this.$.restAPI.getIsGroupOwner(config.name)
+                  .then(isOwner => {
+                    this._groupOwner = isOwner ? true : false;
+                  }));
 
-            promises.push(this.$.restAPI.getGroupMembers(config.name).then(
-                members => {
-                  this._groupMembers = members;
-                }));
+              promises.push(this.$.restAPI.getGroupMembers(config.name).then(
+                  members => {
+                    this._groupMembers = members;
+                  }));
 
-            promises.push(this.$.restAPI.getIncludedGroup(config.name)
-                .then(includedGroup => {
-                  this._includedGroups = includedGroup;
-                }));
+              promises.push(this.$.restAPI.getIncludedGroup(config.name)
+                  .then(includedGroup => {
+                    this._includedGroups = includedGroup;
+                  }));
 
-            return Promise.all(promises).then(() => {
-              this._loading = false;
+              return Promise.all(promises).then(() => {
+                this._loading = false;
+              });
             });
-          });
     },
 
     _computeLoadingClass(loading) {

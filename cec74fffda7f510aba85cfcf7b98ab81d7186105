@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13952ddf_4c76fa55",
+        "filename": "java/com/google/gerrit/server/mail/AutoReplyMailFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-17T11:43:44Z",
+      "side": 1,
+      "message": "Use the Logger\u0027s native string formatting, so that the arguments are only evaluated when the log is activated.",
+      "range": {
+        "startLine": 39,
+        "startChar": 14,
+        "endLine": 39,
+        "endChar": 27
+      },
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a9ed900_b7d65af1",
+        "filename": "java/com/google/gerrit/server/mail/MetadataName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-17T11:43:44Z",
+      "side": 1,
+      "message": "It\u0027s probably not necessary to annotate each member if the class itself is already annotated.",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 13
+      },
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "640b1f18_03e31db0",
+        "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-17T11:43:44Z",
+      "side": 1,
+      "message": "The string contains this formatting placeholder, but there are no arguments passed.",
+      "range": {
+        "startLine": 159,
+        "startChar": 25,
+        "endLine": 159,
+        "endChar": 27
+      },
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7355c078_dd45caf4",
+        "filename": "java/com/google/gerrit/server/mail/send/InboundEmailRejectionSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-17T11:43:44Z",
+      "side": 1,
+      "message": "Send",
+      "range": {
+        "startLine": 30,
+        "startChar": 3,
+        "endLine": 30,
+        "endChar": 6
+      },
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a8daee3_844016a0",
+        "filename": "java/com/google/gerrit/server/mail/send/InboundEmailRejectionSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-17T11:43:44Z",
+      "side": 1,
+      "message": "This logger is not used.",
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -68,6 +68,10 @@
       this.fire('title-change', {title: 'Plugins'});
     },
 
+    _handleDetailError(response) {
+      this.fire('page-error', {response});
+    },
+
     _paramsChanged(params) {
       this._loading = true;
       this._filter = this.getFilterValue(params);
@@ -78,7 +82,8 @@
     },
 
     _getPlugins(filter, pluginsPerPage, offset) {
-      return this.$.restAPI.getPlugins(filter, pluginsPerPage, offset)
+      return this.$.restAPI.getPlugins(
+          filter, pluginsPerPage, offset)
           .then(plugins => {
             if (!plugins) {
               this._plugins = [];

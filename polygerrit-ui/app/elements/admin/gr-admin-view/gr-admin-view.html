@@ -38,7 +38,35 @@ limitations under the License.
 
 <dom-module id="gr-admin-view">
   <template>
-    <style include="shared-styles"></style>
+    <style include="shared-styles">
+      .errorView {
+        align-items: center;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+      }
+      .errorView.show {
+        display: flex;
+      }
+      .errorEmoji {
+        font-size: 2.6rem;
+      }
+      .errorText,
+      .errorMoreInfo {
+        margin-top: .75em;
+      }
+      .errorText {
+        font-size: 1.2rem;
+      }
+      .errorMoreInfo {
+        color: #999;
+      }
+    </style>
     <style include="gr-menu-page-styles"></style>
     <style include="gr-page-nav-styles"></style>
     <gr-page-nav class="navStyles">
@@ -138,6 +166,11 @@ limitations under the License.
         <gr-repo-dashboards repo="[[params.repo]]"></gr-repo-dashboards>
       </main>
     </template>
+    <div id="errorView" class="errorView">
+      <div class="errorEmoji">[[_lastError.emoji]]</div>
+      <div class="errorText">[[_lastError.text]]</div>
+      <div class="errorMoreInfo">[[_lastError.moreInfo]]</div>
+    </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-admin-view.js"></script>

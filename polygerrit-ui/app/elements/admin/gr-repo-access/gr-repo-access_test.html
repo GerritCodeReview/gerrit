@@ -117,6 +117,7 @@ limitations under the License.
       });
       repoStub = sandbox.stub(element.$.restAPI, 'getRepo').returns(
           Promise.resolve(repoRes));
+      element._loading = false;
     });
 
     teardown(() => {
@@ -209,6 +210,12 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.isOk(Polymer.dom(element.root).querySelector('#inheritsFrom'));
       assert.isTrue(element._computeParentHref.called);
+    });
+
+    test('_computeLoadingClass', () => {
+      assert.equal(element._computeLoadingClass(true), 'loading');
+
+      assert.equal(element._computeLoadingClass(false), '');
     });
 
     suite('with defined sections', () => {

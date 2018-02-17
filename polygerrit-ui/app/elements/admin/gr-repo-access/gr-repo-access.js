@@ -100,6 +100,10 @@
       },
       _sections: Array,
       _weblinks: Array,
+      _loading: {
+        type: Boolean,
+        value: true,
+      },
     },
 
     behaviors: [
@@ -126,6 +130,8 @@
       // Always reset sections when a project changes.
       this._sections = [];
       promises.push(this.$.restAPI.getRepoAccessRights(repo).then(res => {
+        if (!res) { return Promise.resolve(); }
+
         this._inheritsFrom = res.inherits_from;
         this._local = res.local;
         this._groups = res.groups;
@@ -135,10 +141,14 @@
       }));
 
       promises.push(this.$.restAPI.getCapabilities().then(res => {
+        if (!res) { return Promise.resolve(); }
+
         return res;
       }));
 
       promises.push(this.$.restAPI.getRepo(repo).then(res => {
+        if (!res) { return Promise.resolve(); }
+
         return res.labels;
       }));
 
@@ -147,10 +157,19 @@
       }));
 
       return Promise.all(promises).then(([sections, capabilities, labels]) => {
+        if (!sections || !capabilities || !labels) {
+          return Promise.resolve();
+        }
+
         this._capabilities = capabilities;
         this._labels = labels;
         this._sections = sections;
+        this._loading = false;
       });
+    },
+
+    _computeLoadingClass(loading) {
+      return loading ? 'loading' : '';
     },
 
     _handleEdit() {
@@ -308,7 +327,7 @@
     },
 
     _computeShowEditClass(sections) {
-      if (!sections.length) { return ''; }
+      if (!sections || !sections.length) { return ''; }
       return 'visible';
     },
 

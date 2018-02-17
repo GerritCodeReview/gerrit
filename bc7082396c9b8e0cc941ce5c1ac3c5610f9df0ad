@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9fb17a4e_27042def",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-comment-threads/gr-change-comment-threads.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-17T01:26:06Z",
+      "side": 1,
+      "message": "Hmmm... we have gr-diff-comment-thread-group already :/ I\u0027m not sure if that\u0027s confusing also?",
+      "parentUuid": "c8b859f8_f0881712",
+      "range": {
+        "startLine": 24,
+        "startChar": 16,
+        "endLine": 24,
+        "endChar": 41
+      },
+      "revId": "bc7082396c9b8e0cc941ce5c1ac3c5610f9df0ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f69dd57f_95f2b116",
         "filename": "polygerrit-ui/app/elements/change/gr-change-comment-threads/gr-change-comment-threads.html",
         "patchSetId": 10
@@ -45,6 +69,30 @@
       "revId": "bc7082396c9b8e0cc941ce5c1ac3c5610f9df0ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7472a383_f6f815b3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-comment-threads/gr-change-comment-threads.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-17T01:26:06Z",
+      "side": 1,
+      "message": "This is for when both toggles are selected at the same time, so the threads meet both criteria (but not only one)",
+      "parentUuid": "f69dd57f_95f2b116",
+      "range": {
+        "startLine": 31,
+        "startChar": 17,
+        "endLine": 31,
+        "endChar": 38
+      },
+      "revId": "bc7082396c9b8e0cc941ce5c1ac3c5610f9df0ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -47,10 +47,17 @@
     _loadRepo() {
       if (!this.repo) { return Promise.resolve(); }
 
-      return this.$.restAPI.getProjectConfig(this.repo).then(config => {
-        this._repoConfig = config;
-        this._loading = false;
-      });
+      const errFn = response => {
+        this.fire('page-error', {response});
+      };
+
+      return this.$.restAPI.getProjectConfig(this.repo, errFn)
+          .then(config => {
+            if (!config) { return Promise.resolve(); }
+
+            this._repoConfig = config;
+            this._loading = false;
+          });
     },
 
     _computeLoadingClass(loading) {

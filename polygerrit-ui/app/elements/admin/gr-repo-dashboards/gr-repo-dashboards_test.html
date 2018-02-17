@@ -241,5 +241,22 @@ limitations under the License.
         });
       });
     });
+
+    suite('404', () => {
+      test('404 page', done => {
+        const response = {status: 404};
+        sandbox.stub(
+            element.$.restAPI, 'getRepoDashboards', (repo, errFn) => {
+              errFn(response);
+            });
+
+        element.addEventListener('page-error', e => {
+          assert.strictEqual(e.detail.response, response);
+          done();
+        });
+
+        element.repo = 'test';
+      });
+    });
   });
 </script>

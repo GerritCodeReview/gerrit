@@ -35,6 +35,66 @@ limitations under the License.
   suite('gr-repo tests', () => {
     let element;
     let sandbox;
+    let repoStub;
+    const repoConf = {
+      description: 'Access inherited by all other projects.',
+      use_contributor_agreements: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      use_content_merge: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      use_signed_off_by: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      create_new_change_for_all_not_in_target: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      require_change_id: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      enable_signed_push: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      require_signed_push: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      reject_implicit_merges: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      private_by_default: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      match_author_to_committer_date: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      reject_empty_commit: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      enable_reviewer_by_email: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      max_object_size_limit: {},
+      submit_type: 'MERGE_IF_NECESSARY',
+      default_submit_type: {
+        value: 'MERGE_IF_NECESSARY',
+        configured_value: 'INHERIT',
+        inherited_value: 'MERGE_IF_NECESSARY',
+      },
+    };
+
     const REPO = 'test-repo';
     const SCHEMES = {http: {}, repo: {}, ssh: {}};
 
@@ -50,71 +110,14 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(false); },
-        getProjectConfig() {
-          return Promise.resolve({
-            description: 'Access inherited by all other projects.',
-            use_contributor_agreements: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            use_content_merge: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            use_signed_off_by: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            create_new_change_for_all_not_in_target: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            require_change_id: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            enable_signed_push: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            require_signed_push: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            reject_implicit_merges: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            private_by_default: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            match_author_to_committer_date: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            reject_empty_commit: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            enable_reviewer_by_email: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            max_object_size_limit: {},
-            submit_type: 'MERGE_IF_NECESSARY',
-            default_submit_type: {
-              value: 'MERGE_IF_NECESSARY',
-              configured_value: 'INHERIT',
-              inherited_value: 'MERGE_IF_NECESSARY',
-            },
-          });
-        },
         getConfig() {
           return Promise.resolve({download: {}});
         },
       });
       element = fixture('basic');
+      repoStub = sandbox.stub(element.$.restAPI, 'getProjectConfig', () => {
+        return Promise.resolve(repoConf);
+      });
     });
 
     teardown(() => {
@@ -228,6 +231,24 @@ limitations under the License.
           value: 'FALSE',
         },
       ]);
+    });
+
+    test('404 page', done => {
+      repoStub.restore();
+
+      element.repo = 'test';
+
+      const response = {status: 404};
+      sandbox.stub(
+          element.$.restAPI, 'getProjectConfig', (repo, errFn) => {
+            errFn(response);
+          });
+      element.addEventListener('page-error', e => {
+        assert.strictEqual(e.detail.response, response);
+        done();
+      });
+
+      element._loadRepo();
     });
 
     suite('admin', () => {

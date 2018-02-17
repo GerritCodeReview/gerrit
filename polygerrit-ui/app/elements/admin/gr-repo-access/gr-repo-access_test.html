@@ -117,6 +117,7 @@ limitations under the License.
       });
       repoStub = sandbox.stub(element.$.restAPI, 'getRepo').returns(
           Promise.resolve(repoRes));
+      element._loading = false;
     });
 
     teardown(() => {

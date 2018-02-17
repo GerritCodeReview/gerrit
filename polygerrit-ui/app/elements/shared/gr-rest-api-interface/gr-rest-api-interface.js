@@ -230,26 +230,26 @@
       return JSON.parse(source.substring(JSON_PREFIX.length));
     },
 
-    getConfig(noCache) {
+    getConfig(noCache, opt_errFn) {
       if (!noCache) {
-        return this._fetchSharedCacheURL('/config/server/info');
+        return this._fetchSharedCacheURL('/config/server/info', opt_errFn);
       }
 
-      return this.fetchJSON('/config/server/info');
+      return this.fetchJSON('/config/server/info', opt_errFn);
     },
 
-    getRepo(repo) {
+    getRepo(repo, opt_errFn) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
       return this._fetchSharedCacheURL(
-          '/projects/' + encodeURIComponent(repo));
+          '/projects/' + encodeURIComponent(repo), opt_errFn);
     },
 
-    getProjectConfig(repo) {
+    getProjectConfig(repo, opt_errFn) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
       return this._fetchSharedCacheURL(
-          '/projects/' + encodeURIComponent(repo) + '/config');
+          '/projects/' + encodeURIComponent(repo) + '/config', opt_errFn);
     },
 
     getRepoAccess(repo) {
@@ -259,11 +259,11 @@
           '/access/?project=' + encodeURIComponent(repo));
     },
 
-    getRepoDashboards(repo) {
+    getRepoDashboards(repo, opt_errFn) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
       return this._fetchSharedCacheURL(
-          `/projects/${encodeURIComponent(repo)}/dashboards?inherited`);
+          `/projects/${encodeURIComponent(repo)}/dashboards?inherited`, opt_errFn);
     },
 
     saveRepoConfig(repo, config, opt_errFn, opt_ctx) {
@@ -309,9 +309,9 @@
           opt_ctx);
     },
 
-    getGroupConfig(group) {
+    getGroupConfig(group, opt_errFn) {
       const encodeName = encodeURIComponent(group);
-      return this.fetchJSON(`/groups/${encodeName}/detail`);
+      return this.fetchJSON(`/groups/${encodeName}/detail`, opt_errFn);
     },
 
     /**
@@ -393,9 +393,9 @@
           .then(configs => configs.hasOwnProperty(groupName));
     },
 
-    getGroupMembers(groupName) {
+    getGroupMembers(groupName, opt_errFn) {
       const encodeName = encodeURIComponent(groupName);
-      return this.send('GET', `/groups/${encodeName}/members/`)
+      return this.send('GET', `/groups/${encodeName}/members/`, null, opt_errFn)
           .then(response => this.getResponseObject(response));
     },
 
@@ -426,8 +426,8 @@
       return this.send('PUT', `/groups/${encodeId}/options`, options);
     },
 
-    getGroupAuditLog(group) {
-      return this._fetchSharedCacheURL('/groups/' + group + '/log.audit');
+    getGroupAuditLog(group, opt_errFn) {
+      return this._fetchSharedCacheURL('/groups/' + group + '/log.audit', opt_errFn);
     },
 
     saveGroupMembers(groupName, groupMembers) {
@@ -1160,9 +1160,10 @@
      * @param {string} repo
      * @param {number} reposBranchesPerPage
      * @param {number=} opt_offset
+     * @param {?function(?Response, string=)=} opt_errFn
      * @return {!Promise<?Object>}
      */
-    getRepoBranches(filter, repo, reposBranchesPerPage, opt_offset) {
+    getRepoBranches(filter, repo, reposBranchesPerPage, opt_offset, opt_errFn) {
       const offset = opt_offset || 0;
 
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
@@ -1170,7 +1171,8 @@
       return this.fetchJSON(
           `/projects/${encodeURIComponent(repo)}/branches` +
           `?n=${reposBranchesPerPage + 1}&S=${offset}` +
-          this._computeFilter(filter)
+          this._computeFilter(filter),
+          opt_errFn
       );
     },
 
@@ -1179,9 +1181,10 @@
      * @param {string} repo
      * @param {number} reposTagsPerPage
      * @param {number=} opt_offset
+     * @param {?function(?Response, string=)=} opt_errFn
      * @return {!Promise<?Object>}
      */
-    getRepoTags(filter, repo, reposTagsPerPage, opt_offset) {
+    getRepoTags(filter, repo, reposTagsPerPage, opt_offset, opt_errFn) {
       const offset = opt_offset || 0;
 
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
@@ -1189,7 +1192,8 @@
       return this.fetchJSON(
           `/projects/${encodeURIComponent(repo)}/tags` +
           `?n=${reposTagsPerPage + 1}&S=${offset}` +
-          this._computeFilter(filter)
+          this._computeFilter(filter),
+          opt_errFn
       );
     },
 
@@ -1197,21 +1201,23 @@
      * @param {string} filter
      * @param {number} pluginsPerPage
      * @param {number=} opt_offset
+     * @param {?function(?Response, string=)=} opt_errFn
      * @return {!Promise<?Object>}
      */
-    getPlugins(filter, pluginsPerPage, opt_offset) {
+    getPlugins(filter, pluginsPerPage, opt_offset, opt_errFn) {
       const offset = opt_offset || 0;
 
       return this.fetchJSON(
           `/plugins/?all&n=${pluginsPerPage + 1}&S=${offset}` +
-          this._computeFilter(filter)
+          this._computeFilter(filter),
+          opt_errFn
       );
     },
 
-    getRepoAccessRights(repoName) {
+    getRepoAccessRights(repoName, opt_errFn) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this.fetchJSON(`/projects/${encodeURIComponent(repoName)}/access`);
+      return this.fetchJSON(`/projects/${encodeURIComponent(repoName)}/access`, opt_errFn);
     },
 
     setRepoAccessRights(repoName, repoInfo) {
@@ -1995,8 +2001,8 @@
           });
     },
 
-    getCapabilities(token) {
-      return this.fetchJSON('/config/server/capabilities');
+    getCapabilities(token, opt_errFn) {
+      return this.fetchJSON('/config/server/capabilities', opt_errFn);
     },
 
     setAssignee(changeNum, assignee) {

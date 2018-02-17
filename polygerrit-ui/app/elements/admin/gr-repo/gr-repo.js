@@ -122,6 +122,8 @@
         this._loggedIn = loggedIn;
         if (loggedIn) {
           this.$.restAPI.getRepoAccess(this.repo).then(access => {
+            if (!access) { return Promise.resolve(); }
+
             // If the user is not an owner, is_owner is not a property.
             this._readOnly = !access[this.repo].is_owner;
           });
@@ -130,6 +132,8 @@
 
       promises.push(this.$.restAPI.getProjectConfig(this.repo).then(
           config => {
+            if (!config) { return Promise.resolve(); }
+
             if (config.default_submit_type) {
               // The gr-select is bound to submit_type, which needs to be the
               // *configured* submit type. When default_submit_type is
@@ -147,6 +151,8 @@
           }));
 
       promises.push(this.$.restAPI.getConfig().then(config => {
+        if (!config) { return Promise.resolve(); }
+
         this._schemesObj = config.download.schemes;
         this._noteDbEnabled = !!config.note_db_enabled;
       }));

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8b859f8_f0881712",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-comment-threads/gr-change-comment-threads.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-17T00:56:56Z",
+      "side": 1,
+      "message": "This name seems somewhat similar to `gr-diff-comment-thread`. At least, I initially got confused by the plural in the name.\n\nWhat do you think of `gr-thread-list`?",
+      "range": {
+        "startLine": 24,
+        "startChar": 16,
+        "endLine": 24,
+        "endChar": 41
+      },
+      "revId": "bc7082396c9b8e0cc941ce5c1ac3c5610f9df0ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f69dd57f_95f2b116",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-comment-threads/gr-change-comment-threads.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-17T00:56:56Z",
+      "side": 1,
+      "message": "Are these :not() selectors needed? It looks like it\u0027d work the same without them.",
+      "range": {
+        "startLine": 31,
+        "startChar": 17,
+        "endLine": 31,
+        "endChar": 38
+      },
+      "revId": "bc7082396c9b8e0cc941ce5c1ac3c5610f9df0ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03633fb8_cc4c243c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-comment-threads/gr-change-comment-threads.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-17T00:56:56Z",
+      "side": 1,
+      "message": "Wording nit: IIUC, this means \"only threads with draft comments\". It seems strange to say \"only drafts\" but show threads that are partially non-drafts.",
+      "range": {
+        "startLine": 44,
+        "startChar": 60,
+        "endLine": 44,
+        "endChar": 11
+      },
+      "revId": "bc7082396c9b8e0cc941ce5c1ac3c5610f9df0ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

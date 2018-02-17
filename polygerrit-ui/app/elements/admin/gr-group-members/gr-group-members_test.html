@@ -251,5 +251,11 @@ limitations under the License.
       assert.equal(element._itemId, '1000098');
       assert.equal(element._itemName, '1000098');
     });
+
+    test('_computeLoadingClass', () => {
+      assert.equal(element._computeLoadingClass(true), 'loading');
+
+      assert.equal(element._computeLoadingClass(false), '');
+    });
   });
 </script>

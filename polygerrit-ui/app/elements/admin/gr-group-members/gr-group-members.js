@@ -70,14 +70,19 @@
       this.fire('title-change', {title: 'Members'});
     },
 
+    _handleDetailError(response) {
+      this.fire('page-error', {response});
+    },
+
     _loadGroupDetails() {
       if (!this.groupId) { return; }
 
       const promises = [];
 
-      return this.$.restAPI.getGroupConfig(this.groupId).then(
-          config => {
-            if (!config.name) { return; }
+      return this.$.restAPI.getGroupConfig(
+          this.groupId, this._handleDetailError.bind(this))
+          .then(config => {
+            if (!config || !config.name) { return Promise.resolve(); }
 
             this._groupName = config.name;
 

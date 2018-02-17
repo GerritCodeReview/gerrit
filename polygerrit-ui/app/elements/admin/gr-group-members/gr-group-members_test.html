@@ -38,9 +38,11 @@ limitations under the License.
     let groups;
     let groupMembers;
     let includedGroups;
+    let groupStub;
 
     setup(() => {
       sandbox = sinon.sandbox.create();
+
       groups = {
         name: 'Administrators',
         owner: 'Administrators',
@@ -118,9 +120,6 @@ limitations under the License.
         getConfig() {
           return Promise.resolve();
         },
-        getGroupConfig() {
-          return Promise.resolve(groups);
-        },
         getGroupMembers() {
           return Promise.resolve(groupMembers);
         },
@@ -137,6 +136,9 @@ limitations under the License.
       element = fixture('basic');
       sandbox.stub(element, 'getBaseUrl').returns('https://test/site');
       element.groupId = 1;
+      groupStub = sandbox.stub(element.$.restAPI, 'getGroupConfig', () => {
+        return Promise.resolve(groups);
+      });
       return element._loadGroupDetails();
     });
 
@@ -250,6 +252,30 @@ limitations under the License.
       MockInteractions.tap(deletelBtns[3]);
       assert.equal(element._itemId, '1000098');
       assert.equal(element._itemName, '1000098');
+    });
+
+    test('_computeLoadingClass', () => {
+      assert.equal(element._computeLoadingClass(true), 'loading');
+
+      assert.equal(element._computeLoadingClass(false), '');
+    });
+
+    test('fires page-error', done => {
+      groupStub.restore();
+
+      element.groupId = 1;
+
+      const response = {status: 404};
+      sandbox.stub(
+          element.$.restAPI, 'getGroupConfig', (group, errFn) => {
+            errFn(response);
+          });
+      element.addEventListener('page-error', e => {
+        assert.deepEqual(e.detail.response, response);
+        done();
+      });
+
+      element._loadGroupDetails();
     });
   });
 </script>

@@ -286,17 +286,25 @@
 
     _computeGroupName(groupId) {
       if (!groupId) { return ''; }
+
       const promises = [];
+
       this.$.restAPI.getGroupConfig(groupId).then(group => {
+        if (!group || !group.name) { return; }
+
         this._groupName = group.name;
+
         this.reload();
+
         promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
           this._isAdmin = isAdmin;
         }));
+
         promises.push(this.$.restAPI.getIsGroupOwner(group.name).then(
             isOwner => {
               this._groupOwner = isOwner;
             }));
+
         return Promise.all(promises).then(() => {
           this.reload();
         });

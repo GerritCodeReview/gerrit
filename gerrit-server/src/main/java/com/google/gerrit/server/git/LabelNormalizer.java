@@ -172,6 +172,7 @@ public class LabelNormalizer {
       forChange.check(new LabelPermission.WithValue(lt.getName(), a.getValue()));
       return true;
     } catch (AuthException e) {
+      e.printStackTrace();
       a.setValue(forChange.squashThenCheck(lt, a.getValue()));
       return true;
     }

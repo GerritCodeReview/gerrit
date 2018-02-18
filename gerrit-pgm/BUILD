@@ -17,6 +17,7 @@ BASE_JETTY_DEPS = [
     "//gerrit-httpd:httpd",
     "//gerrit-server:server",
     "//gerrit-sshd:sshd",
+    "//lib:gson",
     "//lib:guava",
     "//lib/guice:guice",
     "//lib/guice:guice-assistedinject",
@@ -25,6 +26,7 @@ BASE_JETTY_DEPS = [
     "//lib/joda:joda-time",
     "//lib/log:api",
     "//lib/log:log4j",
+    "//lib/lucene:lucene-core-and-backward-codecs",
 ]
 
 DEPS = BASE_JETTY_DEPS + [

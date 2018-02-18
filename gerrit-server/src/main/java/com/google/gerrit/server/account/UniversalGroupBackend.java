@@ -106,7 +106,10 @@ public class UniversalGroupBackend implements GroupBackend {
     private UniversalGroupMembership(IdentifiedUser user) {
       ImmutableMap.Builder<GroupBackend, GroupMembership> builder = ImmutableMap.builder();
       for (GroupBackend g : backends) {
-        builder.put(g, g.membershipsOf(user));
+        System.out.println("Group backend: " + g.getClass().getName());
+        GroupMembership membershipsOf = g.membershipsOf(user);
+        System.out.println("membershipsOf: " + membershipsOf);
+        builder.put(g, membershipsOf);
       }
       this.memberships = builder.build();
     }

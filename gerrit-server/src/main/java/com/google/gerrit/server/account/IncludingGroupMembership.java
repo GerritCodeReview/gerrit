@@ -51,11 +51,13 @@ public class IncludingGroupMembership implements GroupMembership {
   @Inject
   IncludingGroupMembership(
       GroupCache groupCache, GroupIncludeCache includeCache, @Assisted IdentifiedUser user) {
+    System.out.println("ctor: IncludingGroupMembership");
     this.groupCache = groupCache;
     this.includeCache = includeCache;
     this.user = user;
 
     Set<AccountGroup.UUID> groups = user.state().getInternalGroups();
+    System.out.println("User Internal groups: " + groups);
     memberOf = new ConcurrentHashMap<>(groups.size());
     for (AccountGroup.UUID g : groups) {
       memberOf.put(g, true);

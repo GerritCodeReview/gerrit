@@ -316,8 +316,11 @@ public class RefControl {
 
   /** The range of permitted values associated with a label permission. */
   PermissionRange getRange(String permission, boolean isChangeOwner) {
+    System.out.println("getRange(): checking for range for: " + permission);
     if (Permission.hasRange(permission)) {
-      return toRange(permission, access(permission, isChangeOwner));
+      PermissionRange range = toRange(permission, access(permission, isChangeOwner));
+      System.out.println("getRange: " + range);
+      return range;
     }
     return null;
   }
@@ -469,6 +472,7 @@ public class RefControl {
 
   /** Rules for the given permission, or the empty list. */
   private List<PermissionRule> access(String permissionName, boolean isChangeOwner) {
+    System.out.println("access(): for: " + permissionName);
     List<PermissionRule> rules = effective.get(permissionName);
     if (rules != null) {
       return rules;
@@ -487,6 +491,7 @@ public class RefControl {
       mine = Collections.emptyList();
     }
     effective.put(permissionName, mine);
+    System.out.println(mine);
     return mine;
   }
 

@@ -507,6 +507,7 @@ public class ChangeControl {
     }
 
     private PermissionRange label(String permission) {
+      System.out.println("label(): Checking label permission for: " + permission);
       if (labels == null) {
         labels = Maps.newHashMapWithExpectedSize(4);
       }
@@ -515,6 +516,7 @@ public class ChangeControl {
         r = getRange(permission);
         labels.put(permission, r);
       }
+      System.out.println(r);
       return r;
     }
   }

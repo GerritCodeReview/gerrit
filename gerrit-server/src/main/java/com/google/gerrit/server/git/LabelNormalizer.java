@@ -172,6 +172,7 @@ public class LabelNormalizer {
       forChange.check(new LabelPermission.WithValue(lt.getName(), a.getValue()));
       return true;
     } catch (AuthException e) {
+      e.printStackTrace();
       a.setValue(forChange.squashThenCheck(lt, a.getValue()));
       return true;
     }
@@ -183,6 +184,7 @@ public class LabelNormalizer {
       a.setValue(atMin.getValue());
     }
     LabelValue atMax = lt.getMax();
+    System.out.println(atMax);
     if (atMax != null && a.getValue() > atMax.getValue()) {
       a.setValue(atMax.getValue());
     }

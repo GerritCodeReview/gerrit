@@ -62,12 +62,14 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonWriter;
 import com.google.gwtorm.protobuf.CodecFactory;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.protobuf.CodedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -403,7 +405,21 @@ public class ChangeField {
   /** Serialized approvals for the current patch set, used for pre-populating results. */
   public static final FieldDef<ChangeData, Iterable<byte[]>> APPROVAL =
       storedOnly("_approval")
-          .buildRepeatable(cd -> toProtos(APPROVAL_CODEC, cd.currentApprovals()));
+          .buildRepeatable(
+              cd -> {
+                List<PatchSetApproval> approvals = cd.currentApprovals();
+                Gson gson = new Gson();
+                try (JsonWriter w = new JsonWriter(new PrintWriter(System.out))) {
+                  w.setIndent("  ");
+                  w.beginArray();
+                  for (PatchSetApproval psa : approvals) {
+                    gson.getAdapter(PatchSetApproval.class).write(w, psa);
+                  }
+                  w.endArray();
+                  w.close();
+                }
+                return toProtos(APPROVAL_CODEC, approvals);
+              });
 
   public static String formatLabel(String label, int value) {
     return formatLabel(label, value, null);

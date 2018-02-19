@@ -23,6 +23,30 @@
       "revId": "32e3977757de1ad15b5926cd56fe6fad2dc4888d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e6034b5_e8542948",
+        "filename": "javatests/com/google/gerrit/server/config/GitwebConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-19T15:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b9b2fbd_645798b2",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 28,
+        "endChar": 16
+      },
+      "revId": "32e3977757de1ad15b5926cd56fe6fad2dc4888d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

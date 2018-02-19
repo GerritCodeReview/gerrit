@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "45891628_b8c5dba9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-02-19T17:28:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7125739_312e96b7",
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13952ddf_4c76fa55",
         "filename": "java/com/google/gerrit/server/mail/AutoReplyMailFilter.java",
         "patchSetId": 3
@@ -392,6 +410,24 @@
       "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a722c337_9af86a9f",
+        "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-02-19T17:28:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff04dc18_d90f822d",
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

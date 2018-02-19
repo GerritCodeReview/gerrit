@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c40b07e2_10c330b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-19T15:47:31Z",
+      "side": 1,
+      "message": "I have even a better idea, why we don\u0027t just say:\n\n  !IndexCollection.class.isAssignableFrom(type)\n\ninstead, and let the compiler to do the check?",
+      "range": {
+        "startLine": 571,
+        "startChar": 11,
+        "endLine": 571,
+        "endChar": 63
+      },
+      "revId": "2341f488d7871e686061b2fca01f35290afc6bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

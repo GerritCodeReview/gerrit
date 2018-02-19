@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1518783803 +0100\nnonce AFD2Vu0+FYEmSqCWPaHWYjb+MpuIjVoWoIQyS8rr+uAW2f5GTDaY4mZkv07dJ28aL84a1JQmbQLq\n\n0000000000000000000000000000000000000000 fff4b6a5b26ae8657c4c6fc95aaaa9c86305dee5 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlqGzTsACgkQUbX9l6DQ\n71GZcwf/S3mjpW/9zq97YDazt93fYqs3uvI00hL8jKZu4JYQ7iWkAKth8LfTvJqD\ne4sxtuAXoQWQlJa8QqkiA4dDAveMfz447cZGnVoLg8phUXumSR8m5C7xVd2vzycc\nt1/IyXL74F/JY9zK5G942NsYcjUrMZifJAChtCUbhDPJcgxWHmdGaV08ABxih/PC\nWoxRmROt2Ct8flzeeCjg6Z+ihT6UoXT0jhlvqzYn3bgSf7cIh5yCNCKEC+SMyKX1\n7hjYphrQcIGDJSSdPCmeIWAvr0v26OtHWV19WdcjhFwtdymFfm8ixXFGm6OiQT08\ne+OI8LK/XKDRIGiShHMbtcAXe8YeDQ\u003d\u003d\n\u003d3q/+\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "88244aa7_731decef",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4783,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-19T16:30:22Z",
+      "side": 1,
+      "message": "Plural -\u003e remove \u0027a\u0027.",
+      "range": {
+        "startLine": 4783,
+        "startChar": 45,
+        "endLine": 4783,
+        "endChar": 46
+      },
+      "revId": "fff4b6a5b26ae8657c4c6fc95aaaa9c86305dee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e7f7bd1_4508a874",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4822,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-19T16:30:22Z",
+      "side": 1,
+      "message": "time zone",
+      "range": {
+        "startLine": 4822,
+        "startChar": 4,
+        "endLine": 4822,
+        "endChar": 12
+      },
+      "revId": "fff4b6a5b26ae8657c4c6fc95aaaa9c86305dee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50b4129b_281bce26",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4823,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-19T16:30:22Z",
+      "side": 1,
+      "message": "time zone",
+      "range": {
+        "startLine": 4823,
+        "startChar": 0,
+        "endLine": 4823,
+        "endChar": 9
+      },
+      "revId": "fff4b6a5b26ae8657c4c6fc95aaaa9c86305dee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce401815_da992d7f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4826,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-19T16:30:22Z",
+      "side": 1,
+      "message": "This sentence is a bit confusing, especially since \u0027interval\u0027 and \u0027startTime\u0027 are subsections and don\u0027t have sub-subsections.\n\nMaybe, we can also use the examples for an explanation. None of the examples mentions what \u0027foo\u0027 is. What about having a first example for which we simply explain what the config setting means?",
+      "range": {
+        "startLine": 4825,
+        "startChar": 0,
+        "endLine": 4826,
+        "endChar": 63
+      },
+      "revId": "fff4b6a5b26ae8657c4c6fc95aaaa9c86305dee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

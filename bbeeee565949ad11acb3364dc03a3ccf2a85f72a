@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ae6b3c8_7c4d655d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/DumpIndexDocument.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-19T23:49:45Z",
+      "side": 1,
+      "message": "Note for reviewers: This was pushed to master in a separate change.",
+      "revId": "bbeeee565949ad11acb3364dc03a3ccf2a85f72a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

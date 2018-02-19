@@ -45,7 +45,7 @@ public class AccountPredicates {
       preds.add(id(new Account.Id(id)));
     }
     if (canSeeSecondaryEmails) {
-      preds.add(equalsNameIcludingSecondaryEmails(query));
+      preds.add(equalsNameIncludingSecondaryEmails(query));
     } else {
       if (schema.hasField(AccountField.NAME_PART_NO_SECONDARY_EMAIL)) {
         preds.add(equalsName(query));
@@ -84,7 +84,7 @@ public class AccountPredicates {
         AccountField.PREFERRED_EMAIL_EXACT, AccountQueryBuilder.FIELD_PREFERRED_EMAIL_EXACT, email);
   }
 
-  public static Predicate<AccountState> equalsNameIcludingSecondaryEmails(String name) {
+  public static Predicate<AccountState> equalsNameIncludingSecondaryEmails(String name) {
     return new AccountPredicate(
         AccountField.NAME_PART, AccountQueryBuilder.FIELD_NAME, name.toLowerCase());
   }

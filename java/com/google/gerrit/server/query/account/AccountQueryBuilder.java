@@ -142,7 +142,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   public Predicate<AccountState> name(String name)
       throws PermissionBackendException, QueryParseException {
     if (canSeeSecondaryEmails()) {
-      return AccountPredicates.equalsNameIcludingSecondaryEmails(name);
+      return AccountPredicates.equalsNameIncludingSecondaryEmails(name);
     }
 
     if (args.schema().hasField(AccountField.NAME_PART_NO_SECONDARY_EMAIL)) {

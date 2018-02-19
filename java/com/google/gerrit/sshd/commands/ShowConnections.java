@@ -175,7 +175,7 @@ final class ShowConnections extends SshCommand {
   }
 
   private static String time(long now, long time) {
-    if (time - now < 24 * 60 * 60 * 1000L) {
+    if (now - time < 24 * 60 * 60 * 1000L) {
       return new SimpleDateFormat("HH:mm:ss").format(new Date(time));
     }
     return new SimpleDateFormat("MMM-dd").format(new Date(time));

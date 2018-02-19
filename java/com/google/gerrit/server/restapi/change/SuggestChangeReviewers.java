@@ -19,14 +19,16 @@ import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.restapi.change.ReviewersUtil.VisibilityControl;
 import com.google.gwtorm.server.OrmException;
@@ -48,6 +50,7 @@ public class SuggestChangeReviewers extends SuggestReviewers
   )
   boolean excludeGroups;
 
+  private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> self;
   private final ProjectCache projectCache;
 
@@ -56,11 +59,13 @@ public class SuggestChangeReviewers extends SuggestReviewers
       AccountVisibility av,
       GenericFactory identifiedUserFactory,
       Provider<ReviewDb> dbProvider,
+      PermissionBackend permissionBackend,
       Provider<CurrentUser> self,
       @GerritServerConfig Config cfg,
       ReviewersUtil reviewersUtil,
       ProjectCache projectCache) {
     super(av, identifiedUserFactory, dbProvider, cfg, reviewersUtil);
+    this.permissionBackend = permissionBackend;
     this.self = self;
     this.projectCache = projectCache;
   }
@@ -81,11 +86,15 @@ public class SuggestChangeReviewers extends SuggestReviewers
   }
 
   private VisibilityControl getVisibility(ChangeResource rsrc) {
-    // Use the destination reference, not the change, as drafts may deny
-    // anyone who is not already a reviewer.
-    return account -> {
-      IdentifiedUser who = identifiedUserFactory.create(account);
-      return rsrc.permissions().user(who).testOrFalse(ChangePermission.READ);
+    // Use the destination reference, not the change, as private changes deny anyone who is not
+    // already a reviewer.
+    PermissionBackend.ForRef perm = permissionBackend.user(self).ref(rsrc.getChange().getDest());
+    return new VisibilityControl() {
+      @Override
+      public boolean isVisibleTo(Account.Id account) throws OrmException {
+        IdentifiedUser who = identifiedUserFactory.create(account);
+        return perm.user(who).testOrFalse(RefPermission.READ);
+      }
     };
   }
 }

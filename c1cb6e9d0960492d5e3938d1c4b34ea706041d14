@@ -531,6 +531,30 @@
     },
     {
       "key": {
+        "uuid": "fc37fee3_8f102635",
+        "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-02-19T17:03:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43c3d510_bc4309e3",
+      "range": {
+        "startLine": 203,
+        "startChar": 6,
+        "endLine": 203,
+        "endChar": 68
+      },
+      "revId": "c1cb6e9d0960492d5e3938d1c4b34ea706041d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e660696e_424db483",
         "filename": "java/com/google/gerrit/server/mail/send/ErrorEmail.java",
         "patchSetId": 1
@@ -730,6 +754,30 @@
     },
     {
       "key": {
+        "uuid": "a8933bbf_0b4ec634",
+        "filename": "java/com/google/gerrit/server/mail/send/ErrorEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-02-19T17:03:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dda317b_1b447b0b",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 24
+      },
+      "revId": "c1cb6e9d0960492d5e3938d1c4b34ea706041d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58b4d8c5_436a8dde",
         "filename": "java/com/google/gerrit/server/mail/send/ErrorEmail.java",
         "patchSetId": 1
@@ -894,6 +942,30 @@
     },
     {
       "key": {
+        "uuid": "8082b9cb_c26629a3",
+        "filename": "java/com/google/gerrit/server/mail/send/ErrorEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-02-19T17:03:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6443f27_6d5dad15",
+      "range": {
+        "startLine": 126,
+        "startChar": 1,
+        "endLine": 129,
+        "endChar": 3
+      },
+      "revId": "c1cb6e9d0960492d5e3938d1c4b34ea706041d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1cd3be8_a6206164",
         "filename": "javatests/com/google/gerrit/acceptance/server/mail/BadMailFilterIT.java",
         "patchSetId": 1
@@ -1031,6 +1103,30 @@
       "revId": "c1cb6e9d0960492d5e3938d1c4b34ea706041d14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6aacbb99_6689fff5",
+        "filename": "resources/com/google/gerrit/server/mail/ErrorEmail.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-02-19T17:03:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cb303f9_14f98392",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "c1cb6e9d0960492d5e3938d1c4b34ea706041d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

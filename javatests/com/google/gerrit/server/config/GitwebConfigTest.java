@@ -14,27 +14,25 @@
 
 package com.google.gerrit.server.config;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 import org.junit.Test;
 
 public class GitwebConfigTest {
-
   private static final String VALID_CHARACTERS = "*()";
   private static final String SOME_INVALID_CHARACTERS = "09AZaz$-_.+!',";
 
   @Test
   public void validPathSeparator() {
     for (char c : VALID_CHARACTERS.toCharArray()) {
-      assertTrue("valid character rejected: " + c, GitwebConfig.isValidPathSeparator(c));
+      assertThat(GitwebConfig.isValidPathSeparator(c)).isTrue();
     }
   }
 
   @Test
   public void inalidPathSeparator() {
     for (char c : SOME_INVALID_CHARACTERS.toCharArray()) {
-      assertFalse("invalid character accepted: " + c, GitwebConfig.isValidPathSeparator(c));
+      assertThat(GitwebConfig.isValidPathSeparator(c)).isFalse();
     }
   }
 }

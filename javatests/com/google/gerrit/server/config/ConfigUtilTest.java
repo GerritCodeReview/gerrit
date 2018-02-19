@@ -20,7 +20,6 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.extensions.client.Theme;
 import java.util.List;
@@ -142,49 +141,49 @@ public class ConfigUtilTest {
 
   @Test
   public void timeUnit() {
-    assertEquals(ms(0, MILLISECONDS), parse("0"));
-    assertEquals(ms(2, MILLISECONDS), parse("2ms"));
-    assertEquals(ms(200, MILLISECONDS), parse("200 milliseconds"));
+    assertThat(parse("0")).isEqualTo(ms(0, MILLISECONDS));
+    assertThat(parse("2ms")).isEqualTo(ms(2, MILLISECONDS));
+    assertThat(parse("200 milliseconds")).isEqualTo(ms(200, MILLISECONDS));
 
-    assertEquals(ms(0, SECONDS), parse("0s"));
-    assertEquals(ms(2, SECONDS), parse("2s"));
-    assertEquals(ms(231, SECONDS), parse("231sec"));
-    assertEquals(ms(1, SECONDS), parse("1second"));
-    assertEquals(ms(300, SECONDS), parse("300 seconds"));
+    assertThat(parse("0s")).isEqualTo(ms(0, SECONDS));
+    assertThat(parse("2s")).isEqualTo(ms(2, SECONDS));
+    assertThat(parse("231sec")).isEqualTo(ms(231, SECONDS));
+    assertThat(parse("1second")).isEqualTo(ms(1, SECONDS));
+    assertThat(parse("300 seconds")).isEqualTo(ms(300, SECONDS));
 
-    assertEquals(ms(2, MINUTES), parse("2m"));
-    assertEquals(ms(2, MINUTES), parse("2min"));
-    assertEquals(ms(1, MINUTES), parse("1 minute"));
-    assertEquals(ms(10, MINUTES), parse("10 minutes"));
+    assertThat(parse("2m")).isEqualTo(ms(2, MINUTES));
+    assertThat(parse("2min")).isEqualTo(ms(2, MINUTES));
+    assertThat(parse("1 minute")).isEqualTo(ms(1, MINUTES));
+    assertThat(parse("10 minutes")).isEqualTo(ms(10, MINUTES));
 
-    assertEquals(ms(5, HOURS), parse("5h"));
-    assertEquals(ms(5, HOURS), parse("5hr"));
-    assertEquals(ms(1, HOURS), parse("1hour"));
-    assertEquals(ms(48, HOURS), parse("48hours"));
+    assertThat(parse("5h")).isEqualTo(ms(5, HOURS));
+    assertThat(parse("5hr")).isEqualTo(ms(5, HOURS));
+    assertThat(parse("1hour")).isEqualTo(ms(1, HOURS));
+    assertThat(parse("48hours")).isEqualTo(ms(48, HOURS));
 
-    assertEquals(ms(5, HOURS), parse("5 h"));
-    assertEquals(ms(5, HOURS), parse("5 hr"));
-    assertEquals(ms(1, HOURS), parse("1 hour"));
-    assertEquals(ms(48, HOURS), parse("48 hours"));
-    assertEquals(ms(48, HOURS), parse("48 \t \r hours"));
+    assertThat(parse("5 h")).isEqualTo(ms(5, HOURS));
+    assertThat(parse("5 hr")).isEqualTo(ms(5, HOURS));
+    assertThat(parse("1 hour")).isEqualTo(ms(1, HOURS));
+    assertThat(parse("48 hours")).isEqualTo(ms(48, HOURS));
+    assertThat(parse("48 \t \r hours")).isEqualTo(ms(48, HOURS));
 
-    assertEquals(ms(4, DAYS), parse("4d"));
-    assertEquals(ms(1, DAYS), parse("1day"));
-    assertEquals(ms(14, DAYS), parse("14days"));
+    assertThat(parse("4d")).isEqualTo(ms(4, DAYS));
+    assertThat(parse("1day")).isEqualTo(ms(1, DAYS));
+    assertThat(parse("14days")).isEqualTo(ms(14, DAYS));
 
-    assertEquals(ms(7, DAYS), parse("1w"));
-    assertEquals(ms(7, DAYS), parse("1week"));
-    assertEquals(ms(14, DAYS), parse("2w"));
-    assertEquals(ms(14, DAYS), parse("2weeks"));
+    assertThat(parse("1w")).isEqualTo(ms(7, DAYS));
+    assertThat(parse("1week")).isEqualTo(ms(7, DAYS));
+    assertThat(parse("2w")).isEqualTo(ms(14, DAYS));
+    assertThat(parse("2weeks")).isEqualTo(ms(14, DAYS));
 
-    assertEquals(ms(30, DAYS), parse("1mon"));
-    assertEquals(ms(30, DAYS), parse("1month"));
-    assertEquals(ms(60, DAYS), parse("2mon"));
-    assertEquals(ms(60, DAYS), parse("2months"));
+    assertThat(parse("1mon")).isEqualTo(ms(30, DAYS));
+    assertThat(parse("1month")).isEqualTo(ms(30, DAYS));
+    assertThat(parse("2mon")).isEqualTo(ms(60, DAYS));
+    assertThat(parse("2months")).isEqualTo(ms(60, DAYS));
 
-    assertEquals(ms(365, DAYS), parse("1y"));
-    assertEquals(ms(365, DAYS), parse("1year"));
-    assertEquals(ms(365 * 2, DAYS), parse("2years"));
+    assertThat(parse("1y")).isEqualTo(ms(365, DAYS));
+    assertThat(parse("1year")).isEqualTo(ms(365, DAYS));
+    assertThat(parse("2years")).isEqualTo(ms(365 * 2, DAYS));
   }
 
   private static long ms(int cnt, TimeUnit unit) {

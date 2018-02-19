@@ -133,7 +133,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void suggestReviewsPrivateProjectVisibility() throws Exception {
+  public void suggestReviewersPrivateProjectVisibility() throws Exception {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers;
 

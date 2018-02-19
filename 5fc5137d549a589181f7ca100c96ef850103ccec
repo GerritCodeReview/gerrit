@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b7aee8e0_5f506c9d",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-19T23:34:20Z",
+      "side": 1,
+      "message": "Is there a use case for suggestion to an anonymous user?\n\nIf so what value is added by logging the class\u0027s simple name?  Isn\u0027t it better to just say \"anonymous user\" or something like that?",
+      "range": {
+        "startLine": 173,
+        "startChar": 8,
+        "endLine": 175,
+        "endChar": 87
+      },
+      "revId": "5fc5137d549a589181f7ca100c96ef850103ccec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5b4e53b0_c622057b",
         "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
         "patchSetId": 1
@@ -19,6 +42,53 @@
         "startChar": 8,
         "endLine": 176,
         "endChar": 39
+      },
+      "revId": "5fc5137d549a589181f7ca100c96ef850103ccec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a0054a0_b4b03201",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-19T23:34:20Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "5b4e53b0_c622057b",
+      "range": {
+        "startLine": 173,
+        "startChar": 8,
+        "endLine": 176,
+        "endChar": 39
+      },
+      "revId": "5fc5137d549a589181f7ca100c96ef850103ccec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "193f9d5e_135d7dff",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-19T23:34:20Z",
+      "side": 1,
+      "message": "While we\u0027re in here, change this to \"suggestedReviewers\" (plural)?",
+      "range": {
+        "startLine": 212,
+        "startChar": 32,
+        "endLine": 212,
+        "endChar": 49
       },
       "revId": "5fc5137d549a589181f7ca100c96ef850103ccec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "947e400e_bbb2388e",
+        "filename": "java/com/google/gerrit/pgm/init/SitePathInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T12:34:37Z",
+      "side": 1,
+      "message": "nit: In Gerrit, \u0027Ack\u0027 means \"I acknowledge what you said, but there was no code change that I did\". while \u0027Done\u0027 means \"I acknowledge what you said *and* changed the code).\n\nThis helps the reviewer to faster get what you changed and were further review is needed.",
+      "parentUuid": "2cef7462_d8e2f9eb",
+      "revId": "c1cb6e9d0960492d5e3938d1c4b34ea706041d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7598ac9_ced3fada",
         "filename": "java/com/google/gerrit/server/mail/BadMailFilter.java",
         "patchSetId": 1
@@ -377,6 +395,30 @@
       "side": 1,
       "message": "This change is not possible without introducing non retro-compatible changes. What about we use a new structure, Metadata, with two simple helpers (toHeader and toFooter)?",
       "parentUuid": "99e83782_07e0e8ab",
+      "range": {
+        "startLine": 25,
+        "startChar": 23,
+        "endLine": 25,
+        "endChar": 31
+      },
+      "revId": "c1cb6e9d0960492d5e3938d1c4b34ea706041d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3a88a98_cbc0a2d2",
+        "filename": "java/com/google/gerrit/server/mail/MetadataName.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T12:34:37Z",
+      "side": 1,
+      "message": "The enum is a good solution, I like it way more than MetadataName!\n\nDon\u0027t worry about breaking things in core Gerrit. We need deprecation paths only for the API (both REST and Java extension)",
+      "parentUuid": "eecac6c9_7fc54b3d",
       "range": {
         "startLine": 25,
         "startChar": 23,

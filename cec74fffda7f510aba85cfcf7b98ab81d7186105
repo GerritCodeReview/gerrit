@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d7125739_312e96b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T12:34:37Z",
+      "side": 1,
+      "message": "nit: Always type a meaningful commit message See [1] for some docs on this.\n\nIn this case, the feature is completed by this change, so \u0027Start\u0027 doesn\u0027t apply.\n\nHow about:\n\n\"Send emails to inform users about inbound email parsing errors\"\n\n+ Some more details on what exactly was implemented in the commit message\u0027s body.\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#commit-message",
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "13952ddf_4c76fa55",
         "filename": "java/com/google/gerrit/server/mail/AutoReplyMailFilter.java",
         "patchSetId": 3
@@ -18,6 +35,46 @@
         "startChar": 14,
         "endLine": 39,
         "endChar": 27
+      },
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95b8fd1c_378498e6",
+        "filename": "java/com/google/gerrit/server/mail/Metadata.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T12:34:37Z",
+      "side": 1,
+      "message": "nit: I think this fits in a single line, but the Java formatter should know better",
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d55279a5_fcb3783f",
+        "filename": "java/com/google/gerrit/server/mail/Metadata.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T12:34:37Z",
+      "side": 1,
+      "message": "how about: MailHeader ?\n\nA lot of things in Gerrit are called Metadata (or at least could be called like that) so in cases where we can be more specific, we should.",
+      "range": {
+        "startLine": 20,
+        "startChar": 12,
+        "endLine": 20,
+        "endChar": 20
       },
       "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -48,6 +105,76 @@
     },
     {
       "key": {
+        "uuid": "7da27a80_43d24a09",
+        "filename": "java/com/google/gerrit/server/mail/MetadataName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T12:34:37Z",
+      "side": 1,
+      "message": "+1\n\nIn this case, just remove the entire class though. This is core Gerrit code where we are in full control, so when things should be changed, we can just change them without a deprecation path.",
+      "parentUuid": "5a9ed900_b7d65af1",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 13
+      },
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f626c16_2eb76bf2",
+        "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T12:34:37Z",
+      "side": 1,
+      "message": "nit: This is really long.\n\nHow about: emailRejectionSender or emailRejectionSenderFactory ?",
+      "range": {
+        "startLine": 114,
+        "startChar": 9,
+        "endLine": 114,
+        "endChar": 49
+      },
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21a6ddcd_879f9303",
+        "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T12:34:37Z",
+      "side": 1,
+      "message": "Please mention all the exceptions that MetadataParser can throw individually. This makes it easier to keep track of what code can throw what exception.",
+      "range": {
+        "startLine": 158,
+        "startChar": 13,
+        "endLine": 158,
+        "endChar": 22
+      },
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "640b1f18_03e31db0",
         "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
         "patchSetId": 3
@@ -65,6 +192,155 @@
         "endLine": 159,
         "endChar": 27
       },
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b0b1c80_a3be2096",
+        "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T12:34:37Z",
+      "side": 1,
+      "message": "IMHO this is surfacing too much information (multiple account IDs that we match).\n\nCan we just remove the second part? So this would become:\n\n\"Address %s could not be matched to a unique account.\"",
+      "range": {
+        "startLine": 183,
+        "startChar": 15,
+        "endLine": 183,
+        "endChar": 110
+      },
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49febb3f_2861b8a7",
+        "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T12:34:37Z",
+      "side": 1,
+      "message": "I think we can safely drop this case and not send a notification email. It really seems like a case that only applies to spammers (no Gerrit account exists for the specified user)",
+      "range": {
+        "startLine": 191,
+        "startChar": 6,
+        "endLine": 191,
+        "endChar": 30
+      },
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0beea1ec_c7799b71",
+        "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T12:34:37Z",
+      "side": 1,
+      "message": "nit: no @",
+      "range": {
+        "startLine": 213,
+        "startChar": 9,
+        "endLine": 213,
+        "endChar": 10
+      },
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff194426_02fadd66",
+        "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T12:34:37Z",
+      "side": 1,
+      "message": "Don\u0027t log and rethrow.\n\nIn this case we just want to log and don\u0027t rethrow at all. Most of our email notifications are best-effort and should never surface an HTTP 500 (which would be the result in most cases where we throw an exception that can\u0027t be recovered from)\n\nIn this case handling \u0027Exception\u0027 instead of the more fine-grained alternatives is acceptable btw. because we don\u0027t want to have this end in 500s.",
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1f48974_68fee96d",
+        "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T12:34:37Z",
+      "side": 1,
+      "message": "how about: sendRejectionEmail ?",
+      "range": {
+        "startLine": 233,
+        "startChar": 8,
+        "endLine": 233,
+        "endChar": 32
+      },
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8335864_59907904",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T12:34:37Z",
+      "side": 1,
+      "message": "nit: not needed",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 60,
+        "endChar": 64
+      },
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffde8e1a_ad8ca9e3",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T12:34:37Z",
+      "side": 1,
+      "message": "I think it would be nice if we added the rest of those headers to \u0027Metadata\u0027 as well to be consistent (can also be done in a follow-up change)",
       "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -94,6 +370,23 @@
     },
     {
       "key": {
+        "uuid": "ae27e49a_4611ffec",
+        "filename": "java/com/google/gerrit/server/mail/send/InboundEmailRejectionSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T12:34:37Z",
+      "side": 1,
+      "message": "How about threadId ? (it seems you pass this in from the callers by message.id() which can be used as thread ID for mail clients to bundle together messages in threads)\n\nI think we shouldn\u0027t specify a RelyTo, but always send this from a no-reply address.",
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5a8daee3_844016a0",
         "filename": "java/com/google/gerrit/server/mail/send/InboundEmailRejectionSender.java",
         "patchSetId": 3
@@ -105,6 +398,86 @@
       "writtenOn": "2018-02-17T11:43:44Z",
       "side": 1,
       "message": "This logger is not used.",
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4e83771_b6ff6790",
+        "filename": "java/com/google/gerrit/server/mail/send/MailSoyTofuProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T12:34:37Z",
+      "side": 1,
+      "message": "Add the Html version as well?",
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53b82a9a_9643dfde",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/AutoReplyMailFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T12:34:37Z",
+      "side": 1,
+      "message": "This could be a valid case for an inbound email when users hit \u0027Reply-All\u0027. I think you removed the code already, so just remove the test as well.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 3
+      },
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2336f55_4b0a7561",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ListMailFilterIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T12:34:37Z",
+      "side": 1,
+      "message": "nit: isEmpty()",
+      "range": {
+        "startLine": 73,
+        "startChar": 37,
+        "endLine": 73,
+        "endChar": 47
+      },
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d53be91_c4dfcfdb",
+        "filename": "resources/com/google/gerrit/server/mail/InboundEmailRejection.soy",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T12:34:37Z",
+      "side": 1,
+      "message": "Please add the HTML template again, it would be good if we have HTML/text versions for all emails :)",
       "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

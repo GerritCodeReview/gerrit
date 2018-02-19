@@ -14,9 +14,7 @@
 
 package com.google.gerrit.server.config;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.Exports;
@@ -60,14 +58,14 @@ public class ListCapabilitiesTest {
     Map<String, CapabilityInfo> m =
         injector.getInstance(ListCapabilities.class).apply(new ConfigResource());
     for (String id : GlobalCapability.getAllNames()) {
-      assertTrue("contains " + id, m.containsKey(id));
-      assertEquals(id, m.get(id).id);
-      assertNotNull(id + " has name", m.get(id).name);
+      assertThat(m).containsKey(id);
+      assertThat(m.get(id).id).isEqualTo(id);
+      assertThat(m.get(id).name).isNotNull();
     }
 
     String pluginCapability = "gerrit-printHello";
-    assertTrue("contains " + pluginCapability, m.containsKey(pluginCapability));
-    assertEquals(pluginCapability, m.get(pluginCapability).id);
-    assertEquals("Print Hello", m.get(pluginCapability).name);
+    assertThat(m).containsKey(pluginCapability);
+    assertThat(m.get(pluginCapability).id).isEqualTo(pluginCapability);
+    assertThat(m.get(pluginCapability).name).isEqualTo("Print Hello");
   }
 }

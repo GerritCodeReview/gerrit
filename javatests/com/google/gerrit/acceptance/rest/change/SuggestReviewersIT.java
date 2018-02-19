@@ -85,6 +85,17 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   @Test
   public void suggestReviewersChange() throws Exception {
     String changeId = createChange().getChangeId();
+    testSuggestReviewersChange(changeId);
+  }
+
+  @Test
+  public void suggestReviewersPrivateChange() throws Exception {
+    String changeId = createChange().getChangeId();
+    gApi.changes().id(changeId).setPrivate(true, null);
+    testSuggestReviewersChange(changeId);
+  }
+
+  public void testSuggestReviewersChange(String changeId) throws Exception {
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, name("u"), 6);
     assertReviewers(
         reviewers, ImmutableList.of(user1, user2, user3), ImmutableList.of(group1, group2, group3));

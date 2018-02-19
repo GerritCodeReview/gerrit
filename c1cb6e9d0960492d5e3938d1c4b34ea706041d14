@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "c60d9b00_02b2d8b0",
+        "filename": "java/com/google/gerrit/pgm/init/SitePathInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-02-19T16:25:59Z",
+      "side": 1,
+      "message": "Ack (for real, this time)",
+      "parentUuid": "947e400e_bbb2388e",
+      "revId": "c1cb6e9d0960492d5e3938d1c4b34ea706041d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7598ac9_ced3fada",
         "filename": "java/com/google/gerrit/server/mail/BadMailFilter.java",
         "patchSetId": 1
@@ -428,6 +446,30 @@
       "revId": "c1cb6e9d0960492d5e3938d1c4b34ea706041d14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75cbe6db_cf572574",
+        "filename": "java/com/google/gerrit/server/mail/MetadataName.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-02-19T16:25:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3a88a98_cbc0a2d2",
+      "range": {
+        "startLine": 25,
+        "startChar": 23,
+        "endLine": 25,
+        "endChar": 31
+      },
+      "revId": "c1cb6e9d0960492d5e3938d1c4b34ea706041d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -1006,6 +1048,24 @@
       "revId": "c1cb6e9d0960492d5e3938d1c4b34ea706041d14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f7bc6ee_b4093cce",
+        "filename": "resources/com/google/gerrit/server/mail/ErrorEmailHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-02-19T16:25:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f42d932_f4e44de6",
+      "revId": "c1cb6e9d0960492d5e3938d1c4b34ea706041d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

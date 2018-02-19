@@ -377,6 +377,24 @@
     },
     {
       "key": {
+        "uuid": "ff04dc18_d90f822d",
+        "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T17:13:30Z",
+      "side": 1,
+      "message": "Good that you bring this up!\n\nI would support splitting it up as you suggested\n\ncollection.size() \u003d\u003d 0 -\u003e drop as it is just a spammer\ncollection.size() \u003d\u003d 1 -\u003e process\ncollection.size() \u003e 1 -\u003e send processing error email",
+      "parentUuid": "d3d70de5_5fde0c63",
+      "revId": "cec74fffda7f510aba85cfcf7b98ab81d7186105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b0b1c80_a3be2096",
         "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
         "patchSetId": 3

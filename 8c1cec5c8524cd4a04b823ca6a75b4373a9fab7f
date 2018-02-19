@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b0c7a03_23ed6685",
+        "filename": "java/com/google/gerrit/server/mail/MailHeader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T17:13:30Z",
+      "side": 1,
+      "message": "nit: COMMENT_TIMESTAMP or COMMENT_DATE",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 11
+      },
+      "revId": "8c1cec5c8524cd4a04b823ca6a75b4373a9fab7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c69cb1a9_050ece2f",
+        "filename": "java/com/google/gerrit/server/mail/receive/MailMessage.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T17:13:30Z",
+      "side": 1,
+      "message": "nit: this probably came out of an IntelliJ refactoring?\n\ndateReceived is still metadata :)",
+      "range": {
+        "startLine": 42,
+        "startChar": 5,
+        "endLine": 42,
+        "endChar": 15
+      },
+      "revId": "8c1cec5c8524cd4a04b823ca6a75b4373a9fab7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ab7bd59_85a4c532",
+        "filename": "java/com/google/gerrit/server/mail/send/InboundEmailRejectionSender.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T17:13:30Z",
+      "side": 1,
+      "message": "nit: remove blank line",
+      "revId": "8c1cec5c8524cd4a04b823ca6a75b4373a9fab7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7f12f6b_26dfd51c",
+        "filename": "java/com/google/gerrit/server/mail/send/InboundEmailRejectionSender.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T17:13:30Z",
+      "side": 1,
+      "message": "nit: private final (for all variables assigned solely in the constructor)",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 9
+      },
+      "revId": "8c1cec5c8524cd4a04b823ca6a75b4373a9fab7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb4b0d8a_fb04c4da",
+        "filename": "java/com/google/gerrit/server/mail/send/InboundEmailRejectionSender.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T17:13:30Z",
+      "side": 1,
+      "message": "optional: consider using an Optional instead\n\n  @Assisted Optional\u003cString\u003e threadId\n\nOn second thought I think this can never be null, can it?\n\nMailMessage is an AutoValue and id is not annotated with @Nullable, so building the AutoValue would fail with a RuntimeException.",
+      "range": {
+        "startLine": 51,
+        "startChar": 16,
+        "endLine": 51,
+        "endChar": 25
+      },
+      "revId": "8c1cec5c8524cd4a04b823ca6a75b4373a9fab7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b1ce9c1_f05ec2c0",
+        "filename": "java/com/google/gerrit/server/mail/send/InboundEmailRejectionSender.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T17:13:30Z",
+      "side": 1,
+      "message": "tiny nit: also rename the instance variable to threadId",
+      "range": {
+        "startLine": 56,
+        "startChar": 9,
+        "endLine": 56,
+        "endChar": 16
+      },
+      "revId": "8c1cec5c8524cd4a04b823ca6a75b4373a9fab7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23a78581_56b4286c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/MailHeaderIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T17:13:30Z",
+      "side": 1,
+      "message": "Please keep this name as it was (probably this came out of an IntelliJ refactoring.",
+      "range": {
+        "startLine": 42,
+        "startChar": 13,
+        "endLine": 42,
+        "endChar": 25
+      },
+      "revId": "8c1cec5c8524cd4a04b823ca6a75b4373a9fab7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f89b4ad_b3e594db",
+        "filename": "resources/com/google/gerrit/server/mail/InboundEmailRejection.soy",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T17:13:30Z",
+      "side": 1,
+      "message": "nit: please remove this. most people aren\u0027t admins and the ones who are know that there are logs. (here and below)",
+      "range": {
+        "startLine": 25,
+        "startChar": 1,
+        "endLine": 26,
+        "endChar": 12
+      },
+      "revId": "8c1cec5c8524cd4a04b823ca6a75b4373a9fab7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3638620_f1f67ab5",
+        "filename": "resources/com/google/gerrit/server/mail/InboundEmailRejection.soy",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T17:13:30Z",
+      "side": 1,
+      "message": "nit: an",
+      "range": {
+        "startLine": 47,
+        "startChar": 55,
+        "endLine": 47,
+        "endChar": 58
+      },
+      "revId": "8c1cec5c8524cd4a04b823ca6a75b4373a9fab7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d137a0b_0b7894a9",
+        "filename": "resources/com/google/gerrit/server/mail/InboundEmailRejection.soy",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-19T17:13:30Z",
+      "side": 1,
+      "message": "nit: lower-case i (this is just an attribute IMHO, not a self-invented name)",
+      "range": {
+        "startLine": 54,
+        "startChar": 64,
+        "endLine": 54,
+        "endChar": 65
+      },
+      "revId": "8c1cec5c8524cd4a04b823ca6a75b4373a9fab7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

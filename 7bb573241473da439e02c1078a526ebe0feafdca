@@ -52,6 +52,24 @@
       "revId": "7bb573241473da439e02c1078a526ebe0feafdca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dfbf259_3dffad69",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-20T21:20:35Z",
+      "side": 1,
+      "message": "\u003e is the IE experience degradation small enough that the code-simplicity of this approach is worth it\n\nThe \"IE experience degradation\" amounts to the same experience that exists now, i.e. a non-sticky header.\n\n\u003e Similarly, does it improve the IE situation by preceding the sticky with position: fixed as a fallback?\n\nPosition: fixed would definitely not help the situation. The header should only stick when a long list is scrolled -- position: fixed would fix it all the time. This is definitely not the right use case for this property.",
+      "parentUuid": "aa90cf57_41414c82",
+      "revId": "7bb573241473da439e02c1078a526ebe0feafdca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

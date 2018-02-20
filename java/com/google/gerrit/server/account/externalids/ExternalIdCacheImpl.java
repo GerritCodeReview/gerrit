@@ -14,23 +14,23 @@
 
 package com.google.gerrit.server.account.externalids;
 
-import static com.google.common.collect.ImmutableSetMultimap.toImmutableSetMultimap;
-
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.Multimaps;
+import com.google.common.collect.SetMultimap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -95,22 +95,22 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
-  public ImmutableSet<ExternalId> byAccount(Account.Id accountId) throws IOException {
+  public Set<ExternalId> byAccount(Account.Id accountId) throws IOException {
     return get().byAccount().get(accountId);
   }
 
   @Override
-  public ImmutableSet<ExternalId> byAccount(Account.Id accountId, ObjectId rev) throws IOException {
+  public Set<ExternalId> byAccount(Account.Id accountId, ObjectId rev) throws IOException {
     return get(rev).byAccount().get(accountId);
   }
 
   @Override
-  public ImmutableSetMultimap<Account.Id, ExternalId> allByAccount() throws IOException {
+  public SetMultimap<Account.Id, ExternalId> allByAccount() throws IOException {
     return get().byAccount();
   }
 
   @Override
-  public ImmutableSetMultimap<String, ExternalId> byEmails(String... emails) throws IOException {
+  public SetMultimap<String, ExternalId> byEmails(String... emails) throws IOException {
     AllExternalIds allExternalIds = get();
     ImmutableSetMultimap.Builder<String, ExternalId> byEmails = ImmutableSetMultimap.builder();
     for (String email : emails) {
@@ -120,7 +120,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
-  public ImmutableSetMultimap<String, ExternalId> allByEmail() throws IOException {
+  public SetMultimap<String, ExternalId> allByEmail() throws IOException {
     return get().byEmail();
   }
 
@@ -179,21 +179,30 @@ class ExternalIdCacheImpl implements ExternalIdCache {
     }
   }
 
+  /**
+   * Cache value containing all external IDs.
+   *
+   * <p>All returned fields are unmodifiable.
+   */
   @AutoValue
   abstract static class AllExternalIds {
     static AllExternalIds create(Multimap<Account.Id, ExternalId> byAccount) {
-      ImmutableSetMultimap<String, ExternalId> byEmail =
-          byAccount
-              .values()
-              .stream()
-              .filter(e -> !Strings.isNullOrEmpty(e.email()))
-              .collect(toImmutableSetMultimap(ExternalId::email, e -> e));
+      SetMultimap<String, ExternalId> byEmailCopy =
+          MultimapBuilder.hashKeys(byAccount.size()).hashSetValues(1).build();
+      byAccount
+          .values()
+          .stream()
+          .filter(e -> !Strings.isNullOrEmpty(e.email()))
+          .forEach(e -> byEmailCopy.put(e.email(), e));
+
       return new AutoValue_ExternalIdCacheImpl_AllExternalIds(
-          ImmutableSetMultimap.copyOf(byAccount), byEmail);
+          Multimaps.unmodifiableSetMultimap(
+              MultimapBuilder.hashKeys(byAccount.size()).hashSetValues(5).build(byAccount)),
+          byEmailCopy);
     }
 
-    public abstract ImmutableSetMultimap<Account.Id, ExternalId> byAccount();
+    public abstract SetMultimap<Account.Id, ExternalId> byAccount();
 
-    public abstract ImmutableSetMultimap<String, ExternalId> byEmail();
+    public abstract SetMultimap<String, ExternalId> byEmail();
   }
 }

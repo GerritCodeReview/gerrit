@@ -95,6 +95,11 @@ public abstract class CurrentUser {
     return Optional.empty();
   }
 
+  /** @return unique name of the user for logging, never {@code null} */
+  public String getLoggableName() {
+    return getUserName().orElseGet(() -> getClass().getSimpleName());
+  }
+
   /** Check if user is the IdentifiedUser */
   public boolean isIdentifiedUser() {
     return false;

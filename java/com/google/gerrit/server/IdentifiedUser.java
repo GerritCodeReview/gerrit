@@ -323,6 +323,7 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   /** @return unique name of the user for logging, never {@code null} */
+  @Override
   public String getLoggableName() {
     return getUserName()
         .orElseGet(

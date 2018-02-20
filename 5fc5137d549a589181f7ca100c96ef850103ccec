@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "c966b695_4c820cb3",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-20T07:20:29Z",
+      "side": 1,
+      "message": "Done. I think adding this method is actually nicer.",
+      "parentUuid": "34f3951a_4e279193",
+      "range": {
+        "startLine": 173,
+        "startChar": 8,
+        "endLine": 175,
+        "endChar": 87
+      },
+      "revId": "5fc5137d549a589181f7ca100c96ef850103ccec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b4e53b0_c622057b",
         "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
         "patchSetId": 1

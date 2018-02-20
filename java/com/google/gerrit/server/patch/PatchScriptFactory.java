@@ -205,11 +205,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     PatchSet psEntityB = psb.get() == 0 ? new PatchSet(psb) : psUtil.get(db, notes, psb);
     if (psEntityA != null || psEntityB != null) {
       try {
-        permissionBackend
-            .user(userProvider)
-            .change(notes)
-            .database(db)
-            .check(ChangePermission.READ);
+        permissionBackend.currentUser().change(notes).database(db).check(ChangePermission.READ);
       } catch (AuthException e) {
         throw new NoSuchChangeException(changeId);
       }

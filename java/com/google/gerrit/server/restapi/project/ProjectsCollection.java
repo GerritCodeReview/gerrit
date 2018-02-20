@@ -151,7 +151,7 @@ public class ProjectsCollection
 
     if (checkAccess) {
       try {
-        permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
+        permissionBackend.currentUser().project(nameKey).check(ProjectPermission.ACCESS);
       } catch (AuthException e) {
         return null; // Pretend like not found on access denied.
       }
@@ -161,7 +161,7 @@ public class ProjectsCollection
       // ACTIVE). Individual views should still check for checkStatePermitsRead() and this should
       // just serve as a safety net in case the individual check is forgotten.
       try {
-        permissionBackend.user(user).project(nameKey).check(ProjectPermission.WRITE_CONFIG);
+        permissionBackend.currentUser().project(nameKey).check(ProjectPermission.WRITE_CONFIG);
       } catch (AuthException e) {
         state.checkStatePermitsRead();
       }

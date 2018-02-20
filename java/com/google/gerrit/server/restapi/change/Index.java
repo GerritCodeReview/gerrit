@@ -18,7 +18,6 @@ import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -38,7 +37,6 @@ public class Index extends RetryingRestModifyView<ChangeResource, Input, Respons
 
   private final Provider<ReviewDb> db;
   private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
   private final ChangeIndexer indexer;
 
   @Inject
@@ -46,12 +44,10 @@ public class Index extends RetryingRestModifyView<ChangeResource, Input, Respons
       Provider<ReviewDb> db,
       RetryHelper retryHelper,
       PermissionBackend permissionBackend,
-      Provider<CurrentUser> user,
       ChangeIndexer indexer) {
     super(retryHelper);
     this.db = db;
     this.permissionBackend = permissionBackend;
-    this.user = user;
     this.indexer = indexer;
   }
 
@@ -59,7 +55,7 @@ public class Index extends RetryingRestModifyView<ChangeResource, Input, Respons
   protected Response<?> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
       throws IOException, AuthException, OrmException, PermissionBackendException {
-    permissionBackend.user(user).check(GlobalPermission.MAINTAIN_SERVER);
+    permissionBackend.currentUser().check(GlobalPermission.MAINTAIN_SERVER);
     indexer.index(db.get(), rsrc.getChange());
     return Response.none();
   }

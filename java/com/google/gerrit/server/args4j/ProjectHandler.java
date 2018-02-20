@@ -17,7 +17,6 @@ package com.google.gerrit.server.args4j;
 import com.google.gerrit.common.ProjectUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -25,7 +24,6 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import org.kohsuke.args4j.CmdLineException;
@@ -42,20 +40,17 @@ public class ProjectHandler extends OptionHandler<ProjectState> {
 
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
 
   @Inject
   public ProjectHandler(
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
-      Provider<CurrentUser> user,
       @Assisted final CmdLineParser parser,
       @Assisted final OptionDef option,
       @Assisted final Setter<ProjectState> setter) {
     super(parser, option, setter);
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
-    this.user = user;
   }
 
   @Override
@@ -84,7 +79,7 @@ public class ProjectHandler extends OptionHandler<ProjectState> {
       if (state == null) {
         throw new CmdLineException(owner, String.format("project %s not found", nameWithoutSuffix));
       }
-      permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
+      permissionBackend.currentUser().project(nameKey).check(ProjectPermission.ACCESS);
     } catch (AuthException e) {
       throw new CmdLineException(owner, new NoSuchProjectException(nameKey).getMessage());
     } catch (PermissionBackendException | IOException e) {

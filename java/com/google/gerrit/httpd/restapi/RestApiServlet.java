@@ -292,7 +292,7 @@ public class RestApiServlet extends HttpServlet {
       RestCollection<RestResource, RestResource> rc = members.get();
       globals
           .permissionBackend
-          .user(globals.currentUser)
+          .user(globals.currentUser.get())
           .checkAny(GlobalPermission.fromAnnotation(rc.getClass()));
 
       viewData = new ViewData(null, null);
@@ -1177,7 +1177,7 @@ public class RestApiServlet extends HttpServlet {
       throws AuthException, PermissionBackendException {
     globals
         .permissionBackend
-        .user(globals.currentUser)
+        .user(globals.currentUser.get())
         .checkAny(GlobalPermission.fromAnnotation(d.pluginName, d.view.getClass()));
   }
 

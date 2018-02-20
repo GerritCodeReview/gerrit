@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -39,7 +38,6 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.RefUtil;
 import com.google.gerrit.server.project.RefUtil.InvalidRevisionException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.TimeZone;
@@ -63,7 +61,6 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
   }
 
   private final PermissionBackend permissionBackend;
-  private final Provider<IdentifiedUser> identifiedUser;
   private final GitRepositoryManager repoManager;
   private final TagCache tagCache;
   private final GitReferenceUpdated referenceUpdated;
@@ -73,14 +70,12 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
   @Inject
   CreateTag(
       PermissionBackend permissionBackend,
-      Provider<IdentifiedUser> identifiedUser,
       GitRepositoryManager repoManager,
       TagCache tagCache,
       GitReferenceUpdated referenceUpdated,
       WebLinks webLinks,
       @Assisted String ref) {
     this.permissionBackend = permissionBackend;
-    this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
     this.tagCache = tagCache;
     this.referenceUpdated = referenceUpdated;
@@ -103,7 +98,7 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
 
     ref = RefUtil.normalizeTagRef(ref);
     PermissionBackend.ForRef perm =
-        permissionBackend.user(identifiedUser).project(resource.getNameKey()).ref(ref);
+        permissionBackend.currentUser().project(resource.getNameKey()).ref(ref);
 
     try (Repository repo = repoManager.openRepository(resource.getNameKey())) {
       ObjectId revid = RefUtil.parseBaseRevision(repo, resource.getNameKey(), input.revision);
@@ -134,7 +129,10 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
         if (isAnnotated) {
           tag.setMessage(input.message)
               .setTagger(
-                  identifiedUser.get().newCommitterIdent(TimeUtil.nowTs(), TimeZone.getDefault()));
+                  resource
+                      .getUser()
+                      .asIdentifiedUser()
+                      .newCommitterIdent(TimeUtil.nowTs(), TimeZone.getDefault()));
         }
 
         Ref result = tag.call();
@@ -145,7 +143,7 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
             ref,
             ObjectId.zeroId(),
             result.getObjectId(),
-            identifiedUser.get().state());
+            resource.getUser().asIdentifiedUser().state());
         try (RevWalk w = new RevWalk(repo)) {
           return ListTags.createTagInfo(perm, result, w, resource.getProjectState(), links);
         }

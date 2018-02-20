@@ -68,7 +68,7 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
       throws RestApiException, IOException, OrmException, ConfigInvalidException,
           PermissionBackendException {
     if (self.get() != resource.getUser()) {
-      permissionBackend.user(self).check(GlobalPermission.ACCESS_DATABASE);
+      permissionBackend.currentUser().check(GlobalPermission.ACCESS_DATABASE);
     }
 
     if (extIds == null || extIds.size() == 0) {

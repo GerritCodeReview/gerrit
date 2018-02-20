@@ -36,7 +36,6 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountLoader;
@@ -55,7 +54,6 @@ import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -127,7 +125,6 @@ public class ReviewersUtil {
   private final AccountIndexCollection accountIndexes;
   private final IndexConfig indexConfig;
   private final AccountControl.Factory accountControlFactory;
-  private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
 
   @Inject
@@ -141,7 +138,6 @@ public class ReviewersUtil {
       AccountIndexCollection accountIndexes,
       IndexConfig indexConfig,
       AccountControl.Factory accountControlFactory,
-      Provider<CurrentUser> self,
       PermissionBackend permissionBackend) {
     this.accountLoaderFactory = accountLoaderFactory;
     this.accountQueryBuilder = accountQueryBuilder;
@@ -152,7 +148,6 @@ public class ReviewersUtil {
     this.accountIndexes = accountIndexes;
     this.indexConfig = indexConfig;
     this.accountControlFactory = accountControlFactory;
-    this.self = self;
     this.permissionBackend = permissionBackend;
   }
 
@@ -286,7 +281,7 @@ public class ReviewersUtil {
   private List<SuggestedReviewerInfo> loadAccounts(List<Account.Id> accountIds)
       throws OrmException, PermissionBackendException {
     Set<FillOptions> fillOptions =
-        permissionBackend.user(self).test(GlobalPermission.MODIFY_ACCOUNT)
+        permissionBackend.currentUser().test(GlobalPermission.MODIFY_ACCOUNT)
             ? EnumSet.of(FillOptions.SECONDARY_EMAILS)
             : EnumSet.noneOf(FillOptions.class);
     fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);

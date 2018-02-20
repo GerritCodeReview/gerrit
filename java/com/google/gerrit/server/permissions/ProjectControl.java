@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupMembership;
@@ -418,9 +419,11 @@ class ProjectControl {
         case PUSH_AT_LEAST_ONE_REF:
           return canPushToAtLeastOneRef();
 
+        case READ_CONFIG:
+          return controlForRef(RefNames.REFS_CONFIG).canPerform(Permission.READ);
+
         case BAN_COMMIT:
         case READ_REFLOG:
-        case READ_CONFIG:
         case WRITE_CONFIG:
           return isOwner();
       }

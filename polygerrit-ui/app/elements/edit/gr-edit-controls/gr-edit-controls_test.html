@@ -45,6 +45,7 @@ suite('gr-edit-controls tests', () => {
     element.change = {_number: '42'};
     showDialogSpy = sandbox.spy(element, '_showDialog');
     closeDialogSpy = sandbox.spy(element, '_closeDialog');
+    sandbox.stub(element, '_hideAllDialogs');
     queryStub = sandbox.stub(element.$.restAPI, 'queryChangeFiles')
         .returns(Promise.resolve([]));
     flushAsynchronousOperations();
@@ -79,6 +80,7 @@ suite('gr-edit-controls tests', () => {
       MockInteractions.tap(element.$$('#open'));
       element.patchNum = 1;
       return showDialogSpy.lastCall.returnValue.then(() => {
+        assert.isTrue(element._hideAllDialogs.called);
         assert.isTrue(element.$.openDialog.disabled);
         assert.isFalse(queryStub.called);
         element.$.openDialog.querySelector('gr-autocomplete').text =

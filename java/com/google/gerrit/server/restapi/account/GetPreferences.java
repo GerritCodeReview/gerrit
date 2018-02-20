@@ -49,7 +49,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
   public GeneralPreferencesInfo apply(AccountResource rsrc)
       throws RestApiException, PermissionBackendException {
     if (self.get() != rsrc.getUser()) {
-      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
+      permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
 
     Account.Id id = rsrc.getUser().getAccountId();

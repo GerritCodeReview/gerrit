@@ -16,13 +16,11 @@ package com.google.gerrit.server.project;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
@@ -45,12 +43,10 @@ public class Reachable {
   private static final Logger log = LoggerFactory.getLogger(Reachable.class);
 
   private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
 
   @Inject
-  Reachable(PermissionBackend permissionBackend, Provider<CurrentUser> user) {
+  Reachable(PermissionBackend permissionBackend) {
     this.permissionBackend = permissionBackend;
-    this.user = user;
   }
 
   /** @return true if a commit is reachable from a given set of refs. */
@@ -60,7 +56,7 @@ public class Reachable {
       // TODO(hiesel) Convert interface to Project.NameKey
       Map<String, Ref> filtered =
           permissionBackend
-              .user(user)
+              .currentUser()
               .project(state.getNameKey())
               .filter(refs, repo, RefFilterOptions.builder().setFilterTagsSeparately(true).build());
       return IncludedInResolver.includedInAny(repo, rw, commit, filtered.values());

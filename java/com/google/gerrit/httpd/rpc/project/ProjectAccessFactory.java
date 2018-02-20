@@ -131,7 +131,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     List<AccessSection> local = new ArrayList<>();
     Set<String> ownerOf = new HashSet<>();
     Map<AccountGroup.UUID, Boolean> visibleGroups = new HashMap<>();
-    PermissionBackend.ForProject perm = permissionBackend.user(user).project(projectName);
+    PermissionBackend.ForProject perm = permissionBackend.currentUser().project(projectName);
     boolean checkReadConfig = check(perm, RefNames.REFS_CONFIG, READ);
     boolean canWriteProjectConfig = true;
     try {
@@ -217,7 +217,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     detail.setInheritsFrom(config.getProject().getParent(allProjectsName));
 
     if (projectName.equals(allProjectsName)
-        && permissionBackend.user(user).testOrFalse(ADMINISTRATE_SERVER)) {
+        && permissionBackend.currentUser().testOrFalse(ADMINISTRATE_SERVER)) {
       ownerOf.add(AccessSection.GLOBAL_CAPABILITIES);
     }
 
@@ -265,7 +265,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
           ResourceConflictException {
     ProjectState state = projectCache.checkedGet(projectName);
     try {
-      permissionBackend.user(user).project(projectName).check(ProjectPermission.ACCESS);
+      permissionBackend.currentUser().project(projectName).check(ProjectPermission.ACCESS);
     } catch (AuthException e) {
       throw new NoSuchProjectException(projectName);
     }
@@ -285,7 +285,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
 
   private boolean isAdmin() throws PermissionBackendException {
     try {
-      permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+      permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
       return true;
     } catch (AuthException e) {
       return false;

@@ -19,33 +19,28 @@ import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
 public class DisablePlugin implements RestModifyView<PluginResource, Input> {
 
   private final PluginLoader loader;
-  private final Provider<IdentifiedUser> user;
   private final PermissionBackend permissionBackend;
 
   @Inject
-  DisablePlugin(
-      PluginLoader loader, Provider<IdentifiedUser> user, PermissionBackend permissionBackend) {
+  DisablePlugin(PluginLoader loader, PermissionBackend permissionBackend) {
     this.loader = loader;
-    this.user = user;
     this.permissionBackend = permissionBackend;
   }
 
   @Override
   public PluginInfo apply(PluginResource resource, Input input) throws RestApiException {
     try {
-      permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+      permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     } catch (PermissionBackendException e) {
       throw new RestApiException("Could not check permission", e);
     }

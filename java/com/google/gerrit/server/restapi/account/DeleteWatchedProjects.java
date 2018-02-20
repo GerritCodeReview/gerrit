@@ -62,7 +62,7 @@ public class DeleteWatchedProjects
       throws AuthException, UnprocessableEntityException, OrmException, IOException,
           ConfigInvalidException, PermissionBackendException {
     if (self.get() != rsrc.getUser()) {
-      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
+      permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
     if (input == null) {
       return Response.none();

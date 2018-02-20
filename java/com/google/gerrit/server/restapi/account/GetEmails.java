@@ -45,7 +45,7 @@ public class GetEmails implements RestReadView<AccountResource> {
   public List<EmailInfo> apply(AccountResource rsrc)
       throws AuthException, PermissionBackendException {
     if (self.get() != rsrc.getUser()) {
-      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
+      permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
 
     List<EmailInfo> emails = new ArrayList<>();

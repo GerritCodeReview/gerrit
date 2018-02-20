@@ -56,7 +56,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
     CreateBranch create(String ref);
   }
 
-  private final Provider<IdentifiedUser> identifiedUser;
+  private final Provider<IdentifiedUser> currentUser;
   private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated referenceUpdated;
@@ -66,14 +66,14 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
 
   @Inject
   CreateBranch(
-      Provider<IdentifiedUser> identifiedUser,
+      Provider<IdentifiedUser> currentUser,
       PermissionBackend permissionBackend,
       GitRepositoryManager repoManager,
       GitReferenceUpdated referenceUpdated,
       RefValidationHelper.Factory refHelperFactory,
       CreateRefControl createRefControl,
       @Assisted String ref) {
-    this.identifiedUser = identifiedUser;
+    this.currentUser = currentUser;
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.referenceUpdated = referenceUpdated;
@@ -126,22 +126,22 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
         }
       }
 
-      createRefControl.checkCreateRef(identifiedUser, repo, name, object);
+      createRefControl.checkCreateRef(currentUser, repo, name, object);
 
       try {
         final RefUpdate u = repo.updateRef(ref);
         u.setExpectedOldObjectId(ObjectId.zeroId());
         u.setNewObjectId(object.copy());
-        u.setRefLogIdent(identifiedUser.get().newRefLogIdent());
+        u.setRefLogIdent(currentUser.get().newRefLogIdent());
         u.setRefLogMessage("created via REST from " + input.revision, false);
-        refCreationValidator.validateRefOperation(rsrc.getName(), identifiedUser.get(), u);
+        refCreationValidator.validateRefOperation(rsrc.getName(), currentUser.get(), u);
         final RefUpdate.Result result = u.update(rw);
         switch (result) {
           case FAST_FORWARD:
           case NEW:
           case NO_CHANGE:
             referenceUpdated.fire(
-                name.getParentKey(), u, ReceiveCommand.Type.CREATE, identifiedUser.get().state());
+                name.getParentKey(), u, ReceiveCommand.Type.CREATE, currentUser.get().state());
             break;
           case LOCK_FAILURE:
             if (repo.getRefDatabase().exactRef(ref) != null) {
@@ -179,7 +179,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
         info.ref = ref;
         info.revision = revid.getName();
         info.canDelete =
-            permissionBackend.user(identifiedUser).ref(name).testOrFalse(RefPermission.DELETE)
+            permissionBackend.currentUser().ref(name).testOrFalse(RefPermission.DELETE)
                     && rsrc.getProjectState().statePermitsWrite()
                 ? true
                 : null;

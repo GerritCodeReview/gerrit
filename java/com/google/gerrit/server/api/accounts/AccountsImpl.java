@@ -100,7 +100,7 @@ public class AccountsImpl implements Accounts {
     }
     try {
       CreateAccount impl = createAccount.create(in.username);
-      permissionBackend.user(self).checkAny(GlobalPermission.fromAnnotation(impl.getClass()));
+      permissionBackend.currentUser().checkAny(GlobalPermission.fromAnnotation(impl.getClass()));
       AccountInfo info = impl.apply(TopLevelResource.INSTANCE, in).value();
       return id(info._accountId);
     } catch (Exception e) {

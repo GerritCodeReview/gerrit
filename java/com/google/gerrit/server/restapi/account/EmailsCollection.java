@@ -65,7 +65,7 @@ public class EmailsCollection
   public AccountResource.Email parse(AccountResource rsrc, IdString id)
       throws ResourceNotFoundException, PermissionBackendException, AuthException {
     if (self.get() != rsrc.getUser()) {
-      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
+      permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 
     if ("preferred".equals(id.get())) {

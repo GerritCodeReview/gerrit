@@ -170,7 +170,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
     }
     boolean modifyAccountCapabilityChecked = false;
     if (options.contains(ListAccountsOption.ALL_EMAILS)) {
-      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
+      permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
       modifyAccountCapabilityChecked = true;
       fillOptions.add(FillOptions.EMAIL);
       fillOptions.add(FillOptions.SECONDARY_EMAILS);
@@ -180,7 +180,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       fillOptions.add(FillOptions.EMAIL);
 
       if (modifyAccountCapabilityChecked
-          || permissionBackend.user(self).test(GlobalPermission.MODIFY_ACCOUNT)) {
+          || permissionBackend.currentUser().test(GlobalPermission.MODIFY_ACCOUNT)) {
         fillOptions.add(FillOptions.SECONDARY_EMAILS);
       }
     }

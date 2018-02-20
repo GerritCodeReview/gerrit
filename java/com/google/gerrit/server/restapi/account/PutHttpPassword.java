@@ -76,7 +76,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
       throws AuthException, ResourceNotFoundException, ResourceConflictException, OrmException,
           IOException, ConfigInvalidException, PermissionBackendException {
     if (self.get() != rsrc.getUser()) {
-      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
+      permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 
     if (input == null) {
@@ -91,7 +91,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
       newPassword = null;
     } else {
       // Only administrators can explicitly set the password.
-      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
+      permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
       newPassword = input.httpPassword;
     }
     return apply(rsrc.getUser(), newPassword);

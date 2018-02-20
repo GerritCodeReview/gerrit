@@ -98,7 +98,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
     }
 
     if (self.get() != rsrc.getUser() || input.noConfirmation) {
-      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
+      permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
 
     if (!realm.allowsEdit(AccountFieldName.REGISTER_NEW_EMAIL)) {

@@ -51,7 +51,7 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
   public DiffPreferencesInfo apply(AccountResource rsrc)
       throws RestApiException, ConfigInvalidException, IOException, PermissionBackendException {
     if (self.get() != rsrc.getUser()) {
-      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
+      permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 
     Account.Id id = rsrc.getUser().getAccountId();

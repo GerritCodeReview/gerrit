@@ -192,7 +192,11 @@ public class CreateChange
 
     Project.NameKey project = rsrc.getNameKey();
     String refName = RefNames.fullName(input.branch);
-    permissionBackend.user(user).project(project).ref(refName).check(RefPermission.CREATE_CHANGE);
+    permissionBackend
+        .currentUser()
+        .project(project)
+        .ref(refName)
+        .check(RefPermission.CREATE_CHANGE);
     rsrc.getProjectState().checkStatePermitsWrite();
 
     try (Repository git = gitManager.openRepository(project);
@@ -208,7 +212,7 @@ public class CreateChange
         }
         ChangeNotes change = Iterables.getOnlyElement(notes);
         try {
-          permissionBackend.user(user).change(change).database(db).check(ChangePermission.READ);
+          permissionBackend.currentUser().change(change).database(db).check(ChangePermission.READ);
         } catch (AuthException e) {
           throw new UnprocessableEntityException("Read not permitted for " + input.baseChange);
         }

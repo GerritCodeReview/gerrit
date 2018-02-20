@@ -111,7 +111,10 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   @Override
   public ConfigInfo apply(ProjectResource rsrc, ConfigInput input)
       throws RestApiException, PermissionBackendException {
-    permissionBackend.user(user).project(rsrc.getNameKey()).check(ProjectPermission.WRITE_CONFIG);
+    permissionBackend
+        .currentUser()
+        .project(rsrc.getNameKey())
+        .check(ProjectPermission.WRITE_CONFIG);
     return apply(rsrc.getProjectState(), input);
   }
 

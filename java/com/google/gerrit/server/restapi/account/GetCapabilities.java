@@ -76,7 +76,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
 
   @Override
   public Object apply(AccountResource rsrc) throws AuthException, PermissionBackendException {
-    PermissionBackend.WithUser perm = permissionBackend.user(self);
+    PermissionBackend.WithUser perm = permissionBackend.currentUser();
     if (self.get() != rsrc.getUser()) {
       perm.check(GlobalPermission.ADMINISTRATE_SERVER);
       perm = permissionBackend.user(rsrc.getUser());

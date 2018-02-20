@@ -400,7 +400,7 @@ public class ChangeEditModifier {
     }
     try {
       permissionBackend
-          .user(currentUser)
+          .currentUser()
           .database(reviewDb)
           .change(notes)
           .check(ChangePermission.ADD_PATCH_SET);

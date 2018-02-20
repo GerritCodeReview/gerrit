@@ -208,7 +208,6 @@ class InProcessProtocol extends TestProtocol<Context> {
   }
 
   private static class Upload implements UploadPackFactory<Context> {
-    private final Provider<CurrentUser> userProvider;
     private final TransferConfig transferConfig;
     private final DynamicSet<UploadPackInitializer> uploadPackInitializers;
     private final DynamicSet<PreUploadHook> preUploadHooks;
@@ -219,7 +218,6 @@ class InProcessProtocol extends TestProtocol<Context> {
 
     @Inject
     Upload(
-        Provider<CurrentUser> userProvider,
         TransferConfig transferConfig,
         DynamicSet<UploadPackInitializer> uploadPackInitializers,
         DynamicSet<PreUploadHook> preUploadHooks,
@@ -227,7 +225,6 @@ class InProcessProtocol extends TestProtocol<Context> {
         ThreadLocalRequestContext threadContext,
         ProjectCache projectCache,
         PermissionBackend permissionBackend) {
-      this.userProvider = userProvider;
       this.transferConfig = transferConfig;
       this.uploadPackInitializers = uploadPackInitializers;
       this.preUploadHooks = preUploadHooks;
@@ -246,7 +243,7 @@ class InProcessProtocol extends TestProtocol<Context> {
       threadContext.setContext(req);
       current.set(req);
 
-      PermissionBackend.ForProject perm = permissionBackend.user(userProvider).project(req.project);
+      PermissionBackend.ForProject perm = permissionBackend.currentUser().project(req.project);
       try {
         perm.check(ProjectPermission.RUN_UPLOAD_PACK);
       } catch (AuthException e) {
@@ -318,7 +315,7 @@ class InProcessProtocol extends TestProtocol<Context> {
       current.set(req);
       try {
         permissionBackend
-            .user(userProvider)
+            .currentUser()
             .project(req.project)
             .check(ProjectPermission.RUN_RECEIVE_PACK);
       } catch (AuthException e) {

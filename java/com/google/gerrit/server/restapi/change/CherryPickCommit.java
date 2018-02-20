@@ -90,7 +90,7 @@ public class CherryPickCommit
     String refName = RefNames.fullName(destination);
     contributorAgreements.check(projectName, user.get());
     permissionBackend
-        .user(user)
+        .currentUser()
         .project(projectName)
         .ref(refName)
         .check(RefPermission.CREATE_CHANGE);

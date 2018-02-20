@@ -137,7 +137,7 @@ public class ChangesCollection
 
   private boolean canRead(ChangeNotes notes) throws PermissionBackendException, IOException {
     try {
-      permissionBackend.user(user).change(notes).database(db).check(ChangePermission.READ);
+      permissionBackend.currentUser().change(notes).database(db).check(ChangePermission.READ);
     } catch (AuthException e) {
       return false;
     }

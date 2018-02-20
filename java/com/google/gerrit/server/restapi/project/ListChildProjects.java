@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -31,7 +30,6 @@ import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +42,6 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
 
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
   private final AllProjectsName allProjects;
   private final ProjectJson json;
   private final ChildProjects childProjects;
@@ -53,13 +50,11 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
   ListChildProjects(
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
-      Provider<CurrentUser> user,
       AllProjectsName allProjectsName,
       ProjectJson json,
       ChildProjects childProjects) {
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
-    this.user = user;
     this.allProjects = allProjectsName;
     this.json = json;
     this.childProjects = childProjects;
@@ -90,7 +85,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
       }
     }
     return permissionBackend
-        .user(user)
+        .currentUser()
         .filter(ProjectPermission.ACCESS, children.keySet())
         .stream()
         .sorted()

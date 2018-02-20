@@ -62,7 +62,7 @@ public class GetExternalIds implements RestReadView<AccountResource> {
   public List<AccountExternalIdInfo> apply(AccountResource resource)
       throws RestApiException, IOException, OrmException, PermissionBackendException {
     if (self.get() != resource.getUser()) {
-      permissionBackend.user(self).check(GlobalPermission.ACCESS_DATABASE);
+      permissionBackend.currentUser().check(GlobalPermission.ACCESS_DATABASE);
     }
 
     Collection<ExternalId> ids = externalIds.byAccount(resource.getUser().getAccountId());

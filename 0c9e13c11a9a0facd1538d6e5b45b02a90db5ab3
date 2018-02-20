@@ -46,6 +46,30 @@
       "revId": "0c9e13c11a9a0facd1538d6e5b45b02a90db5ab3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "114c5b90_babdeb9f",
+        "filename": "tools/bzl/license.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-20T14:11:11Z",
+      "side": 1,
+      "message": "I don\u0027t use Mac and have only verified this change on modern Linux (openSUSE Tumbleweed). But many other gerrit devs @Google do use Macs. How it works for them?",
+      "parentUuid": "cf04bfbf_fc9db118",
+      "range": {
+        "startLine": 28,
+        "startChar": 11,
+        "endLine": 28,
+        "endChar": 18
+      },
+      "revId": "0c9e13c11a9a0facd1538d6e5b45b02a90db5ab3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

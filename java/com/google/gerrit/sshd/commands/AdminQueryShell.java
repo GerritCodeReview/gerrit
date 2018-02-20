@@ -17,7 +17,6 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -34,7 +33,6 @@ import org.kohsuke.args4j.Option;
 final class AdminQueryShell extends SshCommand {
   @Inject private PermissionBackend permissionBackend;
   @Inject private QueryShell.Factory factory;
-  @Inject private IdentifiedUser currentUser;
 
   @Option(name = "--format", usage = "Set output format")
   private QueryShell.OutputFormat format = QueryShell.OutputFormat.PRETTY;
@@ -45,7 +43,7 @@ final class AdminQueryShell extends SshCommand {
   @Override
   protected void run() throws Failure {
     try {
-      permissionBackend.user(currentUser).check(GlobalPermission.ACCESS_DATABASE);
+      permissionBackend.currentUser().check(GlobalPermission.ACCESS_DATABASE);
     } catch (AuthException err) {
       throw die(err.getMessage());
     } catch (PermissionBackendException e) {

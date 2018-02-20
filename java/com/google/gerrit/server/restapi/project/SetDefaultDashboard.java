@@ -74,7 +74,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
     input.id = Strings.emptyToNull(input.id);
 
     permissionBackend
-        .user(rsrc.getUser())
+        .currentUser()
         .project(rsrc.getProjectState().getNameKey())
         .check(ProjectPermission.WRITE_CONFIG);
 

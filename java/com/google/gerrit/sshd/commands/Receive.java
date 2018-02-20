@@ -84,7 +84,7 @@ final class Receive extends AbstractGitCommand {
   protected void runImpl() throws IOException, Failure {
     try {
       permissionBackend
-          .user(currentUser)
+          .currentUser()
           .project(project.getNameKey())
           .check(ProjectPermission.RUN_RECEIVE_PACK);
     } catch (AuthException e) {

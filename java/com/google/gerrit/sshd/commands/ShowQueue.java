@@ -104,7 +104,7 @@ final class ShowQueue extends SshCommand {
       throw new Failure(1, "permission backend unavailable", e);
     }
 
-    boolean viewAll = permissionBackend.user(currentUser).testOrFalse(GlobalPermission.VIEW_QUEUE);
+    boolean viewAll = permissionBackend.currentUser().testOrFalse(GlobalPermission.VIEW_QUEUE);
     long now = TimeUtil.nowMs();
     if (groupByQueue) {
       ListMultimap<String, TaskInfo> byQueue = byQueue(tasks);

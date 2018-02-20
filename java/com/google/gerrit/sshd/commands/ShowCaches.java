@@ -24,7 +24,6 @@ import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -86,7 +85,6 @@ final class ShowCaches extends SshCommand {
   @Inject private SshDaemon daemon;
   @Inject private ListCaches listCaches;
   @Inject private GetSummary getSummary;
-  @Inject private CurrentUser self;
   @Inject private PermissionBackend permissionBackend;
 
   @Option(
@@ -172,7 +170,7 @@ final class ShowCaches extends SshCommand {
 
     boolean showJvm;
     try {
-      permissionBackend.user(self).check(GlobalPermission.MAINTAIN_SERVER);
+      permissionBackend.currentUser().check(GlobalPermission.MAINTAIN_SERVER);
       showJvm = true;
     } catch (AuthException | PermissionBackendException e) {
       // Silently ignore and do not display detailed JVM information.

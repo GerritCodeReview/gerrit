@@ -148,7 +148,11 @@ public class DashboardsCollection
           ResourceConflictException {
     String ref = normalizeDashboardRef(info.ref);
     try {
-      permissionBackend.user(user).project(parent.getNameKey()).ref(ref).check(RefPermission.READ);
+      permissionBackend
+          .currentUser()
+          .project(parent.getNameKey())
+          .ref(ref)
+          .check(RefPermission.READ);
     } catch (AuthException e) {
       // Don't leak the project's existence
       throw new ResourceNotFoundException(info.id);

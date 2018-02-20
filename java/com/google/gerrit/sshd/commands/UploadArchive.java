@@ -243,7 +243,7 @@ public class UploadArchive extends AbstractGitCommand {
 
   private boolean canRead(ObjectId revId) throws IOException, PermissionBackendException {
     try {
-      permissionBackend.user(user).project(projectName).check(ProjectPermission.READ);
+      permissionBackend.currentUser().project(projectName).check(ProjectPermission.READ);
       return true;
     } catch (AuthException e) {
       // Check reachability of the specific revision.

@@ -19,7 +19,6 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.args4j.SubcommandHandler;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -42,7 +41,6 @@ final class DispatchCommand extends BaseCommand {
     DispatchCommand create(Map<String, CommandProvider> map);
   }
 
-  private final CurrentUser currentUser;
   private final PermissionBackend permissionBackend;
   private final Map<String, CommandProvider> commands;
   private final AtomicReference<Command> atomicCmd;
@@ -54,11 +52,7 @@ final class DispatchCommand extends BaseCommand {
   private List<String> args = new ArrayList<>();
 
   @Inject
-  DispatchCommand(
-      CurrentUser user,
-      PermissionBackend permissionBackend,
-      @Assisted Map<String, CommandProvider> all) {
-    this.currentUser = user;
+  DispatchCommand(PermissionBackend permissionBackend, @Assisted Map<String, CommandProvider> all) {
     this.permissionBackend = permissionBackend;
     commands = all;
     atomicCmd = Atomics.newReference();
@@ -125,7 +119,7 @@ final class DispatchCommand extends BaseCommand {
     }
     try {
       permissionBackend
-          .user(currentUser)
+          .currentUser()
           .checkAny(GlobalPermission.fromAnnotation(pluginName, cmd.getClass()));
     } catch (AuthException e) {
       throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, e.getMessage());

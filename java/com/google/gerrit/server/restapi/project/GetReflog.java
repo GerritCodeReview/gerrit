@@ -95,10 +95,7 @@ public class GetReflog implements RestReadView<BranchResource> {
   @Override
   public List<ReflogEntryInfo> apply(BranchResource rsrc)
       throws RestApiException, IOException, PermissionBackendException {
-    permissionBackend
-        .user(rsrc.getUser())
-        .project(rsrc.getNameKey())
-        .check(ProjectPermission.READ_REFLOG);
+    permissionBackend.currentUser().project(rsrc.getNameKey()).check(ProjectPermission.READ_REFLOG);
 
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       ReflogReader r;

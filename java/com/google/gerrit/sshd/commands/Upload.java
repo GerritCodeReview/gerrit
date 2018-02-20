@@ -50,7 +50,7 @@ final class Upload extends AbstractGitCommand {
   @Override
   protected void runImpl() throws IOException, Failure {
     PermissionBackend.ForProject perm =
-        permissionBackend.user(user).project(projectState.getNameKey());
+        permissionBackend.currentUser().project(projectState.getNameKey());
     try {
 
       perm.check(ProjectPermission.RUN_UPLOAD_PACK);

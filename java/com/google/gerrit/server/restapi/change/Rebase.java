@@ -167,7 +167,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     }
 
     permissionBackend
-        .user(rsrc.getUser())
+        .currentUser()
         .database(dbProvider)
         .change(base.notes())
         .check(ChangePermission.READ);

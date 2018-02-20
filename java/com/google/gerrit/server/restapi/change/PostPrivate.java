@@ -102,7 +102,7 @@ public class PostPrivate
   }
 
   private BooleanCondition canSetPrivate(ChangeResource rsrc) {
-    PermissionBackend.WithUser user = permissionBackend.user(rsrc.getUser());
+    PermissionBackend.WithUser user = permissionBackend.currentUser();
     return or(
         rsrc.isUserOwner() && rsrc.getChange().getStatus() != Change.Status.MERGED,
         user.testCond(GlobalPermission.ADMINISTRATE_SERVER));

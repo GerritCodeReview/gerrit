@@ -61,11 +61,7 @@ public class GetHead implements RestReadView<ProjectResource> {
         throw new ResourceNotFoundException(Constants.HEAD);
       } else if (head.isSymbolic()) {
         String n = head.getTarget().getName();
-        permissionBackend
-            .user(rsrc.getUser())
-            .project(rsrc.getNameKey())
-            .ref(n)
-            .check(RefPermission.READ);
+        permissionBackend.currentUser().project(rsrc.getNameKey()).ref(n).check(RefPermission.READ);
         return n;
       } else if (head.getObjectId() != null) {
         try (RevWalk rw = new RevWalk(repo)) {
@@ -77,7 +73,7 @@ public class GetHead implements RestReadView<ProjectResource> {
         } catch (MissingObjectException | IncorrectObjectTypeException e) {
           try {
             permissionBackend
-                .user(rsrc.getUser())
+                .currentUser()
                 .project(rsrc.getNameKey())
                 .check(ProjectPermission.WRITE_CONFIG);
           } catch (AuthException ae) {

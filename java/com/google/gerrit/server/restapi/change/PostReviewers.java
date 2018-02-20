@@ -320,8 +320,7 @@ public class PostReviewers
               ChangeMessages.get().groupManyMembersConfirmation, group.getName(), members.size()));
     }
 
-    PermissionBackend.ForRef perm =
-        permissionBackend.user(rsrc.getUser()).ref(rsrc.getChange().getDest());
+    PermissionBackend.ForRef perm = permissionBackend.currentUser().ref(rsrc.getChange().getDest());
     for (Account member : members) {
       if (isValidReviewer(member, perm)) {
         reviewers.add(member.getId());
@@ -438,7 +437,7 @@ public class PostReviewers
 
       ChangeData cd = changeDataFactory.create(dbProvider.get(), notes);
       PermissionBackend.ForChange perm =
-          permissionBackend.user(caller).database(dbProvider).change(cd);
+          permissionBackend.currentUser().database(dbProvider).change(cd);
 
       // Generate result details and fill AccountLoader. This occurs outside
       // the Op because the accounts are in a different table.

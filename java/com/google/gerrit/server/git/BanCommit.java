@@ -20,7 +20,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -90,10 +89,9 @@ public class BanCommit {
     this.tz = gerritIdent.getTimeZone();
   }
 
-  public BanCommitResult ban(
-      Project.NameKey project, CurrentUser user, List<ObjectId> commitsToBan, String reason)
+  public BanCommitResult ban(Project.NameKey project, List<ObjectId> commitsToBan, String reason)
       throws AuthException, LockFailureException, IOException, PermissionBackendException {
-    permissionBackend.user(user).project(project).check(ProjectPermission.BAN_COMMIT);
+    permissionBackend.currentUser().project(project).check(ProjectPermission.BAN_COMMIT);
 
     final BanCommitResult result = new BanCommitResult();
     NoteMap banCommitNotes = NoteMap.newEmptyMap();

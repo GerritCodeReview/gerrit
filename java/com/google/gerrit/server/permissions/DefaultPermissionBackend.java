@@ -32,6 +32,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
@@ -44,18 +45,27 @@ import java.util.Set;
 public class DefaultPermissionBackend extends PermissionBackend {
   private static final CurrentUser.PropertyKey<Boolean> IS_ADMIN = CurrentUser.PropertyKey.create();
 
+  private final Provider<CurrentUser> currentUser;
   private final ProjectCache projectCache;
   private final ProjectControl.Factory projectControlFactory;
 
   @Inject
   DefaultPermissionBackend(
-      ProjectCache projectCache, ProjectControl.Factory projectControlFactory) {
+      Provider<CurrentUser> currentUser,
+      ProjectCache projectCache,
+      ProjectControl.Factory projectControlFactory) {
+    this.currentUser = currentUser;
     this.projectCache = projectCache;
     this.projectControlFactory = projectControlFactory;
   }
 
   private CapabilityCollection capabilities() {
     return projectCache.getAllProjects().getCapabilityCollection();
+  }
+
+  @Override
+  public WithUser currentUser() {
+    return new WithUserImpl(currentUser.get());
   }
 
   @Override

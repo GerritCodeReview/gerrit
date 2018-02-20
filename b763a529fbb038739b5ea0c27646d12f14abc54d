@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1519147731 -0500\nnonce AFD2Vu0n2/dVy9etl+Yy3HGrpf3A6IaBtN6DgbUi56yodK1mCwCUH+QbV/8DGaI8yxkysAzokuW5\n\n0000000000000000000000000000000000000000 b763a529fbb038739b5ea0c27646d12f14abc54d refs/for/master%r\u003dekempin@google.com,r\u003daliceks\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlqMWtMVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMB1oP/2CisGzZJH1zDgaRD8mPFdLNAIG0\ngagsYnv8pDfKLDBzkzEvcz81Bq8u1lwEfE+/IGrFJWHFMP2s2QkRdV2/6cnMamef\nfDgtdu9iznmSUjd8qge46olXCyKIZcY2dt4plFf2PlXuWbNs6tAtV8UycU987uAy\ngsAcssoEpY81j7KJkDScNGCiv8nMEG/F1ENoqV4BprVKH+Bjb9KZQ0NJtDpCk1Rq\nv7o5djRcuQA2lbV2fh+liKEQe/fZV//hw4EbEPq+SpW31NS0aqdn+afgLPR4mtDr\nFyhbnYpUPsvqAvvvGNHnsOWQ5wCcx+qagxnMzGkwclUE5N1lsvjWdXD44c0L17AA\n9HJjVZKJo2M9hAtqCddk4jrJhztCMrowhf5MAADp4IZcJvjX93gaSadMu7rlO3y3\nW1AbWj1bMA+vztwkDNme+8oidk3vkchzLsPJoKwj7Rsq9PMJkAW9lkIzyEaOLUga\nd5MZ3dmcmyMY2MLfd4QwWTzR6583EqFz7ePWuLPtC2bqFMzLDYGAPz0YohOX9GtY\nrkIhPSuTNzpZAuF0lPI4uL0RN5y6a5CQue4zrWWiu1AWxiwmZ5NeQ+qJeUQ+TDQb\nIaxQXZ+a0n3JxZPCM1bfIpgd4jg0b6Q6FDYS98f4QYBNLn6MT1bSNqCnU6Q3RB1K\nc4rYPpm+5nkJ2Fdv\n\u003df2AR\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "136eecbb_4735a57b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-20T19:04:55Z",
+      "side": 1,
+      "message": "The 5 MiB number above just comes from summing the top few entries in this screenshot. Scrolling down, there are actually many, many references to Constructors and InjectorImpls, so this may actually account for a much larger retained set. Intuitively, it shouldn\u0027t need to retain much more than the thin-ish objects that are direct fields of ProjectState.",
+      "revId": "b763a529fbb038739b5ea0c27646d12f14abc54d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

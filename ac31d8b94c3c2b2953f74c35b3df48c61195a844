@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "73c79ee0_b4d065b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-20T16:30:41Z",
+      "side": 1,
+      "message": "\u003e For a follow up change:\n \u003e Is it fair to say that we still don\u0027t want to name the thread to\n \u003e the command and all it\u0027s argument since we seem to agree that this\n \u003e information is just cluttering the error_log?\n \u003e Is there any instance when the command is _not_ the first two\n \u003e \u0027sections\u0027 of the args string?\n \u003e \n \u003e \"gerrit review ...\"\n \u003e \"gerrit show-queue ...\"\n \u003e etc.\n\nYes,\n\nhere are some examples where command is the first arg only:\n\"git-receive-pack \u0027some/project/name.git\u0027\"\n\"git-upload-pack \u0027some/project/name.git\u0027\"\n\"kill \u003ctaskid\u003e \u003ctaskid\u003e \u003ctaskid\u003e ...\"\n\"ps\"\n\nhere are some examples where command is the first 3 args:\n\"gerrit index activate ...\"\n\"gerrit index start ...\"\n\"gerrit index changes ...\"\n\"gerrit index project ...\"\n\"gerrit logging ls-level ...\"\n\"gerrit logging set-level ...\"\n\"gerrit plugin add\"\n....\n\n \u003e If not we could do a \u0027non-intelligent\u0027 split of the args string and\n \u003e use the first two elements of the array as thread name.\n \u003e \n \u003e If we cannot trust that this will be the case I would suggest that\n \u003e we do not revert this but instead only use the specific command\n \u003e override of taskDescriptiion when naming the thread, and still go\n \u003e for the \"truncate multi-line arguments\" approach in the follow-up\n \u003e commit for the sshd_log\n\nI am not sure understand you suggestion. Are you proposing to override a method used only for naming the thread and do this in every command?",
+      "parentUuid": "963678f8_6d5146fd",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "ac31d8b94c3c2b2953f74c35b3df48c61195a844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41130b22_3c6af52e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

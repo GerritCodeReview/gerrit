@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountsConsistencyChecker;
 import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;
 import com.google.gerrit.server.config.ConfigResource;
@@ -32,7 +31,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -40,7 +38,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class CheckConsistency implements RestModifyView<ConfigResource, ConsistencyCheckInput> {
   private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
   private final AccountsConsistencyChecker accountsConsistencyChecker;
   private final ExternalIdsConsistencyChecker externalIdsConsistencyChecker;
   private final GroupsConsistencyChecker groupsConsistencyChecker;
@@ -48,12 +45,10 @@ public class CheckConsistency implements RestModifyView<ConfigResource, Consiste
   @Inject
   CheckConsistency(
       PermissionBackend permissionBackend,
-      Provider<CurrentUser> user,
       AccountsConsistencyChecker accountsConsistencyChecker,
       ExternalIdsConsistencyChecker externalIdsConsistencyChecker,
       GroupsConsistencyChecker groupsChecker) {
     this.permissionBackend = permissionBackend;
-    this.user = user;
     this.accountsConsistencyChecker = accountsConsistencyChecker;
     this.externalIdsConsistencyChecker = externalIdsConsistencyChecker;
     this.groupsConsistencyChecker = groupsChecker;
@@ -63,7 +58,7 @@ public class CheckConsistency implements RestModifyView<ConfigResource, Consiste
   public ConsistencyCheckInfo apply(ConfigResource resource, ConsistencyCheckInput input)
       throws RestApiException, IOException, OrmException, PermissionBackendException,
           ConfigInvalidException {
-    permissionBackend.user(user).check(GlobalPermission.ACCESS_DATABASE);
+    permissionBackend.currentUser().check(GlobalPermission.ACCESS_DATABASE);
 
     if (input == null
         || (input.checkAccounts == null

@@ -50,7 +50,7 @@ public class Index implements RestModifyView<AccountResource, Input> {
   public Response<?> apply(AccountResource rsrc, Input input)
       throws IOException, AuthException, PermissionBackendException {
     if (self.get() != rsrc.getUser()) {
-      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
+      permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
 
     accountIndexer.get().index(rsrc.getUser().getAccountId());

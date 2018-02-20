@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -45,7 +44,6 @@ public class BranchesCollection
   private final DynamicMap<RestView<BranchResource>> views;
   private final Provider<ListBranches> list;
   private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
   private final GitRepositoryManager repoManager;
   private final CreateBranch.Factory createBranchFactory;
 
@@ -54,13 +52,11 @@ public class BranchesCollection
       DynamicMap<RestView<BranchResource>> views,
       Provider<ListBranches> list,
       PermissionBackend permissionBackend,
-      Provider<CurrentUser> user,
       GitRepositoryManager repoManager,
       CreateBranch.Factory createBranchFactory) {
     this.views = views;
     this.list = list;
     this.permissionBackend = permissionBackend;
-    this.user = user;
     this.repoManager = repoManager;
     this.createBranchFactory = createBranchFactory;
   }
@@ -86,7 +82,7 @@ public class BranchesCollection
       // rights on the symbolic reference itself. This check prevents seeing a hidden
       // branch simply because the symbolic reference name was visible.
       permissionBackend
-          .user(user)
+          .currentUser()
           .project(project)
           .ref(ref.isSymbolic() ? ref.getTarget().getName() : ref.getName())
           .check(RefPermission.READ);

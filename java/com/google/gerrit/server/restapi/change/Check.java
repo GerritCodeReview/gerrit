@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -32,7 +31,6 @@ import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.io.IOException;
 import javax.inject.Singleton;
 
@@ -40,13 +38,11 @@ import javax.inject.Singleton;
 public class Check
     implements RestReadView<ChangeResource>, RestModifyView<ChangeResource, FixInput> {
   private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
   private final ChangeJson.Factory jsonFactory;
 
   @Inject
-  Check(PermissionBackend permissionBackend, Provider<CurrentUser> user, ChangeJson.Factory json) {
+  Check(PermissionBackend permissionBackend, ChangeJson.Factory json) {
     this.permissionBackend = permissionBackend;
-    this.user = user;
     this.jsonFactory = json;
   }
 
@@ -59,7 +55,7 @@ public class Check
   public Response<ChangeInfo> apply(ChangeResource rsrc, FixInput input)
       throws RestApiException, OrmException, PermissionBackendException, NoSuchProjectException,
           IOException {
-    PermissionBackend.WithUser perm = permissionBackend.user(user);
+    PermissionBackend.WithUser perm = permissionBackend.currentUser();
     if (!rsrc.isUserOwner()) {
       try {
         perm.project(rsrc.getProject()).check(ProjectPermission.READ_CONFIG);

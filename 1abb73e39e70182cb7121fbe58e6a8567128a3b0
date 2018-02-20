@@ -22,6 +22,30 @@
       "revId": "1abb73e39e70182cb7121fbe58e6a8567128a3b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e051b755_244dbf2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-20T05:49:41Z",
+      "side": 1,
+      "message": "In the earlier patch sets of this CL stack trace was dumped in the commit message: [1].\n\n* [1] http://paste.openstack.org/show/678153/",
+      "parentUuid": "9b24c1d3_031b4a78",
+      "range": {
+        "startLine": 10,
+        "startChar": 45,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "1abb73e39e70182cb7121fbe58e6a8567128a3b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

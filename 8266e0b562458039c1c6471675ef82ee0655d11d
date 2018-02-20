@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f98f527c_bada1b72",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-20T21:41:13Z",
+      "side": 1,
+      "message": "I suspect this won\u0027t work the same way with the space.",
+      "range": {
+        "startLine": 118,
+        "startChar": 16,
+        "endLine": 118,
+        "endChar": 17
+      },
+      "revId": "8266e0b562458039c1c6471675ef82ee0655d11d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

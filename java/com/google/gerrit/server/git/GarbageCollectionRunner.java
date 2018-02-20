@@ -19,8 +19,6 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.GcConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,17 +40,7 @@ public class GarbageCollectionRunner implements Runnable {
 
     @Override
     public void start() {
-      gcConfig
-          .getSchedule()
-          .ifPresent(
-              s -> {
-                @SuppressWarnings("unused")
-                Future<?> possiblyIgnoredError =
-                    queue
-                        .getDefaultQueue()
-                        .scheduleAtFixedRate(
-                            gcRunner, s.initialDelay(), s.interval(), TimeUnit.MILLISECONDS);
-              });
+      gcConfig.getSchedule().ifPresent(s -> queue.scheduleAtFixedRate(gcRunner, s));
     }
 
     @Override

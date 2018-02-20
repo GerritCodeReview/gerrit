@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94510129_f52d54bc",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/AutoReplyMailFilterTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-20T08:43:01Z",
+      "side": 1,
+      "message": "This file is in the wrong directory (the one for integration tests) and hence our CI is not running these tests.\n\nIt needs to go in: javatests/com/google/gerrit/server/mail",
+      "revId": "20bf704c30a43632217424a19234703182f52d9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39ce7a0c_b8d3c5a2",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/AutoReplyMailFilterTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-20T08:43:01Z",
+      "side": 1,
+      "message": "This tests needs to be removed. It fails since you removed the logic based on To/Cc fields.\n\nI think it would be better to rename it and keep it though to also test the positive case:\n\n\n  @Test\n  public void acceptHumanReply(){\n    assertThat(autoReplyMailFilter.shouldProcessMessage(createChangeAndReplyByEmail().build())).isFalse();\n  }",
+      "range": {
+        "startLine": 32,
+        "startChar": 14,
+        "endLine": 32,
+        "endChar": 27
+      },
+      "revId": "20bf704c30a43632217424a19234703182f52d9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f06d474a_51bbce5c",
+        "filename": "resources/com/google/gerrit/server/mail/InboundEmailRejectionHtml.soy",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-20T08:43:01Z",
+      "side": 1,
+      "message": "We got rid of this case now.",
+      "range": {
+        "startLine": 53,
+        "startChar": 35,
+        "endLine": 53,
+        "endChar": 64
+      },
+      "revId": "20bf704c30a43632217424a19234703182f52d9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

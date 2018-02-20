@@ -201,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "efefd17c_4fa571b6",
+        "filename": "java/com/google/gerrit/server/mail/send/InboundEmailRejectionSender.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-20T08:43:01Z",
+      "side": 1,
+      "message": "Guice can handle @Nullable. In the case of non-assisted injects it just forces you to always create a binding (when the value is null, the binding is done to a Provider.of(null).\n\nFor Guice, my (very personal) preference is always to have an optional even if it sometimes makes the bindings a little bit harder to establish.",
+      "parentUuid": "28a9b968_99238b8d",
+      "range": {
+        "startLine": 51,
+        "startChar": 16,
+        "endLine": 51,
+        "endChar": 25
+      },
+      "revId": "8c1cec5c8524cd4a04b823ca6a75b4373a9fab7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b1ce9c1_f05ec2c0",
         "filename": "java/com/google/gerrit/server/mail/send/InboundEmailRejectionSender.java",
         "patchSetId": 7

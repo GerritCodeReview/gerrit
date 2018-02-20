@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e57ad06e_3a1edce9",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-02-20T15:56:05Z",
+      "side": 1,
+      "message": "come to think of it, I can\u0027t remember what this does. \n\neither this should save the change number and submit that as admin, or it should be deleted.",
+      "range": {
+        "startLine": 209,
+        "startChar": 11,
+        "endLine": 209,
+        "endChar": 23
+      },
+      "revId": "41dda4677946d28a3689281a7754e0b0be6c6d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

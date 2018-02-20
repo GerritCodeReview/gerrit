@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "a6d1a7c4_47e135ae",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-20T10:34:02Z",
+      "side": 1,
+      "message": "It\u0027s a runtime exception which was simply delegated further. I guess I missed this part when I switched from Joda Time to Java 8 Date/Time. Actually, I think we can even remove IllegalArgumentException. It should only be thrown by DateTimeFormatter#ofPattern and we do want to know when we specify an invalid pattern there.\n\nBy the way, I saw that ArithmeticException is declared to be thrown for numeric overflows. Is this something we need to guard against?",
+      "parentUuid": "afc0d863_3a97d4dc",
+      "revId": "74b421bf87e0eaec1e98b1a0c7e69c7235f02097",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "283a8539_e18329b5",
         "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2018-02-20T10:18:39Z",
       "side": 1,
       "message": "Add another catch here and log any other unexpected exceptions?",
+      "revId": "74b421bf87e0eaec1e98b1a0c7e69c7235f02097",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34ac7dfa_8c244a4a",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-20T10:34:02Z",
+      "side": 1,
+      "message": "I\u0027m more a fan of having tests for every possible error case and only catch the expected exceptions. We only missed DateTimeParseException since we didn\u0027t have sufficient tests.",
+      "parentUuid": "283a8539_e18329b5",
       "revId": "74b421bf87e0eaec1e98b1a0c7e69c7235f02097",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -29,6 +29,10 @@
         type: String,
         computed: '_computeChangeURL(change)',
       },
+      status: {
+        type: String,
+        computed: 'changeStatusString(change)',
+      },
       showStar: {
         type: Boolean,
         value: false,

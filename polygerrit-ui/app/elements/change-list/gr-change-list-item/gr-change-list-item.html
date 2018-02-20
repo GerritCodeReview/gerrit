@@ -100,6 +100,9 @@ limitations under the License.
       .u-gray-background {
         background-color: #F5F5F5;
       }
+      .placeholder {
+        color: rgba(0, 0, 0, .87);
+      }
       @media only screen and (max-width: 50em) {
         :host {
           display: flex;
@@ -112,7 +115,7 @@ limitations under the License.
       <gr-change-star change="{{change}}"></gr-change-star>
     </td>
     <td class="cell number" hidden$="[[!showNumber]]" hidden>
-      <a href$="[[changeURL]]"> [[change._number]]</a>
+      <a href$="[[changeURL]]">[[change._number]]</a>
     </td>
     <td class="cell subject"
         hidden$="[[isColumnHidden('Subject', visibleChangeTableColumns)]]">
@@ -130,7 +133,12 @@ limitations under the License.
     </td>
     <td class="cell status"
         hidden$="[[isColumnHidden('Status', visibleChangeTableColumns)]]">
-      [[changeStatusString(change)]]
+      <template is="dom-if" if="[[status]]">
+        [[status]]
+      </template>
+      <template is="dom-if" if="[[!status]]">
+        <span class="placeholder">--</span>
+      </template>
     </td>
     <td class="cell owner"
         hidden$="[[isColumnHidden('Owner', visibleChangeTableColumns)]]">
@@ -140,6 +148,9 @@ limitations under the License.
         hidden$="[[isColumnHidden('Assignee', visibleChangeTableColumns)]]">
       <template is="dom-if" if="[[change.assignee]]">
         <gr-account-link account="[[change.assignee]]"></gr-account-link>
+      </template>
+      <template is="dom-if" if="[[!change.assignee]]">
+        <span class="placeholder">--</span>
       </template>
     </td>
     <td class="cell project"

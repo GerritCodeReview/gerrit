@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a5f4352_e39d89bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-02-20T18:00:25Z",
+      "side": 1,
+      "message": "Should be Issue 8374",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 61
+      },
+      "revId": "7c2f6087a0a180c1a930a81b8d5af2e1f84e6ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -142,6 +142,30 @@
       "revId": "0c9e13c11a9a0facd1538d6e5b45b02a90db5ab3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0af7d2f0_bd47c9ed",
+        "filename": "tools/bzl/license.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-20T15:12:18Z",
+      "side": 1,
+      "message": "\u003e I favor the last option. The license-map.py script seems simple.\n \u003e What\u0027s the py3 problem there?\n\nMe too. I don\u0027t remember exactly, there were some complications, and I hadn\u0027t had time to look deeper.",
+      "parentUuid": "ba5285b6_f70a1c3d",
+      "range": {
+        "startLine": 28,
+        "startChar": 11,
+        "endLine": 28,
+        "endChar": 18
+      },
+      "revId": "0c9e13c11a9a0facd1538d6e5b45b02a90db5ab3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

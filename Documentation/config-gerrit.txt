@@ -1300,39 +1300,16 @@ If this change is still wanted it should be restored.".
 
 [[changeCleanup.startTime]]changeCleanup.startTime::
 +
-Start time to define the first execution of the change cleanups.
-If the configured `'changeCleanup.interval'` is shorter than
-`'changeCleanup.startTime - now'` the start time will be preponed by
-the maximum integral multiple of `'changeCleanup.interval'` so that the
-start time is still in the future.
-+
-----
-<day of week> <hours>:<minutes>
-or
-<hours>:<minutes>
-
-<day of week> : Mon, Tue, Wed, Thu, Fri, Sat, Sun
-<hours>       : 00-23
-<minutes>     : 0-59
-----
-
+The link:#schedule-configuration-startTime[start time] for running
+change cleanups.
 
 [[changeCleanup.interval]]changeCleanup.interval::
 +
-Interval for periodic repetition of triggering the change cleanups.
-The interval must be larger than zero. The following suffixes are supported
-to define the time unit for the interval:
-+
-* `s, sec, second, seconds`
-* `m, min, minute, minutes`
-* `h, hr, hour, hours`
-* `d, day, days`
-* `w, week, weeks` (`1 week` is treated as `7 days`)
-* `mon, month, months` (`1 month` is treated as `30 days`)
-* `y, year, years` (`1 year` is treated as `365 days`)
+The link:#schedule-configuration-interval[interval] for running
+change cleanups.
 
-link:#schedule-examples[Schedule examples] can be found in the
-link:#gc[gc] section.
+link:#schedule-configuration-examples[Schedule examples] can be found
+in the link:#schedule-configuration[Schedule Configuration] section.
 
 [[commentlink]]
 === Section commentlink
@@ -2002,59 +1979,16 @@ Valid values are "true" and "false," default is "false".
 
 [[gc.startTime]]gc.startTime::
 +
-Start time to define the first execution of the git garbage collection.
-If the configured `'gc.interval'` is shorter than `'gc.startTime - now'`
-the start time will be preponed by the maximum integral multiple of
-`'gc.interval'` so that the start time is still in the future.
-+
-----
-<day of week> <hours>:<minutes>
-or
-<hours>:<minutes>
-
-<day of week> : Mon, Tue, Wed, Thu, Fri, Sat, Sun
-<hours>       : 00-23
-<minutes>     : 0-59
-----
-
+The link:#schedule-configuration-startTime[start time] for running the
+git garbage collection.
 
 [[gc.interval]]gc.interval::
 +
-Interval for periodic repetition of triggering the git garbage collection.
-The interval must be larger than zero. The following suffixes are supported
-to define the time unit for the interval:
-+
-* `s, sec, second, seconds`
-* `m, min, minute, minutes`
-* `h, hr, hour, hours`
-* `d, day, days`
-* `w, week, weeks` (`1 week` is treated as `7 days`)
-* `mon, month, months` (`1 month` is treated as `30 days`)
-* `y, year, years` (`1 year` is treated as `365 days`)
+The link:#schedule-configuration-interval[interval] for running the
+git garbage collection.
 
-[[schedule-examples]]
-Examples::
-+
-----
-gc.startTime = Fri 10:30
-gc.interval  = 2 day
-----
-+
-Assuming the server is started on Mon 7:00 -> `'startTime - now = 4 days 3:30 hours'`.
-This is larger than the interval hence prepone the start time
-by the maximum integral multiple of the interval so that start
-time is still in the future, i.e. prepone by 4 days. This yields
-a start time of Mon 10:30, next executions are Wed 10:30, Fri 10:30
-etc.
-+
-----
-gc.startTime = 6:00
-gc.interval = 1 day
-----
-+
-Assuming the server is started on Mon 7:00 this yields the first run on next Tuesday
-at 6:00 and a repetition interval of 1 day.
-
+link:#schedule-configuration-examples[Schedule examples] can be found
+in the link:#schedule-configuration[Schedule Configuration] section.
 
 [[gerrit]]
 === Section gerrit
@@ -4726,34 +4660,16 @@ supported for LDAP backends.
 
 [[accountDeactivation.startTime]]accountDeactivation.startTime::
 +
-Start time to define the first execution of account deactivations.
-If the configured `'accountDeactivation.interval'` is shorter than `'accountDeactivation.startTime - now'`
-the start time will be preponed by the maximum integral multiple of
-`'accountDeactivation.interval'` so that the start time is still in the future.
-+
-----
-<day of week> <hours>:<minutes>
-or
-<hours>:<minutes>
-
-<day of week> : Mon, Tue, Wed, Thu, Fri, Sat, Sun
-<hours>       : 00-23
-<minutes>     : 0-59
-----
+The link:#schedule-configuration-startTime[start time] for running
+account deactivations.
 
 [[accountDeactivation.interval]]accountDeactivation.interval::
 +
-Interval for periodic repetition of triggering account deactivation sweeps.
-The interval must be larger than zero. The following suffixes are supported
-to define the time unit for the interval:
-+
-* `s, sec, second, seconds`
-* `m, min, minute, minutes`
-* `h, hr, hour, hours`
-* `d, day, days`
-* `w, week, weeks` (`1 week` is treated as `7 days`)
-* `mon, month, months` (`1 month` is treated as `30 days`)
-* `y, year, years` (`1 year` is treated as `365 days`)
+The link:#schedule-configuration-interval[interval] for running
+account deactivations.
+
+link:#schedule-configuration-examples[Schedule examples] can be found
+in the link:#schedule-configuration[Schedule Configuration] section.
 
 [[urlAlias]]
 === Section urlAlias
@@ -4860,6 +4776,89 @@ Username that is displayed in the Gerrit Web UI and in e-mail
 notifications if the full name of the user is not set.
 +
 By default "Name of user not set" is used.
+
+[[schedule-configuration]]
+=== Schedule Configuration
+
+Schedule configurations are used for running periodic background jobs.
+
+A schedule configuration consists of two parameters:
+
+[[schedule-configuration-interval]]
+* `interval`:
+Interval for running the periodic background job. The interval must be
+larger than zero. The following suffixes are supported to define the
+time unit for the interval:
+** `s`, `sec`, `second`, `seconds`
+** `m`, `min`, `minute`, `minutes`
+** `h`, `hr`, `hour`, `hours`
+** `d`, `day`, `days`
+** `w`, `week`, `weeks` (`1 week` is treated as `7 days`)
+** `mon`, `month`, `months` (`1 month` is treated as `30 days`)
+** `y`, `year`, `years` (`1 year` is treated as `365 days`)
+
+[[schedule-configuration-startTime]]
+* `startTime`:
+The start time defines the first execution of the periodic background
+job. If the configured `interval` is shorter than `startTime - now` the
+start time will be preponed by the maximum integral multiple of
+`interval` so that the start time is still in the future. `startTime`
+must have one of the following formats:
+
+** `<day of week> <hours>:<minutes>`
+** `<hours>:<minutes>`
+
++
+The placeholders can have the following values:
+
+*** `<day of week>`:
+`Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`
+*** `<hours>`:
+`00`-`23`
+*** `<minutes>`:
+`00`-`59`
+
++
+The time zone cannot be specified but is always the system default
+time zone.
+
+The section (and optionally the subsection) in which the `interval` and
+`startTime` keys must be set depends on the background job for which a
+schedule should be configured. E.g. for the change cleanup job the keys
+must be set in the link:#changeCleanup[changeCleanup] section:
+
+----
+  [changeCleanup]
+    startTime = Fri 10:30
+    interval  = 2 days
+----
+
+[[schedule-configuration-examples]]
+Examples for a schedule configuration:
+
+* Example 1:
++
+----
+  startTime = Fri 10:30
+  interval  = 2 days
+----
++
+Assuming that the server is started on `Mon 07:00` then
+`startTime - now` is `4 days 3:30 hours`. This is larger than the
+interval hence the start time is preponed by the maximum integral
+multiple of the interval so that start time is still in the future,
+i.e. preponed by 4 days. This yields a start time of `Mon 10:30`, next
+executions are `Wed 10:30`, `Fri 10:30`. etc.
+
+* Example 2:
++
+----
+  startTime = 06:00
+  interval = 1 day
+----
++
+Assuming that the server is started on `Mon 07:00` then this yields the
+first run on Tuesday at 06:00 and a repetition interval of 1 day.
 
 [[secure.config]]
 == File `etc/secure.config`

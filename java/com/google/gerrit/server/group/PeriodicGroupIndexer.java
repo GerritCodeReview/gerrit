@@ -32,7 +32,6 @@ import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
@@ -98,12 +97,7 @@ public class PeriodicGroupIndexer implements Runnable {
               .setSubsection("scheduledIndexer")
               .buildSchedule()
               .orElseGet(() -> Schedule.createOrFail(TimeUnit.MINUTES.toMillis(5), "00:00"));
-      @SuppressWarnings("unused")
-      Future<?> possiblyIgnoredError =
-          queue
-              .getDefaultQueue()
-              .scheduleAtFixedRate(
-                  runner, schedule.initialDelay(), schedule.interval(), TimeUnit.MILLISECONDS);
+      queue.scheduleAtFixedRate(runner, schedule);
     }
 
     @Override

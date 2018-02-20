@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "868cdf84_d9d6d28e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-20T19:15:45Z",
+      "side": 1,
+      "message": "Nitpick: this title makes it seem like it\u0027s disabling nested dialogs generally, but it isn\u0027t. Could the title be ..\n\n\u003e Hide all edit control dialogs before opening\n\n.. ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "67f728ac77221574cb2f0385e132e1992d4cd2f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8390f593_80a91148",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-20T19:15:45Z",
+      "side": 1,
+      "message": "This line also makes it seem like a change that affects dialogs in the whole app. Maybe \n\n\u003e This call prevents multiple edit control dialogs from being shown in the same overlay.",
+      "range": {
+        "startLine": 10,
+        "startChar": 49,
+        "endLine": 11,
+        "endChar": 54
+      },
+      "revId": "67f728ac77221574cb2f0385e132e1992d4cd2f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

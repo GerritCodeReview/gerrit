@@ -74,6 +74,9 @@ import org.eclipse.jgit.revwalk.RevSort;
  *
  * <p>The commit date of the first commit on the user branch is used as registration date of the
  * account. The first commit may be an empty commit (since all config files are optional).
+ *
+ * <p>By default preferences and project watches are lazily parsed on need. Eager parsing can be
+ * requested by {@link #setEagerParsing(boolean)}.
  */
 public class AccountConfig extends VersionedMetaData implements ValidationError.Sink {
   private final Account.Id accountId;
@@ -85,12 +88,28 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   private ProjectWatches projectWatches;
   private Preferences preferences;
   private Optional<InternalAccountUpdate> accountUpdate = Optional.empty();
+  private boolean eagerParsing;
   private List<ValidationError> validationErrors;
 
   public AccountConfig(Account.Id accountId, Repository allUsersRepo) {
     this.accountId = checkNotNull(accountId, "accountId");
     this.repo = checkNotNull(allUsersRepo, "allUsersRepo");
     this.ref = RefNames.refsUsers(accountId);
+  }
+
+  /**
+   * Sets whether all account data should be eagerly parsed.
+   *
+   * <p>Eager parsing should only be used if the caller is interested in validation errors for all
+   * account data (see {@link #getValidationErrors()}.
+   *
+   * @param eagerParsing whether all account data should be eagerly parsed
+   * @return this AccountConfig instance for chaining
+   */
+  public AccountConfig setEagerParsing(boolean eagerParsing) {
+    checkState(loadedAccountProperties == null, "Account %s already loaded", accountId.get());
+    this.eagerParsing = eagerParsing;
+    return this;
   }
 
   @Override
@@ -245,8 +264,10 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
               Preferences.readDefaultConfig(repo),
               this);
 
-      projectWatches.parse();
-      preferences.parse();
+      if (eagerParsing) {
+        projectWatches.parse();
+        preferences.parse();
+      }
     } else {
       loadedAccountProperties = Optional.empty();
 
@@ -343,6 +364,9 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
 
   /**
    * Get the validation errors, if any were discovered during parsing the account data.
+   *
+   * <p>To get validation errors for all account data request eager parsing before loading the
+   * account (see {@link #setEagerParsing(boolean)}).
    *
    * @return list of errors; empty list if there are no errors.
    */

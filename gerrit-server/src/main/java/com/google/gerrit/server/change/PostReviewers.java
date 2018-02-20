@@ -170,25 +170,37 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   public Addition prepareApplication(
       ChangeResource rsrc, AddReviewerInput input, boolean allowGroup)
       throws OrmException, RestApiException, IOException {
-    Account.Id accountId;
+    IdentifiedUser user = null;
+    boolean accountFound = true;
+    boolean isExactMatch = false;
     try {
-      accountId = accounts.parse(input.reviewer).getAccountId();
+      user = accounts.parse(input.reviewer);
+      if (input.reviewer.equalsIgnoreCase(user.getName())
+          || input.reviewer.equals(String.valueOf(user.getAccountId()))) {
+        isExactMatch = true;
+      }
     } catch (UnprocessableEntityException e) {
-      if (allowGroup) {
-        try {
-          return putGroup(rsrc, input);
-        } catch (UnprocessableEntityException e2) {
+      accountFound = false;
+    }
+
+    if (allowGroup && !isExactMatch) {
+      try {
+        return putGroup(rsrc, input);
+      } catch (UnprocessableEntityException e2) {
+        if (!accountFound) {
           throw new UnprocessableEntityException(
               MessageFormat.format(
                   ChangeMessages.get().reviewerNotFoundUserOrGroup, input.reviewer));
         }
       }
+    }
+    if (!accountFound) {
       throw new UnprocessableEntityException(
           MessageFormat.format(ChangeMessages.get().reviewerNotFoundUser, input.reviewer));
     }
     return putAccount(
         input.reviewer,
-        reviewerFactory.create(rsrc, accountId),
+        reviewerFactory.create(rsrc, user.getAccountId()),
         input.state(),
         input.notify,
         notifyUtil.resolveAccounts(input.notifyDetails));

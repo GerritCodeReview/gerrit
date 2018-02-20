@@ -154,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "0dde656b_239650be",
+        "filename": "java/com/google/gerrit/server/mail/send/InboundEmailRejectionSender.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-02-20T10:11:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7f12f6b_26dfd51c",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 9
+      },
+      "revId": "8c1cec5c8524cd4a04b823ca6a75b4373a9fab7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb4b0d8a_fb04c4da",
         "filename": "java/com/google/gerrit/server/mail/send/InboundEmailRejectionSender.java",
         "patchSetId": 7
@@ -213,6 +237,30 @@
       "side": 1,
       "message": "Guice can handle @Nullable. In the case of non-assisted injects it just forces you to always create a binding (when the value is null, the binding is done to a Provider.of(null).\n\nFor Guice, my (very personal) preference is always to have an optional even if it sometimes makes the bindings a little bit harder to establish.",
       "parentUuid": "28a9b968_99238b8d",
+      "range": {
+        "startLine": 51,
+        "startChar": 16,
+        "endLine": 51,
+        "endChar": 25
+      },
+      "revId": "8c1cec5c8524cd4a04b823ca6a75b4373a9fab7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cec7476a_554d54bd",
+        "filename": "java/com/google/gerrit/server/mail/send/InboundEmailRejectionSender.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-02-20T10:11:41Z",
+      "side": 1,
+      "message": "Ack\nIn this specific case, the email should be in reply to an inbound email, so it makes sense to have a non-null threadId.\n\nThat being said, in the rare (malicious?) case the email doesn\u0027t have a Message-Id header, it would break in ImapMailReceiver.",
+      "parentUuid": "efefd17c_4fa571b6",
       "range": {
         "startLine": 51,
         "startChar": 16,

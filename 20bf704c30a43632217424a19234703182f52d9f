@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b947cf53_2f6b7ef3",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/AutoReplyMailFilterTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-02-20T10:11:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94510129_f52d54bc",
+      "revId": "20bf704c30a43632217424a19234703182f52d9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39ce7a0c_b8d3c5a2",
         "filename": "javatests/com/google/gerrit/acceptance/server/mail/AutoReplyMailFilterTest.java",
         "patchSetId": 8
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "a580f739_575764ce",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/AutoReplyMailFilterTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-02-20T10:11:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39ce7a0c_b8d3c5a2",
+      "range": {
+        "startLine": 32,
+        "startChar": 14,
+        "endLine": 32,
+        "endChar": 27
+      },
+      "revId": "20bf704c30a43632217424a19234703182f52d9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f06d474a_51bbce5c",
         "filename": "resources/com/google/gerrit/server/mail/InboundEmailRejectionHtml.soy",
         "patchSetId": 8
@@ -62,6 +104,30 @@
       "revId": "20bf704c30a43632217424a19234703182f52d9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aaacbf1_d935e09e",
+        "filename": "resources/com/google/gerrit/server/mail/InboundEmailRejectionHtml.soy",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-02-20T10:11:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06d474a_51bbce5c",
+      "range": {
+        "startLine": 53,
+        "startChar": 35,
+        "endLine": 53,
+        "endChar": 64
+      },
+      "revId": "20bf704c30a43632217424a19234703182f52d9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

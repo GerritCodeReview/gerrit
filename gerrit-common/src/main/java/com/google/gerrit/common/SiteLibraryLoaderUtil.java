@@ -15,6 +15,7 @@
 package com.google.gerrit.common;
 
 import static com.google.gerrit.common.FileUtil.lastModified;
+import static java.util.stream.Collectors.joining;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ComparisonChain;
@@ -35,10 +36,16 @@ public final class SiteLibraryLoaderUtil {
 
   public static void loadSiteLib(Path libdir) {
     try {
-      IoUtil.loadJARs(listJars(libdir));
+      List<Path> jars = listJars(libdir);
+      IoUtil.loadJARs(jars);
+      log.debug("Loaded site libraries: {}", jarList(jars));
     } catch (IOException e) {
       log.error("Error scanning lib directory " + libdir, e);
     }
+  }
+
+  private static String jarList(List<Path> jars) {
+    return jars.stream().map(p -> p.getFileName().toString()).collect(joining(","));
   }
 
   public static List<Path> listJars(Path dir) throws IOException {

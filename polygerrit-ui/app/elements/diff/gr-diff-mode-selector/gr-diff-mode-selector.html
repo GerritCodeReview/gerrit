@@ -22,8 +22,15 @@ limitations under the License.
 <dom-module id="gr-diff-mode-selector">
   <template>
     <style include="shared-styles">
+      :host {
+        display: table;
+      }
       gr-button.selected iron-icon {
         color: var(--color-link);
+      }
+      iron-icon {
+        height: 1.3rem;
+        width: 1.3rem;
       }
     </style>
     <gr-button

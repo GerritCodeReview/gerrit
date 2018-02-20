@@ -39,7 +39,10 @@
       changeNumber: Number,
       hasParent: Boolean,
       rebaseOnCurrent: Boolean,
-      _inputText: String,
+      _inputText: {
+        type: String,
+        observer: '_handleBaseSelected',
+      },
       _query: {
         type: Function,
         value() {
@@ -135,8 +138,8 @@
       this.base = null;
     },
 
-    _handleBaseSelected(e) {
-      this.base = e.detail.value;
+    _handleBaseSelected(base) {
+      this.base = base;
     },
 
     _handleEnterChangeNumberTap() {

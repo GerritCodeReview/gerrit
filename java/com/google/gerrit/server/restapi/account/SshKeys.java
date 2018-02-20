@@ -68,7 +68,7 @@ public class SshKeys implements ChildCollection<AccountResource, AccountResource
           PermissionBackendException {
     if (self.get() != rsrc.getUser()) {
       try {
-        permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
+        permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
       } catch (AuthException e) {
         // If lacking MODIFY_ACCOUNT claim the resource does not exist.
         throw new ResourceNotFoundException();

@@ -58,7 +58,7 @@ public class DeleteRef {
   private static final int MAX_LOCK_FAILURE_CALLS = 10;
   private static final long SLEEP_ON_LOCK_FAILURE_MS = 15;
 
-  private final Provider<IdentifiedUser> identifiedUser;
+  private final Provider<IdentifiedUser> currentUser;
   private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated referenceUpdated;
@@ -74,14 +74,14 @@ public class DeleteRef {
 
   @Inject
   DeleteRef(
-      Provider<IdentifiedUser> identifiedUser,
+      Provider<IdentifiedUser> currentUser,
       PermissionBackend permissionBackend,
       GitRepositoryManager repoManager,
       GitReferenceUpdated referenceUpdated,
       RefValidationHelper.Factory refDeletionValidatorFactory,
       Provider<InternalChangeQuery> queryProvider,
       @Assisted ProjectResource resource) {
-    this.identifiedUser = identifiedUser;
+    this.currentUser = currentUser;
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.referenceUpdated = referenceUpdated;
@@ -129,7 +129,7 @@ public class DeleteRef {
     u.setExpectedOldObjectId(r.exactRef(ref).getObjectId());
     u.setNewObjectId(ObjectId.zeroId());
     u.setForceUpdate(true);
-    refDeletionValidator.validateRefOperation(resource.getName(), identifiedUser.get(), u);
+    refDeletionValidator.validateRefOperation(resource.getName(), currentUser.get(), u);
     int remainingLockFailureCalls = MAX_LOCK_FAILURE_CALLS;
     for (; ; ) {
       try {
@@ -157,7 +157,7 @@ public class DeleteRef {
       case FAST_FORWARD:
       case FORCED:
         referenceUpdated.fire(
-            resource.getNameKey(), u, ReceiveCommand.Type.DELETE, identifiedUser.get().state());
+            resource.getNameKey(), u, ReceiveCommand.Type.DELETE, currentUser.get().state());
         break;
 
       case REJECTED_CURRENT_BRANCH:
@@ -222,7 +222,7 @@ public class DeleteRef {
 
     try {
       permissionBackend
-          .user(identifiedUser)
+          .currentUser()
           .project(project.getNameKey())
           .ref(refName)
           .check(RefPermission.DELETE);
@@ -247,7 +247,7 @@ public class DeleteRef {
     u.setForceUpdate(true);
     u.setExpectedOldObjectId(r.exactRef(refName).getObjectId());
     u.setNewObjectId(ObjectId.zeroId());
-    refDeletionValidator.validateRefOperation(project.getName(), identifiedUser.get(), u);
+    refDeletionValidator.validateRefOperation(project.getName(), currentUser.get(), u);
     return command;
   }
 
@@ -277,6 +277,6 @@ public class DeleteRef {
   }
 
   private void postDeletion(ProjectResource project, ReceiveCommand cmd) {
-    referenceUpdated.fire(project.getNameKey(), cmd, identifiedUser.get().state());
+    referenceUpdated.fire(project.getNameKey(), cmd, currentUser.get().state());
   }
 }

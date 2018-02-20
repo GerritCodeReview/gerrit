@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -53,7 +52,6 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final GetAccess getAccess;
   private final ProjectCache projectCache;
-  private final Provider<IdentifiedUser> identifiedUser;
   private final SetAccessUtil accessUtil;
   private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
 
@@ -64,7 +62,6 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       ProjectCache projectCache,
       GetAccess getAccess,
-      Provider<IdentifiedUser> identifiedUser,
       SetAccessUtil accessUtil,
       CreateGroupPermissionSyncer createGroupPermissionSyncer) {
     this.groupBackend = groupBackend;
@@ -72,7 +69,6 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.getAccess = getAccess;
     this.projectCache = projectCache;
-    this.identifiedUser = identifiedUser;
     this.accessUtil = accessUtil;
     this.createGroupPermissionSyncer = createGroupPermissionSyncer;
   }
@@ -97,12 +93,12 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
         boolean isGlobalCapabilities = AccessSection.GLOBAL_CAPABILITIES.equals(section.getName());
         if (isGlobalCapabilities) {
           if (!checkedAdmin) {
-            permissionBackend.user(identifiedUser).check(GlobalPermission.ADMINISTRATE_SERVER);
+            permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
             checkedAdmin = true;
           }
         } else {
           permissionBackend
-              .user(identifiedUser)
+              .currentUser()
               .project(rsrc.getNameKey())
               .ref(section.getName())
               .check(RefPermission.WRITE_CONFIG);

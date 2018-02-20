@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
@@ -54,7 +53,6 @@ import org.eclipse.jgit.lib.ObjectId;
 @Singleton
 public class CatServlet extends HttpServlet {
   private final Provider<ReviewDb> requestDb;
-  private final Provider<CurrentUser> userProvider;
   private final ChangeEditUtil changeEditUtil;
   private final PatchSetUtil psUtil;
   private final ChangeNotes.Factory changeNotesFactory;
@@ -64,14 +62,12 @@ public class CatServlet extends HttpServlet {
   @Inject
   CatServlet(
       Provider<ReviewDb> sf,
-      Provider<CurrentUser> usrprv,
       ChangeEditUtil ceu,
       PatchSetUtil psu,
       ChangeNotes.Factory cnf,
       PermissionBackend pb,
       ProjectCache pc) {
     requestDb = sf;
-    userProvider = usrprv;
     changeEditUtil = ceu;
     psUtil = psu;
     changeNotesFactory = cnf;
@@ -132,7 +128,7 @@ public class CatServlet extends HttpServlet {
     try {
       ChangeNotes notes = changeNotesFactory.createChecked(changeId);
       permissionBackend
-          .user(userProvider)
+          .currentUser()
           .change(notes)
           .database(requestDb)
           .check(ChangePermission.READ);

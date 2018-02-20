@@ -152,6 +152,8 @@ public class ProjectResetter implements AutoCloseable {
 
   @Override
   public void close() throws Exception {
+    List<String> leaked = MemoryLeakChecker.getForbidden();
+
     keptRefsByProject = MultimapBuilder.hashKeys().arrayListValues().build();
     restoredRefsByProject = MultimapBuilder.hashKeys().arrayListValues().build();
     deletedRefsByProject = MultimapBuilder.hashKeys().arrayListValues().build();
@@ -159,6 +161,9 @@ public class ProjectResetter implements AutoCloseable {
     restoreRefs();
     deleteNewlyCreatedRefs();
     evictCachesAndReindex();
+    if (!leaked.isEmpty()) {
+      throw new IllegalStateException("leaked: " + leaked);
+    }
   }
 
   /** Read the states of all matching refs. */

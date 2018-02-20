@@ -222,7 +222,7 @@ public class DeleteRef {
 
     try {
       permissionBackend
-          .user(identifiedUser)
+          .currentUser()
           .project(project.getNameKey())
           .ref(refName)
           .check(RefPermission.DELETE);

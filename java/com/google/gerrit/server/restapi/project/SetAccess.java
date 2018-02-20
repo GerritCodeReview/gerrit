@@ -97,12 +97,12 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
         boolean isGlobalCapabilities = AccessSection.GLOBAL_CAPABILITIES.equals(section.getName());
         if (isGlobalCapabilities) {
           if (!checkedAdmin) {
-            permissionBackend.user(identifiedUser).check(GlobalPermission.ADMINISTRATE_SERVER);
+            permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
             checkedAdmin = true;
           }
         } else {
           permissionBackend
-              .user(identifiedUser)
+              .currentUser()
               .project(rsrc.getNameKey())
               .ref(section.getName())
               .check(RefPermission.WRITE_CONFIG);

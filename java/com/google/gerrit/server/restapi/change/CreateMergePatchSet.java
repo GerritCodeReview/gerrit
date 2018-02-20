@@ -210,7 +210,7 @@ public class CreateMergePatchSet
     }
     ChangeNotes change = Iterables.getOnlyElement(notes);
     try {
-      permissionBackend.user(user).change(change).database(db).check(ChangePermission.READ);
+      permissionBackend.currentUser().change(change).database(db).check(ChangePermission.READ);
     } catch (AuthException e) {
       throw new UnprocessableEntityException("Read not permitted for " + baseChange);
     }

@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -35,7 +34,6 @@ class MetricsCollection implements ChildCollection<ConfigResource, MetricResourc
   private final DynamicMap<RestView<MetricResource>> views;
   private final Provider<ListMetrics> list;
   private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
   private final DropWizardMetricMaker metrics;
 
   @Inject
@@ -43,12 +41,10 @@ class MetricsCollection implements ChildCollection<ConfigResource, MetricResourc
       DynamicMap<RestView<MetricResource>> views,
       Provider<ListMetrics> list,
       PermissionBackend permissionBackend,
-      Provider<CurrentUser> user,
       DropWizardMetricMaker metrics) {
     this.views = views;
     this.list = list;
     this.permissionBackend = permissionBackend;
-    this.user = user;
     this.metrics = metrics;
   }
 
@@ -65,7 +61,7 @@ class MetricsCollection implements ChildCollection<ConfigResource, MetricResourc
   @Override
   public MetricResource parse(ConfigResource parent, IdString id)
       throws ResourceNotFoundException, AuthException, PermissionBackendException {
-    permissionBackend.user(user).check(GlobalPermission.VIEW_CACHES);
+    permissionBackend.currentUser().check(GlobalPermission.VIEW_CACHES);
 
     Metric metric = metrics.getMetric(id.get());
     if (metric == null) {

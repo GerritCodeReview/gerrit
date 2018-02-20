@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.IntegrationException;
@@ -44,7 +43,6 @@ import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -57,7 +55,6 @@ public class CherryPick
     implements UiAction<RevisionResource> {
   private static final Logger log = LoggerFactory.getLogger(CherryPick.class);
   private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
   private final CherryPickChange cherryPickChange;
   private final ChangeJson.Factory json;
   private final ContributorAgreementsChecker contributorAgreements;
@@ -66,7 +63,6 @@ public class CherryPick
   @Inject
   CherryPick(
       PermissionBackend permissionBackend,
-      Provider<CurrentUser> user,
       RetryHelper retryHelper,
       CherryPickChange cherryPickChange,
       ChangeJson.Factory json,
@@ -74,7 +70,6 @@ public class CherryPick
       ProjectCache projectCache) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
-    this.user = user;
     this.cherryPickChange = cherryPickChange;
     this.json = json;
     this.contributorAgreements = contributorAgreements;
@@ -97,7 +92,7 @@ public class CherryPick
     contributorAgreements.check(rsrc.getProject(), rsrc.getUser());
 
     permissionBackend
-        .user(user)
+        .currentUser()
         .project(rsrc.getChange().getProject())
         .ref(refName)
         .check(RefPermission.CREATE_CHANGE);
@@ -134,7 +129,7 @@ public class CherryPick
             and(
                 rsrc.isCurrent() && projectStatePermitsWrite,
                 permissionBackend
-                    .user(user)
+                    .currentUser()
                     .project(rsrc.getProject())
                     .testCond(ProjectPermission.CREATE_CHANGE)));
   }

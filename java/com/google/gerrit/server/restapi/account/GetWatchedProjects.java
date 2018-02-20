@@ -62,7 +62,7 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
       throws OrmException, AuthException, IOException, ConfigInvalidException,
           PermissionBackendException, ResourceNotFoundException {
     if (self.get() != rsrc.getUser()) {
-      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
+      permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 
     Account.Id accountId = rsrc.getUser().getAccountId();

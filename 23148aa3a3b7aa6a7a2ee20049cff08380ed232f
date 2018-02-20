@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac16bc1f_e901fbe3",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/SiteLibraryLoaderUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-20T07:43:39Z",
+      "side": 1,
+      "message": "Should be at debug level.",
+      "range": {
+        "startLine": 41,
+        "startChar": 10,
+        "endLine": 41,
+        "endChar": 14
+      },
+      "revId": "23148aa3a3b7aa6a7a2ee20049cff08380ed232f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

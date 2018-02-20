@@ -51,7 +51,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.rules.PrologEnvironment;
 import com.google.gerrit.server.rules.RulesCache;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import com.google.inject.Singleton;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
 import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
 import java.io.IOException;
@@ -78,8 +78,55 @@ import org.slf4j.LoggerFactory;
 public class ProjectState {
   private static final Logger log = LoggerFactory.getLogger(ProjectState.class);
 
-  public interface Factory {
-    ProjectState create(ProjectConfig config);
+  // Manual factory since an assisted factory would hold references to large Guice-internal classes
+  // in each value stored in the cache.
+  @Singleton
+  public static class Factory {
+    private final SitePaths sitePaths;
+    private final ProjectCache projectCache;
+    private final AllProjectsName allProjectsName;
+    private final AllUsersName allUsersName;
+    private final PrologEnvironment.Factory envFactory;
+    private final GitRepositoryManager gitMgr;
+    private final RulesCache rulesCache;
+    private final List<CommentLinkInfo> commentLinks;
+    private final CapabilityCollection.Factory limitsFactory;
+
+    @Inject
+    Factory(
+        SitePaths sitePaths,
+        ProjectCache projectCache,
+        AllProjectsName allProjectsName,
+        AllUsersName allUsersName,
+        PrologEnvironment.Factory envFactory,
+        GitRepositoryManager gitMgr,
+        RulesCache rulesCache,
+        List<CommentLinkInfo> commentLinks,
+        CapabilityCollection.Factory limitsFactory) {
+      this.sitePaths = sitePaths;
+      this.projectCache = projectCache;
+      this.allProjectsName = allProjectsName;
+      this.allUsersName = allUsersName;
+      this.envFactory = envFactory;
+      this.gitMgr = gitMgr;
+      this.rulesCache = rulesCache;
+      this.commentLinks = commentLinks;
+      this.limitsFactory = limitsFactory;
+    }
+
+    public ProjectState create(ProjectConfig config) {
+      return new ProjectState(
+          sitePaths,
+          projectCache,
+          allProjectsName,
+          allUsersName,
+          envFactory,
+          gitMgr,
+          rulesCache,
+          commentLinks,
+          limitsFactory,
+          config);
+    }
   }
 
   private final boolean isAllProjects;
@@ -114,18 +161,17 @@ public class ProjectState {
   /** All label types applicable to changes in this project. */
   private LabelTypes labelTypes;
 
-  @Inject
   public ProjectState(
-      final SitePaths sitePaths,
-      final ProjectCache projectCache,
-      final AllProjectsName allProjectsName,
-      final AllUsersName allUsersName,
-      final PrologEnvironment.Factory envFactory,
-      final GitRepositoryManager gitMgr,
-      final RulesCache rulesCache,
-      final List<CommentLinkInfo> commentLinks,
-      final CapabilityCollection.Factory limitsFactory,
-      @Assisted final ProjectConfig config) {
+      SitePaths sitePaths,
+      ProjectCache projectCache,
+      AllProjectsName allProjectsName,
+      AllUsersName allUsersName,
+      PrologEnvironment.Factory envFactory,
+      GitRepositoryManager gitMgr,
+      RulesCache rulesCache,
+      List<CommentLinkInfo> commentLinks,
+      CapabilityCollection.Factory limitsFactory,
+      ProjectConfig config) {
     this.sitePaths = sitePaths;
     this.projectCache = projectCache;
     this.isAllProjects = config.getProject().getNameKey().equals(allProjectsName);

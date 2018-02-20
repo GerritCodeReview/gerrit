@@ -17,13 +17,11 @@ package com.google.gerrit.server.project;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.HashSet;
 import java.util.List;
@@ -33,24 +31,19 @@ import java.util.Set;
 public class SuggestParentCandidates {
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
   private final AllProjectsName allProjects;
 
   @Inject
   SuggestParentCandidates(
-      ProjectCache projectCache,
-      PermissionBackend permissionBackend,
-      Provider<CurrentUser> user,
-      AllProjectsName allProjects) {
+      ProjectCache projectCache, PermissionBackend permissionBackend, AllProjectsName allProjects) {
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
-    this.user = user;
     this.allProjects = allProjects;
   }
 
   public List<Project.NameKey> getNameKeys() throws PermissionBackendException {
     return permissionBackend
-        .user(user)
+        .currentUser()
         .filter(ProjectPermission.ACCESS, parents())
         .stream()
         .sorted()

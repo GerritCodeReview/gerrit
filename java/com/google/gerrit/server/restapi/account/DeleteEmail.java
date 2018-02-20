@@ -72,7 +72,7 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
           MethodNotAllowedException, OrmException, IOException, ConfigInvalidException,
           PermissionBackendException {
     if (self.get() != rsrc.getUser()) {
-      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
+      permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
     return apply(rsrc.getUser(), rsrc.getEmail());
   }

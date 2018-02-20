@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -29,7 +28,6 @@ import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -53,19 +51,14 @@ public class ListDashboards implements RestReadView<ProjectResource> {
 
   private final GitRepositoryManager gitManager;
   private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
 
   @Option(name = "--inherited", usage = "include inherited dashboards")
   private boolean inherited;
 
   @Inject
-  ListDashboards(
-      GitRepositoryManager gitManager,
-      PermissionBackend permissionBackend,
-      Provider<CurrentUser> user) {
+  ListDashboards(GitRepositoryManager gitManager, PermissionBackend permissionBackend) {
     this.gitManager = gitManager;
     this.permissionBackend = permissionBackend;
-    this.user = user;
   }
 
   @Override
@@ -98,13 +91,13 @@ public class ListDashboards implements RestReadView<ProjectResource> {
       tree.put(ps.getNameKey(), ps);
     }
     tree.keySet()
-        .retainAll(permissionBackend.user(user).filter(ProjectPermission.ACCESS, tree.keySet()));
+        .retainAll(permissionBackend.currentUser().filter(ProjectPermission.ACCESS, tree.keySet()));
     return tree.values();
   }
 
   private List<DashboardInfo> scan(ProjectState state, String project, boolean setDefault)
       throws ResourceNotFoundException, IOException, PermissionBackendException {
-    PermissionBackend.ForProject perm = permissionBackend.user(user).project(state.getNameKey());
+    PermissionBackend.ForProject perm = permissionBackend.currentUser().project(state.getNameKey());
     try (Repository git = gitManager.openRepository(state.getNameKey());
         RevWalk rw = new RevWalk(git)) {
       List<DashboardInfo> all = new ArrayList<>();

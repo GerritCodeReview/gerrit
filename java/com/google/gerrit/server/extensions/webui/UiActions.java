@@ -31,13 +31,11 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.extensions.webui.UiAction.Description;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendCondition;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -57,12 +55,10 @@ public class UiActions {
   }
 
   private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> userProvider;
 
   @Inject
-  UiActions(PermissionBackend permissionBackend, Provider<CurrentUser> userProvider) {
+  UiActions(PermissionBackend permissionBackend) {
     this.permissionBackend = permissionBackend;
-    this.userProvider = userProvider;
   }
 
   public <R extends RestResource> Iterable<UiAction.Description> from(
@@ -146,7 +142,7 @@ public class UiActions {
       return null;
     }
     if (!globalRequired.isEmpty()) {
-      PermissionBackend.WithUser withUser = permissionBackend.user(userProvider);
+      PermissionBackend.WithUser withUser = permissionBackend.currentUser();
       Iterator<GlobalOrPluginPermission> i = globalRequired.iterator();
       BooleanCondition p = withUser.testCond(i.next());
       while (i.hasNext()) {

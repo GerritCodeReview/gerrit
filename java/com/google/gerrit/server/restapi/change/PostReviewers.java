@@ -360,7 +360,7 @@ public class PostReviewers
       ListMultimap<RecipientType, Account.Id> accountsToNotify)
       throws PermissionBackendException {
     if (!permissionBackend
-        .user(anonymousProvider)
+        .user(anonymousProvider.get())
         .change(rsrc.getNotes())
         .database(dbProvider)
         .test(ChangePermission.READ)) {

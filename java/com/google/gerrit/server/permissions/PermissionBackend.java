@@ -100,14 +100,6 @@ public abstract class PermissionBackend {
   public abstract WithUser user(CurrentUser user);
 
   /**
-   * @return lightweight factory scoped to answer for the specified user. If an instance scoped to
-   *     the current user is desired, use {@code currentUser()} instead.
-   */
-  public <U extends CurrentUser> WithUser user(Provider<U> user) {
-    return user(checkNotNull(user, "Provider<CurrentUser>").get());
-  }
-
-  /**
    * Bulk evaluate a set of {@link PermissionBackendCondition} for view handling.
    *
    * <p>Overridden implementations should call {@link PermissionBackendCondition#set(boolean)} to

@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CommonConverters;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -35,7 +34,6 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefFilter;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -58,7 +56,6 @@ import org.kohsuke.args4j.Option;
 public class ListTags implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
   private final WebLinks links;
 
   @Option(
@@ -108,13 +105,9 @@ public class ListTags implements RestReadView<ProjectResource> {
 
   @Inject
   public ListTags(
-      GitRepositoryManager repoManager,
-      PermissionBackend permissionBackend,
-      Provider<CurrentUser> user,
-      WebLinks webLinks) {
+      GitRepositoryManager repoManager, PermissionBackend permissionBackend, WebLinks webLinks) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
-    this.user = user;
     this.links = webLinks;
   }
 
@@ -133,7 +126,8 @@ public class ListTags implements RestReadView<ProjectResource> {
 
     List<TagInfo> tags = new ArrayList<>();
 
-    PermissionBackend.ForProject perm = permissionBackend.user(user).project(resource.getNameKey());
+    PermissionBackend.ForProject perm =
+        permissionBackend.currentUser().project(resource.getNameKey());
     try (Repository repo = getRepository(resource.getNameKey());
         RevWalk rw = new RevWalk(repo)) {
       Map<String, Ref> all =
@@ -236,7 +230,7 @@ public class ListTags implements RestReadView<ProjectResource> {
       Project.NameKey project, Repository repo, Map<String, Ref> tags)
       throws PermissionBackendException {
     return permissionBackend
-        .user(user)
+        .currentUser()
         .project(project)
         .filter(
             tags,

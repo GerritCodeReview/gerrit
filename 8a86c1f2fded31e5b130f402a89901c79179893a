@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bc5de42_662912ad",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-selector/gr-diff-mode-selector.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-20T22:50:45Z",
+      "side": 1,
+      "message": "Table? Why?",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "8a86c1f2fded31e5b130f402a89901c79179893a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

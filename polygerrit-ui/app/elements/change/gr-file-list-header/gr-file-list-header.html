@@ -139,6 +139,9 @@ limitations under the License.
       gr-edit-controls {
         margin-right: -5px;
       }
+      .fileViewActionsLabel {
+        margin-right: .2rem;
+      }
       @media screen and (max-width: 50em) {
         .patchInfo-header .desktop {
           display: none;
@@ -228,7 +231,7 @@ limitations under the License.
         </template>
         <div class="fileViewActions">
           <span class="separator"></span>
-          <span>Diff view:</span>
+          <span class="fileViewActionsLabel">Diff view:</span>
           <gr-diff-mode-selector
               id="modeSelect"
               mode="{{diffViewMode}}"

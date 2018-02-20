@@ -137,6 +137,9 @@ limitations under the License.
         align-items: center;
         display: flex;
       }
+      .diffModeSelector span {
+        margin-right: .2rem;
+      }
       .diffModeSelector.hide,
       .separator.hide {
         display: none;
@@ -269,7 +272,7 @@ limitations under the License.
         </div>
         <div class="rightControls">
           <div class$="diffModeSelector [[_computeModeSelectHideClass(_isImageDiff)]]">
-            Diff view:
+            <span>Diff view:</span>
             <gr-diff-mode-selector
                 id="modeSelect"
                 save-on-change="[[_loggedIn]]"

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "c006e176_11d8d032",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4783,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-20T07:57:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88244aa7_731decef",
+      "range": {
+        "startLine": 4783,
+        "startChar": 45,
+        "endLine": 4783,
+        "endChar": 46
+      },
+      "revId": "fff4b6a5b26ae8657c4c6fc95aaaa9c86305dee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e7f7bd1_4508a874",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -46,6 +70,30 @@
       "revId": "fff4b6a5b26ae8657c4c6fc95aaaa9c86305dee5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aac451d1_60304cf2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4822,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-20T07:57:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e7f7bd1_4508a874",
+      "range": {
+        "startLine": 4822,
+        "startChar": 4,
+        "endLine": 4822,
+        "endChar": 12
+      },
+      "revId": "fff4b6a5b26ae8657c4c6fc95aaaa9c86305dee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "81efd715_85ad08aa",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4823,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-20T07:57:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50b4129b_281bce26",
+      "range": {
+        "startLine": 4823,
+        "startChar": 0,
+        "endLine": 4823,
+        "endChar": 9
+      },
+      "revId": "fff4b6a5b26ae8657c4c6fc95aaaa9c86305dee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce401815_da992d7f",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -92,6 +164,30 @@
       "revId": "fff4b6a5b26ae8657c4c6fc95aaaa9c86305dee5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e765d46_1f18ffdd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4826,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-20T07:57:38Z",
+      "side": 1,
+      "message": "Done\n\n\u003e This sentence is a bit confusing, especially since \u0027interval\u0027 and \u0027startTime\u0027 are\n\u003e subsections and don\u0027t have sub-subsections.\n\nNo they are not subsections, but keys.\nIt\u0027s:\n\n  \u003csection\u003e.\u003csubsection\u003e.\u003ckey\u003e \u003d \u003cvalue\u003e\n\nor\n\n  \u003csection\u003e.\u003ckey\u003e \u003d \u003cvalue\u003e",
+      "parentUuid": "ce401815_da992d7f",
+      "range": {
+        "startLine": 4825,
+        "startChar": 0,
+        "endLine": 4826,
+        "endChar": 63
+      },
+      "revId": "fff4b6a5b26ae8657c4c6fc95aaaa9c86305dee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -118,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "e9bc4751_8b6b072f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4852,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-20T07:57:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22475f72_89de6a99",
+      "range": {
+        "startLine": 4852,
+        "startChar": 44,
+        "endLine": 4852,
+        "endChar": 45
+      },
+      "revId": "fff4b6a5b26ae8657c4c6fc95aaaa9c86305dee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7111eb29_25046b5a",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -138,6 +258,30 @@
       "revId": "fff4b6a5b26ae8657c4c6fc95aaaa9c86305dee5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a9df1bf_62eb27af",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4853,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-20T07:57:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7111eb29_25046b5a",
+      "range": {
+        "startLine": 4853,
+        "startChar": 13,
+        "endLine": 4853,
+        "endChar": 25
+      },
+      "revId": "fff4b6a5b26ae8657c4c6fc95aaaa9c86305dee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

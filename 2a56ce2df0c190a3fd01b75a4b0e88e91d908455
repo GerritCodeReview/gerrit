@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fd89da8_bd7cce4d",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-20T21:34:00Z",
+      "side": 1,
+      "message": "Optional: I\u0027d be a bit more comfortable keeping the :not() selector as a last resort: this ..\n\n :not(.topHeader)\n\n.. could be replaced by following this ruleset with ..\n\ntr.topHeader {\n  border: none;\n}",
+      "range": {
+        "startLine": 23,
+        "startChar": 6,
+        "endLine": 23,
+        "endChar": 24
+      },
+      "revId": "2a56ce2df0c190a3fd01b75a4b0e88e91d908455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "963b81bc_9d090693",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-20T21:34:00Z",
+      "side": 1,
+      "message": "Are they broken in all browsers that support sticky?",
+      "range": {
+        "startLine": 54,
+        "startChar": 40,
+        "endLine": 54,
+        "endChar": 50
+      },
+      "revId": "2a56ce2df0c190a3fd01b75a4b0e88e91d908455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

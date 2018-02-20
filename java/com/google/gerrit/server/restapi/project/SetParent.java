@@ -81,7 +81,7 @@ public class SetParent implements RestModifyView<ProjectResource, ParentInput> {
     IdentifiedUser user = rsrc.getUser().asIdentifiedUser();
     String parentName =
         MoreObjects.firstNonNull(Strings.emptyToNull(input.parent), allProjects.get());
-    validateParentUpdate(rsrc.getProjectState().getNameKey(), user, parentName, checkIfAdmin);
+    validateParentUpdate(rsrc.getProjectState().getNameKey(), parentName, checkIfAdmin);
     try (MetaDataUpdate md = updateFactory.create(rsrc.getNameKey())) {
       ProjectConfig config = ProjectConfig.read(md);
       Project project = config.getProject();
@@ -109,12 +109,11 @@ public class SetParent implements RestModifyView<ProjectResource, ParentInput> {
     }
   }
 
-  public void validateParentUpdate(
-      Project.NameKey project, IdentifiedUser user, String newParent, boolean checkIfAdmin)
+  public void validateParentUpdate(Project.NameKey project, String newParent, boolean checkIfAdmin)
       throws AuthException, ResourceConflictException, UnprocessableEntityException,
           PermissionBackendException, BadRequestException {
     if (checkIfAdmin) {
-      permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+      permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 
     if (project.equals(allUsers) && !allProjects.get().equals(newParent)) {

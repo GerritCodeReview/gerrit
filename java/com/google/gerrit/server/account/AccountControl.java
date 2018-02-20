@@ -65,7 +65,7 @@ public class AccountControl {
           permissionBackend,
           projectCache,
           groupControlFactory,
-          user.get(),
+          user,
           userFactory,
           accountVisibility);
     }
@@ -74,7 +74,7 @@ public class AccountControl {
   private final AccountsSection accountsSection;
   private final GroupControl.Factory groupControlFactory;
   private final PermissionBackend.WithUser perm;
-  private final CurrentUser user;
+  private final Provider<CurrentUser> currentUser;
   private final IdentifiedUser.GenericFactory userFactory;
   private final AccountVisibility accountVisibility;
 
@@ -84,19 +84,19 @@ public class AccountControl {
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       GroupControl.Factory groupControlFactory,
-      CurrentUser user,
+      Provider<CurrentUser> currentUser,
       IdentifiedUser.GenericFactory userFactory,
       AccountVisibility accountVisibility) {
     this.accountsSection = projectCache.getAllProjects().getConfig().getAccountsSection();
     this.groupControlFactory = groupControlFactory;
-    this.perm = permissionBackend.user(user);
-    this.user = user;
+    this.perm = permissionBackend.currentUser();
+    this.currentUser = currentUser;
     this.userFactory = userFactory;
     this.accountVisibility = accountVisibility;
   }
 
   public CurrentUser getUser() {
-    return user;
+    return currentUser.get();
   }
 
   /**
@@ -155,6 +155,7 @@ public class AccountControl {
   }
 
   private boolean canSee(OtherUser otherUser) {
+    CurrentUser user = currentUser.get();
     if (accountVisibility == AccountVisibility.ALL) {
       return true;
     } else if (user.isIdentifiedUser() && user.getAccountId().equals(otherUser.getId())) {

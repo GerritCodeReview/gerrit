@@ -113,7 +113,6 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
       accessUtil.applyChanges(config, removals, additions);
 
       accessUtil.setParentName(
-          identifiedUser.get(),
           config,
           rsrc.getNameKey(),
           input.parent == null ? null : new Project.NameKey(input.parent),

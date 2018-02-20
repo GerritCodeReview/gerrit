@@ -30,7 +30,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -206,14 +205,12 @@ public class SetAccessUtil {
   /**
    * Updates the parent project in the given config.
    *
-   * @param identifiedUser the user
    * @param config the config to modify
    * @param projectName the project for which to change access.
    * @param newParentProjectName the new parent to set.
    * @param checkAdmin if set, verify that user has administrateServer permission
    */
   public void setParentName(
-      IdentifiedUser identifiedUser,
       ProjectConfig config,
       Project.NameKey projectName,
       Project.NameKey newParentProjectName,
@@ -224,10 +221,7 @@ public class SetAccessUtil {
         && !config.getProject().getNameKey().equals(allProjects)
         && !config.getProject().getParent(allProjects).equals(newParentProjectName)) {
       try {
-        setParent
-            .get()
-            .validateParentUpdate(
-                projectName, identifiedUser, newParentProjectName.get(), checkAdmin);
+        setParent.get().validateParentUpdate(projectName, newParentProjectName.get(), checkAdmin);
       } catch (UnprocessableEntityException e) {
         throw new ResourceConflictException(e.getMessage(), e);
       }

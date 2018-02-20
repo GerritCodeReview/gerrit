@@ -503,7 +503,7 @@ public class ChangeJson {
       }
     }
 
-    PermissionBackend.ForChange perm = permissionBackendForChange(user, cd);
+    PermissionBackend.ForChange perm = permissionBackendForChange(cd);
     Change in = cd.change();
     out.project = in.getProject().get();
     out.branch = in.getDest().getShortName();
@@ -1462,9 +1462,9 @@ public class ChangeJson {
    *     from either an index-backed or a database-backed {@link ChangeData} depending on {@code
    *     lazyload}.
    */
-  private PermissionBackend.ForChange permissionBackendForChange(CurrentUser user, ChangeData cd)
+  private PermissionBackend.ForChange permissionBackendForChange(ChangeData cd)
       throws OrmException {
-    PermissionBackend.WithUser withUser = permissionBackend.user(user).database(db);
+    PermissionBackend.WithUser withUser = permissionBackend.currentUser().database(db);
     return lazyLoad
         ? withUser.change(cd)
         : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(cd.change()));
@@ -1473,7 +1473,7 @@ public class ChangeJson {
   private boolean isWorldReadable(ChangeData cd)
       throws OrmException, PermissionBackendException, IOException {
     try {
-      permissionBackendForChange(anonymous, cd).check(ChangePermission.READ);
+      permissionBackendForChange(cd).user(anonymous).check(ChangePermission.READ);
     } catch (AuthException ae) {
       return false;
     }

@@ -80,9 +80,9 @@ public class DeleteComment
       BatchUpdate.Factory batchUpdateFactory, CommentResource rsrc, DeleteCommentInput input)
       throws RestApiException, IOException, ConfigInvalidException, OrmException,
           PermissionBackendException, UpdateException {
-    CurrentUser user = userProvider.get();
-    permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+    permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
 
+    CurrentUser user = userProvider.get();
     String newMessage = getCommentNewMessage(user.asIdentifiedUser().getName(), input.reason);
     DeleteCommentOp deleteCommentOp = new DeleteCommentOp(rsrc, newMessage);
     try (BatchUpdate batchUpdate =

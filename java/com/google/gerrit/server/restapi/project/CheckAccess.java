@@ -67,7 +67,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
   public AccessCheckInfo apply(ProjectResource rsrc, AccessCheckInput input)
       throws OrmException, PermissionBackendException, RestApiException, IOException,
           ConfigInvalidException {
-    permissionBackend.user(rsrc.getUser()).check(GlobalPermission.ADMINISTRATE_SERVER);
+    permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     rsrc.getProjectState().checkStatePermitsRead();
 
     if (input == null) {

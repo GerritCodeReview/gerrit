@@ -92,6 +92,52 @@
       "revId": "fff4b6a5b26ae8657c4c6fc95aaaa9c86305dee5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22475f72_89de6a99",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4852,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-20T00:45:29Z",
+      "side": 1,
+      "message": "Add zero-padding to avoid confusion with 7pm?",
+      "range": {
+        "startLine": 4852,
+        "startChar": 44,
+        "endLine": 4852,
+        "endChar": 45
+      },
+      "revId": "fff4b6a5b26ae8657c4c6fc95aaaa9c86305dee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7111eb29_25046b5a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4853,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-20T00:45:29Z",
+      "side": 1,
+      "message": "This is potentially confusing.\n\nIf it is now Monday and we talk about \"next Tuesday\", to me that means \"Tuesday next week\", not \"tomorrow\".",
+      "range": {
+        "startLine": 4853,
+        "startChar": 13,
+        "endLine": 4853,
+        "endChar": 25
+      },
+      "revId": "fff4b6a5b26ae8657c4c6fc95aaaa9c86305dee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "7cbecc4c_8c6840fe",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-02-20T15:39:33Z",
+      "side": 1,
+      "message": "I see that we are not using this now on line 118, should this be removed?",
+      "revId": "8230cab528b2b7bcf5de47124aac9a77bb1bbc24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ef298229_9a557fff",
         "filename": "tools/bzl/license-map.py",
         "patchSetId": 1

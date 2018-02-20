@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -128,6 +129,15 @@ public class WorkQueue {
     }
 
     return executor;
+  }
+
+  /** Executes a periodic command at a fixed schedule on the default queue. */
+  public void scheduleAtFixedRate(Runnable command, Schedule schedule) {
+    @SuppressWarnings("unused")
+    Future<?> possiblyIgnoredError =
+        getDefaultQueue()
+            .scheduleAtFixedRate(
+                command, schedule.initialDelay(), schedule.interval(), TimeUnit.MILLISECONDS);
   }
 
   /** Get all of the tasks currently scheduled in any work queue. */

@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "768cca55_242565a0",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-20T10:35:40Z",
+      "side": 1,
+      "message": "It\u0027s a RuntimeException. So it escaped this method and caused an error somewhere else.",
+      "parentUuid": "afc0d863_3a97d4dc",
+      "revId": "74b421bf87e0eaec1e98b1a0c7e69c7235f02097",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "283a8539_e18329b5",
         "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
         "patchSetId": 2
@@ -70,6 +88,24 @@
       "revId": "74b421bf87e0eaec1e98b1a0c7e69c7235f02097",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b08c16dc_d2685c34",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-20T10:35:40Z",
+      "side": 1,
+      "message": "Not sure if this is needed. I think it\u0027s okay that unexpected RuntimeExceptions cause an error which is then logged somewhere else.",
+      "parentUuid": "283a8539_e18329b5",
+      "revId": "74b421bf87e0eaec1e98b1a0c7e69c7235f02097",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

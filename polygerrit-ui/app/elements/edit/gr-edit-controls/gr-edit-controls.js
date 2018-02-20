@@ -133,12 +133,22 @@
     },
 
     _showDialog(dialog) {
+      // Some dialogs may not fire their on-close event when closed in certain
+      // ways (e.g. by clicking outside the dialog body). This call prevents
+      // multiple dialogs from being shown in the same overlay.
+      this._hideAllDialogs();
+
       return this.$.overlay.open().then(() => {
         dialog.classList.toggle('invisible', false);
         const autocomplete = dialog.querySelector('gr-autocomplete');
         if (autocomplete) { autocomplete.focus(); }
         this.async(() => { this.$.overlay.center(); }, 1);
       });
+    },
+
+    _hideAllDialogs() {
+      const dialogs = Polymer.dom(this.root).querySelectorAll('.dialog');
+      for (const dialog of dialogs) { this._closeDialog(dialog); }
     },
 
     /**

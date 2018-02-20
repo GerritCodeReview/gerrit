@@ -80,7 +80,7 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
     if (task instanceof ProjectTask) {
       try {
         permissionBackend
-            .user(user)
+            .currentUser()
             .project(((ProjectTask<?>) task).getProjectNameKey())
             .check(ProjectPermission.ACCESS);
         return new TaskResource(task);

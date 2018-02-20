@@ -358,7 +358,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     TreeMap<String, ProjectInfo> output = new TreeMap<>();
     Map<String, String> hiddenNames = new HashMap<>();
     Map<Project.NameKey, Boolean> accessibleParents = new HashMap<>();
-    PermissionBackend.WithUser perm = permissionBackend.user(currentUser);
+    PermissionBackend.WithUser perm = permissionBackend.currentUser();
     final TreeMap<Project.NameKey, ProjectNode> treeMap = new TreeMap<>();
     try {
       for (Project.NameKey projectName : filter(perm)) {
@@ -416,7 +416,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
               boolean canReadAllRefs;
               try {
                 permissionBackend
-                    .user(currentUser)
+                    .currentUser()
                     .project(e.getNameKey())
                     .check(ProjectPermission.READ);
                 canReadAllRefs = true;
@@ -623,7 +623,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private List<Ref> getBranchRefs(Project.NameKey projectName, boolean canReadAllRefs) {
     Ref[] result = new Ref[showBranch.size()];
     try (Repository git = repoManager.openRepository(projectName)) {
-      PermissionBackend.ForProject perm = permissionBackend.user(currentUser).project(projectName);
+      PermissionBackend.ForProject perm = permissionBackend.currentUser().project(projectName);
       for (int i = 0; i < showBranch.size(); i++) {
         Ref ref = git.findRef(showBranch.get(i));
         if (all && canReadAllRefs) {

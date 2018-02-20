@@ -18,7 +18,6 @@ import com.google.common.base.Throwables;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -33,7 +32,6 @@ import org.apache.sshd.server.Environment;
 /** Command that executes some other command. */
 public class AliasCommand extends BaseCommand {
   private final DispatchCommandProvider root;
-  private final CurrentUser currentUser;
   private final PermissionBackend permissionBackend;
   private final CommandName command;
   private final AtomicReference<Command> atomicCmd;
@@ -41,11 +39,9 @@ public class AliasCommand extends BaseCommand {
   AliasCommand(
       @CommandName(Commands.ROOT) DispatchCommandProvider root,
       PermissionBackend permissionBackend,
-      CurrentUser currentUser,
       CommandName command) {
     this.root = root;
     this.permissionBackend = permissionBackend;
-    this.currentUser = currentUser;
     this.command = command;
     this.atomicCmd = Atomics.newReference();
   }
@@ -114,7 +110,7 @@ public class AliasCommand extends BaseCommand {
     try {
       Set<GlobalOrPluginPermission> check = GlobalPermission.fromAnnotation(cmd.getClass());
       try {
-        permissionBackend.user(currentUser).checkAny(check);
+        permissionBackend.currentUser().checkAny(check);
       } catch (AuthException err) {
         throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, "fatal: " + err.getMessage());
       }

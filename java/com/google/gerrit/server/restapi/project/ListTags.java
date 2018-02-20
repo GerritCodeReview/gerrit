@@ -174,10 +174,7 @@ public class ListTags implements RestReadView<ProjectResource> {
           && !visibleTags(resource.getNameKey(), repo, ImmutableMap.of(ref.getName(), ref))
               .isEmpty()) {
         return createTagInfo(
-            permissionBackend
-                .user(resource.getUser())
-                .project(resource.getNameKey())
-                .ref(ref.getName()),
+            permissionBackend.currentUser().project(resource.getNameKey()).ref(ref.getName()),
             ref,
             rw,
             resource.getProjectState(),

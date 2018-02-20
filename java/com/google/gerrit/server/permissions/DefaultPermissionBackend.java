@@ -32,6 +32,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
@@ -44,12 +45,16 @@ import java.util.Set;
 public class DefaultPermissionBackend extends PermissionBackend {
   private static final CurrentUser.PropertyKey<Boolean> IS_ADMIN = CurrentUser.PropertyKey.create();
 
+  private final Provider<CurrentUser> currentUser;
   private final ProjectCache projectCache;
   private final ProjectControl.Factory projectControlFactory;
 
   @Inject
   DefaultPermissionBackend(
-      ProjectCache projectCache, ProjectControl.Factory projectControlFactory) {
+      Provider<CurrentUser> currentUser,
+      ProjectCache projectCache,
+      ProjectControl.Factory projectControlFactory) {
+    this.currentUser = currentUser;
     this.projectCache = projectCache;
     this.projectControlFactory = projectControlFactory;
   }
@@ -59,7 +64,19 @@ public class DefaultPermissionBackend extends PermissionBackend {
   }
 
   @Override
+  public WithUser currentUser() {
+    return new WithUserImpl(currentUser.get());
+  }
+
+  @Override
   public WithUser user(CurrentUser user) {
+    // if (currentUser.get() != null) {
+    //   CurrentUser provided = currentUser.get();
+    //   if (user.isIdentifiedUser() && provided.isIdentifiedUser()) {
+    //     // TODO(hiesel) sane?!
+    //     checkState(!user.asIdentifiedUser().getAccountId().equals(provided.asIdentifiedUser().getAccountId()), "Use currentUser to perform permission checks on the current user");
+    //   }
+    // }
     return new WithUserImpl(checkNotNull(user, "user"));
   }
 

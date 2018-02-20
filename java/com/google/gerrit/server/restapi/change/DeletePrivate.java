@@ -80,7 +80,8 @@ public class DeletePrivate
   }
 
   protected BooleanCondition canDeletePrivate(ChangeResource rsrc) {
-    PermissionBackend.WithUser user = permissionBackend.user(rsrc.getUser());
-    return or(rsrc.isUserOwner(), user.testCond(GlobalPermission.ADMINISTRATE_SERVER));
+    return or(
+        rsrc.isUserOwner(),
+        permissionBackend.currentUser().testCond(GlobalPermission.ADMINISTRATE_SERVER));
   }
 }

@@ -271,7 +271,7 @@ public abstract class BaseCommand implements Command {
   private boolean isAdminHighPriorityCommand() {
     if (getClass().getAnnotation(AdminHighPriorityCommand.class) != null) {
       try {
-        permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+        permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
         return true;
       } catch (AuthException | PermissionBackendException e) {
         return false;

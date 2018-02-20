@@ -137,7 +137,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     // Move requires abandoning this change, and creating a new change.
     try {
       rsrc.permissions().database(dbProvider).check(ABANDON);
-      permissionBackend.user(caller).database(dbProvider).ref(newDest).check(CREATE_CHANGE);
+      permissionBackend.currentUser().database(dbProvider).ref(newDest).check(CREATE_CHANGE);
     } catch (AuthException denied) {
       throw new AuthException("move not permitted", denied);
     }
@@ -293,10 +293,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
             and(
                 change.getStatus().isOpen() && projectStatePermitsWrite,
                 and(
-                    permissionBackend
-                        .user(rsrc.getUser())
-                        .ref(change.getDest())
-                        .testCond(CREATE_CHANGE),
+                    permissionBackend.currentUser().ref(change.getDest()).testCond(CREATE_CHANGE),
                     rsrc.permissions().database(dbProvider).testCond(ABANDON))));
   }
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76e30334_406699f5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-02-20T15:38:17Z",
+      "side": 1,
+      "message": "this was meant to test that the user can access master before the access change.",
+      "range": {
+        "startLine": 164,
+        "startChar": 27,
+        "endLine": 164,
+        "endChar": 38
+      },
+      "revId": "603f0205554d7674542bfac210a9b93187189c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

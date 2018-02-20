@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "34f3951a_4e279193",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-20T07:11:09Z",
+      "side": 1,
+      "message": "\u003e Is there a use case for suggestion to an anonymous user?\n\nI don\u0027t think so, but not sure.\n\n\u003e If so what value is added by logging the class\u0027s simple name? \n\u003e Isn\u0027t it better to just say \"anonymous user\" or something like that?\n\nMaybe it\u0027s not an anonymous user, but an internal user or a plugin user.\n\nAs discussed in [1] we may also add getLoggableName to CurrentUser.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/153990/1//COMMIT_MSG#15",
+      "parentUuid": "b7aee8e0_5f506c9d",
+      "range": {
+        "startLine": 173,
+        "startChar": 8,
+        "endLine": 175,
+        "endChar": 87
+      },
+      "revId": "5fc5137d549a589181f7ca100c96ef850103ccec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b4e53b0_c622057b",
         "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
         "patchSetId": 1
@@ -117,6 +141,30 @@
       "revId": "5fc5137d549a589181f7ca100c96ef850103ccec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bea270f0_90177e9f",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-20T07:11:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "193f9d5e_135d7dff",
+      "range": {
+        "startLine": 212,
+        "startChar": 32,
+        "endLine": 212,
+        "endChar": 49
+      },
+      "revId": "5fc5137d549a589181f7ca100c96ef850103ccec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

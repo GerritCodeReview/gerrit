@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46d156d0_cfa40b3f",
+        "filename": "tools/bzl/license.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-02-20T13:55:42Z",
+      "side": 1,
+      "message": "this breaks on MacOS, which doesn\u0027t have a python2 binary.",
+      "range": {
+        "startLine": 28,
+        "startChar": 11,
+        "endLine": 28,
+        "endChar": 18
+      },
+      "revId": "0c9e13c11a9a0facd1538d6e5b45b02a90db5ab3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

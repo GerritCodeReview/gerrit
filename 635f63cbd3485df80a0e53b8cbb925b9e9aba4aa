@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "89404924_a9d9fb08",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2777,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-20T11:05:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c35c44ff_36a3dce9",
+      "range": {
+        "startLine": 2777,
+        "startChar": 41,
+        "endLine": 2777,
+        "endChar": 43
+      },
+      "revId": "635f63cbd3485df80a0e53b8cbb925b9e9aba4aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95181ed8_8b9977a2",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 10
@@ -46,6 +70,30 @@
       "revId": "635f63cbd3485df80a0e53b8cbb925b9e9aba4aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49423c16_0ab75d92",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2784,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-20T11:05:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95181ed8_8b9977a2",
+      "range": {
+        "startLine": 2784,
+        "startChar": 0,
+        "endLine": 2784,
+        "endChar": 16
+      },
+      "revId": "635f63cbd3485df80a0e53b8cbb925b9e9aba4aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "b52862d5_2e4f8673",
+        "filename": "java/com/google/gerrit/server/group/PeriodicGroupIndexer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-20T11:05:06Z",
+      "side": 1,
+      "message": "Much nicer, thanks.\nI used GroupNameNotes#loadAllGroups because it doesn\u0027t need a ReviewDb instance. \n\nDone.",
+      "parentUuid": "114a0fa8_3cb0ae58",
+      "range": {
+        "startLine": 136,
+        "startChar": 23,
+        "endLine": 136,
+        "endChar": 89
+      },
+      "revId": "635f63cbd3485df80a0e53b8cbb925b9e9aba4aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51d1ff41_fc60b712",
         "filename": "java/com/google/gerrit/server/group/PeriodicGroupIndexer.java",
         "patchSetId": 10
@@ -92,6 +164,30 @@
       "revId": "635f63cbd3485df80a0e53b8cbb925b9e9aba4aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfc58f72_90f0de6a",
+        "filename": "java/com/google/gerrit/server/group/PeriodicGroupIndexer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-20T11:05:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51d1ff41_fc60b712",
+      "range": {
+        "startLine": 139,
+        "startChar": 43,
+        "endLine": 139,
+        "endChar": 66
+      },
+      "revId": "635f63cbd3485df80a0e53b8cbb925b9e9aba4aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

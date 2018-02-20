@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "1e4bba5c_6e6742e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-20T18:59:54Z",
+      "side": 1,
+      "message": "\u003e For a follow up change:\n \u003e Is it fair to say that we still don\u0027t want to name the thread to\n \u003e the command and all it\u0027s argument since we seem to agree that this\n \u003e information is just cluttering the error_log?\n\nI understand why you say that it\u0027s cluttering the error_log but I find it useful that the thread name is set to the command line. I use this information when I look at the server using javamelody threads section. I can quickly see which command and ongoing on which repos because the thread name is set to the command line. With the following change, at least the unparsable multi line won\u0027t be there while preserving as much information as possible. Is having a very long line in the error_log a big issue for you?",
+      "parentUuid": "963678f8_6d5146fd",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "ac31d8b94c3c2b2953f74c35b3df48c61195a844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41130b22_3c6af52e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

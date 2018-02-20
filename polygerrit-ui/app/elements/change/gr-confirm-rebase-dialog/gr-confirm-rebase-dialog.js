@@ -136,7 +136,7 @@
     },
 
     _handleBaseSelected(e) {
-      this.base = e.detail.value;
+      this.base = e.data;
     },
 
     _handleEnterChangeNumberTap() {

@@ -40,7 +40,6 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefFilter;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,7 +57,6 @@ import org.kohsuke.args4j.Option;
 public class ListBranches implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
   private final DynamicMap<RestView<BranchResource>> branchViews;
   private final UiActions uiActions;
   private final WebLinks webLinks;
@@ -112,13 +110,11 @@ public class ListBranches implements RestReadView<ProjectResource> {
   public ListBranches(
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
-      Provider<CurrentUser> user,
       DynamicMap<RestView<BranchResource>> branchViews,
       UiActions uiActions,
       WebLinks webLinks) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
-    this.user = user;
     this.branchViews = branchViews;
     this.uiActions = uiActions;
     this.webLinks = webLinks;
@@ -183,7 +179,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
       }
     }
 
-    PermissionBackend.ForProject perm = permissionBackend.user(user).project(rsrc.getNameKey());
+    PermissionBackend.ForProject perm = permissionBackend.currentUser().project(rsrc.getNameKey());
     List<BranchInfo> branches = new ArrayList<>(refs.size());
     for (Ref ref : refs) {
       if (ref.isSymbolic()) {

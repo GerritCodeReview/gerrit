@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectResource;
@@ -49,7 +48,6 @@ class GroupsImpl implements Groups {
   private final ProjectsCollection projects;
   private final Provider<ListGroups> listGroups;
   private final Provider<QueryGroups> queryGroups;
-  private final Provider<CurrentUser> user;
   private final PermissionBackend permissionBackend;
   private final CreateGroup.Factory createGroup;
   private final GroupApiImpl.Factory api;
@@ -61,7 +59,6 @@ class GroupsImpl implements Groups {
       ProjectsCollection projects,
       Provider<ListGroups> listGroups,
       Provider<QueryGroups> queryGroups,
-      Provider<CurrentUser> user,
       PermissionBackend permissionBackend,
       CreateGroup.Factory createGroup,
       GroupApiImpl.Factory api) {
@@ -70,7 +67,6 @@ class GroupsImpl implements Groups {
     this.projects = projects;
     this.listGroups = listGroups;
     this.queryGroups = queryGroups;
-    this.user = user;
     this.permissionBackend = permissionBackend;
     this.createGroup = createGroup;
     this.api = api;
@@ -95,7 +91,7 @@ class GroupsImpl implements Groups {
     }
     try {
       CreateGroup impl = createGroup.create(in.name);
-      permissionBackend.user(user).checkAny(GlobalPermission.fromAnnotation(impl.getClass()));
+      permissionBackend.currentUser().checkAny(GlobalPermission.fromAnnotation(impl.getClass()));
       GroupInfo info = impl.apply(TopLevelResource.INSTANCE, in);
       return id(info.id);
     } catch (Exception e) {

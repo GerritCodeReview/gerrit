@@ -69,6 +69,11 @@ limitations under the License.
         padding: 0 .15em;
         width: 100%;
       }
+      @media screen and (max-width: 50em) {
+        gr-confirm-dialog {
+          width: 100vw;
+        }
+      }
     </style>
     <template is="dom-repeat" items="[[_actions]]" as="action">
       <gr-button

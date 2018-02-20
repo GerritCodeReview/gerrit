@@ -470,7 +470,7 @@ limitations under the License.
           </div>
         </div>
       </section>
-      <section class="patchInfo hideOnMobileOverlay">
+      <section class="patchInfo">
         <gr-file-list-header
             id="fileListHeader"
             account="[[_account]]"
@@ -494,7 +494,9 @@ limitations under the License.
             on-expand-diffs="_expandAllDiffs"
             on-collapse-diffs="_collapseAllDiffs">
         </gr-file-list-header>
-        <gr-file-list id="fileList"
+        <gr-file-list
+            id="fileList"
+            class="hideOnMobileOverlay"
             diff-prefs="{{_diffPrefs}}"
             change="[[_change]]"
             change-num="[[_changeNum]]"

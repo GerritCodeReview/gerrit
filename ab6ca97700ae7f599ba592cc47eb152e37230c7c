@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1519136282 +0100\nnonce AFD2Vu3uP00ykaLHPGqVipK5W1Ab4Vl9vufLlxxGD84C0VY4WW1ekN6A63gzwQvHhyN/dnWiG0Xt\n\n0000000000000000000000000000000000000000 c01fb5e50d17caf2dc43158159a5fd963c5a95d4 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlqMLhoACgkQUbX9l6DQ\n71H1ewgAitJvAul/p8fZ+alX9qd8jxBlltOWVPE7Ivpgj9N+W8Ye5nrX3U0iIo1J\nj6HfqNd7gnP1IcIavNDY2fxb93FzzIs7YtYRGOJxBzAedJ9tY4PIG7St7pCIIih1\nQFJkCEUOJGHGbplWzwaqcp588r3mbxY8DbqFKY7PfX4WQRWbLnhyPHDuup1VRFxr\nJww2PcEgcjYaDEkV9FGf4ctLojToWRIvYVQcWiwfC8fm75GAHzOPJp1mvkz9FAQC\nDKvo+a4/beL6/r+f5FbR6evRqiNnCV7/98MUQ4qzQrMInoT3wgAqp9sg29hEkerU\nLA3V5wASjmK36l08QIEG87cC5MS4xA\u003d\u003d\n\u003dqBv8\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ccd948ce_8bce9f25",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1279,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-20T16:40:00Z",
+      "side": 1,
+      "message": "Is it intended, that we run the indexer twice? If so, I would at least switch the two comments.",
+      "range": {
+        "startLine": 1272,
+        "startChar": 6,
+        "endLine": 1279,
+        "endChar": 44
+      },
+      "revId": "ab6ca97700ae7f599ba592cc47eb152e37230c7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

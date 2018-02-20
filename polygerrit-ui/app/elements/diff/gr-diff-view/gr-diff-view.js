@@ -192,6 +192,7 @@
       'u': '_handleUKey',
       ',': '_handleCommaKey',
       'm': '_handleMKey',
+      'r': '_handleRKey',
     },
 
     attached() {
@@ -264,6 +265,14 @@
     _saveReviewedState(reviewed) {
       return this.$.restAPI.saveFileReviewed(this._changeNum,
           this._patchRange.patchNum, this._path, reviewed);
+    },
+
+    _handleRKey(e) {
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
+
+      e.preventDefault();
+      this._setReviewed(!this.$.reviewed.checked);
     },
 
     _handleEscKey(e) {

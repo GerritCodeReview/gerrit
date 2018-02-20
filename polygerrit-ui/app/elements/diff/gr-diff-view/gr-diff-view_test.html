@@ -158,6 +158,15 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element, 27, null, 'esc');
       assert(computeContainerClassStub.lastCall.calledWithExactly(
           false, 'SIDE_BY_SIDE', false));
+
+      sandbox.stub(element, '_setReviewed');
+      element.$.reviewed.checked = false;
+      MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift', 'r');
+      assert.isFalse(element._setReviewed.called);
+
+      MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
+      assert.isTrue(element._setReviewed.called);
+      assert.equal(element._setReviewed.lastCall.args[0], true);
     });
 
     test('keyboard shortcuts with patch range', () => {

@@ -26,8 +26,6 @@ import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.Optional;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,15 +61,7 @@ public class AccountDeactivator implements Runnable {
       if (!supportAutomaticAccountActivityUpdate) {
         return;
       }
-      schedule.ifPresent(
-          s -> {
-            @SuppressWarnings("unused")
-            Future<?> possiblyIgnoredError =
-                queue
-                    .getDefaultQueue()
-                    .scheduleAtFixedRate(
-                        deactivator, s.initialDelay(), s.interval(), TimeUnit.MILLISECONDS);
-          });
+      schedule.ifPresent(s -> queue.scheduleAtFixedRate(deactivator, s));
     }
 
     @Override

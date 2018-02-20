@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "963678f8_6d5146fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-02-20T09:39:29Z",
+      "side": 1,
+      "message": "Then I am sorry, I missed the link between taskName and show-queue completely.\n\nFor a follow up change:\nIs it fair to say that we still don\u0027t want to name the thread to the command and all it\u0027s argument since we seem to agree that this information is just cluttering the error_log?\nIs there any instance when the command is _not_ the first two \u0027sections\u0027 of the args string?\n\n    \"gerrit review ...\"\n    \"gerrit show-queue ...\"\n    etc.\n\nIf not we could do a \u0027non-intelligent\u0027 split of the args string and use the first two elements of the array as thread name.\n\nIf we cannot trust that this will be the case I would suggest that we do not revert this but instead only use the specific command override of taskDescriptiion when naming the thread, and still go for the \"truncate multi-line arguments\" approach in the follow-up commit for the sshd_log",
+      "parentUuid": "c3214c28_100135de",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "ac31d8b94c3c2b2953f74c35b3df48c61195a844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41130b22_3c6af52e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

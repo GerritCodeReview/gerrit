@@ -74,6 +74,24 @@
     },
     {
       "key": {
+        "uuid": "a9600a3f_23bc9c53",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-20T10:48:02Z",
+      "side": 1,
+      "message": "Updated the commit message with more details.",
+      "parentUuid": "14b07695_b42b4ad8",
+      "revId": "74b421bf87e0eaec1e98b1a0c7e69c7235f02097",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "283a8539_e18329b5",
         "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
         "patchSetId": 2

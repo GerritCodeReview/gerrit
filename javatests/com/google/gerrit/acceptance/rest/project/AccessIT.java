@@ -70,19 +70,17 @@ public class AccessIT extends AbstractDaemonTest {
   private static final String LABEL_CODE_REVIEW = "Code-Review";
 
   private String newProjectName;
-  private ProjectApi pApi;
 
   @Inject private DynamicSet<FileHistoryWebLink> fileHistoryWebLinkDynamicSet;
 
   @Before
   public void setUp() throws Exception {
     newProjectName = createProject(PROJECT_NAME).get();
-    pApi = gApi.projects().name(newProjectName);
   }
 
   @Test
   public void getDefaultInheritance() throws Exception {
-    String inheritedName = pApi.access().inheritsFrom.name;
+    String inheritedName = pApi().access().inheritsFrom.name;
     assertThat(inheritedName).isEqualTo(AllProjectsNameProvider.DEFAULT);
   }
 
@@ -99,7 +97,7 @@ public class AccessIT extends AbstractDaemonTest {
               }
             });
     try {
-      ProjectAccessInfo info = pApi.access();
+      ProjectAccessInfo info = pApi().access();
       assertThat(info.configWebLinks).hasSize(1);
       assertThat(info.configWebLinks.get(0).url)
           .isEqualTo("http://view/" + newProjectName + "/project.config");
@@ -126,7 +124,7 @@ public class AccessIT extends AbstractDaemonTest {
       assertThat(u.delete()).isEqualTo(Result.FORCED);
 
       // This should not crash.
-      pApi.access();
+      pApi().access();
     } finally {
       handle.remove();
     }
@@ -141,9 +139,9 @@ public class AccessIT extends AbstractDaemonTest {
     AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
 
     accessInput.add.put(REFS_HEADS, accessSectionInfo);
-    pApi.access(accessInput);
+    pApi().access(accessInput);
 
-    assertThat(pApi.access().local).isEqualTo(accessInput.add);
+    assertThat(pApi().access().local).isEqualTo(accessInput.add);
 
     RevCommit updatedHead = getRemoteHead(p, RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(
@@ -154,7 +152,7 @@ public class AccessIT extends AbstractDaemonTest {
   public void createAccessChangeNop() throws Exception {
     ProjectAccessInput accessInput = newProjectAccessInput();
     exception.expect(BadRequestException.class);
-    pApi.accessChange(accessInput);
+    pApi().accessChange(accessInput);
   }
 
   @Test
@@ -176,7 +174,7 @@ public class AccessIT extends AbstractDaemonTest {
     accessInput.add.put(REFS_HEADS, accessSection);
 
     setApiUser(user);
-    ChangeInfo out = pApi.accessChange(accessInput);
+    ChangeInfo out = pApi().accessChange(accessInput);
 
     assertThat(out.project).isEqualTo(newProjectName);
     assertThat(out.branch).isEqualTo(RefNames.REFS_CONFIG);
@@ -207,10 +205,10 @@ public class AccessIT extends AbstractDaemonTest {
     accessInput.remove.put(REFS_HEADS, accessSection);
     setApiUser(user);
 
-    pApi.accessChange(accessInput);
+    pApi().accessChange(accessInput);
 
     setApiUser(admin);
-    out = pApi.accessChange(accessInput);
+    out = pApi().accessChange(accessInput);
 
     gApi.changes().id(out._number).current().review(reviewIn);
     gApi.changes().id(out._number).current().submit();
@@ -227,7 +225,7 @@ public class AccessIT extends AbstractDaemonTest {
     AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
 
     accessInput.add.put(REFS_HEADS, accessSectionInfo);
-    pApi.access(accessInput);
+    pApi().access(accessInput);
 
     // Remove specific permission
     AccessSectionInfo accessSectionToRemove = newAccessSectionInfo();
@@ -235,13 +233,13 @@ public class AccessIT extends AbstractDaemonTest {
         Permission.LABEL + LABEL_CODE_REVIEW, newPermissionInfo());
     ProjectAccessInput removal = newProjectAccessInput();
     removal.remove.put(REFS_HEADS, accessSectionToRemove);
-    pApi.access(removal);
+    pApi().access(removal);
 
     // Remove locally
     accessInput.add.get(REFS_HEADS).permissions.remove(Permission.LABEL + LABEL_CODE_REVIEW);
 
     // Check
-    assertThat(pApi.access().local).isEqualTo(accessInput.add);
+    assertThat(pApi().access().local).isEqualTo(accessInput.add);
   }
 
   @Test
@@ -251,7 +249,7 @@ public class AccessIT extends AbstractDaemonTest {
     AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
 
     accessInput.add.put(REFS_HEADS, accessSectionInfo);
-    pApi.access(accessInput);
+    pApi().access(accessInput);
 
     // Remove specific permission rule
     AccessSectionInfo accessSectionToRemove = newAccessSectionInfo();
@@ -262,7 +260,7 @@ public class AccessIT extends AbstractDaemonTest {
     accessSectionToRemove.permissions.put(Permission.LABEL + LABEL_CODE_REVIEW, codeReview);
     ProjectAccessInput removal = newProjectAccessInput();
     removal.remove.put(REFS_HEADS, accessSectionToRemove);
-    pApi.access(removal);
+    pApi().access(removal);
 
     // Remove locally
     accessInput
@@ -274,7 +272,7 @@ public class AccessIT extends AbstractDaemonTest {
         .remove(SystemGroupBackend.REGISTERED_USERS.get());
 
     // Check
-    assertThat(pApi.access().local).isEqualTo(accessInput.add);
+    assertThat(pApi().access().local).isEqualTo(accessInput.add);
   }
 
   @Test
@@ -284,7 +282,7 @@ public class AccessIT extends AbstractDaemonTest {
     AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
 
     accessInput.add.put(REFS_HEADS, accessSectionInfo);
-    pApi.access(accessInput);
+    pApi().access(accessInput);
 
     // Remove specific permission rules
     AccessSectionInfo accessSectionToRemove = newAccessSectionInfo();
@@ -297,13 +295,13 @@ public class AccessIT extends AbstractDaemonTest {
     accessSectionToRemove.permissions.put(Permission.LABEL + LABEL_CODE_REVIEW, codeReview);
     ProjectAccessInput removal = newProjectAccessInput();
     removal.remove.put(REFS_HEADS, accessSectionToRemove);
-    pApi.access(removal);
+    pApi().access(removal);
 
     // Remove locally
     accessInput.add.get(REFS_HEADS).permissions.remove(Permission.LABEL + LABEL_CODE_REVIEW);
 
     // Check
-    assertThat(pApi.access().local).isEqualTo(accessInput.add);
+    assertThat(pApi().access().local).isEqualTo(accessInput.add);
   }
 
   @Test
@@ -314,7 +312,7 @@ public class AccessIT extends AbstractDaemonTest {
 
     // Disallow READ
     accessInput.add.put(REFS_ALL, accessSectionInfo);
-    pApi.access(accessInput);
+    pApi().access(accessInput);
 
     setApiUser(user);
     exception.expect(ResourceNotFoundException.class);
@@ -329,7 +327,7 @@ public class AccessIT extends AbstractDaemonTest {
 
     // Disallow READ
     accessInput.add.put(REFS_ALL, accessSectionInfo);
-    pApi.access(accessInput);
+    pApi().access(accessInput);
 
     // Create a change to apply
     ProjectAccessInput accessInfoToApply = newProjectAccessInput();
@@ -358,7 +356,7 @@ public class AccessIT extends AbstractDaemonTest {
     accessSection.permissions.put(Permission.READ, read);
 
     accessInput.add.put(REFS_ALL, accessSection);
-    ProjectAccessInfo result = pApi.access(accessInput);
+    ProjectAccessInfo result = pApi().access(accessInput);
     assertThat(result.groups.keySet())
         .containsExactly(
             SystemGroupBackend.PROJECT_OWNERS.get(), SystemGroupBackend.ANONYMOUS_USERS.get());
@@ -371,7 +369,7 @@ public class AccessIT extends AbstractDaemonTest {
     assertThat(result.groups.get(SystemGroupBackend.PROJECT_OWNERS.get()).id).isNull();
 
     // Get call returns groups too.
-    ProjectAccessInfo loggedInResult = pApi.access();
+    ProjectAccessInfo loggedInResult = pApi().access();
     assertThat(loggedInResult.groups.keySet())
         .containsExactly(
             SystemGroupBackend.PROJECT_OWNERS.get(), SystemGroupBackend.ANONYMOUS_USERS.get());
@@ -384,7 +382,7 @@ public class AccessIT extends AbstractDaemonTest {
 
     // PROJECT_OWNERS is invisible to anonymous user, but GetAccess disregards visibility.
     setApiUserAnonymous();
-    ProjectAccessInfo anonResult = pApi.access();
+    ProjectAccessInfo anonResult = pApi().access();
     assertThat(anonResult.groups.keySet())
         .containsExactly(
             SystemGroupBackend.PROJECT_OWNERS.get(), SystemGroupBackend.ANONYMOUS_USERS.get());
@@ -416,7 +414,7 @@ public class AccessIT extends AbstractDaemonTest {
 
     gApi.projects().name(newProjectName).access(accessInput);
 
-    assertThat(pApi.access().inheritsFrom.name).isEqualTo(newParentProjectName);
+    assertThat(pApi().access().inheritsFrom.name).isEqualTo(newParentProjectName);
   }
 
   @Test
@@ -457,7 +455,7 @@ public class AccessIT extends AbstractDaemonTest {
     accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES, accessSectionInfo);
 
     exception.expect(BadRequestException.class);
-    pApi.access(accessInput);
+    pApi().access(accessInput);
   }
 
   @Test
@@ -630,6 +628,10 @@ public class AccessIT extends AbstractDaemonTest {
     assertThat(permissions2).hasSize(1);
     // READ is the default permission and should be preserved by the syncer
     assertThat(permissions2.keySet()).containsExactly(Permission.READ);
+  }
+
+  private ProjectApi pApi() throws Exception {
+    return gApi.projects().name(newProjectName);
   }
 
   private ProjectAccessInput newProjectAccessInput() {

@@ -339,7 +339,7 @@ public class ProjectApiImpl implements ProjectApi {
         throw new BadRequestException("name must match input.name");
       }
       CreateProject impl = createProjectFactory.create(name);
-      permissionBackend.user(user).checkAny(GlobalPermission.fromAnnotation(impl.getClass()));
+      permissionBackend.currentUser().checkAny(GlobalPermission.fromAnnotation(impl.getClass()));
       impl.apply(TopLevelResource.INSTANCE, in);
       return projectApi.create(projects.parse(name));
     } catch (Exception e) {

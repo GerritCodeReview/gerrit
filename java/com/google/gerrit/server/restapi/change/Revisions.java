@@ -112,7 +112,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   private boolean visible(ChangeResource change) throws PermissionBackendException, IOException {
     try {
       permissionBackend
-          .user(change.getUser())
+          .currentUser()
           .change(change.getNotes())
           .database(dbProvider)
           .check(ChangePermission.READ);

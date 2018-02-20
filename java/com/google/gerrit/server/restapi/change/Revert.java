@@ -148,7 +148,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     }
 
     contributorAgreements.check(rsrc.getProject(), rsrc.getUser());
-    permissionBackend.user(rsrc.getUser()).ref(change.getDest()).check(CREATE_CHANGE);
+    permissionBackend.currentUser().ref(change.getDest()).check(CREATE_CHANGE);
     projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
 
     Change.Id revertId =
@@ -260,10 +260,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
         .setVisible(
             and(
                 change.getStatus() == Change.Status.MERGED && projectStatePermitsWrite,
-                permissionBackend
-                    .user(rsrc.getUser())
-                    .ref(change.getDest())
-                    .testCond(CREATE_CHANGE)));
+                permissionBackend.currentUser().ref(change.getDest()).testCond(CREATE_CHANGE)));
   }
 
   private class NotifyOp implements BatchUpdateOp {

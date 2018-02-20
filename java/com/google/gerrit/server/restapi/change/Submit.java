@@ -251,10 +251,9 @@ public class Submit
   /**
    * @param cd the change the user is currently looking at
    * @param cs set of changes to be submitted at once
-   * @param user the user who is checking to submit
    * @return a reason why any of the changes is not submittable or null
    */
-  private String problemsForSubmittingChangeset(ChangeData cd, ChangeSet cs, CurrentUser user) {
+  private String problemsForSubmittingChangeset(ChangeData cd, ChangeSet cs) {
     try {
       if (cs.furtherHiddenChanges()) {
         return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
@@ -262,7 +261,7 @@ public class Submit
       for (ChangeData c : cs.changes()) {
         Set<ChangePermission> can =
             permissionBackend
-                .user(user)
+                .currentUser()
                 .database(dbProvider)
                 .change(c)
                 .test(EnumSet.of(ChangePermission.READ, ChangePermission.SUBMIT));
@@ -343,7 +342,7 @@ public class Submit
     }
     boolean treatWithTopic = submitWholeTopic && !Strings.isNullOrEmpty(topic) && topicSize > 1;
 
-    String submitProblems = problemsForSubmittingChangeset(cd, cs, resource.getUser());
+    String submitProblems = problemsForSubmittingChangeset(cd, cs);
 
     Boolean enabled;
     try {

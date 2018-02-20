@@ -98,7 +98,7 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
           ConfigInvalidException, OrmException, InvalidNameException, UpdateException,
           RestApiException {
     PermissionBackend.ForProject forProject =
-        permissionBackend.user(rsrc.getUser()).project(rsrc.getNameKey());
+        permissionBackend.currentUser().project(rsrc.getNameKey());
     if (!check(forProject, ProjectPermission.READ_CONFIG)) {
       throw new PermissionDeniedException(RefNames.REFS_CONFIG + " not visible");
     }
@@ -125,12 +125,7 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
       setAccess.validateChanges(config, removals, additions);
       setAccess.applyChanges(config, removals, additions);
       try {
-        setAccess.setParentName(
-            rsrc.getUser().asIdentifiedUser(),
-            config,
-            rsrc.getNameKey(),
-            newParentProjectName,
-            false);
+        setAccess.setParentName(config, rsrc.getNameKey(), newParentProjectName, false);
       } catch (AuthException e) {
         throw new IllegalStateException(e);
       }

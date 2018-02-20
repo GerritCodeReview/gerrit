@@ -120,7 +120,8 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
       ProjectConfig config = ProjectConfig.read(md, base);
       Set<String> toDelete = scanSectionNames(config);
-      PermissionBackend.ForProject forProject = permissionBackend.user(user).project(projectName);
+      PermissionBackend.ForProject forProject =
+          permissionBackend.currentUser().project(projectName);
 
       for (AccessSection section : mergeSections(sectionList)) {
         String name = section.getName();
@@ -162,7 +163,6 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
               .get()
               .validateParentUpdate(
                   projectName,
-                  user.asIdentifiedUser(),
                   MoreObjects.firstNonNull(parentProjectName, allProjects).get(),
                   checkIfOwner);
         } catch (AuthException e) {

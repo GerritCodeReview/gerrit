@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -61,9 +60,8 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
       input = new DescriptionInput(); // Delete would set description to null.
     }
 
-    IdentifiedUser user = resource.getUser().asIdentifiedUser();
     permissionBackend
-        .user(user)
+        .currentUser()
         .project(resource.getNameKey())
         .check(ProjectPermission.WRITE_CONFIG);
 
@@ -78,7 +76,7 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
       if (!msg.endsWith("\n")) {
         msg += "\n";
       }
-      md.setAuthor(user);
+      md.setAuthor(resource.getUser().asIdentifiedUser());
       md.setMessage(msg);
       config.commit(md);
       cache.evict(resource.getProjectState().getProject());

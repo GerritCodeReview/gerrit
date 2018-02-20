@@ -59,8 +59,7 @@ public class BanCommit
         }
       }
 
-      BanCommitResult result =
-          banCommit.ban(rsrc.getNameKey(), rsrc.getUser(), commitsToBan, input.reason);
+      BanCommitResult result = banCommit.ban(rsrc.getNameKey(), commitsToBan, input.reason);
       r.newlyBanned = transformCommits(result.getNewlyBannedCommits());
       r.alreadyBanned = transformCommits(result.getAlreadyBannedCommits());
       r.ignored = transformCommits(result.getIgnoredObjectIds());

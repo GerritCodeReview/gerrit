@@ -334,7 +334,8 @@ public class ApprovalsUtil {
     if (approvals.isEmpty()) {
       return ImmutableList.of();
     }
-    checkApprovals(approvals, permissionBackend.user(user).database(db).change(update.getNotes()));
+    checkApprovals(
+        approvals, permissionBackend.currentUser().database(db).change(update.getNotes()));
     List<PatchSetApproval> cells = new ArrayList<>(approvals.size());
     Date ts = update.getWhen();
     for (Map.Entry<String, Short> vote : approvals.entrySet()) {

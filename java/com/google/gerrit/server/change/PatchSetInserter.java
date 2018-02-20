@@ -314,7 +314,7 @@ public class PatchSetInserter implements BatchUpdateOp {
       throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
     if (checkAddPatchSetPermission) {
       permissionBackend
-          .user(ctx.getUser())
+          .currentUser()
           .database(ctx.getDb())
           .change(origNotes)
           .check(ChangePermission.ADD_PATCH_SET);
@@ -325,7 +325,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     }
 
     PermissionBackend.ForRef perm =
-        permissionBackend.user(ctx.getUser()).ref(origNotes.getChange().getDest());
+        permissionBackend.currentUser().ref(origNotes.getChange().getDest());
 
     String refName = getPatchSetId().toRefName();
     try (CommitReceivedEvent event =

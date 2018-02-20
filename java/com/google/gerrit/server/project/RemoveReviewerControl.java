@@ -76,7 +76,7 @@ public class RemoveReviewerControl {
       return true;
     }
     return permissionBackend
-        .user(currentUser)
+        .currentUser()
         .change(cd)
         .database(dbProvider)
         .test(ChangePermission.REMOVE_REVIEWER);
@@ -91,7 +91,7 @@ public class RemoveReviewerControl {
     }
 
     permissionBackend
-        .user(currentUser)
+        .currentUser()
         .change(notes)
         .database(dbProvider)
         .check(ChangePermission.REMOVE_REVIEWER);
@@ -119,7 +119,7 @@ public class RemoveReviewerControl {
 
     // Users with the remove reviewer permission, the branch owner, project
     // owner and site admin can remove anyone
-    PermissionBackend.WithUser withUser = permissionBackend.user(currentUser);
+    PermissionBackend.WithUser withUser = permissionBackend.currentUser();
     PermissionBackend.ForProject forProject = withUser.project(change.getProject());
     if (check(forProject.ref(change.getDest().get()), RefPermission.WRITE_CONFIG)
         || check(withUser, GlobalPermission.ADMINISTRATE_SERVER)) {

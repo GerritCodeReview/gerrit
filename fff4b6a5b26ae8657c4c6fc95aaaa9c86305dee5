@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "33a6cdf3_5211d484",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4826,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-20T09:42:14Z",
+      "side": 1,
+      "message": "Oh, true. Got too much confused. ;-)\nThe new example is very helpful.",
+      "parentUuid": "0e765d46_1f18ffdd",
+      "range": {
+        "startLine": 4825,
+        "startChar": 0,
+        "endLine": 4826,
+        "endChar": 63
+      },
+      "revId": "fff4b6a5b26ae8657c4c6fc95aaaa9c86305dee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "22475f72_89de6a99",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2

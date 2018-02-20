@@ -70,6 +70,30 @@
       "revId": "0c9e13c11a9a0facd1538d6e5b45b02a90db5ab3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edbc81db_9520c8fa",
+        "filename": "tools/bzl/license.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-20T14:27:40Z",
+      "side": 1,
+      "message": "For me it\u0027s failing on Mac:\n\nINFO: Analysed target //:release (324 packages loaded).\nINFO: Found 1 target...\nERROR: /Users/ekempin/git/gerrit/Documentation/BUILD:46:1: Executing genrule //Documentation:gen_license_txt_licenses failed (Exit 127)\n/bin/bash: python2: command not found\nTarget //:release failed to build\nUse --verbose_failures to see the command lines of failed build steps.\nINFO: Elapsed time: 122.772s, Critical Path: 5.63s\nFAILED: Build did NOT complete successfully\n\nFor the daily office work I use a Linux box, Mac only when I\u0027m on the road. This is why I didn\u0027t notice this earlier.",
+      "parentUuid": "114c5b90_babdeb9f",
+      "range": {
+        "startLine": 28,
+        "startChar": 11,
+        "endLine": 28,
+        "endChar": 18
+      },
+      "revId": "0c9e13c11a9a0facd1538d6e5b45b02a90db5ab3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

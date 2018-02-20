@@ -137,7 +137,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     Project.NameKey projectName = rsrc.getNameKey();
     ProjectAccessInfo info = new ProjectAccessInfo();
     ProjectState projectState = projectCache.checkedGet(projectName);
-    PermissionBackend.ForProject perm = permissionBackend.user(user).project(projectName);
+    PermissionBackend.ForProject perm = permissionBackend.currentUser().project(projectName);
 
     ProjectConfig config;
     try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
@@ -160,12 +160,12 @@ public class GetAccess implements RestReadView<ProjectResource> {
         config.commit(md);
         projectCache.evict(config.getProject());
         projectState = projectCache.checkedGet(projectName);
-        perm = permissionBackend.user(user).project(projectName);
+        perm = permissionBackend.currentUser().project(projectName);
       } else if (config.getRevision() != null
           && !config.getRevision().equals(projectState.getConfig().getRevision())) {
         projectCache.evict(config.getProject());
         projectState = projectCache.checkedGet(projectName);
-        perm = permissionBackend.user(user).project(projectName);
+        perm = permissionBackend.currentUser().project(projectName);
       }
     } catch (ConfigInvalidException e) {
       throw new ResourceConflictException(e.getMessage());
@@ -239,7 +239,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     }
 
     if (info.ownerOf.isEmpty()
-        && permissionBackend.user(user).test(GlobalPermission.ADMINISTRATE_SERVER)) {
+        && permissionBackend.currentUser().test(GlobalPermission.ADMINISTRATE_SERVER)) {
       // Special case: If the section list is empty, this project has no current
       // access control information. Fall back to site administrators.
       info.ownerOf.add(AccessSection.ALL);
@@ -255,7 +255,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     }
 
     if (projectName.equals(allProjectsName)
-        && permissionBackend.user(user).testOrFalse(ADMINISTRATE_SERVER)) {
+        && permissionBackend.currentUser().testOrFalse(ADMINISTRATE_SERVER)) {
       info.ownerOf.add(AccessSection.GLOBAL_CAPABILITIES);
     }
 

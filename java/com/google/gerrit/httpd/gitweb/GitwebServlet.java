@@ -38,7 +38,6 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -101,7 +100,6 @@ class GitwebServlet extends HttpServlet {
   private final LocalDiskRepositoryManager repoManager;
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
-  private final Provider<AnonymousUser> anonymousUserProvider;
   private final Provider<CurrentUser> userProvider;
   private final EnvList _env;
 
@@ -110,7 +108,6 @@ class GitwebServlet extends HttpServlet {
       GitRepositoryManager repoManager,
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
-      Provider<AnonymousUser> anonymousUserProvider,
       Provider<CurrentUser> userProvider,
       SitePaths site,
       @GerritServerConfig Config cfg,
@@ -124,7 +121,6 @@ class GitwebServlet extends HttpServlet {
     this.repoManager = (LocalDiskRepositoryManager) repoManager;
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
-    this.anonymousUserProvider = anonymousUserProvider;
     this.userProvider = userProvider;
     this.gitwebCgi = gitwebCgiConfig.getGitwebCgi();
     this.deniedActions = new HashSet<>();
@@ -417,7 +413,7 @@ class GitwebServlet extends HttpServlet {
         notFound(req, rsp);
         return;
       }
-      permissionBackend.user(userProvider).project(nameKey).check(ProjectPermission.READ);
+      permissionBackend.currentUser().project(nameKey).check(ProjectPermission.READ);
     } catch (AuthException e) {
       notFound(req, rsp);
       return;
@@ -567,10 +563,7 @@ class GitwebServlet extends HttpServlet {
 
     env.set("GITWEB_PROJECTROOT", repoManager.getBasePath(nameKey).toAbsolutePath().toString());
 
-    if (permissionBackend
-        .user(anonymousUserProvider)
-        .project(nameKey)
-        .testOrFalse(ProjectPermission.READ)) {
+    if (permissionBackend.currentUser().project(nameKey).testOrFalse(ProjectPermission.READ)) {
       env.set("GERRIT_ANONYMOUS_READ", "1");
     }
 

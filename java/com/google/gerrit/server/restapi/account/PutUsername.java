@@ -75,7 +75,7 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
           ResourceConflictException, OrmException, IOException, ConfigInvalidException,
           PermissionBackendException {
     if (self.get() != rsrc.getUser()) {
-      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
+      permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)) {

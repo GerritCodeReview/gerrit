@@ -46,6 +46,53 @@
       "revId": "8a86c1f2fded31e5b130f402a89901c79179893a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49bc3704_ea1d9554",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-selector/gr-diff-mode-selector.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-21T01:44:53Z",
+      "side": 1,
+      "message": "\u003e Specifying a display-inside value [1] here made the buttons not have any computed margin between them. Table and flex both work here.\n\nWhat computed margin are you referring to? The buttons both have zero margin when I inspect them. Do you mean the horizontal whitespace between them?\n\nIf so, my comment below on l.44 shows how to remove that with an HTML comment. That\u0027s just another option, but it\u0027s how PG\u0027s dealt with whitespace sensitivity issues historically.\n\nAdmittedly, HTML comments can be ugly, so if you\u0027d rather do this with a display-inside property (which, I guess, just ignores the whitespace), then either `table` or `flex` work for me. (I probably prefer flex.) I think it should have a comment to explain why it\u0027s there, and probably the whitespace-consuming HTML comments that are already there should be removed.",
+      "parentUuid": "aa43f03e_2987e675",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "8a86c1f2fded31e5b130f402a89901c79179893a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e7e3a4d_42abd13c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-selector/gr-diff-mode-selector.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-21T01:44:53Z",
+      "side": 1,
+      "message": "To reduce the the gap between these, we might also add another HTML comment in between.\n\n --\u003e\u003c/gr-button\u003e\u003c!--\n --\u003e\u003cgr-button",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 14
+      },
+      "revId": "8a86c1f2fded31e5b130f402a89901c79179893a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

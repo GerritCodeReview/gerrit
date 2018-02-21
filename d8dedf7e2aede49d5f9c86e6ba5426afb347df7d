@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf5f742a_1b75a797",
+        "filename": "polygerrit-ui/app/template_test_srcs/template_test.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2018-02-21T21:43:26Z",
+      "side": 1,
+      "message": "might want to raise an error out of here so the test exits with an error status code.",
+      "range": {
+        "startLine": 112,
+        "startChar": 29,
+        "endLine": 112,
+        "endChar": 38
+      },
+      "revId": "d8dedf7e2aede49d5f9c86e6ba5426afb347df7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

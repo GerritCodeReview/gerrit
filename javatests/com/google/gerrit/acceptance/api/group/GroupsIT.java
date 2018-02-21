@@ -166,11 +166,11 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Override
-  protected ProjectResetter resetProjects(Builder resetter) throws IOException {
+  protected ProjectResetter.Config resetProjects() {
     // Don't reset All-Users since deleting users makes groups inconsistent (e.g. groups would
     // contain members that no longer exist) and as result of this the group consistency checker
     // that is executed after each test would fail.
-    return resetter.reset(allProjects, RefNames.REFS_CONFIG).build();
+    return new ProjectResetter.Config().reset(allProjects, RefNames.REFS_CONFIG);
   }
 
   @Test
@@ -1076,7 +1076,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
     // Use ProjectResetter to restore the group names ref
     try (ProjectResetter resetter =
-        projectResetter.builder().reset(allUsers, RefNames.REFS_GROUPNAMES).build()) {
+        projectResetter.builder().build(new ProjectResetter.Config().reset(allUsers, RefNames.REFS_GROUPNAMES))) {
       // Manually delete group names ref
       try (Repository repo = repoManager.openRepository(allUsers);
           RevWalk rw = new RevWalk(repo)) {

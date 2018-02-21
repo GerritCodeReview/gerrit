@@ -784,8 +784,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
    */
   private ProjectResetter resetGroups() throws IOException {
     return projectResetter
-        .builder()
-        .reset(allUsers, RefNames.REFS_GROUPS + "*", RefNames.REFS_GROUPNAMES)
-        .build();
+        .builder().build(new ProjectResetter.Config()
+        .reset(allUsers, RefNames.REFS_GROUPS + "*", RefNames.REFS_GROUPNAMES));
   }
 }

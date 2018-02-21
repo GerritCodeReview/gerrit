@@ -63,10 +63,10 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
   }
 
   @Override
-  protected ProjectResetter resetProjects(Builder resetter) throws IOException {
+  protected ProjectResetter.Config resetProjects() {
     // Don't reset anything so that stagedUsers can be cached across all tests.
     // Without this caching these tests become much too slow.
-    return resetter.build();
+    return new ProjectResetter.Config();
   }
 
   protected static FakeEmailSenderSubject assertThat(FakeEmailSender sender) {

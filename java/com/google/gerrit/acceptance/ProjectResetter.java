@@ -25,6 +25,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AllUsersName;
@@ -88,8 +89,6 @@ public class ProjectResetter implements AutoCloseable {
     @Nullable private final AccountCache accountCache;
     @Nullable private final ProjectCache projectCache;
 
-    private final Multimap<Project.NameKey, String> refsByProject;
-
     @Inject
     public Builder(
         GitRepositoryManager repoManager,
@@ -102,21 +101,29 @@ public class ProjectResetter implements AutoCloseable {
       this.accountCreator = accountCreator;
       this.accountCache = accountCache;
       this.projectCache = projectCache;
+    }
+
+    public ProjectResetter build(ProjectResetter.Config input) throws IOException {
+      return new ProjectResetter(
+          repoManager, allUsersName, accountCreator, accountCache, projectCache,
+          input.refsByProject);
+    }
+  }
+
+  public static class Config {
+    private final Multimap<Project.NameKey, String> refsByProject;
+
+    public Config() {
       this.refsByProject = MultimapBuilder.hashKeys().arrayListValues().build();
     }
 
-    public Builder reset(Project.NameKey project, String... refPatterns) {
+    public Config reset(Project.NameKey project, String... refPatterns) {
       List<String> refPatternList = Arrays.asList(refPatterns);
       if (refPatternList.isEmpty()) {
         refPatternList = ImmutableList.of(RefNames.REFS + "*");
       }
       refsByProject.putAll(project, refPatternList);
       return this;
-    }
-
-    public ProjectResetter build() throws IOException {
-      return new ProjectResetter(
-          repoManager, allUsersName, accountCreator, accountCache, projectCache, refsByProject);
     }
   }
 

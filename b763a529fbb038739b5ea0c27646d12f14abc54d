@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "a25d19ef_2f28c79e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-21T13:50:19Z",
+      "side": 1,
+      "message": "Yes, that\u0027s exactly what I meant by the next paragraph. That would definitely be a beneficial cleanup, but this change is about reclaiming lots of RAM in our production servers sooner rather than later.",
+      "parentUuid": "c9b2a2e3_6e4cd035",
+      "range": {
+        "startLine": 11,
+        "startChar": 31,
+        "endLine": 14,
+        "endChar": 58
+      },
+      "revId": "b763a529fbb038739b5ea0c27646d12f14abc54d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "136eecbb_4735a57b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

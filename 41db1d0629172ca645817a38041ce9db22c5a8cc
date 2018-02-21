@@ -94,6 +94,30 @@
       "revId": "41db1d0629172ca645817a38041ce9db22c5a8cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2939c4d_da72eb70",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-21T14:19:11Z",
+      "side": 1,
+      "message": "As discussed elsewhere, I\u0027d prefer not to make ExternalIds eagerly copy to ImmutableSets.\n\nIn this specific instance, the cost is well amortized, because the AccountState returned by this method is generally stored in the AccountCache.",
+      "parentUuid": "bc2f4e2e_c22d893f",
+      "range": {
+        "startLine": 109,
+        "startChar": 14,
+        "endLine": 109,
+        "endChar": 34
+      },
+      "revId": "41db1d0629172ca645817a38041ce9db22c5a8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

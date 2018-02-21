@@ -24,7 +24,6 @@ import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
@@ -82,7 +81,6 @@ public class OutputStreamQuery {
   private final ChangeQueryProcessor queryProcessor;
   private final EventFactory eventFactory;
   private final TrackingFooters trackingFooters;
-  private final CurrentUser user;
   private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
   private OutputFormat outputFormat = OutputFormat.TEXT;
@@ -107,7 +105,6 @@ public class OutputStreamQuery {
       ChangeQueryProcessor queryProcessor,
       EventFactory eventFactory,
       TrackingFooters trackingFooters,
-      CurrentUser user,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
     this.db = db;
     this.repoManager = repoManager;
@@ -115,7 +112,6 @@ public class OutputStreamQuery {
     this.queryProcessor = queryProcessor;
     this.eventFactory = eventFactory;
     this.trackingFooters = trackingFooters;
-    this.user = user;
     this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
   }
 
@@ -254,7 +250,7 @@ public class OutputStreamQuery {
 
     if (includeSubmitRecords) {
       eventFactory.addSubmitRecords(
-          c, submitRuleEvaluatorFactory.create(user, d).setAllowClosed(true).evaluate());
+          c, submitRuleEvaluatorFactory.create(d).setAllowClosed(true).evaluate());
     }
 
     if (includeCommitMessage) {

@@ -148,7 +148,7 @@ def _main():
         if options.testmode:
             query_terms = ["status:new", "owner:self", "topic:test-abandon"]
         else:
-            query_terms = ["status:new", "age:%s" % options.age]
+            query_terms = ["status:new", "-is:wip", "age:%s" % options.age]
         if options.branches:
             query_terms += ["branch:%s" % b for b in options.branches]
         elif options.exclude_branches:

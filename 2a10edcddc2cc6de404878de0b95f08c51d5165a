@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0b6bdf9_7692475b",
+        "filename": "java/com/google/gerrit/server/mail/send/InboundEmailRejectionSender.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-21T01:45:40Z",
+      "side": 1,
+      "message": "This is not thrown, and causes a warning in Eclipse.\n\nFixed in https://gerrit-review.googlesource.com/c/gerrit/+/160771",
+      "range": {
+        "startLine": 49,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 25
+      },
+      "revId": "2a10edcddc2cc6de404878de0b95f08c51d5165a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

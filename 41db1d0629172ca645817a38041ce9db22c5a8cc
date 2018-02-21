@@ -118,6 +118,30 @@
       "revId": "41db1d0629172ca645817a38041ce9db22c5a8cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55dccfd1_adc8ad2a",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-21T14:19:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a2939c4d_da72eb70",
+      "range": {
+        "startLine": 109,
+        "startChar": 14,
+        "endLine": 109,
+        "endChar": 34
+      },
+      "revId": "41db1d0629172ca645817a38041ce9db22c5a8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

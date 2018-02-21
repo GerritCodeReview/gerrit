@@ -121,7 +121,9 @@ public final class InMemoryTestEnvironment implements MethodRule {
       schemaCreator.create(underlyingDb);
     }
     db = schemaFactory.open();
-    setApiUser(accountManager.authenticate(AuthRequest.forUser("user")).getAccountId());
+
+    // The first user is added to the "Administrators" group. See AccountManager#create().
+    setApiUser(accountManager.authenticate(AuthRequest.forUser("admin")).getAccountId());
 
     // Inject target members after setting API user, so it can @Inject a ReviewDb if it wants.
     injector.injectMembers(target);

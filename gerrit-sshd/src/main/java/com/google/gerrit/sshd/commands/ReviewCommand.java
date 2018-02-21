@@ -247,11 +247,6 @@ public class ReviewCommand extends SshCommand {
     }
   }
 
-  @Override
-  protected String getTaskDescription() {
-    return "gerrit review";
-  }
-
   private void applyReview(PatchSet patchSet, ReviewInput review) throws RestApiException {
     gApi.changes()
         .id(patchSet.getId().getParentKey().get())

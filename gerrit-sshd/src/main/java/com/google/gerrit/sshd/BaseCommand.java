@@ -16,6 +16,7 @@ package com.google.gerrit.sshd;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Joiner;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
@@ -110,6 +111,9 @@ public abstract class BaseCommand implements Command {
   /** Unparsed command line options. */
   private String[] argv;
 
+  /** trimmed command line arguments. */
+  private String[] trimmedArgv;
+
   public BaseCommand() {
     task = Atomics.newReference();
   }
@@ -153,6 +157,26 @@ public abstract class BaseCommand implements Command {
 
   public void setArguments(String[] argv) {
     this.argv = argv;
+  }
+
+  /**
+   * Trim the argument if it is spanning multiple lines.
+   *
+   * @return the arguments where all the multiple-line fields are trimmed.
+   */
+  protected String[] getTrimmedArguments() {
+    if (trimmedArgv == null && argv != null) {
+      trimmedArgv = new String[argv.length];
+      for (int i = 0; i < argv.length; i++) {
+        String arg = argv[i];
+        int indexOfMultiLine = arg.indexOf("\n");
+        if (indexOfMultiLine > -1) {
+          arg = arg.substring(0, indexOfMultiLine).concat(" [trimmed]");
+        }
+        trimmedArgv[i] = arg;
+      }
+    }
+    return trimmedArgv;
   }
 
   @Override
@@ -370,8 +394,11 @@ public abstract class BaseCommand implements Command {
   }
 
   protected String getTaskDescription() {
-    StringBuilder m = new StringBuilder();
-    m.append(context.getCommandLine());
+    StringBuilder m = new StringBuilder(commandName);
+    String[] ta = getTrimmedArguments();
+    if (ta != null) {
+      m.append(Joiner.on(" ").join(ta));
+    }
     return m.toString();
   }
 

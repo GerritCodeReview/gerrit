@@ -76,18 +76,35 @@
      * @return {!Object|undefined}
      */
     getThread(opt_range) {
-      const threads = [].filter.call(
-          Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread'),
-          thread => {
-            return thread.range === opt_range;
-          });
+      const threadEls =
+          Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
+      const threads = [].filter.call(threadEls,
+          thread => this._rangesEqual(thread.range, opt_range));
       if (threads.length === 1) {
         return threads[0];
       }
     },
 
+    /**
+     * Compare two ranges. Either argument may be falsy, but will only return
+     * true if both are falsy or if neither are falsy and have the same position
+     * values.
+     *
+     * @param {Object=} a range 1
+     * @param {Object=} b range 2
+     * @return {boolean}
+     */
+    _rangesEqual(a, b) {
+      if (!a && !b) { return true; }
+      if (!a || !b) { return false; }
+      return a.startLine === b.startLine &&
+          a.startChar === b.startChar &&
+          a.endLine === b.endLine &&
+          a.endChar === b.endChar;
+    },
+
     _commentsChanged() {
-      this._threads = this._getThreadGroups(this.comments);
+      this._threads = this._getThreads(this.comments);
     },
 
     _sortByDate(threadGroups) {
@@ -124,7 +141,7 @@
       return comment.patchNum || this.patchForNewThreads;
     },
 
-    _getThreadGroups(comments) {
+    _getThreads(comments) {
       const sortedComments = comments.slice(0).sort((a, b) =>
           util.parseDate(a.updated) - util.parseDate(b.updated));
 
@@ -142,13 +159,17 @@
         }
 
         // Otherwise, this comment starts its own thread.
-        threads.push({
+        const newThread = {
           start_datetime: comment.updated,
           comments: [comment],
           commentSide: comment.__commentSide,
           patchNum: this._getPatchNum(comment),
           rootId: comment.id,
-        });
+        };
+        if (comment.range) {
+          newThread.range = Object.assign({}, comment.range);
+        }
+        threads.push(newThread);
       }
       return threads;
     },

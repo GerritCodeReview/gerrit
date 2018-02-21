@@ -24,7 +24,6 @@ limitations under the License.
 <link rel="import" href="../../plugins/gr-endpoint-param/gr-endpoint-param.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
-<link rel="import" href="../../shared/gr-fixed-panel/gr-fixed-panel.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-default-editor/gr-default-editor.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -35,9 +34,13 @@ limitations under the License.
       :host {
         background-color: var(--view-background-color);
       }
-      gr-fixed-panel {
+      .sticky {
         background-color: #ebf5fb;
         border-bottom: 1px #ddd solid;
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        width: 100vw;
         z-index: 1;
       }
       header,
@@ -85,7 +88,7 @@ limitations under the License.
         }
       }
     </style>
-    <gr-fixed-panel keep-on-scroll>
+    <div class="sticky">
       <header>
         <span class="controlGroup">
           <span>Edit mode</span>
@@ -109,7 +112,7 @@ limitations under the License.
               on-tap="_saveEdit">Save</gr-button>
         </span>
       </header>
-    </gr-fixed-panel>
+    </div>
     <div class="textareaWrapper">
       <gr-endpoint-decorator id="editorEndpoint" name="editor">
         <gr-endpoint-param name="fileContent" value="[[_newContent]]"></gr-endpoint-param>

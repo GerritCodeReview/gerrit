@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5590d4a_c5eff067",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-02-21T09:13:02Z",
+      "side": 1,
+      "message": "not true any longer as commented by David Pursehouse in https://gerrit-review.googlesource.com/c/gerrit/+/115070/6/Documentation/cmd-review.txt#135",
+      "range": {
+        "startLine": 123,
+        "startChar": 40,
+        "endLine": 125,
+        "endChar": 18
+      },
+      "revId": "9258c69540328766b990fdae6f3fc4ba3060599f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "6f95f3c8_cc272880",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-21T10:38:29Z",
+      "side": 1,
+      "message": "\u003e But\n \u003e you\u0027re right: offline reindexing is currently switched off for\n \u003e slaves. We should change that for the group index.\n\n+1. That was exactly my point!",
+      "parentUuid": "d502e99d_16f4529a",
+      "range": {
+        "startLine": 18,
+        "startChar": 68,
+        "endLine": 19,
+        "endChar": 47
+      },
+      "revId": "d45786b7e067fd434cacf299ea80b8262fc9a3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8fe1bac_da6fa335",
         "filename": "java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 2

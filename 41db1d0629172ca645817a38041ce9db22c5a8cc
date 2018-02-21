@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "d8119227_8727e900",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-21T13:48:44Z",
+      "side": 1,
+      "message": "Doing that requires creating a new ImmutableSet copy on each public method invocation. If we want to go this route, I would at least want to understand how often these are called, for example is it in the auth path for every request.",
+      "parentUuid": "86ccf784_250431e4",
+      "range": {
+        "startLine": 18,
+        "startChar": 41,
+        "endLine": 19,
+        "endChar": 48
+      },
+      "revId": "41db1d0629172ca645817a38041ce9db22c5a8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc2f4e2e_c22d893f",
         "filename": "java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 1

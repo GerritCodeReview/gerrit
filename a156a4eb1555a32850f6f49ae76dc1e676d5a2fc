@@ -721,6 +721,24 @@
     },
     {
       "key": {
+        "uuid": "3e3c9906_56d20251",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-02-21T14:38:45Z",
+      "side": 1,
+      "message": "fixed now.",
+      "parentUuid": "eec3fdbe_6bec5273",
+      "revId": "a156a4eb1555a32850f6f49ae76dc1e676d5a2fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aed59a12_d9420365",
         "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
         "patchSetId": 19

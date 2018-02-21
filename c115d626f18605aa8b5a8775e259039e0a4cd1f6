@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28f8f682_779f8a5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-21T13:27:50Z",
+      "side": 1,
+      "message": "We also need I49681b0 for this class. I ported it to 2.15 in I42b45ed5 but this part was not present at that time.",
+      "range": {
+        "startLine": 204,
+        "startChar": 8,
+        "endLine": 205,
+        "endChar": 31
+      },
+      "revId": "c115d626f18605aa8b5a8775e259039e0a4cd1f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

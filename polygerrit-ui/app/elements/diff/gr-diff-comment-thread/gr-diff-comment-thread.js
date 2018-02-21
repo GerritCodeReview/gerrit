@@ -32,7 +32,7 @@
         type: Array,
         value() { return []; },
       },
-      locationRange: String,
+      range: Object,
       keyEventTarget: {
         type: Object,
         value() { return document.body; },

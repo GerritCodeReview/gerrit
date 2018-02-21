@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c9b2a2e3_6e4cd035",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-21T12:40:09Z",
+      "side": 1,
+      "message": "I don\u0027t think that classes which use Guice injections were ever meant to be stored in a cache. I additionally think that references to classes like GitRepositoryManager or ProjectCache are problematic for a cached object. Can\u0027t we transform ProjectState completely into a \u0027dumb\u0027 object which only represents the \u0027project state\u0027?",
+      "range": {
+        "startLine": 11,
+        "startChar": 31,
+        "endLine": 14,
+        "endChar": 58
+      },
+      "revId": "b763a529fbb038739b5ea0c27646d12f14abc54d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "136eecbb_4735a57b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

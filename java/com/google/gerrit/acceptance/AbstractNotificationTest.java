@@ -25,7 +25,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
 import com.google.common.truth.Truth;
-import com.google.gerrit.acceptance.ProjectResetter.Builder;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -63,10 +62,10 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
   }
 
   @Override
-  protected ProjectResetter resetProjects(Builder resetter) throws IOException {
+  protected ProjectResetter.Config resetProjects() {
     // Don't reset anything so that stagedUsers can be cached across all tests.
     // Without this caching these tests become much too slow.
-    return resetter.build();
+    return new ProjectResetter.Config();
   }
 
   protected static FakeEmailSenderSubject assertThat(FakeEmailSender sender) {

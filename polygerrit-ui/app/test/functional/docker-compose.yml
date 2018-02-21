@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+  builder:
+    build: builder
+    volumes:
+      - ./app:/app
+
+  server:
+    build: server
+    ports:
+      - "29418:29418"
+      - "8080:8080"
+    expose:
+      - "8080"
+
+  tester:
+    build: tester
+    volumes:
+      - .:/tests
+      - ./app:/app
+    depends_on:
+      - server
+    ports:
+      - "8081:8081"
+    command: ["./wait-for-server.sh", "server:8080", "./run.sh"]

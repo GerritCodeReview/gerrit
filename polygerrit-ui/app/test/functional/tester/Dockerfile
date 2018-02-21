@@ -34,5 +34,6 @@ EXPOSE 8080
 
 COPY test-infra.js /tmp/app/node_modules
 COPY run.sh /tmp/app/
+COPY wait-for-server.sh /tmp/app/
 
-ENTRYPOINT [ "/tmp/app/run.sh" ]
+#ENTRYPOINT [ "/tmp/app/run.sh" ]

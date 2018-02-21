@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.audit.AuditService;
@@ -282,9 +283,9 @@ class SshLog implements LifecycleListener {
       return "Command was already destroyed";
     }
     StringBuilder commandName = new StringBuilder(dcmd.getCommandName());
-    String[] args = dcmd.getArguments();
-    for (int i = 1; i < args.length; i++) {
-      commandName.append(".").append(args[i]);
+    String[] trimmedArgs = dcmd.getTrimmedArguments();
+    if (trimmedArgs != null) {
+      commandName.append(Joiner.on(".").join(trimmedArgs));
     }
     return commandName.toString();
   }

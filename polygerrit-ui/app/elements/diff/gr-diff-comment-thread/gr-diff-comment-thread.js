@@ -32,7 +32,7 @@
         type: Array,
         value() { return []; },
       },
-      locationRange: String,
+      range: Object,
       keyEventTarget: {
         type: Object,
         value() { return document.body; },
@@ -403,6 +403,13 @@
       this.$.restAPI.getProjectConfig(name).then(config => {
         this._projectConfig = config;
       });
+    },
+
+    _computeRange(comments) {
+      if (!comments || !comments.length || !comments[0].range) {
+        return null;
+      }
+      return comments[0].range;
     },
   });
 })();

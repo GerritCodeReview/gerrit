@@ -170,6 +170,35 @@ limitations under the License.
         done();
       });
     });
+
+    test('_computeRange', () => {
+      assert.isNull(element._computeRange([]));
+
+      // Null with a range-less comment.
+      assert.isNull(element._computeRange([{
+        message: 'i like you, too',
+        in_reply_to: 'sallys_confession',
+        __date: new Date('2015-12-25'),
+      }]));
+
+      // Null with a range-less comment.
+      assert.isNull(element._computeRange([{
+        message: 'i like you, too',
+        in_reply_to: 'sallys_confession',
+        __date: new Date('2015-12-25'),
+      }]));
+
+      // Finds the first comment's range.
+      const range = {startLine: 1, startChar: 2, endLine: 3, endChar: 4};
+      const result = element._computeRange([{
+        message: 'i like you, too',
+        in_reply_to: 'sallys_confession',
+        __date: new Date('2015-12-25'),
+        range,
+      }]);
+      assert.isNotNull(result);
+      assert.deepEqual(result, range);
+    });
   });
 
   suite('comment action tests', () => {

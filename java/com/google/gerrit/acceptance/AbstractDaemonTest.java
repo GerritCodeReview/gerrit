@@ -201,7 +201,12 @@ public abstract class AbstractDaemonTest {
                 firstTest = description;
               }
               beforeTest(description);
-              try (ProjectResetter resetter = resetProjects(projectResetter.builder())) {
+              ProjectResetter.Config input = resetProjects();
+              if (input == null) {
+                input = defaultResetProjects();
+              }
+
+              try (ProjectResetter resetter = projectResetter.builder().build(input)) {
                 AbstractDaemonTest.this.resetter = resetter;
                 base.evaluate();
               } finally {
@@ -317,8 +322,12 @@ public abstract class AbstractDaemonTest {
   }
 
   /** Controls which project and branches should be reset after each test case. */
-  protected ProjectResetter resetProjects(ProjectResetter.Builder resetter) throws IOException {
-    return resetter
+  protected ProjectResetter.Config resetProjects() {
+    return null;
+  }
+
+  private ProjectResetter.Config defaultResetProjects() {
+    return new ProjectResetter.Config()
         // Don't reset all refs so that refs/sequences/changes is not touched and change IDs are
         // not reused.
         .reset(allProjects, RefNames.REFS_CONFIG)
@@ -331,8 +340,7 @@ public abstract class AbstractDaemonTest {
             RefNames.REFS_USERS + "*",
             RefNames.REFS_EXTERNAL_IDS,
             RefNames.REFS_STARRED_CHANGES + "*",
-            RefNames.REFS_DRAFT_COMMENTS + "*")
-        .build();
+            RefNames.REFS_DRAFT_COMMENTS + "*");
   }
 
   protected void restartAsSlave() throws Exception {

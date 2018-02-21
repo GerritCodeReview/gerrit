@@ -71,7 +71,8 @@ public class ProjectResetterTest extends GerritBaseTests {
   public void resetAllRefs() throws Exception {
     Ref matchingRef = createRef("refs/any/test");
 
-    try (ProjectResetter resetProject = builder().reset(project).build()) {
+    try (ProjectResetter resetProject =
+        builder().build(new ProjectResetter.Config().reset(project))) {
       updateRef(matchingRef);
     }
 
@@ -87,7 +88,10 @@ public class ProjectResetterTest extends GerritBaseTests {
 
     Ref updatedNonMatchingRef;
     try (ProjectResetter resetProject =
-        builder().reset(project, "refs/match/*", "refs/another-match/*").build()) {
+        builder()
+            .build(
+                new ProjectResetter.Config()
+                    .reset(project, "refs/match/*", "refs/another-match/*"))) {
       updateRef(matchingRef);
       updateRef(anotherMatchingRef);
       updatedNonMatchingRef = updateRef(nonMatchingRef);
@@ -107,7 +111,10 @@ public class ProjectResetterTest extends GerritBaseTests {
     Ref anotherMatchingRef;
     Ref nonMatchingRef;
     try (ProjectResetter resetProject =
-        builder().reset(project, "refs/match/*", "refs/another-match/*").build()) {
+        builder()
+            .build(
+                new ProjectResetter.Config()
+                    .reset(project, "refs/match/*", "refs/another-match/*"))) {
       matchingRef = createRef("refs/match/test");
       anotherMatchingRef = createRef("refs/another-match/test");
       nonMatchingRef = createRef("refs/no-match/test");
@@ -135,7 +142,11 @@ public class ProjectResetterTest extends GerritBaseTests {
     Ref updatedNonMatchingRefProject1;
     Ref updatedNonMatchingRefProject2;
     try (ProjectResetter resetProject =
-        builder().reset(project, "refs/foo/*").reset(project2, "refs/bar/*").build()) {
+        builder()
+            .build(
+                new ProjectResetter.Config()
+                    .reset(project, "refs/foo/*")
+                    .reset(project2, "refs/bar/*"))) {
       updateRef(matchingRefProject1);
       updatedNonMatchingRefProject1 = updateRef(nonMatchingRefProject1);
 
@@ -162,7 +173,11 @@ public class ProjectResetterTest extends GerritBaseTests {
     Ref matchingRefProject2;
     Ref nonMatchingRefProject2;
     try (ProjectResetter resetProject =
-        builder().reset(project, "refs/foo/*").reset(project2, "refs/bar/*").build()) {
+        builder()
+            .build(
+                new ProjectResetter.Config()
+                    .reset(project, "refs/foo/*")
+                    .reset(project2, "refs/bar/*"))) {
       matchingRefProject1 = createRef("refs/foo/test");
       nonMatchingRefProject1 = createRef("refs/bar/test");
 
@@ -183,7 +198,9 @@ public class ProjectResetterTest extends GerritBaseTests {
   public void onlyDeleteNewlyCreatedWithOverlappingRefPatterns() throws Exception {
     Ref matchingRef;
     try (ProjectResetter resetProject =
-        builder().reset(project, "refs/match/*", "refs/match/test").build()) {
+        builder()
+            .build(
+                new ProjectResetter.Config().reset(project, "refs/match/*", "refs/match/test"))) {
       // This ref matches 2 ref pattern, ProjectResetter should try to delete it only once.
       matchingRef = createRef("refs/match/test");
     }
@@ -206,7 +223,8 @@ public class ProjectResetterTest extends GerritBaseTests {
     Ref nonMetaConfig = createRef("refs/heads/master");
 
     try (ProjectResetter resetProject =
-        builder(null, null, projectCache).reset(project).reset(project2).build()) {
+        builder(null, null, projectCache)
+            .build(new ProjectResetter.Config().reset(project).reset(project2))) {
       updateRef(nonMetaConfig);
       updateRef(repo2, metaConfig);
     }
@@ -225,7 +243,8 @@ public class ProjectResetterTest extends GerritBaseTests {
     EasyMock.replay(projectCache);
 
     try (ProjectResetter resetProject =
-        builder(null, null, projectCache).reset(project).reset(project2).build()) {
+        builder(null, null, projectCache)
+            .build(new ProjectResetter.Config().reset(project).reset(project2))) {
       createRef("refs/heads/master");
       createRef(repo2, RefNames.REFS_CONFIG);
     }
@@ -249,7 +268,8 @@ public class ProjectResetterTest extends GerritBaseTests {
     Ref nonUserBranch = createRef(RefNames.refsUsers(new Account.Id(2)));
 
     try (ProjectResetter resetProject =
-        builder(null, accountCache, null).reset(project).reset(allUsers).build()) {
+        builder(null, accountCache, null)
+            .build(new ProjectResetter.Config().reset(project).reset(allUsers))) {
       updateRef(nonUserBranch);
       updateRef(allUsersRepo, userBranch);
     }
@@ -269,7 +289,8 @@ public class ProjectResetterTest extends GerritBaseTests {
     EasyMock.replay(accountCache);
 
     try (ProjectResetter resetProject =
-        builder(null, accountCache, null).reset(project).reset(allUsers).build()) {
+        builder(null, accountCache, null)
+            .build(new ProjectResetter.Config().reset(project).reset(allUsers))) {
       // Non-user branch because it's not in All-Users.
       createRef(RefNames.refsUsers(new Account.Id(2)));
 
@@ -300,7 +321,8 @@ public class ProjectResetterTest extends GerritBaseTests {
     Ref nonUserBranch = createRef(RefNames.refsUsers(new Account.Id(3)));
 
     try (ProjectResetter resetProject =
-        builder(null, accountCache, null).reset(project).reset(allUsers).build()) {
+        builder(null, accountCache, null)
+            .build(new ProjectResetter.Config().reset(project).reset(allUsers))) {
       updateRef(nonUserBranch);
       updateRef(allUsersRepo, externalIds);
       createRef(allUsersRepo, RefNames.refsUsers(accountId2));
@@ -329,7 +351,8 @@ public class ProjectResetterTest extends GerritBaseTests {
     Ref nonUserBranch = createRef(RefNames.refsUsers(new Account.Id(3)));
 
     try (ProjectResetter resetProject =
-        builder(null, accountCache, null).reset(project).reset(allUsers).build()) {
+        builder(null, accountCache, null)
+            .build(new ProjectResetter.Config().reset(project).reset(allUsers))) {
       updateRef(nonUserBranch);
       createRef(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
       createRef(allUsersRepo, RefNames.refsUsers(accountId2));
@@ -350,7 +373,8 @@ public class ProjectResetterTest extends GerritBaseTests {
     EasyMock.replay(accountCreator);
 
     try (ProjectResetter resetProject =
-        builder(accountCreator, null, null).reset(project).reset(allUsers).build()) {
+        builder(accountCreator, null, null)
+            .build(new ProjectResetter.Config().reset(project).reset(allUsers))) {
       createRef(allUsersRepo, RefNames.refsUsers(accountId));
     }
 

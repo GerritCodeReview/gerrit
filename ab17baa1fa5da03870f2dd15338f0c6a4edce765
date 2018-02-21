@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2a078f9_c75877bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-21T16:57:52Z",
+      "side": 0,
+      "message": "Nice idea, to merge this statement in the update above.",
+      "revId": "ab17baa1fa5da03870f2dd15338f0c6a4edce765",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

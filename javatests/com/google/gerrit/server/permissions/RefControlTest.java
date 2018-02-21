@@ -636,6 +636,16 @@ public class RefControlTest {
   }
 
   @Test
+  public void unblockRead_NotPossible() {
+    block(parent, READ, ANONYMOUS_USERS, "refs/*");
+    allow(parent, READ, ADMIN, "refs/*");
+    allow(local, READ, ANONYMOUS_USERS, "refs/*");
+    allow(local, READ, ADMIN, "refs/*");
+    ProjectControl u = user(local);
+    assertCannotRead("refs/heads/master", u);
+  }
+
+  @Test
   public void unblockForceWithAllowNoForce_NotPossible() {
     PermissionRule r = block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     r.setForce(true);
@@ -886,6 +896,18 @@ public class RefControlTest {
     PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
     assertCanVote(-2, range);
     assertCanVote(2, range);
+  }
+
+  @Test
+  public void unionOfBlockedVotes() {
+    allow(parent, LABEL + "Code-Review", -1, +1, DEVS, "refs/heads/*");
+    block(parent, LABEL + "Code-Review", -2, +2, REGISTERED_USERS, "refs/heads/*");
+    block(local, LABEL + "Code-Review", -2, +1, REGISTERED_USERS, "refs/heads/*");
+
+    ProjectControl u = user(local, DEVS);
+    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    assertCanVote(-1, range);
+    assertCannotVote(1, range);
   }
 
   @Test

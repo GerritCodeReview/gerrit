@@ -35,10 +35,9 @@ public class Schema_159 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
-    DraftWorkflowMigrationStrategy strategy = DraftWorkflowMigrationStrategy.PRIVATE;
-    if (ui.yesno(
-        false, "Migrate draft changes to work-in-progress changes (default is private)?")) {
-      strategy = DraftWorkflowMigrationStrategy.WORK_IN_PROGRESS;
+    DraftWorkflowMigrationStrategy strategy = DraftWorkflowMigrationStrategy.WORK_IN_PROGRESS;
+    if (ui.yesno(false, "Migrate draft changes to private changes (default is work-in-progress)")) {
+      strategy = DraftWorkflowMigrationStrategy.PRIVATE;
     }
     ui.message(
         String.format("Replace draft changes with %s changes ...", strategy.name().toLowerCase()));

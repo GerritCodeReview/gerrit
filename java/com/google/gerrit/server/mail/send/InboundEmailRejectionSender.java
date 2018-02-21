@@ -20,7 +20,6 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.MailHeader;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -45,8 +44,7 @@ public class InboundEmailRejectionSender extends OutgoingEmail {
 
   @Inject
   public InboundEmailRejectionSender(
-      EmailArguments ea, @Assisted Address to, @Assisted String threadId, @Assisted Error reason)
-      throws OrmException {
+      EmailArguments ea, @Assisted Address to, @Assisted String threadId, @Assisted Error reason) {
     super(ea, "error");
     this.to = checkNotNull(to);
     this.threadId = checkNotNull(threadId);

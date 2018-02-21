@@ -34,6 +34,24 @@
       "revId": "fa096a16f8cf8087ecabd11b753af6419323a94a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e86782b5_8a4340ed",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-02-21T11:10:27Z",
+      "side": 1,
+      "message": "Ah found the change that removed this https://github.com/GerritCodeReview/gerrit/commit/eab3320361ebb4dd1ff6a80152cacc2b2cf1a7f5\n\nAnd looks like I accidentally re added this on the master branch.",
+      "parentUuid": "4a1cb3fc_29c9738e",
+      "revId": "fa096a16f8cf8087ecabd11b753af6419323a94a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

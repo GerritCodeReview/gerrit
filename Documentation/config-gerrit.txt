@@ -1126,13 +1126,6 @@ Allow blame on side by side diff. If set to false, blame cannot be used.
 +
 Default is true.
 
-[[change.allowDrafts]]change.allowDrafts::
-+
-Allow drafts workflow. If set to false, drafts cannot be created,
-deleted or published.
-+
-Default is true.
-
 [[change.api.allowedIdentifier]]change.api.allowedIdentifier::
 +
 Change identifier(s) that are allowed on the API. See

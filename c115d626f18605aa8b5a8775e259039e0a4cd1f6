@@ -22,6 +22,30 @@
       "revId": "c115d626f18605aa8b5a8775e259039e0a4cd1f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "597cbf51_6bfd0396",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-21T13:29:17Z",
+      "side": 1,
+      "message": "Strange i tested it without I49681b0 and it worked and all tests were passing?",
+      "parentUuid": "28f8f682_779f8a5b",
+      "range": {
+        "startLine": 204,
+        "startChar": 8,
+        "endLine": 205,
+        "endChar": 31
+      },
+      "revId": "c115d626f18605aa8b5a8775e259039e0a4cd1f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

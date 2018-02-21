@@ -23,6 +23,30 @@
       "revId": "ab17baa1fa5da03870f2dd15338f0c6a4edce765",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5058953_71d31c04",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-21T16:48:57Z",
+      "side": 1,
+      "message": "Please, disregard, I see you did it already in a follow up change.",
+      "parentUuid": "b41cb7de_154bf929",
+      "range": {
+        "startLine": 51,
+        "startChar": 10,
+        "endLine": 55,
+        "endChar": 23
+      },
+      "revId": "ab17baa1fa5da03870f2dd15338f0c6a4edce765",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

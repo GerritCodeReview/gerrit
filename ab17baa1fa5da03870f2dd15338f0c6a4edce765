@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1519228097 -0500\nnonce AFD2Vu0aXTkKAaxqQTkWtNC2zZhCuP6Ayg9wh6EGH/OK2Zye43la3TVvpOKFDRd/x7y2z2egUdXZ\n\n0000000000000000000000000000000000000000 d50407a8fda137dc37140d8b8155c9409d3cfafe refs/for/stable-2.15\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlqNlMEVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMmfsP/iKnfgyABtZoQ5rpOzTN/jqhwH1z\nr+bxOl/gBZQhMT06CgMz4E/FglAhEu3VwlHjdHSEMFfosTY4n1SGtiuHJDCtblhD\n7IHWTrTqfqcMbcfZ+LfiYTRH78C93CjD3KkbAd7izM2f3SRpVhL+BsRG7G2u0ixN\nhVLy8hOh29JpwBrcUDMn2JlaTkFoii9hD0M9+GiNDoQ8Uz62U5b5AQ8VtLlqBNJX\n3t11qykoofSDn792tpzK3UFODKT/GjNHtESb+gR1+UXETE8ZmuuhqRjyCMHzDrsv\nuddOtdKL3dgdp84IIQJQKS2bVo47iUQBLs35fT1zHr32q7K006lku9jk9AnHBdTv\nJFipkcHyTed9Y/7slutEow07D4/7eJ4be6+VA04kN8Gd8lN4lhf0xD33piXl5LsU\nJ51tWEp/vpT16AJhJH4aEIYk2xu5KJvBmXotyxQBbj+C/IwU49vkbLqjAianpJqI\ncoJfdgfK3qUTvdn9YDeGXnJCyZ9Jhem84IwI+MYgeQVG7KIVFGtcQNHyCbdmGnSF\nSBwmMzzLBcvzNVqHPw0Qs+Mno8NG0mFw8BFQzJPrxGdDn+6GBSbUzU7WFImdbXSf\nbO5CQMw/DOLuo6+pvL+XfDVKYofC4RYvhrF1n6hbe3XqUXx25k9msKFqZL76vhHs\nB6euxC+1GK8vjgOi\n\u003dihA4\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b41cb7de_154bf929",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-21T16:48:08Z",
+      "side": 1,
+      "message": "Optional: In the discussion of the same change it was also suggested to not touch closed (merged and abandoned) changes. It was a great confusion to find all suddenly merged changes to be private, just because one or another patch set was a draft. Therefore my suggestion would be to consider to change this statement to:\n\n  \"UPDATE changes SET %s \u003d \u0027Y\u0027, created_on \u003d created_on WHERE status \u003d \u0027d\u0027 OR \"\n                \" (status \u003d \u0027n\u0027 AND \"\n                + \"EXISTS (SELECT * FROM patch_sets WHERE \"\n                + \"patch_sets.change_id \u003d changes.change_id AND patch_sets.draft \u003d \u0027Y\u0027))\",\n            column));\n\n(I havn\u0027t tested this proposal).",
+      "range": {
+        "startLine": 51,
+        "startChar": 10,
+        "endLine": 55,
+        "endChar": 23
+      },
+      "revId": "ab17baa1fa5da03870f2dd15338f0c6a4edce765",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

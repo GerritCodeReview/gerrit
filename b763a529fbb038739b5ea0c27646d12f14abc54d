@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "45f0f3d4_c8335fbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-21T14:16:11Z",
+      "side": 1,
+      "message": "Ugh, according to the test failure this change apparently introduces a circular dependency. So maybe we do need to actually make ProjectState thinner before we can solve this memory issue.",
+      "parentUuid": "a25d19ef_2f28c79e",
+      "range": {
+        "startLine": 11,
+        "startChar": 31,
+        "endLine": 14,
+        "endChar": 58
+      },
+      "revId": "b763a529fbb038739b5ea0c27646d12f14abc54d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "136eecbb_4735a57b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

@@ -50,7 +50,7 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('_getThreadGroups', () => {
+    test('_getThreads', () => {
       element.patchForNewThreads = 3;
       const comments = [
         {
@@ -88,8 +88,7 @@ limitations under the License.
         },
       ];
 
-      assert.deepEqual(element._getThreadGroups(comments),
-          expectedThreadGroups);
+      assert.deepEqual(element._getThreads(comments), expectedThreadGroups);
 
       // Patch num should get inherited from comment rather
       comments.push({
@@ -141,11 +140,16 @@ limitations under the License.
           }],
           patchNum: 3,
           rootId: 'betsys_confession',
+          range: {
+            start_line: 1,
+            start_character: 1,
+            end_line: 1,
+            end_character: 2,
+          },
         },
       ];
 
-      assert.deepEqual(element._getThreadGroups(comments),
-          expectedThreadGroups);
+      assert.deepEqual(element._getThreads(comments), expectedThreadGroups);
     });
 
     test('multiple comments at same location but not threaded', () => {
@@ -163,7 +167,7 @@ limitations under the License.
           __commentSide: 'left',
         },
       ];
-      assert.equal(element._getThreadGroups(comments).length, 2);
+      assert.equal(element._getThreads(comments).length, 2);
     });
 
     test('_sortByDate', () => {
@@ -276,6 +280,24 @@ limitations under the License.
       element.removeThread(locationRange);
       flushAsynchronousOperations();
       assert(element._threads.length, 1);
+    });
+
+    test('_rangesEqual', () => {
+      const range1 =
+          {startLine: 123, startChar: 345, endLine: 234, endChar: 456};
+      const range2 =
+          {startLine: 1, startChar: 2, endLine: 3, endChar: 4};
+
+      assert.isTrue(element._rangesEqual(null, null));
+      assert.isTrue(element._rangesEqual(null, undefined));
+      assert.isTrue(element._rangesEqual(undefined, null));
+      assert.isTrue(element._rangesEqual(undefined, undefined));
+
+      assert.isFalse(element._rangesEqual(range1, null));
+      assert.isFalse(element._rangesEqual(null, range1));
+      assert.isFalse(element._rangesEqual(range1, range2));
+
+      assert.isTrue(element._rangesEqual(range1, Object.assign({}, range1)));
     });
   });
 </script>

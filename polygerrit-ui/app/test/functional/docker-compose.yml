@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  server:
+    build: ./prepopulate
+    ports:
+       - "29418:29418"
+       - "8080:8080"
+    expose:
+      - "8080"
+  infra:
+    build: ./infra
+    volumes:
+     - .:/tests
+    ports:
+       - "8081:8081"
+    volumes:
+      - .:/tests
+      - ../../../../bazel-genfiles/polygerrit-ui/app:/app
+    command: ["./wait-for-server.sh", "server:8080", "./run.sh"]

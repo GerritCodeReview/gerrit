@@ -106,7 +106,7 @@ public class AccountState {
             : accountConfig.getExternalIdsRev();
     ImmutableSet<ExternalId> extIds =
         extIdsRev.isPresent()
-            ? externalIds.byAccount(account.getId(), extIdsRev.get())
+            ? ImmutableSet.copyOf(externalIds.byAccount(account.getId(), extIdsRev.get()))
             : ImmutableSet.of();
 
     // Don't leak references to AccountConfig into the AccountState, since it holds a reference to

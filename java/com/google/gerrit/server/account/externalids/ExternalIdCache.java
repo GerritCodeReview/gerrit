@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.account.externalids;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSetMultimap;
+import com.google.common.collect.SetMultimap;
 import com.google.gerrit.reviewdb.client.Account;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -26,6 +26,8 @@ import org.eclipse.jgit.lib.ObjectId;
  *
  * <p>On each cache access the SHA1 of the refs/meta/external-ids branch is read to verify that the
  * cache is up to date.
+ *
+ * <p>All returned collections are unmodifiable.
  */
 interface ExternalIdCache {
   void onReplace(
@@ -35,17 +37,17 @@ interface ExternalIdCache {
       Collection<ExternalId> toAdd)
       throws IOException;
 
-  ImmutableSet<ExternalId> byAccount(Account.Id accountId) throws IOException;
+  Set<ExternalId> byAccount(Account.Id accountId) throws IOException;
 
-  ImmutableSet<ExternalId> byAccount(Account.Id accountId, ObjectId rev) throws IOException;
+  Set<ExternalId> byAccount(Account.Id accountId, ObjectId rev) throws IOException;
 
-  ImmutableSetMultimap<Account.Id, ExternalId> allByAccount() throws IOException;
+  SetMultimap<Account.Id, ExternalId> allByAccount() throws IOException;
 
-  ImmutableSetMultimap<String, ExternalId> byEmails(String... emails) throws IOException;
+  SetMultimap<String, ExternalId> byEmails(String... emails) throws IOException;
 
-  ImmutableSetMultimap<String, ExternalId> allByEmail() throws IOException;
+  SetMultimap<String, ExternalId> allByEmail() throws IOException;
 
-  default ImmutableSet<ExternalId> byEmail(String email) throws IOException {
+  default Set<ExternalId> byEmail(String email) throws IOException {
     return byEmails(email).get(email);
   }
 }

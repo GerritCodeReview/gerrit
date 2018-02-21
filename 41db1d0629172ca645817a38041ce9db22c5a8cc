@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1519147731 -0500\nnonce AFD2Vu0n2/dVy9etl+Yy3HGrpf3A6IaBtN6DgbUi56yodK1mCwCUH+QbV/8DGaI8yxkysAzokuW5\n\n0000000000000000000000000000000000000000 b763a529fbb038739b5ea0c27646d12f14abc54d refs/for/master%r\u003dekempin@google.com,r\u003daliceks\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlqMWtMVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMB1oP/2CisGzZJH1zDgaRD8mPFdLNAIG0\ngagsYnv8pDfKLDBzkzEvcz81Bq8u1lwEfE+/IGrFJWHFMP2s2QkRdV2/6cnMamef\nfDgtdu9iznmSUjd8qge46olXCyKIZcY2dt4plFf2PlXuWbNs6tAtV8UycU987uAy\ngsAcssoEpY81j7KJkDScNGCiv8nMEG/F1ENoqV4BprVKH+Bjb9KZQ0NJtDpCk1Rq\nv7o5djRcuQA2lbV2fh+liKEQe/fZV//hw4EbEPq+SpW31NS0aqdn+afgLPR4mtDr\nFyhbnYpUPsvqAvvvGNHnsOWQ5wCcx+qagxnMzGkwclUE5N1lsvjWdXD44c0L17AA\n9HJjVZKJo2M9hAtqCddk4jrJhztCMrowhf5MAADp4IZcJvjX93gaSadMu7rlO3y3\nW1AbWj1bMA+vztwkDNme+8oidk3vkchzLsPJoKwj7Rsq9PMJkAW9lkIzyEaOLUga\nd5MZ3dmcmyMY2MLfd4QwWTzR6583EqFz7ePWuLPtC2bqFMzLDYGAPz0YohOX9GtY\nrkIhPSuTNzpZAuF0lPI4uL0RN5y6a5CQue4zrWWiu1AWxiwmZ5NeQ+qJeUQ+TDQb\nIaxQXZ+a0n3JxZPCM1bfIpgd4jg0b6Q6FDYS98f4QYBNLn6MT1bSNqCnU6Q3RB1K\nc4rYPpm+5nkJ2Fdv\n\u003df2AR\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "86ccf784_250431e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-21T09:51:38Z",
+      "side": 1,
+      "message": "Would it be possible to keep the immutable types in the public method signatures of the ExternalIds class? This is the public class to access external IDs while ExternalIdCache is package private and an implementation detail of this package. Hence loosing the immutable types in the public method signatures of ExternalIdCache isn\u0027t a big deal.",
+      "range": {
+        "startLine": 18,
+        "startChar": 41,
+        "endLine": 19,
+        "endChar": 48
+      },
+      "revId": "41db1d0629172ca645817a38041ce9db22c5a8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc2f4e2e_c22d893f",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-21T09:51:38Z",
+      "side": 1,
+      "message": "Could this be done by the ExternalIds#byAccount method?",
+      "range": {
+        "startLine": 109,
+        "startChar": 14,
+        "endLine": 109,
+        "endChar": 34
+      },
+      "revId": "41db1d0629172ca645817a38041ce9db22c5a8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

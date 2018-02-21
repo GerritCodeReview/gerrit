@@ -45,16 +45,23 @@ public class Schema_159 extends SchemaVersion {
     try (StatementExecutor e = newExecutor(db)) {
       String column =
           strategy == DraftWorkflowMigrationStrategy.PRIVATE ? "is_private" : "work_in_progress";
-      // Mark changes private/wip if changes have status draft or
-      // if they have any draft patch sets.
+      // Mark changes private/WIP and NEW if either:
+      // * they have status DRAFT
+      // * they have status NEW and have any draft patch sets
       e.execute(
           String.format(
-              "UPDATE changes SET %s = 'Y', created_on = created_on WHERE status = 'd' OR "
-                  + "EXISTS (SELECT * FROM patch_sets WHERE "
-                  + "patch_sets.change_id = changes.change_id AND patch_sets.draft = 'Y')",
+              "UPDATE changes "
+                  + "SET %s = 'Y', "
+                  + "    status = 'n', "
+                  + "    created_on = created_on "
+                  + "WHERE status = 'd' "
+                  + "  OR (status = 'n' "
+                  + "      AND EXISTS "
+                  + "        (SELECT * "
+                  + "         FROM patch_sets "
+                  + "         WHERE patch_sets.change_id = changes.change_id "
+                  + "           AND patch_sets.draft = 'Y')) ",
               column));
-      // Change change status from draft to new.
-      e.execute("UPDATE changes SET status = 'n', created_on = created_on WHERE status = 'd'");
     }
     ui.message("done");
   }

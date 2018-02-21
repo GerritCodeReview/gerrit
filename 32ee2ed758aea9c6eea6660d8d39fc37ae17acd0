@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae287cf4_38684468",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-21T07:25:32Z",
+      "side": 1,
+      "message": "\"users that aren\u0027t the caller of\"?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 70
+      },
+      "revId": "32ee2ed758aea9c6eea6660d8d39fc37ae17acd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bbc73da_481625a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-21T07:25:32Z",
+      "side": 1,
+      "message": "Can you elaborate?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "32ee2ed758aea9c6eea6660d8d39fc37ae17acd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c211dcf_f3d169fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-21T07:25:32Z",
+      "side": 1,
+      "message": "I\u0027m not sure what \"absent user check\" means.",
+      "range": {
+        "startLine": 17,
+        "startChar": 30,
+        "endLine": 17,
+        "endChar": 55
+      },
+      "revId": "32ee2ed758aea9c6eea6660d8d39fc37ae17acd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57fa4373_479c60db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-21T07:25:32Z",
+      "side": 1,
+      "message": "enforce",
+      "range": {
+        "startLine": 20,
+        "startChar": 43,
+        "endLine": 20,
+        "endChar": 49
+      },
+      "revId": "32ee2ed758aea9c6eea6660d8d39fc37ae17acd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ed4405d_393552cf",
+        "filename": "java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-21T07:25:32Z",
+      "side": 1,
+      "message": "Is it expected that the change inserter is always invoked by current user?\n\nOr to put it another way, previously was ctx.getUser always the current user?",
+      "revId": "32ee2ed758aea9c6eea6660d8d39fc37ae17acd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

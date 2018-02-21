@@ -16,6 +16,24 @@
       "revId": "fa096a16f8cf8087ecabd11b753af6419323a94a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a1cb3fc_29c9738e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-02-21T08:57:53Z",
+      "side": 1,
+      "message": "Oh it was Alice change\n\nhttps://github.com/GerritCodeReview/gerrit/commit/2776014d3094fa8b6cc8db61563c56479f296b32",
+      "parentUuid": "5695e5cf_0a09b33b",
+      "revId": "fa096a16f8cf8087ecabd11b753af6419323a94a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

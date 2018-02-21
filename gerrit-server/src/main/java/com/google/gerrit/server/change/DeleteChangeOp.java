@@ -43,10 +43,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 class DeleteChangeOp implements BatchUpdateOp {
-  static boolean allowDrafts(Config cfg) {
-    return cfg.getBoolean("change", "allowDrafts", true);
-  }
-
   static ReviewDb unwrap(ReviewDb db) {
     // This is special. We want to delete exactly the rows that are present in
     // the database, even when reading everything else from NoteDb, so we need

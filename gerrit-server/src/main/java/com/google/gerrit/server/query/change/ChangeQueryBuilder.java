@@ -217,7 +217,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final Provider<ReviewDb> db;
     final StarredChangesUtil starredChangesUtil;
     final SubmitDryRun submitDryRun;
-    final boolean allowsDrafts;
 
     private final Provider<CurrentUser> self;
 
@@ -281,7 +280,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           listMembers,
           starredChangesUtil,
           accountCache,
-          cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true),
           notesMigration);
     }
 
@@ -313,7 +311,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<ListMembers> listMembers,
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
-        boolean allowsDrafts,
         NotesMigration notesMigration) {
       this.db = db;
       this.queryProvider = queryProvider;
@@ -341,7 +338,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.listMembers = listMembers;
       this.starredChangesUtil = starredChangesUtil;
       this.accountCache = accountCache;
-      this.allowsDrafts = allowsDrafts;
       this.hasOperands = hasOperands;
       this.notesMigration = notesMigration;
     }
@@ -375,7 +371,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           listMembers,
           starredChangesUtil,
           accountCache,
-          allowsDrafts,
           notesMigration);
     }
 

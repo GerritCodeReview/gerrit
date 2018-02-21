@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "14793e12_42f84bb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-21T13:50:09Z",
+      "side": 1,
+      "message": "Ack. I\u0027m fine with this then.",
+      "parentUuid": "d8119227_8727e900",
+      "range": {
+        "startLine": 18,
+        "startChar": 41,
+        "endLine": 19,
+        "endChar": 48
+      },
+      "revId": "41db1d0629172ca645817a38041ce9db22c5a8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc2f4e2e_c22d893f",
         "filename": "java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 1

@@ -343,9 +343,6 @@ public abstract class AbstractDaemonTest {
       server.getTestInjector().injectMembers(resetter);
     }
     initSsh();
-    // The server restart threw away all indices. Only reindex all groups as we only have the group
-    // index in slave mode.
-    reindexAllGroups();
   }
 
   private void reindexAllGroups() throws OrmException, IOException, ConfigInvalidException {

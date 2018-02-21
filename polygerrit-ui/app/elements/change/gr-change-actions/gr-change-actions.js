@@ -193,7 +193,7 @@
      */
 
     properties: {
-      /** @type {{ _number: number, branch: string, project: string }} */
+      /** @type {{ branch: string, project: string }} */
       change: Object,
       actions: {
         type: Object,
@@ -866,7 +866,6 @@
       switch (key) {
         case RevisionActions.REBASE:
           this._showActionDialog(this.$.confirmRebase);
-          this.$.confirmRebase.fetchRecentChanges();
           break;
         case RevisionActions.CHERRYPICK:
           this._handleCherrypickTap();

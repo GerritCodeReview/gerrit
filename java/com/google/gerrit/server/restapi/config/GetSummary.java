@@ -37,7 +37,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.eclipse.jgit.internal.storage.file.WindowCacheStatAccessor;
+import org.eclipse.jgit.storage.file.WindowCacheStats;
 import org.kohsuke.args4j.Option;
 
 @RequiresCapability(GlobalCapability.MAINTAIN_SERVER)
@@ -125,8 +125,8 @@ public class GetSummary implements RestReadView<ConfigResource> {
     long mTotal = r.totalMemory();
     long mInuse = mTotal - mFree;
 
-    int jgitOpen = WindowCacheStatAccessor.getOpenFiles();
-    long jgitBytes = WindowCacheStatAccessor.getOpenBytes();
+    int jgitOpen = WindowCacheStats.getOpenFiles();
+    long jgitBytes = WindowCacheStats.getOpenBytes();
 
     MemSummaryInfo memSummaryInfo = new MemSummaryInfo();
     memSummaryInfo.total = bytes(mTotal);

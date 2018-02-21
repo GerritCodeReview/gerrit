@@ -22,6 +22,30 @@
       "revId": "8a86c1f2fded31e5b130f402a89901c79179893a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa43f03e_2987e675",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-selector/gr-diff-mode-selector.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-21T00:46:59Z",
+      "side": 1,
+      "message": "Specifying a display-inside value [1] here made the buttons not have any computed margin between them. Table and flex both work here.\n\nI\u0027m not sure what the canonical way to do this is, I\u0027m sure you do though. What should I change this to?\n\n[1] https://developer.mozilla.org/en-US/docs/Web/CSS/display",
+      "parentUuid": "5bc5de42_662912ad",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "8a86c1f2fded31e5b130f402a89901c79179893a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

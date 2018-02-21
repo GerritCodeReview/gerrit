@@ -120,9 +120,10 @@ branch.
 	Votes that are not permitted for the user are silently ignored.
 
 --label::
-	Set a label by name to the value 'N'.  Invalid votes (invalid label
-	or invalid value) and votes that are not permitted for the user are
-	silently ignored.
+	Set a label by name to the value 'N'. The ability to vote on all specified
+	labels is required. If the vote is invalid (invalid label or invalid name),
+	the vote is not permitted for the user, or the vote is on an outdated or
+	closed patch set, return an error instead of silently discarding the vote.
 
 --tag::
 -t::

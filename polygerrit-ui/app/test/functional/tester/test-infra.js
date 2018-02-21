@@ -11,7 +11,7 @@ function setup() {
       .build()
       .then(d => {
         driver = d;
-        return driver.get('http://localhost:8080');
+        return driver.get('http://server:8080/?polygerrit=1');
       })
       .then(() => driver);
 }

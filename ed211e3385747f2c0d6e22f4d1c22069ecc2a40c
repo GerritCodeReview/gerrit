@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "321cc0a4_f7d6858f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-22T21:17:59Z",
+      "side": 1,
+      "message": "Can we change this to \"Group may not exist, or you may not have permission to add it\"?",
+      "range": {
+        "startLine": 18,
+        "startChar": 28,
+        "endLine": 19,
+        "endChar": 29
+      },
+      "revId": "ed211e3385747f2c0d6e22f4d1c22069ecc2a40c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a3732de_522d7757",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-22T21:17:59Z",
+      "side": 1,
+      "message": "() \u003d\u003e Promise.reject({status: 404}));",
+      "range": {
+        "startLine": 194,
+        "startChar": 10,
+        "endLine": 196,
+        "endChar": 13
+      },
+      "revId": "ed211e3385747f2c0d6e22f4d1c22069ecc2a40c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

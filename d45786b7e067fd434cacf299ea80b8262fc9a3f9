@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "238bfb03_90ebed66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-22T13:44:35Z",
+      "side": 1,
+      "message": "I0fea2243 enables offline reindex for groups on slave hosts and Iee32bee07 mentions it in the release notes.",
+      "parentUuid": "6f95f3c8_cc272880",
+      "range": {
+        "startLine": 18,
+        "startChar": 68,
+        "endLine": 19,
+        "endChar": 47
+      },
+      "revId": "d45786b7e067fd434cacf299ea80b8262fc9a3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8fe1bac_da6fa335",
         "filename": "java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 2

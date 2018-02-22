@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dea5d5d0_8a2bf0e1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-22T21:56:40Z",
+      "side": 1,
+      "message": "Optional: it might be nice to declare the values as an enum constant?\n\nconst TSHIRT_SIZES: {\n  xs: 10,\n  small: 50,\n  medium: 250,\n  large: 1000,\n}\n\n.. or something like that?",
+      "range": {
+        "startLine": 134,
+        "startChar": 6,
+        "endLine": 144,
+        "endChar": 7
+      },
+      "revId": "960791629aca20930310ae097735d4a10c359d64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

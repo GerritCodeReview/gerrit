@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9d362b59_16dd2d2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-22T01:19:38Z",
+      "side": 1,
+      "message": "As of this change, I can get the template tests to pass _very_ quickly, but I can\u0027t get them to fail at all. Something seems broken.\n\nI wonder, could the version check on the library not be showing in the terminal and resulting in a success? That should be a failure IMO.",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "fcfa0141ebf74b795f6bb172d9154ac99f4e64be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8182b0b4_4daf5297",
         "filename": "/COMMIT_MSG",
         "patchSetId": 17

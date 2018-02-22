@@ -17,7 +17,6 @@ package com.google.gerrit.extensions.common;
 public class ChangeConfigInfo {
   public Boolean allowBlame;
   public Boolean showAssigneeInChangesTable;
-  public Boolean allowDrafts;
   public Boolean disablePrivateChanges;
   public int largeChange;
   public String replyLabel;

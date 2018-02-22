@@ -58,7 +58,6 @@ import com.google.gerrit.server.account.VersionedAccountQueries;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitDryRun;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -92,7 +91,6 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 /** Parses a query string meant to be applied to change objects. */
@@ -215,7 +213,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final Provider<ReviewDb> db;
     final StarredChangesUtil starredChangesUtil;
     final SubmitDryRun submitDryRun;
-    final boolean allowsDrafts;
     final GroupMembers groupMembers;
 
     private final Provider<CurrentUser> self;
@@ -248,7 +245,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         IndexConfig indexConfig,
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
-        @GerritServerConfig Config cfg,
         NotesMigration notesMigration,
         GroupMembers groupMembers) {
       this(
@@ -277,7 +273,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           indexConfig,
           starredChangesUtil,
           accountCache,
-          cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true),
           notesMigration,
           groupMembers);
     }
@@ -308,7 +303,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         IndexConfig indexConfig,
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
-        boolean allowsDrafts,
         NotesMigration notesMigration,
         GroupMembers groupMembers) {
       this.db = db;
@@ -335,7 +329,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.indexConfig = indexConfig;
       this.starredChangesUtil = starredChangesUtil;
       this.accountCache = accountCache;
-      this.allowsDrafts = allowsDrafts;
       this.hasOperands = hasOperands;
       this.notesMigration = notesMigration;
       this.groupMembers = groupMembers;
@@ -368,7 +361,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           indexConfig,
           starredChangesUtil,
           accountCache,
-          allowsDrafts,
           notesMigration,
           groupMembers);
     }

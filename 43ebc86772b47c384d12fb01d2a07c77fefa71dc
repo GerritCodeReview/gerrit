@@ -1,4 +1,56 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1519313973 +0100\nnonce AFD2Vu1PyafK2MD9wjAJQTBvvuy226vC3OGN/ZAtEdp6SIoZvq0JphqzqkoO8XH+JJPZNUZu6jrG\n\n0000000000000000000000000000000000000000 43ebc86772b47c384d12fb01d2a07c77fefa71dc refs/for/master%private\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlqO5DUACgkQUbX9l6DQ\n71GEmAf/WfwzKvRuDj+bxbgS0vudE9btyuFW3fhpvMChn06otKVashniFmSGFBom\nK80AF8nLaA0W+RlRtvDZO5N4aUztDrWasKO6j9X55MJb1sJ6OHVXR9uoTwZ25bQb\nUMpzmCj2kQfadhlOy2aL6uINBldhyU8ngwrUAckWFTCZCRLi8R1rPyZirbRi7GsB\n+HqfJCgVuTEQkT+BofepL6wZlRF2DXEyEoR20vdvVXANpvPXX2xwh9PGezpicBsi\nA/mKy03S2FULUKAtOxuTNyd8v3PDHW4RKAg9I5M085Rz35TOT1OjmqX4+S0hhon1\ndO8U8CPPM0OXbUXSQavsIrjnSgElcg\u003d\u003d\n\u003dn7n8\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e938a6b_f0629bc6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-22T15:47:56Z",
+      "side": 1,
+      "message": "I assume there will also be mroe changes to actually use the tracing API from more places?\n\nAlso, how does this interact with the UI? Is the idea that passing ?dbg\u003d1 or similar will cause the UI to start sending the trace parameter?",
+      "revId": "43ebc86772b47c384d12fb01d2a07c77fefa71dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a829881c_8089e095",
+        "filename": "java/com/google/gerrit/server/DebugTraceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-22T15:47:56Z",
+      "side": 1,
+      "message": "I might be missing something, but should there be a check here like \"is tracing enabled for the current request\"?",
+      "revId": "43ebc86772b47c384d12fb01d2a07c77fefa71dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0df7d11_8a4fbed2",
+        "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-22T15:47:56Z",
+      "side": 1,
+      "message": "Are we going to bind a different implementation? If so, this needs to be bound higher up.",
+      "revId": "43ebc86772b47c384d12fb01d2a07c77fefa71dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

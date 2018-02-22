@@ -905,7 +905,7 @@ public class ChangeData {
     return messages;
   }
 
-  public List<SubmitRecord> submitRecords(SubmitRuleOptions options) throws OrmException {
+  public List<SubmitRecord> submitRecords(SubmitRuleOptions options) {
     List<SubmitRecord> records = submitRecords.get(options);
     if (records == null) {
       if (!lazyLoad) {
@@ -926,7 +926,7 @@ public class ChangeData {
     submitRecords.put(options, records);
   }
 
-  public SubmitTypeRecord submitTypeRecord() throws OrmException {
+  public SubmitTypeRecord submitTypeRecord() {
     if (submitTypeRecord == null) {
       submitTypeRecord = submitRuleEvaluatorFactory.create(this).getSubmitType();
     }

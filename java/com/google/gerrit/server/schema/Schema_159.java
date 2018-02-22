@@ -35,26 +35,32 @@ public class Schema_159 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
-    DraftWorkflowMigrationStrategy strategy = DraftWorkflowMigrationStrategy.PRIVATE;
-    if (ui.yesno(
-        false, "Migrate draft changes to work-in-progress changes (default is private)?")) {
-      strategy = DraftWorkflowMigrationStrategy.WORK_IN_PROGRESS;
+    DraftWorkflowMigrationStrategy strategy = DraftWorkflowMigrationStrategy.WORK_IN_PROGRESS;
+    if (ui.yesno(false, "Migrate draft changes to private changes (default is work-in-progress)")) {
+      strategy = DraftWorkflowMigrationStrategy.PRIVATE;
     }
     ui.message(
         String.format("Replace draft changes with %s changes ...", strategy.name().toLowerCase()));
     try (StatementExecutor e = newExecutor(db)) {
       String column =
           strategy == DraftWorkflowMigrationStrategy.PRIVATE ? "is_private" : "work_in_progress";
-      // Mark changes private/wip if changes have status draft or
-      // if they have any draft patch sets.
+      // Mark changes private/WIP and NEW if either:
+      // * they have status DRAFT
+      // * they have status NEW and have any draft patch sets
       e.execute(
           String.format(
-              "UPDATE changes SET %s = 'Y', created_on = created_on WHERE status = 'd' OR "
-                  + "EXISTS (SELECT * FROM patch_sets WHERE "
-                  + "patch_sets.change_id = changes.change_id AND patch_sets.draft = 'Y')",
+              "UPDATE changes "
+                  + "SET %s = 'Y', "
+                  + "    status = 'n', "
+                  + "    created_on = created_on "
+                  + "WHERE status = 'd' "
+                  + "  OR (status = 'n' "
+                  + "      AND EXISTS "
+                  + "        (SELECT * "
+                  + "         FROM patch_sets "
+                  + "         WHERE patch_sets.change_id = changes.change_id "
+                  + "           AND patch_sets.draft = 'Y')) ",
               column));
-      // Change change status from draft to new.
-      e.execute("UPDATE changes SET status = 'n', created_on = created_on WHERE status = 'd'");
     }
     ui.message("done");
   }

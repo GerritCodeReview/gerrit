@@ -38,15 +38,10 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 class DeleteChangeOp implements BatchUpdateOp {
-  static boolean allowDrafts(Config cfg) {
-    return cfg.getBoolean("change", "allowDrafts", true);
-  }
-
   private final PatchSetUtil psUtil;
   private final StarredChangesUtil starredChangesUtil;
   private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;

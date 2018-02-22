@@ -37,11 +37,15 @@ import com.google.gwtorm.server.StatementExecutor;
 import java.util.Map;
 
 public class ReviewDbWrapper implements ReviewDb {
-  public static JdbcSchema unwrapJbdcSchema(ReviewDb db) {
+  public static ReviewDb unwrapReviewDb(ReviewDb db) {
     if (db instanceof ReviewDbWrapper) {
-      return unwrapJbdcSchema(((ReviewDbWrapper) db).unsafeGetDelegate());
+      return unwrapReviewDb(((ReviewDbWrapper) db).unsafeGetDelegate());
     }
-    return (JdbcSchema) db;
+    return db;
+  }
+
+  public static JdbcSchema unwrapJbdcSchema(ReviewDb db) {
+    return (JdbcSchema) unwrapReviewDb(db);
   }
 
   protected final ReviewDb delegate;

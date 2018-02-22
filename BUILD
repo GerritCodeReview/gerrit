@@ -70,3 +70,13 @@ genrule2(
         "zip -qr $$ROOT/$@ .",
     ]),
 )
+
+sh_test(
+    name = "start_test",
+    srcs = ["start_test.sh"],
+    data = [
+        ":contrib/populate-fixture-data.py",
+        ":polygerrit.war",
+        "@local_jdk//:java",
+    ],
+)

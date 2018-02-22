@@ -70,6 +70,30 @@
       "revId": "c115d626f18605aa8b5a8775e259039e0a4cd1f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd2345be_e1a72a15",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-22T13:13:55Z",
+      "side": 1,
+      "message": "Thanks, now I see what you mean. There is a conflict when I try to cherry-pick  I42b45ed5 from the UI, i will do it from the command line later today.",
+      "parentUuid": "a8199a64_b07eda8b",
+      "range": {
+        "startLine": 204,
+        "startChar": 8,
+        "endLine": 205,
+        "endChar": 31
+      },
+      "revId": "c115d626f18605aa8b5a8775e259039e0a4cd1f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

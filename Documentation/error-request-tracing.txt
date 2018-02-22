@@ -1,0 +1,66 @@
+= Request Tracing
+
+Gerrit supports on-demand tracing of single requests that results in
+additional logs with debug information that are written to the
+`error_log`. The logs that correspond to a traced request are
+associated with a unique trace ID. This trace ID is returned with the
+response and can be used by an administrator to find the matching log
+entries.
+
+How tracing is enabled and how the trace ID is returned depends on the
+request type:
+
+* REST API: For REST calls tracing can be enabled by setting the
+  `trace` request parameter, the trace ID is returned as
+  `X-Gerrit-Trace` header. More information about this can be found in
+  the link:rest-api.html#tracing[Request Tracing] section of the
+  link:rest-api.html[REST API documentation].
+* SSH API: For SSH calls tracing is not supported.
+* GIT: For GIT requests tracing is not supported.
+
+== Find log entries for a trace ID
+
+If tracing is enabled all log messages that correspond to the traced
+request are prefixed with `[<traceId>]', e.g.:
+
+----
+  [2018-02-23 15:04:27,134] [HTTP-75] INFO  com.google.gerrit.httpd.restapi.RestApiServlet : [5b6c76d4-f25e-4c8c-8aa0-3bcb57446b3a] Received REST request: GET /a/accounts/?trace&q=ad
+  [2018-02-23 15:04:27,135] [HTTP-75] INFO  com.google.gerrit.httpd.restapi.RestApiServlet : [5b6c76d4-f25e-4c8c-8aa0-3bcb57446b3a] Calling user: admin
+  ...
+  [2018-02-23 15:04:27,232] [HTTP-75] INFO  com.google.gerrit.httpd.restapi.RestApiServlet : [5b6c76d4-f25e-4c8c-8aa0-3bcb57446b3a] REST call succeeded: 200
+  [2018-02-23 15:04:27,234] [HTTP-75] INFO  com.google.gerrit.httpd.restapi.RestApiServlet : [5b6c76d4-f25e-4c8c-8aa0-3bcb57446b3a] JSON response body:
+  )]}'
+  [
+    {
+      "_account_id": 1000000
+    }
+  ]
+----
+
+By doing a grep with the trace ID over the error log the log entries
+that correspond to the request can be found.
+
+NOTE: When tracing is enabled it is not guaranteed that all logs that
+correspond to the traced request contain the trace ID (most do, but
+also have a look around).
+
+== How does the generation of additional logs work?
+
+The code writes log entries on `DEBUG` level. By default these logs
+don't show up in the `error_log` since by configuration only log
+entries with a level >= `INFO` are logged. By setting the log level to
+`DEBUG` or lower the `DEBUG` log entries can be enabled. However then
+they show up for each request which creates a lot of log spam when only
+logs for a single request should be investigated. By enabling tracing
+all log entries on `DEBUG` level and below that correspond to the
+traced request will be promoted to the next higher log level. E.g. log
+entries on `DEBUG` level are written on `INFO` level. This way they now
+show up in the `error_log` if the log level is set to `INFO`. This
+means request tracing only works if the overall log level is `INFO`.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

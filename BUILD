@@ -70,3 +70,32 @@ genrule2(
         "zip -qr $$ROOT/$@ .",
     ]),
 )
+
+sh_binary(
+    name = "start_test",
+    srcs = ["start_test.sh"],
+    data = [
+        ":contrib/populate-fixture-data.py",
+        ":polygerrit.war",
+        "@local_jdk//:java",
+    ],
+)
+
+load("@io_bazel_rules_webtesting//web:java.bzl", "java_web_test_suite")
+
+java_web_test_suite(
+    name = "PilotTest",
+    srcs = ["PilotTest.java"],
+    browsers = [
+        # For experimental purposes only. Eventually you should
+        # create your own browser definitions.
+        "@io_bazel_rules_webtesting//browsers:chromium-local",
+    ],
+    local = True,
+    deps = [
+        "@io_bazel_rules_webtesting//testing/web",
+        "@io_bazel_rules_webtesting//java/com/google/testing/web",
+        "@junit",
+        "@org_seleniumhq_selenium_api",
+    ],
+)

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7fb54580_8008f120",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-22T01:44:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "855df63d_86bc9e68",
+      "range": {
+        "startLine": 15,
+        "startChar": 23,
+        "endLine": 15,
+        "endChar": 28
+      },
+      "revId": "fb2a81ee9b30481fe0b8e06a662ff675ee5a71b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b06af7bb_34f2f0be",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/LightweightPluginDaemonTest.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-02-22T01:37:01Z",
       "side": 1,
       "message": "does it need to be public?",
+      "range": {
+        "startLine": 31,
+        "startChar": 8,
+        "endLine": 31,
+        "endChar": 14
+      },
+      "revId": "fb2a81ee9b30481fe0b8e06a662ff675ee5a71b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed9a1758_2fc72b01",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/LightweightPluginDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-22T01:44:50Z",
+      "side": 1,
+      "message": "yes, I just tested with protected and here is the error I got:\n\njava.lang.Exception: The @Rule \u0027tempDataDir\u0027 must be public.",
+      "parentUuid": "b06af7bb_34f2f0be",
       "range": {
         "startLine": 31,
         "startChar": 8,

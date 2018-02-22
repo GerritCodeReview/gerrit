@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.group;
 
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.common.tracing.DebugTraceFactory;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupControl;
@@ -22,8 +23,11 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gwtorm.server.OrmException;
+import org.slf4j.Logger;
 
 public class GroupIsVisibleToPredicate extends IsVisibleToPredicate<InternalGroup> {
+  private static final Logger log = DebugTraceFactory.getLogger(GroupIsVisibleToPredicate.class);
+
   protected final GroupControl.GenericFactory groupControlFactory;
   protected final CurrentUser user;
 
@@ -37,7 +41,11 @@ public class GroupIsVisibleToPredicate extends IsVisibleToPredicate<InternalGrou
   @Override
   public boolean match(InternalGroup group) throws OrmException {
     try {
-      return groupControlFactory.controlFor(user, group.getGroupUUID()).isVisible();
+      boolean canSee = groupControlFactory.controlFor(user, group.getGroupUUID()).isVisible();
+      if (!canSee) {
+        log.debug("Filter out non-visisble group: {}", group.getGroupUUID());
+      }
+      return canSee;
     } catch (NoSuchGroupException e) {
       // Ignored
       return false;

@@ -14,13 +14,17 @@
 
 package com.google.gerrit.server.query.account;
 
+import com.google.gerrit.common.tracing.DebugTraceFactory;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gwtorm.server.OrmException;
+import org.slf4j.Logger;
 
 public class AccountIsVisibleToPredicate extends IsVisibleToPredicate<AccountState> {
+  private static final Logger log = DebugTraceFactory.getLogger(AccountIsVisibleToPredicate.class);
+
   protected final AccountControl accountControl;
 
   public AccountIsVisibleToPredicate(AccountControl accountControl) {
@@ -30,7 +34,11 @@ public class AccountIsVisibleToPredicate extends IsVisibleToPredicate<AccountSta
 
   @Override
   public boolean match(AccountState accountState) throws OrmException {
-    return accountControl.canSee(accountState);
+    boolean canSee = accountControl.canSee(accountState);
+    if (!canSee) {
+      log.debug("Filter out non-visisble account: {}", accountState);
+    }
+    return canSee;
   }
 
   @Override

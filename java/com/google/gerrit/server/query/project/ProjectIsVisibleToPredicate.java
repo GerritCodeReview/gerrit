@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.project;
 
+import com.google.gerrit.common.tracing.DebugTraceFactory;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.IndexUtils;
@@ -22,8 +23,11 @@ import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ProjectData;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gwtorm.server.OrmException;
+import org.slf4j.Logger;
 
 public class ProjectIsVisibleToPredicate extends IsVisibleToPredicate<ProjectData> {
+  private static final Logger log = DebugTraceFactory.getLogger(ProjectIsVisibleToPredicate.class);
+
   protected final PermissionBackend permissionBackend;
   protected final CurrentUser user;
 
@@ -35,10 +39,15 @@ public class ProjectIsVisibleToPredicate extends IsVisibleToPredicate<ProjectDat
 
   @Override
   public boolean match(ProjectData pd) throws OrmException {
-    return permissionBackend
-        .user(user)
-        .project(pd.getProject().getNameKey())
-        .testOrFalse(ProjectPermission.READ);
+    boolean canSee =
+        permissionBackend
+            .user(user)
+            .project(pd.getProject().getNameKey())
+            .testOrFalse(ProjectPermission.READ);
+    if (!canSee) {
+      log.debug("Filter out non-visisble project: {}", pd);
+    }
+    return canSee;
   }
 
   @Override

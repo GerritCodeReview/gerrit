@@ -35,6 +35,7 @@ java_library(
         ":query_exception",
         ":query_parser",
         "//java/com/google/gerrit/common:annotations",
+        "//java/com/google/gerrit/common/tracing",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/metrics",
         "//lib:guava",

@@ -49,11 +49,6 @@
       this._handleEditPrefsChanged();
     },
 
-    _handleLineNumbersChanged() {
-      this.set('editPrefs.hide_line_numbers', this.$.hideLineNumbers.checked);
-      this._handleEditPrefsChanged();
-    },
-
     _handleMatchBracketsChanged() {
       this.set('editPrefs.match_brackets', this.$.showMatchBrackets.checked);
       this._handleEditPrefsChanged();

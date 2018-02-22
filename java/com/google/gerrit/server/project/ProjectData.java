@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Project;
 
@@ -32,5 +33,12 @@ public class ProjectData {
 
   public ImmutableList<Project.NameKey> getAncestors() {
     return ancestors;
+  }
+
+  @Override
+  public String toString() {
+    MoreObjects.ToStringHelper h = MoreObjects.toStringHelper(this);
+    h.addValue(project.getName());
+    return h.toString();
   }
 }

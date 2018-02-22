@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.gerrit.common.DebugTraceFactory;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
@@ -22,8 +23,11 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
 
 public class SuggestReviewers {
+  private static final Logger log = DebugTraceFactory.getLogger(SuggestReviewers.class);
+
   private static final int DEFAULT_MAX_SUGGESTED = 10;
 
   protected final Provider<ReviewDb> dbProvider;
@@ -103,5 +107,7 @@ public class SuggestReviewers {
             "addreviewer",
             "maxWithoutConfirmation",
             PostReviewers.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK);
+
+    log.debug("AccountVisibility: {}", av.name());
   }
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.common.DebugTraceFactory;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -30,10 +31,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import java.io.IOException;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData> {
-  private static final Logger logger = LoggerFactory.getLogger(ChangeIsVisibleToPredicate.class);
+  private static final Logger log = DebugTraceFactory.getLogger(ChangeIsVisibleToPredicate.class);
 
   protected final Provider<ReviewDb> db;
   protected final ChangeNotes.Factory notesFactory;
@@ -70,7 +70,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
     try {
       ProjectState projectState = projectCache.checkedGet(cd.project());
       if (projectState == null) {
-        logger.info("No such project: {}", cd.project());
+        log.info("No such project: {}", cd.project());
         return false;
       }
       if (!projectState.statePermitsRead()) {
@@ -90,7 +90,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
               .test(ChangePermission.READ);
     } catch (PermissionBackendException e) {
       if (e.getCause() instanceof NoSuchProjectException) {
-        logger.info("No such project: {}", cd.project());
+        log.info("No such project: {}", cd.project());
         return false;
       }
       throw new OrmException("unable to check permissions", e);
@@ -99,6 +99,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
       cd.cacheVisibleTo(user);
       return true;
     }
+    log.debug("Filter out non-visisble change: {}", cd);
     return false;
   }
 

@@ -16,6 +16,7 @@ package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.gerrit.common.DebugTraceFactory;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
@@ -37,9 +38,17 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
+import org.slf4j.Logger;
 
 /** Manages access control for Git references (aka branches, tags). */
 class RefControl {
+  private static final Logger log = DebugTraceFactory.getLogger(RefControl.class);
+
+  private static final String USER_FORMAT = "'{}'";
+  private static final String PERMISSION_FORMAT = "'{}'";
+  private static final String FORCE_PERMISSION_FORMAT = "'{}' with force";
+  private static final String PROJECT_AND_REF_FORMAT = "project '{}' for ref '{}'";
+
   private final ProjectControl projectControl;
   private final String refName;
 
@@ -387,16 +396,41 @@ class RefControl {
 
   /** True if the user has this permission. */
   private boolean canPerform(String permissionName, boolean isChangeOwner, boolean withForce) {
+    String permissionFormat = withForce ? FORCE_PERMISSION_FORMAT : PERMISSION_FORMAT;
+
     if (isBlocked(permissionName, isChangeOwner, withForce)) {
+      log.debug(
+          USER_FORMAT
+              + " cannot perform "
+              + permissionFormat
+              + " on "
+              + PROJECT_AND_REF_FORMAT
+              + " because permission is blocked",
+          getUser().getLoggableName(),
+          permissionName,
+          projectControl.getProject().getName(),
+          refName);
       return false;
     }
 
     for (PermissionRule pr : relevant.getAllowRules(permissionName)) {
       if (isAllow(pr, withForce) && projectControl.match(pr, isChangeOwner)) {
+        log.debug(
+            USER_FORMAT + " can perform " + permissionFormat + " on " + PROJECT_AND_REF_FORMAT,
+            getUser().getLoggableName(),
+            permissionName,
+            projectControl.getProject().getName(),
+            refName);
         return true;
       }
     }
 
+    log.debug(
+        USER_FORMAT + " cannot perform " + permissionFormat + " on " + PROJECT_AND_REF_FORMAT,
+        getUser().getLoggableName(),
+        permissionName,
+        projectControl.getProject().getName(),
+        refName);
     return false;
   }
 

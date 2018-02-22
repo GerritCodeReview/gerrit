@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.DebugTraceFactory;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.common.GroupBaseInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
@@ -40,6 +41,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.index.account.AccountField;
@@ -66,9 +68,10 @@ import java.util.Objects;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ReviewersUtil {
+  private static final Logger log = DebugTraceFactory.getLogger(ReviewersUtil.class);
+
   @Singleton
   private static class Metrics {
     final Timer0 queryAccountsLatency;
@@ -111,8 +114,6 @@ public class ReviewersUtil {
                   .setUnit(Units.MILLISECONDS));
     }
   }
-
-  private static final Logger log = LoggerFactory.getLogger(ReviewersUtil.class);
 
   // Generate a candidate list at 2x the size of what the user wants to see to
   // give the ranking algorithm a good set of candidates it can work with
@@ -172,8 +173,6 @@ public class ReviewersUtil {
         "Suggesting reviewers for change {} to user {}.",
         changeNotes.getChangeId().get(),
         currentUser.getLoggableName());
-    String query = suggestReviewers.getQuery();
-    log.debug("Query: {}", query);
     int limit = suggestReviewers.getLimit();
 
     if (!suggestReviewers.getSuggestAccounts()) {
@@ -181,6 +180,7 @@ public class ReviewersUtil {
       return Collections.emptyList();
     }
 
+    String query = suggestReviewers.getQuery();
     List<Account.Id> candidateList = new ArrayList<>();
     if (!Strings.isNullOrEmpty(query)) {
       candidateList = suggestAccounts(suggestReviewers);
@@ -247,24 +247,30 @@ public class ReviewersUtil {
         // For performance reasons we don't use AccountQueryProvider as it would always load the
         // complete account from the cache (or worse, from NoteDb) even though we only need the ID
         // which we can directly get from the returned results.
+        Predicate<AccountState> pred =
+            Predicate.and(
+                AccountPredicates.isActive(),
+                accountQueryBuilder.defaultQuery(suggestReviewers.getQuery()));
+        log.debug("Index query: {}", pred);
         ResultSet<FieldBundle> result =
             accountIndexes
                 .getSearchIndex()
                 .getSource(
-                    Predicate.and(
-                        AccountPredicates.isActive(),
-                        accountQueryBuilder.defaultQuery(suggestReviewers.getQuery())),
+                    pred,
                     QueryOptions.create(
                         indexConfig,
                         0,
                         suggestReviewers.getLimit() * CANDIDATE_LIST_MULTIPLIER,
                         ImmutableSet.of(AccountField.ID.getName())))
                 .readRaw();
-        return result
-            .toList()
-            .stream()
-            .map(f -> new Account.Id(f.getValue(AccountField.ID).intValue()))
-            .collect(toList());
+        List<Account.Id> matches =
+            result
+                .toList()
+                .stream()
+                .map(f -> new Account.Id(f.getValue(AccountField.ID).intValue()))
+                .collect(toList());
+        log.debug("Matches: {}", matches);
+        return matches;
       } catch (QueryParseException e) {
         return ImmutableList.of();
       }

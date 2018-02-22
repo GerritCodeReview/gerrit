@@ -104,6 +104,24 @@
     },
     {
       "key": {
+        "uuid": "76883b2f_79c4a068",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-22T20:07:15Z",
+      "side": 1,
+      "message": "Definitely agree, I\u0027ll work with Sam to flesh that out some more.",
+      "parentUuid": "2303d92a_118371e9",
+      "revId": "fcfa0141ebf74b795f6bb172d9154ac99f4e64be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e574e2b_dc72df2d",
         "filename": "polygerrit-ui/app/template_test_srcs/template_test.js",
         "patchSetId": 17

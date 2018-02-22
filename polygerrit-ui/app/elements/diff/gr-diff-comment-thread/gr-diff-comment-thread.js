@@ -130,6 +130,7 @@
       if (this._orderedComments.length) {
         this._lastComment = this._getLastComment();
         this.unresolved = this._lastComment.unresolved;
+        this.hasDraft = this._lastComment.__draft;
       }
     },
 

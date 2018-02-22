@@ -35,7 +35,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
-import com.google.gerrit.server.git.TagMatcher;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -60,7 +59,9 @@ class DefaultRefFilter {
     DefaultRefFilter create(ProjectControl projectControl);
   }
 
+  @SuppressWarnings("unused")
   private final TagCache tagCache;
+
   private final ChangeNotes.Factory changeNotesFactory;
   private final PermissionBackend permissionBackend;
   private final RefVisibilityControl refVisibilityControl;
@@ -158,21 +159,8 @@ class DefaultRefFilter {
             "unexpected tags found when filtering refs/heads/* "
                 + allVisibleBranches.deferredTags());
 
-        TagMatcher tags =
-            tagCache
-                .get(projectState.getNameKey())
-                .matcher(tagCache, repo, allVisibleBranches.visibleRefs());
         for (Ref tag : initialRefFilter.deferredTags()) {
-          try {
-            if (tags.isReachable(tag)) {
-              logger.atFinest().log("Include reachable tag %s", tag.getName());
               visibleRefs.add(tag);
-            } else {
-              logger.atFinest().log("Filter out non-reachable tag %s", tag.getName());
-            }
-          } catch (IOException e) {
-            throw new PermissionBackendException(e);
-          }
         }
       }
     }

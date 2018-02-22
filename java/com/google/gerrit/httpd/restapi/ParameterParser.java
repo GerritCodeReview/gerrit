@@ -56,8 +56,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.kohsuke.args4j.CmdLineException;
 
 public class ParameterParser {
+  public static final String TRACE_PARAMETER = "trace";
+  public static final String TRACE_ID_PARAMETER = "trace-id";
+
   private static final ImmutableSet<String> RESERVED_KEYS =
-      ImmutableSet.of("pp", "prettyPrint", "strict", "callback", "alt", "fields");
+      ImmutableSet.of(
+          "pp",
+          "prettyPrint",
+          "strict",
+          "callback",
+          "alt",
+          "fields",
+          TRACE_PARAMETER,
+          TRACE_ID_PARAMETER);
 
   @AutoValue
   public abstract static class QueryParams {

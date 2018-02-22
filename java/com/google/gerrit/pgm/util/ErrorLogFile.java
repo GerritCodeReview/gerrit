@@ -29,7 +29,9 @@ import org.apache.log4j.PatternLayout;
 import org.eclipse.jgit.lib.Config;
 
 public class ErrorLogFile {
+  // This name must stay in sync with DebugTraceContext.LOG_NAME.
   static final String LOG_NAME = "error_log";
+
   static final String JSON_SUFFIX = ".json";
 
   public static void errorOnlyConsole() {
@@ -39,6 +41,7 @@ public class ErrorLogFile {
     layout.setConversionPattern("%-5p %c %x: %m%n");
 
     final ConsoleAppender dst = new ConsoleAppender();
+    dst.setName(LOG_NAME);
     dst.setLayout(layout);
     dst.setTarget("System.err");
     dst.setThreshold(Level.ERROR);

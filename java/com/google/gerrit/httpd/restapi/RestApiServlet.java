@@ -61,6 +61,7 @@ import com.google.common.io.BaseEncoding;
 import com.google.common.io.CountingOutputStream;
 import com.google.common.math.IntMath;
 import com.google.common.net.HttpHeaders;
+import com.google.gerrit.common.DebugTraceFactory;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.TimeUtil;
@@ -125,6 +126,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.FilterOutputStream;
 import java.io.IOException;
@@ -161,11 +163,10 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.Heap;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class RestApiServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
-  private static final Logger log = LoggerFactory.getLogger(RestApiServlet.class);
+  private static final Logger log = DebugTraceFactory.getLogger(RestApiServlet.class);
 
   /** MIME type used for a JSON response body. */
   private static final String JSON_TYPE = "application/json";
@@ -177,6 +178,7 @@ public class RestApiServlet extends HttpServlet {
   private static final int SC_UNPROCESSABLE_ENTITY = 422;
   private static final String X_REQUESTED_WITH = "X-Requested-With";
   private static final String X_GERRIT_AUTH = "X-Gerrit-Auth";
+  private static final String X_GERRIT_TRACE = "X-Gerrit-Trace";
   static final ImmutableSet<String> ALLOWED_CORS_METHODS =
       ImmutableSet.of("GET", "HEAD", "POST", "PUT", "DELETE");
   private static final ImmutableSet<String> ALLOWED_CORS_REQUEST_HEADERS =
@@ -274,6 +276,14 @@ public class RestApiServlet extends HttpServlet {
     Object inputRequestBody = null;
     RestResource rsrc = TopLevelResource.INSTANCE;
     ViewData viewData = null;
+
+    enableTracing(req, res);
+    log.debug(
+        "Received REST request: {} {}?{}",
+        req.getMethod(),
+        req.getRequestURI(),
+        req.getQueryString());
+    log.debug("Calling user: {}", globals.currentUser.get().getLoggableName());
 
     try {
       if (isCorsPreflight(req)) {
@@ -412,17 +422,21 @@ public class RestApiServlet extends HttpServlet {
         configureCaching(req, res, rsrc, viewData.view, r.caching());
       } else if (result instanceof Response.Redirect) {
         CacheHeaders.setNotCacheable(res);
-        res.sendRedirect(((Response.Redirect) result).location());
+        String location = ((Response.Redirect) result).location();
+        res.sendRedirect(location);
+        log.debug("REST redirected to: {}", location);
         return;
       } else if (result instanceof Response.Accepted) {
         CacheHeaders.setNotCacheable(res);
         res.setStatus(SC_ACCEPTED);
         res.setHeader(HttpHeaders.LOCATION, ((Response.Accepted) result).location());
+        log.debug("REST call succeeded: {}", SC_ACCEPTED);
         return;
       } else {
         CacheHeaders.setNotCacheable(res);
       }
       res.setStatus(status);
+      log.debug("REST call succeeded: {}", status);
 
       if (result != Response.none()) {
         result = Response.unwrap(result);
@@ -871,6 +885,13 @@ public class RestApiServlet extends HttpServlet {
     }
     w.write('\n');
     w.flush();
+
+    if (DebugTraceFactory.isTracing()) {
+      ByteArrayOutputStream debugOut = new ByteArrayOutputStream();
+      buf.writeTo(debugOut, null);
+      log.debug("JSON response body:\n{}", debugOut.toString(UTF_8.name()));
+    }
+
     return replyBinaryResult(
         req, res, asBinaryResult(buf).setContentType(JSON_TYPE).setCharacterEncoding(UTF_8));
   }
@@ -1157,6 +1178,15 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
+  private void enableTracing(HttpServletRequest req, HttpServletResponse res) {
+    String v = req.getParameter(ParameterParser.TRACE_PARAMETER);
+    if (v != null && (v.isEmpty() || Boolean.parseBoolean(v))) {
+      String traceId =
+          DebugTraceFactory.enableTracing(req.getParameter(ParameterParser.TRACE_ID_PARAMETER));
+      res.setHeader(X_GERRIT_TRACE, traceId);
+    }
+  }
+
   private boolean isDelete(HttpServletRequest req) {
     return "DELETE".equals(req.getMethod());
   }
@@ -1219,6 +1249,7 @@ public class RestApiServlet extends HttpServlet {
     }
     configureCaching(req, res, null, null, c);
     checkArgument(statusCode >= 400, "non-error status: %s", statusCode);
+    log.debug("REST call failed: {}", statusCode);
     res.setStatus(statusCode);
     return replyText(req, res, msg);
   }
@@ -1231,6 +1262,7 @@ public class RestApiServlet extends HttpServlet {
     if (!text.endsWith("\n")) {
       text += "\n";
     }
+    log.debug("Text response body:\n{}", text);
     return replyBinaryResult(req, res, BinaryResult.create(text).setContentType(PLAIN_TEXT));
   }
 

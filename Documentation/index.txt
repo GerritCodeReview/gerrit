@@ -69,6 +69,7 @@
 . link:note-db.html[NoteDb]
 . link:config-accounts.html[Accounts on NoteDb]
 . link:config-groups.html[Groups on NoteDb]
+. link:error-request-tracing.html[Request Tracing]
 
 == Developer
 . Getting Started

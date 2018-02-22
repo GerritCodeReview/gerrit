@@ -97,7 +97,7 @@
     },
 
     _computeDescriptionPlaceholder(readOnly) {
-      return (readOnly ? 'No' : 'Add') + ' patchset description';
+      return readOnly ? 'No patchset description' : 'ADD PATCHSET DESCRIPTION';
     },
 
     _computeDescriptionReadOnly(loggedIn, change, account) {

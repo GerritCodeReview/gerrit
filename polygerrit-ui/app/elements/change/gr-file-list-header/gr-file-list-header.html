@@ -174,28 +174,14 @@ limitations under the License.
           </span>
           <span class="container descriptionContainer hideOnEdit">
             <span class="separator"></span>
-            <template
-                is="dom-if"
-                if="[[_patchsetDescription]]">
-              <gr-linked-chip
-                  id="descriptionChip"
-                  text="[[_patchsetDescription]]"
-                  removable="[[!_descriptionReadOnly]]"
-                  on-remove="_handleDescriptionRemoved"></gr-linked-chip>
-            </template>
-            <template
-                is="dom-if"
-                if="[[!_patchsetDescription]]">
-              <gr-editable-label
-                  id="descriptionLabel"
-                  uppercase
-                  class="descriptionLabel"
-                  label-text="Add patchset description"
-                  value="[[_patchsetDescription]]"
-                  placeholder="[[_computeDescriptionPlaceholder(_descriptionReadOnly)]]"
-                  read-only="[[_descriptionReadOnly]]"
-                  on-changed="_handleDescriptionChanged"></gr-editable-label>
-            </template>
+            <gr-editable-label
+                id="descriptionLabel"
+                class="descriptionLabel"
+                label-text="Add patchset description"
+                value="[[_patchsetDescription]]"
+                placeholder="[[_computeDescriptionPlaceholder(_descriptionReadOnly)]]"
+                read-only="[[_descriptionReadOnly]]"
+                on-changed="_handleDescriptionChanged"></gr-editable-label>
           </span>
         </div>
       </div>

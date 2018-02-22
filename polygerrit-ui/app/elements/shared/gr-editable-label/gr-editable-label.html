@@ -18,6 +18,8 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../shared/gr-icons/gr-icons.html">
+
 <link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-editable-label">
@@ -67,6 +69,15 @@ limitations under the License.
       .buttons gr-button {
         margin-left: .5em;
       }
+      iron-icon {
+        display: none;
+        height: 1rem;
+        margin-bottom: .1rem;
+        width: 1rem;
+      }
+      .editable iron-icon {
+        display: inline-flex;
+      }
       paper-input {
         --paper-input-container: {
           padding: 0;
@@ -80,7 +91,13 @@ limitations under the License.
       <label
           class$="[[_computeLabelClass(readOnly, value, placeholder)]]"
           title$="[[_computeLabel(value, placeholder)]]"
-          on-tap="_showDropdown">[[_computeLabel(value, placeholder)]]</label>
+          on-tap="_showDropdown">
+        [[_computeLabel(value, placeholder)]]
+        <!-- Only show icon if a value already exists. -->
+        <template is="dom-if" if="[[value]]">
+          <iron-icon id="icon" icon="gr-icons:create"></iron-icon>
+        </template>
+      </label>
       <iron-dropdown id="dropdown"
           vertical-align="auto"
           horizontal-align="auto"

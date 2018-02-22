@@ -42,14 +42,11 @@ public class GroupsMigration {
 
   @Inject
   public GroupsMigration(@GerritServerConfig Config cfg) {
-    // TODO(aliceks): Remove these flags when all other necessary TODOs for writing groups to
-    // NoteDb have been addressed.
-    // Don't flip these flags in a production setting! We only added them to spread the
-    // implementation of groups in NoteDb among several changes which are gradually merged.
+    // TODO(aliceks): Remove these flags and the ReviewDb code for groups.
     this(
-        cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, false),
-        cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false),
-        cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), DISABLE_REVIEW_DB, false));
+        true,
+        cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, true),
+        cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), DISABLE_REVIEW_DB, true));
   }
 
   public GroupsMigration(

@@ -401,12 +401,16 @@
           .then(response => this.getResponseObject(response));
     },
 
-    saveIncludedGroup(groupName, includedGroup) {
+    saveIncludedGroup(groupName, includedGroup, opt_errFn) {
       const encodeName = encodeURIComponent(groupName);
       const encodeIncludedGroup = encodeURIComponent(includedGroup);
       return this.send('PUT',
-          `/groups/${encodeName}/groups/${encodeIncludedGroup}`)
-          .then(response => this.getResponseObject(response));
+          `/groups/${encodeName}/groups/${encodeIncludedGroup}`, null,
+          opt_errFn).then(response => {
+            if (response.ok) {
+              return this.getResponseObject(response);
+            }
+          });
     },
 
     deleteGroupMembers(groupName, groupMembers) {

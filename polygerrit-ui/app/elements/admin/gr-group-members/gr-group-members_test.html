@@ -183,6 +183,24 @@ limitations under the License.
       });
     });
 
+    test('add included group 404 shows helpful error text', () => {
+      element._groupOwner = true;
+
+      const memberName = 'bad-name';
+      const alertStub = sandbox.stub();
+      element.addEventListener('show-alert', alertStub);
+
+      sandbox.stub(element.$.restAPI, 'saveGroupMembers',
+          () => Promise.reject({status: 404}));
+
+      element.$.groupMemberSearchInput.text = memberName;
+      element.$.groupMemberSearchInput.value = 1234;
+
+      return element._handleSavingIncludedGroups().then(() => {
+        assert.isTrue(alertStub.called);
+      });
+    });
+
     test('_getAccountSuggestions empty', () => {
       return element._getAccountSuggestions('nonexistent').then(accounts => {
         assert.equal(accounts.length, 0);

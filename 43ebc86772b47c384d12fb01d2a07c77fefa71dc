@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "3ffcd1fc_9f18855d",
+        "filename": "java/com/google/gerrit/server/DebugTraceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-02-22T17:29:59Z",
+      "side": 1,
+      "message": "Ah, I missed the CurrentUser thing.\n\nI\u0027m not 100% sure storing it in the CurrentUser is going to play well with our tracing implementation, which uses ThreadLocals. Have you tried wiring up our implementation yet?",
+      "parentUuid": "0aceb60f_25b7150b",
+      "revId": "43ebc86772b47c384d12fb01d2a07c77fefa71dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a0df7d11_8a4fbed2",
         "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 1

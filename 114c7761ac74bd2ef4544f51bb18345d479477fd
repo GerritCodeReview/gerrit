@@ -22,6 +22,30 @@
       "revId": "114c7761ac74bd2ef4544f51bb18345d479477fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76649bd7_0b4dceaf",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-22T22:10:26Z",
+      "side": 1,
+      "message": "Two hyphens is specifically specified in the redlines from Arnab.",
+      "parentUuid": "cd1b0e0b_970b83aa",
+      "range": {
+        "startLine": 140,
+        "startChar": 34,
+        "endLine": 140,
+        "endChar": 36
+      },
+      "revId": "114c7761ac74bd2ef4544f51bb18345d479477fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

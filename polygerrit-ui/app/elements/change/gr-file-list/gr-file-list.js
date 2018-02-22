@@ -534,7 +534,7 @@
       const isRangeSelected = this.diffs.some(diff => {
         return diff.isRangeSelected();
       }, this);
-      if (this._showInlineDiffs && !isRangeSelected) {
+      if (!isRangeSelected) {
         e.preventDefault();
         this._addDraftAtTarget();
       }

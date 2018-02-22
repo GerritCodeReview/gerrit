@@ -94,6 +94,30 @@
       "revId": "c115d626f18605aa8b5a8775e259039e0a4cd1f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d9d30a2_11182bb6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-22T18:22:15Z",
+      "side": 1,
+      "message": "I cherry-picked: I49681b0d01. Done.",
+      "parentUuid": "dd2345be_e1a72a15",
+      "range": {
+        "startLine": 204,
+        "startChar": 8,
+        "endLine": 205,
+        "endChar": 31
+      },
+      "revId": "c115d626f18605aa8b5a8775e259039e0a4cd1f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -41,6 +41,41 @@ closure_repositories(
     omit_javax_inject = True,
 )
 
+# Load rules_go at master for example purposes only. You should specify
+# a specific version in your project.
+http_archive(
+    name = "io_bazel_rules_go",
+    strip_prefix = "rules_go-master",
+    urls = [
+        "https://github.com/bazelbuild/rules_go/archive/master.tar.gz",
+    ],
+)
+
+load("@io_bazel_rules_go//go:def.bzl", "go_repositories")
+
+go_repositories()
+
+# Load rules_webtesting at master for example purposes only. You should specify
+# a specific version in your project.
+http_archive(
+    name = "io_bazel_rules_webtesting",
+    strip_prefix = "rules_webtesting-master",
+    urls = [
+        "https://github.com/bazelbuild/rules_webtesting/archive/master.tar.gz",
+    ],
+)
+
+load("@io_bazel_rules_webtesting//web:repositories.bzl",
+    "browser_repositories",
+    "web_test_repositories")
+
+web_test_repositories()
+
+browser_repositories(
+    chromium = True,
+    firefox = True,
+)
+
 ANTLR_VERS = "3.5.2"
 
 maven_jar(

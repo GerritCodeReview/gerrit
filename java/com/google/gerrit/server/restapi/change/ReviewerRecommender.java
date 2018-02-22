@@ -20,6 +20,8 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.common.DebugTraceFactory;
+import com.google.gerrit.common.DebugTraceFactory.DebugTraceContext;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.index.query.Predicate;
@@ -60,10 +62,10 @@ import org.apache.commons.lang.mutable.MutableDouble;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ReviewerRecommender {
-  private static final Logger log = LoggerFactory.getLogger(ReviewerRecommender.class);
+  private static final Logger log = DebugTraceFactory.getLogger(ReviewerRecommender.class);
+
   private static final double BASE_REVIEWER_WEIGHT = 10;
   private static final double BASE_OWNER_WEIGHT = 1;
   private static final double BASE_COMMENT_WEIGHT = 0.5;
@@ -122,17 +124,22 @@ public class ReviewerRecommender {
         new ArrayList<>(reviewerSuggestionPluginMap.plugins().size());
     List<Double> weights = new ArrayList<>(reviewerSuggestionPluginMap.plugins().size());
 
+    String traceId = DebugTraceFactory.getTraceId().orElse(null);
     for (DynamicMap.Entry<ReviewerSuggestion> plugin : reviewerSuggestionPluginMap) {
       tasks.add(
-          () ->
-              plugin
+          () -> {
+            try (DebugTraceContext ctx =
+                DebugTraceFactory.enableTracingForExistingTraceId(traceId)) {
+              return plugin
                   .getProvider()
                   .get()
                   .suggestReviewers(
                       projectState.getNameKey(),
                       changeNotes != null ? changeNotes.getChangeId() : null,
                       query,
-                      reviewerScores.keySet()));
+                      reviewerScores.keySet());
+            }
+          });
       String key = plugin.getPluginName() + "-" + plugin.getExportName();
       String pluginWeight = config.getString("addReviewer", key, "weight");
       if (Strings.isNullOrEmpty(pluginWeight)) {

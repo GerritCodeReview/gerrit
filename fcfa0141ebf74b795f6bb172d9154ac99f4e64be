@@ -39,6 +39,29 @@
       "revId": "fcfa0141ebf74b795f6bb172d9154ac99f4e64be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e574e2b_dc72df2d",
+        "filename": "polygerrit-ui/app/template_test_srcs/template_test.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2018-02-22T01:24:49Z",
+      "side": 1,
+      "message": "The old code use to call process.exit(1) the new code results in an uncaught exception which is not going to cause node to exit with 1. Soon node will start failing the process, but not yet. SO I think you need to process.exit(1) here as well to actually fail the test",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 16
+      },
+      "revId": "fcfa0141ebf74b795f6bb172d9154ac99f4e64be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

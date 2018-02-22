@@ -15,6 +15,8 @@
   'use strict';
 
   const SUGGESTIONS_LIMIT = 15;
+  const SAVING_ERROR_TEXT = 'Group may not exist, or you may not have '+
+      'permission to add it';
 
   const URL_REGEX = '^(?:[a-z]+:)?//';
 
@@ -186,7 +188,16 @@
 
     _handleSavingIncludedGroups() {
       return this.$.restAPI.saveIncludedGroup(this._groupName,
-          this._includedGroupSearch)
+          this._includedGroupSearch, err => {
+            if (err.status === 404) {
+              this.dispatchEvent(new CustomEvent('show-alert', {
+                detail: {message: SAVING_ERROR_TEXT},
+                bubbles: true,
+              }));
+              return err;
+            }
+            throw Error(err.statusText);
+          })
           .then(config => {
             if (!config) {
               return;

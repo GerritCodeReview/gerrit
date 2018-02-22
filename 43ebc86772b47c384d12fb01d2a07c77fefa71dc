@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "fe4f0a12_5464006b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-22T15:59:26Z",
+      "side": 1,
+      "message": "\u003e I assume there will also be mroe changes to actually use the tracing API from more places?\n\nYes. For now the only class besides RestApiServlet is ReviewersUtil that makes use of it. But many others should follow. At the moment we don\u0027t have much debug logs since they cause too much log spam or they are disabled when you need them.\n\n\u003e Also, how does this interact with the UI? Is the idea that passing ?dbg\u003d1 or\n\u003e similar will cause the UI to start sending the trace parameter?\n\nYes, something like this. The details still need to be figured out.",
+      "parentUuid": "8e938a6b_f0629bc6",
+      "revId": "43ebc86772b47c384d12fb01d2a07c77fefa71dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a829881c_8089e095",
         "filename": "java/com/google/gerrit/server/DebugTraceImpl.java",
         "patchSetId": 1
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "0aceb60f_25b7150b",
+        "filename": "java/com/google/gerrit/server/DebugTraceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-22T15:59:26Z",
+      "side": 1,
+      "message": "DebugTraceApi is stored as property in CurrentUser, if tracing is enabled its a DebugTraceImpl instance otherwise a no-op DisabledDebugTrace instance. But maybe this check can also life here, not sure yet if this is better.",
+      "parentUuid": "a829881c_8089e095",
+      "revId": "43ebc86772b47c384d12fb01d2a07c77fefa71dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a0df7d11_8a4fbed2",
         "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 1
@@ -48,6 +84,24 @@
       "writtenOn": "2018-02-22T15:47:56Z",
       "side": 1,
       "message": "Are we going to bind a different implementation? If so, this needs to be bound higher up.",
+      "revId": "43ebc86772b47c384d12fb01d2a07c77fefa71dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27cd6ec8_1500ded0",
+        "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-22T15:59:26Z",
+      "side": 1,
+      "message": "Right. Internally we for sure need to bind a different implementation.",
+      "parentUuid": "a0df7d11_8a4fbed2",
       "revId": "43ebc86772b47c384d12fb01d2a07c77fefa71dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -13,9 +13,27 @@ java_library(
     visibility = ["//visibility:public"],
 )
 
+TRACING = [
+    "DebugTraceFactory.java",
+]
+
+java_library(
+    name = "tracing",
+    srcs = TRACING,
+    visibility = ["//visibility:public"],
+    deps = [
+      ":annotations",
+      "//lib:guava",
+      "//lib/log:api",
+    ],
+)
+
 gwt_module(
     name = "client",
-    srcs = glob(["**/*.java"]),
+    srcs = glob(
+        ["**/*.java"],
+        exclude = TRACING,
+    ),
     exported_deps = [
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/prettify:client",
@@ -33,11 +51,12 @@ java_library(
     name = "server",
     srcs = glob(
         ["**/*.java"],
-        exclude = ANNOTATIONS,
+        exclude = ANNOTATIONS + TRACING,
     ),
     visibility = ["//visibility:public"],
     deps = [
         ":annotations",
+        ":tracing",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/prettify:server",
         "//java/com/google/gerrit/reviewdb:server",

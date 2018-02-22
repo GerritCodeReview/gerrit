@@ -22,6 +22,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
+import com.google.gerrit.common.DebugTraceFactory;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
@@ -43,6 +44,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.IntSupplier;
 import java.util.stream.IntStream;
+import org.slf4j.Logger;
 
 /**
  * Lower-level implementation for executing a single query over a secondary index.
@@ -51,6 +53,8 @@ import java.util.stream.IntStream;
  * holding on to a single instance.
  */
 public abstract class QueryProcessor<T> {
+  private static final Logger log = DebugTraceFactory.getLogger(QueryProcessor.class);
+
   protected static class Metrics {
     final Timer1<String> executionTime;
 
@@ -203,6 +207,7 @@ public abstract class QueryProcessor<T> {
     List<Integer> limits = new ArrayList<>(cnt);
     List<Predicate<T>> predicates = new ArrayList<>(cnt);
     List<DataSource<T>> sources = new ArrayList<>(cnt);
+    int i = 0;
     for (Predicate<T> q : queries) {
       int limit = getEffectiveLimit(q);
       limits.add(limit);
@@ -226,6 +231,7 @@ public abstract class QueryProcessor<T> {
         pred = enforceVisibility(pred);
       }
       predicates.add(pred);
+      log.debug("Index query[{}]:\n{}", i++, pred);
 
       @SuppressWarnings("unchecked")
       DataSource<T> s = (DataSource<T>) pred;
@@ -239,13 +245,15 @@ public abstract class QueryProcessor<T> {
     }
 
     List<QueryResult<T>> out = new ArrayList<>(cnt);
-    for (int i = 0; i < cnt; i++) {
+    for (i = 0; i < cnt; i++) {
+      List<T> matchesList = matches.get(i).toList();
+      log.debug("Matches[{}]:\n{}", i, matchesList);
       out.add(
           QueryResult.create(
               queryStrings != null ? queryStrings.get(i) : null,
               predicates.get(i),
               limits.get(i),
-              matches.get(i).toList()));
+              matchesList));
     }
 
     // Only measure successful queries that actually touched the index.

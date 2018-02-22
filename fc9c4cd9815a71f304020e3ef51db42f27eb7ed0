@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf0dec52_4118d26c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-02-22T20:02:57Z",
+      "side": 1,
+      "message": "Note:  This is still called even when no diffs are expanded, but _addDraftAtTarget handles this case, because it does nothing if there is no target diff element, or target line element.",
+      "range": {
+        "startLine": 539,
+        "startChar": 8,
+        "endLine": 539,
+        "endChar": 33
+      },
+      "revId": "fc9c4cd9815a71f304020e3ef51db42f27eb7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

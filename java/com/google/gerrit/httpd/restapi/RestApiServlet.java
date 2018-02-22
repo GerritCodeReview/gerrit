@@ -97,6 +97,9 @@ import com.google.gerrit.httpd.restapi.ParameterParser.QueryParams;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.DebugTraceApi;
+import com.google.gerrit.server.DebugTraceApi.DebugTrace;
+import com.google.gerrit.server.DisabledDebugTrace;
 import com.google.gerrit.server.OptionUtil;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.audit.AuditService;
@@ -177,6 +180,7 @@ public class RestApiServlet extends HttpServlet {
   private static final int SC_UNPROCESSABLE_ENTITY = 422;
   private static final String X_REQUESTED_WITH = "X-Requested-With";
   private static final String X_GERRIT_AUTH = "X-Gerrit-Auth";
+  private static final String X_GERRIT_TRACE = "X-Gerrit-Trace";
   static final ImmutableSet<String> ALLOWED_CORS_METHODS =
       ImmutableSet.of("GET", "HEAD", "POST", "PUT", "DELETE");
   private static final ImmutableSet<String> ALLOWED_CORS_REQUEST_HEADERS =
@@ -213,6 +217,7 @@ public class RestApiServlet extends HttpServlet {
     final PermissionBackend permissionBackend;
     final AuditService auditService;
     final RestApiMetrics metrics;
+    final DebugTrace.Factory debugTraceFactory;
     final Pattern allowOrigin;
 
     @Inject
@@ -223,6 +228,7 @@ public class RestApiServlet extends HttpServlet {
         PermissionBackend permissionBackend,
         AuditService auditService,
         RestApiMetrics metrics,
+        DebugTrace.Factory debugTraceFactory,
         @GerritServerConfig Config cfg) {
       this.currentUser = currentUser;
       this.webSession = webSession;
@@ -230,6 +236,7 @@ public class RestApiServlet extends HttpServlet {
       this.permissionBackend = permissionBackend;
       this.auditService = auditService;
       this.metrics = metrics;
+      this.debugTraceFactory = debugTraceFactory;
       allowOrigin = makeAllowOrigin(cfg);
     }
 
@@ -275,238 +282,292 @@ public class RestApiServlet extends HttpServlet {
     RestResource rsrc = TopLevelResource.INSTANCE;
     ViewData viewData = null;
 
-    try {
-      if (isCorsPreflight(req)) {
-        doCorsPreflight(req, res);
-        return;
-      }
+    try (DebugTrace debugTrace = maybeEnableDebugTrace(req)) {
+      debugTrace.getTraceUuid().ifPresent(id -> res.setHeader(X_GERRIT_TRACE, id));
+      debugTrace
+          .log("Received REST request: %s %s", req.getMethod(), req.getRequestURI())
+          .log("Calling user: %s", globals.currentUser.get().getLoggableName());
 
-      qp = ParameterParser.getQueryParams(req);
-      checkCors(req, res, qp.hasXdOverride());
-      if (qp.hasXdOverride()) {
-        req = applyXdOverrides(req, qp);
-      }
-      checkUserSession(req);
-
-      List<IdString> path = splitPath(req);
-      RestCollection<RestResource, RestResource> rc = members.get();
-      globals
-          .permissionBackend
-          .user(globals.currentUser)
-          .checkAny(GlobalPermission.fromAnnotation(rc.getClass()));
-
-      viewData = new ViewData(null, null);
-
-      if (path.isEmpty()) {
-        if (rc instanceof NeedsParams) {
-          ((NeedsParams) rc).setParams(qp.params());
+      try {
+        if (isCorsPreflight(req)) {
+          doCorsPreflight(req, res);
+          return;
         }
 
-        if (isRead(req)) {
-          viewData = new ViewData(null, rc.list());
-        } else if (rc instanceof AcceptsPost && isPost(req)) {
-          @SuppressWarnings("unchecked")
-          AcceptsPost<RestResource> ac = (AcceptsPost<RestResource>) rc;
-          viewData = new ViewData(null, ac.post(rsrc));
-        } else {
-          throw new MethodNotAllowedException();
+        qp = ParameterParser.getQueryParams(req);
+        checkCors(req, res, qp.hasXdOverride());
+        if (qp.hasXdOverride()) {
+          req = applyXdOverrides(req, qp);
         }
-      } else {
-        IdString id = path.remove(0);
-        try {
-          rsrc = rc.parse(rsrc, id);
-          if (path.isEmpty()) {
-            checkPreconditions(req);
-          }
-        } catch (ResourceNotFoundException e) {
-          if (rc instanceof AcceptsCreate && path.isEmpty() && (isPost(req) || isPut(req))) {
-            @SuppressWarnings("unchecked")
-            AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) rc;
-            viewData = new ViewData(null, ac.create(rsrc, id));
-            status = SC_CREATED;
-          } else {
-            throw e;
-          }
-        }
-        if (viewData.view == null) {
-          viewData = view(rsrc, rc, req.getMethod(), path);
-        }
-      }
-      checkRequiresCapability(viewData);
+        checkUserSession(req);
 
-      while (viewData.view instanceof RestCollection<?, ?>) {
-        @SuppressWarnings("unchecked")
-        RestCollection<RestResource, RestResource> c =
-            (RestCollection<RestResource, RestResource>) viewData.view;
+        List<IdString> path = splitPath(req);
+        RestCollection<RestResource, RestResource> rc = members.get();
+        globals
+            .permissionBackend
+            .user(globals.currentUser)
+            .checkAny(GlobalPermission.fromAnnotation(rc.getClass()));
+
+        viewData = new ViewData(null, null);
 
         if (path.isEmpty()) {
+          if (rc instanceof NeedsParams) {
+            ((NeedsParams) rc).setParams(qp.params());
+          }
+
           if (isRead(req)) {
-            viewData = new ViewData(null, c.list());
-          } else if (c instanceof AcceptsPost && isPost(req)) {
+            viewData = new ViewData(null, rc.list());
+          } else if (rc instanceof AcceptsPost && isPost(req)) {
             @SuppressWarnings("unchecked")
-            AcceptsPost<RestResource> ac = (AcceptsPost<RestResource>) c;
+            AcceptsPost<RestResource> ac = (AcceptsPost<RestResource>) rc;
             viewData = new ViewData(null, ac.post(rsrc));
-          } else if (c instanceof AcceptsDelete && isDelete(req)) {
-            @SuppressWarnings("unchecked")
-            AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) c;
-            viewData = new ViewData(null, ac.delete(rsrc, null));
           } else {
             throw new MethodNotAllowedException();
           }
-          break;
-        }
-        IdString id = path.remove(0);
-        try {
-          rsrc = c.parse(rsrc, id);
-          checkPreconditions(req);
-          viewData = new ViewData(null, null);
-        } catch (ResourceNotFoundException e) {
-          if (c instanceof AcceptsCreate && path.isEmpty() && (isPost(req) || isPut(req))) {
-            @SuppressWarnings("unchecked")
-            AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) c;
-            viewData = new ViewData(viewData.pluginName, ac.create(rsrc, id));
-            status = SC_CREATED;
-          } else if (c instanceof AcceptsDelete && path.isEmpty() && isDelete(req)) {
-            @SuppressWarnings("unchecked")
-            AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) c;
-            viewData = new ViewData(viewData.pluginName, ac.delete(rsrc, id));
-            status = SC_NO_CONTENT;
-          } else {
-            throw e;
+        } else {
+          IdString id = path.remove(0);
+          try {
+            rsrc = rc.parse(rsrc, id);
+            if (path.isEmpty()) {
+              checkPreconditions(req);
+            }
+          } catch (ResourceNotFoundException e) {
+            if (rc instanceof AcceptsCreate && path.isEmpty() && (isPost(req) || isPut(req))) {
+              @SuppressWarnings("unchecked")
+              AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) rc;
+              viewData = new ViewData(null, ac.create(rsrc, id));
+              status = SC_CREATED;
+            } else {
+              throw e;
+            }
+          }
+          if (viewData.view == null) {
+            viewData = view(rsrc, rc, req.getMethod(), path);
           }
         }
-        if (viewData.view == null) {
-          viewData = view(rsrc, c, req.getMethod(), path);
-        }
         checkRequiresCapability(viewData);
-      }
 
-      if (notModified(req, rsrc, viewData.view)) {
-        res.sendError(SC_NOT_MODIFIED);
-        return;
-      }
+        while (viewData.view instanceof RestCollection<?, ?>) {
+          @SuppressWarnings("unchecked")
+          RestCollection<RestResource, RestResource> c =
+              (RestCollection<RestResource, RestResource>) viewData.view;
 
-      if (!globals.paramParser.get().parse(viewData.view, qp.params(), req, res)) {
-        return;
-      }
-
-      if (viewData.view instanceof RestReadView<?> && isRead(req)) {
-        result = ((RestReadView<RestResource>) viewData.view).apply(rsrc);
-      } else if (viewData.view instanceof RestModifyView<?, ?>) {
-        @SuppressWarnings("unchecked")
-        RestModifyView<RestResource, Object> m =
-            (RestModifyView<RestResource, Object>) viewData.view;
-
-        Type type = inputType(m);
-        inputRequestBody = parseRequest(req, type);
-        result = m.apply(rsrc, inputRequestBody);
-        consumeRawInputRequestBody(req, type);
-      } else {
-        throw new ResourceNotFoundException();
-      }
-
-      if (result instanceof Response) {
-        @SuppressWarnings("rawtypes")
-        Response<?> r = (Response) result;
-        status = r.statusCode();
-        configureCaching(req, res, rsrc, viewData.view, r.caching());
-      } else if (result instanceof Response.Redirect) {
-        CacheHeaders.setNotCacheable(res);
-        res.sendRedirect(((Response.Redirect) result).location());
-        return;
-      } else if (result instanceof Response.Accepted) {
-        CacheHeaders.setNotCacheable(res);
-        res.setStatus(SC_ACCEPTED);
-        res.setHeader(HttpHeaders.LOCATION, ((Response.Accepted) result).location());
-        return;
-      } else {
-        CacheHeaders.setNotCacheable(res);
-      }
-      res.setStatus(status);
-
-      if (result != Response.none()) {
-        result = Response.unwrap(result);
-        if (result instanceof BinaryResult) {
-          responseBytes = replyBinaryResult(req, res, (BinaryResult) result);
-        } else {
-          responseBytes = replyJson(req, res, qp.config(), result);
+          if (path.isEmpty()) {
+            if (isRead(req)) {
+              viewData = new ViewData(null, c.list());
+            } else if (c instanceof AcceptsPost && isPost(req)) {
+              @SuppressWarnings("unchecked")
+              AcceptsPost<RestResource> ac = (AcceptsPost<RestResource>) c;
+              viewData = new ViewData(null, ac.post(rsrc));
+            } else if (c instanceof AcceptsDelete && isDelete(req)) {
+              @SuppressWarnings("unchecked")
+              AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) c;
+              viewData = new ViewData(null, ac.delete(rsrc, null));
+            } else {
+              throw new MethodNotAllowedException();
+            }
+            break;
+          }
+          IdString id = path.remove(0);
+          try {
+            rsrc = c.parse(rsrc, id);
+            checkPreconditions(req);
+            viewData = new ViewData(null, null);
+          } catch (ResourceNotFoundException e) {
+            if (c instanceof AcceptsCreate && path.isEmpty() && (isPost(req) || isPut(req))) {
+              @SuppressWarnings("unchecked")
+              AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) c;
+              viewData = new ViewData(viewData.pluginName, ac.create(rsrc, id));
+              status = SC_CREATED;
+            } else if (c instanceof AcceptsDelete && path.isEmpty() && isDelete(req)) {
+              @SuppressWarnings("unchecked")
+              AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) c;
+              viewData = new ViewData(viewData.pluginName, ac.delete(rsrc, id));
+              status = SC_NO_CONTENT;
+            } else {
+              throw e;
+            }
+          }
+          if (viewData.view == null) {
+            viewData = view(rsrc, c, req.getMethod(), path);
+          }
+          checkRequiresCapability(viewData);
         }
+
+        if (notModified(req, rsrc, viewData.view)) {
+          res.sendError(SC_NOT_MODIFIED);
+          return;
+        }
+
+        if (!globals.paramParser.get().parse(debugTrace, viewData.view, qp.params(), req, res)) {
+          return;
+        }
+
+        if (viewData.view instanceof RestReadView<?> && isRead(req)) {
+          result = ((RestReadView<RestResource>) viewData.view).apply(rsrc);
+        } else if (viewData.view instanceof RestModifyView<?, ?>) {
+          @SuppressWarnings("unchecked")
+          RestModifyView<RestResource, Object> m =
+              (RestModifyView<RestResource, Object>) viewData.view;
+
+          Type type = inputType(m);
+          inputRequestBody = parseRequest(req, type);
+          result = m.apply(rsrc, inputRequestBody);
+          consumeRawInputRequestBody(req, type);
+        } else {
+          throw new ResourceNotFoundException();
+        }
+
+        if (result instanceof Response) {
+          @SuppressWarnings("rawtypes")
+          Response<?> r = (Response) result;
+          status = r.statusCode();
+          configureCaching(req, res, rsrc, viewData.view, r.caching());
+        } else if (result instanceof Response.Redirect) {
+          CacheHeaders.setNotCacheable(res);
+          String location = ((Response.Redirect) result).location();
+          res.sendRedirect(location);
+          debugTrace.log("REST redirected to: %s", location);
+          return;
+        } else if (result instanceof Response.Accepted) {
+          CacheHeaders.setNotCacheable(res);
+          res.setStatus(SC_ACCEPTED);
+          res.setHeader(HttpHeaders.LOCATION, ((Response.Accepted) result).location());
+          debugTrace.log("REST call succeeded: %s", SC_ACCEPTED);
+          return;
+        } else {
+          CacheHeaders.setNotCacheable(res);
+        }
+        res.setStatus(status);
+        debugTrace.log("REST call succeeded: %s", status);
+
+        if (result != Response.none()) {
+          result = Response.unwrap(result);
+          if (result instanceof BinaryResult) {
+            responseBytes = replyBinaryResult(req, res, (BinaryResult) result);
+          } else {
+            responseBytes = replyJson(req, res, qp.config(), result);
+          }
+        }
+      } catch (MalformedJsonException | JsonParseException e) {
+        responseBytes =
+            replyError(
+                debugTrace,
+                req,
+                res,
+                status = SC_BAD_REQUEST,
+                "Invalid " + JSON_TYPE + " in request",
+                e);
+      } catch (BadRequestException e) {
+        responseBytes =
+            replyError(
+                debugTrace,
+                req,
+                res,
+                status = SC_BAD_REQUEST,
+                messageOr(e, "Bad Request"),
+                e.caching(),
+                e);
+      } catch (AuthException e) {
+        responseBytes =
+            replyError(
+                debugTrace,
+                req,
+                res,
+                status = SC_FORBIDDEN,
+                messageOr(e, "Forbidden"),
+                e.caching(),
+                e);
+      } catch (AmbiguousViewException e) {
+        responseBytes =
+            replyError(debugTrace, req, res, status = SC_NOT_FOUND, messageOr(e, "Ambiguous"), e);
+      } catch (ResourceNotFoundException e) {
+        responseBytes =
+            replyError(
+                debugTrace,
+                req,
+                res,
+                status = SC_NOT_FOUND,
+                messageOr(e, "Not Found"),
+                e.caching(),
+                e);
+      } catch (MethodNotAllowedException e) {
+        responseBytes =
+            replyError(
+                debugTrace,
+                req,
+                res,
+                status = SC_METHOD_NOT_ALLOWED,
+                messageOr(e, "Method Not Allowed"),
+                e.caching(),
+                e);
+      } catch (ResourceConflictException e) {
+        responseBytes =
+            replyError(
+                debugTrace,
+                req,
+                res,
+                status = SC_CONFLICT,
+                messageOr(e, "Conflict"),
+                e.caching(),
+                e);
+      } catch (PreconditionFailedException e) {
+        responseBytes =
+            replyError(
+                debugTrace,
+                req,
+                res,
+                status = SC_PRECONDITION_FAILED,
+                messageOr(e, "Precondition Failed"),
+                e.caching(),
+                e);
+      } catch (UnprocessableEntityException e) {
+        responseBytes =
+            replyError(
+                debugTrace,
+                req,
+                res,
+                status = SC_UNPROCESSABLE_ENTITY,
+                messageOr(e, "Unprocessable Entity"),
+                e.caching(),
+                e);
+      } catch (NotImplementedException e) {
+        responseBytes =
+            replyError(
+                debugTrace,
+                req,
+                res,
+                status = SC_NOT_IMPLEMENTED,
+                messageOr(e, "Not Implemented"),
+                e);
+      } catch (Exception e) {
+        status = SC_INTERNAL_SERVER_ERROR;
+        responseBytes = handleException(debugTrace, e, req, res);
+      } finally {
+        String metric =
+            viewData != null && viewData.view != null ? globals.metrics.view(viewData) : "_unknown";
+        globals.metrics.count.increment(metric);
+        if (status >= SC_BAD_REQUEST) {
+          globals.metrics.errorCount.increment(metric, status);
+        }
+        if (responseBytes != -1) {
+          globals.metrics.responseBytes.record(metric, responseBytes);
+        }
+        globals.metrics.serverLatency.record(
+            metric, System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
+        globals.auditService.dispatch(
+            new ExtendedHttpAuditEvent(
+                globals.webSession.get().getSessionId(),
+                globals.currentUser.get(),
+                req,
+                auditStartTs,
+                qp != null ? qp.params() : ImmutableListMultimap.of(),
+                inputRequestBody,
+                status,
+                result,
+                rsrc,
+                viewData == null ? null : viewData.view));
       }
-    } catch (MalformedJsonException | JsonParseException e) {
-      responseBytes =
-          replyError(req, res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request", e);
-    } catch (BadRequestException e) {
-      responseBytes =
-          replyError(
-              req, res, status = SC_BAD_REQUEST, messageOr(e, "Bad Request"), e.caching(), e);
-    } catch (AuthException e) {
-      responseBytes =
-          replyError(req, res, status = SC_FORBIDDEN, messageOr(e, "Forbidden"), e.caching(), e);
-    } catch (AmbiguousViewException e) {
-      responseBytes = replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Ambiguous"), e);
-    } catch (ResourceNotFoundException e) {
-      responseBytes =
-          replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Not Found"), e.caching(), e);
-    } catch (MethodNotAllowedException e) {
-      responseBytes =
-          replyError(
-              req,
-              res,
-              status = SC_METHOD_NOT_ALLOWED,
-              messageOr(e, "Method Not Allowed"),
-              e.caching(),
-              e);
-    } catch (ResourceConflictException e) {
-      responseBytes =
-          replyError(req, res, status = SC_CONFLICT, messageOr(e, "Conflict"), e.caching(), e);
-    } catch (PreconditionFailedException e) {
-      responseBytes =
-          replyError(
-              req,
-              res,
-              status = SC_PRECONDITION_FAILED,
-              messageOr(e, "Precondition Failed"),
-              e.caching(),
-              e);
-    } catch (UnprocessableEntityException e) {
-      responseBytes =
-          replyError(
-              req,
-              res,
-              status = SC_UNPROCESSABLE_ENTITY,
-              messageOr(e, "Unprocessable Entity"),
-              e.caching(),
-              e);
-    } catch (NotImplementedException e) {
-      responseBytes =
-          replyError(req, res, status = SC_NOT_IMPLEMENTED, messageOr(e, "Not Implemented"), e);
-    } catch (Exception e) {
-      status = SC_INTERNAL_SERVER_ERROR;
-      responseBytes = handleException(e, req, res);
-    } finally {
-      String metric =
-          viewData != null && viewData.view != null ? globals.metrics.view(viewData) : "_unknown";
-      globals.metrics.count.increment(metric);
-      if (status >= SC_BAD_REQUEST) {
-        globals.metrics.errorCount.increment(metric, status);
-      }
-      if (responseBytes != -1) {
-        globals.metrics.responseBytes.record(metric, responseBytes);
-      }
-      globals.metrics.serverLatency.record(
-          metric, System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
-      globals.auditService.dispatch(
-          new ExtendedHttpAuditEvent(
-              globals.webSession.get().getSessionId(),
-              globals.currentUser.get(),
-              req,
-              auditStartTs,
-              qp != null ? qp.params() : ImmutableListMultimap.of(),
-              inputRequestBody,
-              status,
-              result,
-              rsrc,
-              viewData == null ? null : viewData.view));
     }
   }
 
@@ -1157,6 +1218,17 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
+  private DebugTrace maybeEnableDebugTrace(HttpServletRequest req) {
+    String v = req.getParameter(ParameterParser.TRACE_PARAMETER);
+    if (v != null && (v.isEmpty() || Boolean.parseBoolean(v))) {
+      DebugTrace debugTrace =
+          globals.debugTraceFactory.create(req.getParameter(ParameterParser.TRACE_ID_PARAMETER));
+      globals.currentUser.get().setDebugTrace(debugTrace);
+      return debugTrace;
+    }
+    return DisabledDebugTrace.INSTANCE;
+  }
+
   private boolean isDelete(HttpServletRequest req) {
     return "DELETE".equals(req.getMethod());
   }
@@ -1182,7 +1254,8 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private static long handleException(
-      Throwable err, HttpServletRequest req, HttpServletResponse res) throws IOException {
+      DebugTrace debugTrace, Throwable err, HttpServletRequest req, HttpServletResponse res)
+      throws IOException {
     String uri = req.getRequestURI();
     if (!Strings.isNullOrEmpty(req.getQueryString())) {
       uri += "?" + req.getQueryString();
@@ -1191,22 +1264,25 @@ public class RestApiServlet extends HttpServlet {
 
     if (!res.isCommitted()) {
       res.reset();
-      return replyError(req, res, SC_INTERNAL_SERVER_ERROR, "Internal server error", err);
+      return replyError(
+          debugTrace, req, res, SC_INTERNAL_SERVER_ERROR, "Internal server error", err);
     }
     return 0;
   }
 
   public static long replyError(
+      DebugTraceApi debugTrace,
       HttpServletRequest req,
       HttpServletResponse res,
       int statusCode,
       String msg,
       @Nullable Throwable err)
       throws IOException {
-    return replyError(req, res, statusCode, msg, CacheControl.NONE, err);
+    return replyError(debugTrace, req, res, statusCode, msg, CacheControl.NONE, err);
   }
 
   public static long replyError(
+      DebugTraceApi debugTrace,
       HttpServletRequest req,
       HttpServletResponse res,
       int statusCode,
@@ -1219,6 +1295,8 @@ public class RestApiServlet extends HttpServlet {
     }
     configureCaching(req, res, null, null, c);
     checkArgument(statusCode >= 400, "non-error status: %s", statusCode);
+    debugTrace = statusCode >= 500 ? debugTrace.atSevere() : debugTrace.atInfo();
+    debugTrace.log("REST call failed: %s %s", statusCode, msg);
     res.setStatus(statusCode);
     return replyText(req, res, msg);
   }

@@ -42,6 +42,7 @@ public abstract class CurrentUser {
 
   private AccessPath accessPath = AccessPath.UNKNOWN;
   private PropertyKey<ExternalId.Key> lastLoginExternalIdPropertyKey = PropertyKey.create();
+  private PropertyKey<DebugTraceApi> debugTracePropertyKey = PropertyKey.create();
 
   /** How this user is accessing the Gerrit Code Review application. */
   public final AccessPath getAccessPath() {
@@ -150,5 +151,13 @@ public abstract class CurrentUser {
 
   public Optional<ExternalId.Key> getLastLoginExternalIdKey() {
     return get(lastLoginExternalIdPropertyKey);
+  }
+
+  public void setDebugTrace(@Nullable DebugTraceApi debugTrace) {
+    put(debugTracePropertyKey, debugTrace);
+  }
+
+  public DebugTraceApi getDebugTrace() {
+    return get(debugTracePropertyKey).orElse(DisabledDebugTrace.INSTANCE);
   }
 }

@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.server.DebugTraceApi;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gson.JsonArray;
@@ -56,8 +57,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.kohsuke.args4j.CmdLineException;
 
 public class ParameterParser {
+  public static final String TRACE_PARAMETER = "trace";
+  public static final String TRACE_ID_PARAMETER = "trace-id";
+
   private static final ImmutableSet<String> RESERVED_KEYS =
-      ImmutableSet.of("pp", "prettyPrint", "strict", "callback", "alt", "fields");
+      ImmutableSet.of(
+          "pp",
+          "prettyPrint",
+          "strict",
+          "callback",
+          "alt",
+          "fields",
+          TRACE_PARAMETER,
+          TRACE_ID_PARAMETER);
 
   @AutoValue
   public abstract static class QueryParams {
@@ -161,7 +173,11 @@ public class ParameterParser {
   }
 
   <T> boolean parse(
-      T param, ListMultimap<String, String> in, HttpServletRequest req, HttpServletResponse res)
+      DebugTraceApi debugTrace,
+      T param,
+      ListMultimap<String, String> in,
+      HttpServletRequest req,
+      HttpServletResponse res)
       throws IOException {
     CmdLineParser clp = parserFactory.create(param);
     DynamicOptions pluginOptions = new DynamicOptions(param, injector, dynamicBeans);
@@ -172,7 +188,7 @@ public class ParameterParser {
       clp.parseOptionMap(in);
     } catch (CmdLineException | NumberFormatException e) {
       if (!clp.wasHelpRequestedByOption()) {
-        replyError(req, res, SC_BAD_REQUEST, e.getMessage(), e);
+        replyError(debugTrace, req, res, SC_BAD_REQUEST, e.getMessage(), e);
         return false;
       }
     }

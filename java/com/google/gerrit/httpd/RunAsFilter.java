@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.DisabledDebugTrace;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -83,7 +84,13 @@ class RunAsFilter implements Filter {
     String runas = req.getHeader(RUN_AS);
     if (runas != null) {
       if (!enabled) {
-        replyError(req, res, SC_FORBIDDEN, RUN_AS + " disabled by auth.enableRunAs = false", null);
+        replyError(
+            DisabledDebugTrace.INSTANCE,
+            req,
+            res,
+            SC_FORBIDDEN,
+            RUN_AS + " disabled by auth.enableRunAs = false",
+            null);
         return;
       }
 
@@ -96,11 +103,23 @@ class RunAsFilter implements Filter {
         }
         permissionBackend.user(self).check(GlobalPermission.RUN_AS);
       } catch (AuthException e) {
-        replyError(req, res, SC_FORBIDDEN, "not permitted to use " + RUN_AS, null);
+        replyError(
+            DisabledDebugTrace.INSTANCE,
+            req,
+            res,
+            SC_FORBIDDEN,
+            "not permitted to use " + RUN_AS,
+            null);
         return;
       } catch (PermissionBackendException e) {
         log.warn("cannot check runAs", e);
-        replyError(req, res, SC_INTERNAL_SERVER_ERROR, RUN_AS + " unavailable", null);
+        replyError(
+            DisabledDebugTrace.INSTANCE,
+            req,
+            res,
+            SC_INTERNAL_SERVER_ERROR,
+            RUN_AS + " unavailable",
+            null);
         return;
       }
 
@@ -109,11 +128,23 @@ class RunAsFilter implements Filter {
         target = accountResolver.find(runas);
       } catch (OrmException | IOException | ConfigInvalidException e) {
         log.warn("cannot resolve account for " + RUN_AS, e);
-        replyError(req, res, SC_INTERNAL_SERVER_ERROR, "cannot resolve " + RUN_AS, e);
+        replyError(
+            DisabledDebugTrace.INSTANCE,
+            req,
+            res,
+            SC_INTERNAL_SERVER_ERROR,
+            "cannot resolve " + RUN_AS,
+            e);
         return;
       }
       if (target == null) {
-        replyError(req, res, SC_FORBIDDEN, "no account matches " + RUN_AS, null);
+        replyError(
+            DisabledDebugTrace.INSTANCE,
+            req,
+            res,
+            SC_FORBIDDEN,
+            "no account matches " + RUN_AS,
+            null);
         return;
       }
       session.get().setUserAccountId(target.getId());

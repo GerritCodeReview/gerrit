@@ -75,6 +75,8 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
+import com.google.gerrit.server.DebugTraceApi.DebugTrace;
+import com.google.gerrit.server.DebugTraceImpl;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.Sequences;
@@ -300,6 +302,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);
     bind(AccountControl.Factory.class);
+    bind(DebugTrace.Factory.class).to(DebugTraceImpl.Factory.class);
 
     install(new AuditModule());
     bind(UiActions.class);

@@ -188,7 +188,10 @@ limitations under the License.
     });
 
     test('assignee only displayed if there is one', () => {
+      element.change = {};
+      flushAsynchronousOperations();
       assert.isNotOk(element.$$('.assignee gr-account-link'));
+      assert.equal(element.$$('.assignee').textContent.trim(), '--');
       element.change = {
         assignee: {
           name: 'test',

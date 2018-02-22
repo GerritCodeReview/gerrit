@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import java.util.List;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.EditList;
@@ -149,7 +150,8 @@ public class IntraLineLoaderTest {
     Text aText = new Text(a.getBytes(UTF_8));
     Text bText = new Text(b.getBytes(UTF_8));
 
-    IntraLineDiff diff = IntraLineLoader.compute(aText, bText, ImmutableList.of(lines));
+    IntraLineDiff diff =
+        IntraLineLoader.compute(aText, bText, ImmutableList.of(lines), ImmutableSet.of());
 
     assertThat(diff.getStatus()).isEqualTo(IntraLineDiff.Status.EDIT_LIST);
     List<Edit> actualEdits = diff.getEdits();

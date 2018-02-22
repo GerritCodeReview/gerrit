@@ -86,6 +86,24 @@
     },
     {
       "key": {
+        "uuid": "2303d92a_118371e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-22T02:57:28Z",
+      "side": 1,
+      "message": "Just here to mention that the README and/or description of that project on GitHub could do with some improvement.  A casual reviewer like me doesn\u0027t want to go digging through the code to figure out what it does.",
+      "parentUuid": "e02f443d_85d35333",
+      "revId": "fcfa0141ebf74b795f6bb172d9154ac99f4e64be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e574e2b_dc72df2d",
         "filename": "polygerrit-ui/app/template_test_srcs/template_test.js",
         "patchSetId": 17

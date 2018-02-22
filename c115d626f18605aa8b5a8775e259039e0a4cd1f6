@@ -46,6 +46,30 @@
       "revId": "c115d626f18605aa8b5a8775e259039e0a4cd1f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8199a64_b07eda8b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-22T12:22:19Z",
+      "side": 1,
+      "message": "All tests were passing for me too when I created the original commit. Trust me, closing ReviewDb before evaluating the stream will be an issue. We definitely need I42b45ed5 in 2.15.",
+      "parentUuid": "597cbf51_6bfd0396",
+      "range": {
+        "startLine": 204,
+        "startChar": 8,
+        "endLine": 205,
+        "endChar": 31
+      },
+      "revId": "c115d626f18605aa8b5a8775e259039e0a4cd1f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

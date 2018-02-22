@@ -79,9 +79,10 @@ public class GroupRebuilder {
     this(
         serverIdent,
         allUsers,
+        // TODO(aliceks): This doesn't work during init.
         metaDataUpdateFactory,
 
-        // TODO(dborowitz): These probably won't work during init.
+        // TODO(aliceks): All of these don't work during init.
         AuditLogFormatter.createBackedBy(accountCache, groupBackend, serverId));
   }
 

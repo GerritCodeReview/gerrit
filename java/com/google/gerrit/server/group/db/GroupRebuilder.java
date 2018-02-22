@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
@@ -31,19 +30,14 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
-import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerId;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate.MemberModification;
 import com.google.gerrit.server.group.db.InternalGroupUpdate.SubgroupModification;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -59,41 +53,17 @@ import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
+// TODO(aliceks): Move this code next to Schema_167 (except tests, no other code should use this).
 /** Helper for rebuilding an entire group's NoteDb refs. */
-@Singleton
 public class GroupRebuilder {
-  private final Provider<PersonIdent> serverIdent;
+  private final PersonIdent serverIdent;
   private final AllUsersName allUsers;
-  private final MetaDataUpdate.InternalFactory metaDataUpdateFactory;
-
   private final AuditLogFormatter auditLogFormatter;
 
-  @Inject
-  GroupRebuilder(
-      @GerritPersonIdent Provider<PersonIdent> serverIdent,
-      @GerritServerId String serverId,
-      AllUsersName allUsers,
-      MetaDataUpdate.InternalFactory metaDataUpdateFactory,
-      AccountCache accountCache,
-      GroupBackend groupBackend) {
-    this(
-        serverIdent,
-        allUsers,
-        metaDataUpdateFactory,
-
-        // TODO(dborowitz): These probably won't work during init.
-        AuditLogFormatter.createBackedBy(accountCache, groupBackend, serverId));
-  }
-
-  @VisibleForTesting
-  GroupRebuilder(
-      Provider<PersonIdent> serverIdent,
-      AllUsersName allUsers,
-      MetaDataUpdate.InternalFactory metaDataUpdateFactory,
-      AuditLogFormatter auditLogFormatter) {
+  public GroupRebuilder(
+      PersonIdent serverIdent, AllUsersName allUsers, AuditLogFormatter auditLogFormatter) {
     this.serverIdent = serverIdent;
     this.allUsers = allUsers;
-    this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.auditLogFormatter = auditLogFormatter;
   }
 
@@ -122,7 +92,7 @@ public class GroupRebuilder {
     Map<Key, Collection<Event>> events = toEvents(bundle).asMap();
     PersonIdent nowServerIdent = getServerIdent(events);
 
-    MetaDataUpdate md = metaDataUpdateFactory.create(allUsers, allUsersRepo, bru);
+    MetaDataUpdate md = createMetaDataUpdate(allUsers, allUsersRepo, bru);
 
     // Creation is done by the server (unlike later audit events).
     PersonIdent created = new PersonIdent(nowServerIdent, group.getCreatedOn());
@@ -207,12 +177,17 @@ public class GroupRebuilder {
     // Created with MultimapBuilder.treeKeys, so the keySet is navigable.
     Key lastKey = ((NavigableSet<Key>) events.keySet()).last();
     checkState(lastKey.type() == Type.FIXUP);
-    PersonIdent ident = serverIdent.get();
     return new PersonIdent(
-        ident.getName(),
-        ident.getEmailAddress(),
+        serverIdent.getName(),
+        serverIdent.getEmailAddress(),
         Iterables.getOnlyElement(events.get(lastKey)).when(),
-        ident.getTimeZone());
+        serverIdent.getTimeZone());
+  }
+
+  private static MetaDataUpdate createMetaDataUpdate(
+      Project.NameKey projectName, Repository repository, @Nullable BatchRefUpdate batchRefUpdate) {
+    return new MetaDataUpdate(
+        GitReferenceUpdated.DISABLED, projectName, repository, batchRefUpdate);
   }
 
   private static Consumer<InternalGroupUpdate.Builder> addMember(Account.Id toAdd) {

@@ -30,8 +30,6 @@ import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.group.db.testing.GroupTestUtil;
 import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gerrit.testing.TestTimeUtil;
@@ -61,10 +59,8 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     repo = repoManager.createRepository(allUsersName);
     rebuilder =
         new GroupRebuilder(
-            GroupRebuilderTest::newPersonIdent,
+            GroupRebuilderTest.newPersonIdent(),
             allUsersName,
-            (project, repo, batch) ->
-                new MetaDataUpdate(GitReferenceUpdated.DISABLED, project, repo, batch),
             // Note that the expected name/email values in tests are not necessarily realistic,
             // since they use these trivial name/email functions. GroupRebuilderIT checks the actual
             // values.

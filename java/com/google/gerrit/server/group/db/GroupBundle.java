@@ -111,7 +111,7 @@ public abstract class GroupBundle {
       this.auditLogReader = auditLogReader;
     }
 
-    public GroupBundle fromReviewDb(ReviewDb db, AccountGroup.Id id) throws OrmException {
+    public static GroupBundle fromReviewDb(ReviewDb db, AccountGroup.Id id) throws OrmException {
       AccountGroup group = db.accountGroups().get(id);
       if (group == null) {
         throw new OrmException("Group " + id + " not found");

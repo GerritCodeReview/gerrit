@@ -17,34 +17,24 @@
 This script will populate an empty standard Gerrit instance with some
 data for local testing.
 
-This script requires 'requests'. If you do not have this module, run
-'pip3 install requests' to install it.
-
 TODO(hiesel): Make real git commits instead of empty changes
 TODO(hiesel): Add comments
 """
 
 import atexit
 import json
+import optparse
 import os
 import random
 import shutil
 import subprocess
 import tempfile
-
 import requests
 import requests.auth
 
 DEFAULT_TMP_PATH = "/tmp"
 TMP_PATH = ""
-BASE_URL = "http://localhost:8080/a/"
-ACCESS_URL = BASE_URL + "access/"
-ACCOUNTS_URL = BASE_URL + "accounts/"
-CHANGES_URL = BASE_URL + "changes/"
-CONFIG_URL = BASE_URL + "config/"
-GROUPS_URL = BASE_URL + "groups/"
-PLUGINS_URL = BASE_URL + "plugins/"
-PROJECTS_URL = BASE_URL + "projects/"
+BASE_URL = "http://localhost:%d/a/"
 
 ADMIN_BASIC_AUTH = requests.auth.HTTPBasicAuth("admin", "secret")
 
@@ -158,7 +148,7 @@ def basic_auth(user):
 def fetch_admin_group():
   global GROUP_ADMIN
   # Get admin group
-  r = json.loads(clean(requests.get(GROUPS_URL + "?suggest=ad&p=All-Projects",
+  r = json.loads(clean(requests.get(BASE_URL + "groups/" + "?suggest=ad&p=All-Projects",
                                     headers=HEADERS,
                                     auth=ADMIN_BASIC_AUTH).text))
   admin_group_name = r.keys()[0]
@@ -222,7 +212,7 @@ def create_gerrit_groups():
      "visible_to_all": False, "owner": GROUP_ADMIN["name"],
      "owner_id": GROUP_ADMIN["id"]}]
   for g in groups:
-    requests.put(GROUPS_URL + g["name"],
+    requests.put(BASE_URL + "groups/" + g["name"],
                  json.dumps(g),
                  headers=HEADERS,
                  auth=ADMIN_BASIC_AUTH)
@@ -244,7 +234,7 @@ def create_gerrit_projects(owner_groups):
      "branches": ["master"], "description": "some small scripts.",
      "owners": [owner_groups[3]], "create_empty_commit": True}]
   for p in projects:
-    requests.put(PROJECTS_URL + p["name"],
+    requests.put(BASE_URL + "projects/" + p["name"],
                  json.dumps(p),
                  headers=HEADERS,
                  auth=ADMIN_BASIC_AUTH)
@@ -253,7 +243,7 @@ def create_gerrit_projects(owner_groups):
 
 def create_gerrit_users(gerrit_users):
   for user in gerrit_users:
-    requests.put(ACCOUNTS_URL + user["username"],
+    requests.put(BASE_URL + "accounts/" + user["username"],
                  json.dumps(user),
                  headers=HEADERS,
                  auth=ADMIN_BASIC_AUTH)
@@ -267,7 +257,7 @@ def create_change(user, project_name):
     "branch": "master",
     "status": "NEW",
   }
-  requests.post(CHANGES_URL,
+  requests.post(BASE_URL + "changes/",
                 json.dumps(change),
                 headers=HEADERS,
                 auth=basic_auth(user))
@@ -278,8 +268,22 @@ def clean_up():
 
 
 def main():
+  p = optparse.OptionParser()
+  p.add_option("-u", "--user_count", action="store",
+               default=100,
+               type='int',
+               help="number of users to (generate")
+  p.add_option("-p", "--port", action="store",
+               default=8080,
+               type='int',
+               help="port of server")
+  (options, _) = p.parse_args()
+  global BASE_URL
+  BASE_URL = BASE_URL % options.port
+  print BASE_URL
+
   set_up()
-  gerrit_users = get_random_users(100)
+  gerrit_users = get_random_users(options.user_count)
 
   group_names = create_gerrit_groups()
   for idx, u in enumerate(gerrit_users):

@@ -84,7 +84,6 @@ public class Reindex extends SiteProgram {
     dbInjector = createDbInjector(MULTI_USER);
     globalConfig = dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
     threads = ThreadLimiter.limitThreads(dbInjector, threads);
-    checkNotSlaveMode();
     overrideConfig();
     LifecycleManager dbManager = new LifecycleManager();
     dbManager.add(dbInjector);
@@ -141,26 +140,21 @@ public class Reindex extends SiteProgram {
         "invalid index name(s): " + new TreeSet<>(invalid) + " available indices are: " + valid);
   }
 
-  private void checkNotSlaveMode() throws Die {
-    if (globalConfig.getBoolean("container", "slave", false)) {
-      throw die("Cannot run reindex in slave mode");
-    }
-  }
-
   private Injector createSysInjector() {
     Map<String, Integer> versions = new HashMap<>();
     if (changesVersion != null) {
       versions.put(ChangeSchemaDefinitions.INSTANCE.getName(), changesVersion);
     }
+    boolean slave = globalConfig.getBoolean("container", "slave", false);
     List<Module> modules = new ArrayList<>();
     Module indexModule;
     switch (IndexModule.getIndexType(dbInjector)) {
       case LUCENE:
-        indexModule = LuceneIndexModule.singleVersionWithExplicitVersions(versions, threads, false);
+        indexModule = LuceneIndexModule.singleVersionWithExplicitVersions(versions, threads, slave);
         break;
       case ELASTICSEARCH:
         indexModule =
-            ElasticIndexModule.singleVersionWithExplicitVersions(versions, threads, false);
+            ElasticIndexModule.singleVersionWithExplicitVersions(versions, threads, slave);
         break;
       default:
         throw new IllegalStateException("unsupported index.type");

@@ -16,6 +16,7 @@ package com.google.gerrit.server.patch;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
@@ -135,6 +136,7 @@ class PatchScriptBuilder {
     b.resolve(a, bId);
 
     edits = new ArrayList<>(content.getEdits());
+    ImmutableSet<Edit> editsDueToRebase = content.getEditsDueToRebase();
 
     if (!isModify(content)) {
       intralineDifferenceIsPossible = false;
@@ -142,7 +144,8 @@ class PatchScriptBuilder {
       IntraLineDiff d =
           patchListCache.getIntraLineDiff(
               IntraLineDiffKey.create(a.id, b.id, diffPrefs.ignoreWhitespace),
-              IntraLineDiffArgs.create(a.src, b.src, edits, projectKey, bId, b.path));
+              IntraLineDiffArgs.create(
+                  a.src, b.src, edits, editsDueToRebase, projectKey, bId, b.path));
       if (d != null) {
         switch (d.getStatus()) {
           case EDIT_LIST:
@@ -214,7 +217,7 @@ class PatchScriptBuilder {
         a.dst,
         b.dst,
         edits,
-        content.getEditsDueToRebase(),
+        editsDueToRebase,
         a.displayMethod,
         b.displayMethod,
         a.mimeType.toString(),

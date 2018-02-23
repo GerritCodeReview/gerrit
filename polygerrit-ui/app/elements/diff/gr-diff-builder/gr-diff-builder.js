@@ -14,6 +14,10 @@
 (function(window, GrDiffGroup, GrDiffLine) {
   'use strict';
 
+  const CJK_RE =
+    /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]/g;
+
+
   // Prevent redefinition.
   if (window.GrDiffBuilder) { return; }
 
@@ -459,6 +463,19 @@
   };
 
   /**
+   * Returns substring accounting for CJK chars.
+   */
+  GrDiffBuilder.prototype._substring = function(s, start, end) {
+    const result = s.substring(start, end);
+    const cjkCount = (result.match(CJK_RE) || []).length;
+    if (cjkCount > 0) {
+      // On average, CJK glyps take ~1.8 space of non-CJK chars.
+      return s.substring(start, end - Math.ceil(cjkCount/1.8));
+    }
+    return result;
+  };
+
+  /**
    * Returns a 'div' element containing the supplied |text| as its innerText,
    * with '\t' characters expanded to a width determined by |tabSize|, and the
    * text wrapped at column |lineLimit|, which may be Infinity if no wrapping is
@@ -482,10 +499,11 @@
         let rowStart = 0;
         let rowEnd = lineLimit - columnPos;
         while (rowEnd < segment.length) {
-          contentText.appendChild(
-              document.createTextNode(segment.substring(rowStart, rowEnd)));
+          const part = this._substring(segment, rowStart, rowEnd);
+          contentText.appendChild(document.createTextNode(part));
           contentText.appendChild(this._createElement('span', 'br'));
           columnPos = 0;
+          rowEnd -= (rowEnd - rowStart) - part.length;
           rowStart = rowEnd;
           rowEnd += lineLimit;
         }

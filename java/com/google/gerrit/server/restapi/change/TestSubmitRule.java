@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.data.Label;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
@@ -107,14 +108,14 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
       this.errorMessage = r.errorMessage;
 
       if (r.labels != null) {
-        for (SubmitRecord.Label n : r.labels) {
+        for (Label n : r.labels) {
           AccountInfo who = n.appliedBy != null ? accounts.get(n.appliedBy) : new AccountInfo(null);
           label(n, who);
         }
       }
     }
 
-    private void label(SubmitRecord.Label n, AccountInfo who) {
+    private void label(Label n, AccountInfo who) {
       switch (n.status) {
         case OK:
           if (ok == null) {

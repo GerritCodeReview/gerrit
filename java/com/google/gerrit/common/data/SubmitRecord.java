@@ -14,19 +14,27 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.Account;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 /** Describes the state required to submit a change. */
 public class SubmitRecord {
-  public static Optional<SubmitRecord> findOkRecord(Collection<SubmitRecord> in) {
-    if (in == null) {
-      return Optional.empty();
+  public static boolean isSubmittable(List<SubmitRecord> in) {
+    if (in == null || in.isEmpty()) {
+      // If the list is null or empty, it means that this Gerrit installation does not
+      // have any form of validation rules.
+      // Hence, the permission system should be used to determine if the change can be merged
+      // or not.
+      return true;
     }
-    return in.stream().filter(r -> r.status == Status.OK).findFirst();
+
+    if (in.stream().noneMatch(r -> r.status == Status.OK)) {
+      // One (or more) plugins are enabled, but none said the change can be merged.
+      return false;
+    }
+
+    // We can submit, unless at least one plugin prevents it.
+    return in.stream().noneMatch(r -> r.status == Status.NOT_READY);
   }
 
   public enum Status {
@@ -36,7 +44,7 @@ public class SubmitRecord {
     /** The change is ready for submission. */
     OK,
 
-    /** The change is missing a required label. */
+    /** Something is preventing this change from being submitted. */
     NOT_READY,
 
     /** The change has been closed. */
@@ -55,75 +63,8 @@ public class SubmitRecord {
 
   public Status status;
   public List<Label> labels;
+  public List<SubmitRequirement> requirements;
   public String errorMessage;
-
-  public static class Label {
-    public enum Status {
-      // NOTE: These values are persisted in the index, so deleting or changing
-      // the name of any values requires a schema upgrade.
-
-      /**
-       * This label provides what is necessary for submission.
-       *
-       * <p>If provided, {@link Label#appliedBy} describes the user account that applied this label
-       * to the change.
-       */
-      OK,
-
-      /**
-       * This label prevents the change from being submitted.
-       *
-       * <p>If provided, {@link Label#appliedBy} describes the user account that applied this label
-       * to the change.
-       */
-      REJECT,
-
-      /** The label is required for submission, but has not been satisfied. */
-      NEED,
-
-      /**
-       * The label may be set, but it's neither necessary for submission nor does it block
-       * submission if set.
-       */
-      MAY,
-
-      /**
-       * The label is required for submission, but is impossible to complete. The likely cause is
-       * access has not been granted correctly by the project owner or site administrator.
-       */
-      IMPOSSIBLE
-    }
-
-    public String label;
-    public Status status;
-    public Account.Id appliedBy;
-
-    @Override
-    public String toString() {
-      StringBuilder sb = new StringBuilder();
-      sb.append(label).append(": ").append(status);
-      if (appliedBy != null) {
-        sb.append(" by ").append(appliedBy);
-      }
-      return sb.toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      if (o instanceof Label) {
-        Label l = (Label) o;
-        return Objects.equals(label, l.label)
-            && Objects.equals(status, l.status)
-            && Objects.equals(appliedBy, l.appliedBy);
-      }
-      return false;
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(label, status, appliedBy);
-    }
-  }
 
   @Override
   public String toString() {

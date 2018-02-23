@@ -59,6 +59,7 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.Label;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
@@ -657,7 +658,7 @@ public class ChangeJson {
   }
 
   private boolean submittable(ChangeData cd) {
-    return SubmitRecord.findOkRecord(cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)).isPresent();
+    return SubmitRecord.isSubmittable(cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT));
   }
 
   private List<SubmitRecord> submitRecords(ChangeData cd) {
@@ -718,7 +719,7 @@ public class ChangeJson {
       if (rec.labels == null) {
         continue;
       }
-      for (SubmitRecord.Label r : rec.labels) {
+      for (Label r : rec.labels) {
         LabelWithStatus p = labels.get(r.label);
         if (p == null || p.status().compareTo(r.status) < 0) {
           LabelInfo n = new LabelInfo();
@@ -739,7 +740,7 @@ public class ChangeJson {
             }
           }
 
-          n.optional = r.status == SubmitRecord.Label.Status.MAY ? true : null;
+          n.optional = r.status == Label.Status.MAY ? true : null;
           labels.put(r.label, LabelWithStatus.create(n, r.status));
         }
       }
@@ -1026,7 +1027,7 @@ public class ChangeJson {
     Map<String, LabelType> toCheck = new HashMap<>();
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels != null) {
-        for (SubmitRecord.Label r : rec.labels) {
+        for (Label r : rec.labels) {
           LabelType type = labelTypes.byLabel(r.label);
           if (type != null && (!isMerged || type.allowPostSubmit())) {
             toCheck.put(type.getName(), type);
@@ -1042,7 +1043,7 @@ public class ChangeJson {
       if (rec.labels == null) {
         continue;
       }
-      for (SubmitRecord.Label r : rec.labels) {
+      for (Label r : rec.labels) {
         LabelType type = labelTypes.byLabel(r.label);
         if (type == null || (isMerged && !type.allowPostSubmit())) {
           continue;
@@ -1487,13 +1488,13 @@ public class ChangeJson {
 
   @AutoValue
   abstract static class LabelWithStatus {
-    private static LabelWithStatus create(LabelInfo label, SubmitRecord.Label.Status status) {
+    private static LabelWithStatus create(LabelInfo label, Label.Status status) {
       return new AutoValue_ChangeJson_LabelWithStatus(label, status);
     }
 
     abstract LabelInfo label();
 
     @Nullable
-    abstract SubmitRecord.Label.Status status();
+    abstract Label.Status status();
   }
 }

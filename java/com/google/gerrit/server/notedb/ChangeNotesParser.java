@@ -52,6 +52,7 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.common.data.Label;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.metrics.Timer1;
@@ -910,14 +911,14 @@ class ChangeNotesParser {
         }
       } else {
         checkFooter(rec != null, FOOTER_SUBMITTED_WITH, line);
-        SubmitRecord.Label label = new SubmitRecord.Label();
+        Label label = new Label();
         if (rec.labels == null) {
           rec.labels = new ArrayList<>();
         }
         rec.labels.add(label);
 
         label.status =
-            Enums.getIfPresent(SubmitRecord.Label.Status.class, line.substring(0, c)).orNull();
+            Enums.getIfPresent(Label.Status.class, line.substring(0, c)).orNull();
         checkFooter(label.status != null, FOOTER_SUBMITTED_WITH, line);
         int c2 = line.indexOf(": ", c + 2);
         if (c2 >= 0) {

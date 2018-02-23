@@ -18,6 +18,7 @@ import static com.google.gerrit.common.data.LabelValue.formatValue;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.data.Label;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -128,7 +129,7 @@ public class ReviewerJson {
         if (rec.labels == null) {
           continue;
         }
-        for (SubmitRecord.Label label : rec.labels) {
+        for (Label label : rec.labels) {
           String name = label.label;
           LabelType type = labelTypes.byLabel(name);
           if (!out.approvals.containsKey(name)

@@ -16,7 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import static java.util.stream.Collectors.toList;
 
-import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.common.data.Label;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -25,7 +25,7 @@ import java.util.Set;
 
 public class SubmitRecordPredicate extends ChangeIndexPredicate {
   public static Predicate<ChangeData> create(
-      String label, SubmitRecord.Label.Status status, Set<Account.Id> accounts) {
+      String label, Label.Status status, Set<Account.Id> accounts) {
     String lowerLabel = label.toLowerCase();
     if (accounts == null || accounts.isEmpty()) {
       return new SubmitRecordPredicate(status.name() + ',' + lowerLabel);

@@ -36,6 +36,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Table;
 import com.google.common.primitives.Longs;
+import com.google.gerrit.common.data.Label;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.SchemaUtil;
@@ -653,7 +654,7 @@ public class ChangeField {
   static class StoredSubmitRecord {
     static class StoredLabel {
       String label;
-      SubmitRecord.Label.Status status;
+      Label.Status status;
       Integer appliedBy;
     }
 
@@ -666,7 +667,7 @@ public class ChangeField {
       this.errorMessage = rec.errorMessage;
       if (rec.labels != null) {
         this.labels = new ArrayList<>(rec.labels.size());
-        for (SubmitRecord.Label label : rec.labels) {
+        for (Label label : rec.labels) {
           StoredLabel sl = new StoredLabel();
           sl.label = label.label;
           sl.status = label.status;
@@ -683,7 +684,7 @@ public class ChangeField {
       if (labels != null) {
         rec.labels = new ArrayList<>(labels.size());
         for (StoredLabel label : labels) {
-          SubmitRecord.Label srl = new SubmitRecord.Label();
+          Label srl = new Label();
           srl.label = label.label;
           srl.status = label.status;
           srl.appliedBy = label.appliedBy != null ? new Account.Id(label.appliedBy) : null;
@@ -746,7 +747,7 @@ public class ChangeField {
       if (rec.labels == null) {
         continue;
       }
-      for (SubmitRecord.Label label : rec.labels) {
+      for (Label label : rec.labels) {
         String sl = label.status.toString() + ',' + label.label.toLowerCase();
         result.add(sl);
         String slc = sl + ',';

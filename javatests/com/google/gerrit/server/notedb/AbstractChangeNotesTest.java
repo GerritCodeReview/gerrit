@@ -19,6 +19,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.Label;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
@@ -241,7 +242,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
   }
 
   protected static SubmitRecord submitRecord(
-      String status, String errorMessage, SubmitRecord.Label... labels) {
+      String status, String errorMessage, Label... labels) {
     SubmitRecord rec = new SubmitRecord();
     rec.status = SubmitRecord.Status.valueOf(status);
     rec.errorMessage = errorMessage;
@@ -251,11 +252,11 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     return rec;
   }
 
-  protected static SubmitRecord.Label submitLabel(
+  protected static Label submitLabel(
       String name, String status, Account.Id appliedBy) {
-    SubmitRecord.Label label = new SubmitRecord.Label();
+    Label label = new Label();
     label.label = name;
-    label.status = SubmitRecord.Label.Status.valueOf(status);
+    label.status = Label.Status.valueOf(status);
     label.appliedBy = appliedBy;
     return label;
   }

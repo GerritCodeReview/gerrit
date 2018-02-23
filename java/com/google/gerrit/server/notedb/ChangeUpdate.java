@@ -51,6 +51,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.Label;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -715,7 +716,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         msg.append('\n');
 
         if (rec.labels != null) {
-          for (SubmitRecord.Label label : rec.labels) {
+          for (Label label : rec.labels) {
             // Label names/values are safe to append without sanitizing.
             addFooter(msg, FOOTER_SUBMITTED_WITH)
                 .append(label.status)

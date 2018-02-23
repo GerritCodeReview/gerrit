@@ -20,9 +20,11 @@ import static java.util.Comparator.comparing;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.Label;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -52,6 +54,7 @@ import com.google.gerrit.server.data.PatchSetCommentAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.data.SubmitLabelAttribute;
 import com.google.gerrit.server.data.SubmitRecordAttribute;
+import com.google.gerrit.server.data.SubmitRequirementAttribute;
 import com.google.gerrit.server.data.TrackingIdAttribute;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchList;
@@ -229,6 +232,7 @@ public class EventFactory {
       sa.status = submitRecord.status.name();
       if (submitRecord.status != SubmitRecord.Status.RULE_ERROR) {
         addSubmitRecordLabels(submitRecord, sa);
+        addSubmitRecordRequirements(submitRecord, sa);
       }
       ca.submitRecords.add(sa);
     }
@@ -241,7 +245,7 @@ public class EventFactory {
   private void addSubmitRecordLabels(SubmitRecord submitRecord, SubmitRecordAttribute sa) {
     if (submitRecord.labels != null && !submitRecord.labels.isEmpty()) {
       sa.labels = new ArrayList<>();
-      for (SubmitRecord.Label lbl : submitRecord.labels) {
+      for (Label lbl : submitRecord.labels) {
         SubmitLabelAttribute la = new SubmitLabelAttribute();
         la.label = lbl.label;
         la.status = lbl.status.name();
@@ -249,6 +253,19 @@ public class EventFactory {
           la.by = asAccountAttribute(lbl.appliedBy);
         }
         sa.labels.add(la);
+      }
+    }
+  }
+
+  private void addSubmitRecordRequirements(SubmitRecord submitRecord, SubmitRecordAttribute sa) {
+    if (submitRecord.requirements != null && !submitRecord.requirements.isEmpty()) {
+      sa.requirements = new ArrayList<>();
+      for (SubmitRequirement req: submitRecord.requirements) {
+        SubmitRequirementAttribute re = new SubmitRequirementAttribute();
+        re.shortReason = req.shortReason();
+        re.fullReason = req.fullReason();
+        re.label = req.label();
+        sa.requirements.add(re);
       }
     }
   }

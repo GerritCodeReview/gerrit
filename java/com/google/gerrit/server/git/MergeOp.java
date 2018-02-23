@@ -33,6 +33,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.Label;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -291,7 +292,7 @@ public class MergeOp implements AutoCloseable {
       throw new ResourceConflictException("missing current patch set for change " + cd.getId());
     }
     List<SubmitRecord> results = getSubmitRecords(cd, allowClosed);
-    if (SubmitRecord.findOkRecord(results).isPresent()) {
+    if (SubmitRecord.isSubmittable(results)) {
       // Rules supplied a valid solution.
       return;
     } else if (results.isEmpty()) {
@@ -303,6 +304,9 @@ public class MergeOp implements AutoCloseable {
 
     for (SubmitRecord record : results) {
       switch (record.status) {
+        case OK:
+          break;
+
         case CLOSED:
           throw new ResourceConflictException("change is closed");
 
@@ -313,7 +317,6 @@ public class MergeOp implements AutoCloseable {
           throw new ResourceConflictException(describeLabels(cd, record.labels));
 
         case FORCED:
-        case OK:
         default:
           throw new IllegalStateException(
               String.format(
@@ -332,10 +335,10 @@ public class MergeOp implements AutoCloseable {
     return cd.submitRecords(submitRuleOptions(allowClosed));
   }
 
-  private static String describeLabels(ChangeData cd, List<SubmitRecord.Label> labels)
+  private static String describeLabels(ChangeData cd, List<Label> labels)
       throws OrmException {
     List<String> labelResults = new ArrayList<>();
-    for (SubmitRecord.Label lbl : labels) {
+    for (Label lbl : labels) {
       switch (lbl.status) {
         case OK:
         case MAY:

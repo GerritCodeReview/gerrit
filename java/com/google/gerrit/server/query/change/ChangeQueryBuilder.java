@@ -27,6 +27,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.Label;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -785,8 +786,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (args.getSchema().hasField(ChangeField.SUBMIT_RECORD) && eq > 0) {
       String statusName = name.substring(eq + 1).toUpperCase();
       if (!isInt(statusName)) {
-        SubmitRecord.Label.Status status =
-            Enums.getIfPresent(SubmitRecord.Label.Status.class, statusName).orNull();
+        Label.Status status =
+            Enums.getIfPresent(Label.Status.class, statusName).orNull();
         if (status == null) {
           throw error("Invalid label status " + statusName + " in " + name);
         }

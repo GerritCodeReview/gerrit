@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.Label;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -80,7 +81,7 @@ public class SubmitRuleEvaluator {
   private static class UserTermExpected extends Exception {
     private static final long serialVersionUID = 1L;
 
-    UserTermExpected(SubmitRecord.Label label) {
+    UserTermExpected(Label label) {
       super(String.format("A label with the status %s must contain a user.", label.toString()));
     }
   }
@@ -291,7 +292,7 @@ public class SubmitRuleEvaluator {
           return invalidResult(submitRule, submitRecord);
         }
 
-        SubmitRecord.Label lbl = new SubmitRecord.Label();
+        Label lbl = new Label();
         rec.labels.add(lbl);
 
         lbl.label = state.arg(0).name();
@@ -299,21 +300,21 @@ public class SubmitRuleEvaluator {
 
         try {
           if ("ok".equals(status.name())) {
-            lbl.status = SubmitRecord.Label.Status.OK;
+            lbl.status = Label.Status.OK;
             appliedBy(lbl, status);
 
           } else if ("reject".equals(status.name())) {
-            lbl.status = SubmitRecord.Label.Status.REJECT;
+            lbl.status = Label.Status.REJECT;
             appliedBy(lbl, status);
 
           } else if ("need".equals(status.name())) {
-            lbl.status = SubmitRecord.Label.Status.NEED;
+            lbl.status = Label.Status.NEED;
 
           } else if ("may".equals(status.name())) {
-            lbl.status = SubmitRecord.Label.Status.MAY;
+            lbl.status = Label.Status.MAY;
 
           } else if ("impossible".equals(status.name())) {
-            lbl.status = SubmitRecord.Label.Status.IMPOSSIBLE;
+            lbl.status = Label.Status.IMPOSSIBLE;
 
           } else {
             return invalidResult(submitRule, submitRecord);
@@ -569,7 +570,7 @@ public class SubmitRuleEvaluator {
     return list;
   }
 
-  private void appliedBy(SubmitRecord.Label label, Term status) throws UserTermExpected {
+  private void appliedBy(Label label, Term status) throws UserTermExpected {
     if (status instanceof StructureTerm && status.arity() == 1) {
       Term who = status.arg(0);
       if (isUser(who)) {

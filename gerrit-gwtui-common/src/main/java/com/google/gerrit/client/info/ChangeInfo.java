@@ -17,8 +17,8 @@ package com.google.gerrit.client.info;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.common.data.Label;
 import com.google.gerrit.common.data.LabelValue;
-import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Change;
@@ -265,15 +265,15 @@ public class ChangeInfo extends JavaScriptObject {
   protected ChangeInfo() {}
 
   public static class LabelInfo extends JavaScriptObject {
-    public final SubmitRecord.Label.Status status() {
+    public final Label.Status status() {
       if (approved() != null) {
-        return SubmitRecord.Label.Status.OK;
+        return Label.Status.OK;
       } else if (rejected() != null) {
-        return SubmitRecord.Label.Status.REJECT;
+        return Label.Status.REJECT;
       } else if (optional()) {
-        return SubmitRecord.Label.Status.MAY;
+        return Label.Status.MAY;
       } else {
-        return SubmitRecord.Label.Status.NEED;
+        return Label.Status.NEED;
       }
     }
 

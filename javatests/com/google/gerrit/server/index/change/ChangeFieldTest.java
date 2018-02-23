@@ -22,6 +22,7 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.Label;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -71,8 +72,8 @@ public class ChangeFieldTest extends GerritBaseTests {
                 ImmutableList.of(
                     record(
                         SubmitRecord.Status.OK,
-                        label(SubmitRecord.Label.Status.MAY, "Label-1", null),
-                        label(SubmitRecord.Label.Status.OK, "Label-2", 1))),
+                        label(Label.Status.MAY, "Label-1", null),
+                        label(Label.Status.OK, "Label-2", 1))),
                 new Account.Id(1)))
         .containsExactly("OK", "MAY,label-1", "OK,label-2", "OK,label-2,0", "OK,label-2,1");
   }
@@ -83,11 +84,11 @@ public class ChangeFieldTest extends GerritBaseTests {
     assertStoredRecordRoundTrip(
         record(
             SubmitRecord.Status.OK,
-            label(SubmitRecord.Label.Status.MAY, "Label-1", null),
-            label(SubmitRecord.Label.Status.OK, "Label-2", 1)));
+            label(Label.Status.MAY, "Label-1", null),
+            label(Label.Status.OK, "Label-2", 1)));
   }
 
-  private static SubmitRecord record(SubmitRecord.Status status, SubmitRecord.Label... labels) {
+  private static SubmitRecord record(SubmitRecord.Status status, Label... labels) {
     SubmitRecord r = new SubmitRecord();
     r.status = status;
     if (labels.length > 0) {
@@ -96,9 +97,9 @@ public class ChangeFieldTest extends GerritBaseTests {
     return r;
   }
 
-  private static SubmitRecord.Label label(
-      SubmitRecord.Label.Status status, String label, Integer appliedBy) {
-    SubmitRecord.Label l = new SubmitRecord.Label();
+  private static Label label(
+      Label.Status status, String label, Integer appliedBy) {
+    Label l = new Label();
     l.status = status;
     l.label = label;
     if (appliedBy != null) {

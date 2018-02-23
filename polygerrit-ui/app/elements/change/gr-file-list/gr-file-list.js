@@ -930,6 +930,26 @@
       }
     },
 
+    reloadDiffWithThreadRoot(rootId, comments) {
+      for (const diff of this.diffs) {
+        const threadGroups =
+            diff.querySelectorAll('gr-diff-comment-thread-group');
+        for (const threadGroup of threadGroups) {
+          if (threadGroup._threads.find(t => t.rootId === rootId)) {
+            // commentSide needs to be replaced. In the comment thread view it
+            // is either parent or undefined. In the diff view it needs to be
+            // left or right.
+            threadGroup.comments = comments.map(c => {
+              c.__commentSide = threadGroup.commentSide;
+              return c;
+            });
+            Polymer.dom.flush();
+            return;
+          }
+        }
+      }
+    },
+
     _handleEscKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }

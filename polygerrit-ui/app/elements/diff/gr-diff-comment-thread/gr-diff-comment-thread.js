@@ -126,6 +126,12 @@
       this.updateThreadProperties();
     },
 
+    _handleCommentSavedOrDiscarded() {
+      this.dispatchEvent(new CustomEvent('comment-saved-or-discarded',
+          {detail: {rootId: this.rootId, comments: this.comments},
+            bubbles: false}));
+    },
+
     updateThreadProperties() {
       if (this._orderedComments.length) {
         this._lastComment = this._getLastComment();
@@ -344,6 +350,7 @@
             JSON.stringify(diffCommentEl.comment));
       }
       this.splice('comments', idx, 1);
+      this._handleCommentSavedOrDiscarded();
       if (this.comments.length == 0) {
         this.fire('thread-discard', {lastComment: comment});
       }

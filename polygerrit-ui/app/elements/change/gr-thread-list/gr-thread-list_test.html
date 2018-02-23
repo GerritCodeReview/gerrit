@@ -165,16 +165,5 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.equal(computeVisibleNumber(threadsElements), 1);
     });
-
-    test('_getDiffUrlForComment', () => {
-      sandbox.stub(Gerrit.Nav, 'getUrlForDiff');
-      const change = {_number: 123, project: 'demo-project'};
-      const path = '/path';
-      const patchNum = 2;
-      const lineNum = 5;
-      element._getDiffUrlForComment(change, path, patchNum, lineNum);
-      assert.isTrue(Gerrit.Nav.getUrlForDiff.lastCall.calledWithExactly(
-          change, path, patchNum, null, lineNum));
-    });
   });
 </script>

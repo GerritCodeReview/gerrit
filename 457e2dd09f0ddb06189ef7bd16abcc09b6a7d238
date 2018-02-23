@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb45787b_9745f928",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-23T19:15:53Z",
+      "side": 1,
+      "message": "Nit: indent.",
+      "range": {
+        "startLine": 110,
+        "startChar": 6,
+        "endLine": 112,
+        "endChar": 7
+      },
+      "revId": "457e2dd09f0ddb06189ef7bd16abcc09b6a7d238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

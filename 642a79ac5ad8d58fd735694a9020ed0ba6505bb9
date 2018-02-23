@@ -70,6 +70,30 @@
       "revId": "642a79ac5ad8d58fd735694a9020ed0ba6505bb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b99d405_a01462f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-23T12:05:18Z",
+      "side": 1,
+      "message": "It looks like stable-2.15 branch missed this Patrick\u0027s clean-up commit: Ib5c9363778a, after draft workflow was removed. In this CL this statement was replaced with:\n\n -          if (ps \u003d\u003d null || !changeControl().isPatchVisible(ps, db)) {\n +          if (ps \u003d\u003d null || !changeControl().isVisible(db))   {",
+      "parentUuid": "14bceb6c_859cd889",
+      "range": {
+        "startLine": 1075,
+        "startChar": 35,
+        "endLine": 1075,
+        "endChar": 42
+      },
+      "revId": "642a79ac5ad8d58fd735694a9020ed0ba6505bb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

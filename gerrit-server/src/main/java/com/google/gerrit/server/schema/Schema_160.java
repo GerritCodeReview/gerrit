@@ -51,7 +51,7 @@ import org.eclipse.jgit.lib.TextProgressMonitor;
  * not affected; this is still a valid predicate that matches no changes.
  */
 public class Schema_160 extends SchemaVersion {
-  @VisibleForTesting static final String DEFAULT_DRAFT_ITEM = "#/q/owner:self+is:draft";
+  @VisibleForTesting static final String DEFAULT_DRAFT_ITEM = "/q/owner:self+is:draft";
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;

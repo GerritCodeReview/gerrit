@@ -366,6 +366,7 @@
         patchNum: comment.patch_set,
         path: comment.__path,
         line: comment.line,
+        rootId: comment.id || comment.__draftID,
       };
       if (comment.side) {
         newThread.commentSide = comment.side;

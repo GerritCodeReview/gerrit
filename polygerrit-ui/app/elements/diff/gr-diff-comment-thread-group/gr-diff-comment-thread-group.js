@@ -142,8 +142,11 @@
     },
 
     _getThreads(comments) {
-      const sortedComments = comments.slice(0).sort((a, b) =>
-          util.parseDate(a.updated) - util.parseDate(b.updated));
+      const sortedComments = comments.slice(0).sort((a, b) => {
+        if (b.__draft && !a.__draft ) { return 0; }
+        if (a.__draft && !b.__draft ) { return 1; }
+        return util.parseDate(a.updated) - util.parseDate(b.updated);
+      });
 
       const threads = [];
       for (const comment of sortedComments) {
@@ -164,7 +167,7 @@
           comments: [comment],
           commentSide: comment.__commentSide,
           patchNum: this._getPatchNum(comment),
-          rootId: comment.id,
+          rootId: comment.id || comment.__draftID,
         };
         if (comment.range) {
           newThread.range = Object.assign({}, comment.range);

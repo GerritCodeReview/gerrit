@@ -23,16 +23,18 @@
       changeNum: String,
     },
 
+    _handleCommentsChanged(e) {
+      this.dispatchEvent(new CustomEvent('comment-threads-modified',
+          {detail: {rootId: e.detail.rootId, comments: e.detail.comments},
+            bubbles: true}));
+    },
+
     _toggleUnresolved() {
       this.$.threads.classList.toggle('unresolvedOnly');
     },
 
     _toggleDrafts() {
       this.$.threads.classList.toggle('draftsOnly');
-    },
-
-    _getDiffUrlForComment(change, path, patchNum, lineNum) {
-      return Gerrit.Nav.getUrlForDiff(change, path, patchNum, null, lineNum);
     },
   });
 })();

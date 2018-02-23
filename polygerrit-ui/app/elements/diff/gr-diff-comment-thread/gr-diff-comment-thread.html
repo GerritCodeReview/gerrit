@@ -68,7 +68,8 @@ limitations under the License.
             root-id="[[rootId]]"
             project-config="[[_projectConfig]]"
             on-create-fix-comment="_handleCommentFix"
-            on-comment-discard="_handleCommentDiscard"></gr-diff-comment>
+            on-comment-discard="_handleCommentDiscard"
+            on-comment-save="_handleCommentSavedOrDiscarded"></gr-diff-comment>
       </template>
       <div id="commentInfoContainer"
           hidden$="[[_hideActions(_showActions, _lastComment)]]">

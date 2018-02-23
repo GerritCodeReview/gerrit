@@ -175,7 +175,6 @@ import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.query.change.ConflictsCacheImpl;
 import com.google.gerrit.server.restapi.config.ConfigRestModule;
 import com.google.gerrit.server.restapi.group.GroupModule;
-import com.google.gerrit.server.rules.PrologModule;
 import com.google.gerrit.server.rules.RulesCache;
 import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.tools.ToolsCatalog;
@@ -244,7 +243,6 @@ public class GerritGlobalModule extends FactoryModule {
     install(new GitModule());
     install(new GroupModule());
     install(new NoteDbModule(cfg));
-    install(new PrologModule());
     install(new ReceiveCommitsModule());
     install(new SshAddressesModule());
     install(ThreadLocalRequestContext.module());

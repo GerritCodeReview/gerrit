@@ -1,4 +1,4 @@
-// Copyright (C) 2011 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -159,7 +159,7 @@ public class PrologEnvironment extends BufferingPrologControl {
                 Class.forName(
                     PredicateEncoder.encode(Prolog.BUILTIN, "consult_stream", 2),
                     false,
-                    RulesCache.class.getClassLoader());
+                    PrologRulesCache.class.getClassLoader());
         CONSULT_STREAM_2 = c;
       } catch (ClassNotFoundException e) {
         throw new LinkageError("cannot find predicate consult_stream", e);

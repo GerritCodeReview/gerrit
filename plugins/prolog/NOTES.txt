@@ -1,0 +1,8 @@
+BatchProgramModule
+
+    install(new PrologModule());
+
+
+GerritGlobalModule
+
+    install(new PrologModule());

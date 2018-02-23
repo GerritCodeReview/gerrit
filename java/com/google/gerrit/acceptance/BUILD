@@ -47,7 +47,6 @@ java_library(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
         "//lib/mina:sshd",
-        "//prolog:gerrit-prolog-common",
     ],
 )
 
@@ -85,7 +84,6 @@ java_library2(
         "//lib/jgit/org.eclipse.jgit.junit:junit",
         "//lib/log:impl_log4j",
         "//lib/log:log4j",
-        "//prolog:gerrit-prolog-common",
     ],
     visibility = ["//visibility:public"],
     deps = [

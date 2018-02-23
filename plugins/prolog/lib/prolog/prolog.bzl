@@ -19,16 +19,16 @@ def prolog_cafe_library(
     **kwargs):
   native.genrule(
     name = name + '__pl2j',
-    cmd = '$(location //lib/prolog:compiler_bin) ' +
+    cmd = '$(location //plugins/prolog/lib/prolog:compiler_bin) ' +
       '$$(dirname $@) $@ ' +
       '$(SRCS)',
     srcs = srcs,
-    tools = ['//lib/prolog:compiler_bin'],
+    tools = ['//plugins/prolog/lib/prolog:compiler_bin'],
     outs = [ name + '.srcjar' ],
   )
   native.java_library(
     name = name,
     srcs = [':' + name + '__pl2j'],
-    deps = ['//lib/prolog:runtime-neverlink'] + deps,
+    deps = ['//plugins/prolog/lib/prolog:runtime-neverlink'] + deps,
     **kwargs
   )

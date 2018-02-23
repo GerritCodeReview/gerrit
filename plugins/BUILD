@@ -70,7 +70,6 @@ EXPORTS = [
     "//lib:protobuf",
     "//lib:servlet-api-3_1-without-neverlink",
     "//lib:soy",
-    "//prolog:gerrit-prolog-common",
 ]
 
 java_binary(

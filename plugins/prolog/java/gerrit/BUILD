@@ -10,6 +10,7 @@ java_library(
         "//lib:gwtorm",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
-        "//lib/prolog:runtime",
+        "//plugins/prolog",
+        "//plugins/prolog/lib/prolog:runtime",
     ],
 )

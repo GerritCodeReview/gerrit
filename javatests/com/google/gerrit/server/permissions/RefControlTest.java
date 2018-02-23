@@ -60,7 +60,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.project.testing.Util;
-import com.google.gerrit.server.rules.PrologEnvironment;
 import com.google.gerrit.server.rules.RulesCache;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
@@ -920,7 +919,6 @@ public class RefControlTest {
   }
 
   private InMemoryRepository add(ProjectConfig pc) {
-    PrologEnvironment.Factory envFactory = null;
     RulesCache rulesCache = null;
     SitePaths sitePaths = null;
     List<CommentLinkInfo> commentLinks = null;
@@ -941,9 +939,7 @@ public class RefControlTest {
             projectCache,
             allProjectsName,
             allUsersName,
-            envFactory,
             repoManager,
-            rulesCache,
             commentLinks,
             capabilityCollectionFactory,
             pc));

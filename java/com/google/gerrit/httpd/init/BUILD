@@ -30,6 +30,5 @@ java_library(
         "//lib/guice:guice-servlet",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
-        "//prolog:gerrit-prolog-common",
     ],
 )

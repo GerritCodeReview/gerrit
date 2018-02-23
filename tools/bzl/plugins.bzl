@@ -6,6 +6,7 @@ CORE_PLUGINS = [
     "replication",
     "reviewnotes",
     "singleusergroup",
+    "prolog"
 ]
 
 CUSTOM_PLUGINS = [

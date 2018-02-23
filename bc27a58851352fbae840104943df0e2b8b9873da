@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "083690a8_86e5298b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-23T21:53:58Z",
+      "side": 1,
+      "message": "Please consider using data binding for this, e.g.\n\n\u003cspan\u003e[[_labelMessage]]\u003c/span\u003e\n\nsetLabelsInfoMsg(msg) {\n  this.labelMessage \u003d msg;\n}\n\nAlso, how is this message cleared?",
+      "range": {
+        "startLine": 291,
+        "startChar": 33,
+        "endLine": 291,
+        "endChar": 42
+      },
+      "revId": "bc27a58851352fbae840104943df0e2b8b9873da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a62e937d_16173bbe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-23T21:53:58Z",
+      "side": 1,
+      "message": "Can you please explain the use case for this one?",
+      "range": {
+        "startLine": 92,
+        "startChar": 35,
+        "endLine": 92,
+        "endChar": 55
+      },
+      "revId": "bc27a58851352fbae840104943df0e2b8b9873da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

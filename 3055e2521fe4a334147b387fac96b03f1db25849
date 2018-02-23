@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c82a1396_f43be9db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-23T08:03:14Z",
+      "side": 1,
+      "message": "Not applicable any more.",
+      "parentUuid": "977e04ac_a0bc8ff7",
+      "revId": "3055e2521fe4a334147b387fac96b03f1db25849",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7949fb8_b6ed7ee0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/AccountIdHandler.java",
         "patchSetId": 10
@@ -30,6 +48,30 @@
       "writtenOn": "2017-09-01T06:52:46Z",
       "side": 1,
       "message": "Which deprecation is this suppressing?",
+      "range": {
+        "startLine": 62,
+        "startChar": 21,
+        "endLine": 62,
+        "endChar": 32
+      },
+      "revId": "3055e2521fe4a334147b387fac96b03f1db25849",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32279bb9_e8c90cba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/AccountIdHandler.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-23T08:03:14Z",
+      "side": 1,
+      "message": "Resolved. Not applicable any more.",
+      "parentUuid": "d7949fb8_b6ed7ee0",
       "range": {
         "startLine": 62,
         "startChar": 21,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "0e0770ea_bd3691dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ErrorMessages.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-23T08:03:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1ffc5ec_b83a0fb1",
+      "range": {
+        "startLine": 27,
+        "startChar": 8,
+        "endLine": 27,
+        "endChar": 14
+      },
+      "revId": "3055e2521fe4a334147b387fac96b03f1db25849",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0baa4a00_0ad54e20",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/args4j/ErrorMessages.properties",
         "patchSetId": 10
@@ -76,6 +142,30 @@
       "writtenOn": "2017-09-01T06:52:46Z",
       "side": 1,
       "message": "DOES_NOT",
+      "range": {
+        "startLine": 13,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 12
+      },
+      "revId": "3055e2521fe4a334147b387fac96b03f1db25849",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a35ea5d_180184d3",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/args4j/ErrorMessages.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-23T08:03:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0baa4a00_0ad54e20",
       "range": {
         "startLine": 13,
         "startChar": 6,

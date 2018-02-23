@@ -1099,6 +1099,13 @@ bower_archive(
 )
 
 bower_archive(
+    name = "paper-tabs",
+    package = "polymerelements/paper-tabs",
+    sha1 = "b6dd2fbd7ee887534334057a29eb545b940fc5cf",
+    version = "2.0.0",
+)
+
+bower_archive(
     name = "iron-icon",
     package = "polymerelements/iron-icon",
     sha1 = "7da49a0d33cd56017740e0dbcf41d2b71532023f",

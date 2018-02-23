@@ -229,6 +229,16 @@ def define_bower_components():
     seed = True,
   )
   bower_component(
+    name = "paper-icon-button",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":iron-icon",
+      ":paper-behaviors",
+      ":paper-styles",
+      ":polymer",
+    ],
+  )
+  bower_component(
     name = "paper-input",
     license = "//lib:LICENSE-polymer",
     deps = [
@@ -280,6 +290,23 @@ def define_bower_components():
       ":iron-flex-layout",
       ":polymer",
     ],
+  )
+  bower_component(
+    name = "paper-tabs",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":iron-behaviors",
+      ":iron-flex-layout",
+      ":iron-icon",
+      ":iron-iconset-svg",
+      ":iron-menu-behavior",
+      ":iron-resizable-behavior",
+      ":paper-behaviors",
+      ":paper-icon-button",
+      ":paper-styles",
+      ":polymer",
+    ],
+    seed = True,
   )
   bower_component(
     name = "paper-toggle-button",

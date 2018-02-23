@@ -199,6 +199,10 @@
         value: ButtonTooltips.SAVE,
         readOnly: true,
       },
+      _labelMessage: {
+        type: String,
+        value: '',
+      },
     },
 
     FocusTarget,
@@ -285,6 +289,10 @@
       if (!selectorEl) { return null; }
 
       return selectorEl.selectedValue;
+    },
+
+    setLabelsInfoMsg(msg) {
+      this._labelMessage = msg;
     },
 
     _handleEscKey(e) {

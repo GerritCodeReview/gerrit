@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40727d7a_dd5e3e46",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-actions-js-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-23T19:04:51Z",
+      "side": 1,
+      "message": "I generally would like to roll this into existing remove() or removePrimaryActionKey() to avoid adding overly-specific API methods, but on the other hand this whole interface should be refactored, so that\u0027s probably fine for now.",
+      "revId": "ebc9a924a381fba29642652f3aa9e78d476d663d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "081b242d_fbacf160",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-02-23T22:41:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a9642b2a_f546ff29",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "58a4fcaf477f826a6031f6460758edfc5bcbdc00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "91b8bc2e_9b8c2d04",
         "filename": "polygerrit-ui/app/elements/settings/gr-gpg-editor/gr-gpg-editor.html",
         "patchSetId": 27
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "8ba3703e_b1f4ab3a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-gpg-editor/gr-gpg-editor.html",
+        "patchSetId": 27
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-02-23T22:41:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "91b8bc2e_9b8c2d04",
+      "range": {
+        "startLine": 68,
+        "startChar": 44,
+        "endLine": 68,
+        "endChar": 47
+      },
+      "revId": "58a4fcaf477f826a6031f6460758edfc5bcbdc00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "34acc9ff_08748356",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 27
@@ -59,6 +107,24 @@
       "writtenOn": "2018-02-23T22:29:24Z",
       "side": 1,
       "message": "After adding a new GPG key, the new key doesn\u0027t appear in the table until the page is completely reloaded. The reason is because this call uses the shared response cache.\n\nThis should just fetch the keys directly.\n\n return this.fetchJSON(\u0027/accounts/self/gpgkeys\u0027);",
+      "revId": "58a4fcaf477f826a6031f6460758edfc5bcbdc00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f40dc8fc_afaebee2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 1956,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-02-23T22:41:16Z",
+      "side": 1,
+      "message": "thanks, done.",
+      "parentUuid": "34acc9ff_08748356",
       "revId": "58a4fcaf477f826a6031f6460758edfc5bcbdc00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

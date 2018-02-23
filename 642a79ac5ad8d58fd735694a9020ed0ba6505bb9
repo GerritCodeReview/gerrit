@@ -22,6 +22,30 @@
       "revId": "642a79ac5ad8d58fd735694a9020ed0ba6505bb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6b333f0_b80f5879",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-23T10:24:08Z",
+      "side": 1,
+      "message": "Should we add a comment on this line? It\u0027s not immediately obvious, why we enfore the mergeability check for change owner, even though the patch set is not visible.",
+      "parentUuid": "14bceb6c_859cd889",
+      "range": {
+        "startLine": 1075,
+        "startChar": 35,
+        "endLine": 1075,
+        "endChar": 42
+      },
+      "revId": "642a79ac5ad8d58fd735694a9020ed0ba6505bb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

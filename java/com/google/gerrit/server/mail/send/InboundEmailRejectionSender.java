@@ -59,7 +59,7 @@ public class InboundEmailRejectionSender extends OutgoingEmail {
     add(RecipientType.TO, to);
 
     if (!threadId.isEmpty()) {
-      setHeader(MailHeader.REFERENCES.fieldName(), "<" + threadId + ">");
+      setHeader(MailHeader.REFERENCES.fieldName(), threadId);
     }
   }
 

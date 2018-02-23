@@ -51,7 +51,8 @@ import org.eclipse.jgit.lib.TextProgressMonitor;
  * not affected; this is still a valid predicate that matches no changes.
  */
 public class Schema_160 extends SchemaVersion {
-  @VisibleForTesting static final String DEFAULT_DRAFT_ITEM = "#/q/owner:self+is:draft";
+  @VisibleForTesting static final String DEFAULT_DRAFT_ITEM_GWTUI = "#/q/owner:self+is:draft";
+  @VisibleForTesting static final String DEFAULT_DRAFT_ITEM_PG = "/q/owner:self+is:draft";
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
@@ -119,7 +120,10 @@ public class Schema_160 extends SchemaVersion {
     void removeMyDrafts() {
       Config cfg = getConfig();
       for (String item : cfg.getSubsections(MY)) {
-        if (DEFAULT_DRAFT_ITEM.equals(cfg.getString(MY, item, KEY_URL))) {
+        if (DEFAULT_DRAFT_ITEM_GWTUI.equals(cfg.getString(MY, item, KEY_URL))) {
+          cfg.unsetSection(MY, item);
+          dirty = true;
+        } else if (DEFAULT_DRAFT_ITEM_PG.equals(cfg.getString(MY, item, KEY_URL))) {
           cfg.unsetSection(MY, item);
           dirty = true;
         }

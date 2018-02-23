@@ -18,7 +18,7 @@ import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_URL;
 import static com.google.gerrit.server.git.UserConfigSections.MY;
-import static com.google.gerrit.server.schema.Schema_160.DEFAULT_DRAFT_ITEM;
+import static com.google.gerrit.server.schema.Schema_160.DEFAULT_DRAFT_ITEM_GWTUI;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -68,8 +68,8 @@ public class Schema_159_to_160_Test {
   @Test
   public void skipUnmodified() throws Exception {
     ObjectId oldMetaId = metaRef(accountId);
-    assertThat(myMenusFromNoteDb(accountId).values()).doesNotContain(DEFAULT_DRAFT_ITEM);
-    assertThat(myMenusFromApi(accountId).values()).doesNotContain(DEFAULT_DRAFT_ITEM);
+    assertThat(myMenusFromNoteDb(accountId).values()).doesNotContain(DEFAULT_DRAFT_ITEM_GWTUI);
+    assertThat(myMenusFromApi(accountId).values()).doesNotContain(DEFAULT_DRAFT_ITEM_GWTUI);
 
     schema160.migrateData(db, new TestUpdateUI());
 
@@ -82,9 +82,9 @@ public class Schema_159_to_160_Test {
     List<String> defaultNames = ImmutableList.copyOf(myMenusFromApi(accountId).keySet());
 
     GeneralPreferencesInfo prefs = gApi.accounts().id(accountId.get()).getPreferences();
-    prefs.my.add(0, new MenuItem("Something else", DEFAULT_DRAFT_ITEM + "+is:mergeable"));
-    prefs.my.add(new MenuItem("Drafts", DEFAULT_DRAFT_ITEM));
-    prefs.my.add(new MenuItem("Totally not drafts", DEFAULT_DRAFT_ITEM));
+    prefs.my.add(0, new MenuItem("Something else", DEFAULT_DRAFT_ITEM_GWTUI + "+is:mergeable"));
+    prefs.my.add(new MenuItem("Drafts", DEFAULT_DRAFT_ITEM_GWTUI));
+    prefs.my.add(new MenuItem("Totally not drafts", DEFAULT_DRAFT_ITEM_GWTUI));
     gApi.accounts().id(accountId.get()).setPreferences(prefs);
 
     List<String> oldNames =

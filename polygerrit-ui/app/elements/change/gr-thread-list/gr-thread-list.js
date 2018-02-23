@@ -21,6 +21,7 @@
       change: Object,
       threads: Array,
       changeNum: String,
+      _shownThreads: Object,
     },
 
     _toggleUnresolved() {
@@ -29,10 +30,6 @@
 
     _toggleDrafts() {
       this.$.threads.classList.toggle('draftsOnly');
-    },
-
-    _getDiffUrlForComment(change, path, patchNum, lineNum) {
-      return Gerrit.Nav.getUrlForDiff(change, path, patchNum, null, lineNum);
     },
   });
 })();

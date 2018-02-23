@@ -228,6 +228,10 @@
         type: Boolean,
         value: undefined,
       },
+      _showMessagesView: {
+        type: Boolean,
+        value: true,
+      },
     },
 
     behaviors: [
@@ -327,6 +331,18 @@
       } else {
         this.$.fileListHeader.setDiffViewMode(DiffViewMode.SIDE_BY_SIDE);
       }
+    },
+
+    _handleTabChange() {
+      this._showMessagesView = this.$.commentTabs.selected === 0;
+    },
+
+    _computeShowMessages(showSection) {
+      return showSection ? 'visible' : '';
+    },
+
+    _computeShowThreads(showSection) {
+      return !showSection ? 'visible' : '';
     },
 
     _handleEditCommitMessage(e) {
@@ -1112,6 +1128,8 @@
           .then(comments => {
             this._changeComments = comments;
             this._diffDrafts = Object.assign({}, this._changeComments.drafts);
+            this._commentThreads = this._changeComments.
+                getAllThreadsForChange();
           });
     },
 

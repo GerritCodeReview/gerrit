@@ -164,7 +164,7 @@
           comments: [comment],
           commentSide: comment.__commentSide,
           patchNum: this._getPatchNum(comment),
-          rootId: comment.id,
+          rootId: comment.id || comment.__draftID,
         };
         if (comment.range) {
           newThread.range = Object.assign({}, comment.range);

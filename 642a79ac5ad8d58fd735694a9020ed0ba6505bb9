@@ -46,6 +46,30 @@
       "revId": "642a79ac5ad8d58fd735694a9020ed0ba6505bb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0b28b62_c33534c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-23T10:28:04Z",
+      "side": 1,
+      "message": "Another option would be (more invasive and probably not a good idea on stable branch) is to extend the ChangeControl#isPatchVisible() check to exclude change owner and assume, that the change/patch set is always visible to change owner (or pass an implicit option whether or not the check should be skipped for the change owner).",
+      "parentUuid": "d6b333f0_b80f5879",
+      "range": {
+        "startLine": 1075,
+        "startChar": 35,
+        "endLine": 1075,
+        "endChar": 42
+      },
+      "revId": "642a79ac5ad8d58fd735694a9020ed0ba6505bb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

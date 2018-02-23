@@ -287,6 +287,10 @@
       return selectorEl.selectedValue;
     },
 
+    setLabelsInfoMsg(msg) {
+      this.$.labelsContainerInfo.innerText= msg;
+    },
+
     _handleEscKey(e) {
       this.cancel();
     },

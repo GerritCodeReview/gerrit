@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Strings;
@@ -107,6 +108,16 @@ public class AccountManager {
       try (ReviewDb db = schema.open()) {
         ExternalId id = findExternalId(db, who.getExternalIdKey());
         if (id == null) {
+          log.info(
+              "External ID not found. Attempting to create new account for: " + who.getUserName());
+          ExternalId.Key key = ExternalId.Key.create(SCHEME_USERNAME, who.getUserName());
+          ExternalId existingId = findExternalId(db, key);
+          if (existingId != null) {
+            log.info(
+                "User already has an account, link the account to new external ID- gerrit:"
+                    + who.getUserName());
+            return link(existingId.accountId(), who);
+          }
           // New account, automatically create and return.
           //
           return create(db, who);
@@ -165,9 +176,15 @@ public class AccountManager {
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)
         && who.getUserName() != null
         && !eq(user.getUserName(), who.getUserName())) {
-      log.warn(
-          String.format(
-              "Not changing already set username %s to %s", user.getUserName(), who.getUserName()));
+      if (user.getUserName() == null) {
+        toUpdate = load(toUpdate, user.getAccountId(), db);
+        toUpdate.setUserName(who.getUserName());
+      } else {
+        log.warn(
+            String.format(
+                "Not changing already set username %s to %s",
+                user.getUserName(), who.getUserName()));
+      }
     }
 
     if (toUpdate != null) {
@@ -348,6 +365,7 @@ public class AccountManager {
   public AuthResult link(Account.Id to, AuthRequest who)
       throws AccountException, OrmException, IOException, ConfigInvalidException {
     try (ReviewDb db = schema.open()) {
+      log.info("Linking the already existing account to an authentication identity");
       ExternalId extId = findExternalId(db, who.getExternalIdKey());
       if (extId != null) {
         if (!extId.accountId().equals(to)) {
@@ -355,9 +373,13 @@ public class AccountManager {
         }
         update(db, who, extId);
       } else {
+        log.info("Creating new external ID for the existing account");
+
+        // Due to an intermittent bug, often accounts are created with missing External Id's.
+        // Until the bug is fixed, allows the creation of external ID for existing account.
         externalIdsUpdateFactory
             .create()
-            .insert(
+            .upsert(
                 db, ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress()));
 
         if (who.getEmailAddress() != null) {

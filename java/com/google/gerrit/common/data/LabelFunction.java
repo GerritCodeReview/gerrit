@@ -54,7 +54,7 @@ public enum LabelFunction {
   private final String name;
   private final boolean isBlock;
 
-  private LabelFunction(String name, boolean isBlock) {
+  LabelFunction(String name, boolean isBlock) {
     this.name = name;
     this.isBlock = isBlock;
   }

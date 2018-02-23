@@ -86,7 +86,6 @@ java_library(
         "//lib/ow2:ow2-asm",
         "//lib/ow2:ow2-asm-tree",
         "//lib/ow2:ow2-asm-util",
-        "//lib/prolog:runtime",
     ],
 )
 

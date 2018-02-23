@@ -69,7 +69,6 @@ import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.restapi.group.GroupModule;
-import com.google.gerrit.server.rules.PrologModule;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -154,7 +153,6 @@ public class BatchProgramModule extends FactoryModule {
     install(new ExternalIdModule());
     install(new GroupModule());
     install(new NoteDbModule(cfg));
-    install(new PrologModule());
     install(AccountCacheImpl.module());
     install(GroupCacheImpl.module());
     install(GroupIncludeCacheImpl.module());

@@ -12,24 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.rules;
+package com.google.gerrit.plugins;
 
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import org.eclipse.jgit.lib.Config;
+public class PrologModule {
 
-/** Manages a cache of project rules */
-@Singleton
-public class RulesCache {
-  private final boolean enableProjectRules;
-
-  @Inject
-  protected RulesCache(@GerritServerConfig Config config) {
-    enableProjectRules = config.getBoolean("rules", null, "enable", true);
-  }
-
-  public boolean isProjectRulesEnabled() {
-    return enableProjectRules;
-  }
 }

@@ -87,6 +87,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
       out.add(new Record(r, accounts));
     }
     if (!out.isEmpty()) {
+      // TODO(maximeg) find a way to remove this
       out.get(0).prologReductionCount = evaluator.getReductionsConsumed();
     }
     accounts.fill();
@@ -101,6 +102,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
     Map<String, None> need;
     Map<String, AccountInfo> may;
     Map<String, None> impossible;
+    // TODO(maximeg) find a way to remove this
     Long prologReductionCount;
 
     Record(SubmitRecord r, AccountLoader accounts) {

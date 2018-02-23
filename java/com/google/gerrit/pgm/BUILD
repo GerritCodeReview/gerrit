@@ -56,8 +56,5 @@ java_library(
         "//lib/log:api",
         "//lib/log:jsonevent-layout",
         "//lib/log:log4j",
-        "//lib/prolog:cafeteria",
-        "//lib/prolog:compiler",
-        "//lib/prolog:runtime",
     ],
 )

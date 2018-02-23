@@ -1,0 +1,13 @@
+/.classpath
+/.primary_build_tool
+/.project
+/.settings
+/bazel-*
+/eclipse-out
+node_modules
+npm-debug.log
+dist
+fonts
+bower_components
+.tmp
+.vscode

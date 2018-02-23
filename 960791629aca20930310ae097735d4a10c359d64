@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "221f30d1_dab98a64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-23T18:08:28Z",
+      "side": 1,
+      "message": "Nit: fix spelling.",
+      "revId": "960791629aca20930310ae097735d4a10c359d64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95bffd64_e45b69cd",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-23T18:08:28Z",
+      "side": 1,
+      "message": "What does the U signify? Does it mean \u0027Unknown\u0027?",
+      "range": {
+        "startLine": 132,
+        "startChar": 16,
+        "endLine": 132,
+        "endChar": 17
+      },
+      "revId": "960791629aca20930310ae097735d4a10c359d64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dea5d5d0_8a2bf0e1",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
         "patchSetId": 3

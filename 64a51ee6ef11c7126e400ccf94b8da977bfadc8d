@@ -93,6 +93,30 @@
       "revId": "64a51ee6ef11c7126e400ccf94b8da977bfadc8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef0d6357_8b18f574",
+        "filename": "java/com/google/gerrit/server/args4j/ErrorMessages.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-23T08:22:50Z",
+      "side": 1,
+      "message": "PS12 was the latest PS when I commented :)",
+      "parentUuid": "0eb51621_e7bcba3d",
+      "range": {
+        "startLine": 27,
+        "startChar": 8,
+        "endLine": 27,
+        "endChar": 14
+      },
+      "revId": "64a51ee6ef11c7126e400ccf94b8da977bfadc8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

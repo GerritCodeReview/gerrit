@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8f14053_5e0da34d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-23T06:54:48Z",
+      "side": 1,
+      "message": "The code that is changed here still exists in stable-2.15, and the patch doesn\u0027t compile because the isOwner method is no longer visible.\n\nWithout the patch, the test fails on stable-2.15.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 17
+      },
+      "revId": "f2a01affeca9d6c12f009246280ac861498cc7bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

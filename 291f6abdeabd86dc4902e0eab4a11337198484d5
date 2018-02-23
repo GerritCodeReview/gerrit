@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "920bc4d5_dac0cd0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-23T07:35:30Z",
+      "side": 1,
+      "message": "It is a bit hidden, why it is the case, as there is no any obvious checks in the reindex site program that rejects other indices (only a hidden check that compare a differences between available indices and index type provided as argument to reindex program).\n\nThe reason why it works is because only for \"groups\" index the real index module is bound for slave hosts.\n\nIt could be optionally clarified in the commit message.",
+      "revId": "291f6abdeabd86dc4902e0eab4a11337198484d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

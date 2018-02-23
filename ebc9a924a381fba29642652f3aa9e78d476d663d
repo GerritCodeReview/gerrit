@@ -16,6 +16,24 @@
       "revId": "ebc9a924a381fba29642652f3aa9e78d476d663d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b4cddc6_08590cdb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-actions-js-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-23T21:47:32Z",
+      "side": 1,
+      "message": "Up to you.",
+      "parentUuid": "40727d7a_dd5e3e46",
+      "revId": "ebc9a924a381fba29642652f3aa9e78d476d663d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -17,15 +17,27 @@ limitations under the License.
 <dom-module id="my-plugin">
   <script>
     Gerrit.install(plugin => {
+      const crLabel = 'Code-Review';
       const replyApi = plugin.changeReply();
+
+      // Set Code-Review+1 when 'LGTM' is typed.
       replyApi.addReplyTextChangedCallback(text => {
-        const label = 'Code-Review';
-        const labelValue = replyApi.getLabelValue(label);
-        if (labelValue &&
-            labelValue === ' 0' &&
+        const crLabelValue = replyApi.getLabelValue(crLabel);
+        if (crLabelValue &&
+            crLabelValue === ' 0' &&
             text.indexOf('LGTM') === 0) {
-          replyApi.setLabelValue(label, '+1');
+          replyApi.setLabelValue(crLabel, '+1');
         }
+      });
+
+      // Output the value of the Code-Review label as text in the reply dialog.
+      replyApi.addLabelValuesChangedCallback(label => {
+        if (!replyApi.isReplyDialogVisible()) {
+          // Cannot set label info msg if the reply dialog is not visible.
+          return;
+        }
+        const crLabelValue = replyApi.getLabelValue(crLabel);
+        replyApi.setLabelsInfoMsg('Code-Review label value: ' + crLabelValue);
       });
     }, '0.1', 'http://test.com/plugins/testplugin/static/test.js');
   </script>

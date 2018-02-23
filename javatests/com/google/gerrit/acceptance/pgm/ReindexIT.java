@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.pgm;
 
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.extensions.client.ListGroupsOption.MEMBERS;
 
@@ -27,6 +28,7 @@ import com.google.gerrit.acceptance.StandaloneSiteTest;
 import com.google.gerrit.acceptance.pgm.IndexUpgradeController.UpgradeAttempt;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.index.GerritIndexStatus;
@@ -36,6 +38,8 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Provider;
 import java.nio.file.Files;
 import java.util.Set;
+import java.util.function.Consumer;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.junit.Test;
@@ -77,6 +81,91 @@ public class ReindexIT extends StandaloneSiteTest {
                   .map(a -> a._accountId))
           .containsExactly(adminId.get());
     }
+  }
+
+  @Test
+  public void offlineReindexForChangesIsNotPossibleInSlaveMode() throws Exception {
+    enableSlaveMode();
+
+    int exitCode =
+        runGerritAndReturnExitCode(
+            "reindex",
+            "--index",
+            "changes",
+            "-d",
+            sitePaths.site_path.toString(),
+            "--show-stack-trace");
+
+    assertWithMessage("Slave hosts shouldn't allow to offline reindex changes")
+        .that(exitCode)
+        .isGreaterThan(0);
+  }
+
+  @Test
+  public void offlineReindexForAccountsIsNotPossibleInSlaveMode() throws Exception {
+    enableSlaveMode();
+
+    int exitCode =
+        runGerritAndReturnExitCode(
+            "reindex",
+            "--index",
+            "accounts",
+            "-d",
+            sitePaths.site_path.toString(),
+            "--show-stack-trace");
+
+    assertWithMessage("Slave hosts shouldn't allow to offline reindex accounts")
+        .that(exitCode)
+        .isGreaterThan(0);
+  }
+
+  @Test
+  public void offlineReindexForProjectsIsNotPossibleInSlaveMode() throws Exception {
+    enableSlaveMode();
+
+    int exitCode =
+        runGerritAndReturnExitCode(
+            "reindex",
+            "--index",
+            "projects",
+            "-d",
+            sitePaths.site_path.toString(),
+            "--show-stack-trace");
+
+    assertWithMessage("Slave hosts shouldn't allow to offline reindex projects")
+        .that(exitCode)
+        .isGreaterThan(0);
+  }
+
+  @Test
+  public void offlineReindexForGroupsIsPossibleInSlaveMode() throws Exception {
+    enableSlaveMode();
+
+    int exitCode =
+        runGerritAndReturnExitCode(
+            "reindex",
+            "--index",
+            "groups",
+            "-d",
+            sitePaths.site_path.toString(),
+            "--show-stack-trace");
+
+    assertWithMessage("Slave hosts should allow to offline reindex groups")
+        .that(exitCode)
+        .isEqualTo(0);
+  }
+
+  @Test
+  public void offlineReindexForAllAvailableIndicesIsPossibleInSlaveMode() throws Exception {
+    enableSlaveMode();
+
+    int exitCode =
+        runGerritAndReturnExitCode(
+            "reindex", "-d", sitePaths.site_path.toString(), "--show-stack-trace");
+
+    assertWithMessage("Slave hosts should allow to perform a general offline reindex")
+        .that(exitCode)
+        .isEqualTo(0);
   }
 
   @Test
@@ -143,10 +232,22 @@ public class ReindexIT extends StandaloneSiteTest {
   }
 
   private void setOnlineUpgradeConfig(boolean enable) throws Exception {
+    updateConfig(cfg -> cfg.setBoolean("index", null, "onlineUpgrade", enable));
+  }
+
+  private void enableSlaveMode() throws Exception {
+    updateConfig(config -> config.setBoolean("container", null, "slave", true));
+  }
+
+  private void updateConfig(Consumer<Config> configConsumer) throws Exception {
     FileBasedConfig cfg = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
     cfg.load();
-    cfg.setBoolean("index", null, "onlineUpgrade", enable);
+    configConsumer.accept(cfg);
     cfg.save();
+  }
+
+  private static int runGerritAndReturnExitCode(String... args) throws Exception {
+    return GerritLauncher.mainImpl(args);
   }
 
   private void assertSearchVersion(ServerContext ctx, int expected) {

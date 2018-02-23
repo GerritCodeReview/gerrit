@@ -47,11 +47,13 @@ import org.eclipse.jgit.lib.TextProgressMonitor;
  *
  * <p>Only matches menu items (with any name) where the URL exactly matches the <a
  * href="https://gerrit.googlesource.com/gerrit/+/v2.14.4/gerrit-server/src/main/java/com/google/gerrit/server/account/GeneralPreferencesLoader.java#144">default
- * version from 2.14 and earlier</a>. Other menus containing {@code is:draft} in other positions are
- * not affected; this is still a valid predicate that matches no changes.
+ * version from 2.14 and earlier</a>, with the leading {@code #} optional. Other menus containing
+ * {@code is:draft} in other positions are not affected; this is still a valid predicate that
+ * matches no changes.
  */
 public class Schema_160 extends SchemaVersion {
-  @VisibleForTesting static final String DEFAULT_DRAFT_ITEM = "#/q/owner:self+is:draft";
+  @VisibleForTesting static final String DEFAULT_DRAFT_ITEM = "/q/owner:self+is:draft";
+  @VisibleForTesting static final String DEFAULT_DRAFT_ITEM_ANCHOR = '#' + DEFAULT_DRAFT_ITEM;
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
@@ -120,7 +122,8 @@ public class Schema_160 extends SchemaVersion {
     void removeMyDrafts() {
       Config cfg = getConfig();
       for (String item : cfg.getSubsections(MY)) {
-        if (DEFAULT_DRAFT_ITEM.equals(cfg.getString(MY, item, KEY_URL))) {
+        String value = cfg.getString(MY, item, KEY_URL);
+        if (DEFAULT_DRAFT_ITEM.equals(value) || DEFAULT_DRAFT_ITEM_ANCHOR.equals(value)) {
           cfg.unsetSection(MY, item);
           dirty = true;
         }

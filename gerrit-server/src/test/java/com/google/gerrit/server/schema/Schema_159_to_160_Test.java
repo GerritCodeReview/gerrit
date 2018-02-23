@@ -23,6 +23,7 @@ import static com.google.gerrit.server.account.VersionedAccountPreferences.PREFE
 import static com.google.gerrit.server.git.UserConfigSections.KEY_URL;
 import static com.google.gerrit.server.git.UserConfigSections.MY;
 import static com.google.gerrit.server.schema.Schema_160.DEFAULT_DRAFT_ITEM;
+import static com.google.gerrit.server.schema.Schema_160.DEFAULT_DRAFT_ITEM_ANCHOR;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -94,6 +95,7 @@ public class Schema_159_to_160_Test {
     prefs.my.add(0, new MenuItem("Something else", DEFAULT_DRAFT_ITEM + "+is:mergeable"));
     prefs.my.add(new MenuItem("Drafts", DEFAULT_DRAFT_ITEM));
     prefs.my.add(new MenuItem("Totally not drafts", DEFAULT_DRAFT_ITEM));
+    prefs.my.add(new MenuItem("Leading hash", DEFAULT_DRAFT_ITEM_ANCHOR));
     gApi.accounts().id(accountId.get()).setPreferences(prefs);
 
     List<String> oldNames =
@@ -102,6 +104,7 @@ public class Schema_159_to_160_Test {
             .addAll(defaultNames)
             .add("Drafts")
             .add("Totally not drafts")
+            .add("Leading hash")
             .build();
     assertThat(myMenusFromApi(accountId).keySet()).containsExactlyElementsIn(oldNames).inOrder();
 

@@ -73,5 +73,25 @@
       });
     };
 
+  GrChangeReplyInterface.prototype.addLabelValuesChangedCallback =
+    function(handler) {
+      this.plugin.hook('reply-label-scores').onAttached(el => {
+        if (!el.content) { return; }
+
+        el.content.addEventListener('labels-changed', e => {
+          handler(e.detail.value);
+        });
+      });
+    };
+
+  GrChangeReplyInterface.prototype.setLabelsInfoMsg = function(msg) {
+    ensureEl(this);
+    return this._el.setLabelsInfoMsg(msg);
+  };
+
+  GrChangeReplyInterface.prototype.isReplyDialogVisible = function() {
+    return !!this._el.offsetParent;
+  };
+
   window.GrChangeReplyInterface = GrChangeReplyInterface;
 })(window);

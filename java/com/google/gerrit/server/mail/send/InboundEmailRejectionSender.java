@@ -22,6 +22,7 @@ import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.MailHeader;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import org.apache.james.mime4j.dom.field.FieldName;
 
 /** Send an email to inform users that parsing their inbound email failed. */
 public class InboundEmailRejectionSender extends OutgoingEmail {
@@ -55,6 +56,7 @@ public class InboundEmailRejectionSender extends OutgoingEmail {
   protected void init() throws EmailException {
     super.init();
     setListIdHeader();
+    setHeader(FieldName.SUBJECT, "[Gerrit Code Review] Unable to process your email");
 
     add(RecipientType.TO, to);
 

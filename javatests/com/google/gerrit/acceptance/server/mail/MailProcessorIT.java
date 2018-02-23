@@ -255,5 +255,6 @@ public class MailProcessorIT extends AbstractMailIT {
     assertNotifyTo(user);
     Message message = sender.nextMessage();
     assertThat(message.body()).contains("was unable to parse your email");
+    assertThat(message.headers()).containsKey("Subject");
   }
 }

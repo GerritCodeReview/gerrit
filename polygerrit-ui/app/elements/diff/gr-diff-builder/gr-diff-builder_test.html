@@ -150,6 +150,16 @@ limitations under the License.
           '👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍');
     });
 
+    test('newlines for CJK', () => {
+      const text =
+          '    [!-- First tip shown in pairing help list. In zh-rCN, please '+
+          'translate it to "在您的手机上下载Android Wear中国版应用。" --]';
+      const parts =
+          builder._formatText(text, 4, 100).innerHTML.split(LINE_FEED_HTML);
+      assert.equal(parts.length, 2);
+      assert.equal(parts[0].length, 95);
+      assert.equal(parts[1].length, 18);
+    });
 
     test('line_length ignored if line_wrapping is true', () => {
       builder._prefs = {line_wrapping: true, tab_size: 4, line_length: 50};

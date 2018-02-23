@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3cfef4c9_f4e8bb6e",
+        "filename": "java/com/google/gerrit/server/args4j/ErrorMessages.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-23T08:16:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34129141_c109a6c0",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "64a51ee6ef11c7126e400ccf94b8da977bfadc8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "58592e12_852fa432",
         "filename": "java/com/google/gerrit/server/args4j/ErrorMessages.java",
         "patchSetId": 12
@@ -36,6 +60,30 @@
       "writtenOn": "2018-02-23T08:10:06Z",
       "side": 1,
       "message": "DOES_NOT",
+      "range": {
+        "startLine": 27,
+        "startChar": 8,
+        "endLine": 27,
+        "endChar": 14
+      },
+      "revId": "64a51ee6ef11c7126e400ccf94b8da977bfadc8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0eb51621_e7bcba3d",
+        "filename": "java/com/google/gerrit/server/args4j/ErrorMessages.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-23T08:16:52Z",
+      "side": 1,
+      "message": "It was already addressed, you looked at the outdated patch set.",
+      "parentUuid": "58592e12_852fa432",
       "range": {
         "startLine": 27,
         "startChar": 8,

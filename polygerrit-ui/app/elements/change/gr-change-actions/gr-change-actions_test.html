@@ -1021,6 +1021,21 @@ limitations under the License.
         assert.isNotNull(approveButton);
       });
 
+      test('hide quick approve', () => {
+        const approveButton =
+            element.$$('gr-button[data-action-key=\'review\']');
+        assert.isNotNull(approveButton);
+        assert.isFalse(element._hideQuickApproveAction);
+
+        // Assert approve button gets removed from list of buttons.
+        element.hideQuickApproveAction();
+        flushAsynchronousOperations();
+        const approveButtonUpdated =
+            element.$$('gr-button[data-action-key=\'review\']');
+        assert.isNull(approveButtonUpdated);
+        assert.isTrue(element._hideQuickApproveAction);
+      });
+
       test('is first in list of secondary actions', () => {
         const approveButton = element.$.secondaryActions
             .querySelector('gr-button');

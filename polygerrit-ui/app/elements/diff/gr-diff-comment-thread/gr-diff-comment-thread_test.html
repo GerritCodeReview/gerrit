@@ -170,6 +170,35 @@ limitations under the License.
         done();
       });
     });
+
+    test('optionally show file path', () => {
+      // Path info doesn't exist when showFilePath is false. Because it's in a
+      // dom-if it is not yet in the dom.
+      assert.isNotOk(element.$$('.pathInfo'));
+
+      sandbox.stub(Gerrit.Nav, 'getUrlForDiffById');
+      element.changeNum = 123;
+      element.projectName = 'test project';
+      element.path = 'path/to/file';
+      element.patchNum = 3;
+      element.lineNum = 5;
+      element.showFilePath = true;
+      flushAsynchronousOperations();
+      assert.isOk(element.$$('.pathInfo'));
+      assert.notEqual(getComputedStyle(element.$$('.pathInfo')).display,
+          'none');
+      assert.isTrue(Gerrit.Nav.getUrlForDiffById.lastCall.calledWithExactly(
+          element.changeNum, element.projectName, element.path,
+          element.patchNum, null, element.lineNum));
+    });
+
+    test('_computeDisplayPath', () => {
+      const path = 'path/to/file';
+      assert.equal(element._computeDisplayPath(path), 'path/to/file');
+
+      element.lineNum = 5;
+      assert.equal(element._computeDisplayPath(path), 'path/to/file#5');
+    });
   });
 
   suite('comment action tests', () => {

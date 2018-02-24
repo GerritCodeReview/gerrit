@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61f8ffd6_10135d01",
+        "filename": "polygerrit-ui/app/test/functional/infra/run.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-02-24T18:07:29Z",
+      "side": 1,
+      "message": "Better to start with \u0027-e\u0027 so that any failures make the entire shell to fail.\n\nExample:\n\n  $ sh -c \u0027false; echo done\u0027\n  done\n\n  $ sh -e -c \u0027false; echo done\u0027\n  \u003cdo not show done\u003e",
+      "range": {
+        "startLine": 1,
+        "startChar": 7,
+        "endLine": 1,
+        "endChar": 9
+      },
+      "revId": "d1d7d4968880bad9df72f53e86cae61cd976e790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ac7b1ac_d4e596e4",
+        "filename": "polygerrit-ui/app/test/functional/infra/run.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-02-24T18:07:29Z",
+      "side": 1,
+      "message": "Where is this coming from? It is not contained in the Docker image, not downloaded from anywhere and not built by the Dockerfile.\n\nWhen running, it is not found:\n\n  infra_1  | cp: cannot stat \u0027/app/polygerrit_ui.zip\u0027: No such file or directory\n  infra_1  | unzip:  cannot find or open polygerrit_ui.zip, polygerrit_ui.zip.zip or polygerrit_ui.zip.ZIP.\n\nWhat is even worse is that the script continues regardless giving false failures, whilst it is the bundle itself that couldn\u0027t be found at all.",
+      "range": {
+        "startLine": 3,
+        "startChar": 3,
+        "endLine": 3,
+        "endChar": 25
+      },
+      "revId": "d1d7d4968880bad9df72f53e86cae61cd976e790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

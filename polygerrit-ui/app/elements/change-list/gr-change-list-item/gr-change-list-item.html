@@ -101,7 +101,7 @@ limitations under the License.
         background-color: #F5F5F5;
       }
       .placeholder {
-        color: rgba(0, 0, 0, .87);
+        color: rgba(0, 0, 0, .54);
       }
       @media only screen and (max-width: 50em) {
         :host {
@@ -140,7 +140,7 @@ limitations under the License.
         [[status]]
       </template>
       <template is="dom-if" if="[[!status]]">
-        <span class="placeholder">--</span>
+        <span class="placeholder">&mdash;</span>
       </template>
     </td>
     <td class="cell owner"
@@ -153,7 +153,7 @@ limitations under the License.
         <gr-account-link account="[[change.assignee]]"></gr-account-link>
       </template>
       <template is="dom-if" if="[[!change.assignee]]">
-        <span class="placeholder">--</span>
+        <span class="placeholder">&mdash;</span>
       </template>
     </td>
     <td class="cell project"

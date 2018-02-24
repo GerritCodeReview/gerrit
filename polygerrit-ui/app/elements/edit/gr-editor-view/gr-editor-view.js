@@ -135,7 +135,8 @@
 
     _viewEditInChangeView() {
       const patch = this._successfulSave ? this.EDIT_NAME : this._patchNum;
-      Gerrit.Nav.navigateToChange(this._change, patch);
+      Gerrit.Nav.navigateToChange(this._change, patch, null,
+          patch !== this.EDIT_NAME);
     },
 
     _getFileData(changeNum, path, patchNum) {

@@ -145,12 +145,16 @@ limitations under the License.
     </td>
     <td class="cell owner"
         hidden$="[[isColumnHidden('Owner', visibleChangeTableColumns)]]">
-      <gr-account-link account="[[change.owner]]"></gr-account-link>
+      <gr-account-link
+          account="[[change.owner]]"
+          additional-text="[[_computeAccountStatusString(change.owner)]]"></gr-account-link>
     </td>
     <td class="cell assignee"
         hidden$="[[isColumnHidden('Assignee', visibleChangeTableColumns)]]">
       <template is="dom-if" if="[[change.assignee]]">
-        <gr-account-link account="[[change.assignee]]"></gr-account-link>
+        <gr-account-link
+            account="[[change.assignee]]"
+            additional-text="[[_computeAccountStatusString(change.owner)]]"></gr-account-link>
       </template>
       <template is="dom-if" if="[[!change.assignee]]">
         <span class="placeholder">--</span>

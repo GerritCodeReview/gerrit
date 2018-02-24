@@ -200,5 +200,11 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.isOk(element.$$('.assignee gr-account-link'));
     });
+
+    test('_computeAccountStatusString', () => {
+      assert.equal(element._computeAccountStatusString({}), '');
+      assert.equal(element._computeAccountStatusString({status: 'Working'}),
+          '(Working)');
+    });
   });
 </script>

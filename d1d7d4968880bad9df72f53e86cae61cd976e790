@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "6440da49_03e9614d",
+        "filename": "polygerrit-ui/app/test/functional/docker-compose.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-02-24T18:25:10Z",
+      "side": 1,
+      "message": "Can we call this \u0027server\u0027 and rename the build directory to \u0027server\u0027 for consistency?",
+      "range": {
+        "startLine": 5,
+        "startChar": 13,
+        "endLine": 5,
+        "endChar": 24
+      },
+      "revId": "d1d7d4968880bad9df72f53e86cae61cd976e790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61f8ffd6_10135d01",
         "filename": "polygerrit-ui/app/test/functional/infra/run.sh",
         "patchSetId": 3
@@ -41,6 +64,29 @@
         "startChar": 3,
         "endLine": 3,
         "endChar": 25
+      },
+      "revId": "d1d7d4968880bad9df72f53e86cae61cd976e790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b96996b7_1ef0b78c",
+        "filename": "polygerrit-ui/app/test/functional/infra/wait-for-server.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-02-24T18:25:10Z",
+      "side": 1,
+      "message": "Should be sh -e (see the same comment above)",
+      "range": {
+        "startLine": 1,
+        "startChar": 7,
+        "endLine": 1,
+        "endChar": 9
       },
       "revId": "d1d7d4968880bad9df72f53e86cae61cd976e790",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

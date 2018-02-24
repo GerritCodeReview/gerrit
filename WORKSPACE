@@ -1173,8 +1173,8 @@ bower_archive(
 bower_archive(
     name = "paper-input",
     package = "polymerelements/paper-input",
-    sha1 = "6c934805e80ab201e143406edc73ea0ef35abf80",
-    version = "1.1.18",
+    sha1 = "97f341b53087dd5746c3637687b142eb6372211b",
+    version = "1.2.0",
 )
 
 bower_archive(

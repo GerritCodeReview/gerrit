@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "21a0d94a_00e2bc24",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-24T00:06:14Z",
+      "side": 1,
+      "message": "Not a blocker for the change, but I feel like this is sort of cryptic. Could we merely display nothing in this case?",
+      "parentUuid": "d5f4c5ad_a2340262",
+      "range": {
+        "startLine": 132,
+        "startChar": 16,
+        "endLine": 132,
+        "endChar": 17
+      },
+      "revId": "960791629aca20930310ae097735d4a10c359d64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dea5d5d0_8a2bf0e1",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
         "patchSetId": 3

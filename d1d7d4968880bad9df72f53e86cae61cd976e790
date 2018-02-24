@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "01ae99ae_98989be4",
+        "filename": "polygerrit-ui/app/test/functional/infra/run.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-02-24T19:03:20Z",
+      "side": 1,
+      "message": "I see, this is mounted from the external directory where polygerrit was built. So this assumes you are running this docker inside the docker that made the build, which is making the docker build container even more complicated :-(\n\nGoing to propose a different solution where you can run this compose anywhere, allowing potentially anyone to run it everywhere without pre-requisites :-)",
+      "parentUuid": "8ac7b1ac_d4e596e4",
+      "range": {
+        "startLine": 3,
+        "startChar": 3,
+        "endLine": 3,
+        "endChar": 25
+      },
+      "revId": "d1d7d4968880bad9df72f53e86cae61cd976e790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b96996b7_1ef0b78c",
         "filename": "polygerrit-ui/app/test/functional/infra/wait-for-server.sh",
         "patchSetId": 3
@@ -87,6 +111,29 @@
         "startChar": 7,
         "endLine": 1,
         "endChar": 9
+      },
+      "revId": "d1d7d4968880bad9df72f53e86cae61cd976e790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e50c0c8_28ea453e",
+        "filename": "polygerrit-ui/app/test/functional/run_functional.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-02-24T19:03:20Z",
+      "side": 1,
+      "message": "You may not have bazel and all the pre-prequisites at all. Is this shell supposed to run inside a \"Bazel build image\"?\n\nCreating a \"compiler\" image with all the pre-reqs needed.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 5
       },
       "revId": "d1d7d4968880bad9df72f53e86cae61cd976e790",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

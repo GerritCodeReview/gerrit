@@ -118,6 +118,30 @@
       "revId": "642a79ac5ad8d58fd735694a9020ed0ba6505bb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ff42c15_dfe27160",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-24T07:43:00Z",
+      "side": 1,
+      "message": "It does not. It\u0027s great we have a test for it now.",
+      "parentUuid": "ba17576a_d37c3475",
+      "range": {
+        "startLine": 1075,
+        "startChar": 35,
+        "endLine": 1075,
+        "endChar": 42
+      },
+      "revId": "642a79ac5ad8d58fd735694a9020ed0ba6505bb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

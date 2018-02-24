@@ -188,6 +188,7 @@ limitations under the License.
     });
 
     test('assignee only displayed if there is one', () => {
+      sinon.stub(element, '_computeAccountStatusString');
       element.change = {};
       flushAsynchronousOperations();
       assert.isNotOk(element.$$('.assignee gr-account-link'));
@@ -199,6 +200,12 @@ limitations under the License.
       };
       flushAsynchronousOperations();
       assert.isOk(element.$$('.assignee gr-account-link'));
+    });
+
+    test('_computeAccountStatusString', () => {
+      assert.equal(element._computeAccountStatusString({}), '');
+      assert.equal(element._computeAccountStatusString({status: 'Working'}),
+          '(Working)');
     });
   });
 </script>

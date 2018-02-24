@@ -125,5 +125,9 @@
       if (!project) { return ''; }
       return this.truncatePath(project, 2);
     },
+
+    _computeAccountStatusString(account) {
+      return account.status ? `(${account.status})` : '';
+    },
   });
 })();

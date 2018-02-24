@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6751e344_0bc3b5a2",
+        "filename": "polygerrit-ui/app/test/functional/docker-compose.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-02-24T17:57:04Z",
+      "side": 1,
+      "message": "Do we really need V3 features? I am running V2 at the moment on gerrit-ci and it builds without problems with V2 as well. Having downgraded would make my life so much easier :-)",
+      "range": {
+        "startLine": 1,
+        "startChar": 10,
+        "endLine": 1,
+        "endChar": 11
+      },
+      "revId": "ef406188e61c981ca04305ef4367ba03497d1614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4be8fe98_c49e54b6",
+        "filename": "polygerrit-ui/app/test/functional/docker-compose.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-02-24T17:57:04Z",
+      "side": 1,
+      "message": "not needed",
+      "range": {
+        "startLine": 5,
+        "startChar": 11,
+        "endLine": 5,
+        "endChar": 13
+      },
+      "revId": "ef406188e61c981ca04305ef4367ba03497d1614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1447ec4_d9f8085a",
+        "filename": "polygerrit-ui/app/test/functional/docker-compose.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-02-24T17:57:04Z",
+      "side": 1,
+      "message": "not needed",
+      "range": {
+        "startLine": 12,
+        "startChar": 11,
+        "endLine": 12,
+        "endChar": 13
+      },
+      "revId": "ef406188e61c981ca04305ef4367ba03497d1614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46270909_d5497736",
+        "filename": "polygerrit-ui/app/test/functional/prepopulate/prepopulate.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-02-24T17:57:04Z",
+      "side": 1,
+      "message": "This must be executable",
+      "revId": "ef406188e61c981ca04305ef4367ba03497d1614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

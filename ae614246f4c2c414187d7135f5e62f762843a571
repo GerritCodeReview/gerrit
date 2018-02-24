@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8110381e_48551a2e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-24T01:22:17Z",
+      "side": 1,
+      "message": "Nit: can this be just a little more explicit ..\n\n lineNum: Number,\n\nOtherwise I might think this wants the line of code from the diff or similar.",
+      "range": {
+        "startLine": 72,
+        "startChar": 6,
+        "endLine": 72,
+        "endChar": 19
+      },
+      "revId": "ae614246f4c2c414187d7135f5e62f762843a571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9197e0c8_03c36f73",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-24T01:22:17Z",
+      "side": 1,
+      "message": "Since this component already has the `changeNum` and `projectName` properties, can this method instead use the ..\n\n Gerrit.Nav.getUrlForDiffById\n\n.. variant?\n\nThat way, we don\u0027t need to add the new `change: Object` property at all.",
+      "range": {
+        "startLine": 134,
+        "startChar": 13,
+        "endLine": 134,
+        "endChar": 37
+      },
+      "revId": "ae614246f4c2c414187d7135f5e62f762843a571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

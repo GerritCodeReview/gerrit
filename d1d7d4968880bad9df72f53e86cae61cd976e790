@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "93f14666_5e1110df",
+        "filename": "polygerrit-ui/app/test/functional/docker-compose.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-24T23:09:04Z",
+      "side": 1,
+      "message": "Yes! I was trying multiple things and haven\u0027t cleaned stuff up yet.\nAck",
+      "parentUuid": "6440da49_03e9614d",
+      "range": {
+        "startLine": 5,
+        "startChar": 13,
+        "endLine": 5,
+        "endChar": 24
+      },
+      "revId": "d1d7d4968880bad9df72f53e86cae61cd976e790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ffaf781_a988ab6e",
         "filename": "polygerrit-ui/app/test/functional/docker-compose.yml",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ab566021_8bc4607a",
+        "filename": "polygerrit-ui/app/test/functional/docker-compose.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-24T23:09:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1ffaf781_a988ab6e",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "d1d7d4968880bad9df72f53e86cae61cd976e790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61f8ffd6_10135d01",
         "filename": "polygerrit-ui/app/test/functional/infra/run.sh",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "d1d7d4968880bad9df72f53e86cae61cd976e790",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "171c7ebd_0e836e5f",
+        "filename": "polygerrit-ui/app/test/functional/infra/run.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-24T23:09:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "61f8ffd6_10135d01",
+      "range": {
+        "startLine": 1,
+        "startChar": 7,
+        "endLine": 1,
+        "endChar": 9
+      },
+      "revId": "d1d7d4968880bad9df72f53e86cae61cd976e790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -118,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "ae1a6ef2_034b2615",
+        "filename": "polygerrit-ui/app/test/functional/infra/run.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-24T23:09:04Z",
+      "side": 1,
+      "message": "I wasn\u0027t sure how GerritForge validates the actual change, so went ahead with local test first.\nWhen adding new tests to the functional test suite it would be great to be able to run functional tests locally, though.\n\n(to be continued when builder image works with GerritForge)",
+      "parentUuid": "01ae99ae_98989be4",
+      "range": {
+        "startLine": 3,
+        "startChar": 3,
+        "endLine": 3,
+        "endChar": 25
+      },
+      "revId": "d1d7d4968880bad9df72f53e86cae61cd976e790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b96996b7_1ef0b78c",
         "filename": "polygerrit-ui/app/test/functional/infra/wait-for-server.sh",
         "patchSetId": 3
@@ -138,6 +234,30 @@
       "revId": "d1d7d4968880bad9df72f53e86cae61cd976e790",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efad6a37_84ab2ab3",
+        "filename": "polygerrit-ui/app/test/functional/infra/wait-for-server.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-24T23:09:04Z",
+      "side": 1,
+      "message": "Thanks!\nAck",
+      "parentUuid": "b96996b7_1ef0b78c",
+      "range": {
+        "startLine": 1,
+        "startChar": 7,
+        "endLine": 1,
+        "endChar": 9
+      },
+      "revId": "d1d7d4968880bad9df72f53e86cae61cd976e790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -164,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "85029e75_83444e71",
+        "filename": "polygerrit-ui/app/test/functional/infra/wait-for-server.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-24T23:09:04Z",
+      "side": 1,
+      "message": "Agreed - left after debugging.",
+      "parentUuid": "f73eabdd_44118e67",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 46
+      },
+      "revId": "d1d7d4968880bad9df72f53e86cae61cd976e790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4b8a979_ead77cd7",
         "filename": "polygerrit-ui/app/test/functional/infra/wait-for-server.sh",
         "patchSetId": 3
@@ -187,6 +331,30 @@
     },
     {
       "key": {
+        "uuid": "c13e2a33_4791dcc1",
+        "filename": "polygerrit-ui/app/test/functional/infra/wait-for-server.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-24T23:09:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b4b8a979_ead77cd7",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 11
+      },
+      "revId": "d1d7d4968880bad9df72f53e86cae61cd976e790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e50c0c8_28ea453e",
         "filename": "polygerrit-ui/app/test/functional/run_functional.sh",
         "patchSetId": 3
@@ -198,6 +366,30 @@
       "writtenOn": "2018-02-24T19:03:20Z",
       "side": 1,
       "message": "You may not have bazel and all the pre-prequisites at all. Is this shell supposed to run inside a \"Bazel build image\"?\n\nCreating a \"compiler\" image with all the pre-reqs needed.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 5
+      },
+      "revId": "d1d7d4968880bad9df72f53e86cae61cd976e790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e13b2414_7557a0a7",
+        "filename": "polygerrit-ui/app/test/functional/run_functional.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-24T23:09:04Z",
+      "side": 1,
+      "message": "This script allows PG devs to run functional test suite locally.\nIt\u0027s required for adding new tests (or figuring out why existing fail).\n\nHaving a `compiler` image SGTM, and I would expect it obtains specific commit for validation, but this file in some form is needed too.",
+      "parentUuid": "4e50c0c8_28ea453e",
       "range": {
         "startLine": 3,
         "startChar": 0,

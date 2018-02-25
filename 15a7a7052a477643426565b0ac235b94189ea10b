@@ -22,6 +22,30 @@
       "revId": "15a7a7052a477643426565b0ac235b94189ea10b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73829ef8_f76bd936",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-25T14:20:57Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/#/c/gerrit/+/162172",
+      "parentUuid": "efd21070_8f00bc41",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 62
+      },
+      "revId": "15a7a7052a477643426565b0ac235b94189ea10b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

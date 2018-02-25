@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aec1ddd_277ca816",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1017,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-02-25T12:18:25Z",
+      "side": 1,
+      "message": "I think we should make WIP the default, and only allow private to be checked to be either private or not.\n\nI am doing this in another change too (fixing create change dialog) https://gerrit-review.googlesource.com/c/gerrit/+/127513",
+      "range": {
+        "startLine": 993,
+        "startChar": 0,
+        "endLine": 1017,
+        "endChar": 0
+      },
+      "revId": "fc30c92165830674a3c096c6a916b7d5c6d69ce1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

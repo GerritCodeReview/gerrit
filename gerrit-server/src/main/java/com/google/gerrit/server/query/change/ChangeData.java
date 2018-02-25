@@ -1071,7 +1071,8 @@ public class ChangeData {
         }
         PatchSet ps = currentPatchSet();
         try {
-          if (ps == null || !changeControl().isPatchVisible(ps, db)) {
+          if (ps == null
+              || (!changeControl().isOwner() && !changeControl().isPatchVisible(ps, db))) {
             return null;
           }
         } catch (OrmException e) {

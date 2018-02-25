@@ -22,6 +22,30 @@
       "revId": "681e48bc465b6987d958cb14c4e2d0e0bf717530",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9416a13f_3b850ee2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-25T12:34:34Z",
+      "side": 1,
+      "message": "This was fixed in Patrick\u0027s clean-up commit after Draft changes removal, that wasn\u0027t applied on stable-2.15. I cherry-picked it to stable-2.15 yesterday, see [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/162231/1/gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java@965",
+      "parentUuid": "ae2e0fb0_f58b69ef",
+      "range": {
+        "startLine": 13,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 67
+      },
+      "revId": "681e48bc465b6987d958cb14c4e2d0e0bf717530",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

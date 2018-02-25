@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9668978_60c6424a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-25T05:46:14Z",
+      "side": 1,
+      "message": "Looks like I didn\u0027t commit these changes :(\n\nIt\u0027s not necessary anyway, per the following comment.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 46
+      },
+      "revId": "20e8867580cafd73239a7539095f451d00bbad45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "616b71d1_90e6765e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-25T05:46:14Z",
+      "side": 1,
+      "message": "I think it\u0027s better to keep the HTTP tests since in most cases it\u0027ll be used over HTTP rather than the API.",
+      "range": {
+        "startLine": 20,
+        "startChar": 8,
+        "endLine": 20,
+        "endChar": 69
+      },
+      "revId": "20e8867580cafd73239a7539095f451d00bbad45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

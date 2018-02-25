@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78f9099f_24c47aeb",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ConfirmEmailIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-25T05:51:00Z",
+      "side": 1,
+      "message": "Should be replaced.",
+      "range": {
+        "startLine": 61,
+        "startChar": 26,
+        "endLine": 61,
+        "endChar": 41
+      },
+      "revId": "e61332341e36777e54daff1b9954e77c55e6a83c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

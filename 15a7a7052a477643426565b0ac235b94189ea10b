@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efd21070_8f00bc41",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-25T14:11:20Z",
+      "side": 1,
+      "message": "Should we update also web-page?",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 62
+      },
+      "revId": "15a7a7052a477643426565b0ac235b94189ea10b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

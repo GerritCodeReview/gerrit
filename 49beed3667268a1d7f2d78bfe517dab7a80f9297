@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4886a46d_140d918f",
+        "filename": "java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T12:53:33Z",
+      "side": 1,
+      "message": "I think here it\u0027s not guaranteed that \u0027user\u0027 is the current user from the request context. Hence we can\u0027t replace permissionBackend.user(user) with permissionBackend.currentUser()?",
+      "range": {
+        "startLine": 107,
+        "startChar": 29,
+        "endLine": 107,
+        "endChar": 42
+      },
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1f8be4b_0f190d85",
+        "filename": "java/com/google/gerrit/server/project/RemoveReviewerControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T12:53:33Z",
+      "side": 1,
+      "message": "Here we don\u0027t know if the provided currentUser is really the user from the request context, do we?",
+      "range": {
+        "startLine": 79,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 22
+      },
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34747ceb_8aed5e9d",
+        "filename": "java/com/google/gerrit/server/project/RemoveReviewerControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T12:53:33Z",
+      "side": 1,
+      "message": "Here we don\u0027t know if the provided currentUser is really the user from the request context, do we?",
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8ee430b_c1b5f854",
+        "filename": "java/com/google/gerrit/server/project/RemoveReviewerControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T12:53:33Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bcd7390_1d506dc2",
+        "filename": "java/com/google/gerrit/server/query/project/ProjectIsVisibleToPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T12:53:33Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

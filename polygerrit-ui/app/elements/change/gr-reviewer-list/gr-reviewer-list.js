@@ -130,13 +130,13 @@
     },
 
     _computeReviewerTooltip(reviewer, change) {
-      if (!change || !change.permitted_labels) return '';
+      if (!change || !change.labels) { return ''; }
       const maxScores = [];
       const maxPermitted = this._getMaxPermittedScores(change);
-      for (const label of Object.keys(change.permitted_labels)) {
+      for (const label of Object.keys(change.labels)) {
         const maxScore =
               this._getReviewerPermittedScore(reviewer, change, label);
-        if (isNaN(maxScore) || maxScore < 0) continue;
+        if (isNaN(maxScore) || maxScore < 0) { continue; }
         if (maxScore > 0 && maxScore === maxPermitted[label]) {
           maxScores.push(`${label}: +${maxScore}`);
         } else {

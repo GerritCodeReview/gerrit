@@ -46,6 +46,30 @@
       "revId": "e97051b92d9c1d67edbb5c8361f30778fdcbdaf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7f242d0_fa2b28fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-26T09:47:49Z",
+      "side": 1,
+      "message": "Actually, I have plans to rework all of the diff caches and move away from JGit\u0027s Edit to a custom object (see below in the commit message). Originally, I had hoped that I could implement it at the beginning of this year. Unfortunately, I won\u0027t find enough time for it soon. Since I delayed the fixes for the false negatives already long enough (those bugs have been bugging me for some months), I decided to at least get in a decent bug fix now and fix it in a more elegant way when I find time for the proper rework.\n\nBy the way, I really don\u0027t want to extend JGit\u0027s Edit. Our ReplaceEdit is already confusing enough and I don\u0027t think that Edit was designed in a way to be extended. In addition, JGit\u0027s Edits are mutable, which is very sub-optimal, especially since we cache those values.",
+      "parentUuid": "7c6d6702_1d2c00c8",
+      "range": {
+        "startLine": 13,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 56
+      },
+      "revId": "e97051b92d9c1d67edbb5c8361f30778fdcbdaf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

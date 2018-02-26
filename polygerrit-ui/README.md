@@ -68,6 +68,12 @@ Then add go to your path:
 PATH=$PATH:/usr/local/go/bin
 ```
 
+Install the go Soy template library:
+
+```
+go get "github.com/robfig/soy"
+```
+
 ### Running the server
 
 To test the local UI against gerrit-review.googlesource.com:

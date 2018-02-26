@@ -15,7 +15,6 @@ polygerrit_bundle(
         ],
         exclude = [
             "bower_components/**",
-            "index.html",
             "test/**",
             "**/*_test.html",
         ],
@@ -158,7 +157,6 @@ polygerrit_bundle(
         ],
         exclude = [
             "bower_components/**",
-            "index.html",
             "test/**",
             "**/*_test.html",
         ],

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "511d8c9f_7574baf5",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-26T21:12:30Z",
+      "side": 1,
+      "message": "Nit: Trailing blank.",
+      "range": {
+        "startLine": 222,
+        "startChar": 25,
+        "endLine": 222,
+        "endChar": 27
+      },
+      "revId": "714c4470aff2d6a86fb5c0ac18c3fa5a68e32f43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72f1b5ed_35c3ef51",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-26T21:12:30Z",
+      "side": 1,
+      "message": "We don\u0027t have yet UX vote on this location. And Download is also included in More drop down. I wonder should we also add \"Included in\" entry in More dialog? Or even remove \"Included in\" for now from file table header and only go with More Dropdown?",
+      "revId": "714c4470aff2d6a86fb5c0ac18c3fa5a68e32f43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

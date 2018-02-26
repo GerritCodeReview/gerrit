@@ -177,8 +177,8 @@ public class StreamEventsApiListener implements
         new Supplier<AccountAttribute>() {
           @Override
           public AccountAttribute get() {
-            return eventFactory.asAccountAttribute(
-                new Account.Id(account._accountId));
+            return account != null ? eventFactory.asAccountAttribute(
+                new Account.Id(account._accountId)) : null;
           }
         });
   }

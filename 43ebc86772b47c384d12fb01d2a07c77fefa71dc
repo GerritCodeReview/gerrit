@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "a1fe8b5e_c65d3287",
+        "filename": "java/com/google/gerrit/server/DebugTraceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T09:57:56Z",
+      "side": 1,
+      "message": "Done, I now tested this internally and it seems to work.",
+      "parentUuid": "32c464f5_c895903c",
+      "revId": "43ebc86772b47c384d12fb01d2a07c77fefa71dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0df7d11_8a4fbed2",
         "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 1

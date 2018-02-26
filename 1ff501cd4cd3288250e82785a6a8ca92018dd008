@@ -161,6 +161,30 @@
     },
     {
       "key": {
+        "uuid": "e0790230_a9db3a08",
+        "filename": "java/com/google/gerrit/common/DebugTraceFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-26T11:06:57Z",
+      "side": 1,
+      "message": "I think that in emergency production issue inverstigation, I would like to see/gather as much information as I can get from the system. So it wouldn\u0027t hurt if we log too much. Say Jetty logs, and other layers. So that one approach would be not to do the severity level propagation at all. And just log everything. We knos if we would detect the problem in such layer, or get hints on another problem.\n\nOTOT, I see your point saying too much is too much. So may be we could do it conditionally? And find out a way (two request parameters?), one with severity propagation and another without it (bad news: this would probably complicate things)?",
+      "parentUuid": "f3547515_ee9581f4",
+      "range": {
+        "startLine": 473,
+        "startChar": 8,
+        "endLine": 477,
+        "endChar": 9
+      },
+      "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0da9037e_7bec6b94",
         "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
         "patchSetId": 7

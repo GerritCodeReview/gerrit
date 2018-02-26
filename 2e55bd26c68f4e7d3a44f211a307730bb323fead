@@ -22,6 +22,30 @@
       "revId": "2e55bd26c68f4e7d3a44f211a307730bb323fead",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdd57dcf_f876bf57",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010522
+      },
+      "writtenOn": "2018-02-26T09:26:18Z",
+      "side": 1,
+      "message": "I agree that would also be good to have the root cause fixed at the location where the event is generated.\nHowever this is a backport of a portion of how it it fixed on master as part of a different change. This fix makes the code more robust in this area, regardless how the event is generated.",
+      "parentUuid": "f8e6f3b8_d7159b09",
+      "range": {
+        "startLine": 180,
+        "startChar": 19,
+        "endLine": 181,
+        "endChar": 59
+      },
+      "revId": "2e55bd26c68f4e7d3a44f211a307730bb323fead",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

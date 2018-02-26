@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6facd13e_6361963e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-26T17:16:03Z",
+      "side": 1,
+      "message": "Wording nit: looks like the status is shown in the tooltip, not a chip. \n\nThere currently are no account chips shown in change list rows.",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "8ffa127504b592f52a3cf4efec1752f410672d96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

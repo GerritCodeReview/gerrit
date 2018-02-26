@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "0861e837_b60f4b21",
+        "filename": "java/com/google/gerrit/common/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T10:58:58Z",
+      "side": 1,
+      "message": "SGTM, will do will the next patch set.",
+      "parentUuid": "7e48faae_7a55a995",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 1
+      },
+      "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "60cd4b21_6125c8a0",
         "filename": "java/com/google/gerrit/common/DebugTraceFactory.java",
         "patchSetId": 7
@@ -49,6 +73,47 @@
     },
     {
       "key": {
+        "uuid": "e5a269bc_18fcad43",
+        "filename": "java/com/google/gerrit/common/DebugTraceFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T10:58:58Z",
+      "side": 1,
+      "message": "SGTM, will do will the next patch set.",
+      "parentUuid": "60cd4b21_6125c8a0",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 32
+      },
+      "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6633c89_b8ee6dfa",
+        "filename": "java/com/google/gerrit/common/DebugTraceFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T10:58:58Z",
+      "side": 1,
+      "message": "This class still misses JavaDoc.",
+      "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7adbe2f6_6df02e3d",
         "filename": "java/com/google/gerrit/common/DebugTraceFactory.java",
         "patchSetId": 7
@@ -69,6 +134,30 @@
       "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3547515_ee9581f4",
+        "filename": "java/com/google/gerrit/common/DebugTraceFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T10:58:58Z",
+      "side": 1,
+      "message": "Yeah, this should definitely be explained by a comment. Also this class still misses JavaDocs.\nLet me know if you have a better idea for this.",
+      "parentUuid": "7adbe2f6_6df02e3d",
+      "range": {
+        "startLine": 473,
+        "startChar": 8,
+        "endLine": 477,
+        "endChar": 9
+      },
+      "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

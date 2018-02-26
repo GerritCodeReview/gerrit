@@ -281,6 +281,30 @@
     },
     {
       "key": {
+        "uuid": "07e156f4_d6ba0100",
+        "filename": "java/com/google/gerrit/common/DebugTraceFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T22:46:23Z",
+      "side": 1,
+      "message": "Sorry, but I don\u0027t think that we need all this. What problem are you trying to solve which is not addressed by this change?\n\nAs explained in the commit message this change solves the following 2 problems:\n\n1. Find the logs that correspond to a request that you want to investigate. \n\n2. Allow enabling of debug logs on need. At the moment getting debug logs is difficult, because you can only enable them for all requests which causes log spam. This is why debug logs are normally disabled. This means to investigate an issue, you must enable them, ask the reporter to reproduce the issue, then disable debug logging, and then find the corresponding logs in the log spam that was created while the debug logs were enabled.\n\nThis change solves both problems and I think it\u0027s actually quite elegant how it\u0027s implemented. We only have a simple wrapper around the logger. So callers can just use the normal logging API and except of the logger creation they are not aware of tracing at all. For all requests the amount of logs stays the same. Only if one explicitly sets the trace option, debug logs show up as additional info logs. This means the log promotion only happens for single requests where this is explicitly requested, but the 99% of requests are not affected.\n\nThis change is a working solution, and I\u0027m fine with polishing it. However I can\u0027t spend much more time on this topic. If you think we need something more powerful, please feel free to upload some alternative solution. But we should be careful to not reimplement features of logging frameworks.",
+      "parentUuid": "0942af72_25501bf9",
+      "range": {
+        "startLine": 473,
+        "startChar": 8,
+        "endLine": 477,
+        "endChar": 9
+      },
+      "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0da9037e_7bec6b94",
         "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
         "patchSetId": 7

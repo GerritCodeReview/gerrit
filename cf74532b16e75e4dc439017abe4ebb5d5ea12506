@@ -22,6 +22,30 @@
       "revId": "cf74532b16e75e4dc439017abe4ebb5d5ea12506",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c0a8784_86a9fd70",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-26T18:15:11Z",
+      "side": 1,
+      "message": "This was my first ides/attempt too, but that didn\u0027t work for a change with exiting change edit, as the edit was set twice, and the request ended with 404. So the scenario that didn\u0027t work is:\n\n1. Load a change without change edit\n2. Push Edit button\n3. Open a file in inline editor\n4. Perform a change\n5. Push Save button\n6. Open a second file in inline editor\n7. Push close button\n8. 404, if true is hard coded passed here",
+      "parentUuid": "6d59fd4e_bd2a29b9",
+      "range": {
+        "startLine": 139,
+        "startChar": 10,
+        "endLine": 139,
+        "endChar": 34
+      },
+      "revId": "cf74532b16e75e4dc439017abe4ebb5d5ea12506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

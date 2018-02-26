@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1519636852 +0100\nnonce AFD2Vu1HKQUj39xgr4W2YQQvIVKL3uuUPifyHA3pfyBjCz/t2R+hZ3K/KI87/hCRZLpiI2vL02k3\n\n0000000000000000000000000000000000000000 1ff501cd4cd3288250e82785a6a8ca92018dd008 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlqT0XQACgkQUbX9l6DQ\n71Fg4wgAvBqLYAeHXJuHYnfajwlGMfLdlsg7RFVWKdZrehpMj1GiIMsMxCR6XhrK\nIRhC8VSptgxVDZvNhL8vPBr4ItNfitlEWRl7q/KUgSBEVG0WX5BXukReLk4dMvj/\nQmGTT/9C4XlCdPxROTfwMQt8eqsNZhKJNK0okLJzA/vi5uDwyZrhj2If9Fq+jWH8\nYv9PhbRqA6b4vW+H2quoI2u0Yotyh8qKQjjHGhwxk9x13KYKiJJbU06J2Nh/Y0gh\n7u49rAjdSV23LDoZrkifYXQkZqCDjF3SaSU0ufqtDHYDMJbMP/s6/HVM6LaCbCvZ\nA7dB5cFxw48kZvyR39fBLIFDOSKYIw\u003d\u003d\n\u003dLdJB\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e48faae_7a55a995",
+        "filename": "java/com/google/gerrit/common/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-26T10:40:45Z",
+      "side": 1,
+      "message": "I would rather avoid this source selection and exlusion below and extract tracing in its own package:\n\n  java/com/google/gerrit/common/tracing/BUILD\n\nThen the BUILD for traing package would just be:\n\n  java_library(\n    name \u003d \"tracing\",\n    srcs \u003d glob([\"**/*.java\"]),\n    visibility \u003d [\"//visibility:public\"],\n    [...]\n  )",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 1
+      },
+      "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "60cd4b21_6125c8a0",
+        "filename": "java/com/google/gerrit/common/DebugTraceFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-26T10:40:45Z",
+      "side": 1,
+      "message": "Move it in its own package, like \"tracing\", \"trace\" or just \"log\"?",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 32
+      },
+      "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adbe2f6_6df02e3d",
+        "filename": "java/com/google/gerrit/common/DebugTraceFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-26T10:40:45Z",
+      "side": 1,
+      "message": "I find this promotion very confusing. I understand, why it\u0027s needed, but I wonder if there are alternatives? Can we also put a comment on this line or Javadoc on this method, explaining that?",
+      "range": {
+        "startLine": 473,
+        "startChar": 8,
+        "endLine": 477,
+        "endChar": 9
+      },
+      "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8e6f3b8_d7159b09",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-02-26T09:16:34Z",
+      "side": 1,
+      "message": "Should the fix be different? In this case who is abandoning the change is Gerrit, which is a system identity. Shall we define *that* identity somehow?",
+      "range": {
+        "startLine": 180,
+        "startChar": 19,
+        "endLine": 181,
+        "endChar": 59
+      },
+      "revId": "2e55bd26c68f4e7d3a44f211a307730bb323fead",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

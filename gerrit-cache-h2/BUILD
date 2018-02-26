@@ -8,6 +8,8 @@ java_library(
         "//gerrit-common:server",
         "//gerrit-extension-api:api",
         "//gerrit-server:server",
+        "//lib:caffeine",
+        "//lib:caffeine_guava",
         "//lib:guava",
         "//lib:h2",
         "//lib/guice",
@@ -22,6 +24,8 @@ junit_tests(
     deps = [
         ":cache-h2",
         "//gerrit-server:server",
+        "//lib:caffeine",
+        "//lib:caffeine_guava",
         "//lib:guava",
         "//lib:h2",
         "//lib:junit",

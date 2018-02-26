@@ -94,6 +94,30 @@
       "revId": "e97051b92d9c1d67edbb5c8361f30778fdcbdaf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c881da4_a648bf36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-26T12:47:12Z",
+      "side": 1,
+      "message": "Thanks for your offer but please don\u0027t touch any diff code. Part of why it\u0027s time consuming for me is that I have to adjust our internal code as well and that part would remain even if you helped with replacing the class.\n\nI\u0027m happy to review changes for getting rid of JGit\u0027s Edits in non-diff code, though, if there are any occurrences.",
+      "parentUuid": "92aaa2ce_98cef6f4",
+      "range": {
+        "startLine": 13,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 56
+      },
+      "revId": "e97051b92d9c1d67edbb5c8361f30778fdcbdaf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

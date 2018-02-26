@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e312e767_6007e900",
+        "filename": "java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-26T07:33:58Z",
+      "side": 0,
+      "message": "Thanks the detailed commit message, I think that removing reindexing on group cache eviction is the right thing to do. Now, however, we have different reindexing strategies for different index types and caches. And I think one reason, why we had reindex-on-cache-eviction strategy for groups index in the first place, is because it was designed after the accounts index. Now, that we are changing the strategy here, should we re-consider as well the reindex-on-cache eviction strategy also for accounts cache? Because on master we are still dong it:\n\n  @Override\n  public void evict(@Nullable Account.Id accountId) throws IOException {\n    if (accountId !\u003d null) {\n      byId.invalidate(accountId);\n      indexer.get().index(accountId);\n    }\n  }\n\nIt\u0027s hard to maintain inherently different strategies for the same thing but for different index and entity types in the same code base. At least I always try to avoid that to simplify the mental model and not needing to remember what strategy for what index and entity type do we use (and we have quite some of them, changes, accounts, groups, project, ...).",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 35
+      },
+      "revId": "99036b5bf23e33f0e57deeb33593d6627a79a65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

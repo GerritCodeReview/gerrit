@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "285ec6a3_31514de7",
+        "filename": "java/com/google/gerrit/httpd/rpc/project/ProjectAccessHandler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T15:06:09Z",
+      "side": 1,
+      "message": "\u0027user\u0027 is not injected into this class, hence at this place we cannot be sure that \u0027user\u0027 is the current user from the request context. In fact the child classes always pass the current user in, but we can\u0027t know it from this class. I think it would be better if ProjectAccessHandler expects PermissionBackend.WithUser from the child classes and the child classes can then safely use permissionBackend.currentUser() to create it.",
+      "range": {
+        "startLine": 124,
+        "startChar": 10,
+        "endLine": 124,
+        "endChar": 41
+      },
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5d75de12_61aa228b",
         "filename": "java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
         "patchSetId": 4
@@ -164,6 +187,29 @@
     },
     {
       "key": {
+        "uuid": "52fe4629_afb06afe",
+        "filename": "java/com/google/gerrit/server/git/BanCommit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T15:06:09Z",
+      "side": 1,
+      "message": "No guaranteed that user was the calling user from the request context.",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 35
+      },
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a1f8be4b_0f190d85",
         "filename": "java/com/google/gerrit/server/project/RemoveReviewerControl.java",
         "patchSetId": 4
@@ -238,6 +284,29 @@
     },
     {
       "key": {
+        "uuid": "88941ee6_e709cccb",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeletePrivate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T15:06:09Z",
+      "side": 1,
+      "message": "we don\u0027t know if rsrc.getUser() really gives us the current user from the request context",
+      "range": {
+        "startLine": 85,
+        "startChar": 8,
+        "endLine": 85,
+        "endChar": 39
+      },
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0ffc1122_72f81c21",
         "filename": "java/com/google/gerrit/server/restapi/change/Move.java",
         "patchSetId": 4
@@ -255,6 +324,159 @@
         "endLine": 125,
         "endChar": 62
       },
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8a69e13_f40ce7d2",
+        "filename": "java/com/google/gerrit/server/restapi/change/Move.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T15:06:09Z",
+      "side": 1,
+      "message": "we don\u0027t know if rsrc.getUser() really gives us the current user from the request context",
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c898678_bcfed1e1",
+        "filename": "java/com/google/gerrit/server/restapi/change/Move.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T15:06:09Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d483494b_10bbfa3c",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostPrivate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T15:06:09Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a862228_6218cae0",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T15:06:09Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e05a66c0_15166d63",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T15:06:09Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57346e1e_332d0880",
+        "filename": "java/com/google/gerrit/server/restapi/change/Rebase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T15:06:09Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92bccd66_4194e52f",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T15:06:09Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9fd7249_fb1d4fe2",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T15:06:09Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65394162_ab4ae78d",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revisions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T15:06:09Z",
+      "side": 1,
+      "message": "We don\u0027t know if change.getUser() really returned the current user from the request context",
       "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

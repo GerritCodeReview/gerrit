@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "9da1b103_24233316",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-26T15:05:13Z",
+      "side": 1,
+      "message": "There are cases where we have to check permissions for absent users. If we remove usages of \"PermissionBackend#user(Current User)\", how could we remove this method while continue supporting that?",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 68
+      },
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "940b9440_dc5f53bc",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-26T15:05:13Z",
+      "side": 1,
+      "message": "This could be moved to line#193 where it\u0027s actually used.",
+      "range": {
+        "startLine": 181,
+        "startChar": 6,
+        "endLine": 182,
+        "endChar": 41
+      },
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d75de12_61aa228b",
+        "filename": "java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-26T15:05:13Z",
+      "side": 1,
+      "message": "This is never used and thus could be removed.",
+      "range": {
+        "startLine": 91,
+        "startChar": 2,
+        "endLine": 91,
+        "endChar": 33
+      },
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc591457_2fa60e67",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1467,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-26T15:05:13Z",
+      "side": 1,
+      "message": "I think this shouldn\u0027t be done within this method. It\u0027s better to be moved out and in line#506, we could do like:\n\nPermissionBackend.ForChange perm \u003d permissionBackendForChange(cd).currentUser();",
+      "range": {
+        "startLine": 1467,
+        "startChar": 4,
+        "endLine": 1467,
+        "endChar": 87
+      },
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4886a46d_140d918f",
         "filename": "java/com/google/gerrit/server/change/ChangeResource.java",
         "patchSetId": 4
@@ -18,6 +110,53 @@
         "startChar": 29,
         "endLine": 107,
         "endChar": 42
+      },
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85e23cc6_bbf3775f",
+        "filename": "java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-26T15:05:13Z",
+      "side": 1,
+      "message": "I agree with Edwin. \n\nIdeally, I think the user to be checked should be provided by the caller explictly rather than implictly assigned. By doing that, we could prevent potential mistakes.",
+      "parentUuid": "4886a46d_140d918f",
+      "range": {
+        "startLine": 107,
+        "startChar": 29,
+        "endLine": 107,
+        "endChar": 42
+      },
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8580be68_a4849e37",
+        "filename": "java/com/google/gerrit/server/git/BanCommit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-26T15:05:13Z",
+      "side": 1,
+      "message": "This exception is never thrown.",
+      "range": {
+        "startLine": 93,
+        "startChar": 28,
+        "endLine": 93,
+        "endChar": 48
       },
       "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -93,6 +232,184 @@
       "writtenOn": "2018-02-26T12:53:33Z",
       "side": 1,
       "message": "same here",
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ffc1122_72f81c21",
+        "filename": "java/com/google/gerrit/server/restapi/change/Move.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-26T15:05:13Z",
+      "side": 1,
+      "message": "This could be moved to line#145 or inlined.",
+      "range": {
+        "startLine": 125,
+        "startChar": 4,
+        "endLine": 125,
+        "endChar": 62
+      },
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da4dcca4_1faeb052",
+        "filename": "java/com/google/gerrit/server/restapi/config/ListTasks.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-26T15:05:13Z",
+      "side": 1,
+      "message": "this could be inlined.",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 34
+      },
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39f03be9_e8f1c42c",
+        "filename": "java/com/google/gerrit/server/restapi/config/TasksCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-26T15:05:13Z",
+      "side": 1,
+      "message": "This could be inlined.",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 34
+      },
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23bdf9ae_4ff1a218",
+        "filename": "java/com/google/gerrit/server/restapi/config/TasksCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-26T15:05:13Z",
+      "side": 1,
+      "message": "Also here?",
+      "range": {
+        "startLine": 94,
+        "startChar": 26,
+        "endLine": 94,
+        "endChar": 36
+      },
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b925d698_c826fe21",
+        "filename": "java/com/google/gerrit/server/restapi/project/DashboardsCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-26T15:05:13Z",
+      "side": 1,
+      "message": "These two expections are never thrown.",
+      "range": {
+        "startLine": 146,
+        "startChar": 53,
+        "endLine": 147,
+        "endChar": 39
+      },
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f285faf_be9ba8d7",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-26T15:05:13Z",
+      "side": 1,
+      "message": "This field could be removed.",
+      "range": {
+        "startLine": 142,
+        "startChar": 2,
+        "endLine": 142,
+        "endChar": 40
+      },
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43ef3f68_34083adb",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetParent.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-26T15:05:13Z",
+      "side": 1,
+      "message": "This could be inlined.",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 60
+      },
+      "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56cf7f1a_640e4beb",
+        "filename": "java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-02-26T15:05:13Z",
+      "side": 1,
+      "message": "This could be removed now.",
       "revId": "49beed3667268a1d7f2d78bfe517dab7a80f9297",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

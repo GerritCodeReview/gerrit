@@ -69,6 +69,23 @@
       "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0da9037e_7bec6b94",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-26T10:56:31Z",
+      "side": 1,
+      "message": "This and other places in this change could be de-coupled from tracing facility as they already helpfu on their own. The idea is to use the existing logger and add mor debg traces, or add a standard logger, like here:\n\n  private static final Logger log \u003d Logger.getLogger(QueryProcessor.class);\n\nand add additional debug statements.\n\nIn a second change only those loggers are replace.",
+      "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

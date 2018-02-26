@@ -65,7 +65,6 @@ def polygerrit_bundle(name, srcs, outs, app):
     name = name + "_top_sources",
     srcs = [
         "favicon.ico",
-        "index.html",
     ],
   )
 

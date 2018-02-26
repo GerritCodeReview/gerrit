@@ -46,6 +46,30 @@
       "revId": "cf74532b16e75e4dc439017abe4ebb5d5ea12506",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d56f1897_46b93468",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-26T18:19:03Z",
+      "side": 1,
+      "message": "You\u0027re right, my mistake. This is a case we should probably handle somewhere else (routing, maybe?) but for now, this works. Thanks!",
+      "parentUuid": "2c0a8784_86a9fd70",
+      "range": {
+        "startLine": 139,
+        "startChar": 10,
+        "endLine": 139,
+        "endChar": 34
+      },
+      "revId": "cf74532b16e75e4dc439017abe4ebb5d5ea12506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f883a215_e01b9d95",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-02-26T23:25:35Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "511d8c9f_7574baf5",
+      "range": {
+        "startLine": 222,
+        "startChar": 25,
+        "endLine": 222,
+        "endChar": 27
+      },
+      "revId": "714c4470aff2d6a86fb5c0ac18c3fa5a68e32f43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72f1b5ed_35c3ef51",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
         "patchSetId": 30
@@ -36,6 +60,24 @@
       "writtenOn": "2018-02-26T21:12:30Z",
       "side": 1,
       "message": "We don\u0027t have yet UX vote on this location. And Download is also included in More drop down. I wonder should we also add \"Included in\" entry in More dialog? Or even remove \"Included in\" for now from file table header and only go with More Dropdown?",
+      "revId": "714c4470aff2d6a86fb5c0ac18c3fa5a68e32f43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8535dfcc_2dac8d95",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-02-26T23:25:35Z",
+      "side": 1,
+      "message": "I would like to make this dialog pretty then it currently is. But have no ux ideas.\n\nOr even how to make it pretty.\n\nThe download dialog should be made pretty too (more colour).",
+      "parentUuid": "72f1b5ed_35c3ef51",
       "revId": "714c4470aff2d6a86fb5c0ac18c3fa5a68e32f43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

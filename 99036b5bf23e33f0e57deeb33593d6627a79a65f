@@ -22,6 +22,30 @@
       "revId": "99036b5bf23e33f0e57deeb33593d6627a79a65f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7dd256f6_c9266231",
+        "filename": "java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T08:09:41Z",
+      "side": 0,
+      "message": "Yes, you are right. The same should be done for the account index. And it\u0027s already on our todo list :)",
+      "parentUuid": "e312e767_6007e900",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 35
+      },
+      "revId": "99036b5bf23e33f0e57deeb33593d6627a79a65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -20,6 +20,7 @@ import (
 	"encoding/json"
 	"errors"
 	"flag"
+	"github.com/robfig/soy"
 	"io"
 	"io/ioutil"
 	"log"
@@ -36,10 +37,16 @@ var (
 	prod     = flag.Bool("prod", false, "Serve production assets")
 	scheme   = flag.String("scheme", "https", "URL scheme")
 	plugins  = flag.String("plugins", "", "comma seperated plugin paths to serve")
+
+	tofu, _ = soy.NewBundle().
+		AddTemplateFile("../resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy").
+		CompileToTofu()
 )
 
 func main() {
 	flag.Parse()
+
+	http.HandleFunc("/index.html", handleIndex)
 
 	if *prod {
 		http.Handle("/", http.FileServer(http.Dir("dist")))
@@ -61,6 +68,15 @@ func main() {
 	}
 	log.Println("Serving on port", *port)
 	log.Fatal(http.ListenAndServe(*port, &server{}))
+}
+
+func handleIndex(w http.ResponseWriter, r *http.Request) {
+	var obj = map[string]interface{}{
+		"canonicalPath":      "",
+		"staticResourcePath": "",
+	}
+	w.Header().Set("Content-Type", "text/html")
+	tofu.Render(w, "com.google.gerrit.httpd.raw.Index", obj)
 }
 
 func handleRESTProxy(w http.ResponseWriter, r *http.Request) {
@@ -211,13 +227,13 @@ var (
 func (_ *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s %s %s %s\n", r.Proto, r.Method, r.RemoteAddr, r.URL)
 	for _, prefix := range fePaths {
-		if strings.HasPrefix(r.URL.Path, prefix) {
-			r.URL.Path = "/"
-			log.Println("Redirecting to /")
+		if strings.HasPrefix(r.URL.Path, prefix) || r.URL.Path == "/" {
+			r.URL.Path = "/index.html"
+			log.Println("Redirecting to /index.html")
 			break
 		} else if match := issueNumRE.Find([]byte(r.URL.Path)); match != nil {
-			r.URL.Path = "/"
-			log.Println("Redirecting to /")
+			r.URL.Path = "/index.html"
+			log.Println("Redirecting to /index.html")
 			break
 		}
 	}

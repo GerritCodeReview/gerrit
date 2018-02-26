@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92e6ce36_fb0fda82",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-02-26T23:29:24Z",
+      "side": 1,
+      "message": "I doin\u0027t think i\u0027ve done this correctly.\n\nas this does\n\n[\u0027test\u0027] now. Which is not what i wanted.\n\nAny ideas on how i can do external please?",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 13
+      },
+      "revId": "2e4b808d9ef3aabd057e048fca09398273440795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

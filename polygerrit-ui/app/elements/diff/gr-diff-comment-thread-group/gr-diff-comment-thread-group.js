@@ -147,6 +147,10 @@
 
       const threads = [];
       for (const comment of sortedComments) {
+        if (!this.commentSide) {
+          this.commentSide = comment.__commentSide;
+        }
+
         // If the comment is in reply to another comment, find that comment's
         // thread and append to it.
         if (comment.in_reply_to) {

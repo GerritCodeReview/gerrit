@@ -175,6 +175,24 @@
       "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2088ad9_d92cc33a",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-26T11:01:25Z",
+      "side": 1,
+      "message": "Marking as non-resolved.",
+      "parentUuid": "0da9037e_7bec6b94",
+      "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

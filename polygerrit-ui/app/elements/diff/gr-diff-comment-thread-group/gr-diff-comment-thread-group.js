@@ -147,6 +147,13 @@
 
       const threads = [];
       for (const comment of sortedComments) {
+        // Make sure commentSide attribute is set. This is used in the data
+        // bindings for threads and comments.  When comments are added/removed,
+        // the side is needed to process the change.
+        if (!this.commentSide) {
+          this.commentSide = comment.__commentSide;
+        }
+
         // If the comment is in reply to another comment, find that comment's
         // thread and append to it.
         if (comment.in_reply_to) {

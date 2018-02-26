@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b146a55_83f28519",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-26T22:26:15Z",
+      "side": 1,
+      "message": "Suggestion: this does feel like a slightly odd place to document this. Since this comment describes the format of the data, what if the function were annotated with a typedef that requires commentSide to be set?\n\nThat way, this the reason this function includes it would be \"so that it typechecks\". And the typedef itself could describe why commentSide is needed for editing comments.",
+      "range": {
+        "startLine": 150,
+        "startChar": 8,
+        "endLine": 152,
+        "endChar": 52
+      },
+      "revId": "e606f7194715ce63235e94d91cca54437bb0ff20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

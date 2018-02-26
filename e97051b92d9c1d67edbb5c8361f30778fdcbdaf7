@@ -70,6 +70,30 @@
       "revId": "e97051b92d9c1d67edbb5c8361f30778fdcbdaf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92aaa2ce_98cef6f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-26T10:09:56Z",
+      "side": 1,
+      "message": "Thanks for clarifying. A BIG +1 to drop dependency on JGit\u0027s Edit class altogether. For GWT we even doing realy, realy, ugly hacks, like patching JGit classes in Gerrit tree, and for doing it we remove signatures from JGit final artifacts fetched from Maven Central. That\u0027s all a huge mess. I wonder, if I could allocate some time to get rid of JGit\u0027s Edit in Gerrit tree, would you be able to help with reviews?",
+      "parentUuid": "c7f242d0_fa2b28fa",
+      "range": {
+        "startLine": 13,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 56
+      },
+      "revId": "e97051b92d9c1d67edbb5c8361f30778fdcbdaf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

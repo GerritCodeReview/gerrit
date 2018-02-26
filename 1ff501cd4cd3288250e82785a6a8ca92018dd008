@@ -209,6 +209,30 @@
     },
     {
       "key": {
+        "uuid": "549fd2d9_a9271fc0",
+        "filename": "java/com/google/gerrit/common/DebugTraceFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-26T11:20:02Z",
+      "side": 1,
+      "message": "\u003e This feature is not about investigating emergency production\n \u003e issues, but investigation single failing requests, or single\n \u003e requests with unexpected response.\n\nIf one single request is consitently failing (say Submit a change, for all changes), then it is emergency production issue ;)\n\n \u003e I think it\u0027s definitely too much log spam if we include debug logs\n \u003e for each permission check, each index query etc.\n\nEven for one single request or what am I missing?",
+      "parentUuid": "7a21fefd_5fe4d4eb",
+      "range": {
+        "startLine": 473,
+        "startChar": 8,
+        "endLine": 477,
+        "endChar": 9
+      },
+      "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0da9037e_7bec6b94",
         "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
         "patchSetId": 7

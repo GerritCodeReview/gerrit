@@ -391,7 +391,7 @@
         this._getIsParentCommentByLineAndContent(lineEl, contentEl);
       const threadEl = this._getOrCreateThread(contentEl, patchNum,
           side, isOnParent, opt_range);
-      threadEl.addOrEditDraft(opt_lineNum, opt_range);
+      threadEl.addOrEditDraft(opt_lineNum, opt_range, side);
     },
 
     /**
@@ -448,7 +448,7 @@
       let threadEl = this._getThread(threadGroupEl, opt_range);
 
       if (!threadEl) {
-        threadGroupEl.addNewThread(opt_range);
+        threadGroupEl.addNewThread(opt_range, commentSide);
         Polymer.dom.flush();
         threadEl = this._getThread(threadGroupEl, opt_range);
       }
@@ -532,7 +532,9 @@
      * @suppress {checkTypes} */
     _handleCommentUpdate(e) {
       const comment = e.detail.comment;
-      const side = e.detail.comment.__commentSide;
+      // Empty string prevents a javascript error when adding a comment in
+      // a unified view.
+      const side = e.detail.comment.__commentSide || '';
       let idx = this._findCommentIndex(comment, side);
       if (idx === -1) {
         idx = this._findDraftIndex(comment, side);

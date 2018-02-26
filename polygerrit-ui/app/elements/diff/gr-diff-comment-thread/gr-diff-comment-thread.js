@@ -105,7 +105,7 @@
       this._setInitialExpandedState();
     },
 
-    addOrEditDraft(opt_lineNum, opt_range) {
+    addOrEditDraft(opt_lineNum, opt_range, opt_side) {
       const lastComment = this.comments[this.comments.length - 1] || {};
       if (lastComment.__draft) {
         const commentEl = this._commentElWithDraftID(
@@ -119,14 +119,15 @@
         const range = opt_range ? opt_range :
             lastComment ? lastComment.range : undefined;
         const unresolved = lastComment ? lastComment.unresolved : undefined;
-        this.addDraft(opt_lineNum, range, unresolved);
+        this.addDraft(opt_lineNum, range, unresolved, opt_side);
       }
     },
 
-    addDraft(opt_lineNum, opt_range, opt_unresolved) {
+    addDraft(opt_lineNum, opt_range, opt_unresolved, opt_side) {
       const draft = this._newDraft(opt_lineNum, opt_range);
       draft.__editing = true;
       draft.unresolved = opt_unresolved === false ? opt_unresolved : true;
+      draft.__commentSide = opt_lineNum;
       this.push('comments', draft);
     },
 

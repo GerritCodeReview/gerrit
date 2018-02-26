@@ -51,11 +51,12 @@
      *
      * @param {!Object} opt_range
      */
-    addNewThread(opt_range) {
+    addNewThread(opt_range, opt_commentSide) {
       this.push('_threads', {
         comments: [],
         patchNum: this.patchForNewThreads,
         range: opt_range,
+        commentSide: opt_commentSide,
       });
     },
 

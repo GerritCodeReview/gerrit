@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ef404167_c8a18c74",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2018-02-26T15:59:17Z",
+      "side": 1,
+      "message": "\u003e Please consider using data binding for this, e.g.\n\u003e \n\u003e \u003cspan\u003e[[_labelMessage]]\u003c/span\u003e\n\u003e \n\u003e setLabelsInfoMsg(msg) {\n\u003e   this.labelMessage \u003d msg;\n\u003e }\n\u003e \n\nDone.\n\n\u003e Also, how is this message cleared?\n\nWhen the plugin no longer needs the msg to show up it does setLabelsInfoMsg(\u0027\u0027);",
+      "parentUuid": "083690a8_86e5298b",
+      "range": {
+        "startLine": 291,
+        "startChar": 33,
+        "endLine": 291,
+        "endChar": 42
+      },
+      "revId": "bc27a58851352fbae840104943df0e2b8b9873da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a62e937d_16173bbe",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.js",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "bc27a58851352fbae840104943df0e2b8b9873da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afa862e2_57f51190",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2018-02-26T15:59:17Z",
+      "side": 1,
+      "message": "For https://bugs.chromium.org/p/chromium/issues/detail?id\u003d631551#c17 \nthis is used to determine when the reply dialog is opened to automatically set CQ+2 label when both AS+1 (AutoSubmit) and CR+1 are set.\nIt is also used to determine when we are still on the main page and the quick approve button should be altered instead.\n\nPlease let me know if there is a better way to determind when the reply dialog is open.",
+      "parentUuid": "a62e937d_16173bbe",
+      "range": {
+        "startLine": 92,
+        "startChar": 35,
+        "endLine": 92,
+        "endChar": 55
+      },
+      "revId": "bc27a58851352fbae840104943df0e2b8b9873da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

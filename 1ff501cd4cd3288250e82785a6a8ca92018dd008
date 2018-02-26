@@ -257,6 +257,30 @@
     },
     {
       "key": {
+        "uuid": "0942af72_25501bf9",
+        "filename": "java/com/google/gerrit/common/DebugTraceFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-26T21:33:12Z",
+      "side": 1,
+      "message": "\u003e \u003e Even for one single request or what am I missing?\n \u003e \n \u003e For a single request this is okay, as it\u0027s maybe 20+ additional\n \u003e debug logs. For each request this is not okay, since in our system\n \u003e we have several hundreds of requests per second. E.g. this means we\n \u003e would never set DEBUG logging for all classes.\n \u003e Sorry if this was confusing.\n\nI\u0027m not sure this is a right approach: to set trace for one request and debug for all others and do severity promotion for the whole world.\n\nIn Multi-tenant/multi user environments, production logging activation usually done in 4 dimensions:\n\n* 1. Tenant\n* 2. User\n* 3. Time,duration\n* 4. List of logger categories\n\nMy suggestion would be to support those dimensions. of course dong that would rule out anonymous request traces, but we could ignore them as the most important problems that occur in production are mostly relevant to logged in user, and SSH channel has per definition always a user.\n\nSo in my mind, we would extend SSH command logging-set-level and would expose new REST endpoint POST /config/logging-set-level and would accept the mentioned four dimensions:\n\n* Tenant \u003d gerrit-review\n* User \u003d \"david at ostrovsky dot org\"\n* Time \u003d 14:00:00,10 minutes\n* com.google.gerrit\u003dDEBUG,org.eclipse.jetty\u003dDEBUG\n\nAfter calling this REST endpoint with this input, and after 14:00, for 10 minutes all requests and SSH comamnds for user davido would be logged with debug level (for provided categories). All other millions requests, that are executed agains gerrit-review in the same time are not logged. So that we wouldn\u0027t mess around with any severity logging promotion/demotion.\n\nMoreover, If the same user is going against another tenant, bazel-review, in the same time, no logging happens (different tenant).",
+      "parentUuid": "211a4cfa_5c2296cb",
+      "range": {
+        "startLine": 473,
+        "startChar": 8,
+        "endLine": 477,
+        "endChar": 9
+      },
+      "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0da9037e_7bec6b94",
         "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
         "patchSetId": 7

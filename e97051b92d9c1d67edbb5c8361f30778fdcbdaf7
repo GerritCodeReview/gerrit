@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6491ebbc_16958acf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-26T07:07:36Z",
+      "side": 1,
+      "message": "Can\u0027t we extend Edit class in JGit? Can\u0027t we derive from JGit\u0027s Edit class another Edit representation, like we already doing with ReplaceEdit?",
+      "range": {
+        "startLine": 13,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 56
+      },
+      "revId": "e97051b92d9c1d67edbb5c8361f30778fdcbdaf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

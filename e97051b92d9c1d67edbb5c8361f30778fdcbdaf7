@@ -22,6 +22,30 @@
       "revId": "e97051b92d9c1d67edbb5c8361f30778fdcbdaf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c6d6702_1d2c00c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-26T07:12:06Z",
+      "side": 1,
+      "message": "+1 for this, as long as we can do it without introducing more org.eclipse.jgit classes that access non-public APIs in JGit.  I\u0027m trying to get rid of the ones that we already have.",
+      "parentUuid": "6491ebbc_16958acf",
+      "range": {
+        "startLine": 13,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 56
+      },
+      "revId": "e97051b92d9c1d67edbb5c8361f30778fdcbdaf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

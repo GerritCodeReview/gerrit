@@ -52,6 +52,15 @@ limitations under the License.
       assert.isTrue(element.classList.contains('wip'));
     });
 
+    test('WIP flat', () => {
+      element.flat = true;
+      element.status = 'WIP';
+      assert.equal(element.$$('.chip').innerText, 'WIP');
+      assert.isDefined(element.tooltipText);
+      assert.isTrue(element.classList.contains('wip'));
+      assert.isTrue(element.hasAttribute('flat'));
+    });
+
     test('merged', () => {
       element.status = 'Merged';
       assert.equal(element.$$('.chip').innerText, element.status);

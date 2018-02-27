@@ -33,6 +33,11 @@
     is: 'gr-change-status',
 
     properties: {
+      flat: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+      },
       status: {
         type: String,
         observer: '_updateChipDetails',
@@ -44,7 +49,7 @@
     },
 
     _computeStatusString(status) {
-      if (status === ChangeStates.WIP) {
+      if (status === ChangeStates.WIP && !this.flat) {
         return 'Work in Progress';
       }
       return status;

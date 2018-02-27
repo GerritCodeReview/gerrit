@@ -42,7 +42,7 @@ limitations under the License.
       }
       .container {
         display: flex;
-        margin: 5px 0;
+        margin: .5em 0;
       }
       .lineNum {
         margin-right: .5em;
@@ -52,6 +52,16 @@ limitations under the License.
       .message {
         flex: 1;
         --gr-formatted-text-prose-max-width: 80ch;
+      }
+      @media screen and (max-width: 50em) {
+        .container {
+          flex-direction: column;
+          margin: .75em 0;
+        }
+        .lineNum {
+          min-width: initial;
+          text-align: left;
+        }
       }
     </style>
     <template is="dom-repeat" items="[[_computeFilesFromComments(comments)]]" as="file">

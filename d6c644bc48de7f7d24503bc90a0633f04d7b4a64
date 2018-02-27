@@ -22,6 +22,30 @@
       "revId": "d6c644bc48de7f7d24503bc90a0633f04d7b4a64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2763661_e289c554",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-02-27T22:12:06Z",
+      "side": 1,
+      "message": "This maps to the language used on #98... I\u0027m okay with rethinking this, but we should change it in both places IMO.\n\nOr should this maybe be \"reference hash\"?",
+      "parentUuid": "c34796ed_ec69240e",
+      "range": {
+        "startLine": 111,
+        "startChar": 44,
+        "endLine": 111,
+        "endChar": 47
+      },
+      "revId": "d6c644bc48de7f7d24503bc90a0633f04d7b4a64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

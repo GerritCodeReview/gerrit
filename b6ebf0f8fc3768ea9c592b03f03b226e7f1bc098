@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8136cf57_e1db8f0e",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-27T07:41:15Z",
+      "side": 1,
+      "message": "Is this likely to have any side-effect on other platforms?",
+      "revId": "b6ebf0f8fc3768ea9c592b03f03b226e7f1bc098",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

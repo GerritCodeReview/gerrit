@@ -27,7 +27,15 @@ public abstract class RetryingRestModifyView<R extends RestResource, I, O>
 
   @Override
   public final O apply(R resource, I input) throws Exception {
-    return retryHelper.execute((updateFactory) -> applyImpl(updateFactory, resource, input));
+    try {
+      return retryHelper.execute((updateFactory) -> applyImpl(updateFactory, resource, input));
+    } catch (UpdateException e) {
+      Throwable t = e.getCause();
+      if (t instanceof Exception) {
+        throw (Exception) t;
+      }
+      throw e;
+    }
   }
 
   protected abstract O applyImpl(BatchUpdate.Factory updateFactory, R resource, I input)

@@ -46,6 +46,7 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
 import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
+import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
@@ -102,6 +103,7 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.audit.AuditService;
 import com.google.gerrit.server.audit.ExtendedHttpAuditEvent;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -480,6 +482,9 @@ public class RestApiServlet extends HttpServlet {
     } catch (NotImplementedException e) {
       responseBytes =
           replyError(req, res, status = SC_NOT_IMPLEMENTED, messageOr(e, "Not Implemented"), e);
+    } catch (LockFailureException e) {
+      responseBytes =
+          replyError(req, res, status = SC_SERVICE_UNAVAILABLE, messageOr(e, "Lock failure"), e);
     } catch (Exception e) {
       status = SC_INTERNAL_SERVER_ERROR;
       responseBytes = handleException(e, req, res);

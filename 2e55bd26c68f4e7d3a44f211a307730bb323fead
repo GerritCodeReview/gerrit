@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e69ce5c6_0c74d4e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-27T02:48:21Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to mention this.  That commit is adding the assignee changed event, which can legitimately have a null account.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 0
+      },
+      "revId": "2e55bd26c68f4e7d3a44f211a307730bb323fead",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f8e6f3b8_d7159b09",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/StreamEventsApiListener.java",
         "patchSetId": 2

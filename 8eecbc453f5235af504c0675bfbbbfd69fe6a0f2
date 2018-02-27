@@ -70,6 +70,30 @@
       "revId": "8eecbc453f5235af504c0675bfbbbfd69fe6a0f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0785e21_757bc2c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-27T22:52:06Z",
+      "side": 1,
+      "message": "Oops. What I did was obviously not what you meant.\n\nDone. I still put a small bottom margin so that the line links don\u0027t look too close to the previous comment.",
+      "parentUuid": "92e6b7c9_37a5525e",
+      "range": {
+        "startLine": 59,
+        "startChar": 10,
+        "endLine": 59,
+        "endChar": 37
+      },
+      "revId": "8eecbc453f5235af504c0675bfbbbfd69fe6a0f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

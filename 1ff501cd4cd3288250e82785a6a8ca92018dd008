@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "d6b00c42_e0c47b31",
+        "filename": "java/com/google/gerrit/common/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-27T07:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0861e837_b60f4b21",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 1
+      },
+      "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60cd4b21_6125c8a0",
         "filename": "java/com/google/gerrit/common/DebugTraceFactory.java",
         "patchSetId": 7
@@ -97,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "1570919b_bdf1fe73",
+        "filename": "java/com/google/gerrit/common/DebugTraceFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-27T07:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5a269bc_18fcad43",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 32
+      },
+      "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6633c89_b8ee6dfa",
         "filename": "java/com/google/gerrit/common/DebugTraceFactory.java",
         "patchSetId": 7
@@ -111,6 +159,24 @@
       "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9583b8f5_37142421",
+        "filename": "java/com/google/gerrit/common/DebugTraceFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-27T07:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6633c89_b8ee6dfa",
+      "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -326,6 +392,30 @@
       "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "727650af_4db39a6a",
+        "filename": "java/com/google/gerrit/common/DebugTraceFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-02-27T07:45:39Z",
+      "side": 1,
+      "message": "\u003e Yeah, this should definitely be explained by a comment. \n\nDone",
+      "parentUuid": "07e156f4_d6ba0100",
+      "range": {
+        "startLine": 473,
+        "startChar": 8,
+        "endLine": 477,
+        "endChar": 9
+      },
+      "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

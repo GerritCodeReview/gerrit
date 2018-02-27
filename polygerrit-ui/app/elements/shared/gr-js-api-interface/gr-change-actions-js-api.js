@@ -62,6 +62,11 @@
     });
   };
 
+  GrChangeActionsInterface.prototype.hideQuickApproveAction = function() {
+    ensureEl(this);
+    this._el.hideQuickApproveAction();
+  };
+
   GrChangeActionsInterface.prototype.setActionOverflow = function(type, key,
       overflow) {
     ensureEl(this);

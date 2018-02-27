@@ -211,6 +211,10 @@
         type: Boolean,
         value: false,
       },
+      _hideQuickApproveAction: {
+        type: Boolean,
+        value: false,
+      },
       changeNum: String,
       changeStatus: String,
       commitNum: String,
@@ -653,7 +657,18 @@
       return null;
     },
 
+    hideQuickApproveAction() {
+      this._topLevelSecondaryActions =
+        this._topLevelSecondaryActions.filter(sa => {
+          return sa.key !== QUICK_APPROVE_ACTION.key;
+        });
+      this._hideQuickApproveAction = true;
+    },
+
     _getQuickApproveAction() {
+      if (this._hideQuickApproveAction) {
+        return null;
+      }
       const approval = this._getTopMissingApproval();
       if (!approval) {
         return null;

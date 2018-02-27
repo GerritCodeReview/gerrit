@@ -37,6 +37,8 @@ EXPORTS = [
     "//java/com/google/gerrit/metrics/dropwizard",
     "//java/com/google/gerrit/reviewdb:server",
     "//java/com/google/gwtexpui/server",
+    "//lib:caffeine",
+    "//lib:caffeine_guava",
     "//lib/commons:dbcp",
     "//lib/commons:lang",
     "//lib/commons:lang3",

@@ -213,6 +213,18 @@ maven_jar(
 )
 
 maven_jar(
+    name = "caffeine",
+    artifact = "com.github.ben-manes.caffeine:caffeine:2.6.1",
+    sha1 = "fc7a29feda0a3c5aaf1ff55e0df5417025e6d5f4",
+)
+
+maven_jar(
+    name = "caffeine_guava",
+    artifact = "com.github.ben-manes.caffeine:guava:2.6.1",
+    sha1 = "e1fbe0d8c06639d6fee74404f687f00da25671eb",
+)
+
+maven_jar(
     name = "j2objc",
     artifact = "com.google.j2objc:j2objc-annotations:1.1",
     sha1 = "ed28ded51a8b1c6b112568def5f4b455e6809019",

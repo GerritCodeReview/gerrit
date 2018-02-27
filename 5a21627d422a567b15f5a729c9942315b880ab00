@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9c8159d_a22e9723",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-27T23:41:25Z",
+      "side": 1,
+      "message": "languages",
+      "range": {
+        "startLine": 7,
+        "startChar": 21,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "5a21627d422a567b15f5a729c9942315b880ab00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c439ce77_3cfd2928",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-27T23:41:25Z",
+      "side": 1,
+      "message": "makefile",
+      "revId": "5a21627d422a567b15f5a729c9942315b880ab00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

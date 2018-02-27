@@ -305,6 +305,30 @@
     },
     {
       "key": {
+        "uuid": "584b15d2_95a4cea9",
+        "filename": "java/com/google/gerrit/common/DebugTraceFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-27T07:28:53Z",
+      "side": 1,
+      "message": "I agree, that this solves your current problem, but it indicated in the commit message, it doesn\u0027t support request chains. And extending this solution to support request chains, it would need to complicate the UI.\n\nIt doesn\u0027t address the problem of SSH traces (I know, you guys don\u0027t use SSH and don\u0027t care, but still).\n\nAnd even if we would extend the approach presented in this change to both SSH (chain) and HTTP-Request-Chain, it also introduce complication of user interfaces, like HTTP Request servlet and SSH command by adding new --trace option to all commands. (And between us, there is UX anti-poattern: you never ever should have a user interface designed without visual feedback: and that\u0027s exactly what happens here: we are asking user to pass --trace option through REST endpoints or SSH commands, without user seeing the effect of that option -- bad thing).\n\nNext problem: you require the thin wrapper for your solution: This is problematic, because you reduce the whole usefulness of your approach to parts of gerrit core, the were extended to actually use this wrapper. However, many problem happen because of Extensions/Plugins/Third party libraries (see for example this discussion https://groups.google.com/d/topic/repo-discuss/MCpzlimgCG0/discussion). All those places would need to be explicitly adapted or even forked to use DebugTraceFactory wrapper.\n\nlog4j based extension solutions, I\u0027ve seen in the wild, do a better job, by providing exactly the feature you need, but without poisoning the user interface and adding addition complexity to the UI: by overloading log4j\u0027s LoggerRepository [1] and making it user context aware (i don\u0027t remember the details). And doing all the magic without any Log4j thin wrapper you introduced in this change.\n\nSo that the client code in gerrit core, extensions, plugins and third party code, that is used today (with or without commons-loggin wrapper)\n  \n  Logger log \u003d Logger.getLogger(HttpLog.class);\n  LoggerFactory.getLogger(Clazz.class);\n\nwould still continue to work.\n\nThe only visible change for user interface (one single logging activation SSH command and REST endpoint) for instant logging activation would add user-id.\n\n  $ ssh host gerrit logging set-level --user 4711 debug com.google\n\nOr, administrator, would go to gerrit admin/loggin page and do the same for sites, that don\u0027t use SSH.\n\nNow after doing that, all logs with debug level can be found, and filtered by grep 4711 in log. Note that here the SSH commands/Request - chaining already works out of the box.\n\nBottom line: Both suggestion would work (your suggestion only reduce scope on core gerrit and would require significant effort to be applied to plugins and even not possible for third party libraries, if we rule out the feasibility of forking them for the logging purpose).\n\nFor both approaches, we need a better debug log facility in major parts of gerrit that we don\u0027t have or don\u0027t have sufficiently today. That why I suggested to split this change in multiple parts, and add and merge more and better traces statement in critical part of the code, like for example account manager: [2] to track down this: [3] and other bugs.\n\n* [1] https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/spi/LoggerRepository.html\n* [2] https://gerrit-review.googlesource.com/#/c/gerrit/+/139870/\n* [3] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7652",
+      "parentUuid": "07e156f4_d6ba0100",
+      "range": {
+        "startLine": 473,
+        "startChar": 8,
+        "endLine": 477,
+        "endChar": 9
+      },
+      "revId": "1ff501cd4cd3288250e82785a6a8ca92018dd008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0da9037e_7bec6b94",
         "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
         "patchSetId": 7

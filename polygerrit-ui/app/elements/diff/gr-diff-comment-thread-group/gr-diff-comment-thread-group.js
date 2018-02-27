@@ -23,6 +23,7 @@
         type: Array,
         value() { return []; },
       },
+      line: Number,
       projectName: String,
       patchForNewThreads: String,
       range: Object,

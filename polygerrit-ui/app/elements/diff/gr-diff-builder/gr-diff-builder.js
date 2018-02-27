@@ -354,15 +354,17 @@
    * @param {number|string} patchNum
    * @param {string} path
    * @param {boolean} isOnParent
+   * @param {number} line
    * @param {string} commentSide
    * @return {!Object}
    */
   GrDiffBuilder.prototype.createCommentThreadGroup = function(changeNum,
-      patchNum, path, isOnParent, commentSide) {
+      patchNum, path, isOnParent, line, commentSide) {
     const threadGroupEl =
         document.createElement('gr-diff-comment-thread-group');
     threadGroupEl.changeNum = changeNum;
     threadGroupEl.commentSide = commentSide;
+    threadGroupEl.line = line;
     threadGroupEl.patchForNewThreads = patchNum;
     threadGroupEl.path = path;
     threadGroupEl.isOnParent = isOnParent;
@@ -396,9 +398,11 @@
         patchNum = this._comments.meta.patchRange.basePatchNum;
       }
     }
+    // All comment share the same line.
+    const lineNumber = comments[0].line;
     const threadGroupEl = this.createCommentThreadGroup(
         this._comments.meta.changeNum, patchNum, this._comments.meta.path,
-        isOnParent, opt_side);
+        isOnParent, lineNumber, opt_side);
     threadGroupEl.comments = comments;
     if (opt_side) {
       threadGroupEl.setAttribute('data-side', opt_side);

@@ -30,20 +30,26 @@ languages included. Build it with the following:
           css \
           d \
           dart \
+          dockerfile \
           erb \
           go \
           haskell \
+          ini \
           java \
           javascript \
           json \
           kotlin \
+          less \
           lisp \
           lua \
+          makefile \
           markdown \
+          nginx \
           objectivec \
           ocaml \
           perl \
           php \
+          prolog \
           protobuf \
           puppet \
           python \

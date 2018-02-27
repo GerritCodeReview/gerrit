@@ -448,7 +448,7 @@
       let threadEl = this._getThread(threadGroupEl, opt_range);
 
       if (!threadEl) {
-        threadGroupEl.addNewThread(opt_range);
+        threadGroupEl.addNewThread(commentSide, opt_range);
         Polymer.dom.flush();
         threadEl = this._getThread(threadGroupEl, opt_range);
       }

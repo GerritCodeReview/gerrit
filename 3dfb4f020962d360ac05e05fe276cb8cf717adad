@@ -16,6 +16,24 @@
       "revId": "3dfb4f020962d360ac05e05fe276cb8cf717adad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02d75c5b_afe1165b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-27T18:50:32Z",
+      "side": 1,
+      "message": "Agreed, ideally the commit message should have all the details.",
+      "parentUuid": "e1c4c718_fdfd71ce",
+      "revId": "3dfb4f020962d360ac05e05fe276cb8cf717adad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

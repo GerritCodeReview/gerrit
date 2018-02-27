@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1c4c718_fdfd71ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2018-02-27T15:16:12Z",
+      "side": 1,
+      "message": "that\u0027s bad style. commit messages should be self-contained. a link _in addition_ to the actual implementation would be ok.",
+      "revId": "3dfb4f020962d360ac05e05fe276cb8cf717adad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

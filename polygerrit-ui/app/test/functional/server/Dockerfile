@@ -1,5 +1,7 @@
 FROM gerritcodereview/gerrit
 
+ARG UPGRADE_SERVER
+
 USER root
 
 RUN yum -y install mkstemp openssh-server openssh-clients
@@ -12,4 +14,4 @@ USER gerrit
 
 ADD ./prepopulate.sh /tmp/
 
-CMD /tmp/prepopulate.sh
+CMD UPGRADE_SERVER=${UPGRADE_SERVER} /tmp/prepopulate.sh

@@ -13,6 +13,17 @@ chmod 0700 ~/.ssh
 echo -n "[localhost]:29418 " >> ~/.ssh/known_hosts
 cat ~/etc/ssh_host_ecdsa_key.pub >> ~/.ssh/known_hosts
 
+if [ "$UPGRADE_SERVER" ]; then
+    echo "Waiting for gerrit.war"
+    while [ ! -f /app/gerrit.war ]; do
+        sleep 1
+    done
+
+    echo "Upgrading Gerrit"
+    cp /app/gerrit.war /var/gerrit/bin
+    java -jar /var/gerrit/bin/gerrit.war init --batch -d /var/gerrit
+fi
+
 /var/gerrit/bin/gerrit.sh start
 
 echo Prepopulating...

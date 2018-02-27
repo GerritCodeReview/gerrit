@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "282ffe46_e8203465",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-27T03:59:43Z",
+      "side": 1,
+      "message": "nit: remove this blank line",
+      "revId": "803565725eb30d982fb07c1ab566c0ffb33d87af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e52d264_96a4ee9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-27T03:59:43Z",
+      "side": 1,
+      "message": "\"not found\"?",
+      "range": {
+        "startLine": 114,
+        "startChar": 27,
+        "endLine": 114,
+        "endChar": 43
+      },
+      "revId": "803565725eb30d982fb07c1ab566c0ffb33d87af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d04a9fe0_b70212f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-27T03:59:43Z",
+      "side": 1,
+      "message": "external ID?",
+      "range": {
+        "startLine": 120,
+        "startChar": 37,
+        "endLine": 120,
+        "endChar": 47
+      },
+      "revId": "803565725eb30d982fb07c1ab566c0ffb33d87af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98cff02e_f2433a7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-27T03:59:43Z",
+      "side": 1,
+      "message": "nit: use inline comment style here:\n\n //\n\ninstead of:\n\n /*",
+      "range": {
+        "startLine": 379,
+        "startChar": 8,
+        "endLine": 379,
+        "endChar": 10
+      },
+      "revId": "803565725eb30d982fb07c1ab566c0ffb33d87af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -120,11 +120,6 @@
       this.$.prefsOverlay.close();
     },
 
-    _handlePrefsTap(e) {
-      e.preventDefault();
-      this._openPrefs();
-    },
-
     open() {
       this.$.prefsOverlay.open().then(() => {
         const focusStops = this.getFocusStops();

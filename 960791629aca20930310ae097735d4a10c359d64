@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "cc16ddf1_7fc8a615",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-02-27T22:18:26Z",
+      "side": 1,
+      "message": "How about this?\nAnother idea I had was ¯\\_(ツ)_/¯, but it\u0027s a bit long.",
+      "parentUuid": "21a0d94a_00e2bc24",
+      "range": {
+        "startLine": 132,
+        "startChar": 16,
+        "endLine": 132,
+        "endChar": 17
+      },
+      "revId": "960791629aca20930310ae097735d4a10c359d64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dea5d5d0_8a2bf0e1",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
         "patchSetId": 3

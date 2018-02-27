@@ -122,6 +122,14 @@
   };
 
   /**
+   * Gets all the comments for a particular comment thread
+   */
+  ChangeComments.prototype.getCommentsForThreadGroup = function(path, line, patchNum, opt_side) {
+    debugger
+    return this.getAllCommentsForPath(path, patchNum).filter(c => c.line === line)
+  };
+
+  /**
    * Gets all the comments and robot comments for the given change.
    *
    * @param {boolean=} opt_includeDrafts

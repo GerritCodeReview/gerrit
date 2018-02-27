@@ -939,6 +939,7 @@
             // commentSide needs to be replaced. In the comment thread view it
             // is either parent or undefined. In the diff view it needs to be
             // left or right.
+            console.log(this.changeComments.getCommentsForThreadGroup(threadGroup.path, threadGroup.line, threadGroup.patchNum, threadGroup.commentSide));
             threadGroup.comments = comments.map(c => {
               c.__commentSide = threadGroup.commentSide;
               return c;

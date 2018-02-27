@@ -280,7 +280,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
     List<? extends GroupAuditEventInfo> auditEvents = gApi.groups().id(g).auditLog();
     assertThat(auditEvents).hasSize(1);
-    assertAuditEvent(auditEvents.get(0), Type.ADD_GROUP, admin.id, "Registered Users");
+    assertSubgroupAuditEvent(auditEvents.get(0), Type.ADD_GROUP, admin.id, "Registered Users");
   }
 
   @Test
@@ -857,41 +857,41 @@ public class GroupsIT extends AbstractDaemonTest {
     GroupApi g = gApi.groups().create(name("group"));
     List<? extends GroupAuditEventInfo> auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(1);
-    assertAuditEvent(auditEvents.get(0), Type.ADD_USER, admin.id, admin.id);
+    assertMemberAuditEvent(auditEvents.get(0), Type.ADD_USER, admin.id, admin.id);
 
     g.addMembers(user.username);
     auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(2);
-    assertAuditEvent(auditEvents.get(0), Type.ADD_USER, admin.id, user.id);
+    assertMemberAuditEvent(auditEvents.get(0), Type.ADD_USER, admin.id, user.id);
 
     g.removeMembers(user.username);
     auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(3);
-    assertAuditEvent(auditEvents.get(0), Type.REMOVE_USER, admin.id, user.id);
+    assertMemberAuditEvent(auditEvents.get(0), Type.REMOVE_USER, admin.id, user.id);
 
     String otherGroup = name("otherGroup");
     gApi.groups().create(otherGroup);
     g.addGroups(otherGroup);
     auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(4);
-    assertAuditEvent(auditEvents.get(0), Type.ADD_GROUP, admin.id, otherGroup);
+    assertSubgroupAuditEvent(auditEvents.get(0), Type.ADD_GROUP, admin.id, otherGroup);
 
     g.removeGroups(otherGroup);
     auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(5);
-    assertAuditEvent(auditEvents.get(0), Type.REMOVE_GROUP, admin.id, otherGroup);
+    assertSubgroupAuditEvent(auditEvents.get(0), Type.REMOVE_GROUP, admin.id, otherGroup);
 
     // Add a removed member back again.
     g.addMembers(user.username);
     auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(6);
-    assertAuditEvent(auditEvents.get(0), Type.ADD_USER, admin.id, user.id);
+    assertMemberAuditEvent(auditEvents.get(0), Type.ADD_USER, admin.id, user.id);
 
     // Add a removed group back again.
     g.addGroups(otherGroup);
     auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(7);
-    assertAuditEvent(auditEvents.get(0), Type.ADD_GROUP, admin.id, otherGroup);
+    assertSubgroupAuditEvent(auditEvents.get(0), Type.ADD_GROUP, admin.id, otherGroup);
 
     Timestamp lastDate = null;
     for (GroupAuditEventInfo auditEvent : auditEvents) {
@@ -899,6 +899,46 @@ public class GroupsIT extends AbstractDaemonTest {
         assertThat(lastDate).isAtLeast(auditEvent.date);
       }
       lastDate = auditEvent.date;
+    }
+  }
+
+  @Test
+  @Sandboxed
+  @IgnoreGroupInconsistencies
+  public void getAuditLogAfterDeletingASubgroup() throws Exception {
+    assume().that(readGroupsFromNoteDb()).isTrue();
+
+    GroupInfo parentGroup = gApi.groups().create(name("parent-group")).get();
+
+    // Creates a subgroup and adds it to "parent-group" as a subgroup.
+    GroupInfo subgroup = gApi.groups().create(name("sub-group")).get();
+    gApi.groups().id(parentGroup.id).addGroups(subgroup.id);
+
+    // Deletes the subgroup.
+    deleteGroupRef(subgroup.id);
+
+    List<? extends GroupAuditEventInfo> auditEvents = gApi.groups().id(parentGroup.id).auditLog();
+    assertThat(auditEvents).hasSize(2);
+    // Verify the unavailable subgroup's name is null.
+    assertSubgroupAuditEvent(auditEvents.get(0), Type.ADD_GROUP, admin.id, null);
+  }
+
+  private void deleteGroupRef(String groupId) throws Exception {
+    AccountGroup.UUID uuid = new AccountGroup.UUID(groupId);
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      RefUpdate ru = repo.updateRef(RefNames.refsGroups(uuid));
+      ru.setForceUpdate(true);
+      ru.setNewObjectId(ObjectId.zeroId());
+      assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
+    }
+
+    // Reindex the group.
+    gApi.groups().id(uuid.get()).index();
+
+    // Verify "sub-group" has been deleted.
+    try {
+      gApi.groups().id(uuid.get()).get();
+    } catch (ResourceNotFoundException e) {
     }
   }
 
@@ -1411,7 +1451,7 @@ public class GroupsIT extends AbstractDaemonTest {
     }
   }
 
-  private void assertAuditEvent(
+  private void assertMemberAuditEvent(
       GroupAuditEventInfo info,
       Type expectedType,
       Account.Id expectedUser,
@@ -1422,7 +1462,7 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(((UserMemberAuditEventInfo) info).member._accountId).isEqualTo(expectedMember.get());
   }
 
-  private void assertAuditEvent(
+  private void assertSubgroupAuditEvent(
       GroupAuditEventInfo info,
       Type expectedType,
       Account.Id expectedUser,

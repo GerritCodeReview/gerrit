@@ -1518,7 +1518,9 @@ The group member that is added/removed. If `type` is `ADD_USER` or
 `REMOVE_USER` the member is returned as detailed
 link:rest-api-accounts.html#account-info[AccountInfo] entity, if `type`
 is `ADD_GROUP` or `REMOVE_GROUP` the member is returned as
-link:#group-info[GroupInfo] entity.
+link:#group-info[GroupInfo] entity. Note that the `name` in
+link:#group-info[GroupInfo] will not be set if the member group is not
+available.
 |`type`    |
 The event type, can be: `ADD_USER`, `REMOVE_USER`, `ADD_GROUP` or
 `REMOVE_GROUP`.

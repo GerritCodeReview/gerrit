@@ -142,7 +142,10 @@ def _main():
     if not os.path.isdir(gpghome):
         print("Skipping signing due to missing gnupg home folder")
     else:
-        gpg = GPG(homedir=gpghome)
+        try:
+            gpg = GPG(homedir=gpghome)
+        except TypeError:
+            gpg = GPG(gnupghome=gpghome)
         signed = gpg.sign(output)
         filename = filename + ".asc"
         with open(filename, "w") as f:

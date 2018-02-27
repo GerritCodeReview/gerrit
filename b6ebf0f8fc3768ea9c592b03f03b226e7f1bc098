@@ -16,6 +16,24 @@
       "revId": "b6ebf0f8fc3768ea9c592b03f03b226e7f1bc098",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea689c13_c803bf75",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2018-02-27T07:47:14Z",
+      "side": 1,
+      "message": "I\u0027m not sure about all awk variants, but at least gawk and mawk support regexp for RS.",
+      "parentUuid": "8136cf57_e1db8f0e",
+      "revId": "b6ebf0f8fc3768ea9c592b03f03b226e7f1bc098",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

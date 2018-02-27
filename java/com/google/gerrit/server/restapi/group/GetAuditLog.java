@@ -117,10 +117,12 @@ public class GetAuditLog implements RestReadView<GroupResource> {
         if (includedGroup.isPresent()) {
           member = groupJson.format(new InternalGroupDescription(includedGroup.get()));
         } else {
-          GroupDescription.Basic groupDescription = groupBackend.get(includedGroupUUID);
           member = new GroupInfo();
           member.id = Url.encode(includedGroupUUID.get());
-          member.name = groupDescription.getName();
+          GroupDescription.Basic groupDescription = groupBackend.get(includedGroupUUID);
+          if (groupDescription != null) {
+            member.name = groupDescription.getName();
+          }
         }
 
         auditEvents.add(

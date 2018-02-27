@@ -121,11 +121,24 @@ CUSTOM_PLUGINS_TEST_DEPS = [
 ]
 ----
 
+If the plugin(s) being bundled in the release have external dependencies, include them
+in `plugins/external_plugin_deps`. You should alias `external_plugin_deps()` so it
+can be imported for multiple plugins. For example:
+
+----
+load(":my-plugin/external_plugin_deps.bzl", my_plugin="external_plugin_deps")
+load(":my-other-plugin/external_plugin_deps.bzl", my_other_plugin="external_plugin_deps")
+
+def external_plugin_deps():
+  my_plugin()
+  my_other_plugin()
+----
+
 [NOTE]
-Since `tools/bzl/plugins.bzl` is part of Gerrit's source code and the version
-of the war is based on the state of the git repository that is built; you should
-commit this change before building, otherwise the version will be marked as
-'dirty'.
+Since `tools/bzl/plugins.bzl` and `plugins/external_plugin_deps.bzl` are part of
+Gerrit's source code and the version of the war is based on the state of the git
+repository that is built; you should commit this change before building, otherwise
+the version will be marked as 'dirty'.
 
 == Bazel standalone driven
 

@@ -5,6 +5,9 @@ services:
     build: builder
     volumes:
       - ./app:/app
+      - ../../../../:/src
+    environment:
+       - UPGRADE_SERVER=${UPGRADE_SERVER}
 
   server:
     build: server
@@ -13,6 +16,8 @@ services:
       - "8080:8080"
     expose:
       - "8080"
+    environment:
+       - UPGRADE_SERVER=${UPGRADE_SERVER}
 
   tester:
     build: tester

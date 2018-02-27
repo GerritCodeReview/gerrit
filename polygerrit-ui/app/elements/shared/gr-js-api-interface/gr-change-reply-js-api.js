@@ -73,5 +73,28 @@
       });
     };
 
+  GrChangeReplyInterface.prototype.removeAllMessages = function(message) {
+    this.plugin.hook('reply-dialog-message').onAttached(el => {
+      if (!el.content) { return; }
+      while (el.content.lastChild) {
+        el.content.remove(el.content.remove(el.content.lastChild));
+      }
+    });
+  };
+  GrChangeReplyInterface.prototype.addMessage = function(message) {
+    this.plugin.hook('reply-dialog-message').onAttached(el => {
+      if (!el.content) { return; }
+      if (!message) {
+        while (el.content.lastChild) {
+          el.content.remove(el.content.remove(el.content.lastChild));
+        }
+      } else {
+        const span = el.content.insertBefore(
+            document.createElement('span'), el.content.firstChild);
+        span.textContent = message;
+      }
+    });
+  };
+
   window.GrChangeReplyInterface = GrChangeReplyInterface;
 })(window);

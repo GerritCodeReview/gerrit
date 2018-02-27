@@ -5,5 +5,3 @@ ADD build.sh /
 USER jenkins
 
 ENTRYPOINT /build.sh
-
-

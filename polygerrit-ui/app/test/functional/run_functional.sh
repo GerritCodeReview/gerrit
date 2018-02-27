@@ -9,4 +9,5 @@ fi
 pushd $MYDIR > /dev/null
 trap popd EXIT
 
+export UPGRADE_SERVER
 docker-compose up --abort-on-container-exit --force-recreate

@@ -46,6 +46,30 @@
       "revId": "d6c644bc48de7f7d24503bc90a0633f04d7b4a64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9549f661_86f3bd0d",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-02-27T22:56:11Z",
+      "side": 1,
+      "message": "On l.98 it\u0027s referring to a ref (like refs/master). I don\u0027t think that should change, but I thought this change was about allowing commit hashes, not refs.\n\nIf so, it looks like the commit message might need to change also.",
+      "parentUuid": "f2763661_e289c554",
+      "range": {
+        "startLine": 111,
+        "startChar": 44,
+        "endLine": 111,
+        "endChar": 47
+      },
+      "revId": "d6c644bc48de7f7d24503bc90a0633f04d7b4a64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

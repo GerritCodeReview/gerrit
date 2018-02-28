@@ -46,6 +46,30 @@
       "revId": "c6facdb695cd03b79f8ba721d26c7bd4541143db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffbc319e_9f232a87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-02-28T07:34:19Z",
+      "side": 1,
+      "message": "We had similar problem after rebasing over caffeinated caches but in our case circular dependency was removed by using Suppliers.memoize ;)\nAs you have written, there is no that easy way to solve it, but what I can see is that we could have 2 caches:\n1. RawPatchListCache that is responsible for loading raw data related to patch (mostly patchListEntries ;))\n2. PatchListLoader refers to RawPatchListCache in order to get old/new keys data and processes it further to get relevantDiffEntries\nis this sth that you have already tried and it looked like maintenance disaster? ;)\n\nAnyone else willing to share opinion on how to remove circular dependency?",
+      "parentUuid": "0089e39f_85d205ed",
+      "range": {
+        "startLine": 12,
+        "startChar": 35,
+        "endLine": 12,
+        "endChar": 75
+      },
+      "revId": "c6facdb695cd03b79f8ba721d26c7bd4541143db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

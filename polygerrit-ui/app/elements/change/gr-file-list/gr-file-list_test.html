@@ -85,7 +85,7 @@ limitations under the License.
             .returns({meta: {}, left: [], right: []});
         done();
       });
-
+      element.diffPrefs = {};
       element.numFilesShown = 200;
       saveStub = sandbox.stub(element, '_saveReviewedState',
           () => { return Promise.resolve(); });
@@ -927,7 +927,7 @@ limitations under the License.
     });
 
     test('_renderInOrder logged in', done => {
-      element._isLoggedIn = true;
+      element._loggedIn = true;
       const reviewStub = sandbox.stub(element, '_reviewFile');
       let callCount = 0;
       const diffs = [{
@@ -957,6 +957,24 @@ limitations under the License.
             assert.equal(reviewStub.callCount, 3);
             done();
           });
+    });
+
+    test('_renderInOrder respects diffPrefs.manual_review', () => {
+      element._loggedIn = true;
+      element.diffPrefs = {manual_review: true};
+      const reviewStub = sandbox.stub(element, '_reviewFile');
+      const diffs = [{
+        path: 'p',
+        reload() { return Promise.resolve(); },
+      }];
+
+      return element._renderInOrder(['p'], diffs, 1).then(() => {
+        assert.isFalse(reviewStub.called);
+        delete element.diffPrefs.manual_review;
+        return element._renderInOrder(['p'], diffs, 1).then(() => {
+          assert.isTrue(reviewStub.called);
+        });
+      });
     });
 
     test('_loadingChanged fired from reload in debouncer', done => {
@@ -1102,6 +1120,8 @@ limitations under the License.
       commentApiWrapper = fixture('basic');
       element = commentApiWrapper.$.fileList;
       loadCommentSpy = sandbox.spy(commentApiWrapper.$.commentAPI, 'loadAll');
+      element.diffPrefs = {};
+      sandbox.stub(element, '_reviewFile');
 
       // Stub methods on the changeComments object after changeComments has
       // been initalized.
@@ -1323,20 +1343,17 @@ limitations under the License.
 
     suite('editMode behavior', () => {
       test('reviewed checkbox', () => {
-        const alertStub = sandbox.stub();
+        element._reviewFile.restore();
         const saveReviewStub = sandbox.stub(element, '_saveReviewedState');
 
-        element.addEventListener('show-alert', alertStub);
         element.editMode = false;
         MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
-        assert.isFalse(alertStub.called);
         assert.isTrue(saveReviewStub.calledOnce);
 
         element.editMode = true;
         flushAsynchronousOperations();
 
         MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
-        assert.isTrue(alertStub.called);
         assert.isTrue(saveReviewStub.calledOnce);
       });
 

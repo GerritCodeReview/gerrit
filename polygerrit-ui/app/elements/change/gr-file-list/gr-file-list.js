@@ -14,8 +14,6 @@
 (function() {
   'use strict';
 
-  const ERR_EDIT_LOADED = 'You cannot change the review status of an edit.';
-
   // Maximum length for patch set descriptions.
   const PATCH_DESC_MAX_LENGTH = 500;
   const WARN_SHOW_ALL_THRESHOLD = 1000;
@@ -397,10 +395,7 @@
     },
 
     _reviewFile(path) {
-      if (this.editMode) {
-        this.fire('show-alert', {message: ERR_EDIT_LOADED});
-        return;
-      }
+      if (this.editMode) { return; }
       const index = this._reviewed.indexOf(path);
       const reviewed = index !== -1;
       if (reviewed) {
@@ -896,7 +891,7 @@
           diffElem.comments = this.changeComments.getCommentsBySideForPath(
               path, this.patchRange, this.projectConfig);
           const promises = [diffElem.reload()];
-          if (this._isLoggedIn) {
+          if (this._loggedIn && !this.diffPrefs.manual_review) {
             promises.push(this._reviewFile(path));
           }
           return Promise.all(promises);

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0fb71acb_d7c93ac4",
+        "filename": "java/com/google/gerrit/sshd/SshCreateCommandInterceptor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-02-28T11:51:39Z",
+      "side": 1,
+      "message": "This needs to be moved to the correct path.",
+      "revId": "e5e1b861af6545a33411dc7e8ce1cbe775b766cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

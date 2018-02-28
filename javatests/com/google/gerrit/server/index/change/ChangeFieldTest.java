@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.ReviewerSet;
@@ -30,6 +31,7 @@ import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.TestTimeUtil;
 import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.junit.After;
@@ -80,11 +82,32 @@ public class ChangeFieldTest extends GerritBaseTests {
   @Test
   public void storedSubmitRecords() {
     assertStoredRecordRoundTrip(record(SubmitRecord.Status.CLOSED));
-    assertStoredRecordRoundTrip(
+
+    SubmitRecord r =
         record(
             SubmitRecord.Status.OK,
             label(SubmitRecord.Label.Status.MAY, "Label-1", null),
-            label(SubmitRecord.Label.Status.OK, "Label-2", 1)));
+            label(SubmitRecord.Label.Status.OK, "Label-2", 1));
+
+    assertStoredRecordRoundTrip(r);
+  }
+
+  @Test
+  public void storedSubmitRecordsWithRequirements() {
+    SubmitRecord r =
+        record(
+            SubmitRecord.Status.OK,
+            label(SubmitRecord.Label.Status.MAY, "Label-1", null),
+            label(SubmitRecord.Label.Status.OK, "Label-2", 1));
+
+    SubmitRequirement sr =
+        new SubmitRequirement(
+            "short reason",
+            "Full reason can be a long string with special symbols like < > \\ / ; :",
+            null);
+    r.requirements = Collections.singletonList(sr);
+
+    assertStoredRecordRoundTrip(r);
   }
 
   private static SubmitRecord record(SubmitRecord.Status status, SubmitRecord.Label... labels) {

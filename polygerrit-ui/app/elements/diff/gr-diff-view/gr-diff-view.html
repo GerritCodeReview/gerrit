@@ -26,6 +26,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-count-string-formatter/gr-count-string-formatter.html">
 <link rel="import" href="../../shared/gr-dropdown-list/gr-dropdown-list.html">
 <link rel="import" href="../../shared/gr-fixed-panel/gr-fixed-panel.html">
+<link rel="import" href="../../shared/gr-icons/gr-icons.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../../shared/revision-info/revision-info.html">
@@ -271,6 +272,13 @@ limitations under the License.
           </span>
         </div>
         <div class="rightControls">
+          <span class$="blameLoader [[_computeBlameLoaderClass(_isImageDiff, _isBlameSupported)]]">
+            <gr-button
+                link
+                disabled="[[_isBlameLoading]]"
+                on-tap="_toggleBlame">[[_computeBlameToggleLabel(_isBlameLoaded, _isBlameLoading)]]</gr-button>
+            <span class="separator"></span>
+          </span>
           <div class$="diffModeSelector [[_computeModeSelectHideClass(_isImageDiff)]]">
             <span>Diff view:</span>
             <gr-diff-mode-selector
@@ -281,10 +289,12 @@ limitations under the License.
           <span id="diffPrefsContainer"
               hidden$="[[_computePrefsButtonHidden(_prefs, _loggedIn)]]" hidden>
             <span class="preferences desktop">
-              <span class$="separator [[_computeModeSelectHideClass(_isImageDiff)]]"></span>
-              <gr-button link
+              <gr-button
+                  link
                   class="prefsButton"
-                  on-tap="_handlePrefsTap">Preferences</gr-button>
+                  has-tooltip
+                  title="Diff preferences"
+                  on-tap="_handlePrefsTap"><iron-icon icon="gr-icons:settings"></iron-icon></gr-button>
             </span>
           </span>
           <gr-endpoint-decorator name="annotation-toggler">
@@ -293,13 +303,6 @@ limitations under the License.
               <input is="iron-input" type="checkbox" id="annotation-checkbox" disabled>
             </span>
           </gr-endpoint-decorator>
-          <span class$="blameLoader [[_computeBlameLoaderClass(_isImageDiff, _isBlameSupported)]]">
-            <span class="separator"></span>
-            <gr-button
-                link
-                disabled="[[_isBlameLoading]]"
-                on-tap="_toggleBlame">[[_computeBlameToggleLabel(_isBlameLoaded, _isBlameLoading)]]</gr-button>
-          </span>
         </div>
       </div>
       <div class="fileNav mobile">

@@ -15,18 +15,27 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.Account;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
-/** Describes the state required to submit a change. */
+/** Describes the state and edits required to submit a change. */
 public class SubmitRecord {
-  public static Optional<SubmitRecord> findOkRecord(Collection<SubmitRecord> in) {
-    if (in == null) {
-      return Optional.empty();
+  public static boolean canBeSubmitted(List<SubmitRecord> in) {
+    if (in == null || in.isEmpty()) {
+      // If the list is null or empty, it means that this Gerrit installation does not
+      // have any form of validation rules.
+      // Hence, the permission system should be used to determine if the change can be merged
+      // or not.
+      return true;
     }
-    return in.stream().filter(r -> r.status == Status.OK).findFirst();
+
+    if (in.stream().noneMatch(r -> r.status == Status.OK)) {
+      // One (or more) plugins are enabled, but none said the change can be merged.
+      return false;
+    }
+
+    // We can submit, unless at least one plugin prevents it.
+    return in.stream().noneMatch(r -> r.status == Status.NOT_READY);
   }
 
   public enum Status {

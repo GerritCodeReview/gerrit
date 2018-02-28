@@ -78,6 +78,10 @@ breaking changes to gr-reply-dialog won’t be noticed.
         sandbox.stub(element, 'send');
         changeReply.send(false);
         assert.isTrue(element.send.calledWithExactly(false));
+
+        sandbox.stub(element, 'setPluginMessage');
+        changeReply.showMessage('foobar');
+        assert.isTrue(element.setPluginMessage.calledWithExactly('foobar'));
       });
     });
 
@@ -105,6 +109,10 @@ breaking changes to gr-reply-dialog won’t be noticed.
         sandbox.stub(element, 'send');
         changeReply.send(false);
         assert.isTrue(element.send.calledWithExactly(false));
+
+        sandbox.stub(element, 'setPluginMessage');
+        changeReply.showMessage('foobar');
+        assert.isTrue(element.setPluginMessage.calledWithExactly('foobar'));
       });
     });
   });

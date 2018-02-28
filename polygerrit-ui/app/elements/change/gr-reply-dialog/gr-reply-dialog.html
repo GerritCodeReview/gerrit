@@ -113,6 +113,9 @@ limitations under the License.
         display: flex;
         width: 100%;
       }
+      gr-endpoint-decorator[name="reply-label-scores"] {
+        display: block;
+      }
       .previewContainer gr-formatted-text {
         background: #f6f6f6;
         padding: 1em;
@@ -137,6 +140,14 @@ limitations under the License.
       }
       #savingLabel.saving {
         display: inline;
+      }
+      #pluginMessage {
+        color: #444;
+        margin-left: 1em;
+        margin-bottom: .5em;
+      }
+      #pluginMessage:empty {
+        display: none;
       }
     </style>
     <div class="container" tabindex="-1">
@@ -219,12 +230,15 @@ limitations under the License.
             config="[[projectConfig.commentlinks]]"></gr-formatted-text>
       </section>
       <section class="labelsContainer">
-        <gr-label-scores
-            id="labelScores"
-            account="[[_account]]"
-            change="[[change]]"
-            on-labels-changed="_handleLabelsChanged"
-            permitted-labels=[[permittedLabels]]></gr-label-scores>
+        <gr-endpoint-decorator name="reply-label-scores">
+          <gr-label-scores
+              id="labelScores"
+              account="[[_account]]"
+              change="[[change]]"
+              on-labels-changed="_handleLabelsChanged"
+              permitted-labels=[[permittedLabels]]></gr-label-scores>
+        </gr-endpoint-decorator>
+        <div id="pluginMessage">[[_pluginMessage]]</div>
       </section>
       <section class="draftsContainer" hidden$="[[_computeHideDraftList(diffDrafts)]]">
         <div class="includeComments">

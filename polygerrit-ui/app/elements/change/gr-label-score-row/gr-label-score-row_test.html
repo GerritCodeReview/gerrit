@@ -114,7 +114,9 @@ limitations under the License.
           .textContent.trim(), '-1');
       assert.strictEqual(
           element.$.selectedValueLabel.textContent.trim(), 'bad');
-      assert.isTrue(labelsChangedHandler.called);
+      const detail = labelsChangedHandler.args[0][0].detail;
+      assert.equal(detail.name, 'Verified');
+      assert.equal(detail.value, '-1');
     });
 
     test('_computeButtonClass', () => {

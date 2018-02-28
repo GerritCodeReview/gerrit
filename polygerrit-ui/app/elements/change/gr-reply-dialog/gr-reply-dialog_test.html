@@ -1098,5 +1098,10 @@ limitations under the License.
       // Mock labels changed.
       assert.isFalse(fn('Send', {}, '', false, true, false));
     });
+
+    test('setPluginMessage', () => {
+      element.setPluginMessage('foo');
+      assert.equal(element.$.pluginMessage.textContent, 'foo');
+    });
   });
 </script>

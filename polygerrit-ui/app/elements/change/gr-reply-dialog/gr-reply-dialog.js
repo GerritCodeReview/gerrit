@@ -199,6 +199,10 @@
         value: ButtonTooltips.SAVE,
         readOnly: true,
       },
+      _pluginMessage: {
+        type: String,
+        value: '',
+      },
     },
 
     FocusTarget,
@@ -844,6 +848,10 @@
         str += ' Voting on a non-latest patch will have no effect.';
       }
       return str;
+    },
+
+    setPluginMessage(message) {
+      this._pluginMessage = message;
     },
   });
 })();

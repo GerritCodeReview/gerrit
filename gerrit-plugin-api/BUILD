@@ -16,8 +16,6 @@ EXPORTS = [
     "//gerrit-server:metrics",
     "//gerrit-reviewdb:server",
     "//gerrit-server:prolog-common",
-    "//lib:caffeine",
-    "//lib:caffeine_guava",
     "//lib/commons:dbcp",
     "//lib/commons:lang",
     "//lib/commons:lang3",

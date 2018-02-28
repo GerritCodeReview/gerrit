@@ -83,20 +83,6 @@ java_library(
 )
 
 java_library(
-    name = "caffeine",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@caffeine//jar"],
-)
-
-java_library(
-    name = "caffeine_guava",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@caffeine_guava//jar"],
-)
-
-java_library(
     name = "velocity",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],

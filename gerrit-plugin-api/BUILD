@@ -20,8 +20,6 @@ EXPORTS = [
     "//gerrit-gwtexpui:server",
     "//gerrit-reviewdb:server",
     "//gerrit-server/src/main/prolog:common",
-    "//lib:caffeine",
-    "//lib:caffeine_guava",
     "//lib/commons:dbcp",
     "//lib/commons:lang",
     "//lib/commons:lang3",

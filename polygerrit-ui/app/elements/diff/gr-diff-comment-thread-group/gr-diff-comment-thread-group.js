@@ -19,7 +19,6 @@
 
     properties: {
       changeNum: String,
-      commentSide: String,
       comments: {
         type: Array,
         value() { return []; },
@@ -51,9 +50,10 @@
      *
      * @param {!Object} opt_range
      */
-    addNewThread(opt_range) {
+    addNewThread(commentSide, opt_range) {
       this.push('_threads', {
         comments: [],
+        commentSide,
         patchNum: this.patchForNewThreads,
         range: opt_range,
       });

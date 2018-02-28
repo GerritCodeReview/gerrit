@@ -22,6 +22,30 @@
       "revId": "c6facdb695cd03b79f8ba721d26c7bd4541143db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0089e39f_85d205ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-28T01:50:34Z",
+      "side": 1,
+      "message": "Removing this circular dependency is not easy. When we are loading a patchset, to exclude the files that changed because of rebase, we need to retrieve other patchset from the cache.\n\nI see no simple way to remove that circular dependency. I hate to say that but maybe Caffeine is not such a good idea after all...\n\nShould I do the revert on stable-2.14 instead. The last thing I want is to introduce a regression trying to fix a bug it seems I am the only to face.",
+      "parentUuid": "25ae4c1a_8220b5dd",
+      "range": {
+        "startLine": 12,
+        "startChar": 35,
+        "endLine": 12,
+        "endChar": 75
+      },
+      "revId": "c6facdb695cd03b79f8ba721d26c7bd4541143db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

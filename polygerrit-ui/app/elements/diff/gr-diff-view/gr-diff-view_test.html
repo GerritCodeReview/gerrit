@@ -994,6 +994,36 @@ limitations under the License.
           [{value: '/foo'}, {value: '/bar'}]), '');
     });
 
+    suite('_handleEditTap', () => {
+      setup(() => {
+        sandbox.stub(element.$.rangeSelect, '_computeBaseDropdownContent');
+        sandbox.stub(element.$.rangeSelect, '_computePatchDropdownContent');
+        sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
+        element._change = {revisions: {rev1: {_number: 1}}};
+        element._patchRange = {patchNum: 1};
+      });
+
+      test('edit exists in revisions', done => {
+        sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff', (...args) => {
+          assert.equal(args[2], element.EDIT_NAME); // patchNum
+          done();
+        });
+
+        element.set('_change.revisions.rev2', {_number: element.EDIT_NAME});
+        flushAsynchronousOperations();
+        MockInteractions.tap(element.$.editBtn);
+      });
+
+      test('no edit exists in revisions', done => {
+        sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff', (...args) => {
+          assert.equal(args[2], 1); // patchNum
+          done();
+        });
+        flushAsynchronousOperations();
+        MockInteractions.tap(element.$.editBtn);
+      });
+    });
+
     suite('editMode behavior', () => {
       setup(() => {
         element._loggedIn = true;

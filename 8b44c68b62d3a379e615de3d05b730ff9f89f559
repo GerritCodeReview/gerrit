@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85148e3d_3bc0b9a1",
+        "filename": "java/com/google/gerrit/common/data/SubmitRequirement.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-02-28T14:00:51Z",
+      "side": 1,
+      "message": "nit: PresubmitRequirement? The other classes are called \"SubmitXXX\", but this is a \"pre submit requirement\" (or a requirement to submit)\nany ideas or opinions on this?",
+      "revId": "8b44c68b62d3a379e615de3d05b730ff9f89f559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

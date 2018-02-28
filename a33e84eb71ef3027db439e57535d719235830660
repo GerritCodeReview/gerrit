@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ff3dc81_111f3854",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2556,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-02-28T13:08:22Z",
+      "side": 1,
+      "message": "Shall we use the imperative form?\n\"Provide an\" ...",
+      "range": {
+        "startLine": 2556,
+        "startChar": 0,
+        "endLine": 2556,
+        "endChar": 19
+      },
+      "revId": "a33e84eb71ef3027db439e57535d719235830660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97d64e1a_37b674fe",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2556,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-02-28T13:08:22Z",
+      "side": 1,
+      "message": "\u0027plugins\u0027 Repeated already below. Just say \"allows to intercept\" ...\nAdditionally, it could be used as well but others, not just by plugins.",
+      "range": {
+        "startLine": 2556,
+        "startChar": 47,
+        "endLine": 2556,
+        "endChar": 54
+      },
+      "revId": "a33e84eb71ef3027db439e57535d719235830660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

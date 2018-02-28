@@ -58,6 +58,16 @@
         value: null,
       },
       rootId: String,
+      /**
+       * If this is true, the comment thread also needs to have the change and
+       * line properties property set
+       */
+      showFilePath: {
+        type: Boolean,
+        value: false,
+      },
+      /** Necessary only if showFilePath is true */
+      lineNum: Number,
       unresolved: {
         type: Boolean,
         notify: true,
@@ -71,6 +81,7 @@
 
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
+      Gerrit.PathListBehavior,
     ],
 
     listeners: {
@@ -115,6 +126,17 @@
       draft.__editing = true;
       draft.unresolved = opt_unresolved === false ? opt_unresolved : true;
       this.push('comments', draft);
+    },
+
+    _getDiffUrlForComment(projectName, changeNum, path, patchNum) {
+      return Gerrit.Nav.getUrlForDiffById(changeNum,
+          projectName, path, patchNum,
+          null, this.lineNum);
+    },
+
+    _computeDisplayPath(path) {
+      const lineString = this.lineNum ? `#${this.lineNum}` : '';
+      return this.computeDisplayPath(path) + lineString;
     },
 
     _getLoggedIn() {

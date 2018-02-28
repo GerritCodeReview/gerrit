@@ -15,20 +15,16 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-storage/gr-storage.html">
 <link rel="import" href="../gr-diff-comment/gr-diff-comment.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-diff-comment-thread">
   <template>
     <style include="shared-styles">
-      :host {
-        border: 1px solid #bbb;
-        display: block;
-        margin-bottom: 1px;
-        white-space: normal;
-      }
       gr-button {
         margin-left: .5em;
         --gr-button-color: #212121;
@@ -39,6 +35,10 @@ limitations under the License.
       }
       #container {
         background-color: #fcfad6;
+        border: 1px solid #bbb;
+        display: block;
+        margin-bottom: 1px;
+        white-space: normal;
       }
       #container.unresolved {
         background-color: #fcfaa6;
@@ -52,7 +52,22 @@ limitations under the License.
         margin: auto 0;
         padding: .5em .7em;
       }
+      .pathInfo {
+        display: flex;
+        align-items: baseline;
+      }
+      .descriptionText {
+        margin-left: .5rem;
+        font-size: var(--font-size-small);
+        font-style: italic;
+      }
     </style>
+    <template is="dom-if" if="[[showFilePath]]">
+      <div class="pathInfo">
+        <a href$="[[_getDiffUrlForComment(projectName, changeNum, path, patchNum)]]">[[_computeDisplayPath(path)]]</a>
+        <span class="descriptionText">Patchset [[patchNum]]</span>
+      </div>
+    </template>
     <div id="container" class$="[[_computeHostClass(unresolved)]]">
       <template id="commentList" is="dom-repeat" items="[[_orderedComments]]"
           as="comment">

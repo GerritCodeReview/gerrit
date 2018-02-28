@@ -94,6 +94,30 @@
       "revId": "c6facdb695cd03b79f8ba721d26c7bd4541143db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10498ccf_ebae02fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-28T15:13:52Z",
+      "side": 1,
+      "message": "Thanks for letting us know about you plans. I will let you rearrange the caches and focus on finding the root cause of the lock, most likely a OS/kernel issue.",
+      "parentUuid": "fec542d4_fe6d9230",
+      "range": {
+        "startLine": 12,
+        "startChar": 35,
+        "endLine": 12,
+        "endChar": 75
+      },
+      "revId": "c6facdb695cd03b79f8ba721d26c7bd4541143db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

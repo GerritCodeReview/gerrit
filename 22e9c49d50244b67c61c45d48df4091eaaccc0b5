@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84ba4714_349d61c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-28T14:03:47Z",
+      "side": 1,
+      "message": "Please mention that you will start calling plugins in a follow-up commit",
+      "revId": "22e9c49d50244b67c61c45d48df4091eaaccc0b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca1e6c79_2a4e143a",
+        "filename": "java/com/google/gerrit/server/rules/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-28T14:03:47Z",
+      "side": 1,
+      "message": "nit: @return",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 13
+      },
+      "revId": "22e9c49d50244b67c61c45d48df4091eaaccc0b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff88a7ab_5f827061",
+        "filename": "java/com/google/gerrit/server/rules/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-28T14:03:47Z",
+      "side": 1,
+      "message": "Do you think we should include any more options in the interface? Do you see options that could be interesting and are generic enough so that they are applicable to most/all plugins?",
+      "revId": "22e9c49d50244b67c61c45d48df4091eaaccc0b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

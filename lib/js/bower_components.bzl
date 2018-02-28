@@ -335,6 +335,11 @@ def define_bower_components():
     seed = True,
   )
   bower_component(
+    name = "prism",
+    license = "//lib:LICENSE-prism",
+    seed = True,
+  )
+  bower_component(
     name = "promise-polyfill",
     license = "//lib:LICENSE-promise-polyfill",
     deps = [ ":polymer" ],

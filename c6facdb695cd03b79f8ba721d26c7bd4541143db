@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25ae4c1a_8220b5dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-02-28T01:34:37Z",
+      "side": 1,
+      "message": "This is not true, PatchListLoader also call patchListCache on stable-2.14.\n\nI am starting to wonder if the same issue could happen on stable-2.14 and I was just lucky so far. We definitely do not have a test going into an infinite loop on stable-2.14 but that does not mean the problem could not happen.\n\nAccording to Caffeine documentation, the loader must NOT attempt to update any mappings of its cache directly. In PatchListLoader, we call patchListCache.get which will cause an update to the cache if value is not present in the cache.",
+      "range": {
+        "startLine": 12,
+        "startChar": 35,
+        "endLine": 12,
+        "endChar": 75
+      },
+      "revId": "c6facdb695cd03b79f8ba721d26c7bd4541143db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

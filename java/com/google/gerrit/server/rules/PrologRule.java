@@ -24,7 +24,7 @@ import com.google.inject.Singleton;
 import java.util.Collection;
 
 @Singleton
-public class PrologRule {
+public class PrologRule implements SubmitRule {
 
   private final Factory factory;
 
@@ -33,6 +33,7 @@ public class PrologRule {
     this.factory = factory;
   }
 
+  @Override
   public Collection<SubmitRecord> evaluate(ChangeData cd, SubmitRuleOptions opts) {
     return getEvaluator(cd, opts).evaluate();
   }

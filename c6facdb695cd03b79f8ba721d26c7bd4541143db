@@ -118,6 +118,30 @@
       "revId": "c6facdb695cd03b79f8ba721d26c7bd4541143db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c2ae99b_e6809825",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-02-28T20:30:20Z",
+      "side": 1,
+      "message": "Hugo? Have you tried running it under Java9? For what I have read it should be less visible under it...\nhere are some hints on how to run gerrit under Java9 https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7843",
+      "parentUuid": "10498ccf_ebae02fe",
+      "range": {
+        "startLine": 12,
+        "startChar": 35,
+        "endLine": 12,
+        "endChar": 75
+      },
+      "revId": "c6facdb695cd03b79f8ba721d26c7bd4541143db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

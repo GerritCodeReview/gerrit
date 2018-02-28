@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "ee2cd62a_e88f91e0",
+        "filename": "java/com/google/gerrit/server/rules/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-02-28T14:25:16Z",
+      "side": 1,
+      "message": "Actually I just learned that what you have there is preferred.",
+      "parentUuid": "ca1e6c79_2a4e143a",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 13
+      },
+      "revId": "22e9c49d50244b67c61c45d48df4091eaaccc0b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff88a7ab_5f827061",
         "filename": "java/com/google/gerrit/server/rules/SubmitRuleEvaluator.java",
         "patchSetId": 2

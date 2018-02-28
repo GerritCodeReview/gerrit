@@ -165,7 +165,6 @@ limitations under the License.
     test('process while disabled does nothing', done => {
       const processNextSpy = sandbox.spy(element, '_processNextLine');
       element.enabled = false;
-      const loadHLJSSpy = sandbox.spy(element, '_loadHLJS');
 
       const processPromise = element.process();
 
@@ -173,7 +172,6 @@ limitations under the License.
         assert.isFalse(processNextSpy.called);
         assert.equal(element._baseRanges.length, 0);
         assert.equal(element._revisionRanges.length, 0);
-        assert.isFalse(loadHLJSSpy.called);
         done();
       });
     });
@@ -182,10 +180,7 @@ limitations under the License.
       element.diff.meta_a.content_type = 'application/json';
       element.diff.meta_b.content_type = 'application/json';
 
-      const mockHLJS = getMockHLJS();
-      const highlightSpy = sinon.spy(mockHLJS, 'highlight');
-      sandbox.stub(element.$.libLoader, 'get',
-          () => { return Promise.resolve(mockHLJS); });
+      const highlightSpy = sinon.spy(window.Prism, 'highlight');
       const processNextSpy = sandbox.spy(element, '_processNextLine');
       const processPromise = element.process();
 

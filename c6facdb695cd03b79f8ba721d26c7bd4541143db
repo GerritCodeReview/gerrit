@@ -70,6 +70,30 @@
       "revId": "c6facdb695cd03b79f8ba721d26c7bd4541143db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fec542d4_fe6d9230",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-02-28T14:29:29Z",
+      "side": 1,
+      "message": "Sorry, I had momentarily forgotten about this circular dependency. It\u0027s something we need for the \"edits due to rebase\" feature (part of releases \u003e\u003d 2.15). Prior to 2.15, we needed it to filter out modified files of other changes which otherwise showed up after a rebase. I have never been happy with this recursive use of the PatchList cache. For this reason, I envisioned a whole new structure for the diff caches which doesn\u0027t contain any circular dependencies and has other advantages. It\u0027s implementation is something which is on my personal backlog and which I unfortunately needed to push back due to other more important matters like the migration of groups to NoteDb.\n\nPlease don\u0027t start to rearrange the diff caches. I\u0027ll try to find some time for it in the future but I can\u0027t make any promises regarding the \u0027when\u0027.",
+      "parentUuid": "ffbc319e_9f232a87",
+      "range": {
+        "startLine": 12,
+        "startChar": 35,
+        "endLine": 12,
+        "endChar": 75
+      },
+      "revId": "c6facdb695cd03b79f8ba721d26c7bd4541143db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -11,7 +11,6 @@ bower_component_bundle(
         "//lib/js:es6-promise",
         "//lib/js:fetch",
         # TODO(hanwen): this is inserted separately in the UI zip. Do we need this here?
-        "//lib/js:highlightjs",
         "//lib/js:iron-a11y-keys-behavior",
         "//lib/js:iron-autogrow-textarea",
         "//lib/js:iron-dropdown",
@@ -30,6 +29,7 @@ bower_component_bundle(
         "//lib/js:paper-toggle-button",
         "//lib/js:polymer",
         "//lib/js:polymer-resin",
+        "//lib/js:prism",
         "//lib/js:promise-polyfill",
     ],
 )

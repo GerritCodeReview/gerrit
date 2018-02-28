@@ -17,69 +17,69 @@ limitations under the License.
   <template>
     <style>
       /**
-       * @overview Highlight.js emits the following classes that do not have
+       * @overview Prism.js emits the following classes that do not have
        * styles here:
        *    subst, symbol, class, function, doctag, meta-string, section, name,
        *    builtin-name, bulletm, code, formula, quote, addition, deletion,
        *    attribute
-       * @see {@link http://highlightjs.readthedocs.io/en/latest/css-classes-reference.html}
+       * @see {@link https://github.com/PrismJS/prism/blob/gh-pages/themes/prism.css#L68}
        */
-
-      .gr-syntax-meta {
-         color: #FF1717;
+      .gr-syntax-comment,
+      .gr-syntax-prolog,
+      .gr-syntax-doctype,
+      .gr-syntax-cdata {
+        color: slategray;
       }
-      .gr-syntax-keyword {
-        color: #9E0069;
-        line-height: 1;
+      .gr-syntax-punctuation {
+        color: #999;
       }
+      .gr-syntax-property,
+      .gr-syntax-tag,
+      .gr-syntax-boolean,
       .gr-syntax-number,
-      .gr-syntax-selector-class {
-        color: #164;
+      .gr-syntax-constant,
+      .gr-syntax-symbol,
+      .gr-syntax-deleted {
+        color: #905;
       }
-      .gr-syntax-variable {
-        color: black;
-      }
-      .gr-syntax-template-variable {
-        color: #0000C0;
-      }
-      .gr-syntax-comment {
-        color: #3F7F5F;
-      }
+      .gr-syntax-selector,
+      .gr-syntax-attr-name,
       .gr-syntax-string,
-      .gr-syntax-selector-id {
-        color: #2A00FF;
+      .gr-syntax-char,
+      .gr-syntax-builtin,
+      .gr-syntax-inserted {
+        color: #690;
       }
-      .gr-syntax-built_in {
-        color: #30a;
+      .gr-syntax-operator,
+      .gr-syntax-entity,
+      .gr-syntax-url,
+      .language-css .gr-syntax-string,
+      .style .gr-syntax-string {
+        color: #a67f59;
       }
-      .gr-syntax-tag {
-        color: #170;
+      .gr-syntax-atrule,
+      .gr-syntax-attr-value,
+      .gr-syntax-keyword {
+        color: #07a;
       }
-      .gr-syntax-link,
-      .gr-syntax-meta-keyword {
-        color: #219;
+      .gr-syntax-function,
+      .gr-syntax-class-name {
+        color: #DD4A68;
       }
-      .gr-syntax-type {
-        color: var(--color-link);
+      .gr-syntax-regex,
+      .gr-syntax-important,
+      .gr-syntax-variable {
+        color: #e90;
       }
-      .gr-syntax-title {
-        color: #0000C0;
+      .gr-syntax-important,
+      .gr-syntax-bold {
+        font-weight: bold;
       }
-      .gr-syntax-attr,
-      .gr-syntax-literal { /* XML/HTML Attribute */
-        color: #219;
-      }
-      .gr-syntax-selector-pseudo,
-      .gr-syntax-regexp,
-      .gr-syntax-selector-attr,
-      .gr-syntax-template-tag {
-        color: #FA8602;
-      }
-      .gr-syntax-emphasis {
+      .gr-syntax-italic {
         font-style: italic;
       }
-      .gr-syntax-strong {
-        font-weight: 700;
+      .gr-syntax-entity {
+        cursor: help;
       }
     </style>
   </template>

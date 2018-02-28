@@ -38,20 +38,6 @@ limitations under the License.
     let diff;
     let element;
 
-    function getMockHLJS() {
-      const html = '<span class="gr-diff gr-syntax gr-syntax-string">' +
-          'ipsum</span>';
-      return {
-        configure() {},
-        highlight(lang, line, ignore, state) {
-          return {
-            value: line.replace(/ipsum/, html),
-            top: state === undefined ? 1 : state + 1,
-          };
-        },
-      };
-    }
-
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
@@ -165,7 +151,6 @@ limitations under the License.
     test('process while disabled does nothing', done => {
       const processNextSpy = sandbox.spy(element, '_processNextLine');
       element.enabled = false;
-      const loadHLJSSpy = sandbox.spy(element, '_loadHLJS');
 
       const processPromise = element.process();
 
@@ -173,7 +158,6 @@ limitations under the License.
         assert.isFalse(processNextSpy.called);
         assert.equal(element._baseRanges.length, 0);
         assert.equal(element._revisionRanges.length, 0);
-        assert.isFalse(loadHLJSSpy.called);
         done();
       });
     });
@@ -182,10 +166,7 @@ limitations under the License.
       element.diff.meta_a.content_type = 'application/json';
       element.diff.meta_b.content_type = 'application/json';
 
-      const mockHLJS = getMockHLJS();
-      const highlightSpy = sinon.spy(mockHLJS, 'highlight');
-      sandbox.stub(element.$.libLoader, 'get',
-          () => { return Promise.resolve(mockHLJS); });
+      const highlightSpy = sinon.spy(window.Prism, 'highlight');
       const processNextSpy = sandbox.spy(element, '_processNextLine');
       const processPromise = element.process();
 
@@ -285,26 +266,6 @@ limitations under the License.
       assert.equal(result[0].start, str0.length + offset);
       assert.equal(result[0].length, str1.length);
       assert.equal(result[0].className, className);
-    });
-
-    test('_rangesFromElement non-whitelist', () => {
-      const str0 = 'Etiam ';
-      const str1 = 'dui, blandit';
-      const str2 = ' wisi.';
-      const className = 'not-in-the-whitelist';
-      const offset = 100;
-
-      const elem = document.createElement('span');
-      elem.appendChild(document.createTextNode(str0));
-      const span = document.createElement('span');
-      span.textContent = str1;
-      span.className = className;
-      elem.appendChild(span);
-      elem.appendChild(document.createTextNode(str2));
-
-      const result = element._rangesFromElement(elem, offset);
-
-      assert.equal(result.length, 0);
     });
 
     test('_rangesFromElement milti range', () => {

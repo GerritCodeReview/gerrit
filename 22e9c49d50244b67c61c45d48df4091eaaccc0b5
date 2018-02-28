@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e5b1cb35_83952a7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-02-28T15:32:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84ba4714_349d61c8",
+      "revId": "22e9c49d50244b67c61c45d48df4091eaaccc0b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1e6c79_2a4e143a",
         "filename": "java/com/google/gerrit/server/rules/SubmitRuleEvaluator.java",
         "patchSetId": 2
@@ -77,6 +95,24 @@
       "writtenOn": "2018-02-28T14:03:47Z",
       "side": 1,
       "message": "Do you think we should include any more options in the interface? Do you see options that could be interesting and are generic enough so that they are applicable to most/all plugins?",
+      "revId": "22e9c49d50244b67c61c45d48df4091eaaccc0b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7169a7f_e39de98d",
+        "filename": "java/com/google/gerrit/server/rules/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-02-28T15:32:17Z",
+      "side": 1,
+      "message": "I think (you convinced me!) that passing the ChangeData is enough.\nWe have to keep in mind multiple factors: we can\u0027t add or remove parameters without breaking the interface contract, but ChangeData is the perfect object to pass: it knows it\u0027s project, the changes, the notes ...\nIn case we want to add other arguments, we might either use a dummy class (so we can add or remove fields to it).\n\nIn my opinion, if we want to add other arguments, ProjectState might be a good fit. It prevents a \"database\" call and should be used by most implementations.",
+      "parentUuid": "ff88a7ab_5f827061",
       "revId": "22e9c49d50244b67c61c45d48df4091eaaccc0b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

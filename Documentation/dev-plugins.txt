@@ -2716,6 +2716,110 @@ public class MyPlugin implements MailFilter {
 }
 ----
 
+
+
+[[pre-submit-evaluator]]
+== Pre-submit Validation Plugins
+
+Gerrit provides an extension point that enables Plugins to prevent a change
+from being submitted.
+
+This can be used to implement custom rules that Changes have to match to become
+submittable. A more concrete example: the Prolog rules engine can be
+implemented using this.
+
+Gerrit calls the plugins once per change, cache the results. Although it is
+possible to predict when this interface will be triggered, this should not be
+considered as a feature. Plugins should only rely on the internal state of the
+ChangeData, not on external values like date and time, remote content or
+randomness.
+
+Plugins should handle rules inheritance on a best-effort basis.
+No inheritance is sometimes better than badly handled inheritance:
+mis-communication and strange behaviors caused by inheritance may and
+will confuse the users. Each plugins is responsible for handling the
+project hierarchy and taking wise actions. Gerrit does not enforce it.
+
+Once Gerrit has gathered every plugins' SubmitRecords, it stores them.
+
+Plugins accept or reject a given change using `SubmitRecord.Status`.
+If a change is ready to be submitted, `OK`. If it is not ready and requires
+modifications, `NOT_READY`. Other statuses are available for particular cases.
+A change can be submitted if all the plugins accept the change.
+
+Plugins may also decide not to vote on a given change by returning an empty
+Collection (ie: the plugin is not enabled for this repository), or to vote
+several times (ie: one SubmitRecord per project in the hierarchy).
+The results are handled as if multiple plugins voted for the change.
+
+If a plugin decides not to vote, it's name will not be displayed in the UI and
+it will not be recoded in the database.
+
+.Gerrit's Pre-submit handling with three plugins
+[width="50%",cols="^m,^m,^m,^m",frame="topbot",options="header"]
+|=======================================================
+|  Plugin A  |  Plugin B  |  Plugin C  | Final decision
+|     OK     |     OK     |     OK     | OK
+|     OK     |     OK     |     /      | OK
+|     OK     |     OK     | RULE_ERROR | NOT_READY
+|     OK     | NOT_READY  |     OK     | NOT_READY
+|  NOT_READY |     OK     |     OK     | NOT_READY
+|=======================================================
+
+
+This makes composing plugins really easy.
+
+- If a plugin places a veto on a change, it can't be submitted.
+- If a plugin isn't enabled for a project (or isn't needed for this change),
+  it answers `OK`.
+- If all the plugins answer `OK`, the change can be submitted.
+
+It is important to note other states are available for plugins.
+The general rule is: a change can be submitted if all the plugins returned `OK`.
+
+A more rare case, but worth documenting: if no plugins are enabled, and the
+labels required by the project's config are present, then anyone with the
+Submit permission can submit the changes.
+
+Some rules are defined internally to provide a common base ground (and sanity):
+changes that are marked as WIP or abandoned can't be merged.
+
+
+[source, java]
+----
+import java.util.Collection;
+import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.common.data.SubmitRecord.Status;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.rules.SubmitRule;
+
+public class MyPluginRules implements SubmitRule {
+  public Collection<SubmitRecord> evaluate(ChangeData changeData) {
+    // Implement your submitability logic here
+
+    // Assuming we want to prevent this change from being submitted:
+    SubmitRecord record;
+    record.status = Status.NOT_READY;
+    return record;
+  }
+}
+----
+
+Don't forget to register your class!
+
+[source, java]
+----
+import com.google.gerrit.extensions.annotations.Exports;
+import com.google.inject.AbstractModule;
+
+public class MyPluginModule extends AbstractModule {
+  @Override
+  protected void configure() {
+    bind(SubmitRule.class).annotatedWith(Exports.named("myPlugin")).to(MyPluginRules.class);
+  }
+}
+----
+
 == SEE ALSO
 
 * link:js-api.html[JavaScript API]

@@ -177,6 +177,7 @@ import com.google.gerrit.server.restapi.config.ConfigRestModule;
 import com.google.gerrit.server.restapi.group.GroupModule;
 import com.google.gerrit.server.rules.PrologModule;
 import com.google.gerrit.server.rules.RulesCache;
+import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -236,6 +237,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(SubmitStrategy.module());
     install(TagCache.module());
     install(OAuthTokenCache.module());
+    DynamicMap.mapOf(binder(), SubmitRule.class);
 
     install(new AccessControlModule());
     install(new CmdLineParserModule());

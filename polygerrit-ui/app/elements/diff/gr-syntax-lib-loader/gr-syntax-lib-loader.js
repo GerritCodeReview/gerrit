@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
+  const PRISM_PATH = 'bower_components/prism/prism.js';
   const LIB_ROOT_PATTERN = /(.+\/)elements\/gr-app\.html/;
 
   Polymer({
@@ -44,7 +44,7 @@
         // If the library is not currently being loaded, then start loading it.
         if (!this._state.loading) {
           this._state.loading = true;
-          this._loadHLJS().then(this._onLibLoaded.bind(this)).catch(reject);
+          this._loadPrism().then(this._onLibLoaded.bind(this)).catch(reject);
         }
 
         this._state.callbacks.push(resolve);
@@ -61,11 +61,9 @@
     },
 
     _getHighlightLib() {
-      const lib = window.hljs;
+      const lib = window.Prism;
       if (lib && !this._state.configured) {
         this._state.configured = true;
-
-        lib.configure({classPrefix: 'gr-diff gr-syntax gr-syntax-'});
       }
       return lib;
     },
@@ -84,13 +82,13 @@
     },
     _cachedLibRoot: null,
 
-    _loadHLJS() {
+    _loadPrism() {
       return new Promise((resolve, reject) => {
         const script = document.createElement('script');
-        const src = this._getHLJSUrl();
+        const src = this._getPrismUrl();
 
         if (!src) {
-          reject(new Error('Unable to load blank HLJS url.'));
+          reject(new Error('Unable to load blank Prism url.'));
           return;
         }
 
@@ -101,10 +99,10 @@
       });
     },
 
-    _getHLJSUrl() {
+    _getPrismUrl() {
       const root = this._getLibRoot();
       if (!root) { return null; }
-      return root + HLJS_PATH;
+      return root + PRISM_PATH;
     },
   });
 })();

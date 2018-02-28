@@ -291,7 +291,7 @@ public class MergeOp implements AutoCloseable {
       throw new ResourceConflictException("missing current patch set for change " + cd.getId());
     }
     List<SubmitRecord> results = getSubmitRecords(cd, allowClosed);
-    if (SubmitRecord.findOkRecord(results).isPresent()) {
+    if (SubmitRecord.canBeSubmitted(results)) {
       // Rules supplied a valid solution.
       return;
     } else if (results.isEmpty()) {
@@ -303,6 +303,9 @@ public class MergeOp implements AutoCloseable {
 
     for (SubmitRecord record : results) {
       switch (record.status) {
+        case OK:
+          break;
+
         case CLOSED:
           throw new ResourceConflictException("change is closed");
 
@@ -313,7 +316,6 @@ public class MergeOp implements AutoCloseable {
           throw new ResourceConflictException(describeLabels(cd, record.labels));
 
         case FORCED:
-        case OK:
         default:
           throw new IllegalStateException(
               String.format(

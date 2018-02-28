@@ -728,6 +728,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
             msg.append('\n');
           }
         }
+        // TODO(maximeg) We might want to list plugins that validated this submission.
       }
     }
 

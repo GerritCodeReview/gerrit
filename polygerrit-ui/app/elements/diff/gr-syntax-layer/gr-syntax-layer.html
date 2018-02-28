@@ -14,12 +14,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../gr-syntax-lib-loader/gr-syntax-lib-loader.html">
+<link rel="stylesheet" href="../../../bower_components/prism/themes/prism.css">
+
+<script src="../../../bower_components/prism/prism.js"></script>
+<script src="../../../bower_components/prism/components/prism-clike.js"></script>
+<script src="../../../bower_components/prism/components/prism-javascript.js"></script>
+<script src="../../../bower_components/prism/components/prism-markup.js"></script>
+<script src="../../../bower_components/prism/components/prism-php.js"></script>
 
 <dom-module id="gr-syntax-layer">
-  <template>
-    <gr-syntax-lib-loader id="libLoader"></gr-syntax-lib-loader>
-  </template>
   <script src="../gr-diff/gr-diff-line.js"></script>
   <script src="../gr-diff-highlight/gr-annotation.js"></script>
   <script src="gr-syntax-layer.js"></script>

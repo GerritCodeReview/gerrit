@@ -360,7 +360,6 @@
       let node = startNode;
       while (node) {
         if (node instanceof Element &&
-            node.tagName !== 'HL' &&
             node.tagName !== 'SPAN') {
           break;
         }

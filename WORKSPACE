@@ -213,18 +213,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "caffeine",
-    artifact = "com.github.ben-manes.caffeine:caffeine:2.6.1",
-    sha1 = "fc7a29feda0a3c5aaf1ff55e0df5417025e6d5f4",
-)
-
-maven_jar(
-    name = "caffeine_guava",
-    artifact = "com.github.ben-manes.caffeine:guava:2.6.1",
-    sha1 = "e1fbe0d8c06639d6fee74404f687f00da25671eb",
-)
-
-maven_jar(
     name = "velocity",
     artifact = "org.apache.velocity:velocity:1.7",
     sha1 = "2ceb567b8f3f21118ecdec129fe1271dbc09aa7a",

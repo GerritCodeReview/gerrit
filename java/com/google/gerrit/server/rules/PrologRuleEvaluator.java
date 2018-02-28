@@ -261,6 +261,10 @@ public class PrologRuleEvaluator {
     }
     Collections.reverse(out);
 
+    // This transformation is required to adapt Prolog's behavior to the way Gerrit handles
+    // SubmitRecords, as defined in the SubmitRecord#allRecordsOK method.
+    // When several rules are defined in Prolog, they are all matched to a SubmitRecord. We want
+    // the change to be submittable when at least one result is OK.
     if (foundOk) {
       for (SubmitRecord record : out) {
         record.status = SubmitRecord.Status.OK;

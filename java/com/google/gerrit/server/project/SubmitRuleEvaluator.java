@@ -324,7 +324,7 @@ public class SubmitRuleEvaluator {
       }
 
       if (rec.status == SubmitRecord.Status.OK) {
-        break;
+        return Collections.singletonList(rec);
       }
     }
     Collections.reverse(out);

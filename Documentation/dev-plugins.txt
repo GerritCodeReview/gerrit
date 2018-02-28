@@ -2716,6 +2716,75 @@ public class MyPlugin implements MailFilter {
 }
 ----
 
+
+[[pre-submit-evaluator]]
+== Pre-submit Validation Plugins [WIP]
+
+Gerrit provides an extension point that enables Plugins to prevent a change from
+being submitted.
+
+This can be used to implement custom rules that Changes have to match to become
+submittable. A more concrete example: the Prolog rules engine can be implemented using this.
+
+Gerrit calls the plugins once per change, cache the results. Although it is possible to predict
+when this interface will be triggered, this should not be considered as a feature.
+Plugins should only rely on the internal state of the ChangeData, not on external values
+like date and time, remote content or randomness.
+
+Plugins are responsible for handling the projects hierarchy, if they want to: one plugin may
+support rules inheritance from the parents projects, while an other might totally discard it.
+
+Once Gerrit has gathered every plugins' SubmitRecords, it stores them.
+
+Each plugin votes using the `SubmitRecord.Status` and can either accept (`OK`) the change, or
+prevemt it from being submitted (`NOT_READY`). `NOT_READY` takes precedence.
+
+.Gerrit's Pre-submit handling with two plugins
+[width="50%",cols="^m,^m,^m,^m",frame="topbot",options="header"]
+|==========================
+|  Plugin A  |  Plugin B  |  Plugin C  | Final decision
+|     OK     |     OK     |     OK     | OK
+|     OK     |     OK     | RULE_ERROR | OK
+|     OK     | NOT_READY  |     OK     | NOT_READY
+|  NOT_READY |     OK     |     OK     | NOT_READY
+|==========================
+
+
+This makes composing plugins really easy.
+
+- If a plugin places a veto on a change, it can't be submitted.
+- If a plugin isn't enabled for a project (or isn't needed for this change), it answers `OK`.
+- If all the plugins answer `OK`, the change can be submitted.
+
+It is important to note other states are available for plugins. The general rule is: a change can be
+submitted if at least one plugin returned `OK` and none returned `NOT_READY`.
+
+A more rare case, but worth documenting: if no plugins are enabled, the change can be submitted.
+In this specific situation, the Permissions system is used.
+
+Some rules are defined internally to provide a common base ground (and sanity):
+changes that are marked as WIP or abandonned can't be merged.
+
+
+[source, java]
+----
+import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.common.data.SubmitRecord.Status;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.rules.SubmitRule;
+
+public class MyPlugin implements SubmitRule {
+  public SubmitRecord evaluate(ChangeData changeData) {
+    // Implement your submitability logic here
+
+    // Assuming we want to prevent this change from being submitted:
+    SubmitRecord record;
+    record.status = Status.NOT_READY;
+    return record;
+  }
+}
+----
+
 == SEE ALSO
 
 * link:js-api.html[JavaScript API]

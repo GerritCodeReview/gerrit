@@ -37,6 +37,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Table;
 import com.google.common.primitives.Longs;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.SchemaUtil;
 import com.google.gerrit.reviewdb.client.Account;
@@ -657,8 +658,15 @@ public class ChangeField {
       Integer appliedBy;
     }
 
+    static class StoredRequirement {
+      String shortReason;
+      String fullReason;
+      String label;
+    }
+
     SubmitRecord.Status status;
     List<StoredLabel> labels;
+    List<StoredRequirement> requirements;
     String errorMessage;
 
     StoredSubmitRecord(SubmitRecord rec) {
@@ -672,6 +680,16 @@ public class ChangeField {
           sl.status = label.status;
           sl.appliedBy = label.appliedBy != null ? label.appliedBy.get() : null;
           this.labels.add(sl);
+        }
+      }
+      if (rec.requirements != null) {
+        this.requirements = new ArrayList<>(rec.requirements.size());
+        for (SubmitRequirement requirement : rec.requirements) {
+          StoredRequirement sr = new StoredRequirement();
+          sr.shortReason = requirement.shortReason();
+          sr.fullReason = requirement.fullReason();
+          sr.label = requirement.label();
+          this.requirements.add(sr);
         }
       }
     }
@@ -688,6 +706,15 @@ public class ChangeField {
           srl.status = label.status;
           srl.appliedBy = label.appliedBy != null ? new Account.Id(label.appliedBy) : null;
           rec.labels.add(srl);
+        }
+      }
+      if (requirements != null) {
+        rec.requirements = new ArrayList<>(requirements.size());
+        for (StoredRequirement requirement : requirements) {
+          SubmitRequirement sr =
+              SubmitRequirement.create(
+                  requirement.shortReason, requirement.fullReason, requirement.label);
+          rec.requirements.add(sr);
         }
       }
       return rec;

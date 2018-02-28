@@ -657,7 +657,7 @@ public class ChangeJson {
   }
 
   private boolean submittable(ChangeData cd) {
-    return SubmitRecord.findOkRecord(cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)).isPresent();
+    return SubmitRecord.canBeSubmitted(cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT));
   }
 
   private List<SubmitRecord> submitRecords(ChangeData cd) {

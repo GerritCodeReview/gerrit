@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.data;
 
-
 public class SubmitRequirementAttribute {
   public String shortReason;
   public String fullReason;

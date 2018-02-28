@@ -14,12 +14,44 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../gr-syntax-lib-loader/gr-syntax-lib-loader.html">
+<link rel="stylesheet" href="../../../bower_components/prism/themes/prism.css">
+
+<script src="../../../bower_components/prism/prism.js" data-manual="1"></script>
+<script src="../../../bower_components/prism/components/prism-bash.js"></script>
+<script src="../../../bower_components/prism/components/prism-c.js"></script>
+<script src="../../../bower_components/prism/components/prism-clike.js"></script>
+<script src="../../../bower_components/prism/components/prism-cpp.js"></script>
+<script src="../../../bower_components/prism/components/prism-csharp.js"></script>
+<script src="../../../bower_components/prism/components/prism-css.js"></script>
+<script src="../../../bower_components/prism/components/prism-css-extras.js"></script>
+<script src="../../../bower_components/prism/components/prism-d.js"></script>
+<script src="../../../bower_components/prism/components/prism-dart.js"></script>
+<script src="../../../bower_components/prism/components/prism-go.js"></script>
+<script src="../../../bower_components/prism/components/prism-haskell.js"></script>
+<script src="../../../bower_components/prism/components/prism-java.js"></script>
+<script src="../../../bower_components/prism/components/prism-javascript.js"></script>
+<script src="../../../bower_components/prism/components/prism-json.js"></script>
+<script src="../../../bower_components/prism/components/prism-kotlin.js"></script>
+<script src="../../../bower_components/prism/components/prism-lua.js"></script>
+<script src="../../../bower_components/prism/components/prism-markdown.js"></script>
+<script src="../../../bower_components/prism/components/prism-markup.js"></script>
+<script src="../../../bower_components/prism/components/prism-ocaml.js"></script>
+<script src="../../../bower_components/prism/components/prism-objectivec.js"></script>
+<script src="../../../bower_components/prism/components/prism-perl.js"></script>
+<script src="../../../bower_components/prism/components/prism-php.js"></script>
+<script src="../../../bower_components/prism/components/prism-php-extras.js"></script>
+<script src="../../../bower_components/prism/components/prism-protobuf.js"></script>
+<script src="../../../bower_components/prism/components/prism-puppet.js"></script>
+<script src="../../../bower_components/prism/components/prism-python.js"></script>
+<script src="../../../bower_components/prism/components/prism-ruby.js"></script>
+<script src="../../../bower_components/prism/components/prism-rust.js"></script>
+<script src="../../../bower_components/prism/components/prism-scala.js"></script>
+<script src="../../../bower_components/prism/components/prism-sql.js"></script>
+<script src="../../../bower_components/prism/components/prism-swift.js"></script>
+<script src="../../../bower_components/prism/components/prism-typescript.js"></script>
+<script src="../../../bower_components/prism/components/prism-yaml.js"></script>
 
 <dom-module id="gr-syntax-layer">
-  <template>
-    <gr-syntax-lib-loader id="libLoader"></gr-syntax-lib-loader>
-  </template>
   <script src="../gr-diff/gr-diff-line.js"></script>
   <script src="../gr-diff-highlight/gr-annotation.js"></script>
   <script src="gr-syntax-layer.js"></script>

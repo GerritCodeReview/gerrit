@@ -255,6 +255,7 @@
     _rangesFromString(str) {
       const div = document.createElement('div');
       div.innerHTML = str;
+      console.log(this._rangesFromElement(div, 0));
       return this._rangesFromElement(div, 0);
     },
 
@@ -265,13 +266,13 @@
         // Note: HLJS may emit a span with class undefined when it thinks there
         // may be a syntax error.
         if (node.tagName === 'SPAN' && node.className !== 'undefined') {
-          if (CLASS_WHITELIST.hasOwnProperty(node.className)) {
+          //if (CLASS_WHITELIST.hasOwnProperty(node.className)) {
             result.push({
               start: offset,
               length: nodeLength,
               className: node.className,
             });
-          }
+          //}
           if (node.children.length) {
             result = result.concat(this._rangesFromElement(node, offset));
           }
@@ -312,17 +313,20 @@
 
       if (this._baseLanguage && baseLine !== undefined) {
         baseLine = this._workaround(this._baseLanguage, baseLine);
-        result = this._hljs.highlight(this._baseLanguage, baseLine, true,
-            state.baseContext);
-        this.push('_baseRanges', this._rangesFromString(result.value));
+        /*result = this._hljs.highlight(this._baseLanguage, baseLine, true,
+            state.baseContext);*/
+        result = this._hljs.highlight(baseLine, Prism.languages.javascript);
+        console.log(result);
+        this.push('_baseRanges', this._rangesFromString(result));
         state.baseContext = result.top;
       }
 
       if (this._revisionLanguage && revisionLine !== undefined) {
         revisionLine = this._workaround(this._revisionLanguage, revisionLine);
-        result = this._hljs.highlight(this._revisionLanguage, revisionLine,
-            true, state.revisionContext);
-        this.push('_revisionRanges', this._rangesFromString(result.value));
+        /*result = this._hljs.highlight(this._revisionLanguage, revisionLine,
+            true, state.revisionContext);*/
+        result = this._hljs.highlight(revisionLine, Prism.languages.javascript);
+        this.push('_revisionRanges', this._rangesFromString(result));
         state.revisionContext = result.top;
       }
     },

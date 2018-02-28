@@ -118,6 +118,11 @@ def load_bower_archives():
     version = "1.3.1",
     sha1 = "4ee9c692366949a754e0e39f8031aa60ce66f24d")
   bower_archive(
+    name = "prism",
+    package = "PrismJS/prism",
+    version = "1.11.0",
+    sha1 = "54cf13f6fbd8699ab7dd323c5cb3849bd9d69e0c")
+  bower_archive(
     name = "sinon-chai",
     package = "sinon-chai",
     version = "2.14.0",

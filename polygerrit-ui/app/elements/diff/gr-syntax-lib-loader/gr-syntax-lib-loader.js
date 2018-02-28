@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
+  const HLJS_PATH = 'bower_components/prism/prism.js';
   const LIB_ROOT_PATTERN = /(.+\/)elements\/gr-app\.html/;
 
   Polymer({
@@ -61,11 +61,11 @@
     },
 
     _getHighlightLib() {
-      const lib = window.hljs;
+      const lib = window.Prism;
       if (lib && !this._state.configured) {
         this._state.configured = true;
 
-        lib.configure({classPrefix: 'gr-diff gr-syntax gr-syntax-'});
+        //lib.configure({classPrefix: 'gr-diff gr-syntax gr-syntax-'});
       }
       return lib;
     },

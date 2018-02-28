@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-/** Describes the state required to submit a change. */
+/** Describes the state and edits required to submit a change. */
 public class SubmitRecord {
   public static Optional<SubmitRecord> findOkRecord(Collection<SubmitRecord> in) {
     if (in == null) {
@@ -36,7 +36,7 @@ public class SubmitRecord {
     /** The change is ready for submission. */
     OK,
 
-    /** The change is missing a required label. */
+    /** Something is preventing this change from being submitted. */
     NOT_READY,
 
     /** The change has been closed. */
@@ -55,6 +55,7 @@ public class SubmitRecord {
 
   public Status status;
   public List<Label> labels;
+  public List<SubmitRequirement> requirements;
   public String errorMessage;
 
   public static class Label {
@@ -140,6 +141,14 @@ public class SubmitRecord {
         delimiter = ", ";
       }
     }
+    sb.append("],[");
+    if (requirements != null) {
+      String delimiter = "";
+      for (SubmitRequirement requirement : requirements) {
+        sb.append(delimiter).append(requirement);
+        delimiter = ", ";
+      }
+    }
     sb.append(']');
     return sb.toString();
   }
@@ -150,13 +159,14 @@ public class SubmitRecord {
       SubmitRecord r = (SubmitRecord) o;
       return Objects.equals(status, r.status)
           && Objects.equals(labels, r.labels)
-          && Objects.equals(errorMessage, r.errorMessage);
+          && Objects.equals(errorMessage, r.errorMessage)
+          && Objects.equals(requirements, r.requirements);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(status, labels, errorMessage);
+    return Objects.hash(status, labels, errorMessage, requirements);
   }
 }

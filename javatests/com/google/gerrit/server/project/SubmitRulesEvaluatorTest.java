@@ -137,7 +137,7 @@ public class SubmitRulesEvaluatorTest {
     record1Expected.labels.add(submitRecordLabel2);
 
     SubmitRecord record2Expected = new SubmitRecord();
-    record2Expected.status = SubmitRecord.Status.NOT_READY;
+    record2Expected.status = SubmitRecord.Status.OK;
     record2Expected.labels = new ArrayList<>();
     record2Expected.labels.add(submitRecordLabel3);
 

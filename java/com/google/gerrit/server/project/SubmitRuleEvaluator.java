@@ -253,6 +253,7 @@ public class SubmitRuleEvaluator {
    * ordering.
    */
   List<SubmitRecord> resultsToSubmitRecord(Term submitRule, List<Term> results) {
+    boolean foundOk = false;
     List<SubmitRecord> out = new ArrayList<>(results.size());
     for (int resultIdx = results.size() - 1; 0 <= resultIdx; resultIdx--) {
       Term submitRecord = results.get(resultIdx);
@@ -324,10 +325,17 @@ public class SubmitRuleEvaluator {
       }
 
       if (rec.status == SubmitRecord.Status.OK) {
+        foundOk = true;
         break;
       }
     }
     Collections.reverse(out);
+
+    if (foundOk) {
+      for (SubmitRecord record : out) {
+        record.status = SubmitRecord.Status.OK;
+      }
+    }
 
     return out;
   }

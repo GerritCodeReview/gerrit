@@ -16,15 +16,19 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.PrologRule;
+import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +42,7 @@ public class SubmitRuleEvaluator {
   private static final String DEFAULT_MSG = "Error evaluating project rules, check server log";
   private final ProjectCache projectCache;
   private final PrologRule prologRule;
+  private final DynamicSet<SubmitRule> submitRules;
   private final SubmitRuleOptions opts;
 
   public interface Factory {
@@ -47,9 +52,13 @@ public class SubmitRuleEvaluator {
 
   @Inject
   private SubmitRuleEvaluator(
-      ProjectCache projectCache, PrologRule prologRule, @Assisted SubmitRuleOptions options) {
+      ProjectCache projectCache,
+      PrologRule prologRule,
+      DynamicSet<SubmitRule> submitRules,
+      @Assisted SubmitRuleOptions options) {
     this.projectCache = projectCache;
     this.prologRule = prologRule;
+    this.submitRules = submitRules;
 
     this.opts = options;
   }
@@ -99,7 +108,12 @@ public class SubmitRuleEvaluator {
       return Collections.singletonList(rec);
     }
 
-    return new ArrayList<>(prologRule.evaluate(cd, opts));
+    // We evaluate all the plugin-defined evaluators,
+    // and then we collect the results in one list.
+    return StreamSupport.stream(submitRules.spliterator(), false)
+        .map(s -> s.evaluate(cd, opts))
+        .flatMap(Collection::stream)
+        .collect(Collectors.toList());
   }
 
   private List<SubmitRecord> ruleError(String err, Exception e) {

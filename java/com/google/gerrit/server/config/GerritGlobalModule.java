@@ -177,6 +177,7 @@ import com.google.gerrit.server.restapi.config.ConfigRestModule;
 import com.google.gerrit.server.restapi.group.GroupModule;
 import com.google.gerrit.server.rules.PrologModule;
 import com.google.gerrit.server.rules.RulesCache;
+import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -391,6 +392,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), ActionVisitor.class);
     DynamicItem.itemOf(binder(), MergeSuperSetComputation.class);
     DynamicItem.itemOf(binder(), ProjectNameLockManager.class);
+    DynamicSet.setOf(binder(), SubmitRule.class);
 
     DynamicMap.mapOf(binder(), MailFilter.class);
     bind(MailFilter.class).annotatedWith(Exports.named("ListMailFilter")).to(ListMailFilter.class);

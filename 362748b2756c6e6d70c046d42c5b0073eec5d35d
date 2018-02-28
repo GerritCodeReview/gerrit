@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7337c98a_f87c4f67",
+        "filename": "java/com/google/gerrit/common/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-02-28T20:37:14Z",
+      "side": 1,
+      "message": "Is this a first time we are adding auto-value annotation processor dependency to GWT module? I wonder it even works.",
+      "range": {
+        "startLine": 25,
+        "startChar": 8,
+        "endLine": 25,
+        "endChar": 31
+      },
+      "revId": "362748b2756c6e6d70c046d42c5b0073eec5d35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

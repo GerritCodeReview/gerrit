@@ -95,7 +95,7 @@ limitations under the License.
               type="radio"
               on-tap="_handleRebaseOnOther">
           <label id="rebaseOnOtherLabel" for="rebaseOnOtherInput">
-            Rebase on a specific change or ref <span hidden$="[[!hasParent]]">
+            Rebase on a specific change, ref, or commit <span hidden$="[[!hasParent]]">
               (breaks relation chain)
             </span>
           </label>
@@ -107,7 +107,8 @@ limitations under the License.
               text="{{_inputText}}"
               on-tap="_handleEnterChangeNumberTap"
               on-commit="_handleBaseSelected"
-              placeholder="Change number">
+              allow-non-suggested-values
+              placeholder="Change number, ref, or commit hash">
           </gr-autocomplete>
         </div>
       </div>

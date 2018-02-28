@@ -36,7 +36,7 @@ public class SubmitRecord {
     /** The change is ready for submission. */
     OK,
 
-    /** The change is missing a required label. */
+    /** Something is preventing this change from being submitted. */
     NOT_READY,
 
     /** The change has been closed. */
@@ -55,6 +55,7 @@ public class SubmitRecord {
 
   public Status status;
   public List<Label> labels;
+  public List<SubmitRequirement> requirements;
   public String errorMessage;
 
   public static class Label {

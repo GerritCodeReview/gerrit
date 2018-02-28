@@ -154,7 +154,6 @@ public class BatchProgramModule extends FactoryModule {
     install(new ExternalIdModule());
     install(new GroupModule());
     install(new NoteDbModule(cfg));
-    install(new PrologModule());
     install(AccountCacheImpl.module());
     install(GroupCacheImpl.module());
     install(GroupIncludeCacheImpl.module());
@@ -166,7 +165,10 @@ public class BatchProgramModule extends FactoryModule {
     factory(CapabilityCollection.Factory.class);
     factory(ChangeData.AssistedFactory.class);
     factory(ProjectState.Factory.class);
+
+    // Submit rule evaluator
     factory(SubmitRuleEvaluator.Factory.class);
+    install(new PrologModule());
 
     bind(ChangeJson.Factory.class).toProvider(Providers.<ChangeJson.Factory>of(null));
     bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);

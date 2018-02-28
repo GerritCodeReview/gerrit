@@ -23,6 +23,7 @@ limitations under the License.
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
 <link rel="import" href="../../shared/gr-change-star/gr-change-star.html">
+<link rel="import" href="../../shared/gr-change-status/gr-change-status.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-limited-text/gr-limited-text.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -69,6 +70,17 @@ limitations under the License.
         height: 0;
         overflow: hidden;
       }
+      .status {
+        align-items: center;
+        display: inline-flex;
+      }
+      .status .comma {
+        padding-right: .2rem;
+      }
+      /* Used to hide the leading separator comma for statuses. */
+      .status .comma:first-of-type {
+        display: none;
+      }
       a {
         color: var(--default-text-color);
         cursor: pointer;
@@ -103,6 +115,7 @@ limitations under the License.
       .u-gray-background {
         background-color: #F5F5F5;
       }
+      .comma,
       .placeholder {
         color: rgba(0, 0, 0, .87);
       }
@@ -139,10 +152,11 @@ limitations under the License.
     </td>
     <td class="cell status"
         hidden$="[[isColumnHidden('Status', visibleChangeTableColumns)]]">
-      <template is="dom-if" if="[[status]]">
-        [[status]]
+      <template is="dom-repeat" items="[[statuses]]" as="status">
+        <div class="comma">,</div>
+        <gr-change-status flat status="[[status]]"></gr-change-status>
       </template>
-      <template is="dom-if" if="[[!status]]">
+      <template is="dom-if" if="[[!statuses.length]]">
         <span class="placeholder">--</span>
       </template>
     </td>

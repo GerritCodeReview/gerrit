@@ -36,9 +36,9 @@
         type: String,
         computed: '_computeChangeURL(change)',
       },
-      status: {
-        type: String,
-        computed: 'changeStatusString(change)',
+      statuses: {
+        type: Array,
+        computed: 'changeStatuses(change)',
       },
       showStar: {
         type: Boolean,

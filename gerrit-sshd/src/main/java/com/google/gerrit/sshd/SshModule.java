@@ -17,6 +17,7 @@ package com.google.gerrit.sshd;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.RemotePeer;
@@ -94,6 +95,7 @@ public class SshModule extends LifecycleModule {
         .annotatedWith(UniqueAnnotations.create())
         .to(SshPluginStarterCallback.class);
 
+    DynamicItem.itemOf(binder(), SshCreateCommandInterceptor.class);
     listener().toInstance(registerInParentInjectors());
     listener().to(SshLog.class);
     listener().to(SshDaemon.class);

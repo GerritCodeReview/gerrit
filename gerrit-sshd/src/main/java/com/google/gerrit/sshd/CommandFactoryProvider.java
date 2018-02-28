@@ -17,6 +17,7 @@ package com.google.gerrit.sshd;
 import com.google.common.util.concurrent.Atomics;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
@@ -57,6 +58,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
   private final ScheduledExecutorService startExecutor;
   private final ExecutorService destroyExecutor;
   private final SchemaFactory<ReviewDb> schemaFactory;
+  private final DynamicItem<SshCreateCommandInterceptor> createCommandInterceptor;
 
   @Inject
   CommandFactoryProvider(
@@ -65,11 +67,13 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
       final WorkQueue workQueue,
       final SshLog l,
       final SshScope s,
-      SchemaFactory<ReviewDb> sf) {
+      SchemaFactory<ReviewDb> sf,
+      DynamicItem<SshCreateCommandInterceptor> i) {
     dispatcher = d;
     log = l;
     sshScope = s;
     schemaFactory = sf;
+    createCommandInterceptor = i;
 
     int threads = cfg.getInt("sshd", "commandStartThreads", 2);
     startExecutor = workQueue.createQueue(threads, "SshCommandStart");
@@ -94,7 +98,12 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
     return new CommandFactory() {
       @Override
       public Command createCommand(final String requestCommand) {
-        return new Trampoline(requestCommand);
+        String c = requestCommand;
+        SshCreateCommandInterceptor interceptor = createCommandInterceptor.get();
+        if (interceptor != null) {
+          c = interceptor.intercept(c);
+        }
+        return new Trampoline(c);
       }
     };
   }

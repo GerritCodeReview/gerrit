@@ -127,10 +127,20 @@ limitations under the License.
       .blameLoader {
         display: none;
       }
+      .rightButtons {
+        display: none;
+      }
+      .rightButtons gr-button {
+        margin-left: 8px;
+      }
+      #editBtn {
+        margin-right: -4px;
+      }
       .blameLoader.show,
       .download,
       .preferences,
-      .rightControls {
+      .rightControls,
+      .rightButtons.show {
         align-items: center;
         display: flex;
       }
@@ -272,11 +282,17 @@ limitations under the License.
           </span>
         </div>
         <div class="rightControls">
-          <span class$="blameLoader [[_computeBlameLoaderClass(_isImageDiff, _isBlameSupported)]]">
+          <span class$="rightButtons [[_computeShowClass(_loggedIn)]]">
+            <span class$="blameLoader [[_computeBlameLoaderClass(_isImageDiff, _isBlameSupported)]]">
+              <gr-button
+                  link
+                  disabled="[[_isBlameLoading]]"
+                  on-tap="_toggleBlame">[[_computeBlameToggleLabel(_isBlameLoaded, _isBlameLoading)]]</gr-button>
+            </span>
             <gr-button
+                id="editBtn"
                 link
-                disabled="[[_isBlameLoading]]"
-                on-tap="_toggleBlame">[[_computeBlameToggleLabel(_isBlameLoaded, _isBlameLoading)]]</gr-button>
+                on-tap="_handleEditTap">Edit</gr-button>
             <span class="separator"></span>
           </span>
           <div class$="diffModeSelector [[_computeModeSelectHideClass(_isImageDiff)]]">

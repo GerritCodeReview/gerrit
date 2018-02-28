@@ -968,5 +968,22 @@
         return 'hidden';
       }
     },
+
+    _computeShowClass(loggedIn) {
+      return loggedIn ? 'show' : '';
+    },
+
+    _handleEditTap() {
+      let patchNum = this._patchRange.patchNum;
+      const editInfo = Object.values(this._change.revisions).find(info =>
+          info._number === this.EDIT_NAME);
+
+      if (editInfo) {
+        patchNum = this.EDIT_NAME;
+      }
+
+      Gerrit.Nav.navigateToRelativeUrl(Gerrit.Nav.getEditUrlForDiff(
+          this._change, this._path, patchNum));
+    },
   });
 })();

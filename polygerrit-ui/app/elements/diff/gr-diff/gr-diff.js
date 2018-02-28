@@ -304,7 +304,7 @@
         this.$.diffBuilder.showContext(e.detail.groups, e.detail.section);
       } else if (el.classList.contains('lineNum')) {
         this.addDraftAtLine(el);
-      } else if (el.tagName === 'HL' ||
+      } else if (el.tagName === 'SPAN' ||
           el.classList.contains('content') ||
           el.classList.contains('contentText')) {
         const target = this.$.diffBuilder.getLineElByChild(el);

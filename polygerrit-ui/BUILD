@@ -30,6 +30,7 @@ bower_component_bundle(
         "//lib/js:paper-toggle-button",
         "//lib/js:polymer",
         "//lib/js:polymer-resin",
+        "//lib/js:prism",
         "//lib/js:promise-polyfill",
     ],
 )

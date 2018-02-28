@@ -21,7 +21,7 @@
     'application/x-erb': 'erb',
     'text/css': 'css',
     'text/html': 'html',
-    'text/javascript': 'js',
+    'text/javascript': 'javascript',
     'text/x-c': 'cpp',
     'text/x-c++src': 'cpp',
     'text/x-clojure': 'clojure',
@@ -116,7 +116,7 @@
       },
       /** @type {?number} */
       _processHandle: Number,
-      _hljs: Object,
+      _prism: Object,
     },
 
     addListener(fn) {
@@ -194,7 +194,7 @@
         lastNotify: {left: 1, right: 1},
       };
 
-      return this._loadHLJS().then(() => {
+      return this._loadPrism().then(() => {
         return new Promise(resolve => {
           const nextStep = () => {
             this._processHandle = null;
@@ -265,13 +265,13 @@
         // Note: HLJS may emit a span with class undefined when it thinks there
         // may be a syntax error.
         if (node.tagName === 'SPAN' && node.className !== 'undefined') {
-          if (CLASS_WHITELIST.hasOwnProperty(node.className)) {
+          //if (CLASS_WHITELIST.hasOwnProperty(node.className)) {
             result.push({
               start: offset,
               length: nodeLength,
               className: node.className,
             });
-          }
+          //}
           if (node.children.length) {
             result = result.concat(this._rangesFromElement(node, offset));
           }
@@ -312,17 +312,20 @@
 
       if (this._baseLanguage && baseLine !== undefined) {
         baseLine = this._workaround(this._baseLanguage, baseLine);
-        result = this._hljs.highlight(this._baseLanguage, baseLine, true,
-            state.baseContext);
-        this.push('_baseRanges', this._rangesFromString(result.value));
+        /*result = this._hljs.highlight(this._baseLanguage, baseLine, true,
+            state.baseContext);*/
+        result = this._prism.highlight(baseLine, this._detectLang(baseLine, this._baseLanguage));
+        console.log(result);
+        this.push('_baseRanges', this._rangesFromString(result));
         state.baseContext = result.top;
       }
 
       if (this._revisionLanguage && revisionLine !== undefined) {
         revisionLine = this._workaround(this._revisionLanguage, revisionLine);
-        result = this._hljs.highlight(this._revisionLanguage, revisionLine,
-            true, state.revisionContext);
-        this.push('_revisionRanges', this._rangesFromString(result.value));
+        /*result = this._hljs.highlight(this._revisionLanguage, revisionLine,
+            true, state.revisionContext);*/
+        result = this._prism.highlight(revisionLine, this._detectLang(revisionLine, this._revisionLanguage));
+        this.push('_revisionRanges', this._rangesFromString(result));
         state.revisionContext = result.top;
       }
     },
@@ -437,9 +440,38 @@
       }
     },
 
-    _loadHLJS() {
-      return this.$.libLoader.get().then(hljs => {
-        this._hljs = hljs;
+    /**
+     * Picks a Prism formatter based on the `lang` hint and `code`.
+     *
+     * @param {string} code The source being highlighted.
+     * @param {string=} lang A language hint (e.g. ````LANG`).
+     * @return {!Prism.Lang}
+     */
+    _detectLang(code, lang) {
+      if (!lang) {
+        // Stupid simple detection if we have no lang, courtesy of:
+        // https://github.com/robdodson/mark-down/blob/ac2eaa/mark-down.html#L93-101
+        return code.match(/^\s*</) ? Prism.languages.markup : Prism.languages.javascript;
+      }
+      if (Prism.languages[lang]) {
+        console.log(Prism.languages[lang]);
+        return Prism.languages[lang];
+      }
+      switch (lang.substr(0, 2)) {
+        case 'js':
+        case 'es':
+          return Prism.languages.javascript;
+        case 'c':
+          return Prism.languages.clike;
+        default:
+          // The assumption is that you're mostly documenting HTML when in HTML.
+          return Prism.languages.markup;
+      }
+    },
+
+    _loadPrism() {
+      return this.$.libLoader.get().then(prism => {
+        this._prism = prism;
       });
     },
   });

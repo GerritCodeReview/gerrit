@@ -178,6 +178,21 @@ status:: Current submit status.
 labels:: This describes the state of each code review
 <<label,label attribute>>, unless the status is RULE_ERROR.
 
+requirements:: Each <<requirement>> describes what needs to be changed
+in order for the change to be submittable.
+
+
+[[requirement]]
+== requirement
+Information about a requirement (not met) in order to submit a change.
+
+shortReason:: A short description of the requirement (a hint).
+
+fullReason:: A longer and descriptive message explaining what needs to
+be changed to meet the requirement.
+
+label:: The name of the label linked, if any.
+
 [[label]]
 == label
 Information about a code review label for a change.

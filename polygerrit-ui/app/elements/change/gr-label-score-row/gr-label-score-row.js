@@ -125,7 +125,10 @@
       this._selectedValueText = e.target.selectedItem.getAttribute('title');
       // Needed to update the style of the selected button.
       this.updateStyles();
-      this.fire('labels-changed');
+      const name = e.target.selectedItem.name;
+      const value = e.target.selectedItem.getAttribute('value');
+      this.dispatchEvent(new CustomEvent(
+        'labels-changed', {detail: {name, value}, bubbles: true}));
     },
 
     _computeAnyPermittedLabelValues(permittedLabels, label) {

@@ -73,5 +73,20 @@
       });
     };
 
+  GrChangeReplyInterface.prototype.addLabelValuesChangedCallback =
+    function(handler) {
+      this.plugin.hook('reply-label-scores').onAttached(el => {
+        if (!el.content) { return; }
+
+        el.content.addEventListener('labels-changed', e => {
+          handler(e.detail);
+        });
+      });
+    };
+
+  GrChangeReplyInterface.prototype.showMessage = function(message) {
+    return this._el.setPluginMessage(message);
+  };
+
   window.GrChangeReplyInterface = GrChangeReplyInterface;
 })(window);

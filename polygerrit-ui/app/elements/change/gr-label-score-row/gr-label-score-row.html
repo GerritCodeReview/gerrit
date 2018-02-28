@@ -116,7 +116,9 @@ limitations under the License.
               as="value">
             <gr-button
                 class$="[[_computeButtonClass(value, index, _items.length)]]"
-                has-tooltip value$="[[value]]"
+                has-tooltip
+                name="[[label.name]]"
+                value$="[[value]]"
                 title$="[[_computeLabelValueTitle(labels, label.name, value)]]">
               [[value]]</gr-button>
           </template>

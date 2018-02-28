@@ -32,19 +32,26 @@ public class SubmitRecordTest {
   }
 
   @Test
-  public void findOkRecord() {
+  public void okIfAllOkay() {
     Collection<SubmitRecord> submitRecords = new ArrayList<>();
-    submitRecords.add(NOT_READY_RECORD);
     submitRecords.add(OK_RECORD);
 
-    assertThat(SubmitRecord.findOkRecord(submitRecords).isPresent()).isTrue();
+    assertThat(SubmitRecord.allRecordsOK(submitRecords)).isTrue();
+  }
+
+  @Test
+  public void okWhenEmpty() {
+    Collection<SubmitRecord> submitRecords = new ArrayList<>();
+
+    assertThat(SubmitRecord.allRecordsOK(submitRecords)).isTrue();
   }
 
   @Test
   public void emptyResultIfInvalid() {
     Collection<SubmitRecord> submitRecords = new ArrayList<>();
     submitRecords.add(NOT_READY_RECORD);
+    submitRecords.add(OK_RECORD);
 
-    assertThat(SubmitRecord.findOkRecord(submitRecords).isPresent()).isFalse();
+    assertThat(SubmitRecord.allRecordsOK(submitRecords)).isFalse();
   }
 }

@@ -21,7 +21,7 @@
     'application/x-erb': 'erb',
     'text/css': 'css',
     'text/html': 'html',
-    'text/javascript': 'js',
+    'text/javascript': 'javascript',
     'text/x-c': 'cpp',
     'text/x-c++src': 'cpp',
     'text/x-clojure': 'clojure',
@@ -52,35 +52,6 @@
     'text/x-yaml': 'yaml',
   };
   const ASYNC_DELAY = 10;
-
-  const CLASS_WHITELIST = {
-    'gr-diff gr-syntax gr-syntax-literal': true,
-    'gr-diff gr-syntax gr-syntax-keyword': true,
-    'gr-diff gr-syntax gr-syntax-selector-tag': true,
-    'gr-diff gr-syntax gr-syntax-built_in': true,
-    'gr-diff gr-syntax gr-syntax-type': true,
-    'gr-diff gr-syntax gr-syntax-selector-pseudo': true,
-    'gr-diff gr-syntax gr-syntax-template-variable': true,
-    'gr-diff gr-syntax gr-syntax-number': true,
-    'gr-diff gr-syntax gr-syntax-regexp': true,
-    'gr-diff gr-syntax gr-syntax-variable': true,
-    'gr-diff gr-syntax gr-syntax-selector-attr': true,
-    'gr-diff gr-syntax gr-syntax-template-tag': true,
-    'gr-diff gr-syntax gr-syntax-string': true,
-    'gr-diff gr-syntax gr-syntax-selector-id': true,
-    'gr-diff gr-syntax gr-syntax-title': true,
-    'gr-diff gr-syntax gr-syntax-comment': true,
-    'gr-diff gr-syntax gr-syntax-meta': true,
-    'gr-diff gr-syntax gr-syntax-meta-keyword': true,
-    'gr-diff gr-syntax gr-syntax-tag': true,
-    'gr-diff gr-syntax gr-syntax-name': true,
-    'gr-diff gr-syntax gr-syntax-attr': true,
-    'gr-diff gr-syntax gr-syntax-attribute': true,
-    'gr-diff gr-syntax gr-syntax-emphasis': true,
-    'gr-diff gr-syntax gr-syntax-strong': true,
-    'gr-diff gr-syntax gr-syntax-link': true,
-    'gr-diff gr-syntax gr-syntax-selector-class': true,
-  };
 
   const CPP_DIRECTIVE_WITH_LT_PATTERN = /^\s*#(if|define).*</;
   const CPP_WCHAR_PATTERN = /L\'(\\)?.\'/g;
@@ -116,7 +87,6 @@
       },
       /** @type {?number} */
       _processHandle: Number,
-      _hljs: Object,
     },
 
     addListener(fn) {
@@ -194,38 +164,36 @@
         lastNotify: {left: 1, right: 1},
       };
 
-      return this._loadHLJS().then(() => {
-        return new Promise(resolve => {
-          const nextStep = () => {
-            this._processHandle = null;
-            this._processNextLine(state);
+      return new Promise(resolve => {
+        const nextStep = () => {
+          this._processHandle = null;
+          this._processNextLine(state);
 
-            // Move to the next line in the section.
-            state.lineIndex++;
+          // Move to the next line in the section.
+          state.lineIndex++;
 
-            // If the section has been exhausted, move to the next one.
-            if (this._isSectionDone(state)) {
-              state.lineIndex = 0;
-              state.sectionIndex++;
-            }
+          // If the section has been exhausted, move to the next one.
+          if (this._isSectionDone(state)) {
+            state.lineIndex = 0;
+            state.sectionIndex++;
+          }
 
-            // If all sections have been exhausted, finish.
-            if (state.sectionIndex >= this.diff.content.length) {
-              resolve();
-              this._notify(state);
-              return;
-            }
+          // If all sections have been exhausted, finish.
+          if (state.sectionIndex >= this.diff.content.length) {
+            resolve();
+            this._notify(state);
+            return;
+          }
 
-            if (state.lineIndex % 100 === 0) {
-              this._notify(state);
-              this._processHandle = this.async(nextStep, ASYNC_DELAY);
-            } else {
-              nextStep.call(this);
-            }
-          };
+          if (state.lineIndex % 100 === 0) {
+            this._notify(state);
+            this._processHandle = this.async(nextStep, ASYNC_DELAY);
+          } else {
+            nextStep.call(this);
+          }
+        };
 
-          this._processHandle = this.async(nextStep, 1);
-        });
+        this._processHandle = this.async(nextStep, 1);
       });
     },
 
@@ -265,13 +233,11 @@
         // Note: HLJS may emit a span with class undefined when it thinks there
         // may be a syntax error.
         if (node.tagName === 'SPAN' && node.className !== 'undefined') {
-          if (CLASS_WHITELIST.hasOwnProperty(node.className)) {
-            result.push({
-              start: offset,
-              length: nodeLength,
-              className: node.className,
-            });
-          }
+          result.push({
+            start: offset,
+            length: nodeLength,
+            className: node.className,
+          });
           if (node.children.length) {
             result = result.concat(this._rangesFromElement(node, offset));
           }
@@ -309,20 +275,21 @@
 
       // To store the result of the syntax highlighter.
       let result;
+      let lang;
 
       if (this._baseLanguage && baseLine !== undefined) {
         baseLine = this._workaround(this._baseLanguage, baseLine);
-        result = this._hljs.highlight(this._baseLanguage, baseLine, true,
-            state.baseContext);
-        this.push('_baseRanges', this._rangesFromString(result.value));
+        lang = this._detectLang(this._baseLanguage, baseLine);
+        result = window.Prism.highlight(baseLine, lang);
+        this.push('_baseRanges', this._rangesFromString(result));
         state.baseContext = result.top;
       }
 
       if (this._revisionLanguage && revisionLine !== undefined) {
         revisionLine = this._workaround(this._revisionLanguage, revisionLine);
-        result = this._hljs.highlight(this._revisionLanguage, revisionLine,
-            true, state.revisionContext);
-        this.push('_revisionRanges', this._rangesFromString(result.value));
+        lang = this._detectLang(this._revisionLanguage, revisionLine);
+        result = window.Prism.highlight(revisionLine, lang);
+        this.push('_revisionRanges', this._rangesFromString(result));
         state.revisionContext = result.top;
       }
     },
@@ -437,10 +404,33 @@
       }
     },
 
-    _loadHLJS() {
-      return this.$.libLoader.get().then(hljs => {
-        this._hljs = hljs;
-      });
+    /**
+     * Picks a Prism formatter based on the `lang` hint and `code`.
+     *
+     * @param {string=} lang A language hint (e.g. ````LANG`).
+     * @param {string} code The source being highlighted.
+     * @return {!Prism.Lang}
+     */
+    _detectLang(lang, code) {
+      if (!lang) {
+        // Stupid simple detection if we have no lang, courtesy of:
+        // https://github.com/robdodson/mark-down/blob/ac2eaa/mark-down.html#L93-101
+        return code.match(/^\s*</) ?
+            Prism.languages.markup : Prism.languages.javascript;
+      }
+      if (Prism.languages[lang]) {
+        return Prism.languages[lang];
+      }
+      switch (lang.substr(0, 2)) {
+        case 'js':
+        case 'es':
+          return Prism.languages.javascript;
+        case 'c':
+          return Prism.languages.clike;
+        default:
+          // The assumption is that you're mostly documenting HTML when in HTML.
+          return Prism.languages.markup;
+      }
     },
   });
 })();

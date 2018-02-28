@@ -6,8 +6,8 @@ from __future__ import print_function
 
 import argparse
 from collections import defaultdict
+from shutil import copyfileobj
 from sys import stdout, stderr
-import os
 import xml.etree.ElementTree as ET
 
 
@@ -113,8 +113,8 @@ for n in sorted(graph.keys()):
   print()
   print("[[%s_license]]" % safename)
   print("----")
-  with open(n[2:].replace(":", "/"), "rb") as input:
-    os.write(stdout.fileno(), input.read(-1))
+  with open(n[2:].replace(":", "/")) as fd:
+    copyfileobj(fd, stdout)
   print()
   print("----")
   print()

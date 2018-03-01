@@ -21,11 +21,13 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../../styles/gr-voting-styles.html">
 
 <link rel="import" href="../gr-comment-list/gr-comment-list.html">
 
 <dom-module id="gr-message">
   <template>
+    <style include="gr-voting-styles"></style>
     <style include="shared-styles">
       :host {
         border-bottom: 1px solid #ddd;
@@ -131,11 +133,25 @@ limitations under the License.
       .replyContainer {
         padding: .5em 0 0 0;
       }
-      .positiveVote {
-        box-shadow: inset 0 3.8em #d4ffd4;
+      .score {
+        border: 1px solid rgba(0,0,0,.12);
+        border-radius: 3px;
+        color: #000;
+        display: inline-block;
+        margin: -.1em 0;
+        padding: 0 .1em;
       }
-      .negativeVote {
-        box-shadow: inset 0 3.8em #ffd4d4;
+      .score.negative {
+        background-color: var(--vote-color-negative);
+      }
+      .score.negative.min {
+        background-color: var(--vote-color-min);
+      }
+      .score.positive {
+        background-color: var(--vote-color-positive);
+      }
+      .score.positive.max {
+        background-color: var(--vote-color-max);
       }
       gr-account-label {
         --gr-account-label-text-style: {
@@ -154,6 +170,11 @@ limitations under the License.
           <gr-account-label
               account="[[author]]"
               hide-avatar></gr-account-label>
+          <template is="dom-repeat" items="[[_getScores(message)]]" as="score">
+            <span class$="score [[_computeScoreClass(score, labelExtremes)]]">
+              [[score.label]] [[score.value]]
+            </span>
+          </template>
         </div>
         <template is="dom-if" if="[[message.message]]">
           <div class="content">

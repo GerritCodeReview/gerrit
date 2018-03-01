@@ -31,7 +31,7 @@
         value: () => {
           // Set default values for dropdowns.
           return {
-            create_empty_commit: false,
+            create_empty_commit: true,
             permissions_only: false,
           };
         },

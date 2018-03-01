@@ -119,7 +119,7 @@ This plugin allows users to configure different review strategies.
 
 link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/review-strategy[
 Project] |
-link:https://gerrit.googlesource.com/plugins/review-strategy/+/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/review-strategy/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
 
 [[singleusergroup]]
@@ -473,7 +473,7 @@ This plugin provides a Prolog predicate `add_owner_approval/3` that
 appends `label('Owner-Approval', need(_))` to a provided list.
 
 link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/owners[Project] |
-link:https://gerrit.googlesource.com/plugins/owners/+/refs/heads/master/README.md[Documentation]
+link:https://gerrit.googlesource.com/plugins/owners/+doc/master/README.md[Documentation]
 
 [[project-download-commands]]
 === project-download-commands
@@ -507,6 +507,19 @@ Documentation]
 link:https://gerrit.googlesource.com/plugins/quota/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[readonly]]
+=== readonly
+
+A plugin that makes the Gerrit server read-only by rejecting git pushes,
+blocking HTTP PUT/POST/DELETE requests, and disabling SSH commands.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/readonly[
+Project] |
+link:https://gerrit.googlesource.com/plugins/readonly/+doc/master/src/main/resources/Documentation/about.md[
+Documentation] |
+link:https://gerrit.googlesource.com/plugins/readonly/+doc/master/src/main/resources/Documentation/config.md[
+Configuration]
+
 [[ref-protection]]
 === ref-protection
 
@@ -517,7 +530,7 @@ Backups of deleted or non-fast-forward updated refs are created under the
 
 link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/ref-protection[
 Project] |
-link:https://gerrit.googlesource.com/plugins/ref-protection/+/refs/heads/stable-2.11/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/ref-protection/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
 
 [[reparent]]

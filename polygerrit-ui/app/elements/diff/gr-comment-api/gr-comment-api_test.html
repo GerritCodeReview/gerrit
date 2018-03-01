@@ -380,6 +380,39 @@ limitations under the License.
               .computeUnresolvedNum(2, 'file/three'), 1);
         });
 
+        test('computeUnresolvedNum w/ non-linear thread', () => {
+          element._changeComments._drafts = {};
+          element._changeComments._robotComments = {};
+          element._changeComments._comments = {
+            path: [{
+              id: '9c6ba3c6_28b7d467',
+              patch_set: 1,
+              updated: '2018-02-28 14:41:13.000000000',
+              unresolved: true,
+            }, {
+              id: '3df7b331_0bead405',
+              patch_set: 1,
+              in_reply_to: '1c346623_ab85d14a',
+              updated: '2018-02-28 23:07:55.000000000',
+              unresolved: false,
+            }, {
+              id: '6153dce6_69958d1e',
+              patch_set: 1,
+              in_reply_to: '9c6ba3c6_28b7d467',
+              updated: '2018-02-28 17:11:31.000000000',
+              unresolved: true,
+            }, {
+              id: '1c346623_ab85d14a',
+              patch_set: 1,
+              in_reply_to: '9c6ba3c6_28b7d467',
+              updated: '2018-02-28 23:01:39.000000000',
+              unresolved: false,
+            }],
+          };
+          assert.equal(
+              element._changeComments.computeUnresolvedNum(1, 'path'), 0);
+        });
+
         test('computeCommentCount', () => {
           assert.equal(element._changeComments
               .computeCommentCount(2, 'file/one'), 4);

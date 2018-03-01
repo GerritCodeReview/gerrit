@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d23b9c1d_51c6ca53",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-01T08:10:45Z",
+      "side": 1,
+      "message": "I like the new location of \"Included In\" button more: [1].\n\n* [1] https://imgur.com/a/9n8By",
+      "revId": "7e17719637e1d3db06a655287297037f60c2402b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f918d8b_d87ce982",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-01T08:10:45Z",
+      "side": 1,
+      "message": "It doesn\u0027t work for very old changes, that have a *lot* of tags. Compare the old UI for this real old change: [1]. Here is included in dialog on GWT UI: [2]. On the new UI, the list is cut off: [3] and there is now way to scroll to the end and to see the latest tags. So right now, the only way to get the whole list of tags and to actually see the latest and the greatest tag, is to to copy the tags, paste them in Emacs and investigate the content? Really?\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/71500/\n* [2] https://imgur.com/a/VSyRd\n* [3] https://imgur.com/a/2N9pE",
+      "range": {
+        "startLine": 59,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 82
+      },
+      "revId": "7e17719637e1d3db06a655287297037f60c2402b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6dd3fd5_9aa2fde6",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.js",
+        "patchSetId": 35
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-01T08:10:45Z",
+      "side": 1,
+      "message": "This is not includedInm but branches or tags, e.g. invoked like this  _formatBranchesAndTags(_includedIn.branches). Adapt the name? Just data, values, or configs?",
+      "range": {
+        "startLine": 61,
+        "startChar": 27,
+        "endLine": 61,
+        "endChar": 37
+      },
+      "revId": "7e17719637e1d3db06a655287297037f60c2402b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d66c69a0_4526cbae",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.js",
+        "patchSetId": 35
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-01T08:10:45Z",
+      "side": 1,
+      "message": "What about replace all this with this one-liner?\n\n  return values.join(\u0027, \u0027);",
+      "range": {
+        "startLine": 64,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 18
+      },
+      "revId": "7e17719637e1d3db06a655287297037f60c2402b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f637d6f_b849c1d4",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.js",
+        "patchSetId": 35
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-01T08:10:45Z",
+      "side": 1,
+      "message": "Same comment as above, as it\u0027s invoked with: _formatExternalListData(item.value).",
+      "range": {
+        "startLine": 77,
+        "startChar": 28,
+        "endLine": 77,
+        "endChar": 38
+      },
+      "revId": "7e17719637e1d3db06a655287297037f60c2402b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e079191_96582d49",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.js",
+        "patchSetId": 35
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-01T08:10:45Z",
+      "side": 1,
+      "message": "This method seems to be identical to the formatting of branches and tags. Can these methods be merged together?",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 27
+      },
+      "revId": "7e17719637e1d3db06a655287297037f60c2402b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

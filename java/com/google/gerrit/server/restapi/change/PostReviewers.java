@@ -229,20 +229,22 @@ public class PostReviewers
       boolean allowGroup,
       boolean allowByEmail)
       throws OrmException, PermissionBackendException, IOException, ConfigInvalidException {
-    Account.Id accountId = null;
+    IdentifiedUser user = null;
+
     try {
-      accountId = accounts.parse(reviewer).getAccountId();
-    } catch (UnprocessableEntityException | AuthException e) {
-      // AuthException won't occur since the user is authenticated at this point.
-      if (!allowGroup && !allowByEmail) {
-        // Only return failure if we aren't going to try other interpretations.
-        return fail(
-            reviewer, MessageFormat.format(ChangeMessages.get().reviewerNotFoundUser, reviewer));
+      user = accounts.parse(reviewer);
+      if (!(reviewer.equalsIgnoreCase(user.getName())
+          || reviewer.equals(String.valueOf(user.getAccountId()))
+          || user.hasEmailAddress(reviewer))) {
+        return null;
       }
-      return null;
+    } catch (UnprocessableEntityException | AuthException e) {
+      if (!allowGroup) {
+        return null;
+      }
     }
 
-    ReviewerResource rrsrc = reviewerFactory.create(rsrc, accountId);
+    ReviewerResource rrsrc = reviewerFactory.create(rsrc, user.getAccountId());
     Account member = rrsrc.getReviewerUser().getAccount();
     PermissionBackend.ForRef perm =
         permissionBackend.user(rrsrc.getReviewerUser()).ref(rrsrc.getChange().getDest());

@@ -235,6 +235,12 @@
         id: groupId,
       });
 
+      // Add the new group name to the groups object so the name renders
+      // correctly.
+      if (this.groups && !this.groups[groupId]) {
+        this.groups[groupId] = {name: this.$.groupAutocomplete.text};
+      }
+
       // Wait for new rule to get value populated via gr-rule-editor, and then
       // add to permission values as well, so that the change gets propogated
       // back to the section. Since the rule is inside a dom-repeat, a flush

@@ -22,6 +22,30 @@
       "revId": "f8216fce5f7a28fc94536a0606c2ecdc7f127ab5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bc62598_1ad4c790",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-03-01T08:41:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16492c1d_f4117998",
+      "range": {
+        "startLine": 176,
+        "startChar": 55,
+        "endLine": 176,
+        "endChar": 56
+      },
+      "revId": "f8216fce5f7a28fc94536a0606c2ecdc7f127ab5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

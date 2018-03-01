@@ -37,6 +37,75 @@
     },
     {
       "key": {
+        "uuid": "e1eab08b_0bf52d3f",
+        "filename": "java/com/google/gerrit/server/rules/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-01T17:47:25Z",
+      "side": 1,
+      "message": "\"to take actions to make the change submittable.\" ?",
+      "range": {
+        "startLine": 22,
+        "startChar": 85,
+        "endLine": 22,
+        "endChar": 93
+      },
+      "revId": "22e9c49d50244b67c61c45d48df4091eaaccc0b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c10ed39_2c5b7e77",
+        "filename": "java/com/google/gerrit/server/rules/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-01T17:47:25Z",
+      "side": 1,
+      "message": "value, a {@link SubmitRecord},",
+      "range": {
+        "startLine": 22,
+        "startChar": 3,
+        "endLine": 22,
+        "endChar": 34
+      },
+      "revId": "22e9c49d50244b67c61c45d48df4091eaaccc0b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fee542e_81d34617",
+        "filename": "java/com/google/gerrit/server/rules/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-01T17:47:25Z",
+      "side": 1,
+      "message": "nit: JavaDoc likes \u003cli\u003e more",
+      "range": {
+        "startLine": 23,
+        "startChar": 35,
+        "endLine": 23,
+        "endChar": 37
+      },
+      "revId": "22e9c49d50244b67c61c45d48df4091eaaccc0b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ca1e6c79_2a4e143a",
         "filename": "java/com/google/gerrit/server/rules/SubmitRuleEvaluator.java",
         "patchSetId": 2
@@ -116,6 +185,24 @@
       "revId": "22e9c49d50244b67c61c45d48df4091eaaccc0b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c1fcd62_5021721f",
+        "filename": "java/com/google/gerrit/server/rules/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-01T17:47:25Z",
+      "side": 1,
+      "message": "Ah, what I meant was if we need options that the plugins consume (e.g. allowClosed or SubmitRuleOptions in general). ChangeData defiantly carries enough information for the plugins to know what change/project/patch set/etc. they need to evaluate.\n\nIf you think this isn\u0027t needed, then that is an outcome if this discussion, too!\n\nFor the interface contract: We could work around this by passing an auto value that later on receives default options (as you suggested) when things get added to it.\n\n  SubmitRecord evaluate(ChangeData changeData, SubmitRuleOptions options);\n\nBut once again, if you say this isn\u0027t needed, great. I just wanted to have this discussion before we bake the interface into stone :)",
+      "parentUuid": "c7169a7f_e39de98d",
+      "revId": "22e9c49d50244b67c61c45d48df4091eaaccc0b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

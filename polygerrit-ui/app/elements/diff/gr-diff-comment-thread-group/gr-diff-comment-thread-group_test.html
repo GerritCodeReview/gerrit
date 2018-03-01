@@ -65,6 +65,13 @@ limitations under the License.
           __commentSide: 'left',
           in_reply_to: 'sallys_confession',
         },
+        {
+          __draftID: 'new_draft',
+          message: 'i do not like either of you',
+          __commentSide: 'left',
+          __draft: true,
+          updated: '2015-12-20 15:01:20.396000000',
+        },
       ];
 
       let expectedThreadGroups = [
@@ -84,6 +91,21 @@ limitations under the License.
             in_reply_to: 'sallys_confession',
           }],
           rootId: 'sallys_confession',
+          patchNum: 3,
+        },
+        {
+          start_datetime: '2015-12-20 15:01:20.396000000',
+          commentSide: 'left',
+          comments: [
+            {
+              __draftID: 'new_draft',
+              message: 'i do not like either of you',
+              __commentSide: 'left',
+              __draft: true,
+              updated: '2015-12-20 15:01:20.396000000',
+            },
+          ],
+          rootId: 'new_draft',
           patchNum: 3,
         },
       ];
@@ -146,6 +168,21 @@ limitations under the License.
             end_line: 1,
             end_character: 2,
           },
+        },
+        {
+          start_datetime: '2015-12-20 15:01:20.396000000',
+          commentSide: 'left',
+          comments: [
+            {
+              __draftID: 'new_draft',
+              message: 'i do not like either of you',
+              __commentSide: 'left',
+              __draft: true,
+              updated: '2015-12-20 15:01:20.396000000',
+            },
+          ],
+          rootId: 'new_draft',
+          patchNum: 3,
         },
       ];
 
@@ -266,7 +303,7 @@ limitations under the License.
         updated: '2015-12-23 15:00:20.396000000',
       };
       assert.equal(element._getPatchNum(comment), 3);
-      comment.patchNum = 4;
+      comment.patch_set = 4;
       assert.equal(element._getPatchNum(comment), 4);
     });
 

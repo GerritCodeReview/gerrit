@@ -117,6 +117,30 @@
       "revId": "5b6e7a5e95c3141e3b4d7488b64cfa4da4d6e2f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f58b5d91_5646b935",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-03-01T21:09:35Z",
+      "side": 1,
+      "message": "I apologize, should not be \"often\" - changed it to \"sometimes\". Please check the latest patchset.",
+      "parentUuid": "68ce8a5d_09729a35",
+      "range": {
+        "startLine": 379,
+        "startChar": 40,
+        "endLine": 380,
+        "endChar": 23
+      },
+      "revId": "5b6e7a5e95c3141e3b4d7488b64cfa4da4d6e2f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

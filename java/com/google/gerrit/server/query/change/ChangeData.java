@@ -880,15 +880,48 @@ public class ChangeData {
         return null;
       }
 
-      List<Comment> comments =
-          Stream.concat(publishedComments().stream(), robotComments().stream()).collect(toList());
-      Set<String> nonLeafSet = comments.stream().map(c -> c.parentUuid).collect(toSet());
+      Long unresolvedThreadCount = this.getCommentThreads().stream()
+          .filter(thread -> (thread.get(thread.size() - 1).unresolved))
+          .count();
 
-      Long count =
-          comments.stream().filter(c -> (c.unresolved && !nonLeafSet.contains(c.key.uuid))).count();
-      unresolvedCommentCount = count.intValue();
+      unresolvedCommentCount = unresolvedThreadCount.intValue();
     }
+
     return unresolvedCommentCount;
+  }
+
+  private List<List<Comment>> getCommentThreads() throws OrmException {
+    List<Comment> comments = Stream.concat(publishedComments().stream(), robotComments().stream())
+        .sorted((c1, c2)-> c1.writtenOn.compareTo(c2.writtenOn))
+        .collect(toList());
+
+    List<List<Comment>> threads = new ArrayList<>();
+    for (Comment comment : comments) {
+      List<Comment> destinationThread = null;
+
+      if (comment.parentUuid != null) {
+        for (List<Comment> thread : threads) {
+          for (Comment threadedComment : thread) {
+            if (threadedComment.key.uuid.equals(comment.parentUuid)) {
+              destinationThread = thread;
+              break;
+            }
+          }
+          if (destinationThread != null) {
+            break;
+          }
+        }
+      }
+
+      if (destinationThread == null) {
+        destinationThread = new ArrayList<>();
+        threads.add(destinationThread);
+      }
+
+      destinationThread.add(comment);
+    }
+
+    return threads;
   }
 
   public void setUnresolvedCommentCount(Integer count) {

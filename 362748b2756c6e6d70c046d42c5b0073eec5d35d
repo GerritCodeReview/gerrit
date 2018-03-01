@@ -22,6 +22,30 @@
       "revId": "362748b2756c6e6d70c046d42c5b0073eec5d35d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82900cdb_75aaa56d",
+        "filename": "java/com/google/gerrit/common/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-01T16:43:21Z",
+      "side": 1,
+      "message": "Done. Looks like you\u0027re right, I have changed the AutoValue dependency with a Builder on the SubmitRequirement class\nNice catch, thanks!",
+      "parentUuid": "7337c98a_f87c4f67",
+      "range": {
+        "startLine": 25,
+        "startChar": 8,
+        "endLine": 25,
+        "endChar": 31
+      },
+      "revId": "362748b2756c6e6d70c046d42c5b0073eec5d35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

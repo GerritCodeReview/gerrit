@@ -122,6 +122,73 @@
   };
 
   /**
+   * Gets all the comments for a particular thread group. Used for refreshing
+   * commentws after tghe thread group has already been built.
+   *
+   * @param {string} path
+   * @param {!Defs.patchRange} patchRange
+   * @param {number=} opt_line line number, can be undefined if file comment
+   * @param {string=} opt_side can be undefined in a unified view
+   * @return {!Array} an array of comments
+   */
+  ChangeComments.prototype.getCommentsForThreadGroup = function(path,
+      patchRange, opt_line, opt_side) {
+    let basePatchComments = [];
+
+    // Have to consider both patches if not a side and not on parent
+    if (!opt_side && patchRange.basePatchNum !== PARENT) {
+      basePatchComments = this.filterCommentsBySideAndLine(
+          this.getAllCommentsForPath(path, patchRange.basePatchNum, true),
+          opt_line, opt_side)
+        .map(c => {
+          c.__commentSide = 'left';
+          return c;
+        });
+    }
+    let patchNumComments = this.filterCommentsBySideAndLine(
+        this.getAllCommentsForPath(path, patchRange.patchNum, true), opt_line,
+        opt_side);
+
+    if (!opt_side && patchRange.basePatchNum !== PARENT) {
+      patchNumComments = patchNumComments.map(c => {
+        c.__commentSide = 'right';
+        return c;
+      });
+    }
+
+    if (patchRange.basePatchNum === PARENT) {
+      patchNumComments = patchNumComments.map(c => {
+        c.__commentSide = c.side === PARENT ? 'left' : 'right';
+        return c;
+      });
+    }
+
+    return basePatchComments.concat(patchNumComments);
+  };
+
+  /**
+   * Filters an array of comments by line and side
+   *
+   * @param {!Array} comments
+   * @param {number=} opt_line line number, can be undefined if file comment
+   * @param {string=} opt_side can be undefined in a unified view
+   * @return {!Array} an array of comments
+   */
+  ChangeComments.prototype.filterCommentsBySideAndLine = function(comments,
+      opt_line, opt_side) {
+    return comments.filter(c => {
+      let sideMatch = true;
+      // In the event that there is not a side, either side can be a match.
+      // This is the case for unified thread groups that can have comments from
+      // either side included.
+      if (opt_side) {
+        sideMatch = c.__commentSide === opt_side;
+      }
+      return sideMatch && c.line === opt_line;
+    });
+  };
+
+  /**
    * Gets all the comments and robot comments for the given change.
    *
    * @param {boolean=} opt_includeDrafts
@@ -167,10 +234,15 @@
    * @return {!Array}
    */
   ChangeComments.prototype.getAllCommentsForPath = function(path,
-      opt_patchNum) {
+      opt_patchNum, opt_includeDrafts) {
     const comments = this._comments[path] || [];
     const robotComments = this._robotComments[path] || [];
-    const allComments = comments.concat(robotComments);
+    let allComments = comments.concat(robotComments);
+    if (opt_includeDrafts) {
+      const drafts = this.getAllDraftsForPath(path)
+          .map(d => Object.assign({__draft: true}, d));
+      allComments = allComments.concat(drafts);
+    }
     if (!opt_patchNum) { return allComments; }
     return (allComments || []).filter(c =>
       this._patchNumEquals(c.patch_set, opt_patchNum)
@@ -366,6 +438,7 @@
         patchNum: comment.patch_set,
         path: comment.__path,
         line: comment.line,
+        rootId: comment.id || comment.__draftID,
       };
       if (comment.side) {
         newThread.commentSide = comment.side;

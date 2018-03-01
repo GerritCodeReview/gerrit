@@ -445,6 +445,7 @@ limitations under the License.
               patchNum: 2,
               path: 'file/two',
               line: 2,
+              rootId: 5,
             }, {
               comments: [
                 {
@@ -460,6 +461,7 @@ limitations under the License.
               patchNum: 2,
               path: 'file/one',
               line: 2,
+              rootId: 3,
             }, {
               comments: [
                 {
@@ -481,6 +483,7 @@ limitations under the License.
               patchNum: 2,
               path: 'file/one',
               line: 1,
+              rootId: 1,
             }, {
               comments: [
                 {
@@ -496,6 +499,7 @@ limitations under the License.
               patchNum: 5,
               path: 'file/four',
               line: 1,
+              rootId: 9,
             }, {
               comments: [
                 {
@@ -509,6 +513,7 @@ limitations under the License.
               patchNum: 3,
               path: 'file/three',
               line: 1,
+              rootId: 8,
             }, {
               comments: [
                 {
@@ -525,6 +530,7 @@ limitations under the License.
               patchNum: 2,
               path: 'file/three',
               line: 1,
+              rootId: 7,
             }, {
               comments: [
                 {
@@ -556,6 +562,7 @@ limitations under the License.
               patchNum: 2,
               path: 'file/one',
               line: 1,
+              rootId: 4,
             }, {
               comments: [
                 {
@@ -569,6 +576,7 @@ limitations under the License.
               patchNum: 3,
               path: 'file/two',
               line: 2,
+              rootId: 6,
             }, {
               comments: [
                 {
@@ -579,6 +587,7 @@ limitations under the License.
                   updated: '2013-02-26 15:01:43.986000000',
                 },
               ],
+              rootId: 10,
               patchNum: 5,
               path: 'file/four',
               line: 1,
@@ -594,6 +603,7 @@ limitations under the License.
                   updated: '2013-02-26 15:03:43.986000000',
                 },
               ],
+              rootId: 11,
               commentSide: 'PARENT',
               patchNum: 2,
               path: 'file/one',
@@ -602,6 +612,11 @@ limitations under the License.
           ];
           const threads = element._changeComments.getAllThreadsForChange();
           assert.deepEqual(threads, expectedThreads);
+        });
+
+        test('getAllPublishedComments', () => {
+          let comments = element._changeComments.getAllPublishedComments();
+          debugger
         });
       });
     });

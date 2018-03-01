@@ -532,7 +532,7 @@ Backups of deleted or non-fast-forward updated refs are created under the
 
 link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/ref-protection[
 Project] |
-link:https://gerrit.googlesource.com/plugins/ref-protection/+/refs/heads/stable-2.11/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/ref-protection/+/master/src/main/resources/Documentation/about.md[
 Documentation]
 
 [[reparent]]

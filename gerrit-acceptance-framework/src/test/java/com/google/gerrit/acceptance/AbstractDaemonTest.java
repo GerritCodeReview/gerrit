@@ -1060,6 +1060,14 @@ public abstract class AbstractDaemonTest {
     return createGroup(name, "Administrators");
   }
 
+  protected String createGroupWithRealName(String name) throws Exception {
+    GroupInput in = new GroupInput();
+    in.name = name;
+    in.ownerId = "Administrators";
+    gApi.groups().create(in);
+    return name;
+  }
+
   protected String createGroup(String name, String owner) throws Exception {
     name = name(name);
     GroupInput in = new GroupInput();

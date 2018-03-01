@@ -2703,6 +2703,26 @@ public class MyPlugin implements MailFilter {
 }
 ----
 
+[[ssh-command-interception]]
+== SSH Command Interception
+
+Gerrit provides an extension point that allows a plugin to intercept
+creation of SSH commands and override the functionality with its own
+implementation.
+
+[source, java]
+----
+import com.google.gerrit.sshd.SshCreateCommandInterceptor;
+
+class MyCommandInterceptor implements SshCreateCommandInterceptor {
+  @Override
+  public String intercept(String in) {
+    return pluginName + " mycommand";
+  }
+}
+----
+
+
 == SEE ALSO
 
 * link:js-api.html[JavaScript API]

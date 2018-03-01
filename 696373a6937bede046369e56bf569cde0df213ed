@@ -70,6 +70,30 @@
       "revId": "696373a6937bede046369e56bf569cde0df213ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92103978_55f1dbc6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-01T08:10:23Z",
+      "side": 1,
+      "message": "The fix is easy. But a test looks hard. I thought it\u0027s possible if we manually update the group ref and group-name ref. But it may not worth the time.",
+      "parentUuid": "6de1dcaa_5cc2d21e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "696373a6937bede046369e56bf569cde0df213ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

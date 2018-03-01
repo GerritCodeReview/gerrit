@@ -112,7 +112,7 @@
       'access-modified': '_handleAccessModified',
     },
 
-    _handleAccessModified() {
+    _handleAccessModified(e) {
       this._modified = true;
     },
 

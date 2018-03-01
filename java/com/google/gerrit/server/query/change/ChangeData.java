@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
-import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
@@ -880,15 +879,59 @@ public class ChangeData {
         return null;
       }
 
-      List<Comment> comments =
-          Stream.concat(publishedComments().stream(), robotComments().stream()).collect(toList());
-      Set<String> nonLeafSet = comments.stream().map(c -> c.parentUuid).collect(toSet());
+      Long unresolvedThreadCount =
+          this.getCommentThreads()
+              .stream()
+              .filter(thread -> (thread.get(thread.size() - 1).unresolved))
+              .count();
 
-      Long count =
-          comments.stream().filter(c -> (c.unresolved && !nonLeafSet.contains(c.key.uuid))).count();
-      unresolvedCommentCount = count.intValue();
+      unresolvedCommentCount = unresolvedThreadCount.intValue();
     }
+
     return unresolvedCommentCount;
+  }
+
+  /**
+   * Get the comments grouped by thread. Threads are the defined as the descendants of a root
+   * comment via the parentUuid relation, flattened to a list and sorted chronologically.
+   */
+  private List<List<Comment>> getCommentThreads() throws OrmException {
+    // Get the comments and robot comments sorted by creation date.
+    List<Comment> comments =
+        Stream.concat(publishedComments().stream(), robotComments().stream())
+            .sorted((c1, c2) -> c1.writtenOn.compareTo(c2.writtenOn))
+            .collect(toList());
+
+    List<List<Comment>> threads = new ArrayList<>();
+    for (Comment comment : comments) {
+      List<Comment> destinationThread = null;
+
+      // If there is a thread containing a comment with an ID equal to the current parentUuid, then
+      // select it.
+      if (comment.parentUuid != null) {
+        for (List<Comment> thread : threads) {
+          for (Comment threadedComment : thread) {
+            if (threadedComment.key.uuid.equals(comment.parentUuid)) {
+              destinationThread = thread;
+              break;
+            }
+          }
+          if (destinationThread != null) {
+            break;
+          }
+        }
+      }
+
+      // Otherwise create a new thread list.
+      if (destinationThread == null) {
+        destinationThread = new ArrayList<>();
+        threads.add(destinationThread);
+      }
+
+      destinationThread.add(comment);
+    }
+
+    return threads;
   }
 
   public void setUnresolvedCommentCount(Integer count) {

@@ -311,33 +311,26 @@
 
     comments = comments.concat(drafts);
 
-    // Create an object where every comment ID is the key of an unresolved
-    // comment.
-    const idMap = comments.reduce((acc, comment) => {
-      if (comment.unresolved) {
-        acc[comment.id] = true;
-      }
-      return acc;
-    }, {});
+    const threads = this.getCommentThreads(this._sortComments(comments));
 
-    // Set false for the comments that are marked as parents.
-    for (const comment of comments) {
-      idMap[comment.in_reply_to] = false;
-    }
+    const unresolvedThreads = threads
+      .filter(thread =>
+          thread.comments.length &&
+          thread.comments[thread.comments.length - 1].unresolved);
 
-    // The unresolved comments are the comments that still have true.
-    const unresolvedLeaves = Object.keys(idMap).filter(key => {
-      return idMap[key];
-    });
-    return unresolvedLeaves.length;
+    return unresolvedThreads.length;
   };
 
   ChangeComments.prototype.getAllThreadsForChange = function() {
     const comments = this._commentObjToArrayWithFile(this.getAllComments(true));
-    const sortedComments = comments.slice(0).sort((c1, c2) => {
+    const sortedComments = this._sortComments(comments);
+    return this.getCommentThreads(sortedComments);
+  };
+
+  ChangeComments.prototype._sortComments = function(comments) {
+    return comments.slice(0).sort((c1, c2) => {
       return util.parseDate(c1.updated) - util.parseDate(c2.updated);
     });
-    return this.getCommentThreads(sortedComments);
   };
 
   /**

@@ -31,15 +31,6 @@ limitations under the License.
 <dom-module id="gr-repo-access">
   <template>
     <style include="shared-styles">
-      .gwtLink {
-        margin-bottom: 1em;
-      }
-      .gwtLink {
-        display: none;
-      }
-      .admin .gwtLink {
-        display: block;
-      }
       gr-button {
         display: none;
       }
@@ -59,10 +50,6 @@ limitations under the License.
     </style>
     <style include="gr-menu-page-styles"></style>
     <main class$="[[_computeAdminClass(_isAdmin, _canUpload)]]">
-      <div class="gwtLink">Editing access in the new UI is a work in progress. Visit the
-        <a href$="[[computeGwtUrl(path)]]" rel="external">Old UI</a>
-        if you need a feature that is not yet supported.
-      </div>
       <template is="dom-if" if="[[_inheritsFrom]]">
         <h3 id="inheritsFrom">Rights Inherit From
           <a href$="[[_computeParentHref(_inheritsFrom.name)]]" rel="noopener">

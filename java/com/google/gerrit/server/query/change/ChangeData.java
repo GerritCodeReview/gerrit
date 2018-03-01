@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
-import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
@@ -59,8 +58,8 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.StarRef;
-import com.google.gerrit.server.change.GetPureRevert;
 import com.google.gerrit.server.change.MergeabilityCache;
+import com.google.gerrit.server.change.PureRevert;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -346,7 +345,7 @@ public class ChangeData {
   private final PatchSetUtil psUtil;
   private final ProjectCache projectCache;
   private final TrackingFooters trackingFooters;
-  private final GetPureRevert pureRevert;
+  private final PureRevert pureRevert;
   private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
   // Required assisted injected fields.
@@ -415,7 +414,7 @@ public class ChangeData {
       PatchSetUtil psUtil,
       ProjectCache projectCache,
       TrackingFooters trackingFooters,
-      GetPureRevert pureRevert,
+      PureRevert pureRevert,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
@@ -938,17 +937,13 @@ public class ChangeData {
     return messages;
   }
 
-  public List<SubmitRecord> submitRecords(SubmitRuleOptions options) throws OrmException {
+  public List<SubmitRecord> submitRecords(SubmitRuleOptions options) {
     List<SubmitRecord> records = submitRecords.get(options);
     if (records == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
-      records =
-          submitRuleEvaluatorFactory
-              .create(userFactory.create(change().getOwner()), this)
-              .setOptions(options)
-              .evaluate();
+      records = submitRuleEvaluatorFactory.create(this).setOptions(options).evaluate();
       submitRecords.put(options, records);
     }
     return records;
@@ -963,12 +958,9 @@ public class ChangeData {
     submitRecords.put(options, records);
   }
 
-  public SubmitTypeRecord submitTypeRecord() throws OrmException {
+  public SubmitTypeRecord submitTypeRecord() {
     if (submitTypeRecord == null) {
-      submitTypeRecord =
-          submitRuleEvaluatorFactory
-              .create(userFactory.create(change().getOwner()), this)
-              .getSubmitType();
+      submitTypeRecord = submitRuleEvaluatorFactory.create(this).getSubmitType();
     }
     return submitTypeRecord;
   }
@@ -977,6 +969,7 @@ public class ChangeData {
     this.mergeable = mergeable;
   }
 
+  @Nullable
   public Boolean isMergeable() throws OrmException {
     if (mergeable == null) {
       Change c = change();
@@ -1043,7 +1036,10 @@ public class ChangeData {
         for (Map.Entry<String, Ref> e :
             repo.getRefDatabase().getRefs(RefNames.REFS_USERS).entrySet()) {
           if (id.equals(Change.Id.fromEditRefPart(e.getKey()))) {
-            editsByUser.put(Account.Id.fromRefPart(e.getKey()), e.getValue());
+            Account.Id accountId = Account.Id.fromRefPart(e.getKey());
+            if (accountId != null) {
+              editsByUser.put(accountId, e.getValue());
+            }
           }
         }
       } catch (IOException e) {
@@ -1210,7 +1206,7 @@ public class ChangeData {
       return null;
     }
     try {
-      return pureRevert.getPureRevert(notes()).isPureRevert;
+      return pureRevert.get(notes(), null).isPureRevert;
     } catch (IOException | BadRequestException | ResourceConflictException e) {
       throw new OrmException("could not compute pure revert", e);
     }

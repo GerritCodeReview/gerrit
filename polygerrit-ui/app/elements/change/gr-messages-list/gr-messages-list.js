@@ -26,7 +26,7 @@
     is: 'gr-messages-list',
 
     properties: {
-      changeNum: Number,
+      change: Object,
       messages: {
         type: Array,
         value() { return []; },
@@ -36,7 +36,6 @@
         value() { return []; },
       },
       changeComments: Object,
-      projectName: String,
       showReplyButtons: {
         type: Boolean,
         value: false,
@@ -65,6 +64,11 @@
       _visibleMessages: {
         type: Array,
         value() { return []; },
+      },
+
+      _labelExtremes: {
+        type: Object,
+        computed: '_computeLabelExtremes(change.labels.*)',
       },
     },
 
@@ -330,6 +334,22 @@
       const total =
           this._numRemaining(visibleMessages, messages, hideAutomated);
       return total <= this._getDelta(visibleMessages, messages, hideAutomated);
+    },
+
+    _computeLabelExtremes(labelRecord) {
+      const extremes = {};
+      const labels = labelRecord.base;
+      if (!labels) { return extremes; }
+      for (const key of Object.keys(labels)) {
+        if (!labels[key] || !labels[key].values) { continue; }
+        const values = Object.keys(labels[key].values);
+        if (!values || !values.length) { continue; }
+        extremes[key] = {
+          min: parseInt(values[0], 10),
+          max: parseInt(values[values.length - 1], 10),
+        };
+      }
+      return extremes;
     },
   });
 })();

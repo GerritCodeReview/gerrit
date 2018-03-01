@@ -528,11 +528,10 @@ limitations under the License.
       </gr-endpoint-decorator>
       <gr-messages-list id="messageList"
           class="hideOnMobileOverlay"
-          change-num="[[_changeNum]]"
+          change="[[_change]]"
           messages="[[_change.messages]]"
           reviewer-updates="[[_change.reviewer_updates]]"
           change-comments="[[_changeComments]]"
-          project-name="[[_change.project]]"
           show-reply-buttons="[[_loggedIn]]"
           on-reply="_handleMessageReply"></gr-messages-list>
     </div>

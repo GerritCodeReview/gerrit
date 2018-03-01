@@ -163,22 +163,29 @@ limitations under the License.
       });
     });
 
-    test('negative vote', () => {
+    test('votes', () => {
       element.message = {
         author: {},
         expanded: false,
         message: 'Patch Set 1: Verified+1 Code-Review-2 Trybot-Ready+1',
       };
-      assert.isOk(Polymer.dom(element.root).querySelector('.negativeVote'));
-    });
-
-    test('positive vote', () => {
-      element.message = {
-        author: {},
-        expanded: false,
-        message: 'Patch Set 1: Verified-1 Code-Review+2 Trybot-Ready-1',
+      element.labelExtremes = {
+        'Verified': {max: 1, min: -1},
+        'Code-Review': {max: 2, min: -2},
+        'Trybot-Ready': {max: 3, min: 0},
       };
-      assert.isOk(Polymer.dom(element.root).querySelector('.positiveVote'));
+      flushAsynchronousOperations();
+      const scoreChips = Polymer.dom(element.root).querySelectorAll('.score');
+      assert.equal(scoreChips.length, 3);
+
+      assert.isTrue(scoreChips[0].classList.contains('positive'));
+      assert.isTrue(scoreChips[0].classList.contains('max'));
+
+      assert.isTrue(scoreChips[1].classList.contains('negative'));
+      assert.isTrue(scoreChips[1].classList.contains('min'));
+
+      assert.isTrue(scoreChips[2].classList.contains('positive'));
+      assert.isFalse(scoreChips[2].classList.contains('min'));
     });
 
     test('false negative vote', () => {
@@ -187,7 +194,9 @@ limitations under the License.
         expanded: false,
         message: 'Patch Set 1: Cherry Picked from branch stable-2.14.',
       };
-      assert.isNotOk(Polymer.dom(element.root).querySelector('.negativeVote'));
+      element.labelExtremes = {};
+      const scoreChips = Polymer.dom(element.root).querySelectorAll('.score');
+      assert.equal(scoreChips.length, 0);
     });
   });
 </script>

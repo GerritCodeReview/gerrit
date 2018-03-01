@@ -46,6 +46,30 @@
       "revId": "696373a6937bede046369e56bf569cde0df213ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6de1dcaa_5cc2d21e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-01T07:49:07Z",
+      "side": 1,
+      "message": "If we don\u0027t support deletion of groups, how do we get to the state where a subgroup is not available?",
+      "parentUuid": "a0791998_d3c8c294",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "696373a6937bede046369e56bf569cde0df213ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

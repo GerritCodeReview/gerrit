@@ -22,6 +22,30 @@
       "revId": "696373a6937bede046369e56bf569cde0df213ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0791998_d3c8c294",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-01T07:47:52Z",
+      "side": 1,
+      "message": "Sure. I could try to add a test for this. The test may look like\n\n1- create group-1, group-2.\n2- add group-2 to group-1 as a subgroup.\n3- delete group-2.\n4- get audit log.\n\nSince we don\u0027t support to delete a group, #3 has to be done by update\nReviewDb/NoteDb directly.",
+      "parentUuid": "6471915d_5b486c06",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "696373a6937bede046369e56bf569cde0df213ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

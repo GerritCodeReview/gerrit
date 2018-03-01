@@ -509,6 +509,19 @@ Documentation]
 link:https://gerrit.googlesource.com/plugins/quota/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[readonly]]
+=== readonly
+
+A plugin that makes the Gerrit server read-only by rejecting git pushes,
+blocking HTTP PUT/POST/DELETE requests, and disabling SSH commands.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/readonly[
+Project] |
+link:https://gerrit.googlesource.com/plugins/readonly/+doc/master/src/main/resources/Documentation/about.md[
+Documentation] |
+link:https://gerrit.googlesource.com/plugins/readonly/+doc/master/src/main/resources/Documentation/config.md[
+Configuration]
+
 [[ref-protection]]
 === ref-protection
 

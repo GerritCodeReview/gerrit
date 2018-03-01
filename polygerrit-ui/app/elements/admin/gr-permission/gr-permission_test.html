@@ -300,6 +300,8 @@ limitations under the License.
       test('adding a rule', () => {
         element.name = 'Priority';
         element.section = 'refs/*';
+        element.groups = {};
+        element.$.groupAutocomplete.text = 'new group name';
         const e = {
           detail: {
             value: {
@@ -312,11 +314,12 @@ limitations under the License.
         assert.equal(Object.keys(element._groupsWithRules).length, 2);
         element._handleAddRuleItem(e);
         flushAsynchronousOperations();
+        assert.deepEqual(element.groups, {newUserGroupId: {
+            name: 'new group name'}});
         assert.equal(element._rules.length, 3);
         assert.equal(Object.keys(element._groupsWithRules).length, 3);
         assert.deepEqual(element.permission.value.rules['newUserGroupId'],
             {action: 'ALLOW', min: -2, max: 2, added: true});
-
         // New rule should be removed if cancel from editing.
         element.editing = false;
         assert.equal(element._rules.length, 2);

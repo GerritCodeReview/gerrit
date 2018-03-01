@@ -118,6 +118,30 @@
       "revId": "696373a6937bede046369e56bf569cde0df213ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be16cd07_4ea1ba4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-01T08:18:51Z",
+      "side": 1,
+      "message": "Aha. It could happen when the group is not a Gerrit internal group but a group from other system, e.g. google groups. In other system, groups could be deleted or just unavaliable for some reason.",
+      "parentUuid": "a493fafd_e04e2c3a",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "696373a6937bede046369e56bf569cde0df213ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

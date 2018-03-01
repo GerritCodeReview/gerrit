@@ -142,6 +142,30 @@
       "revId": "c6facdb695cd03b79f8ba721d26c7bd4541143db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2e3296c_b17f6bd1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-01T13:54:04Z",
+      "side": 1,
+      "message": "\u003e Hugo? Have you tried running it under Java9? For what I have read\n \u003e it should be less visible under it...\n\n\nUnfortunately, no. I think the plan to remove the circular dependency is the way forward, even if we keep guava.",
+      "parentUuid": "2c2ae99b_e6809825",
+      "range": {
+        "startLine": 12,
+        "startChar": 35,
+        "endLine": 12,
+        "endChar": 75
+      },
+      "revId": "c6facdb695cd03b79f8ba721d26c7bd4541143db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

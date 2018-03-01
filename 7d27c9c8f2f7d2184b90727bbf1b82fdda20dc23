@@ -22,6 +22,30 @@
       "revId": "7d27c9c8f2f7d2184b90727bbf1b82fdda20dc23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b43b7a95_c8ddf6bf",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-01T00:57:31Z",
+      "side": 0,
+      "message": "We still use it in _computeParentHref, so can\u0027t remove base-url-behavior right now. Though maybe that should get moved to gr-navigation at some point.",
+      "parentUuid": "0ac5fd42_e1593b7e",
+      "range": {
+        "startLine": 63,
+        "startChar": 20,
+        "endLine": 63,
+        "endChar": 33
+      },
+      "revId": "7d27c9c8f2f7d2184b90727bbf1b82fdda20dc23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

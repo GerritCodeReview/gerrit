@@ -163,6 +163,18 @@ Project] |
 link:https://gerrit.googlesource.com/plugins/admin-console/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
 
+[[analytics]]
+=== analytics
+
+Plugin to extract commit and review data from Gerrit projects and
+expose aggregated metrics over REST and SSH API.
+Metrics are extracted in JSON format with one record per line, ready to be
+archived and processed with popular BigData transformation tools such
+Apache Spark or published and visualized in dashboards.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/analytics[Project] |
+link:https://gerrit.googlesource.com/plugins/analytics/+doc/master/README.md[Documentation]
+
 [[avatars-external]]
 === avatars-external
 

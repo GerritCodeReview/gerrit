@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0e3575d8_b0429c7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-03-01T20:53:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "771c3fb4_9d185409",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 12
+      },
+      "revId": "5b6e7a5e95c3141e3b4d7488b64cfa4da4d6e2f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d38e1af_f8369fa0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 6
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "IMO this entire comment could be more direct\n\n    // Due to a intermittent bug accounts can be created without External Id until the bug is fixed ...",
       "parentUuid": "7d38e1af_f8369fa0",
+      "range": {
+        "startLine": 379,
+        "startChar": 40,
+        "endLine": 380,
+        "endChar": 23
+      },
+      "revId": "5b6e7a5e95c3141e3b4d7488b64cfa4da4d6e2f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68ce8a5d_09729a35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-03-01T20:53:44Z",
+      "side": 1,
+      "message": "Could it be more along these lines below?\n\nDue to an intermittent bug, often accounts are missing External Id\u0027s. Until the bug is fixed, allows the creation of external ID for existing account.",
+      "parentUuid": "ea9cb2c3_df9caa82",
       "range": {
         "startLine": 379,
         "startChar": 40,

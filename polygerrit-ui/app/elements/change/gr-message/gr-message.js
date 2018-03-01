@@ -14,7 +14,6 @@
 (function() {
   'use strict';
 
-  const CI_LABELS = ['Trybot-Ready', 'Tryjob-Request', 'Commit-Queue'];
   const PATCH_SET_PREFIX_PATTERN = /^Patch Set \d+: /;
   const LABEL_TITLE_SCORE_PATTERN = /^([A-Za-z0-9-]+)([+-]\d+)$/;
 
@@ -79,6 +78,13 @@
         type: String,
         observer: '_projectNameChanged',
       },
+
+      /**
+       * A mapping from label names to objects representing the minimum and
+       * maximum possible values for that label.
+       */
+      labelExtremes: Object,
+
       /**
        * @type {{ commentlinks: Array }}
        */
@@ -175,41 +181,42 @@
       return event.type === 'REVIEWER_UPDATE';
     },
 
-    _isMessagePositive(message) {
-      if (!message.message) { return null; }
+    _getScores(message) {
+      if (!message.message) { return []; }
       const line = message.message.split('\n', 1)[0];
       const patchSetPrefix = PATCH_SET_PREFIX_PATTERN;
-      if (!line.match(patchSetPrefix)) { return null; }
+      if (!line.match(patchSetPrefix)) { return []; }
       const scoresRaw = line.split(patchSetPrefix)[1];
-      if (!scoresRaw) { return null; }
-      const scores = scoresRaw.split(' ');
-      if (!scores.length) { return null; }
-      const {min, max} = scores
+      if (!scoresRaw) { return []; }
+      return scoresRaw.split(' ')
           .map(s => s.match(LABEL_TITLE_SCORE_PATTERN))
           .filter(ms => ms && ms.length === 3)
-          .filter(([, label]) => !CI_LABELS.includes(label))
-          .map(([, , score]) => score)
-          .map(s => parseInt(s, 10))
-          .reduce(({min, max}, s) =>
-              ({min: (s < min ? s : min), max: (s > max ? s : max)}),
-              {min: 0, max: 0});
-      if (max - min === 0) {
-        return 0;
-      } else {
-        return (max + min) > 0 ? 1 : -1;
+          .map(ms => ({label: ms[1], value: ms[2]}));
+    },
+
+    _computeScoreClass(score, labelExtremes) {
+      const classes = [];
+      if (score.value > 0) {
+        classes.push('positive');
+      } else if (score.value < 0) {
+        classes.push('negative');
       }
+      const extremes = labelExtremes[score.label];
+      if (extremes) {
+        const intScore = parseInt(score.value, 10);
+        if (intScore === extremes.max) {
+          classes.push('max');
+        } else if (intScore === extremes.min) {
+          classes.push('min');
+        }
+      }
+      return classes.join(' ');
     },
 
     _computeClass(expanded, showAvatar, message) {
       const classes = [];
       classes.push(expanded ? 'expanded' : 'collapsed');
       classes.push(showAvatar ? 'showAvatar' : 'hideAvatar');
-      const scoreQuality = this._isMessagePositive(message);
-      if (scoreQuality === 1) {
-        classes.push('positiveVote');
-      } else if (scoreQuality === -1) {
-        classes.push('negativeVote');
-      }
       return classes.join(' ');
     },
 

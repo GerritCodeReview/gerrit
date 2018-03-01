@@ -540,5 +540,40 @@ limitations under the License.
       assert.equal(messages.length, 5);
       assert.isFalse(element._hasAutomatedMessages(messages));
     });
+
+    test('_computeLabelExtremes', () => {
+      const computeSpy = sandbox.spy(element, '_computeLabelExtremes');
+
+      element.change = {};
+      assert.isTrue(computeSpy.calledOnce);
+      assert.deepEqual(computeSpy.lastCall.returnValue, {});
+
+      element.change = {labels: {}};
+      assert.isTrue(computeSpy.calledTwice);
+      assert.deepEqual(computeSpy.lastCall.returnValue, {});
+
+      element.change = {labels: {'my-label': {}}};
+      assert.isTrue(computeSpy.calledThrice);
+      assert.deepEqual(computeSpy.lastCall.returnValue, {});
+
+      element.change = {labels: {'my-label': {values: {}}}};
+      assert.equal(computeSpy.callCount, 4);
+      assert.deepEqual(computeSpy.lastCall.returnValue, {});
+
+      element.change = {labels: {'my-label': {values: {'-12': {}}}}};
+      assert.equal(computeSpy.callCount, 5);
+      assert.deepEqual(computeSpy.lastCall.returnValue,
+          {'my-label': {min: -12, max: -12}});
+
+      element.change = {labels: {
+        'my-label': {values: {'-12': {}}},
+        'other-label': {values: {'-1': {}, ' 0': {}, '+1': {}}},
+      }};
+      assert.equal(computeSpy.callCount, 6);
+      assert.deepEqual(computeSpy.lastCall.returnValue, {
+        'my-label': {min: -12, max: -12},
+        'other-label': {min: -1, max: 1},
+      });
+    });
   });
 </script>

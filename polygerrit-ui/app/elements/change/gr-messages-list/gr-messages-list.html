@@ -104,13 +104,14 @@ limitations under the License.
         items="[[_visibleMessages]]"
         as="message">
       <gr-message
-          change-num="[[changeNum]]"
+          change-num="[[change._number]]"
           message="[[message]]"
           comments="[[_computeCommentsForMessage(changeComments, message)]]"
           hide-automated="[[_hideAutomated]]"
-          project-name="[[projectName]]"
+          project-name="[[change.project]]"
           show-reply-button="[[showReplyButtons]]"
           on-scroll-to="_handleScrollTo"
+          label-extremes="[[_labelExtremes]]"
           data-message-id$="[[message.id]]"></gr-message>
     </template>
     <gr-reporting id="reporting" category="message-list"></gr-reporting>

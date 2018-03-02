@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37f3b9be_e3bd293f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-02T20:28:11Z",
+      "side": 1,
+      "message": "This @param can be removed from the JSDoc now.",
+      "revId": "a03de87fb88bc4dc47085283b48ab05845eec70b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e4ecd9c_8c03005e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-02T20:28:11Z",
+      "side": 1,
+      "message": "Nit: this line exceeds 80 characters.",
+      "revId": "a03de87fb88bc4dc47085283b48ab05845eec70b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

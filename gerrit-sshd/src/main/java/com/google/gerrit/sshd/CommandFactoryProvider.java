@@ -101,6 +101,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
         String c = requestCommand;
         SshCreateCommandInterceptor interceptor = createCommandInterceptor.get();
         if (interceptor != null) {
+          logger.info(interceptor.toString());
           c = interceptor.intercept(c);
         }
         return new Trampoline(c);

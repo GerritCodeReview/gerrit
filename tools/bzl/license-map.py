@@ -11,6 +11,8 @@ from sys import stdout, stderr
 import xml.etree.ElementTree as ET
 
 
+
+
 DO_NOT_DISTRIBUTE = "//lib:LICENSE-DO_NOT_DISTRIBUTE"
 
 LICENSE_PREFIX = "//lib:LICENSE-"
@@ -114,7 +116,7 @@ for n in sorted(graph.keys()):
   print("[[%s_license]]" % safename)
   print("----")
   with open(n[2:].replace(":", "/")) as fd:
-    copyfileobj(fd, stdout)
+    copyfileobj(fd.read(), stdout)
   print()
   print("----")
   print()

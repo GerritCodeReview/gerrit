@@ -23,10 +23,7 @@ import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
 import static com.google.gerrit.truth.OptionalSubject.assertThat;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupDescription.Basic;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
@@ -52,7 +49,6 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerId;
@@ -65,7 +61,7 @@ import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.group.db.GroupsConsistencyChecker;
 import com.google.gerrit.server.group.testing.InternalGroupSubject;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gerrit.testing.TestTimeUtil.TempClockStep;
@@ -84,14 +80,13 @@ import java.time.Month;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -591,9 +586,9 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
   public void logFormatWithExternalGroup() throws Exception {
     AccountGroup group = createInReviewDb("group");
 
-    backends.add(new TestGroupBackend());
-    AccountGroup.UUID subgroupUuid = TestGroupBackend.createUuuid("foo");
-
+    TestGroupBackend testGroupBackend = new TestGroupBackend();
+    backends.add(testGroupBackend);
+    AccountGroup.UUID subgroupUuid = testGroupBackend.add(ObjectId.zeroId().name());
     assertThat(groupBackend.handles(subgroupUuid)).isTrue();
     addSubgroupsInReviewDb(group.getId(), subgroupUuid);
 
@@ -637,10 +632,10 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
             "Update group\n"
                 + "\n"
                 + "Add-group: "
-                + TestGroupBackend.PREFIX
-                + "foo <"
-                + TestGroupBackend.PREFIX
-                + "foo>");
+                + subgroupUuid.get()
+                + " <"
+                + subgroupUuid.get()
+                + ">");
     assertThat(log.get(2)).author().name().isEqualTo(currentUser.getName());
     assertThat(log.get(2)).author().email().isEqualTo(currentUser.getAccountId() + "@" + serverId);
     assertThat(log.get(2)).committer().hasSameDateAs(log.get(2).author);
@@ -1127,78 +1122,5 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
     groupInfo.options = new GroupOptionsInfo();
     groupInfo.options.visibleToAll = group.isVisibleToAll() ? true : null;
     return groupInfo;
-  }
-
-  private static class TestGroupBackend implements GroupBackend {
-    static final String PREFIX = "testbackend:";
-
-    static AccountGroup.UUID createUuuid(String name) {
-      return new AccountGroup.UUID(PREFIX + name);
-    }
-
-    @Override
-    public Collection<GroupReference> suggest(String name, ProjectState project) {
-      return ImmutableSet.of();
-    }
-
-    @Override
-    public GroupMembership membershipsOf(IdentifiedUser user) {
-      return new GroupMembership() {
-        @Override
-        public Set<AccountGroup.UUID> intersection(Iterable<AccountGroup.UUID> groupIds) {
-          return ImmutableSet.of();
-        }
-
-        @Override
-        public Set<AccountGroup.UUID> getKnownGroups() {
-          return ImmutableSet.of();
-        }
-
-        @Override
-        public boolean containsAnyOf(Iterable<AccountGroup.UUID> groupIds) {
-          return false;
-        }
-
-        @Override
-        public boolean contains(AccountGroup.UUID groupId) {
-          return false;
-        }
-      };
-    }
-
-    @Override
-    public boolean isVisibleToAll(AccountGroup.UUID uuid) {
-      return false;
-    }
-
-    @Override
-    public boolean handles(AccountGroup.UUID uuid) {
-      return uuid.get().startsWith(PREFIX);
-    }
-
-    @Override
-    public Basic get(AccountGroup.UUID uuid) {
-      return new GroupDescription.Basic() {
-        @Override
-        public AccountGroup.UUID getGroupUUID() {
-          return uuid;
-        }
-
-        @Override
-        public String getName() {
-          return uuid.get().substring(PREFIX.length());
-        }
-
-        @Override
-        public String getEmailAddress() {
-          return null;
-        }
-
-        @Override
-        public String getUrl() {
-          return null;
-        }
-      };
-    }
   }
 }

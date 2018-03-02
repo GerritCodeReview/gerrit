@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.common.data.LabelValue.formatValue;
+import static com.google.gerrit.server.project.SubmitRuleOptions.DEFAULT_OPTIONS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -124,7 +125,7 @@ public class ReviewerJson {
     // do not exist in the DB.
     PatchSet ps = cd.currentPatchSet();
     if (ps != null) {
-      for (SubmitRecord rec : submitRuleEvaluatorFactory.create(cd).evaluate()) {
+      for (SubmitRecord rec : submitRuleEvaluatorFactory.create(DEFAULT_OPTIONS).evaluate(cd)) {
         if (rec.labels == null) {
           continue;
         }

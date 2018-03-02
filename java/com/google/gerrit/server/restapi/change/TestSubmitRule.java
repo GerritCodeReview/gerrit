@@ -75,7 +75,6 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
 
     List<SubmitRecord> records =
         evaluator
-            .setPatchSet(rsrc.getPatchSet())
             .setLogErrors(false)
             .setSkipSubmitFilters(input.filters == Filters.SKIP)
             .setRule(input.rule)

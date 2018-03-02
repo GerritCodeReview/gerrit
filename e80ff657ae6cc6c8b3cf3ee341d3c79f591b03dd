@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dbb6adb2_47ee1bf6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-03-02T16:22:29Z",
+      "side": 1,
+      "message": "I agree with you that this is not the right fix. The way we fixed this issue is by trying to replicate the situation manually by deleting entries from the DB and verifying the issues that came up after we replicate the issue. This helps in handling the aftermath and buys us some time to keep investigating the issue while not having to add the entries for new users manually everytime it fails.",
+      "parentUuid": "2e37f90c_6ea0bc55",
+      "range": {
+        "startLine": 9,
+        "startChar": 26,
+        "endLine": 9,
+        "endChar": 51
+      },
+      "revId": "e80ff657ae6cc6c8b3cf3ee341d3c79f591b03dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fad7017_a2e3ad45",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "2d4eb950_d4164daa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-03-02T16:22:29Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "7fad7017_a2e3ad45",
+      "range": {
+        "startLine": 11,
+        "startChar": 68,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "e80ff657ae6cc6c8b3cf3ee341d3c79f591b03dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b45f32d_c5564d72",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 8
@@ -59,6 +107,30 @@
       "writtenOn": "2018-03-01T23:25:06Z",
       "side": 1,
       "message": "Move this statement to line 122. Why to confuse site admin, who will try to understand that log, and tell him, we are creating new account, just to say on the next statement that account already exists and we are linking instead?",
+      "range": {
+        "startLine": 111,
+        "startChar": 10,
+        "endLine": 111,
+        "endChar": 19
+      },
+      "revId": "e80ff657ae6cc6c8b3cf3ee341d3c79f591b03dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6328d982_6ad1768e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-03-02T16:22:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b45f32d_c5564d72",
       "range": {
         "startLine": 111,
         "startChar": 10,
@@ -117,6 +189,54 @@
     },
     {
       "key": {
+        "uuid": "3a62acdb_a72e6250",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-03-02T16:22:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87a84770_5b1f9d25",
+      "range": {
+        "startLine": 112,
+        "startChar": 78,
+        "endLine": 112,
+        "endChar": 80
+      },
+      "revId": "e80ff657ae6cc6c8b3cf3ee341d3c79f591b03dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8788e472_92bc4f12",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-03-02T16:22:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e93640c_2d8c93f2",
+      "range": {
+        "startLine": 112,
+        "startChar": 80,
+        "endLine": 112,
+        "endChar": 97
+      },
+      "revId": "e80ff657ae6cc6c8b3cf3ee341d3c79f591b03dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b82d3e5_c7203901",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 8
@@ -128,6 +248,30 @@
       "writtenOn": "2018-03-01T23:25:06Z",
       "side": 1,
       "message": "Username could be null.",
+      "range": {
+        "startLine": 113,
+        "startChar": 70,
+        "endLine": 113,
+        "endChar": 87
+      },
+      "revId": "e80ff657ae6cc6c8b3cf3ee341d3c79f591b03dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bd23996_c1107e39",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-03-02T16:22:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b82d3e5_c7203901",
       "range": {
         "startLine": 113,
         "startChar": 70,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "bd8deb6d_895a6657",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-03-02T16:22:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a6dae61_299f150c",
+      "range": {
+        "startLine": 115,
+        "startChar": 10,
+        "endLine": 115,
+        "endChar": 35
+      },
+      "revId": "e80ff657ae6cc6c8b3cf3ee341d3c79f591b03dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed146682_e452680f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 8
@@ -174,6 +342,30 @@
       "writtenOn": "2018-03-01T23:25:06Z",
       "side": 1,
       "message": "Swap: link new identity to the existing account.",
+      "range": {
+        "startLine": 117,
+        "startChar": 46,
+        "endLine": 117,
+        "endChar": 90
+      },
+      "revId": "e80ff657ae6cc6c8b3cf3ee341d3c79f591b03dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a25d0137_c3afc7db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-03-02T16:22:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed146682_e452680f",
       "range": {
         "startLine": 117,
         "startChar": 46,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "0c964624_ad832644",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-03-02T16:22:29Z",
+      "side": 1,
+      "message": "My bad, this is trying to fix another issue with the null username even when the username is there. I will move it out of this change.",
+      "parentUuid": "02766945_7bc82238",
+      "range": {
+        "startLine": 179,
+        "startChar": 6,
+        "endLine": 182,
+        "endChar": 7
+      },
+      "revId": "e80ff657ae6cc6c8b3cf3ee341d3c79f591b03dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f1ad0f5_f8396129",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 8
@@ -220,6 +436,30 @@
       "writtenOn": "2018-03-01T23:25:06Z",
       "side": 1,
       "message": "Link another authentication identity to an existing account",
+      "range": {
+        "startLine": 368,
+        "startChar": 16,
+        "endLine": 368,
+        "endChar": 82
+      },
+      "revId": "e80ff657ae6cc6c8b3cf3ee341d3c79f591b03dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3accc69c_1f9e3622",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-03-02T16:22:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f1ad0f5_f8396129",
       "range": {
         "startLine": 368,
         "startChar": 16,
@@ -255,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "5b182a5f_fe1643fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-03-02T16:22:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "682fb6d5_cfef8674",
+      "range": {
+        "startLine": 374,
+        "startChar": 8,
+        "endLine": 374,
+        "endChar": 31
+      },
+      "revId": "e80ff657ae6cc6c8b3cf3ee341d3c79f591b03dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52470e36_2780a3fd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 8
@@ -266,6 +530,30 @@
       "writtenOn": "2018-03-01T23:25:06Z",
       "side": 1,
       "message": "Linking",
+      "range": {
+        "startLine": 376,
+        "startChar": 18,
+        "endLine": 376,
+        "endChar": 26
+      },
+      "revId": "e80ff657ae6cc6c8b3cf3ee341d3c79f591b03dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cca3aba1_d55d0ac9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-03-02T16:22:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52470e36_2780a3fd",
       "range": {
         "startLine": 376,
         "startChar": 18,
@@ -301,6 +589,30 @@
     },
     {
       "key": {
+        "uuid": "c2ebf863_c54dde2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-03-02T16:22:29Z",
+      "side": 1,
+      "message": "Please refer the comment below for clarification.",
+      "parentUuid": "8a240f2b_2594b80c",
+      "range": {
+        "startLine": 378,
+        "startChar": 8,
+        "endLine": 379,
+        "endChar": 91
+      },
+      "revId": "e80ff657ae6cc6c8b3cf3ee341d3c79f591b03dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c512b42_50c6d46c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 8
@@ -312,6 +624,30 @@
       "writtenOn": "2018-03-01T23:25:06Z",
       "side": 1,
       "message": "Why was this changed? The case that the external id exists was covered on line 370 by updating the external id with AuthRequest on line 374. In this branch we already know, that this external id does not exist in the database, thus insert is always correct and sufficiently. Note, that in the case external id for \"gerrit:foo\" is missing, and only \"username:bar\" exists, we are not updating here \"username:bar\", but inserting a new \"gerrit:foo\", thus it should stay insert.",
+      "range": {
+        "startLine": 382,
+        "startChar": 13,
+        "endLine": 382,
+        "endChar": 19
+      },
+      "revId": "e80ff657ae6cc6c8b3cf3ee341d3c79f591b03dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24462b80_3ef87b18",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-03-02T16:22:29Z",
+      "side": 1,
+      "message": "This is to make sure we update the existing account both in Gerrit Db and Note Map. As the cause is still unknown, with the speculation that DB did not sync well while creating the account but the Note Map inserts an entry for the account. Then insert will not work because this call does two things - insert/update entries in DB followed by inserting/updating the Note Map. Having \"insert\" operation here can fail at the Note Map level. I agree that \"upsert\" causes a bit of overhead but this was the best solution we had as of now.",
+      "parentUuid": "4c512b42_50c6d46c",
       "range": {
         "startLine": 382,
         "startChar": 13,

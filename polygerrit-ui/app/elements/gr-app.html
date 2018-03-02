@@ -141,8 +141,8 @@ limitations under the License.
       <template is="dom-if" if="[[_showChangeListView]]" restamp="true">
         <gr-change-list-view
             params="[[params]]"
-            view-state="{{_viewState.changeListView}}"
-            logged-in="[[_computeLoggedIn(_account)]]"></gr-change-list-view>
+            account="[[_account]]"
+            view-state="{{_viewState.changeListView}}"></gr-change-list-view>
       </template>
       <template is="dom-if" if="[[_showDashboardView]]" restamp="true">
         <gr-dashboard-view

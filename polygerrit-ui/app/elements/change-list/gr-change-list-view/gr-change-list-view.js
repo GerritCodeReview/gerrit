@@ -49,9 +49,14 @@
       /**
        * True when user is logged in.
        */
-      loggedIn: {
+      _loggedIn: {
         type: Boolean,
-        value: false,
+        computed: '_computeLoggedIn(account)',
+      },
+
+      account: {
+        type: Object,
+        value: null,
       },
 
       /**
@@ -219,6 +224,10 @@
 
     _computePage(offset, changesPerPage) {
       return offset / changesPerPage + 1;
+    },
+
+    _computeLoggedIn(account) {
+      return !!(account && Object.keys(account).length > 0);
     },
   });
 })();

@@ -83,6 +83,54 @@
     },
     {
       "key": {
+        "uuid": "157e9c0a_b06b0ac7",
+        "filename": "java/com/google/gerrit/server/rules/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-02T12:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c10ed39_2c5b7e77",
+      "range": {
+        "startLine": 22,
+        "startChar": 3,
+        "endLine": 22,
+        "endChar": 34
+      },
+      "revId": "22e9c49d50244b67c61c45d48df4091eaaccc0b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7c179c7_896ab000",
+        "filename": "java/com/google/gerrit/server/rules/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-02T12:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1eab08b_0bf52d3f",
+      "range": {
+        "startLine": 22,
+        "startChar": 85,
+        "endLine": 22,
+        "endChar": 93
+      },
+      "revId": "22e9c49d50244b67c61c45d48df4091eaaccc0b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fee542e_81d34617",
         "filename": "java/com/google/gerrit/server/rules/SubmitRuleEvaluator.java",
         "patchSetId": 2
@@ -103,6 +151,30 @@
       "revId": "22e9c49d50244b67c61c45d48df4091eaaccc0b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d081d86_1f66e3c1",
+        "filename": "java/com/google/gerrit/server/rules/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-02T12:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fee542e_81d34617",
+      "range": {
+        "startLine": 23,
+        "startChar": 35,
+        "endLine": 23,
+        "endChar": 37
+      },
+      "revId": "22e9c49d50244b67c61c45d48df4091eaaccc0b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

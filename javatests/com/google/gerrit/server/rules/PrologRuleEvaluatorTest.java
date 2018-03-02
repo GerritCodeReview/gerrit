@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.project;
+package com.google.gerrit.server.rules;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -21,6 +21,7 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.TestChanges;
@@ -36,9 +37,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SubmitRulesEvaluatorTest {
+public class PrologRuleEvaluatorTest {
   private static final Account.Id ADMIN_USER = new Account.Id(1000);
-  @Inject private SubmitRuleEvaluator.Factory evaluatorFactory;
+  @Inject private PrologRuleEvaluator.Factory evaluatorFactory;
 
   @Before
   public void setUp() throws Exception {
@@ -52,8 +53,7 @@ public class SubmitRulesEvaluatorTest {
 
   @Test
   public void convertsPrologToSubmitRecord() {
-    SubmitRuleEvaluator evaluator = makeEvaluator();
-    ChangeData cd = makeChangeData();
+    PrologRuleEvaluator evaluator = makeEvaluator();
 
     List<Term> terms = new ArrayList<>();
     StructureTerm verifiedLabel = makeLabel("Verified", "may");
@@ -61,7 +61,7 @@ public class SubmitRulesEvaluatorTest {
     terms.add(makeTerm("ok", labels));
 
     // When
-    Collection<SubmitRecord> records = evaluator.resultsToSubmitRecord(null, terms, cd);
+    Collection<SubmitRecord> records = evaluator.resultsToSubmitRecord(null, terms);
 
     // assert that
     assertThat(records).hasSize(1);
@@ -99,8 +99,7 @@ public class SubmitRulesEvaluatorTest {
    */
   @Test
   public void abortsEarlyWithOkayRecord() {
-    SubmitRuleEvaluator evaluator = makeEvaluator();
-    ChangeData cd = makeChangeData();
+    PrologRuleEvaluator evaluator = makeEvaluator();
 
     SubmitRecord.Label submitRecordLabel1 = new SubmitRecord.Label();
     submitRecordLabel1.label = "Verified";
@@ -130,7 +129,7 @@ public class SubmitRulesEvaluatorTest {
     terms.add(makeTerm("not_ready", makeLabels(label3)));
 
     // When
-    List<SubmitRecord> records = evaluator.resultsToSubmitRecord(null, terms, cd);
+    List<SubmitRecord> records = evaluator.resultsToSubmitRecord(null, terms);
 
     // assert that
     SubmitRecord record1Expected = new SubmitRecord();
@@ -160,8 +159,8 @@ public class SubmitRulesEvaluatorTest {
     return cd;
   }
 
-  private SubmitRuleEvaluator makeEvaluator() {
-    return evaluatorFactory.create(SubmitRuleOptions.DEFAULT_OPTIONS);
+  private PrologRuleEvaluator makeEvaluator() {
+    return evaluatorFactory.create(makeChangeData(), SubmitRuleOptions.DEFAULT_OPTIONS);
   }
 
   private StructureTerm makeLabel(String name, String status) {

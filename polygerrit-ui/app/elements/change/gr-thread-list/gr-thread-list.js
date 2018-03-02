@@ -21,6 +21,14 @@
       change: Object,
       threads: Array,
       changeNum: String,
+      ignoreChanges: {
+        type: Boolean,
+        value: false,
+      },
+    },
+
+    _isOnParent(side) {
+      return !!side;
     },
 
     _toggleUnresolved() {
@@ -29,10 +37,6 @@
 
     _toggleDrafts() {
       this.$.threads.classList.toggle('draftsOnly');
-    },
-
-    _getDiffUrlForComment(change, path, patchNum, lineNum) {
-      return Gerrit.Nav.getUrlForDiff(change, path, patchNum, null, lineNum);
     },
   });
 })();

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "cbf02ecc_ae3d1cff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-02T09:02:15Z",
+      "side": 1,
+      "message": "Ok. Can we compare the approaches and decisions made in these two series, and reflect on the simmilarities and differences in this commit message or in a different place? And my question wasn\u0027t answered yet: was Saša\u0027s series investiagted before this work was started?",
+      "parentUuid": "feb80769_9358ac7c",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "9b123ce8f90e4bc33a7dca8b05d150eb8d1df7f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34def4cf_e17bb897",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 4

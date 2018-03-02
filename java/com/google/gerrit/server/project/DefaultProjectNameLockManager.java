@@ -14,17 +14,12 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import com.google.common.util.concurrent.Striped;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 @Singleton
 public class DefaultProjectNameLockManager implements ProjectNameLockManager {
@@ -37,24 +32,10 @@ public class DefaultProjectNameLockManager implements ProjectNameLockManager {
     }
   }
 
-  LoadingCache<Project.NameKey, Lock> lockCache =
-      CacheBuilder.newBuilder()
-          .maximumSize(1024)
-          .expireAfterAccess(5, TimeUnit.MINUTES)
-          .build(
-              new CacheLoader<Project.NameKey, Lock>() {
-                @Override
-                public Lock load(Project.NameKey key) throws Exception {
-                  return new ReentrantLock();
-                }
-              });
+  Striped<Lock> locks = Striped.lock(10);
 
   @Override
   public Lock getLock(Project.NameKey name) {
-    try {
-      return lockCache.get(name);
-    } catch (ExecutionException e) {
-      throw new RuntimeException(e);
-    }
+    return locks.get(name);
   }
 }

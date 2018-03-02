@@ -527,8 +527,8 @@ public class PluginLoader implements LifecycleListener {
         newPlugin.start(env);
       }
       if (reload) {
-        env.onReloadPlugin(oldPlugin, newPlugin);
         unloadPlugin(oldPlugin);
+        env.onReloadPlugin(oldPlugin, newPlugin);
       } else if (!newPlugin.isDisabled()) {
         env.onStartPlugin(newPlugin);
       }

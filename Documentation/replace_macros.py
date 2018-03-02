@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 # coding=utf-8
 # Copyright (C) 2013 The Android Open Source Project
 #
@@ -229,12 +229,12 @@ opts.add_option('--no-searchbox', action="store_false", dest='searchbox',
 options, _ = opts.parse_args()
 
 try:
-  out_file = open(options.out, 'w')
-  src_file = open(options.src, 'r')
+  out_file = open(options.out, 'w', errors='ignore')
+  src_file = open(options.src, 'r', errors='ignore')
   last_line = ''
   ignore_next_line = False
   last_title = ''
-  for line in src_file.xreadlines():
+  for line in src_file:
     if PAT_GERRIT.match(last_line):
       # Case of "GERRIT\n------" at the footer
       out_file.write(GERRIT_UPLINK)

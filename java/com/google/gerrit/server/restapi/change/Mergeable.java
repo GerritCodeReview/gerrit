@@ -146,7 +146,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
 
   private SubmitType getSubmitType(ChangeData cd, PatchSet patchSet) throws OrmException {
     SubmitTypeRecord rec =
-        submitRuleEvaluatorFactory.create(cd).setPatchSet(patchSet).getSubmitType();
+        submitRuleEvaluatorFactory.create(cd).getSubmitType();
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new OrmException("Submit type rule failed: " + rec);
     }

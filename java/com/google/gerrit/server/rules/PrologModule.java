@@ -22,6 +22,8 @@ public class PrologModule extends FactoryModule {
   protected void configure() {
     install(new EnvironmentModule());
     bind(PrologEnvironment.Args.class);
+    bind(PrologRule.class);
+    factory(PrologRuleEvaluator.Factory.class);
   }
 
   static class EnvironmentModule extends FactoryModule {

@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
+import static com.google.gerrit.server.project.SubmitRuleOptions.DEFAULT_OPTIONS;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
@@ -911,7 +912,7 @@ public class ChangeData {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
-      records = submitRuleEvaluatorFactory.create(this).setOptions(options).evaluate();
+      records = submitRuleEvaluatorFactory.create(options).evaluate(this);
       submitRecords.put(options, records);
     }
     return records;
@@ -928,7 +929,7 @@ public class ChangeData {
 
   public SubmitTypeRecord submitTypeRecord() {
     if (submitTypeRecord == null) {
-      submitTypeRecord = submitRuleEvaluatorFactory.create(this).getSubmitType();
+      submitTypeRecord = submitRuleEvaluatorFactory.create(DEFAULT_OPTIONS).getSubmitType(this);
     }
     return submitTypeRecord;
   }

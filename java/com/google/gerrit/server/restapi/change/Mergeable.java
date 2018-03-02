@@ -112,7 +112,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
     }
 
     ChangeData cd = changeDataFactory.create(db.get(), resource.getNotes());
-    result.submitType = getSubmitType(cd, ps);
+    result.submitType = getSubmitType(cd);
 
     try (Repository git = gitManager.openRepository(change.getProject())) {
       ObjectId commit = toId(ps);
@@ -144,9 +144,8 @@ public class Mergeable implements RestReadView<RevisionResource> {
     return result;
   }
 
-  private SubmitType getSubmitType(ChangeData cd, PatchSet patchSet) throws OrmException {
-    SubmitTypeRecord rec =
-        submitRuleEvaluatorFactory.create(cd).setPatchSet(patchSet).getSubmitType();
+  private SubmitType getSubmitType(ChangeData cd) throws OrmException {
+    SubmitTypeRecord rec = submitRuleEvaluatorFactory.create(cd).getSubmitType();
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new OrmException("Submit type rule failed: " + rec);
     }

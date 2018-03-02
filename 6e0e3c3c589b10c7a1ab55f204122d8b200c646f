@@ -16,6 +16,24 @@
       "revId": "6e0e3c3c589b10c7a1ab55f204122d8b200c646f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea41ed9a_30e597a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-02T09:40:46Z",
+      "side": 1,
+      "message": "Thanks for uploading, it\u0027s fine as is.",
+      "parentUuid": "adc45cba_20a21611",
+      "revId": "6e0e3c3c589b10c7a1ab55f204122d8b200c646f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

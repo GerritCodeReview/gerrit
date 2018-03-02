@@ -253,6 +253,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected MutableNotesMigration notesMigration;
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected BatchAbandon batchAbandon;
+  @Inject protected TestGroupBackend testGroupBackend;
 
   protected EventRecorder eventRecorder;
   protected GerritServer server;
@@ -396,6 +397,7 @@ public abstract class AbstractDaemonTest {
 
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
     List<Module> additionalModules = new ArrayList<>(1);
+    additionalModules.add(new TestGroupBackend.Module());
     additionalModules.add(createModule());
     if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
       if (commonServer == null) {
@@ -444,6 +446,8 @@ public abstract class AbstractDaemonTest {
     atrScope.set(ctx);
     project = createProject(projectInput(description));
     testRepo = cloneProject(project, getCloneAsAccount(description));
+
+    testGroupBackend.clear();
   }
 
   /** Override to bind an additional Guice module */

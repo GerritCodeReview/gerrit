@@ -113,7 +113,7 @@ for n in sorted(graph.keys()):
   print()
   print("[[%s_license]]" % safename)
   print("----")
-  with open(n[2:].replace(":", "/")) as fd:
+  with open(n.decode('utf-8')[2:].replace(":", "/")) as fd:
     copyfileobj(fd, stdout)
   print()
   print("----")

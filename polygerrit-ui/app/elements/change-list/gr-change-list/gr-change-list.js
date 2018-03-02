@@ -16,6 +16,8 @@
 
   const NUMBER_FIXED_COLUMNS = 3;
 
+  const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
+
   Polymer({
     is: 'gr-change-list',
 
@@ -228,8 +230,11 @@
           account._account_id != change.owner._account_id;
     },
 
-    _computeItemAssigned(account, change) {
-      if (!change.assignee) { return false; }
+    _computeItemHighlight(account, change) {
+      if (!change.assignee ||
+          CLOSED_STATUS.indexOf(change.status) !== -1) {
+        return false;
+      }
       return account._account_id === change.assignee._account_id;
     },
 

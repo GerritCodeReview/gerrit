@@ -450,7 +450,7 @@ limitations under the License.
           'Should navigate to /c/4/');
     });
 
-    test('assigned attribute set in each item', () => {
+    test('highlight attribute set in each item', () => {
       element.changes = [
         {
           _number: 0,
@@ -465,12 +465,20 @@ limitations under the License.
       ];
       element.account = {_account_id: 42};
       flushAsynchronousOperations();
-      const items = element._getListItems();
+      let items = element._getListItems();
       assert.equal(items.length, 2);
-      for (let i = 0; i < items.length; i++) {
-        assert.equal(items[i].hasAttribute('assigned'),
-            items[i]._account_id === element.account._account_id);
-      }
+      assert.isFalse(items[0].hasAttribute('highlight'));
+      assert.isFalse(items[1].hasAttribute('highlight'));
+
+      // Assign all issues to the user, but only the first one is highlighted
+      // because the second one is abandoned.
+      element.set(['changes', 0, 'assignee'], {_account_id: 12});
+      element.set(['changes', 1, 'assignee'], {_account_id: 12});
+      element.account = {_account_id: 12};
+      flushAsynchronousOperations();
+      items = element._getListItems();
+      assert.isTrue(items[0].hasAttribute('highlight'));
+      assert.isFalse(items[1].hasAttribute('highlight'));
     });
 
     test('_computeItemAbsoluteIndex', () => {

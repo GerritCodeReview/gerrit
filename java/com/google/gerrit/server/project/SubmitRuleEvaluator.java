@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.gerrit.common.Nullable;
@@ -23,7 +22,6 @@ import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.Emails;
@@ -98,7 +96,6 @@ public class SubmitRuleEvaluator {
   private SubmitRuleOptions.Builder optsBuilder = SubmitRuleOptions.builder();
   private SubmitRuleOptions opts;
   private Change change;
-  private PatchSet patchSet;
   private boolean logErrors = true;
   private long reductionsConsumed;
   private ProjectState projectState;
@@ -139,21 +136,6 @@ public class SubmitRuleEvaluator {
     } else {
       optsBuilder = SubmitRuleOptions.builder();
     }
-    return this;
-  }
-
-  /**
-   * @param ps patch set of the change to evaluate. If not set, the current patch set will be loaded
-   *     from {@link #evaluate()} or {@link #getSubmitType}.
-   * @return this
-   */
-  public SubmitRuleEvaluator setPatchSet(PatchSet ps) {
-    checkArgument(
-        ps.getId().getParentKey().equals(cd.getId()),
-        "Patch set %s does not match change %s",
-        ps.getId(),
-        cd.getId());
-    patchSet = ps;
     return this;
   }
 
@@ -627,13 +609,6 @@ public class SubmitRuleEvaluator {
       projectState = projectCache.get(change.getProject());
       if (projectState == null) {
         throw new NoSuchProjectException(change.getProject());
-      }
-    }
-
-    if (patchSet == null) {
-      patchSet = cd.currentPatchSet();
-      if (patchSet == null) {
-        throw new OrmException("No patch set found");
       }
     }
   }

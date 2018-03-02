@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e162b3f1_95944ebd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-02T20:32:44Z",
+      "side": 1,
+      "message": "Optionally, maybe some add a bit more detail on how the style is different.",
+      "revId": "a3b3b0f5c4baad688f36a53e0e91c9da999069d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72b61fc6_33671de5",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-02T20:32:44Z",
+      "side": 1,
+      "message": "Nit: indent by one more space.",
+      "revId": "a3b3b0f5c4baad688f36a53e0e91c9da999069d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

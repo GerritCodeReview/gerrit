@@ -735,7 +735,7 @@ public class ChangeField {
 
   public static void parseSubmitRecords(
       Collection<String> values, SubmitRuleOptions opts, ChangeData out) {
-    List<SubmitRecord> records = parseSubmitRecords(values);
+    Collection<SubmitRecord> records = parseSubmitRecords(values);
     if (records.isEmpty()) {
       // Assume no values means the field is not in the index;
       // SubmitRuleEvaluator ensures the list is non-empty.
@@ -745,7 +745,7 @@ public class ChangeField {
   }
 
   @VisibleForTesting
-  static List<SubmitRecord> parseSubmitRecords(Collection<String> values) {
+  static Collection<SubmitRecord> parseSubmitRecords(Collection<String> values) {
     return values
         .stream()
         .map(v -> GSON.fromJson(v, StoredSubmitRecord.class).toSubmitRecord())
@@ -753,8 +753,11 @@ public class ChangeField {
   }
 
   @VisibleForTesting
-  static List<byte[]> storedSubmitRecords(List<SubmitRecord> records) {
-    return Lists.transform(records, r -> GSON.toJson(new StoredSubmitRecord(r)).getBytes(UTF_8));
+  static List<byte[]> storedSubmitRecords(Collection<SubmitRecord> records) {
+    return records
+        .stream()
+        .map(r -> GSON.toJson(new StoredSubmitRecord(r)).getBytes(UTF_8))
+        .collect(toList());
   }
 
   private static Iterable<byte[]> storedSubmitRecords(ChangeData cd, SubmitRuleOptions opts) {
@@ -767,7 +770,8 @@ public class ChangeField {
   }
 
   @VisibleForTesting
-  static List<String> formatSubmitRecordValues(List<SubmitRecord> records, Account.Id changeOwner) {
+  static List<String> formatSubmitRecordValues(
+      Collection<SubmitRecord> records, Account.Id changeOwner) {
     List<String> result = new ArrayList<>();
     for (SubmitRecord rec : records) {
       result.add(rec.status.name());

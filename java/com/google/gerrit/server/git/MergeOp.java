@@ -177,7 +177,7 @@ public class MergeOp implements AutoCloseable {
       return ImmutableListMultimap.copyOf(problems);
     }
 
-    public List<SubmitRecord> getSubmitRecords(Change.Id id) {
+    public Collection<SubmitRecord> getSubmitRecords(Change.Id id) {
       // Use the cached submit records from the original ChangeData in the input
       // ChangeSet, which were checked earlier in the integrate process. Even in
       // the case of a race where the submit records may have changed, it makes
@@ -290,7 +290,7 @@ public class MergeOp implements AutoCloseable {
     if (patchSet == null) {
       throw new ResourceConflictException("missing current patch set for change " + cd.getId());
     }
-    List<SubmitRecord> results = getSubmitRecords(cd, allowClosed);
+    Collection<SubmitRecord> results = getSubmitRecords(cd, allowClosed);
     if (SubmitRecord.allRecordsOK(results)) {
       // Rules supplied a valid solution.
       return;
@@ -330,11 +330,11 @@ public class MergeOp implements AutoCloseable {
     return allowClosed ? SUBMIT_RULE_OPTIONS_ALLOW_CLOSED : SUBMIT_RULE_OPTIONS;
   }
 
-  private static List<SubmitRecord> getSubmitRecords(ChangeData cd, boolean allowClosed) {
+  private static Collection<SubmitRecord> getSubmitRecords(ChangeData cd, boolean allowClosed) {
     return cd.submitRecords(submitRuleOptions(allowClosed));
   }
 
-  private static String describeLabels(ChangeData cd, List<SubmitRecord.Label> labels)
+  private static String describeLabels(ChangeData cd, Collection<SubmitRecord.Label> labels)
       throws OrmException {
     List<String> labelResults = new ArrayList<>();
     for (SubmitRecord.Label lbl : labels) {
@@ -398,7 +398,7 @@ public class MergeOp implements AutoCloseable {
     checkArgument(
         !cs.furtherHiddenChanges(), "cannot bypass submit rules for topic with hidden change");
     for (ChangeData cd : cs.changes()) {
-      List<SubmitRecord> records = new ArrayList<>(getSubmitRecords(cd, allowClosed));
+      Collection<SubmitRecord> records = new ArrayList<>(getSubmitRecords(cd, allowClosed));
       SubmitRecord forced = new SubmitRecord();
       forced.status = SubmitRecord.Status.FORCED;
       records.add(forced);

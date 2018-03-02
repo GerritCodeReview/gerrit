@@ -660,7 +660,7 @@ public class ChangeJson {
     return SubmitRecord.allRecordsOK(cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT));
   }
 
-  private List<SubmitRecord> submitRecords(ChangeData cd) {
+  private Collection<SubmitRecord> submitRecords(ChangeData cd) {
     return cd.submitRecords(SUBMIT_RULE_OPTIONS_LENIENT);
   }
 

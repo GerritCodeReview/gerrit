@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 # coding=utf-8
 # Copyright (C) 2013 The Android Open Source Project
 #
@@ -229,25 +229,25 @@ opts.add_option('--no-searchbox', action="store_false", dest='searchbox',
 options, _ = opts.parse_args()
 
 try:
-  out_file = open(options.out, 'w')
+  out_file = open(options.out, 'wb')
   src_file = open(options.src, 'r')
   last_line = ''
   ignore_next_line = False
   last_title = ''
-  for line in src_file.xreadlines():
+  for line in src_file:
     if PAT_GERRIT.match(last_line):
       # Case of "GERRIT\n------" at the footer
-      out_file.write(GERRIT_UPLINK)
+      out_file.write(GERRIT_UPLINK.encode('utf-8'))
       last_line = ''
     elif PAT_SEARCHBOX.match(last_line):
       # Case of 'SEARCHBOX\n---------'
       if options.searchbox:
-        out_file.write(SEARCH_BOX)
+        out_file.write(SEARCH_BOX.encode('utf-8'))
       last_line = ''
     elif PAT_INCLUDE.match(line):
       # Case of 'include::<filename>'
       match = PAT_INCLUDE.match(line)
-      out_file.write(last_line)
+      out_file.write(last_line.encode('utf-8'))
       last_line = match.group(1) + options.suffix + match.group(2) + '\n'
     elif PAT_STARS.match(line):
       if PAT_TITLE.match(last_line):
@@ -255,22 +255,22 @@ try:
         match = PAT_TITLE.match(last_line)
         last_title = GET_TITLE % match.group(1)
       else:
-        out_file.write(last_line)
+        out_file.write(last_line.encode('utf-8'))
         last_title = ''
     elif PAT_GET.match(line):
       # Case of '****\nget::<url>\n****' in rest api
       url = PAT_GET.match(line).group(1)
-      out_file.write(GET_MACRO.format(url) % last_title)
+      out_file.write(GET_MACRO.format(url).encode('utf-8') % last_title.encode('utf-8'))
       ignore_next_line = True
     elif ignore_next_line:
       # Handle the trailing '****' of the 'get::' case
       last_line = ''
       ignore_next_line = False
     else:
-      out_file.write(last_line)
+      out_file.write(last_line.encode('utf-8'))
       last_line = line
-  out_file.write(last_line)
-  out_file.write(LINK_SCRIPT)
+  out_file.write(last_line.encode('utf-8'))
+  out_file.write(LINK_SCRIPT.encode('utf-8'))
   out_file.close()
 except IOError as err:
   sys.stderr.write(

@@ -11,6 +11,7 @@ from sys import stdout, stderr
 import xml.etree.ElementTree as ET
 
 
+
 DO_NOT_DISTRIBUTE = "//lib:LICENSE-DO_NOT_DISTRIBUTE"
 
 LICENSE_PREFIX = "//lib:LICENSE-"

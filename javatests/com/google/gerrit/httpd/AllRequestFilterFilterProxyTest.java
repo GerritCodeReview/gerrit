@@ -39,7 +39,7 @@ public class AllRequestFilterFilterProxyTest {
   /**
    * Set of filters for FilterProxy
    *
-   * <p>This set is used to as set of filters when fetching an {@link AllRequestFilter.FilterProxy}
+   * <p>This set is used as set of filters when fetching an {@link AllRequestFilter.FilterProxy}
    * instance through {@link #getFilterProxy()}.
    */
   private DynamicSet<AllRequestFilter> filters;

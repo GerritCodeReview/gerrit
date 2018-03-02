@@ -85,6 +85,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.StarsInput;
+import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.ChangeKind;
@@ -1502,6 +1503,98 @@ public class ChangeIT extends AbstractDaemonTest {
     batchIn.notify = NotifyHandling.OWNER_REVIEWERS;
     gApi.changes().id(r.getChangeId()).revision("current").review(batchIn);
     assertThat(sender.getMessages()).hasSize(1);
+  }
+
+  @Test
+  public void addReviewerThatIsNotPerfectMatch() throws Exception {
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
+    PushOneCommit.Result r = createChange();
+    ChangeResource rsrc = parseResource(r);
+    String oldETag = rsrc.getETag();
+    Timestamp oldTs = rsrc.getChange().getLastUpdatedOn();
+
+    //create a group named "ab" with one user: testUser
+    TestAccount testUser = accountCreator.create(name("abcd"), name("abcd") + "@test.com", "abcd");
+    String testGroup = createGroupWithRealName("ab");
+    GroupApi groupApi = gApi.groups().id(testGroup);
+    groupApi.description("test group");
+    groupApi.addMembers(user.fullName);
+
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = "abc";
+    gApi.changes().id(r.getChangeId()).addReviewer(in.reviewer);
+
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(testUser.emailAddress);
+    assertThat(m.body()).contains("Hello " + testUser.fullName + ",\n");
+    assertThat(m.body()).contains("I'd like you to do a code review.");
+    assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
+    assertMailReplyTo(m, testUser.email);
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
+
+    // When NoteDb is enabled adding a reviewer records that user as reviewer
+    // in NoteDb. When NoteDb is disabled adding a reviewer results in a dummy 0
+    // approval on the change which is treated as CC when the ChangeInfo is
+    // created.
+    Collection<AccountInfo> reviewers = c.reviewers.get(REVIEWER);
+    assertThat(reviewers).isNotNull();
+    assertThat(reviewers).hasSize(1);
+    assertThat(reviewers.iterator().next()._accountId).isEqualTo(testUser.getId().get());
+
+    // Ensure ETag and lastUpdatedOn are updated.
+    rsrc = parseResource(r);
+    assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
+    assertThat(rsrc.getChange().getLastUpdatedOn()).isNotEqualTo(oldTs);
+  }
+
+  @Test
+  public void addGroupAsReviewersWhenANotPerfectMatchedUserExists() throws Exception {
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
+    PushOneCommit.Result r = createChange();
+    ChangeResource rsrc = parseResource(r);
+    String oldETag = rsrc.getETag();
+    Timestamp oldTs = rsrc.getChange().getLastUpdatedOn();
+
+    //create a group named "us" with one user: testUser
+    TestAccount testUser = accountCreator.create(name("testUser"), name("testUser") + "@test.com", "testUser");
+    String testGroup =
+        createGroupWithRealName(user.fullName.substring(0, user.fullName.length() / 2));
+    GroupApi groupApi = gApi.groups().id(testGroup);
+    groupApi.description("test group");
+    groupApi.addMembers(testUser.fullName);
+
+    //ensure that user "user" is not in the group
+    groupApi.removeMembers(user.fullName);
+
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = testGroup;
+    gApi.changes().id(r.getChangeId()).addReviewer(in.reviewer);
+
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(testUser.emailAddress);
+    assertThat(m.body()).contains("Hello " + testUser.fullName + ",\n");
+    assertThat(m.body()).contains("I'd like you to do a code review.");
+    assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
+    assertMailReplyTo(m, testUser.email);
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
+
+    // When NoteDb is enabled adding a reviewer records that user as reviewer
+    // in NoteDb. When NoteDb is disabled adding a reviewer results in a dummy 0
+    // approval on the change which is treated as CC when the ChangeInfo is
+    // created.
+    Collection<AccountInfo> reviewers = c.reviewers.get(REVIEWER);
+    assertThat(reviewers).isNotNull();
+    assertThat(reviewers).hasSize(1);
+    assertThat(reviewers.iterator().next()._accountId).isEqualTo(testUser.getId().get());
+
+    // Ensure ETag and lastUpdatedOn are updated.
+    rsrc = parseResource(r);
+    assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
+    assertThat(rsrc.getChange().getLastUpdatedOn()).isNotEqualTo(oldTs);
   }
 
   @Test

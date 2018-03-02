@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51375088_08a777a0",
+        "filename": "java/com/google/gerrit/common/data/SubmitRequirement.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-02T08:40:16Z",
+      "side": 1,
+      "message": "nit: all of these should be final",
+      "revId": "0109896078e6a9cc7cbb39e8e0e061474e670b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "973dea7a_b0bfa6bd",
+        "filename": "java/com/google/gerrit/common/data/SubmitRequirement.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-02T08:40:16Z",
+      "side": 1,
+      "message": "I think you can easily cut down on the boiler plate of this class by removing the builder and having a static create method instead\n\n  public static SubmitRequirement create(String shortReason, String fullReason, @Nullable String label);\n\nYou can then run null-checks on the variables that you assume to be not null (checkNotNull - I hope GWT supports that)\n\n(Static create methods are used in AutoValues as well when you don\u0027t need the benefits that builders provide - mainly, that is adding fields one-by-one).",
+      "revId": "0109896078e6a9cc7cbb39e8e0e061474e670b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d53996f_55895598",
+        "filename": "java/com/google/gerrit/server/data/SubmitRecordAttribute.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-02T08:40:16Z",
+      "side": 1,
+      "message": "While you are already here, please add a single line JavaDoc summary fragment.",
+      "revId": "0109896078e6a9cc7cbb39e8e0e061474e670b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bac2087_47327aad",
+        "filename": "java/com/google/gerrit/server/data/SubmitRequirementAttribute.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-02T08:40:16Z",
+      "side": 1,
+      "message": "nit: Please add a single line JavaDoc summary fragment",
+      "revId": "0109896078e6a9cc7cbb39e8e0e061474e670b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9c5b05f_e26d755a",
+        "filename": "javatests/com/google/gerrit/common/data/SubmitRequirementTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-02T08:40:16Z",
+      "side": 1,
+      "message": "I think this test can be removed. The class is just a data container without much logic.\n\nInstead, I think it would be much more interesting to test the logic that you added to ChangeField as this is potentially more hairy (it deals with pre-existing index data). The heavy-lifting there is done by GSON luckily, but a test would still be beneficial.",
+      "revId": "0109896078e6a9cc7cbb39e8e0e061474e670b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

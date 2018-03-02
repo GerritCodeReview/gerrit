@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1edbd26_d999b3c6",
+        "filename": "java/com/google/gerrit/common/data/SubmitRecord.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-02T13:22:25Z",
+      "side": 1,
+      "message": "I think the collection type we use here for labels and requirements should be consistent.",
+      "revId": "f42c7bfa1214c8f9013bd5475283791021387c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b711ef1_556bd5d9",
+        "filename": "java/com/google/gerrit/common/data/SubmitRequirement.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-02T13:22:25Z",
+      "side": 1,
+      "message": "optional: reduce boiler plate by only keeping:\n\n  public static SubmitRequirement create(String shortReason, String fullReason) {\n    return create(shortReason, fullReason, null);\n  }\n\n  public static SubmitRequirement create(String shortReason, String fullReason, String label) {\n    SubmitRequirement req \u003d new SubmitRequirement();\n    req.shortReason \u003d requireNonNull(shortReason);\n    ...\n    return req;\n  }",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 3
+      },
+      "revId": "f42c7bfa1214c8f9013bd5475283791021387c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e21056c_a001796f",
+        "filename": "java/com/google/gerrit/server/data/SubmitRecordAttribute.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-02T13:22:25Z",
+      "side": 1,
+      "message": "remove: s",
+      "range": {
+        "startLine": 21,
+        "startChar": 57,
+        "endLine": 21,
+        "endChar": 58
+      },
+      "revId": "f42c7bfa1214c8f9013bd5475283791021387c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "425d95df_5e7c01c8",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-02T13:22:25Z",
+      "side": 1,
+      "message": "@Nullable",
+      "range": {
+        "startLine": 664,
+        "startChar": 6,
+        "endLine": 664,
+        "endChar": 7
+      },
+      "revId": "f42c7bfa1214c8f9013bd5475283791021387c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

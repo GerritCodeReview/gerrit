@@ -70,6 +70,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.restapi.group.GroupModule;
 import com.google.gerrit.server.rules.PrologModule;
+import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -154,7 +155,6 @@ public class BatchProgramModule extends FactoryModule {
     install(new ExternalIdModule());
     install(new GroupModule());
     install(new NoteDbModule(cfg));
-    install(new PrologModule());
     install(AccountCacheImpl.module());
     install(GroupCacheImpl.module());
     install(GroupIncludeCacheImpl.module());
@@ -166,7 +166,11 @@ public class BatchProgramModule extends FactoryModule {
     factory(CapabilityCollection.Factory.class);
     factory(ChangeData.AssistedFactory.class);
     factory(ProjectState.Factory.class);
+
+    // Submit rule evaluator
+    DynamicMap.mapOf(binder(), SubmitRule.class);
     factory(SubmitRuleEvaluator.Factory.class);
+    install(new PrologModule());
 
     bind(ChangeJson.Factory.class).toProvider(Providers.<ChangeJson.Factory>of(null));
     bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);

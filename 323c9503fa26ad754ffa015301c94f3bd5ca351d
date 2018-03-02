@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "47743cbd_ca70b6a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-02T21:57:14Z",
+      "side": 1,
+      "message": "You\u0027re right. This is a subtle bug that deserves a more-complete treatment here. Done.",
+      "parentUuid": "cc3f189b_e89156cb",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 18
+      },
+      "revId": "323c9503fa26ad754ffa015301c94f3bd5ca351d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4ebefa7_514d4cd0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "aa99ee8e_d1bfeba6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-02T21:57:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4ebefa7_514d4cd0",
+      "range": {
+        "startLine": 12,
+        "startChar": 10,
+        "endLine": 12,
+        "endChar": 22
+      },
+      "revId": "323c9503fa26ad754ffa015301c94f3bd5ca351d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c89b587_b542ce31",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 3
@@ -62,6 +110,24 @@
       "revId": "323c9503fa26ad754ffa015301c94f3bd5ca351d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba14b9af_753c811b",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-02T21:57:14Z",
+      "side": 1,
+      "message": "I\u0027ve added more notes to the commit message that explain the role of this method.",
+      "parentUuid": "5c89b587_b542ce31",
+      "revId": "323c9503fa26ad754ffa015301c94f3bd5ca351d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

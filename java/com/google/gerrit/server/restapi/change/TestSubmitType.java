@@ -78,8 +78,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
     SubmitTypeRecord rec = evaluator.getSubmitType(cd);
 
     if (rec.status != SubmitTypeRecord.Status.OK) {
-      throw new BadRequestException(
-          String.format("rule %s produced invalid result: %s", evaluator.getSubmitRuleName(), rec));
+      throw new BadRequestException(String.format("rule produced invalid result: %s", rec));
     }
 
     return rec.type;

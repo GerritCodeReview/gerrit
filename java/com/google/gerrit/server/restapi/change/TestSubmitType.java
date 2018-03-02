@@ -69,7 +69,6 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
 
     SubmitTypeRecord rec =
         evaluator
-            .setPatchSet(rsrc.getPatchSet())
             .setLogErrors(false)
             .setSkipSubmitFilters(input.filters == Filters.SKIP)
             .setRule(input.rule)

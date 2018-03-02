@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.server.project;
+package com.google.gerrit.acceptance.server.rules;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -21,9 +21,9 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.rules.PrologRuleEvaluator;
 import com.google.gerrit.testing.TestChanges;
 import com.google.inject.Inject;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
@@ -34,8 +34,8 @@ import java.util.Collection;
 import java.util.List;
 import org.junit.Test;
 
-public class SubmitRulesEvaluatorIT extends AbstractDaemonTest {
-  @Inject private SubmitRuleEvaluator.Factory evaluatorFactory;
+public class PrologRuleEvaluatorIT extends AbstractDaemonTest {
+  @Inject private PrologRuleEvaluator.Factory evaluatorFactory;
 
   private static Term makeTerm(String status, StructureTerm labels) {
     return new StructureTerm(status, labels);
@@ -56,14 +56,13 @@ public class SubmitRulesEvaluatorIT extends AbstractDaemonTest {
 
   @Test
   public void convertsPrologToSubmitRecord() {
-    SubmitRuleEvaluator evaluator = makeEvaluator();
-    ChangeData cd = makeChangeData();
+    PrologRuleEvaluator evaluator = makeEvaluator();
 
     StructureTerm verifiedLabel = makeLabel("Verified", "may");
     StructureTerm labels = new StructureTerm("label", verifiedLabel);
 
     List<Term> terms = ImmutableList.of(makeTerm("ok", labels));
-    Collection<SubmitRecord> records = evaluator.resultsToSubmitRecord(null, terms, cd);
+    Collection<SubmitRecord> records = evaluator.resultsToSubmitRecord(null, terms);
 
     assertThat(records).hasSize(1);
   }
@@ -100,8 +99,7 @@ public class SubmitRulesEvaluatorIT extends AbstractDaemonTest {
    */
   @Test
   public void abortsEarlyWithOkayRecord() {
-    SubmitRuleEvaluator evaluator = makeEvaluator();
-    ChangeData cd = makeChangeData();
+    PrologRuleEvaluator evaluator = makeEvaluator();
 
     SubmitRecord.Label submitRecordLabel1 = new SubmitRecord.Label();
     submitRecordLabel1.label = "Verified";
@@ -131,7 +129,7 @@ public class SubmitRulesEvaluatorIT extends AbstractDaemonTest {
     terms.add(makeTerm("not_ready", makeLabels(label3)));
 
     // When
-    List<SubmitRecord> records = evaluator.resultsToSubmitRecord(null, terms, cd);
+    List<SubmitRecord> records = evaluator.resultsToSubmitRecord(null, terms);
 
     // assert that
     SubmitRecord record1Expected = new SubmitRecord();
@@ -156,7 +154,7 @@ public class SubmitRulesEvaluatorIT extends AbstractDaemonTest {
     return cd;
   }
 
-  private SubmitRuleEvaluator makeEvaluator() {
-    return evaluatorFactory.create(SubmitRuleOptions.defaults());
+  private PrologRuleEvaluator makeEvaluator() {
+    return evaluatorFactory.create(makeChangeData(), SubmitRuleOptions.defaults());
   }
 }

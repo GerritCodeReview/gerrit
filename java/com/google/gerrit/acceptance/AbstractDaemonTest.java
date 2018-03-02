@@ -66,6 +66,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -88,6 +89,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.change.BatchAbandon;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.FileContentUtil;
@@ -238,7 +240,9 @@ public abstract class AbstractDaemonTest {
   @Inject protected FakeEmailSender sender;
   @Inject protected GerritApi gApi;
   @Inject protected GitRepositoryManager repoManager;
+  @Inject protected DynamicSet<GroupBackend> groupBackends;
   @Inject protected GroupBackend groupBackend;
+  @Inject protected UniversalGroupBackend universalGroupBackend;
   @Inject protected GroupCache groupCache;
   @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;
   @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
@@ -269,6 +273,7 @@ public abstract class AbstractDaemonTest {
   protected Description description;
   protected boolean testRequiresSsh;
   protected BlockStrategy noSleepBlockStrategy = t -> {}; // Don't sleep in tests.
+  protected TestGroupBackend testGroupBackend;
 
   @Inject private ChangeIndexCollection changeIndexes;
   @Inject private EventRecorder.Factory eventRecorderFactory;
@@ -300,6 +305,12 @@ public abstract class AbstractDaemonTest {
       // disable them using the command line flag.
       assume().that(SshMode.useSsh()).isTrue();
     }
+  }
+
+  @Before
+  public void initGroupBackend() {
+    testGroupBackend = new TestGroupBackend();
+    groupBackends.add(testGroupBackend);
   }
 
   @After

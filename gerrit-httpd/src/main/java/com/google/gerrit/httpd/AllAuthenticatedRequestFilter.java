@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,13 +24,13 @@ import javax.servlet.Filter;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 
-/** Filters all HTTP requests passing through the server. */
-public abstract class AllRequestFilter implements Filter {
+/** Filters HTTP requests after authentication by the server. */
+public abstract class AllAuthenticatedRequestFilter implements Filter {
   public static ServletModule module() {
     return new ServletModule() {
       @Override
       protected void configureServlets() {
-        DynamicSet.setOf(binder(), AllRequestFilter.class);
+        DynamicSet.setOf(binder(), AllAuthenticatedRequestFilter.class);
         filter("/*").through(FilterProxy.class);
 
         bind(StopPluginListener.class)
@@ -41,9 +41,9 @@ public abstract class AllRequestFilter implements Filter {
   }
 
   @Singleton
-  static class FilterProxy extends FilterProxyType<AllRequestFilter> {
+  static class FilterProxy extends FilterProxyType<AllAuthenticatedRequestFilter> {
     @Inject
-    FilterProxy(DynamicSet<AllRequestFilter> filters) {
+    FilterProxy(DynamicSet<AllAuthenticatedRequestFilter> filters) {
       super(filters);
     }
   }

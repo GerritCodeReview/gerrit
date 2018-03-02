@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "adc45cba_20a21611",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-02T08:50:25Z",
+      "side": 1,
+      "message": "The patch is as suggested by David O. in the issue tracker.  We can replace the author later if necessary.",
+      "revId": "6e0e3c3c589b10c7a1ab55f204122d8b200c646f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

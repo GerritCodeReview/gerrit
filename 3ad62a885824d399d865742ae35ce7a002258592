@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "883946fd_245a96a8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-02T21:22:34Z",
+      "side": 1,
+      "message": "Good idea. Done.",
+      "parentUuid": "f3c2badd_f9ddc02b",
+      "range": {
+        "startLine": 234,
+        "startChar": 5,
+        "endLine": 237,
+        "endChar": 7
+      },
+      "revId": "3ad62a885824d399d865742ae35ce7a002258592",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aee2c7cf_2b833075",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.html",
         "patchSetId": 2

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d20b9092_fbec7905",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-02T07:05:45Z",
+      "side": 1,
+      "message": "Are you aware of Saša\u0027s previous work on this topic during Gerrit Hackathon 2016? See this series in general: [1] and this CL in particular: [2]. I would expect that you investigate Saša\u0027s approach before re-inventing the wheel. So may be just revive Saša\u0027s series and concentrate the efforts on adaptation against the current master and finalizing the review process?\n\n* [1] https://gerrit-review.googlesource.com/?polygerrit\u003d0#/q/status:abandoned+topic:non-prolog-submit-rules-gh16\n* [2] https://gerrit-review.googlesource.com/?polygerrit\u003d0#/c/gerrit/+/72212/",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "9b123ce8f90e4bc33a7dca8b05d150eb8d1df7f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34def4cf_e17bb897",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 4

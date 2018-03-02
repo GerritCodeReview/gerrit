@@ -25,6 +25,9 @@ import com.google.inject.util.Providers;
 import com.google.inject.util.Types;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * A single item that can be modified as plugins reload.
  *
@@ -34,6 +37,8 @@ import java.util.concurrent.atomic.AtomicReference;
  * exception is thrown.
  */
 public class DynamicItem<T> {
+  private static final Logger log = LoggerFactory.getLogger(DynamicItem.class);
+
   /** Pair of provider implementation and plugin providing it. */
   static class NamedProvider<T> {
     final Provider<T> impl;
@@ -220,6 +225,7 @@ public class DynamicItem<T> {
       this.handleKey = handleKey;
       this.item = item;
       this.defaultItem = defaultItem;
+      log.info(String.format("add item [%s] defaultItem [%s]", item.toString(), defaultItem == null ? "null" : defaultItem.toString()));
     }
 
     @Override
@@ -229,6 +235,7 @@ public class DynamicItem<T> {
 
     @Override
     public void remove() {
+      log.info(String.format("remove item [%s] defaultItem [%s]", item.toString(), defaultItem == null ? "null" : defaultItem.toString()));
       ref.compareAndSet(item, defaultItem);
     }
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 # coding=utf-8
 # Copyright (C) 2013 The Android Open Source Project
 #
@@ -234,41 +234,42 @@ try:
   last_line = ''
   ignore_next_line = False
   last_title = ''
-  for line in src_file.xreadlines():
-    if PAT_GERRIT.match(last_line):
-      # Case of "GERRIT\n------" at the footer
-      out_file.write(GERRIT_UPLINK)
-      last_line = ''
-    elif PAT_SEARCHBOX.match(last_line):
-      # Case of 'SEARCHBOX\n---------'
-      if options.searchbox:
-        out_file.write(SEARCH_BOX)
-      last_line = ''
-    elif PAT_INCLUDE.match(line):
-      # Case of 'include::<filename>'
-      match = PAT_INCLUDE.match(line)
-      out_file.write(last_line)
-      last_line = match.group(1) + options.suffix + match.group(2) + '\n'
-    elif PAT_STARS.match(line):
-      if PAT_TITLE.match(last_line):
-        # Case of the title in '.<title>\n****\nget::<url>\n****'
-        match = PAT_TITLE.match(last_line)
-        last_title = GET_TITLE % match.group(1)
+  with open(src_file) as fp:
+    for line in fp:
+      if PAT_GERRIT.match(last_line):
+        # Case of "GERRIT\n------" at the footer
+        out_file.write(GERRIT_UPLINK)
+        last_line = ''
+      elif PAT_SEARCHBOX.match(last_line):
+        # Case of 'SEARCHBOX\n---------'
+        if options.searchbox:
+          out_file.write(SEARCH_BOX)
+        last_line = ''
+      elif PAT_INCLUDE.match(line):
+        # Case of 'include::<filename>'
+        match = PAT_INCLUDE.match(line)
+        out_file.write(last_line)
+        last_line = match.group(1) + options.suffix + match.group(2) + '\n'
+      elif PAT_STARS.match(line):
+        if PAT_TITLE.match(last_line):
+          # Case of the title in '.<title>\n****\nget::<url>\n****'
+          match = PAT_TITLE.match(last_line)
+          last_title = GET_TITLE % match.group(1)
+        else:
+          out_file.write(last_line)
+          last_title = ''
+      elif PAT_GET.match(line):
+        # Case of '****\nget::<url>\n****' in rest api
+        url = PAT_GET.match(line).group(1)
+        out_file.write(GET_MACRO.format(url) % last_title)
+        ignore_next_line = True
+      elif ignore_next_line:
+        # Handle the trailing '****' of the 'get::' case
+        last_line = ''
+        ignore_next_line = False
       else:
         out_file.write(last_line)
-        last_title = ''
-    elif PAT_GET.match(line):
-      # Case of '****\nget::<url>\n****' in rest api
-      url = PAT_GET.match(line).group(1)
-      out_file.write(GET_MACRO.format(url) % last_title)
-      ignore_next_line = True
-    elif ignore_next_line:
-      # Handle the trailing '****' of the 'get::' case
-      last_line = ''
-      ignore_next_line = False
-    else:
-      out_file.write(last_line)
-      last_line = line
+        last_line = line
   out_file.write(last_line)
   out_file.write(LINK_SCRIPT)
   out_file.close()

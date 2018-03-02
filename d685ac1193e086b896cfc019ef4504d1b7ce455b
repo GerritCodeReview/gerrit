@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be34e18d_fdfe1b56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-02T12:01:58Z",
+      "side": 1,
+      "message": "Should we mention issue 7903 here?",
+      "revId": "d685ac1193e086b896cfc019ef4504d1b7ce455b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

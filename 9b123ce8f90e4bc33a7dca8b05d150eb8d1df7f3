@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "feb80769_9358ac7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-02T08:18:15Z",
+      "side": 1,
+      "message": "+1 to looking at the change series and learning from this experience and the review comments on there.\n\nI would not try to revive the series but start fresh keeping in mind with what we learned from back then. The code base changed a lot since then and also Maxime is trying to make smaller changes by breaking up the project into chunks.",
+      "parentUuid": "d20b9092_fbec7905",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "9b123ce8f90e4bc33a7dca8b05d150eb8d1df7f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34def4cf_e17bb897",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 4

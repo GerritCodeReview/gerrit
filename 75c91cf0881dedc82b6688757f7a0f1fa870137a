@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b248bc14_df2a993d",
+        "filename": "java/com/google/gerrit/common/data/SubmitRecord.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-02T12:17:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d035da64_c581aecc",
+      "range": {
+        "startLine": 23,
+        "startChar": 24,
+        "endLine": 23,
+        "endChar": 38
+      },
+      "revId": "75c91cf0881dedc82b6688757f7a0f1fa870137a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a24ecb2a_ff2aa574",
         "filename": "java/com/google/gerrit/common/data/SubmitRecord.java",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "75c91cf0881dedc82b6688757f7a0f1fa870137a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "345009e2_3592c04e",
+        "filename": "java/com/google/gerrit/common/data/SubmitRecord.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-02T12:17:34Z",
+      "side": 1,
+      "message": "Done.\nIndeed, I had something else in mind when writing the code (adding a Status.MAYBE value)",
+      "parentUuid": "a24ecb2a_ff2aa574",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 68
+      },
+      "revId": "75c91cf0881dedc82b6688757f7a0f1fa870137a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

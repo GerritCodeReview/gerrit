@@ -71,6 +71,54 @@
     },
     {
       "key": {
+        "uuid": "c499592f_2faa3e71",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-02T19:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96adac20_eba7853e",
+      "range": {
+        "startLine": 126,
+        "startChar": 21,
+        "endLine": 126,
+        "endChar": 25
+      },
+      "revId": "4c262e3509c101cf901a6d23a16206bea59aa9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13f95d04_ddc0793e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-02T19:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0321fca4_acd12c88",
+      "range": {
+        "startLine": 126,
+        "startChar": 5,
+        "endLine": 126,
+        "endChar": 14
+      },
+      "revId": "4c262e3509c101cf901a6d23a16206bea59aa9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba0403f1_e3599510",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
         "patchSetId": 4
@@ -82,6 +130,30 @@
       "writtenOn": "2018-03-02T19:28:30Z",
       "side": 1,
       "message": "Optional nit: this might be slightly easier to read if it\u0027s wrapped like:\n\nconst getParentComments \u003d opt_side \u003d\u003d\u003d \u0027left\u0027 \u0026\u0026\n    patchRange.basePatchNum \u003d\u003d\u003d \u0027PARENT\u0027;",
+      "range": {
+        "startLine": 140,
+        "startChar": 6,
+        "endLine": 141,
+        "endChar": 23
+      },
+      "revId": "4c262e3509c101cf901a6d23a16206bea59aa9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1ad48ff_0bf20819",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-02T19:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba0403f1_e3599510",
       "range": {
         "startLine": 140,
         "startChar": 6,
@@ -111,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "21613291_919daaee",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-02T19:49:21Z",
+      "side": 1,
+      "message": "Hmm, well now that only one is optional (line), perhaps I will leave it.",
+      "parentUuid": "26955460_8bf75647",
+      "revId": "4c262e3509c101cf901a6d23a16206bea59aa9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb169987_76e6d459",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
         "patchSetId": 4
@@ -131,6 +221,30 @@
       "revId": "4c262e3509c101cf901a6d23a16206bea59aa9ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80c9da0f_d9383d16",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-02T19:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb169987_76e6d459",
+      "range": {
+        "startLine": 176,
+        "startChar": 27,
+        "endLine": 176,
+        "endChar": 54
+      },
+      "revId": "4c262e3509c101cf901a6d23a16206bea59aa9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -177,6 +291,54 @@
       "revId": "4c262e3509c101cf901a6d23a16206bea59aa9ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "890cf922_06f56b03",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-02T19:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07db9f78_1ba93133",
+      "range": {
+        "startLine": 178,
+        "startChar": 16,
+        "endLine": 178,
+        "endChar": 24
+      },
+      "revId": "4c262e3509c101cf901a6d23a16206bea59aa9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e371e7d_b8eaf0a8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-02T19:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a84f8811_2ef1ea46",
+      "range": {
+        "startLine": 177,
+        "startChar": 6,
+        "endLine": 178,
+        "endChar": 27
+      },
+      "revId": "4c262e3509c101cf901a6d23a16206bea59aa9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.RulesCache;
 import com.google.gwtorm.server.OrmException;
@@ -70,22 +71,21 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
       throw new AuthException("project rules are disabled");
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
-    SubmitRuleEvaluator evaluator =
-        submitRuleEvaluatorFactory.create(changeDataFactory.create(db.get(), rsrc.getNotes()));
 
-    List<SubmitRecord> records =
-        evaluator
-            .setLogErrors(false)
-            .setSkipSubmitFilters(input.filters == Filters.SKIP)
-            .setRule(input.rule)
-            .evaluate();
+    SubmitRuleOptions opts =
+        SubmitRuleOptions.builder()
+            .skipFilters(input.filters == Filters.SKIP)
+            .rule(input.rule)
+            .logErrors(false)
+            .build();
+
+    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getNotes());
+    List<SubmitRecord> records = submitRuleEvaluatorFactory.create(opts).evaluate(cd);
+
     List<Record> out = Lists.newArrayListWithCapacity(records.size());
     AccountLoader accounts = accountInfoFactory.create(true);
     for (SubmitRecord r : records) {
       out.add(new Record(r, accounts));
-    }
-    if (!out.isEmpty()) {
-      out.get(0).prologReductionCount = evaluator.getReductionsConsumed();
     }
     accounts.fill();
     return out;
@@ -99,7 +99,6 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
     Map<String, None> need;
     Map<String, AccountInfo> may;
     Map<String, None> impossible;
-    Long prologReductionCount;
 
     Record(SubmitRecord r, AccountLoader accounts) {
       this.status = r.status;

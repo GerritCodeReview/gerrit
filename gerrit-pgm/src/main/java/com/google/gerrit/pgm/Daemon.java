@@ -21,6 +21,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.EventBroker;
 import com.google.gerrit.gpg.GpgModule;
+import com.google.gerrit.httpd.AllAuthenticatedRequestFilter;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.GerritOptions;
 import com.google.gerrit.httpd.GetUserFilter;
@@ -490,6 +491,7 @@ public class Daemon extends SiteProgram {
       modules.add(new OAuthModule());
     }
     modules.add(sysInjector.getInstance(GetUserFilter.Module.class));
+    modules.add(AllAuthenticatedRequestFilter.module());
 
     // StaticModule contains a "/*" wildcard, place it last.
     modules.add(sysInjector.getInstance(StaticModule.class));

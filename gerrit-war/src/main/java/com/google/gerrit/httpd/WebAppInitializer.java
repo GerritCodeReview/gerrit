@@ -387,6 +387,7 @@ public class WebAppInitializer extends GuiceServletContextListener
       modules.add(new OAuthModule());
     }
     modules.add(sysInjector.getInstance(GetUserFilter.Module.class));
+    modules.add(AllAuthenticatedRequestFilter.module());
 
     // StaticModule contains a "/*" wildcard, place it last.
     modules.add(sysInjector.getInstance(StaticModule.class));

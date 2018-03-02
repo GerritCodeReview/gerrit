@@ -34,6 +34,24 @@
       "revId": "ed561804ebade686ed4f7372d7a3b2f0b7cb4e29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bca2859_e4420e59",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-03-02T11:18:45Z",
+      "side": 1,
+      "message": "I think that this test exposed an already existing problem (creating the same project from two threads concurrently) and that this change is not causing the issue. This change tries to fix the issue, but the fix iwas not bullet-proof as David Ostrovsky proved.",
+      "parentUuid": "bae97835_5031412c",
+      "revId": "ed561804ebade686ed4f7372d7a3b2f0b7cb4e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

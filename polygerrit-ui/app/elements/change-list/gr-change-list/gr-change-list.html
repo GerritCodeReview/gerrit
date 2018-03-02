@@ -80,7 +80,7 @@ limitations under the License.
         <template is="dom-repeat" items="[[changeSection.results]]" as="change">
           <gr-change-list-item
               selected$="[[_computeItemSelected(sectionIndex, index, selectedIndex)]]"
-              assigned$="[[_computeItemAssigned(account, change)]]"
+              highlight$="[[_computeItemHighlight(account, change)]]"
               needs-review$="[[_computeItemNeedsReview(account, change, showReviewedState)]]"
               change="[[change]]"
               visible-change-table-columns="[[visibleChangeTableColumns]]"

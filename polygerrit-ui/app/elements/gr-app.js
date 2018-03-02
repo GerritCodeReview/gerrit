@@ -185,11 +185,6 @@
       this.$.header.unfloat();
     },
 
-    // Argument used for binding update only.
-    _computeLoggedIn(account) {
-      return !!(account && Object.keys(account).length > 0);
-    },
-
     _computeShowGwtUiLink(config) {
       return config.gerrit.web_uis && config.gerrit.web_uis.includes('GWT');
     },

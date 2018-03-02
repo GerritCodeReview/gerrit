@@ -32,6 +32,7 @@ import com.google.gerrit.server.rules.RulesCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,7 +81,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
             .build();
 
     ChangeData cd = changeDataFactory.create(db.get(), rsrc.getNotes());
-    List<SubmitRecord> records = submitRuleEvaluatorFactory.create(opts).evaluate(cd);
+    Collection<SubmitRecord> records = submitRuleEvaluatorFactory.create(opts).evaluate(cd);
 
     List<Record> out = Lists.newArrayListWithCapacity(records.size());
     AccountLoader accounts = accountInfoFactory.create(true);

@@ -223,7 +223,7 @@ public class EventFactory {
    * @param ca
    * @param submitRecords
    */
-  public void addSubmitRecords(ChangeAttribute ca, List<SubmitRecord> submitRecords) {
+  public void addSubmitRecords(ChangeAttribute ca, Collection<SubmitRecord> submitRecords) {
     ca.submitRecords = new ArrayList<>();
 
     for (SubmitRecord submitRecord : submitRecords) {

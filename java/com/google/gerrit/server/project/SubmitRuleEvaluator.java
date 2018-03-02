@@ -41,6 +41,7 @@ import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import org.slf4j.Logger;
@@ -117,7 +118,7 @@ public class SubmitRuleEvaluator {
    *     errors.
    * @param cd ChangeData to evaluate
    */
-  public List<SubmitRecord> evaluate(ChangeData cd) {
+  public Collection<SubmitRecord> evaluate(ChangeData cd) {
     Change change;
     ProjectState projectState;
     try {

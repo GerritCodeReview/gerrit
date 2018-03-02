@@ -357,7 +357,7 @@ public class ChangeData {
 
   // Lazily populated fields, including optional assisted injected fields.
 
-  private final Map<SubmitRuleOptions, List<SubmitRecord>> submitRecords =
+  private final Map<SubmitRuleOptions, Collection<SubmitRecord>> submitRecords =
       Maps.newLinkedHashMapWithExpectedSize(1);
 
   private boolean lazyLoad = true;
@@ -906,8 +906,8 @@ public class ChangeData {
     return messages;
   }
 
-  public List<SubmitRecord> submitRecords(SubmitRuleOptions options) {
-    List<SubmitRecord> records = submitRecords.get(options);
+  public Collection<SubmitRecord> submitRecords(SubmitRuleOptions options) {
+    Collection<SubmitRecord> records = submitRecords.get(options);
     if (records == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
@@ -919,11 +919,11 @@ public class ChangeData {
   }
 
   @Nullable
-  public List<SubmitRecord> getSubmitRecords(SubmitRuleOptions options) {
+  public Collection<SubmitRecord> getSubmitRecords(SubmitRuleOptions options) {
     return submitRecords.get(options);
   }
 
-  public void setSubmitRecords(SubmitRuleOptions options, List<SubmitRecord> records) {
+  public void setSubmitRecords(SubmitRuleOptions options, Collection<SubmitRecord> records) {
     submitRecords.put(options, records);
   }
 

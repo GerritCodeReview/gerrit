@@ -54,6 +54,7 @@ import com.google.gerrit.server.update.RepoContext;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -333,7 +334,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   private void setApproval(ChangeContext ctx, IdentifiedUser user)
       throws OrmException, IOException {
     Change.Id id = ctx.getChange().getId();
-    List<SubmitRecord> records = args.commitStatus.getSubmitRecords(id);
+    Collection<SubmitRecord> records = args.commitStatus.getSubmitRecords(id);
     PatchSet.Id oldPsId = toMerge.getPatchsetId();
     PatchSet.Id newPsId = ctx.getChange().currentPatchSetId();
 

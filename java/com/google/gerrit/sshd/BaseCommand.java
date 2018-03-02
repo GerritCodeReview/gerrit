@@ -395,12 +395,11 @@ public abstract class BaseCommand implements Command {
   }
 
   protected String getTaskDescription() {
-    StringBuilder m = new StringBuilder(commandName);
     String[] ta = getTrimmedArguments();
     if (ta != null) {
-      m.append(Joiner.on(" ").join(ta));
+      return commandName + " " + Joiner.on(" ").join(ta);
     }
-    return m.toString();
+    return commandName;
   }
 
   private String getTaskName() {

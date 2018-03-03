@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "010168d3_b556b607",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-03-03T01:11:43Z",
+      "side": 1,
+      "message": "I think you\u0027ve got an O(n^2) algorithm here. Depth-first traversal would be O(n), something like:\n\n  int getUnresolvedCount(List\u003cComment\u003e comments) {\n    // Build a map of uuid to list of direct descendants.\n    Map\u003cString, List\u003cString\u003e\u003e forest \u003d new HashMap\u003c\u003e();\n    for (Comment comment : comments) {\n      List\u003cString\u003e siblings \u003d forest.get(comment.parentUuid);\n      if (siblings \u003d\u003d null) {\n        siblings \u003d new ArrayList\u003c\u003e();\n      }\n      siblings.add(comment);\n    }\n\n    // Find latest comment in each thread and apply to unresolved counter.\n    int unresolved \u003d 0;\n    for (Comment root : forest.get(null)) {\n      if (getLatestComment(forest, root).unresolved) {\n        unresolved++;\n      }\n    }\n    return unresolved;\n  }\n\n  Comment getLatestComment(Map\u003cString, List\u003cString\u003e\u003e forest, Comment root) {\n    List\u003cComment\u003e children \u003d forest.get(root.uuid);\n    if (children \u003d\u003d null) { return root; }\n    Comment latest \u003d null;\n    for (Comment comment : children) {\n      Comment branchLatest \u003d getLatestComment(forest, comment);\n      if (latest \u003d\u003d null || branchLatest.writtenOn.after(latest.writtenOn)) {\n        latest \u003d branchLatest;\n      }\n    }\n    return latest;\n  }",
+      "revId": "6f1ca85babcec246c5a0c05beb13e81ab3758e35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

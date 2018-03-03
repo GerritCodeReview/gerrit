@@ -55,11 +55,13 @@ limitations under the License.
       const comments = [
         {
           id: 'sallys_confession',
+          line: 1,
           message: 'i like you, jack',
           updated: '2015-12-23 15:00:20.396000000',
           __commentSide: 'left',
         }, {
           id: 'jacks_reply',
+          line: 1,
           message: 'i like you, too',
           updated: '2015-12-24 15:01:20.396000000',
           __commentSide: 'left',
@@ -67,6 +69,7 @@ limitations under the License.
         },
         {
           __draftID: 'new_draft',
+          line: 1,
           message: 'i do not like either of you',
           __commentSide: 'left',
           __draft: true,
@@ -80,11 +83,13 @@ limitations under the License.
           commentSide: 'left',
           comments: [{
             id: 'sallys_confession',
+            line: 1,
             message: 'i like you, jack',
             updated: '2015-12-23 15:00:20.396000000',
             __commentSide: 'left',
           }, {
             id: 'jacks_reply',
+            line: 1,
             message: 'i like you, too',
             updated: '2015-12-24 15:01:20.396000000',
             __commentSide: 'left',
@@ -92,6 +97,7 @@ limitations under the License.
           }],
           rootId: 'sallys_confession',
           patchNum: 3,
+          lineNum: 1,
         },
         {
           start_datetime: '2015-12-20 15:01:20.396000000',
@@ -99,12 +105,14 @@ limitations under the License.
           comments: [
             {
               __draftID: 'new_draft',
+              line: 1,
               message: 'i do not like either of you',
               __commentSide: 'left',
               __draft: true,
               updated: '2015-12-20 15:01:20.396000000',
             },
           ],
+          lineNum: 1,
           rootId: 'new_draft',
           patchNum: 3,
         },
@@ -123,6 +131,7 @@ limitations under the License.
           end_line: 1,
           end_character: 2,
         },
+        line: 1,
         __commentSide: 'left',
       });
 
@@ -132,17 +141,20 @@ limitations under the License.
           commentSide: 'left',
           comments: [{
             id: 'sallys_confession',
+            line: 1,
             message: 'i like you, jack',
             updated: '2015-12-23 15:00:20.396000000',
             __commentSide: 'left',
           }, {
             id: 'jacks_reply',
+            line: 1,
             in_reply_to: 'sallys_confession',
             message: 'i like you, too',
             updated: '2015-12-24 15:01:20.396000000',
             __commentSide: 'left',
           }],
           patchNum: 3,
+          lineNum: 1,
           rootId: 'sallys_confession',
         },
         {
@@ -152,6 +164,7 @@ limitations under the License.
             id: 'betsys_confession',
             message: 'i like you, jack',
             updated: '2015-12-24 15:00:10.396000000',
+            line: 1,
             range: {
               start_line: 1,
               start_character: 1,
@@ -160,6 +173,7 @@ limitations under the License.
             },
             __commentSide: 'left',
           }],
+          lineNum: 1,
           patchNum: 3,
           rootId: 'betsys_confession',
           range: {
@@ -172,9 +186,11 @@ limitations under the License.
         {
           start_datetime: '2015-12-20 15:01:20.396000000',
           commentSide: 'left',
+          lineNum: 1,
           comments: [
             {
               __draftID: 'new_draft',
+              line: 1,
               message: 'i do not like either of you',
               __commentSide: 'left',
               __draft: true,

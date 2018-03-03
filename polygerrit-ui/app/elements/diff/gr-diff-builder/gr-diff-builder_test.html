@@ -302,41 +302,42 @@ limitations under the License.
       };
 
       function checkThreadGroupProps(threadGroupEl, patchNum, isOnParent,
-          comments) {
+          comments, line) {
         assert.equal(threadGroupEl.changeNum, '42');
         assert.equal(threadGroupEl.patchForNewThreads, patchNum);
         assert.equal(threadGroupEl.path, '/path/to/foo');
         assert.equal(threadGroupEl.isOnParent, isOnParent);
         assert.deepEqual(threadGroupEl.projectName, 'my-project');
         assert.deepEqual(threadGroupEl.comments, comments);
+        assert.deepEqual(threadGroupEl.line, line);
       }
 
       let line = new GrDiffLine(GrDiffLine.Type.BOTH);
       line.beforeNumber = 5;
       line.afterNumber = 5;
       let threadGroupEl = builder._commentThreadGroupForLine(line);
-      checkThreadGroupProps(threadGroupEl, '3', false, [l5, r5]);
+      checkThreadGroupProps(threadGroupEl, '3', false, [l5, r5], line);
 
       threadGroupEl =
           builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.RIGHT);
-      checkThreadGroupProps(threadGroupEl, '3', false, [r5]);
+      checkThreadGroupProps(threadGroupEl, '3', false, [r5], line);
 
       threadGroupEl =
           builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.LEFT);
-      checkThreadGroupProps(threadGroupEl, '3', true, [l5]);
+      checkThreadGroupProps(threadGroupEl, '3', true, [l5], line);
 
       builder._comments.meta.patchRange.basePatchNum = '1';
 
       threadGroupEl = builder._commentThreadGroupForLine(line);
-      checkThreadGroupProps(threadGroupEl, '3', false, [l5, r5]);
+      checkThreadGroupProps(threadGroupEl, '3', false, [l5, r5], line);
 
       threadEl =
           builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.LEFT);
-      checkThreadGroupProps(threadEl, '1', false, [l5]);
+      checkThreadGroupProps(threadEl, '1', false, [l5], line);
 
       threadGroupEl =
           builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.RIGHT);
-      checkThreadGroupProps(threadGroupEl, '3', false, [r5]);
+      checkThreadGroupProps(threadGroupEl, '3', false, [r5], line);
 
       builder._comments.meta.patchRange.basePatchNum = 'PARENT';
 
@@ -344,13 +345,13 @@ limitations under the License.
       line.beforeNumber = 5;
       line.afterNumber = 5;
       threadGroupEl = builder._commentThreadGroupForLine(line);
-      checkThreadGroupProps(threadGroupEl, '3', true, [l5, r5]);
+      checkThreadGroupProps(threadGroupEl, '3', true, [l5, r5], line);
 
       line = new GrDiffLine(GrDiffLine.Type.ADD);
       line.beforeNumber = 3;
       line.afterNumber = 5;
       threadGroupEl = builder._commentThreadGroupForLine(line);
-      checkThreadGroupProps(threadGroupEl, '3', false, [l3, r5]);
+      checkThreadGroupProps(threadGroupEl, '3', false, [l3, r5], line);
     });
 
 

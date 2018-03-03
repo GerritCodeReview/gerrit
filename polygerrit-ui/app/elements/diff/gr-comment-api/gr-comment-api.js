@@ -127,12 +127,12 @@
    *
    * @param {string} path
    * @param {!Defs.patchRange} patchRange
-   * @param {number=} opt_line line number, can be undefined if file comment
+   * @param {!Object} line
    * @param {string=} opt_side can be undefined in a unified view
    * @return {!Array} an array of comments
    */
   ChangeComments.prototype.getCommentsForThreadGroup = function(path,
-      patchRange, opt_line, opt_side) {
+      line, patchRange, opt_side) {
     let basePatchComments = [];
     let patchNumComments = [];
 
@@ -143,19 +143,19 @@
           patchRange.basePatchNum : patchRange.patchNum;
       patchNumComments = this._filterCommentsBySideAndLine(
           this.getAllCommentsForPath(path, patchNum, true),
-          getParentComments, opt_side, opt_line);
+          getParentComments, opt_side, line.afterNumber);
     } else {
       patchNumComments = this._filterCommentsBySideAndLine(
           this.getAllCommentsForPath(path, patchRange.patchNum, true),
-          false, 'right', opt_line);
+          false, 'right', line.afterNumber);
       if (patchRange.basePatchNum !== PARENT) {
         basePatchComments = this._filterCommentsBySideAndLine(
             this.getAllCommentsForPath(path, patchRange.basePatchNum, true),
-            false, 'left', opt_line);
+            false, 'left', line.beforeNumber);
       } else {
         basePatchComments = this._filterCommentsBySideAndLine(
             this.getAllCommentsForPath(path, patchRange.patchNum, true),
-            true, 'left', opt_line);
+            true, 'left', line.beforeNumber);
       }
     }
     return basePatchComments.concat(patchNumComments);

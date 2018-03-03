@@ -23,6 +23,8 @@
         type: Array,
         value() { return []; },
       },
+      /* Line number object, can include lineBefore and/or lineAfter */
+      line: Object,
       projectName: String,
       patchForNewThreads: String,
       range: Object,
@@ -50,10 +52,11 @@
      *
      * @param {!Object} opt_range
      */
-    addNewThread(commentSide, opt_range) {
+    addNewThread(commentSide, lineNum, opt_range) {
       this.push('_threads', {
         comments: [],
         commentSide,
+        lineNum,
         patchNum: this.patchForNewThreads,
         range: opt_range,
       });
@@ -70,16 +73,20 @@
 
     /**
      * Fetch the thread group at the given range, or the range-less thread
-     * on the line if no range is provided.
+     * on the line if no range is provided, lineNum, and side.
      *
+     * @param {number!string} lineNum
+     * @param {string} side
      * @param {!Object=} opt_range
      * @return {!Object|undefined}
      */
-    getThread(opt_range) {
+    getThread(lineNum, side, opt_range) {
       const threadEls =
           Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
       const threads = [].filter.call(threadEls,
-          thread => this._rangesEqual(thread.range, opt_range));
+          thread => this._rangesEqual(thread.range, opt_range))
+          .filter(thread => thread.commentSide === side &&
+              thread.lineNum === lineNum);
       if (threads.length === 1) {
         return threads[0];
       }
@@ -168,6 +175,7 @@
           commentSide: comment.__commentSide,
           patchNum: this._getPatchNum(comment),
           rootId: comment.id || comment.__draftID,
+          lineNum: comment.lineNum,
         };
         if (comment.range) {
           newThread.range = Object.assign({}, comment.range);

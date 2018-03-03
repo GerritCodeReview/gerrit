@@ -399,11 +399,13 @@
      * on the line if no range is provided.
      *
      * @param {!Object} threadGroupEl
+     * @param {number} lineNum
+     * @param {side} string
      * @param {!Object=} opt_range
      * @return {!Object}
      */
-    _getThread(threadGroupEl, opt_range) {
-      return threadGroupEl.getThread(opt_range);
+    _getThread(threadGroupEl, lineNum, side, opt_range) {
+      return threadGroupEl.getThread(lineNum, side, opt_range);
     },
 
     _getThreadGroupForLine(contentEl) {
@@ -439,18 +441,26 @@
         isOnParent, opt_range) {
       // Check if thread group exists.
       let threadGroupEl = this._getThreadGroupForLine(contentEl);
+      const line = {
+        afterNumber: contentEl.dataset.afterNumber,
+        beforeNumber: contentEl.dataset.beforeNumber,
+      };
+      const lineNum = commentSide === 'left' ?
+          line.beforeNumber : line.afterNumber;
       if (!threadGroupEl) {
         threadGroupEl = this.$.diffBuilder.createCommentThreadGroup(
-            this.changeNum, patchNum, this.path, isOnParent, commentSide);
+            this.changeNum, patchNum, this.path, isOnParent, line, commentSide);
         contentEl.appendChild(threadGroupEl);
       }
 
-      let threadEl = this._getThread(threadGroupEl, opt_range);
+      let threadEl = this._getThread(threadGroupEl, lineNum, commentSide,
+          opt_range);
 
       if (!threadEl) {
-        threadGroupEl.addNewThread(commentSide, opt_range);
+        threadGroupEl.addNewThread(commentSide, lineNum, opt_range);
         Polymer.dom.flush();
-        threadEl = this._getThread(threadGroupEl, opt_range);
+        threadEl = this._getThread(threadGroupEl, lineNum, commentSide,
+            opt_range);
       }
       return threadEl;
     },

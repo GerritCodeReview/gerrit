@@ -125,40 +125,17 @@
    * Gets all the comments for a particular thread group. Used for refreshing
    * comments after the thread group has already been built.
    *
-   * @param {string} path
-   * @param {!Defs.patchRange} patchRange
-   * @param {number=} opt_line line number, can be undefined if file comment
-   * @param {string=} opt_side can be undefined in a unified view
+   * @param {string} rootId
    * @return {!Array} an array of comments
    */
-  ChangeComments.prototype.getCommentsForThreadGroup = function(path,
-      patchRange, opt_line, opt_side) {
-    let basePatchComments = [];
-    let patchNumComments = [];
+  ChangeComments.prototype.getCommentsForThread = function(rootId) {
+    const allThreads = this.getAllThreadsForChange();
+    const threadMatch = allThreads.find(t => t.rootId === rootId);
 
-    if (opt_side) {
-      const getParentComments = opt_side === 'left' &&
-          patchRange.basePatchNum === 'PARENT';
-      const patchNum = opt_side === 'left' && !getParentComments ?
-          patchRange.basePatchNum : patchRange.patchNum;
-      patchNumComments = this._filterCommentsBySideAndLine(
-          this.getAllCommentsForPath(path, patchNum, true),
-          getParentComments, opt_side, opt_line);
-    } else {
-      patchNumComments = this._filterCommentsBySideAndLine(
-          this.getAllCommentsForPath(path, patchRange.patchNum, true),
-          false, 'right', opt_line);
-      if (patchRange.basePatchNum !== PARENT) {
-        basePatchComments = this._filterCommentsBySideAndLine(
-            this.getAllCommentsForPath(path, patchRange.basePatchNum, true),
-            false, 'left', opt_line);
-      } else {
-        basePatchComments = this._filterCommentsBySideAndLine(
-            this.getAllCommentsForPath(path, patchRange.patchNum, true),
-            true, 'left', opt_line);
-      }
-    }
-    return basePatchComments.concat(patchNumComments);
+    // In the event that a single draft comment was removed by the thread-list
+    // and the diff view is updating comments, there will no longer be a thread
+    // found.  In this case, return null.
+    return threadMatch ? threadMatch.comments : null;
   };
 
   /**
@@ -430,7 +407,7 @@
         patchNum: comment.patch_set,
         path: comment.__path,
         line: comment.line,
-        rootId: comment.id || comment.__draftID,
+        rootId: comment.id,
       };
       if (comment.side) {
         newThread.commentSide = comment.side;

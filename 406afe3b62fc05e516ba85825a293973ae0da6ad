@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2e1add3_5bc3c331",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-03T00:23:10Z",
+      "side": 1,
+      "message": "How does this fix this? Account is always defined, right? And !!{} evaluates to true.",
+      "revId": "406afe3b62fc05e516ba85825a293973ae0da6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

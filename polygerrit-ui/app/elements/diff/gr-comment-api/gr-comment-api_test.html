@@ -615,220 +615,48 @@ limitations under the License.
         });
 
         test('getCommentsForThreadGroup', () => {
-          const path = 'file/one';
-          let patchRange = {
-            basePatchNum: 2,
-            patchNum: 3,
-          };
-          const line = 1;
-
-          element._changeComments._comments = {
-            'file/one': [
-              {id: 3, patch_set: 2, side: PARENT, line: 2,
-                updated: makeTime(1)},
-              {id: 4, patch_set: 2, line: 1, updated: makeTime(1)},
-              {id: 3, patch_set: 3, side: PARENT, line: 1,
-                updated: makeTime(1)},
-              {id: 3, patch_set: 3, line: 1, updated: makeTime(1)},
-            ],
-            'file/two': [
-              {id: 5, patch_set: 2, line: 1, updated: makeTime(1)},
-            ],
-          };
-
-          let expectedCommentsNoSide = [
+          let expectedComments = [
             {
+              __path: 'file/one',
               id: 4,
               patch_set: 2,
               line: 1,
-              updated: makeTime(1),
-              __commentSide: 'left',
+              updated: '2013-02-26 15:01:43.986000000',
             },
             {
+              __path: 'file/one',
               id: 2,
               in_reply_to: 4,
               patch_set: 2,
               unresolved: true,
               line: 1,
-              updated: makeTime(2),
-              __commentSide: 'left',
+              updated: '2013-02-26 15:02:43.986000000',
             },
             {
+              __path: 'file/one',
+              __draft: true,
               id: 12,
               in_reply_to: 2,
               patch_set: 2,
               line: 1,
-              updated: makeTime(3),
-              __draft: true,
-              __commentSide: 'left',
-            },
-            {
-              id: 3,
-              patch_set: 3,
-              line: 1,
-              updated: makeTime(1),
-              __commentSide: 'right',
+              updated: '2013-02-26 15:03:43.986000000',
             },
           ];
-          let expectedCommentsLeft = [
-            {
-              id: 4,
-              patch_set: 2,
-              line: 1,
-              updated: makeTime(1),
-              __commentSide: 'left',
-            },
-            {
-              id: 2,
-              in_reply_to: 4,
-              patch_set: 2,
-              unresolved: true,
-              line: 1,
-              updated: makeTime(2),
-              __commentSide: 'left',
-            },
-            {
-              id: 12,
-              in_reply_to: 2,
-              patch_set: 2,
-              line: 1,
-              updated: makeTime(3),
-              __draft: true,
-              __commentSide: 'left',
-            },
-          ];
-          let expectedCommentsRight = [
-            {
-              id: 3,
-              patch_set: 3,
-              line: 1,
-              updated: makeTime(1),
-              __commentSide: 'right',
-            },
-          ];
-          let comments = element._changeComments.getCommentsForThreadGroup(path,
-              patchRange, line);
-          assert.deepEqual(comments, expectedCommentsNoSide);
-          comments = element._changeComments.getCommentsForThreadGroup(path,
-              patchRange, line, 'left');
-          assert.deepEqual(comments, expectedCommentsLeft);
-          comments = element._changeComments.getCommentsForThreadGroup(path,
-              patchRange, line, 'right');
-          assert.deepEqual(comments, expectedCommentsRight);
+          assert.deepEqual(element._changeComments.getCommentsForThread(4),
+              expectedComments);
 
-          patchRange = {
-            basePatchNum: 'PARENT',
-            patchNum: 2,
-          };
-
-          expectedCommentsNoSide = [
-            {
-              id: 1,
-              patch_set: 2,
-              side: PARENT,
-              line: 1,
-              updated: makeTime(1),
-              range: {
-                start_line: 1,
-                start_character: 2,
-                end_line: 2,
-                end_character: 2,
-              },
-              __commentSide: 'left',
-            },
-            {
-              id: 11,
-              patch_set: 2,
-              side: PARENT,
-              line: 1,
-              updated: makeTime(3),
-              __commentSide: 'left',
-              __draft: true,
-            },
-            {
-              id: 4,
-              patch_set: 2,
-              line: 1,
-              updated: makeTime(1),
-              __commentSide: 'right',
-            },
-            {
-              id: 2,
-              in_reply_to: 4,
-              patch_set: 2,
-              unresolved: true,
-              line: 1,
-              updated: makeTime(2),
-              __commentSide: 'right',
-            },
-            {
-              id: 12,
-              in_reply_to: 2,
-              patch_set: 2,
-              line: 1,
-              updated: makeTime(3),
-              __draft: true,
-              __commentSide: 'right',
-            },
-          ];
-          expectedCommentsLeft = [{
-            id: 1,
-            patch_set: 2,
-            side: PARENT,
-            line: 1,
-            updated: makeTime(1),
-            range: {
-              start_line: 1,
-              start_character: 2,
-              end_line: 2,
-              end_character: 2,
-            },
-            __commentSide: 'left',
-          },
-          {
+          expectedComments = [{
             id: 11,
             patch_set: 2,
-            side: PARENT,
+            side: 'PARENT',
             line: 1,
-            updated: makeTime(3),
-            __commentSide: 'left',
+            __path: 'file/one',
             __draft: true,
+            updated: '2013-02-26 15:03:43.986000000',
           }];
-          expectedCommentsRight = [
-            {
-              id: 4,
-              patch_set: 2,
-              line: 1,
-              updated: makeTime(1),
-              __commentSide: 'right',
-            },
-            {
-              id: 2,
-              in_reply_to: 4,
-              patch_set: 2,
-              unresolved: true,
-              line: 1,
-              updated: makeTime(2),
-              __commentSide: 'right',
-            },
-            {
-              id: 12,
-              in_reply_to: 2,
-              patch_set: 2,
-              line: 1,
-              updated: makeTime(3),
-              __draft: true,
-              __commentSide: 'right',
-            }];
-          comments = element._changeComments.getCommentsForThreadGroup(path,
-              patchRange, line);
-          assert.deepEqual(comments, expectedCommentsNoSide);
-          comments = element._changeComments.getCommentsForThreadGroup(path,
-              patchRange, line, 'left');
-          assert.deepEqual(comments, expectedCommentsLeft);
-          comments = element._changeComments.getCommentsForThreadGroup(path,
-              patchRange, line, 'right');
-          assert.deepEqual(comments, expectedCommentsRight);
+
+          assert.deepEqual(element._changeComments.getCommentsForThread(11),
+              expectedComments);
         });
       });
     });

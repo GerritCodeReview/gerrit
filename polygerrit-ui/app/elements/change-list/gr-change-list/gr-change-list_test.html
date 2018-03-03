@@ -481,6 +481,11 @@ limitations under the License.
       assert.isFalse(items[1].hasAttribute('highlight'));
     });
 
+    test('_computeItemHighlight gives false for null account', () => {
+      assert.isFalse(
+          element._computeItemHighlight(null, {assignee: {_account_id: 42}}));
+    });
+
     test('_computeItemAbsoluteIndex', () => {
       sandbox.stub(element, '_computeLabelNames');
       element.sections = [

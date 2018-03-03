@@ -343,7 +343,13 @@ limitations under the License.
       }),
 
       test('thread groups', () => {
+        const line = {
+          beforeNumber: 1,
+          afterNumber: 2,
+        }
         const contentEl = document.createElement('div');
+        contentEl.setAttribute('data-before-number', line.beforeNumber);
+        contentEl.setAttribute('data-after-number', line.afterNumber);
         const commentSide = 'left';
         const patchNum = 1;
         const side = 'PARENT';

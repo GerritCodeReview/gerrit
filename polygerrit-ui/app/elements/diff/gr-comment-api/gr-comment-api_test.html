@@ -620,7 +620,10 @@ limitations under the License.
             basePatchNum: 2,
             patchNum: 3,
           };
-          const line = 1;
+          const line = {
+            beforeNumber: 1,
+            afterNumber: 1,
+          };
 
           element._changeComments._comments = {
             'file/one': [
@@ -707,13 +710,13 @@ limitations under the License.
             },
           ];
           let comments = element._changeComments.getCommentsForThreadGroup(path,
-              patchRange, line);
+              line, patchRange);
           assert.deepEqual(comments, expectedCommentsNoSide);
           comments = element._changeComments.getCommentsForThreadGroup(path,
-              patchRange, line, 'left');
+              line, patchRange, 'left');
           assert.deepEqual(comments, expectedCommentsLeft);
           comments = element._changeComments.getCommentsForThreadGroup(path,
-              patchRange, line, 'right');
+              line, patchRange, 'right');
           assert.deepEqual(comments, expectedCommentsRight);
 
           patchRange = {
@@ -821,13 +824,13 @@ limitations under the License.
               __commentSide: 'right',
             }];
           comments = element._changeComments.getCommentsForThreadGroup(path,
-              patchRange, line);
+              line, patchRange);
           assert.deepEqual(comments, expectedCommentsNoSide);
           comments = element._changeComments.getCommentsForThreadGroup(path,
-              patchRange, line, 'left');
+              line, patchRange, 'left');
           assert.deepEqual(comments, expectedCommentsLeft);
           comments = element._changeComments.getCommentsForThreadGroup(path,
-              patchRange, line, 'right');
+              line, patchRange, 'right');
           assert.deepEqual(comments, expectedCommentsRight);
         });
       });

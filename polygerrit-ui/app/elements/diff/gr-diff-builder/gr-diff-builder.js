@@ -354,15 +354,17 @@
    * @param {number|string} patchNum
    * @param {string} path
    * @param {boolean} isOnParent
+   * @param {Object} line
    * @param {string} commentSide
    * @return {!Object}
    */
   GrDiffBuilder.prototype.createCommentThreadGroup = function(changeNum,
-      patchNum, path, isOnParent, commentSide) {
+      patchNum, path, isOnParent, line, commentSide) {
     const threadGroupEl =
         document.createElement('gr-diff-comment-thread-group');
     threadGroupEl.changeNum = changeNum;
     threadGroupEl.commentSide = commentSide;
+    threadGroupEl.line = line;
     threadGroupEl.patchForNewThreads = patchNum;
     threadGroupEl.path = path;
     threadGroupEl.isOnParent = isOnParent;
@@ -372,7 +374,7 @@
   };
 
   /**
-   * @param {number} line
+   * @param {Object} line
    * @param {string=} opt_side
    * @return {!Object}
    */
@@ -398,7 +400,7 @@
     }
     const threadGroupEl = this.createCommentThreadGroup(
         this._comments.meta.changeNum, patchNum, this._comments.meta.path,
-        isOnParent, opt_side);
+        isOnParent, line, opt_side);
     threadGroupEl.comments = comments;
     if (opt_side) {
       threadGroupEl.setAttribute('data-side', opt_side);
@@ -439,6 +441,11 @@
       td.classList.add('content');
     }
     td.classList.add(line.type);
+    // Add data attributes for before/after number so that future comment
+    // thread groups can be generated there. The line object will be
+    // re-constructed upon creation.
+    td.setAttribute('data-before-number', line.beforeNumber);
+    td.setAttribute('data-after-number', line.afterNumber);
 
     const lineLimit =
         !this._prefs.line_wrapping ? this._prefs.line_length : Infinity;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4edc9e4_78bdfec9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-03T01:33:17Z",
+      "side": 1,
+      "message": "Some of the commits are omitted.  Use --log\u003d100 or something like that to force it to include them all.",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 5
+      },
+      "revId": "4c236bf8f86a07eda2b5ff7545ae772ff2adafad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

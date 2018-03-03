@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4968487_b1b878f2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-03T01:42:29Z",
+      "side": 1,
+      "message": "Ultimately, I think we might want somehow store threads details/rootId mappings and use that here to find a thread with a given rootId, but I don\u0027t want to make as many changes at once.",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 92,
+        "endChar": 7
+      },
+      "revId": "208e2210a4858ebca0fe4c9560f0759e25813408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

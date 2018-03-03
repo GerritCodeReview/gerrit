@@ -88,6 +88,24 @@
       "revId": "406afe3b62fc05e516ba85825a293973ae0da6ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6213c300_cbf094e0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-03T01:13:02Z",
+      "side": 1,
+      "message": "Maybe I spoke to soon. It\u0027s actually pretty straightforward to make them consistent. Done.",
+      "parentUuid": "0139022d_fbfa421e",
+      "revId": "406afe3b62fc05e516ba85825a293973ae0da6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

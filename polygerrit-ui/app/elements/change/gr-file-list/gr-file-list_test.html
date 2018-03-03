@@ -101,7 +101,6 @@ limitations under the License.
         return {__path: '/file' + i, lines_inserted: 9};
       });
       flushAsynchronousOperations();
-
       assert.equal(
           Polymer.dom(element.root).querySelectorAll('.file-row').length,
           element.numFilesShown);
@@ -1020,29 +1019,119 @@ limitations under the License.
     });
 
     suite('size bars', () => {
-      test('_computeSizeBarScale', () => {
-        assert.isUndefined(element._computeSizeBarScale(null));
-        assert.isUndefined(element._computeSizeBarScale({}));
-        assert.equal(element._computeSizeBarScale({base: []}), 0);
+      test('_computeSizeBarLayout', () => {
+        assert.isUndefined(element._computeSizeBarLayout(null));
+        assert.isUndefined(element._computeSizeBarLayout({}));
+        assert.deepEqual(element._computeSizeBarLayout({base: []}), {
+          maxInserted: 0,
+          maxDeleted: 0,
+          maxAdditionWidth: 0,
+          maxDeletionWidth: 0,
+          deletionOffset: 0,
+        });
 
         const files = [
-          {__path: 'foo', lines_inserted: 12, lines_deleted: 15},
-          {__path: 'bar', lines_inserted: 13, lines_deleted: 2},
+          {__path: '/COMMIT_MSG', lines_inserted: 10000},
+          {__path: 'foo', lines_inserted: 4, lines_deleted: 10},
+          {__path: 'bar', lines_inserted: 5, lines_deleted: 8},
         ];
-        assert.equal(element._computeSizeBarScale({base: files}), 15);
-
-        files.push({__path: 'baz', lines_inserted: 123, lines_deleted: 0});
-        assert.equal(element._computeSizeBarScale({base: files}), 123);
-
-        files.push(
-            {__path: '/COMMIT_MSG', lines_inserted: 12345, lines_deleted: 0});
-        assert.equal(element._computeSizeBarScale({base: files}), 123);
+        const layout = element._computeSizeBarLayout({base: files});
+        assert.equal(layout.maxInserted, 5);
+        assert.equal(layout.maxDeleted, 10);
       });
 
-      test('_computeSizeBarWidth', () => {
-        assert.equal(element._computeSizeBarWidth(1000, 1000), 50);
-        assert.equal(element._computeSizeBarWidth(1000, 1), 1.5);
-        assert.equal(element._computeSizeBarWidth(2, 1), 25);
+      test('_computeBarAdditionWidth', () => {
+        const file = {
+          __path: 'foo/bar.baz',
+          lines_inserted: 5,
+          lines_deleted: 0,
+        };
+        const stats = {
+          maxInserted: 10,
+          maxDeleted: 0,
+          maxAdditionWidth: 60,
+          maxDeletionWidth: 0,
+          deletionOffset: 60,
+        };
+
+        // Uses half the space when file is half the largest addition and there
+        // are no deletions.
+        assert.equal(element._computeBarAdditionWidth(file, stats), 30);
+
+        // If there are no insetions, there is no width.
+        stats.maxInserted = 0;
+        assert.equal(element._computeBarAdditionWidth(file, stats), 0);
+
+        // If the insertions is not present on the file, there is no width.
+        stats.maxInserted = 10;
+        file.lines_inserted = undefined;
+        assert.equal(element._computeBarAdditionWidth(file, stats), 0);
+
+        // If the file is a commit message, returns zero.
+        file.lines_inserted = 5;
+        file.__path = '/COMMIT_MSG';
+        assert.equal(element._computeBarAdditionWidth(file, stats), 0);
+
+        // Width bottoms-out at the minimum width.
+        file.__path = 'stuff.txt';
+        file.lines_inserted = 1;
+        stats.maxInserted = 1000000;
+        assert.equal(element._computeBarAdditionWidth(file, stats), 1.5);
+      });
+
+      test('_computeBarAdditionX', () => {
+        const file = {
+          __path: 'foo/bar.baz',
+          lines_inserted: 5,
+          lines_deleted: 0,
+        };
+        const stats = {
+          maxInserted: 10,
+          maxDeleted: 0,
+          maxAdditionWidth: 60,
+          maxDeletionWidth: 0,
+          deletionOffset: 60,
+        };
+        assert.equal(element._computeBarAdditionX(file, stats), 30);
+      });
+
+      test('_computeBarDeletionWidth', () => {
+        const file = {
+          __path: 'foo/bar.baz',
+          lines_inserted: 0,
+          lines_deleted: 5,
+        };
+        const stats = {
+          maxInserted: 10,
+          maxDeleted: 10,
+          maxAdditionWidth: 30,
+          maxDeletionWidth: 30,
+          deletionOffset: 31,
+        };
+
+        // Uses a quarter the space when file is half the largest deletions and
+        // there are equal additions.
+        assert.equal(element._computeBarDeletionWidth(file, stats), 15);
+
+        // If there are no deletions, there is no width.
+        stats.maxDeleted = 0;
+        assert.equal(element._computeBarDeletionWidth(file, stats), 0);
+
+        // If the deletions is not present on the file, there is no width.
+        stats.maxDeleted = 10;
+        file.lines_deleted = undefined;
+        assert.equal(element._computeBarDeletionWidth(file, stats), 0);
+
+        // If the file is a commit message, returns zero.
+        file.lines_deleted = 5;
+        file.__path = '/COMMIT_MSG';
+        assert.equal(element._computeBarDeletionWidth(file, stats), 0);
+
+        // Width bottoms-out at the minimum width.
+        file.__path = 'stuff.txt';
+        file.lines_deleted = 1;
+        stats.maxDeleted = 1000000;
+        assert.equal(element._computeBarDeletionWidth(file, stats), 1.5);
       });
 
       test('_computeSizeBarsClass', () => {

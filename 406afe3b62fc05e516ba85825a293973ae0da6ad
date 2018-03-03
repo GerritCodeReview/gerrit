@@ -34,6 +34,24 @@
       "revId": "406afe3b62fc05e516ba85825a293973ae0da6ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdf296c8_ec6b1c88",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-03T00:32:42Z",
+      "side": 1,
+      "message": "That seems ill-advised.",
+      "parentUuid": "9f2aae8f_ac835903",
+      "revId": "406afe3b62fc05e516ba85825a293973ae0da6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -52,6 +52,24 @@
       "revId": "406afe3b62fc05e516ba85825a293973ae0da6ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "547012dd_b4f51ed9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-03T00:54:15Z",
+      "side": 1,
+      "message": "I think getting this fix in is more important than this debate at the moment 😊",
+      "parentUuid": "fdf296c8_ec6b1c88",
+      "revId": "406afe3b62fc05e516ba85825a293973ae0da6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

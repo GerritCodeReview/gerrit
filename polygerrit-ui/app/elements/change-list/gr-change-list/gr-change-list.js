@@ -44,7 +44,7 @@
        */
       account: {
         type: Object,
-        value() { return {}; },
+        value: null,
       },
       /**
        * An array of ChangeInfo objects to render.
@@ -227,12 +227,13 @@
     _computeItemNeedsReview(account, change, showReviewedState) {
       return showReviewedState && !change.reviewed &&
           this.changeIsOpen(change.status) &&
-          account._account_id != change.owner._account_id;
+          (!account || account._account_id != change.owner._account_id);
     },
 
     _computeItemHighlight(account, change) {
       // Do not show the assignee highlight if the change is not open.
       if (!change.assignee ||
+          !account ||
           CLOSED_STATUS.indexOf(change.status) !== -1) {
         return false;
       }

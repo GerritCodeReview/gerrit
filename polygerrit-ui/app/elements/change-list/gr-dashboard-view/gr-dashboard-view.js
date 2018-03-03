@@ -72,7 +72,7 @@
     properties: {
       account: {
         type: Object,
-        value() { return {}; },
+        value: null,
       },
       /** @type {{ selectedChangeIndex: number }} */
       viewState: Object,

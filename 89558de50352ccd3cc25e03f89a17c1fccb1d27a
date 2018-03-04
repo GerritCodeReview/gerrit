@@ -16,6 +16,24 @@
       "revId": "89558de50352ccd3cc25e03f89a17c1fccb1d27a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d79d8f91_e4244b90",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-04T12:12:47Z",
+      "side": 1,
+      "message": "Yep, that\u0027s expected. This https://gerrit-review.googlesource.com/c/gerrit/+/163770 should fix that.",
+      "parentUuid": "6315903e_a923ec10",
+      "revId": "89558de50352ccd3cc25e03f89a17c1fccb1d27a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

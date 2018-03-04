@@ -30,9 +30,11 @@ import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
@@ -58,6 +60,7 @@ public class AccountManager {
   private final ProjectCache projectCache;
   private final AtomicBoolean awaitsFirstAccountCheck;
   private final AuditService auditService;
+  private final Provider<InternalAccountQuery> accountQueryProvider;
   private final ExternalIdsUpdate.Server externalIdsUpdateFactory;
 
   @Inject
@@ -70,6 +73,7 @@ public class AccountManager {
       ChangeUserName.Factory changeUserNameFactory,
       ProjectCache projectCache,
       AuditService auditService,
+      Provider<InternalAccountQuery> accountQueryProvider,
       ExternalIdsUpdate.Server externalIdsUpdateFactory) {
     this.schema = schema;
     this.byIdCache = byIdCache;
@@ -80,14 +84,17 @@ public class AccountManager {
     this.projectCache = projectCache;
     this.awaitsFirstAccountCheck = new AtomicBoolean(true);
     this.auditService = auditService;
+    this.accountQueryProvider = accountQueryProvider;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
   }
 
   /** @return user identified by this external identity string */
   public Optional<Account.Id> lookup(String externalId) throws AccountException {
-    try (ReviewDb db = schema.open()) {
-      ExternalId extId = findExternalId(db, ExternalId.Key.parse(externalId));
-      return extId != null ? Optional.of(extId.accountId()) : Optional.empty();
+    try {
+      AccountState accountState = accountQueryProvider.get().oneByExternalId(externalId);
+      return accountState != null
+          ? Optional.of(accountState.getAccount().getId())
+          : Optional.empty();
     } catch (OrmException e) {
       throw new AccountException("Cannot lookup account " + externalId, e);
     }

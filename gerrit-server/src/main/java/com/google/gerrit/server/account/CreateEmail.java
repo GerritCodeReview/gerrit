@@ -87,6 +87,10 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       input = new EmailInput();
     }
 
+    if (!OutgoingEmailValidator.isValid(email)) {
+      throw new BadRequestException("invalid email address");
+    }
+
     if (input.noConfirmation && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to use no_confirmation");
     }
@@ -98,7 +102,6 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
     return apply(rsrc.getUser(), input);
   }
 
-  /** To be used from plugins that want to create emails without permission checks. */
   public Response<EmailInfo> apply(IdentifiedUser user, EmailInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
           ResourceNotFoundException, OrmException, EmailException, MethodNotAllowedException,
@@ -109,10 +112,6 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
 
     if (input.email != null && !email.equals(input.email)) {
       throw new BadRequestException("email address must match URL");
-    }
-
-    if (!OutgoingEmailValidator.isValid(email)) {
-      throw new BadRequestException("invalid email address");
     }
 
     EmailInfo info = new EmailInfo();

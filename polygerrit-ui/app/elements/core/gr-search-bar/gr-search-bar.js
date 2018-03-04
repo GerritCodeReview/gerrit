@@ -166,7 +166,7 @@
       } else {
         target.blur();
       }
-      if (this._inputVal) {
+      if (this._inputVal && SEARCH_OPERATORS.indexOf(this._inputVal) === -1) {
         page.show('/q/' + this.encodeURL(this._inputVal, false));
       }
     },

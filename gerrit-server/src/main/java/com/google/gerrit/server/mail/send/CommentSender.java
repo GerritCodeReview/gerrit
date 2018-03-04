@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.mail.send;
 
-import static java.util.stream.Collectors.toList;
-
 import com.google.common.base.Strings;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.data.FilenameComparator;
@@ -52,6 +50,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
@@ -548,7 +547,7 @@ public class CommentSender extends ReplyToChangeSender {
               }
               return map;
             })
-        .collect(toList());
+        .collect(Collectors.toList());
   }
 
   private boolean hasQuote(List<CommentFormatter.Block> blocks) {

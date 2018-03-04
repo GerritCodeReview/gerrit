@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -49,6 +48,7 @@ import com.google.inject.Inject;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
@@ -274,7 +274,10 @@ public class DraftChangeIT extends AbstractDaemonTest {
             .get(EnumSet.of(ListChangesOption.ALL_REVISIONS))
             .revisions
             .values();
-    return revisionInfos.stream().map(revisionInfo -> revisionInfo.draft).collect(toList());
+    return revisionInfos
+        .stream()
+        .map(revisionInfo -> revisionInfo.draft)
+        .collect(Collectors.toList());
   }
 
   private static class MarkChangeAsDraftUpdateOp implements BatchUpdateOp {

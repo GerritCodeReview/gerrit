@@ -21,7 +21,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.common.EmailInfo;
-import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gson.reflect.TypeToken;
 import java.util.List;
 import java.util.Set;
@@ -44,15 +43,6 @@ public class EmailIT extends AbstractDaemonTest {
     assertThat(getEmails()).doesNotContain(email);
 
     createEmail(email.replace("@", "%40"));
-    assertThat(getEmails()).contains(email);
-  }
-
-  @Test
-  public void addEmailWithLeadingAndTrailingWhitespace() throws Exception {
-    String email = "foo.bar3@example.com";
-    assertThat(getEmails()).doesNotContain(email);
-
-    createEmail(IdString.fromDecoded(" " + email + " ").encoded());
     assertThat(getEmails()).contains(email);
   }
 

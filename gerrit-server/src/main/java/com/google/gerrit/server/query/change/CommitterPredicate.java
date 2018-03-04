@@ -19,7 +19,6 @@ import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_COM
 
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
-import java.io.IOException;
 
 public class CommitterPredicate extends ChangeIndexPredicate {
   CommitterPredicate(String value) {
@@ -28,11 +27,7 @@ public class CommitterPredicate extends ChangeIndexPredicate {
 
   @Override
   public boolean match(ChangeData object) throws OrmException {
-    try {
-      return ChangeField.getCommitterParts(object).contains(getValue().toLowerCase());
-    } catch (IOException e) {
-      throw new OrmException(e);
-    }
+    return ChangeField.getCommitterParts(object).contains(getValue().toLowerCase());
   }
 
   @Override

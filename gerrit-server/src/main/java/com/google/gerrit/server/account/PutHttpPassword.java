@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -29,12 +30,14 @@ import com.google.gerrit.server.account.PutHttpPassword.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Collections;
 import org.apache.commons.codec.binary.Base64;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 
+@Singleton
 public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
   public static class Input {
     public String httpPassword;
@@ -55,24 +58,19 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> dbProvider;
   private final AccountCache accountCache;
-  private final ExternalIdsUpdate.User externalIdsUpdate;
 
   @Inject
   PutHttpPassword(
-      Provider<CurrentUser> self,
-      Provider<ReviewDb> dbProvider,
-      AccountCache accountCache,
-      ExternalIdsUpdate.User externalIdsUpdate) {
+      Provider<CurrentUser> self, Provider<ReviewDb> dbProvider, AccountCache accountCache) {
     this.self = self;
     this.dbProvider = dbProvider;
     this.accountCache = accountCache;
-    this.externalIdsUpdate = externalIdsUpdate;
   }
 
   @Override
   public Response<String> apply(AccountResource rsrc, Input input)
       throws AuthException, ResourceNotFoundException, ResourceConflictException, OrmException,
-          IOException, ConfigInvalidException {
+          IOException {
     if (input == null) {
       input = new Input();
     }
@@ -102,26 +100,22 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
   }
 
   public Response<String> apply(IdentifiedUser user, String newPassword)
-      throws ResourceNotFoundException, ResourceConflictException, OrmException, IOException,
-          ConfigInvalidException {
+      throws ResourceNotFoundException, ResourceConflictException, OrmException, IOException {
     if (user.getUserName() == null) {
       throw new ResourceConflictException("username must be set");
     }
 
-    ExternalId extId =
-        ExternalId.from(
-            dbProvider
-                .get()
-                .accountExternalIds()
-                .get(
-                    ExternalId.Key.create(SCHEME_USERNAME, user.getUserName())
-                        .asAccountExternalIdKey()));
-    if (extId == null) {
+    AccountExternalId id =
+        dbProvider
+            .get()
+            .accountExternalIds()
+            .get(new AccountExternalId.Key(SCHEME_USERNAME, user.getUserName()));
+    if (id == null) {
       throw new ResourceNotFoundException();
     }
-    ExternalId newExtId =
-        ExternalId.createWithPassword(extId.key(), extId.accountId(), extId.email(), newPassword);
-    externalIdsUpdate.create().upsert(dbProvider.get(), newExtId);
+    id.setPassword(HashedPassword.fromPassword(newPassword).encode());
+
+    dbProvider.get().accountExternalIds().update(Collections.singleton(id));
     accountCache.evict(user.getAccountId());
 
     return Strings.isNullOrEmpty(newPassword) ? Response.<String>none() : Response.ok(newPassword);

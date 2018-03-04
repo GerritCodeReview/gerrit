@@ -62,10 +62,9 @@ import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.server.GpgKeys;
 import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountByEmailCache;
-import com.google.gerrit.server.account.ExternalId;
-import com.google.gerrit.server.account.ExternalIdsUpdate;
 import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.config.AllUsersName;
@@ -80,6 +79,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
@@ -116,15 +116,10 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Inject private AccountByEmailCache byEmailCache;
 
-  @Inject private ExternalIdsUpdate.User externalIdsUpdateFactory;
-
-  private ExternalIdsUpdate externalIdsUpdate;
-  private List<ExternalId> savedExternalIds;
+  private List<AccountExternalId> savedExternalIds;
 
   @Before
   public void saveExternalIds() throws Exception {
-    externalIdsUpdate = externalIdsUpdateFactory.create();
-
     savedExternalIds = new ArrayList<>();
     savedExternalIds.addAll(getExternalIds(admin));
     savedExternalIds.addAll(getExternalIds(user));
@@ -136,9 +131,9 @@ public class AccountIT extends AbstractDaemonTest {
       // savedExternalIds is null when we don't run SSH tests and the assume in
       // @Before in AbstractDaemonTest prevents this class' @Before method from
       // being executed.
-      externalIdsUpdate.delete(db, getExternalIds(admin));
-      externalIdsUpdate.delete(db, getExternalIds(user));
-      externalIdsUpdate.insert(db, savedExternalIds);
+      db.accountExternalIds().delete(getExternalIds(admin));
+      db.accountExternalIds().delete(getExternalIds(user));
+      db.accountExternalIds().insert(savedExternalIds);
     }
     accountCache.evict(admin.getId());
     accountCache.evict(user.getId());
@@ -156,7 +151,7 @@ public class AccountIT extends AbstractDaemonTest {
     }
   }
 
-  private Collection<ExternalId> getExternalIds(TestAccount account) throws Exception {
+  private Collection<AccountExternalId> getExternalIds(TestAccount account) throws Exception {
     return accountCache.get(account.getId()).getExternalIds();
   }
 
@@ -450,11 +445,11 @@ public class AccountIT extends AbstractDaemonTest {
     String email = "foo.bar@example.com";
     String extId1 = "foo:bar";
     String extId2 = "foo:baz";
-    List<ExternalId> extIds =
-        ImmutableList.of(
-            ExternalId.createWithEmail(ExternalId.Key.parse(extId1), admin.id, email),
-            ExternalId.createWithEmail(ExternalId.Key.parse(extId2), admin.id, email));
-    externalIdsUpdateFactory.create().insert(db, extIds);
+    db.accountExternalIds()
+        .insert(
+            ImmutableList.of(
+                createExternalIdWithEmail(extId1, email),
+                createExternalIdWithEmail(extId2, email)));
     accountCache.evict(admin.id);
     assertThat(
             gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))
@@ -503,9 +498,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     // exact match with other scheme
     String email = "foo.bar@example.com";
-    externalIdsUpdateFactory
-        .create()
-        .insert(db, ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), admin.id, email));
+    db.accountExternalIds().insert(ImmutableList.of(createExternalIdWithEmail("foo:bar", email)));
     accountCache.evict(admin.id);
     assertEmail(byEmailCache.get(email), admin);
 
@@ -713,7 +706,10 @@ public class AccountIT extends AbstractDaemonTest {
   public void addOtherUsersGpgKey_Conflict() throws Exception {
     // Both users have a matching external ID for this key.
     addExternalIdEmail(admin, "test5@example.com");
-    externalIdsUpdate.insert(db, ExternalId.create("foo", "myId", user.getId()));
+    AccountExternalId extId =
+        new AccountExternalId(user.getId(), new AccountExternalId.Key("foo:myId"));
+
+    db.accountExternalIds().insert(Collections.singleton(extId));
     accountCache.evict(user.getId());
 
     TestKey key = validKeyWithSecondUserId();
@@ -921,7 +917,7 @@ public class AccountIT extends AbstractDaemonTest {
     Iterable<String> expectedFps =
         expected.transform(k -> BaseEncoding.base16().encode(k.getPublicKey().getFingerprint()));
     Iterable<String> actualFps =
-        GpgKeys.getGpgExtIds(db, currAccountId).transform(e -> e.key().id());
+        GpgKeys.getGpgExtIds(db, currAccountId).transform(AccountExternalId::getSchemeRest);
     assertThat(actualFps).named("external IDs in database").containsExactlyElementsIn(expectedFps);
 
     // Check raw stored keys.
@@ -946,9 +942,11 @@ public class AccountIT extends AbstractDaemonTest {
 
   private void addExternalIdEmail(TestAccount account, String email) throws Exception {
     checkNotNull(email);
-    externalIdsUpdate.insert(
-        db, ExternalId.createWithEmail(name("test"), email, account.getId(), email));
-    // Clear saved AccountState and ExternalIds.
+    AccountExternalId extId =
+        new AccountExternalId(account.getId(), new AccountExternalId.Key(name("test"), email));
+    extId.setEmailAddress(email);
+    db.accountExternalIds().insert(Collections.singleton(extId));
+    // Clear saved AccountState and AccountExternalIds.
     accountCache.evict(account.getId());
     setApiUser(account);
   }
@@ -966,6 +964,12 @@ public class AccountIT extends AbstractDaemonTest {
 
   private Set<String> getEmails() throws RestApiException {
     return gApi.accounts().self().getEmails().stream().map(e -> e.email).collect(toSet());
+  }
+
+  private AccountExternalId createExternalIdWithEmail(String id, String email) {
+    AccountExternalId extId = new AccountExternalId(admin.id, new AccountExternalId.Key(id));
+    extId.setEmailAddress(email);
+    return extId;
   }
 
   private void assertEmail(Set<Account.Id> accounts, TestAccount expectedAccount) {

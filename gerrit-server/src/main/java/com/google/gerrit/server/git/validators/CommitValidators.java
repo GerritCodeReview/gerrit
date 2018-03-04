@@ -135,8 +135,7 @@ public class CommitValidators {
                     refControl, canonicalWebUrl, installCommitMsgHookCommand, sshInfo),
                 new ConfigValidator(refControl, repo, allUsers),
                 new BannedCommitsValidator(rejectCommits),
-                new PluginCommitValidationListener(pluginValidators),
-                new BlockExternalIdUpdateListener(allUsers)));
+                new PluginCommitValidationListener(pluginValidators)));
       }
     }
 
@@ -151,8 +150,7 @@ public class CommitValidators {
               new ChangeIdValidator(
                   refControl, canonicalWebUrl, installCommitMsgHookCommand, sshInfo),
               new ConfigValidator(refControl, repo, allUsers),
-              new PluginCommitValidationListener(pluginValidators),
-              new BlockExternalIdUpdateListener(allUsers)));
+              new PluginCommitValidationListener(pluginValidators)));
     }
 
     private CommitValidators forMergedCommits(RefControl refControl) {
@@ -615,25 +613,6 @@ public class CommitValidators {
         log.warn(m, e);
         throw new CommitValidationException(m, e);
       }
-    }
-  }
-
-  /** Blocks any update to refs/meta/external-ids */
-  public static class BlockExternalIdUpdateListener implements CommitValidationListener {
-    private final AllUsersName allUsers;
-
-    public BlockExternalIdUpdateListener(AllUsersName allUsers) {
-      this.allUsers = allUsers;
-    }
-
-    @Override
-    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
-        throws CommitValidationException {
-      if (allUsers.equals(receiveEvent.project.getNameKey())
-          && RefNames.REFS_EXTERNAL_IDS.equals(receiveEvent.refName)) {
-        throw new CommitValidationException("not allowed to update " + RefNames.REFS_EXTERNAL_IDS);
-      }
-      return Collections.emptyList();
     }
   }
 

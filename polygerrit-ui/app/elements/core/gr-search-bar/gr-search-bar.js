@@ -144,8 +144,11 @@
       this._inputVal = value;
     },
 
-    _handleInputCommit(e) {
-      this._preventDefaultAndNavigateToInputVal(e);
+    _handleEnter(e) {
+      e = this.getKeyboardEvent(e);
+      if (e.keyCode === 13) {
+        this._preventDefaultAndNavigateToInputVal(e);
+      }
     },
 
     /**
@@ -158,7 +161,7 @@
      */
     _preventDefaultAndNavigateToInputVal(e) {
       e.preventDefault();
-      const target = Polymer.dom(e).rootTarget;
+      const target = this.$.searchInput;
       // If the target is the #searchInput or has a sub-input component, that
       // is what holds the focus as opposed to the target from the DOM event.
       if (target.$.input) {
@@ -166,7 +169,7 @@
       } else {
         target.blur();
       }
-      if (this._inputVal) {
+      if (this._inputVal && SEARCH_OPERATORS.indexOf(this._inputVal) === -1) {
         page.show('/q/' + this.encodeURL(this._inputVal, false));
       }
     },

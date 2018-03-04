@@ -657,6 +657,30 @@
       "revId": "e80ff657ae6cc6c8b3cf3ee341d3c79f591b03dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ee538cb_b994c125",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-04T21:22:14Z",
+      "side": 1,
+      "message": "See my detailed answer in this comment to the bug linked to this change: [1].\n\n* [1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7652#c32",
+      "parentUuid": "24462b80_3ef87b18",
+      "range": {
+        "startLine": 382,
+        "startChar": 13,
+        "endLine": 382,
+        "endChar": 19
+      },
+      "revId": "e80ff657ae6cc6c8b3cf3ee341d3c79f591b03dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

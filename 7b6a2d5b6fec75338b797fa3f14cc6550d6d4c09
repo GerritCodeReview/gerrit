@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d04ef7f_86251f18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-04T21:22:14Z",
+      "side": 1,
+      "message": "See this different route to approach and hopefully fix this intermittent account corruption problem on stable-2.14 branch: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/q/topic:avoid-intermediate-note-db-migration-state",
+      "range": {
+        "startLine": 22,
+        "startChar": 54,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "7b6a2d5b6fec75338b797fa3f14cc6550d6d4c09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a90d4cf0_0733d253",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-04T21:22:14Z",
+      "side": 1,
+      "message": "No. This is a wrong if statement to add this condition.\n\nAlso re-read my previous comments. I tried to explain, that not all gerrit authentication schemes expose usernames. Moreover, some authentication schemes (OAuth2) only expose usernames for some providers (GitHub OAuth2 provider) but not for others (Google OAuth2 provider). By putting additional not null check condition, in the wrong if-statement, your broke user creation code path for all auth schemes, that do not expose usernames. Because now, in the code path of id \u003d\u003d null and none username exposed, the next statement that is going to be executed is (existing user code path):\n\n  byIdCache.get(id.accountId()).getAccount();\n\nThis creates this stack trace: [1] for a new user creation, for example for OAuth2 authentication scheme with gerrit-oauth-provider plugin: [2] and Google OAuth2 provider.\n\nWhat you should have done instead is:\n\n  if (id \u003d\u003d null) {\n    // Create new user (existing code)\n    [...]\n    // Check for database corruption with auto-magic recovering\n    if (who.getUserName() !\u003d null) {\n      // New code for check and recovery\n      [...]\n    }\n  } else {\n    // Existing user (existing code)\n    [...]\n  }\n\nBut see also my other comment for alternative approach to this change.\n\n* [1] http://paste.openstack.org/show/690842\n* [2] https://github.com/davido/gerrit-oauth-provider",
+      "range": {
+        "startLine": 110,
+        "startChar": 23,
+        "endLine": 110,
+        "endChar": 51
+      },
+      "revId": "7b6a2d5b6fec75338b797fa3f14cc6550d6d4c09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4eb0e5f7_d7b00081",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-04T21:22:14Z",
+      "side": 1,
+      "message": "First letter in statement should be upper case letter.",
+      "range": {
+        "startLine": 115,
+        "startChar": 15,
+        "endLine": 115,
+        "endChar": 17
+      },
+      "revId": "7b6a2d5b6fec75338b797fa3f14cc6550d6d4c09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef513300_33124832",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-04T21:22:14Z",
+      "side": 1,
+      "message": "It was just my suggestion for you. Just say here: \"Try to recover by linking \"gerrit:\" identity to the existing account.",
+      "range": {
+        "startLine": 116,
+        "startChar": 50,
+        "endLine": 116,
+        "endChar": 83
+      },
+      "revId": "7b6a2d5b6fec75338b797fa3f14cc6550d6d4c09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2cf9976_c9e0ecad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-04T21:22:14Z",
+      "side": 1,
+      "message": "Nit: Unneeded blank.",
+      "range": {
+        "startLine": 123,
+        "startChar": 77,
+        "endLine": 123,
+        "endChar": 78
+      },
+      "revId": "7b6a2d5b6fec75338b797fa3f14cc6550d6d4c09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43331485_fc840f0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-04T21:22:14Z",
+      "side": 1,
+      "message": "Missing blank before opening paren.",
+      "range": {
+        "startLine": 123,
+        "startChar": 75,
+        "endLine": 123,
+        "endChar": 77
+      },
+      "revId": "7b6a2d5b6fec75338b797fa3f14cc6550d6d4c09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

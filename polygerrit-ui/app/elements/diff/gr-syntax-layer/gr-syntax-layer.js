@@ -54,32 +54,34 @@
   const ASYNC_DELAY = 10;
 
   const CLASS_WHITELIST = {
-    'gr-diff gr-syntax gr-syntax-literal': true,
-    'gr-diff gr-syntax gr-syntax-keyword': true,
-    'gr-diff gr-syntax gr-syntax-selector-tag': true,
-    'gr-diff gr-syntax gr-syntax-built_in': true,
-    'gr-diff gr-syntax gr-syntax-type': true,
-    'gr-diff gr-syntax gr-syntax-selector-pseudo': true,
-    'gr-diff gr-syntax gr-syntax-template-variable': true,
-    'gr-diff gr-syntax gr-syntax-number': true,
-    'gr-diff gr-syntax gr-syntax-regexp': true,
-    'gr-diff gr-syntax gr-syntax-variable': true,
-    'gr-diff gr-syntax gr-syntax-selector-attr': true,
-    'gr-diff gr-syntax gr-syntax-template-tag': true,
-    'gr-diff gr-syntax gr-syntax-string': true,
-    'gr-diff gr-syntax gr-syntax-selector-id': true,
-    'gr-diff gr-syntax gr-syntax-title': true,
-    'gr-diff gr-syntax gr-syntax-comment': true,
-    'gr-diff gr-syntax gr-syntax-meta': true,
-    'gr-diff gr-syntax gr-syntax-meta-keyword': true,
-    'gr-diff gr-syntax gr-syntax-tag': true,
-    'gr-diff gr-syntax gr-syntax-name': true,
     'gr-diff gr-syntax gr-syntax-attr': true,
     'gr-diff gr-syntax gr-syntax-attribute': true,
+    'gr-diff gr-syntax gr-syntax-built_in': true,
+    'gr-diff gr-syntax gr-syntax-comment': true,
     'gr-diff gr-syntax gr-syntax-emphasis': true,
-    'gr-diff gr-syntax gr-syntax-strong': true,
+    'gr-diff gr-syntax gr-syntax-function': true,
+    'gr-diff gr-syntax gr-syntax-keyword': true,
     'gr-diff gr-syntax gr-syntax-link': true,
+    'gr-diff gr-syntax gr-syntax-literal': true,
+    'gr-diff gr-syntax gr-syntax-meta': true,
+    'gr-diff gr-syntax gr-syntax-meta-keyword': true,
+    'gr-diff gr-syntax gr-syntax-name': true,
+    'gr-diff gr-syntax gr-syntax-number': true,
+    'gr-diff gr-syntax gr-syntax-params': true,
+    'gr-diff gr-syntax gr-syntax-regexp': true,
+    'gr-diff gr-syntax gr-syntax-selector-attr': true,
     'gr-diff gr-syntax gr-syntax-selector-class': true,
+    'gr-diff gr-syntax gr-syntax-selector-id': true,
+    'gr-diff gr-syntax gr-syntax-selector-pseudo': true,
+    'gr-diff gr-syntax gr-syntax-selector-tag': true,
+    'gr-diff gr-syntax gr-syntax-string': true,
+    'gr-diff gr-syntax gr-syntax-strong': true,
+    'gr-diff gr-syntax gr-syntax-tag': true,
+    'gr-diff gr-syntax gr-syntax-template-tag': true,
+    'gr-diff gr-syntax gr-syntax-template-variable': true,
+    'gr-diff gr-syntax gr-syntax-title': true,
+    'gr-diff gr-syntax gr-syntax-type': true,
+    'gr-diff gr-syntax gr-syntax-variable': true,
   };
 
   const CPP_DIRECTIVE_WITH_LT_PATTERN = /^\s*#(if|define).*</;
@@ -265,6 +267,7 @@
         // Note: HLJS may emit a span with class undefined when it thinks there
         // may be a syntax error.
         if (node.tagName === 'SPAN' && node.className !== 'undefined') {
+          console.log(node.className);
           if (CLASS_WHITELIST.hasOwnProperty(node.className)) {
             result.push({
               start: offset,

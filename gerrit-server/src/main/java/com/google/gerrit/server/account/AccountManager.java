@@ -365,10 +365,13 @@ public class AccountManager {
           if (a.getPreferredEmail() == null) {
             a.setPreferredEmail(who.getEmailAddress());
             db.accounts().update(Collections.singleton(a));
-            byIdCache.evict(to);
           }
+        }
+
+        if (who.getEmailAddress() != null) {
           byEmailCache.evict(who.getEmailAddress());
         }
+        byIdCache.evict(to);
       }
 
       return new AuthResult(to, who.getExternalIdKey(), false);
@@ -437,9 +440,9 @@ public class AccountManager {
               && a.getPreferredEmail().equals(who.getEmailAddress())) {
             a.setPreferredEmail(null);
             db.accounts().update(Collections.singleton(a));
-            byIdCache.evict(from);
           }
           byEmailCache.evict(who.getEmailAddress());
+          byIdCache.evict(from);
         }
 
       } else {

@@ -191,7 +191,6 @@ public class ExternalIdIT extends AbstractDaemonTest {
     ExternalIdsUpdate update =
         new ExternalIdsUpdate(
             repoManager,
-            accountCache,
             allUsers,
             serverIdent.get(),
             serverIdent.get(),
@@ -224,7 +223,6 @@ public class ExternalIdIT extends AbstractDaemonTest {
     ExternalIdsUpdate update =
         new ExternalIdsUpdate(
             repoManager,
-            accountCache,
             allUsers,
             serverIdent.get(),
             serverIdent.get(),

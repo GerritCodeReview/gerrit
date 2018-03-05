@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "cd35d57d_8a215d74",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2735,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-03-05T09:10:48Z",
+      "side": 1,
+      "message": "Currently, we have the concept of submit_filter which is a mean for parent project(s) to enforce\n(some) submit rules on child projects. submit_filter it is actually not inheritance of submit rules.\nInstead, submit_filter from parent project transforms the result of the submit_rule from a child project.\n\nI am not sure if you considered submit filters at all and if what you are writing here\nis neutral to the concept of submit filters or intended to be a replacement for them?\n\nIMHO, the concept of submit filter is a core feature. They are implemented in Prolog\nbut they are a core concept.\n\nWe have users who use a submit filter on a common parent project to enforce mandatory\nsubmit-ability conditions on a set of child projects. Child projects can still define\nown submit rules but they cannot escape the (enforced) rules form parent project(s).\n\nIMHO, we should be able to define submit filter on a (parent) project using any plugin(s)\nwhich provides submit filters, independently on which plugins are used to implement\nsubmit rules on child projects.",
+      "range": {
+        "startLine": 2734,
+        "startChar": 0,
+        "endLine": 2735,
+        "endChar": 93
+      },
+      "revId": "a5c3b99de02d2beddf71aad988a65180ca39d193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "880815fb_1a66b004",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 7

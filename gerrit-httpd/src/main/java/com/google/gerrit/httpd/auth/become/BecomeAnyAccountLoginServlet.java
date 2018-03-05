@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.auth.become;
 
-import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
 import static com.google.gerrit.server.account.ExternalId.SCHEME_UUID;
 
 import com.google.gerrit.common.PageLinks;
@@ -24,6 +24,7 @@ import com.google.gerrit.httpd.LoginUrlToken;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.template.SiteHeaderFooter;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
@@ -180,16 +181,17 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     return null;
   }
 
-  private AuthResult auth(Account.Id account) {
+  private AuthResult auth(final AccountExternalId account) {
     if (account != null) {
-      return new AuthResult(account, null, false);
+      return new AuthResult(account.getAccountId(), null, false);
     }
     return null;
   }
 
   private AuthResult byUserName(final String userName) {
     try {
-      List<AccountState> accountStates = accountQuery.byExternalId(SCHEME_USERNAME, userName);
+      AccountExternalId.Key extKey = new AccountExternalId.Key(SCHEME_USERNAME, userName);
+      List<AccountState> accountStates = accountQuery.byExternalId(extKey.get());
       if (accountStates.isEmpty()) {
         getServletContext().log("No accounts with username " + userName + " found");
         return null;
@@ -198,7 +200,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
         getServletContext().log("Multiple accounts with username " + userName + " found");
         return null;
       }
-      return auth(accountStates.get(0).getAccount().getId());
+      return auth(new AccountExternalId(accountStates.get(0).getAccount().getId(), extKey));
     } catch (OrmException e) {
       getServletContext().log("cannot query account index", e);
       return null;

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "236efbc6_3b52a4bc",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 885,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-05T21:06:22Z",
+      "side": 1,
+      "message": "I agree this is rather test-worthy. Since you\u0027re okay with it, and considering the priority of the underlying issue, I\u0027ll put the test together in follow-up.",
+      "parentUuid": "568aa0a1_c2181cfd",
+      "revId": "ff7c297dc5df4cfe8268b36e95ea8a56070bbf39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2150c473_32cc50e2",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "ff7c297dc5df4cfe8268b36e95ea8a56070bbf39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "328d5a94_ff11e15f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-05T21:06:22Z",
+      "side": 1,
+      "message": "You\u0027re right it would. I\u0027ve added a guard.",
+      "parentUuid": "2150c473_32cc50e2",
+      "revId": "ff7c297dc5df4cfe8268b36e95ea8a56070bbf39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

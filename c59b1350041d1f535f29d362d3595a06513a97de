@@ -165,6 +165,24 @@
       "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f78af48c_f58a50af",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-05T14:39:24Z",
+      "side": 1,
+      "message": "I don\u0027t think we have to do this as submit records are stored as JSON and we don\u0027t populate StoreRequirement for now?\n\nI general, I think we will need to think about what to do when the project owner adds/removes a plugin that contributes stored requirements. Basically, we would need to reindex all changes from this project then (or set up staleness detection so that this gets picked up).",
+      "parentUuid": "e20af359_972378d8",
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

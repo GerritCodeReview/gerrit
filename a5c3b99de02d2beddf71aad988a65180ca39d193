@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "724e4182_cf9f4bba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-05T12:08:38Z",
+      "side": 1,
+      "message": "This part is a bit unclear to me, maybe it should say \"to control the submitability of changes\"?",
+      "range": {
+        "startLine": 9,
+        "startChar": 29,
+        "endLine": 9,
+        "endChar": 65
+      },
+      "revId": "a5c3b99de02d2beddf71aad988a65180ca39d193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17cf1359_d433902e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-05T12:08:38Z",
+      "side": 1,
+      "message": "It\u0027s not really a \"custom\" submit type, but it\u0027s a possibility to control from Prolog which of the (existing) submit types should be used to submit a change.",
+      "range": {
+        "startLine": 38,
+        "startChar": 18,
+        "endLine": 38,
+        "endChar": 37
+      },
+      "revId": "a5c3b99de02d2beddf71aad988a65180ca39d193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cd35d57d_8a215d74",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 7
@@ -18,6 +64,69 @@
         "startChar": 0,
         "endLine": 2735,
         "endChar": 93
+      },
+      "revId": "a5c3b99de02d2beddf71aad988a65180ca39d193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a88f09dd_e2ad5700",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2740,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-05T12:08:38Z",
+      "side": 1,
+      "message": "prevent",
+      "range": {
+        "startLine": 2740,
+        "startChar": 0,
+        "endLine": 2740,
+        "endChar": 7
+      },
+      "revId": "a5c3b99de02d2beddf71aad988a65180ca39d193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "163c9b3c_cd2416bb",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2742,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-05T12:08:38Z",
+      "side": 1,
+      "message": "three?",
+      "revId": "a5c3b99de02d2beddf71aad988a65180ca39d193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9811f600_38d245c6",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2747,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-05T12:08:38Z",
+      "side": 1,
+      "message": "I think I would prefer this to be NOT_READY.",
+      "range": {
+        "startLine": 2747,
+        "startChar": 41,
+        "endLine": 2747,
+        "endChar": 43
       },
       "revId": "a5c3b99de02d2beddf71aad988a65180ca39d193",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

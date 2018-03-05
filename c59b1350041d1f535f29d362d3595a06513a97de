@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "3a048a07_b60b80ba",
+        "filename": "java/com/google/gerrit/common/data/SubmitRecord.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-05T14:45:32Z",
+      "side": 1,
+      "message": "In your examples you actually use \"OK\" and \"NOT_OK\" as possible value (e.g. https://gerrit-review.googlesource.com/c/gerrit/+/162993/10). This makes me think that for the extension point we probably rather want an enum with OK, NOT_OK, RULE_ERROR?",
+      "parentUuid": "b4ca0357_4c3e686b",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 0
+      },
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2a6a79b5_2e0b1115",
         "filename": "java/com/google/gerrit/common/data/SubmitRecord.java",
         "patchSetId": 10
@@ -180,6 +204,41 @@
       "side": 1,
       "message": "I don\u0027t think we have to do this as submit records are stored as JSON and we don\u0027t populate StoreRequirement for now?\n\nI general, I think we will need to think about what to do when the project owner adds/removes a plugin that contributes stored requirements. Basically, we would need to reindex all changes from this project then (or set up staleness detection so that this gets picked up).",
       "parentUuid": "e20af359_972378d8",
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e67dd2_26123417",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-05T14:45:32Z",
+      "side": 1,
+      "message": "Instead of changing how existing fields in the index are computed (STORED_SUBMIT_RECORD_STRICT, STORED_SUBMIT_RECORD_LENIENT) it\u0027s maybe better to add new fields that replace the old fields.",
+      "parentUuid": "f78af48c_f58a50af",
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10d65b3e_29e286e5",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-05T14:45:32Z",
+      "side": 1,
+      "message": "Does this method need to know about rec.requirements?",
       "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

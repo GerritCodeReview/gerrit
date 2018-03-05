@@ -16,6 +16,24 @@
       "revId": "b55ea493af08cf72fc67725a41c6408668e5a0b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1972d4d7_9ca35c31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-05T16:40:46Z",
+      "side": 1,
+      "message": "Yes, I did that but some tests (notedb rebuilt) are failing, error while binding EventUtil...\n\nLet me check if it\u0027s simple to fix.",
+      "parentUuid": "98c33fdb_7c79e7e9",
+      "revId": "b55ea493af08cf72fc67725a41c6408668e5a0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -64,7 +64,7 @@ public class EventUtil {
 
   private final ChangeData.Factory changeDataFactory;
   private final Provider<ReviewDb> db;
-  private final ChangeJson changeJson;
+  private final ChangeJson.Factory changeJsonFactory;
 
   @Inject
   EventUtil(
@@ -73,11 +73,11 @@ public class EventUtil {
       Provider<ReviewDb> db) {
     this.changeDataFactory = changeDataFactory;
     this.db = db;
-    this.changeJson = changeJsonFactory.create(CHANGE_OPTIONS);
+    this.changeJsonFactory = changeJsonFactory;
   }
 
   public ChangeInfo changeInfo(Change change) throws OrmException {
-    return changeJson.format(change);
+    return changeJsonFactory.create(CHANGE_OPTIONS).format(change);
   }
 
   public RevisionInfo revisionInfo(Project project, PatchSet ps)
@@ -89,7 +89,7 @@ public class EventUtil {
       throws OrmException, PatchListNotAvailableException, GpgException, IOException {
     ChangeData cd = changeDataFactory.create(db.get(), project, ps.getId().getParentKey());
     ChangeControl ctl = cd.changeControl();
-    return changeJson.getRevisionInfo(ctl, ps);
+    return changeJsonFactory.create(CHANGE_OPTIONS).getRevisionInfo(ctl, ps);
   }
 
   public AccountInfo accountInfo(Account a) {

@@ -22,6 +22,30 @@
       "revId": "0c326e2f2f6e3abf74c91f9d1f844d8189d9d404",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92e8f62c_c1a77a77",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 2741,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-05T22:29:06Z",
+      "side": 1,
+      "message": "I changed this paragraph because of your comment, but also wrote a reply.\nI won\u0027t ignore it, no worries! [see PS7 for the reply]",
+      "parentUuid": "e0726f77_1cdee1a0",
+      "range": {
+        "startLine": 2737,
+        "startChar": 0,
+        "endLine": 2741,
+        "endChar": 70
+      },
+      "revId": "0c326e2f2f6e3abf74c91f9d1f844d8189d9d404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

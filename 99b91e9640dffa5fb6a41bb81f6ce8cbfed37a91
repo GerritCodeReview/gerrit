@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8946f81e_2f36a243",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-05T09:07:29Z",
+      "side": 1,
+      "message": "Exciting!!",
+      "revId": "99b91e9640dffa5fb6a41bb81f6ce8cbfed37a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34e0c217_1feda8a1",
+        "filename": "java/com/google/gerrit/server/rules/PrologRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-05T09:07:29Z",
+      "side": 1,
+      "message": "nit: We don\u0027t import inner classes as it makes it harder to see which Factory this is down in the code.\n\nJust import PrologRuleEvaluator and reference the factory as PrologRuleEvaluator.Factory",
+      "range": {
+        "startLine": 21,
+        "startChar": 39,
+        "endLine": 21,
+        "endChar": 66
+      },
+      "revId": "99b91e9640dffa5fb6a41bb81f6ce8cbfed37a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

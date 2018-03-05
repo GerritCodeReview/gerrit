@@ -25,6 +25,50 @@
         type: Boolean,
         value: false,
       },
+      _sortedThreads: {
+        type: Array,
+        computed: '_computeSortedThreads(threads)',
+      },
+    },
+    /**
+     * Order as follows:
+     *  - Unresolved threads with drafts (reverse chronological)
+     *  - Unresolved threads without drafts (reverse chronological)
+     *  - Resolved threads with drafts (reverse chronological)
+     *  - Resolved threads without drafts (reverse chronological)
+     * @param {!Array} threads
+     * @return {!Array}
+     */
+    _computeSortedThreads(threads) {
+      return threads.map(t => this._updateThreadProperties(t)).sort((c1,
+          c2) => {
+        const c1Date = c1.__date || util.parseDate(c1.updated);
+        const c2Date = c2.__date || util.parseDate(c2.updated);
+        const dateCompare = c2Date - c1Date;
+        if (c2.unresolved || c1.unresolved) {
+          if (!c1.unresolved) { return 1; }
+          if (!c2.unresolved) { return -1; }
+        }
+        if (c2.hasDraft || c1.hasDraft) {
+          if (!c1.hasDraft) { return 1; }
+          if (!c2.hasDraft) { return -1; }
+        }
+        return dateCompare;
+      });
+    },
+
+    _updateThreadProperties(thread) {
+      const lastComment = thread.comments[thread.comments.length - 1] || {};
+      thread.unresolved = lastComment.unresolved;
+      thread.hasDraft = lastComment.__draft;
+      thread.updated = lastComment.updated;
+      return thread;
+    },
+
+    _handleCommentsChanged(e) {
+      this.dispatchEvent(new CustomEvent('comment-threads-modified',
+          {detail: {rootId: e.detail.rootId, path: e.detail.path},
+            bubbles: true}));
     },
 
     _isOnParent(side) {

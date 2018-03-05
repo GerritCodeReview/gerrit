@@ -584,6 +584,10 @@
     },
 
     _toggleResolved(resolved, previousValue) {
+      if (this.ignoreChanges) {
+        this.ignoreChanges = false;
+        return;
+      }
       // Do not proceed if this call is for the initial definition of the
       // resolved property.
       if (previousValue === undefined) { return; }

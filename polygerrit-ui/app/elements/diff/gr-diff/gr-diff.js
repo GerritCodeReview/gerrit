@@ -261,6 +261,11 @@
       this.classList.remove('showBlame');
     },
 
+    _handleCommentSaveOrDiscard() {
+      this.dispatchEvent(new CustomEvent('diff-comments-modified',
+          {bubbles: true}));
+    },
+
     /** @return {boolean}} */
     _canRender() {
       return !!this.changeNum && !!this.patchRange && !!this.path &&
@@ -399,11 +404,12 @@
      * on the line if no range is provided.
      *
      * @param {!Object} threadGroupEl
+     * @param {string} commentSide
      * @param {!Object=} opt_range
      * @return {!Object}
      */
-    _getThread(threadGroupEl, opt_range) {
-      return threadGroupEl.getThread(opt_range);
+    _getThread(threadGroupEl, commentSide, opt_range) {
+      return threadGroupEl.getThread(commentSide, opt_range);
     },
 
     _getThreadGroupForLine(contentEl) {
@@ -445,16 +451,15 @@
         contentEl.appendChild(threadGroupEl);
       }
 
-      let threadEl = this._getThread(threadGroupEl, opt_range);
+      let threadEl = this._getThread(threadGroupEl, commentSide, opt_range);
 
       if (!threadEl) {
         threadGroupEl.addNewThread(commentSide, opt_range);
         Polymer.dom.flush();
-        threadEl = this._getThread(threadGroupEl, opt_range);
+        threadEl = this._getThread(threadGroupEl, commentSide, opt_range);
       }
       return threadEl;
     },
-
     /**
      * The value to be used for the patch number of new comments created at the
      * given line and content elements.
@@ -510,6 +515,7 @@
     _handleCommentDiscard(e) {
       const comment = e.detail.comment;
       this._removeComment(comment);
+      this._handleCommentSaveOrDiscard();
     },
 
     _removeComment(comment) {
@@ -522,6 +528,7 @@
       const side = e.detail.comment.__commentSide;
       const idx = this._findDraftIndex(comment, side);
       this.set(['comments', side, idx], comment);
+      this._handleCommentSaveOrDiscard();
     },
 
     /**

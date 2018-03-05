@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f50d42c1_38cb0a10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-05T14:32:18Z",
+      "side": 1,
+      "message": "One advantage of (mis)using labels for failure reasons is that you can query by them, e.g. you can find all changes that need a Code-Review approval from a non-author by \"label:Non-Author-Code-Review\u003dneed\" [1]. I think we shouldn\u0027t lose that queriy possibilities. This means if failure reasons are now stored differently in the change index, we probably need new query operators for this.\n\n[1] https://gerrit-review.googlesource.com/Documentation/user-search.html#labels",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 29
+      },
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4ca0357_4c3e686b",
+        "filename": "java/com/google/gerrit/common/data/SubmitRecord.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-05T14:32:18Z",
+      "side": 1,
+      "message": "Unrelated to this change, but these enums don\u0027t make much sense for the plugin extension point, should they be removed?",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 0
+      },
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a6a79b5_2e0b1115",
+        "filename": "java/com/google/gerrit/common/data/SubmitRecord.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-05T14:32:18Z",
+      "side": 1,
+      "message": "Should these methods be adapted to take the new requirements field into consideration?",
+      "range": {
+        "startLine": 148,
+        "startChar": 2,
+        "endLine": 162,
+        "endChar": 3
+      },
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "587d9d1b_79aa18ca",
+        "filename": "java/com/google/gerrit/common/data/SubmitRequirement.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-05T14:32:18Z",
+      "side": 1,
+      "message": "better use Optional\u003cString\u003e ?",
+      "range": {
+        "startLine": 49,
+        "startChar": 9,
+        "endLine": 49,
+        "endChar": 25
+      },
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "572eca1b_291ae4f8",
+        "filename": "java/com/google/gerrit/server/data/SubmitLabelAttribute.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-05T14:32:18Z",
+      "side": 1,
+      "message": "Are the *Attribute classes really used for indexing? I thought they were only used for the events.",
+      "range": {
+        "startLine": 20,
+        "startChar": 96,
+        "endLine": 21,
+        "endChar": 10
+      },
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5900064_afef1bfc",
+        "filename": "java/com/google/gerrit/server/data/SubmitRecordAttribute.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-05T14:32:18Z",
+      "side": 1,
+      "message": "Document this new field in json.txt",
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1e28eed_50042136",
+        "filename": "java/com/google/gerrit/server/data/SubmitRequirementAttribute.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-05T14:32:18Z",
+      "side": 1,
+      "message": "Document this attribute in json.txt",
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e20af359_972378d8",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-05T14:32:18Z",
+      "side": 1,
+      "message": "As soon as this gets used, we need to define a new change schema index version in ChangeSchemaDefinitions, so that all changes get reindexed. Otherwise the existing documents in the index will miss this data.",
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

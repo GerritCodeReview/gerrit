@@ -399,11 +399,12 @@
      * on the line if no range is provided.
      *
      * @param {!Object} threadGroupEl
+     * @param {string} commentSide
      * @param {!Object=} opt_range
      * @return {!Object}
      */
-    _getThread(threadGroupEl, opt_range) {
-      return threadGroupEl.getThread(opt_range);
+    _getThread(threadGroupEl, commentSide, opt_range) {
+      return threadGroupEl.getThread(commentSide, opt_range);
     },
 
     _getThreadGroupForLine(contentEl) {
@@ -445,12 +446,12 @@
         contentEl.appendChild(threadGroupEl);
       }
 
-      let threadEl = this._getThread(threadGroupEl, opt_range);
+      let threadEl = this._getThread(threadGroupEl, commentSide, opt_range);
 
       if (!threadEl) {
         threadGroupEl.addNewThread(commentSide, opt_range);
         Polymer.dom.flush();
-        threadEl = this._getThread(threadGroupEl, opt_range);
+        threadEl = this._getThread(threadGroupEl, commentSide, opt_range);
       }
       return threadEl;
     },

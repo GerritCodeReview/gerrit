@@ -16,6 +16,24 @@
       "revId": "ad7f0842bb5a72e384619a727b9d9be581b7ad23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "085b6009_a57f633b",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-05T15:29:33Z",
+      "side": 1,
+      "message": "Yeah, I\u0027m also worried about this. Better to ask Dave.",
+      "parentUuid": "4798cb14_56e71da2",
+      "revId": "ad7f0842bb5a72e384619a727b9d9be581b7ad23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

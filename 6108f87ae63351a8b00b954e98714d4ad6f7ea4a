@@ -16,6 +16,24 @@
       "revId": "6108f87ae63351a8b00b954e98714d4ad6f7ea4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adc9ca86_08e69e88",
+        "filename": "java/com/google/gerrit/server/restapi/change/TestSubmitRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-05T22:32:40Z",
+      "side": 0,
+      "message": "Done\nThe Documentation doesn\u0027t mention this field, and (I think) as it was already optional, clients handle this case already",
+      "parentUuid": "a91b7931_96ff0636",
+      "revId": "6108f87ae63351a8b00b954e98714d4ad6f7ea4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

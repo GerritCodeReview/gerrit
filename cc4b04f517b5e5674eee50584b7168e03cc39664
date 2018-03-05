@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "436b63a6_5ce4cc3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-03-05T22:12:49Z",
+      "side": 1,
+      "message": "hmm... if the problem is in the PostReview class, which keeps a reference\nto the a non-singleton (CommentAdded), then I would expect to see the PostReview\nclass being fixed in this change. Don\u0027t know if this proposal makes sense though,\nI didn\u0027t try it.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 22
+      },
+      "revId": "cc4b04f517b5e5674eee50584b7168e03cc39664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32fe028d_703d5aad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-03-05T22:12:49Z",
+      "side": 1,
+      "message": "Does this mean that the real problem was actually in the EventUtil class and not in the PostReview?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 58
+      },
+      "revId": "cc4b04f517b5e5674eee50584b7168e03cc39664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

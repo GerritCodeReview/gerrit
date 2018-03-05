@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b9326ec_60791378",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-05T15:47:52Z",
+      "side": 1,
+      "message": "Sorry, I missed this in previous review, but then again, username can be null (or even is *always* null) for many auth providers, may be replace it with something like (untested):\n\n  MoreObjects.firstNonNull(who.getUserName(), id.get())",
+      "range": {
+        "startLine": 125,
+        "startChar": 81,
+        "endLine": 125,
+        "endChar": 98
+      },
+      "revId": "d970abb4d9785aebdeba569ea9f7e89e6968e536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

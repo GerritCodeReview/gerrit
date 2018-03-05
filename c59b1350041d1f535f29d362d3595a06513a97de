@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e412bbc9_59faa3f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-05T15:38:37Z",
+      "side": 1,
+      "message": "Closed in favor of the discussion in ChangeField.java",
+      "parentUuid": "f50d42c1_38cb0a10",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 29
+      },
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4ca0357_4c3e686b",
         "filename": "java/com/google/gerrit/common/data/SubmitRecord.java",
         "patchSetId": 10
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "b4a53097_fc2aa7af",
+        "filename": "java/com/google/gerrit/common/data/SubmitRecord.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-05T15:38:37Z",
+      "side": 1,
+      "message": "I\u0027ve adjusted the commit message.\nDo you think we can safely remove these 2 enum values? I don\u0027t see why plugins would use them either, and plugins are most likely not called in these two cases anyway.\n\nThe json.txt file only mentions OK, NOT_READY and RULE_ERROR",
+      "parentUuid": "3a048a07_b60b80ba",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 0
+      },
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a6a79b5_2e0b1115",
         "filename": "java/com/google/gerrit/common/data/SubmitRecord.java",
         "patchSetId": 10
@@ -92,6 +140,30 @@
       "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb1c91c3_c2391085",
+        "filename": "java/com/google/gerrit/common/data/SubmitRecord.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-05T15:38:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a6a79b5_2e0b1115",
+      "range": {
+        "startLine": 148,
+        "startChar": 2,
+        "endLine": 162,
+        "endChar": 3
+      },
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -118,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "a0440a12_4c2cc6f1",
+        "filename": "java/com/google/gerrit/common/data/SubmitRequirement.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-05T15:38:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "587d9d1b_79aa18ca",
+      "range": {
+        "startLine": 49,
+        "startChar": 9,
+        "endLine": 49,
+        "endChar": 25
+      },
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "572eca1b_291ae4f8",
         "filename": "java/com/google/gerrit/server/data/SubmitLabelAttribute.java",
         "patchSetId": 10
@@ -141,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "ef6d7169_8155a3c6",
+        "filename": "java/com/google/gerrit/server/data/SubmitLabelAttribute.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-05T15:38:37Z",
+      "side": 1,
+      "message": "Done, I think you\u0027re right.",
+      "parentUuid": "572eca1b_291ae4f8",
+      "range": {
+        "startLine": 20,
+        "startChar": 96,
+        "endLine": 21,
+        "endChar": 10
+      },
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5900064_afef1bfc",
         "filename": "java/com/google/gerrit/server/data/SubmitRecordAttribute.java",
         "patchSetId": 10
@@ -158,6 +278,24 @@
     },
     {
       "key": {
+        "uuid": "37c650aa_56165f6c",
+        "filename": "java/com/google/gerrit/server/data/SubmitRecordAttribute.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-05T15:38:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5900064_afef1bfc",
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1e28eed_50042136",
         "filename": "java/com/google/gerrit/server/data/SubmitRequirementAttribute.java",
         "patchSetId": 10
@@ -172,6 +310,24 @@
       "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df592441_e34fc163",
+        "filename": "java/com/google/gerrit/server/data/SubmitRequirementAttribute.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-05T15:38:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1e28eed_50042136",
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -228,6 +384,24 @@
     },
     {
       "key": {
+        "uuid": "1c829f89_68a5e04f",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-05T15:38:37Z",
+      "side": 1,
+      "message": "(I don\u0027t totally understand this discussion \u0026 the index for now, so I won\u0027t answer. I\u0027ll do changes once we settle on something, if this is acceptable)",
+      "parentUuid": "e8e67dd2_26123417",
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "10d65b3e_29e286e5",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 10
@@ -239,6 +413,24 @@
       "writtenOn": "2018-03-05T14:45:32Z",
       "side": 1,
       "message": "Does this method need to know about rec.requirements?",
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "138054a9_afdc82cc",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-05T15:38:37Z",
+      "side": 1,
+      "message": "(You said earlier):\n\u003e One advantage of (mis)using labels for failure reasons is that you can query by them, e.g. you can find all changes that need a Code-Review approval from a non-author by \"label:Non-Author-Code-Review\u003dneed\" [1]. I think we shouldn\u0027t lose that queriy possibilities. This means if failure reasons are now stored differently in the change index, we probably need new query operators for this.\n\u003e [1] https://gerrit-review.googlesource.com/Documentation/user-search.html#labels\n\nIf I understand correctly, adding the requirements here would allow them to be indexed and search-able, answering your comment on the commit message. I need to\n do tests, but does this seem like an acceptable compromise between labels and requirements?",
+      "parentUuid": "10d65b3e_29e286e5",
       "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

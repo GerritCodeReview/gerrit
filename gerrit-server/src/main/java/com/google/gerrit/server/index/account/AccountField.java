@@ -23,8 +23,8 @@ import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.SchemaUtil;
 import java.sql.Timestamp;
@@ -39,7 +39,7 @@ public class AccountField {
 
   public static final FieldDef<AccountState, Iterable<String>> EXTERNAL_ID =
       exact("external_id")
-          .buildRepeatable(a -> Iterables.transform(a.getExternalIds(), id -> id.key().get()));
+          .buildRepeatable(a -> Iterables.transform(a.getExternalIds(), id -> id.getKey().get()));
 
   /** Fuzzy prefix match on name and email parts. */
   public static final FieldDef<AccountState, Iterable<String>> NAME_PART =
@@ -49,7 +49,9 @@ public class AccountField {
                 String fullName = a.getAccount().getFullName();
                 Set<String> parts =
                     SchemaUtil.getNameParts(
-                        fullName, Iterables.transform(a.getExternalIds(), ExternalId::email));
+                        fullName,
+                        Iterables.transform(
+                            a.getExternalIds(), AccountExternalId::getEmailAddress));
 
                 // Additional values not currently added by getPersonParts.
                 // TODO(dborowitz): Move to getPersonParts and remove this hack.
@@ -70,7 +72,7 @@ public class AccountField {
           .buildRepeatable(
               a ->
                   FluentIterable.from(a.getExternalIds())
-                      .transform(ExternalId::email)
+                      .transform(AccountExternalId::getEmailAddress)
                       .append(Collections.singleton(a.getAccount().getPreferredEmail()))
                       .filter(Predicates.notNull())
                       .transform(String::toLowerCase)

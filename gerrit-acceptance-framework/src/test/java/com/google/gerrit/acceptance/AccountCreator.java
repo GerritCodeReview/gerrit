@@ -20,15 +20,16 @@ import static java.nio.charset.StandardCharsets.US_ASCII;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.ExternalId;
-import com.google.gerrit.server.account.ExternalIdsUpdate;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.HashedPassword;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.testutil.SshMode;
 import com.google.gwtorm.server.SchemaFactory;
@@ -39,10 +40,8 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Singleton
@@ -55,7 +54,7 @@ public class AccountCreator {
   private final SshKeyCache sshKeyCache;
   private final AccountCache accountCache;
   private final AccountByEmailCache byEmailCache;
-  private final ExternalIdsUpdate.Server externalIdsUpdate;
+  private final AccountIndexer indexer;
 
   @Inject
   AccountCreator(
@@ -65,7 +64,7 @@ public class AccountCreator {
       SshKeyCache sshKeyCache,
       AccountCache accountCache,
       AccountByEmailCache byEmailCache,
-      ExternalIdsUpdate.Server externalIdsUpdate) {
+      AccountIndexer indexer) {
     accounts = new HashMap<>();
     reviewDbProvider = schema;
     this.authorizedKeys = authorizedKeys;
@@ -73,7 +72,7 @@ public class AccountCreator {
     this.sshKeyCache = sshKeyCache;
     this.accountCache = accountCache;
     this.byEmailCache = byEmailCache;
-    this.externalIdsUpdate = externalIdsUpdate;
+    this.indexer = indexer;
   }
 
   public synchronized TestAccount create(
@@ -85,14 +84,19 @@ public class AccountCreator {
     try (ReviewDb db = reviewDbProvider.open()) {
       Account.Id id = new Account.Id(db.nextAccountId());
 
-      List<ExternalId> extIds = new ArrayList<>(2);
+      AccountExternalId extUser =
+          new AccountExternalId(
+              id, new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, username));
       String httpPass = "http-pass";
-      extIds.add(ExternalId.createUsername(username, id, httpPass));
+      extUser.setPassword(HashedPassword.fromPassword(httpPass).encode());
+
+      db.accountExternalIds().insert(Collections.singleton(extUser));
 
       if (email != null) {
-        extIds.add(ExternalId.createEmail(id, email));
+        AccountExternalId extMailto = new AccountExternalId(id, getEmailKey(email));
+        extMailto.setEmailAddress(email);
+        db.accountExternalIds().insert(Collections.singleton(extMailto));
       }
-      externalIdsUpdate.create().insert(db, extIds);
 
       Account a = new Account(id, TimeUtil.nowTs());
       a.setFullName(fullName);
@@ -116,9 +120,10 @@ public class AccountCreator {
         sshKeyCache.evict(username);
       }
 
-      accountCache.evict(id);
       accountCache.evictByUsername(username);
       byEmailCache.evict(email);
+
+      indexer.index(id);
 
       account = new TestAccount(id, username, email, fullName, sshKey, httpPass);
       accounts.put(username, account);
@@ -152,6 +157,10 @@ public class AccountCreator {
 
   public TestAccount get(String username) {
     return checkNotNull(accounts.get(username), "No TestAccount created for %s", username);
+  }
+
+  private AccountExternalId.Key getEmailKey(String email) {
+    return new AccountExternalId.Key(AccountExternalId.SCHEME_MAILTO, email);
   }
 
   public static KeyPair genSshKey() throws JSchException {

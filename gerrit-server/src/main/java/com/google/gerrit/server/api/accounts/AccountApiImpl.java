@@ -494,7 +494,7 @@ public class AccountApiImpl implements AccountApi {
   public void deleteExternalIds(List<String> externalIds) throws RestApiException {
     try {
       deleteExternalIds.apply(account, externalIds);
-    } catch (IOException | OrmException | ConfigInvalidException e) {
+    } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot delete external IDs", e);
     }
   }

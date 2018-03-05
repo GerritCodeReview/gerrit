@@ -9,6 +9,7 @@ account to lower case
 --
 _java_ -jar gerrit.war _LocalUsernamesToLowerCase_
   -d <SITE_PATH>
+  [--threads]
 --
 
 == DESCRIPTION
@@ -28,11 +29,9 @@ The program will produce errors if there are accounts that have the
 same local username, but with different case. In this case the local
 username for these accounts is not converted to lower case.
 
-After all usernames have been migrated, the link:pgm-reindex.html[
-reindex] program is automatically invoked to reindex all accounts.
-
-This task cannot run in the background concurrently to the server;
-it must be run by itself.
+This task can run in the background concurrently to the server if the
+database is MySQL or PostgreSQL. If the database is H2, this task
+must be run by itself.
 
 == OPTIONS
 
@@ -40,6 +39,10 @@ it must be run by itself.
 --site-path::
 	Location of the gerrit.config file, and all other per-site
 	configuration data, supporting libraries and log files.
+
+--threads::
+	Number of threads to perform the scan work with.  Defaults to
+	twice the number of CPUs available.
 
 == CONTEXT
 This command can only be run on a server which has direct

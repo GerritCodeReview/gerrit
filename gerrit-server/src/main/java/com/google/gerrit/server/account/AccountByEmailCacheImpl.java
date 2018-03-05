@@ -97,7 +97,7 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
           if (accountState
               .getExternalIds()
               .stream()
-              .filter(e -> email.equals(e.email()))
+              .filter(e -> email.equals(e.getEmailAddress()))
               .findAny()
               .isPresent()) {
             r.add(accountState.getAccount().getId());

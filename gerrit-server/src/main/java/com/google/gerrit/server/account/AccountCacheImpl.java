@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
-
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
@@ -41,6 +39,7 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -153,9 +152,9 @@ public class AccountCacheImpl implements AccountCache {
   private static AccountState missing(Account.Id accountId) {
     Account account = new Account(accountId, TimeUtil.nowTs());
     account.setActive(false);
+    Collection<AccountExternalId> ids = Collections.emptySet();
     Set<AccountGroup.UUID> anon = ImmutableSet.of();
-    return new AccountState(
-        account, anon, Collections.emptySet(), new HashMap<ProjectWatchKey, Set<NotifyType>>());
+    return new AccountState(account, anon, ids, new HashMap<ProjectWatchKey, Set<NotifyType>>());
   }
 
   static class ByIdLoader extends CacheLoader<Account.Id, Optional<AccountState>> {
@@ -201,8 +200,8 @@ public class AccountCacheImpl implements AccountCache {
         return Optional.empty();
       }
 
-      Set<ExternalId> externalIds =
-          ExternalId.from(db.accountExternalIds().byAccount(who).toList());
+      Collection<AccountExternalId> externalIds =
+          Collections.unmodifiableCollection(db.accountExternalIds().byAccount(who).toList());
 
       Set<AccountGroup.UUID> internalGroups = new HashSet<>();
       for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {
@@ -240,7 +239,7 @@ public class AccountCacheImpl implements AccountCache {
       try (ReviewDb db = dbProvider.open()) {
         return Optional.ofNullable(
                 db.accountExternalIds()
-                    .get(new AccountExternalId.Key(SCHEME_USERNAME + ":" + username)))
+                    .get(new AccountExternalId.Key(ExternalId.SCHEME_USERNAME + ":" + username)))
             .map(AccountExternalId::getAccountId);
       }
     }
@@ -256,8 +255,11 @@ public class AccountCacheImpl implements AccountCache {
 
     @Override
     public Optional<Account.Id> load(String username) throws Exception {
-      AccountState accountState =
-          accountQueryProvider.get().oneByExternalId(SCHEME_USERNAME, username);
+      AccountExternalId.Key key =
+          new AccountExternalId.Key( //
+              AccountExternalId.SCHEME_USERNAME, //
+              username);
+      AccountState accountState = accountQueryProvider.get().oneByExternalId(key.get());
       return Optional.ofNullable(accountState).map(s -> s.getAccount().getId());
     }
   }

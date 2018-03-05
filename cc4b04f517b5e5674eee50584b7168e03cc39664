@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bef34d1b_8107cb45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-05T23:35:27Z",
+      "side": 1,
+      "message": "I don\u0027t think PostReview should be fixed. That would involve rewriting it to not keep a reference to CommentAdded, and the same would have to be done in every other class that follows the same pattern related to the event firing classes.  That would be a huge change.\n\nMaybe the CommandAdded class should be a Singleton? Same for all the other event classes.  We would need to take care that none of those classes keep references to non-Singletons though.",
+      "parentUuid": "436b63a6_5ce4cc3c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 22
+      },
+      "revId": "cc4b04f517b5e5674eee50584b7168e03cc39664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "143c4695_a288ec65",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-03-05T22:14:39Z",
       "side": 1,
       "message": "this is really hair-splitting but I think this would look nicer:\n\n  PostReview (singleton)\n  -\u003e CommentAdded (non-singleton)\n  -\u003e EventUtil (non-singleton)\n  -\u003e ...",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 31
+      },
+      "revId": "cc4b04f517b5e5674eee50584b7168e03cc39664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2496b7e_090eb998",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-05T23:35:27Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "143c4695_a288ec65",
       "range": {
         "startLine": 12,
         "startChar": 2,
@@ -65,6 +113,46 @@
         "endLine": 24,
         "endChar": 58
       },
+      "revId": "cc4b04f517b5e5674eee50584b7168e03cc39664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22c6f0c7_f13438e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-05T23:35:27Z",
+      "side": 1,
+      "message": "has",
+      "range": {
+        "startLine": 26,
+        "startChar": 29,
+        "endLine": 26,
+        "endChar": 33
+      },
+      "revId": "cc4b04f517b5e5674eee50584b7168e03cc39664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94a85243_1dedb9c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-05T23:35:27Z",
+      "side": 1,
+      "message": "nit: Remove this blank line",
       "revId": "cc4b04f517b5e5674eee50584b7168e03cc39664",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

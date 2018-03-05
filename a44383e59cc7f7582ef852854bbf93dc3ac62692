@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b06c5617_dfc7d5ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_160.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-05T01:38:46Z",
+      "side": 1,
+      "message": "We only need one of these.  See below.",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 90
+      },
+      "revId": "a44383e59cc7f7582ef852854bbf93dc3ac62692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a4cf32b_db36f9da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_160.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-05T01:38:46Z",
+      "side": 1,
+      "message": "Cleaner to define a single string containing only the part that\u0027s common:\n\n @VisibleForTesting static final String DEFAULT_DRAFT_ITEM \u003d \"/q/owner:self+is:draft\";\n\nand then test if the item ends with that string:\n\n String value \u003d cfg.getString(MY, item, KEY_URL)\n if (value !\u003d null \u0026\u0026 value.endsWith(DEFAULT_DRAFT_ITEM)) {\n   cfg.unsetSection(MY, item);\n   dirty \u003d true;\n }",
+      "range": {
+        "startLine": 123,
+        "startChar": 8,
+        "endLine": 129,
+        "endChar": 9
+      },
+      "revId": "a44383e59cc7f7582ef852854bbf93dc3ac62692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

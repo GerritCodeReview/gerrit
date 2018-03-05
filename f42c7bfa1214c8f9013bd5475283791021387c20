@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "a1dc0a9c_a854e845",
+        "filename": "java/com/google/gerrit/common/data/SubmitRequirement.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-05T08:40:52Z",
+      "side": 1,
+      "message": "Still so much boiler-plate :(",
+      "parentUuid": "7fdb15c6_cd90e57b",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 3
+      },
+      "revId": "f42c7bfa1214c8f9013bd5475283791021387c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e21056c_a001796f",
         "filename": "java/com/google/gerrit/server/data/SubmitRecordAttribute.java",
         "patchSetId": 8

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3056681_c2d0ba71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-05T09:11:17Z",
+      "side": 1,
+      "message": "Can you write more about implicit vs. explicit enabling of submit rules (a.k.a. plugins).\n\nI see two approaches both with some pros/cons:\n\n1) Call all plugins and have the plugins decide if they want to contribute to the submit decision\n2) Have a project.config section that is used for specifying which plugins get called. Call only those.",
+      "revId": "88d1d4b813ee273924eab36001825f794a84e337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

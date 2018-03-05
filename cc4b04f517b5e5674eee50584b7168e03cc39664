@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "143c4695_a288ec65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-03-05T22:14:39Z",
+      "side": 1,
+      "message": "this is really hair-splitting but I think this would look nicer:\n\n  PostReview (singleton)\n  -\u003e CommentAdded (non-singleton)\n  -\u003e EventUtil (non-singleton)\n  -\u003e ...",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 31
+      },
+      "revId": "cc4b04f517b5e5674eee50584b7168e03cc39664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32fe028d_703d5aad",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

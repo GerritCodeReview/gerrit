@@ -189,6 +189,57 @@ limitations under the License.
       assert.deepEqual(element._getThreads(comments), expectedThreadGroups);
     });
 
+    test('getThread', () => {
+      const range = {
+        start_line: 1,
+        start_character: 1,
+        end_line: 1,
+        end_character: 2,
+      };
+      element.comments = [
+        {
+          id: 'sallys_confession',
+          message: 'i like you, jack',
+          updated: '2015-12-23 15:00:20.396000000',
+          __commentSide: 'left',
+        }, {
+          id: 'jacks_reply',
+          message: 'i like you, too',
+          updated: '2015-12-24 15:01:20.396000000',
+          __commentSide: 'left',
+          in_reply_to: 'sallys_confession',
+        }, {
+          __draftID: 'new_draft',
+          message: 'i do not like either of you',
+          __commentSide: 'left',
+          __draft: true,
+          in_reply_to: 'sallys_confession',
+          updated: '2015-12-20 15:01:20.396000000',
+        }, {
+          id: 'right_side_comment',
+          message: 'right side comment',
+          __commentSide: 'right',
+          __draft: true,
+          updated: '2015-12-20 15:01:20.396000000',
+        }, {
+          id: 'betsys_confession',
+          message: 'i like you more, jack',
+          updated: '2015-12-24 15:00:10.396000000',
+          range,
+          __commentSide: 'left',
+        },
+      ];
+
+      flushAsynchronousOperations();
+      assert.deepEqual(element.getThread('right').rootId, 'right_side_comment');
+      assert.deepEqual(element.getThread('right').comments.length, 1);
+      assert.deepEqual(element.getThread('left').rootId, 'sallys_confession');
+      assert.deepEqual(element.getThread('left').comments.length, 3);
+      assert.deepEqual(element.getThread('left', range).rootId,
+          'betsys_confession');
+      assert.deepEqual(element.getThread('left', range).comments.length, 1);
+    });
+
     test('multiple comments at same location but not threaded', () => {
       element.patchForNewThreads = 3;
       const comments = [

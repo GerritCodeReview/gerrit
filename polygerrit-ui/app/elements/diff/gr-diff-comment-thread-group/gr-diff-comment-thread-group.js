@@ -70,16 +70,18 @@
 
     /**
      * Fetch the thread group at the given range, or the range-less thread
-     * on the line if no range is provided.
+     * on the line if no range is provided, lineNum, and side.
      *
+     * @param {string} side
      * @param {!Object=} opt_range
      * @return {!Object|undefined}
      */
-    getThread(opt_range) {
+    getThread(side, opt_range) {
       const threadEls =
           Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
       const threads = [].filter.call(threadEls,
-          thread => this._rangesEqual(thread.range, opt_range));
+          thread => this._rangesEqual(thread.range, opt_range))
+          .filter(thread => thread.commentSide === side);
       if (threads.length === 1) {
         return threads[0];
       }
@@ -168,6 +170,7 @@
           commentSide: comment.__commentSide,
           patchNum: this._getPatchNum(comment),
           rootId: comment.id || comment.__draftID,
+          lineNum: comment.line,
         };
         if (comment.range) {
           newThread.range = Object.assign({}, comment.range);

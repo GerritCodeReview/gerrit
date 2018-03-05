@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "568aa0a1_c2181cfd",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 885,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-03-05T18:55:33Z",
+      "side": 1,
+      "message": "This code is overdue for a test. I see one mention of unresolvedCommentCount, look for CommentsIT.java and queryChangesWithUnresolvedCommentCount(). Looks like it might be hard to get comment IDs back after adding them, in order to construct in-reply-to associations. Maybe better yet would be a simple unit test that directly tests these two methods.\n\nI\u0027m ok with all that being deferred for now, just to get this fix in.",
+      "revId": "ff7c297dc5df4cfe8268b36e95ea8a56070bbf39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2150c473_32cc50e2",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-03-05T18:55:33Z",
+      "side": 1,
+      "message": "I think this may throw a NPE if there aren\u0027t any comments at all.",
+      "revId": "ff7c297dc5df4cfe8268b36e95ea8a56070bbf39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

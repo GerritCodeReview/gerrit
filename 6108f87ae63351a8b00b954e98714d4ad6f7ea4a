@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a91b7931_96ff0636",
+        "filename": "java/com/google/gerrit/server/restapi/change/TestSubmitRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-05T08:57:53Z",
+      "side": 0,
+      "message": "This is part of the REST API, so we should deprecate it properly by removing the field from the JSON object as well as from the documentation.\n\nI think deprecating (i.e. removing) this field is fine as the endpoint is rarely called at all.",
+      "revId": "6108f87ae63351a8b00b954e98714d4ad6f7ea4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

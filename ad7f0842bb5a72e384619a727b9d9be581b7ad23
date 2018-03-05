@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4798cb14_56e71da2",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-05T08:48:48Z",
+      "side": 1,
+      "message": "@Edwin: Is this OK to do?\n\nIt seems sane to me for the result of the submittability decision as the behavior is preserved (one OK means you can submit) but I am slightly worried that we miss some side cases (e.g. showing additional conditions on the change screen that were not met, but are also optional).",
+      "revId": "ad7f0842bb5a72e384619a727b9d9be581b7ad23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3801da67_64c25285",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-06T14:11:36Z",
+      "side": 1,
+      "message": "This does not help users trying to find out how to get python2 to work, possibly document some workarounds? Like that brew link command you did for mac osx?",
+      "range": {
+        "startLine": 6,
+        "startChar": 16,
+        "endLine": 6,
+        "endChar": 24
+      },
+      "revId": "231f3dcccbf73430b9d0a3efc04e9de8a52cc314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

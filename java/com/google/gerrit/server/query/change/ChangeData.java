@@ -943,7 +943,7 @@ public class ChangeData {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
-      records = submitRuleEvaluatorFactory.create(this).setOptions(options).evaluate();
+      records = submitRuleEvaluatorFactory.create(options).evaluate(this);
       submitRecords.put(options, records);
     }
     return records;
@@ -960,7 +960,8 @@ public class ChangeData {
 
   public SubmitTypeRecord submitTypeRecord() {
     if (submitTypeRecord == null) {
-      submitTypeRecord = submitRuleEvaluatorFactory.create(this).getSubmitType();
+      submitTypeRecord =
+          submitRuleEvaluatorFactory.create(SubmitRuleOptions.defaults()).getSubmitType(this);
     }
     return submitTypeRecord;
   }

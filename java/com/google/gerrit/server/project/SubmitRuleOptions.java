@@ -25,16 +25,27 @@ import com.google.gerrit.common.Nullable;
  */
 @AutoValue
 public abstract class SubmitRuleOptions {
+  private static final SubmitRuleOptions defaults =
+      new AutoValue_SubmitRuleOptions.Builder()
+          .allowClosed(false)
+          .skipFilters(false)
+          .logErrors(true)
+          .rule(null)
+          .build();
+
+  public static SubmitRuleOptions defaults() {
+    return defaults;
+  }
+
   public static Builder builder() {
-    return new AutoValue_SubmitRuleOptions.Builder()
-        .allowClosed(false)
-        .skipFilters(false)
-        .rule(null);
+    return defaults.toBuilder();
   }
 
   public abstract boolean allowClosed();
 
   public abstract boolean skipFilters();
+
+  public abstract boolean logErrors();
 
   @Nullable
   public abstract String rule();
@@ -48,6 +59,8 @@ public abstract class SubmitRuleOptions {
     public abstract SubmitRuleOptions.Builder skipFilters(boolean skipFilters);
 
     public abstract SubmitRuleOptions.Builder rule(@Nullable String rule);
+
+    public abstract SubmitRuleOptions.Builder logErrors(boolean logErrors);
 
     public abstract SubmitRuleOptions build();
   }

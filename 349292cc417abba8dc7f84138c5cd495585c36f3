@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c19206d9_879f32e4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-06T23:05:21Z",
+      "side": 1,
+      "message": "Nice, yeah. Done.",
+      "parentUuid": "3240ea2f_72d442e1",
+      "revId": "349292cc417abba8dc7f84138c5cd495585c36f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c739679_7b0eeaf5",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2018-03-06T22:44:03Z",
       "side": 1,
       "message": "This seems excessively defensive to me... But /shrug",
+      "range": {
+        "startLine": 968,
+        "startChar": 19,
+        "endLine": 968,
+        "endChar": 55
+      },
+      "revId": "349292cc417abba8dc7f84138c5cd495585c36f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07db618b_cfb29b9e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-06T23:05:21Z",
+      "side": 1,
+      "message": "I didn\u0027t add this, but I agree. Removed.",
+      "parentUuid": "5c739679_7b0eeaf5",
       "range": {
         "startLine": 968,
         "startChar": 19,

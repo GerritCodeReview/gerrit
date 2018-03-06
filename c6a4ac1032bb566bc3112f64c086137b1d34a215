@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "f6e59346_8fe82b13",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-06T20:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbad856a_fc459151",
+      "revId": "c6a4ac1032bb566bc3112f64c086137b1d34a215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4752fad_240f2dae",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
         "patchSetId": 6
@@ -62,6 +80,30 @@
       "revId": "c6a4ac1032bb566bc3112f64c086137b1d34a215",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b5f4c8d_3ad468c1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-06T20:22:34Z",
+      "side": 1,
+      "message": "Talked offline. Going to return null instead. Also tried to clarify the comment.",
+      "parentUuid": "a4752fad_240f2dae",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 36
+      },
+      "revId": "c6a4ac1032bb566bc3112f64c086137b1d34a215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

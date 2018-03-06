@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "b885239d_de0e576e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-06T01:49:21Z",
+      "side": 1,
+      "message": "\u003e \n \u003e I will revisit all the other classes to see if they can be changed\n \u003e to singleton. Should I put this in the current change?\n\nDone in https://gerrit-review.googlesource.com/#/c/gerrit/+/164210/",
+      "parentUuid": "43ff0932_d673d6e7",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 58
+      },
+      "revId": "cc4b04f517b5e5674eee50584b7168e03cc39664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "22c6f0c7_f13438e6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

@@ -56,6 +56,7 @@
         commentSide,
         patchNum: this.patchForNewThreads,
         range: opt_range,
+        rootId: null,
       });
     },
 
@@ -85,6 +86,10 @@
       if (threads.length === 1) {
         return threads[0];
       }
+    },
+
+    _handleRemoveThread(e) {
+      this.removeThread(e.detail.rootId);
     },
 
     /**
@@ -169,7 +174,7 @@
           comments: [comment],
           commentSide: comment.__commentSide,
           patchNum: this._getPatchNum(comment),
-          rootId: comment.id || comment.__draftID,
+          rootId: comment.id,
           lineNum: comment.line,
         };
         if (comment.range) {

@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -84,97 +83,31 @@ public class SubmitRuleEvaluator {
   }
 
   public interface Factory {
-    SubmitRuleEvaluator create(ChangeData cd);
+    /** Returns a new {@link SubmitRuleEvaluator} with the specified options */
+    SubmitRuleEvaluator create(SubmitRuleOptions options);
   }
 
   private final AccountCache accountCache;
   private final Accounts accounts;
   private final Emails emails;
   private final ProjectCache projectCache;
-  private final ChangeData cd;
-
-  private SubmitRuleOptions.Builder optsBuilder = SubmitRuleOptions.builder();
-  private SubmitRuleOptions opts;
-  private Change change;
-  private boolean logErrors = true;
-  private ProjectState projectState;
+  private final SubmitRuleOptions opts;
 
   private Term submitRule;
 
   @Inject
-  SubmitRuleEvaluator(
+  private SubmitRuleEvaluator(
       AccountCache accountCache,
       Accounts accounts,
       Emails emails,
       ProjectCache projectCache,
-      @Assisted ChangeData cd) {
+      @Assisted SubmitRuleOptions options) {
     this.accountCache = accountCache;
     this.accounts = accounts;
     this.emails = emails;
     this.projectCache = projectCache;
-    this.cd = cd;
-  }
 
-  /**
-   * @return immutable snapshot of options configured so far. If neither {@link #getSubmitRule()}
-   *     nor {@link #getSubmitType()} have been called yet, state within this instance is still
-   *     mutable, so may change before evaluation. The instance's options are frozen at evaluation
-   *     time.
-   */
-  public SubmitRuleOptions getOptions() {
-    if (opts != null) {
-      return opts;
-    }
-    return optsBuilder.build();
-  }
-
-  public SubmitRuleEvaluator setOptions(SubmitRuleOptions opts) {
-    checkNotStarted();
-    if (opts != null) {
-      optsBuilder = opts.toBuilder();
-    } else {
-      optsBuilder = SubmitRuleOptions.builder();
-    }
-    return this;
-  }
-
-  /**
-   * @param allow whether to allow {@link #evaluate()} on closed changes.
-   * @return this
-   */
-  public SubmitRuleEvaluator setAllowClosed(boolean allow) {
-    checkNotStarted();
-    optsBuilder.allowClosed(allow);
-    return this;
-  }
-
-  /**
-   * @param skip if true, submit filter will not be applied.
-   * @return this
-   */
-  public SubmitRuleEvaluator setSkipSubmitFilters(boolean skip) {
-    checkNotStarted();
-    optsBuilder.skipFilters(skip);
-    return this;
-  }
-
-  /**
-   * @param rule custom rule to use, or null to use refs/meta/config:rules.pl.
-   * @return this
-   */
-  public SubmitRuleEvaluator setRule(@Nullable String rule) {
-    checkNotStarted();
-    optsBuilder.rule(rule);
-    return this;
-  }
-
-  /**
-   * @param log whether to log error messages in addition to returning error records. If true, error
-   *     record messages will be less descriptive.
-   */
-  public SubmitRuleEvaluator setLogErrors(boolean log) {
-    logErrors = log;
-    return this;
+    this.opts = options;
   }
 
   /**
@@ -182,11 +115,21 @@ public class SubmitRuleEvaluator {
    *
    * @return List of {@link SubmitRecord} objects returned from the evaluated rules, including any
    *     errors.
+   * @param cd ChangeData to evaluate
    */
-  public List<SubmitRecord> evaluate() {
-    initOptions();
+  public List<SubmitRecord> evaluate(ChangeData cd) {
+    Change change;
+    ProjectState projectState;
     try {
-      init();
+      change = cd.change();
+      if (change == null) {
+        throw new OrmException("Change not found");
+      }
+
+      projectState = projectCache.get(cd.project());
+      if (projectState == null) {
+        throw new NoSuchProjectException(cd.project());
+      }
     } catch (OrmException | NoSuchProjectException e) {
       return ruleError("Error looking up change " + cd.getId(), e);
     }
@@ -201,7 +144,12 @@ public class SubmitRuleEvaluator {
     try {
       results =
           evaluateImpl(
-              "locate_submit_rule", "can_submit", "locate_submit_filter", "filter_submit_results");
+              "locate_submit_rule",
+              "can_submit",
+              "locate_submit_filter",
+              "filter_submit_results",
+              cd,
+              projectState);
     } catch (RuleEvalException e) {
       return ruleError(e.getMessage(), e);
     }
@@ -214,10 +162,10 @@ public class SubmitRuleEvaluator {
       return ruleError(
           String.format(
               "Submit rule '%s' for change %s of %s has no solution.",
-              getSubmitRuleName(), cd.getId(), getProjectName()));
+              getSubmitRuleName(), cd.getId(), projectState.getName()));
     }
 
-    return resultsToSubmitRecord(getSubmitRule(), results);
+    return resultsToSubmitRecord(getSubmitRule(), results, cd);
   }
 
   /**
@@ -228,7 +176,8 @@ public class SubmitRuleEvaluator {
    * output. Later after the loop the out collection is reversed to restore it to the original
    * ordering.
    */
-  public List<SubmitRecord> resultsToSubmitRecord(Term submitRule, List<Term> results) {
+  public List<SubmitRecord> resultsToSubmitRecord(
+      Term submitRule, List<Term> results, ChangeData cd) {
     boolean foundOk = false;
     List<SubmitRecord> out = new ArrayList<>(results.size());
     for (int resultIdx = results.size() - 1; 0 <= resultIdx; resultIdx--) {
@@ -237,7 +186,7 @@ public class SubmitRuleEvaluator {
       out.add(rec);
 
       if (!(submitRecord instanceof StructureTerm) || 1 != submitRecord.arity()) {
-        return invalidResult(submitRule, submitRecord);
+        return invalidResult(submitRule, submitRecord, cd);
       }
 
       if ("ok".equals(submitRecord.name())) {
@@ -247,7 +196,7 @@ public class SubmitRuleEvaluator {
         rec.status = SubmitRecord.Status.NOT_READY;
 
       } else {
-        return invalidResult(submitRule, submitRecord);
+        return invalidResult(submitRule, submitRecord, cd);
       }
 
       // Unpack the one argument. This should also be a structure with one
@@ -256,7 +205,7 @@ public class SubmitRuleEvaluator {
       submitRecord = submitRecord.arg(0);
 
       if (!(submitRecord instanceof StructureTerm)) {
-        return invalidResult(submitRule, submitRecord);
+        return invalidResult(submitRule, submitRecord, cd);
       }
 
       rec.labels = new ArrayList<>(submitRecord.arity());
@@ -265,7 +214,7 @@ public class SubmitRuleEvaluator {
         if (!(state instanceof StructureTerm)
             || 2 != state.arity()
             || !"label".equals(state.name())) {
-          return invalidResult(submitRule, submitRecord);
+          return invalidResult(submitRule, submitRecord, cd);
         }
 
         SubmitRecord.Label lbl = new SubmitRecord.Label();
@@ -293,10 +242,10 @@ public class SubmitRuleEvaluator {
             lbl.status = SubmitRecord.Label.Status.IMPOSSIBLE;
 
           } else {
-            return invalidResult(submitRule, submitRecord);
+            return invalidResult(submitRule, submitRecord, cd);
           }
         } catch (UserTermExpected e) {
-          return invalidResult(submitRule, submitRecord, e.getMessage());
+          return invalidResult(submitRule, submitRecord, e.getMessage(), cd);
         }
       }
 
@@ -320,19 +269,19 @@ public class SubmitRuleEvaluator {
     return out;
   }
 
-  private List<SubmitRecord> invalidResult(Term rule, Term record, String reason) {
+  private List<SubmitRecord> invalidResult(Term rule, Term record, String reason, ChangeData cd) {
     return ruleError(
         String.format(
             "Submit rule %s for change %s of %s output invalid result: %s%s",
             rule,
             cd.getId(),
-            getProjectName(),
+            cd.project().get(),
             record,
             (reason == null ? "" : ". Reason: " + reason)));
   }
 
-  private List<SubmitRecord> invalidResult(Term rule, Term record) {
-    return invalidResult(rule, record, null);
+  private List<SubmitRecord> invalidResult(Term rule, Term record, ChangeData cd) {
+    return invalidResult(rule, record, null, cd);
   }
 
   private List<SubmitRecord> ruleError(String err) {
@@ -340,7 +289,7 @@ public class SubmitRuleEvaluator {
   }
 
   private List<SubmitRecord> ruleError(String err, Exception e) {
-    if (logErrors) {
+    if (opts.logErrors()) {
       if (e == null) {
         log.error(err);
       } else {
@@ -355,12 +304,16 @@ public class SubmitRuleEvaluator {
    * Evaluate the submit type rules to get the submit type.
    *
    * @return record from the evaluated rules.
+   * @param cd
    */
-  public SubmitTypeRecord getSubmitType() {
-    initOptions();
+  public SubmitTypeRecord getSubmitType(ChangeData cd) {
+    ProjectState projectState;
     try {
-      init();
-    } catch (OrmException | NoSuchProjectException e) {
+      projectState = projectCache.get(cd.project());
+      if (projectState == null) {
+        throw new NoSuchProjectException(cd.project());
+      }
+    } catch (NoSuchProjectException e) {
       return typeError("Error looking up change " + cd.getId(), e);
     }
 
@@ -371,7 +324,9 @@ public class SubmitRuleEvaluator {
               "locate_submit_type",
               "get_submit_type",
               "locate_submit_type_filter",
-              "filter_submit_type_results");
+              "filter_submit_type_results",
+              cd,
+              projectState);
     } catch (RuleEvalException e) {
       return typeError(e.getMessage(), e);
     }
@@ -384,7 +339,7 @@ public class SubmitRuleEvaluator {
               + "' for change "
               + cd.getId()
               + " of "
-              + getProjectName()
+              + projectState.getName()
               + " has no solution.");
     }
 
@@ -396,7 +351,7 @@ public class SubmitRuleEvaluator {
               + "' for change "
               + cd.getId()
               + " of "
-              + getProjectName()
+              + projectState.getName()
               + " did not return a symbol.");
     }
 
@@ -410,7 +365,7 @@ public class SubmitRuleEvaluator {
               + " for change "
               + cd.getId()
               + " of "
-              + getProjectName()
+              + projectState.getName()
               + " output invalid result: "
               + typeName);
     }
@@ -421,7 +376,7 @@ public class SubmitRuleEvaluator {
   }
 
   private SubmitTypeRecord typeError(String err, Exception e) {
-    if (logErrors) {
+    if (opts.logErrors()) {
       if (e == null) {
         log.error(err);
       } else {
@@ -436,9 +391,11 @@ public class SubmitRuleEvaluator {
       String userRuleLocatorName,
       String userRuleWrapperName,
       String filterRuleLocatorName,
-      String filterRuleWrapperName)
+      String filterRuleWrapperName,
+      ChangeData cd,
+      ProjectState projectState)
       throws RuleEvalException {
-    PrologEnvironment env = getPrologEnvironment();
+    PrologEnvironment env = getPrologEnvironment(cd, projectState);
     try {
       Term sr = env.once("gerrit", userRuleLocatorName, new VariableTerm());
       List<Term> results = new ArrayList<>();
@@ -449,11 +406,13 @@ public class SubmitRuleEvaluator {
       } catch (ReductionLimitException err) {
         throw new RuleEvalException(
             String.format(
-                "%s on change %d of %s", err.getMessage(), cd.getId().get(), getProjectName()));
+                "%s on change %d of %s",
+                err.getMessage(), cd.getId().get(), projectState.getName()));
       } catch (RuntimeException err) {
         throw new RuleEvalException(
             String.format(
-                "Exception calling %s on change %d of %s", sr, cd.getId().get(), getProjectName()),
+                "Exception calling %s on change %d of %s",
+                sr, cd.getId().get(), projectState.getName()),
             err);
       }
 
@@ -480,7 +439,8 @@ public class SubmitRuleEvaluator {
     }
   }
 
-  private PrologEnvironment getPrologEnvironment() throws RuleEvalException {
+  private PrologEnvironment getPrologEnvironment(ChangeData cd, ProjectState projectState)
+      throws RuleEvalException {
     PrologEnvironment env;
     try {
       if (opts.rule() == null) {
@@ -491,7 +451,9 @@ public class SubmitRuleEvaluator {
     } catch (CompileException err) {
       String msg;
       if (opts.rule() == null) {
-        msg = String.format("Cannot load rules.pl for %s: %s", getProjectName(), err.getMessage());
+        msg =
+            String.format(
+                "Cannot load rules.pl for %s: %s", projectState.getName(), err.getMessage());
       } else {
         msg = err.getMessage();
       }
@@ -513,6 +475,8 @@ public class SubmitRuleEvaluator {
       String filterRuleWrapperName)
       throws RuleEvalException {
     PrologEnvironment childEnv = env;
+    ChangeData cd = env.get(StoredValues.CHANGE_DATA);
+    ProjectState projectState = env.get(StoredValues.PROJECT_STATE);
     for (ProjectState parentState : projectState.parents()) {
       PrologEnvironment parentEnv;
       try {
@@ -582,32 +546,5 @@ public class SubmitRuleEvaluator {
 
   private void checkNotStarted() {
     checkState(opts == null, "cannot set options after starting evaluation");
-  }
-
-  private void initOptions() {
-    if (opts == null) {
-      opts = optsBuilder.build();
-      optsBuilder = null;
-    }
-  }
-
-  private void init() throws OrmException, NoSuchProjectException {
-    if (change == null) {
-      change = cd.change();
-      if (change == null) {
-        throw new OrmException("No change found");
-      }
-    }
-
-    if (projectState == null) {
-      projectState = projectCache.get(change.getProject());
-      if (projectState == null) {
-        throw new NoSuchProjectException(change.getProject());
-      }
-    }
-  }
-
-  private String getProjectName() {
-    return projectState.getName();
   }
 }

@@ -20,7 +20,7 @@ public class RuleEvalException extends Exception {
     super(message);
   }
 
-  RuleEvalException(String message, Throwable cause) {
+  public RuleEvalException(String message, Throwable cause) {
     super(message, cause);
   }
 }

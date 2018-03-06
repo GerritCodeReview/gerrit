@@ -22,6 +22,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.TestChanges;
 import com.google.inject.Inject;
@@ -39,12 +40,13 @@ public class SubmitRulesEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void convertsPrologToSubmitRecord() {
     SubmitRuleEvaluator evaluator = makeEvaluator();
+    ChangeData cd = makeChangeData();
 
     StructureTerm verifiedLabel = makeLabel("Verified", "may");
     StructureTerm labels = new StructureTerm("label", verifiedLabel);
 
     List<Term> terms = ImmutableList.of(makeTerm("ok", labels));
-    Collection<SubmitRecord> records = evaluator.resultsToSubmitRecord(null, terms);
+    Collection<SubmitRecord> records = evaluator.resultsToSubmitRecord(null, terms, cd);
 
     assertThat(records).hasSize(1);
   }
@@ -82,6 +84,7 @@ public class SubmitRulesEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void abortsEarlyWithOkayRecord() {
     SubmitRuleEvaluator evaluator = makeEvaluator();
+    ChangeData cd = makeChangeData();
 
     SubmitRecord.Label submitRecordLabel1 = new SubmitRecord.Label();
     submitRecordLabel1.label = "Verified";
@@ -111,7 +114,7 @@ public class SubmitRulesEvaluatorIT extends AbstractDaemonTest {
     terms.add(makeTerm("not_ready", makeLabels(label3)));
 
     // When
-    List<SubmitRecord> records = evaluator.resultsToSubmitRecord(null, terms);
+    List<SubmitRecord> records = evaluator.resultsToSubmitRecord(null, terms, cd);
 
     // assert that
     SubmitRecord record1Expected = new SubmitRecord();
@@ -147,10 +150,13 @@ public class SubmitRulesEvaluatorIT extends AbstractDaemonTest {
     return new StructureTerm("label", labels);
   }
 
-  private SubmitRuleEvaluator makeEvaluator() {
+  private ChangeData makeChangeData() {
     ChangeData cd = ChangeData.createForTest(project, new Change.Id(1), 1);
     cd.setChange(TestChanges.newChange(project, admin.id));
+    return cd;
+  }
 
-    return evaluatorFactory.create(cd);
+  private SubmitRuleEvaluator makeEvaluator() {
+    return evaluatorFactory.create(SubmitRuleOptions.defaults());
   }
 }

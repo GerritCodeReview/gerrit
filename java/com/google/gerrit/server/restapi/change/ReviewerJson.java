@@ -33,6 +33,7 @@ import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -49,7 +50,7 @@ public class ReviewerJson {
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
   private final AccountLoader.Factory accountLoaderFactory;
-  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
+  private final SubmitRuleEvaluator submitRuleEvaluator;
 
   @Inject
   ReviewerJson(
@@ -64,7 +65,7 @@ public class ReviewerJson {
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
     this.accountLoaderFactory = accountLoaderFactory;
-    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
+    submitRuleEvaluator = submitRuleEvaluatorFactory.create(SubmitRuleOptions.defaults());
   }
 
   public List<ReviewerInfo> format(Collection<ReviewerResource> rsrcs)
@@ -124,7 +125,7 @@ public class ReviewerJson {
     // do not exist in the DB.
     PatchSet ps = cd.currentPatchSet();
     if (ps != null) {
-      for (SubmitRecord rec : submitRuleEvaluatorFactory.create(cd).evaluate()) {
+      for (SubmitRecord rec : submitRuleEvaluator.evaluate(cd)) {
         if (rec.labels == null) {
           continue;
         }

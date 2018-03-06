@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f9fbad2_546a4f7d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-06T00:51:42Z",
+      "side": 1,
+      "message": "Moving this after the unload creates a gap where the plugin is not available.\n\nI think we need to find a way to fix env.ReloadPlugin instead. Having no moment where the plugin won\u0027t be available important otherwise it makes the reload unusable for plugins like high-availability and replication plugin.",
+      "range": {
+        "startLine": 531,
+        "startChar": 8,
+        "endLine": 531,
+        "endChar": 48
+      },
+      "revId": "17c27df24651d33b67057c26644432d25853047a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

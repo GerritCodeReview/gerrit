@@ -925,6 +925,33 @@
       }
     },
 
+    reloadDiffWithThreadRoot(rootId, path) {
+      if (!this._expandedFilePaths.includes(path)) { return; }
+      for (const diff of this.diffs) {
+        const threadEls = diff.querySelectorAll('gr-diff-comment-thread');
+        for (const threadEl of threadEls) {
+          const match = threadEl.rootId === rootId;
+          if (match) {
+            threadEl.comments = [];
+            Polymer.dom.flush();
+            const newComments = this.changeComments
+                .getCommentsForThread(rootId).map(c => {
+                  c.__commentSide = threadEl.commentSide;
+                  return c;
+                });
+            Polymer.dom.flush();
+            if (!newComments) {
+              threadEl.fireRemoveSelf();
+              return;
+            }
+            threadEl.comments = newComments;
+            Polymer.dom.flush();
+            return;
+          }
+        }
+      }
+    },
+
     _handleEscKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }

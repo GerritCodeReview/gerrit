@@ -57,7 +57,10 @@
         type: Number,
         value: null,
       },
-      rootId: String,
+      rootId: {
+        type: String,
+        notify: true,
+      },
       /**
        * If this is true, the comment thread also needs to have the change and
        * line properties property set
@@ -128,6 +131,11 @@
       this.push('comments', draft);
     },
 
+    fireRemoveSelf() {
+      this.dispatchEvent(new CustomEvent('remove-thread',
+          {detail: {rootId: this.rootId}, bubbles: false}));
+    },
+
     _getDiffUrlForComment(projectName, changeNum, path, patchNum) {
       return Gerrit.Nav.getUrlForDiffById(changeNum,
           projectName, path, patchNum,
@@ -143,9 +151,22 @@
       return this.$.restAPI.getLoggedIn();
     },
 
-    _commentsChanged(changeRecord) {
+    _commentsChanged() {
+      if (!this.comments.length) {
+        this.unresolved = undefined;
+        this.hasDraft = undefined;
+      }
       this._orderedComments = this._sortedComments(this.comments);
       this.updateThreadProperties();
+    },
+
+    _handleCommentSavedOrDiscarded(e) {
+      if (!this.rootId) {
+        this.rootId = e.detail.comment.id;
+      }
+      this.dispatchEvent(new CustomEvent('comment-saved-or-discarded',
+          {detail: {rootId: this.rootId, path: this.path},
+            bubbles: false}));
     },
 
     updateThreadProperties() {
@@ -366,6 +387,7 @@
             JSON.stringify(diffCommentEl.comment));
       }
       this.splice('comments', idx, 1);
+      this._handleCommentSavedOrDiscarded();
       if (this.comments.length == 0) {
         this.fire('thread-discard', {lastComment: comment});
       }

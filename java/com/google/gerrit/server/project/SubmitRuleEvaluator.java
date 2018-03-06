@@ -97,7 +97,6 @@ public class SubmitRuleEvaluator {
   private SubmitRuleOptions opts;
   private Change change;
   private boolean logErrors = true;
-  private long reductionsConsumed;
   private ProjectState projectState;
 
   private Term submitRule;
@@ -176,11 +175,6 @@ public class SubmitRuleEvaluator {
   public SubmitRuleEvaluator setLogErrors(boolean log) {
     logErrors = log;
     return this;
-  }
-
-  /** @return Prolog reductions consumed during evaluation. */
-  public long getReductionsConsumed() {
-    return reductionsConsumed;
   }
 
   /**
@@ -457,8 +451,6 @@ public class SubmitRuleEvaluator {
             String.format(
                 "Exception calling %s on change %d of %s", sr, cd.getId().get(), getProjectName()),
             err);
-      } finally {
-        reductionsConsumed = env.getReductions();
       }
 
       Term resultsTerm = toListTerm(results);
@@ -543,8 +535,6 @@ public class SubmitRuleEvaluator {
                 "Exception calling %s on change %d of %s",
                 filterRule, cd.getId().get(), parentState.getName()),
             err);
-      } finally {
-        reductionsConsumed += env.getReductions();
       }
       childEnv = parentEnv;
     }

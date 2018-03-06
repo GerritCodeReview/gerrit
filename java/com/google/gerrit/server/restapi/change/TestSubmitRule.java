@@ -84,9 +84,6 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
     for (SubmitRecord r : records) {
       out.add(new Record(r, accounts));
     }
-    if (!out.isEmpty()) {
-      out.get(0).prologReductionCount = evaluator.getReductionsConsumed();
-    }
     accounts.fill();
     return out;
   }
@@ -99,7 +96,6 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
     Map<String, None> need;
     Map<String, AccountInfo> may;
     Map<String, None> impossible;
-    Long prologReductionCount;
 
     Record(SubmitRecord r, AccountLoader accounts) {
       this.status = r.status;

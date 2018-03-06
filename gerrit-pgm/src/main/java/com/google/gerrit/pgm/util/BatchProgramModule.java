@@ -52,7 +52,9 @@ import com.google.gerrit.server.config.DisableReverseDnsLookupProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
+import com.google.gerrit.server.extensions.events.EventUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
@@ -172,7 +174,9 @@ public class BatchProgramModule extends FactoryModule {
     factory(SubmitRuleEvaluator.Factory.class);
 
     bind(ChangeJson.Factory.class).toProvider(Providers.<ChangeJson.Factory>of(null));
-    bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);
+    bind(EventUtil.class).toProvider(Providers.<EventUtil>of(null));
     bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
+    bind(RevisionCreated.class).toInstance(RevisionCreated.DISABLED);
+    bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);
   }
 }

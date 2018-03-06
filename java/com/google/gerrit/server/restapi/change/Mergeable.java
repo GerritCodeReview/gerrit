@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.project.SubmitRuleOptions.DEFAULT_OPTIONS;
+
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.MergeableInfo;
@@ -145,7 +147,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   }
 
   private SubmitType getSubmitType(ChangeData cd) throws OrmException {
-    SubmitTypeRecord rec = submitRuleEvaluatorFactory.create(cd).getSubmitType();
+    SubmitTypeRecord rec = submitRuleEvaluatorFactory.create(DEFAULT_OPTIONS).getSubmitType(cd);
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new OrmException("Submit type rule failed: " + rec);
     }

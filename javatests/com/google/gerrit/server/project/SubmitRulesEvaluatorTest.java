@@ -53,6 +53,7 @@ public class SubmitRulesEvaluatorTest {
   @Test
   public void convertsPrologToSubmitRecord() {
     SubmitRuleEvaluator evaluator = makeEvaluator();
+    ChangeData cd = makeChangeData();
 
     List<Term> terms = new ArrayList<>();
     StructureTerm verifiedLabel = makeLabel("Verified", "may");
@@ -60,7 +61,7 @@ public class SubmitRulesEvaluatorTest {
     terms.add(makeTerm("ok", labels));
 
     // When
-    Collection<SubmitRecord> records = evaluator.resultsToSubmitRecord(null, terms);
+    Collection<SubmitRecord> records = evaluator.resultsToSubmitRecord(null, terms, cd);
 
     // assert that
     assertThat(records).hasSize(1);
@@ -99,6 +100,7 @@ public class SubmitRulesEvaluatorTest {
   @Test
   public void abortsEarlyWithOkayRecord() {
     SubmitRuleEvaluator evaluator = makeEvaluator();
+    ChangeData cd = makeChangeData();
 
     SubmitRecord.Label submitRecordLabel1 = new SubmitRecord.Label();
     submitRecordLabel1.label = "Verified";
@@ -128,7 +130,7 @@ public class SubmitRulesEvaluatorTest {
     terms.add(makeTerm("not_ready", makeLabels(label3)));
 
     // When
-    List<SubmitRecord> records = evaluator.resultsToSubmitRecord(null, terms);
+    List<SubmitRecord> records = evaluator.resultsToSubmitRecord(null, terms, cd);
 
     // assert that
     SubmitRecord record1Expected = new SubmitRecord();
@@ -151,12 +153,15 @@ public class SubmitRulesEvaluatorTest {
     return new StructureTerm(status, labels);
   }
 
-  private SubmitRuleEvaluator makeEvaluator() {
+  private ChangeData makeChangeData() {
     Project.NameKey project = new Project.NameKey("project");
     ChangeData cd = ChangeData.createForTest(project, new Change.Id(1), 1);
     cd.setChange(TestChanges.newChange(project, ADMIN_USER));
+    return cd;
+  }
 
-    return evaluatorFactory.create(cd);
+  private SubmitRuleEvaluator makeEvaluator() {
+    return evaluatorFactory.create(SubmitRuleOptions.DEFAULT_OPTIONS);
   }
 
   private StructureTerm makeLabel(String name, String status) {

@@ -54,7 +54,6 @@ limitations under the License.
 <link rel="import" href="./settings/gr-cla-view/gr-cla-view.html">
 <link rel="import" href="./settings/gr-registration-dialog/gr-registration-dialog.html">
 <link rel="import" href="./settings/gr-settings-view/gr-settings-view.html">
-<link rel="import" href="./shared/gr-fixed-panel/gr-fixed-panel.html">
 <link rel="import" href="./shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <script src="../scripts/util.js"></script>
@@ -63,35 +62,43 @@ limitations under the License.
   <template>
     <style include="shared-styles">
       :host {
-        display: flex;
+       /* This needs to be inline-flex so that the app container inherits the
+        width of its children. From here, can use position: sticky to display
+        items that we want to be 'floating' like the header and footer, with
+        a combination of: position: sticky, width=100vw, and left: 0. */
+        display: inline-flex;
         min-height: 100%;
         flex-direction: column;
-      }
-      gr-fixed-panel {
-        /**
-         * This one should be greater that the z-index in gr-diff-view
-         * because gr-main-header contains overlay.
-         */
-        z-index: 10;
       }
       gr-main-header,
       footer {
         color: var(--primary-text-color);
       }
-      gr-main-header {
-        background-color: var(--header-background-color);
-        padding: 0 var(--default-horizontal-margin);
-        border-bottom: 1px solid #ddd;
-      }
       gr-main-header.shadow {
         /* Make it obvious for shadow dom testing */
         border-bottom: 1px solid pink;
       }
+      gr-main-header {
+        /* The combination of left, width, position allow this to be
+          floating. */
+        left: 0;
+        width: 100vw;
+        background-color: var(--header-background-color);
+        padding: 0 var(--default-horizontal-margin);
+        position: sticky;
+        /* Needed for the menu dropdowns to display */
+        z-index: 1;
+      }
       footer {
+        /* The combination of left, width, position allow this to be
+          floating. */
         background-color: var(--footer-background-color);
         display: flex;
+        left: 0;
+        width: 100vw;
         justify-content: space-between;
         padding: .5rem var(--default-horizontal-margin);
+        position: sticky;
         z-index: 100;
       }
       main {
@@ -130,13 +137,11 @@ limitations under the License.
         color: #b71c1c;
       }
     </style>
-    <gr-fixed-panel id="header">
-      <gr-main-header
-          id="mainHeader"
-          search-query="{{params.query}}"
-          class$="[[_computeShadowClass(_isShadowDom)]]">
-      </gr-main-header>
-    </gr-fixed-panel>
+    <gr-main-header
+        id="mainHeader"
+        search-query="{{params.query}}"
+        class$="[[_computeShadowClass(_isShadowDom)]]">
+    </gr-main-header>
     <main>
       <template is="dom-if" if="[[_showChangeListView]]" restamp="true">
         <gr-change-list-view

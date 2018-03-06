@@ -27,11 +27,13 @@ import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Singleton
 public class RevisionCreated {
   private static final Logger log = LoggerFactory.getLogger(RevisionCreated.class);
 

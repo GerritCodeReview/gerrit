@@ -168,8 +168,8 @@ public class BatchProgramModule extends FactoryModule {
 
     bind(ChangeJson.Factory.class).toProvider(Providers.<ChangeJson.Factory>of(null));
     bind(EventUtil.class).toProvider(Providers.<EventUtil>of(null));
-    bind(GitReferenceUpdated.class).toProvider(Providers.<GitReferenceUpdated>of(null));
-    bind(RevisionCreated.class).toProvider(Providers.<RevisionCreated>of(null));
+    bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
+    bind(RevisionCreated.class).toInstance(RevisionCreated.DISABLED);
     bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);
   }
 }

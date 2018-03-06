@@ -37,6 +37,17 @@ import org.slf4j.LoggerFactory;
 public class RevisionCreated {
   private static final Logger log = LoggerFactory.getLogger(RevisionCreated.class);
 
+  public static final RevisionCreated DISABLED =
+      new RevisionCreated() {
+        @Override
+        public void fire(
+            Change change,
+            PatchSet patchSet,
+            Account uploader,
+            Timestamp when,
+            NotifyHandling notify) {}
+      };
+
   private final DynamicSet<RevisionCreatedListener> listeners;
   private final EventUtil util;
 
@@ -44,6 +55,11 @@ public class RevisionCreated {
   RevisionCreated(DynamicSet<RevisionCreatedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
+  }
+
+  private RevisionCreated() {
+    this.listeners = null;
+    this.util = null;
   }
 
   public void fire(

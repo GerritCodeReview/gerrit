@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "74361cd1_d23223da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-06T01:26:06Z",
+      "side": 1,
+      "message": "@Sasa, you are right, I need to also fixed PostReview to use a provider of CommentAdded or make CommentAdded a singleton.\n\nCommentAdded only have 2 dependencies: DynamicSet\u003cCommentAddedListener\u003e and EventUtil.\n\nThe only one that was not a singleton was EventUtil but now I think we can make CommentAdded a singleton too. CommentAdded is the only dependency of PostReviews that is not a singleton.",
+      "parentUuid": "bef34d1b_8107cb45",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 22
+      },
+      "revId": "cc4b04f517b5e5674eee50584b7168e03cc39664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "143c4695_a288ec65",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "a41474f0_84be54ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-06T01:26:06Z",
+      "side": 1,
+      "message": "That\u0027s OK. This is one thing I like about the community, always aiming at crafting a commit as perfect as possible, including the commit message.\n\nDone",
+      "parentUuid": "a2496b7e_090eb998",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 31
+      },
+      "revId": "cc4b04f517b5e5674eee50584b7168e03cc39664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32fe028d_703d5aad",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -107,6 +155,30 @@
       "writtenOn": "2018-03-05T22:12:49Z",
       "side": 1,
       "message": "Does this mean that the real problem was actually in the EventUtil class and not in the PostReview?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 58
+      },
+      "revId": "cc4b04f517b5e5674eee50584b7168e03cc39664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43ff0932_d673d6e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-06T01:26:06Z",
+      "side": 1,
+      "message": "Yes.\n\nEventUtil is used also by the other classes that follows the same pattern related to the event firing. So this change is likely to fix other ConcurrentModificationException that could happens in the other event firing classes.\n\nI will revisit all the other classes to see if they can be changed to singleton. Should I put this in the current change?",
+      "parentUuid": "32fe028d_703d5aad",
       "range": {
         "startLine": 24,
         "startChar": 0,
@@ -142,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "792d06e0_fd69349b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-06T01:26:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22c6f0c7_f13438e6",
+      "range": {
+        "startLine": 26,
+        "startChar": 29,
+        "endLine": 26,
+        "endChar": 33
+      },
+      "revId": "cc4b04f517b5e5674eee50584b7168e03cc39664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "94a85243_1dedb9c0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -153,6 +249,24 @@
       "writtenOn": "2018-03-05T23:35:27Z",
       "side": 1,
       "message": "nit: Remove this blank line",
+      "revId": "cc4b04f517b5e5674eee50584b7168e03cc39664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e46d91bd_1eb813f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-06T01:26:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94a85243_1dedb9c0",
       "revId": "cc4b04f517b5e5674eee50584b7168e03cc39664",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

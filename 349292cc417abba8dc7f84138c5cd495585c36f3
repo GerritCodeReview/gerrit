@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3240ea2f_72d442e1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-06T22:44:03Z",
+      "side": 1,
+      "message": "This can be combined with the large selector that begins on #130.",
+      "revId": "349292cc417abba8dc7f84138c5cd495585c36f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c739679_7b0eeaf5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-06T22:44:03Z",
+      "side": 1,
+      "message": "This seems excessively defensive to me... But /shrug",
+      "range": {
+        "startLine": 968,
+        "startChar": 19,
+        "endLine": 968,
+        "endChar": 55
+      },
+      "revId": "349292cc417abba8dc7f84138c5cd495585c36f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

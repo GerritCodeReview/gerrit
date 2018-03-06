@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5774d15_a197d547",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-06T17:57:59Z",
+      "side": 1,
+      "message": "Nit: capitalize",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 2
+      },
+      "revId": "c6a4ac1032bb566bc3112f64c086137b1d34a215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbad856a_fc459151",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-06T17:57:59Z",
+      "side": 1,
+      "message": "It looks like this @param can be removed too.",
+      "revId": "c6a4ac1032bb566bc3112f64c086137b1d34a215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4752fad_240f2dae",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-06T17:57:59Z",
+      "side": 1,
+      "message": "I\u0027m a little confused by this comment and this test.\n\nThe description of the method at least doesn\u0027t say anything about deleting drafts. Maybe this case should be handled by the place `getCommentsForThread` is called from, where the draft-delete context applies?\n\nTesting the truthiness of `threadMatch` is also odd: it\u0027s the result of a find. When is that falsy? Should this be testing the truthiness of `allThreads`?",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 36
+      },
+      "revId": "c6a4ac1032bb566bc3112f64c086137b1d34a215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -19,7 +19,7 @@ public enum MailHeader {
   // Gerrit metadata holders
   ASSIGNEE("Gerrit-Assignee"),
   BRANCH("Gerrit-Branch"),
-  CC("Gerit-CC"),
+  CC("Gerrit-CC"),
   COMMENT_IN_REPLY_TO("Comment-In-Reply-To"),
   COMMENT_DATE("Gerrit-Comment-Date"),
   CHANGE_ID("Gerrit-Change-Id"),

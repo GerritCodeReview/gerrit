@@ -150,6 +150,12 @@ limitations under the License.
           text-transform: none;
         }
       }
+      .fileNum {
+        display: none;
+      }
+      .fileNum.show {
+        display: inline;
+      }
       @media screen and (max-width: 50em) {
         header {
           padding: .5em var(--default-horizontal-margin);
@@ -230,7 +236,7 @@ limitations under the License.
           </div>
         </h3>
         <div class="navLinks desktop">
-          <span class$="fileNum [[_computeFileNumVisible(_fileNum, _formattedFiles)]]">
+          <span class$="fileNum [[_computeFileNumClass(_fileNum, _formattedFiles)]]">
             File [[_fileNum]] of [[_formattedFiles.length]]
             <span class="separator"></span>
           </span>

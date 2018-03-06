@@ -925,6 +925,25 @@
       }
     },
 
+    reloadDiffWithThreadRoot(rootId, path) {
+      if (!this._expandedFilePaths.includes(path)) { return; }
+      for (const diff of this.diffs) {
+        const threadEls = diff.querySelectorAll('gr-diff-comment-thread');
+        for (const threadEl of threadEls) {
+          const match = threadEl.rootId === rootId;
+          if (match) {
+            threadEl.comments =
+                this.changeComments.getCommentsForThread(rootId);
+            if (!threadEl.comments.length) {
+              threadEl.fireRemoveSelf();
+            }
+            Polymer.dom.flush();
+            return;
+          }
+        }
+      }
+    },
+
     _handleEscKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }

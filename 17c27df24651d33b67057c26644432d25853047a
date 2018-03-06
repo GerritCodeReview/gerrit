@@ -22,6 +22,30 @@
       "revId": "17c27df24651d33b67057c26644432d25853047a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2134851d_985b1126",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-06T03:27:11Z",
+      "side": 1,
+      "message": "Good point.  Let\u0027s try to find a different solution.",
+      "parentUuid": "1f9fbad2_546a4f7d",
+      "range": {
+        "startLine": 531,
+        "startChar": 8,
+        "endLine": 531,
+        "endChar": 48
+      },
+      "revId": "17c27df24651d33b67057c26644432d25853047a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

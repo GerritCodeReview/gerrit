@@ -26,6 +26,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-change-status/gr-change-status.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-limited-text/gr-limited-text.html">
+<link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-change-list-item">
@@ -81,6 +82,10 @@ limitations under the License.
       .status .comma:first-of-type {
         display: none;
       }
+      .size gr-tooltip-content {
+        display: flex;
+        max-width: 2.5rem;
+      }
       a {
         color: var(--default-text-color);
         cursor: pointer;
@@ -92,9 +97,6 @@ limitations under the License.
       }
       .positionIndicator {
         visibility: hidden;
-      }
-      .size {
-        text-align: center;
       }
       :host([selected]) .positionIndicator {
         visibility: visible;
@@ -205,9 +207,12 @@ limitations under the License.
           date-str="[[change.updated]]"></gr-date-formatter>
     </td>
     <td class="cell size"
-        title$="[[_computeSizeTooltip(change)]]"
         hidden$="[[isColumnHidden('Size', visibleChangeTableColumns)]]">
-      <span>[[_computeChangeSize(change)]]</span>
+      <gr-tooltip-content
+          has-tooltip
+          title="[[_computeSizeTooltip(change)]]">
+        <span>[[_computeChangeSize(change)]]</span>
+      </gr-tooltip-content>
     </td>
     <template is="dom-repeat" items="[[labelNames]]" as="labelName">
       <td title$="[[_computeLabelTitle(change, labelName)]]"

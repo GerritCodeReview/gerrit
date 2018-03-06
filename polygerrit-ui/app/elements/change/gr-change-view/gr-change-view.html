@@ -106,6 +106,11 @@ limitations under the License.
       .changeStatus {
         text-transform: capitalize;
       }
+      .container {
+        /* Needed to restrict the change view from allowing horizontal
+          scrolling */
+        width: 100vw;
+      }
       /* Strong specificity here is needed due to
          https://github.com/Polymer/polymer/issues/2531 */
       .container section.changeInfo {

@@ -25,7 +25,6 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-count-string-formatter/gr-count-string-formatter.html">
 <link rel="import" href="../../shared/gr-dropdown-list/gr-dropdown-list.html">
-<link rel="import" href="../../shared/gr-fixed-panel/gr-fixed-panel.html">
 <link rel="import" href="../../shared/gr-icons/gr-icons.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
@@ -54,11 +53,6 @@ limitations under the License.
         --diff-container-styles: {
           border-bottom: 1px solid #eee;
         }
-      }
-      gr-fixed-panel {
-        background-color: #fff;
-        border-bottom: 1px #eee solid;
-        z-index: 1;
       }
       header,
       .subHeader {
@@ -147,6 +141,15 @@ limitations under the License.
       .separator.hide {
         display: none;
       }
+      .sticky {
+        background: #fff;
+        border-bottom: 1px solid #eee;
+        left: 0;
+        position: sticky;
+        top: 0;
+        width: 100vw;
+        z-index: 1;
+      }
       gr-dropdown-list {
         --trigger-style: {
           text-transform: none;
@@ -205,138 +208,136 @@ limitations under the License.
         }
       }
     </style>
-    <gr-fixed-panel
-        class$="[[_computeContainerClass(_editMode)]]"
-        floating-disabled="[[_panelFloatingDisabled]]"
-        keep-on-scroll
-        ready-for-measure="[[!_loading]]">
-      <header>
-        <h3>
-          <a href$="[[_computeChangePath(_change, _patchRange.*, _change.revisions)]]">
-            [[_changeNum]]</a><span>:</span>
-          <span>[[_change.subject]]</span>
-          <span class="dash">—</span>
-          <input id="reviewed"
-              class="reviewed hideOnEdit"
-              type="checkbox"
-              on-change="_handleReviewedChange"
-              hidden$="[[!_loggedIn]]" hidden>
-          <div class="jumpToFileContainer">
-            <gr-dropdown-list
-                id="dropdown"
-                value="[[_path]]"
-                on-value-change="_handleFileChange"
-                items="[[_formattedFiles]]"
-                initial-count="75">
-           </gr-dropdown-list>
+    <div>
+      <div class="sticky">
+        <header class$="[[_computeContainerClass(_editMode)]]">
+          <h3>
+            <a href$="[[_computeChangePath(_change, _patchRange.*, _change.revisions)]]">
+              [[_changeNum]]</a><span>:</span>
+            <span>[[_change.subject]]</span>
+            <span class="dash">—</span>
+            <input id="reviewed"
+                class="reviewed hideOnEdit"
+                type="checkbox"
+                on-change="_handleReviewedChange"
+                hidden$="[[!_loggedIn]]" hidden>
+            <div class="jumpToFileContainer">
+              <gr-dropdown-list
+                  id="dropdown"
+                  value="[[_path]]"
+                  on-value-change="_handleFileChange"
+                  items="[[_formattedFiles]]"
+                  initial-count="75">
+            </gr-dropdown-list>
+            </div>
+          </h3>
+          <div class="navLinks desktop">
+            <span class$="fileNum [[_computeFileNumClass(_fileNum, _formattedFiles)]]">
+              File [[_fileNum]] of [[_formattedFiles.length]]
+              <span class="separator"></span>
+            </span>
+            <a class="navLink"
+                href$="[[_computeNavLinkURL(_change, _path, _fileList, -1, 1)]]">
+              Prev</a>
+            <span class="separator"></span>
+            <a class="navLink"
+                href$="[[_computeChangePath(_change, _patchRange.*, _change.revisions)]]">
+              Up</a>
+            <span class="separator"></span>
+            <a class="navLink"
+                href$="[[_computeNavLinkURL(_change, _path, _fileList, 1, 1)]]">
+              Next</a>
           </div>
-        </h3>
-        <div class="navLinks desktop">
-          <span class$="fileNum [[_computeFileNumClass(_fileNum, _formattedFiles)]]">
-            File [[_fileNum]] of [[_formattedFiles.length]]
-            <span class="separator"></span>
-          </span>
-          <a class="navLink"
-              href$="[[_computeNavLinkURL(_change, _path, _fileList, -1, 1)]]">
-            Prev</a>
-          <span class="separator"></span>
-          <a class="navLink"
-              href$="[[_computeChangePath(_change, _patchRange.*, _change.revisions)]]">
-            Up</a>
-          <span class="separator"></span>
-          <a class="navLink"
-              href$="[[_computeNavLinkURL(_change, _path, _fileList, 1, 1)]]">
-            Next</a>
-        </div>
-      </header>
-      <div class="subHeader">
-        <div class="patchRangeLeft">
-          <gr-patch-range-select
-              id="rangeSelect"
-              change-num="[[_changeNum]]"
-              change-comments="[[_changeComments]]"
-              patch-num="[[_patchRange.patchNum]]"
-              base-patch-num="[[_patchRange.basePatchNum]]"
-              files-weblinks="[[_filesWeblinks]]"
-              available-patches="[[_allPatchSets]]"
-              revisions="[[_change.revisions]]"
-              revision-info="[[_revisionInfo]]"
-              on-patch-range-change="_handlePatchChange">
-          </gr-patch-range-select>
-          <span class="download desktop">
-            <span class="separator"></span>
-            <a
-              class="downloadLink"
-              download
-              href$="[[_computeDownloadLink(_changeNum, _patchRange, _path)]]">
-              Download
-            </a>
-          </span>
-        </div>
-        <div class="rightControls">
-          <span class$="blameLoader [[_computeBlameLoaderClass(_isImageDiff, _isBlameSupported)]]">
-            <gr-button
-                link
-                disabled="[[_isBlameLoading]]"
-                on-tap="_toggleBlame">[[_computeBlameToggleLabel(_isBlameLoaded, _isBlameLoading)]]</gr-button>
-            <span class="separator"></span>
-          </span>
-          <div class$="diffModeSelector [[_computeModeSelectHideClass(_isImageDiff)]]">
-            <span>Diff view:</span>
-            <gr-diff-mode-selector
-                id="modeSelect"
-                save-on-change="[[_loggedIn]]"
-                mode="{{changeViewState.diffMode}}"></gr-diff-mode-selector>
+        </header>
+        <div class="subHeader">
+          <div class="patchRangeLeft">
+            <gr-patch-range-select
+                id="rangeSelect"
+                change-num="[[_changeNum]]"
+                change-comments="[[_changeComments]]"
+                patch-num="[[_patchRange.patchNum]]"
+                base-patch-num="[[_patchRange.basePatchNum]]"
+                files-weblinks="[[_filesWeblinks]]"
+                available-patches="[[_allPatchSets]]"
+                revisions="[[_change.revisions]]"
+                revision-info="[[_revisionInfo]]"
+                on-patch-range-change="_handlePatchChange">
+            </gr-patch-range-select>
+            <span class="download desktop">
+              <span class="separator"></span>
+              <a
+                class="downloadLink"
+                download
+                href$="[[_computeDownloadLink(_changeNum, _patchRange, _path)]]">
+                Download
+              </a>
+            </span>
           </div>
-          <span id="diffPrefsContainer"
-              hidden$="[[_computePrefsButtonHidden(_prefs, _loggedIn)]]" hidden>
-            <span class="preferences desktop">
+          <div class="rightControls">
+            <span class$="blameLoader [[_computeBlameLoaderClass(_isImageDiff, _isBlameSupported)]]">
               <gr-button
                   link
-                  class="prefsButton"
-                  has-tooltip
-                  title="Diff preferences"
-                  on-tap="_handlePrefsTap"><iron-icon icon="gr-icons:settings"></iron-icon></gr-button>
+                  disabled="[[_isBlameLoading]]"
+                  on-tap="_toggleBlame">[[_computeBlameToggleLabel(_isBlameLoaded, _isBlameLoading)]]</gr-button>
+              <span class="separator"></span>
             </span>
-          </span>
-          <gr-endpoint-decorator name="annotation-toggler">
-            <span hidden id="annotation-span">
-              <label for="annotation-checkbox" id="annotation-label"></label>
-              <input is="iron-input" type="checkbox" id="annotation-checkbox" disabled>
+            <div class$="diffModeSelector [[_computeModeSelectHideClass(_isImageDiff)]]">
+              <span>Diff view:</span>
+              <gr-diff-mode-selector
+                  id="modeSelect"
+                  save-on-change="[[_loggedIn]]"
+                  mode="{{changeViewState.diffMode}}"></gr-diff-mode-selector>
+            </div>
+            <span id="diffPrefsContainer"
+                hidden$="[[_computePrefsButtonHidden(_prefs, _loggedIn)]]" hidden>
+              <span class="preferences desktop">
+                <gr-button
+                    link
+                    class="prefsButton"
+                    has-tooltip
+                    title="Diff preferences"
+                    on-tap="_handlePrefsTap"><iron-icon icon="gr-icons:settings"></iron-icon></gr-button>
+              </span>
             </span>
-          </gr-endpoint-decorator>
+            <gr-endpoint-decorator name="annotation-toggler">
+              <span hidden id="annotation-span">
+                <label for="annotation-checkbox" id="annotation-label"></label>
+                <input is="iron-input" type="checkbox" id="annotation-checkbox" disabled>
+              </span>
+            </gr-endpoint-decorator>
+          </div>
+        </div>
+        <div class="fileNav mobile">
+          <a class="mobileNavLink"
+            href$="[[_computeNavLinkURL(_change, _path, _fileList, -1, 1)]]">
+            &lt;</a>
+          <div class="fullFileName mobile">[[computeDisplayPath(_path)]]
+          </div>
+          <a class="mobileNavLink"
+              href$="[[_computeNavLinkURL(_change, _path, _fileList, 1, 1)]]">
+            &gt;</a>
         </div>
       </div>
-      <div class="fileNav mobile">
-        <a class="mobileNavLink"
-          href$="[[_computeNavLinkURL(_change, _path, _fileList, -1, 1)]]">
-          &lt;</a>
-        <div class="fullFileName mobile">[[computeDisplayPath(_path)]]
-        </div>
-        <a class="mobileNavLink"
-            href$="[[_computeNavLinkURL(_change, _path, _fileList, 1, 1)]]">
-          &gt;</a>
-      </div>
-    </gr-fixed-panel>
-    <div class="loading" hidden$="[[!_loading]]">Loading...</div>
-    <gr-diff
-        id="diff"
-        hidden
-        hidden$="[[_loading]]"
-        class$="[[_computeDiffClass(_panelFloatingDisabled)]]"
-        is-image-diff="{{_isImageDiff}}"
-        files-weblinks="{{_filesWeblinks}}"
-        change-num="[[_changeNum]]"
-        commit-range="[[_commitRange]]"
-        patch-range="[[_patchRange]]"
-        path="[[_path]]"
-        prefs="[[_prefs]]"
-        project-config="[[_projectConfig]]"
-        project-name="[[_change.project]]"
-        view-mode="[[_diffMode]]"
-        is-blame-loaded="{{_isBlameLoaded}}"
-        on-line-selected="_onLineSelected">
-    </gr-diff>
+      <div class="loading" hidden$="[[!_loading]]">Loading...</div>
+      <gr-diff
+          id="diff"
+          hidden
+          hidden$="[[_loading]]"
+          class$="[[_computeDiffClass(_panelFloatingDisabled)]]"
+          is-image-diff="{{_isImageDiff}}"
+          files-weblinks="{{_filesWeblinks}}"
+          change-num="[[_changeNum]]"
+          commit-range="[[_commitRange]]"
+          patch-range="[[_patchRange]]"
+          path="[[_path]]"
+          prefs="[[_prefs]]"
+          project-config="[[_projectConfig]]"
+          project-name="[[_change.project]]"
+          view-mode="[[_diffMode]]"
+          is-blame-loaded="{{_isBlameLoaded}}"
+          on-line-selected="_onLineSelected">
+      </gr-diff>
+    </div>
     <gr-diff-preferences
         id="diffPreferences"
         prefs="{{_prefs}}"

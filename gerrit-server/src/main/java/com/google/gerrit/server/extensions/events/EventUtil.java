@@ -34,6 +34,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.EnumSet;
@@ -42,6 +43,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Singleton
 public class EventUtil {
   private static final Logger log = LoggerFactory.getLogger(EventUtil.class);
 
@@ -64,7 +66,7 @@ public class EventUtil {
 
   private final ChangeData.Factory changeDataFactory;
   private final Provider<ReviewDb> db;
-  private final ChangeJson changeJson;
+  private final ChangeJson.Factory changeJsonFactory;
 
   @Inject
   EventUtil(
@@ -73,11 +75,11 @@ public class EventUtil {
       Provider<ReviewDb> db) {
     this.changeDataFactory = changeDataFactory;
     this.db = db;
-    this.changeJson = changeJsonFactory.create(CHANGE_OPTIONS);
+    this.changeJsonFactory = changeJsonFactory;
   }
 
   public ChangeInfo changeInfo(Change change) throws OrmException {
-    return changeJson.format(change);
+    return changeJsonFactory.create(CHANGE_OPTIONS).format(change);
   }
 
   public RevisionInfo revisionInfo(Project project, PatchSet ps)
@@ -90,7 +92,7 @@ public class EventUtil {
       throws OrmException, PatchListNotAvailableException, GpgException, IOException,
           PermissionBackendException {
     ChangeData cd = changeDataFactory.create(db.get(), project, ps.getId().getParentKey());
-    return changeJson.getRevisionInfo(cd, ps);
+    return changeJsonFactory.create(CHANGE_OPTIONS).getRevisionInfo(cd, ps);
   }
 
   public AccountInfo accountInfo(Account a) {

@@ -988,10 +988,10 @@ limitations under the License.
           [{value: '/foo'}, {value: '/bar'}]), 2);
     });
 
-    test('_computeFileNumVisible', () => {
-      assert.equal(element._computeFileNumVisible('', []), 'hidden');
-      assert.equal(element._computeFileNumVisible('/bar',
-          [{value: '/foo'}, {value: '/bar'}]), '');
+    test('_computeFileNumClass', () => {
+      assert.equal(element._computeFileNumClass(0, []), '');
+      assert.equal(element._computeFileNumClass(1,
+          [{value: '/foo'}, {value: '/bar'}]), 'show');
     });
 
     suite('editMode behavior', () => {

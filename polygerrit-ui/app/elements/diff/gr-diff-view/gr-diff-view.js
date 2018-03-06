@@ -959,14 +959,16 @@
       return files.findIndex(({value}) => value === file) + 1;
     },
 
-    _computeFileNumVisible(file, files) {
-      if (!files) { return 'hidden'; }
-      const fileNum = this._computeFileNum(file, files);
-      if (!isNaN(fileNum) && isFinite(fileNum) && fileNum > 0) {
-        return '';
-      } else {
-        return 'hidden';
+    /**
+     * @param {number} fileNum
+     * @param {!Array<string>} files
+     * @return {string}
+     */
+    _computeFileNumClass(fileNum, files) {
+      if (files && fileNum > 0) {
+        return 'show';
       }
+      return '';
     },
   });
 })();

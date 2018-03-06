@@ -68,30 +68,24 @@ maven_jar(
     sha1 = "83cd2cd674a217ade95a4bb83a8a14f351f48bd0",
 )
 
-GUICE_VERS = "4.1.0"
+GUICE_VERS = "4.2.0"
 
 maven_jar(
     name = "guice_library",
     artifact = "com.google.inject:guice:" + GUICE_VERS,
-    sha1 = "eeb69005da379a10071aa4948c48d89250febb07",
+    sha1 = "25e1f4c1d528a1cffabcca0d432f634f3132f6c8",
 )
 
 maven_jar(
     name = "guice_assistedinject",
     artifact = "com.google.inject.extensions:guice-assistedinject:" + GUICE_VERS,
-    sha1 = "af799dd7e23e6fe8c988da12314582072b07edcb",
+    sha1 = "e7270305960ad7db56f7e30cb9df6be9ff1cfb45",
 )
 
 maven_jar(
     name = "guice_servlet",
     artifact = "com.google.inject.extensions:guice-servlet:" + GUICE_VERS,
-    sha1 = "90ac2db772d9b85e2b05417b74f7464bcc061dcb",
-)
-
-maven_jar(
-    name = "multibindings",
-    artifact = "com.google.inject.extensions:guice-multibindings:" + GUICE_VERS,
-    sha1 = "3b27257997ac51b0f8d19676f1ea170427e86d51",
+    sha1 = "f57581625c36c148f088d9f52a568d5bdf12c61d",
 )
 
 maven_jar(

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85418b53_f80313d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-06T04:01:39Z",
+      "side": 1,
+      "message": "I think this change is the way forward regarding issue 7652.\n\nI will review and test this change tomorrow.",
+      "revId": "153e5f29f3a40e7c72c11981bc7e2be22a7c1a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

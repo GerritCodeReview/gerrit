@@ -16,6 +16,24 @@
       "revId": "6c3455406d00cc3e3b372e3b26decd8c427733b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84460035_fec0bbd8",
+        "filename": "java/com/google/gerrit/server/restapi/change/TestSubmitRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:28:51Z",
+      "side": 0,
+      "message": "\u003e com.google.gerrit.server.project.RuleEvalException: exceeded reduction limit of 100000 on change 259 of TestProject\nI think the error message is fine for humans, and I don\u0027t think machines sue this result.\n\nI will edit the commit message",
+      "parentUuid": "e813519e_d5fc6ab5",
+      "revId": "6c3455406d00cc3e3b372e3b26decd8c427733b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

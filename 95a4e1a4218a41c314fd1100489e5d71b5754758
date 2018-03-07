@@ -22,6 +22,23 @@
       "revId": "95a4e1a4218a41c314fd1100489e5d71b5754758",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f61b81bb_e0aa18b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-07T19:10:15Z",
+      "side": 1,
+      "message": "The 2 tests you added in the original change, are they failing on stable2.15? Are the tests bad or CI wrongfully voted +1?",
+      "revId": "95a4e1a4218a41c314fd1100489e5d71b5754758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

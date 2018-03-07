@@ -235,6 +235,24 @@ limitations under the License.
       assert.isTrue(queryStub.called);
     });
 
+    test('debounceWait debounces the query', () => {
+      const queryStub = sandbox.spy(() => {
+        return Promise.resolve([]);
+      });
+      let callback;
+      const debounceStub = sandbox.stub(element, 'debounce',
+          (name, cb) => { callback = cb; });
+      element.query = queryStub;
+      element.debounceWait = 100;
+      element.text = 'a';
+      assert.isFalse(queryStub.called);
+      assert.isTrue(debounceStub.called);
+      assert.equal(debounceStub.lastCall.args[2], 100);
+      assert.isFunction(callback);
+      callback();
+      assert.isTrue(queryStub.called);
+    });
+
     test('_computeClass respects border property', () => {
       assert.equal(element._computeClass(), '');
       assert.equal(element._computeClass(false), '');

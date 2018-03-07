@@ -129,6 +129,15 @@
         value: false,
       },
 
+      /**
+       * The number of milliseconds to use as the debounce wait time. If null,
+       * no debouncing is used.
+       */
+      debounceWait: {
+        type: Number,
+        value: null,
+      },
+
       /** @type {?} */
       _suggestions: {
         type: Array,
@@ -229,20 +238,28 @@
       }
       const text = this.text;
 
-      this.query(text).then(suggestions => {
-        if (text !== this.text) {
-          // Late response.
-          return;
-        }
-        for (const suggestion of suggestions) {
-          suggestion.text = suggestion.name;
-        }
-        this._suggestions = suggestions;
-        Polymer.dom.flush();
-        if (this._index === -1) {
-          this.value = '';
-        }
-      });
+      const update = () => {
+        this.query(text).then(suggestions => {
+          if (text !== this.text) {
+            // Late response.
+            return;
+          }
+          for (const suggestion of suggestions) {
+            suggestion.text = suggestion.name;
+          }
+          this._suggestions = suggestions;
+          Polymer.dom.flush();
+          if (this._index === -1) {
+            this.value = '';
+          }
+        });
+      };
+
+      if (this.debounceWait) {
+        this.debounce('update-suggestions', update, this.debounceWait);
+      } else {
+        update();
+      }
     },
 
     _maybeOpenDropdown(suggestions, focused) {

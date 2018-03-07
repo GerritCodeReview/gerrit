@@ -124,10 +124,12 @@ limitations under the License.
       .editMode .hideOnEdit {
         display: none;
       }
-      .blameLoader {
+      .blameLoader,
+      .fileNum {
         display: none;
       }
       .blameLoader.show,
+      .fileNum.show ,
       .download,
       .preferences,
       .rightControls {
@@ -230,7 +232,7 @@ limitations under the License.
           </div>
         </h3>
         <div class="navLinks desktop">
-          <span class$="fileNum [[_computeFileNumVisible(_fileNum, _formattedFiles)]]">
+          <span class$="fileNum [[_computeFileNumClass(_fileNum, _formattedFiles)]]">
             File [[_fileNum]] of [[_formattedFiles.length]]
             <span class="separator"></span>
           </span>

@@ -16,6 +16,24 @@
       "revId": "e5b14cebd58ec88407d07a62c77221a79c4fe498",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8b3d6e4_cac62cb1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-07T09:14:00Z",
+      "side": 1,
+      "message": "\u003e This seems like it\u0027s not the right condition; AFAICT it will always be false, because a DeleteCommentRewriter\u0027s ref name is the change meta ref, not a draft or robot comment ref.\n\nThe intention of this \"conflict\" check is trying to avoid updating and rewritting one ref in one BatchUpdate. Thus I think you are right.\n\n\u003e \n\u003e I think maybe it\u0027s intending to look for the change meta ref, but naively changing it to changeUpdates.containsKey(k) fails, because add() adds the ChangeUpdate to the map as well. So we might need to tweak that.\n\nIIUC, \"add()\" should be the right place to add the additional check. See:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/164611",
+      "parentUuid": "bb0a286a_79163073",
+      "revId": "e5b14cebd58ec88407d07a62c77221a79c4fe498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

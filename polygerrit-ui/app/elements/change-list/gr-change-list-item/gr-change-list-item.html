@@ -39,10 +39,12 @@ limitations under the License.
         outline: none;
       }
       :host(:hover) {
-        background-color: #f5fafd;
+        background-color: #eeeeee;
       }
       :host([selected]) {
-        border-left: .5rem solid #2a66d9;
+        /* Double the value used in the file list due to the parent table having
+        `border-collapse: collapse;` */
+        border-left: .7rem solid #2a66d9;
       }
       :host([needs-review]) {
         font-family: var(--font-family-bold);

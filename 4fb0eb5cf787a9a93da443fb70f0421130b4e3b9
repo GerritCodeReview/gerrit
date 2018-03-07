@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3eb3a2c0_6a8f60ea",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 2779,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-03-07T21:33:32Z",
+      "side": 1,
+      "message": "Is this line adding any new information compared to the line 2776?",
+      "revId": "4fb0eb5cf787a9a93da443fb70f0421130b4e3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c704d909_7dcebe15",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 2782,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-03-07T21:33:32Z",
+      "side": 1,
+      "message": "Do you mean any vote on these labels is present, even veto votes?",
+      "range": {
+        "startLine": 2782,
+        "startChar": 40,
+        "endLine": 2782,
+        "endChar": 51
+      },
+      "revId": "4fb0eb5cf787a9a93da443fb70f0421130b4e3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cdb25cf_c1dafad8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 2783,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-03-07T21:33:32Z",
+      "side": 1,
+      "message": "Shouldn\u0027t there be a base rule in Gerrit core which is used when no plugins with submit rules are enabled and which provide the traditional default behaviour: a change is submittable if\n* every label has highest vote\n* no label has veto vote",
+      "revId": "4fb0eb5cf787a9a93da443fb70f0421130b4e3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

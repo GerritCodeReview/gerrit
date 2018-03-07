@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ff0b395_04caa2fc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-07T17:56:02Z",
+      "side": 1,
+      "message": "Last optional nit, just because I know you\u0027d want me to: we cam make this a one line ternary.",
+      "range": {
+        "startLine": 968,
+        "startChar": 0,
+        "endLine": 971,
+        "endChar": 16
+      },
+      "revId": "54ce5dc8e3a034c54d03e9b135f6bca32a7d72bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "4e660965_86797b6f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2735,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T14:51:21Z",
+      "side": 1,
+      "message": "\u003e Either we have to always walk through all parent projects (enforced by Gerrit core)\nFor a given changes, all the plugins are called *once*. Each plugin decides if\nit should participate in the voting process, accordingly to its rules ...\nand the rules of the parent projects.\n\n\u003eThe former seems more efficient than the latter.\nI don\u0027t agree with you on this point.\n\nHaving an interface \u0027evaluate(ChangeData, Project)`, called several time by Gerrit,\nwould increase the cost, as it implies switching from \"Plugin\" to Core gerrit over\nand over again. This is especially bad with a dynamic ScriptEngine. Prolog is a good\nexample, if I understand it correctly: it gathers the parent \"rules\" and uses them in\none sweep.\n\n\nI also think this would make it harder for the plugins to aggregate requirements.\nLet\u0027s assume we have a project (MyProject) inheriting rules from All-Projects.\nAll-Projects requires a Verified+1 label.\nMyProject requires a Verified+2 label.\nAlthough this is the same rule, it would lead to two Requirements: \"Needs Verified +2\"\nand \"Needs Verified +1\".\n(And it is Core\u0027s problem to handle it, which might be a bit hard)\n\n\nWith the current implementation, this would be a bug in the plugin, and it would\nbe easy to handle, on a per case basis.\n\n\n\u003e If yes, what if I want to \n\u003e enforce some submit rules, from a plugin foo-submit-rule which supports inheritance,\n\u003e but owners of the (child) project remove foo-submit-rule plugin from the list of\n\u003e used plugins for their project?\nAlthough this is not the case, I will answer for the record.\nIn case we use a \"per project plugins list\", we might add a method to the interface,\n`boolean shouldBeCalled(ChangeData)`, and let the plugin define custom\nconditions to be enabled (is a `rules.pl` file present? Is there an OWNERS file?).\n\nI don\u0027t think this method would be a good idea: with the current implementation,\nif a plugin doesn\u0027t want to be enabled for a project, it returns an empty collection.",
+      "parentUuid": "37f9d0c6_b343ee8a",
+      "range": {
+        "startLine": 2734,
+        "startChar": 0,
+        "endLine": 2735,
+        "endChar": 93
+      },
+      "revId": "a5c3b99de02d2beddf71aad988a65180ca39d193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a88f09dd_e2ad5700",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 7

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c501c84f_93948f61",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-07T00:44:04Z",
+      "side": 1,
+      "message": "What this `display: flex` is for?\n\nIf I remove this line, the tooltip lines up like normal.",
+      "revId": "8159c5529499ad45da857b93b237e7901756005b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

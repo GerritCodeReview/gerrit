@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "ed0fa3d0_e5c15dbf",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-07T18:05:50Z",
+      "side": 1,
+      "message": "Hmm, i wonder how it can auto expand the box?",
+      "parentUuid": "3f918d8b_d87ce982",
+      "range": {
+        "startLine": 59,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 82
+      },
+      "revId": "7e17719637e1d3db06a655287297037f60c2402b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6dd3fd5_9aa2fde6",
         "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.js",
         "patchSetId": 35

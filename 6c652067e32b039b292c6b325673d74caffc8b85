@@ -1,0 +1,233 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b50c10a_68681a66",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2722,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-07T13:46:53Z",
+      "side": 1,
+      "message": "I think somewhere in this section it should be said that the pre-submit validation happens synchronously when the submit button is clicked. E.g. it would be a bad idea to start a build and run tests from a plugin that implements this extension point. I say this because some people would like to verify the final commit to which the target branch is advanced and they might find this extension point and try to do something like this. I would just clarify it\u0027s intended only for light-weight presubmit checks and not for doing a full validation.",
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20fb1ddc_7f4e6fa8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2724,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-07T13:46:53Z",
+      "side": 1,
+      "message": "s/Plugins/plugins",
+      "range": {
+        "startLine": 2724,
+        "startChar": 48,
+        "endLine": 2724,
+        "endChar": 55
+      },
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49871d5c_27187d6a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2727,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-07T13:46:53Z",
+      "side": 1,
+      "message": "s/Changes/changes",
+      "range": {
+        "startLine": 2727,
+        "startChar": 48,
+        "endLine": 2727,
+        "endChar": 55
+      },
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "377555e3_37c61d18",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2731,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-07T13:46:53Z",
+      "side": 1,
+      "message": "and caches",
+      "range": {
+        "startLine": 2731,
+        "startChar": 40,
+        "endLine": 2731,
+        "endChar": 47
+      },
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc8dcd1a_58c15b2a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2737,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-07T13:46:53Z",
+      "side": 1,
+      "message": "Can you rephrase this? \"best-effort\" sounds to me like they offer some support for inheritance but it\u0027s not properly/fully implemented and you can\u0027t rely on it. Better say that plugins are responsible for supporting inheritance, but supporting inheritance is optional.",
+      "range": {
+        "startLine": 2737,
+        "startChar": 0,
+        "endLine": 2737,
+        "endChar": 63
+      },
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c42e09a_09b3822f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2774,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-07T13:46:53Z",
+      "side": 1,
+      "message": "I thought the plugin is supposed to return an empty collection in this case?",
+      "range": {
+        "startLine": 2774,
+        "startChar": 13,
+        "endLine": 2774,
+        "endChar": 17
+      },
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0b2e674_5c1156d4",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2778,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-07T13:46:53Z",
+      "side": 1,
+      "message": "or an empty result?",
+      "range": {
+        "startLine": 2778,
+        "startChar": 75,
+        "endLine": 2778,
+        "endChar": 80
+      },
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31478341_f3a4d6aa",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2785,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-07T13:46:53Z",
+      "side": 1,
+      "message": "or that are closed (abandoned, merged) can\u0027t be merged.",
+      "range": {
+        "startLine": 2785,
+        "startChar": 31,
+        "endLine": 2785,
+        "endChar": 60
+      },
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba3bf48d_5964e069",
+        "filename": "java/com/google/gerrit/pgm/util/BatchProgramModule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-07T13:46:53Z",
+      "side": 1,
+      "message": "BatchProgramModule is about standalone programs. Are we sure that loading plugins in standalone programs actually works?",
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "531fd56a_db02b957",
+        "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-07T13:46:53Z",
+      "side": 1,
+      "message": "Move this down to where the other DynamicMap registrations are done.",
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "359195fe_cb3abba2",
+        "filename": "java/com/google/gerrit/server/rules/SubmitRule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-07T13:46:53Z",
+      "side": 1,
+      "message": "nit: missing blank line after the license header",
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

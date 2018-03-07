@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "8f72f5b1_1a011a3c",
+        "filename": "java/com/google/gerrit/common/data/SubmitRecord.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:28:46Z",
+      "side": 1,
+      "message": "I like to think that a change is either ready or not, so I am perfectly fine with \"NOT_READY\" to be submitted.\nI just thought about something: Prolog only uses 3 statuses: OK, RULE_ERROR and NOT_READY.\n\n----\n      if (\"ok\".equals(submitRecord.name())) {\n        rec.status \u003d SubmitRecord.Status.OK;\n\n      } else if (\"not_ready\".equals(submitRecord.name())) {\n        rec.status \u003d SubmitRecord.Status.NOT_READY;\n\n      } else {\n        return invalidResult(submitRule, submitRecord);\n      }\n----\n\nPut an other way, if we remove CLOSED and FORCED and it breaks, it means someone somewhere uses them in a custom pre-submit rules evaluator.\nI would really like to think this is not the case.",
+      "parentUuid": "66c7a925_b026aa56",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 0
+      },
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a6a79b5_2e0b1115",
         "filename": "java/com/google/gerrit/common/data/SubmitRecord.java",
         "patchSetId": 10
@@ -444,6 +468,24 @@
     },
     {
       "key": {
+        "uuid": "82727d5b_285eda94",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:28:46Z",
+      "side": 1,
+      "message": "Ack\nThe Prolog plugin won\u0027t use the SubmitRequirement(s)",
+      "parentUuid": "4e329512_d4de4fc6",
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10d65b3e_29e286e5",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 10
@@ -491,6 +533,24 @@
       "side": 1,
       "message": "Yes, it can be this index field or a new index field. I do think that being able to search for changes where condition X prevents submit is something that we want to keep. If we now have SubmitRequirement for this we should think about how to store this in the index and how it can be queried. It\u0027s not needed that this change implements this, but it would be nice to follow-up on this later.",
       "parentUuid": "138054a9_afdc82cc",
+      "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ce76f10_5608c922",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:28:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "dc338025_c3ffd03c",
       "revId": "c59b1350041d1f535f29d362d3595a06513a97de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

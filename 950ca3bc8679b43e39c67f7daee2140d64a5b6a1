@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9775ec22_a4162a66",
+        "filename": "java/com/google/gerrit/common/data/SubmitRequirement.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:28:46Z",
+      "side": 1,
+      "message": "I don\u0027t see how this would be possible as the fields are marked final. Could you elaborate, please?",
+      "parentUuid": "096b3ce9_3845eb7f",
+      "revId": "950ca3bc8679b43e39c67f7daee2140d64a5b6a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e04653ac_bb3b322f",
         "filename": "java/com/google/gerrit/common/data/SubmitRequirement.java",
         "patchSetId": 12
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "4065494a_d51468bf",
+        "filename": "java/com/google/gerrit/common/data/SubmitRequirement.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e04653ac_bb3b322f",
+      "range": {
+        "startLine": 57,
+        "startChar": 21,
+        "endLine": 57,
+        "endChar": 47
+      },
+      "revId": "950ca3bc8679b43e39c67f7daee2140d64a5b6a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87156888_dc36596c",
         "filename": "java/com/google/gerrit/common/data/SubmitRequirement.java",
         "patchSetId": 12
@@ -53,6 +95,30 @@
       "writtenOn": "2018-03-06T12:12:07Z",
       "side": 1,
       "message": "optional: consider using MoreObjects.ToStringHelper",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 10
+      },
+      "revId": "950ca3bc8679b43e39c67f7daee2140d64a5b6a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "242697fb_c7af4e7c",
+        "filename": "java/com/google/gerrit/common/data/SubmitRequirement.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:28:46Z",
+      "side": 1,
+      "message": "Done (I originally used it but I may have imported the wrong package, and it refused to build)\n...\nEDIT: \"Line 74: No source code is available for type com.google.common.base.MoreObjects; did you forget to inherit a required module?\"\nShould I add the dependency or revert to the manual toString?",
+      "parentUuid": "87156888_dc36596c",
       "range": {
         "startLine": 73,
         "startChar": 4,

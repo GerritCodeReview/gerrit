@@ -98,10 +98,14 @@ limitations under the License.
         z-index: 1;
       }
       .file-row:hover {
-        background-color: #f5fafd;
+        background-color: #eeeeee;
+      }
+      .row {
+        /* Needed to provide a spacer for the selected cursor. */
+        border-left: .35rem solid transparent;
       }
       .row.selected {
-        background-color: #ebf5fb;
+        border-left: .35rem solid #2a66d9;
       }
       .path {
         cursor: pointer;
@@ -207,6 +211,9 @@ limitations under the License.
       .reviewed label:hover {
         cursor: pointer;
         opacity: 100;
+      }
+      .row:focus {
+        outline: none;
       }
       .row:hover .reviewed label,
       .row:focus .reviewed label,

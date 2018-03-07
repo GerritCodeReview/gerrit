@@ -63,6 +63,12 @@
       return thread;
     },
 
+    _handleCommentsChanged(e) {
+      this.dispatchEvent(new CustomEvent('comment-threads-modified',
+          {detail: {rootId: e.detail.rootId, path: e.detail.path},
+            bubbles: true}));
+    },
+
     _isOnParent(side) {
       return !!side;
     },

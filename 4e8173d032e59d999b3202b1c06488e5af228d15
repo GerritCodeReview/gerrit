@@ -16,6 +16,24 @@
       "revId": "4e8173d032e59d999b3202b1c06488e5af228d15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dd3da43_c04c0724",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1023698
+      },
+      "writtenOn": "2018-03-07T17:48:31Z",
+      "side": 1,
+      "message": "Oh, I see, spacey only checks the line start for mixed space characters; https://cs.chromium.org/chromium/infra/go/src/infra/tricium/functions/spacey/spacey.go?q\u003dtricium+spacey\u0026sq\u003dpackage:chromium\u0026dr\u003dC\u0026l\u003d75",
+      "parentUuid": "71a97af6_99f91f5e",
+      "revId": "4e8173d032e59d999b3202b1c06488e5af228d15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -45,7 +45,6 @@ EXPORTS = [
     "//lib/guice:guice-assistedinject",
     "//lib/guice:guice-servlet",
     "//lib/guice:javax-inject",
-    "//lib/guice:multibindings",
     "//lib/httpcomponents:httpclient",
     "//lib/httpcomponents:httpcore",
     "//lib/jackson:jackson-core",

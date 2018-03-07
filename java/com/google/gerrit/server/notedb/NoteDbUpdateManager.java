@@ -454,7 +454,11 @@ public class NoteDbUpdateManager implements AutoCloseable {
         update.getProjectName(),
         projectName);
     checkState(staged == null, "cannot add new update after staging");
-    changeUpdates.put(update.getRefName(), update);
+    if (rewriters.containsKey(update.getRefName())) {
+      throw new IllegalArgumentException(
+          String.format("cannot update&rewrite ref %s in one BatchUpdate", update.getRefName()));
+    }
+
     ChangeDraftUpdate du = update.getDraftUpdate();
     if (du != null) {
       draftUpdates.put(du.getRefName(), du);
@@ -463,10 +467,17 @@ public class NoteDbUpdateManager implements AutoCloseable {
     if (rcu != null) {
       robotCommentUpdates.put(rcu.getRefName(), rcu);
     }
-    DeleteCommentRewriter deleteCommentRewriter = update.getDeleteCommentRewriter();
-    if (deleteCommentRewriter != null) {
-      rewriters.put(deleteCommentRewriter.getRefName(), deleteCommentRewriter);
+    DeleteCommentRewriter rwt = update.getDeleteCommentRewriter();
+    if (rwt != null) {
+      // Checks whether there is any ChangeUpdate added earlier trying to update the same ref.
+      if (changeUpdates.containsKey(rwt.getRefName())) {
+        throw new IllegalArgumentException(
+            String.format("cannot update&rewrite ref %s in one BatchUpdate", rwt.getRefName()));
+      }
+      rewriters.put(rwt.getRefName(), rwt);
     }
+
+    changeUpdates.put(update.getRefName(), update);
   }
 
   public void add(ChangeDraftUpdate draftUpdate) {
@@ -695,17 +706,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
       addUpdates(robotCommentUpdates, changeRepo);
     }
     if (!rewriters.isEmpty()) {
-      Optional<String> conflictKey =
-          rewriters
-              .keySet()
-              .stream()
-              .filter(k -> (draftUpdates.containsKey(k) || robotCommentUpdates.containsKey(k)))
-              .findAny();
-      if (conflictKey.isPresent()) {
-        throw new IllegalArgumentException(
-            String.format(
-                "cannot update and rewrite ref %s in one BatchUpdate", conflictKey.get()));
-      }
       addRewrites(rewriters, changeRepo);
     }
 

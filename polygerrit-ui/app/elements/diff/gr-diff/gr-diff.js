@@ -268,8 +268,14 @@
     },
 
     /** @return {!Array<!HTMLElement>} */
-    _getCommentThreads() {
-      return Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
+    getThreadEls() {
+      let threads = [];
+      const threadGroupEls = Polymer.dom(this.root)
+          .querySelectorAll('gr-diff-comment-thread-group');
+      for (const threadGroupEl of threadGroupEls) {
+        threads = threads.concat(threadGroupEl.threadEls);
+      }
+      return threads;
     },
 
     /** @return {string} */
@@ -758,7 +764,7 @@
     },
 
     _projectConfigChanged(projectConfig) {
-      const threadEls = this._getCommentThreads();
+      const threadEls = this.getThreadEls();
       for (let i = 0; i < threadEls.length; i++) {
         threadEls[i].projectConfig = projectConfig;
       }

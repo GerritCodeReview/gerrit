@@ -46,7 +46,7 @@ limitations under the License.
         border-top: 1px solid #ddd;
         display: flex;
         min-height: 2.25em;
-        padding: .2em var(--default-horizontal-margin);
+        padding: .2em var(--default-horizontal-margin) .2em calc(var(--default-horizontal-margin) - .35rem);
       }
       :host(.loading) .row {
         opacity: .5;
@@ -98,10 +98,14 @@ limitations under the License.
         z-index: 1;
       }
       .file-row:hover {
-        background-color: #f5fafd;
+        background-color: #eeeeee;
+      }
+      .row {
+        /* Needed to provide a spacer for the selected cursor. */
+        border-left: .35rem solid transparent;
       }
       .row.selected {
-        background-color: #ebf5fb;
+        border-left: .35rem solid var(--color-link);
       }
       .path {
         cursor: pointer;
@@ -199,7 +203,7 @@ limitations under the License.
         width: 15em;
       }
       .reviewed label {
-        color: #2A66D9;
+        color: var(--color-link);
         opacity: 0;
         justify-content: flex-end;
         width: 100%;
@@ -207,6 +211,9 @@ limitations under the License.
       .reviewed label:hover {
         cursor: pointer;
         opacity: 100;
+      }
+      .row:focus {
+        outline: none;
       }
       .row:hover .reviewed label,
       .row:focus .reviewed label,

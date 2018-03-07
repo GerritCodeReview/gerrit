@@ -142,8 +142,36 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('there are three threads by default', () => {
-      assert.equal(computeVisibleNumber(threadsElements), 3);
+    test('there are five threads by default', () => {
+      assert.equal(computeVisibleNumber(threadsElements), 5);
+    });
+
+    test('_computeSortedThreads', () => {
+      element._computeSortedThreads(element.threads);
+      assert.equal(element._sortedThreads.length, 5);
+      // Draft and unresolved
+      assert.equal(element._sortedThreads[0].rootId, 'ecf0b9fa_fe1a5f62');
+      // unresolved
+      assert.equal(element._sortedThreads[1].rootId, 'scaddf38_44770ec1');
+      // unresolved
+      assert.equal(element._sortedThreads[2].rootId, '8caddf38_44770ec1');
+      // resolved and draft
+      assert.equal(element._sortedThreads[3].rootId, 'zcf0b9fa_fe1a5f62');
+      // resolved
+      assert.equal(element._sortedThreads[4].rootId, '09a9fb0a_1484e6cf');
+    });
+
+    test('thread removal', () => {
+      threadsElements[1].fire('thread-discard', {rootId: 'scaddf38_44770ec1'});
+      flushAsynchronousOperations();
+      assert.equal(element._sortedThreads.length, 4);
+      assert.equal(element._sortedThreads[0].rootId, 'ecf0b9fa_fe1a5f62');
+      // unresolved
+      assert.equal(element._sortedThreads[1].rootId, '8caddf38_44770ec1');
+      // resolved and draft
+      assert.equal(element._sortedThreads[2].rootId, 'zcf0b9fa_fe1a5f62');
+      // resolved
+      assert.equal(element._sortedThreads[3].rootId, '09a9fb0a_1484e6cf');
     });
 
     test('toggle unresolved only shows unressolved comments', () => {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cbe9c69_7e5728bc",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-07T00:02:58Z",
+      "side": 1,
+      "message": "@reviewers: for some reason, all gr-tooltips inside a change list don\u0027t have their arrows aligned properly. I have no clue why this happens, and have tracked it in [1].\n\nIt only looks egregiously bad in this specific use case, because it seems the alignment is offset by some small fixed value and these size indicators are so narrow (usually 1-2ch). Fixing them to a static width in this way helps mitigate the problem for now.\n\n[1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d8497",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 7
+      },
+      "revId": "f8be4a69b6a04c7dd3b8a9f615ce42042e568e9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

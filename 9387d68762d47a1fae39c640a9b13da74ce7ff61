@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "394002f0_7042a8b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-07T09:35:52Z",
+      "side": 1,
+      "message": "That statement is correct, however the problem is with systems, where python is pointing to Python 3 (e.g. Arch Linux). And given that those scripts are not Python 3 compatible that would break the build on those systems.",
+      "revId": "9387d68762d47a1fae39c640a9b13da74ce7ff61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

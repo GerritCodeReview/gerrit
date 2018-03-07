@@ -168,7 +168,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 @NoHttpd
@@ -1506,7 +1505,6 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(sender.getMessages()).hasSize(1);
   }
 
-  @Ignore
   @Test
   public void addReviewerThatIsNotPerfectMatch() throws Exception {
     TestTimeUtil.resetWithClockStep(1, SECONDS);
@@ -1551,7 +1549,6 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(rsrc.getChange().getLastUpdatedOn()).isNotEqualTo(oldTs);
   }
 
-  @Ignore
   @Test
   public void addGroupAsReviewersWhenANotPerfectMatchedUserExists() throws Exception {
     TestTimeUtil.resetWithClockStep(1, SECONDS);

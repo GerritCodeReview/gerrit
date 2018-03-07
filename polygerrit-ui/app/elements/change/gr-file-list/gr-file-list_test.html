@@ -1060,12 +1060,48 @@ limitations under the License.
     let element;
     let sandbox;
 
+    const commitMsgComments = [
+      {
+        patch_set: 2,
+        id: 'ecf0b9fa_fe1a5f62',
+        line: 20,
+        updated: '2018-02-08 18:49:18.000000000',
+        message: 'another comment',
+        unresolved: true,
+      },
+      {
+        patch_set: 2,
+        id: '503008e2_0ab203ee',
+        line: 10,
+        in_reply_to: 'cc788d2c_cb1d728c',
+        updated: '2018-02-14 22:07:43.000000000',
+        message: 'response',
+        unresolved: true,
+      },
+      {
+        patch_set: 2,
+        id: 'cc788d2c_cb1d728c',
+        line: 10,
+        in_reply_to: 'ecf0b9fa_fe1a5f62',
+        updated: '2018-02-13 22:07:43.000000000',
+        message: 'a comments',
+        unresolved: true,
+      },
+    ];
+
     const setupDiff = function(diff) {
       const mock = document.createElement('mock-diff-response');
       diff._diff = mock.diffResponse;
       diff.comments = {
-        left: [],
+        left: diff.path === '/COMMIT_MSG' ? commitMsgComments : [],
         right: [],
+        meta: {
+          changeNum: 1,
+          patchRange: {
+            basePatchNum: 'PARENT',
+            patchNum: 2,
+          },
+        },
       };
       diff.prefs = {
         context: 10,
@@ -1375,6 +1411,97 @@ limitations under the License.
 
       // Commit message should not have edit controls.
       assert.isTrue(editControls[0].classList.contains('invisible'));
+    });
+
+    test('reloadCommentsForThreadWithRootId', () => {
+      const commentStub =
+          sandbox.stub(element.changeComments, 'getCommentsForThread');
+      const commentStubRes1 = [
+        {
+          patch_set: 2,
+          id: 'ecf0b9fa_fe1a5f62',
+          line: 20,
+          updated: '2018-02-08 18:49:18.000000000',
+          message: 'another comment',
+          unresolved: true,
+        },
+        {
+          patch_set: 2,
+          id: '503008e2_0ab203ee',
+          line: 10,
+          in_reply_to: 'cc788d2c_cb1d728c',
+          updated: '2018-02-14 22:07:43.000000000',
+          message: 'response',
+          unresolved: true,
+        },
+        {
+          patch_set: 2,
+          id: '503008e2_0ab203ef',
+          line: 10,
+          in_reply_to: 'ecf0b9fa_fe1a5f62',
+          updated: '2018-02-15 22:07:43.000000000',
+          message: 'a third comment in the thread',
+          unresolved: true,
+        },
+      ];
+      const commentStubRes2 = [
+        {
+          patch_set: 2,
+          id: 'ecf0b9fa_fe1a5f62',
+          line: 20,
+          updated: '2018-02-08 18:49:18.000000000',
+          message: 'edited text',
+          unresolved: false,
+        },
+      ];
+      commentStub.withArgs('cc788d2c_cb1d728c').returns(
+          commentStubRes1);
+      commentStub.withArgs('ecf0b9fa_fe1a5f62').returns(
+          commentStubRes2);
+      // Expand the commit message diff
+      MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift', 'i');
+      const diffs = renderAndGetNewDiffs(0);
+      flushAsynchronousOperations();
+
+      // Two comment threads sould be generated
+      const commentThreadEls = diffs[0].
+          querySelectorAll('gr-diff-comment-thread');
+      assert(commentThreadEls[0].comments.length, 2);
+      assert(commentThreadEls[1].comments.length, 1);
+      assert.isTrue(commentThreadEls[1].comments[0].unresolved);
+      assert.equal(commentThreadEls[1].comments[0].message, 'another comment');
+
+      // Reload comments from the first comment thread, which should have a new
+      // reply.
+      element.reloadCommentsForThreadWithRootId('cc788d2c_cb1d728c',
+          '/COMMIT_MSG');
+      assert(commentThreadEls[0].comments.length, 3);
+
+
+      // Reload comments from the first comment thread, which should have a
+      // an updated message and a toggled resolve state.
+      element.reloadCommentsForThreadWithRootId('ecf0b9fa_fe1a5f62',
+          '/COMMIT_MSG');
+      assert(commentThreadEls[1].comments.length, 1);
+      assert.isFalse(commentThreadEls[1].comments[0].unresolved);
+      assert.equal(commentThreadEls[1].comments[0].message, 'edited text');
+
+      const commentStubCount = commentStub.callCount;
+      const querySelectorSpy = sandbox.spy(diffs[0], 'querySelectorAll');
+
+      // Should not be query selecting diffs when the file is not expanded.
+      element.reloadCommentsForThreadWithRootId('ecf0b9fa_fe1a5f62',
+          'other/file');
+      assert.isFalse(querySelectorSpy.called);
+      assert.equal(commentStubCount, commentStub.callCount);
+
+      // Should be query selecting diffs when the file is expanded.
+      // Should not be fetching change comments when the rootId is not found
+      // to match.
+      element.reloadCommentsForThreadWithRootId('acf0b9fa_fe1a5f62',
+          '/COMMIT_MSG');
+      assert.isTrue(querySelectorSpy.called);
+      assert.equal(commentStubCount, commentStub.callCount);
     });
   });
   a11ySuite('basic');

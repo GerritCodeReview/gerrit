@@ -22,6 +22,30 @@
       "revId": "e00aa64b6403c1b87f9f20ed5f3e5b670c22cd99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd8ae86a_677d0cc6",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:28:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6335e09_7825c591",
+      "range": {
+        "startLine": 98,
+        "startChar": 2,
+        "endLine": 98,
+        "endChar": 17
+      },
+      "revId": "e00aa64b6403c1b87f9f20ed5f3e5b670c22cd99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "2a06ae4e_9ad33737",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2735,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-07T14:55:20Z",
+      "side": 1,
+      "message": "I think the current idea is to always ask all plugins.\n\nEach plugin must detect on its own if it is enabled or not. If a plugin is not enabled it can stay neutral. E.g. the Prolog plugin can stay neutral if there are no rules.pl files.\n\nSupporting inheritance is a responsibility of the plugin, but supporting inheritance is optional.\n\nE.g. the Prolog plugin would look at the rules.pl file in the project of the change, but also at the rules.pl files from all parent projects. Hence it can respect submit_filters and rules can be enforced.\n\nFor plugins that don\u0027t support inheritance you cannot enforce rules. This may be a reason for admins to not install them.",
+      "parentUuid": "37f9d0c6_b343ee8a",
+      "range": {
+        "startLine": 2734,
+        "startChar": 0,
+        "endLine": 2735,
+        "endChar": 93
+      },
+      "revId": "a5c3b99de02d2beddf71aad988a65180ca39d193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a88f09dd_e2ad5700",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 7

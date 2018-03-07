@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "a31c4343_aef4b03e",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.js",
+        "patchSetId": 35
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-07T18:04:40Z",
+      "side": 1,
+      "message": "I choose value, thanks, done.",
+      "parentUuid": "a6dd3fd5_9aa2fde6",
+      "range": {
+        "startLine": 61,
+        "startChar": 27,
+        "endLine": 61,
+        "endChar": 37
+      },
+      "revId": "7e17719637e1d3db06a655287297037f60c2402b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d66c69a0_4526cbae",
         "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.js",
         "patchSetId": 35
@@ -122,6 +146,54 @@
       "writtenOn": "2018-03-01T08:10:45Z",
       "side": 1,
       "message": "This method seems to be identical to the formatting of branches and tags. Can these methods be merged together?",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 27
+      },
+      "revId": "7e17719637e1d3db06a655287297037f60c2402b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0730f116_7af592ad",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.js",
+        "patchSetId": 35
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-07T18:04:40Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8f637d6f_b849c1d4",
+      "range": {
+        "startLine": 77,
+        "startChar": 28,
+        "endLine": 77,
+        "endChar": 38
+      },
+      "revId": "7e17719637e1d3db06a655287297037f60c2402b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f688c505_e30ff8c0",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.js",
+        "patchSetId": 35
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-07T18:04:40Z",
+      "side": 1,
+      "message": "I\u0027ve merged it in, thanks, done.",
+      "parentUuid": "4e079191_96582d49",
       "range": {
         "startLine": 77,
         "startChar": 4,

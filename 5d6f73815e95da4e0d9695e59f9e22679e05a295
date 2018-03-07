@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "17c28124_04df228f",
+        "filename": "java/com/google/gerrit/server/rules/PrologRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:29:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97749894_c7166276",
+      "range": {
+        "startLine": 29,
+        "startChar": 16,
+        "endLine": 29,
+        "endChar": 23
+      },
+      "revId": "5d6f73815e95da4e0d9695e59f9e22679e05a295",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bccf25f1_75e4046d",
         "filename": "java/com/google/gerrit/server/rules/PrologRule.java",
         "patchSetId": 6
@@ -62,6 +86,30 @@
       "revId": "5d6f73815e95da4e0d9695e59f9e22679e05a295",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8caca2ec_3eac5bfc",
+        "filename": "java/com/google/gerrit/server/rules/PrologRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:29:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bccf25f1_75e4046d",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 3
+      },
+      "revId": "5d6f73815e95da4e0d9695e59f9e22679e05a295",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +136,54 @@
     },
     {
       "key": {
+        "uuid": "77d017ff_db97ee81",
+        "filename": "java/com/google/gerrit/server/rules/PrologRuleEvaluator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:29:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5341e33b_7b5e326f",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 3
+      },
+      "revId": "5d6f73815e95da4e0d9695e59f9e22679e05a295",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c1bf70f_99420c63",
+        "filename": "java/com/google/gerrit/server/rules/PrologRuleEvaluator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:29:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5341e33b_7b5e326f",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 3
+      },
+      "revId": "5d6f73815e95da4e0d9695e59f9e22679e05a295",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f5873ef_7eb57319",
         "filename": "java/com/google/gerrit/server/rules/PrologRuleEvaluator.java",
         "patchSetId": 6
@@ -111,6 +207,30 @@
     },
     {
       "key": {
+        "uuid": "9c4cbc19_00e17e38",
+        "filename": "java/com/google/gerrit/server/rules/PrologRuleEvaluator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:29:44Z",
+      "side": 1,
+      "message": "Done, indeed",
+      "parentUuid": "2f5873ef_7eb57319",
+      "range": {
+        "startLine": 144,
+        "startChar": 4,
+        "endLine": 149,
+        "endChar": 0
+      },
+      "revId": "5d6f73815e95da4e0d9695e59f9e22679e05a295",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "098e24f1_2c1fc83b",
         "filename": "java/com/google/gerrit/server/rules/PrologRuleEvaluator.java",
         "patchSetId": 6
@@ -131,6 +251,30 @@
       "revId": "5d6f73815e95da4e0d9695e59f9e22679e05a295",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddbf9f52_7f4f1914",
+        "filename": "java/com/google/gerrit/server/rules/PrologRuleEvaluator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:29:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "098e24f1_2c1fc83b",
+      "range": {
+        "startLine": 302,
+        "startChar": 4,
+        "endLine": 308,
+        "endChar": 5
+      },
+      "revId": "5d6f73815e95da4e0d9695e59f9e22679e05a295",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

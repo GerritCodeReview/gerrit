@@ -27,6 +27,19 @@
       },
     },
 
+    _handleRemoveThread(e) {
+      this.removeThread(e.detail.rootId);
+    },
+
+    removeThread(rootId) {
+      for (let i = 0; i < this.threads.length; i++) {
+        if (this.threads[i].rootId === rootId) {
+          this.splice('threads', i, 1);
+          return;
+        }
+      }
+    },
+
     _isOnParent(side) {
       return !!side;
     },

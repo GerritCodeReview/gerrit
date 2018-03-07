@@ -91,6 +91,29 @@
       "revId": "1be9c2b11d7e1206ccce9d8c2353689366de8d51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "321a03ce_e8282b1a",
+        "filename": "java/com/google/gerrit/server/data/SubmitLabelAttribute.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-07T13:11:08Z",
+      "side": 1,
+      "message": "In Eclipse this result in a warning \"Javadoc: Invalid member type qualification\". I think this should be the fully qualified class name and then the import for this class should be removed. It\u0027s actually a bad practice to import classes that are only needed for JavaDoc.",
+      "range": {
+        "startLine": 20,
+        "startChar": 16,
+        "endLine": 20,
+        "endChar": 42
+      },
+      "revId": "1be9c2b11d7e1206ccce9d8c2353689366de8d51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

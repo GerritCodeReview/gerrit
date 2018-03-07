@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "37f9d0c6_b343ee8a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2735,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-03-07T14:20:47Z",
+      "side": 1,
+      "message": "\u003e Hence the solution I mention here: each plugin defines the way it handles inheritance. This means some plugins will NOT implement inheritance, some will enforce the  parents projects\u0027 rules to the sub-projects ... and some will do it the right way.\n\nI do not really insist on submit_filter but on a feature it brings: enforce submit rules\non child projects from a parent project.\n\n\u003e \n\u003e It is important to have in mind an other change I did: changing the way SubmitRecords are handled. My changes introduce this: each plugin returns one or several SubmitRecord, and if at least one is not OK, the change can\u0027t be submitted.\n\nThis is clear from your documentation and sounds reasonable.\n\n\u003e \n\u003e This should make inheritance very easy: you check the parent\u0027s rules,\n\nSo would you always check parent\u0027t rules (enforced by Gerrit core) or do you leave it\nto each plugin to decide if parent rules are checked?\n\nBtw (sorry if this is already in your code and I didn\u0027t read it), how is it defined\nwhich set of (submit rule) plugins are relevant for a (child) project? Is this\ninformation stored on the (child) project level? If yes, what if I want to \nenforce some submit rules, from a plugin foo-submit-rule which supports inheritance,\nbut owners of the (child) project remove foo-submit-rule plugin from the list of\nused plugins for their project?\n\n \n\u003e \u003e IMHO, we should be able to define submit filter on a (parent) project using any plugin(s) which provides submit filters, independently on which plugins are used to implement submit rules on child projects.\n\u003e \n\u003e I don\u0027t have examples to provide for this, as the only \"plugin\" is\n\u003e the existing Prolog implementation.\n\u003e How I see it, in the future: each plugin supporting inheritance allows to define the rules that it \"knows\", and provides options to apply these rules to child projects as well.\n\nRepeating the same question: how would a plugin foo-submit-rule know that it is relevant\nfor a child project if its usage was defined on a parent project level?\nEither we have to always walk through all parent projects (enforced by Gerrit core)\nor we have to call each plugin for every change because it may be relevant\ndue to its usage from a parent project. The former seems more efficient than the latter.",
+      "parentUuid": "23b62707_566d3c42",
+      "range": {
+        "startLine": 2734,
+        "startChar": 0,
+        "endLine": 2735,
+        "endChar": 93
+      },
+      "revId": "a5c3b99de02d2beddf71aad988a65180ca39d193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a88f09dd_e2ad5700",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 7

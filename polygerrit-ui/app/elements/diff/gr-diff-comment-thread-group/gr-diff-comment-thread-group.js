@@ -44,6 +44,10 @@
       '_commentsChanged(comments.*)',
     ],
 
+    get threadEls() {
+      return Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
+    },
+
     /**
      * Adds a new thread. Range is optional because a comment can be
      * added to a line without a range selected.
@@ -77,9 +81,7 @@
      * @return {!Object|undefined}
      */
     getThread(side, opt_range) {
-      const threadEls =
-          Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
-      const threads = [].filter.call(threadEls,
+      const threads = [].filter.call(this.threadEls,
           thread => this._rangesEqual(thread.range, opt_range))
           .filter(thread => thread.commentSide === side);
       if (threads.length === 1) {

@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4cc92898_604e63cf",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-07T13:21:25Z",
+      "side": 1,
+      "message": "Just @Inject",
+      "revId": "5d6f73815e95da4e0d9695e59f9e22679e05a295",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97749894_c7166276",
+        "filename": "java/com/google/gerrit/server/rules/PrologRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-07T13:21:25Z",
+      "side": 1,
+      "message": "PrologRuleEvaluator.Factory",
+      "range": {
+        "startLine": 29,
+        "startChar": 16,
+        "endLine": 29,
+        "endChar": 23
+      },
+      "revId": "5d6f73815e95da4e0d9695e59f9e22679e05a295",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bccf25f1_75e4046d",
+        "filename": "java/com/google/gerrit/server/rules/PrologRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-07T13:21:25Z",
+      "side": 1,
+      "message": "nit: Move the private method to the end of the class",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 3
+      },
+      "revId": "5d6f73815e95da4e0d9695e59f9e22679e05a295",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5341e33b_7b5e326f",
+        "filename": "java/com/google/gerrit/server/rules/PrologRuleEvaluator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-07T13:21:25Z",
+      "side": 1,
+      "message": "Unneeded method? Just use submitRule directly",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 3
+      },
+      "revId": "5d6f73815e95da4e0d9695e59f9e22679e05a295",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f5873ef_7eb57319",
+        "filename": "java/com/google/gerrit/server/rules/PrologRuleEvaluator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-07T13:21:25Z",
+      "side": 1,
+      "message": "This check is already done by SubmitRuleEvaluator. Do we really want to do this check here again? It seems is check has nothing to do with Prolog and hence shouldn\u0027t be done in this class?",
+      "range": {
+        "startLine": 144,
+        "startChar": 4,
+        "endLine": 149,
+        "endChar": 0
+      },
+      "revId": "5d6f73815e95da4e0d9695e59f9e22679e05a295",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "098e24f1_2c1fc83b",
+        "filename": "java/com/google/gerrit/server/rules/PrologRuleEvaluator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-07T13:21:25Z",
+      "side": 1,
+      "message": "Simplify this;\n\n  if (projectState \u003d\u003d null) {\n    return typeError(\"Error looking up change \" + cd.getId(), e);\n  }",
+      "range": {
+        "startLine": 302,
+        "startChar": 4,
+        "endLine": 308,
+        "endChar": 5
+      },
+      "revId": "5d6f73815e95da4e0d9695e59f9e22679e05a295",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

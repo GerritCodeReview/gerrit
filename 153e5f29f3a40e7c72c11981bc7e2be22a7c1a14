@@ -16,6 +16,24 @@
       "revId": "153e5f29f3a40e7c72c11981bc7e2be22a7c1a14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d71bb1b_8bac0472",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-07T19:39:58Z",
+      "side": 1,
+      "message": "Hold on with the review. I have a much better idea, how to avoid writing to two backends with minimal non-invasive change to the code base. I\u0027m working on a new patch set and will upload it in a moment.",
+      "parentUuid": "85418b53_f80313d6",
+      "revId": "153e5f29f3a40e7c72c11981bc7e2be22a7c1a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

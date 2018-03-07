@@ -102,7 +102,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
   public Response<EmailInfo> apply(IdentifiedUser user, EmailInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
           ResourceNotFoundException, OrmException, EmailException, MethodNotAllowedException,
-          IOException, ConfigInvalidException {
+          IOException {
     if (input == null) {
       input = new EmailInput();
     }

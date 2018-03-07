@@ -99,8 +99,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
   }
 
   public Response<String> apply(IdentifiedUser user, String newPassword)
-      throws ResourceNotFoundException, ResourceConflictException, OrmException, IOException,
-          ConfigInvalidException {
+      throws ResourceNotFoundException, ResourceConflictException, OrmException, IOException {
     if (user.getUserName() == null) {
       throw new ResourceConflictException("username must be set");
     }

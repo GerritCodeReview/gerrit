@@ -68,7 +68,7 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
 
   public Response<?> apply(IdentifiedUser user, String email)
       throws ResourceNotFoundException, ResourceConflictException, MethodNotAllowedException,
-          OrmException, IOException, ConfigInvalidException {
+          OrmException, IOException {
     if (!realm.allowsEdit(AccountFieldName.REGISTER_NEW_EMAIL)) {
       throw new MethodNotAllowedException("realm does not allow deleting emails");
     }

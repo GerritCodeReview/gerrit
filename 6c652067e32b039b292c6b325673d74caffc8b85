@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "e55239f4_6cbfaf31",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2724,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:28:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20fb1ddc_7f4e6fa8",
+      "range": {
+        "startLine": 2724,
+        "startChar": 48,
+        "endLine": 2724,
+        "endChar": 55
+      },
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49871d5c_27187d6a",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 11
@@ -62,6 +86,30 @@
       "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b66a6f5e_f71b1502",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2727,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:28:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49871d5c_27187d6a",
+      "range": {
+        "startLine": 2727,
+        "startChar": 48,
+        "endLine": 2727,
+        "endChar": 55
+      },
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "fa110832_8544a9cf",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2731,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:28:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "377555e3_37c61d18",
+      "range": {
+        "startLine": 2731,
+        "startChar": 40,
+        "endLine": 2731,
+        "endChar": 47
+      },
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cc8dcd1a_58c15b2a",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 11
@@ -108,6 +180,30 @@
       "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d50cd3ae_f6ca3390",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2737,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:28:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc8dcd1a_58c15b2a",
+      "range": {
+        "startLine": 2737,
+        "startChar": 0,
+        "endLine": 2737,
+        "endChar": 63
+      },
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -134,6 +230,30 @@
     },
     {
       "key": {
+        "uuid": "f782ca8c_970c763c",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2774,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:28:11Z",
+      "side": 1,
+      "message": "(and I thought I edited this line already) Done",
+      "parentUuid": "7c42e09a_09b3822f",
+      "range": {
+        "startLine": 2774,
+        "startChar": 13,
+        "endLine": 2774,
+        "endChar": 17
+      },
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0b2e674_5c1156d4",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 11
@@ -154,6 +274,30 @@
       "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f76c3e0_4c3f873a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2778,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:28:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0b2e674_5c1156d4",
+      "range": {
+        "startLine": 2778,
+        "startChar": 75,
+        "endLine": 2778,
+        "endChar": 80
+      },
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -180,6 +324,30 @@
     },
     {
       "key": {
+        "uuid": "f23bd00b_e3f860fc",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2785,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:28:11Z",
+      "side": 1,
+      "message": "Done, thanks!",
+      "parentUuid": "31478341_f3a4d6aa",
+      "range": {
+        "startLine": 2785,
+        "startChar": 31,
+        "endLine": 2785,
+        "endChar": 60
+      },
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba3bf48d_5964e069",
         "filename": "java/com/google/gerrit/pgm/util/BatchProgramModule.java",
         "patchSetId": 11
@@ -191,6 +359,24 @@
       "writtenOn": "2018-03-07T13:46:53Z",
       "side": 1,
       "message": "BatchProgramModule is about standalone programs. Are we sure that loading plugins in standalone programs actually works?",
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe85ba09_e23e6040",
+        "filename": "java/com/google/gerrit/pgm/util/BatchProgramModule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:28:11Z",
+      "side": 1,
+      "message": "I added it because I thought it might be useful, but if it\u0027s not let\u0027s remove it!\nWould you by chance know if this file is used by SSH commands (test rule / submit type)?",
+      "parentUuid": "ba3bf48d_5964e069",
       "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -214,6 +400,24 @@
     },
     {
       "key": {
+        "uuid": "4617d535_55b41b47",
+        "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:28:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "531fd56a_db02b957",
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "359195fe_cb3abba2",
         "filename": "java/com/google/gerrit/server/rules/SubmitRule.java",
         "patchSetId": 11
@@ -228,6 +432,42 @@
       "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5d4ce51_ca535beb",
+        "filename": "java/com/google/gerrit/server/rules/SubmitRule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:28:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "359195fe_cb3abba2",
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7605a220_cb88633d",
+        "filename": "java/com/google/gerrit/server/rules/SubmitRule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-07T19:28:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "359195fe_cb3abba2",
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

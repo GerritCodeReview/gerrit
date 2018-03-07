@@ -215,6 +215,54 @@
     },
     {
       "key": {
+        "uuid": "fb241a32_c92446cd",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2735,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-03-07T17:12:38Z",
+      "side": 1,
+      "message": "\u003e For a given changes, all the plugins are called *once*. Each plugin\n \u003e decides if\n \u003e it should participate in the voting process, accordingly to its\n \u003e rules ...\n \u003e and the rules of the parent projects.\n\nThis means that if we have N plugins supporting inheritance, we will\nhave N times walking the project\u0027s parent tree. If the walk would be\ndone once by Gerrit core then there would be only one such walk.\nThis argument may be irrelevant. For a well configured Gerrit server\nall projects are anyway cached in-memory and walking project tree shouldn\u0027t\nbe expensive.\n\n \u003e \n \u003e \u003eThe former seems more efficient than the latter.\n \u003e I don\u0027t agree with you on this point.\n \u003e \n \u003e Having an interface \u0027evaluate(ChangeData, Project)`, called several\n \u003e time by Gerrit,\n \u003e would increase the cost, as it implies switching from \"Plugin\" to\n \u003e Core gerrit over\n \u003e and over again. This is especially bad with a dynamic ScriptEngine.\n\nIt might be, I don\u0027t know how scripting engines would behave in such cases.\n\nBtw, I don\u0027t know if we should really expect a big usage of scripting\nengines. A couple of years ago we got support for Gerrit scripting\nplugins, which significantly increased complexity of the plugin machinery\nand because of which David O. abandoned his work\non supporting plugin dependencies, but still we do not see any\nsignificant number of scripting plugins. AFAIK, all relevant Gerrit\nplugins are written in Java.\n\nI bet that 99% of Gerrit users would stick to the usage of simple\nsubmit rules like: 1+1\u003d2, non-author-code-review, etc... which\nwould work out of the box without any need for scripting. And if\nthey can pick such submit rules form the UI and also combine them\nthey will be fully satisfied.\n\nI am not against supporting submit rules written as scripts, but I currently\nbelieve that this may be over-valued.\n\n \u003e Prolog is a good\n \u003e example, if I understand it correctly: it gathers the parent\n \u003e \"rules\" and uses them in\n \u003e one sweep.\n\nI guess it was just faster to implement it this way :-) but, yes, it was also\na more efficient implementation.\n\nBtw, Prolog based submit rules evaluation uses reductionLimit [1] setting\nto protect Gerrit from misbehaving rules.pl scripts written by project owners.\nWe would need to support a similar protection for any other supported scripting language\nin which project owners can write their submit rules.\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#rules.reductionLimit",
+      "parentUuid": "4e660965_86797b6f",
+      "range": {
+        "startLine": 2734,
+        "startChar": 0,
+        "endLine": 2735,
+        "endChar": 93
+      },
+      "revId": "a5c3b99de02d2beddf71aad988a65180ca39d193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "267d6872_35ff5254",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2735,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-03-07T17:12:38Z",
+      "side": 1,
+      "message": "\u003e I think the current idea is to always ask all plugins.\n\nOK, fair enough. At least this means that enforcing submit rules\nfrom a parent project remains possible.\n\n\n \u003e Each plugin must detect on its own if it is enabled or not. If a\n \u003e plugin is not enabled it can stay neutral. E.g. the Prolog plugin\n \u003e can stay neutral if there are no rules.pl files.\n\nI agree that there is some beauty in the simplicity of this design.\nGerrit core doesn\u0027t need to care much about how submit rules\nare executed. It only need to ensure a simple condition: if any\nplugin says NO, then the result is NO.",
+      "parentUuid": "2a06ae4e_9ad33737",
+      "range": {
+        "startLine": 2734,
+        "startChar": 0,
+        "endLine": 2735,
+        "endChar": 93
+      },
+      "revId": "a5c3b99de02d2beddf71aad988a65180ca39d193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a88f09dd_e2ad5700",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 7

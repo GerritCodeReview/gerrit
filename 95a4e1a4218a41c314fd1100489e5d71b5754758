@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e5c9f39_0a916424",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-07T19:08:06Z",
+      "side": 1,
+      "message": "Include the change ids here, this will link to the changes you are referring to:\n\nAfter merging stable-2.14 into stable-2.15 branch (Ica09a8894), the fix from change I2abfc5908 was not applied because it was incompatible with 2.15 branch. This change reimplements....",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 67
+      },
+      "revId": "95a4e1a4218a41c314fd1100489e5d71b5754758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

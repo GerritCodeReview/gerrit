@@ -45,6 +45,10 @@
         value: false,
       },
       showNumber: Boolean,
+      _changeSize: {
+        type: String,
+        computed: '_computeChangeSize(change)',
+      },
     },
 
     behaviors: [
@@ -153,7 +157,7 @@
     _computeChangeSize(change) {
       const delta = change.insertions + change.deletions;
       if (isNaN(delta) || delta === 0) {
-        return '🤷'; // Unknown
+        return ''; // Unknown
       }
       if (delta < CHANGE_SIZE.XS) {
         return 'XS';

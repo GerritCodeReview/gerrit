@@ -210,7 +210,12 @@ limitations under the License.
       <gr-tooltip-content
           has-tooltip
           title="[[_computeSizeTooltip(change)]]">
-        <span>[[_computeChangeSize(change)]]</span>
+        <template is="dom-if" if="[[_changeSize]]">
+            <span>[[_changeSize]]</span>
+        </template>
+        <template is="dom-if" if="[[!_changeSize]]">
+            <span class="placeholder">--</span>
+        </template>
       </gr-tooltip-content>
     </td>
     <template is="dom-repeat" items="[[labelNames]]" as="labelName">

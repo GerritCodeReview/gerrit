@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "330026a3_62637f08",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 998,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-08T18:15:46Z",
+      "side": 1,
+      "message": "thanks!",
+      "parentUuid": "93958ce5_443f7a89",
+      "revId": "58930378067e177b6e37a79835b44bf6b4a857ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2ba280c_c1ec7a55",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2
@@ -84,6 +102,30 @@
     },
     {
       "key": {
+        "uuid": "4247de68_0e1c6327",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-08T18:15:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "82dafd9b_4253e352",
+      "range": {
+        "startLine": 1048,
+        "startChar": 0,
+        "endLine": 1064,
+        "endChar": 6
+      },
+      "revId": "58930378067e177b6e37a79835b44bf6b4a857ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9042ee77_0d454cae",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2
@@ -113,6 +155,24 @@
       "side": 1,
       "message": "This method hides the size bars for two reasons:\n* Because the file doesn\u0027t get size-bars (e.g. /COMMIT_MESSAGE).\n* Because the user has disabled them in preferences.\n\nIf we\u0027re hiding for the former reason, I mostly agree: hiding by only setting the widths to zero just leaves a gap where the size-bars would have been.\n\nHowever, for the second reason, the size-bars should not consume any horizontal space at all. In this case, the size of the bars doesn\u0027t accomplish this hiding because the SVG still takes up the same 61px.\n\nAdmittedly, that\u0027s why it applies a different class in this second case.\n\nAside: setting the widths to zero in non-size-bar cases isn\u0027t really to hide the bars (they\u0027re already hidden by the class). It\u0027s to guard against doing math that results in NaN, which can throw loud console errors if applied to SVG attributes. These errors appear whether or not the SVG is visible.",
       "parentUuid": "9042ee77_0d454cae",
+      "revId": "58930378067e177b6e37a79835b44bf6b4a857ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c0cd6ff_a7502c29",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1079,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-08T18:15:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0edb368a_e5b13906",
       "revId": "58930378067e177b6e37a79835b44bf6b4a857ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

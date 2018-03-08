@@ -237,5 +237,19 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.equal(computeVisibleNumber(threadsElements), 1);
     });
+
+    test('toggle drafts and unresolved only shows threads with drafts and ' +
+        'unresolved', () => {
+      sandbox.spy(element, '_handleCommentsChanged');
+      const dispatchSpy = sandbox.stub();
+      element.addEventListener('comment-threads-modified', dispatchSpy);
+      threadsElements[0].fire('comment-saved-or-discarded');
+      assert.isTrue(element._handleCommentsChanged.called);
+      assert.isTrue(dispatchSpy.called);
+      assert.equal(dispatchSpy.lastCall.args[0].detail.rootId,
+          'ecf0b9fa_fe1a5f62');
+      assert.equal(dispatchSpy.lastCall.args[0].detail.rootId,
+          'ecf0b9fa_fe1a5f62');
+    });
   });
 </script>

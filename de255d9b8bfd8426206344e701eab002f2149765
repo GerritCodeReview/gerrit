@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31e398c9_785b2b0c",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-08T05:59:45Z",
+      "side": 0,
+      "message": "If python2 replaced here with python, why the same wasn\u0027t done here:\n\n  tools/bzl/license.bzl:    cmd \u003d \"python2 $(location //tools/bzl:license-map.py) %s %s \u003e $@\" % (\" \".join(opts), \" \".join(xmls)),",
+      "range": {
+        "startLine": 1,
+        "startChar": 15,
+        "endLine": 1,
+        "endChar": 22
+      },
+      "revId": "de255d9b8bfd8426206344e701eab002f2149765",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3b1f7ad_a7b8d9eb",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-08T05:59:45Z",
+      "side": 1,
+      "message": "Extract the file name extraction in its own variable, to no repeat the same statement below.",
+      "range": {
+        "startLine": 117,
+        "startChar": 14,
+        "endLine": 117,
+        "endChar": 37
+      },
+      "revId": "351929d00a4404f51dbba58568c593f5b24415e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

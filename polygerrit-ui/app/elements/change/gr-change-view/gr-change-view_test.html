@@ -47,6 +47,59 @@ limitations under the License.
     let navigateToChangeStub;
     const TEST_SCROLL_TOP_PX = 100;
 
+    const author = {
+      _account_id: 42,
+      name: 'Marvin the Paranoid Android',
+      email: 'marvin@sirius.org',
+    };
+
+    const comments = {
+      file1: [
+        {
+          message: 'message text',
+          updated: '2016-09-27 00:18:03.000000000',
+          in_reply_to: '6505d749_f0bec0aa',
+          line: 62,
+          id: '6505d749_10ed44b2',
+          patch_set: 2,
+          author: {
+            email: 'some@email.com',
+            _account_id: 123,
+          },
+        },
+        {
+          message: 'message text',
+          updated: '2016-09-27 00:18:03.000000000',
+          in_reply_to: 'c5912363_6b820105',
+          line: 42,
+          id: '450a935e_0f1c05db',
+          patch_set: 2,
+          author,
+        },
+        {
+          message: 'message text',
+          updated: '2016-09-27 00:18:03.000000000',
+          in_reply_to: '6505d749_f0bec0aa',
+          line: 62,
+          id: '6505d749_10ed44b2',
+          patch_set: 2,
+          author,
+        },
+      ],
+      file2: [
+        {
+          message: 'message text',
+          updated: '2016-09-27 00:18:03.000000000',
+          in_reply_to: 'c5912363_4b7d450a',
+          line: 132,
+          id: '450a935e_4f260d25',
+          patch_set: 2,
+          author,
+        },
+      ],
+    };
+
+
     setup(() => {
       sandbox = sinon.sandbox.create();
       stub('gr-endpoint-decorator', {
@@ -58,6 +111,9 @@ limitations under the License.
       stub('gr-rest-api-interface', {
         getConfig() { return Promise.resolve({test: 'config'}); },
         getAccount() { return Promise.resolve(null); },
+        getDiffComments() { return Promise.resolve(comments); },
+        getDiffRobotComments() { return Promise.resolve({}); },
+        getDiffDrafts() { return Promise.resolve({}); },
         _fetchSharedCacheURL() { return Promise.resolve({}); },
       });
       element = fixture('basic');
@@ -310,6 +366,22 @@ limitations under the License.
       test('drafts are reloaded when comment-refresh fired', () => {
         element.fire('comment-refresh');
         assert.isTrue(reloadStub.called);
+      });
+    });
+
+    test('diff comments modified', () => {
+      sandbox.spy(element, '_handleReloadCommentThreads');
+      return element._reloadComments().then(() => {
+        element.fire('diff-comments-modified');
+        assert.isTrue(element._handleReloadCommentThreads.called);
+      });
+    });
+
+    test('thread list modified', () => {
+      sandbox.spy(element, '_handleReloadDiffComments');
+      return element._reloadComments().then(() => {
+        element.fire('comment-threads-modified');
+        assert.isTrue(element._handleReloadDiffComments.called);
       });
     });
 

@@ -14,6 +14,12 @@
 (function() {
   'use strict';
 
+  /**
+   * Fired when a comment is saved or deleted
+   *
+   * @event comment-threads-modified
+   */
+
   Polymer({
     is: 'gr-thread-list',
 
@@ -21,11 +27,11 @@
       change: Object,
       threads: Array,
       changeNum: String,
-      _sortedThreads: {
-        type: Array,
-        computed: '_computeSortedThreads(threads)',
-      },
+      _sortedThreads: Array,
     },
+
+    observers: ['_computeSortedThreads(threads.*)'],
+
     /**
      * Order as follows:
      *  - Unresolved threads with drafts (reverse chronological)
@@ -36,23 +42,27 @@
      * @return {!Array}
      */
     _computeSortedThreads(threads) {
-      return threads.map(t => this.updateThreadProperties(t)).sort((c1,
-          c2) => {
-        const c1Date = c1.__date || util.parseDate(c1.updated);
-        const c2Date = c2.__date || util.parseDate(c2.updated);
-        const dateCompare = c2Date - c1Date;
-        if (c2.unresolved || c1.unresolved) {
-          if (!c1.unresolved) { return 1; }
-          if (!c2.unresolved) { return -1; }
-        }
-        if (c2.hasDraft || c1.hasDraft) {
-          if (!c1.hasDraft) { return 1; }
-          if (!c2.hasDraft) { return -1; }
-        }
+      this._sortedThreads = [];
+      Polymer.dom.flush();
+      this._sortedThreads = this.threads.map(t => this.updateThreadProperties(t))
+          .sort((c1, c2) => {
+            const c1Date = c1.__date || util.parseDate(c1.updated);
+            const c2Date = c2.__date || util.parseDate(c2.updated);
+            const dateCompare = c2Date - c1Date;
+            if (c2.unresolved || c1.unresolved) {
+              if (!c1.unresolved) { return 1; }
+              if (!c2.unresolved) { return -1; }
+            }
+            if (c2.hasDraft || c1.hasDraft) {
+              if (!c1.hasDraft) { return 1; }
+              if (!c2.hasDraft) { return -1; }
+            }
 
-        if (dateCompare === 0 && (!c1.id || !c1.id.localeCompare)) { return 0; }
-        return dateCompare ? dateCompare : c1.id.localeCompare(c2.id);
-      });
+            if (dateCompare === 0 && (!c1.id || !c1.id.localeCompare)) {
+              return 0;
+            }
+            return dateCompare ? dateCompare : c1.id.localeCompare(c2.id);
+          });
     },
 
     updateThreadProperties(thread) {
@@ -61,6 +71,25 @@
       thread.hasDraft = !!lastComment.__draft;
       thread.updated = lastComment.updated;
       return thread;
+    },
+
+    _handleRemoveThread(e) {
+      this.removeThread(e.detail.rootId);
+    },
+
+    _handleCommentsChanged(e) {
+      this.dispatchEvent(new CustomEvent('comment-threads-modified',
+          {detail: {rootId: e.detail.rootId, path: e.detail.path},
+            bubbles: true}));
+    },
+
+    removeThread(rootId) {
+      for (let i = 0; i < this.threads.length; i++) {
+        if (this.threads[i].rootId === rootId) {
+          this.splice('threads', i, 1);
+          return;
+        }
+      }
     },
 
     _isOnParent(side) {

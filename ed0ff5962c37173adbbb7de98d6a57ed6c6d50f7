@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2c40291a_49016c62",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-08T23:53:17Z",
+      "side": 1,
+      "message": "They were updated because the server never returns anything with a __draftID so it was unrealistic. Drafts with __draftIDs are always manually added.",
+      "parentUuid": "f1ff1b16_8b971495",
+      "revId": "ed0ff5962c37173adbbb7de98d6a57ed6c6d50f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37010154_3b6927d6",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
         "patchSetId": 3
@@ -39,6 +57,30 @@
       "revId": "ed0ff5962c37173adbbb7de98d6a57ed6c6d50f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07999577_ea90f296",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-08T23:53:17Z",
+      "side": 1,
+      "message": "Tweaked this as little bug generally this works, thanks! Have to look at sub-property changes and have id take precedence over draftID.",
+      "parentUuid": "37010154_3b6927d6",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 63,
+        "endChar": 8
+      },
+      "revId": "ed0ff5962c37173adbbb7de98d6a57ed6c6d50f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

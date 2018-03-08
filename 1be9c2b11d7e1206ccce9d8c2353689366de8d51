@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "d153849e_e5dd0216",
+        "filename": "java/com/google/gerrit/common/data/SubmitRecord.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-08T17:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5edfd316_9ad6c645",
+      "range": {
+        "startLine": 144,
+        "startChar": 15,
+        "endLine": 144,
+        "endChar": 16
+      },
+      "revId": "1be9c2b11d7e1206ccce9d8c2353689366de8d51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68d7b60c_a4f99108",
         "filename": "java/com/google/gerrit/common/data/SubmitRequirement.java",
         "patchSetId": 14

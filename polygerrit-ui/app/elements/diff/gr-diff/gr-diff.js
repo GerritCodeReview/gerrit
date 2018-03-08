@@ -163,7 +163,6 @@
     ],
 
     listeners: {
-      'thread-discard': '_handleThreadDiscard',
       'comment-discard': '_handleCommentDiscard',
       'comment-update': '_handleCommentUpdate',
       'comment-save': '_handleCommentSave',
@@ -501,11 +500,6 @@
         side = 'left';
       }
       return side;
-    },
-
-    _handleThreadDiscard(e) {
-      const el = Polymer.dom(e).rootTarget;
-      el.parentNode.removeThread(el.rootId);
     },
 
     _handleCommentDiscard(e) {

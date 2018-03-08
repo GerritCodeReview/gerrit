@@ -374,6 +374,7 @@
             JSON.stringify(diffCommentEl.comment));
       }
       this.splice('comments', idx, 1);
+      this._handleCommentSavedOrDiscarded();
       if (this.comments.length == 0) {
         this.fireRemoveSelf();
       }

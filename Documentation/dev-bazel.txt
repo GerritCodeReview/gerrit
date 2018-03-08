@@ -3,7 +3,7 @@
 [[installation]]
 == Installation
 
-You need to use Python 2, Java 8, and Node.js for building gerrit.
+You need to use Python (2 or 3), Java 8, and Node.js for building gerrit.
 
 You can install Bazel from the bazel.io:
 https://www.bazel.io/versions/master/docs/install.html

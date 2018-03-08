@@ -57,7 +57,7 @@ def retrieve_ext_location():
   return check_output(['bazel', 'info', 'output_base']).strip()
 
 def gen_bazel_path():
-  bazel = check_output(['which', 'bazel']).strip()
+  bazel = check_output(['which', 'bazel']).strip().decode('UTF-8')
   with open(path.join(ROOT, ".bazel_path"), 'w') as fd:
     fd.write("bazel=%s\n" % bazel)
     fd.write("PATH=%s\n" % environ["PATH"])
@@ -262,7 +262,7 @@ def gen_factorypath(ext):
     doc.writexml(fd, addindent='\t', newl='\n', encoding='UTF-8')
 
 try:
-  ext_location = retrieve_ext_location()
+  ext_location = retrieve_ext_location().decode("utf-8")
   gen_project(args.project_name)
   gen_classpath(ext_location)
   gen_factorypath(ext_location)

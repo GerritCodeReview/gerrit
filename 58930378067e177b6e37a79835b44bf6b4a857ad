@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c6ab06a_c8c1b570",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 998,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-08T01:10:24Z",
+      "side": 1,
+      "message": "I understood what this meant once I got down to l.1016, but I wasn\u0027t sure what it would signify before that. Not a blocker, but thought I\u0027d mention in case you wanted to document here or in the typedef\n\nBtw... thanks for the typedef!",
+      "revId": "58930378067e177b6e37a79835b44bf6b4a857ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2ba280c_c1ec7a55",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-08T01:10:24Z",
+      "side": 1,
+      "message": "Do you think it would be worth generalizing this and _computeBarAdditionWidth? It looks like the only difference is which stat to look at.",
+      "range": {
+        "startLine": 1048,
+        "startChar": 0,
+        "endLine": 1064,
+        "endChar": 6
+      },
+      "revId": "58930378067e177b6e37a79835b44bf6b4a857ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9042ee77_0d454cae",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1079,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-08T01:10:24Z",
+      "side": 1,
+      "message": "Just a thought- It looks like you set the width to 0 when the bars aren\u0027t enabled. I wonder if hideClass is actually needed at this point?",
+      "revId": "58930378067e177b6e37a79835b44bf6b4a857ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

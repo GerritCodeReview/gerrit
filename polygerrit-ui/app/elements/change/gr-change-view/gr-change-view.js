@@ -228,6 +228,10 @@
         type: Boolean,
         value: undefined,
       },
+      _showMessagesView: {
+        type: Boolean,
+        value: true,
+      },
     },
 
     behaviors: [
@@ -246,7 +250,6 @@
       'fullscreen-overlay-opened': '_handleHideBackgroundContent',
       'fullscreen-overlay-closed': '_handleShowBackgroundContent',
       'diff-comments-modified': '_handleReloadCommentThreads',
-      'thread-list-modified': '_handleReloadDiffComments',
     },
     observers: [
       '_labelsChanged(_change.labels.*)',
@@ -329,6 +332,18 @@
       } else {
         this.$.fileListHeader.setDiffViewMode(DiffViewMode.SIDE_BY_SIDE);
       }
+    },
+
+    _handleTabChange() {
+      this._showMessagesView = this.$.commentTabs.selected === 0;
+    },
+
+    _computeShowMessages(showSection) {
+      return showSection ? 'visible' : '';
+    },
+
+    _computeShowThreads(showSection) {
+      return !showSection ? 'visible' : '';
     },
 
     _handleEditCommitMessage(e) {
@@ -603,6 +618,15 @@
       this._changeNum = value.changeNum;
       this.$.relatedChanges.clear();
 
+      // If the comment tabs were already rendered, but set to the wrong initial
+      // value, swap them here so the thread tab doesn't flash before being
+      // swapped out. If the selected tab is undefined, we have to wait until
+      // the page is finished rendering to set selected to 0, otherwise the
+      // animation will not show.
+      if (this.$.commentTabs.selected === 1) {
+        this.$.commentTabs.selected = 0;
+      }
+
       this._reload().then(() => {
         this._performPostLoadTasks();
       });
@@ -622,6 +646,10 @@
       this._maybeShowRevertDialog();
 
       this._sendShowChangeEvent();
+
+      // Selected has to be set after the paper-tabs are visible because
+      // the selected underline depends on calculations made by the browser.
+      this.$.commentTabs.selected = 0;
 
       this.async(() => {
         if (this.viewState.scrollTop) {

@@ -48,6 +48,12 @@
      * @event show-auth-required
      */
 
+    /**
+     * Fired when a comment is saved or discarded
+     *
+     * @event diff-comments-modified
+     */
+
     properties: {
       changeNum: String,
       noAutoRender: {
@@ -260,6 +266,11 @@
       this.classList.remove('showBlame');
     },
 
+    _handleCommentSaveOrDiscard() {
+      this.dispatchEvent(new CustomEvent('diff-comments-modified',
+          {bubbles: true}));
+    },
+
     /** @return {boolean}} */
     _canRender() {
       return !!this.changeNum && !!this.patchRange && !!this.path &&
@@ -454,7 +465,6 @@
       }
       return threadEl;
     },
-
     /**
      * The value to be used for the patch number of new comments created at the
      * given line and content elements.
@@ -505,6 +515,7 @@
     _handleCommentDiscard(e) {
       const comment = e.detail.comment;
       this._removeComment(comment);
+      this._handleCommentSaveOrDiscard();
     },
 
     _removeComment(comment) {
@@ -517,6 +528,7 @@
       const side = e.detail.comment.__commentSide;
       const idx = this._findDraftIndex(comment, side);
       this.set(['comments', side, idx], comment);
+      this._handleCommentSaveOrDiscard();
     },
 
     /**

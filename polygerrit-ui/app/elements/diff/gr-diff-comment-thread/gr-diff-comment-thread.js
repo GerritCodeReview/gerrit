@@ -384,6 +384,7 @@
       if (this.comments.length === 0) {
         this.fireRemoveSelf();
       }
+      this._handleCommentSavedOrDiscarded(e);
 
       // Check to see if there are any other open comments getting edited and
       // set the local storage value to its message value.
@@ -399,6 +400,15 @@
               changeComment.message);
         }
       }
+    },
+
+    _handleCommentSavedOrDiscarded(e) {
+      if (!this.rootId) {
+        this.rootId = e.detail.comment.id || e.detail.comment.__draftID;
+      }
+      this.dispatchEvent(new CustomEvent('comment-saved-or-discarded',
+          {detail: {rootId: this.rootId, path: this.path},
+            bubbles: false}));
     },
 
     _handleCommentUpdate(e) {

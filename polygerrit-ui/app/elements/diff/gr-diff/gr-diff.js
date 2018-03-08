@@ -48,6 +48,12 @@
      * @event show-auth-required
      */
 
+    /**
+     * Fired when a comment is saved or discarded
+     *
+     * @event diff-comments-modified
+     */
+
     properties: {
       changeNum: String,
       noAutoRender: {
@@ -258,6 +264,11 @@
       this._blame = null;
       this.$.diffBuilder.setBlame(null);
       this.classList.remove('showBlame');
+    },
+
+    _handleCommentSaveOrDiscard() {
+      this.dispatchEvent(new CustomEvent('diff-comments-modified',
+          {bubbles: true}));
     },
 
     /** @return {boolean}} */
@@ -511,6 +522,7 @@
     _handleCommentDiscard(e) {
       const comment = e.detail.comment;
       this._removeComment(comment);
+      this._handleCommentSaveOrDiscard();
     },
 
     _removeComment(comment) {
@@ -523,6 +535,7 @@
       const side = e.detail.comment.__commentSide;
       const idx = this._findDraftIndex(comment, side);
       this.set(['comments', side, idx], comment);
+      this._handleCommentSaveOrDiscard();
     },
 
     /**

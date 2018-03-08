@@ -35,7 +35,7 @@ limitations under the License.
   suite('gr-thread-list tests', () => {
     let element;
     let sandbox;
-    let threadsElements;
+    let threadElements;
     const computeVisibleNumber = threads => {
       let count = 0;
       for (const thread of threads) {
@@ -178,7 +178,7 @@ limitations under the License.
         },
       ];
       flushAsynchronousOperations();
-      threadsElements = Polymer.dom(element.root)
+      threadElements = Polymer.dom(element.root)
           .querySelectorAll('gr-diff-comment-thread');
     });
 
@@ -187,7 +187,7 @@ limitations under the License.
     });
 
     test('there are five threads by default', () => {
-      assert.equal(computeVisibleNumber(threadsElements), 5);
+      assert.equal(computeVisibleNumber(threadElements), 5);
     });
 
     test('_computeSortedThreads', () => {
@@ -205,7 +205,7 @@ limitations under the License.
     });
 
     test('thread removal', () => {
-      threadsElements[1].fire('thread-discard', {rootId: 'scaddf38_44770ec1'});
+      threadElements[1].fire('thread-discard', {rootId: 'scaddf38_44770ec1'});
       flushAsynchronousOperations();
       assert.equal(element._sortedThreads.length, 4);
       assert.equal(element._sortedThreads[0].rootId, 'ecf0b9fa_fe1a5f62');
@@ -220,13 +220,13 @@ limitations under the License.
     test('toggle unresolved only shows unressolved comments', () => {
       MockInteractions.tap(element.$.unresolvedToggle);
       flushAsynchronousOperations();
-      assert.equal(computeVisibleNumber(threadsElements), 3);
+      assert.equal(computeVisibleNumber(threadElements), 3);
     });
 
     test('toggle drafts only shows threads with draft comments', () => {
       MockInteractions.tap(element.$.draftToggle);
       flushAsynchronousOperations();
-      assert.equal(computeVisibleNumber(threadsElements), 2);
+      assert.equal(computeVisibleNumber(threadElements), 2);
     });
 
     test('toggle drafts and unresolved only shows threads with drafts and ' +
@@ -234,7 +234,20 @@ limitations under the License.
       MockInteractions.tap(element.$.draftToggle);
       MockInteractions.tap(element.$.unresolvedToggle);
       flushAsynchronousOperations();
-      assert.equal(computeVisibleNumber(threadsElements), 1);
+      assert.equal(computeVisibleNumber(threadElements), 1);
+    });
+
+    test('modification events are consumed and displatched', () => {
+      sandbox.spy(element, '_handleCommentsChanged');
+      const dispatchSpy = sandbox.stub();
+      element.addEventListener('comment-threads-modified', dispatchSpy);
+      threadElements[0].fire('comment-saved-or-discarded', {
+        rootId: 'ecf0b9fa_fe1a5f62', path: '/COMMIT_MSG'});
+      assert.isTrue(element._handleCommentsChanged.called);
+      assert.isTrue(dispatchSpy.called);
+      assert.equal(dispatchSpy.lastCall.args[0].detail.rootId,
+          'ecf0b9fa_fe1a5f62');
+      assert.equal(dispatchSpy.lastCall.args[0].detail.path, '/COMMIT_MSG');
     });
   });
 </script>

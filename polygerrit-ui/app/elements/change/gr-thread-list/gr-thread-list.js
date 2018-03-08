@@ -91,7 +91,7 @@
     _handleCommentsChanged(e) {
       this.dispatchEvent(new CustomEvent('thread-list-modified',
           {detail: {rootId: e.detail.rootId, path: e.detail.path},
-            bubbles: true}));
+            bubbles: false}));
     },
 
     _isOnParent(side) {

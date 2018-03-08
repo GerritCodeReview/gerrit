@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
+<link rel="import" href="../../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../diff/gr-comment-api/gr-comment-api.html">
@@ -44,6 +45,7 @@ limitations under the License.
 <link rel="import" href="../gr-messages-list/gr-messages-list.html">
 <link rel="import" href="../gr-related-changes-list/gr-related-changes-list.html">
 <link rel="import" href="../gr-reply-dialog/gr-reply-dialog.html">
+<link rel="import" href="../gr-thread-list/gr-thread-list.html">
 
 <dom-module id="gr-change-view">
   <template>
@@ -142,6 +144,9 @@ limitations under the License.
       #commitMessageEditor {
         min-width: 72ch;
       }
+      paper-tab {
+        max-width: 15rem;
+      }
       .editCommitMessage {
         margin-top: 1em;
         --gr-button: {
@@ -233,6 +238,23 @@ limitations under the License.
       gr-commit-info {
         display: inline-block;
         margin-right: -5px;
+      }
+      paper-tabs {
+        background-color: #fafafa;
+        border-top: 1px solid #ddd;
+        height: 3rem;
+        --paper-tabs-selection-bar-color: var(--color-link);
+      }
+      paper-tab {
+        --paper-tab-ink: var(--color-link);
+      }
+      #threadList,
+      #messageList {
+        display: none;
+      }
+      #threadList.visible,
+      #messageList.visible {
+        display: block;
       }
       @media screen and (min-width: 80em) {
         .commitMessage {
@@ -521,6 +543,12 @@ limitations under the License.
         <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
         </gr-endpoint-param>
       </gr-endpoint-decorator>
+      <paper-tabs
+          id="commentTabs"
+          on-selected-changed="_handleTabChange">
+        <paper-tab>Change Log</paper-tab>
+        <paper-tab>Comment Threads</paper-tab>
+      </paper-tabs>
       <gr-messages-list id="messageList"
           class="hideOnMobileOverlay"
           change-num="[[_changeNum]]"
@@ -529,8 +557,15 @@ limitations under the License.
           change-comments="[[_changeComments]]"
           project-name="[[_change.project]]"
           show-reply-buttons="[[_loggedIn]]"
-          on-reply="_handleMessageReply"></gr-messages-list>
+          on-reply="_handleMessageReply"
+          class$="[[_computeShowMessages(_showMessagesView)]]"></gr-messages-list>
     </div>
+    <gr-thread-list
+          id="threadList"
+          threads="[[_commentThreads]]"
+          change="[[_change]]"
+          change-num="[[_changeNum]]"
+          class$="[[_computeShowThreads(_showMessagesView)]]"></gr-thread-list>
     <gr-overlay id="downloadOverlay" with-backdrop>
       <gr-download-dialog
           id="downloadDialog"

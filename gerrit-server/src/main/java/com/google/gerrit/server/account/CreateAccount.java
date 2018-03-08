@@ -154,7 +154,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       } catch (OrmDuplicateKeyException duplicateKey) {
         try {
           externalIdsUpdate.delete(db, extUser);
-        } catch (IOException | ConfigInvalidException | OrmException cleanupError) {
+        } catch (IOException | OrmException cleanupError) {
           // Ignored
         }
         throw new UnprocessableEntityException("email '" + input.email + "' already exists");

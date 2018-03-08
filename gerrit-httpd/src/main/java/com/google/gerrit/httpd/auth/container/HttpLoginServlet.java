@@ -39,7 +39,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -128,7 +127,7 @@ class HttpLoginServlet extends HttpServlet {
       try {
         log.debug("Associating external identity \"{}\" to user \"{}\"", remoteExternalId, user);
         updateRemoteExternalId(arsp, remoteExternalId);
-      } catch (AccountException | OrmException | ConfigInvalidException e) {
+      } catch (AccountException | OrmException e) {
         log.error(
             "Unable to associate external identity \""
                 + remoteExternalId
@@ -157,7 +156,7 @@ class HttpLoginServlet extends HttpServlet {
   }
 
   private void updateRemoteExternalId(AuthResult arsp, String remoteAuthToken)
-      throws AccountException, OrmException, IOException, ConfigInvalidException {
+      throws AccountException, OrmException, IOException {
     accountManager.updateLink(
         arsp.getAccountId(),
         new AuthRequest(ExternalId.Key.create(SCHEME_EXTERNAL, remoteAuthToken)));

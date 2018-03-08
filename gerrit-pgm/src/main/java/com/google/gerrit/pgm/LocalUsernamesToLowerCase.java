@@ -57,7 +57,7 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
         monitor.update(1);
       }
 
-      externalIdsBatchUpdate.commit(db, "Convert local usernames to lower case");
+      externalIdsBatchUpdate.commit(db);
     }
     monitor.endTask();
 

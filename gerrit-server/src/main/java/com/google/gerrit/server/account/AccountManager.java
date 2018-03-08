@@ -132,7 +132,7 @@ public class AccountManager {
   }
 
   private void update(ReviewDb db, AuthRequest who, ExternalId extId)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws OrmException, IOException {
     IdentifiedUser user = userFactory.create(extId.accountId());
     Account toUpdate = null;
 
@@ -315,7 +315,7 @@ public class AccountManager {
       String errorMessage,
       Exception e,
       boolean logException)
-      throws AccountUserNameException, OrmException, IOException, ConfigInvalidException {
+      throws AccountUserNameException, OrmException, IOException {
     if (logException) {
       log.error(errorMessage, e);
     } else {
@@ -346,7 +346,7 @@ public class AccountManager {
    *     this time.
    */
   public AuthResult link(Account.Id to, AuthRequest who)
-      throws AccountException, OrmException, IOException, ConfigInvalidException {
+      throws AccountException, OrmException, IOException {
     try (ReviewDb db = schema.open()) {
       ExternalId extId = findExternalId(db, who.getExternalIdKey());
       if (extId != null) {
@@ -389,7 +389,7 @@ public class AccountManager {
    *     this time.
    */
   public AuthResult updateLink(Account.Id to, AuthRequest who)
-      throws OrmException, AccountException, IOException, ConfigInvalidException {
+      throws OrmException, AccountException, IOException {
     try (ReviewDb db = schema.open()) {
       Collection<ExternalId> filteredExtIdsByScheme =
           ExternalId.from(db.accountExternalIds().byAccount(to).toList())
@@ -421,7 +421,7 @@ public class AccountManager {
    *     at this time.
    */
   public AuthResult unlink(Account.Id from, AuthRequest who)
-      throws AccountException, OrmException, IOException, ConfigInvalidException {
+      throws AccountException, OrmException, IOException {
     try (ReviewDb db = schema.open()) {
       ExternalId extId = findExternalId(db, who.getExternalIdKey());
       if (extId != null) {

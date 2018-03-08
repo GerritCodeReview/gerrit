@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "93958ce5_443f7a89",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 998,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-08T17:50:20Z",
+      "side": 1,
+      "message": "I added some docs to the typedef.",
+      "parentUuid": "1c6ab06a_c8c1b570",
+      "revId": "58930378067e177b6e37a79835b44bf6b4a857ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2ba280c_c1ec7a55",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "82dafd9b_4253e352",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-08T17:50:20Z",
+      "side": 1,
+      "message": "I did initially use more generalized functions, so I explored this a little. Ultimately, making these generic felt messier and harder to follow. I guess that\u0027s my subjective opinion, though.\n\nTo be precise, not only do these two differ in the file stat to look at, but they differ in the max-stat to divide by. Since it\u0027s division, they also need to guard the different max-stats for divide-by-zero.\n\nParticularly where divide-by-zero can turn up in separate ways, I like the extra explicitness of having separate tests for these two.",
+      "parentUuid": "c2ba280c_c1ec7a55",
+      "range": {
+        "startLine": 1048,
+        "startChar": 0,
+        "endLine": 1064,
+        "endChar": 6
+      },
+      "revId": "58930378067e177b6e37a79835b44bf6b4a857ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9042ee77_0d454cae",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2018-03-08T01:10:24Z",
       "side": 1,
       "message": "Just a thought- It looks like you set the width to 0 when the bars aren\u0027t enabled. I wonder if hideClass is actually needed at this point?",
+      "revId": "58930378067e177b6e37a79835b44bf6b4a857ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0edb368a_e5b13906",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1079,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-08T17:50:20Z",
+      "side": 1,
+      "message": "This method hides the size bars for two reasons:\n* Because the file doesn\u0027t get size-bars (e.g. /COMMIT_MESSAGE).\n* Because the user has disabled them in preferences.\n\nIf we\u0027re hiding for the former reason, I mostly agree: hiding by only setting the widths to zero just leaves a gap where the size-bars would have been.\n\nHowever, for the second reason, the size-bars should not consume any horizontal space at all. In this case, the size of the bars doesn\u0027t accomplish this hiding because the SVG still takes up the same 61px.\n\nAdmittedly, that\u0027s why it applies a different class in this second case.\n\nAside: setting the widths to zero in non-size-bar cases isn\u0027t really to hide the bars (they\u0027re already hidden by the class). It\u0027s to guard against doing math that results in NaN, which can throw loud console errors if applied to SVG attributes. These errors appear whether or not the SVG is visible.",
+      "parentUuid": "9042ee77_0d454cae",
       "revId": "58930378067e177b6e37a79835b44bf6b4a857ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

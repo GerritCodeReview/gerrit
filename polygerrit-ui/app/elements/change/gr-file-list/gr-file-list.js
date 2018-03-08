@@ -962,15 +962,6 @@
       const threadEl = diff.getThreadEls().find(t => t.rootId === rootId);
       if (!threadEl) { return; }
 
-      // In gr-diff-comment, _toggleResolved update the comment when
-      // it was previously set and the comment is not being edited.
-      // When comments was not reset/flushed prior to updating, the
-      // comment would attempt to be saved again. If this becomes a
-      // performance issue, will need to evaluate other options, but for
-      // now, the reset and flush is necessary.
-      threadEl.comments = [];
-      Polymer.dom.flush();
-
       const newComments = this.changeComments.getCommentsForThread(rootId);
 
       // If newComments is null, it means that a single draft was

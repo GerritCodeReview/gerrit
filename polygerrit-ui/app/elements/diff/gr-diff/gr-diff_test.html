@@ -984,6 +984,28 @@ limitations under the License.
           assert.include(element.comments.left, comment);
         });
 
+        test('discarding a draft', () => {
+          const draftID = 'tempID';
+          const id = 'savedID';
+          const comment = {
+            __draft: true,
+            __draftID: draftID,
+            side: 'PARENT',
+            __commentSide: 'left',
+          };
+          const diffCommentsModifiedStub = sandbox.stub();
+          element.addEventListener('diff-comments-modified',
+              diffCommentsModifiedStub);
+          element.comments.left.push(comment);
+          comment.id = id;
+          element.fire('comment-discard', {comment});
+          const drafts = element.comments.left.filter(item => {
+            return item.__draftID === draftID;
+          });
+          assert.equal(drafts.length, 0);
+          assert.isTrue(diffCommentsModifiedStub.called);
+        });
+
         test('saving a draft', () => {
           const draftID = 'tempID';
           const id = 'savedID';
@@ -993,14 +1015,18 @@ limitations under the License.
             side: 'PARENT',
             __commentSide: 'left',
           };
+          const diffCommentsModifiedStub = sandbox.stub();
+          element.addEventListener('diff-comments-modified',
+              diffCommentsModifiedStub);
           element.comments.left.push(comment);
           comment.id = id;
-          element.fire('comment-update', {comment});
+          element.fire('comment-save', {comment});
           const drafts = element.comments.left.filter(item => {
             return item.__draftID === draftID;
           });
           assert.equal(drafts.length, 1);
           assert.equal(drafts[0].id, id);
+          assert.isTrue(diffCommentsModifiedStub.called);
         });
       });
     });

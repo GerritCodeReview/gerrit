@@ -26,6 +26,12 @@
      * @event thread-discard
      */
 
+    /**
+     * Fired when a comment in the thread is permanently modified.
+     *
+     * @event thread-changed
+     */
+
     properties: {
       changeNum: String,
       comments: {
@@ -367,7 +373,9 @@
     },
 
     _computeRootId(comments) {
-      if (!comments.base.length) { return null; }
+      // Keep the root ID even if the comment was removed, so that notification
+      // to sync will know which thread to remove.
+      if (!comments.base.length) { return this.rootId; }
       const rootComment = comments.base[0];
       return rootComment.id || rootComment.__draftID;
     },
@@ -384,6 +392,7 @@
       if (this.comments.length === 0) {
         this.fireRemoveSelf();
       }
+      this._handleCommentSavedOrDiscarded(e);
 
       // Check to see if there are any other open comments getting edited and
       // set the local storage value to its message value.
@@ -399,6 +408,12 @@
               changeComment.message);
         }
       }
+    },
+
+    _handleCommentSavedOrDiscarded(e) {
+      this.dispatchEvent(new CustomEvent('thread-changed',
+          {detail: {rootId: this.rootId, path: this.path},
+            bubbles: false}));
     },
 
     _handleCommentUpdate(e) {

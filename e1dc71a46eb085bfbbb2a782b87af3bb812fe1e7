@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81d42873_d987520a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-08T18:51:58Z",
+      "side": 1,
+      "message": "Nit: \"and\"",
+      "range": {
+        "startLine": 14,
+        "startChar": 17,
+        "endLine": 14,
+        "endChar": 21
+      },
+      "revId": "e1dc71a46eb085bfbbb2a782b87af3bb812fe1e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2655f110_d9667366",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-08T18:51:58Z",
+      "side": 1,
+      "message": "😊",
+      "range": {
+        "startLine": 934,
+        "startChar": 0,
+        "endLine": 936,
+        "endChar": 62
+      },
+      "revId": "e1dc71a46eb085bfbbb2a782b87af3bb812fe1e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb554287_3ec8534e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-08T18:51:58Z",
+      "side": 1,
+      "message": "If we already know the path, and we already know that that path is expanded, instead of looping over all diffs, can we just find the one for that path?",
+      "revId": "e1dc71a46eb085bfbbb2a782b87af3bb812fe1e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

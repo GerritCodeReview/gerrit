@@ -228,6 +228,10 @@
         type: Boolean,
         value: undefined,
       },
+      _showMessagesView: {
+        type: Boolean,
+        value: true,
+      },
     },
 
     behaviors: [
@@ -246,7 +250,6 @@
       'fullscreen-overlay-opened': '_handleHideBackgroundContent',
       'fullscreen-overlay-closed': '_handleShowBackgroundContent',
       'diff-comments-modified': '_handleReloadCommentThreads',
-      'thread-list-modified': '_handleReloadDiffComments',
     },
     observers: [
       '_labelsChanged(_change.labels.*)',
@@ -329,6 +332,18 @@
       } else {
         this.$.fileListHeader.setDiffViewMode(DiffViewMode.SIDE_BY_SIDE);
       }
+    },
+
+    _handleTabChange() {
+      this._showMessagesView = this.$.commentTabs.selected === 0;
+    },
+
+    _computeShowMessages(showSection) {
+      return showSection ? 'visible' : '';
+    },
+
+    _computeShowThreads(showSection) {
+      return !showSection ? 'visible' : '';
     },
 
     _handleEditCommitMessage(e) {
@@ -622,6 +637,10 @@
       this._maybeShowRevertDialog();
 
       this._sendShowChangeEvent();
+
+      // Selected has to be set after the paper-tabs are visible because
+      // the selected underline depends on calculations made by the browser.
+      this.$.commentTabs.selected = 0;
 
       this.async(() => {
         if (this.viewState.scrollTop) {

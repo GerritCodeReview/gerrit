@@ -288,7 +288,32 @@ public class PluginConfigFactory implements ReloadPluginListener {
    */
   public Config getProjectPluginConfigWithInheritance(
       Project.NameKey projectName, String pluginName) throws NoSuchProjectException {
-    return getPluginConfig(projectName, pluginName).getWithInheritance();
+    return getPluginConfig(projectName, pluginName).getWithInheritance(false);
+  }
+
+  /**
+   * Returns the configuration for the specified plugin that is stored in the '{@code
+   * <plugin-name>.config}' file in the 'refs/meta/config' branch of the specified project.
+   * Parameters from the '{@code <plugin-name>.config}' of the parent project are appended to this
+   * project's '{@code <plugin-name>.config}' files.
+   *
+   * <p>E.g.: child project: [mySection "mySubsection"] myKey = childValue
+   *
+   * <p>parent project: [mySection "mySubsection"] myKey = parentValue anotherKey = someValue
+   *
+   * <p>return: [mySection "mySubsection"] myKey = childValue myKey = parentValue anotherKey =
+   * someValue
+   *
+   * @param projectName the name of the project for which the plugin configuration should be
+   *     returned
+   * @param pluginName the name of the plugin for which the configuration should be returned
+   * @return the plugin configuration from the '{@code <plugin-name>.config}' file of the specified
+   *     project with parameters from the parent projects appended to the project values
+   * @throws NoSuchProjectException thrown if the specified project does not exist
+   */
+  public Config getProjectPluginConfigWithMergedInheritance(
+      Project.NameKey projectName, String pluginName) throws NoSuchProjectException {
+    return getPluginConfig(projectName, pluginName).getWithInheritance(true);
   }
 
   /**
@@ -310,7 +335,30 @@ public class PluginConfigFactory implements ReloadPluginListener {
    */
   public Config getProjectPluginConfigWithInheritance(
       ProjectState projectState, String pluginName) {
-    return projectState.getConfig(pluginName + EXTENSION).getWithInheritance();
+    return projectState.getConfig(pluginName + EXTENSION).getWithInheritance(false);
+  }
+
+  /**
+   * Returns the configuration for the specified plugin that is stored in the '{@code
+   * <plugin-name>.config}' file in the 'refs/meta/config' branch of the specified project.
+   * Parameters from the '{@code <plugin-name>.config}' of the parent project are appended to this
+   * project's '{@code <plugin-name>.config}' files.
+   *
+   * <p>E.g.: child project: [mySection "mySubsection"] myKey = childValue
+   *
+   * <p>parent project: [mySection "mySubsection"] myKey = parentValue anotherKey = someValue
+   *
+   * <p>return: [mySection "mySubsection"] myKey = childValue myKey = parentValue anotherKey =
+   * someValue
+   *
+   * @param projectState the project for which the plugin configuration should be returned
+   * @param pluginName the name of the plugin for which the configuration should be returned
+   * @return the plugin configuration from the '{@code <plugin-name>.config}' file of the specified
+   *     project with inheriting non-set parameters from the parent projects
+   */
+  public Config getProjectPluginConfigWithMergedInheritance(
+      ProjectState projectState, String pluginName) {
+    return projectState.getConfig(pluginName + EXTENSION).getWithInheritance(true);
   }
 
   private ProjectLevelConfig getPluginConfig(Project.NameKey projectName, String pluginName)

@@ -15,11 +15,14 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.project.ProjectState;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
@@ -53,6 +56,22 @@ public class ProjectLevelConfig extends VersionedMetaData {
   }
 
   public Config getWithInheritance() {
+    return getWithInheritance(false);
+  }
+
+  /**
+   * Get a Config that includes the values from all parent projects.
+   *
+   * <p>Merging means that matching sections/subsection will be merged to include the values from
+   * both parent and child config.
+   *
+   * <p>No merging means that matching sections/subsections in the child project will replace the
+   * corresponding value from the parent.
+   *
+   * @param merge whether to merge parent values with child values or not.
+   * @return a combined config.
+   */
+  public Config getWithInheritance(boolean merge) {
     Config cfgWithInheritance = new Config();
     try {
       cfgWithInheritance.fromText(get().toText());
@@ -65,21 +84,41 @@ public class ProjectLevelConfig extends VersionedMetaData {
       for (String section : parentCfg.getSections()) {
         Set<String> allNames = get().getNames(section);
         for (String name : parentCfg.getNames(section)) {
+          String[] parentValues = parentCfg.getStringList(section, null, name);
           if (!allNames.contains(name)) {
+            cfgWithInheritance.setStringList(section, null, name, Arrays.asList(parentValues));
+          } else if (merge) {
             cfgWithInheritance.setStringList(
-                section, null, name, Arrays.asList(parentCfg.getStringList(section, null, name)));
+                section,
+                null,
+                name,
+                Stream.concat(
+                        Arrays.stream(cfg.getStringList(section, null, name)),
+                        Arrays.stream(parentValues))
+                    .sorted()
+                    .distinct()
+                    .collect(Collectors.toList()));
           }
         }
 
         for (String subsection : parentCfg.getSubsections(section)) {
           allNames = get().getNames(section, subsection);
           for (String name : parentCfg.getNames(section, subsection)) {
+            String[] parentValues = parentCfg.getStringList(section, subsection, name);
             if (!allNames.contains(name)) {
+              cfgWithInheritance.setStringList(
+                  section, subsection, name, Arrays.asList(parentValues));
+            } else if (merge) {
               cfgWithInheritance.setStringList(
                   section,
                   subsection,
                   name,
-                  Arrays.asList(parentCfg.getStringList(section, subsection, name)));
+                  Streams.concat(
+                          Arrays.stream(cfg.getStringList(section, subsection, name)),
+                          Arrays.stream(parentValues))
+                      .sorted()
+                      .distinct()
+                      .collect(Collectors.toList()));
             }
           }
         }

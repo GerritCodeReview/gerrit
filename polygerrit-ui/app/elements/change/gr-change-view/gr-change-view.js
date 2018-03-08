@@ -245,6 +245,8 @@
       // again upon closing.
       'fullscreen-overlay-opened': '_handleHideBackgroundContent',
       'fullscreen-overlay-closed': '_handleShowBackgroundContent',
+      'diff-comments-modified': '_handleReloadCommentThreads',
+      'thread-list-modified': '_handleReloadDiffComments',
     },
     observers: [
       '_labelsChanged(_change.labels.*)',
@@ -397,6 +399,27 @@
       }
 
       return false;
+    },
+
+    _handleReloadCommentThreads() {
+      // Get any new drafts that have been saved in the diff view and show
+      // in the comment thread view.
+      this._reloadDrafts().then(() => {
+        this._commentThreads = this._changeComments.getAllThreadsForChange()
+            .map(c => Object.assign({}, c));
+        Polymer.dom.flush();
+      });
+    },
+
+    _handleReloadDiffComments(e) {
+      // Keeps the file list counts updated.
+      this._reloadDrafts().then(() => {
+        // Get any new drafts that have been saved in the thread view and show
+        // in the diff view.
+        this.$.fileList.reloadCommentsForThreadWithRootId(e.detail.rootId,
+            e.detail.path);
+        Polymer.dom.flush();
+      });
     },
 
     _handleCommentSave(e) {
@@ -1112,6 +1135,8 @@
           .then(comments => {
             this._changeComments = comments;
             this._diffDrafts = Object.assign({}, this._changeComments.drafts);
+            this._commentThreads = this._changeComments.getAllThreadsForChange()
+              .map(c => Object.assign({}, c));
           });
     },
 

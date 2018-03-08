@@ -89,6 +89,10 @@
       }
     },
 
+    _handleRemoveThread(e) {
+      this.removeThread(e.detail.rootId);
+    },
+
     /**
      * Compare two ranges. Either argument may be falsy, but will only return
      * true if both are falsy or if neither are falsy and have the same position

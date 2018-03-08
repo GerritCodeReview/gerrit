@@ -57,7 +57,11 @@
         type: Number,
         value: null,
       },
-      rootId: String,
+      rootId: {
+        type: String,
+        notify: true,
+        computed: '_computeRootId(comments.*)',
+      },
       /**
        * If this is true, the comment thread also needs to have the change and
        * line properties property set
@@ -125,7 +129,13 @@
       const draft = this._newDraft(opt_lineNum, opt_range);
       draft.__editing = true;
       draft.unresolved = opt_unresolved === false ? opt_unresolved : true;
+      debugger
       this.push('comments', draft);
+    },
+
+    fireRemoveSelf() {
+      this.dispatchEvent(new CustomEvent('thread-discard',
+          {detail: {rootId: this.rootId}, bubbles: false}));
     },
 
     _getDiffUrlForComment(projectName, changeNum, path, patchNum) {
@@ -143,7 +153,7 @@
       return this.$.restAPI.getLoggedIn();
     },
 
-    _commentsChanged(changeRecord) {
+    _commentsChanged() {
       this._orderedComments = this._sortedComments(this.comments);
       this.updateThreadProperties();
     },
@@ -357,6 +367,12 @@
       return 'REVISION';
     },
 
+    _computeRootId(comments) {
+      if (!comments.base.length) { return null; }
+      const rootComment = comments.base[0];
+      return rootComment.id || rootComment.__draftID;
+    },
+
     _handleCommentDiscard(e) {
       const diffCommentEl = Polymer.dom(e).rootTarget;
       const comment = diffCommentEl.comment;
@@ -366,8 +382,8 @@
             JSON.stringify(diffCommentEl.comment));
       }
       this.splice('comments', idx, 1);
-      if (this.comments.length == 0) {
-        this.fire('thread-discard', {lastComment: comment});
+      if (this.comments.length === 0) {
+        this.fireRemoveSelf();
       }
 
       // Check to see if there are any other open comments getting edited and

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4fefdfc_2bf4af3f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-08T01:32:51Z",
+      "side": 1,
+      "message": "this can use --color-link",
+      "range": {
+        "startLine": 47,
+        "startChar": 33,
+        "endLine": 47,
+        "endChar": 40
+      },
+      "revId": "68022109ccc94ac4b721c2aa4d4bb847edb49e10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6743e467_e8d2bdc4",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-08T01:32:51Z",
+      "side": 1,
+      "message": "I think the left padding should probably be reduced by the same width of new space added. Before, the text here lined up with the metadata text and now it does not anymore.",
+      "range": {
+        "startLine": 49,
+        "startChar": 17,
+        "endLine": 49,
+        "endChar": 22
+      },
+      "revId": "68022109ccc94ac4b721c2aa4d4bb847edb49e10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ac6be52_2071c46c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-08T01:32:51Z",
+      "side": 1,
+      "message": "this can use --color-link",
+      "range": {
+        "startLine": 108,
+        "startChar": 34,
+        "endLine": 108,
+        "endChar": 41
+      },
+      "revId": "68022109ccc94ac4b721c2aa4d4bb847edb49e10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

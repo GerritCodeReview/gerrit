@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78ceca25_8e4a5967",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-08T13:07:36Z",
+      "side": 1,
+      "message": "Do we have a goal of making the UI provide some useful output when this happens? If so, it will have to be based on the response code + message text, because a 503 can also come from an intermediate proxy.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "e7241a51d9dd77ce74b7d67e8dbbb8b2c8a1fb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1494ec9_2ba75544",
+        "filename": "java/com/google/gerrit/server/update/RetryingRestModifyView.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-08T13:07:36Z",
+      "side": 1,
+      "message": "I don\u0027t like unwrapping the exception like this. In the past when we have done this, it has made debugging more difficult for me, because we lose a whole stack trace from the UpdateException.\n\nI\u0027m not sure I follow why this is necessary for achieving the goal of this change, though?",
+      "revId": "e7241a51d9dd77ce74b7d67e8dbbb8b2c8a1fb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

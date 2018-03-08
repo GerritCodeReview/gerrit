@@ -37,10 +37,11 @@ limitations under the License.
           parent-index="[[parentIndex]]"
           change-num="[[changeNum]]"
           patch-num="[[thread.patchNum]]"
-          root-id="[[thread.rootId]]"
+          root-id="{{thread.rootId}}"
           path="[[path]]"
           project-name="[[projectName]]"
-          range="[[thread.range]]"></gr-diff-comment-thread>
+          range="[[thread.range]]"
+          on-thread-discard="_handleThreadDiscard"></gr-diff-comment-thread>
     </template>
   </template>
   <script src="gr-diff-comment-thread-group.js"></script>

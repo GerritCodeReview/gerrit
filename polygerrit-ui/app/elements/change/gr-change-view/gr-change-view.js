@@ -228,6 +228,10 @@
         type: Boolean,
         value: undefined,
       },
+      _showMessagesView: {
+        type: Boolean,
+        value: true,
+      },
     },
 
     behaviors: [
@@ -245,6 +249,8 @@
       // again upon closing.
       'fullscreen-overlay-opened': '_handleHideBackgroundContent',
       'fullscreen-overlay-closed': '_handleShowBackgroundContent',
+      'diff-comments-modified': '_handleReloadCommentThreads',
+      'comment-threads-modified': '_handleReloadDiffComments',
     },
     observers: [
       '_labelsChanged(_change.labels.*)',
@@ -329,6 +335,18 @@
       }
     },
 
+    _handleTabChange() {
+      this._showMessagesView = this.$.commentTabs.selected === 0;
+    },
+
+    _computeShowMessages(showSection) {
+      return showSection ? 'visible' : '';
+    },
+
+    _computeShowThreads(showSection) {
+      return !showSection ? 'visible' : '';
+    },
+
     _handleEditCommitMessage(e) {
       this._editingCommitMessage = true;
       this.$.commitMessageEditor.focusTextarea();
@@ -397,6 +415,28 @@
       }
 
       return false;
+    },
+
+    _handleReloadCommentThreads() {
+      // Get any new drafts that have been saved in the diff view and show
+      // in the comment thread view.
+      this._reloadDrafts().then(() => {
+        this._commentThreads= [];
+        Polymer.dom.flush();
+        this._commentThreads = this._changeComments.getAllThreadsForChange();
+        Polymer.dom.flush();
+      });
+    },
+
+    _handleReloadDiffComments(e) {
+      // Keeps the file list counts updated.
+      this._reloadDrafts().then(() => {
+        // Get any new drafts that have been saved in the thread view and show
+        // in the diff view.
+        this.$.fileList.reloadCommentsForThreadWithRootId(e.detail.rootId,
+            e.detail.path);
+        Polymer.dom.flush();
+      });
     },
 
     _handleCommentSave(e) {
@@ -1112,6 +1152,8 @@
           .then(comments => {
             this._changeComments = comments;
             this._diffDrafts = Object.assign({}, this._changeComments.drafts);
+            this._commentThreads =
+                this._changeComments.getAllThreadsForChange();
           });
     },
 
@@ -1134,6 +1176,9 @@
       const detailCompletes = this._getChangeDetail().then(() => {
         this._loading = false;
         this._getProjectConfig();
+        // Selected has to be set after the paper-tabs are visible because
+        // the selected underline depends on calculations made by the browser.
+        this.$.commentTabs.selected = 0;
       });
 
       this._reloadComments();

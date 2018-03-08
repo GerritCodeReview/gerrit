@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "53149da2_17063527",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-08T12:18:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cc92898_604e63cf",
+      "revId": "5d6f73815e95da4e0d9695e59f9e22679e05a295",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97749894_c7166276",
         "filename": "java/com/google/gerrit/server/rules/PrologRule.java",
         "patchSetId": 6

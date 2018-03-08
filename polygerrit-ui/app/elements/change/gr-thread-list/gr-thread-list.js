@@ -14,6 +14,12 @@
 (function() {
   'use strict';
 
+  /**
+   * Fired when a comment is saved or deleted
+   *
+   * @event thread-list-modified
+   */
+
   Polymer({
     is: 'gr-thread-list',
 
@@ -80,6 +86,12 @@
 
     _handleThreadDiscard(e) {
       this.removeThread(e.detail.rootId);
+    },
+
+    _handleCommentsChanged(e) {
+      this.dispatchEvent(new CustomEvent('thread-list-modified',
+          {detail: {rootId: e.detail.rootId, path: e.detail.path},
+            bubbles: true}));
     },
 
     _isOnParent(side) {

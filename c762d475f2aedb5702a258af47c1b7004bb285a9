@@ -22,6 +22,30 @@
       "revId": "c762d475f2aedb5702a258af47c1b7004bb285a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6569f2d9_ed432cea",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-08T19:39:04Z",
+      "side": 1,
+      "message": "No worries... makes total sense 😊",
+      "parentUuid": "99e7df0c_e6187d08",
+      "range": {
+        "startLine": 943,
+        "startChar": 6,
+        "endLine": 945,
+        "endChar": 20
+      },
+      "revId": "c762d475f2aedb5702a258af47c1b7004bb285a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,7 +19,8 @@
   const WARN_SHOW_ALL_THRESHOLD = 1000;
   const LOADING_DEBOUNCE_INTERVAL = 100;
 
-  const SIZE_BAR_MAX_WIDTH = 50;
+  const SIZE_BAR_MAX_WIDTH = 61;
+  const SIZE_BAR_GAP_WIDTH = 1;
   const SIZE_BAR_MIN_WIDTH = 1.5;
 
   const FileStatus = {
@@ -29,6 +30,26 @@
     R: 'Renamed',
     W: 'Rewritten',
   };
+
+  const Defs = {};
+
+  /**
+   * Object containing layout values to be used in rendering size-bars.
+   * `max{Inserted,Deleted}` represent the largest values of the
+   * `lines_inserted` and `lines_deleted` fields of the files respectively. The
+   * `max{Addition,Deletion}Width` represent the width of the graphic allocated
+   * to the insertion or deletion side respectively. Finally, the
+   * `deletionOffset` value represents the x-position for the deletion bar.
+   *
+   * @typedef {{
+   *    maxInserted: number,
+   *    maxDeleted: number,
+   *    maxAdditionWidth: number,
+   *    maxDeletionWidth: number,
+   *    deletionOffset: number,
+   * }}
+   */
+  Defs.LayoutStats;
 
   Polymer({
     is: 'gr-file-list',
@@ -126,10 +147,12 @@
         type: Boolean,
         observer: '_loadingChanged',
       },
-      _sizeBarScale: {
-        type: Number,
-        computed: '_computeSizeBarScale(_shownFiles.*)',
+      /** @type {Defs.LayoutStats|undefined} */
+      _sizeBarLayout: {
+        type: Object,
+        computed: '_computeSizeBarLayout(_shownFiles.*)',
       },
+
       _showSizeBars: {
         type: Boolean,
         value: true,
@@ -959,30 +982,101 @@
     },
 
     /**
-     * Find the size bar scaling factor by computing the largest value of the
-     * lines_inserted or lines_deleted properties of the visible files.
-     * @return {number|undefined}
+     * Given a file path, return whether that path should have visible size bars
+     * and be included in the size bars calculation.
+     * @param {string} path
+     * @return {boolean}
      */
-    _computeSizeBarScale(shownFilesRecord) {
-      if (!shownFilesRecord || !shownFilesRecord.base) { return undefined; }
-      return shownFilesRecord.base
-          .filter(f =>
-              f.__path !== this.COMMIT_MESSAGE_PATH &&
-              f.__path !== this.MERGE_LIST_PATH)
-          .reduce((acc, f) =>
-              Math.max(acc, f.lines_inserted, f.lines_deleted), 0);
+    _showBarsForPath(path) {
+      return path !== this.COMMIT_MESSAGE_PATH && path !== this.MERGE_LIST_PATH;
     },
 
     /**
-     * Compute the width of the size bar for given delta stat and scale.
-     * @param {number} sizeBarScale
-     * @param {number} stat
-     * @return {number} the width of the bar
+     * Compute size bar layout values from the file list.
+     * @return {Defs.LayoutStats|undefined}
      */
-    _computeSizeBarWidth(sizeBarScale, stat) {
-      if (!sizeBarScale || !stat) { return 0; }
-      return Math.max(
-          SIZE_BAR_MIN_WIDTH, SIZE_BAR_MAX_WIDTH * stat / sizeBarScale);
+    _computeSizeBarLayout(shownFilesRecord) {
+      if (!shownFilesRecord || !shownFilesRecord.base) { return undefined; }
+      const stats = {
+        maxInserted: 0,
+        maxDeleted: 0,
+        maxAdditionWidth: 0,
+        maxDeletionWidth: 0,
+        deletionOffset: 0,
+      };
+      shownFilesRecord.base
+          .filter(f => this._showBarsForPath(f.__path))
+          .forEach(f => {
+            if (f.lines_inserted) {
+              stats.maxInserted = Math.max(stats.maxInserted, f.lines_inserted);
+            }
+            if (f.lines_deleted) {
+              stats.maxDeleted = Math.max(stats.maxDeleted, f.lines_deleted);
+            }
+          });
+      const ratio = stats.maxInserted / (stats.maxInserted + stats.maxDeleted);
+      if (!isNaN(ratio)) {
+        stats.maxAdditionWidth =
+            (SIZE_BAR_MAX_WIDTH - SIZE_BAR_GAP_WIDTH) * ratio;
+        stats.maxDeletionWidth =
+            SIZE_BAR_MAX_WIDTH - SIZE_BAR_GAP_WIDTH - stats.maxAdditionWidth;
+        stats.deletionOffset = stats.maxAdditionWidth + SIZE_BAR_GAP_WIDTH;
+      }
+      return stats;
+    },
+
+    /**
+     * Get the width of the addition bar for a file.
+     * @param {Object} file
+     * @param {Defs.LayoutStats} stats
+     * @return {number}
+     */
+    _computeBarAdditionWidth(file, stats) {
+      if (stats.maxInserted === 0 ||
+          !file.lines_inserted ||
+          !this._showBarsForPath(file.__path)) {
+        return 0;
+      }
+      const width =
+          stats.maxAdditionWidth * file.lines_inserted / stats.maxInserted;
+      return width === 0 ? 0 : Math.max(SIZE_BAR_MIN_WIDTH, width);
+    },
+
+    /**
+     * Get the x-offset of the addition bar for a file.
+     * @param {Object} file
+     * @param {Defs.LayoutStats} stats
+     * @return {number}
+     */
+    _computeBarAdditionX(file, stats) {
+      return stats.maxAdditionWidth -
+          this._computeBarAdditionWidth(file, stats);
+    },
+
+    /**
+     * Get the width of the deletion bar for a file.
+     * @param {Object} file
+     * @param {Defs.LayoutStats} stats
+     * @return {number}
+     */
+    _computeBarDeletionWidth(file, stats) {
+      if (stats.maxDeleted === 0 ||
+          !file.lines_deleted ||
+          !this._showBarsForPath(file.__path)) {
+        return 0;
+      }
+      const width =
+          stats.maxDeletionWidth * file.lines_deleted / stats.maxDeleted;
+      return width === 0 ? 0 : Math.max(SIZE_BAR_MIN_WIDTH, width);
+    },
+
+    /**
+     * Get the x-offset of the deletion bar for a file.
+     * @param {Defs.LayoutStats} stats
+     * @return {number}
+     */
+    _computeBarDeletionX(stats) {
+      return stats.deletionOffset;
     },
 
     _computeShowSizeBars(userPrefs) {
@@ -993,8 +1087,7 @@
       let hideClass = '';
       if (!showSizeBars) {
         hideClass = 'hide';
-      } else if (path === this.COMMIT_MESSAGE_PATH ||
-          path === this.MERGE_LIST_PATH) {
+      } else if (!this._showBarsForPath(path)) {
         hideClass = 'invisible';
       }
       return `sizeBars desktop ${hideClass}`;

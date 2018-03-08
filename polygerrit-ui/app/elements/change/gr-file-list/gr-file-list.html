@@ -317,22 +317,19 @@ limitations under the License.
                   file.__path)]]
             </div>
             <div class$="[[_computeSizeBarsClass(_showSizeBars, file.__path)]]">
-              <svg width="101" height="8">
+              <svg width="61" height="8">
                 <rect
-                    x="50"
+                    x$="[[_computeBarAdditionX(file, _sizeBarLayout)]]"
                     y="0"
                     height="8"
                     fill="#388E3C"
-                    transform="translate(100, 0) scale(-1,1)"
-                    width$="[[_computeSizeBarWidth(
-                        _sizeBarScale, file.lines_inserted)]]" />
+                    width$="[[_computeBarAdditionWidth(file, _sizeBarLayout)]]" />
                 <rect
-                    x="51"
+                    x$="[[_computeBarDeletionX(_sizeBarLayout)]]"
                     y="0"
                     height="8"
                     fill="#D32F2F"
-                    width$="[[_computeSizeBarWidth(
-                        _sizeBarScale, file.lines_deleted)]]" />
+                    width$="[[_computeBarDeletionWidth(file, _sizeBarLayout)]]" />
               </svg>
             </div>
             <div class$="[[_computeClass('stats', file.__path)]]">

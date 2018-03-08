@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c2ee65a_4391496d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 952,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-08T20:00:39Z",
+      "side": 1,
+      "message": "Nit: this line no longer needs wrapping.\n\nSome of these comments can be unwrapped a little too.",
+      "range": {
+        "startLine": 951,
+        "startChar": 0,
+        "endLine": 952,
+        "endChar": 39
+      },
+      "revId": "2aaf051236337b38d1782d9bb2a422bf655fefe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5fcdf04_47d34098",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-08T20:00:39Z",
+      "side": 1,
+      "message": "Nit: I\u0027m not sure at this level whether the comment objects _need_ to be the same reference. If not, would it be appropriate to ..\n\n return Object.assign(c, {__commentSide: threadEl.commentSide});\n\n.. ?",
+      "range": {
+        "startLine": 969,
+        "startChar": 8,
+        "endLine": 970,
+        "endChar": 17
+      },
+      "revId": "2aaf051236337b38d1782d9bb2a422bf655fefe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

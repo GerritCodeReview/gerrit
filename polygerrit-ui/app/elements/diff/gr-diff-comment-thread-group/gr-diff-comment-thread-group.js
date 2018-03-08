@@ -87,6 +87,10 @@
       }
     },
 
+    _handleRemoveThread(e) {
+      this.removeThread(e.detail.rootId);
+    },
+
     /**
      * Compare two ranges. Either argument may be falsy, but will only return
      * true if both are falsy or if neither are falsy and have the same position
@@ -169,7 +173,7 @@
           comments: [comment],
           commentSide: comment.__commentSide,
           patchNum: this._getPatchNum(comment),
-          rootId: comment.id || comment.__draftID,
+          rootId: comment.id,
         };
         if (comment.range) {
           newThread.range = Object.assign({}, comment.range);

@@ -22,6 +22,30 @@
       "revId": "351929d00a4404f51dbba58568c593f5b24415e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "404d243b_9a1fa42b",
+        "filename": "tools/bzl/license-map.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-08T06:37:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3b1f7ad_a7b8d9eb",
+      "range": {
+        "startLine": 117,
+        "startChar": 14,
+        "endLine": 117,
+        "endChar": 37
+      },
+      "revId": "351929d00a4404f51dbba58568c593f5b24415e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

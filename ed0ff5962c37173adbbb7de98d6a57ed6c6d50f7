@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1ff1b16_8b971495",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-08T23:16:05Z",
+      "side": 1,
+      "message": "Why were these IDs updated?",
+      "revId": "ed0ff5962c37173adbbb7de98d6a57ed6c6d50f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37010154_3b6927d6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-08T23:16:05Z",
+      "side": 1,
+      "message": "Just a thought: instead of having to make sure `rootId` gets assigned in the methods where the comments are modified, this could (maybe?) be set by a computed method ..\n\nrootId: {\n  type: String,\n  notify: true,\n  computed: \u0027_computeRootId(comments)\u0027,\n},\n\n.. where ..\n\n_computeRootId(comments) {\n  if (!comments.length) { return null; }\n  const rootComment \u003d comments[0];\n  return rootComment.__draftID || rootComment.id;\n},\n\nIn this way, we don\u0027t have to worry about updating it in various places (and potentially miss some).\n\nIDK if this\u0027d actually work though.",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 63,
+        "endChar": 8
+      },
+      "revId": "ed0ff5962c37173adbbb7de98d6a57ed6c6d50f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

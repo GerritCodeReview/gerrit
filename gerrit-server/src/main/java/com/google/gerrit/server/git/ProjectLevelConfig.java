@@ -18,7 +18,9 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.project.ProjectState;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -53,6 +55,22 @@ public class ProjectLevelConfig extends VersionedMetaData {
   }
 
   public Config getWithInheritance() {
+    return getWithInheritance(false);
+  }
+
+  /**
+   * Get a Config that includes the values from all parent projects.
+   *
+   * <p>Merging means that matching sections/subsection will be merged to include the values from
+   * both parent and child config.
+   *
+   * <p>No merging means that matching sections/subsections in the child project will replace the
+   * corresponding value from the parent.
+   *
+   * @param merge whether to merge parent values with child values or not.
+   * @return a combined config.
+   */
+  public Config getWithInheritance(boolean merge) {
     Config cfgWithInheritance = new Config();
     try {
       cfgWithInheritance.fromText(get().toText());
@@ -68,6 +86,11 @@ public class ProjectLevelConfig extends VersionedMetaData {
           if (!allNames.contains(name)) {
             cfgWithInheritance.setStringList(
                 section, null, name, Arrays.asList(parentCfg.getStringList(section, null, name)));
+          } else if (merge) {
+            List<String> values =
+                new ArrayList<>(Arrays.asList(cfg.getStringList(section, null, name)));
+            values.addAll(Arrays.asList(parentCfg.getStringList(section, null, name)));
+            cfgWithInheritance.setStringList(section, null, name, values);
           }
         }
 
@@ -80,6 +103,11 @@ public class ProjectLevelConfig extends VersionedMetaData {
                   subsection,
                   name,
                   Arrays.asList(parentCfg.getStringList(section, subsection, name)));
+            } else if (merge) {
+              List<String> values =
+                  new ArrayList<>(Arrays.asList(cfg.getStringList(section, subsection, name)));
+              values.addAll(Arrays.asList(parentCfg.getStringList(section, subsection, name)));
+              cfgWithInheritance.setStringList(section, subsection, name, values);
             }
           }
         }

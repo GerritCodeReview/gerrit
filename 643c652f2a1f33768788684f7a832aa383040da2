@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af25d8e2_5e806f47",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-08T15:15:12Z",
+      "side": 1,
+      "message": "Now, that we removed NoteDb code paths for External Ids on stable-2.4, the changes in link methods (except log statements) should be reverted.",
+      "range": {
+        "startLine": 375,
+        "startChar": 0,
+        "endLine": 380,
+        "endChar": 99
+      },
+      "revId": "643c652f2a1f33768788684f7a832aa383040da2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8b8b4582_967e5896",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 2779,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-08T17:08:46Z",
+      "side": 1,
+      "message": "Done. I agree with you",
+      "parentUuid": "3eb3a2c0_6a8f60ea",
+      "revId": "4fb0eb5cf787a9a93da443fb70f0421130b4e3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c704d909_7dcebe15",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 14
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "a829723f_bed998c3",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 2782,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-08T17:08:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c704d909_7dcebe15",
+      "range": {
+        "startLine": 2782,
+        "startChar": 40,
+        "endLine": 2782,
+        "endChar": 51
+      },
+      "revId": "4fb0eb5cf787a9a93da443fb70f0421130b4e3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4cdb25cf_c1dafad8",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 14
@@ -56,6 +98,24 @@
       "revId": "4fb0eb5cf787a9a93da443fb70f0421130b4e3b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad311e41_2b2df0c3",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 2783,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-08T17:08:46Z",
+      "side": 1,
+      "message": "As of today, this case is not possible: even if no rules are defined, Prolog is called\nand checks the LabelFunctions (ie: \"Verified: MaxWithBlock\").\nI think adding sane default rules is out of the scope of this change series for now,\nbut it is planned!\nMy idea was to implement some rules in Core Gerrit, with these LabelFunctions, making Prolog optional. \n\nI really like the idea of having a default rule set in case no plugins are enabled, and will consider it, thanks!\n\n[I think this can be done in a further change, and mark this as resolved]",
+      "parentUuid": "4cdb25cf_c1dafad8",
+      "revId": "4fb0eb5cf787a9a93da443fb70f0421130b4e3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

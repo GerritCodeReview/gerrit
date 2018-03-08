@@ -263,6 +263,30 @@
     },
     {
       "key": {
+        "uuid": "98d48dc7_1ed91996",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2735,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-08T17:08:46Z",
+      "side": 1,
+      "message": "\u003e Btw, I don\u0027t know if we should really expect a big usage of scripting engines.\nI agree with you, but I\u0027m sure there is room for a lot of improvement.\nI don\u0027t know for sure what the implementation details would be, but\nbeing able to define rules in a simple language (Lua, JavaScript..?)\nmight be helpful.\nAn other option I consider: being able to define pre-submit requirements\nin a file contained in the repository. I (again) don\u0027t have the details\nfor this, but keeping the rules near the code sounds like a great feature.\n\nI will probably write a plugin allowing simple configuration of the rules,\nall in Java.\nA non-definitive list includes: conditions on the comments (unresolved, ...),\ncan the change owner approve it, simple function on the labels,\nregex on the commit message...\nThis simple thing should match at least 95% of the use cases.\n\n\n\u003e AFAIK, all relevant Gerrit plugins are written in Java.\nAll ... except the Prolog rules ;-)\n\n\u003e I am not against supporting submit rules written as scripts, but I currently\n\u003e believe that this may be over-valued.\nI think the Java extension point will already allow users to solve 99.99% of the\ncases.\n\n\u003e We would need to support a similar protection for any other supported scripting language\n\u003e in which project owners can write their submit rules.\nRest assured, I keep this in mind!\nWith \"powerful\" scripting languages, we also have to protect Gerrit from leaks,\nie: getting the list of users with their emails (and passwords?), getting\nthe databases\u0027 passwords...\n\nPS: I might work a bit on dependencies across plugins. If I understand correctly, \nit was made harder because of the scripting plugins, which are no more?",
+      "parentUuid": "fb241a32_c92446cd",
+      "range": {
+        "startLine": 2734,
+        "startChar": 0,
+        "endLine": 2735,
+        "endChar": 93
+      },
+      "revId": "a5c3b99de02d2beddf71aad988a65180ca39d193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a88f09dd_e2ad5700",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 7

@@ -70,6 +70,24 @@
       "revId": "2d7fd311f8abe0747a822bf7e2af09bd82f88317",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d268eab_dbb50d94",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-09T23:05:25Z",
+      "side": 1,
+      "message": "Here\u0027s the issue that I need to solve\n\nThere are two scenarios that need to be accounted for:\n\n1. User takes an explicit action to toggle the checkbox. This can be either via clicking, or the enter key if focused.  In this case, this.resolved should toggle and if the draft is not being edited, it will trigger a save action\n\n2. comment.unresolved is updated externally. This can occur when syncing between one comment view to another (a comment in the diff view is marked as resolved, so the thread view will mark its as resolved also). In this case, it\u0027s already been saved, so we do not want to trigger that again.\n\nThis change separates allows the action taken to trigger the save, but still always update this.resolved when an explicit or implicit change takes place",
+      "parentUuid": "f26e89b2_5c938231",
+      "revId": "2d7fd311f8abe0747a822bf7e2af09bd82f88317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

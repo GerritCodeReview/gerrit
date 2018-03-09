@@ -222,6 +222,30 @@
       "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd93b85d_ef75d028",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-09T23:28:43Z",
+      "side": 1,
+      "message": "It seems like an antipattern to me to have an event correspond to one of two specific actions. In general, events (in our app, as well as in other projects I work on) either correspond to a specific mutation event somewhere (\"comment-saved\") or as a notifier for a general modification (\"comment-changed\"). \n\nUsing this naming schema doesn\u0027t scale well either -- what if we need to bolt another case on here? \"on-comment-saved-or-discarded-or-_______\" doesn\u0027t work too well.",
+      "parentUuid": "e647af9a_d234b8cb",
+      "range": {
+        "startLine": 88,
+        "startChar": 12,
+        "endLine": 88,
+        "endChar": 41
+      },
+      "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

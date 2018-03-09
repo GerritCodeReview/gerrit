@@ -636,7 +636,9 @@ limitations under the License.
 
     test('draft prevent save when disabled', () => {
       const saveStub = sandbox.stub(element, 'save');
+      element.showActions = true;
       element.draft = true;
+      MockInteractions.tap(element.$.header);
       MockInteractions.tap(element.$$('.edit'));
       element._messageText = 'good news, everyone!';
       element.flushDebouncer('fire-update');
@@ -680,7 +682,7 @@ limitations under the License.
       assert.isFalse(element.$$('.resolve input').checked);
     });
 
-    test('resolved checkbox saves when !editing', () => {
+    test('resolved checkbox saves with tap when !editing', () => {
       element.editing = false;
       const save = sandbox.stub(element, 'save');
 
@@ -688,6 +690,9 @@ limitations under the License.
       assert.isTrue(element.$$('.resolve input').checked);
       element.comment = {unresolved: true};
       assert.isFalse(element.$$('.resolve input').checked);
+      assert.isFalse(save.called);
+      MockInteractions.tap(element.$.resolvedCheckbox);
+      assert.isTrue(element.$$('.resolve input').checked);
       assert.isTrue(save.called);
     });
 

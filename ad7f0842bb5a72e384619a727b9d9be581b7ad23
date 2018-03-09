@@ -34,6 +34,24 @@
       "revId": "ad7f0842bb5a72e384619a727b9d9be581b7ad23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7019a1c_f1277894",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-09T13:09:26Z",
+      "side": 1,
+      "message": "I don\u0027t think I understand enough about the output of Prolog Cafe in order to answer the question of whether this is an acceptable behavior change.\n\nLet\u0027s just take this method on its face. Suppose the input \"results\" list ends with an OK term followed by a NOT_READY term. Prior to this change, it would return two SubmitRecords, because it would add the NOT_READY record to \"out\" before short-circuiting after seeing the OK record. After this change it would omit the NOT_READY record, so that\u0027s a behavior change.\n\nHowever, I am not sure how that would ever happens in practice. AFAICT from looking at the output of this method in a debugger on master, in both the OK and NOT_READY cases, it returns a singleton list where the one SubmitRecord contains multiple Labels for each of the approved/missing labels. If the input \"results\" list only ever contains a single record, then this change is a no-op. (If this is in fact an invariant, honestly I would recommend changing this method to check that the input list has one element and avoid the confusing loop.)\n\nBut I\u0027m guessing that Maxime has made this change for a concrete reason. What am I missing? Under what conditions can the Prolog engine actually return multiple submit record terms? Can we write a small test that would demonstrate the intended behavior change?\n\n(By the way, if you\u0027re wondering about the historical reason for having multiple submit records *and* each submit record has multiple labels...well, I got nothin.)",
+      "parentUuid": "085b6009_a57f633b",
+      "revId": "ad7f0842bb5a72e384619a727b9d9be581b7ad23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

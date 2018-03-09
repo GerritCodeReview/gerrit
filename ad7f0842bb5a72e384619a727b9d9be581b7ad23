@@ -52,6 +52,24 @@
       "revId": "ad7f0842bb5a72e384619a727b9d9be581b7ad23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5253f75_816a4af0",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-09T18:09:15Z",
+      "side": 1,
+      "message": "I might have found the reason why: prolog is able to find multiple solutions for the query.\nIt is an edge case and should not be triggered often, and when it is, it produces inconsistent results.\n\nIf you consider the rules.pl file above ([1]), it always produces three Prolog results, in this order: NOT_READY(Label-A), OK(CR, V) and NOT_READY(Label-B).\n\n----\nsubmit_rule(submit(R)) :-\n   gerrit:uploader(U),\n   R \u003d label(\u0027Label-A\u0027, reject(U)).\n\nsubmit_rule(submit(CR, V)) :-\n    gerrit:uploader(U),\n    CR \u003d label(\u0027Code-Review\u0027, ok(U)),\n    V \u003d label(\u0027Verified\u0027, ok(U)).\n\nsubmit_rule(submit(R)) :-\n    gerrit:uploader(U),\n    R \u003d label(\u0027Label-B\u0027, reject(U)).\n----\n\nThe current Prolog behavior is to keep the OK(CR, V) and NOT_READY(Label-B) records.\nIf the central rule was the default rule (with real validations), it would inconsistently enable the labels \"Label-A, CR, V, Label-B\" ... and \"CR, V, Label-B\" once the change is submittable.\n\nSounds like a bug to me, I would expect the list of labels to be \"immutable\" .. maybe evem \nBUT the objective of this commit is not to fix a bug.\n\nI\u0027ve added a test and marked you as a reviewer, to ensure the behavior is \"documented\" and tested.\nInstead of returning a singleton list, I fake the Status of the SubmitRecords if we find an OK record.\n\nTo be honest, I think returning a singleton list is a better idea than the current implementation, and even if it breaks\nsome rules.pl, I\u0027m sure it will make it much easier to understand how the rules really work.\n\nWhat do you think?",
+      "parentUuid": "b7019a1c_f1277894",
+      "revId": "ad7f0842bb5a72e384619a727b9d9be581b7ad23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

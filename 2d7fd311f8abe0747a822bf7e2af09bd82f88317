@@ -183,6 +183,24 @@
       "revId": "2d7fd311f8abe0747a822bf7e2af09bd82f88317",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0ba1f2d_b1ff4a4d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-09T23:44:42Z",
+      "side": 1,
+      "message": "Oops, including the console this time\nhttp://recordit.co/wWiPgSAdT3",
+      "parentUuid": "3e9b73dc_f7cfa614",
+      "revId": "2d7fd311f8abe0747a822bf7e2af09bd82f88317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

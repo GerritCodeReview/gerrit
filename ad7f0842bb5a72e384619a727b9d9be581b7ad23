@@ -88,6 +88,24 @@
       "revId": "ad7f0842bb5a72e384619a727b9d9be581b7ad23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94a4789f_22366f26",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-09T18:48:39Z",
+      "side": 1,
+      "message": "\u003e I honestly don\u0027t know why this would be considered a better output, given that input, than keeping all 3 records.\nI don\u0027t know either. I may miss the point, but I was only able to produce a list of multiple results by defining submit_rule several times.\nThe results don\u0027t look partial to me either...\n\nI was not able to produce a partial result, but I know Prolog uses a depth-first search algorithm, which might be why the javadoc mentions \"partial results\"\n\n\u003e Can you clarify: returning a singleton list from what? As the \"results\" arg that is an input to this method, or as the return value of this method? If you mean returning a singleton list as the return value of this method, how would you propose combining the NOT_READY(Label-A)/OK(CR, V)/NOT_READY(Label-B) records from your example into a single SubmitRecord?\nI had in mind a singleton of the OK result, but it is a big limitation... removing the `break` might be sufficient: we keep all the results, mark them \"OK\" if at least one is.\n\nThanks a lot!",
+      "parentUuid": "9f414e9c_aeaa571e",
+      "revId": "ad7f0842bb5a72e384619a727b9d9be581b7ad23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

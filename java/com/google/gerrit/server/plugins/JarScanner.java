@@ -335,13 +335,6 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
     if (attributes == null) {
       return Collections.emptyMap();
     }
-    return Maps.transformEntries(
-        attributes,
-        new Maps.EntryTransformer<Object, Object, String>() {
-          @Override
-          public String transformEntry(Object key, Object value) {
-            return (String) value;
-          }
-        });
+    return Maps.transformEntries(attributes, (key, value) -> (String) value);
   }
 }

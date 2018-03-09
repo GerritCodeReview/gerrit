@@ -146,6 +146,30 @@
       "revId": "950ca3bc8679b43e39c67f7daee2140d64a5b6a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab8951db_8477448f",
+        "filename": "java/com/google/gerrit/common/data/SubmitRequirement.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-09T12:25:05Z",
+      "side": 1,
+      "message": "I\u0027ll keep the manual toString, adding a dependency on Guava seems overkill as it would only be used here",
+      "parentUuid": "242697fb_c7af4e7c",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 10
+      },
+      "revId": "950ca3bc8679b43e39c67f7daee2140d64a5b6a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

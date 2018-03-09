@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c1877c93_379d4ee6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-09T23:25:55Z",
+      "side": 1,
+      "message": "The spacebar also toggles the state of a checkbox when it\u0027s focused. (That\u0027s the key I typically use.)\n\nI note in my other comment, though, maybe we don\u0027t want to try to track all the different keys that can change this.",
+      "range": {
+        "startLine": 584,
+        "startChar": 6,
+        "endLine": 585,
+        "endChar": 39
+      },
+      "revId": "2d7fd311f8abe0747a822bf7e2af09bd82f88317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5e9fdab7_89cc32ee",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
         "patchSetId": 5
@@ -88,6 +111,24 @@
       "revId": "2d7fd311f8abe0747a822bf7e2af09bd82f88317",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7630dd6_77a2c6fc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-09T23:25:55Z",
+      "side": 1,
+      "message": "I think I share Kasper\u0027s concern. It seems like this method shouldn\u0027t need to toggle the checked state, since the browser will already do that for whichever keypress is used.\n\nWould it work if we removed the `on-tap` and `on-keydown` handlers, then in the `on-change` handler just do ..\n\n_handleResolvdChanged() {\n  this.resolved \u003d this.$.resolvedCheckbox.checked;\n},\n\n.. ? That way, the checkbox still gets updated by the binding, but even if the binding triggers an `on-change` call, the `_handleResolvdChanged` method would set the value of the underlying boolean to itself, which shouldn\u0027t cause a feedback loop.\n\nWithout the full context, it\u0027s hard for me to evaluate whether that would fix the cascading feedback loop issue, but if it would work, then we don\u0027t have to keep track of the various ways a checkbox can be toggled.",
+      "parentUuid": "0d268eab_dbb50d94",
+      "revId": "2d7fd311f8abe0747a822bf7e2af09bd82f88317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

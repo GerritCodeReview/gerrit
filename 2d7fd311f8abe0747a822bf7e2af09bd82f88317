@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e9fdab7_89cc32ee",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-09T19:14:11Z",
+      "side": 1,
+      "message": "Why are we setting the checked state here, instead of toggling the value of the property to which the checkbox is bound (this.resolved)?",
+      "revId": "2d7fd311f8abe0747a822bf7e2af09bd82f88317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

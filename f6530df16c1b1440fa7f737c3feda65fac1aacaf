@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42d0e26d_ee21b0d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-09T21:57:14Z",
+      "side": 1,
+      "message": "This is cool, and seems like the logical intelligent sort order to me -- but maybe we should have separators with titles for the sections? I could definitely see users being confused at any non-obvious (i.e. completely chronological) sort order for threads.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 65
+      },
+      "revId": "f6530df16c1b1440fa7f737c3feda65fac1aacaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -4,4 +4,7 @@ acceptance_tests(
     srcs = glob(["*IT.java"]),
     group = "server_project",
     labels = ["server"],
+    deps = [
+        "@prolog_runtime//jar",
+    ],
 )

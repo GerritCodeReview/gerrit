@@ -129,6 +129,24 @@
       "revId": "2d7fd311f8abe0747a822bf7e2af09bd82f88317",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de11de13_397f9e99",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-09T23:28:49Z",
+      "side": 1,
+      "message": "The browser doesn\u0027t seem to be doing this though for the enter key at all, even now without this change.",
+      "parentUuid": "e7630dd6_77a2c6fc",
+      "revId": "2d7fd311f8abe0747a822bf7e2af09bd82f88317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

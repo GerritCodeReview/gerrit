@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9736b3a8_d664dd3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-09T05:07:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e0f56f3_1f27f47e",
+      "range": {
+        "startLine": 10,
+        "startChar": 16,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "4c8a803942dbb691fd57f2af627dbe1d3078047a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "532593d5_4e493195",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.html",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "4c8a803942dbb691fd57f2af627dbe1d3078047a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d766e181_436f89c9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-09T05:07:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "532593d5_4e493195",
+      "range": {
+        "startLine": 44,
+        "startChar": 29,
+        "endLine": 44,
+        "endChar": 48
+      },
+      "revId": "4c8a803942dbb691fd57f2af627dbe1d3078047a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

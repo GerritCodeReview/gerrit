@@ -165,6 +165,24 @@
       "revId": "2d7fd311f8abe0747a822bf7e2af09bd82f88317",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e9b73dc_f7cfa614",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-09T23:43:07Z",
+      "side": 1,
+      "message": "Totally fine with the key thing. It still does cause the cascading feedback loop though. the second item tries to save it, and results in an error because it tries to save a draft with an invalid ID because the synced draft has already been updated to the new one returned by the server.\n\nhttp://recordit.co/Fuy4Dw9onO",
+      "parentUuid": "02e9e6b8_4e2af681",
+      "revId": "2d7fd311f8abe0747a822bf7e2af09bd82f88317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

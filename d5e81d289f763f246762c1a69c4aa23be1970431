@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3a748687_6da475e6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-09T23:20:34Z",
+      "side": 1,
+      "message": "I\u0027d actually like to rename this to thread-list-modified. I want to distinguish which section of comments (diff vs thread list) had an update.",
+      "parentUuid": "82519bb2_db3cec58",
+      "range": {
+        "startLine": 249,
+        "startChar": 7,
+        "endLine": 249,
+        "endChar": 14
+      },
+      "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32097fe7_9c1a8889",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20a20e8e_2e86f60f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-09T23:20:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32097fe7_9c1a8889",
+      "range": {
+        "startLine": 408,
+        "startChar": 8,
+        "endLine": 409,
+        "endChar": 19
+      },
+      "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "6e607ae5_4e9590ca",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-09T23:20:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "278b786f_eb74a130",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 6
+      },
+      "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f2d021d_2e1cdb03",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
         "patchSetId": 2
@@ -85,6 +157,24 @@
       "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dd14b93_38648bdc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-09T23:20:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f2d021d_2e1cdb03",
+      "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -108,6 +198,30 @@
       "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e647af9a_d234b8cb",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-09T23:20:34Z",
+      "side": 1,
+      "message": "gr-diff-comment fires comment-update for when a comment is modified in certain circumstances in which it is not saved or discarded, and I specifically do not want to capture those.  I don\u0027t see why the event name is an issue as it describes exactly the actions of interest. I don\u0027t see why there would be two events to trigger the exact same function?",
+      "parentUuid": "4099f940_5c4376ad",
+      "range": {
+        "startLine": 88,
+        "startChar": 12,
+        "endLine": 88,
+        "endChar": 41
+      },
+      "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

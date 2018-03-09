@@ -16,6 +16,24 @@
       "revId": "2d7fd311f8abe0747a822bf7e2af09bd82f88317",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1aeaf0be_59988b22",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-09T19:15:51Z",
+      "side": 1,
+      "message": "Because at this point, the value of the checkbox, and hence this.resolved has not changed yet.",
+      "parentUuid": "5e9fdab7_89cc32ee",
+      "revId": "2d7fd311f8abe0747a822bf7e2af09bd82f88317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

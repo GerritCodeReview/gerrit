@@ -375,8 +375,13 @@ public class SubmoduleOp {
     PersonIdent author = null;
     DirCache dc = readTree(or.rw, currentCommit);
     DirCacheEditor ed = dc.editor();
+    int count = 0;
     for (SubmoduleSubscription s : targets.get(subscriber)) {
+      if (count > 0) {
+        msgbuf.append("\n\n");
+      }
       RevCommit newCommit = updateSubmodule(dc, ed, msgbuf, s);
+      count++;
       if (newCommit != null) {
         if (author == null) {
           author = newCommit.getAuthorIdent();

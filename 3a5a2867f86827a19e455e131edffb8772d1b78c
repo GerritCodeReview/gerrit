@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0db80af4_d4f5efbd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-09T23:47:45Z",
+      "side": 1,
+      "message": "I think these arguments are backwards. Same on l.1139.",
+      "range": {
+        "startLine": 409,
+        "startChar": 36,
+        "endLine": 409,
+        "endChar": 41
+      },
+      "revId": "3a5a2867f86827a19e455e131edffb8772d1b78c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4e70950_63ddfa8d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1139,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-09T23:47:45Z",
+      "side": 1,
+      "message": "Backward args like l.409.",
+      "range": {
+        "startLine": 1139,
+        "startChar": 38,
+        "endLine": 1139,
+        "endChar": 43
+      },
+      "revId": "3a5a2867f86827a19e455e131edffb8772d1b78c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

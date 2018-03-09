@@ -21,10 +21,71 @@
       change: Object,
       threads: Array,
       changeNum: String,
-      ignoreChanges: {
-        type: Boolean,
-        value: false,
+      _sortedThreads: {
+        type: Array,
+        computed: '_computeSortedThreads(threads.*)',
       },
+    },
+
+    /**
+     * Add observer here so that comments don't trigger an unwanted save
+     * when they are re-arranged upon thread deletion.
+     */
+    observers: ['_computeSortedThreads(threads.*)'],
+
+    /**
+     * Order as follows:
+     *  - Unresolved threads with drafts (reverse chronological)
+     *  - Unresolved threads without drafts (reverse chronological)
+     *  - Resolved threads with drafts (reverse chronological)
+     *  - Resolved threads without drafts (reverse chronological)
+     * @param {!Array} threads
+     * @return {!Array}
+     */
+    _computeSortedThreads(changeRecord) {
+      const threads = changeRecord.base;
+      if (!threads) { return []; }
+      return threads.map(this._getThreadWithSortInfo).sort((c1, c2) => {
+        const c1Date = c1.__date || util.parseDate(c1.updated);
+        const c2Date = c2.__date || util.parseDate(c2.updated);
+        const dateCompare = c2Date - c1Date;
+        if (c2.unresolved || c1.unresolved) {
+          if (!c1.unresolved) { return 1; }
+          if (!c2.unresolved) { return -1; }
+        }
+        if (c2.hasDraft || c1.hasDraft) {
+          if (!c1.hasDraft) { return 1; }
+          if (!c2.hasDraft) { return -1; }
+        }
+
+        if (dateCompare === 0 && (!c1.id || !c1.id.localeCompare)) {
+          return 0;
+        }
+        return dateCompare ? dateCompare : c1.id.localeCompare(c2.id);
+      }).map(threadInfo => threadInfo.thread);
+    },
+
+    _getThreadWithSortInfo(thread) {
+      const lastComment = thread.comments[thread.comments.length - 1] || {};
+      return {
+        thread,
+        unresolved: !!lastComment.unresolved,
+        hasDraft: !!lastComment.__draft,
+        updated: lastComment.updated,
+      };
+    },
+
+    removeThread(rootId) {
+      for (let i = 0; i < this.threads.length; i++) {
+        if (this.threads[i].rootId === rootId) {
+          this.splice('threads', i, 1);
+          return;
+        }
+      }
+    },
+
+    _handleThreadDiscard(e) {
+      this.removeThread(e.detail.rootId);
     },
 
     _isOnParent(side) {

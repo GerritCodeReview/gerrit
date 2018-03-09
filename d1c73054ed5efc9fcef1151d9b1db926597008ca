@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7828ac0b_d448b7d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-09T15:25:02Z",
+      "side": 1,
+      "message": "This should actually be a warning and not info. Also I think it would make sense to report the username here, so may be:\n\n  log.warn(\"Account for the username: {} already exists....\",\n      who.getUserName());",
+      "range": {
+        "startLine": 115,
+        "startChar": 18,
+        "endLine": 115,
+        "endChar": 22
+      },
+      "revId": "d1c73054ed5efc9fcef1151d9b1db926597008ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8367506c_e3cbb988",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-09T15:25:02Z",
+      "side": 1,
+      "message": "We should be consistent with the case in the log messages: \"id\" here or \"ID\" below.",
+      "range": {
+        "startLine": 370,
+        "startChar": 36,
+        "endLine": 370,
+        "endChar": 47
+      },
+      "revId": "d1c73054ed5efc9fcef1151d9b1db926597008ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -60,13 +60,13 @@ public class Assignee extends Composite {
   @UiField(provided = true)
   RemoteSuggestBox suggestBox;
 
-  private AssigneeSuggestOracle assigneeSuggestOracle;
+  private ReviewerSuggestOracle assigneeSuggestOracle;
   private Change.Id changeId;
   private boolean canEdit;
   private AccountInfo currentAssignee;
 
   Assignee() {
-    assigneeSuggestOracle = new AssigneeSuggestOracle();
+    assigneeSuggestOracle = new ReviewerSuggestOracle();
     suggestBox = new RemoteSuggestBox(assigneeSuggestOracle);
     suggestBox.setVisibleLength(55);
     suggestBox.setHintText(Util.C.approvalTableEditAssigneeHint());
@@ -100,6 +100,7 @@ public class Assignee extends Composite {
     this.changeId = info.legacyId();
     this.canEdit = info.hasActions() && info.actions().containsKey("assignee");
     setAssignee(info.assignee());
+    assigneeSuggestOracle.setChange(changeId);
     editAssigneeIcon.setVisible(canEdit);
     if (!canEdit) {
       show.setTitle(null);

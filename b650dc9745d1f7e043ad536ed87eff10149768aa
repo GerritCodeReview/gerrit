@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "59e52abd_66f16e99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-09T12:25:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7428f46d_398d4ec5",
+      "range": {
+        "startLine": 10,
+        "startChar": 38,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "b650dc9745d1f7e043ad536ed87eff10149768aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c05ee34_30e5c7cb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "b650dc9745d1f7e043ad536ed87eff10149768aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1736da37_2261cfad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-09T12:25:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c05ee34_30e5c7cb",
+      "range": {
+        "startLine": 13,
+        "startChar": 26,
+        "endLine": 13,
+        "endChar": 50
+      },
+      "revId": "b650dc9745d1f7e043ad536ed87eff10149768aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "be068989_d028716f",
+        "filename": "java/com/google/gerrit/server/project/RuleEvalException.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-09T12:25:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29fcab44_43d56301",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 27
+      },
+      "revId": "b650dc9745d1f7e043ad536ed87eff10149768aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d377792_48efb174",
         "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
         "patchSetId": 6
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "05f282ed_98df543f",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-09T12:25:02Z",
+      "side": 1,
+      "message": "Ack, according to https://google.github.io/styleguide/javaguide.html#s7.2-summary-fragment, the \"Returns ...\" is the preferred form",
+      "parentUuid": "7d377792_48efb174",
+      "range": {
+        "startLine": 86,
+        "startChar": 8,
+        "endLine": 86,
+        "endChar": 15
+      },
+      "revId": "b650dc9745d1f7e043ad536ed87eff10149768aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06497f6d_49f04002",
         "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
         "patchSetId": 6
@@ -114,6 +210,30 @@
       "revId": "b650dc9745d1f7e043ad536ed87eff10149768aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd090263_cfb0377c",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-09T12:25:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06497f6d_49f04002",
+      "range": {
+        "startLine": 126,
+        "startChar": 32,
+        "endLine": 126,
+        "endChar": 47
+      },
+      "revId": "b650dc9745d1f7e043ad536ed87eff10149768aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

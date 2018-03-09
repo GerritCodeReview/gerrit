@@ -86,8 +86,9 @@ limitations under the License.
         background-color: var(--header-background-color);
         padding: 0 var(--default-horizontal-margin);
         position: sticky;
-        /* Needed for the menu dropdowns to display */
-        z-index: 1;
+        /* Needed for the menu dropdowns to display on top of the sticky
+          headers with z-index of 1.*/
+        z-index: 2;
       }
       footer {
         /* The combination of left, width, position allow this to be

@@ -56,5 +56,6 @@ junit_tests(
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
+        "@prolog_runtime//jar",
     ],
 )

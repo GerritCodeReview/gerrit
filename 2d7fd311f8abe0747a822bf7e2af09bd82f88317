@@ -147,6 +147,24 @@
       "revId": "2d7fd311f8abe0747a822bf7e2af09bd82f88317",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02e9e6b8_4e2af681",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-09T23:34:25Z",
+      "side": 1,
+      "message": "\u003e The browser doesn\u0027t seem to be doing this though for the enter key at all, even now without this change.\n\nAt least I wasn\u0027t aware of the enter interaction for checkboxes. The spacebar does seem to work though.\n\nAt any rate, I think this lends to the argument that we might not want to manually interpret key events.",
+      "parentUuid": "de11de13_397f9e99",
+      "revId": "2d7fd311f8abe0747a822bf7e2af09bd82f88317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

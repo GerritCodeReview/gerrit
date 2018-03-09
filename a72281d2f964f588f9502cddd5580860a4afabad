@@ -22,6 +22,30 @@
       "revId": "a72281d2f964f588f9502cddd5580860a4afabad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bd39eb1_bfd9ce9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1056821
+      },
+      "writtenOn": "2018-03-09T11:18:53Z",
+      "side": 1,
+      "message": "Valid point, David. For the current purpose and in my understanding, though, the knowledge of capabilities is not required for low-level tasks such as rate limiting (being my intention), where the mere knowledge of the user\u0027s identity is required. Otherwise, an early request to find the not yet established user leads to the user being declared \"anonymous\" and a bunch of troubles. I might not have the full picture, maybe Sasa or you can comment.",
+      "parentUuid": "1862175e_0f93fa33",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 44
+      },
+      "revId": "a72281d2f964f588f9502cddd5580860a4afabad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

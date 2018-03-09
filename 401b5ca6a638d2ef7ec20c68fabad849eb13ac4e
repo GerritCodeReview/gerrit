@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ccae851_e2d83307",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-09T11:20:36Z",
+      "side": 1,
+      "message": "Looking at the code it looks like this means that the field can be absent.  In that case it might be better to explicitly state that, i.e. something like \"Absent if no label is linked\", or \"Not set if ...\".",
+      "range": {
+        "startLine": 194,
+        "startChar": 38,
+        "endLine": 194,
+        "endChar": 44
+      },
+      "revId": "401b5ca6a638d2ef7ec20c68fabad849eb13ac4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

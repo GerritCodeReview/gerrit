@@ -70,6 +70,24 @@
       "revId": "ad7f0842bb5a72e384619a727b9d9be581b7ad23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f414e9c_aeaa571e",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-09T18:20:27Z",
+      "side": 1,
+      "message": "\u003e The current Prolog behavior is to keep the OK(CR, V) and NOT_READY(Label-B) records.\n\nI honestly don\u0027t know why this would be considered a better output, given that input, than keeping all 3 records.\n\nThe javadoc for this method says \"This skips partial results that occur early in the output\". That might make sense, except I don\u0027t know what a \"partial result\" means in this case. In your example, NOT_READ(Label-A) doesn\u0027t feel \"partial\".\n\n\u003e If the central rule was the default rule (with real validations), it would inconsistently enable the labels \"Label-A, CR, V, Label-B\" ... and \"CR, V, Label-B\" once the change is submittable.\n\u003e \n\u003e Sounds like a bug to me, I would expect the list of labels to be \"immutable\" .. maybe evem \n\u003e BUT the objective of this commit is not to fix a bug.\n\u003e \n\u003e I\u0027ve added a test and marked you as a reviewer, to ensure the behavior is \"documented\" and tested.\n\nThanks, I will look at this, probably not till Monday though. I agree that the goal here should be to document the existing behavior and how that behavior changes over the course of the series.\n\n\u003e To be honest, I think returning a singleton list is a better idea than the current implementation, and even if it breaks\n\u003e some rules.pl, I\u0027m sure it will make it much easier to understand how the rules really work.\n\u003e \n\u003e What do you think?\n\nCan you clarify: returning a singleton list from what? As the \"results\" arg that is an input to this method, or as the return value of this method? If you mean returning a singleton list as the return value of this method, how would you propose combining the NOT_READY(Label-A)/OK(CR, V)/NOT_READY(Label-B) records from your example into a single SubmitRecord?",
+      "parentUuid": "b5253f75_816a4af0",
+      "revId": "ad7f0842bb5a72e384619a727b9d9be581b7ad23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

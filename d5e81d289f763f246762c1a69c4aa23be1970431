@@ -270,6 +270,30 @@
       "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "827f5354_74c0d610",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-09T23:54:11Z",
+      "side": 1,
+      "message": "What situations does comment-updated fire? If it fires on every circumstance of a mutation (including saved and discarded), then maybe we can add a Boolean or an enum on that event\u0027s detail that explains what kind of update it is.",
+      "parentUuid": "a011a746_7615e81a",
+      "range": {
+        "startLine": 88,
+        "startChar": 12,
+        "endLine": 88,
+        "endChar": 41
+      },
+      "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

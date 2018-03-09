@@ -52,6 +52,24 @@
       "revId": "2d7fd311f8abe0747a822bf7e2af09bd82f88317",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f26e89b2_5c938231",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-09T21:36:21Z",
+      "side": 1,
+      "message": "Let me explain why I think this is a problem: modifying the checkbox state directly could result in a situation in which this.resolved !\u003d\u003d this.$.resolvedCheckbox.checked, which seems like a confusing situation to me. Especially because the state is already bound.",
+      "parentUuid": "325353d9_d3ee2c50",
+      "revId": "2d7fd311f8abe0747a822bf7e2af09bd82f88317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

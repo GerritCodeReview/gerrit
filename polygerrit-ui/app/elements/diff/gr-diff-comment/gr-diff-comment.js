@@ -113,10 +113,7 @@
       },
       commentSide: String,
 
-      resolved: {
-        type: Boolean,
-        observer: '_toggleResolved',
-      },
+      resolved: Boolean,
 
       _numPendingDraftRequests: {
         type: Object,
@@ -583,15 +580,18 @@
       this.resolved = !this.resolved;
     },
 
-    _toggleResolved(resolved, previousValue) {
-      // Do not proceed if this call is for the initial definition of the
-      // resolved property.
-      if (previousValue === undefined) { return; }
+    _handleToggleKeypress(e) {
+      // Check if enter key
+      if (e.keyCode !== 13) { return; }
+      this.$.resolvedCheckbox.checked = !this.$.resolvedCheckbox.checked;
+      this._maybeHandleSaveResolved(e);
+    },
 
+    _maybeHandleSaveResolved(e) {
       // Modify payload instead of this.comment, as this.comment is passed from
       // the parent by ref.
       const payload = this._getEventPayload();
-      payload.comment.unresolved = !resolved;
+      payload.comment.unresolved = !this.$.resolvedCheckbox.checked;
       this.fire('comment-update', payload);
       if (!this.editing) {
         // Save the resolved state immediately.

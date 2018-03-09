@@ -252,7 +252,7 @@ public class SubmitRuleEvaluator {
    * output. Later after the loop the out collection is reversed to restore it to the original
    * ordering.
    */
-  private List<SubmitRecord> resultsToSubmitRecord(Term submitRule, List<Term> results) {
+  List<SubmitRecord> resultsToSubmitRecord(Term submitRule, List<Term> results) {
     List<SubmitRecord> out = new ArrayList<>(results.size());
     for (int resultIdx = results.size() - 1; 0 <= resultIdx; resultIdx--) {
       Term submitRecord = results.get(resultIdx);

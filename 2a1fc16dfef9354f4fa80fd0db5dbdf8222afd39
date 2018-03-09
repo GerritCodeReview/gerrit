@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4307d4ef_0d44db5f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-09T06:03:27Z",
+      "side": 1,
+      "message": "this test was failing on master. Not sure why no issue on CI, but it appeared to be because the buttons were not visible due to the comment being collapsed.",
+      "range": {
+        "startLine": 637,
+        "startChar": 3,
+        "endLine": 637,
+        "endChar": 52
+      },
+      "revId": "2a1fc16dfef9354f4fa80fd0db5dbdf8222afd39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

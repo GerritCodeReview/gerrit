@@ -22,6 +22,30 @@
       "revId": "be3ad89293db8c59d291c58e75e75d0f79251585",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eed35412_6a8137e4",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-09T23:55:37Z",
+      "side": 1,
+      "message": "I\u0027m on board with this change. However, since it will require the thread list to be in gr-change-view (it\u0027s not yet in this change), I\u0027m going to make this change in the next CL.",
+      "parentUuid": "f0ee0c58_c2719907",
+      "range": {
+        "startLine": 94,
+        "startChar": 12,
+        "endLine": 94,
+        "endChar": 25
+      },
+      "revId": "be3ad89293db8c59d291c58e75e75d0f79251585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

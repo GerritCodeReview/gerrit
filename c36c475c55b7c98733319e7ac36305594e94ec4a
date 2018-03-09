@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "244597ad_b14c1e56",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-09T19:16:24Z",
+      "side": 1,
+      "message": "This looks like a good fix, even though I dislike how z-index values get out of hand.\n\nWhy skip all the way to 100 rather than 2 or 10 if all it needs is to be greater than 1?",
+      "range": {
+        "startLine": 91,
+        "startChar": 17,
+        "endLine": 91,
+        "endChar": 20
+      },
+      "revId": "c36c475c55b7c98733319e7ac36305594e94ec4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

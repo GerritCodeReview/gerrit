@@ -246,6 +246,30 @@
       "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a011a746_7615e81a",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-09T23:46:53Z",
+      "side": 1,
+      "message": "I\u0027m unsure how to make the distinction between comment-updated and comment-changed not confusing.",
+      "parentUuid": "dd93b85d_ef75d028",
+      "range": {
+        "startLine": 88,
+        "startChar": 12,
+        "endLine": 88,
+        "endChar": 41
+      },
+      "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

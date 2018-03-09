@@ -22,6 +22,30 @@
       "revId": "23d9584b265308cf1d947e55765f3e74f33893b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa3ebc07_9b58180e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-09T18:00:01Z",
+      "side": 1,
+      "message": "Interestingly pressing enter doesn\u0027t work at all now. I added this capability in the next patch.",
+      "parentUuid": "ea1bd3f9_ad2b84ed",
+      "range": {
+        "startLine": 295,
+        "startChar": 18,
+        "endLine": 296,
+        "endChar": 51
+      },
+      "revId": "23d9584b265308cf1d947e55765f3e74f33893b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

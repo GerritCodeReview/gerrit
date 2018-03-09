@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82519bb2_db3cec58",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-09T22:04:41Z",
+      "side": 1,
+      "message": "Do we have any \"threads\" that aren\u0027t \"comment-threads\"? If not, I think we can drop this qualifier and save some horizontal space. Up to you, though.",
+      "range": {
+        "startLine": 249,
+        "startChar": 7,
+        "endLine": 249,
+        "endChar": 14
+      },
+      "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32097fe7_9c1a8889",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-09T22:04:41Z",
+      "side": 1,
+      "message": "Indentation seems off here.",
+      "range": {
+        "startLine": 408,
+        "startChar": 8,
+        "endLine": 409,
+        "endChar": 19
+      },
+      "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "278b786f_eb74a130",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-09T22:04:41Z",
+      "side": 1,
+      "message": "Is such an extensive mock needed for these added tests? It looks like you really only need _an object_ to return for this test, not all of this data.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 6
+      },
+      "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f2d021d_2e1cdb03",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-09T22:04:41Z",
+      "side": 1,
+      "message": "Extra whitespace.",
+      "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4099f940_5c4376ad",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-09T22:04:41Z",
+      "side": 1,
+      "message": "I don\u0027t like this event name. Could we have just \"comment-modified\"? Or maybe have two events, \"comment-saved\" and \"comment-discarded\".",
+      "range": {
+        "startLine": 88,
+        "startChar": 12,
+        "endLine": 88,
+        "endChar": 41
+      },
+      "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

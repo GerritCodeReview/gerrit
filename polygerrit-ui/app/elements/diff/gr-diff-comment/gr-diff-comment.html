@@ -290,8 +290,10 @@ limitations under the License.
           <div class="action resolve hideOnPublished">
             <label>
               <input type="checkbox"
+                  id="resolvedCheckbox"
                   checked$="[[resolved]]"
-                  on-change="_handleToggleResolved">
+                  on-change="_handleToggleResolved"
+                  on-tap="_maybeHandleSaveResolved">
               Resolved
             </label>
           </div>

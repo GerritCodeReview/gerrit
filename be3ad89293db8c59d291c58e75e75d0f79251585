@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0ee0c58_c2719907",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-09T23:52:39Z",
+      "side": 1,
+      "message": "Optional nit: Since the place this is handled is the change view, which also hosts the thread-list element, it looks like this event doesn\u0027t need to bubble or be handled via a listener. Instead maybe the change-view\u0027s HTML can use something like ..\n\n on-thread-list-modified\u003d\"_handleReloadDiffComments\"",
+      "range": {
+        "startLine": 94,
+        "startChar": 12,
+        "endLine": 94,
+        "endChar": 25
+      },
+      "revId": "be3ad89293db8c59d291c58e75e75d0f79251585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

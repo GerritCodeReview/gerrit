@@ -318,6 +318,30 @@
       "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b67f5075_dd2d78ef",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-10T00:09:03Z",
+      "side": 1,
+      "message": "`thread-changed`? That follows the event naming schema we\u0027re starting to establish here.",
+      "parentUuid": "ddf9a2f0_22cd4618",
+      "range": {
+        "startLine": 88,
+        "startChar": 12,
+        "endLine": 88,
+        "endChar": 41
+      },
+      "revId": "d5e81d289f763f246762c1a69c4aa23be1970431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

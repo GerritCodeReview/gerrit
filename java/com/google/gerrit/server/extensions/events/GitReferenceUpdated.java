@@ -21,11 +21,13 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.AccountState;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
+@Singleton
 public class GitReferenceUpdated {
   public static final GitReferenceUpdated DISABLED =
       new GitReferenceUpdated() {

@@ -6,6 +6,7 @@
 To build Gerrit from source, you need:
 
 * A Linux or macOS system (Windows is not supported at this time)
+* Python (2 or 3)
 * A JDK for Java 8
 * Node.js
 * link:https://www.bazel.io/versions/master/docs/install.html[Bazel]

@@ -32,7 +32,6 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.pgm.util.ThreadLimiter;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
@@ -166,7 +165,6 @@ public class Reindex extends SiteProgram {
           @Override
           protected void configure() {
             factory(ChangeResource.Factory.class);
-            bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
           }
         });
 

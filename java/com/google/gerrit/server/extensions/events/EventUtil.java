@@ -35,6 +35,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.EnumSet;
@@ -43,6 +44,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Singleton
 public class EventUtil {
   private static final Logger log = LoggerFactory.getLogger(EventUtil.class);
 

@@ -130,6 +130,7 @@ public class CreateProjectScreen extends Screen {
     addGrid(fp);
 
     emptyCommit = new CheckBox(AdminConstants.I.checkBoxEmptyCommit());
+    emptyCommit.setValue(true);
     permissionsOnly = new CheckBox(AdminConstants.I.checkBoxPermissionsOnly());
     fp.add(emptyCommit);
     fp.add(permissionsOnly);

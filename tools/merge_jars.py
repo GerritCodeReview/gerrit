@@ -39,14 +39,12 @@ try:
             continue
           elif n.startswith(SERVICES):
             # Concatenate all provider configuration files.
-            myfile = inzip.open(n, 'r')
-            myfile = io.TextIOWrapper(myfile, encoding='iso-8859-1', newline='')
-            services[n] += myfile.read()
+            services[n] += inzip.read(n).decode("UTF-8")
             continue
           outzip.writestr(info, inzip.read(n))
           seen.add(n)
 
-    for n, v in services.items():
+    for n, v in list(services.items()):
       outzip.writestr(n, v)
 except Exception as err:
   exit('Failed to merge jars: %s' % err)

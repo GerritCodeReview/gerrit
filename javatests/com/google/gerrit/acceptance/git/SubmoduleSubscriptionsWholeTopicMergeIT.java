@@ -313,6 +313,52 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     expectToHaveSubmoduleState(superRepo, "master", "sub2", sub2, "master");
     expectToHaveSubmoduleState(superRepo, "master", "sub3", sub3, "master");
 
+    String sub1HEAD =
+        sub1.git()
+            .fetch()
+            .setRemote("origin")
+            .call()
+            .getAdvertisedRef("refs/heads/master")
+            .getObjectId()
+            .name();
+
+    String sub2HEAD =
+        sub2.git()
+            .fetch()
+            .setRemote("origin")
+            .call()
+            .getAdvertisedRef("refs/heads/master")
+            .getObjectId()
+            .name();
+
+    String sub3HEAD =
+        sub3.git()
+            .fetch()
+            .setRemote("origin")
+            .call()
+            .getAdvertisedRef("refs/heads/master")
+            .getObjectId()
+            .name();
+
+    if (getSubmitType() == SubmitType.MERGE_IF_NECESSARY) {
+      expectToHaveCommitMessage(
+          superRepo,
+          "master",
+          "Update git submodules\n\n"
+              + "* Update "
+              + name("sub3")
+              + " from branch 'master'\n  to "
+              + sub3HEAD
+              + "\n\n* Update "
+              + name("sub2")
+              + " from branch 'master'\n  to "
+              + sub2HEAD
+              + "\n\n* Update "
+              + name("sub1")
+              + " from branch 'master'\n  to "
+              + sub1HEAD);
+    }
+
     superRepo
         .git()
         .fetch()

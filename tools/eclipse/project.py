@@ -68,7 +68,7 @@ def retrieve_ext_location():
   return check_output(_build_bazel_cmd('info', 'output_base')).strip()
 
 def gen_bazel_path():
-  bazel = check_output(['which', 'bazel']).strip()
+  bazel = check_output(['which', 'bazel']).strip().decode('UTF-8')
   with open(path.join(ROOT, ".bazel_path"), 'w') as fd:
     fd.write("bazel=%s\n" % bazel)
     fd.write("PATH=%s\n" % environ["PATH"])

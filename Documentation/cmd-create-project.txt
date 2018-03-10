@@ -60,7 +60,14 @@ This command is intended to be used in scripts.
 
 --owner::
 -o::
-	Name of the group(s) which will initially own this repository.
+	Identifier of the group(s) which will initially own this repository.
+
+        This can be:
+
+        * the UUID of the group
+        * the legacy numeric ID of the group
+        * the name of the group if it is unique
+
 	The specified group(s) must already be defined within Gerrit.
 	Several groups can be specified on the command line.
 +

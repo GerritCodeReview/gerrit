@@ -14,12 +14,18 @@
 
 package com.google.gerrit.server.args4j;
 
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
+import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.Optional;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
@@ -29,20 +35,50 @@ import org.kohsuke.args4j.spi.Setter;
 
 public class AccountGroupUUIDHandler extends OptionHandler<AccountGroup.UUID> {
   private final GroupBackend groupBackend;
+  private final GroupControl.Factory groupControlFactory;
+  private final GroupCache groupCache;
 
   @Inject
   public AccountGroupUUIDHandler(
       final GroupBackend groupBackend,
+      final GroupControl.Factory groupControlFactory,
       @Assisted final CmdLineParser parser,
       @Assisted final OptionDef option,
-      @Assisted final Setter<AccountGroup.UUID> setter) {
+      @Assisted final Setter<AccountGroup.UUID> setter,
+      GroupCache groupCache) {
     super(parser, option, setter);
     this.groupBackend = groupBackend;
+    this.groupControlFactory = groupControlFactory;
+    this.groupCache = groupCache;
   }
 
   @Override
   public final int parseArguments(Parameters params) throws CmdLineException {
     final String n = params.getParameter(0);
+    AccountGroup.UUID uuid = new AccountGroup.UUID(n);
+    if (groupBackend.handles(uuid)) {
+      GroupDescription.Basic d = groupBackend.get(uuid);
+      if (d != null) {
+        setter.addValue(uuid);
+        return 1;
+      }
+    }
+
+    // Might be a numeric AccountGroup.Id. -> Internal group.
+    if (n.matches("^[1-9][0-9]*$")) {
+      try {
+        AccountGroup.Id groupId = AccountGroup.Id.parse(n);
+        Optional<InternalGroup> groupInternal = groupCache.get(groupId);
+        if (groupInternal.isPresent()) {
+          uuid = new InternalGroupDescription(groupInternal.get()).getGroupUUID();
+          setter.addValue(uuid);
+          return 1;
+        }
+      } catch (IllegalArgumentException e) {
+        // Ignored
+      }
+    }
+
     GroupReference group = GroupBackends.findExactSuggestion(groupBackend, n);
     if (group == null) {
       throw new CmdLineException(owner, "Group \"" + n + "\" does not exist");
@@ -56,3 +92,4 @@ public class AccountGroupUUIDHandler extends OptionHandler<AccountGroup.UUID> {
     return "GROUP";
   }
 }
+

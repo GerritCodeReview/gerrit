@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef4d9292_58bf454a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-11T21:01:23Z",
+      "side": 1,
+      "message": "This data binding wasn\u0027t updating as expected when resolved changed. Turns out, it shouldn\u0027t have the \u0027$\u0027",
+      "range": {
+        "startLine": 294,
+        "startChar": 18,
+        "endLine": 294,
+        "endChar": 40
+      },
+      "revId": "fc18085eeb82894ab8edbde174bca332ea4681f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

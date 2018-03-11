@@ -47,46 +47,60 @@ limitations under the License.
       .weblinks.show {
         display: block;
       }
+      .loading {
+        display: none;
+      }
+      #loading.loading {
+        display: block;
+      }
+      #loading:not(.loading) {
+        display: none;
+      }
     </style>
     <style include="gr-menu-page-styles"></style>
     <main class$="[[_computeAdminClass(_isAdmin, _canUpload)]]">
-      <template is="dom-if" if="[[_inheritsFrom]]">
-        <h3 id="inheritsFrom">Rights Inherit From
-          <a href$="[[_computeParentHref(_inheritsFrom.name)]]" rel="noopener">
-              [[_inheritsFrom.name]]</a>
-        </h3>
-      </template>
-      <div class$="weblinks [[_computeWebLinkClass(_weblinks)]]">
-        History:
-        <template is="dom-repeat" items="[[_weblinks]]" as="link">
-          <a href="[[link.url]]" class="weblink" rel="noopener" target="[[link.target]]">
-            [[link.name]]
-          </a>
-        </template>
+      <div id="loading" class$="[[_computeLoadingClass(_loading)]]">
+        Loading...
       </div>
-      <gr-button id="editBtn"
-          class$="[[_computeShowEditClass(_sections)]]"
-          on-tap="_handleEdit">[[_editOrCancel(_editing)]]</gr-button>
-      <gr-button id="saveBtn"
-          primary
-          class$="[[_computeShowSaveClass(_editing)]]"
-          on-tap="_handleSaveForReview"
-          disabled$="[[!_modified]]">
-            Save for review</gr-button>
-      <template
-          is="dom-repeat"
-          items="{{_sections}}"
-          as="section">
-        <gr-access-section
-            capabilities="[[_capabilities]]"
-            section="{{section}}"
-            labels="[[_labels]]"
-            editing="[[_editing]]"
-            groups="[[_groups]]"></gr-access-section>
-      </template>
-      <gr-button id="addReferenceBtn"
-          class$="[[_computeShowSaveClass(_editing)]]"
-          on-tap="_handleCreateSection">Add Reference</gr-button>
+      <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
+        <template is="dom-if" if="[[_inheritsFrom]]">
+          <h3 id="inheritsFrom">Rights Inherit From
+            <a href$="[[_computeParentHref(_inheritsFrom.name)]]" rel="noopener">
+                [[_inheritsFrom.name]]</a>
+          </h3>
+        </template>
+        <div class$="weblinks [[_computeWebLinkClass(_weblinks)]]">
+          History:
+          <template is="dom-repeat" items="[[_weblinks]]" as="link">
+            <a href="[[link.url]]" class="weblink" rel="noopener" target="[[link.target]]">
+              [[link.name]]
+            </a>
+          </template>
+        </div>
+        <gr-button id="editBtn"
+            class$="[[_computeShowEditClass(_sections)]]"
+            on-tap="_handleEdit">[[_editOrCancel(_editing)]]</gr-button>
+        <gr-button id="saveBtn"
+            primary
+            class$="[[_computeShowSaveClass(_editing)]]"
+            on-tap="_handleSaveForReview"
+            disabled$="[[!_modified]]">
+              Save for review</gr-button>
+        <template
+            is="dom-repeat"
+            items="{{_sections}}"
+            as="section">
+          <gr-access-section
+              capabilities="[[_capabilities]]"
+              section="{{section}}"
+              labels="[[_labels]]"
+              editing="[[_editing]]"
+              groups="[[_groups]]"></gr-access-section>
+        </template>
+        <gr-button id="addReferenceBtn"
+            class$="[[_computeShowSaveClass(_editing)]]"
+            on-tap="_handleCreateSection">Add Reference</gr-button>
+      </div>
     </main>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

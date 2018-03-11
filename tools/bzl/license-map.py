@@ -113,8 +113,13 @@ for n in sorted(graph.keys()):
   print()
   print("[[%s_license]]" % safename)
   print("----")
-  with open(n[2:].replace(":", "/")) as fd:
-    copyfileobj(fd, stdout)
+  filename = n[2:].replace(":", "/")
+  try:
+    with open(filename, errors='ignore') as fd:
+      copyfileobj(fd, stdout)
+  except TypeError:
+    with open(filename) as fd:
+      copyfileobj(fd, stdout)
   print()
   print("----")
   print()

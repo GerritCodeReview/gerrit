@@ -23,10 +23,12 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.sql.Timestamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Singleton
 public class PrivateStateChanged {
   private static final Logger log = LoggerFactory.getLogger(PrivateStateChanged.class);
 

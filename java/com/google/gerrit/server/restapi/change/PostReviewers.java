@@ -26,6 +26,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -39,7 +40,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -47,13 +47,10 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.GroupMembers;
-import com.google.gerrit.server.change.ChangeMessages;
-import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.NotifyUtil;
-import com.google.gerrit.server.change.ReviewerResource;
-import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
@@ -66,8 +63,6 @@ import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.restapi.account.AccountsCollection;
-import com.google.gerrit.server.restapi.group.GroupsCollection;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -96,7 +91,7 @@ public class PostReviewers
   private final PermissionBackend permissionBackend;
 
   private final GroupsCollection groupsCollection;
-  private final GroupMembers groupMembers;
+  private final GroupMembers.Factory groupMembersFactory;
   private final AccountLoader.Factory accountLoaderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeData.Factory changeDataFactory;
@@ -116,7 +111,7 @@ public class PostReviewers
       ReviewerResource.Factory reviewerFactory,
       PermissionBackend permissionBackend,
       GroupsCollection groupsCollection,
-      GroupMembers groupMembers,
+      GroupMembers.Factory groupMembersFactory,
       AccountLoader.Factory accountLoaderFactory,
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
@@ -135,7 +130,7 @@ public class PostReviewers
     this.reviewerFactory = reviewerFactory;
     this.permissionBackend = permissionBackend;
     this.groupsCollection = groupsCollection;
-    this.groupMembers = groupMembers;
+    this.groupMembersFactory = groupMembersFactory;
     this.accountLoaderFactory = accountLoaderFactory;
     this.dbProvider = db;
     this.changeDataFactory = changeDataFactory;
@@ -187,20 +182,24 @@ public class PostReviewers
       return fail(reviewer, e.getMessage());
     }
     boolean confirmed = input.confirmed();
-    boolean allowByEmail =
-        projectCache
-            .checkedGet(rsrc.getProject())
-            .is(BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL);
+    boolean allowByEmail = projectCache.checkedGet(rsrc.getProject()).isEnableReviewerByEmail();
 
     Addition byAccountId =
         addByAccountId(reviewer, rsrc, state, notify, accountsToNotify, allowGroup, allowByEmail);
+
+    Addition wholeGroup = null;
+    if (byAccountId == null || !byAccountId.exactMatchFound) {
+      wholeGroup =
+          addWholeGroup(
+              reviewer, rsrc, state, notify, accountsToNotify, confirmed, allowGroup, allowByEmail);
+      if (wholeGroup != null && wholeGroup.exactMatchFound) {
+        return wholeGroup;
+      }
+    }
+
     if (byAccountId != null) {
       return byAccountId;
     }
-
-    Addition wholeGroup =
-        addWholeGroup(
-            reviewer, rsrc, state, notify, accountsToNotify, confirmed, allowGroup, allowByEmail);
     if (wholeGroup != null) {
       return wholeGroup;
     }
@@ -210,13 +209,14 @@ public class PostReviewers
 
   Addition ccCurrentUser(CurrentUser user, RevisionResource revision) {
     return new Addition(
-        user.getUserName().orElse(null),
+        user.getUserName(),
         revision.getChangeResource(),
         ImmutableSet.of(user.getAccountId()),
         null,
         CC,
         NotifyHandling.NONE,
-        ImmutableListMultimap.of());
+        ImmutableListMultimap.of(),
+        true);
   }
 
   @Nullable
@@ -229,9 +229,14 @@ public class PostReviewers
       boolean allowGroup,
       boolean allowByEmail)
       throws OrmException, PermissionBackendException, IOException, ConfigInvalidException {
-    Account.Id accountId = null;
+    IdentifiedUser user = null;
+    boolean exactMatchFound = false;
     try {
-      accountId = accounts.parse(reviewer).getAccountId();
+      user = accounts.parse(reviewer);
+      if (reviewer.equalsIgnoreCase(user.getName())
+          || reviewer.equals(String.valueOf(user.getAccountId()))) {
+        exactMatchFound = true;
+      }
     } catch (UnprocessableEntityException | AuthException e) {
       // AuthException won't occur since the user is authenticated at this point.
       if (!allowGroup && !allowByEmail) {
@@ -242,13 +247,20 @@ public class PostReviewers
       return null;
     }
 
-    ReviewerResource rrsrc = reviewerFactory.create(rsrc, accountId);
+    ReviewerResource rrsrc = reviewerFactory.create(rsrc, user.getAccountId());
     Account member = rrsrc.getReviewerUser().getAccount();
     PermissionBackend.ForRef perm =
         permissionBackend.user(rrsrc.getReviewerUser()).ref(rrsrc.getChange().getDest());
     if (isValidReviewer(member, perm)) {
       return new Addition(
-          reviewer, rsrc, ImmutableSet.of(member.getId()), null, state, notify, accountsToNotify);
+          reviewer,
+          rsrc,
+          ImmutableSet.of(member.getId()),
+          null,
+          state,
+          notify,
+          accountsToNotify,
+          exactMatchFound);
     }
     if (!member.isActive()) {
       if (allowByEmail && state == CC) {
@@ -270,7 +282,7 @@ public class PostReviewers
       boolean confirmed,
       boolean allowGroup,
       boolean allowByEmail)
-      throws IOException, PermissionBackendException {
+      throws OrmException, IOException, PermissionBackendException {
     if (!allowGroup) {
       return null;
     }
@@ -295,7 +307,14 @@ public class PostReviewers
     Set<Account.Id> reviewers = new HashSet<>();
     Set<Account> members;
     try {
-      members = groupMembers.listAccounts(group.getGroupUUID(), rsrc.getProject());
+      members =
+          groupMembersFactory
+              .create(rsrc.getUser())
+              .listAccounts(group.getGroupUUID(), rsrc.getProject());
+    } catch (NoSuchGroupException e) {
+      return fail(
+          reviewer,
+          MessageFormat.format(ChangeMessages.get().reviewerNotFoundUserOrGroup, group.getName()));
     } catch (NoSuchProjectException e) {
       return fail(reviewer, e.getMessage());
     }
@@ -328,7 +347,7 @@ public class PostReviewers
       }
     }
 
-    return new Addition(reviewer, rsrc, reviewers, null, state, notify, accountsToNotify);
+    return new Addition(reviewer, rsrc, reviewers, null, state, notify, accountsToNotify, true);
   }
 
   @Nullable
@@ -357,7 +376,7 @@ public class PostReviewers
       return fail(reviewer, MessageFormat.format(ChangeMessages.get().reviewerInvalid, reviewer));
     }
     return new Addition(
-        reviewer, rsrc, null, ImmutableList.of(adr), state, notify, accountsToNotify);
+        reviewer, rsrc, null, ImmutableList.of(adr), state, notify, accountsToNotify, true);
   }
 
   private boolean isValidReviewer(Account member, PermissionBackend.ForRef perm)
@@ -395,6 +414,7 @@ public class PostReviewers
     final ReviewerState state;
     final ChangeNotes notes;
     final IdentifiedUser caller;
+    final boolean exactMatchFound;
 
     Addition(String reviewer) {
       result = new AddReviewerResult(reviewer);
@@ -404,6 +424,7 @@ public class PostReviewers
       state = REVIEWER;
       notes = null;
       caller = null;
+      exactMatchFound = false;
     }
 
     protected Addition(
@@ -413,7 +434,8 @@ public class PostReviewers
         @Nullable Collection<Address> reviewersByEmail,
         ReviewerState state,
         @Nullable NotifyHandling notify,
-        ListMultimap<RecipientType, Account.Id> accountsToNotify) {
+        ListMultimap<RecipientType, Account.Id> accountsToNotify,
+        boolean exactMatchFound) {
       checkArgument(
           reviewers != null || reviewersByEmail != null,
           "must have either reviewers or reviewersByEmail");
@@ -427,6 +449,7 @@ public class PostReviewers
       op =
           postReviewersOpFactory.create(
               rsrc, this.reviewers, this.reviewersByEmail, state, notify, accountsToNotify);
+      this.exactMatchFound = exactMatchFound;
     }
 
     void gatherResults() throws OrmException, PermissionBackendException {
@@ -447,7 +470,7 @@ public class PostReviewers
         result.ccs = Lists.newArrayListWithCapacity(opResult.addedCCs().size());
         for (Account.Id accountId : opResult.addedCCs()) {
           IdentifiedUser u = identifiedUserFactory.create(accountId);
-          result.ccs.add(json.format(new ReviewerInfo(accountId.get()), perm.user(u), cd));
+          result.ccs.add(json.format(caller, new ReviewerInfo(accountId.get()), perm.user(u), cd));
         }
         accountLoaderFactory.create(true).fill(result.ccs);
         for (Address a : reviewersByEmail) {
@@ -460,6 +483,7 @@ public class PostReviewers
           IdentifiedUser u = identifiedUserFactory.create(psa.getAccountId());
           result.reviewers.add(
               json.format(
+                  caller,
                   new ReviewerInfo(psa.getAccountId().get()),
                   perm.user(u),
                   cd,

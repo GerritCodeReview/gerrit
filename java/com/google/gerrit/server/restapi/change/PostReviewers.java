@@ -194,13 +194,22 @@ public class PostReviewers
 
     Addition byAccountId =
         addByAccountId(reviewer, rsrc, state, notify, accountsToNotify, allowGroup, allowByEmail);
+
+
+    Addition wholeGroup = null;
+    if (byAccountId == null || !byAccountId.exactMatchFound) {
+      wholeGroup =
+          addWholeGroup(
+              reviewer, rsrc, state, notify, accountsToNotify, confirmed, allowGroup, allowByEmail);
+      if (wholeGroup != null && wholeGroup.exactMatchFound) {
+        return wholeGroup;
+      }
+    }
+
     if (byAccountId != null) {
       return byAccountId;
     }
 
-    Addition wholeGroup =
-        addWholeGroup(
-            reviewer, rsrc, state, notify, accountsToNotify, confirmed, allowGroup, allowByEmail);
     if (wholeGroup != null) {
       return wholeGroup;
     }
@@ -216,7 +225,8 @@ public class PostReviewers
         null,
         CC,
         NotifyHandling.NONE,
-        ImmutableListMultimap.of());
+        ImmutableListMultimap.of(),
+        true);
   }
 
   @Nullable
@@ -229,9 +239,14 @@ public class PostReviewers
       boolean allowGroup,
       boolean allowByEmail)
       throws OrmException, PermissionBackendException, IOException, ConfigInvalidException {
-    Account.Id accountId = null;
+    IdentifiedUser user = null;
+    boolean exactMatchFound = false;
     try {
-      accountId = accounts.parse(reviewer).getAccountId();
+      user = accounts.parse(reviewer);
+      if (reviewer.equalsIgnoreCase(user.getName())
+          || reviewer.equals(String.valueOf(user.getAccountId()))) {
+        exactMatchFound = true;
+      }
     } catch (UnprocessableEntityException | AuthException e) {
       // AuthException won't occur since the user is authenticated at this point.
       if (!allowGroup && !allowByEmail) {
@@ -242,13 +257,20 @@ public class PostReviewers
       return null;
     }
 
-    ReviewerResource rrsrc = reviewerFactory.create(rsrc, accountId);
+    ReviewerResource rrsrc = reviewerFactory.create(rsrc, user.getAccountId());
     Account member = rrsrc.getReviewerUser().getAccount();
     PermissionBackend.ForRef perm =
         permissionBackend.user(rrsrc.getReviewerUser()).ref(rrsrc.getChange().getDest());
     if (isValidReviewer(member, perm)) {
       return new Addition(
-          reviewer, rsrc, ImmutableSet.of(member.getId()), null, state, notify, accountsToNotify);
+          reviewer,
+          rsrc,
+          ImmutableSet.of(member.getId()),
+          null,
+          state,
+          notify,
+          accountsToNotify,
+          exactMatchFound);
     }
     if (!member.isActive()) {
       if (allowByEmail && state == CC) {
@@ -328,7 +350,7 @@ public class PostReviewers
       }
     }
 
-    return new Addition(reviewer, rsrc, reviewers, null, state, notify, accountsToNotify);
+    return new Addition(reviewer, rsrc, reviewers, null, state, notify, accountsToNotify, true);
   }
 
   @Nullable
@@ -357,7 +379,7 @@ public class PostReviewers
       return fail(reviewer, MessageFormat.format(ChangeMessages.get().reviewerInvalid, reviewer));
     }
     return new Addition(
-        reviewer, rsrc, null, ImmutableList.of(adr), state, notify, accountsToNotify);
+        reviewer, rsrc, null, ImmutableList.of(adr), state, notify, accountsToNotify, true);
   }
 
   private boolean isValidReviewer(Account member, PermissionBackend.ForRef perm)
@@ -395,6 +417,7 @@ public class PostReviewers
     final ReviewerState state;
     final ChangeNotes notes;
     final IdentifiedUser caller;
+    final boolean exactMatchFound;
 
     Addition(String reviewer) {
       result = new AddReviewerResult(reviewer);
@@ -404,6 +427,7 @@ public class PostReviewers
       state = REVIEWER;
       notes = null;
       caller = null;
+      exactMatchFound = false;
     }
 
     protected Addition(
@@ -413,7 +437,8 @@ public class PostReviewers
         @Nullable Collection<Address> reviewersByEmail,
         ReviewerState state,
         @Nullable NotifyHandling notify,
-        ListMultimap<RecipientType, Account.Id> accountsToNotify) {
+        ListMultimap<RecipientType, Account.Id> accountsToNotify,
+        boolean exactMatchFound) {
       checkArgument(
           reviewers != null || reviewersByEmail != null,
           "must have either reviewers or reviewersByEmail");
@@ -427,6 +452,7 @@ public class PostReviewers
       op =
           postReviewersOpFactory.create(
               rsrc, this.reviewers, this.reviewersByEmail, state, notify, accountsToNotify);
+      this.exactMatchFound = exactMatchFound;
     }
 
     void gatherResults() throws OrmException, PermissionBackendException {

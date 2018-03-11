@@ -119,20 +119,24 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     SortedSet<ProjectHolder> projects = new TreeSet<>();
     int changeCount = 0;
     Stopwatch sw = Stopwatch.createStarted();
+    int projectsFailed = 0;
     for (Project.NameKey name : projectCache.all()) {
       try (Repository repo = repoManager.openRepository(name)) {
         int size = ChangeNotes.Factory.scan(repo).size();
         changeCount += size;
         projects.add(new ProjectHolder(name, size));
       } catch (IOException e) {
-        log.error("Error collecting projects", e);
-        return new Result(sw, false, 0, 0);
+        log.error("Error collecting project {}", name, e);
+        projectsFailed++;
+        if (projectsFailed > projects.size() / 2) {
+          log.error("Over 50% of the projects could not be collected: aborted");
+          return new Result(sw, false, 0, 0);
+        }
       }
       pm.update(1);
     }
     pm.endTask();
     setTotalWork(changeCount);
-
     return indexAll(index, projects);
   }
 

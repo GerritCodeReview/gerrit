@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "882c0d86_7da7e9d8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/ProjectLevelConfigIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-11T19:13:38Z",
+      "side": 1,
+      "message": "I would like to see the real merge use case and not only the trivial one: the intersection of parent and child sets is not empty. So that with this addition:\n\n  Config cfg \u003d new Config();\n  cfg.setString(\"s1\", null, \"k1\", \"parentValue1\");\n  cfg.setString(\"s1\", null, \"k2\", \"parentValue2\");\n  cfg.setString(\"s2\", \"ss\", \"k3\", \"parentValue3\");\n  cfg.setString(\"s2\", \"ss\", \"k4\", \"parentValue4\");\n  cfg.setString(\"s1\", null, \"k1\", \"childValue1\");\n  cfg.setString(\"s2\", \"ss\", \"k3\", \"childValue2\");\n  cfg.setString(\"s3\", null, \"k5\", \"childValue3\");\n  cfg.setString(\"s3\", \"ss\", \"k6\", \"childValue4\");\n\nThis test should succeed, without changing the rest code of this test.",
+      "range": {
+        "startLine": 146,
+        "startChar": 4,
+        "endLine": 149,
+        "endChar": 51
+      },
+      "revId": "9f737962a82e190673ce270c7f46addf4cb74287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d3ef928_7aa439d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectLevelConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-11T19:13:38Z",
+      "side": 1,
+      "message": "There is a serious flaw in this merge algorithm, as the major conflict use case was missed:\n\n* Parent: a/b/c\n* Child:  a/b/c\n\nWould erroneously produce:\n\n* a/b/c, a/b/c\n\nwhile it should eliminate the duplicates thus perform a merge and not a union.\n\nThere are number of different approaches how to merge two list of strings with duplicate elimination. One option is to use LinkedHashSet collection, as it is already doing the job: [1], another one-liner option is to use Java 8 stream concatenation with sort/distinct operation chaining idiom: [2].\n\n* [1] http://paste.openstack.org/show/698636\n* [2] http://paste.openstack.org/show/698639",
+      "range": {
+        "startLine": 92,
+        "startChar": 12,
+        "endLine": 92,
+        "endChar": 25
+      },
+      "revId": "9f737962a82e190673ce270c7f46addf4cb74287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a79283e0_891cd859",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectLevelConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-11T19:13:38Z",
+      "side": 1,
+      "message": "Extract a local variable on line 86 above:\n\n  List\u003cString\u003e stringList \u003d \n      Arrays.asList(parentCfg.getStringList(section, null, name));\n\nThis would re-use the same statement from the line 88 and significantly reduce the visual noise.",
+      "range": {
+        "startLine": 92,
+        "startChar": 40,
+        "endLine": 92,
+        "endChar": 84
+      },
+      "revId": "9f737962a82e190673ce270c7f46addf4cb74287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb122192_fdac7ee3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectLevelConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-11T19:13:38Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 108,
+        "startChar": 34,
+        "endLine": 108,
+        "endChar": 92
+      },
+      "revId": "9f737962a82e190673ce270c7f46addf4cb74287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "598b67b3_dde0020f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectLevelConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-11T19:13:38Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 109,
+        "startChar": 14,
+        "endLine": 109,
+        "endChar": 27
+      },
+      "revId": "9f737962a82e190673ce270c7f46addf4cb74287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

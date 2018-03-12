@@ -103,6 +103,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.Groups;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
@@ -273,6 +274,7 @@ public abstract class AbstractDaemonTest {
   @Inject private InProcessProtocol inProcessProtocol;
   @Inject private Provider<AnonymousUser> anonymousUser;
   @Inject private SchemaFactory<ReviewDb> reviewDbProvider;
+  @Inject private AccountIndexer accountIndexer;
   @Inject private Groups groups;
   @Inject private GroupIndexer groupIndexer;
 
@@ -353,6 +355,11 @@ public abstract class AbstractDaemonTest {
     initSsh();
   }
 
+  protected void evictAndReindexAccount(Account.Id accountId) throws IOException {
+    accountCache.evict(accountId);
+    accountIndexer.index(accountId);
+  }
+
   private void reindexAllGroups() throws OrmException, IOException, ConfigInvalidException {
     Iterable<GroupReference> allGroups = groups.getAllGroupReferences(db)::iterator;
     for (GroupReference group : allGroups) {
@@ -416,9 +423,9 @@ public abstract class AbstractDaemonTest {
     admin = accountCreator.admin();
     user = accountCreator.user();
 
-    // Evict cached user state in case tests modify it.
-    accountCache.evict(admin.getId());
-    accountCache.evict(user.getId());
+    // Evict and reindex accounts in case tests modify them.
+    evictAndReindexAccount(admin.getId());
+    evictAndReindexAccount(user.getId());
 
     adminRestSession = new RestSession(server, admin);
     userRestSession = new RestSession(server, user);

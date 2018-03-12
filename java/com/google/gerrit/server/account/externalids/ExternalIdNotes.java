@@ -31,7 +31,9 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.VersionedMetaData;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -109,23 +111,30 @@ public class ExternalIdNotes extends VersionedMetaData {
   public static class Factory implements ExternalIdNotesLoader {
     private final ExternalIdCache externalIdCache;
     private final AccountCache accountCache;
+    private final Provider<AccountIndexer> accountIndexer;
 
     @Inject
-    Factory(ExternalIdCache externalIdCache, AccountCache accountCache) {
+    Factory(
+        ExternalIdCache externalIdCache,
+        AccountCache accountCache,
+        Provider<AccountIndexer> accountIndexer) {
       this.externalIdCache = externalIdCache;
       this.accountCache = accountCache;
+      this.accountIndexer = accountIndexer;
     }
 
     @Override
     public ExternalIdNotes load(Repository allUsersRepo)
         throws IOException, ConfigInvalidException {
-      return new ExternalIdNotes(externalIdCache, accountCache, allUsersRepo).load();
+      return new ExternalIdNotes(externalIdCache, accountCache, accountIndexer, allUsersRepo)
+          .load();
     }
 
     @Override
     public ExternalIdNotes load(Repository allUsersRepo, @Nullable ObjectId rev)
         throws IOException, ConfigInvalidException {
-      return new ExternalIdNotes(externalIdCache, accountCache, allUsersRepo).load(rev);
+      return new ExternalIdNotes(externalIdCache, accountCache, accountIndexer, allUsersRepo)
+          .load(rev);
     }
   }
 
@@ -141,13 +150,13 @@ public class ExternalIdNotes extends VersionedMetaData {
     @Override
     public ExternalIdNotes load(Repository allUsersRepo)
         throws IOException, ConfigInvalidException {
-      return new ExternalIdNotes(externalIdCache, null, allUsersRepo).load();
+      return new ExternalIdNotes(externalIdCache, null, null, allUsersRepo).load();
     }
 
     @Override
     public ExternalIdNotes load(Repository allUsersRepo, @Nullable ObjectId rev)
         throws IOException, ConfigInvalidException {
-      return new ExternalIdNotes(externalIdCache, null, allUsersRepo).load(rev);
+      return new ExternalIdNotes(externalIdCache, null, null, allUsersRepo).load(rev);
     }
   }
 
@@ -159,7 +168,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    */
   public static ExternalIdNotes loadReadOnly(Repository allUsersRepo)
       throws IOException, ConfigInvalidException {
-    return new ExternalIdNotes(new DisabledExternalIdCache(), null, allUsersRepo)
+    return new ExternalIdNotes(new DisabledExternalIdCache(), null, null, allUsersRepo)
         .setReadOnly()
         .load();
   }
@@ -176,7 +185,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    */
   public static ExternalIdNotes loadReadOnly(Repository allUsersRepo, @Nullable ObjectId rev)
       throws IOException, ConfigInvalidException {
-    return new ExternalIdNotes(new DisabledExternalIdCache(), null, allUsersRepo)
+    return new ExternalIdNotes(new DisabledExternalIdCache(), null, null, allUsersRepo)
         .setReadOnly()
         .load(rev);
   }
@@ -189,11 +198,12 @@ public class ExternalIdNotes extends VersionedMetaData {
    */
   public static ExternalIdNotes loadNoCacheUpdate(Repository allUsersRepo)
       throws IOException, ConfigInvalidException {
-    return new ExternalIdNotes(new DisabledExternalIdCache(), null, allUsersRepo).load();
+    return new ExternalIdNotes(new DisabledExternalIdCache(), null, null, allUsersRepo).load();
   }
 
   private final ExternalIdCache externalIdCache;
   @Nullable private final AccountCache accountCache;
+  @Nullable private final Provider<AccountIndexer> accountIndexer;
   private final Repository repo;
 
   private NoteMap noteMap;
@@ -211,9 +221,11 @@ public class ExternalIdNotes extends VersionedMetaData {
   private ExternalIdNotes(
       ExternalIdCache externalIdCache,
       @Nullable AccountCache accountCache,
+      @Nullable Provider<AccountIndexer> accountIndexer,
       Repository allUsersRepo) {
     this.externalIdCache = checkNotNull(externalIdCache, "externalIdCache");
     this.accountCache = accountCache;
+    this.accountIndexer = accountIndexer;
     this.repo = checkNotNull(allUsersRepo, "allUsersRepo");
   }
 
@@ -598,7 +610,8 @@ public class ExternalIdNotes extends VersionedMetaData {
    *
    * <p>No-op if this instance was created by {@link #loadNoCacheUpdate(Repository)}.
    *
-   * <p>No eviction from account cache if this instance was created by {@link FactoryNoReindex}.
+   * <p>No eviction from account cache and no reindex if this instance was created by {@link
+   * FactoryNoReindex}.
    */
   public void updateCaches() throws IOException {
     checkState(oldRev != null, "no changes committed yet");
@@ -614,14 +627,19 @@ public class ExternalIdNotes extends VersionedMetaData {
         externalIdCacheUpdates.getRemoved(),
         externalIdCacheUpdates.getAdded());
 
-    if (accountCache != null) {
+    if (accountCache != null || accountIndexer != null) {
       for (Account.Id id :
           Streams.concat(
                   externalIdCacheUpdates.getAdded().stream(),
                   externalIdCacheUpdates.getRemoved().stream())
               .map(ExternalId::accountId)
               .collect(toSet())) {
-        accountCache.evict(id);
+        if (accountCache != null) {
+          accountCache.evict(id);
+        }
+        if (accountIndexer != null) {
+          accountIndexer.get().index(id);
+        }
       }
     }
 

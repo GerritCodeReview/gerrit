@@ -16,7 +16,6 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
-import java.io.IOException;
 import java.util.Optional;
 
 /** Caches important (but small) account state to avoid database hits. */
@@ -60,13 +59,12 @@ public interface AccountCache {
   Optional<AccountState> getByUsername(String username);
 
   /**
-   * Evicts the account from the cache and triggers a reindex for it.
+   * Evicts the account from the cache.
    *
    * @param accountId account ID of the account that should be evicted
-   * @throws IOException thrown if reindexing fails
    */
-  void evict(@Nullable Account.Id accountId) throws IOException;
+  void evict(@Nullable Account.Id accountId);
 
-  /** Evict all accounts from the cache, but doesn't trigger reindex of all accounts. */
-  void evictAllNoReindex();
+  /** Evict all accounts from the cache. */
+  void evictAll();
 }

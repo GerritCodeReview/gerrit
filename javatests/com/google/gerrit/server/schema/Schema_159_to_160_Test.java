@@ -32,6 +32,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.gerrit.testing.TestUpdateUI;
 import com.google.inject.Inject;
@@ -48,6 +49,7 @@ public class Schema_159_to_160_Test {
   @Rule public InMemoryTestEnvironment testEnv = new InMemoryTestEnvironment();
 
   @Inject private AccountCache accountCache;
+  @Inject private AccountIndexer accountIndexer;
   @Inject private AllUsersName allUsersName;
   @Inject private GerritApi gApi;
   @Inject private GitRepositoryManager repoManager;
@@ -95,6 +97,7 @@ public class Schema_159_to_160_Test {
 
     schema160.migrateData(db, new TestUpdateUI());
     accountCache.evict(accountId);
+    accountIndexer.index(accountId);
     testEnv.setApiUser(accountId);
 
     assertThat(metaRef(accountId)).isNotEqualTo(oldMetaId);

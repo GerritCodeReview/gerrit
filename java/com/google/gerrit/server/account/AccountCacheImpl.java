@@ -25,10 +25,8 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.inject.Inject;
 import com.google.inject.Module;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
@@ -62,18 +60,15 @@ public class AccountCacheImpl implements AccountCache {
   private final AllUsersName allUsersName;
   private final ExternalIds externalIds;
   private final LoadingCache<Account.Id, Optional<AccountState>> byId;
-  private final Provider<AccountIndexer> indexer;
 
   @Inject
   AccountCacheImpl(
       AllUsersName allUsersName,
       ExternalIds externalIds,
-      @Named(BYID_NAME) LoadingCache<Account.Id, Optional<AccountState>> byId,
-      Provider<AccountIndexer> indexer) {
+      @Named(BYID_NAME) LoadingCache<Account.Id, Optional<AccountState>> byId) {
     this.allUsersName = allUsersName;
     this.externalIds = externalIds;
     this.byId = byId;
-    this.indexer = indexer;
   }
 
   @Override
@@ -111,15 +106,14 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   @Override
-  public void evict(@Nullable Account.Id accountId) throws IOException {
+  public void evict(@Nullable Account.Id accountId) {
     if (accountId != null) {
       byId.invalidate(accountId);
-      indexer.get().index(accountId);
     }
   }
 
   @Override
-  public void evictAllNoReindex() {
+  public void evictAll() {
     byId.invalidateAll();
   }
 

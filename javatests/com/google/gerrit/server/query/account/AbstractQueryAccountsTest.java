@@ -62,6 +62,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -92,6 +93,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   @Inject @ServerInitiated protected Provider<AccountsUpdate> accountsUpdate;
 
   @Inject protected AccountCache accountCache;
+
+  @Inject protected AccountIndexer accountIndexer;
 
   @Inject protected AccountManager accountManager;
 
@@ -672,6 +675,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       accountManager.link(id, AuthRequest.forEmail(email));
     }
     accountCache.evict(id);
+    accountIndexer.index(id);
   }
 
   protected QueryRequest newQuery(Object query) throws RestApiException {

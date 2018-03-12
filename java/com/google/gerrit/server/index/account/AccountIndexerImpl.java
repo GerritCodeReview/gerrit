@@ -90,6 +90,8 @@ public class AccountIndexerImpl implements AccountIndexer {
   @Override
   public void index(Account.Id id) throws IOException {
     for (Index<Account.Id, AccountState> i : getWriteIndexes()) {
+      // Evict the cache to get an up-to-date value for sure.
+      byIdCache.evict(id);
       Optional<AccountState> accountState = byIdCache.get(id);
       if (accountState.isPresent()) {
         i.replace(accountState.get());

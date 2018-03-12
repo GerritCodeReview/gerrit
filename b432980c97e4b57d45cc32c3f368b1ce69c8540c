@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c040e635_a36a8ed7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectLevelConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-12T09:22:39Z",
+      "side": 1,
+      "message": "Nit: In my suggestion I assumed that Collectos.toList is imported statically, as we usually do in the code.",
+      "range": {
+        "startLine": 100,
+        "startChar": 29,
+        "endLine": 100,
+        "endChar": 48
+      },
+      "revId": "b432980c97e4b57d45cc32c3f368b1ce69c8540c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2baba989_bf842d65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectLevelConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-12T09:22:39Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 121,
+        "startChar": 31,
+        "endLine": 121,
+        "endChar": 50
+      },
+      "revId": "b432980c97e4b57d45cc32c3f368b1ce69c8540c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

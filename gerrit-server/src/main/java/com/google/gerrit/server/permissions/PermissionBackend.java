@@ -238,7 +238,7 @@ public abstract class PermissionBackend {
         try {
           project(project).check(perm);
           allowed.add(project);
-        } catch (AuthException e) {
+        } catch (AuthException | PermissionBackendException e) {
           // Do not include this project in allowed.
         }
       }

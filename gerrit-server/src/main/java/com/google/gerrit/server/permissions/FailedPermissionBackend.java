@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.permissions;
 
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -83,8 +84,8 @@ public class FailedPermissionBackend {
     }
 
     @Override
-    public void check(ProjectPermission perm) throws PermissionBackendException {
-      throw new PermissionBackendException(message, cause);
+    public void check(ProjectPermission perm) throws AuthException {
+      throw new AuthException(message, cause);
     }
 
     @Override
@@ -129,8 +130,8 @@ public class FailedPermissionBackend {
     }
 
     @Override
-    public void check(RefPermission perm) throws PermissionBackendException {
-      throw new PermissionBackendException(message, cause);
+    public void check(RefPermission perm) throws AuthException {
+      throw new AuthException(message, cause);
     }
 
     @Override
@@ -160,8 +161,8 @@ public class FailedPermissionBackend {
     }
 
     @Override
-    public void check(ChangePermissionOrLabel perm) throws PermissionBackendException {
-      throw new PermissionBackendException(message, cause);
+    public void check(ChangePermissionOrLabel perm) throws AuthException {
+      throw new AuthException(message, cause);
     }
 
     @Override

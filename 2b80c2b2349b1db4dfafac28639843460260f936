@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18a84740_7b6a949b",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-12T10:25:53Z",
+      "side": 1,
+      "message": "nit: add a blank line between static and non-static variables",
+      "revId": "2b80c2b2349b1db4dfafac28639843460260f936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f0f903e_254d0f01",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-12T10:25:53Z",
+      "side": 1,
+      "message": "preferred: ImmutableList.copyOf(...)",
+      "range": {
+        "startLine": 102,
+        "startChar": 11,
+        "endLine": 102,
+        "endChar": 26
+      },
+      "revId": "2b80c2b2349b1db4dfafac28639843460260f936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18017d4b_63b4202d",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-12T10:25:53Z",
+      "side": 1,
+      "message": "This seems to be used only for logging or returning a REST API exception.\n\nWe could either remove this completely or return a list of plugin implementations that gets called when the user calls evaluate.\n\nThe only caller left seems to be the REST API exception handling. I think it would be acceptable to just remove this.",
+      "range": {
+        "startLine": 149,
+        "startChar": 2,
+        "endLine": 149,
+        "endChar": 37
+      },
+      "revId": "2b80c2b2349b1db4dfafac28639843460260f936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c72cb865_73671fbe",
+        "filename": "javatests/com/google/gerrit/server/rules/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-12T10:25:53Z",
+      "side": 1,
+      "message": "Why is this required now?",
+      "revId": "2b80c2b2349b1db4dfafac28639843460260f936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

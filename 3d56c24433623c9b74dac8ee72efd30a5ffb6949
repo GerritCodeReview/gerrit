@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "601ddcc8_544c761f",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-12T15:14:23Z",
+      "side": 1,
+      "message": "Does not work, it\u0027s an interface and Guice ignores \"default\" methods... I wish Java had default parameters, just like Python does!\nI\u0027ll mark it as resolved as I don\u0027t see any solution in Guice\u0027s documentation",
+      "parentUuid": "d187220c_746c9c79",
+      "revId": "3d56c24433623c9b74dac8ee72efd30a5ffb6949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50802794_ace9b45e",
         "filename": "java/com/google/gerrit/server/project/SubmitRuleOptions.java",
         "patchSetId": 9
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "5d9520b5_2ecba65d",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleOptions.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-12T15:14:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50802794_ace9b45e",
+      "range": {
+        "startLine": 28,
+        "startChar": 40,
+        "endLine": 28,
+        "endChar": 55
+      },
+      "revId": "3d56c24433623c9b74dac8ee72efd30a5ffb6949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "348c53e7_cfd748e7",
         "filename": "java/com/google/gerrit/server/project/SubmitRuleOptions.java",
         "patchSetId": 9
@@ -62,6 +104,30 @@
       "revId": "3d56c24433623c9b74dac8ee72efd30a5ffb6949",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfaa9335_bbd7c014",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleOptions.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-12T15:14:23Z",
+      "side": 1,
+      "message": "Done. False used to be the default value, but true seems more appropriate",
+      "parentUuid": "348c53e7_cfd748e7",
+      "range": {
+        "startLine": 32,
+        "startChar": 21,
+        "endLine": 32,
+        "endChar": 26
+      },
+      "revId": "3d56c24433623c9b74dac8ee72efd30a5ffb6949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

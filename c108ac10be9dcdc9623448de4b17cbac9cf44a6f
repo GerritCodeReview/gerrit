@@ -17,6 +17,24 @@
       "revId": "c108ac10be9dcdc9623448de4b17cbac9cf44a6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ba1f67c_d4515390",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-12T13:35:07Z",
+      "side": 1,
+      "message": "Good idea, but I\u0027m not sure it makes much sense since none of these tests can succeed without this change.",
+      "parentUuid": "f26b63ae_dfde0f14",
+      "revId": "c108ac10be9dcdc9623448de4b17cbac9cf44a6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

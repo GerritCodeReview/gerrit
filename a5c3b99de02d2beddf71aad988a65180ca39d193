@@ -287,6 +287,30 @@
     },
     {
       "key": {
+        "uuid": "5fe6c1cb_2e4154a3",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2735,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-03-12T10:26:27Z",
+      "side": 1,
+      "message": "\u003e \u003e AFAIK, all relevant Gerrit plugins are written in Java.\n \u003e All ... except the Prolog rules ;-)\n\nThe whole Prolog machinery was embedded in Gerrit core, right?\nPlugins could contribute custom prolog predicates, but AFAIK\nmost of these are implemented in Java.\n\n \u003e PS: I might work a bit on dependencies across plugins.\nThat would be great.\n\n\u003e If I\n \u003e understand correctly,\n \u003e it was made harder because of the scripting plugins, which are no\n \u003e more?\n\nYes, this is what I remember from talking about that topic with David Ostrovsky who tried implementing plugin dependencies. I think I found\nthese changes [1]\n\n[1] https://gerrit-review.googlesource.com/#/q/status:abandoned+topic:plugin-dependencies",
+      "parentUuid": "98d48dc7_1ed91996",
+      "range": {
+        "startLine": 2734,
+        "startChar": 0,
+        "endLine": 2735,
+        "endChar": 93
+      },
+      "revId": "a5c3b99de02d2beddf71aad988a65180ca39d193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a88f09dd_e2ad5700",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 7

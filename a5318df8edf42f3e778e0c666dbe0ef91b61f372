@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a80a821_6cd7853d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-12T12:18:07Z",
+      "side": 1,
+      "message": "This test class will be executed with different settings for these values. Overwriting the values here will still result in multiple execution of this test. Similar to other tests in this class, I think we should rather add an assumption.",
+      "range": {
+        "startLine": 908,
+        "startChar": 2,
+        "endLine": 909,
+        "endChar": 61
+      },
+      "revId": "a5318df8edf42f3e778e0c666dbe0ef91b61f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc49732e_feb0bba9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-12T12:18:07Z",
+      "side": 1,
+      "message": "This works the way it\u0027s currently used but it\u0027s still a bit dangerous. GroupApi isn\u0027t deliberately implemented in a way to always stay up-to-date. As the Javadoc of ChangeApi#current mentions, storing references to RevisionApi instances isn\u0027t recommended and I would apply the same logic to GroupApi.",
+      "range": {
+        "startLine": 916,
+        "startChar": 4,
+        "endLine": 916,
+        "endChar": 20
+      },
+      "revId": "a5318df8edf42f3e778e0c666dbe0ef91b61f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2babe505_ad3fac2e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-12T12:18:07Z",
+      "side": 1,
+      "message": "The index will still be out-of-date. If both the index and the cache should be updated, we should rather reindex the group.",
+      "range": {
+        "startLine": 921,
+        "startChar": 4,
+        "endLine": 921,
+        "endChar": 20
+      },
+      "revId": "a5318df8edf42f3e778e0c666dbe0ef91b61f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa8a21a2_fe20c430",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-12T12:18:07Z",
+      "side": 1,
+      "message": "This has nothing to do with the test. If we need it, we should move it into deleteGroupRef().\n\nI\u0027m not really sure about the part with the try-catch. Do we really need to verify that the group was deleted? If we test whether the name of the subgroup for the audit event is null, shouldn\u0027t that be sufficient and achieve the same?",
+      "range": {
+        "startLine": 921,
+        "startChar": 4,
+        "endLine": 926,
+        "endChar": 5
+      },
+      "revId": "a5318df8edf42f3e778e0c666dbe0ef91b61f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc2ebb9c_7d89c802",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-12T12:18:07Z",
+      "side": 1,
+      "message": "See my comment below.",
+      "range": {
+        "startLine": 929,
+        "startChar": 4,
+        "endLine": 929,
+        "endChar": 39
+      },
+      "revId": "a5318df8edf42f3e778e0c666dbe0ef91b61f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bea642d_168c46b8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-12T12:18:07Z",
+      "side": 1,
+      "message": "This line doesn\u0027t have anything to do with the test and might be confusing for others who don\u0027t know that the user who creates a group (which is the admin in this case and another implicit detail) is automatically added as member if no owner is specified.\n\nCan\u0027t we rather test that one of the audit events (no matter at which position) is the correct audit event for adding the subgroup?",
+      "range": {
+        "startLine": 931,
+        "startChar": 4,
+        "endLine": 931,
+        "endChar": 82
+      },
+      "revId": "a5318df8edf42f3e778e0c666dbe0ef91b61f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4a1429b_0762795b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 942,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-12T12:18:07Z",
+      "side": 1,
+      "message": "If we force the update, why do we need the old ObjectId?",
+      "range": {
+        "startLine": 942,
+        "startChar": 6,
+        "endLine": 942,
+        "endChar": 54
+      },
+      "revId": "a5318df8edf42f3e778e0c666dbe0ef91b61f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

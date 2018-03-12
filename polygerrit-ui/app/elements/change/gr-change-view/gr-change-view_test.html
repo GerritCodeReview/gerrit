@@ -332,6 +332,30 @@ limitations under the License.
       });
     });
 
+    test('thread list modified', () => {
+      return element._reloadComments().then(() => {
+        let draftStub = sinon.stub(element._changeComments, 'computeDraftCount')
+            .returns(1);
+        assert.equal(element._computeTotalCommentCounts(5,
+            element._changeComments), '5 unresolved, 1 draft');
+        assert.equal(element._computeTotalCommentCounts(0,
+            element._changeComments), '1 draft');
+        draftStub.restore();
+        draftStub = sinon.stub(element._changeComments, 'computeDraftCount')
+            .returns(0);
+        assert.equal(element._computeTotalCommentCounts(0,
+            element._changeComments), '');
+        assert.equal(element._computeTotalCommentCounts(1,
+            element._changeComments), '1 unresolved');
+        draftStub.restore();
+        draftStub = sinon.stub(element._changeComments, 'computeDraftCount')
+            .returns(2);
+        assert.equal(element._computeTotalCommentCounts(1,
+            element._changeComments), '1 unresolved, 2 drafts');
+        draftStub.restore();
+      });
+    });
+
     test('thread list and change log tabs', done => {
       element._changeNum = '1';
       element._patchRange = {

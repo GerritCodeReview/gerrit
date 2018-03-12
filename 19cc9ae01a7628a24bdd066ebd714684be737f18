@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ae9d256_9106ddfa",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-12T17:26:21Z",
+      "side": 1,
+      "message": "This can be combined with #248.",
+      "revId": "19cc9ae01a7628a24bdd066ebd714684be737f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fb4c473_00319e25",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-12T17:26:21Z",
+      "side": 1,
+      "message": "Nit: not so sure about this ID\u0027s correctness. Maybe \"messageTabs\"? What do you think?",
+      "revId": "19cc9ae01a7628a24bdd066ebd714684be737f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77ccd6c1_0f144799",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-12T17:26:21Z",
+      "side": 1,
+      "message": "This element has two class attrs.",
+      "range": {
+        "startLine": 552,
+        "startChar": 0,
+        "endLine": 561,
+        "endChar": 62
+      },
+      "revId": "19cc9ae01a7628a24bdd066ebd714684be737f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30a15510_d6df80f7",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-12T17:26:21Z",
+      "side": 1,
+      "message": "This can be omitted, the default value of bubbles in the CustomEvent constructor is false.",
+      "range": {
+        "startLine": 96,
+        "startChar": 12,
+        "endLine": 96,
+        "endChar": 26
+      },
+      "revId": "19cc9ae01a7628a24bdd066ebd714684be737f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

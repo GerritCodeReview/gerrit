@@ -17,6 +17,24 @@
       "revId": "e5db8ab2261061605c266d30215bd16ce22124d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1867ad52_ca12dff5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/config/GeneralPreferencesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-12T18:41:08Z",
+      "side": 1,
+      "message": "My interpretation of Matthew\u0027s comments in issue 8439 is that he was able to override the defaults, but maybe I\u0027m wrong.",
+      "parentUuid": "8d641f3c_64407c5d",
+      "revId": "e5db8ab2261061605c266d30215bd16ce22124d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -245,6 +245,7 @@
 
     _showKeyboardShortcuts(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (this.params.view === Gerrit.Nav.View.EDIT) { return; }
       this.$.keyboardShortcuts.open();
     },
 

@@ -106,6 +106,18 @@ limitations under the License.
       });
     });
 
+    test('keyboard shortcuts dialog', () => {
+      sandbox.stub(element, 'shouldSuppressKeyboardShortcut');
+      const openStub = sandbox.stub(element.$.keyboardShortcuts, 'open');
+      element.params = {view: Gerrit.Nav.View.EDIT};
+      element._showKeyboardShortcuts();
+      assert.isFalse(openStub.called);
+
+      element.params.view = Gerrit.Nav.View.DASHBOARD;
+      element._showKeyboardShortcuts();
+      assert.isTrue(openStub.called);
+    });
+
     suite('_jumpKeyPressed', () => {
       let navStub;
 

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6147bb60_6782924a",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRulesEvaluatorIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-12T15:47:29Z",
+      "side": 1,
+      "message": "nit: public before private, static before non-static\n\npublic static\npublic\nprivate static\nprivate",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 6
+      },
+      "revId": "4e32357a374e29575f1e1125f616fe562979742d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1ddd769_75aaeeb7",
+        "filename": "javatests/com/google/gerrit/common/data/SubmitRecordTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-12T15:47:29Z",
+      "side": 1,
+      "message": "don\u0027t import inner classes",
+      "revId": "4e32357a374e29575f1e1125f616fe562979742d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e45bad6d_7c0f0979",
+        "filename": "javatests/com/google/gerrit/common/data/SubmitRecordTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-12T15:47:29Z",
+      "side": 1,
+      "message": "nit: I would either add a constructor that takes a status or just move the object creation into static {} as well sacrificing the final identifier (having creation/initialization split up makes it harder do understand what is going on)",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 3
+      },
+      "revId": "4e32357a374e29575f1e1125f616fe562979742d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

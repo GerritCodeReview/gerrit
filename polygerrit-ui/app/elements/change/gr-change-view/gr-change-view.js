@@ -437,6 +437,19 @@
       });
     },
 
+    _computeTotalCommentCounts(unresolvedCount, changeComments) {
+      const draftCount = changeComments.computeDraftCount();
+      const unresolvedString = GrCountStringFormatter.computeString(
+          unresolvedCount, 'unresolved');
+      const draftString = GrCountStringFormatter.computePluralString(
+          draftCount, 'draft');
+
+      return unresolvedString +
+          // Add a comma + space if both comments and unresolved
+          (unresolvedString && draftString ? ', ' : '') +
+          draftString;
+    },
+
     _handleCommentSave(e) {
       if (!e.target.comment.__draft) { return; }
 

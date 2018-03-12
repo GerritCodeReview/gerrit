@@ -178,7 +178,7 @@
     for (const path of Object.keys(paths)) {
       let commentsToAdd = this.getAllCommentsForPath(path, opt_patchNum);
       if (opt_includeDrafts) {
-        const drafts = this.getAllDraftsForPath(path)
+        const drafts = this.getAllDraftsForPath(path, opt_patchNum)
             .map(d => Object.assign({__draft: true}, d));
         commentsToAdd = commentsToAdd.concat(drafts);
       }
@@ -325,16 +325,17 @@
   /**
    * Computes a string counting the number of commens in a given file and path.
    *
-   * @param {number} patchNum
+   * @param {number=} opt_patchNum
    * @param {string=} opt_path
    * @return {number}
    */
-  ChangeComments.prototype.computeDraftCount = function(patchNum, opt_path) {
+  ChangeComments.prototype.computeDraftCount = function(opt_patchNum,
+      opt_path) {
     if (opt_path) {
-      return this.getAllDraftsForPath(opt_path, patchNum).length;
+      return this.getAllDraftsForPath(opt_path, opt_patchNum).length;
     }
-    const allComments = this.getAllDrafts(patchNum);
-    return this._commentObjToArray(allComments).length;
+    const allDrafts = this.getAllDrafts(opt_patchNum);
+    return this._commentObjToArray(allDrafts).length;
   };
 
   /**

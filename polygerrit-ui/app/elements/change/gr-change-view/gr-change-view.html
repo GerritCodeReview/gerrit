@@ -30,12 +30,14 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-change-star/gr-change-star.html">
 <link rel="import" href="../../shared/gr-change-status/gr-change-status.html">
+<link rel="import" href="../../shared/gr-count-string-formatter/gr-count-string-formatter.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-editable-content/gr-editable-content.html">
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 <link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
 <link rel="import" href="../gr-change-actions/gr-change-actions.html">
 <link rel="import" href="../gr-change-metadata/gr-change-metadata.html">
 <link rel="import" href="../gr-commit-info/gr-commit-info.html">
@@ -545,7 +547,13 @@ limitations under the License.
           id="commentTabs"
           on-selected-changed="_handleTabChange">
         <paper-tab class="changeLog">Change Log</paper-tab>
-        <paper-tab class="commentThreads">Comment Threads</paper-tab>
+        <paper-tab
+            class="commentThreads">
+          <gr-tooltip-content
+              has-tooltip
+              title$="[[_computeTotalCommentCounts(_change.unresolved_comment_count, _changeComments)]]">
+            <span>Comment Threads</span></gr-tooltip-content>
+        </paper-tab>
       </paper-tabs>
       <gr-messages-list id="messageList"
           class$="hideOnMobileOverlay [[_computeShowMessages(_showMessagesView)]]"

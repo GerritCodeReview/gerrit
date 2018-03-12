@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -21,7 +23,6 @@ import com.google.gerrit.server.project.ProjectState;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -97,7 +98,7 @@ public class ProjectLevelConfig extends VersionedMetaData {
                         Arrays.stream(parentValues))
                     .sorted()
                     .distinct()
-                    .collect(Collectors.toList()));
+                    .collect(toList()));
           }
         }
 
@@ -118,7 +119,7 @@ public class ProjectLevelConfig extends VersionedMetaData {
                           Arrays.stream(parentValues))
                       .sorted()
                       .distinct()
-                      .collect(Collectors.toList()));
+                      .collect(toList()));
             }
           }
         }

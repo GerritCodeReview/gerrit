@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6e47d790_879e7423",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-12T15:14:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18a84740_7b6a949b",
+      "revId": "2b80c2b2349b1db4dfafac28639843460260f936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f0f903e_254d0f01",
         "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
         "patchSetId": 12
@@ -39,6 +57,30 @@
       "revId": "2b80c2b2349b1db4dfafac28639843460260f936",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8907dc5b_4eca4148",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-12T15:14:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f0f903e_254d0f01",
+      "range": {
+        "startLine": 102,
+        "startChar": 11,
+        "endLine": 102,
+        "endChar": 26
+      },
+      "revId": "2b80c2b2349b1db4dfafac28639843460260f936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "8cf32042_ed8adde4",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-12T15:14:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18017d4b_63b4202d",
+      "range": {
+        "startLine": 149,
+        "startChar": 2,
+        "endLine": 149,
+        "endChar": 37
+      },
+      "revId": "2b80c2b2349b1db4dfafac28639843460260f936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c72cb865_73671fbe",
         "filename": "javatests/com/google/gerrit/server/rules/BUILD",
         "patchSetId": 12
@@ -79,6 +145,24 @@
       "revId": "2b80c2b2349b1db4dfafac28639843460260f936",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74b6fa8e_57e23c64",
+        "filename": "javatests/com/google/gerrit/server/rules/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-12T15:14:31Z",
+      "side": 1,
+      "message": "Done - I have no idea, let\u0027s remove it",
+      "parentUuid": "c72cb865_73671fbe",
+      "revId": "2b80c2b2349b1db4dfafac28639843460260f936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

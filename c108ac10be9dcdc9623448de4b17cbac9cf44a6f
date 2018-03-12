@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1520858702 +0100\nnonce APUGfEJmVmbqHID0i6l3tAjf9o3gNY/SLFfMfOFWl/+lSAOe7QP0v6bCUgbAxJsQ3H/R6uVXwly0\n\n0000000000000000000000000000000000000000 c108ac10be9dcdc9623448de4b17cbac9cf44a6f refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlqmdk4ACgkQUbX9l6DQ\n71FREQf/SuLM/Xzd+Sa0cDdLXnAdu6qHSd0NYfbXeXqsrjVgSgq3LVisMie2BA99\nLKGqmt/HLFUB38EUZ3jHKgR5YOsWx0WFtqNVoJl+dlfvWBXZLCVl1ECxsb90t70O\n/FcdvhDcwNltGT9svODkj63LZ4wNRaUOsRMbR2NCSDMfvWfat+PXVzKZvtc7ads2\nkZ56qv9ynyUFp8AW3AK1LHz4jfb+XGcefH+zLXz8JBIVrrHucFG1WoUPlvw8D9Zx\nS/bRwOFiDd3FHFwSjdEOQL6MlfDgTyEqgfX9wNWOegXyBsIBSXvBV9PMTw27KhnQ\nG4ojW67Te1tqR6p1PtmhSXjY0K3ncQ\u003d\u003d\n\u003d4W3C\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f26b63ae_dfde0f14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-12T13:00:32Z",
+      "side": 1,
+      "message": "Nice! Coud some of the tests be added in its own change, and then base this change on top of it? And only extend/adjust the test logic for this change?",
+      "revId": "c108ac10be9dcdc9623448de4b17cbac9cf44a6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

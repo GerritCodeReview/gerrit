@@ -248,6 +248,14 @@ limitations under the License.
                 updated: makeTime(3),
               },
             ],
+            'file/two': [
+              {
+                id: 5,
+                patch_set: 3,
+                line: 1,
+                updated: makeTime(3),
+              },
+            ],
           };
           element._changeComments._robotComments = {
             'file/one': [
@@ -340,13 +348,13 @@ limitations under the License.
           comments = element._changeComments.getCommentsBySideForPath(path,
               patchRange);
           assert.equal(comments.left.length, 0);
-          assert.equal(comments.right.length, 1);
+          assert.equal(comments.right.length, 2);
 
           patchRange.basePatchNum = 2;
           comments = element._changeComments.getCommentsBySideForPath(path,
               patchRange);
           assert.equal(comments.left.length, 1);
-          assert.equal(comments.right.length, 1);
+          assert.equal(comments.right.length, 2);
 
           patchRange.basePatchNum = PARENT;
           path = 'file/three';
@@ -429,6 +437,8 @@ limitations under the License.
               .computeDraftCount(1, 'file/one'), 0);
           assert.equal(element._changeComments
               .computeDraftCount(2, 'file/three'), 0);
+          assert.equal(element._changeComments
+              .computeDraftCount(), 3);
         });
 
         test('getAllPublishedComments', () => {
@@ -456,7 +466,7 @@ limitations under the License.
           comments = element._changeComments.getAllComments(true);
           assert.equal(Object.keys(comments).length, 4);
           assert.equal(Object.keys(comments[['file/one']]).length, 6);
-          assert.equal(Object.keys(comments[['file/two']]).length, 2);
+          assert.equal(Object.keys(comments[['file/two']]).length, 3);
           comments = element._changeComments.getAllComments(true, 2);
           assert.equal(Object.keys(comments).length, 4);
           assert.equal(Object.keys(comments[['file/one']]).length, 6);
@@ -623,6 +633,21 @@ limitations under the License.
               rootId: 10,
               patchNum: 5,
               path: 'file/four',
+              line: 1,
+            }, {
+              comments: [
+                {
+                  id: 5,
+                  patch_set: 3,
+                  line: 1,
+                  __path: 'file/two',
+                  __draft: true,
+                  updated: '2013-02-26 15:03:43.986000000',
+                },
+              ],
+              rootId: 5,
+              patchNum: 3,
+              path: 'file/two',
               line: 1,
             }, {
               comments: [

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8b7fae2e_66a2d686",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-12T15:45:13Z",
+      "side": 1,
+      "message": "ah ok, thanks, done. I will re add this to my other change once this one is merged to prevent merge conflicts :)",
+      "parentUuid": "581c28ff_9119710f",
+      "revId": "cfc18e032eb46c57be6dcd24209751b57c79928e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "37e41f20_254a8395",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access_test.html",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-03-12T15:36:37Z",
       "side": 1,
       "message": "Nit: remove line",
+      "revId": "cfc18e032eb46c57be6dcd24209751b57c79928e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7cc89a6_6517cb14",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-12T15:45:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "37e41f20_254a8395",
       "revId": "cfc18e032eb46c57be6dcd24209751b57c79928e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

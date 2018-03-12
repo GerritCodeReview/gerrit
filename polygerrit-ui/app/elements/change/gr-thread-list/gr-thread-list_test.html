@@ -35,7 +35,7 @@ limitations under the License.
   suite('gr-thread-list tests', () => {
     let element;
     let sandbox;
-    let threadsElements;
+    let threadElements;
     const computeVisibleNumber = threads => {
       let count = 0;
       for (const thread of threads) {
@@ -132,9 +132,53 @@ limitations under the License.
           rootId: '8caddf38_44770ec1',
           start_datetime: '2018-02-13 22:48:40.000000000',
         },
+        {
+          comments: [
+            {
+              __path: '/COMMIT_MSG',
+              author: {
+                _account_id: 1000000,
+                name: 'user',
+                username: 'user',
+              },
+              patch_set: 2,
+              id: 'scaddf38_44770ec1',
+              line: 4,
+              updated: '2018-02-14 22:48:40.000000000',
+              message: 'Yet another unresolved comment',
+              unresolved: true,
+            },
+          ],
+          patchNum: 2,
+          path: '/COMMIT_MSG',
+          line: 4,
+          rootId: 'scaddf38_44770ec1',
+          start_datetime: '2018-02-14 22:48:40.000000000',
+        },
+        {
+          comments: [
+            {
+              id: 'zcf0b9fa_fe1a5f62',
+              path: '/COMMIT_MSG',
+              line: 6,
+              updated: '2018-02-15 22:48:48.018000000',
+              message: 'resolved draft',
+              unresolved: false,
+              __draft: true,
+              __draftID: '0.m683trwff68',
+              __editing: false,
+              patch_set: '2',
+            },
+          ],
+          patchNum: 4,
+          path: '/COMMIT_MSG',
+          line: 6,
+          rootId: 'zcf0b9fa_fe1a5f62',
+          start_datetime: '2018-02-09 18:49:18.000000000',
+        },
       ];
       flushAsynchronousOperations();
-      threadsElements = Polymer.dom(element.root)
+      threadElements = Polymer.dom(element.root)
           .querySelectorAll('gr-diff-comment-thread');
     });
 
@@ -142,20 +186,47 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('there are three threads by default', () => {
-      assert.equal(computeVisibleNumber(threadsElements), 3);
+    test('there are five threads by default', () => {
+      assert.equal(computeVisibleNumber(threadElements), 5);
+    });
+
+    test('_computeSortedThreads', () => {
+      assert.equal(element._sortedThreads.length, 5);
+      // Draft and unresolved
+      assert.equal(element._sortedThreads[0].rootId, 'ecf0b9fa_fe1a5f62');
+      // unresolved
+      assert.equal(element._sortedThreads[1].rootId, 'scaddf38_44770ec1');
+      // unresolved
+      assert.equal(element._sortedThreads[2].rootId, '8caddf38_44770ec1');
+      // resolved and draft
+      assert.equal(element._sortedThreads[3].rootId, 'zcf0b9fa_fe1a5f62');
+      // resolved
+      assert.equal(element._sortedThreads[4].rootId, '09a9fb0a_1484e6cf');
+    });
+
+    test('thread removal', () => {
+      threadElements[1].fire('thread-discard', {rootId: 'scaddf38_44770ec1'});
+      flushAsynchronousOperations();
+      assert.equal(element._sortedThreads.length, 4);
+      assert.equal(element._sortedThreads[0].rootId, 'ecf0b9fa_fe1a5f62');
+      // unresolved
+      assert.equal(element._sortedThreads[1].rootId, '8caddf38_44770ec1');
+      // resolved and draft
+      assert.equal(element._sortedThreads[2].rootId, 'zcf0b9fa_fe1a5f62');
+      // resolved
+      assert.equal(element._sortedThreads[3].rootId, '09a9fb0a_1484e6cf');
     });
 
     test('toggle unresolved only shows unressolved comments', () => {
       MockInteractions.tap(element.$.unresolvedToggle);
       flushAsynchronousOperations();
-      assert.equal(computeVisibleNumber(threadsElements), 2);
+      assert.equal(computeVisibleNumber(threadElements), 3);
     });
 
     test('toggle drafts only shows threads with draft comments', () => {
       MockInteractions.tap(element.$.draftToggle);
       flushAsynchronousOperations();
-      assert.equal(computeVisibleNumber(threadsElements), 1);
+      assert.equal(computeVisibleNumber(threadElements), 2);
     });
 
     test('toggle drafts and unresolved only shows threads with drafts and ' +
@@ -163,7 +234,20 @@ limitations under the License.
       MockInteractions.tap(element.$.draftToggle);
       MockInteractions.tap(element.$.unresolvedToggle);
       flushAsynchronousOperations();
-      assert.equal(computeVisibleNumber(threadsElements), 1);
+      assert.equal(computeVisibleNumber(threadElements), 1);
+    });
+
+    test('modification events are consumed and displatched', () => {
+      sandbox.spy(element, '_handleCommentsChanged');
+      const dispatchSpy = sandbox.stub();
+      element.addEventListener('thread-list-modified', dispatchSpy);
+      threadElements[0].fire('thread-changed', {
+        rootId: 'ecf0b9fa_fe1a5f62', path: '/COMMIT_MSG'});
+      assert.isTrue(element._handleCommentsChanged.called);
+      assert.isTrue(dispatchSpy.called);
+      assert.equal(dispatchSpy.lastCall.args[0].detail.rootId,
+          'ecf0b9fa_fe1a5f62');
+      assert.equal(dispatchSpy.lastCall.args[0].detail.path, '/COMMIT_MSG');
     });
   });
 </script>

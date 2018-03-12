@@ -60,6 +60,7 @@ limitations under the License.
         getDiffComments() { return Promise.resolve({}); },
         getDiffRobotComments() { return Promise.resolve({}); },
         getDiffDrafts() { return Promise.resolve({}); },
+        getReviewedFiles() { return Promise.resolve([]); },
       });
       element = fixture('basic');
       return element._loadComments();
@@ -521,8 +522,10 @@ limitations under the License.
     test('_prefs.manual_review is respected', () => {
       const saveReviewedStub = sandbox.stub(element, '_saveReviewedState',
           () => Promise.resolve());
-      sandbox.stub(element.$.diff, 'reload');
+      const getReviewedStub = sandbox.stub(element, '_getReviewedStatus',
+          () => Promise.resolve());
 
+      sandbox.stub(element.$.diff, 'reload');
       element._loggedIn = true;
       element.params = {
         view: Gerrit.Nav.View.DIFF,
@@ -535,10 +538,13 @@ limitations under the License.
       flushAsynchronousOperations();
 
       assert.isFalse(saveReviewedStub.called);
+      assert.isTrue(getReviewedStub.called);
+
       element._prefs = {};
       flushAsynchronousOperations();
 
       assert.isTrue(saveReviewedStub.called);
+      assert.isTrue(getReviewedStub.calledOnce);
     });
 
     test('file review status', () => {
@@ -992,6 +998,25 @@ limitations under the License.
       assert.equal(element._computeFileNumClass(0, []), '');
       assert.equal(element._computeFileNumClass(1,
           [{value: '/foo'}, {value: '/bar'}]), 'show');
+    });
+
+    test('_getReviewedStatus', () => {
+      const promises = [];
+      element.$.restAPI.getReviewedFiles.restore();
+
+      sandbox.stub(element.$.restAPI, 'getReviewedFiles')
+          .returns(Promise.resolve(['path']));
+
+      promises.push(element._getReviewedStatus(true, null, null, 'path')
+          .then(reviewed => assert.isFalse(reviewed)));
+
+      promises.push(element._getReviewedStatus(false, null, null, 'otherPath')
+          .then(reviewed => assert.isFalse(reviewed)));
+
+      promises.push(element._getReviewedStatus(false, null, null, 'path')
+          .then(reviewed => assert.isTrue(reviewed)));
+
+      return Promise.all(promises);
     });
 
     suite('editMode behavior', () => {

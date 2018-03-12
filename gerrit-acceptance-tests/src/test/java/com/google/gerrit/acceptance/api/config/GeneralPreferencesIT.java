@@ -16,13 +16,17 @@ package com.google.gerrit.acceptance.api.config;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.AssertUtil.assertPrefs;
+import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.inject.Inject;
+import java.util.List;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
@@ -62,5 +66,25 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     GeneralPreferencesInfo expected = GeneralPreferencesInfo.defaults();
     expected.signedOffBy = newSignedOffBy;
     assertPrefs(result, expected, "my");
+  }
+
+  @Test
+  public void setMyMenuIsBrokenIssue8524() throws Exception {
+    List<String> names = names(gApi.config().server().getDefaultPreferences());
+
+    GeneralPreferencesInfo update = new GeneralPreferencesInfo();
+    update.my = ImmutableList.of(new MenuItem("Item", "#/q/"));
+
+    GeneralPreferencesInfo result = gApi.config().server().setDefaultPreferences(update);
+    // Should include new item, but doesn't.
+    assertThat(names(result)).isEqualTo(names);
+
+    GeneralPreferencesInfo read = gApi.config().server().getDefaultPreferences();
+    // Should include item, but doesn't.
+    assertThat(names(read)).isEqualTo(names);
+  }
+
+  private static List<String> names(GeneralPreferencesInfo prefs) {
+    return prefs.my.stream().map(i -> i.name).collect(toList());
   }
 }

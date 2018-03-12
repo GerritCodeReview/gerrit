@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.account.CapabilityCollection;
+import com.google.gerrit.server.permissions.AuthDeniedPermissionBackend;
 import com.google.gerrit.server.permissions.FailedPermissionBackend;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -75,9 +76,10 @@ public class DefaultPermissionBackend extends PermissionBackend {
         if (state != null) {
           return state.controlFor(user).asForProject().database(db);
         }
-        return FailedPermissionBackend.project("not found");
+        return AuthDeniedPermissionBackend.project(
+            "not found", new NoSuchProjectException(project));
       } catch (IOException e) {
-        return FailedPermissionBackend.project("unavailable", e);
+        return AuthDeniedPermissionBackend.project("unavailable", e);
       }
     }
 

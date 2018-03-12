@@ -22,6 +22,30 @@
       "revId": "03809379ad6c87074f056ee4dddf11adc725d97c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fed80344_5c14073f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-12T23:59:02Z",
+      "side": 1,
+      "message": "Good point -- I just checked, it is indeed polyfilled.\n\nhttps://i.imgur.com/y9tqGRx.png",
+      "parentUuid": "52dad0b6_ba9c26f0",
+      "range": {
+        "startLine": 546,
+        "startChar": 31,
+        "endLine": 546,
+        "endChar": 39
+      },
+      "revId": "03809379ad6c87074f056ee4dddf11adc725d97c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

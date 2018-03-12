@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d187220c_746c9c79",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-12T10:11:18Z",
+      "side": 1,
+      "message": "optional: Add\n\nSubmitRuleEvaluator create() {\n  return create(SubmitRuleOptions.defaults());\n}\n\nTo reduce overhead on callers (most callers seem to use the defaults)",
+      "revId": "3d56c24433623c9b74dac8ee72efd30a5ffb6949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50802794_ace9b45e",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleOptions.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-12T10:11:18Z",
+      "side": 1,
+      "message": "I think the slightly preferred version is to just call this \u0027defaults\u0027 and not statically import it in other code but reference it as\n\n  SubmitRuleOptions.defaults()\n\nSee for example RetryHelper or RefFilterOptions.",
+      "range": {
+        "startLine": 28,
+        "startChar": 40,
+        "endLine": 28,
+        "endChar": 55
+      },
+      "revId": "3d56c24433623c9b74dac8ee72efd30a5ffb6949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "348c53e7_cfd748e7",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleOptions.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-12T10:11:18Z",
+      "side": 1,
+      "message": "The default should be \u0027true\u0027 here. We only want to refrain from logging when users call the REST endpoint.",
+      "range": {
+        "startLine": 32,
+        "startChar": 21,
+        "endLine": 32,
+        "endChar": 26
+      },
+      "revId": "3d56c24433623c9b74dac8ee72efd30a5ffb6949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "991b89aec95e1332b12b3dcdb4daff8a723176b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e18241a5_feb8c42f",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-12T19:05:28Z",
+      "side": 1,
+      "message": "What side-effects do you mean?",
+      "parentUuid": "52e662fd_e03fdd13",
+      "revId": "991b89aec95e1332b12b3dcdb4daff8a723176b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

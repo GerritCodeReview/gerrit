@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16717f83_ce3f00ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-12T12:55:54Z",
+      "side": 1,
+      "message": "Optional: If you return Optional, then this can just be find(id, user).stream().findFirst()",
+      "revId": "7be0086f0878d4d29180f63aa81814931bb00c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5692808_5c66df7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/IndexedAccountQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-12T12:55:54Z",
+      "side": 1,
+      "message": "Doesn\u0027t asMatchable() do this exact same checkState?",
+      "revId": "7be0086f0878d4d29180f63aa81814931bb00c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4079bcdb_efbf7aa9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/IndexedAccountQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-12T12:55:54Z",
+      "side": 1,
+      "message": "No need for +",
+      "range": {
+        "startLine": 44,
+        "startChar": 47,
+        "endLine": 44,
+        "endChar": 52
+      },
+      "revId": "7be0086f0878d4d29180f63aa81814931bb00c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d06f065_844de766",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/AnyPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-12T12:55:54Z",
+      "side": 1,
+      "message": "It took me a while to figure out what\u0027s going on with this class. I think it needs at least more documentation, possibly more cleanup.\n\nFrom the name and the minimal doc you have here, it sounds like it is exactly the same thing as Predicate.Any, but that class makes more sense because it implements match(T) to always return true. Why would this one need to be abstract?\n\nI think what\u0027s going on here is this predicate type is used to indicate that it should match all documents *in the index*, but there may be additional post-filtering implemented in a subclass\u0027s match method. Can we come up with a name that would make this property clearer? Something like \"PostFilterPredicate\"? And corresponding javadoc.",
+      "revId": "7be0086f0878d4d29180f63aa81814931bb00c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "125ca125_e0b3bd72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-12T12:55:54Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is better from a UX perspective than just returning a predicate that matches nothing; can you convince me?",
+      "revId": "7be0086f0878d4d29180f63aa81814931bb00c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

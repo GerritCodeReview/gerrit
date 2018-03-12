@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baf261ce_44cd5c71",
+        "filename": "polygerrit-ui/app/elements/settings/gr-group-list/gr-group-list.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-12T22:36:36Z",
+      "side": 1,
+      "message": "nit: since this class isn\u0027t used, it can be removed.",
+      "range": {
+        "startLine": 52,
+        "startChar": 19,
+        "endLine": 52,
+        "endChar": 37
+      },
+      "revId": "aebc4bf26105feb6853a1f2fed6dc2169a4a5bec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

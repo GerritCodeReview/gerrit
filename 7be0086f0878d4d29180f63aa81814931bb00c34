@@ -76,6 +76,24 @@
     },
     {
       "key": {
+        "uuid": "e0a673e5_aca103b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/AnyPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-12T13:01:17Z",
+      "side": 1,
+      "message": "I think (in a later change) we should also change Predicate.Any to inherit from this class so we can use the optimized index implementation of it.",
+      "parentUuid": "5d06f065_844de766",
+      "revId": "7be0086f0878d4d29180f63aa81814931bb00c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "125ca125_e0b3bd72",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
         "patchSetId": 2

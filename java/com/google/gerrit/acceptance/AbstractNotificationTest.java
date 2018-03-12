@@ -322,7 +322,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     }
 
     private TestAccount evictAndCopy(TestAccount account) throws IOException {
-      accountCache.evict(account.id);
+      evictAndReindexAccount(account.id);
       return account;
     }
 

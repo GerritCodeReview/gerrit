@@ -90,9 +90,9 @@ import org.eclipse.jgit.lib.Repository;
  * are stored separately in the {@code refs/meta/external-ids} notes branch (see {@link
  * ExternalIdNotes}).
  *
- * <p>On updating an account the account is evicted from the account cache and thus reindexed. The
- * eviction from the account cache is done by the {@link ReindexAfterRefUpdate} class which receives
- * the event about updating the user branch that is triggered by this class.
+ * <p>On updating an account the account is evicted from the account cache and reindexed. The
+ * eviction from the account cache and the reindexing is done by the {@link ReindexAfterRefUpdate}
+ * class which receives the event about updating the user branch that is triggered by this class.
  *
  * <p>If external IDs are updated, the ExternalIdCache is automatically updated by {@link
  * ExternalIdNotes}. In addition {@link ExternalIdNotes} takes care about evicting and reindexing

@@ -19,8 +19,8 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -32,14 +32,16 @@ import java.io.IOException;
 @Singleton
 public class Index implements RestModifyView<AccountResource, Input> {
 
-  private final AccountCache accountCache;
+  private final Provider<AccountIndexer> accountIndexer;
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> self;
 
   @Inject
   Index(
-      AccountCache accountCache, PermissionBackend permissionBackend, Provider<CurrentUser> self) {
-    this.accountCache = accountCache;
+      Provider<AccountIndexer> accountIndexer,
+      PermissionBackend permissionBackend,
+      Provider<CurrentUser> self) {
+    this.accountIndexer = accountIndexer;
     this.permissionBackend = permissionBackend;
     this.self = self;
   }
@@ -51,8 +53,7 @@ public class Index implements RestModifyView<AccountResource, Input> {
       permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
 
-    // evicting the account from the cache, reindexes the account
-    accountCache.evict(rsrc.getUser().getAccountId());
+    accountIndexer.get().index(rsrc.getUser().getAccountId());
     return Response.none();
   }
 }

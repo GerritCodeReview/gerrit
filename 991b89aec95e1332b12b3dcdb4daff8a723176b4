@@ -34,6 +34,29 @@
       "revId": "991b89aec95e1332b12b3dcdb4daff8a723176b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "502f5455_b241e9ef",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-12T21:24:07Z",
+      "side": 1,
+      "message": "Is this guaranteed to be sorted as expected?",
+      "range": {
+        "startLine": 349,
+        "startChar": 8,
+        "endLine": 349,
+        "endChar": 55
+      },
+      "revId": "991b89aec95e1332b12b3dcdb4daff8a723176b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

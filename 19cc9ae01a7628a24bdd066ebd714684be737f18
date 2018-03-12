@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "99e163e3_f8a5f119",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-12T17:32:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ae9d256_9106ddfa",
+      "revId": "19cc9ae01a7628a24bdd066ebd714684be737f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fb4c473_00319e25",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 32
@@ -30,6 +48,24 @@
       "writtenOn": "2018-03-12T17:26:21Z",
       "side": 1,
       "message": "Nit: not so sure about this ID\u0027s correctness. Maybe \"messageTabs\"? What do you think?",
+      "revId": "19cc9ae01a7628a24bdd066ebd714684be737f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f5171e1_4a5ea398",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-12T17:32:21Z",
+      "side": 1,
+      "message": "hmm. Yeah, I feel like neither of those is \u0027correct\u0027. Could be more generic with something like \u0027changeTabs\u0027 or \u0027even just \u0027tabs\u0027?",
+      "parentUuid": "4fb4c473_00319e25",
       "revId": "19cc9ae01a7628a24bdd066ebd714684be737f18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "932b4fbd_0b3b1719",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-12T17:32:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77ccd6c1_0f144799",
+      "range": {
+        "startLine": 552,
+        "startChar": 0,
+        "endLine": 561,
+        "endChar": 62
+      },
+      "revId": "19cc9ae01a7628a24bdd066ebd714684be737f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30a15510_d6df80f7",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 32
@@ -79,6 +139,30 @@
       "revId": "19cc9ae01a7628a24bdd066ebd714684be737f18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "532df02c_3e4302db",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-12T17:32:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30a15510_d6df80f7",
+      "range": {
+        "startLine": 96,
+        "startChar": 12,
+        "endLine": 96,
+        "endChar": 26
+      },
+      "revId": "19cc9ae01a7628a24bdd066ebd714684be737f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

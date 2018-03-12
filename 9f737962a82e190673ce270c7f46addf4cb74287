@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0e194165_c1c037c6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/ProjectLevelConfigIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-03-12T08:55:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "882c0d86_7da7e9d8",
+      "range": {
+        "startLine": 146,
+        "startChar": 4,
+        "endLine": 149,
+        "endChar": 51
+      },
+      "revId": "9f737962a82e190673ce270c7f46addf4cb74287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d3ef928_7aa439d2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectLevelConfig.java",
         "patchSetId": 1
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "0997708e_2773c336",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectLevelConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-03-12T08:55:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d3ef928_7aa439d2",
+      "range": {
+        "startLine": 92,
+        "startChar": 12,
+        "endLine": 92,
+        "endChar": 25
+      },
+      "revId": "9f737962a82e190673ce270c7f46addf4cb74287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00dce3fa_82eec012",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectLevelConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-03-12T08:55:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a79283e0_891cd859",
+      "range": {
+        "startLine": 92,
+        "startChar": 40,
+        "endLine": 92,
+        "endChar": 84
+      },
+      "revId": "9f737962a82e190673ce270c7f46addf4cb74287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb122192_fdac7ee3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectLevelConfig.java",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "c93c1fc3_7ab4873f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectLevelConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-03-12T08:55:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb122192_fdac7ee3",
+      "range": {
+        "startLine": 108,
+        "startChar": 34,
+        "endLine": 108,
+        "endChar": 92
+      },
+      "revId": "9f737962a82e190673ce270c7f46addf4cb74287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "598b67b3_dde0020f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectLevelConfig.java",
         "patchSetId": 1
@@ -105,6 +201,30 @@
       "writtenOn": "2018-03-11T19:13:38Z",
       "side": 1,
       "message": "Same as above.",
+      "range": {
+        "startLine": 109,
+        "startChar": 14,
+        "endLine": 109,
+        "endChar": 27
+      },
+      "revId": "9f737962a82e190673ce270c7f46addf4cb74287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f795e48_a320583e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectLevelConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-03-12T08:55:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "598b67b3_dde0020f",
       "range": {
         "startLine": 109,
         "startChar": 14,

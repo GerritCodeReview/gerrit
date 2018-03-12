@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e42ad8c5_2b4efdb6",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRulesEvaluatorIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-12T16:00:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6147bb60_6782924a",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 6
+      },
+      "revId": "4e32357a374e29575f1e1125f616fe562979742d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1ddd769_75aaeeb7",
         "filename": "javatests/com/google/gerrit/common/data/SubmitRecordTest.java",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "4e32357a374e29575f1e1125f616fe562979742d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a7ef4cd_5e20f659",
+        "filename": "javatests/com/google/gerrit/common/data/SubmitRecordTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-12T16:00:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1ddd769_75aaeeb7",
+      "revId": "4e32357a374e29575f1e1125f616fe562979742d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "4e32357a374e29575f1e1125f616fe562979742d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aec72cdb_b6190f5a",
+        "filename": "javatests/com/google/gerrit/common/data/SubmitRecordTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-12T16:00:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e45bad6d_7c0f0979",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 3
+      },
+      "revId": "4e32357a374e29575f1e1125f616fe562979742d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

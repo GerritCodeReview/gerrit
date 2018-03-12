@@ -540,6 +540,12 @@
       return {path: fileList[idx]};
     },
 
+    _getReviewedStatus(editMode, changeNum, patchNum, path) {
+      if (editMode) { return Promise.resolve(false); }
+      return this.$.restAPI.getReviewedFiles(changeNum, patchNum)
+          .then(files => files.includes(path));
+    },
+
     _paramsChanged(value) {
       if (value.view !== Gerrit.Nav.View.DIFF) { return; }
 
@@ -631,7 +637,17 @@
 
     _setReviewedObserver(_loggedIn, paramsRecord, _prefs) {
       const params = paramsRecord.base || {};
-      if (!_loggedIn || _prefs.manual_review) { return; }
+      if (!_loggedIn) { return; }
+
+      if (_prefs.manual_review) {
+        // Checkbox state needs to be set explicitly only when manual_review
+        // is specified.
+        this._getReviewedStatus(this.editMode, this._changeNum,
+            this._patchRange.patchNum, this._path).then(status => {
+              this.$.reviewed.checked = status;
+            });
+        return;
+      }
 
       if (params.view === Gerrit.Nav.View.DIFF) {
         this._setReviewed(true);

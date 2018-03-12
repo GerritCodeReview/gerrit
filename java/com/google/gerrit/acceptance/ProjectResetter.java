@@ -30,6 +30,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.RefState;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.RefPatternMatcher;
 import com.google.inject.Inject;
@@ -86,6 +87,7 @@ public class ProjectResetter implements AutoCloseable {
     private final AllUsersName allUsersName;
     @Nullable private final AccountCreator accountCreator;
     @Nullable private final AccountCache accountCache;
+    @Nullable private final AccountIndexer accountIndexer;
     @Nullable private final ProjectCache projectCache;
 
     private final Multimap<Project.NameKey, String> refsByProject;
@@ -96,11 +98,13 @@ public class ProjectResetter implements AutoCloseable {
         AllUsersName allUsersName,
         @Nullable AccountCreator accountCreator,
         @Nullable AccountCache accountCache,
+        @Nullable AccountIndexer accountIndexer,
         @Nullable ProjectCache projectCache) {
       this.repoManager = repoManager;
       this.allUsersName = allUsersName;
       this.accountCreator = accountCreator;
       this.accountCache = accountCache;
+      this.accountIndexer = accountIndexer;
       this.projectCache = projectCache;
       this.refsByProject = MultimapBuilder.hashKeys().arrayListValues().build();
     }
@@ -116,7 +120,13 @@ public class ProjectResetter implements AutoCloseable {
 
     public ProjectResetter build() throws IOException {
       return new ProjectResetter(
-          repoManager, allUsersName, accountCreator, accountCache, projectCache, refsByProject);
+          repoManager,
+          allUsersName,
+          accountCreator,
+          accountCache,
+          accountIndexer,
+          projectCache,
+          refsByProject);
     }
   }
 
@@ -124,6 +134,7 @@ public class ProjectResetter implements AutoCloseable {
   @Inject private AllUsersName allUsersName;
   @Inject @Nullable private AccountCreator accountCreator;
   @Inject @Nullable private AccountCache accountCache;
+  @Inject @Nullable private AccountIndexer accountIndexer;
   @Inject @Nullable private ProjectCache projectCache;
 
   private final Multimap<Project.NameKey, String> refsPatternByProject;
@@ -138,6 +149,7 @@ public class ProjectResetter implements AutoCloseable {
       AllUsersName allUsersName,
       @Nullable AccountCreator accountCreator,
       @Nullable AccountCache accountCache,
+      @Nullable AccountIndexer accountIndexer,
       @Nullable ProjectCache projectCache,
       Multimap<Project.NameKey, String> refPatternByProject)
       throws IOException {
@@ -145,6 +157,7 @@ public class ProjectResetter implements AutoCloseable {
     this.allUsersName = allUsersName;
     this.accountCreator = accountCreator;
     this.accountCache = accountCache;
+    this.accountIndexer = accountIndexer;
     this.projectCache = projectCache;
     this.refsPatternByProject = refPatternByProject;
     this.savedRefStatesByProject = readRefStates();
@@ -282,7 +295,7 @@ public class ProjectResetter implements AutoCloseable {
     if (accountCreator != null) {
       accountCreator.evict(deletedAccounts);
     }
-    if (accountCache != null) {
+    if (accountCache != null || accountIndexer != null) {
       Set<Account.Id> modifiedAccounts =
           new HashSet<>(accountIds(restoredRefsByProject.get(allUsersName)));
 
@@ -294,20 +307,30 @@ public class ProjectResetter implements AutoCloseable {
           for (Account.Id id :
               accountIds(
                   repo.getAllRefs().values().stream().map(r -> r.getName()).collect(toSet()))) {
-            accountCache.evict(id);
+            evictAndReindexAccount(id);
           }
         }
 
         // Remove deleted accounts from the cache and index.
         for (Account.Id id : deletedAccounts) {
-          accountCache.evict(id);
+          evictAndReindexAccount(id);
         }
       } else {
         // Evict and reindex all modified and deleted accounts.
         for (Account.Id id : Sets.union(modifiedAccounts, deletedAccounts)) {
-          accountCache.evict(id);
+          evictAndReindexAccount(id);
         }
       }
+    }
+  }
+
+  private void evictAndReindexAccount(Account.Id accountId) throws IOException {
+    if (accountCache != null) {
+      accountCache.evict(accountId);
+    }
+
+    if (accountIndexer != null) {
+      accountIndexer.index(accountId);
     }
   }
 

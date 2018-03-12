@@ -32,6 +32,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.QueueProvider.QueueType;
 import com.google.gerrit.server.index.IndexExecutor;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -59,6 +60,7 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
   private final ChangeNotes.Factory notesFactory;
   private final AllUsersName allUsersName;
   private final AccountCache accountCache;
+  private final Provider<AccountIndexer> indexer;
   private final ListeningExecutorService executor;
   private final boolean enabled;
 
@@ -72,6 +74,7 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
       ChangeNotes.Factory notesFactory,
       AllUsersName allUsersName,
       AccountCache accountCache,
+      Provider<AccountIndexer> indexer,
       @IndexExecutor(QueueType.BATCH) ListeningExecutorService executor) {
     this.requestContext = requestContext;
     this.queryProvider = queryProvider;
@@ -80,6 +83,7 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
     this.notesFactory = notesFactory;
     this.allUsersName = allUsersName;
     this.accountCache = accountCache;
+    this.indexer = indexer;
     this.executor = executor;
     this.enabled = cfg.getBoolean("index", null, "reindexAfterRefUpdate", true);
   }
@@ -91,6 +95,7 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
       if (accountId != null && !event.getRefName().startsWith(RefNames.REFS_STARRED_CHANGES)) {
         try {
           accountCache.evict(accountId);
+          indexer.get().index(accountId);
         } catch (IOException e) {
           log.error(String.format("Reindex account %s failed.", accountId), e);
         }

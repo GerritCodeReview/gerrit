@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
@@ -206,7 +207,7 @@ public class ProjectResetterTest extends GerritBaseTests {
     Ref nonMetaConfig = createRef("refs/heads/master");
 
     try (ProjectResetter resetProject =
-        builder(null, null, projectCache).reset(project).reset(project2).build()) {
+        builder(null, null, null, projectCache).reset(project).reset(project2).build()) {
       updateRef(nonMetaConfig);
       updateRef(repo2, metaConfig);
     }
@@ -225,7 +226,7 @@ public class ProjectResetterTest extends GerritBaseTests {
     EasyMock.replay(projectCache);
 
     try (ProjectResetter resetProject =
-        builder(null, null, projectCache).reset(project).reset(project2).build()) {
+        builder(null, null, null, projectCache).reset(project).reset(project2).build()) {
       createRef("refs/heads/master");
       createRef(repo2, RefNames.REFS_CONFIG);
     }
@@ -245,11 +246,16 @@ public class ProjectResetterTest extends GerritBaseTests {
     EasyMock.expectLastCall();
     EasyMock.replay(accountCache);
 
+    AccountIndexer accountIndexer = EasyMock.createNiceMock(AccountIndexer.class);
+    accountIndexer.index(accountId);
+    EasyMock.expectLastCall();
+    EasyMock.replay(accountIndexer);
+
     // Non-user branch because it's not in All-Users.
     Ref nonUserBranch = createRef(RefNames.refsUsers(new Account.Id(2)));
 
     try (ProjectResetter resetProject =
-        builder(null, accountCache, null).reset(project).reset(allUsers).build()) {
+        builder(null, accountCache, accountIndexer, null).reset(project).reset(allUsers).build()) {
       updateRef(nonUserBranch);
       updateRef(allUsersRepo, userBranch);
     }
@@ -268,8 +274,13 @@ public class ProjectResetterTest extends GerritBaseTests {
     EasyMock.expectLastCall();
     EasyMock.replay(accountCache);
 
+    AccountIndexer accountIndexer = EasyMock.createNiceMock(AccountIndexer.class);
+    accountIndexer.index(accountId);
+    EasyMock.expectLastCall();
+    EasyMock.replay(accountIndexer);
+
     try (ProjectResetter resetProject =
-        builder(null, accountCache, null).reset(project).reset(allUsers).build()) {
+        builder(null, accountCache, accountIndexer, null).reset(project).reset(allUsers).build()) {
       // Non-user branch because it's not in All-Users.
       createRef(RefNames.refsUsers(new Account.Id(2)));
 
@@ -296,11 +307,18 @@ public class ProjectResetterTest extends GerritBaseTests {
     EasyMock.expectLastCall();
     EasyMock.replay(accountCache);
 
+    AccountIndexer accountIndexer = EasyMock.createNiceMock(AccountIndexer.class);
+    accountIndexer.index(accountId);
+    EasyMock.expectLastCall();
+    accountIndexer.index(accountId2);
+    EasyMock.expectLastCall();
+    EasyMock.replay(accountIndexer);
+
     // Non-user branch because it's not in All-Users.
     Ref nonUserBranch = createRef(RefNames.refsUsers(new Account.Id(3)));
 
     try (ProjectResetter resetProject =
-        builder(null, accountCache, null).reset(project).reset(allUsers).build()) {
+        builder(null, accountCache, accountIndexer, null).reset(project).reset(allUsers).build()) {
       updateRef(nonUserBranch);
       updateRef(allUsersRepo, externalIds);
       createRef(allUsersRepo, RefNames.refsUsers(accountId2));
@@ -325,11 +343,18 @@ public class ProjectResetterTest extends GerritBaseTests {
     EasyMock.expectLastCall();
     EasyMock.replay(accountCache);
 
+    AccountIndexer accountIndexer = EasyMock.createNiceMock(AccountIndexer.class);
+    accountIndexer.index(accountId);
+    EasyMock.expectLastCall();
+    accountIndexer.index(accountId2);
+    EasyMock.expectLastCall();
+    EasyMock.replay(accountIndexer);
+
     // Non-user branch because it's not in All-Users.
     Ref nonUserBranch = createRef(RefNames.refsUsers(new Account.Id(3)));
 
     try (ProjectResetter resetProject =
-        builder(null, accountCache, null).reset(project).reset(allUsers).build()) {
+        builder(null, accountCache, accountIndexer, null).reset(project).reset(allUsers).build()) {
       updateRef(nonUserBranch);
       createRef(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
       createRef(allUsersRepo, RefNames.refsUsers(accountId2));
@@ -350,7 +375,7 @@ public class ProjectResetterTest extends GerritBaseTests {
     EasyMock.replay(accountCreator);
 
     try (ProjectResetter resetProject =
-        builder(accountCreator, null, null).reset(project).reset(allUsers).build()) {
+        builder(accountCreator, null, null, null).reset(project).reset(allUsers).build()) {
       createRef(allUsersRepo, RefNames.refsUsers(accountId));
     }
 
@@ -425,18 +450,20 @@ public class ProjectResetterTest extends GerritBaseTests {
   }
 
   private ProjectResetter.Builder builder() {
-    return builder(null, null, null);
+    return builder(null, null, null, null);
   }
 
   private ProjectResetter.Builder builder(
       @Nullable AccountCreator accountCreator,
       @Nullable AccountCache accountCache,
+      @Nullable AccountIndexer accountIndexer,
       @Nullable ProjectCache projectCache) {
     return new ProjectResetter.Builder(
         repoManager,
         new AllUsersName(AllUsersNameProvider.DEFAULT),
         accountCreator,
         accountCache,
+        accountIndexer,
         projectCache);
   }
 }

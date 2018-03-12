@@ -63,7 +63,7 @@ public class SetPreferences implements RestModifyView<ConfigResource, GeneralPre
     Preferences.validateMy(input.my);
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
       GeneralPreferencesInfo updatedPrefs = Preferences.updateDefaultGeneralPreferences(md, input);
-      accountCache.evictAllNoReindex();
+      accountCache.evictAll();
       return updatedPrefs;
     }
   }

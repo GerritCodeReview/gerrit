@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52dad0b6_ba9c26f0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-12T23:26:08Z",
+      "side": 1,
+      "message": "Non-blocking because we use this a lot, but thought I\u0027d mention for food for thought.. includes isn\u0027t supported by IE. Not sure if we want to change these to use indexOf instead, or if this gets handled by the transpiler?",
+      "range": {
+        "startLine": 546,
+        "startChar": 31,
+        "endLine": 546,
+        "endChar": 39
+      },
+      "revId": "03809379ad6c87074f056ee4dddf11adc725d97c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

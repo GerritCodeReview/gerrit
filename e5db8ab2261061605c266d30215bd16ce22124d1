@@ -71,6 +71,24 @@
       "revId": "e5db8ab2261061605c266d30215bd16ce22124d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b71bb16_f8e71221",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/config/GeneralPreferencesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-13T11:40:18Z",
+      "side": 1,
+      "message": "I don\u0027t mind abandoning this change, I was just super confused at why it wasn\u0027t working when I was writing a test for migrating the default menus.",
+      "parentUuid": "9e38e9e5_5dd033ee",
+      "revId": "e5db8ab2261061605c266d30215bd16ce22124d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

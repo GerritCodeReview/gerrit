@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c02dcb2c_b3752a75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-13T00:42:55Z",
+      "side": 1,
+      "message": "Very small nitpick. I\u0027m sometimes too focused on details, but this looks like a mixture of two footer styles. To link to multiple issues, I think this should be either ..\n\n Feature: Issue 8241, Issue 1843\n\n.. or ..\n\n Feature: Issue 8241\n Feature: Issue 1843\n\n.. just because \"Feature\" is the title of the footer. It doesn\u0027t make sense to me to repeat it within the same footer.",
+      "revId": "6499aa2bf5b0c2422cc6150a5120d970619a2c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11e3892f_b96a9071",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-13T00:42:55Z",
+      "side": 1,
+      "message": "I\u0027m seeing an odd styling behavior when I reload changes:\n* Load a change with threads (preferably on a slower instance or with your net throttled in devtools)\n* Navigate to the thread tab so the threads appear\n* Reload the change with the Shift+R key combo (or navigate to a different change listed in \"Related Changes)\n* Observe that every part of the change _except_ the threads is hidden while it reloads",
+      "revId": "6499aa2bf5b0c2422cc6150a5120d970619a2c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

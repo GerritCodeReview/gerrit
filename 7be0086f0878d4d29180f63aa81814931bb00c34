@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "422dab47_3021f9cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-13T02:17:09Z",
+      "side": 1,
+      "message": "Wouldn\u0027t that always return the first even if there are more than one?  In the current implementation it only returns if there is exactly one.",
+      "parentUuid": "16717f83_ce3f00ec",
+      "revId": "7be0086f0878d4d29180f63aa81814931bb00c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5692808_5c66df7a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/IndexedAccountQuery.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "b0441ced_c3d7e299",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/IndexedAccountQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-13T02:17:09Z",
+      "side": 1,
+      "message": "It does, but this one has a more specific error message.",
+      "parentUuid": "e5692808_5c66df7a",
+      "revId": "7be0086f0878d4d29180f63aa81814931bb00c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4079bcdb_efbf7aa9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/IndexedAccountQuery.java",
         "patchSetId": 2
@@ -47,6 +83,30 @@
       "writtenOn": "2018-03-12T12:55:54Z",
       "side": 1,
       "message": "No need for +",
+      "range": {
+        "startLine": 44,
+        "startChar": 47,
+        "endLine": 44,
+        "endChar": 52
+      },
+      "revId": "7be0086f0878d4d29180f63aa81814931bb00c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3e592dc_af5c05a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/IndexedAccountQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-13T02:17:09Z",
+      "side": 1,
+      "message": "Done.\n\nI guess the superfluous + was left by google-java-format after unwrapping these lines.  See [1].\n\n[1] https://github.com/google/google-java-format/issues/122",
+      "parentUuid": "4079bcdb_efbf7aa9",
       "range": {
         "startLine": 44,
         "startChar": 47,
@@ -91,6 +151,24 @@
       "revId": "7be0086f0878d4d29180f63aa81814931bb00c34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5465709f_1721ce18",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/AnyPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-13T02:17:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0a673e5_aca103b4",
+      "revId": "7be0086f0878d4d29180f63aa81814931bb00c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

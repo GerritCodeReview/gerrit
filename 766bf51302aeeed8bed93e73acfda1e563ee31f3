@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1855fa9_5042b2aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/FailedPermissionBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-13T23:52:04Z",
+      "side": 1,
+      "message": "Shouldn\u0027t these also throw PermissionBackendException for the case where the backend has failed?",
+      "revId": "766bf51302aeeed8bed93e73acfda1e563ee31f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

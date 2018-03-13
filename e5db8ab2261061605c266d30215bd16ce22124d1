@@ -35,6 +35,24 @@
       "revId": "e5db8ab2261061605c266d30215bd16ce22124d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0baedb64_5d09d9d1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/config/GeneralPreferencesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-13T10:36:38Z",
+      "side": 1,
+      "message": "\u003e I think I fixed this in master when I added support for updating\n \u003e preferences through AccountsUpdate. But that\u0027s too many changes to\n \u003e backport.\n\nWhat change are you referencing to? We have backported recenty big 2 series to stable-2.15 to fix intermittent index corruption during reindex opertaion, and would make a lot of sense to me to fix setting preferences. I see two options: 1. Non intrusive fix of the problem / 2. Intrusive fix, with backporting anothe huge series of changes.\n\nThe option that we probably (?) not have, is to declare stable-2.15 as failed attempt to create a release, abandon it, and create stable-2.16 from current master instead, and try to release 2.16 release.",
+      "parentUuid": "8d641f3c_64407c5d",
+      "revId": "e5db8ab2261061605c266d30215bd16ce22124d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

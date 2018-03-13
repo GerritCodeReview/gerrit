@@ -79,13 +79,14 @@ limitations under the License.
         border-bottom: 1px solid pink;
       }
       gr-main-header {
+        background-color: var(--header-background-color);
+        border-bottom: 1px solid #ddd;
         /* The combination of left, width, position allow this to be
           floating. */
         left: 0;
-        width: 100vw;
-        background-color: var(--header-background-color);
         padding: 0 var(--default-horizontal-margin);
         position: sticky;
+        width: 100vw;
         /* Needed for the menu dropdowns to display on top of the sticky
           headers with z-index of 1.*/
         z-index: 2;

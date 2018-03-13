@@ -23,9 +23,16 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -45,11 +52,25 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
       new QueryBuilder.Definition<>(AccountQueryBuilder.class);
 
   public static class Arguments {
+    final Provider<ReviewDb> db;
+    final ChangeFinder changeFinder;
+    final IdentifiedUser.GenericFactory userFactory;
+    final PermissionBackend permissionBackend;
+
     private final Provider<CurrentUser> self;
 
     @Inject
-    public Arguments(Provider<CurrentUser> self) {
+    public Arguments(
+        Provider<CurrentUser> self,
+        Provider<ReviewDb> db,
+        ChangeFinder changeFinder,
+        IdentifiedUser.GenericFactory userFactory,
+        PermissionBackend permissionBackend) {
       this.self = self;
+      this.db = db;
+      this.changeFinder = changeFinder;
+      this.userFactory = userFactory;
+      this.permissionBackend = permissionBackend;
     }
 
     IdentifiedUser getIdentifiedUser() throws QueryParseException {
@@ -79,6 +100,22 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   AccountQueryBuilder(Arguments args) {
     super(mydef);
     this.args = args;
+  }
+
+  @Operator
+  public Predicate<AccountState> cansee(String change)
+      throws QueryParseException, OrmException, PermissionBackendException {
+    ChangeNotes changeNotes = args.changeFinder.findOne(change);
+    if (changeNotes == null
+        || !args.permissionBackend
+            .user(args.getUser())
+            .database(args.db)
+            .change(changeNotes)
+            .test(ChangePermission.READ)) {
+      throw error(String.format("change %s not found", change));
+    }
+
+    return AccountPredicates.cansee(args, changeNotes);
   }
 
   @Operator

@@ -76,6 +76,14 @@ public class ChangeFinder {
     this.changeNotesFactory = changeNotesFactory;
   }
 
+  public ChangeNotes findOne(String id) throws OrmException {
+    List<ChangeNotes> ctls = find(id);
+    if (ctls.size() != 1) {
+      return null;
+    }
+    return ctls.get(0);
+  }
+
   /**
    * Find changes matching the given identifier.
    *

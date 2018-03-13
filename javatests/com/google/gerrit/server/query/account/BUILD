@@ -19,6 +19,7 @@ java_library(
         "//lib:truth-java8-extension",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
+        "//prolog:gerrit-prolog-common",
     ],
 )
 

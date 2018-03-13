@@ -19,12 +19,15 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.IndexPredicate;
+import com.google.gerrit.index.query.Matchable;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.account.AccountField;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gwtorm.server.OrmException;
 import java.util.List;
 
 public class AccountPredicates {
@@ -121,13 +124,30 @@ public class AccountPredicates {
     return new AccountPredicate(AccountField.WATCHED_PROJECT, project.get());
   }
 
-  static class AccountPredicate extends IndexPredicate<AccountState> {
+  public static Predicate<AccountState> cansee(
+      AccountQueryBuilder.Arguments args, ChangeNotes changeNotes) {
+    return new CanSeeChangePredicate(
+        args.db, args.permissionBackend, args.userFactory, changeNotes);
+  }
+
+  static class AccountPredicate extends IndexPredicate<AccountState>
+      implements Matchable<AccountState> {
     AccountPredicate(FieldDef<AccountState, ?> def, String value) {
       super(def, value);
     }
 
     AccountPredicate(FieldDef<AccountState, ?> def, String name, String value) {
       super(def, name, value);
+    }
+
+    @Override
+    public boolean match(AccountState object) throws OrmException {
+      return true;
+    }
+
+    @Override
+    public int getCost() {
+      return 1;
     }
   }
 

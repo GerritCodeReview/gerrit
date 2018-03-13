@@ -110,6 +110,14 @@ public class ChangeFinder {
     this.allowedIdTypes = ImmutableSet.copyOf(configuredChangeIdTypes);
   }
 
+  public ChangeNotes findOne(String id) throws OrmException {
+    List<ChangeNotes> ctls = find(id);
+    if (ctls.size() != 1) {
+      return null;
+    }
+    return ctls.get(0);
+  }
+
   /**
    * Find changes matching the given identifier.
    *

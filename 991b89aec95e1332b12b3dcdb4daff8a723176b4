@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "6c71fa03_93300817",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-13T00:11:15Z",
+      "side": 1,
+      "message": "I\u0027m not sure that we\u0027ve settled on a strategy about passing large objects around: it\u0027s proved to be an issue where the sub-elements modify the object, but that doesn\u0027t really apply in this case.\n\nI had only refactored it here because it seemed a lot tidier, although I forgot to tidy-up the message array and reviewer-updates. This element is mainly just a bunch of things that key off the change object, so it still makes sense to me to just pass that in.\n\nAt any rate, you\u0027re right that adding a labels property is simple, so I did that.",
+      "parentUuid": "1afa0cb5_acdcf1f5",
+      "revId": "991b89aec95e1332b12b3dcdb4daff8a723176b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "502f5455_b241e9ef",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 4
@@ -75,6 +93,30 @@
       "revId": "991b89aec95e1332b12b3dcdb4daff8a723176b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7cd0014_edb06d6e",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-13T00:11:15Z",
+      "side": 1,
+      "message": "Not really guaranteed, I guess. At least not in the docs [1]. I think it must be in practice based on the implementation at [2].\n\nAnyway, I\u0027ve sorted the values to be safe.\n\n* [1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#_fields_set_by_code_detailed_labels_code\n* [2] https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js#173",
+      "parentUuid": "502f5455_b241e9ef",
+      "range": {
+        "startLine": 349,
+        "startChar": 8,
+        "endLine": 349,
+        "endChar": 55
+      },
+      "revId": "991b89aec95e1332b12b3dcdb4daff8a723176b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

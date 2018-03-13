@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f8cddebe_3d23491f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-13T18:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8528ba7e_e9c2a56f",
+      "revId": "5327b0e7d0afa6040a191cd8d851d8f9d3f64e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78369ffa_c2c67ce0",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "5327b0e7d0afa6040a191cd8d851d8f9d3f64e93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c332bcea_5a723aa9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-13T18:14:14Z",
+      "side": 1,
+      "message": "I used sinon rather so that I could restore/reset the stub. I\u0027ll restore at the end, though!",
+      "parentUuid": "78369ffa_c2c67ce0",
+      "range": {
+        "startLine": 351,
+        "startChar": 20,
+        "endLine": 351,
+        "endChar": 25
+      },
+      "revId": "5327b0e7d0afa6040a191cd8d851d8f9d3f64e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "bd3ce6cc_1723bcea",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-13T18:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d8e2f13_d9868b88",
+      "range": {
+        "startLine": 326,
+        "startChar": 46,
+        "endLine": 326,
+        "endChar": 53
+      },
+      "revId": "5327b0e7d0afa6040a191cd8d851d8f9d3f64e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc56302b_ce6f3bbc",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
         "patchSetId": 2
@@ -85,6 +151,30 @@
       "revId": "5327b0e7d0afa6040a191cd8d851d8f9d3f64e93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf957e29_d70ad489",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-13T18:14:14Z",
+      "side": 1,
+      "message": "I feel like these are self explanatory, but I\u0027ve updated the description of the function to explain why these are optional.",
+      "parentUuid": "dc56302b_ce6f3bbc",
+      "range": {
+        "startLine": 328,
+        "startChar": 0,
+        "endLine": 329,
+        "endChar": 30
+      },
+      "revId": "5327b0e7d0afa6040a191cd8d851d8f9d3f64e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

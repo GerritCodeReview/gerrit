@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8528ba7e_e9c2a56f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-13T17:47:43Z",
+      "side": 1,
+      "message": "Can we fix the grammar in this comment? I feel like we generally try to keep them as proper sentences.\n\n  // Add a comma and space if both unresolved and draft comments exist.",
+      "revId": "5327b0e7d0afa6040a191cd8d851d8f9d3f64e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78369ffa_c2c67ce0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-13T17:47:43Z",
+      "side": 1,
+      "message": "This should either use sandbox throughout, or restore draftStub at the end. I\u0027d personally prefer the former, but up to you!",
+      "range": {
+        "startLine": 351,
+        "startChar": 20,
+        "endLine": 351,
+        "endChar": 25
+      },
+      "revId": "5327b0e7d0afa6040a191cd8d851d8f9d3f64e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d8e2f13_d9868b88",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-13T17:47:43Z",
+      "side": 1,
+      "message": "Comments",
+      "range": {
+        "startLine": 326,
+        "startChar": 46,
+        "endLine": 326,
+        "endChar": 53
+      },
+      "revId": "5327b0e7d0afa6040a191cd8d851d8f9d3f64e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc56302b_ce6f3bbc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-13T17:47:43Z",
+      "side": 1,
+      "message": "Would like to see a brief explanation of these params.",
+      "range": {
+        "startLine": 328,
+        "startChar": 0,
+        "endLine": 329,
+        "endChar": 30
+      },
+      "revId": "5327b0e7d0afa6040a191cd8d851d8f9d3f64e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

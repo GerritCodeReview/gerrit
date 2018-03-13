@@ -53,6 +53,24 @@
       "revId": "e5db8ab2261061605c266d30215bd16ce22124d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e38e9e5_5dd033ee",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/config/GeneralPreferencesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-13T10:43:11Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/151050\n\nAFAIK setting my menus as default in refs/users/default was not supported until that change. In my opinion this is not a regression and it\u0027s not a critical feature for 2.15 so I think for 2.15 we are just fine without doing anything.",
+      "parentUuid": "0baedb64_5d09d9d1",
+      "revId": "e5db8ab2261061605c266d30215bd16ce22124d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

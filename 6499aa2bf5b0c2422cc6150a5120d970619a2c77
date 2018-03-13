@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "45dfa168_73a47fdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-13T16:38:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c02dcb2c_b3752a75",
+      "revId": "6499aa2bf5b0c2422cc6150a5120d970619a2c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11e3892f_b96a9071",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 33
@@ -56,6 +74,24 @@
       "revId": "6499aa2bf5b0c2422cc6150a5120d970619a2c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb470065_c9e068cb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-13T16:38:30Z",
+      "side": 1,
+      "message": "Fixed. The thread list was accidentally place outside of the container that hides itself when loading.\n\nI also made a secondary change which ensures the tab is changed prior to displaying again. While already improved by moving the HTML element, the tab switch was still visible. Now, it shouldn\u0027t be anymore (see test \u0026 comment).",
+      "parentUuid": "11e3892f_b96a9071",
+      "revId": "6499aa2bf5b0c2422cc6150a5120d970619a2c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

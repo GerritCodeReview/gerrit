@@ -327,8 +327,66 @@ limitations under the License.
     test('thread list modified', () => {
       sandbox.spy(element, '_handleReloadDiffComments');
       return element._reloadComments().then(() => {
-        element.fire('thread-list-modified');
+        element.$.threadList.fire('thread-list-modified');
         assert.isTrue(element._handleReloadDiffComments.called);
+      });
+    });
+
+    test('thread list and change log tabs', done => {
+      element._changeNum = '1';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 1,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev2: {_number: 2, commit: {parents: []}},
+          rev1: {_number: 1, commit: {parents: []}},
+          rev13: {_number: 13, commit: {parents: []}},
+          rev3: {_number: 3, commit: {parents: []}},
+        },
+        current_revision: 'rev3',
+        status: 'NEW',
+        labels: {
+          test: {
+            all: [],
+            default_value: 0,
+            values: [],
+            approved: {},
+          },
+        },
+      };
+      sandbox.stub(element.$.relatedChanges, 'reload');
+      sandbox.stub(element, '_reload').returns(Promise.resolve());
+      sandbox.spy(element, '_paramsChanged');
+      element.params = {view: 'change', changeNum: '1'};
+
+      // When the change is hard reloaded, paramsChanged will not set the tab.
+      // It will be set in postLoadTasks, which requires the flush() to detect.
+      assert.isTrue(element._paramsChanged.called);
+      assert.isUndefined(element.$.commentTabs.selected);
+
+      // Wait for tab to get selected
+      flush(() => {
+        assert.equal(element.$.commentTabs.selected, 0);
+        assert.notEqual(getComputedStyle(element.$.messageList).display,
+            'none');
+        assert.equal(getComputedStyle(element.$.threadList).display, 'none');
+
+        // Switch to comment thread tab
+        MockInteractions.tap(element.$$('paper-tab.commentThreads'));
+        assert.equal(element.$.commentTabs.selected, 1);
+        assert.equal(getComputedStyle(element.$.messageList).display,
+            'none');
+        assert.notEqual(getComputedStyle(element.$.threadList).display,
+            'none');
+
+        // When the change is partially reloaded (ex: Shift+R), paramsChanged
+        // will set the tab, if it was previously set to the thread tab.
+        element._paramsChanged(element.params);
+        assert.equal(element.$.commentTabs.selected, 0);
+        done();
       });
     });
 

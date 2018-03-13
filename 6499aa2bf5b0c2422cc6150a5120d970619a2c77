@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4f244bc6_65b65a61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-13T00:47:04Z",
+      "side": 1,
+      "message": "Since the commit message is largely for posterity, referring to the thread view as \"new\" seems out of place to me.. it won\u0027t likely be new for the readers of the log. It certainly is new for us as reviewers of the change!\n\nBut I\u0027m nitpicking wording again.",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "6499aa2bf5b0c2422cc6150a5120d970619a2c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c02dcb2c_b3752a75",
         "filename": "/COMMIT_MSG",
         "patchSetId": 33

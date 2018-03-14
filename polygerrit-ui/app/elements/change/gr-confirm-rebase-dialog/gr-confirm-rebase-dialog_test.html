@@ -165,6 +165,7 @@ limitations under the License.
 
       test('input text change triggers function', () => {
         sandbox.spy(element, '_getRecentChanges');
+        element.$.parentInput.noDebounce = true;
         element._inputText = '1';
         assert.isTrue(element._getRecentChanges.calledOnce);
         element._inputText = '12';

@@ -35,6 +35,8 @@ import java.nio.file.Path;
 /** Initialize the {@code index} configuration section. */
 @Singleton
 class InitIndex implements InitStep {
+  private static final int ELASTICSEARCH_MAX_LIMIT = 10000;
+
   private final ConsoleUI ui;
   private final Section index;
   private final SitePaths site;
@@ -67,6 +69,8 @@ class InitIndex implements InitStep {
           "Transport protocol", "protocol", "http", Sets.newHashSet("http", "https"));
       elasticsearch.string("Hostname", "hostname", "localhost");
       elasticsearch.string("Port", "port", "9200");
+      int maxLimit = Math.min(Integer.valueOf(index.get("maxLimit")), ELASTICSEARCH_MAX_LIMIT);
+      index.set("maxLimit", String.valueOf(maxLimit));
     }
 
     if ((site.isNew || isEmptySite()) && type == IndexType.LUCENE) {

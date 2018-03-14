@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f6d29b6_290c6e01",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-14T06:55:14Z",
+      "side": 1,
+      "message": "A side effect of doing this is that we end up with index.name unnecessarily being set in the config.",
+      "range": {
+        "startLine": 64,
+        "startChar": 6,
+        "endLine": 64,
+        "endChar": 65
+      },
+      "revId": "0567c5a7aefec658674078c95b13f503c6b0fe9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

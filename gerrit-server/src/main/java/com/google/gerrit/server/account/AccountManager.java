@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.AccessSection;
@@ -136,8 +138,22 @@ public class AccountManager {
       try (ReviewDb db = schema.open()) {
         ExternalId id = externalIds.get(who.getExternalIdKey());
         if (id == null) {
+          if (who.getUserName() != null) {
+            ExternalId.Key key = ExternalId.Key.create(SCHEME_USERNAME, who.getUserName());
+            ExternalId existingId = externalIds.get(key);
+            if (existingId != null) {
+              // An inconsistency is detected in the database, having a record for scheme "username:"
+              // but no record for scheme "gerrit:". Try to recover by linking
+              // "gerrit:" identity to the existing account.
+              log.warn(
+                  "User {} already has an account; link new identity to the existing account.",
+                  who.getUserName());
+              return link(existingId.accountId(), who);
+            }
+          }
           // New account, automatically create and return.
           //
+          log.info("External ID not found. Attempting to create new account.");
           return create(db, who);
         }
 
@@ -387,6 +403,7 @@ public class AccountManager {
   public AuthResult link(Account.Id to, AuthRequest who)
       throws AccountException, OrmException, IOException, ConfigInvalidException {
     ExternalId extId = externalIds.get(who.getExternalIdKey());
+    log.info("Link another authentication identity to an existing account");
     if (extId != null) {
       if (!extId.accountId().equals(to)) {
         throw new AccountException(
@@ -394,6 +411,7 @@ public class AccountManager {
       }
       update(who, extId);
     } else {
+      log.info("Linking new external ID to the existing account");
       externalIdsUpdateFactory
           .create()
           .insert(ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress()));

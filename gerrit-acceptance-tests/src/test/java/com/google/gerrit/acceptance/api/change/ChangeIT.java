@@ -1560,16 +1560,17 @@ public class ChangeIT extends AbstractDaemonTest {
     String oldETag = rsrc.getETag();
     Timestamp oldTs = rsrc.getChange().getLastUpdatedOn();
 
-    //create a group named "us" with one user: testUser
-    TestAccount testUser = accountCreator.create("testUser", "testUser@test.com", "testUser");
-    String testGroup =
-        createGroupWithRealName(user.fullName.substring(0, user.fullName.length() / 2));
+    //create a group named "kobe" with one user: lee
+    TestAccount testUser = accountCreator.create("kobebryant", "kobebryant@test.com", "kobebryant");
+    TestAccount myGroupUser = accountCreator.create("lee", "lee@test.com", "lee");
+
+    String testGroup = createGroupWithRealName("kobe");
     GroupApi groupApi = gApi.groups().id(testGroup);
     groupApi.description("test group");
-    groupApi.addMembers(testUser.fullName);
+    groupApi.addMembers(myGroupUser.fullName);
 
     //ensure that user "user" is not in the group
-    groupApi.removeMembers(user.fullName);
+    groupApi.removeMembers(testUser.fullName);
 
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = testGroup;
@@ -1578,11 +1579,11 @@ public class ChangeIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(testUser.emailAddress);
-    assertThat(m.body()).contains("Hello " + testUser.fullName + ",\n");
+    assertThat(m.rcpt()).containsExactly(myGroupUser.emailAddress);
+    assertThat(m.body()).contains("Hello " + myGroupUser.fullName + ",\n");
     assertThat(m.body()).contains("I'd like you to do a code review.");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
-    assertMailReplyTo(m, testUser.email);
+    assertMailReplyTo(m, myGroupUser.email);
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
 
     // When NoteDb is enabled adding a reviewer records that user as reviewer
@@ -1592,7 +1593,7 @@ public class ChangeIT extends AbstractDaemonTest {
     Collection<AccountInfo> reviewers = c.reviewers.get(REVIEWER);
     assertThat(reviewers).isNotNull();
     assertThat(reviewers).hasSize(1);
-    assertThat(reviewers.iterator().next()._accountId).isEqualTo(testUser.getId().get());
+    assertThat(reviewers.iterator().next()._accountId).isEqualTo(myGroupUser.getId().get());
 
     // Ensure ETag and lastUpdatedOn are updated.
     rsrc = parseResource(r);

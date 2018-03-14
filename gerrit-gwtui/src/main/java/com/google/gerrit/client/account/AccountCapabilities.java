@@ -24,7 +24,7 @@ public class AccountCapabilities extends JavaScriptObject {
     new RestApi("/accounts/self/capabilities").addParameter("q", filter).get(cb);
   }
 
-  protected AccountCapabilities() {}
+  protected AccountCapabilities() {}  
 
   public final native boolean canPerform(String name) /*-{ return this[name] ? true : false; }-*/;
 }

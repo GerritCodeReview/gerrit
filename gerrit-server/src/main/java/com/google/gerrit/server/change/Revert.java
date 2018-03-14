@@ -226,7 +226,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       try (BatchUpdate bu = updateFactory.create(db.get(), project, user, now)) {
         bu.setRepository(git, revWalk, oi);
         bu.insertChange(ins);
-        bu.addOp(changeId, new NotifyOp(notes.getChange(), ins));
+        bu.addOp(changeId, new NotifyOp(changeToRevert, ins));
         bu.addOp(changeToRevert.getId(), new PostRevertedMessageOp(computedChangeId));
         bu.execute();
       }
@@ -263,14 +263,12 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     @Override
     public void postUpdate(Context ctx) throws Exception {
       changeReverted.fire(change, ins.getChange(), ctx.getWhen());
-      Change.Id changeId = ins.getChange().getId();
       try {
-        RevertedSender cm = revertedSenderFactory.create(ctx.getProject(), changeId);
+        RevertedSender cm = revertedSenderFactory.create(ctx.getProject(), change.getId());
         cm.setFrom(ctx.getAccountId());
-        cm.setChangeMessage(ins.getChangeMessage().getMessage(), ctx.getWhen());
         cm.send();
       } catch (Exception err) {
-        log.error("Cannot send email for revert change " + changeId, err);
+        log.error("Cannot send email for revert change " + change.getId(), err);
       }
     }
   }

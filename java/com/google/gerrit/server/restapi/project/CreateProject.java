@@ -47,6 +47,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ProjectOwnerGroupsProvider;
 import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.extensions.events.AbstractNoNotifyEvent;
@@ -110,6 +111,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   private final Provider<IdentifiedUser> identifiedUser;
   private final Provider<PutConfig> putConfig;
   private final AllProjectsName allProjects;
+  private final AllUsersName allUsers;
   private final DynamicItem<ProjectNameLockManager> lockManager;
   private final String name;
 
@@ -131,6 +133,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       Provider<IdentifiedUser> identifiedUser,
       Provider<PutConfig> putConfig,
       AllProjectsName allProjects,
+      AllUsersName allUsers,
       DynamicItem<ProjectNameLockManager> lockManager,
       @Assisted String name) {
     this.projectsCollection = projectsCollection;
@@ -149,6 +152,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     this.identifiedUser = identifiedUser;
     this.putConfig = putConfig;
     this.allProjects = allProjects;
+    this.allUsers = allUsers;
     this.lockManager = lockManager;
     this.name = name;
   }
@@ -169,6 +173,10 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     String parentName =
         MoreObjects.firstNonNull(Strings.emptyToNull(input.parent), allProjects.get());
     args.newParent = projectsCollection.get().parse(parentName, false).getNameKey();
+    if (args.newParent.equals(allUsers)) {
+      throw new ResourceConflictException(
+          String.format("Cannot inherit from '%s' project", allUsers.get()));
+    }
     args.createEmptyCommit = input.createEmptyCommit;
     args.permissionsOnly = input.permissionsOnly;
     args.projectDescription = Strings.emptyToNull(input.description);

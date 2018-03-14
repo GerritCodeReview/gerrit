@@ -180,6 +180,16 @@ public class ProjectIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createProjectUnderAllUsersNotAllowed() throws Exception {
+    ProjectInput in = new ProjectInput();
+    in.name = name("foo");
+    in.parent = allUsers.get();
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage(String.format("Cannot inherit from '%s' project", allUsers.get()));
+    gApi.projects().create(in);
+  }
+
+  @Test
   public void createAndDeleteBranch() throws Exception {
     assertThat(getRemoteHead(project.get(), "foo")).isNull();
 

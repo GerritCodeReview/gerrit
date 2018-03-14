@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c6f43d3_ff190b7d",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-14T16:07:05Z",
+      "side": 1,
+      "message": "Nit: using checkArgument allows you to avoid \"new IllegalArgumentException\" and \"String.format\"",
+      "revId": "9458219ef562d64d49dc8ed388183f6b76e1f41f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72574e8a_aa2457fb",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-14T16:07:05Z",
+      "side": 1,
+      "message": "Nit: spacing. \"update \u0026 rewrite\" or just \"update and rewrite\"",
+      "range": {
+        "startLine": 459,
+        "startChar": 32,
+        "endLine": 459,
+        "endChar": 46
+      },
+      "revId": "9458219ef562d64d49dc8ed388183f6b76e1f41f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26f10ae7_5a0a87a9",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-14T16:07:05Z",
+      "side": 1,
+      "message": "Nit: spacing",
+      "range": {
+        "startLine": 475,
+        "startChar": 34,
+        "endLine": 475,
+        "endChar": 48
+      },
+      "revId": "9458219ef562d64d49dc8ed388183f6b76e1f41f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

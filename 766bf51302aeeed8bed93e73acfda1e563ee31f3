@@ -70,6 +70,24 @@
       "revId": "766bf51302aeeed8bed93e73acfda1e563ee31f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48b8bc5d_2ff2c6b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/FailedPermissionBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-03-14T12:39:19Z",
+      "side": 1,
+      "message": "To be honest the name \"FailedPermissionBackend\" is misleading as well: do we want to simulate a persistent failure of evaluating the permissions or just a consistent permission denied?\n\nLet me split the class into two, so that reading the code and understanding what it does it will be so much easier :-)",
+      "parentUuid": "57ecbe63_8028c764",
+      "revId": "766bf51302aeeed8bed93e73acfda1e563ee31f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

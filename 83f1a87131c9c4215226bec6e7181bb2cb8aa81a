@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4327b69_5731ecf5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DefaultPermissionBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-03-14T15:58:51Z",
+      "side": 1,
+      "message": "For some of the projects, I get a not found. For others, I get \"unavailable\" simply because the project.config cannot be loaded.\n\nAgain, this condition was leading to a project not to appear anymore in the list. From 2.15, all the projects lists would fail and you won\u0027t see anything at all.\n\nAre we OK with this behaviour? Should we then detect the situation during init and ask the user to manually check all the projects?",
+      "range": {
+        "startLine": 82,
+        "startChar": 15,
+        "endLine": 82,
+        "endChar": 38
+      },
+      "revId": "83f1a87131c9c4215226bec6e7181bb2cb8aa81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,53 @@
       "revId": "0567c5a7aefec658674078c95b13f503c6b0fe9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35208096_a92d8326",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-14T23:18:20Z",
+      "side": 1,
+      "message": "The problem is \"name\" used to be a parameter a on point but was renamed to \"prefix\", see [1].\n\nThis should be:\n\nindex.string(\"Index Prefix\", \"prefix\", \"gerrit\");\n\n[1]https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#elasticsearch.prefix",
+      "parentUuid": "7f6d29b6_290c6e01",
+      "range": {
+        "startLine": 64,
+        "startChar": 6,
+        "endLine": 64,
+        "endChar": 65
+      },
+      "revId": "0567c5a7aefec658674078c95b13f503c6b0fe9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc0da31c_60e427d9",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-14T23:18:20Z",
+      "side": 1,
+      "message": "I do not know if init supports asking the user for a section name. If yes then we should ask for the elacticsearch server name and maybe propose \"default\" as the default.",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 66
+      },
+      "revId": "0567c5a7aefec658674078c95b13f503c6b0fe9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

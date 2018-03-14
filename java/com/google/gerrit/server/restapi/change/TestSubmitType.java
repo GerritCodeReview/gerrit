@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.RulesCache;
 import com.google.gwtorm.server.OrmException;
@@ -64,19 +65,20 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
       throw new AuthException("project rules are disabled");
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
-    SubmitRuleEvaluator evaluator =
-        submitRuleEvaluatorFactory.create(changeDataFactory.create(db.get(), rsrc.getNotes()));
 
-    SubmitTypeRecord rec =
-        evaluator
-            .setPatchSet(rsrc.getPatchSet())
-            .setLogErrors(false)
-            .setSkipSubmitFilters(input.filters == Filters.SKIP)
-            .setRule(input.rule)
-            .getSubmitType();
+    SubmitRuleOptions opts =
+        SubmitRuleOptions.builder()
+            .logErrors(false)
+            .skipFilters(input.filters == Filters.SKIP)
+            .rule(input.rule)
+            .build();
+
+    SubmitRuleEvaluator evaluator = submitRuleEvaluatorFactory.create(opts);
+    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getNotes());
+    SubmitTypeRecord rec = evaluator.getSubmitType(cd);
+
     if (rec.status != SubmitTypeRecord.Status.OK) {
-      throw new BadRequestException(
-          String.format("rule %s produced invalid result: %s", evaluator.getSubmitRuleName(), rec));
+      throw new BadRequestException(String.format("rule produced invalid result: %s", rec));
     }
 
     return rec.type;

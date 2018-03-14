@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.rules;
 
+import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicSet;
 
@@ -22,6 +23,9 @@ public class PrologModule extends FactoryModule {
   protected void configure() {
     install(new EnvironmentModule());
     bind(PrologEnvironment.Args.class);
+    factory(PrologRuleEvaluator.Factory.class);
+
+    bind(SubmitRule.class).annotatedWith(Exports.named("PrologRule")).to(PrologRule.class);
   }
 
   static class EnvironmentModule extends FactoryModule {

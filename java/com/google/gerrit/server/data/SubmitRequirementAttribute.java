@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,14 +14,12 @@
 
 package com.google.gerrit.server.data;
 
-import java.util.List;
-
 /**
- * Represents a {@link com.google.gerrit.common.data.SubmitRecord} that does not depend on Gerrit
- * internal classes, to be serialized.
+ * Represents a {@link com.google.gerrit.common.data.SubmitRequirement} that does not depend on
+ * Gerrit internal classes, to be serialized
  */
-public class SubmitRecordAttribute {
-  public String status;
-  public List<SubmitLabelAttribute> labels;
-  public List<SubmitRequirementAttribute> requirements;
+public class SubmitRequirementAttribute {
+  public String shortReason;
+  public String fullReason;
+  public String label;
 }

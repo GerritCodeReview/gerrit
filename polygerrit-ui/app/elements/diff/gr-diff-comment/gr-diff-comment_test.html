@@ -385,6 +385,23 @@ limitations under the License.
       element.draft = false;
       assert.isTrue(element.$$('.humanActions').hasAttribute('hidden'));
       assert.isFalse(element.$$('.robotActions').hasAttribute('hidden'));
+
+      // A robot comment with run ID should display plain text.
+      element.set(['comment', 'robot_run_id'], 'text');
+      element.editing = false;
+      element.collapsed = false;
+      flushAsynchronousOperations();
+      assert.isNotOk(element.$$('.robotRun.link'));
+      assert.notEqual(getComputedStyle(element.$$('.robotRun.text')).display,
+          'none');
+
+      // A robot comment with run ID and url should display a link.
+      element.set(['comment', 'url'], '/path/to/run');
+      flushAsynchronousOperations();
+      assert.notEqual(getComputedStyle(element.$$('.robotRun.link')).display,
+          'none');
+      assert.equal(getComputedStyle(element.$$('.robotRun.text')).display,
+          'none');
     });
 
     test('collapsible drafts', () => {

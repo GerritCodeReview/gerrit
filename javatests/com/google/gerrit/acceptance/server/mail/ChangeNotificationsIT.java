@@ -2219,17 +2219,22 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isFalse();
     StagedChange sc = stageChange();
     revert(sc, sc.owner);
+
+    // email for the newly created revert change
     assertThat(sender)
         .sent("newchange", sc)
         .to(sc.reviewer, sc.ccer, sc.watchingProjectOwner, admin)
         .bcc(NEW_CHANGES, NEW_PATCHSETS)
-        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
+        .noOneElse();
 
+    // email for the change that is reverted
     assertThat(sender)
         .sent("revert", sc)
         .cc(sc.reviewer, sc.ccer, admin)
+        .cc(sc.reviewerByEmail)
+        .bcc(sc.starrer)
         .bcc(ALL_COMMENTS)
-        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
+        .noOneElse();
   }
 
   @Test
@@ -2237,18 +2242,23 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageChange();
     revert(sc, sc.owner);
+
+    // email for the newly created revert change
     assertThat(sender)
         .sent("newchange", sc)
         .to(sc.reviewer, sc.watchingProjectOwner, admin)
         .cc(sc.ccer)
         .bcc(NEW_CHANGES, NEW_PATCHSETS)
-        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
+        .noOneElse();
 
+    // email for the change that is reverted
     assertThat(sender)
         .sent("revert", sc)
         .cc(sc.reviewer, sc.ccer, admin)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .bcc(sc.starrer)
         .bcc(ALL_COMMENTS)
-        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
+        .noOneElse();
   }
 
   @Test
@@ -2256,19 +2266,24 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isFalse();
     StagedChange sc = stageChange();
     revert(sc, sc.owner, CC_ON_OWN_COMMENTS);
+
+    // email for the newly created revert change
     assertThat(sender)
         .sent("newchange", sc)
         .to(sc.reviewer, sc.ccer, sc.watchingProjectOwner, admin)
         .cc(sc.owner)
         .bcc(NEW_CHANGES, NEW_PATCHSETS)
-        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
+        .noOneElse();
 
+    // email for the change that is reverted
     assertThat(sender)
         .sent("revert", sc)
         .to(sc.owner)
         .cc(sc.reviewer, sc.ccer, admin)
+        .cc(sc.reviewerByEmail)
+        .bcc(sc.starrer)
         .bcc(ALL_COMMENTS)
-        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
+        .noOneElse();
   }
 
   @Test
@@ -2276,19 +2291,24 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageChange();
     revert(sc, sc.owner, CC_ON_OWN_COMMENTS);
+
+    // email for the newly created revert change
     assertThat(sender)
         .sent("newchange", sc)
         .to(sc.reviewer, sc.watchingProjectOwner, admin)
         .cc(sc.owner, sc.ccer)
         .bcc(NEW_CHANGES, NEW_PATCHSETS)
-        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
+        .noOneElse();
 
+    // email for the change that is reverted
     assertThat(sender)
         .sent("revert", sc)
         .to(sc.owner)
         .cc(sc.reviewer, sc.ccer, admin)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .bcc(sc.starrer)
         .bcc(ALL_COMMENTS)
-        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
+        .noOneElse();
   }
 
   @Test
@@ -2296,17 +2316,23 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isFalse();
     StagedChange sc = stageChange();
     revert(sc, other);
+
+    // email for the newly created revert change
     assertThat(sender)
         .sent("newchange", sc)
         .to(sc.owner, sc.reviewer, sc.ccer, sc.watchingProjectOwner, admin)
         .bcc(NEW_CHANGES, NEW_PATCHSETS)
-        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
+        .noOneElse();
 
+    // email for the change that is reverted
     assertThat(sender)
         .sent("revert", sc)
-        .cc(sc.owner, sc.reviewer, sc.ccer, admin)
+        .to(sc.owner)
+        .cc(sc.reviewer, sc.ccer, admin)
+        .cc(sc.reviewerByEmail)
+        .bcc(sc.starrer)
         .bcc(ALL_COMMENTS)
-        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
+        .noOneElse();
   }
 
   @Test
@@ -2314,18 +2340,24 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageChange();
     revert(sc, other);
+
+    // email for the newly created revert change
     assertThat(sender)
         .sent("newchange", sc)
         .to(sc.owner, sc.reviewer, sc.watchingProjectOwner, admin)
         .cc(sc.ccer)
         .bcc(NEW_CHANGES, NEW_PATCHSETS)
-        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
+        .noOneElse();
 
+    // email for the change that is reverted
     assertThat(sender)
         .sent("revert", sc)
-        .cc(sc.owner, sc.reviewer, sc.ccer, admin)
+        .to(sc.owner)
+        .cc(sc.reviewer, sc.ccer, admin)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .bcc(sc.starrer)
         .bcc(ALL_COMMENTS)
-        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
+        .noOneElse();
   }
 
   @Test
@@ -2333,19 +2365,24 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isFalse();
     StagedChange sc = stageChange();
     revert(sc, other, CC_ON_OWN_COMMENTS);
+
+    // email for the newly created revert change
     assertThat(sender)
         .sent("newchange", sc)
         .to(sc.owner, sc.reviewer, sc.ccer, sc.watchingProjectOwner, admin)
         .cc(other)
         .bcc(NEW_CHANGES, NEW_PATCHSETS)
-        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
+        .noOneElse();
 
+    // email for the change that is reverted
     assertThat(sender)
         .sent("revert", sc)
-        .to(other)
-        .cc(sc.owner, sc.reviewer, sc.ccer, admin)
+        .to(sc.owner)
+        .cc(other, sc.reviewer, sc.ccer, admin)
+        .cc(sc.reviewerByEmail)
+        .bcc(sc.starrer)
         .bcc(ALL_COMMENTS)
-        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
+        .noOneElse();
   }
 
   @Test
@@ -2353,19 +2390,24 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageChange();
     revert(sc, other, CC_ON_OWN_COMMENTS);
+
+    // email for the newly created revert change
     assertThat(sender)
         .sent("newchange", sc)
         .to(sc.owner, sc.reviewer, sc.watchingProjectOwner, admin)
         .cc(sc.ccer, other)
         .bcc(NEW_CHANGES, NEW_PATCHSETS)
-        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
+        .noOneElse();
 
+    // email for the change that is reverted
     assertThat(sender)
         .sent("revert", sc)
-        .to(other)
-        .cc(sc.owner, sc.reviewer, sc.ccer, admin)
+        .to(sc.owner)
+        .cc(other, sc.reviewer, sc.ccer, admin)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .bcc(sc.starrer)
         .bcc(ALL_COMMENTS)
-        .noOneElse(); // TODO(logan): Why not starrer/reviewers-by-email?
+        .noOneElse();
   }
 
   private StagedChange stageChange() throws Exception {

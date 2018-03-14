@@ -16,6 +16,24 @@
       "revId": "766bf51302aeeed8bed93e73acfda1e563ee31f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44d387d5_6a552ea1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/FailedPermissionBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-03-14T08:17:56Z",
+      "side": 1,
+      "message": "Actually here the problem is not that the backend has failed, but that the user should not see at all that resource.\n\nPermissionBackendException is more *IF* there is a fatal error on the resolution of the permissions, at least this is my understanding from the review of this change :-)",
+      "parentUuid": "b1855fa9_5042b2aa",
+      "revId": "766bf51302aeeed8bed93e73acfda1e563ee31f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

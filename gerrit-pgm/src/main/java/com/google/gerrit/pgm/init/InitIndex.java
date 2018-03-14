@@ -40,6 +40,7 @@ class InitIndex implements InitStep {
   private final SitePaths site;
   private final InitFlags initFlags;
   private final Section gerrit;
+  private final Section.Factory sections;
 
   @Inject
   InitIndex(ConsoleUI ui, Section.Factory sections, SitePaths site, InitFlags initFlags) {
@@ -48,6 +49,7 @@ class InitIndex implements InitStep {
     this.gerrit = sections.get("gerrit", null);
     this.site = site;
     this.initFlags = initFlags;
+    this.sections = sections;
   }
 
   @Override
@@ -59,10 +61,15 @@ class InitIndex implements InitStep {
     }
 
     if (type == IndexType.ELASTICSEARCH) {
-      index.select("Transport protocol", "protocol", "http", Sets.newHashSet("http", "https"));
-      index.string("Hostname", "hostname", "localhost");
-      index.string("Port", "port", "9200");
-      index.string("Index Name", "name", "gerrit");
+      Section elasticsearch = sections.get("elasticsearch", null);
+      elasticsearch.string("Index Prefix", "prefix", "gerrit");
+      String name = ui.readString("default", "Server Name");
+
+      Section defaultServer = sections.get("elasticsearch", name);
+      defaultServer.select(
+          "Transport protocol", "protocol", "http", Sets.newHashSet("http", "https"));
+      defaultServer.string("Hostname", "hostname", "localhost");
+      defaultServer.string("Port", "port", "9200");
     }
 
     if ((site.isNew || isEmptySite()) && type == IndexType.LUCENE) {

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1520938620 +0100\nnonce APUGfELW9YNlEOWZEWAeFovwpkV2uPKjQCbY+oZTAa0vo07fvZehwYwD8lYlMF/s1vvXIow0WCEx\n\n0000000000000000000000000000000000000000 99cb52834df7929f28c8b7dee217eb29399d91a3 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlqnrnwACgkQUbX9l6DQ\n71EK0QgAgktZ91Ol8xF1rwJJVS/Zb1SWQVsXmiBJoG5n9SITwSb62BPh9/l1UH4o\nOVlRhuZo7uXP4k5YLngVt1yLI5wOB/6ykoFiWMP3xKdNd+RJhq2ApSdxMuOiN8Ds\nzPpLw4LzfjbDQCM89BWR3JnvBQm+qjk/I/t0hdlSsJBE0PRRllQVrEBFuzm4sT+k\njxqdZjStxIcLtD6+Ej8/NTBOU8M20djqXaaHpkFiyUXivq3vsjw0BJJlQ+MdbuLD\nxJsOb+YCvUZALyXMLL0xpoaPDMpQOBBx+gxj0pcE5QSYuEHcNre3J+R008vEpYr/\nez8ZWOkJewDJW+eINW6vEEIgVbUDRg\u003d\u003d\n\u003d/gFV\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b711a078_adaea83d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-14T15:55:48Z",
+      "side": 1,
+      "message": "gwtorm key encoding is not quite the same thing as URL encoding. Surely there is a GWT-compatible URL encoding method in the standard library we can use.",
+      "revId": "99cb52834df7929f28c8b7dee217eb29399d91a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

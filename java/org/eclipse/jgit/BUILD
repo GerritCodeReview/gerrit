@@ -39,7 +39,6 @@ java_library(
     srcs = [
         "diff/EditDeserializer.java",
         "diff/ReplaceEdit.java",
-        "lib/ObjectIdSerialization.java",
     ],
     visibility = ["//visibility:public"],
     deps = [

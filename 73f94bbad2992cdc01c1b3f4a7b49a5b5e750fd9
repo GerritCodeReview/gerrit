@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1521043548 +0100\nnonce APUGfEJwZM2ME2dvFLyhMAEwbRQNU/50ELOOxuIA/M5qKlg/dxfwngtjES8Vs415N+lIoR3GTYOd\n\n0000000000000000000000000000000000000000 73f94bbad2992cdc01c1b3f4a7b49a5b5e750fd9 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlqpSFwACgkQUbX9l6DQ\n71HnjQgAk0I5YlktR30ehLUGY0/rxVoqFGHqeqLHLErpOO4CpgdQrZxbv4yO2B5T\n+qnbpCWBnbMNKjKh7iMeQOMzctkaYlxoVvHsACHP3e+nds5xdQVCk8agWfH/jZaH\nL0hZ7ZqnCOx2n+iLDoTCNi+nIprfyIrS2nsXufirBF6mMojcpW/qJbULgITsgC9j\nLLICKEh6r8iqCCqqhHd4aSdiYi4IPwIsEZYQyvVZbJEU2B94umvGTr07E86cbWRU\nTQxkKmqRPR/SMQgrLaYAv8gyNGHWhcE49Bs17OrxDd18XtrwVqjAeeTT4rNa+7y+\nPc7LTs50X9kCXG1AQoG5FVb2IJd27Q\u003d\u003d\n\u003dEFdY\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8d12a23_56943910",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-14T16:20:07Z",
+      "side": 1,
+      "message": "changeToRevert is assigned from notes.getChange() in l.194 so this is just a cosmetic change?",
+      "revId": "73f94bbad2992cdc01c1b3f4a7b49a5b5e750fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

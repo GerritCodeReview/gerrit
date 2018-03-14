@@ -17,6 +17,24 @@
       "revId": "656291c7ef20521b8dc508fe80410a7219e25a72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c64aa27_a75b17e9",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/Schema_159_to_160_Test.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-14T22:00:56Z",
+      "side": 1,
+      "message": "This was a bit of a sanity check of re-hard-coding these values rather than depending programmatically on the constants, which might have typos. Arguably that kind of thing belongs in a small test. But I don\u0027t really feel too strongly either way (certainly not strongly enough to write a small test.)",
+      "parentUuid": "98bda6e8_1adad85c",
+      "revId": "656291c7ef20521b8dc508fe80410a7219e25a72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

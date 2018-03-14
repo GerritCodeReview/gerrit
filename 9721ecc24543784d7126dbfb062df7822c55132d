@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f3907f8_21df194a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DefaultPermissionBackend.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-03-14T16:02:21Z",
+      "side": 1,
+      "message": "I am convinced that we need to keep a backward-compatible behaviour.\n\nIf we all decided that we want this breaking change, I am fine BUT:\na) We need to explicitly mention that in the release notes for migration\nb) We need to check during init that all the repositories are there and are accessible.\n\nIf we release 2.15 as-is, we\u0027ll have people saying \"before it was working fine, I never realised that some of the repos were unreadable\". That is fine, but they won\u0027t like to realise that *after* migration.\n\nBetter safe than sorry :-)",
+      "range": {
+        "startLine": 82,
+        "startChar": 15,
+        "endLine": 82,
+        "endChar": 42
+      },
+      "revId": "9721ecc24543784d7126dbfb062df7822c55132d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

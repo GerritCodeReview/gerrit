@@ -17,6 +17,24 @@
       "revId": "73f94bbad2992cdc01c1b3f4a7b49a5b5e750fd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ce81d77_b6213f72",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-14T17:14:18Z",
+      "side": 1,
+      "message": "Right, this modification here is only for improving readability.",
+      "parentUuid": "e8d12a23_56943910",
+      "revId": "73f94bbad2992cdc01c1b3f4a7b49a5b5e750fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

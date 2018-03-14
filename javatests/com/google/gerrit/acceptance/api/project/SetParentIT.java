@@ -90,6 +90,13 @@ public class SetParentIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setParentToAllUsersNotAllowed() throws Exception {
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage(String.format("Cannot inherit from '%s' project", allUsers.get()));
+    gApi.projects().name(project.get()).parent(allUsers.get());
+  }
+
+  @Test
   public void setParentForAllUsersMustBeAllProjects() throws Exception {
     gApi.projects().name(allUsers.get()).parent(allProjects.get());
 

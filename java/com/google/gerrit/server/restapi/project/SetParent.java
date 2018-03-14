@@ -126,6 +126,11 @@ public class SetParent implements RestModifyView<ProjectResource, ParentInput> {
       throw new ResourceConflictException("cannot set parent of " + allProjects.get());
     }
 
+    if (allUsers.get().equals(newParent)) {
+      throw new ResourceConflictException(
+          String.format("Cannot inherit from '%s' project", allUsers.get()));
+    }
+
     newParent = Strings.emptyToNull(newParent);
     if (newParent != null) {
       ProjectState parent = cache.get(new Project.NameKey(newParent));

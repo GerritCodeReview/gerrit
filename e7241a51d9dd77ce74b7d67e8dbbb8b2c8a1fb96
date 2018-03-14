@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "87e12bb2_0a2af2dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-03-14T09:46:48Z",
+      "side": 1,
+      "message": "Logan?\n\nAFAIK, we show both the error code and a message in a toast, so I\u0027d hope the Lock failure message would get displayed.",
+      "parentUuid": "78ceca25_8e4a5967",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "e7241a51d9dd77ce74b7d67e8dbbb8b2c8a1fb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1494ec9_2ba75544",
         "filename": "java/com/google/gerrit/server/update/RetryingRestModifyView.java",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "e7241a51d9dd77ce74b7d67e8dbbb8b2c8a1fb96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5856c439_c6d7670f",
+        "filename": "java/com/google/gerrit/server/update/RetryingRestModifyView.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-03-14T09:46:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1494ec9_2ba75544",
+      "revId": "e7241a51d9dd77ce74b7d67e8dbbb8b2c8a1fb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

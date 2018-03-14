@@ -34,6 +34,24 @@
       "revId": "766bf51302aeeed8bed93e73acfda1e563ee31f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb19142b_768aba80",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/FailedPermissionBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-14T08:25:06Z",
+      "side": 1,
+      "message": "That\u0027s what I mean.  In the case you\u0027re describing, were the user should not see that resource, it should throw AuthException.\n\nBut in the case where checking the permission fails, then the method should still be able to throw PermissionBackendException.\n\nIn other words, should this change rather add AuthException to the throws declaration in addition to PermissionBackendException, instead of replacing it?",
+      "parentUuid": "44d387d5_6a552ea1",
+      "revId": "766bf51302aeeed8bed93e73acfda1e563ee31f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

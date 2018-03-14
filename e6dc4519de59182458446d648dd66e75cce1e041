@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "233bc68a_93b062c1",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-14T06:57:32Z",
+      "side": 1,
+      "message": "NPE here if maxLimit was not set.",
+      "range": {
+        "startLine": 72,
+        "startChar": 30,
+        "endLine": 72,
+        "endChar": 67
+      },
+      "revId": "e6dc4519de59182458446d648dd66e75cce1e041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

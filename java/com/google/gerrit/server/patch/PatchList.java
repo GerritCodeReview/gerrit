@@ -18,10 +18,8 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.readBytes;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeBytes;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
-import static org.eclipse.jgit.lib.ObjectIdSerialization.readCanBeNull;
-import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
-import static org.eclipse.jgit.lib.ObjectIdSerialization.writeCanBeNull;
-import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
+import static org.eclipse.jgit.lib.ObjectIdSerializer.read;
+import static org.eclipse.jgit.lib.ObjectIdSerializer.write;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.Nullable;
@@ -173,8 +171,8 @@ public class PatchList implements Serializable {
   private void writeObject(ObjectOutputStream output) throws IOException {
     final ByteArrayOutputStream buf = new ByteArrayOutputStream();
     try (DeflaterOutputStream out = new DeflaterOutputStream(buf)) {
-      writeCanBeNull(out, oldId);
-      writeNotNull(out, newId);
+      write(out, oldId);
+      write(out, newId);
       writeVarInt32(out, isMerge ? 1 : 0);
       comparisonType.writeTo(out);
       writeVarInt32(out, insertions);
@@ -190,8 +188,8 @@ public class PatchList implements Serializable {
   private void readObject(ObjectInputStream input) throws IOException {
     final ByteArrayInputStream buf = new ByteArrayInputStream(readBytes(input));
     try (InflaterInputStream in = new InflaterInputStream(buf)) {
-      oldId = readCanBeNull(in);
-      newId = readNotNull(in);
+      oldId = read(in);
+      newId = read(in);
       isMerge = readVarInt32(in) != 0;
       comparisonType = ComparisonType.readFrom(in);
       insertions = readVarInt32(in);

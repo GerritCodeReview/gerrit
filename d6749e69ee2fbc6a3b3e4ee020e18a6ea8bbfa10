@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49e08d01_6a966b44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-14T07:29:29Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we abort this loop as soon as we have failures for more than 50% of projects?",
+      "range": {
+        "startLine": 115,
+        "startChar": 4,
+        "endLine": 115,
+        "endChar": 53
+      },
+      "revId": "d6749e69ee2fbc6a3b3e4ee020e18a6ea8bbfa10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

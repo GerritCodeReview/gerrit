@@ -6653,12 +6653,20 @@ change.
 The `RevertInput` entity contains information for reverting a change.
 
 [options="header",cols="1,^1,5"]
-|===========================
-|Field Name    ||Description
-|`message`     |optional|
+|=============================
+|Field Name      ||Description
+|`message`       |optional|
 Message to be added as review comment to the change when reverting the
 change.
-|===========================
+|`notify`        |optional|
+Notify handling that defines to whom email notifications should be sent
+for reverting the change. +
+Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
+If not set, the default is `ALL`.
+|`notify_details`|optional|
+Additional information about whom to notify about the revert as a map
+of recipient type to link:#notify-info[NotifyInfo] entity.
+|=============================
 
 [[review-info]]
 === ReviewInfo

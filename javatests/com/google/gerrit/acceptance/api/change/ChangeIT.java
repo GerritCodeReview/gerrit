@@ -80,6 +80,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
@@ -688,6 +689,21 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(messages).hasSize(2);
     assertThat(sender.getMessages(revertChange.changeId, "newchange")).hasSize(1);
     assertThat(sender.getMessages(r.getChangeId(), "revert")).hasSize(1);
+  }
+
+  @Test
+  public void suppressRevertNotifications() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email);
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+
+    RevertInput revertInput = new RevertInput();
+    revertInput.notify = NotifyHandling.NONE;
+
+    sender.clear();
+    gApi.changes().id(r.getChangeId()).revert(revertInput).get();
+    assertThat(sender.getMessages()).isEmpty();
   }
 
   @Test

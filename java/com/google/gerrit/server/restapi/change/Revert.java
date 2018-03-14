@@ -18,7 +18,10 @@ import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -43,6 +46,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.NotifyUtil;
 import com.google.gerrit.server.extensions.events.ChangeReverted;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.send.RevertedSender;
@@ -70,6 +74,7 @@ import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -102,6 +107,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   private final ChangeReverted changeReverted;
   private final ContributorAgreementsChecker contributorAgreements;
   private final ProjectCache projectCache;
+  private final NotifyUtil notifyUtil;
 
   @Inject
   Revert(
@@ -119,7 +125,8 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       ApprovalsUtil approvalsUtil,
       ChangeReverted changeReverted,
       ContributorAgreementsChecker contributorAgreements,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      NotifyUtil notifyUtil) {
     super(retryHelper);
     this.db = db;
     this.permissionBackend = permissionBackend;
@@ -135,13 +142,14 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     this.changeReverted = changeReverted;
     this.contributorAgreements = contributorAgreements;
     this.projectCache = projectCache;
+    this.notifyUtil = notifyUtil;
   }
 
   @Override
   public ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, RevertInput input)
       throws IOException, OrmException, RestApiException, UpdateException, NoSuchChangeException,
-          PermissionBackendException, NoSuchProjectException {
+          PermissionBackendException, NoSuchProjectException, ConfigInvalidException {
     Change change = rsrc.getChange();
     if (change.getStatus() != Change.Status.MERGED) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
@@ -151,14 +159,14 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     permissionBackend.user(rsrc.getUser()).ref(change.getDest()).check(CREATE_CHANGE);
     projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
 
-    Change.Id revertId =
-        revert(updateFactory, rsrc.getNotes(), rsrc.getUser(), Strings.emptyToNull(input.message));
+    Change.Id revertId = revert(updateFactory, rsrc.getNotes(), rsrc.getUser(), input);
     return json.noOptions().format(rsrc.getProject(), revertId);
   }
 
   private Change.Id revert(
-      BatchUpdate.Factory updateFactory, ChangeNotes notes, CurrentUser user, String message)
-      throws OrmException, IOException, RestApiException, UpdateException {
+      BatchUpdate.Factory updateFactory, ChangeNotes notes, CurrentUser user, RevertInput input)
+      throws OrmException, IOException, RestApiException, UpdateException, ConfigInvalidException {
+    String message = Strings.emptyToNull(input.message);
     Change.Id changeIdToRevert = notes.getChangeId();
     PatchSet.Id patchSetId = notes.getChange().currentPatchSetId();
     PatchSet patch = psUtil.get(db.get(), notes, patchSetId);
@@ -213,11 +221,16 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       ObjectId id = oi.insert(revertCommitBuilder);
       RevCommit revertCommit = revWalk.parseCommit(id);
 
+      ListMultimap<RecipientType, Account.Id> accountsToNotify =
+          notifyUtil.resolveAccounts(input.notifyDetails);
+
       ChangeInserter ins =
           changeInserterFactory
               .create(changeId, revertCommit, notes.getChange().getDest().get())
               .setTopic(changeToRevert.getTopic());
       ins.setMessage("Uploaded patch set 1.");
+      ins.setNotify(input.notify);
+      ins.setAccountsToNotify(accountsToNotify);
 
       ReviewerSet reviewerSet = approvalsUtil.getReviewers(db.get(), notes);
 
@@ -235,7 +248,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       try (BatchUpdate bu = updateFactory.create(db.get(), project, user, now)) {
         bu.setRepository(git, revWalk, oi);
         bu.insertChange(ins);
-        bu.addOp(changeId, new NotifyOp(changeToRevert, ins));
+        bu.addOp(changeId, new NotifyOp(changeToRevert, ins, input.notify, accountsToNotify));
         bu.addOp(changeToRevert.getId(), new PostRevertedMessageOp(computedChangeId));
         bu.execute();
       }
@@ -269,10 +282,18 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   private class NotifyOp implements BatchUpdateOp {
     private final Change change;
     private final ChangeInserter ins;
+    private final NotifyHandling notifyHandling;
+    private final ListMultimap<RecipientType, Account.Id> accountsToNotify;
 
-    NotifyOp(Change change, ChangeInserter ins) {
+    NotifyOp(
+        Change change,
+        ChangeInserter ins,
+        NotifyHandling notifyHandling,
+        ListMultimap<RecipientType, Account.Id> accountsToNotify) {
       this.change = change;
       this.ins = ins;
+      this.notifyHandling = notifyHandling;
+      this.accountsToNotify = accountsToNotify;
     }
 
     @Override
@@ -281,6 +302,8 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       try {
         RevertedSender cm = revertedSenderFactory.create(ctx.getProject(), change.getId());
         cm.setFrom(ctx.getAccountId());
+        cm.setNotify(notifyHandling);
+        cm.setAccountsToNotify(accountsToNotify);
         cm.send();
       } catch (Exception err) {
         log.error("Cannot send email for revert change " + change.getId(), err);

@@ -39,6 +39,7 @@ java_library(
     srcs = [
         "diff/EditDeserializer.java",
         "diff/ReplaceEdit.java",
+        "internal/storage/file/WindowCacheStatAccessor.java",
         "lib/ObjectIdSerialization.java",
     ],
     visibility = ["//visibility:public"],

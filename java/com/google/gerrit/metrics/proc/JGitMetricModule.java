@@ -18,7 +18,7 @@ import com.google.common.base.Supplier;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
-import org.eclipse.jgit.storage.file.WindowCacheStats;
+import org.eclipse.jgit.internal.storage.file.WindowCacheStatAccessor;
 
 public class JGitMetricModule extends MetricModule {
   @Override
@@ -32,7 +32,7 @@ public class JGitMetricModule extends MetricModule {
         new Supplier<Long>() {
           @Override
           public Long get() {
-            return WindowCacheStats.getOpenBytes();
+            return WindowCacheStatAccessor.getOpenBytes();
           }
         });
 
@@ -43,7 +43,7 @@ public class JGitMetricModule extends MetricModule {
         new Supplier<Integer>() {
           @Override
           public Integer get() {
-            return WindowCacheStats.getOpenFiles();
+            return WindowCacheStatAccessor.getOpenFiles();
           }
         });
   }

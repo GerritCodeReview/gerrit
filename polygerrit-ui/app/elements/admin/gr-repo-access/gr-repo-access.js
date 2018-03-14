@@ -316,11 +316,6 @@
       });
     },
 
-    _computeShowEditClass(sections) {
-      if (!sections.length) { return ''; }
-      return 'visible';
-    },
-
     _computeShowSaveClass(editing) {
       if (!editing) { return ''; }
       return 'visible';

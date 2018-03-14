@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68bd396c_7d0c5306",
+        "filename": "java/com/google/gerrit/server/patch/DiffSummaryKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-03-14T18:46:22Z",
+      "side": 1,
+      "message": "writeNotNull avoided writing a tag, so this produces incompatible output.",
+      "revId": "b5769d3e75d3ac4afec1c7c1a4714e967182d63b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

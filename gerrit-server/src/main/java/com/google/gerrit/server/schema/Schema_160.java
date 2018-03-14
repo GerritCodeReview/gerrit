@@ -41,7 +41,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 
 /**
- * Remove "My Drafts" menu items for all users.
+ * Remove "My Drafts" menu items for all users and server-wide default preferences.
  *
  * <p>Since draft changes no longer exist, these menu items are obsolete.
  *
@@ -76,10 +76,9 @@ public class Schema_160 extends SchemaVersion {
         ProgressMonitor pm = new TextProgressMonitor();
         pm.beginTask("Removing \"My Drafts\" menu items", ProgressMonitor.UNKNOWN);
         for (Account.Id id : (Iterable<Account.Id>) Accounts.readUserRefs(repo)::iterator) {
-          if (removeMyDrafts(repo, id)) {
-            pm.update(1);
-          }
+          removeMyDrafts(repo, RefNames.refsUsers(id), pm);
         }
+        removeMyDrafts(repo, RefNames.REFS_USERS_DEFAULT, pm);
         pm.endTask();
       }
     } catch (IOException | ConfigInvalidException e) {
@@ -87,24 +86,26 @@ public class Schema_160 extends SchemaVersion {
     }
   }
 
-  private boolean removeMyDrafts(Repository repo, Account.Id id)
+  private void removeMyDrafts(Repository repo, String ref, ProgressMonitor pm)
       throws IOException, ConfigInvalidException {
     MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, repo);
     PersonIdent ident = serverIdent.get();
     md.getCommitBuilder().setAuthor(ident);
     md.getCommitBuilder().setCommitter(ident);
-    Prefs prefs = new Prefs(id);
+    Prefs prefs = new Prefs(ref);
     prefs.load(repo);
     prefs.removeMyDrafts();
     prefs.commit(md);
-    return prefs.dirty();
+    if (prefs.dirty()) {
+      pm.update(1);
+    }
   }
 
   private static class Prefs extends VersionedAccountPreferences {
     private boolean dirty;
 
-    Prefs(Account.Id id) {
-      super(RefNames.refsUsers(id));
+    Prefs(String ref) {
+      super(ref);
     }
 
     @Override

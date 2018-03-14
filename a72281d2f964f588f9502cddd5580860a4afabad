@@ -46,6 +46,30 @@
       "revId": "a72281d2f964f588f9502cddd5580860a4afabad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "baa0237c_67d3b756",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-03-14T22:02:03Z",
+      "side": 1,
+      "message": "\u003e Yes, but I would still do not know, what the capabilities the\n \u003e authenticated user has. Example: javamelody plugin is extending\n \u003e AllRequestFilter: [1] and provide this capability checker to\n \u003e actually check that the user was granted administrate server\n \u003e capability: [2].\n\nFor my information, how do you get current user before it\nwas authenticated? AFAIK, AllRequestsFilter runs before\nany servlet filters in Gerrit core, right? And only a filter in\nGerrit core (like ProjectBasicAuthFilter) will authenticate\nthe user. Therefore any plugin contributed filters\nrun before (basic) authentication happens.\n\n\n \u003e \n \u003e * [1] https://github.com/GerritCodeReview/plugins_javamelody/blob/master/src/main/java/com/googlesource/gerrit/plugins/javamelody/GerritMonitoringFilter.java#L43\n \u003e * [2] https://github.com/GerritCodeReview/plugins_javamelody/blob/master/src/main/java/com/googlesource/gerrit/plugins/javamelody/CapabilityChecker.java#L47-L52",
+      "parentUuid": "1862175e_0f93fa33",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 44
+      },
+      "revId": "a72281d2f964f588f9502cddd5580860a4afabad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -52,6 +52,24 @@
       "revId": "766bf51302aeeed8bed93e73acfda1e563ee31f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57ecbe63_8028c764",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/FailedPermissionBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-14T10:27:20Z",
+      "side": 1,
+      "message": "I think this change would also throw AuthExceptions in a case where we want to throw a PBE as we have an internal failure.\n\nConsider DefaultPermissionBackend l.88\n\n    @Override\n    public ForProject project(Project.NameKey project) {\n      try {\n        ProjectState state \u003d projectCache.checkedGet(project);\n        if (state !\u003d null) {\n          return projectControlFactory.create(user, state).asForProject().database(db);\n        }\n        return FailedPermissionBackend.project(\"not found\", new NoSuchProjectException(project));\n      } catch (IOException e) {\n        return FailedPermissionBackend.project(\"unavailable\", e);\n      }\n    }\n\nIn the case of an IOException, we want to throw a PBE upon calling check. In the case of \u0027not found\u0027 we probably want to throw an AuthException (that will get converted to \u0027not found\u0027 later up in the call hierarchy so that we don\u0027t leak the existence of resources.\n\nSo I think we need to throw AuthE or PBE depending on the use-case. For a simple fix, we could just check if the cause is a NoSuchProjectException and throw an AuthException in that case and a PBE in all other cases.\n\nWhen I look at all the callers of FailedPermissionBackend, it seems this is pretty much the only case where we do not want to throw a PBE.",
+      "parentUuid": "fb19142b_768aba80",
+      "revId": "766bf51302aeeed8bed93e73acfda1e563ee31f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

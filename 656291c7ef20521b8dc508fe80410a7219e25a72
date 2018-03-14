@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1521063156 -0400\nnonce APUGfEI8vRn8AlTZ40x8I2h2NpY33sb8drXaUT2EFs4R5xx0j+ZZN8Grnqd6sYUWIZsC9aQg3Xe+\n\n0000000000000000000000000000000000000000 656291c7ef20521b8dc508fe80410a7219e25a72 refs/for/stable-2.15\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlqplPQVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMNrsP/R4SsE38ofChEmtGUpN6RXwOc/zw\ngSh1FJSrKgdwwNNJEWNm+OR7xYeGvsEZOsin/Dl7tZ3bspGL5Z6J6aY/5P2cF9ND\nTcz28vbT32ldyghHoja0ctmWTw9W+HjkoLdiOXH3dStt8n01fMFOp9v/uekY08xE\nGQZxzJ/GyLuir6t1KHqdinLAJgUepOX1iKX9LEfkDZNYrFGN1I4MViDGVgN/6/gv\nU36qXy3tAHh9On4z9IEIM8JiMbFeisjz1OsnXIiadcXnXJ5pWA5G6hlHYzDUg6v0\nPXdJ6kkOs9bVQTo3DoTLRKLbRTcrWBAZgzYVnsyL8XCkS5B+3oTWzSflfLrvdQyX\naSJTiLuHgZU0md0l8zuc+lmkgogf6WwrMUedQOSVOIAN/iNdGEtseespY7ImS8F7\nTn7wOu5x6Y1VoBbiDllxPRFESHqNnKgu7/+gyIhal1QTh5mnDec5wO1wZgZCI5gY\nyg1Ak2Jcc0ZXPEPRrRR16DIDnKvl0/J1nxbF60mC1TkjPa3R7yw/bm5XVEBxdnMh\n76M//pWp10A/2SczVjtnDKYRP8pOnaBNkhfRclCs7AeXb7kxGW6uklxJSyYJaABP\nli5XCA2zP5ExUO/eI9zJWEWIq0CgRNe5ffsA8d+6O516c2U6drO12VkipUYiHqOg\nrKAXZwTdVx7Ekqui\n\u003dMEdZ\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "98bda6e8_1adad85c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/Schema_159_to_160_Test.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-14T21:55:26Z",
+      "side": 1,
+      "message": "Should we add the same line, without \u0027#\u0027 char? I see the iteration over DEFAULT_DRAFT_ITEM already done in deleteItems() method above so that we probably find.",
+      "revId": "656291c7ef20521b8dc508fe80410a7219e25a72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

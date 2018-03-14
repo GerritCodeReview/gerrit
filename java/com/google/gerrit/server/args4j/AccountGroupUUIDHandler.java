@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.inject.Inject;
@@ -35,20 +34,17 @@ import org.kohsuke.args4j.spi.Setter;
 
 public class AccountGroupUUIDHandler extends OptionHandler<AccountGroup.UUID> {
   private final GroupBackend groupBackend;
-  private final GroupControl.Factory groupControlFactory;
   private final GroupCache groupCache;
 
   @Inject
   public AccountGroupUUIDHandler(
       final GroupBackend groupBackend,
-      final GroupControl.Factory groupControlFactory,
       @Assisted final CmdLineParser parser,
       @Assisted final OptionDef option,
       @Assisted final Setter<AccountGroup.UUID> setter,
       GroupCache groupCache) {
     super(parser, option, setter);
     this.groupBackend = groupBackend;
-    this.groupControlFactory = groupControlFactory;
     this.groupCache = groupCache;
   }
 

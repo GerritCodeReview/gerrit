@@ -401,6 +401,24 @@
     },
     {
       "key": {
+        "uuid": "b6059843_cf6b3641",
+        "filename": "java/com/google/gerrit/pgm/util/BatchProgramModule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-15T09:22:06Z",
+      "side": 1,
+      "message": "It\u0027s not used by the SSH commands.\n\nThis module is for standalone programs, e.g. the Reindex program that can do offline reindexing of all changes/accounts/groups.\n\nThis program needs the submit validation plugins since the submit records are stored in the change index and hence the reindex program must be able to compute them. So I guess we must find a way to make plugins work here.",
+      "parentUuid": "fe85ba09_e23e6040",
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "531fd56a_db02b957",
         "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 11

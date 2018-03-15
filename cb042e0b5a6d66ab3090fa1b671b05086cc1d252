@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51cdccac_94fb5986",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DefaultPermissionBackend.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-15T00:54:08Z",
+      "side": 1,
+      "message": "I think this is even more confusing than before.\n\nIn the case where it fails with IOException, it is nothing to do with authentication so it\u0027s confusing to raise \"AuthDenied...\" exception.\n\nSimilarly, is it really an authentication problem if the project is not found?  Maybe so if it\u0027s not found because it\u0027s not visible to the caller, but if it really doesn\u0027t exist then it\u0027s not an authentication problem.\n\nWould it be simpler to just leave it as it was before, but add the NoSuchProjectException as the cause at L78?",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 69
+      },
+      "revId": "cb042e0b5a6d66ab3090fa1b671b05086cc1d252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

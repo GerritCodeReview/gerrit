@@ -243,18 +243,31 @@ change.
 [[topic]]
 ==== Topic
 
-To include a short tag associated with all of the changes in the
-same group, such as the local topic branch name, append it after
-the destination branch name or add it with the command line flag
-`--push-option`, aliased to `-o`. In this example the short topic
-tag 'driver/i42' will be saved on each change this push creates or
-updates:
+To include a short link:intro-user.html#topics[topic] associated with all
+of the changes in the same group, such as the local topic branch name,
+append it after the destination branch name or add it with the command line
+flag `--push-option`, aliased to `-o`. In this example the short topic name
+'driver/i42' will be saved on each change this push creates or updates:
 
 ----
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%topic=driver/i42
 
   // this is the same as:
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental -o topic=driver/i42
+----
+
+[[hashtag]]
+==== Hashtag
+
+To include a link:intro-user.html#hashtags[hashtag] associated with all of the
+changes in the same group, use the `hashtag` or `t` option:
+
+----
+  // these are all equivalent
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%hashtag=stable-fix
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%t=stable-fix
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental -o hashtag=stable-fix
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental -o t=stable-fix
 ----
 
 [[private]]

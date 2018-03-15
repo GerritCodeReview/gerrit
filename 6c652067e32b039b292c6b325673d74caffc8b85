@@ -419,6 +419,24 @@
     },
     {
       "key": {
+        "uuid": "8bf12271_09ea4864",
+        "filename": "java/com/google/gerrit/pgm/util/BatchProgramModule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-15T09:55:58Z",
+      "side": 1,
+      "message": "We\u0027ve already been down that rabbit hole...\n\nHave a look for my abandoned changes related to allowing a plugin to parse change footers for custom bug references to add to the change index. \n\nIt was working on a running site, but not in the reindex program.",
+      "parentUuid": "b6059843_cf6b3641",
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "531fd56a_db02b957",
         "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 11

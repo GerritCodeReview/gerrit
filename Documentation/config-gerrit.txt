@@ -2672,6 +2672,10 @@ Maximum limit to allow for search queries. Requesting results above this
 limit will truncate the list (but will still set `_more_changes` on
 result lists). Set to 0 for no limit.
 +
+When `index.type` is set to `ELASTICSEARCH`, this value should not exceed
+the `index.max_result_window` value configured on the Elasticsearch
+server.
++
 Defaults to no limit.
 
 [[index.maxPages]]index.maxPages::

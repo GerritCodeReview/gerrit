@@ -96,6 +96,7 @@
         type: Object,
         value() { return document.body; },
       },
+      _commentThreads: Array,
       /** @type {?} */
       _serverConfig: {
         type: Object,

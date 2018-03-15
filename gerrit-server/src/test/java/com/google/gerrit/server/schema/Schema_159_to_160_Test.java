@@ -22,10 +22,11 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS_DEFAULT;
 import static com.google.gerrit.server.account.VersionedAccountPreferences.PREFERENCES;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_URL;
 import static com.google.gerrit.server.git.UserConfigSections.MY;
-import static com.google.gerrit.server.schema.Schema_160.DEFAULT_DRAFT_ITEM;
+import static com.google.gerrit.server.schema.Schema_160.DEFAULT_DRAFT_ITEMS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.MenuItem;
@@ -77,8 +78,12 @@ public class Schema_159_to_160_Test {
   @Test
   public void skipUnmodified() throws Exception {
     ObjectId oldMetaId = metaRef(accountId);
-    assertThat(myMenusFromNoteDb(accountId).values()).doesNotContain(DEFAULT_DRAFT_ITEM);
-    assertThat(myMenusFromApi(accountId).values()).doesNotContain(DEFAULT_DRAFT_ITEM);
+    ImmutableSet<String> fromNoteDb = myMenusFromNoteDb(accountId);
+    ImmutableSet<String> fromApi = myMenusFromApi(accountId);
+    for (String item : DEFAULT_DRAFT_ITEMS) {
+      assertThat(fromNoteDb).doesNotContain(item);
+      assertThat(fromApi).doesNotContain(item);
+    }
 
     schema160.migrateData(db, new TestUpdateUI());
 
@@ -88,22 +93,25 @@ public class Schema_159_to_160_Test {
   @Test
   public void deleteItems() throws Exception {
     ObjectId oldMetaId = metaRef(accountId);
-    List<String> defaultNames = ImmutableList.copyOf(myMenusFromApi(accountId).keySet());
+    ImmutableSet<String> defaultNames = myMenusFromApi(accountId);
 
     GeneralPreferencesInfo prefs = gApi.accounts().id(accountId.get()).getPreferences();
-    prefs.my.add(0, new MenuItem("Something else", DEFAULT_DRAFT_ITEM + "+is:mergeable"));
-    prefs.my.add(new MenuItem("Drafts", DEFAULT_DRAFT_ITEM));
-    prefs.my.add(new MenuItem("Totally not drafts", DEFAULT_DRAFT_ITEM));
+    prefs.my.add(0, new MenuItem("Something else", DEFAULT_DRAFT_ITEMS.get(0) + "+is:mergeable"));
+    for (int i = 0; i < DEFAULT_DRAFT_ITEMS.size(); i++) {
+      prefs.my.add(new MenuItem("Draft entry " + i, DEFAULT_DRAFT_ITEMS.get(i)));
+    }
     gApi.accounts().id(accountId.get()).setPreferences(prefs);
 
     List<String> oldNames =
         ImmutableList.<String>builder()
             .add("Something else")
             .addAll(defaultNames)
-            .add("Drafts")
-            .add("Totally not drafts")
+            .add("Draft entry 0")
+            .add("Draft entry 1")
+            .add("Draft entry 2")
+            .add("Draft entry 3")
             .build();
-    assertThat(myMenusFromApi(accountId).keySet()).containsExactlyElementsIn(oldNames).inOrder();
+    assertThat(myMenusFromApi(accountId)).containsExactlyElementsIn(oldNames).inOrder();
 
     schema160.migrateData(db, new TestUpdateUI());
     accountCache.evict(accountId);
@@ -113,8 +121,8 @@ public class Schema_159_to_160_Test {
 
     List<String> newNames =
         ImmutableList.<String>builder().add("Something else").addAll(defaultNames).build();
-    assertThat(myMenusFromNoteDb(accountId).keySet()).containsExactlyElementsIn(newNames).inOrder();
-    assertThat(myMenusFromApi(accountId).keySet()).containsExactlyElementsIn(newNames).inOrder();
+    assertThat(myMenusFromNoteDb(accountId)).containsExactlyElementsIn(newNames).inOrder();
+    assertThat(myMenusFromApi(accountId)).containsExactlyElementsIn(newNames).inOrder();
   }
 
   @Test
@@ -127,7 +135,7 @@ public class Schema_159_to_160_Test {
   @Test
   public void deleteDefaultItem() throws Exception {
     assertThat(readRef(REFS_USERS_DEFAULT)).isEmpty();
-    List<String> defaultNames = ImmutableList.copyOf(defaultMenusFromApi().keySet());
+    ImmutableSet<String> defaultNames = defaultMenusFromApi();
 
     // Setting *any* preference causes preferences.config to contain the full set of "my" sections.
     // This mimics real-world behavior prior to the 2.15 upgrade; see Issue 8439 for details.
@@ -141,9 +149,9 @@ public class Schema_159_to_160_Test {
 
       // Add more defaults directly in git, the SetPreferences endpoint doesn't respect the "my"
       // field in the input in 2.15 and earlier.
-      cfg.setString("my", "Drafts", "url", DEFAULT_DRAFT_ITEM);
-      cfg.setString("my", "Something else", "url", DEFAULT_DRAFT_ITEM + "+is:mergeable");
-      cfg.setString("my", "Totally not drafts", "url", DEFAULT_DRAFT_ITEM);
+      cfg.setString("my", "Drafts", "url", "#/q/owner:self+is:draft");
+      cfg.setString("my", "Something else", "url", "#/q/owner:self+is:draft+is:mergeable");
+      cfg.setString("my", "Totally not drafts", "url", "#/q/owner:self+is:draft");
       new TestRepository<>(repo)
           .branch(REFS_USERS_DEFAULT)
           .commit()
@@ -158,7 +166,7 @@ public class Schema_159_to_160_Test {
             .add("Something else")
             .add("Totally not drafts")
             .build();
-    assertThat(defaultMenusFromApi().keySet()).containsExactlyElementsIn(oldNames).inOrder();
+    assertThat(defaultMenusFromApi()).containsExactlyElementsIn(oldNames).inOrder();
 
     schema160.migrateData(db, new TestUpdateUI());
 
@@ -169,11 +177,11 @@ public class Schema_159_to_160_Test {
     assertThat(myMenusFromNoteDb(VersionedAccountPreferences::forDefault).keySet())
         .containsExactlyElementsIn(newNames)
         .inOrder();
-    assertThat(defaultMenusFromApi().keySet()).containsExactlyElementsIn(newNames).inOrder();
+    assertThat(defaultMenusFromApi()).containsExactlyElementsIn(newNames).inOrder();
   }
 
-  private ImmutableMap<String, String> myMenusFromNoteDb(Account.Id id) throws Exception {
-    return myMenusFromNoteDb(() -> VersionedAccountPreferences.forUser(id));
+  private ImmutableSet<String> myMenusFromNoteDb(Account.Id id) throws Exception {
+    return myMenusFromNoteDb(() -> VersionedAccountPreferences.forUser(id)).keySet();
   }
 
   // Raw config values, bypassing the defaults set by GeneralPreferencesLoader.
@@ -189,12 +197,12 @@ public class Schema_159_to_160_Test {
     }
   }
 
-  private ImmutableMap<String, String> myMenusFromApi(Account.Id id) throws Exception {
-    return myMenus(gApi.accounts().id(id.get()).getPreferences());
+  private ImmutableSet<String> myMenusFromApi(Account.Id id) throws Exception {
+    return myMenus(gApi.accounts().id(id.get()).getPreferences()).keySet();
   }
 
-  private ImmutableMap<String, String> defaultMenusFromApi() throws Exception {
-    return myMenus(gApi.config().server().getDefaultPreferences());
+  private ImmutableSet<String> defaultMenusFromApi() throws Exception {
+    return myMenus(gApi.config().server().getDefaultPreferences()).keySet();
   }
 
   private static ImmutableMap<String, String> myMenus(GeneralPreferencesInfo prefs) {

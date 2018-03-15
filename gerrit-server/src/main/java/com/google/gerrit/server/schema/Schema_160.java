@@ -18,6 +18,7 @@ import static com.google.gerrit.server.git.UserConfigSections.KEY_URL;
 import static com.google.gerrit.server.git.UserConfigSections.MY;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -45,13 +46,30 @@ import org.eclipse.jgit.lib.TextProgressMonitor;
  *
  * <p>Since draft changes no longer exist, these menu items are obsolete.
  *
- * <p>Only matches menu items (with any name) where the URL exactly matches the <a
+ * <p>Only matches menu items (with any name) where the URL exactly matches one of the following,
+ * with or without leading {@code #}:
+ *
+ * <ul>
+ *   <li>/q/is:draft
+ *   <li>/q/owner:self+is:draft
+ * </ul>
+ *
+ * In particular, this includes the <a
  * href="https://gerrit.googlesource.com/gerrit/+/v2.14.4/gerrit-server/src/main/java/com/google/gerrit/server/account/GeneralPreferencesLoader.java#144">default
- * version from 2.14 and earlier</a>. Other menus containing {@code is:draft} in other positions are
- * not affected; this is still a valid predicate that matches no changes.
+ * from version 2.14 and earlier</a>.
+ *
+ * <p>Other menus containing {@code is:draft} in other positions are not affected; this is still a
+ * valid predicate that matches no changes.
  */
 public class Schema_160 extends SchemaVersion {
-  @VisibleForTesting static final String DEFAULT_DRAFT_ITEM = "#/q/owner:self+is:draft";
+  @VisibleForTesting static final ImmutableList<String> DEFAULT_DRAFT_ITEMS;
+
+  static {
+    String ownerSelfIsDraft = "/q/owner:self+is:draft";
+    String isDraft = "/q/is:draft";
+    DEFAULT_DRAFT_ITEMS =
+        ImmutableList.of(ownerSelfIsDraft, '#' + ownerSelfIsDraft, isDraft, '#' + isDraft);
+  }
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
@@ -120,7 +138,8 @@ public class Schema_160 extends SchemaVersion {
     void removeMyDrafts() {
       Config cfg = getConfig();
       for (String item : cfg.getSubsections(MY)) {
-        if (DEFAULT_DRAFT_ITEM.equals(cfg.getString(MY, item, KEY_URL))) {
+        String value = cfg.getString(MY, item, KEY_URL);
+        if (DEFAULT_DRAFT_ITEMS.contains(value)) {
           cfg.unsetSection(MY, item);
           dirty = true;
         }

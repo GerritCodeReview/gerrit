@@ -346,17 +346,17 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
           "master",
           "Update git submodules\n\n"
               + "* Update "
-              + name("sub3")
+              + name("sub1")
               + " from branch 'master'\n  to "
-              + sub3HEAD
+              + sub1HEAD
               + "\n\n* Update "
               + name("sub2")
               + " from branch 'master'\n  to "
               + sub2HEAD
               + "\n\n* Update "
-              + name("sub1")
+              + name("sub3")
               + " from branch 'master'\n  to "
-              + sub1HEAD);
+              + sub3HEAD);
     }
 
     superRepo

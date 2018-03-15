@@ -14,9 +14,13 @@
 
 package com.google.gerrit.server.git;
 
+import static java.util.Comparator.comparing;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
+import com.google.common.collect.SortedSetMultimap;
+import com.google.common.collect.TreeMultimap;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -151,7 +155,7 @@ public class SubmoduleOp {
   // sorted version of affectedBranches
   private final ImmutableSet<Branch.NameKey> sortedBranches;
   // map of superproject branch and its submodule subscriptions
-  private final SetMultimap<Branch.NameKey, SubmoduleSubscription> targets;
+  private final SortedSetMultimap<Branch.NameKey, SubmoduleSubscription> targets;
   // map of superproject and its branches which has submodule subscriptions
   private final SetMultimap<Project.NameKey, Branch.NameKey> branchesByProject;
 
@@ -179,7 +183,10 @@ public class SubmoduleOp {
     this.maxCommitMessages = cfg.getLong("submodule", "maxCommitMessages", 1000);
     this.orm = orm;
     this.updatedBranches = updatedBranches;
-    this.targets = MultimapBuilder.hashKeys().hashSetValues().build();
+    this.targets =
+        TreeMultimap.create(
+            comparing((Branch.NameKey b) -> b.get()),
+            comparing((SubmoduleSubscription a) -> a.getPath()));
     this.affectedBranches = new HashSet<>();
     this.branchTips = new HashMap<>();
     this.branchGitModules = new HashMap<>();

@@ -182,6 +182,7 @@
       if (this.params.justRegistered) {
         this.$.registration.open();
       }
+      this.$.header.unfloat();
     },
 
     _computeShowGwtUiLink(config) {

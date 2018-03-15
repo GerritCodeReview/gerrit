@@ -114,7 +114,6 @@ public class GroupsUpdate {
   private final GroupsMigration groupsMigration;
   private final GitReferenceUpdated gitRefUpdated;
   private final RetryHelper retryHelper;
-  private final boolean reviewDbUpdatesAreBlocked;
 
   @Inject
   GroupsUpdate(
@@ -152,7 +151,6 @@ public class GroupsUpdate {
         getMetaDataUpdateFactory(
             metaDataUpdateInternalFactory, currentUser, serverIdent, auditLogFormatter);
     authorIdent = getAuthorIdent(serverIdent, currentUser);
-    reviewDbUpdatesAreBlocked = config.getBoolean("user", null, "blockReviewDbGroupUpdates", false);
   }
 
   private static MetaDataUpdateFactory getMetaDataUpdateFactory(
@@ -276,7 +274,6 @@ public class GroupsUpdate {
   private InternalGroup createGroupInReviewDb(
       ReviewDb db, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws OrmException {
-    checkIfReviewDbUpdatesAreBlocked();
 
     AccountGroupName gn = new AccountGroupName(groupCreation.getNameKey(), groupCreation.getId());
     // first insert the group name to validate that the group name hasn't
@@ -316,8 +313,6 @@ public class GroupsUpdate {
 
   private UpdateResult updateGroupInReviewDb(
       ReviewDb db, AccountGroup group, InternalGroupUpdate groupUpdate) throws OrmException {
-    checkIfReviewDbUpdatesAreBlocked();
-
     AccountGroup.NameKey originalName = group.getNameKey();
     applyUpdate(group, groupUpdate);
     AccountGroup.NameKey updatedName = group.getNameKey();
@@ -635,12 +630,6 @@ public class GroupsUpdate {
     result.getDeletedMembers().forEach(groupIncludeCache::evictGroupsWithMember);
     result.getAddedSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
     result.getDeletedSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
-  }
-
-  private void checkIfReviewDbUpdatesAreBlocked() throws OrmException {
-    if (reviewDbUpdatesAreBlocked) {
-      throw new OrmException("Updates to groups in ReviewDb are blocked");
-    }
   }
 
   private void dispatchAuditEventsOnGroupCreation(InternalGroup createdGroup) {

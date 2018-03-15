@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "945026e8_310f84fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-03-15T18:37:34Z",
+      "side": 1,
+      "message": "optional micronit: commit ids tend to be more stable than change numbers, e.g. if the project changes hosting sites",
+      "revId": "ae599f57acba2262e2e1f5bf343e960fc0bc9b16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

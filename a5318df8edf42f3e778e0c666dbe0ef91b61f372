@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "368d8f3d_75ce6b3a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-15T13:15:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a80a821_6cd7853d",
+      "range": {
+        "startLine": 908,
+        "startChar": 2,
+        "endLine": 909,
+        "endChar": 61
+      },
+      "revId": "a5318df8edf42f3e778e0c666dbe0ef91b61f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc49732e_feb0bba9",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "a5318df8edf42f3e778e0c666dbe0ef91b61f372",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e02ac653_8f5cd295",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-15T13:15:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc49732e_feb0bba9",
+      "range": {
+        "startLine": 916,
+        "startChar": 4,
+        "endLine": 916,
+        "endChar": 20
+      },
+      "revId": "a5318df8edf42f3e778e0c666dbe0ef91b61f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2773d4f2_55168f76",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-15T13:15:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2babe505_ad3fac2e",
+      "range": {
+        "startLine": 921,
+        "startChar": 4,
+        "endLine": 921,
+        "endChar": 20
+      },
+      "revId": "a5318df8edf42f3e778e0c666dbe0ef91b61f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa8a21a2_fe20c430",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 3
@@ -91,6 +163,30 @@
       "revId": "a5318df8edf42f3e778e0c666dbe0ef91b61f372",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36c8ca74_11a6c0e7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-15T13:15:39Z",
+      "side": 1,
+      "message": "I think it\u0027s good to verify getting the group fails after the group ref is deleted. Ideally, after the group ref is deleted, we know the name in the audit event should be null. But that is a knowledge based on our experience and it\u0027s just a indirect verification.\n\nThe test logic here is to verify when a subgroup is unavaliable, its name should be null. Therefore, here we somehow need to tell it\u0027s really unavailable as we expect.",
+      "parentUuid": "aa8a21a2_fe20c430",
+      "range": {
+        "startLine": 921,
+        "startChar": 4,
+        "endLine": 926,
+        "endChar": 5
+      },
+      "revId": "a5318df8edf42f3e778e0c666dbe0ef91b61f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "bd9f98b7_fa07bfa7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-15T13:15:39Z",
+      "side": 1,
+      "message": "I would rather keep this as a minimum assert so that we know there should be no other side-effect.",
+      "parentUuid": "bc2ebb9c_7d89c802",
+      "range": {
+        "startLine": 929,
+        "startChar": 4,
+        "endLine": 929,
+        "endChar": 39
+      },
+      "revId": "a5318df8edf42f3e778e0c666dbe0ef91b61f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bea642d_168c46b8",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 3
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "e4b8a619_3ab59cd2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-15T13:15:39Z",
+      "side": 1,
+      "message": "Deleted. It was intended to make sure there is no side-effect for the other audit log. But we could also just delete it.",
+      "parentUuid": "8bea642d_168c46b8",
+      "range": {
+        "startLine": 931,
+        "startChar": 4,
+        "endLine": 931,
+        "endChar": 82
+      },
+      "revId": "a5318df8edf42f3e778e0c666dbe0ef91b61f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4a1429b_0762795b",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 3
@@ -160,6 +304,30 @@
       "revId": "a5318df8edf42f3e778e0c666dbe0ef91b61f372",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45655fe2_5d0bb4d5",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 942,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-15T13:15:39Z",
+      "side": 1,
+      "message": "Yes. We can remove the old ObjectId from here.",
+      "parentUuid": "b4a1429b_0762795b",
+      "range": {
+        "startLine": 942,
+        "startChar": 6,
+        "endLine": 942,
+        "endChar": 54
+      },
+      "revId": "a5318df8edf42f3e778e0c666dbe0ef91b61f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

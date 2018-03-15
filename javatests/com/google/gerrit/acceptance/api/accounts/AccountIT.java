@@ -1982,13 +1982,11 @@ public class AccountIT extends AbstractDaemonTest {
     assertGroups(
         admin.username, ImmutableList.of("Anonymous Users", "Registered Users", "Administrators"));
 
-    // TODO: update when test user is fixed to be included in "Anonymous Users" and
-    //      "Registered Users" groups
-    assertGroups(user.username, ImmutableList.of());
+    assertGroups(user.username, ImmutableList.of("Anonymous Users", "Registered Users"));
 
     String group = createGroup("group");
     String newUser = createAccount("user1", group);
-    assertGroups(newUser, ImmutableList.of(group));
+    assertGroups(newUser, ImmutableList.of("Anonymous Users", "Registered Users", group));
   }
 
   @Test
@@ -2367,9 +2365,12 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   private void assertGroups(String user, List<String> expected) throws Exception {
-    List<String> actual =
-        gApi.accounts().id(user).getGroups().stream().map(g -> g.name).collect(toList());
+    List<String> actual = getNamesOfGroupsOfUser(user);
     assertThat(actual).containsExactlyElementsIn(expected);
+  }
+
+  private List<String> getNamesOfGroupsOfUser(String user) throws RestApiException {
+    return gApi.accounts().id(user).getGroups().stream().map(g -> g.name).collect(toList());
   }
 
   private void assertSequenceNumbers(List<SshKeyInfo> sshKeys) {

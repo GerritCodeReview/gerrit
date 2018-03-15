@@ -16,6 +16,24 @@
       "revId": "ae599f57acba2262e2e1f5bf343e960fc0bc9b16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5707deaa_dfae898b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-15T22:59:18Z",
+      "side": 1,
+      "message": "Fair point, but I\u0027d rather leave it like this for now.  It\u0027s consistent with how other commit messages are written.",
+      "parentUuid": "945026e8_310f84fb",
+      "revId": "ae599f57acba2262e2e1f5bf343e960fc0bc9b16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -17,6 +17,24 @@
       "revId": "424205ba06f11ac0a2b217d3a3c0123e0dcf7a80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfba9ef1_8b62d4b8",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-15T08:17:30Z",
+      "side": 1,
+      "message": "Yes, these TODO are addressed now.",
+      "parentUuid": "2dd7db0b_0b922a07",
+      "revId": "424205ba06f11ac0a2b217d3a3c0123e0dcf7a80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

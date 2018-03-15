@@ -33,6 +33,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
@@ -66,6 +67,7 @@ import com.google.gerrit.server.notedb.NoteDbTable;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NotesMigrationState;
 import com.google.gerrit.server.notedb.PrimaryStorageMigrator;
+import com.google.gerrit.server.notedb.PrimaryStorageMigrator.NoNoteDbStateException;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -605,7 +607,19 @@ public class NoteDbMigrator implements AutoCloseable {
                       executor.submit(
                           () -> {
                             try (ManualRequestContext ctx = contextHelper.open()) {
-                              primaryStorageMigrator.migrateToNoteDbPrimary(id);
+                              try {
+                                primaryStorageMigrator.migrateToNoteDbPrimary(id);
+                              } catch (NoNoteDbStateException e) {
+                                if (canSkipPrimaryStorageMigration(
+                                    ctx.getReviewDbProvider().get(), id)) {
+                                  log.warn(
+                                      "Change {} previously failed to rebuild;"
+                                          + " skipping primary storage migration",
+                                      e);
+                                } else {
+                                  throw e;
+                                }
+                              }
                               return true;
                             } catch (Exception e) {
                               log.error("Error migrating primary storage for " + id, e);
@@ -626,6 +640,38 @@ public class NoteDbMigrator implements AutoCloseable {
     }
 
     return disableReviewDb(prev);
+  }
+
+  /**
+   * Checks whether a change is so corrupt that it can be completely skipped by the primary storage
+   * migration step.
+   *
+   * <p>To get to the point where this method is called from {@link #setNoteDbPrimary}, it means we
+   * attempted to rebuild it, and encountered an error that was then caught in {@link
+   * #rebuildProject} and skipped. As a result, there is no {@code noteDbState} field in the change
+   * by the time we get to {@link #setNoteDbPrimary}, so {@code migrateToNoteDbPrimary} throws an
+   * exception.
+   *
+   * <p>We have to do this hacky double-checking because we don't have a way for the rebuilding
+   * phase to communicate to the primary storage migration phase that the change is skippable. It
+   * would be possible to store this info in some field in this class, but there is no guarantee
+   * that the rebuild and primary storage migration phases are run in the same JVM invocation.
+   *
+   * <p>In an ideal world, we could do this through the {@link
+   * com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage} enum, having a separate value
+   * for errors. However, that would be an invasive change touching many non-migration-related parts
+   * of the NoteDb migration code, which is too risky to attempt in the stable branch where this bug
+   * had to be fixed.
+   *
+   * <p>As of this writing, the only case where this happens is when a change has no patch sets.
+   */
+  private static boolean canSkipPrimaryStorageMigration(ReviewDb db, Change.Id id) {
+    try {
+      return Iterables.isEmpty(db.patchSets().byChange(id));
+    } catch (Exception e) {
+      log.error("Error checking if change " + id + " is corrupt, assuming yes", e);
+      return true;
+    }
   }
 
   private NotesMigrationState disableReviewDb(NotesMigrationState prev) throws IOException {

@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.server.notedb.NoteDbChangeState.NOTE_DB_PRIMARY_STATE;
 import static com.google.gerrit.server.notedb.NotesMigrationState.NOTE_DB;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_NO_SEQUENCE;
 import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY;
@@ -431,6 +432,36 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
       Change c = db.changes().get(id1);
       assertThat(c.getTopic()).isNull();
       assertThat(c.getRowVersion()).isEqualTo(rowVersion);
+    }
+  }
+
+  @Test
+  public void fullMigrationOneChangeWithNoPatchSets() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r2 = createChange();
+    Change.Id id1 = r1.getChange().getId();
+    Change.Id id2 = r2.getChange().getId();
+
+    db.changes().beginTransaction(id2);
+    try {
+      db.patchSets().delete(db.patchSets().byChange(id2));
+      db.commit();
+    } finally {
+      db.rollback();
+    }
+
+    migrate(b -> b);
+    assertNotesMigrationState(NOTE_DB, false, false);
+
+    try (ReviewDb db = schemaFactory.open();
+        Repository repo = repoManager.openRepository(project)) {
+      assertThat(repo.exactRef(RefNames.changeMetaRef(id1))).isNotNull();
+      assertThat(db.changes().get(id1).getNoteDbState()).isEqualTo(NOTE_DB_PRIMARY_STATE);
+
+      // A change with no patch sets is so corrupt that it is completely skipped by the migration
+      // process.
+      assertThat(repo.exactRef(RefNames.changeMetaRef(id2))).isNull();
+      assertThat(db.changes().get(id2).getNoteDbState()).isNull();
     }
   }
 

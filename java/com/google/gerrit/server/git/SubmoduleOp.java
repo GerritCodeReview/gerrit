@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import static java.util.Comparator.comparing;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
@@ -47,6 +49,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -416,7 +419,10 @@ public class SubmoduleOp {
     DirCache dc = readTree(or.rw, currentCommit);
     DirCacheEditor ed = dc.editor();
     int count = 0;
-    for (SubmoduleSubscription s : targets.get(subscriber)) {
+
+    List<SubmoduleSubscription> subscriptions = new ArrayList<>(targets.get(subscriber));
+    Collections.sort(subscriptions, comparing((SubmoduleSubscription s) -> s.getPath()));
+    for (SubmoduleSubscription s : subscriptions) {
       if (count > 0) {
         msgbuf.append("\n\n");
       }

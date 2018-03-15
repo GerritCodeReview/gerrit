@@ -191,6 +191,11 @@ Changes whose designated topic matches 'TOPIC' exactly.  This is
 often combined with 'branch:' and 'project:' operators to select
 all related changes in a series.
 
+[[hashtag]]
+hashtag:'HASHTAG'::
++
+Changes whose hashtag matches 'HASHTAG' exactly.
+
 [[ref]]
 ref:'REF'::
 +

@@ -486,6 +486,30 @@ span multiple projects.
   $ git push origin HEAD:refs/heads/master -o topic=multi-master
 ----
 
+[[hashtags]]
+== Using Hashtags
+
+Hashtags are freeform strings associated with a change, like on social media
+platforms. In Gerrit, you explicitly associate hashtags with changes using a
+dedicated area of the UI; they are not parsed from commit messages or comments.
+
+Similar to topics, hashtags can be used to group related changes together, and
+to search using the link:user-search.html#hashtag[`hashtag:`] operator. Unlike
+topics, a change can have multiple hashtags, and they are only used for
+informational grouping; changes with the same hashtags are not necessarily
+submitted together.
+
+The hashtag feature is only available when running under
+link:note-db.html[NoteDb].
+
+.Set Hashtag on Push
+----
+  $ git push origin HEAD:refs/for/master%t=stable-bugfix
+
+  // this is the same as:
+  $ git push origin HEAD:refs/heads/master -o t=stable-bugfix
+----
+
 [[wip]]
 == Work-in-Progress Changes
 

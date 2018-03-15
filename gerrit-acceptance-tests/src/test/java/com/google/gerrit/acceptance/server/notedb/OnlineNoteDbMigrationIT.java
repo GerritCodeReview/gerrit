@@ -42,11 +42,15 @@ import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.notedb.ChangeBundle;
+import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbChangeState.RefState;
@@ -79,6 +83,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
@@ -104,10 +109,12 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
   // migration state may result in various kinds of wrappers showing up unexpectedly.
   @Inject @ReviewDbFactory private SchemaFactory<ReviewDb> schemaFactory;
 
-  @Inject private SitePaths sitePaths;
+  @Inject private ChangeBundleReader changeBundleReader;
+  @Inject private CommentsUtil commentsUtil;
+  @Inject private DynamicSet<NotesMigrationStateListener> listeners;
   @Inject private Provider<NoteDbMigrator.Builder> migratorBuilderProvider;
   @Inject private Sequences sequences;
-  @Inject private DynamicSet<NotesMigrationStateListener> listeners;
+  @Inject private SitePaths sitePaths;
 
   private FileBasedConfig noteDbConfig;
   private List<RegistrationHandle> addedListeners;
@@ -462,6 +469,37 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
       // process.
       assertThat(repo.exactRef(RefNames.changeMetaRef(id2))).isNull();
       assertThat(db.changes().get(id2).getNoteDbState()).isNull();
+    }
+  }
+
+  @Test
+  public void fullMigrationMissingPatchSetRefs() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getChange().getId();
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      RefUpdate u = repo.updateRef(new PatchSet.Id(id, 1).toRefName());
+      u.setForceUpdate(true);
+      assertThat(u.delete()).isEqualTo(RefUpdate.Result.FORCED);
+    }
+
+    ChangeBundle reviewDbBundle;
+    try (ReviewDb db = schemaFactory.open()) {
+      reviewDbBundle = changeBundleReader.fromReviewDb(db, id);
+    }
+
+    migrate(b -> b);
+    assertNotesMigrationState(NOTE_DB, false, false);
+
+    try (ReviewDb db = schemaFactory.open();
+        Repository repo = repoManager.openRepository(project)) {
+      // Change migrated successfully even though it was missing patch set refs.
+      assertThat(repo.exactRef(RefNames.changeMetaRef(id))).isNotNull();
+      assertThat(db.changes().get(id).getNoteDbState()).isEqualTo(NOTE_DB_PRIMARY_STATE);
+
+      ChangeBundle noteDbBundle =
+          ChangeBundle.fromNotes(commentsUtil, notesFactory.createChecked(db, project, id));
+      assertThat(noteDbBundle.differencesFrom(reviewDbBundle)).isEmpty();
     }
   }
 

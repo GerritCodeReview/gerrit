@@ -23,6 +23,30 @@
       "revId": "602370152f86fba9a4c801da3435be9ae826635c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "715f7cc5_e3cf13e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-15T13:46:58Z",
+      "side": 1,
+      "message": "Turns out, no: https://gerrit-review.googlesource.com/#/c/gerrit/+/166250\n\nMore generally, there are lots of types of corruption out there, and we need to consider them on a case-by-case basis once they\u0027re proven to make it this far in the code.",
+      "parentUuid": "7c1fa514_0e6ac2da",
+      "range": {
+        "startLine": 666,
+        "startChar": 3,
+        "endLine": 666,
+        "endChar": 96
+      },
+      "revId": "602370152f86fba9a4c801da3435be9ae826635c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -177,6 +177,6 @@ public class GroupControl {
     if (group instanceof GroupDescription.Internal) {
       return ((GroupDescription.Internal) group).isVisibleToAll() || isOwner();
     }
-    return false;
+    return canAdministrateServer();
   }
 }

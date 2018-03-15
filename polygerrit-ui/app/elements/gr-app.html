@@ -65,10 +65,11 @@ limitations under the License.
         /* This needs to be inline-flex so that the app container inherits the
           width of its children. From here, can use position: sticky to display
           items that we want to be 'floating' like the header and footer, with
-          a combination of: position: sticky, width=100vw, and left: 0. */
+          a combination of: position: sticky, right: 0, and left: 0. */
         display: inline-flex;
         min-height: 100%;
         flex-direction: column;
+        width: 100%;
       }
       gr-main-header,
       footer {
@@ -86,7 +87,7 @@ limitations under the License.
         left: 0;
         padding: 0 var(--default-horizontal-margin);
         position: sticky;
-        width: 100vw;
+        right: 0;
         /* Needed for the menu dropdowns to display on top of the sticky
           headers with z-index of 1.*/
         z-index: 2;
@@ -97,10 +98,10 @@ limitations under the License.
         background-color: var(--footer-background-color);
         display: flex;
         left: 0;
-        width: 100vw;
         justify-content: space-between;
         padding: .5rem var(--default-horizontal-margin);
         position: sticky;
+        right: 0;
         z-index: 100;
       }
       main {

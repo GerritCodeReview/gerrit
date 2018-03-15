@@ -113,7 +113,8 @@ limitations under the License.
       .container {
         /* Needed to restrict the change view from allowing horizontal
           scrolling */
-        width: 100vw;
+        left: 0;
+        right: 0;
       }
       /* Strong specificity here is needed due to
          https://github.com/Polymer/polymer/issues/2531 */
@@ -278,8 +279,9 @@ limitations under the License.
         }
         gr-reply-dialog {
           height: 100vh;
+          left: 0;
           min-width: initial;
-          width: 100vw;
+          right: 0;
         }
       }
       /* NOTE: If you update this breakpoint, also update the

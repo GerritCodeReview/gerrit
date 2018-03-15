@@ -437,6 +437,24 @@
     },
     {
       "key": {
+        "uuid": "6deed596_3d775fae",
+        "filename": "java/com/google/gerrit/pgm/util/BatchProgramModule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-15T09:58:36Z",
+      "side": 1,
+      "message": "Yes, I know that we have tried this before, but if we want to extract the submit validation into plugins then we must get this working, don\u0027t we?",
+      "parentUuid": "8bf12271_09ea4864",
+      "revId": "6c652067e32b039b292c6b325673d74caffc8b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "531fd56a_db02b957",
         "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 11

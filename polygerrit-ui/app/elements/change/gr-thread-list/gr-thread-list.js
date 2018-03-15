@@ -24,6 +24,7 @@
     is: 'gr-thread-list',
 
     properties: {
+      /** @type {?} */
       change: Object,
       threads: Array,
       changeNum: String,
@@ -39,7 +40,7 @@
      *  - Unresolved threads without drafts (reverse chronological)
      *  - Resolved threads with drafts (reverse chronological)
      *  - Resolved threads without drafts (reverse chronological)
-     * @param {!Array} threads
+     * @param {!Object} changeRecord
      * @return {!Array}
      */
     _computeSortedThreads(changeRecord) {

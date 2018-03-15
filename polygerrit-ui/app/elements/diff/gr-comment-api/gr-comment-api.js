@@ -207,6 +207,7 @@
    *
    * @param {!string} path
    * @param {number=} opt_patchNum
+   * @param {boolean=} opt_includeDrafts
    * @return {!Array}
    */
   ChangeComments.prototype.getAllCommentsForPath = function(path,

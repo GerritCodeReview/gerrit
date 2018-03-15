@@ -22,6 +22,30 @@
       "revId": "cb042e0b5a6d66ab3090fa1b671b05086cc1d252",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c3839f4_5fed3484",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DefaultPermissionBackend.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-15T07:27:50Z",
+      "side": 1,
+      "message": "I agree. See my original comment: I think that null could lead to AuthDenied, but an IOException should always surface as HTTP 500.\n\n\u003e Would it be simpler to just leave it as it was before, but add the NoSuchProjectException as the cause at L78?\n\nI think this wouldn\u0027t help because missing/defect projects would still surface as HTTP 500 and the project lists will still fail in case a single project is broken.",
+      "parentUuid": "51cdccac_94fb5986",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 69
+      },
+      "revId": "cb042e0b5a6d66ab3090fa1b671b05086cc1d252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

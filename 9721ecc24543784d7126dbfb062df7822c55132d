@@ -22,6 +22,30 @@
       "revId": "9721ecc24543784d7126dbfb062df7822c55132d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35284693_b0db6681",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DefaultPermissionBackend.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-15T07:27:50Z",
+      "side": 1,
+      "message": "I agree that adding a check to init would be the best option we have.\n\nThough I am wondering if we can also get to this effect while the Gerrit instance is running and how likely this is (not very I guess).",
+      "parentUuid": "0f3907f8_21df194a",
+      "range": {
+        "startLine": 82,
+        "startChar": 15,
+        "endLine": 82,
+        "endChar": 42
+      },
+      "revId": "9721ecc24543784d7126dbfb062df7822c55132d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

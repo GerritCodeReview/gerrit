@@ -23,6 +23,30 @@
       "revId": "5346588283410a1ba408d26636510e82234ee560",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c6cae38_30ff9053",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-15T14:09:13Z",
+      "side": 1,
+      "message": "Right. Some corruption can be migrated, and some can\u0027t. I\u0027ve seen lots of kinds of corruption over the NoteDb migration process (android-review has exhibited basically every bug in the history of Gerrit), and they\u0027re hard to reason about in the abstract.",
+      "parentUuid": "08093396_e99faf0b",
+      "range": {
+        "startLine": 496,
+        "startChar": 6,
+        "endLine": 496,
+        "endChar": 80
+      },
+      "revId": "5346588283410a1ba408d26636510e82234ee560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

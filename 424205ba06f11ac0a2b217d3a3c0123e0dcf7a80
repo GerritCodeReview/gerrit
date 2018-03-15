@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1521101115 +0100\nnonce APUGfEIavRhNc0tM4ixO2+KDLFgDOnGaz3oMs6nLbsarBKkIjyA11i8gweaTWIwWrWkFcwpbOuEZ\n\n0000000000000000000000000000000000000000 0d5be4f5c54a422da0cd7ecbc7ba9f0629b0da9f refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlqqKTsACgkQUbX9l6DQ\n71GXowgAgXXZEvqDz4BpEwQvbJKdb98nRYeisqtfYYs4UUgLKktY0lpRGz4YOAK1\nNM786+niJz1kZsdXn88DTlA5FF4BbIorypSZO5ZCbfWBD1OpvtRQOOwv5C3gdpPu\nxvofMJRmm0gR+jbAPDMoYfGx4X6Re6OCHGm9rxRK4BrgNQRro7Zf6+yWQgVKHp6/\nwh3E3DKjzhbT3DJMX/FOaNgxaHiaT7M0/rDjYEoUZ86C38hb2kH4zE2ZmAdrgBAg\n4rJRlEYfBXkJNhULTbE2PbA28U38L8Sp0CHAU4K/lWB2il8200eGXCIS+Qe9/ham\nYpScK1mJombXE/TF4URgguG0eUvN5g\u003d\u003d\n\u003djGiP\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2dd7db0b_0b922a07",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-15T08:13:33Z",
+      "side": 1,
+      "message": "Is removal of the TODOs in this file related?",
+      "revId": "424205ba06f11ac0a2b217d3a3c0123e0dcf7a80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

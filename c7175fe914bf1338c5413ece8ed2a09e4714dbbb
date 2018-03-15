@@ -17,6 +17,24 @@
       "revId": "c7175fe914bf1338c5413ece8ed2a09e4714dbbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "826c34e2_1ab018f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-15T23:59:08Z",
+      "side": 1,
+      "message": "Yep, sure, filled at https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d8558 :)",
+      "parentUuid": "7b244ef8_485a0e58",
+      "revId": "c7175fe914bf1338c5413ece8ed2a09e4714dbbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

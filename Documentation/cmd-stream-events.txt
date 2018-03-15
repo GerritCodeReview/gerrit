@@ -151,7 +151,8 @@ type:: "dropped-output"
 
 === Hashtags Changed
 
-Sent when the hashtags have been added to or removed from a change.
+Sent when the link:intro-user.html#hashtags[hashtags] have been added to or
+removed from a change.
 
 type:: "hashtags-changed"
 

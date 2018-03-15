@@ -35,6 +35,24 @@
       "revId": "99cb52834df7929f28c8b7dee217eb29399d91a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b26bf4eb_a8b419be",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-15T14:08:13Z",
+      "side": 1,
+      "message": "I would also suggest we change ChangeList...if I were interested in actually improving the GWT UI code at all, which I\u0027m not :)\n\nSo it\u0027s fine for this to be consistent.",
+      "parentUuid": "43db43ab_8cda6ad3",
+      "revId": "99cb52834df7929f28c8b7dee217eb29399d91a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

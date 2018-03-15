@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "8cd68c9b_eeb1620c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-15T16:59:50Z",
+      "side": 1,
+      "message": "It\u0027s used to ensure that selectability of content in gr-diff-selection. Rather than add another selector to that, I thought I\u0027d reuse this one. I\u0027ll add a comment to make sure it doesn\u0027t get removed.",
+      "parentUuid": "65982537_c963dcb4",
+      "range": {
+        "startLine": 288,
+        "startChar": 48,
+        "endLine": 288,
+        "endChar": 64
+      },
+      "revId": "91f1920b38c41681dc705537dd592c5637c32491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08633aed_e1ee2455",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
         "patchSetId": 6
@@ -62,6 +86,30 @@
       "revId": "91f1920b38c41681dc705537dd592c5637c32491",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa1e3823_f385dadd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-15T16:59:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08633aed_e1ee2455",
+      "range": {
+        "startLine": 292,
+        "startChar": 12,
+        "endLine": 294,
+        "endChar": 16
+      },
+      "revId": "91f1920b38c41681dc705537dd592c5637c32491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

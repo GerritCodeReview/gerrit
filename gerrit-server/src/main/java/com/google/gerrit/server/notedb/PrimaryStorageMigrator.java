@@ -81,6 +81,18 @@ import org.slf4j.LoggerFactory;
 public class PrimaryStorageMigrator {
   private static final Logger log = LoggerFactory.getLogger(PrimaryStorageMigrator.class);
 
+  /**
+   * Exception thrown during migration if the change has no {@code noteDbState} field at the
+   * beginning of the migration.
+   */
+  public static class NoNoteDbStateException extends RuntimeException {
+    private static final long serialVersionUID = 1L;
+
+    private NoNoteDbStateException(Change.Id id) {
+      super("change " + id + " has no note_db_state; rebuild it first");
+    }
+  }
+
   private final AllUsersName allUsers;
   private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeRebuilder rebuilder;
@@ -281,9 +293,11 @@ public class PrimaryStorageMigrator {
                     NoteDbChangeState state = NoteDbChangeState.parse(change);
                     if (state == null) {
                       // Could rebuild the change here, but that's more complexity, and this
-                      // really shouldn't happen.
-                      throw new OrmRuntimeException(
-                          "change " + id + " has no note_db_state; rebuild it first");
+                      // normally shouldn't happen.
+                      //
+                      // Known cases where this happens are described in and handled by
+                      // NoteDbMigrator#canSkipPrimaryStorageMigration.
+                      throw new NoNoteDbStateException(id);
                     }
                     // If the change is already read-only, then the lease is held by another
                     // (likely failed) migrator thread. Fail early, as we can't take over

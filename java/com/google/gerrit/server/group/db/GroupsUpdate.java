@@ -106,7 +106,6 @@ public class GroupsUpdate {
   private final MetaDataUpdateFactory metaDataUpdateFactory;
   private final GitReferenceUpdated gitRefUpdated;
   private final boolean writeGroupsToNoteDb;
-  private final boolean reviewDbUpdatesAreBlocked;
 
   @Inject
   GroupsUpdate(
@@ -144,7 +143,6 @@ public class GroupsUpdate {
     // Don't flip this flag in a production setting! We only added it to spread the implementation
     // of groups in NoteDb among several changes which are gradually merged.
     writeGroupsToNoteDb = config.getBoolean("user", null, "writeGroupsToNoteDb", false);
-    reviewDbUpdatesAreBlocked = config.getBoolean("user", null, "blockReviewDbGroupUpdates", false);
   }
 
   private static MetaDataUpdateFactory getMetaDataUpdateFactory(
@@ -257,7 +255,6 @@ public class GroupsUpdate {
   private InternalGroup createGroupInReviewDb(
       ReviewDb db, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws OrmException {
-    checkIfReviewDbUpdatesAreBlocked();
 
     AccountGroupName gn = new AccountGroupName(groupCreation.getNameKey(), groupCreation.getId());
     // first insert the group name to validate that the group name hasn't
@@ -297,8 +294,6 @@ public class GroupsUpdate {
 
   private UpdateResult updateGroupInReviewDb(
       ReviewDb db, AccountGroup group, InternalGroupUpdate groupUpdate) throws OrmException {
-    checkIfReviewDbUpdatesAreBlocked();
-
     AccountGroup.NameKey originalName = group.getNameKey();
     applyUpdate(group, groupUpdate);
     AccountGroup.NameKey updatedName = group.getNameKey();
@@ -620,12 +615,6 @@ public class GroupsUpdate {
     }
     for (AccountGroup.UUID modifiedSubgroup : result.getModifiedSubgroups()) {
       groupIncludeCache.evictParentGroupsOf(modifiedSubgroup);
-    }
-  }
-
-  private void checkIfReviewDbUpdatesAreBlocked() throws OrmException {
-    if (reviewDbUpdatesAreBlocked) {
-      throw new OrmException("Updates to groups in ReviewDb are blocked");
     }
   }
 

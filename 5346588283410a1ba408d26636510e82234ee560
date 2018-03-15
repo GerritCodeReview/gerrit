@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1521121581 -0400\nnonce APUGfEIRFkXZT5MVcTr7ICzJO2KRz8D866zlCNZdh9Rktp+M5ioiAqkmZE2JEuJ8waH956NCfJ+1\n\n0000000000000000000000000000000000000000 5346588283410a1ba408d26636510e82234ee560 refs/for/stable-2.15%r\u003ddavid.ostrovsky@gmail.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlqqeS0VHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiM9uwQAJV1Ttc1OWRcawsU1H+f/OcegVyJ\nVDrh0sR192TizV7sD/Gv5AR08z4l4DPBf9pfuL5+JKnAt9BI7ie1wOLOd1pqtnv9\nd3jOZ0qmAfKFTfCSu+rROGNKSD0A0ocOKJ2/ZmFt1YENwuxDcP+2U+Z0setzbbhd\nyVxC5UEFJuDrtjCJn0JwBv+0Q25gQLh7AkPI9GsoTq5n/1svOvOBM1wLPigb2bHC\nS9ROL1pMF0ZlhTBVXRGRr45sVr3zqPs4ZJzwDhRmGqut6ZI/q/UrLBrN3QQPEK8Q\ne3Q+6oJRd1+p1VJOxIz5fnmGrf/GkrbyM2gadmU27IePZEceLkeyaNWQpyEjgEEh\nUCE2V7J3kI804GQ56g4equA0QUwcWRLrBhS01ivE3I1qFJRtLKP+KpIKPhCZe1s3\nyXsV/4j0/XyyfygCnLzpL1O4kxA2uJGPCU4VwbkIoC1yC8rgZUYmWGB2dM3mIqLP\nWC3a1omPPmaQVIl9X46CRJrb3TwvganQBkGH+w0NvSz5Tc1nTMX2J1RZ17hQq3S1\nOzihT8oEdIxauk0w0uJEDYc5xfO8DH9U6EP4ps1RGjcPvKmIcvEQitKflRxigFGl\nZ+E0HnfUSL8abKJAEvEPPBjhqPu5nf+w+3hRE7vFd9EpNpDU1c9cbaa7G1Ev33EU\nssYrEsUFJlMfBMvB\n\u003dCjmP\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "08093396_e99faf0b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-15T14:07:56Z",
+      "side": 1,
+      "message": "Thanks, I see, the missing refs are still missing after the migrationfrom ReviewDb to NoteDb. So that those changes were corrupted and they remain corrupted, but they do not show up during the migration process.",
+      "range": {
+        "startLine": 496,
+        "startChar": 6,
+        "endLine": 496,
+        "endChar": 80
+      },
+      "revId": "5346588283410a1ba408d26636510e82234ee560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

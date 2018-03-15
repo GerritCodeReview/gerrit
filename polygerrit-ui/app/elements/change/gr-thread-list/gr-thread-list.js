@@ -28,10 +28,15 @@
       change: Object,
       threads: Array,
       changeNum: String,
+      loggedIn: Boolean,
       _sortedThreads: {
         type: Array,
         computed: '_computeSortedThreads(threads.*)',
       },
+    },
+
+    _computeShowDraftToggle(loggedIn) {
+      return loggedIn ? 'show' : '';
     },
 
     /**

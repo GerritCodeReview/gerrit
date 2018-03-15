@@ -42,6 +42,12 @@ limitations under the License.
         min-height: 3.2em;
         padding: .5em var(--default-horizontal-margin);
       }
+      .toggleItem.draftToggle {
+        display: none;
+      }
+      .toggleItem.draftToggle.show {
+        display: flex;
+      }
       .toggleItem {
         align-items: center;
         display: flex;
@@ -63,7 +69,7 @@ limitations under the License.
             id="unresolvedToggle"
             on-change="_toggleUnresolved"></paper-toggle-button>
           Only unresolved threads</div>
-      <div class="toggleItem">
+      <div class$="toggleItem draftToggle [[_computeShowDraftToggle(loggedIn)]]">
         <paper-toggle-button
             id="draftToggle"
             on-change="_toggleDrafts"></paper-toggle-button>

@@ -60,12 +60,14 @@ suite('gr-edit-controls tests', () => {
 
   suite('edit button CUJ', () => {
     let navStubs;
+    let openAutoCcmplete;
 
     setup(() => {
       navStubs = [
         sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff'),
         sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl'),
       ];
+      openAutoCcmplete = element.$.openDialog.querySelector('gr-autocomplete');
     });
 
     test('_isValidPath', () => {
@@ -83,8 +85,8 @@ suite('gr-edit-controls tests', () => {
         assert.isTrue(element._hideAllDialogs.called);
         assert.isTrue(element.$.openDialog.disabled);
         assert.isFalse(queryStub.called);
-        element.$.openDialog.querySelector('gr-autocomplete').text =
-            'src/test.cpp';
+        openAutoCcmplete.noDebounce = true;
+        openAutoCcmplete.text = 'src/test.cpp';
         assert.isTrue(queryStub.called);
         assert.isFalse(element.$.openDialog.disabled);
         MockInteractions.tap(element.$.openDialog.$$('gr-button[primary]'));
@@ -99,8 +101,8 @@ suite('gr-edit-controls tests', () => {
       MockInteractions.tap(element.$$('#open'));
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element.$.openDialog.disabled);
-        element.$.openDialog.querySelector('gr-autocomplete').text =
-            'src/test.cpp';
+        openAutoCcmplete.noDebounce = true;
+        openAutoCcmplete.text = 'src/test.cpp';
         assert.isFalse(element.$.openDialog.disabled);
         MockInteractions.tap(element.$.openDialog.$$('gr-button'));
         for (const stub of navStubs) { assert.isFalse(stub.called); }
@@ -113,10 +115,13 @@ suite('gr-edit-controls tests', () => {
   suite('delete button CUJ', () => {
     let navStub;
     let deleteStub;
+    let deleteAutocomplete;
 
     setup(() => {
       navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
       deleteStub = sandbox.stub(element.$.restAPI, 'deleteFileInChangeEdit');
+      deleteAutocomplete =
+          element.$.deleteDialog.querySelector('gr-autocomplete');
     });
 
     test('delete', () => {
@@ -125,8 +130,8 @@ suite('gr-edit-controls tests', () => {
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element.$.deleteDialog.disabled);
         assert.isFalse(queryStub.called);
-        element.$.deleteDialog.querySelector('gr-autocomplete').text =
-            'src/test.cpp';
+        deleteAutocomplete.noDebounce = true;
+        deleteAutocomplete.text = 'src/test.cpp';
         assert.isTrue(queryStub.called);
         assert.isFalse(element.$.deleteDialog.disabled);
         MockInteractions.tap(element.$.deleteDialog.$$('gr-button[primary]'));
@@ -148,8 +153,8 @@ suite('gr-edit-controls tests', () => {
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element.$.deleteDialog.disabled);
         assert.isFalse(queryStub.called);
-        element.$.deleteDialog.querySelector('gr-autocomplete').text =
-            'src/test.cpp';
+        deleteAutocomplete.noDebounce = true;
+        deleteAutocomplete.text = 'src/test.cpp';
         assert.isTrue(queryStub.called);
         assert.isFalse(element.$.deleteDialog.disabled);
         MockInteractions.tap(element.$.deleteDialog.$$('gr-button[primary]'));
@@ -182,10 +187,13 @@ suite('gr-edit-controls tests', () => {
   suite('rename button CUJ', () => {
     let navStub;
     let renameStub;
+    let renameAutocomplete;
 
     setup(() => {
       navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
       renameStub = sandbox.stub(element.$.restAPI, 'renameFileInChangeEdit');
+      renameAutocomplete =
+          element.$.renameDialog.querySelector('gr-autocomplete');
     });
 
     test('rename', () => {
@@ -194,8 +202,8 @@ suite('gr-edit-controls tests', () => {
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element.$.renameDialog.disabled);
         assert.isFalse(queryStub.called);
-        element.$.renameDialog.querySelector('gr-autocomplete').text =
-            'src/test.cpp';
+        renameAutocomplete.noDebounce = true;
+        renameAutocomplete.text = 'src/test.cpp';
         assert.isTrue(queryStub.called);
         assert.isTrue(element.$.renameDialog.disabled);
 
@@ -222,8 +230,8 @@ suite('gr-edit-controls tests', () => {
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element.$.renameDialog.disabled);
         assert.isFalse(queryStub.called);
-        element.$.renameDialog.querySelector('gr-autocomplete').text =
-            'src/test.cpp';
+        renameAutocomplete.noDebounce = true;
+        renameAutocomplete.text = 'src/test.cpp';
         assert.isTrue(queryStub.called);
         assert.isTrue(element.$.renameDialog.disabled);
 

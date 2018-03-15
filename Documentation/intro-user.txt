@@ -474,6 +474,10 @@ push], either by appending `%topic=...` to the ref name or through
 the use of the command line flag `--push-option`, aliased to `-o`,
 followed by `topic=...`.
 
+Gerrit may be link:config-gerrit.html#change.submitWholeTopic[configured] to
+submit all changes in a topic together with a single click, even when topics
+span multiple projects.
+
 .Set Topic on Push
 ----
   $ git push origin HEAD:refs/for/master%topic=multi-master

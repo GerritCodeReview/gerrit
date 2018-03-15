@@ -14,8 +14,12 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS_DEFAULT;
+import static com.google.gerrit.server.account.VersionedAccountPreferences.PREFERENCES;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_URL;
 import static com.google.gerrit.server.git.UserConfigSections.MY;
 import static com.google.gerrit.server.schema.Schema_160.DEFAULT_DRAFT_ITEM;
@@ -38,8 +42,13 @@ import com.google.gerrit.testutil.TestUpdateUI;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.BlobBasedConfig;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Rule;
@@ -108,10 +117,70 @@ public class Schema_159_to_160_Test {
     assertThat(myMenusFromApi(accountId).keySet()).containsExactlyElementsIn(newNames).inOrder();
   }
 
-  // Raw config values, bypassing the defaults set by GeneralPreferencesLoader.
-  private ImmutableMap<String, String> myMenusFromNoteDb(Account.Id id) throws Exception {
+  @Test
+  public void skipNonExistentRefsUsersDefault() throws Exception {
+    assertThat(readRef(REFS_USERS_DEFAULT)).isEmpty();
+    schema160.migrateData(db, new TestUpdateUI());
+    assertThat(readRef(REFS_USERS_DEFAULT)).isEmpty();
+  }
+
+  @Test
+  public void deleteDefaultItem() throws Exception {
+    assertThat(readRef(REFS_USERS_DEFAULT)).isEmpty();
+    List<String> defaultNames = ImmutableList.copyOf(defaultMenusFromApi().keySet());
+
+    // Setting *any* preference causes preferences.config to contain the full set of "my" sections.
+    // This mimics real-world behavior prior to the 2.15 upgrade; see Issue 8439 for details.
+    GeneralPreferencesInfo prefs = gApi.config().server().getDefaultPreferences();
+    prefs.signedOffBy = !firstNonNull(prefs.signedOffBy, false);
+    gApi.config().server().setDefaultPreferences(prefs);
+
     try (Repository repo = repoManager.openRepository(allUsersName)) {
-      VersionedAccountPreferences prefs = VersionedAccountPreferences.forUser(id);
+      Config cfg = new BlobBasedConfig(null, repo, readRef(REFS_USERS_DEFAULT).get(), PREFERENCES);
+      assertThat(cfg.getSubsections("my")).containsExactlyElementsIn(defaultNames).inOrder();
+
+      // Add more defaults directly in git, the SetPreferences endpoint doesn't respect the "my"
+      // field in the input in 2.15 and earlier.
+      cfg.setString("my", "Drafts", "url", DEFAULT_DRAFT_ITEM);
+      cfg.setString("my", "Something else", "url", DEFAULT_DRAFT_ITEM + "+is:mergeable");
+      cfg.setString("my", "Totally not drafts", "url", DEFAULT_DRAFT_ITEM);
+      new TestRepository<>(repo)
+          .branch(REFS_USERS_DEFAULT)
+          .commit()
+          .add(PREFERENCES, cfg.toText())
+          .create();
+    }
+
+    List<String> oldNames =
+        ImmutableList.<String>builder()
+            .addAll(defaultNames)
+            .add("Drafts")
+            .add("Something else")
+            .add("Totally not drafts")
+            .build();
+    assertThat(defaultMenusFromApi().keySet()).containsExactlyElementsIn(oldNames).inOrder();
+
+    schema160.migrateData(db, new TestUpdateUI());
+
+    assertThat(readRef(REFS_USERS_DEFAULT)).isPresent();
+
+    List<String> newNames =
+        ImmutableList.<String>builder().addAll(defaultNames).add("Something else").build();
+    assertThat(myMenusFromNoteDb(VersionedAccountPreferences::forDefault).keySet())
+        .containsExactlyElementsIn(newNames)
+        .inOrder();
+    assertThat(defaultMenusFromApi().keySet()).containsExactlyElementsIn(newNames).inOrder();
+  }
+
+  private ImmutableMap<String, String> myMenusFromNoteDb(Account.Id id) throws Exception {
+    return myMenusFromNoteDb(() -> VersionedAccountPreferences.forUser(id));
+  }
+
+  // Raw config values, bypassing the defaults set by GeneralPreferencesLoader.
+  private ImmutableMap<String, String> myMenusFromNoteDb(
+      Supplier<VersionedAccountPreferences> prefsSupplier) throws Exception {
+    try (Repository repo = repoManager.openRepository(allUsersName)) {
+      VersionedAccountPreferences prefs = prefsSupplier.get();
       prefs.load(repo);
       Config cfg = prefs.getConfig();
       return cfg.getSubsections(MY)
@@ -121,17 +190,26 @@ public class Schema_159_to_160_Test {
   }
 
   private ImmutableMap<String, String> myMenusFromApi(Account.Id id) throws Exception {
-    return gApi.accounts()
-        .id(id.get())
-        .getPreferences()
-        .my
-        .stream()
-        .collect(toImmutableMap(i -> i.name, i -> i.url));
+    return myMenus(gApi.accounts().id(id.get()).getPreferences());
+  }
+
+  private ImmutableMap<String, String> defaultMenusFromApi() throws Exception {
+    return myMenus(gApi.config().server().getDefaultPreferences());
+  }
+
+  private static ImmutableMap<String, String> myMenus(GeneralPreferencesInfo prefs) {
+
+    return prefs.my.stream().collect(toImmutableMap(i -> i.name, i -> i.url));
   }
 
   private ObjectId metaRef(Account.Id id) throws Exception {
+    return readRef(RefNames.refsUsers(id))
+        .orElseThrow(() -> new AssertionError("missing ref for account " + id));
+  }
+
+  private Optional<ObjectId> readRef(String ref) throws Exception {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
-      return repo.exactRef(RefNames.refsUsers(id)).getObjectId();
+      return Optional.ofNullable(repo.exactRef(ref)).map(Ref::getObjectId);
     }
   }
 }

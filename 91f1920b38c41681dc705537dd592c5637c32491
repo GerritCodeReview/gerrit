@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91e9247d_81f88e31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-15T00:37:55Z",
+      "side": 1,
+      "message": "Optional, IDK, I don\u0027t think this line is needed.",
+      "revId": "91f1920b38c41681dc705537dd592c5637c32491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65982537_c963dcb4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-15T00:37:55Z",
+      "side": 1,
+      "message": "Is this class used?",
+      "range": {
+        "startLine": 288,
+        "startChar": 48,
+        "endLine": 288,
+        "endChar": 64
+      },
+      "revId": "91f1920b38c41681dc705537dd592c5637c32491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08633aed_e1ee2455",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-15T00:37:55Z",
+      "side": 1,
+      "message": "This wants one more level of indentation for the dom-if.",
+      "range": {
+        "startLine": 292,
+        "startChar": 12,
+        "endLine": 294,
+        "endChar": 16
+      },
+      "revId": "91f1920b38c41681dc705537dd592c5637c32491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

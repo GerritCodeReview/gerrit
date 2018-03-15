@@ -1021,8 +1021,43 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
       db.rollback();
     }
 
-    exception.expect(NoPatchSetsException.class);
-    checker.rebuildAndCheckChanges(id);
+    try {
+      checker.rebuildAndCheckChanges(id);
+      assert_().fail("expected NoPatchSetsException");
+    } catch (NoPatchSetsException e) {
+      // Expected.
+    }
+
+    Change c = db.changes().get(id);
+    assertThat(c.getNoteDbState()).isNull();
+    checker.assertNoChangeRef(project, id);
+  }
+
+  @Test
+  public void rebuildChangeWithNoEntitiesOtherThanChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    db.changes().beginTransaction(id);
+    try {
+      db.changeMessages().delete(db.changeMessages().byChange(id));
+      db.patchSets().delete(db.patchSets().byChange(id));
+      db.patchSetApprovals().delete(db.patchSetApprovals().byChange(id));
+      db.patchComments().delete(db.patchComments().byChange(id));
+      db.commit();
+    } finally {
+      db.rollback();
+    }
+
+    try {
+      checker.rebuildAndCheckChanges(id);
+      assert_().fail("expected NoPatchSetsException");
+    } catch (NoPatchSetsException e) {
+      // Expected.
+    }
+
+    Change c = db.changes().get(id);
+    assertThat(c.getNoteDbState()).isNull();
+    checker.assertNoChangeRef(project, id);
   }
 
   @Test

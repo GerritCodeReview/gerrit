@@ -22,6 +22,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.project.ProjectState;
+import java.util.Arrays;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
@@ -110,6 +111,69 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     expectedCfg.setString("s2", "ss", "k4", "parentValue4");
 
     assertThat(state.getConfig(configName).getWithInheritance().toText())
+        .isEqualTo(expectedCfg.toText());
+
+    assertThat(state.getConfig(configName).get().toText()).isEqualTo(cfg.toText());
+  }
+
+  @Test
+  public void withMergedInheritance() throws Exception {
+    String configName = "test.config";
+
+    Config parentCfg = new Config();
+    parentCfg.setString("s1", null, "k1", "parentValue1");
+    parentCfg.setString("s1", null, "k2", "parentValue2");
+    parentCfg.setString("s2", "ss", "k3", "parentValue3");
+    parentCfg.setString("s2", "ss", "k4", "parentValue4");
+
+    pushFactory
+        .create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            "Create Project Level Config",
+            configName,
+            parentCfg.toText())
+        .to(RefNames.REFS_CONFIG)
+        .assertOkStatus();
+
+    Project.NameKey childProject = createProject("child", project);
+    TestRepository<?> childTestRepo = cloneProject(childProject);
+    fetch(childTestRepo, RefNames.REFS_CONFIG + ":refs/heads/config");
+    childTestRepo.reset("refs/heads/config");
+
+    Config cfg = new Config();
+    cfg.setString("s1", null, "k1", "parentValue1");
+    cfg.setString("s1", null, "k2", "parentValue2");
+    cfg.setString("s2", "ss", "k3", "parentValue3");
+    cfg.setString("s2", "ss", "k4", "parentValue4");
+    cfg.setString("s1", null, "k1", "childValue1");
+    cfg.setString("s2", "ss", "k3", "childValue2");
+    cfg.setString("s3", null, "k5", "childValue3");
+    cfg.setString("s3", "ss", "k6", "childValue4");
+
+    pushFactory
+        .create(
+            db,
+            admin.getIdent(),
+            childTestRepo,
+            "Create Project Level Config",
+            configName,
+            cfg.toText())
+        .to(RefNames.REFS_CONFIG)
+        .assertOkStatus();
+
+    ProjectState state = projectCache.get(childProject);
+
+    Config expectedCfg = new Config();
+    expectedCfg.setStringList("s1", null, "k1", Arrays.asList("childValue1", "parentValue1"));
+    expectedCfg.setString("s1", null, "k2", "parentValue2");
+    expectedCfg.setStringList("s2", "ss", "k3", Arrays.asList("childValue2", "parentValue3"));
+    expectedCfg.setString("s2", "ss", "k4", "parentValue4");
+    expectedCfg.setString("s3", null, "k5", "childValue3");
+    expectedCfg.setString("s3", "ss", "k6", "childValue4");
+
+    assertThat(state.getConfig(configName).getWithInheritance(true).toText())
         .isEqualTo(expectedCfg.toText());
 
     assertThat(state.getConfig(configName).get().toText()).isEqualTo(cfg.toText());

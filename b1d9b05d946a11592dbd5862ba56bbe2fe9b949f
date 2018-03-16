@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f100829d_baff1cc2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group_test.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-16T19:10:15Z",
+      "side": 1,
+      "message": "It seems i carn\u0027t because on line 130 i do\n\n      sandbox.stub(element.$.restAPI, \u0027getGroupConfig\u0027, () \u003d\u003e {\n        return Promise.resolve({});\n      });\n\n\nbut i carn\u0027t re stub, so this is a work around.",
+      "parentUuid": "94df5c7b_0978e9e5",
+      "range": {
+        "startLine": 63,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 9
+      },
+      "revId": "b1d9b05d946a11592dbd5862ba56bbe2fe9b949f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "955dffab_ecd723cf",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
         "patchSetId": 32
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "b4f7b6f9_c59c63de",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-16T19:10:15Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "955dffab_ecd723cf",
+      "range": {
+        "startLine": 114,
+        "startChar": 6,
+        "endLine": 116,
+        "endChar": 7
+      },
+      "revId": "b1d9b05d946a11592dbd5862ba56bbe2fe9b949f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23d09d0d_d162dc93",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
         "patchSetId": 32
@@ -59,6 +107,30 @@
       "writtenOn": "2018-03-15T22:20:19Z",
       "side": 1,
       "message": "This function needs to add the optional error function in gr-rest-api",
+      "range": {
+        "startLine": 130,
+        "startChar": 25,
+        "endLine": 130,
+        "endChar": 38
+      },
+      "revId": "b1d9b05d946a11592dbd5862ba56bbe2fe9b949f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cd97259_353c769b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-16T19:10:15Z",
+      "side": 1,
+      "message": "I\u0027ve removed it from this function so doin\u0027t need to do that now :).",
+      "parentUuid": "23d09d0d_d162dc93",
       "range": {
         "startLine": 130,
         "startChar": 25,
@@ -142,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "ad7a784d_23a35edc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-16T19:10:15Z",
+      "side": 1,
+      "message": "Thanks, done for removing it from getRepoAccess.",
+      "parentUuid": "e53f754a_dc983485",
+      "range": {
+        "startLine": 142,
+        "startChar": 21,
+        "endLine": 142,
+        "endChar": 55
+      },
+      "revId": "b1d9b05d946a11592dbd5862ba56bbe2fe9b949f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "31aa142d_39c51555",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
         "patchSetId": 32
@@ -165,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "cdf76540_121fbe55",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-16T19:10:15Z",
+      "side": 1,
+      "message": "Ah right, woops, thanks for spotting this.",
+      "parentUuid": "31aa142d_39c51555",
+      "range": {
+        "startLine": 163,
+        "startChar": 10,
+        "endLine": 163,
+        "endChar": 20
+      },
+      "revId": "b1d9b05d946a11592dbd5862ba56bbe2fe9b949f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d1667b94_bebf5776",
         "filename": "polygerrit-ui/app/elements/shared/gr-page-nav/gr-page-nav.html",
         "patchSetId": 32
@@ -176,6 +296,30 @@
       "writtenOn": "2018-03-15T22:20:19Z",
       "side": 1,
       "message": "is this needed?",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 0
+      },
+      "revId": "b1d9b05d946a11592dbd5862ba56bbe2fe9b949f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6fb2c62_03888735",
+        "filename": "polygerrit-ui/app/elements/shared/gr-page-nav/gr-page-nav.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-16T19:10:15Z",
+      "side": 1,
+      "message": "Nope.",
+      "parentUuid": "d1667b94_bebf5776",
       "range": {
         "startLine": 31,
         "startChar": 0,

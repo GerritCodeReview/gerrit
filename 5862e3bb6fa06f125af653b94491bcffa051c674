@@ -16,6 +16,70 @@
       "revId": "5862e3bb6fa06f125af653b94491bcffa051c674",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d82e798_a9d05c6e",
+        "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-16T16:41:40Z",
+      "side": 1,
+      "message": "According to the code, MetaDataUpdate#close is a no-op for our case as we keep the repository open. If you prefer to nevertheless close it, please let\u0027s do it in another change. (By the way, if we ever think about re-designing MetaDataUpdate, we should use another approach for this. There\u0027s no reason not to have two classes/interfaces, one of which is closeable and the other is not.)",
+      "parentUuid": "66580833_f9f6c2be",
+      "revId": "5862e3bb6fa06f125af653b94491bcffa051c674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26e8ff31_479839ca",
+        "filename": "java/com/google/gerrit/server/schema/Schema_167.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-16T16:41:40Z",
+      "side": 1,
+      "message": "This is something we have to do within this change as the ReviewDb instance here is wrapped in NoGroupsReviewDbWrapper. The unwrapping which happens before the call of this method only unwraps the DisallowReadFromGroupsReviewDbWrapper. Instead of also unwrapping NoGroupsReviewDbWrapper, we should really switch to SQL here (and in all called classes like GroupBundle, etc.) as we have to do this switch anyway.",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 83,
+        "endChar": 49
+      },
+      "revId": "5862e3bb6fa06f125af653b94491bcffa051c674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a5bdb49_e4b105ea",
+        "filename": "javatests/com/google/gerrit/server/schema/Schema_166_to_167_Test.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-16T16:41:40Z",
+      "side": 1,
+      "message": "The tests I already added aren\u0027t sufficient at all. GroupRebuilder is now used in a completely different context. For this reason, we can\u0027t trust the results of GroupRebuilderIT anymore, whereas GroupRebuilderTest is still fine. My idea was to migrate the tests from GroupRebuilderIT into this file and adjust them accordingly. We need some additional ones, though, as the schema migration has a special handling for the retrieval of the account and group names. That\u0027s something we have to test thoroughly.\n\nIdeally, we would also test that the audit log displays the names of subgroups when called at a later time even when the names of the subgroups aren\u0027t available during the migration.",
+      "range": {
+        "startLine": 62,
+        "startChar": 18,
+        "endLine": 62,
+        "endChar": 33
+      },
+      "revId": "5862e3bb6fa06f125af653b94491bcffa051c674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

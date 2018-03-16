@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "01276ca0_3f55c0c5",
+        "filename": "java/com/google/gerrit/server/schema/Schema_167.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-16T16:41:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce45057f_b55f3309",
+      "revId": "42ff3f860cf06cbe5a2b2898526251b69349f6e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a2847ede_883cc839",
         "filename": "javatests/com/google/gerrit/server/schema/Schema_166_to_167_Test.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-03-13T12:59:14Z",
       "side": 1,
       "message": "[optional] Maybe add a test that checks that a group is successfully migrated even if a group branch for this group already exists (e.g. with outdated data).",
+      "revId": "42ff3f860cf06cbe5a2b2898526251b69349f6e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d3de505_c1664b0c",
+        "filename": "javatests/com/google/gerrit/server/schema/Schema_166_to_167_Test.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-16T16:41:40Z",
+      "side": 1,
+      "message": "Yes, we definitely need a test for this. We also need to add special code for this to the schema migration as I think that the current implementation would fail.",
+      "parentUuid": "a2847ede_883cc839",
       "revId": "42ff3f860cf06cbe5a2b2898526251b69349f6e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

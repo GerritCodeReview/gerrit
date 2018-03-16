@@ -15,10 +15,10 @@
 package com.google.gerrit.server.patch;
 
 import static com.google.common.base.Preconditions.checkState;
-import static org.eclipse.jgit.lib.ObjectIdSerialization.readCanBeNull;
-import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
-import static org.eclipse.jgit.lib.ObjectIdSerialization.writeCanBeNull;
-import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
+import static org.eclipse.jgit.lib.ObjectIdSerializer.read;
+import static org.eclipse.jgit.lib.ObjectIdSerializer.readWithoutMarker;
+import static org.eclipse.jgit.lib.ObjectIdSerializer.write;
+import static org.eclipse.jgit.lib.ObjectIdSerializer.writeWithoutMarker;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.google.gerrit.common.Nullable;
@@ -186,9 +186,9 @@ public class PatchListKey implements Serializable {
   }
 
   private void writeObject(ObjectOutputStream out) throws IOException {
-    writeCanBeNull(out, oldId);
+    write(out, oldId);
     out.writeInt(parentNum == null ? 0 : parentNum);
-    writeNotNull(out, newId);
+    writeWithoutMarker(out, newId);
     Character c = WHITESPACE_TYPES.get(whitespace);
     if (c == null) {
       throw new IOException("Invalid whitespace type: " + whitespace);
@@ -198,10 +198,10 @@ public class PatchListKey implements Serializable {
   }
 
   private void readObject(ObjectInputStream in) throws IOException {
-    oldId = readCanBeNull(in);
+    oldId = read(in);
     int n = in.readInt();
     parentNum = n == 0 ? null : Integer.valueOf(n);
-    newId = readNotNull(in);
+    newId = readWithoutMarker(in);
     char t = in.readChar();
     whitespace = WHITESPACE_TYPES.inverse().get(t);
     if (whitespace == null) {

@@ -16,8 +16,8 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
-import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
+import static org.eclipse.jgit.lib.ObjectIdSerializer.readWithoutMarker;
+import static org.eclipse.jgit.lib.ObjectIdSerializer.writeWithoutMarker;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
@@ -172,14 +172,14 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {
-      writeNotNull(out, prior);
-      writeNotNull(out, next);
+      writeWithoutMarker(out, prior);
+      writeWithoutMarker(out, next);
       out.writeUTF(strategyName);
     }
 
     private void readObject(ObjectInputStream in) throws IOException {
-      prior = readNotNull(in);
-      next = readNotNull(in);
+      prior = readWithoutMarker(in);
+      next = readWithoutMarker(in);
       strategyName = in.readUTF();
     }
   }

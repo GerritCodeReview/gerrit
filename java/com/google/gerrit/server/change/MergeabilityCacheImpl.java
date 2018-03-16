@@ -19,8 +19,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
-import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
-import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
+import static org.eclipse.jgit.lib.ObjectIdSerializer.readWithoutMarker;
+import static org.eclipse.jgit.lib.ObjectIdSerializer.writeWithoutMarker;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.cache.Cache;
@@ -155,8 +155,8 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {
-      writeNotNull(out, commit);
-      writeNotNull(out, into);
+      writeWithoutMarker(out, commit);
+      writeWithoutMarker(out, into);
       Character c = SUBMIT_TYPES.get(submitType);
       if (c == null) {
         throw new IOException("Invalid submit type: " + submitType);
@@ -166,8 +166,8 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
     }
 
     private void readObject(ObjectInputStream in) throws IOException {
-      commit = readNotNull(in);
-      into = readNotNull(in);
+      commit = readWithoutMarker(in);
+      into = readWithoutMarker(in);
       char t = in.readChar();
       submitType = SUBMIT_TYPES.inverse().get(t);
       if (submitType == null) {

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.git;
 
-import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
-import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
+import static org.eclipse.jgit.lib.ObjectIdSerializer.readWithoutMarker;
+import static org.eclipse.jgit.lib.ObjectIdSerializer.writeWithoutMarker;
 
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -194,13 +194,13 @@ class TagSet {
     for (int i = 0; i < refCnt; i++) {
       String name = in.readUTF();
       int flag = in.readInt();
-      ObjectId id = readNotNull(in);
+      ObjectId id = readWithoutMarker(in);
       refs.put(name, new CachedRef(flag, id));
     }
 
     int tagCnt = in.readInt();
     for (int i = 0; i < tagCnt; i++) {
-      ObjectId id = readNotNull(in);
+      ObjectId id = readWithoutMarker(in);
       BitSet flags = (BitSet) in.readObject();
       tags.add(new Tag(id, flags));
     }
@@ -211,12 +211,12 @@ class TagSet {
     for (Map.Entry<String, CachedRef> e : refs.entrySet()) {
       out.writeUTF(e.getKey());
       out.writeInt(e.getValue().flag);
-      writeNotNull(out, e.getValue().get());
+      writeWithoutMarker(out, e.getValue().get());
     }
 
     out.writeInt(tags.size());
     for (Tag tag : tags) {
-      writeNotNull(out, tag);
+      writeWithoutMarker(out, tag);
       out.writeObject(tag.refFlags);
     }
   }

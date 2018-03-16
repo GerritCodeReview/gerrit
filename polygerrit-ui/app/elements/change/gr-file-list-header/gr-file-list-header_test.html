@@ -153,6 +153,7 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.isTrue(putDescStub.called);
       assert.equal(putDescStub.args[0][2], 'test2');
+      assert.equal(element.change.revisions.rev1.description, 'test');
     });
 
     test('expandAllDiffs called when expand button clicked', () => {

@@ -56,6 +56,24 @@
     },
     {
       "key": {
+        "uuid": "22866b1b_e0593771",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-16T10:00:52Z",
+      "side": 1,
+      "message": "This may makes sense for the account indexer. However for groups there are multiple caches and the group indexer currently only evicts one of these caches. So if we do something like this we should make sure that the behavior for indexing accounts and groups stays consistent.",
+      "parentUuid": "c99f4a8f_77b19ae9",
+      "revId": "cd0820b56817479241188ed6bd5d9a7b04088115",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9afbcc7e_7a138f39",
         "filename": "java/com/google/gerrit/server/index/account/AccountIndexerImpl.java",
         "patchSetId": 2

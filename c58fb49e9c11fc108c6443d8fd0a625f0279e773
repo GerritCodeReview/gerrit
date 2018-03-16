@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "75e4ac8b_b3700059",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 42
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-16T17:28:00Z",
+      "side": 1,
+      "message": "It makes sense to match the paddings. If it\u0027s okay with you, I\u0027ll adjust this in a follow-up.",
+      "parentUuid": "bd639e63_1b016e1a",
+      "revId": "c58fb49e9c11fc108c6443d8fd0a625f0279e773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c04a43d_44c854c4",
         "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.html",
         "patchSetId": 42
@@ -33,6 +51,24 @@
       "revId": "c58fb49e9c11fc108c6443d8fd0a625f0279e773",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e22c5ac_7a395fc3",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.html",
+        "patchSetId": 42
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-16T17:28:00Z",
+      "side": 1,
+      "message": "This dialog wouldn\u0027t have a use for the primary or cancel buttons that the confirm dialog provides, at least not that I can see.",
+      "parentUuid": "6c04a43d_44c854c4",
+      "revId": "c58fb49e9c11fc108c6443d8fd0a625f0279e773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "8852b83a_44988be6",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.html",
+        "patchSetId": 42
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-16T17:28:00Z",
+      "side": 1,
+      "message": "Agreed. If it\u0027s okay, I\u0027ll address this in a follow-up.",
+      "parentUuid": "1eb9f716_572a2baa",
+      "revId": "c58fb49e9c11fc108c6443d8fd0a625f0279e773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6dcf6bec_a08d6829",
         "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.html",
         "patchSetId": 42
@@ -64,6 +118,24 @@
       "writtenOn": "2018-03-16T16:31:26Z",
       "side": 1,
       "message": "Do you think we ought to have a null state for these? I.e. \"Tags: no tags\" or something.",
+      "revId": "c58fb49e9c11fc108c6443d8fd0a625f0279e773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "928015bd_1377fc83",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.html",
+        "patchSetId": 42
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-16T17:28:00Z",
+      "side": 1,
+      "message": "I agree. If it\u0027s okay, I\u0027ll do this in a follow-up too.",
+      "parentUuid": "6dcf6bec_a08d6829",
       "revId": "c58fb49e9c11fc108c6443d8fd0a625f0279e773",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

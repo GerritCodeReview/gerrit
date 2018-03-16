@@ -94,6 +94,30 @@
       "revId": "78345b85c47537c46e149470e294e4958e96680b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e5afa9f_74d263dc",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-16T01:32:47Z",
+      "side": 1,
+      "message": "I\u0027ve fixed this in PS41.",
+      "parentUuid": "a46e4bab_eb52ab5e",
+      "range": {
+        "startLine": 55,
+        "startChar": 18,
+        "endLine": 55,
+        "endChar": 39
+      },
+      "revId": "78345b85c47537c46e149470e294e4958e96680b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

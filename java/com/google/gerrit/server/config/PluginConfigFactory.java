@@ -294,6 +294,28 @@ public class PluginConfigFactory implements ReloadPluginListener {
   /**
    * Returns the configuration for the specified plugin that is stored in the '{@code
    * <plugin-name>.config}' file in the 'refs/meta/config' branch of the specified project.
+   * Parameters which are not set in the '{@code <plugin-name>.config}' of this project are
+   * inherited from the parent project's '{@code <plugin-name>.config}' files.
+   *
+   * <p>E.g.: child project: [mySection "mySubsection"] myKey = childValue
+   *
+   * <p>parent project: [mySection "mySubsection"] myKey = parentValue anotherKey = someValue
+   *
+   * <p>return: [mySection "mySubsection"] myKey = childValue anotherKey = someValue
+   *
+   * @param projectState the project for which the plugin configuration should be returned
+   * @param pluginName the name of the plugin for which the configuration should be returned
+   * @return the plugin configuration from the '{@code <plugin-name>.config}' file of the specified
+   *     project with inheriting non-set parameters from the parent projects
+   */
+  public Config getProjectPluginConfigWithInheritance(
+      ProjectState projectState, String pluginName) {
+    return projectState.getConfig(pluginName + EXTENSION).getWithInheritance(false);
+  }
+
+  /**
+   * Returns the configuration for the specified plugin that is stored in the '{@code
+   * <plugin-name>.config}' file in the 'refs/meta/config' branch of the specified project.
    * Parameters from the '{@code <plugin-name>.config}' of the parent project are appended to this
    * project's '{@code <plugin-name>.config}' files.
    *
@@ -314,28 +336,6 @@ public class PluginConfigFactory implements ReloadPluginListener {
   public Config getProjectPluginConfigWithMergedInheritance(
       Project.NameKey projectName, String pluginName) throws NoSuchProjectException {
     return getPluginConfig(projectName, pluginName).getWithInheritance(true);
-  }
-
-  /**
-   * Returns the configuration for the specified plugin that is stored in the '{@code
-   * <plugin-name>.config}' file in the 'refs/meta/config' branch of the specified project.
-   * Parameters which are not set in the '{@code <plugin-name>.config}' of this project are
-   * inherited from the parent project's '{@code <plugin-name>.config}' files.
-   *
-   * <p>E.g.: child project: [mySection "mySubsection"] myKey = childValue
-   *
-   * <p>parent project: [mySection "mySubsection"] myKey = parentValue anotherKey = someValue
-   *
-   * <p>return: [mySection "mySubsection"] myKey = childValue anotherKey = someValue
-   *
-   * @param projectState the project for which the plugin configuration should be returned
-   * @param pluginName the name of the plugin for which the configuration should be returned
-   * @return the plugin configuration from the '{@code <plugin-name>.config}' file of the specified
-   *     project with inheriting non-set parameters from the parent projects
-   */
-  public Config getProjectPluginConfigWithInheritance(
-      ProjectState projectState, String pluginName) {
-    return projectState.getConfig(pluginName + EXTENSION).getWithInheritance(false);
   }
 
   /**

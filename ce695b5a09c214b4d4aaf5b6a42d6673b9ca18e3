@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "275ff3ca_fc7f1d82",
+        "filename": "javatests/com/google/gerrit/acceptance/ProjectResetterTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-16T14:09:26Z",
+      "side": 1,
+      "message": "You are right, I just forgot to add \u0027EasyMock.verify(accountIndexer)\u0027 at the end.\n\nDone",
+      "parentUuid": "95308f99_5eee0dae",
+      "range": {
+        "startLine": 269,
+        "startChar": 4,
+        "endLine": 271,
+        "endChar": 36
+      },
+      "revId": "ce695b5a09c214b4d4aaf5b6a42d6673b9ca18e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "489a3c50_2f7afa8f",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIndexerIT.java",
         "patchSetId": 4
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "e0a2f119_2db42854",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIndexerIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-16T14:09:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "489a3c50_2f7afa8f",
+      "range": {
+        "startLine": 54,
+        "startChar": 50,
+        "endLine": 54,
+        "endChar": 64
+      },
+      "revId": "ce695b5a09c214b4d4aaf5b6a42d6673b9ca18e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "678c038a_04c8fb75",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIndexerIT.java",
         "patchSetId": 4
@@ -60,6 +108,30 @@
       "writtenOn": "2018-03-16T12:32:18Z",
       "side": 1,
       "message": "Typo here and in other tests: States",
+      "range": {
+        "startLine": 69,
+        "startChar": 37,
+        "endLine": 69,
+        "endChar": 42
+      },
+      "revId": "ce695b5a09c214b4d4aaf5b6a42d6673b9ca18e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "329a4b64_434786c4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIndexerIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-16T14:09:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "678c038a_04c8fb75",
       "range": {
         "startLine": 69,
         "startChar": 37,
@@ -95,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "37209a88_a0246484",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIndexerIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-16T14:09:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92c7a2f7_66cdbf98",
+      "range": {
+        "startLine": 159,
+        "startChar": 50,
+        "endLine": 159,
+        "endChar": 56
+      },
+      "revId": "ce695b5a09c214b4d4aaf5b6a42d6673b9ca18e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6930556_8b26b80e",
         "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
         "patchSetId": 4
@@ -115,6 +211,30 @@
       "revId": "ce695b5a09c214b4d4aaf5b6a42d6673b9ca18e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a071846_e8e56d94",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-16T14:09:26Z",
+      "side": 1,
+      "message": "Makes sense to me.\n\nDone",
+      "parentUuid": "b6930556_8b26b80e",
+      "range": {
+        "startLine": 541,
+        "startChar": 6,
+        "endLine": 541,
+        "endChar": 36
+      },
+      "revId": "ce695b5a09c214b4d4aaf5b6a42d6673b9ca18e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66580833_f9f6c2be",
+        "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-16T07:47:20Z",
+      "side": 1,
+      "message": "Not related to this change, but MetaDataUpdate is an AutoCloseable so I wonder why this one is not being closed.",
+      "revId": "5862e3bb6fa06f125af653b94491bcffa051c674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

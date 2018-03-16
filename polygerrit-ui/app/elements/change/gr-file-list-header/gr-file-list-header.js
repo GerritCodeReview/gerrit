@@ -103,7 +103,7 @@
           this.patchNum, desc)
           .then(res => {
             if (res.ok) {
-              this.set(['_change', 'revisions', sha, 'description'], desc);
+              this.set(['change', 'revisions', sha, 'description'], desc);
             }
           });
     },

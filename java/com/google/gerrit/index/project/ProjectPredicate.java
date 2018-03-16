@@ -1,4 +1,4 @@
-// Copyright (C) 2017 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index.project;
+package com.google.gerrit.index.project;
 
-import com.google.gerrit.reviewdb.client.Project;
-import java.io.IOException;
+import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.query.IndexPredicate;
 
-public interface ProjectIndexer {
-
-  /**
-   * Synchronously index a project.
-   *
-   * @param nameKey name key of project to index.
-   */
-  void index(Project.NameKey nameKey) throws IOException;
+public class ProjectPredicate extends IndexPredicate<ProjectData> {
+  public ProjectPredicate(FieldDef<ProjectData, ?> def, String value) {
+    super(def, value);
+  }
 }

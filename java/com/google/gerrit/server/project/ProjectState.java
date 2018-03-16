@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.ThemeInfo;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;

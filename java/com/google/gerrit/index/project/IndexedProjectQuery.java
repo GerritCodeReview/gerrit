@@ -12,32 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index.project;
+package com.google.gerrit.index.project;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import com.google.gerrit.index.IndexRewriter;
+import com.google.gerrit.index.Index;
+import com.google.gerrit.index.IndexedQuery;
 import com.google.gerrit.index.QueryOptions;
+import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.server.project.ProjectData;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import com.google.gerrit.reviewdb.client.Project;
 
-@Singleton
-public class ProjectIndexRewriter implements IndexRewriter<ProjectData> {
-  private final ProjectIndexCollection indexes;
+public class IndexedProjectQuery extends IndexedQuery<Project.NameKey, ProjectData>
+    implements DataSource<ProjectData> {
 
-  @Inject
-  ProjectIndexRewriter(ProjectIndexCollection indexes) {
-    this.indexes = indexes;
-  }
-
-  @Override
-  public Predicate<ProjectData> rewrite(Predicate<ProjectData> in, QueryOptions opts)
+  public IndexedProjectQuery(
+      Index<Project.NameKey, ProjectData> index, Predicate<ProjectData> pred, QueryOptions opts)
       throws QueryParseException {
-    ProjectIndex index = indexes.getSearchIndex();
-    checkNotNull(index, "no active search index configured for projects");
-    return new IndexedProjectQuery(index, in, opts);
+    super(index, pred, opts.convertForBackend());
   }
 }

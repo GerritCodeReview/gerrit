@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1521107581 +0100\nnonce APUGfEJDbenmC0YDUP4B1VVOXN0lWrEKjUvRnCZeKZuBxUwasvwA7SuKTouA0ARNHb9NbZIfn25H\n\n0000000000000000000000000000000000000000 e7abb18697633fef16cf3814247a0fc3fccae564 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlqqQn0ACgkQUbX9l6DQ\n71HHRgf/ToyT76wkk06VdePXwIUYJMHZeOlnXceoN9VxF26XpcsXOJwtCwpZI41S\nta/5mdeZgXISdNipzaWel2LFLjae6m9DHZMJrcHNeiVQY6D4dbVvFv3b+jURpPKS\ncbxlJKoVp1qRw3fTJFci1EjONUt7PYPWzjan+Jt+G2k+cwCvm6nRMquWBR8EV64O\nQSHWkGa2T3gnaAdgrHEKAax9fb/w4RSRv4182FYH1vSYCPyeZNLEmaEYyd2Gu89C\n9ZvBYhLED3fxdtNLbpQBS5cgtTuJHU0pxLTeHA6+oTldLeamVTHg5tAa79NEt7aD\nByE9IIq+BbD7bTGOQs07CVfgs1O2Bg\u003d\u003d\n\u003dPOVI\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf31dd81_340ab71d",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-16T08:22:12Z",
+      "side": 1,
+      "message": "Previously, if accountCache was null and there was not eviction, there was also no reindexing. But now it could be a justified code path, no cache eviction, but reindexing. Why would it make to sense to support something like that? The reindexing would not be visible to AccountCache consumer, because no eviction. I\u0027m probably missing something, but I think this would make more sense:\n\n  if (accountCache !\u003d null) {\n    accountCache.evict(accountId);\n    if (accountIndexer !\u003d null) {\n      accountIndexer.index(accountId);\n    }\n  }",
+      "revId": "cd0820b56817479241188ed6bd5d9a7b04088115",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9afbcc7e_7a138f39",
+        "filename": "java/com/google/gerrit/server/index/account/AccountIndexerImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-16T08:22:12Z",
+      "side": 1,
+      "message": "Why is this necessary? The contract is:\n\n  accountCache.evict(accountId);\n  accountIndexer.index(accountId);\n\nWhy manually ensure the contract? Is that necessary precaution measure? I went ahead and removed this line and ran the tests and see tests failures: [1].\n\n* [1] http://paste.openstack.org/show/702931",
+      "range": {
+        "startLine": 93,
+        "startChar": 6,
+        "endLine": 94,
+        "endChar": 26
+      },
+      "revId": "cd0820b56817479241188ed6bd5d9a7b04088115",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

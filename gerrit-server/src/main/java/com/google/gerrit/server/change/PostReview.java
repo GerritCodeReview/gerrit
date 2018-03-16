@@ -838,7 +838,8 @@ public class PostReview
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws OrmException, ResourceConflictException, UnprocessableEntityException, IOException {
+        throws OrmException, ResourceConflictException, UnprocessableEntityException, IOException,
+            PatchListNotAvailableException {
       user = ctx.getIdentifiedUser();
       notes = ctx.getNotes();
       ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
@@ -880,7 +881,7 @@ public class PostReview
     }
 
     private boolean insertComments(ChangeContext ctx)
-        throws OrmException, UnprocessableEntityException {
+        throws OrmException, UnprocessableEntityException, PatchListNotAvailableException {
       Map<String, List<CommentInput>> map = in.comments;
       if (map == null) {
         map = Collections.emptyMap();
@@ -945,7 +946,8 @@ public class PostReview
       return !toDel.isEmpty() || !toPublish.isEmpty();
     }
 
-    private boolean insertRobotComments(ChangeContext ctx) throws OrmException {
+    private boolean insertRobotComments(ChangeContext ctx)
+        throws OrmException, PatchListNotAvailableException {
       if (in.robotComments == null) {
         return false;
       }
@@ -956,7 +958,8 @@ public class PostReview
       return !newRobotComments.isEmpty();
     }
 
-    private List<RobotComment> getNewRobotComments(ChangeContext ctx) throws OrmException {
+    private List<RobotComment> getNewRobotComments(ChangeContext ctx)
+        throws OrmException, PatchListNotAvailableException {
       List<RobotComment> toAdd = new ArrayList<>(in.robotComments.size());
 
       Set<CommentSetEntry> existingIds =
@@ -976,7 +979,8 @@ public class PostReview
     }
 
     private RobotComment createRobotCommentFromInput(
-        ChangeContext ctx, String path, RobotCommentInput robotCommentInput) throws OrmException {
+        ChangeContext ctx, String path, RobotCommentInput robotCommentInput)
+        throws PatchListNotAvailableException {
       RobotComment robotComment =
           commentsUtil.newRobotComment(
               ctx,

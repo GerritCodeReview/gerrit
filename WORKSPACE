@@ -417,8 +417,8 @@ maven_jar(
 
 maven_jar(
     name = "auto_value",
-    artifact = "com.google.auto.value:auto-value:1.5.3",
-    sha1 = "514df6a7c7938de35c7f68dc8b8f22df86037f38",
+    artifact = "com.google.auto.value:auto-value:1.5.4",
+    sha1 = "65183ddd1e9542d69d8f613fdae91540d04e1476",
 )
 
 # Transitive dependency of commons-compress

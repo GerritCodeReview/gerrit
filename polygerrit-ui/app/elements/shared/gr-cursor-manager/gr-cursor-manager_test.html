@@ -222,17 +222,13 @@ limitations under the License.
       });
 
       test('Called when top and bottom not visible', () => {
-        sandbox.stub(element, '_targetIsVisible', () => {
-          return false;
-        });
+        sandbox.stub(element, '_targetIsVisible').returns(false);
         element._scrollToTarget();
         assert.isTrue(scrollStub.called);
       });
 
       test('Not called when top and bottom visible', () => {
-        sandbox.stub(element, '_targetIsVisible', () => {
-          return true;
-        });
+        sandbox.stub(element, '_targetIsVisible').returns(true);
         element._scrollToTarget();
         assert.isFalse(scrollStub.called);
       });
@@ -240,25 +236,43 @@ limitations under the License.
       test('Called when top is visible, bottom is not, scroll is lower', () => {
         const visibleStub = sandbox.stub(element, '_targetIsVisible',
             () => visibleStub.callCount === 2);
-        window.scrollY = 15;
-        sandbox.stub(element, '_calculateScrollToValue', () => {
-          return 20;
+        sandbox.stub(element, '_getWindowDims').returns({
+          scrollX: 123,
+          scrollY: 15,
+          innerHeight: 1000,
+          pageYOffset: 0,
         });
+        sandbox.stub(element, '_calculateScrollToValue').returns(20);
         element._scrollToTarget();
         assert.isTrue(scrollStub.called);
+        assert.isTrue(scrollStub.calledWithExactly(123, 20));
         assert.equal(visibleStub.callCount, 2);
       });
 
       test('Called when top is visible, bottom not, scroll is higher', () => {
         const visibleStub = sandbox.stub(element, '_targetIsVisible',
             () => visibleStub.callCount === 2);
-        window.scrollY = 25;
-        sandbox.stub(element, '_calculateScrollToValue', () => {
-          return 20;
+        sandbox.stub(element, '_getWindowDims').returns({
+          scrollX: 123,
+          scrollY: 25,
+          innerHeight: 1000,
+          pageYOffset: 0,
         });
+        sandbox.stub(element, '_calculateScrollToValue').returns(20);
         element._scrollToTarget();
         assert.isFalse(scrollStub.called);
         assert.equal(visibleStub.callCount, 2);
+      });
+
+      test('_calculateScrollToValue', () => {
+        sandbox.stub(element, '_getWindowDims').returns({
+          scrollX: 123,
+          scrollY: 25,
+          innerHeight: 300,
+          pageYOffset: 0,
+        });
+        assert.equal(element._calculateScrollToValue(1000, {offsetHeight: 10}),
+            905);
       });
     });
   });

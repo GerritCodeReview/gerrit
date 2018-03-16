@@ -262,13 +262,15 @@
      * @return {boolean}
      */
     _targetIsVisible(top) {
+      const dims = this._getWindowDims();
       return this.scrollBehavior === ScrollBehavior.KEEP_VISIBLE &&
-          top > window.pageYOffset &&
-          top < window.pageYOffset + window.innerHeight;
+          top > dims.pageYOffset &&
+          top < dims.pageYOffset + dims.innerHeight;
     },
 
     _calculateScrollToValue(top, target) {
-      return top - (window.innerHeight / 3) + (target.offsetHeight / 2);
+      const dims = this._getWindowDims();
+      return top - (dims.innerHeight / 3) + (target.offsetHeight / 2);
     },
 
     _scrollToTarget() {
@@ -276,6 +278,7 @@
         return;
       }
 
+      const dims = this._getWindowDims();
       const top = this._getTop(this.target);
       const bottomIsVisible = this._targetHeight ?
           this._targetIsVisible(top + this._targetHeight) : true;
@@ -286,7 +289,7 @@
         // would get scrolled to is higher up than the current position. this
         // woulld cause less of the target content to be displayed than is
         // already.
-        if (bottomIsVisible || scrollToValue < window.scrollY) {
+        if (bottomIsVisible || scrollToValue < dims.scrollY) {
           return;
         }
       }
@@ -295,7 +298,16 @@
       // instead of half the inner height feels a bit better otherwise the
       // element appears to be below the center of the window even when it
       // isn't.
-      window.scrollTo(0, scrollToValue);
+      window.scrollTo(dims.scrollX, scrollToValue);
+    },
+
+    _getWindowDims() {
+      return {
+        scrollX: window.scrollX,
+        scrollY: window.scrollY,
+        innerHeight: window.innerHeight,
+        pageYOffset: window.pageYOffset,
+      };
     },
   });
 })();

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.project;
 
-import com.google.gerrit.server.index.project.ProjectSchemaDefinitions;
+import com.google.gerrit.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.server.query.IndexConfig;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.InMemoryModule;
@@ -36,7 +36,7 @@ public class LuceneQueryProjectsTest extends AbstractQueryProjectsTest {
     // the current schema version is already tested by the inherited default config suite
     List<Integer> schemaVersions =
         IndexVersions.getWithoutLatest(
-            com.google.gerrit.server.index.project.ProjectSchemaDefinitions.INSTANCE);
+            com.google.gerrit.index.project.ProjectSchemaDefinitions.INSTANCE);
     return IndexVersions.asConfigMap(
         ProjectSchemaDefinitions.INSTANCE, schemaVersions, "againstIndexVersion", defaultConfig());
   }

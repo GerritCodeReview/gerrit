@@ -17,14 +17,14 @@ package com.google.gerrit.server.index;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.project.ProjectData;
+import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.DummyChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
-import com.google.gerrit.server.index.project.ProjectIndex;
-import com.google.gerrit.server.project.ProjectData;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.AbstractModule;
 

@@ -18,6 +18,10 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.query.project.ProjectQueryBuilder.FIELD_LIMIT;
 
 import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.project.ProjectData;
+import com.google.gerrit.index.project.ProjectIndexCollection;
+import com.google.gerrit.index.project.ProjectIndexRewriter;
+import com.google.gerrit.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.index.query.AndSource;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
@@ -25,11 +29,7 @@ import com.google.gerrit.index.query.QueryProcessor;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLimits;
-import com.google.gerrit.server.index.project.ProjectIndexCollection;
-import com.google.gerrit.server.index.project.ProjectIndexRewriter;
-import com.google.gerrit.server.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.project.ProjectData;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 

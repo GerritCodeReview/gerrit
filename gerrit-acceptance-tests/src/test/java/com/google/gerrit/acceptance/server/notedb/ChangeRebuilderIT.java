@@ -54,6 +54,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -73,6 +74,8 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
+import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.Util;
@@ -148,6 +151,8 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   @Inject private ChangeBundleReader bundleReader;
 
   @Inject private PatchSetInfoFactory patchSetInfoFactory;
+
+  @Inject private PatchListCache patchListCache;
 
   @Before
   public void setUp() throws Exception {
@@ -1378,6 +1383,76 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertChangeUpToDate(true, id);
   }
 
+  @Test
+  public void missingPatchSetCommitOkForCommentsNotOnParentSide() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getChange().getId();
+
+    putDraft(user, id, 1, "draft comment", null, Side.REVISION);
+    putComment(user, id, 1, "published comment", null, Side.REVISION);
+
+    ReviewDb db = getUnwrappedDb();
+    PatchSet ps = db.patchSets().get(new PatchSet.Id(id, 1));
+    ps.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    db.patchSets().update(Collections.singleton(ps));
+
+    try {
+      patchListCache.getOldId(db.changes().get(id), ps, null);
+      assert_().fail("Expected PatchListNotAvailableException");
+    } catch (PatchListNotAvailableException e) {
+      // Expected.
+    }
+
+    checker.rebuildAndCheckChanges(id);
+  }
+
+  @Test
+  public void missingPatchSetCommitOmitsCommentsOnParentSide() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getChange().getId();
+
+    CommentInfo draftInfo = putDraft(user, id, 1, "draft comment", null, Side.PARENT);
+    putComment(user, id, 1, "published comment", null, Side.PARENT);
+    CommentInfo commentInfo =
+        gApi.changes()
+            .id(id.get())
+            .comments()
+            .values()
+            .stream()
+            .flatMap(List::stream)
+            .findFirst()
+            .get();
+
+    ReviewDb db = getUnwrappedDb();
+    PatchSet ps = db.patchSets().get(new PatchSet.Id(id, 1));
+    ps.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    db.patchSets().update(Collections.singleton(ps));
+
+    try {
+      patchListCache.getOldId(db.changes().get(id), ps, null);
+      assert_().fail("Expected PatchListNotAvailableException");
+    } catch (PatchListNotAvailableException e) {
+      // Expected.
+    }
+
+    checker.rebuildAndCheckChange(
+        id,
+        ImmutableList.of(
+            "PatchLineComment.Key sets differ: ["
+                + id
+                + ",1,"
+                + PushOneCommit.FILE_NAME
+                + ","
+                + draftInfo.id
+                + ", "
+                + id
+                + ",1,"
+                + PushOneCommit.FILE_NAME
+                + ","
+                + commentInfo.id
+                + "] only in A; [] only in B"));
+  }
+
   private void assertChangesReadOnly(RestApiException e) throws Exception {
     Throwable cause = e.getCause();
     assertThat(cause).isInstanceOf(UpdateException.class);
@@ -1427,16 +1502,24 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     }
   }
 
-  private void putDraft(TestAccount account, Change.Id id, int line, String msg, Boolean unresolved)
+  private CommentInfo putDraft(
+      TestAccount account, Change.Id id, int line, String msg, Boolean unresolved)
+      throws Exception {
+    return putDraft(account, id, line, msg, unresolved, Side.REVISION);
+  }
+
+  private CommentInfo putDraft(
+      TestAccount account, Change.Id id, int line, String msg, Boolean unresolved, Side side)
       throws Exception {
     DraftInput in = new DraftInput();
+    in.side = side;
     in.line = line;
     in.message = msg;
     in.path = PushOneCommit.FILE_NAME;
     in.unresolved = unresolved;
     AcceptanceTestRequestScope.Context old = setApiUser(account);
     try {
-      gApi.changes().id(id.get()).current().createDraft(in);
+      return gApi.changes().id(id.get()).current().createDraft(in).get();
     } finally {
       atrScope.set(old);
     }
@@ -1444,7 +1527,14 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
   private void putComment(TestAccount account, Change.Id id, int line, String msg, String inReplyTo)
       throws Exception {
+    putComment(account, id, line, msg, inReplyTo, Side.REVISION);
+  }
+
+  private void putComment(
+      TestAccount account, Change.Id id, int line, String msg, String inReplyTo, Side side)
+      throws Exception {
     CommentInput in = new CommentInput();
+    in.side = side;
     in.line = line;
     in.message = msg;
     in.inReplyTo = inReplyTo;

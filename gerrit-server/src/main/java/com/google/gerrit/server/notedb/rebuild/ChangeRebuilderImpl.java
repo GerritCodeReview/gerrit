@@ -530,8 +530,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   }
 
   private void flushEventsToDraftUpdate(
-      NoteDbUpdateManager manager, EventList<DraftCommentEvent> events, Change change)
-      throws OrmException {
+      NoteDbUpdateManager manager, EventList<DraftCommentEvent> events, Change change) {
     if (events.isEmpty()) {
       return;
     }

@@ -124,6 +124,30 @@
       "revId": "cd0820b56817479241188ed6bd5d9a7b04088115",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db4d0e1a_18156325",
+        "filename": "java/com/google/gerrit/server/index/account/AccountIndexerImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-16T09:57:12Z",
+      "side": 1,
+      "message": "Thanks for trying this.\n\nThe tests that are failing without this line are:\n\n- AccountIndexerTest:\n  these tests are expected to fail because they verify that\n  AccountIndexerImpl isn\u0027t affected by a stale account cache\n\n- AbstractQueryAccountsTest#reindex:\n  This test did an account update without indexing to create a stale index.\n  While the indexing was done on cache eviction this code couldn\u0027t evict the\n  account from the cache, but now as indexing is separate it can do the cache\n  eviction. I fixed this and now this test passes if this line is commented out.\n\nDone.",
+      "parentUuid": "b23e3174_ea73f95d",
+      "range": {
+        "startLine": 93,
+        "startChar": 6,
+        "endLine": 94,
+        "endChar": 26
+      },
+      "revId": "cd0820b56817479241188ed6bd5d9a7b04088115",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

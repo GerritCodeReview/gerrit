@@ -28,6 +28,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Singleton
 public class GetGroups implements RestReadView<AccountResource> {
@@ -44,8 +45,9 @@ public class GetGroups implements RestReadView<AccountResource> {
   public List<GroupInfo> apply(AccountResource resource) throws OrmException {
     IdentifiedUser user = resource.getUser();
     Account.Id userId = user.getAccountId();
-    List<GroupInfo> groups = new ArrayList<>();
-    for (AccountGroup.UUID uuid : user.getEffectiveGroups().getKnownGroups()) {
+    Set<AccountGroup.UUID> knownGroups = user.getEffectiveGroups().getKnownGroups();
+    List<GroupInfo> visibleGroups = new ArrayList<>();
+    for (AccountGroup.UUID uuid : knownGroups) {
       GroupControl ctl;
       try {
         ctl = groupControlFactory.controlFor(uuid);
@@ -53,9 +55,9 @@ public class GetGroups implements RestReadView<AccountResource> {
         continue;
       }
       if (ctl.isVisible() && ctl.canSeeMember(userId)) {
-        groups.add(json.format(ctl.getGroup()));
+        visibleGroups.add(json.format(ctl.getGroup()));
       }
     }
-    return groups;
+    return visibleGroups;
   }
 }

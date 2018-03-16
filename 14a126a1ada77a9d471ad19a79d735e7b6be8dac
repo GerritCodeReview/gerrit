@@ -1,0 +1,279 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e2bed37_b760ce79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-16T15:40:19Z",
+      "side": 1,
+      "message": "We have a lot of integration tests that vote CR+2 and then submit, but I couldn\u0027t find one that does CR-2 and CR+2 and the tries to submit. It might be worth adding one.",
+      "revId": "14a126a1ada77a9d471ad19a79d735e7b6be8dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9809e25_21f09ab9",
+        "filename": "java/com/google/gerrit/common/data/LabelFunction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-16T15:40:19Z",
+      "side": 1,
+      "message": "nit: isRequired (\u0027required\u0027 is the more common term in Gerrit\u0027s code base)",
+      "range": {
+        "startLine": 64,
+        "startChar": 54,
+        "endLine": 64,
+        "endChar": 65
+      },
+      "revId": "14a126a1ada77a9d471ad19a79d735e7b6be8dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eae0b92a_07d700d6",
+        "filename": "java/com/google/gerrit/server/rules/DefaultSubmitRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-16T15:40:19Z",
+      "side": 1,
+      "message": "typo: pre-submit",
+      "revId": "14a126a1ada77a9d471ad19a79d735e7b6be8dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "479a8a8d_9e2d96e7",
+        "filename": "java/com/google/gerrit/server/rules/DefaultSubmitRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-16T15:40:19Z",
+      "side": 1,
+      "message": "nit: projectCache (there are many Caches in Gerrit)",
+      "revId": "14a126a1ada77a9d471ad19a79d735e7b6be8dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68e4d701_3c7dd237",
+        "filename": "java/com/google/gerrit/server/rules/DefaultSubmitRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-16T15:40:19Z",
+      "side": 1,
+      "message": "nit: private final",
+      "range": {
+        "startLine": 52,
+        "startChar": 2,
+        "endLine": 52,
+        "endChar": 9
+      },
+      "revId": "14a126a1ada77a9d471ad19a79d735e7b6be8dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c279be8_628dcf73",
+        "filename": "java/com/google/gerrit/server/rules/DefaultSubmitRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-16T15:40:19Z",
+      "side": 1,
+      "message": "nit: submitRecord\n\nsingle char variable names are fine as long as their scope is small - typically just a couple of lines",
+      "range": {
+        "startLine": 69,
+        "startChar": 17,
+        "endLine": 69,
+        "endChar": 18
+      },
+      "revId": "14a126a1ada77a9d471ad19a79d735e7b6be8dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c697c9e_805a0384",
+        "filename": "java/com/google/gerrit/server/rules/DefaultSubmitRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-16T15:40:19Z",
+      "side": 1,
+      "message": "Please use a logger on the class instead of printing the stack trace",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 26
+      },
+      "revId": "14a126a1ada77a9d471ad19a79d735e7b6be8dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34b71799_74fee0bb",
+        "filename": "java/com/google/gerrit/server/rules/DefaultSubmitRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-16T15:40:19Z",
+      "side": 1,
+      "message": "Should we return a single record with a RULE_ERROR instead?",
+      "range": {
+        "startLine": 79,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 37
+      },
+      "revId": "14a126a1ada77a9d471ad19a79d735e7b6be8dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96f6bbe4_8c8cdc51",
+        "filename": "java/com/google/gerrit/server/rules/DefaultSubmitRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-16T15:40:19Z",
+      "side": 1,
+      "message": "nit: remove. We only use final when we have to (and on class variables)",
+      "range": {
+        "startLine": 84,
+        "startChar": 9,
+        "endLine": 84,
+        "endChar": 14
+      },
+      "revId": "14a126a1ada77a9d471ad19a79d735e7b6be8dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c50126e_84e70ada",
+        "filename": "java/com/google/gerrit/server/rules/DefaultSubmitRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-16T15:40:19Z",
+      "side": 1,
+      "message": "nit: we usually don\u0027t have variables start with underscores. In case you have a name clash, just rename the second variable.\n\nHow about: approvalsForLabel?",
+      "range": {
+        "startLine": 90,
+        "startChar": 35,
+        "endLine": 90,
+        "endChar": 36
+      },
+      "revId": "14a126a1ada77a9d471ad19a79d735e7b6be8dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a70e25ac_42df727b",
+        "filename": "javatests/com/google/gerrit/common/data/LabelFunctionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-16T15:40:19Z",
+      "side": 1,
+      "message": "do the short cast in makeApproval instead (so you have to do it only once)",
+      "range": {
+        "startLine": 39,
+        "startChar": 66,
+        "endLine": 39,
+        "endChar": 73
+      },
+      "revId": "14a126a1ada77a9d471ad19a79d735e7b6be8dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09537f9a_38b85b62",
+        "filename": "javatests/com/google/gerrit/common/data/LabelFunctionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-16T15:40:19Z",
+      "side": 1,
+      "message": "nit: private static methods should appear after public (test methods)",
+      "revId": "14a126a1ada77a9d471ad19a79d735e7b6be8dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08efce56_33330b44",
+        "filename": "javatests/com/google/gerrit/common/data/LabelFunctionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-16T15:40:19Z",
+      "side": 1,
+      "message": "preferred: ImmutableList.of(...)\n\n(here and below when Collections.emptyList() is used)",
+      "range": {
+        "startLine": 67,
+        "startChar": 40,
+        "endLine": 67,
+        "endChar": 57
+      },
+      "revId": "14a126a1ada77a9d471ad19a79d735e7b6be8dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

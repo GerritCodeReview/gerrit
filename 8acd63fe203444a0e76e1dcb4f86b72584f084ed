@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e71fc909_484dfeb8",
+        "filename": "resources/com/google/gerrit/server/mime/mime-types.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-16T18:39:59Z",
+      "side": 1,
+      "message": "Im not sure if that is correct, but for now this is internal to gerrit and there is no standard (coulden\u0027t find any where, where it tells you what type it is, same for mjs above)",
+      "range": {
+        "startLine": 149,
+        "startChar": 7,
+        "endLine": 149,
+        "endChar": 18
+      },
+      "revId": "8acd63fe203444a0e76e1dcb4f86b72584f084ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

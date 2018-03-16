@@ -67,6 +67,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Ref;
@@ -195,6 +196,24 @@ public class ProjectState {
    */
   public CapabilityCollection getCapabilityCollection() {
     return capabilities;
+  }
+
+  /**
+   * Returns true if the Prolog engine is expected to run for this project, that is if this project
+   * or a parent possesses a rules.pl file.
+   */
+  public boolean hasPrologRules() {
+    // We check if this project has a rules.pl file
+    if (getConfig().getRulesId() != null) {
+      return true;
+    }
+
+    // If not, we check the parents.
+    return parents()
+        .stream()
+        .map(ProjectState::getConfig)
+        .map(ProjectConfig::getRulesId)
+        .anyMatch(Objects::nonNull);
   }
 
   /** @return Construct a new PrologEnvironment for the calling thread. */

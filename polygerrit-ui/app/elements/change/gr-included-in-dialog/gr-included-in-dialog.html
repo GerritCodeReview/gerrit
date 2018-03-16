@@ -23,22 +23,35 @@ limitations under the License.
     <style include="shared-styles">
       :host {
         display: block;
-        padding: 1em;
+        max-height: 80vh;
+        overflow-y: scroll;
+        padding: 4.5em 1em 1em 1em;
       }
-      h1 {
+      header {
+        background: #fff;
+        border-bottom: 1px solid #cdcdcd;
+        left: 0;
+        padding: 1em;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+      #title {
+        display: inline-block;
         font-size: 1.2rem;
+        margin-top: .2em;
       }
       h2 {
         font-size: 1rem;
       }
-      .closeButtonContainer {
-        position: absolute;
-        right: 2em;
-        top: 2em;
+      #filterInput {
+        display: inline-block;
+        float: right;
+        margin: 0 1em;
+        padding: .2em;
       }
-      .container {
-        max-height: 80vh;
-        overflow-y: scroll;
+      .closeButtonContainer {
+        float: right;
       }
       ul {
         margin-bottom: 1em;
@@ -55,29 +68,32 @@ limitations under the License.
       }
     </style>
     <header>
-      <h1>Included In:</h1>
+      <h1 id="title">Included In:</h1>
       <span class="closeButtonContainer">
         <gr-button id="closeButton"
             link
             on-tap="_handleCloseTap">Close</gr-button>
       </span>
+      <input
+          id="filterInput"
+          is="iron-input"
+          placeholder="Filter"
+          on-bind-value-changed="_onFilterChanged">
     </header>
     <div class$="[[_computeLoadingClass(_loaded)]]">Loading...</div>
-    <div class="container">
-      <template
-          is="dom-repeat"
-          items="[[_computeGroups(_includedIn)]]"
-          as="group">
-        <div>
-          <h2>[[group.title]]:</h2>
-          <ul>
-            <template is="dom-repeat" items="[[group.items]]">
-              <li>[[item]]</li>
-            </template>
-          </ul>
-        </div>
-      </template>
-    </div>
+    <template
+        is="dom-repeat"
+        items="[[_computeGroups(_includedIn, _filterText)]]"
+        as="group">
+      <div>
+        <h2>[[group.title]]:</h2>
+        <ul>
+          <template is="dom-repeat" items="[[group.items]]">
+            <li>[[item]]</li>
+          </template>
+        </ul>
+      </div>
+    </template>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-included-in-dialog.js"></script>

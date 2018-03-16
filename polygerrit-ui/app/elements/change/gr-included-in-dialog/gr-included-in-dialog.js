@@ -35,10 +35,15 @@
         type: Boolean,
         value: false,
       },
+      _filterText: {
+        type: String,
+        value: '',
+      },
     },
 
     loadData() {
       if (!this.changeNum) { return; }
+      this._filterText = '';
       return this.$.restAPI.getChangeIncludedIn(this.changeNum).then(
           configs => {
             if (!configs) { return; }
@@ -52,22 +57,25 @@
       this._loaded = false;
     },
 
-    _computeGroups(includedIn) {
+    _computeGroups(includedIn, filterText) {
       if (!includedIn) { return []; }
 
+      const filter =
+          item => !filterText.length || item.indexOf(filterText) !== -1;
+
       const groups = [
-        {title: 'Branches', items: includedIn.branches},
-        {title: 'Tags', items: includedIn.tags},
+        {title: 'Branches', items: includedIn.branches.filter(filter)},
+        {title: 'Tags', items: includedIn.tags.filter(filter)},
       ];
       if (includedIn.external) {
         for (const externalKey of Object.keys(includedIn.external)) {
           groups.push({
             title: externalKey,
-            items: includedIn.external[externalKey],
+            items: includedIn.external[externalKey].filter(filter),
           });
         }
       }
-      return groups;
+      return groups.filter(g => g.items.length);
     },
 
     _handleCloseTap(e) {
@@ -77,6 +85,12 @@
 
     _computeLoadingClass(loaded) {
       return loaded ? 'loading loaded' : 'loading';
+    },
+
+    _onFilterChanged() {
+      this.debounce('filter-change', () => {
+        this._filterText = this.$.filterInput.bindValue;
+      }, 100);
     },
   });
 })();

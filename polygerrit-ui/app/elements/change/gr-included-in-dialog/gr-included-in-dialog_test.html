@@ -45,29 +45,32 @@ limitations under the License.
 
     test('_computeGroups', () => {
       const includedIn = {branches: [], tags: []};
-      assert.deepEqual(element._computeGroups(includedIn), [
-        {title: 'Branches', items: []},
-        {title: 'Tags', items: []},
-      ]);
+      let filterText = '';
+      assert.deepEqual(element._computeGroups(includedIn, filterText), []);
 
       includedIn.branches.push('master', 'development', 'stable-2.0');
       includedIn.tags.push('v1.9', 'v2.0', 'v2.1');
-      assert.deepEqual(element._computeGroups(includedIn), [
+      assert.deepEqual(element._computeGroups(includedIn, filterText), [
         {title: 'Branches', items: ['master', 'development', 'stable-2.0']},
         {title: 'Tags', items: ['v1.9', 'v2.0', 'v2.1']},
       ]);
 
       includedIn.external = {};
-      assert.deepEqual(element._computeGroups(includedIn), [
+      assert.deepEqual(element._computeGroups(includedIn, filterText), [
         {title: 'Branches', items: ['master', 'development', 'stable-2.0']},
         {title: 'Tags', items: ['v1.9', 'v2.0', 'v2.1']},
       ]);
 
       includedIn.external.foo = ['abc', 'def', 'ghi'];
-      assert.deepEqual(element._computeGroups(includedIn), [
+      assert.deepEqual(element._computeGroups(includedIn, filterText), [
         {title: 'Branches', items: ['master', 'development', 'stable-2.0']},
         {title: 'Tags', items: ['v1.9', 'v2.0', 'v2.1']},
         {title: 'foo', items: ['abc', 'def', 'ghi']},
+      ]);
+
+      filterText = 'v2';
+      assert.deepEqual(element._computeGroups(includedIn, filterText), [
+        {title: 'Tags', items: ['v2.0', 'v2.1']},
       ]);
     });
   });

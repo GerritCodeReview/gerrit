@@ -16,25 +16,34 @@ package com.google.gerrit.server.rules;
 
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.rules.PrologRuleEvaluator.Factory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
+import java.util.Collections;
 
 @Singleton
 public class PrologRule implements SubmitRule {
-
-  private final Factory factory;
+  private final PrologRuleEvaluator.Factory factory;
+  private final ProjectCache projectCache;
 
   @Inject
-  private PrologRule(PrologRuleEvaluator.Factory factory) {
+  private PrologRule(PrologRuleEvaluator.Factory factory, ProjectCache projectCache) {
     this.factory = factory;
+    this.projectCache = projectCache;
   }
 
   @Override
   public Collection<SubmitRecord> evaluate(ChangeData cd, SubmitRuleOptions opts) {
+    ProjectState projectState = projectCache.get(cd.project());
+    // We only want to run the prolog engine if we have at least one rules.pl file to use.
+    if (projectState == null || !projectState.hasPrologRules()) {
+      return Collections.emptyList();
+    }
+
     return getEvaluator(cd, opts).evaluate();
   }
 

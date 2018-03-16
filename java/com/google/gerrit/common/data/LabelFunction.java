@@ -15,6 +15,7 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -27,15 +28,15 @@ import java.util.Optional;
  * rules, in which case the choice of function in the project config is ignored.
  *
  * <p>Function semantics are documented in {@code config-labels.txt}, and actual behavior is
- * implemented in Prolog in {@code gerrit_common.pl}.
+ * implemented both in Prolog in {@code gerrit_common.pl} and in the {@link #check} method.
  */
 public enum LabelFunction {
-  MAX_WITH_BLOCK("MaxWithBlock", true),
-  ANY_WITH_BLOCK("AnyWithBlock", true),
-  MAX_NO_BLOCK("MaxNoBlock", false),
-  NO_BLOCK("NoBlock", false),
-  NO_OP("NoOp", false),
-  PATCH_SET_LOCK("PatchSetLock", false);
+  ANY_WITH_BLOCK("AnyWithBlock", true, false, false),
+  MAX_WITH_BLOCK("MaxWithBlock", true, true, true),
+  MAX_NO_BLOCK("MaxNoBlock", false, true, true),
+  NO_BLOCK("NoBlock"),
+  NO_OP("NoOp"),
+  PATCH_SET_LOCK("PatchSetLock");
 
   public static final Map<String, LabelFunction> ALL;
 
@@ -53,10 +54,18 @@ public enum LabelFunction {
 
   private final String name;
   private final boolean isBlock;
+  private final boolean isRequired;
+  private final boolean requiresMaxValue;
 
-  private LabelFunction(String name, boolean isBlock) {
+  LabelFunction(String name) {
+    this(name, false, false, false);
+  }
+
+  LabelFunction(String name, boolean isBlock, boolean isRequired, boolean requiresMaxValue) {
     this.name = name;
     this.isBlock = isBlock;
+    this.isRequired = isRequired;
+    this.requiresMaxValue = requiresMaxValue;
   }
 
   /** The function name as defined in documentation and {@code project.config}. */
@@ -67,5 +76,48 @@ public enum LabelFunction {
   /** Whether the label is a "block" label, meaning a minimum vote will prevent submission. */
   public boolean isBlock() {
     return isBlock;
+  }
+
+  /** Whether the label is a mandatory label, meaning absence of votes will prevent submission. */
+  public boolean isRequired() {
+    return isRequired;
+  }
+
+  /** Whether the label requires a vote with the maximum value to allow submission. */
+  public boolean isMaxValueRequired() {
+    return requiresMaxValue;
+  }
+
+  public SubmitRecord.Label check(LabelType labelType, Iterable<PatchSetApproval> approvals) {
+    SubmitRecord.Label submitRecordLabel = new SubmitRecord.Label();
+    submitRecordLabel.label = labelType.getName();
+
+    submitRecordLabel.status = SubmitRecord.Label.Status.MAY;
+    if (isRequired) {
+      submitRecordLabel.status = SubmitRecord.Label.Status.NEED;
+    }
+
+    for (PatchSetApproval a : approvals) {
+      if (a.getValue() == 0) {
+        continue;
+      }
+
+      if (isBlock && labelType.isMaxNegative(a)) {
+        submitRecordLabel.appliedBy = a.getAccountId();
+        submitRecordLabel.status = SubmitRecord.Label.Status.REJECT;
+        return submitRecordLabel;
+      }
+
+      if (labelType.isMaxPositive(a) || !requiresMaxValue) {
+        submitRecordLabel.appliedBy = a.getAccountId();
+
+        submitRecordLabel.status = SubmitRecord.Label.Status.MAY;
+        if (isRequired) {
+          submitRecordLabel.status = SubmitRecord.Label.Status.OK;
+        }
+      }
+    }
+
+    return submitRecordLabel;
   }
 }

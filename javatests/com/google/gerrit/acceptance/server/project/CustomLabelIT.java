@@ -232,6 +232,23 @@ public class CustomLabelIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void customLabelMaxWithBlock_MaxVoteNegativeVoteBlock() throws Exception {
+    label.setFunction(MAX_WITH_BLOCK);
+    saveLabelConfig();
+    PushOneCommit.Result r = createChange();
+    revision(r).review(new ReviewInput().label(label.getName(), 1));
+    revision(r).review(new ReviewInput().label(label.getName(), -1));
+    ChangeInfo c = getWithLabels(r);
+    LabelInfo q = c.labels.get(label.getName());
+    assertThat(q.all).hasSize(1);
+    assertThat(q.approved).isNull();
+    assertThat(q.recommended).isNull();
+    assertThat(q.disliked).isNull();
+    assertThat(q.rejected).isNotNull();
+    assertThat(q.blocking).isTrue();
+  }
+
+  @Test
   public void customLabel_DisallowPostSubmit() throws Exception {
     label.setFunction(NO_OP);
     label.setAllowPostSubmit(false);

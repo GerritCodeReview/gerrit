@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "c99f4a8f_77b19ae9",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-16T09:24:09Z",
+      "side": 1,
+      "message": "Not for this change, but I wonder, if it would make sense, to swap the logic, and instead doing reindex during eviction operation (that is undone in this change), swap it and do cache eviction during reindex? That way we make sure, that we never leave stale cache behind.",
+      "parentUuid": "dfda9a8a_43471684",
+      "revId": "cd0820b56817479241188ed6bd5d9a7b04088115",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9afbcc7e_7a138f39",
         "filename": "java/com/google/gerrit/server/index/account/AccountIndexerImpl.java",
         "patchSetId": 2
@@ -73,6 +91,30 @@
       "side": 1,
       "message": "As the comment says this is a precaution to make sure that get an up-to-date value from the cache below. This makes sure that this class works correctly even if some other class forgets to do the eviction before calling the index method. We do the same for groups in GroupIndexerImpl.",
       "parentUuid": "9afbcc7e_7a138f39",
+      "range": {
+        "startLine": 93,
+        "startChar": 6,
+        "endLine": 94,
+        "endChar": 26
+      },
+      "revId": "cd0820b56817479241188ed6bd5d9a7b04088115",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b23e3174_ea73f95d",
+        "filename": "java/com/google/gerrit/server/index/account/AccountIndexerImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-16T09:24:09Z",
+      "side": 1,
+      "message": "Without this line, the tests are failing. I don\u0027t understand why this wasn\u0027t necessary before this change.",
+      "parentUuid": "bdcd2260_8324186a",
       "range": {
         "startLine": 93,
         "startChar": 6,

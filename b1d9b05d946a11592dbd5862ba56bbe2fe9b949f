@@ -118,6 +118,53 @@
     },
     {
       "key": {
+        "uuid": "e53f754a_dc983485",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-16T17:26:54Z",
+      "side": 1,
+      "message": "for getRepoAccess, the fallback should just be that readOnly \u003d false.\nthe server config should not depend on the repo at all, so it should not 404. This is really the only one we need to check.",
+      "parentUuid": "99d7e17b_784b9277",
+      "range": {
+        "startLine": 142,
+        "startChar": 21,
+        "endLine": 142,
+        "endChar": 55
+      },
+      "revId": "b1d9b05d946a11592dbd5862ba56bbe2fe9b949f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31aa142d_39c51555",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-16T17:26:54Z",
+      "side": 1,
+      "message": "getConfig does not take repo as a param.",
+      "range": {
+        "startLine": 163,
+        "startChar": 10,
+        "endLine": 163,
+        "endChar": 20
+      },
+      "revId": "b1d9b05d946a11592dbd5862ba56bbe2fe9b949f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d1667b94_bebf5776",
         "filename": "polygerrit-ui/app/elements/shared/gr-page-nav/gr-page-nav.html",
         "patchSetId": 32

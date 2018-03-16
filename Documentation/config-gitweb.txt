@@ -17,6 +17,7 @@ which is a common installation path for the 'gitweb' package on
 Linux distributions.
 
 ----
+  git config -f $site_path/etc/gerrit.config gitweb.type gitweb
   git config -f $site_path/etc/gerrit.config gitweb.cgi /usr/lib/cgi-bin/gitweb.cgi
   git config -f $site_path/etc/gerrit.config --unset gitweb.url
 ----
@@ -28,6 +29,7 @@ for serving gitweb under a different URL than the Gerrit instance.
 To enable this feature, set both: `gitweb.cgi` and `gitweb.url`.
 
 ----
+  git config -f $site_path/etc/gerrit.config gitweb.type gitweb
   git config -f $site_path/etc/gerrit.config gitweb.cgi /usr/lib/cgi-bin/gitweb.cgi
   git config -f $site_path/etc/gerrit.config gitweb.url /pretty/path/to/gitweb
 ----
@@ -220,6 +222,7 @@ being used, ensure it uses a full mirror, so the `+refs/changes/*+`
 namespace is available.
 
 ----
+  git config -f $site_path/etc/gerrit.config gitweb.type gitweb
   git config -f $site_path/etc/gerrit.config --unset gitweb.cgi
   git config -f $site_path/etc/gerrit.config gitweb.url https://gitweb.corporation.com
 ----

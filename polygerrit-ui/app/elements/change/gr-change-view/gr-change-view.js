@@ -597,6 +597,13 @@
     },
 
     _paramsChanged(value) {
+      // Change the content of the comment tabs back to messages list, but
+      // do not yet change the tab itself. The animation of tab switching will
+      // get messed up if changed here, because it requires the tabs to be on
+      // the streen, and they are hidden shortly after this. The tab switching
+      // animation will happen in post render tasks.
+      this._showMessagesView = true;
+
       if (value.view !== Gerrit.Nav.View.CHANGE) {
         this._initialLoadComplete = false;
         return;
@@ -631,15 +638,6 @@
 
       this._changeNum = value.changeNum;
       this.$.relatedChanges.clear();
-
-      // If the comment tabs were already rendered, but set to the wrong initial
-      // value, swap them here so the thread tab doesn't flash before being
-      // swapped out. If the selected tab is undefined, we have to wait until
-      // the page is finished rendering to set selected to 0, otherwise the
-      // animation will not show.
-      if (this.$.commentTabs.selected === 1) {
-        this.$.commentTabs.selected = 0;
-      }
 
       this._reload().then(() => {
         this._performPostLoadTasks();

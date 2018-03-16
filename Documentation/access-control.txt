@@ -859,8 +859,8 @@ edited on open changes.
 [[category_edit_hashtags]]
 === Edit Hashtags
 
-This category permits users to add or remove hashtags on a change that
-is uploaded for review.
+This category permits users to add or remove
+link:intro-user.html#hashtags[hashtags] on a change that is uploaded for review.
 
 The change owner, branch owners, project owners, and site administrators
 can always edit or remove hashtags (even without having the `Edit Hashtags`

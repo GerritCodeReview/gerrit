@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "189455f6_90018ae4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group_test.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-16T21:34:30Z",
+      "side": 1,
+      "message": "Actually i\u0027ve managed to find a way, github is so useful :)",
+      "parentUuid": "f100829d_baff1cc2",
+      "range": {
+        "startLine": 63,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 9
+      },
+      "revId": "b1d9b05d946a11592dbd5862ba56bbe2fe9b949f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "955dffab_ecd723cf",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
         "patchSetId": 32

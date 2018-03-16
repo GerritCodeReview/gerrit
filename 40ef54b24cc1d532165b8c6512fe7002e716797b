@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "664f55f8_a750f8e0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members_test.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-16T22:17:39Z",
+      "side": 1,
+      "message": "should this be deepEqual since it\u0027s an object?",
+      "range": {
+        "startLine": 274,
+        "startChar": 15,
+        "endLine": 274,
+        "endChar": 26
+      },
+      "revId": "40ef54b24cc1d532165b8c6512fe7002e716797b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c36fe73_bacd48f2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-dashboards/gr-repo-dashboards_test.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-16T22:17:39Z",
+      "side": 1,
+      "message": "can this be \"fires page-error\" (here and elsewhere)",
+      "range": {
+        "startLine": 246,
+        "startChar": 12,
+        "endLine": 246,
+        "endChar": 20
+      },
+      "revId": "40ef54b24cc1d532165b8c6512fe7002e716797b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1d865b4_cadddc8c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-dashboards/gr-repo-dashboards_test.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-16T22:17:39Z",
+      "side": 1,
+      "message": "This should use deepEqual instead, since you are comparing objects. (here and elsewhere)",
+      "revId": "40ef54b24cc1d532165b8c6512fe7002e716797b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66529666_236b9a12",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 35
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-16T22:17:39Z",
+      "side": 1,
+      "message": "This one doesn\u0027t need the errorFn either, as this should not 404 (not dependent on a valid project). The rest API change can get removed too.",
+      "range": {
+        "startLine": 158,
+        "startChar": 6,
+        "endLine": 158,
+        "endChar": 51
+      },
+      "revId": "40ef54b24cc1d532165b8c6512fe7002e716797b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "95308f99_5eee0dae",
+        "filename": "javatests/com/google/gerrit/acceptance/ProjectResetterTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-16T12:39:39Z",
+      "side": 1,
+      "message": "Why do we need this here and below? If I comment it, the test still passes. Wouldn\u0027t we only need it if we called EasyMock.verify(accountIndexer) at the end?\n\n(Sorry for asking this maybe stupid question. I\u0027m more into Mockito than Easymock.)",
+      "range": {
+        "startLine": 269,
+        "startChar": 4,
+        "endLine": 271,
+        "endChar": 36
+      },
+      "revId": "ce695b5a09c214b4d4aaf5b6a42d6673b9ca18e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "489a3c50_2f7afa8f",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIndexerIT.java",
         "patchSetId": 4

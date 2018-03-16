@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "1248221a_4063cc93",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-16T09:35:57Z",
+      "side": 1,
+      "message": "I partially agree. Ideally, we would have a test helper which allows to delete the group and for which we have a test which ensures that the test helper does what it should. I\u0027m not suggesting that we add that now, though. As David P. is already working on allowing the deletion of a group, there\u0027s no reason to invest effort for this.",
+      "parentUuid": "36c8ca74_11a6c0e7",
+      "range": {
+        "startLine": 921,
+        "startChar": 4,
+        "endLine": 926,
+        "endChar": 5
+      },
+      "revId": "a5318df8edf42f3e778e0c666dbe0ef91b61f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc2ebb9c_7d89c802",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 3

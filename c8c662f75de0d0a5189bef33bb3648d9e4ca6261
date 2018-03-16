@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "779b3b18_e94581f9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-16T09:35:57Z",
+      "side": 1,
+      "message": "Optional: I guess we need @Sandboxed as this test introduces an inconsistency for the group storage due the incomplete group deletion. Can we add a comment here saying so? Thus, we know that we can remove it as soon as we can use the group deletion feature in the future.",
+      "range": {
+        "startLine": 906,
+        "startChar": 2,
+        "endLine": 906,
+        "endChar": 12
+      },
+      "revId": "c8c662f75de0d0a5189bef33bb3648d9e4ca6261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3639e872_12b62df0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-16T09:35:57Z",
+      "side": 1,
+      "message": "The verification only works properly if we add a fail() between these two lines.",
+      "range": {
+        "startLine": 940,
+        "startChar": 6,
+        "endLine": 941,
+        "endChar": 43
+      },
+      "revId": "c8c662f75de0d0a5189bef33bb3648d9e4ca6261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

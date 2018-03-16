@@ -126,25 +126,40 @@
      */
     _repoChanged(repo) {
       if (!repo) { return Promise.resolve(); }
+
       const promises = [];
+
+      const errFn = response => {
+        this.fire('page-error', {response});
+      };
+
       // Always reset sections when a project changes.
       this._sections = [];
-      promises.push(this.$.restAPI.getRepoAccessRights(repo).then(res => {
-        this._inheritsFrom = res.inherits_from;
-        this._local = res.local;
-        this._groups = res.groups;
-        this._weblinks = res.config_web_links || [];
-        this._canUpload = res.can_upload;
-        return this.toSortedArray(this._local);
-      }));
+      promises.push(this.$.restAPI.getRepoAccessRights(repo, errFn)
+          .then(res => {
+            if (!res) { return Promise.resolve(); }
 
-      promises.push(this.$.restAPI.getCapabilities().then(res => {
-        return res;
-      }));
+            this._inheritsFrom = res.inherits_from;
+            this._local = res.local;
+            this._groups = res.groups;
+            this._weblinks = res.config_web_links || [];
+            this._canUpload = res.can_upload;
+            return this.toSortedArray(this._local);
+          }));
 
-      promises.push(this.$.restAPI.getRepo(repo).then(res => {
-        return res.labels;
-      }));
+      promises.push(this.$.restAPI.getCapabilities(errFn)
+          .then(res => {
+            if (!res) { return Promise.resolve(); }
+
+            return res;
+          }));
+
+      promises.push(this.$.restAPI.getRepo(repo, errFn)
+          .then(res => {
+            if (!res) { return Promise.resolve(); }
+
+            return res.labels;
+          }));
 
       promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
         this._isAdmin = isAdmin;

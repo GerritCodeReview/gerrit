@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd639e63_1b016e1a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 42
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-16T16:31:26Z",
+      "side": 1,
+      "message": "I don\u0027t think this padding feels right to me. We should style this dialog like we style every other dialog, or at least like we do the download dialog.",
+      "revId": "c58fb49e9c11fc108c6443d8fd0a625f0279e773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c04a43d_44c854c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.html",
+        "patchSetId": 42
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-16T16:31:26Z",
+      "side": 1,
+      "message": "Why does this not use a gr-confirm-dialog or something similar?",
+      "revId": "c58fb49e9c11fc108c6443d8fd0a625f0279e773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1eb9f716_572a2baa",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.html",
+        "patchSetId": 42
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-16T16:31:26Z",
+      "side": 1,
+      "message": "This should probably scroll more similarly to the reply dialog -- the scrollbar exists on the RHS-edge of the modal, and the header and footer stick.",
+      "revId": "c58fb49e9c11fc108c6443d8fd0a625f0279e773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dcf6bec_a08d6829",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.html",
+        "patchSetId": 42
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-03-16T16:31:26Z",
+      "side": 1,
+      "message": "Do you think we ought to have a null state for these? I.e. \"Tags: no tags\" or something.",
+      "revId": "c58fb49e9c11fc108c6443d8fd0a625f0279e773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

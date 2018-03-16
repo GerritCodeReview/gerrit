@@ -149,7 +149,7 @@
           .then(res => {
             if (res.ok) {
               if (target) { target.disabled = false; }
-              this.set(['_change', 'revisions', sha, 'description'], desc);
+              this.set(['change', 'revisions', sha, 'description'], desc);
               this._patchsetDescription = desc;
             }
           }).catch(err => {

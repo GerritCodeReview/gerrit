@@ -134,6 +134,7 @@ limitations under the License.
         // The API stub should be called with an empty string for the new
         // description.
         assert.equal(putDescStub.lastCall.args[2], '');
+        assert.equal(element.change.revisions.rev1.description, '');
 
         flushAsynchronousOperations();
         // The editable label should now be visible and the chip hidden.
@@ -154,6 +155,7 @@ limitations under the License.
       }).then(() => {
         flushAsynchronousOperations();
         // The chip should be visible again, and the label hidden.
+        assert.equal(element.change.revisions.rev1.description, 'test2');
         assert.equal(getComputedStyle(label).display, 'none');
         assert.notEqual(getComputedStyle(chip).display, 'none');
       });

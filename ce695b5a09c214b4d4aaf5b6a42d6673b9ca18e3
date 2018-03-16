@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1521194219 +0100\nnonce APUGfELjXkFwVrsFZMLX7QHhTbf40dfG5sDkhMgcca6d8qDVdR0YBtYzbL5dtbDfdUJf72Q3GqXx\n\n0000000000000000000000000000000000000000 ce695b5a09c214b4d4aaf5b6a42d6673b9ca18e3 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlqrlOsACgkQUbX9l6DQ\n71Eriwf/WIMn+SWV2BxdfBmeXh3ZTFzZzYyi1Ks9ueIH5K3mVUADsFfk29Dw1LGt\noMgJ6nRAoDfjMWrB5VPBzx8pC04XUyb8WAnkQBCBse2eV9IZr2tFBqTq5c9FQfdj\nxq6jhzAD5WqTL85yrDFlva98k1Jwe65iJPlRjyFUCgcEPz1BNjlkR4rL7t+vxl4b\nY0cYA031XL1p7ElzMQuK2AhvVnd/7GDYCve1m+w+wfvRLsCT2c+aucLnAFPdcNMs\nIV5O/g1cY7YnZygPwhh3+nCLycpWktMhw41pnpV+hcedl9hV8HARfldUJsaETLXH\nuuleJL7lQeRmOnWVrPAthsN2349dog\u003d\u003d\n\u003dmTqM\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "489a3c50_2f7afa8f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIndexerIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-16T12:32:18Z",
+      "side": 1,
+      "message": "Unused variable.",
+      "range": {
+        "startLine": 54,
+        "startChar": 50,
+        "endLine": 54,
+        "endChar": 64
+      },
+      "revId": "ce695b5a09c214b4d4aaf5b6a42d6673b9ca18e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "678c038a_04c8fb75",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIndexerIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-16T12:32:18Z",
+      "side": 1,
+      "message": "Typo here and in other tests: States",
+      "range": {
+        "startLine": 69,
+        "startChar": 37,
+        "endLine": 69,
+        "endChar": 42
+      },
+      "revId": "ce695b5a09c214b4d4aaf5b6a42d6673b9ca18e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92c7a2f7_66cdbf98",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIndexerIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-16T12:32:18Z",
+      "side": 1,
+      "message": "Typo: account",
+      "range": {
+        "startLine": 159,
+        "startChar": 50,
+        "endLine": 159,
+        "endChar": 56
+      },
+      "revId": "ce695b5a09c214b4d4aaf5b6a42d6673b9ca18e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6930556_8b26b80e",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-16T12:32:18Z",
+      "side": 1,
+      "message": "I saw your other comment [1] but I\u0027m not convinced that we should have this line here. This whole test is about indexing. It doesn\u0027t care about the cache at all. An ignorant reader might wonder why we need this line here, which in truth we don\u0027t.\n\nConsidering that this change adjusts the implementation of Index#apply, we should rather leave out this line in order to prove that the REST endpoint behaves exactly the way as before. In addition, this REST endpoint is probably used in most cases to index an account which was erroneously stale. In that case, we can\u0027t be sure either that the cache is up-to-date and our test should assume the same. Hence, I think that we really shouldn\u0027t add this line here.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/165336/2/java/com/google/gerrit/server/index/account/AccountIndexerImpl.java#94",
+      "range": {
+        "startLine": 541,
+        "startChar": 6,
+        "endLine": 541,
+        "endChar": 36
+      },
+      "revId": "ce695b5a09c214b4d4aaf5b6a42d6673b9ca18e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -92,6 +92,24 @@
     },
     {
       "key": {
+        "uuid": "402e3ab5_0ef233bd",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-16T12:32:18Z",
+      "side": 1,
+      "message": "Please see my other comments for the discussion you started here.\n\nRegarding the code change which was initiated by the first comment here:\nI prefer the code the way it is in patch set 2. Of course it changes the logic compared to before this change but without knowing the previous state, treating accountCache and accountIndexer as equally ranking is much clearer in my opinion. It follows the new contract I explained in another comment, which is that cache evictions and reindexing can be done independently from each other and both still work correctly.\n\nIdeally, we would find a better way to use this class with and without indexing / cache evictions, which doesn\u0027t including having two objects which are both defined or both null. The strategy pattern or rather the use of a functional interface (like a Consumer) could help for this. However, that\u0027s beyond the scope of this change and just an idea for future improvements.",
+      "parentUuid": "78e48466_383b9b2f",
+      "revId": "cd0820b56817479241188ed6bd5d9a7b04088115",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9afbcc7e_7a138f39",
         "filename": "java/com/google/gerrit/server/index/account/AccountIndexerImpl.java",
         "patchSetId": 2
@@ -175,6 +193,30 @@
       "side": 1,
       "message": "Thanks for trying this.\n\nThe tests that are failing without this line are:\n\n- AccountIndexerTest:\n  these tests are expected to fail because they verify that\n  AccountIndexerImpl isn\u0027t affected by a stale account cache\n\n- AbstractQueryAccountsTest#reindex:\n  This test did an account update without indexing to create a stale index.\n  While the indexing was done on cache eviction this code couldn\u0027t evict the\n  account from the cache, but now as indexing is separate it can do the cache\n  eviction. I fixed this and now this test passes if this line is commented out.\n\nDone.",
       "parentUuid": "b23e3174_ea73f95d",
+      "range": {
+        "startLine": 93,
+        "startChar": 6,
+        "endLine": 94,
+        "endChar": 26
+      },
+      "revId": "cd0820b56817479241188ed6bd5d9a7b04088115",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2894e7a_cc435548",
+        "filename": "java/com/google/gerrit/server/index/account/AccountIndexerImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-03-16T12:32:18Z",
+      "side": 1,
+      "message": "@David: This line is the main point of this change. As the commit message indicates, not ensuring up-to-date values here can have inconvenient consequences. The new contract is rather: do cache eviction when you care about cache eviction; do a reindex when you care about the index. Theoretically, reindexing now also updates the cache but that\u0027s implicit knowledge of this implementation class. Other parts of the code which modify accounts should rather explicitly declare what they need and that is cache eviction + reindex in most cases. Thus, a reader of that other code immediately sees what happens even without additional knowledge.",
+      "parentUuid": "db4d0e1a_18156325",
       "range": {
         "startLine": 93,
         "startChar": 6,

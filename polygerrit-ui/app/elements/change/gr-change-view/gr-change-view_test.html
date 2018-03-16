@@ -406,10 +406,15 @@ limitations under the License.
         assert.notEqual(getComputedStyle(element.$.threadList).display,
             'none');
 
-        // When the change is partially reloaded (ex: Shift+R), paramsChanged
-        // will set the tab, if it was previously set to the thread tab.
+        // When the change is partially reloaded (ex: Shift+R), the content
+        // is swapped out before the tab, so messages list will display even
+        // though the tab for comment threads is still temporarily selected.
         element._paramsChanged(element.params);
-        assert.equal(element.$.commentTabs.selected, 0);
+        assert.equal(element.$.commentTabs.selected, 1);
+        assert.notEqual(getComputedStyle(element.$.messageList).display,
+            'none');
+        assert.equal(getComputedStyle(element.$.threadList).display,
+            'none');
         done();
       });
     });

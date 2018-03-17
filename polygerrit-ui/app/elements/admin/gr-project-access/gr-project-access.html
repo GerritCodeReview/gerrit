@@ -39,29 +39,43 @@ limitations under the License.
       .admin .gwtLink {
         display: block;
       }
+      .loading {
+        display: none;
+      }
+      #loading.loading {
+        display: block;
+      }
+      #loading:not(.loading) {
+        display: none;
+      }
     </style>
     <style include="gr-menu-page-styles"></style>
     <main class$="[[_computeAdminClass(_isAdmin)]]">
-      <div class="gwtLink">This is currently in read only mode.  To modify content, go to the
-        <a href$="[[computeGwtUrl(path)]]" rel="external">Old UI</a>
+      <div id="loading" class$="[[_computeLoadingClass(_loading)]]">
+        Loading...
       </div>
-      <template is="dom-if" if="[[_inheritsFrom]]">
-        <h3 id="inheritsFrom">Rights Inherit From
-          <a href$="[[_computeParentHref(_inheritsFrom.name)]]" rel="noopener">
-              [[_inheritsFrom.name]]</a>
-        </h3>
-      </template>
-      <template
-          is="dom-repeat"
-          items="{{_sections}}"
-          as="section">
-        <gr-access-section
-            capabilities="[[_capabilities]]"
-            section="{{section}}"
-            labels="[[_labels]]"
-            editing="[[_editing]]"
-            groups="[[_groups]]"></gr-access-section>
-      </template>
+      <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
+        <div class="gwtLink">This is currently in read only mode.  To modify content, go to the
+          <a href$="[[computeGwtUrl(path)]]" rel="external">Old UI</a>
+        </div>
+        <template is="dom-if" if="[[_inheritsFrom]]">
+          <h3 id="inheritsFrom">Rights Inherit From
+            <a href$="[[_computeParentHref(_inheritsFrom.name)]]" rel="noopener">
+                [[_inheritsFrom.name]]</a>
+          </h3>
+        </template>
+        <template
+            is="dom-repeat"
+            items="{{_sections}}"
+            as="section">
+          <gr-access-section
+              capabilities="[[_capabilities]]"
+              section="{{section}}"
+              labels="[[_labels]]"
+              editing="[[_editing]]"
+              groups="[[_groups]]"></gr-access-section>
+        </template>
+      </div>
     </main>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

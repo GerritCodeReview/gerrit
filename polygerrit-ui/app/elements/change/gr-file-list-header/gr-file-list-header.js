@@ -148,6 +148,11 @@
       this.fire('open-diff-prefs');
     },
 
+    _handleIncludedInTap(e) {
+      e.preventDefault();
+      this.fire('open-included-in-dialog');
+    },
+
     _handleDownloadTap(e) {
       e.preventDefault();
       this.fire('open-download-dialog');
@@ -167,6 +172,10 @@
         return '';
       }
       return 'patchInfoOldPatchSet';
+    },
+
+    _hideIncludedIn(change) {
+      return change && change.status === 'MERGED' ? '' : 'hide';
     },
   });
 })();

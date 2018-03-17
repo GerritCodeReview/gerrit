@@ -128,6 +128,8 @@
      * @return {!Promise}
      */
     _repoChanged(repo) {
+      this._loading = true;
+
       if (!repo) { return Promise.resolve(); }
 
       const promises = [];

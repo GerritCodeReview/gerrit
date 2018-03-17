@@ -667,10 +667,10 @@ public class NoteDbMigrator implements AutoCloseable {
    */
   private static boolean canSkipPrimaryStorageMigration(ReviewDb db, Change.Id id) {
     try {
-      return Iterables.isEmpty(db.patchSets().byChange(id));
+      return Iterables.isEmpty(unwrapDb(db).patchSets().byChange(id));
     } catch (Exception e) {
-      log.error("Error checking if change " + id + " is corrupt, assuming yes", e);
-      return true;
+      log.error("Error checking if change " + id + " can be skipped, assuming no", e);
+      return false;
     }
   }
 

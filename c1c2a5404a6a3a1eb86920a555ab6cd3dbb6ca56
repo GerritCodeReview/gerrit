@@ -23,6 +23,30 @@
       "revId": "c1c2a5404a6a3a1eb86920a555ab6cd3dbb6ca56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f788239_fe6aae41",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-17T22:22:34Z",
+      "side": 1,
+      "message": "Well, prior to when this method was added, *all* errors would fail the whole process. Now, not quite all errors fail the whole process. We can keep whittling them down based on real-world behavior.",
+      "parentUuid": "732bd820_99a23fac",
+      "range": {
+        "startLine": 673,
+        "startChar": 13,
+        "endLine": 673,
+        "endChar": 18
+      },
+      "revId": "c1c2a5404a6a3a1eb86920a555ab6cd3dbb6ca56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -40,6 +40,7 @@ limitations under the License.
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
+      element._loading = false;
     });
 
     teardown(() => {
@@ -193,6 +194,11 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.isOk(Polymer.dom(element.root).querySelector('#inheritsFrom'));
       assert.isTrue(element._computeParentHref.called);
+    });
+
+    test('_computeLoadingClass', () => {
+      assert.equal(element._computeLoadingClass(true), 'loading');
+      assert.equal(element._computeLoadingClass(false), '');
     });
   });
 </script>

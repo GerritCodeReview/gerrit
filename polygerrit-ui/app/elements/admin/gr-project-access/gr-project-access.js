@@ -40,6 +40,10 @@
         value: false,
       },
       _sections: Array,
+      _loading: {
+        type: Boolean,
+        value: true,
+      },
     },
 
     behaviors: [
@@ -80,7 +84,12 @@
         this._capabilities = capabilities;
         this._labels = labels;
         this._sections = sections;
+        this._loading = false;
       });
+    },
+
+    _computeLoadingClass(loading) {
+      return loading ? 'loading' : '';
     },
 
     _computeAdminClass(isAdmin) {

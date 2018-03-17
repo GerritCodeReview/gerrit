@@ -34,6 +34,7 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -108,7 +109,8 @@ public class CreateDraftComment
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws ResourceNotFoundException, OrmException, UnprocessableEntityException {
+        throws ResourceNotFoundException, OrmException, UnprocessableEntityException,
+            PatchListNotAvailableException {
       PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       if (ps == null) {
         throw new ResourceNotFoundException("patch set not found: " + psId);

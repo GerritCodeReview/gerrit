@@ -25,10 +25,14 @@ import org.eclipse.jgit.lib.Config;
 
 /** Preferences for user accounts during schema migrations. */
 class VersionedAccountPreferences extends VersionedMetaData {
-  private static final String PREFERENCES = "preferences.config";
+  static final String PREFERENCES = "preferences.config";
 
   static VersionedAccountPreferences forUser(Account.Id id) {
     return new VersionedAccountPreferences(RefNames.refsUsers(id));
+  }
+
+  static VersionedAccountPreferences forDefault() {
+    return new VersionedAccountPreferences(RefNames.REFS_USERS_DEFAULT);
   }
 
   private final String ref;

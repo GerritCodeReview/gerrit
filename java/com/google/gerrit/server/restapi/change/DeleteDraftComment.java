@@ -29,6 +29,7 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.DraftCommentResource;
 import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -87,7 +88,8 @@ public class DeleteDraftComment
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws ResourceNotFoundException, OrmException {
+    public boolean updateChange(ChangeContext ctx)
+        throws ResourceNotFoundException, OrmException, PatchListNotAvailableException {
       Optional<Comment> maybeComment =
           commentsUtil.getDraft(ctx.getDb(), ctx.getNotes(), ctx.getIdentifiedUser(), key);
       if (!maybeComment.isPresent()) {

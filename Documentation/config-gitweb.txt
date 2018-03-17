@@ -17,8 +17,9 @@ which is a common installation path for the 'gitweb' package on
 Linux distributions.
 
 ----
-  git config --file $site_path/etc/gerrit.config gitweb.cgi /usr/lib/cgi-bin/gitweb.cgi
-  git config --file $site_path/etc/gerrit.config --unset gitweb.url
+  git config -f $site_path/etc/gerrit.config gitweb.type gitweb
+  git config -f $site_path/etc/gerrit.config gitweb.cgi /usr/lib/cgi-bin/gitweb.cgi
+  git config -f $site_path/etc/gerrit.config --unset gitweb.url
 ----
 
 Alternatively, if Gerrit is served behind reverse proxy, it can
@@ -28,8 +29,9 @@ for serving gitweb under a different URL than the Gerrit instance.
 To enable this feature, set both: `gitweb.cgi` and `gitweb.url`.
 
 ----
-  git config --file $site_path/etc/gerrit.config gitweb.cgi /usr/lib/cgi-bin/gitweb.cgi
-  git config --file $site_path/etc/gerrit.config gitweb.url /pretty/path/to/gitweb
+  git config -f $site_path/etc/gerrit.config gitweb.type gitweb
+  git config -f $site_path/etc/gerrit.config gitweb.cgi /usr/lib/cgi-bin/gitweb.cgi
+  git config -f $site_path/etc/gerrit.config gitweb.url /pretty/path/to/gitweb
 ----
 
 After updating `'$site_path'/etc/gerrit.config`, the Gerrit server must
@@ -77,13 +79,13 @@ provides configuration parameters for integration with gitweb.
 On Ubuntu:
 
 ----
-  $ sudo apt-get install gitweb
+  sudo apt-get install gitweb
 ----
 
 With Yum:
 
 ----
-  $ yum install gitweb
+  yum install gitweb
 ----
 
 ===== Configure Gitweb
@@ -125,14 +127,14 @@ $favicon = "git-favicon.png";
 Link gitweb to `/var/www/gitweb`, check `/etc/gitweb.conf` if unsure of paths:
 
 ----
-  $ sudo ln -s /usr/share/gitweb /var/www/gitweb
+  sudo ln -s /usr/share/gitweb /var/www/gitweb
 ----
 
 Add the gitweb directory to the Apache configuration by creating a "gitweb"
 file inside the Apache conf.d directory:
 
 ----
-  $ touch /etc/apache/conf.d/gitweb
+  touch /etc/apache/conf.d/gitweb
 ----
 
 Add the following to /etc/apache/conf.d/gitweb:
@@ -152,7 +154,7 @@ is.
 ===== Restart the Apache Web Server
 
 ----
-  $ sudo /etc/init.d/apache2 restart
+  sudo /etc/init.d/apache2 restart
 ----
 
 Now you should be able to view your repository projects online:
@@ -184,7 +186,7 @@ verify by checking for perl modules. From an msys console, execute the
 following to check:
 
 ----
-$ perl -mCGI -mEncode -mFcntl -mFile::Find -mFile::Basename -e ""
+  perl -mCGI -mEncode -mFcntl -mFile::Find -mFile::Basename -e ""
 ----
 
 You may encounter the following exception:
@@ -220,21 +222,22 @@ being used, ensure it uses a full mirror, so the `+refs/changes/*+`
 namespace is available.
 
 ----
-$ git config -f $site_path/etc/gerrit.config --unset gitweb.cgi
-$ git config -f $site_path/etc/gerrit.config gitweb.url https://gitweb.corporation.com
+  git config -f $site_path/etc/gerrit.config gitweb.type gitweb
+  git config -f $site_path/etc/gerrit.config --unset gitweb.cgi
+  git config -f $site_path/etc/gerrit.config gitweb.url https://gitweb.corporation.com
 ----
 
-If you're not following the traditional \{projectName\}.git project naming conventions,
+If you're not following the traditional `\{projectName\}.git` project naming conventions,
 you will want to customize Gerrit to read them. Add the following:
 
 ----
-$ git config -f $site_path/etc/gerrit.config gitweb.type custom
-$ git config -f $site_path/etc/gerrit.config gitweb.project ?p=\${project}\;a=summary
-$ git config -f $site_path/etc/gerrit.config gitweb.revision ?p=\${project}\;a=commit\;h=\${commit}
-$ git config -f $site_path/etc/gerrit.config gitweb.branch ?p=\${project}\;a=shortlog\;h=\${branch}
-$ git config -f $site_path/etc/gerrit.config gitweb.roottree ?p=\${project}\;a=tree\;hb=\${commit}
-$ git config -f $site_path/etc/gerrit.config gitweb.file ?p=\${project}\;hb=\${commit}\;f=\${file}
-$ git config -f $site_path/etc/gerrit.config gitweb.filehistory ?p=\${project}\;a=history\;hb=\${branch}\;f=\${file}
+  git config -f $site_path/etc/gerrit.config gitweb.type custom
+  git config -f $site_path/etc/gerrit.config gitweb.project ?p=\${project}\;a=summary
+  git config -f $site_path/etc/gerrit.config gitweb.revision ?p=\${project}\;a=commit\;h=\${commit}
+  git config -f $site_path/etc/gerrit.config gitweb.branch ?p=\${project}\;a=shortlog\;h=\${branch}
+  git config -f $site_path/etc/gerrit.config gitweb.roottree ?p=\${project}\;a=tree\;hb=\${commit}
+  git config -f $site_path/etc/gerrit.config gitweb.file ?p=\${project}\;hb=\${commit}\;f=\${file}
+  git config -f $site_path/etc/gerrit.config gitweb.filehistory ?p=\${project}\;a=history\;hb=\${branch}\;f=\${file}
 ----
 
 After updating `'$site_path'/etc/gerrit.config`, the Gerrit server must

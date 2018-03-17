@@ -46,6 +46,7 @@ import com.google.gerrit.server.mail.MailFilter;
 import com.google.gerrit.server.mail.send.InboundEmailRejectionSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -274,7 +275,7 @@ public class MailProcessor {
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws OrmException, UnprocessableEntityException {
+        throws OrmException, UnprocessableEntityException, PatchListNotAvailableException {
       patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       notes = ctx.getNotes();
       if (patchSet == null) {
@@ -371,7 +372,7 @@ public class MailProcessor {
 
     private Comment persistentCommentFromMailComment(
         ChangeContext ctx, MailComment mailComment, PatchSet patchSetForComment)
-        throws OrmException, UnprocessableEntityException {
+        throws OrmException, UnprocessableEntityException, PatchListNotAvailableException {
       String fileName;
       // The patch set that this comment is based on is different if this
       // comment was sent in reply to a comment on a previous patch set.

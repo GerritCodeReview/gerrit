@@ -410,6 +410,19 @@
       this.$.fileList.openDiffPrefs();
     },
 
+
+    _handleOpenIncludedInDialog() {
+      this.$.includedInDialog.loadData().then(() => {
+        Polymer.dom.flush();
+        this.$.includedInOverlay.refit();
+      });
+      this.$.includedInOverlay.open();
+    },
+
+    _handleIncludedInDialogClose(e) {
+      this.$.includedInOverlay.close();
+    },
+
     _handleOpenDownloadDialog() {
       this.$.downloadOverlay.open().then(() => {
         this.$.downloadOverlay

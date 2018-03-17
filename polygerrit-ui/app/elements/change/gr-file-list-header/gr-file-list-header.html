@@ -131,6 +131,9 @@ limitations under the License.
         font-family: var(--font-family-bold);
         margin-right: 1em;
       }
+      .includedInContainer.hide {
+        display: none;
+      }
       @media screen and (max-width: 50em) {
         .patchInfo-header .desktop {
           display: none;
@@ -166,6 +169,12 @@ limitations under the License.
                 class="download"
                 on-tap="_handleDownloadTap">Download</gr-button>
           </span>
+        <span class$="container includedInContainer [[_hideIncludedIn(change)]] desktop">
+          <span class="separator"></span>
+          <gr-button link
+              class="includedIn"
+              on-tap="_handleIncludedInTap">Included In</gr-button>
+        </span>
           <span class="container descriptionContainer hideOnEdit">
             <span class="separator"></span>
             <gr-editable-label

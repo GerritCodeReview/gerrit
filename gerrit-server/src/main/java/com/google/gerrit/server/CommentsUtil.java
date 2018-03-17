@@ -491,25 +491,21 @@ public class CommentsUtil {
   }
 
   public static void setCommentRevId(Comment c, PatchListCache cache, Change change, PatchSet ps)
-      throws OrmException {
+      throws PatchListNotAvailableException {
     checkArgument(
         c.key.patchSetId == ps.getId().get(),
         "cannot set RevId for patch set %s on comment %s",
         ps.getId(),
         c);
     if (c.revId == null) {
-      try {
-        if (Side.fromShort(c.side) == Side.PARENT) {
-          if (c.side < 0) {
-            c.revId = ObjectId.toString(cache.getOldId(change, ps, -c.side));
-          } else {
-            c.revId = ObjectId.toString(cache.getOldId(change, ps, null));
-          }
+      if (Side.fromShort(c.side) == Side.PARENT) {
+        if (c.side < 0) {
+          c.revId = ObjectId.toString(cache.getOldId(change, ps, -c.side));
         } else {
-          c.revId = ps.getRevision().get();
+          c.revId = ObjectId.toString(cache.getOldId(change, ps, null));
         }
-      } catch (PatchListNotAvailableException e) {
-        throw new OrmException(e);
+      } else {
+        c.revId = ps.getRevision().get();
       }
     }
   }
@@ -576,7 +572,11 @@ public class CommentsUtil {
       // Draft may have been created by a different real user; copy the current real user. (Only
       // applies to X-Gerrit-RunAs, since modifying drafts via on_behalf_of is not allowed.)
       ctx.getUser().updateRealAccountId(d::setRealAuthor);
-      setCommentRevId(d, patchListCache, notes.getChange(), ps);
+      try {
+        setCommentRevId(d, patchListCache, notes.getChange(), ps);
+      } catch (PatchListNotAvailableException e) {
+        throw new OrmException(e);
+      }
     }
     putComments(ctx.getDb(), ctx.getUpdate(psId), PUBLISHED, drafts);
   }

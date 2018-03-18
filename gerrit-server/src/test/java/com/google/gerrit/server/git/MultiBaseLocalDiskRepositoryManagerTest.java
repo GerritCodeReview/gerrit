@@ -85,7 +85,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
         .isEqualTo(repoManager.getBasePath(someProjectKey).toAbsolutePath().toString());
 
     SortedSet<Project.NameKey> repoList = repoManager.list();
-    assertThat(repoList.size()).isEqualTo(1);
+    assertThat(repoList).hasSize(1);
     assertThat(repoList.toArray(new Project.NameKey[repoList.size()]))
         .isEqualTo(new Project.NameKey[] {someProjectKey});
   }
@@ -113,7 +113,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
         .isEqualTo(alternateBasePath.toString());
 
     SortedSet<Project.NameKey> repoList = repoManager.list();
-    assertThat(repoList.size()).isEqualTo(1);
+    assertThat(repoList).hasSize(1);
     assertThat(repoList.toArray(new Project.NameKey[repoList.size()]))
         .isEqualTo(new Project.NameKey[] {someProjectKey});
   }
@@ -141,7 +141,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
     createRepository(alternateBasePath, misplacedProject1);
 
     SortedSet<Project.NameKey> repoList = repoManager.list();
-    assertThat(repoList.size()).isEqualTo(2);
+    assertThat(repoList).hasSize(2);
     assertThat(repoList.toArray(new Project.NameKey[repoList.size()]))
         .isEqualTo(new Project.NameKey[] {altPathProject, basePathProject});
   }

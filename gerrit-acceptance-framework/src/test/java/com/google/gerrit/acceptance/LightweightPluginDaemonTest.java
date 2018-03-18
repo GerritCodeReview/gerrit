@@ -30,7 +30,7 @@ public class LightweightPluginDaemonTest extends AbstractDaemonTest {
 
   @Rule public TemporaryFolder tempDataDir = new TemporaryFolder();
 
-  private TestServerPlugin plugin;
+  protected TestServerPlugin plugin;
 
   @Before
   public void setUp() throws Exception {

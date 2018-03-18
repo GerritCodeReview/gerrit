@@ -538,7 +538,7 @@ to the new merge commit.
   {
     "subject": "Merge dev_branch into master",
     "merge": {
-      "source": "refs/12/1234/1"
+      "source": "refs/changes/34/1234/1"
     }
   }
 ----

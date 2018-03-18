@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a160dce_5b06e989",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-18T14:52:41Z",
+      "side": 1,
+      "message": "We forked rules_closure anyway, so why not just update it to the same args4j version 2.33 to avoid this version collision?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 72
+      },
+      "revId": "bce2022b8365ba534b8e95da707d1dd8cb16e1bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2da8a807_2d234a2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-18T14:52:41Z",
+      "side": 1,
+      "message": "At very least we should upload a PR for upgrade of rules_closure and link it to this change.",
+      "revId": "bce2022b8365ba534b8e95da707d1dd8cb16e1bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

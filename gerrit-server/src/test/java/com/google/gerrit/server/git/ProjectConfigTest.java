@@ -345,7 +345,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
 
     ProjectConfig cfg = read(rev);
     PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
-    assertThat(pluginCfg.getNames().size()).isEqualTo(2);
+    assertThat(pluginCfg.getNames()).hasSize(2);
     assertThat(pluginCfg.getString("key1")).isEqualTo("value1");
     assertThat(pluginCfg.getStringList(("key2"))).isEqualTo(new String[] {"value2a", "value2b"});
   }
@@ -407,7 +407,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
 
     ProjectConfig cfg = read(rev);
     PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
-    assertThat(pluginCfg.getNames().size()).isEqualTo(1);
+    assertThat(pluginCfg.getNames()).hasSize(1);
     assertThat(pluginCfg.getGroupReference("key1")).isEqualTo(developers);
   }
 
@@ -454,7 +454,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
 
     ProjectConfig cfg = read(rev);
     PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
-    assertThat(pluginCfg.getNames().size()).isEqualTo(1);
+    assertThat(pluginCfg.getNames()).hasSize(1);
     assertThat(pluginCfg.getGroupReference("key1")).isEqualTo(developers);
 
     pluginCfg.setGroupReference("key1", staff);

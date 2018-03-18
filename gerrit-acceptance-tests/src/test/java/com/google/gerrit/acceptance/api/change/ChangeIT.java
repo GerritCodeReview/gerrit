@@ -2244,7 +2244,7 @@ public class ChangeIT extends AbstractDaemonTest {
                     ListChangesOption.ALL_REVISIONS,
                     ListChangesOption.CURRENT_COMMIT,
                     ListChangesOption.CURRENT_REVISION));
-    assertThat(changeInfo.revisions.size()).isEqualTo(2);
+    assertThat(changeInfo.revisions).hasSize(2);
     assertThat(changeInfo.subject).isEqualTo(in.subject);
     assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.parents.get(0).commit)
         .isEqualTo(parent);
@@ -2288,7 +2288,7 @@ public class ChangeIT extends AbstractDaemonTest {
                     ListChangesOption.CURRENT_COMMIT,
                     ListChangesOption.CURRENT_REVISION));
 
-    assertThat(changeInfo.revisions.size()).isEqualTo(2);
+    assertThat(changeInfo.revisions).hasSize(2);
     assertThat(changeInfo.subject).isEqualTo(in.subject);
     assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.parents.get(0).commit)
         .isEqualTo(parent);

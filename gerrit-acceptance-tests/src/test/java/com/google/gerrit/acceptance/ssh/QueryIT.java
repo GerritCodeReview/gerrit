@@ -46,22 +46,22 @@ public class QueryIT extends AbstractDaemonTest {
     String changeId2 = createChange().getChangeId();
 
     List<ChangeAttribute> changes = executeSuccessfulQuery("1234");
-    assertThat(changes.size()).isEqualTo(0);
+    assertThat(changes).isEmpty();
 
     changes = executeSuccessfulQuery(changeId1);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).project).isEqualTo(project.toString());
     assertThat(changes.get(0).id).isEqualTo(changeId1);
 
     changes = executeSuccessfulQuery(changeId1 + " OR " + changeId2);
-    assertThat(changes.size()).isEqualTo(2);
+    assertThat(changes).hasSize(2);
     assertThat(changes.get(0).project).isEqualTo(project.toString());
     assertThat(changes.get(0).id).isEqualTo(changeId2);
     assertThat(changes.get(1).project).isEqualTo(project.toString());
     assertThat(changes.get(1).id).isEqualTo(changeId1);
 
     changes = executeSuccessfulQuery("--start=1 " + changeId1 + " OR " + changeId2);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).project).isEqualTo(project.toString());
     assertThat(changes.get(0).id).isEqualTo(changeId1);
   }
@@ -71,14 +71,14 @@ public class QueryIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
     gApi.changes().id(changeId).current().review(ReviewInput.approve());
     List<ChangeAttribute> changes = executeSuccessfulQuery(changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).patchSets).isNull();
 
     changes = executeSuccessfulQuery("--all-approvals " + changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).patchSets).isNotNull();
     assertThat(changes.get(0).patchSets.get(0).approvals).isNotNull();
-    assertThat(changes.get(0).patchSets.get(0).approvals.size()).isEqualTo(1);
+    assertThat(changes.get(0).patchSets.get(0).approvals).hasSize(1);
   }
 
   @Test
@@ -89,20 +89,20 @@ public class QueryIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).addReviewer(in);
 
     List<ChangeAttribute> changes = executeSuccessfulQuery(changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).allReviewers).isNull();
 
     changes = executeSuccessfulQuery("--all-reviewers " + changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).allReviewers).isNotNull();
-    assertThat(changes.get(0).allReviewers.size()).isEqualTo(1);
+    assertThat(changes.get(0).allReviewers).hasSize(1);
   }
 
   @Test
   public void commitMessageOptionJSON() throws Exception {
     String changeId = createChange().getChangeId();
     List<ChangeAttribute> changes = executeSuccessfulQuery("--commit-message " + changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).commitMessage).isNotNull();
     assertThat(changes.get(0).commitMessage).contains(PushOneCommit.SUBJECT);
   }
@@ -113,20 +113,20 @@ public class QueryIT extends AbstractDaemonTest {
     amendChange(changeId);
 
     List<ChangeAttribute> changes = executeSuccessfulQuery(changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).currentPatchSet).isNull();
 
     changes = executeSuccessfulQuery("--current-patch-set " + changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).currentPatchSet).isNotNull();
     assertThat(changes.get(0).currentPatchSet.number).isEqualTo(2);
 
     gApi.changes().id(changeId).current().review(ReviewInput.approve());
     changes = executeSuccessfulQuery("--current-patch-set " + changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).currentPatchSet).isNotNull();
     assertThat(changes.get(0).currentPatchSet.approvals).isNotNull();
-    assertThat(changes.get(0).currentPatchSet.approvals.size()).isEqualTo(1);
+    assertThat(changes.get(0).currentPatchSet.approvals).hasSize(1);
   }
 
   @Test
@@ -136,13 +136,13 @@ public class QueryIT extends AbstractDaemonTest {
     amendChange(changeId);
 
     List<ChangeAttribute> changes = executeSuccessfulQuery(changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).patchSets).isNull();
 
     changes = executeSuccessfulQuery("--patch-sets " + changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).patchSets).isNotNull();
-    assertThat(changes.get(0).patchSets.size()).isEqualTo(3);
+    assertThat(changes.get(0).patchSets).hasSize(3);
   }
 
   @Test
@@ -159,22 +159,22 @@ public class QueryIT extends AbstractDaemonTest {
 
     List<ChangeAttribute> changes =
         executeSuccessfulQuery("--current-patch-set --files " + changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).currentPatchSet.files).isNotNull();
-    assertThat(changes.get(0).currentPatchSet.files.size()).isEqualTo(2);
+    assertThat(changes.get(0).currentPatchSet.files).hasSize(2);
 
     changes = executeSuccessfulQuery("--patch-sets --files " + changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).patchSets.get(0).files).isNotNull();
-    assertThat(changes.get(0).patchSets.get(0).files.size()).isEqualTo(2);
+    assertThat(changes.get(0).patchSets.get(0).files).hasSize(2);
 
     gApi.changes().id(changeId).current().review(ReviewInput.approve());
     changes = executeSuccessfulQuery("--patch-sets --files --all-approvals " + changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).patchSets.get(0).files).isNotNull();
-    assertThat(changes.get(0).patchSets.get(0).files.size()).isEqualTo(2);
+    assertThat(changes.get(0).patchSets.get(0).files).hasSize(2);
     assertThat(changes.get(0).patchSets.get(0).approvals).isNotNull();
-    assertThat(changes.get(0).patchSets.get(0).approvals.size()).isEqualTo(1);
+    assertThat(changes.get(0).patchSets.get(0).approvals).hasSize(1);
   }
 
   @Test
@@ -182,13 +182,13 @@ public class QueryIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
 
     List<ChangeAttribute> changes = executeSuccessfulQuery(changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).comments).isNull();
 
     changes = executeSuccessfulQuery("--comments " + changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).comments).isNotNull();
-    assertThat(changes.get(0).comments.size()).isEqualTo(1);
+    assertThat(changes.get(0).comments).hasSize(1);
   }
 
   @Test
@@ -205,13 +205,13 @@ public class QueryIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).current().review(review);
 
     List<ChangeAttribute> changes = executeSuccessfulQuery("--current-patch-set " + changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).currentPatchSet.comments).isNull();
 
     changes = executeSuccessfulQuery("--current-patch-set --comments " + changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).currentPatchSet.comments).isNotNull();
-    assertThat(changes.get(0).currentPatchSet.comments.size()).isEqualTo(1);
+    assertThat(changes.get(0).currentPatchSet.comments).hasSize(1);
   }
 
   @Test
@@ -228,30 +228,30 @@ public class QueryIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).current().review(review);
 
     List<ChangeAttribute> changes = executeSuccessfulQuery("--patch-sets " + changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).patchSets.get(0).comments).isNull();
 
     changes = executeSuccessfulQuery("--patch-sets --comments " + changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).patchSets.get(0).comments).isNotNull();
-    assertThat(changes.get(0).patchSets.get(0).comments.size()).isEqualTo(1);
+    assertThat(changes.get(0).patchSets.get(0).comments).hasSize(1);
 
     changes = executeSuccessfulQuery("--patch-sets --comments --files " + changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).patchSets.get(0).comments).isNotNull();
-    assertThat(changes.get(0).patchSets.get(0).comments.size()).isEqualTo(1);
+    assertThat(changes.get(0).patchSets.get(0).comments).hasSize(1);
     assertThat(changes.get(0).patchSets.get(0).files).isNotNull();
-    assertThat(changes.get(0).patchSets.get(0).files.size()).isEqualTo(2);
+    assertThat(changes.get(0).patchSets.get(0).files).hasSize(2);
 
     gApi.changes().id(changeId).current().review(ReviewInput.approve());
     changes = executeSuccessfulQuery("--patch-sets --comments --files --all-approvals " + changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).patchSets.get(0).comments).isNotNull();
-    assertThat(changes.get(0).patchSets.get(0).comments.size()).isEqualTo(1);
+    assertThat(changes.get(0).patchSets.get(0).comments).hasSize(1);
     assertThat(changes.get(0).patchSets.get(0).files).isNotNull();
-    assertThat(changes.get(0).patchSets.get(0).files.size()).isEqualTo(2);
+    assertThat(changes.get(0).patchSets.get(0).files).hasSize(2);
     assertThat(changes.get(0).patchSets.get(0).approvals).isNotNull();
-    assertThat(changes.get(0).patchSets.get(0).approvals.size()).isEqualTo(1);
+    assertThat(changes.get(0).patchSets.get(0).approvals).hasSize(1);
   }
 
   @Test
@@ -259,34 +259,34 @@ public class QueryIT extends AbstractDaemonTest {
     String changeId1 = createChange().getChangeId();
     String changeId2 = createChange().getChangeId();
     List<ChangeAttribute> changes = executeSuccessfulQuery(changeId1);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).dependsOn).isNull();
 
     changes = executeSuccessfulQuery("--dependencies " + changeId1);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).dependsOn).isNull();
 
     changes = executeSuccessfulQuery(changeId2);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).dependsOn).isNull();
 
     changes = executeSuccessfulQuery("--dependencies " + changeId2);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).dependsOn).isNotNull();
-    assertThat(changes.get(0).dependsOn.size()).isEqualTo(1);
+    assertThat(changes.get(0).dependsOn).hasSize(1);
   }
 
   @Test
   public void submitRecordsOptionJSON() throws Exception {
     String changeId = createChange().getChangeId();
     List<ChangeAttribute> changes = executeSuccessfulQuery(changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).submitRecords).isNull();
 
     changes = executeSuccessfulQuery("--submit-records " + changeId);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).submitRecords).isNotNull();
-    assertThat(changes.get(0).submitRecords.size()).isEqualTo(1);
+    assertThat(changes.get(0).submitRecords).hasSize(1);
   }
 
   @Test
@@ -295,7 +295,7 @@ public class QueryIT extends AbstractDaemonTest {
     amendChangeAsDraft(changeId);
     String query = "--current-patch-set --patch-sets " + changeId;
     List<ChangeAttribute> changes = executeSuccessfulQuery(query);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).patchSets).isNotNull();
     assertThat(changes.get(0).patchSets).hasSize(2);
     assertThat(changes.get(0).currentPatchSet).isNotNull();
@@ -304,7 +304,7 @@ public class QueryIT extends AbstractDaemonTest {
     initSsh(user);
     userSession.open();
     changes = executeSuccessfulQuery(query, userSession);
-    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes).hasSize(1);
     assertThat(changes.get(0).patchSets).hasSize(1);
     assertThat(changes.get(0).currentPatchSet).isNull();
     userSession.close();

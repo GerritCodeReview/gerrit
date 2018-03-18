@@ -571,8 +571,8 @@ public class GetRelatedIT extends AbstractDaemonTest {
     }
 
     ChangeData cd = getChange(last);
-    assertThat(cd.patchSets().size()).isEqualTo(n);
-    assertThat(GetRelated.getAllGroups(cd.notes(), db, psUtil).size()).isEqualTo(n);
+    assertThat(cd.patchSets()).hasSize(n);
+    assertThat(GetRelated.getAllGroups(cd.notes(), db, psUtil)).hasSize(n);
 
     assertRelated(cd.change().currentPatchSetId());
   }

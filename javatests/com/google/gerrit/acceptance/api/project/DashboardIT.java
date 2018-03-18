@@ -150,7 +150,7 @@ public class DashboardIT extends AbstractDaemonTest {
     if (expected.sections == null) {
       assertThat(actual.sections).isNull();
     } else {
-      assertThat(actual.sections.size()).isEqualTo(expected.sections.size());
+      assertThat(actual.sections).hasSize(expected.sections.size());
     }
   }
 

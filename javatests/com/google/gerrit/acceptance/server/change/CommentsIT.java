@@ -772,7 +772,7 @@ public class CommentsIT extends AbstractDaemonTest {
     Map<String, List<CommentInfo>> commentsMap =
         getPublishedComments(result.getChangeId(), result.getCommit().name());
 
-    assertThat(commentsMap.size()).isEqualTo(1);
+    assertThat(commentsMap).hasSize(1);
     assertThat(commentsMap.get(FILE_NAME)).hasSize(1);
 
     String uuid = commentsMap.get(targetComment.path).get(0).id;

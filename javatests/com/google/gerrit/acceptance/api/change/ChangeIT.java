@@ -2707,7 +2707,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).createMergePatchSet(in);
     ChangeInfo changeInfo =
         gApi.changes().id(changeId).get(ALL_REVISIONS, CURRENT_COMMIT, CURRENT_REVISION);
-    assertThat(changeInfo.revisions.size()).isEqualTo(2);
+    assertThat(changeInfo.revisions).hasSize(2);
     assertThat(changeInfo.subject).isEqualTo(in.subject);
     assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.parents.get(0).commit)
         .isEqualTo(parent);
@@ -2745,7 +2745,7 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInfo changeInfo =
         gApi.changes().id(changeId).get(ALL_REVISIONS, CURRENT_COMMIT, CURRENT_REVISION);
 
-    assertThat(changeInfo.revisions.size()).isEqualTo(2);
+    assertThat(changeInfo.revisions).hasSize(2);
     assertThat(changeInfo.subject).isEqualTo(in.subject);
     assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.parents.get(0).commit)
         .isEqualTo(parent);
@@ -2800,7 +2800,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     ChangeInfo changeInfo =
         gApi.changes().id(changeId).get(ALL_REVISIONS, CURRENT_COMMIT, CURRENT_REVISION);
-    assertThat(changeInfo.revisions.size()).isEqualTo(2);
+    assertThat(changeInfo.revisions).hasSize(2);
     assertThat(changeInfo.subject).isEqualTo("create ps2");
     assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.parents.get(0).commit)
         .isEqualTo(expectedParent);

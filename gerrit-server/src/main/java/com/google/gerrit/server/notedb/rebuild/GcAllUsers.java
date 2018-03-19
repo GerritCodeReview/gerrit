@@ -15,7 +15,10 @@
 package com.google.gerrit.server.notedb.rebuild;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_GC_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_AUTO;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GarbageCollectionResult;
@@ -25,8 +28,10 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.function.Consumer;
+import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,6 +68,22 @@ public class GcAllUsers {
       logOneLine.accept("Skipping GC of " + allUsers + "; not a local disk repo");
       return;
     }
+    if (!enableAutoGc(logOneLine)) {
+      logOneLine.accept(
+          String.format(
+              "Skipping GC of "
+                  + allUsers
+                  + " due to disabling "
+                  + CONFIG_GC_SECTION
+                  + "."
+                  + CONFIG_KEY_AUTO));
+      logOneLine.accept(
+          "If loading accounts is slow after the NoteDb migration, run `git gc` on "
+              + allUsers
+              + " manually");
+      return;
+    }
+
     if (progressWriter == null) {
       // Mimic log line from GarbageCollection.
       logOneLine.accept("collecting garbage for \"" + allUsers + "\":\n");
@@ -87,6 +108,16 @@ public class GcAllUsers {
           logOneLine.accept("GC failed for " + e.getProjectName() + ": " + e.getType());
           break;
       }
+    }
+  }
+
+  private boolean enableAutoGc(Consumer<String> logOneLine) {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      return repo.getConfig().getInt(CONFIG_GC_SECTION, CONFIG_KEY_AUTO, -1) != 0;
+    } catch (IOException e) {
+      logOneLine.accept(
+          "Error reading config for " + allUsers + ":\n" + Throwables.getStackTraceAsString(e));
+      return false;
     }
   }
 }

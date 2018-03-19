@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f84d5c2a_528776db",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-19T22:13:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e7a32cca_73edb2ca",
+      "range": {
+        "startLine": 45,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 7
+      },
+      "revId": "07523e6b99f051733c4197540549b134c0410d11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ca90cdf_fe4dfb64",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
         "patchSetId": 13
@@ -36,6 +60,30 @@
       "writtenOn": "2018-03-19T22:01:37Z",
       "side": 1,
       "message": "buttons are raised when they don\u0027t have the \u0027link\u0027 attribute. I actually think this looks decent as a link though, so this can be removed.",
+      "range": {
+        "startLine": 344,
+        "startChar": 0,
+        "endLine": 344,
+        "endChar": 20
+      },
+      "revId": "07523e6b99f051733c4197540549b134c0410d11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "416d0c16_5be08267",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-19T22:13:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1ca90cdf_fe4dfb64",
       "range": {
         "startLine": 344,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "3b7c496c_141bf040",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-19T22:13:22Z",
+      "side": 1,
+      "message": "Yep, thanks, done.",
+      "parentUuid": "2b86a472_6cae7f11",
+      "range": {
+        "startLine": 349,
+        "startChar": 4,
+        "endLine": 349,
+        "endChar": 22
+      },
+      "revId": "07523e6b99f051733c4197540549b134c0410d11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b85e31ad_6b4a2af9",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
         "patchSetId": 13
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "0e12edff_fb20822f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-19T22:13:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b85e31ad_6b4a2af9",
+      "range": {
+        "startLine": 350,
+        "startChar": 31,
+        "endLine": 350,
+        "endChar": 49
+      },
+      "revId": "07523e6b99f051733c4197540549b134c0410d11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f895a72f_4697eed2",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
         "patchSetId": 13
@@ -105,6 +201,24 @@
       "writtenOn": "2018-03-19T22:01:37Z",
       "side": 1,
       "message": "There should be some change in menu here. Otherwise how do you know the reset is working?",
+      "revId": "07523e6b99f051733c4197540549b134c0410d11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e9d27b5_14d3717f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-19T22:13:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f895a72f_4697eed2",
       "revId": "07523e6b99f051733c4197540549b134c0410d11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -29,6 +29,7 @@
     D: 'Deleted',
     R: 'Renamed',
     W: 'Rewritten',
+    U: 'Unchanged',
   };
 
   const Defs = {};
@@ -66,7 +67,10 @@
       patchNum: String,
       changeNum: String,
       /** @type {?} */
-      changeComments: Object,
+      changeComments: {
+        type: Object,
+        observer: '_changeCommentsChanged',
+      },
       drafts: Object,
       revisions: Array,
       projectConfig: Object,
@@ -446,8 +450,68 @@
     },
 
     _getFiles() {
-      return this.$.restAPI.getChangeFilesAsSpeciallySortedArray(
-          this.changeNum, this.patchRange);
+      return this.$.restAPI.getChangeOrEditFiles(
+          this.changeNum, this.patchRange)
+          .then(files => this._appendCommentedPaths(files))
+          .then(this._normalizeChangeFilesResponse.bind(this));
+    },
+
+    _appendCommentedPaths(files) {
+      return this._waitAndGetChangeComments()
+          .then(changeComments => changeComments.getPaths(this.patchRange))
+          .then(commentedPaths => {
+            Object.keys(commentedPaths).forEach(commentedPath => {
+              if (Object.keys(files).indexOf(commentedPath) !== -1) {
+                return;
+              }
+              files[commentedPath] = {status: 'U'};
+            });
+            return files;
+          });
+    },
+
+    _waitAndGetChangeComments() {
+      return new Promise(resolve => {
+        if (this.changeComments) {
+          resolve(this.changeComments);
+          return;
+        }
+
+        const changeCommentsChangedListener = () => {
+          if (!this.changeComments) {
+            return;
+          }
+          this.removeEventListener(
+              'change-comments-changed',
+              changeCommentsChangedListener
+          );
+          resolve(this.changeComments);
+        };
+
+        this.addEventListener(
+            'change-comments-changed',
+            changeCommentsChangedListener.bind(this)
+        );
+      });
+    },
+
+    /**
+     * The closure compiler doesn't realize this.specialFilePathCompare is
+     * valid.
+     * @suppress {checkTypes}
+     */
+    _normalizeChangeFilesResponse(response) {
+      if (!response) { return []; }
+      const paths = Object.keys(response).sort(this.specialFilePathCompare);
+      const files = [];
+      for (let i = 0; i < paths.length; i++) {
+        const info = response[paths[i]];
+        info.__path = paths[i];
+        info.lines_inserted = info.lines_inserted || 0;
+        info.lines_deleted = info.lines_deleted || 0;
+        files.push(info);
+      }
+      return files;
     },
 
     /**
@@ -768,6 +832,11 @@
       // Overwrite the cursor's list of diffs:
       this.$.diffCursor.splice(
           ...['diffs', 0, this.$.diffCursor.diffs.length].concat(diffElements));
+    },
+
+    _changeCommentsChanged() {
+      this.dispatchEvent(new CustomEvent('change-comments-changed',
+          {bubbles: false}));
     },
 
     _filesChanged() {

@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab1ddcf6_76933045",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-19T17:15:15Z",
+      "side": 1,
+      "message": "Can you include the bug in the commit message?",
+      "revId": "4d125a9e41a7a245d04c207a6f540cb70670e4c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b6ab263_4304f3ce",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-19T17:15:15Z",
+      "side": 1,
+      "message": "The add button is directly related to the inputs to the left of it. The reset button doesn\u0027t make sense to go here. I\u0027m thinking instead, it could go on the same side as the Save button, right aligned as a raised button?",
+      "range": {
+        "startLine": 115,
+        "startChar": 14,
+        "endLine": 118,
+        "endChar": 65
+      },
+      "revId": "4d125a9e41a7a245d04c207a6f540cb70670e4c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd7112e0_1f9df8fe",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-19T17:15:15Z",
+      "side": 1,
+      "message": "thanks :)",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 16
+      },
+      "revId": "4d125a9e41a7a245d04c207a6f540cb70670e4c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5513a4c7_d6431c98",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-19T17:15:15Z",
+      "side": 1,
+      "message": "This assertion isn\u0027t doing anything (it\u0027s asserting the same thing equals itself)",
+      "range": {
+        "startLine": 117,
+        "startChar": 6,
+        "endLine": 117,
+        "endChar": 71
+      },
+      "revId": "4d125a9e41a7a245d04c207a6f540cb70670e4c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a12f04ae_369485a4",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-19T17:15:15Z",
+      "side": 1,
+      "message": "this needs to be a const or let",
+      "revId": "4d125a9e41a7a245d04c207a6f540cb70670e4c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c2eb6ee_09d21338",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-19T17:15:15Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "4d125a9e41a7a245d04c207a6f540cb70670e4c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "978a4b79_eb281a4e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-19T17:15:15Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "4d125a9e41a7a245d04c207a6f540cb70670e4c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

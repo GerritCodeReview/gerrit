@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d163a9eb_871f931a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1053,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-19T16:56:22Z",
+      "side": 1,
+      "message": "This would result in an additional request for the change comments, which are already loaded and available to gr-file-list when this method is called.\n\nSince gr-rest-api-interface is supposed to be a thin wrapper to the REST API, I think it makes more sense to leave this method as is, and to instead interpolate the comment filepaths at the gr-file-list level.",
+      "revId": "99e6786c216ee04e07fc5caf793a592f0ff491ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

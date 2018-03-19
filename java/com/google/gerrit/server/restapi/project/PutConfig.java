@@ -70,7 +70,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   private final boolean serverEnableSignedPush;
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final ProjectCache projectCache;
-  private final ProjectState.Factory projectStateFactory;
   private final TransferConfig config;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final PluginConfigFactory cfgFactory;
@@ -85,7 +84,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       @EnableSignedPush boolean serverEnableSignedPush,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       ProjectCache projectCache,
-      ProjectState.Factory projectStateFactory,
       TransferConfig config,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
@@ -97,7 +95,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
     this.serverEnableSignedPush = serverEnableSignedPush;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectCache = projectCache;
-    this.projectStateFactory = projectStateFactory;
     this.config = config;
     this.pluginConfigEntries = pluginConfigEntries;
     this.cfgFactory = cfgFactory;
@@ -165,10 +162,9 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         throw new ResourceConflictException("Cannot update " + projectName);
       }
 
-      ProjectState state = projectStateFactory.create(projectConfig);
       return new ConfigInfoImpl(
           serverEnableSignedPush,
-          state,
+          projectCache.checkedGet(projectName),
           user.get(),
           config,
           pluginConfigEntries,

@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.VersionedMetaData;
 import java.io.IOException;
@@ -31,12 +33,13 @@ import org.eclipse.jgit.lib.Config;
 /** Configuration file in the projects refs/meta/config branch. */
 public class ProjectLevelConfig extends VersionedMetaData {
   private final String fileName;
-  private final ProjectState project;
+  private final Project.NameKey nameKey;
+
   private Config cfg;
 
-  public ProjectLevelConfig(String fileName, ProjectState project) {
+  ProjectLevelConfig(String fileName, Project.NameKey nameKey) {
     this.fileName = fileName;
-    this.project = project;
+    this.nameKey = nameKey;
   }
 
   @Override
@@ -56,8 +59,8 @@ public class ProjectLevelConfig extends VersionedMetaData {
     return cfg;
   }
 
-  public Config getWithInheritance() {
-    return getWithInheritance(false);
+  public Config getWithInheritance(ProjectState projectState) {
+    return getWithInheritance(projectState, false);
   }
 
   /**
@@ -69,19 +72,27 @@ public class ProjectLevelConfig extends VersionedMetaData {
    * <p>No merging means that matching sections/subsections in the child project will replace the
    * corresponding value from the parent.
    *
+   * @param projectState ProjectState for loading parent projects; must match the project name
+   *     associated with this instance.
    * @param merge whether to merge parent values with child values or not.
    * @return a combined config.
    */
-  public Config getWithInheritance(boolean merge) {
+  public Config getWithInheritance(ProjectState projectState, boolean merge) {
+    checkArgument(
+        projectState.getNameKey().equals(nameKey),
+        "expected ProjectState for %s, got %s",
+        nameKey,
+        projectState.getNameKey());
+
     Config cfgWithInheritance = new Config();
     try {
       cfgWithInheritance.fromText(get().toText());
     } catch (ConfigInvalidException e) {
       // cannot happen
     }
-    ProjectState parent = Iterables.getFirst(project.parents(), null);
+    ProjectState parent = Iterables.getFirst(projectState.parents(), null);
     if (parent != null) {
-      Config parentCfg = parent.getConfig(fileName).getWithInheritance();
+      Config parentCfg = parent.getConfig(fileName).getWithInheritance(parent);
       for (String section : parentCfg.getSections()) {
         Set<String> allNames = get().getNames(section);
         for (String name : parentCfg.getNames(section)) {

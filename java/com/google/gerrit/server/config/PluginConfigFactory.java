@@ -46,7 +46,6 @@ public class PluginConfigFactory implements ReloadPluginListener {
   private final SitePaths site;
   private final Provider<Config> cfgProvider;
   private final ProjectCache projectCache;
-  private final ProjectState.Factory projectStateFactory;
   private final SecureStore secureStore;
   private final Map<String, Config> pluginConfigs;
 
@@ -58,12 +57,10 @@ public class PluginConfigFactory implements ReloadPluginListener {
       SitePaths site,
       @GerritServerConfig Provider<Config> cfgProvider,
       ProjectCache projectCache,
-      ProjectState.Factory projectStateFactory,
       SecureStore secureStore) {
     this.site = site;
     this.cfgProvider = cfgProvider;
     this.projectCache = projectCache;
-    this.projectStateFactory = projectStateFactory;
     this.secureStore = secureStore;
 
     this.pluginConfigs = new HashMap<>();
@@ -176,7 +173,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
    */
   public PluginConfig getFromProjectConfigWithInheritance(
       Project.NameKey projectName, String pluginName) throws NoSuchProjectException {
-    return getFromProjectConfig(projectName, pluginName).withInheritance(projectStateFactory);
+    return getFromProjectConfig(projectName, pluginName).withInheritance(projectCache);
   }
 
   /**
@@ -200,7 +197,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
    */
   public PluginConfig getFromProjectConfigWithInheritance(
       ProjectState projectState, String pluginName) {
-    return getFromProjectConfig(projectState, pluginName).withInheritance(projectStateFactory);
+    return getFromProjectConfig(projectState, pluginName).withInheritance(projectCache);
   }
 
   /**
@@ -288,7 +285,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
    */
   public Config getProjectPluginConfigWithInheritance(
       Project.NameKey projectName, String pluginName) throws NoSuchProjectException {
-    return getPluginConfig(projectName, pluginName).getWithInheritance(false);
+    return getProjectPluginConfigWithInheritance(getProjectState(projectName), pluginName);
   }
 
   /**
@@ -310,7 +307,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
    */
   public Config getProjectPluginConfigWithInheritance(
       ProjectState projectState, String pluginName) {
-    return projectState.getConfig(pluginName + EXTENSION).getWithInheritance(false);
+    return projectState.getConfig(pluginName + EXTENSION).getWithInheritance(projectState, false);
   }
 
   /**
@@ -335,7 +332,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
    */
   public Config getProjectPluginConfigWithMergedInheritance(
       Project.NameKey projectName, String pluginName) throws NoSuchProjectException {
-    return getPluginConfig(projectName, pluginName).getWithInheritance(true);
+    return getProjectPluginConfigWithMergedInheritance(getProjectState(projectName), pluginName);
   }
 
   /**
@@ -358,16 +355,20 @@ public class PluginConfigFactory implements ReloadPluginListener {
    */
   public Config getProjectPluginConfigWithMergedInheritance(
       ProjectState projectState, String pluginName) {
-    return projectState.getConfig(pluginName + EXTENSION).getWithInheritance(true);
+    return projectState.getConfig(pluginName + EXTENSION).getWithInheritance(projectState, true);
   }
 
-  private ProjectLevelConfig getPluginConfig(Project.NameKey projectName, String pluginName)
-      throws NoSuchProjectException {
+  private ProjectState getProjectState(Project.NameKey projectName) throws NoSuchProjectException {
     ProjectState projectState = projectCache.get(projectName);
     if (projectState == null) {
       throw new NoSuchProjectException(projectName);
     }
-    return projectState.getConfig(pluginName + EXTENSION);
+    return projectState;
+  }
+
+  private ProjectLevelConfig getPluginConfig(Project.NameKey projectName, String pluginName)
+      throws NoSuchProjectException {
+    return getProjectState(projectName).getConfig(pluginName + EXTENSION);
   }
 
   @Override

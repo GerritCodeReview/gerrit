@@ -16,9 +16,10 @@ package com.google.gerrit.server.config;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import java.util.Arrays;
 import java.util.List;
@@ -43,31 +44,35 @@ public class PluginConfig {
     this.projectConfig = projectConfig;
   }
 
-  PluginConfig withInheritance(ProjectState.Factory projectStateFactory) {
+  PluginConfig withInheritance(ProjectCache projectCache) {
     if (projectConfig == null) {
       return this;
     }
 
-    ProjectState state = projectStateFactory.create(projectConfig);
-    ProjectState parent = Iterables.getFirst(state.parents(), null);
-    if (parent != null) {
-      PluginConfig parentPluginConfig =
-          parent.getConfig().getPluginConfig(pluginName).withInheritance(projectStateFactory);
-      Set<String> allNames = cfg.getNames(PLUGIN, pluginName);
-      cfg = copyConfig(cfg);
-      for (String name : parentPluginConfig.cfg.getNames(PLUGIN, pluginName)) {
-        if (!allNames.contains(name)) {
-          List<String> values =
-              Arrays.asList(parentPluginConfig.cfg.getStringList(PLUGIN, pluginName, name));
-          for (String value : values) {
-            GroupReference groupRef =
-                parentPluginConfig.projectConfig.getGroup(GroupReference.extractGroupName(value));
-            if (groupRef != null) {
-              projectConfig.resolve(groupRef);
-            }
+    Project.NameKey parentName = projectConfig.getProject().getParent();
+    if (parentName == null) {
+      return this;
+    }
+    ProjectState parent = projectCache.get(parentName);
+    if (parent == null) {
+      return this;
+    }
+    PluginConfig parentPluginConfig =
+        parent.getConfig().getPluginConfig(pluginName).withInheritance(projectCache);
+    Set<String> allNames = cfg.getNames(PLUGIN, pluginName);
+    cfg = copyConfig(cfg);
+    for (String name : parentPluginConfig.cfg.getNames(PLUGIN, pluginName)) {
+      if (!allNames.contains(name)) {
+        List<String> values =
+            Arrays.asList(parentPluginConfig.cfg.getStringList(PLUGIN, pluginName, name));
+        for (String value : values) {
+          GroupReference groupRef =
+              parentPluginConfig.projectConfig.getGroup(GroupReference.extractGroupName(value));
+          if (groupRef != null) {
+            projectConfig.resolve(groupRef);
           }
-          cfg.setStringList(PLUGIN, pluginName, name, values);
         }
+        cfg.setStringList(PLUGIN, pluginName, name, values);
       }
     }
     return this;

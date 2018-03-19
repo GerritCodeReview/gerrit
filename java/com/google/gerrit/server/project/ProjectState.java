@@ -14,12 +14,8 @@
 
 package com.google.gerrit.server.project;
 
-import static com.google.gerrit.common.data.PermissionRule.Action.ALLOW;
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
@@ -38,11 +34,9 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -54,36 +48,53 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
 import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
-import java.io.IOException;
 import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-/** Cached information on a project. */
+/**
+ * Encapsulation of all types of information about a project, including inheritance-aware getters.
+ *
+ * <p>{@code ProjectState} instances are not constructed by callers, but rather returned from the
+ * {@link ProjectCache}. The configuration data associated with a single project is read atomically
+ * from the repo using a {@link ProjectConfig}, but there is no guarantee of atomicity when walking
+ * parent projects; parent projects are simply resolved sequentially using the project cache.
+ */
 public class ProjectState {
-  private static final Logger log = LoggerFactory.getLogger(ProjectState.class);
-
-  public interface Factory {
-    ProjectState create(ProjectConfig config);
+  public static ProjectState createForTest(
+      SitePaths sitePaths,
+      ProjectCache projectCache,
+      AllProjectsName allProjectsName,
+      PrologEnvironment.Factory envFactory,
+      GitRepositoryManager gitMgr,
+      RulesCache rulesCache,
+      List<CommentLinkInfo> commentLinks,
+      ProjectCacheEntryFactory projectCacheEntryFactory,
+      ProjectConfig projectConfig) {
+    // This method is intentionally difficult to call, to avoid the need for a special factory that
+    // non-tests might be tempted to use. Only a very limited number of tests need to call this.
+    return new ProjectState(
+        sitePaths,
+        projectCache,
+        allProjectsName,
+        envFactory,
+        gitMgr,
+        rulesCache,
+        commentLinks,
+        projectCacheEntryFactory.create(projectConfig));
   }
 
-  private final boolean isAllProjects;
-  private final boolean isAllUsers;
+  interface Factory {
+    ProjectState create(ProjectCacheEntry cacheEntry);
+  }
+
   private final SitePaths sitePaths;
   private final AllProjectsName allProjectsName;
   private final ProjectCache projectCache;
@@ -92,101 +103,26 @@ public class ProjectState {
   private final RulesCache rulesCache;
   private final List<CommentLinkInfo> commentLinks;
 
-  private final ProjectConfig config;
-  private final Map<String, ProjectLevelConfig> configs;
-  private final Set<AccountGroup.UUID> localOwners;
-
-  /** Prolog rule state. */
-  private volatile PrologMachineCopy rulesMachine;
-
-  /** Last system time the configuration's revision was examined. */
-  private volatile long lastCheckGeneration;
-
-  /** Local access sections, wrapped in SectionMatchers for faster evaluation. */
-  private volatile List<SectionMatcher> localAccessSections;
-
-  /** Theme information loaded from site_path/themes. */
-  private volatile ThemeInfo theme;
-
-  /** If this is all projects, the capabilities used by the server. */
-  private final CapabilityCollection capabilities;
-
-  /** All label types applicable to changes in this project. */
-  private LabelTypes labelTypes;
+  private final ProjectCacheEntry cacheEntry;
 
   @Inject
-  public ProjectState(
-      final SitePaths sitePaths,
-      final ProjectCache projectCache,
-      final AllProjectsName allProjectsName,
-      final AllUsersName allUsersName,
-      final PrologEnvironment.Factory envFactory,
-      final GitRepositoryManager gitMgr,
-      final RulesCache rulesCache,
-      final List<CommentLinkInfo> commentLinks,
-      final CapabilityCollection.Factory limitsFactory,
-      @Assisted final ProjectConfig config) {
+  ProjectState(
+      SitePaths sitePaths,
+      ProjectCache projectCache,
+      AllProjectsName allProjectsName,
+      PrologEnvironment.Factory envFactory,
+      GitRepositoryManager gitMgr,
+      RulesCache rulesCache,
+      List<CommentLinkInfo> commentLinks,
+      @Assisted ProjectCacheEntry cacheEntry) {
     this.sitePaths = sitePaths;
     this.projectCache = projectCache;
-    this.isAllProjects = config.getProject().getNameKey().equals(allProjectsName);
-    this.isAllUsers = config.getProject().getNameKey().equals(allUsersName);
     this.allProjectsName = allProjectsName;
     this.envFactory = envFactory;
     this.gitMgr = gitMgr;
     this.rulesCache = rulesCache;
     this.commentLinks = commentLinks;
-    this.config = config;
-    this.configs = new HashMap<>();
-    this.capabilities =
-        isAllProjects
-            ? limitsFactory.create(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
-            : null;
-
-    if (isAllProjects && !Permission.canBeOnAllProjects(AccessSection.ALL, Permission.OWNER)) {
-      localOwners = Collections.emptySet();
-    } else {
-      HashSet<AccountGroup.UUID> groups = new HashSet<>();
-      AccessSection all = config.getAccessSection(AccessSection.ALL);
-      if (all != null) {
-        Permission owner = all.getPermission(Permission.OWNER);
-        if (owner != null) {
-          for (PermissionRule rule : owner.getRules()) {
-            GroupReference ref = rule.getGroup();
-            if (rule.getAction() == ALLOW && ref.getUUID() != null) {
-              groups.add(ref.getUUID());
-            }
-          }
-        }
-      }
-      localOwners = Collections.unmodifiableSet(groups);
-    }
-  }
-
-  void initLastCheck(long generation) {
-    lastCheckGeneration = generation;
-  }
-
-  boolean needsRefresh(long generation) {
-    if (generation <= 0) {
-      return isRevisionOutOfDate();
-    }
-    if (lastCheckGeneration != generation) {
-      lastCheckGeneration = generation;
-      return isRevisionOutOfDate();
-    }
-    return false;
-  }
-
-  private boolean isRevisionOutOfDate() {
-    try (Repository git = gitMgr.openRepository(getNameKey())) {
-      Ref ref = git.getRefDatabase().exactRef(RefNames.REFS_CONFIG);
-      if (ref == null || ref.getObjectId() == null) {
-        return true;
-      }
-      return !ref.getObjectId().equals(config.getRevision());
-    } catch (IOException gone) {
-      return true;
-    }
+    this.cacheEntry = cacheEntry;
   }
 
   /**
@@ -194,17 +130,12 @@ public class ProjectState {
    *     from {@link ProjectCache#getAllProjects()}. Null on any other project.
    */
   public CapabilityCollection getCapabilityCollection() {
-    return capabilities;
+    return cacheEntry.getCapabilityCollection();
   }
 
   /** @return Construct a new PrologEnvironment for the calling thread. */
   public PrologEnvironment newPrologEnvironment() throws CompileException {
-    PrologMachineCopy pmc = rulesMachine;
-    if (pmc == null) {
-      pmc = rulesCache.loadMachine(getNameKey(), config.getRulesId());
-      rulesMachine = pmc;
-    }
-    return envFactory.create(pmc);
+    return cacheEntry.newPrologEnvironment(rulesCache, envFactory);
   }
 
   /**
@@ -221,7 +152,7 @@ public class ProjectState {
   }
 
   public Project getProject() {
-    return config.getProject();
+    return getConfig().getProject();
   }
 
   public Project.NameKey getNameKey() {
@@ -233,27 +164,15 @@ public class ProjectState {
   }
 
   public ProjectConfig getConfig() {
-    return config;
+    return cacheEntry.getConfig();
   }
 
   public ProjectLevelConfig getConfig(String fileName) {
-    if (configs.containsKey(fileName)) {
-      return configs.get(fileName);
-    }
-
-    ProjectLevelConfig cfg = new ProjectLevelConfig(fileName, this);
-    try (Repository git = gitMgr.openRepository(getNameKey())) {
-      cfg.load(git);
-    } catch (IOException | ConfigInvalidException e) {
-      log.warn("Failed to load " + fileName + " for " + getName(), e);
-    }
-
-    configs.put(fileName, cfg);
-    return cfg;
+    return cacheEntry.getConfig(gitMgr, fileName);
   }
 
   public long getMaxObjectSizeLimit() {
-    return config.getMaxObjectSizeLimit();
+    return cacheEntry.getConfig().getMaxObjectSizeLimit();
   }
 
   public boolean statePermitsRead() {
@@ -280,30 +199,7 @@ public class ProjectState {
 
   /** Get the sections that pertain only to this project. */
   List<SectionMatcher> getLocalAccessSections() {
-    List<SectionMatcher> sm = localAccessSections;
-    if (sm == null) {
-      Collection<AccessSection> fromConfig = config.getAccessSections();
-      sm = new ArrayList<>(fromConfig.size());
-      for (AccessSection section : fromConfig) {
-        if (isAllProjects) {
-          List<Permission> copy = Lists.newArrayListWithCapacity(section.getPermissions().size());
-          for (Permission p : section.getPermissions()) {
-            if (Permission.canBeOnAllProjects(section.getName(), p.getName())) {
-              copy.add(p);
-            }
-          }
-          section = new AccessSection(section.getName());
-          section.setPermissions(copy);
-        }
-
-        SectionMatcher matcher = SectionMatcher.wrap(getNameKey(), section);
-        if (matcher != null) {
-          sm.add(matcher);
-        }
-      }
-      localAccessSections = sm;
-    }
-    return sm;
+    return cacheEntry.getLocalAccessSections();
   }
 
   /**
@@ -311,7 +207,7 @@ public class ProjectState {
    * cached. Callers should try to cache this result per-request as much as possible.
    */
   public List<SectionMatcher> getAllSections() {
-    if (isAllProjects) {
+    if (cacheEntry.isAllProjects()) {
       return getLocalAccessSections();
     }
 
@@ -329,8 +225,9 @@ public class ProjectState {
    */
   public Set<AccountGroup.UUID> getOwners() {
     for (ProjectState p : tree()) {
-      if (!p.localOwners.isEmpty()) {
-        return p.localOwners;
+      Set<AccountGroup.UUID> localOwners = p.cacheEntry.getLocalOwners();
+      if (!localOwners.isEmpty()) {
+        return localOwners;
       }
     }
     return Collections.emptySet();
@@ -346,7 +243,7 @@ public class ProjectState {
     Set<AccountGroup.UUID> result = new HashSet<>();
 
     for (ProjectState p : tree()) {
-      result.addAll(p.localOwners);
+      result.addAll(p.cacheEntry.getLocalOwners());
     }
 
     return result;
@@ -384,11 +281,11 @@ public class ProjectState {
   }
 
   public boolean isAllProjects() {
-    return isAllProjects;
+    return cacheEntry.isAllProjects();
   }
 
   public boolean isAllUsers() {
-    return isAllUsers;
+    return cacheEntry.isAllUsers();
   }
 
   public boolean is(BooleanProjectConfig config) {
@@ -408,10 +305,7 @@ public class ProjectState {
 
   /** All available label types. */
   public LabelTypes getLabelTypes() {
-    if (labelTypes == null) {
-      labelTypes = loadLabelTypes();
-    }
-    return labelTypes;
+    return cacheEntry.getLabelTypes(this);
   }
 
   /** All available label types for this change and user. */
@@ -482,21 +376,11 @@ public class ProjectState {
   }
 
   public ThemeInfo getTheme() {
-    ThemeInfo theme = this.theme;
-    if (theme == null) {
-      synchronized (this) {
-        theme = this.theme;
-        if (theme == null) {
-          theme = loadTheme();
-          this.theme = theme;
-        }
-      }
-    }
-    if (theme == ThemeInfo.INHERIT) {
-      ProjectState parent = Iterables.getFirst(parents(), null);
-      return parent != null ? parent.getTheme() : null;
-    }
-    return theme;
+    return cacheEntry.getTheme(this);
+  }
+
+  SitePaths getSitePaths() {
+    return sitePaths;
   }
 
   public Set<GroupReference> getAllGroups() {
@@ -530,52 +414,8 @@ public class ProjectState {
     return all;
   }
 
-  private ThemeInfo loadTheme() {
-    String name = getConfig().getProject().getName();
-    Path dir = sitePaths.themes_dir.resolve(name);
-    if (!Files.exists(dir)) {
-      return ThemeInfo.INHERIT;
-    } else if (!Files.isDirectory(dir)) {
-      log.warn("Bad theme for {}: not a directory", name);
-      return ThemeInfo.INHERIT;
-    }
-    try {
-      return new ThemeInfo(
-          readFile(dir.resolve(SitePaths.CSS_FILENAME)),
-          readFile(dir.resolve(SitePaths.HEADER_FILENAME)),
-          readFile(dir.resolve(SitePaths.FOOTER_FILENAME)));
-    } catch (IOException e) {
-      log.error("Error reading theme for " + name, e);
-      return ThemeInfo.INHERIT;
-    }
-  }
-
   public ProjectData toProjectData() {
     return new ProjectData(getProject(), parents().transform(s -> s.getProject().getNameKey()));
-  }
-
-  private String readFile(Path p) throws IOException {
-    return Files.exists(p) ? new String(Files.readAllBytes(p), UTF_8) : null;
-  }
-
-  private LabelTypes loadLabelTypes() {
-    Map<String, LabelType> types = new LinkedHashMap<>();
-    for (ProjectState s : treeInOrder()) {
-      for (LabelType type : s.getConfig().getLabelSections().values()) {
-        String lower = type.getName().toLowerCase();
-        LabelType old = types.get(lower);
-        if (old == null || old.canOverride()) {
-          types.put(lower, type);
-        }
-      }
-    }
-    List<LabelType> all = Lists.newArrayListWithCapacity(types.size());
-    for (LabelType type : types.values()) {
-      if (!type.getValues().isEmpty()) {
-        all.add(type);
-      }
-    }
-    return new LabelTypes(Collections.unmodifiableList(all));
   }
 
   private boolean match(Branch.NameKey destination, String refPattern, CurrentUser user) {

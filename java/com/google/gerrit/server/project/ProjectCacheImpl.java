@@ -60,7 +60,7 @@ public class ProjectCacheImpl implements ProjectCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(CACHE_NAME, String.class, ProjectState.class).loader(Loader.class);
+        cache(CACHE_NAME, String.class, ProjectCacheEntry.class).loader(Loader.class);
 
         cache(CACHE_LIST, ListKey.class, new TypeLiteral<ImmutableSortedSet<Project.NameKey>>() {})
             .maximumWeight(1)
@@ -68,6 +68,7 @@ public class ProjectCacheImpl implements ProjectCache {
 
         bind(ProjectCacheImpl.class);
         bind(ProjectCache.class).to(ProjectCacheImpl.class);
+        factory(ProjectState.Factory.class);
 
         install(
             new LifecycleModule() {
@@ -81,29 +82,35 @@ public class ProjectCacheImpl implements ProjectCache {
     };
   }
 
+  private final LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list;
+  private final LoadingCache<String, ProjectCacheEntry> byName;
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
-  private final LoadingCache<String, ProjectState> byName;
-  private final LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list;
+  private final GitRepositoryManager repoManager;
   private final Lock listLock;
   private final ProjectCacheClock clock;
+  private final ProjectState.Factory projectStateFactory;
   private final Provider<ProjectIndexer> indexer;
 
   @Inject
   ProjectCacheImpl(
-      final AllProjectsName allProjectsName,
-      final AllUsersName allUsersName,
-      @Named(CACHE_NAME) LoadingCache<String, ProjectState> byName,
       @Named(CACHE_LIST) LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list,
+      @Named(CACHE_NAME) LoadingCache<String, ProjectCacheEntry> byName,
+      AllProjectsName allProjectsName,
+      AllUsersName allUsersName,
+      GitRepositoryManager repoManager,
       ProjectCacheClock clock,
+      ProjectState.Factory projectStateFactory,
       Provider<ProjectIndexer> indexer) {
+    this.list = list;
+    this.byName = byName;
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
-    this.byName = byName;
-    this.list = list;
-    this.listLock = new ReentrantLock(true /* fair */);
-    this.clock = clock;
     this.indexer = indexer;
+    this.repoManager = repoManager;
+    this.clock = clock;
+    this.projectStateFactory = projectStateFactory;
+    this.listLock = new ReentrantLock(true /* fair */);
   }
 
   @Override
@@ -143,12 +150,12 @@ public class ProjectCacheImpl implements ProjectCache {
       return null;
     }
     try {
-      ProjectState state = byName.get(projectName.get());
-      if (state != null && state.needsRefresh(clock.read())) {
+      ProjectCacheEntry entry = byName.get(projectName.get());
+      if (entry != null && entry.needsRefresh(clock.read(), repoManager)) {
         byName.invalidate(projectName.get());
-        state = byName.get(projectName.get());
+        entry = byName.get(projectName.get());
       }
-      return state;
+      return projectStateFactory.create(entry);
     } catch (ExecutionException e) {
       if (!(e.getCause() instanceof RepositoryNotFoundException)) {
         log.warn(String.format("Cannot read project %s", projectName.get()), e);
@@ -245,29 +252,33 @@ public class ProjectCacheImpl implements ProjectCache {
     }
   }
 
-  static class Loader extends CacheLoader<String, ProjectState> {
-    private final ProjectState.Factory projectStateFactory;
-    private final GitRepositoryManager mgr;
+  @Singleton
+  static class Loader extends CacheLoader<String, ProjectCacheEntry> {
+    private final GitRepositoryManager repoManager;
     private final ProjectCacheClock clock;
+    private final ProjectCacheEntryFactory projectCacheEntryFactory;
 
     @Inject
-    Loader(ProjectState.Factory psf, GitRepositoryManager g, ProjectCacheClock clock) {
-      projectStateFactory = psf;
-      mgr = g;
+    Loader(
+        GitRepositoryManager repoManager,
+        ProjectCacheClock clock,
+        ProjectCacheEntryFactory projectCacheEntryFactory) {
+      this.projectCacheEntryFactory = projectCacheEntryFactory;
+      this.repoManager = repoManager;
       this.clock = clock;
     }
 
     @Override
-    public ProjectState load(String projectName) throws Exception {
+    public ProjectCacheEntry load(String projectName) throws Exception {
       long now = clock.read();
       Project.NameKey key = new Project.NameKey(projectName);
-      try (Repository git = mgr.openRepository(key)) {
+      try (Repository git = repoManager.openRepository(key)) {
         ProjectConfig cfg = new ProjectConfig(key);
         cfg.load(git);
 
-        ProjectState state = projectStateFactory.create(cfg);
-        state.initLastCheck(now);
-        return state;
+        ProjectCacheEntry entry = projectCacheEntryFactory.create(cfg);
+        entry.initLastCheck(now);
+        return entry;
       }
     }
   }

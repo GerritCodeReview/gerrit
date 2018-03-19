@@ -46,17 +46,15 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.SingleVersionModule.SingleVersionListener;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectCacheEntryFactory;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.project.testing.Util;
@@ -183,7 +181,6 @@ public class RefControlTest {
 
   private final AllProjectsName allProjectsName =
       new AllProjectsName(AllProjectsNameProvider.DEFAULT);
-  private final AllUsersName allUsersName = new AllUsersName(AllUsersNameProvider.DEFAULT);
   private final AccountGroup.UUID fixers = new AccountGroup.UUID("test.fixers");
   private final Map<Project.NameKey, ProjectState> all = new HashMap<>();
   private Project.NameKey localKey = new Project.NameKey("local");
@@ -196,13 +193,13 @@ public class RefControlTest {
   private ChangeControl.Factory changeControlFactory;
   private ReviewDb db;
 
+  @Inject private DefaultRefFilter.Factory refFilterFactory;
+  @Inject private InMemoryDatabase schemaFactory;
   @Inject private PermissionBackend permissionBackend;
-  @Inject private CapabilityCollection.Factory capabilityCollectionFactory;
+  @Inject private ProjectCacheEntryFactory projectCacheEntryFactory;
   @Inject private SchemaCreator schemaCreator;
   @Inject private SingleVersionListener singleVersionListener;
-  @Inject private InMemoryDatabase schemaFactory;
   @Inject private ThreadLocalRequestContext requestContext;
-  @Inject private DefaultRefFilter.Factory refFilterFactory;
 
   @Before
   public void setUp() throws Exception {
@@ -958,16 +955,15 @@ public class RefControlTest {
     }
     all.put(
         pc.getName(),
-        new ProjectState(
+        ProjectState.createForTest(
             sitePaths,
             projectCache,
             allProjectsName,
-            allUsersName,
             envFactory,
             repoManager,
             rulesCache,
             commentLinks,
-            capabilityCollectionFactory,
+            projectCacheEntryFactory,
             pc));
     return repo;
   }

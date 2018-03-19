@@ -248,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "4b725607_16c5c342",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-19T22:18:26Z",
+      "side": 1,
+      "message": "Nope, thanks, done.",
+      "parentUuid": "65b4d3b8_ab58daf4",
+      "range": {
+        "startLine": 758,
+        "startChar": 8,
+        "endLine": 758,
+        "endChar": 23
+      },
+      "revId": "07523e6b99f051733c4197540549b134c0410d11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1c38269b_61ab6798",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 13
@@ -271,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "43f466a1_36349a80",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-19T22:18:26Z",
+      "side": 1,
+      "message": "Nope, i doin\u0027t think so.\n\nI\u0027ve removed it now.\n\nThanks, done.",
+      "parentUuid": "1c38269b_61ab6798",
+      "range": {
+        "startLine": 761,
+        "startChar": 16,
+        "endLine": 765,
+        "endChar": 17
+      },
+      "revId": "07523e6b99f051733c4197540549b134c0410d11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "47c45f21_f166008a",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 13
@@ -282,6 +330,30 @@
       "writtenOn": "2018-03-19T22:01:37Z",
       "side": 1,
       "message": "Is any of this used?",
+      "range": {
+        "startLine": 770,
+        "startChar": 31,
+        "endLine": 776,
+        "endChar": 9
+      },
+      "revId": "07523e6b99f051733c4197540549b134c0410d11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4fc3e01_54a3f561",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-19T22:18:26Z",
+      "side": 1,
+      "message": "Nope, removed, thanks, done.",
+      "parentUuid": "47c45f21_f166008a",
       "range": {
         "startLine": 770,
         "startChar": 31,

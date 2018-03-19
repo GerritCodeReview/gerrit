@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2723d3c_c2c316db",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-19T23:37:21Z",
+      "side": 1,
+      "message": "I don\u0027t think you need this change? (at least not anymore) do you?",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 25,
+        "endChar": 8
+      },
+      "revId": "77884500514e53dd289f66c47d99944175f68914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3abab5ac_d1a54136",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-19T23:37:21Z",
+      "side": 1,
+      "message": "Object.assign({}, data.my) \n\nThis way we don\u0027t manipulate the actual response itself.",
+      "range": {
+        "startLine": 67,
+        "startChar": 32,
+        "endLine": 67,
+        "endChar": 39
+      },
+      "revId": "77884500514e53dd289f66c47d99944175f68914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49a8e02c_f79361ec",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-19T23:37:21Z",
+      "side": 1,
+      "message": "There should be something here to test handleResetButton",
+      "revId": "77884500514e53dd289f66c47d99944175f68914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c868d4bb_743c1bde",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-19T23:37:21Z",
+      "side": 1,
+      "message": "Can these down to new lines each (see gr-buttons right below)",
+      "range": {
+        "startLine": 336,
+        "startChar": 25,
+        "endLine": 336,
+        "endChar": 68
+      },
+      "revId": "77884500514e53dd289f66c47d99944175f68914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c01af3a5_101f6e1d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-19T23:37:21Z",
+      "side": 1,
+      "message": "You could add an assertion here that the menus differ",
+      "revId": "77884500514e53dd289f66c47d99944175f68914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86a6109d_6be0153e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-19T23:37:21Z",
+      "side": 1,
+      "message": "deepEqual",
+      "range": {
+        "startLine": 431,
+        "startChar": 13,
+        "endLine": 431,
+        "endChar": 18
+      },
+      "revId": "77884500514e53dd289f66c47d99944175f68914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "279a3731_9e271e56",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-19T23:37:21Z",
+      "side": 1,
+      "message": "I don\u0027t think you need any of this now either",
+      "range": {
+        "startLine": 757,
+        "startChar": 68,
+        "endLine": 760,
+        "endChar": 12
+      },
+      "revId": "77884500514e53dd289f66c47d99944175f68914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

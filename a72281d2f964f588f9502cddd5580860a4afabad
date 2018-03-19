@@ -70,6 +70,30 @@
       "revId": "a72281d2f964f588f9502cddd5580860a4afabad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d76052a9_c672f612",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-19T21:12:54Z",
+      "side": 1,
+      "message": "\u003e For my information, how do you get current user before it\n \u003e was authenticated? AFAIK, AllRequestsFilter runs before\n \u003e any servlet filters in Gerrit core, right? And only a filter in\n \u003e Gerrit core (like ProjectBasicAuthFilter) will authenticate\n \u003e the user. Therefore any plugin contributed filters\n \u003e run before (basic) authentication happens.\n\nThe answer to your question is the dispatching order, as documented n guice WIKI: [1]:\n\n  They will be compared and dispatched in the order\n  in which the rules appear in your ServletModule.\n\nIn Daemon#createWebInjector() we have this:\n\n  [...]\n  modules.add(RequestContextFilter.module());\n  modules.add(AllRequestFilter.module());\n  modules.add(RequestMetricsFilter.module());\n  modules.add(H2CacheBasedWebSession.module());\n  modules.add(sysInjector.getInstance(GitOverHttpModule.class));\n  [...]\n\nThe are two major use cases to consider:\n\n* 1. Gerrit UI request: when authenticated user session is found and set in RequestContextFilter, before AllRequestFilter, that\u0027s why in AllRequestFilter we have a user. Example: in plugin implemented AllRequestFilter with this code: [2], that produces this output:\n\n  Account: 1000000 username: admin\n\n* 2. REST API request: e.g.:\n\n  $ curl --user admin:secret http://localhost:8080/a/config/server/version\n  \"2.14.7-9-g9ebfce95b7-dirty\"\n\nHere the AllRequestFilter is bound before GitOverHttpModule, that provides ProjectBasicAuthFilter filter, and thus, as you said, there is no identified user, the code in: [2] produces: by the request above:\n\n  anonymous\n\nSo what this series is trying to achive is to bind AllRequestfilter *after* GitOverHttpModule.\n\nInstead of splitting AllRequestFilter in two, by preserving the old one and split of new AllAuthenticatedRequestFilter, what id we just change the semantic of the old AllRequestFilter that is run after ProjectBasicAuthFilter?\n\nSo the much less intrusive change that do what the whol series is doing, is to change these two lines: [3].\n\nWith this two lines changed, running:\n\n  $ curl --user admin:secret http://localhost:8080/a/config/server/version\n\nproduces, would give you the user as expected:\n\n  Account: 1000000 username: admin\n\nThe better question, what would we lose with those two lines? In any event, the commit message should mention the dispatch order of guice filter binding and reflect on that considered alternative: to re-order AllRequestFilter to be bound after the ProjectBasicAuthFilter.\n\n\n* [1] https://github.com/google/guice/wiki/ServletModule#dispatch-order\n* [2] http://paste.openstack.org/show/705126\n* [3] http://paste.openstack.org/show/705146",
+      "parentUuid": "baa0237c_67d3b756",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 44
+      },
+      "revId": "a72281d2f964f588f9502cddd5580860a4afabad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a29b53d_621ae930",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-19T05:48:12Z",
+      "side": 1,
+      "message": "I530116c8c5a is WIP and has CR-1.  Should this change, and the preceding change which also has CR+2 and VR+1, be set to a common topic with I530116c8c5a to prevent them being submitted before I530116c8c5a is ready?",
+      "range": {
+        "startLine": 11,
+        "startChar": 19,
+        "endLine": 11,
+        "endChar": 72
+      },
+      "revId": "356f40393576c133327087e3419b072d0c1d2dfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -623,6 +623,7 @@
         this._diffTableClass = 'full-width';
         if (this.viewMode === 'SIDE_BY_SIDE') {
           stylesToUpdate['--content-width'] = 'none';
+          stylesToUpdate['--line-limit'] = prefs.line_length + 'ch';
         }
       } else {
         this._diffTableClass = '';

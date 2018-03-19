@@ -94,6 +94,30 @@
       "revId": "a72281d2f964f588f9502cddd5580860a4afabad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d465ff2c_45d7d3f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-03-19T22:01:38Z",
+      "side": 1,
+      "message": "\u003e Here the AllRequestFilter is bound before GitOverHttpModule, that provides ProjectBasicAuthFilter filter, and thus, as you said, there is no identified user, the code in: [2] produces: by the request above:\n\u003e \n\u003e   anonymous\n\u003e \n\u003e So what this series is trying to achive is to bind AllRequestfilter *after* GitOverHttpModule.\n\nYes\n\n\u003e \n\u003e Instead of splitting AllRequestFilter in two, by preserving the old one and split of new AllAuthenticatedRequestFilter, what id we just change the semantic of the old AllRequestFilter that is run after ProjectBasicAuthFilter?\n\nInteresting proposal.\n\n\u003e \n\u003e So the much less intrusive change that do what the whol series is doing, is to change these two lines: [3].\n\u003e \n\u003e With this two lines changed, running:\n\u003e \n\u003e   $ curl --user admin:secret http://localhost:8080/a/config/server/version\n\u003e \n\u003e produces, would give you the user as expected:\n\u003e \n\u003e   Account: 1000000 username: admin\n\u003e \n\u003e The better question, what would we lose with those two lines?\n\nhmm... it is hard to find a good example... \nAnyway, the way how AllRequestsFilter extension point currently works\ncan be confusing for plugin developers as you already commented: Provider\u003cCurrentUser\u003e\nmay work or NOT work depending on how a REST API endpoint was invoked: from UI\nor via basic auth.\nSince we don\u0027t have this difference in Gerrit core, why should we have it\nin plugins?",
+      "parentUuid": "d76052a9_c672f612",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 44
+      },
+      "revId": "a72281d2f964f588f9502cddd5580860a4afabad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

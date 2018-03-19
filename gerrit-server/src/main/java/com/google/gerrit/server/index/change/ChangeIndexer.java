@@ -166,7 +166,7 @@ public class ChangeIndexer {
   }
 
   private static boolean autoReindexIfStale(Config cfg) {
-    return cfg.getBoolean("index", null, "autoReindexIfStale", true);
+    return cfg.getBoolean("index", null, "autoReindexIfStale", false);
   }
 
   /**

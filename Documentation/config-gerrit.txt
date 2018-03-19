@@ -2726,7 +2726,7 @@ immediately after indexing it. If false, there is a race condition during two
 simultaneous writes that may cause one of the writes to not be reflected in the
 index. The check to avoid this does consume some resources.
 +
-Defaults to true.
+Defaults to false.
 
 ==== Lucene configuration
 

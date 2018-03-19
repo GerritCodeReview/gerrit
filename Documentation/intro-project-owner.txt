@@ -88,7 +88,7 @@ get informed about it by email.
 Normally when a new project is created in Gerrit it already has some
 access rights which are inherited from the parent projects.
 Projects in Gerrit are organized hierarchically as a tree with the
-`All-Projects' project as root from which all projects inherit. Each
+`All-Projects` project as root from which all projects inherit. Each
 project can have only a single parent project, multi-inheritance is
 not supported.
 
@@ -227,12 +227,12 @@ As project owner you can control several options on your project.
 The different options are described in the
 link:project-configuration.html#project_options[Project Options] section.
 
-To see the options of your project
+To see the options of your project:
 
-- go to the Gerrit Web UI
-- click on the `Projects` > `List` menu entry
-- find your project in the project list and click on it
-- click on the `General` menu entry
+. Go to the Gerrit Web UI.
+. Click on the `Projects` > `List` menu entry.
+. Find your project in the project list and click it.
+. Click the `General` menu entry.
 
 [[submit-type]]
 === Submit Type
@@ -761,11 +761,11 @@ link:project-configuration.html#project-state[project state] to `ReadOnly` or
 
 Gerrit core does not support the renaming of projects.
 
-As workaround you may
+As workaround you can perform the following steps:
 
-. link:#project-creation[create a new project] with the new name
-. link:#import-history[import the history of the old project]
-. link:#project-deletion[delete the old project]
+. link:#project-creation[Create a new project] with the new name.
+. link:#import-history[Import the history of the old project].
+. link:#project-deletion[Delete the old project].
 
 Please note that a drawback of this workaround is that the whole review
 history (changes, review comments) is lost.

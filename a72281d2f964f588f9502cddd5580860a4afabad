@@ -118,6 +118,30 @@
       "revId": "a72281d2f964f588f9502cddd5580860a4afabad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cb68ae5_735e31c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-19T22:20:10Z",
+      "side": 1,
+      "message": "\u003e Anyway, the way how AllRequestsFilter extension point currently\n \u003e works\n \u003e can be confusing for plugin developers as you already commented:\n \u003e Provider\u003cCurrentUser\u003e\n \u003e may work or NOT work depending on how a REST API endpoint was\n \u003e invoked: from UI\n \u003e or via basic auth.\n\nIt\u0027s not only confusing, it could also be considered as broken, as there currently now way to access identified user from plugin AllRequestsFilter in REST API call (in fact, otherwise this series wouldn\u0027t exist).\n\n \u003e Since we don\u0027t have this difference in Gerrit core, why should we have it in plugins?\n\nRight. It should just work in both kind of requests. I someone would argue that there should be extension point for the very first filter bound, before any other requests hit gerrit server, then AllFirstRequestFilter would need to be bound before the RequestContextFilter filter:\n\n  modules.add(AllFirstRequestFilter.module());\n  modules.add(RequestContextFilter.module());\n\nBut then there would be a huge problem: What if this plugin logic that is using AllFirstRequestFilter, would need to access protected resources, like Javamelody plugin and would need to check current identified user ACL? This would be impossible with this approach.\n\n//CC Dave and Luca. Personally, I don\u0027t see any reason not to change the semantic of AllRequestsFilter, and synchronize request behavior for both kind of requests: UI \u0026 REST API and allow to access identified user in both kinds of requests.",
+      "parentUuid": "d465ff2c_45d7d3f4",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 44
+      },
+      "revId": "a72281d2f964f588f9502cddd5580860a4afabad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -63,6 +63,10 @@ public class GcAllUsers {
       logOneLine.accept("Skipping GC of " + allUsers + "; not a local disk repo");
       return;
     }
+    if (progressWriter == null) {
+      // Mimic log line from GarbageCollection.
+      logOneLine.accept("collecting garbage for \"" + allUsers + "\":\n");
+    }
     GarbageCollectionResult result =
         gcFactory.create().run(ImmutableList.of(allUsers), progressWriter);
     if (!result.hasErrors()) {

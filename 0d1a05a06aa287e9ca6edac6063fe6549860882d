@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74f5aa13_fb0ffc55",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-19T22:09:58Z",
+      "side": 1,
+      "message": "Optional non blocker: it\u0027d probably be slightly easier on the browser to tile if the image were 100 or 1000 pixels tall, and the PNG would probably compress to the same size.\n\nOtherwise, if a diff is 100k pixels tall, it\u0027d have to tile the image 200k times. IDK, maybe the difference isn\u0027t measurable, though.",
+      "range": {
+        "startLine": 250,
+        "startChar": 8,
+        "endLine": 251,
+        "endChar": 140
+      },
+      "revId": "0d1a05a06aa287e9ca6edac6063fe6549860882d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

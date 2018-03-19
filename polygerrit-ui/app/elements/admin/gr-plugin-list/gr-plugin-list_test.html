@@ -130,8 +130,12 @@ limitations under the License.
           offset: 25,
         };
         element._paramsChanged(value).then(() => {
-          assert.isTrue(element.$.restAPI.getPlugins.lastCall
-              .calledWithExactly('test', 25, 25));
+          assert.equal(element.$.restAPI.getPlugins.lastCall.args[0],
+              'test');
+          assert.equal(element.$.restAPI.getPlugins.lastCall.args[1],
+              25);
+          assert.equal(element.$.restAPI.getPlugins.lastCall.args[2],
+              25);
           done();
         });
       });
@@ -149,6 +153,27 @@ limitations under the License.
         flushAsynchronousOperations();
         assert.equal(element.computeLoadingClass(element._loading), '');
         assert.equal(getComputedStyle(element.$.loading).display, 'none');
+      });
+    });
+
+    suite('404', () => {
+      test('fires page-error', done => {
+        const response = {status: 404};
+        sandbox.stub(element.$.restAPI, 'getPlugins',
+            (filter, pluginsPerPage, opt_offset, errFn) => {
+              errFn(response);
+            });
+
+        element.addEventListener('page-error', e => {
+          assert.deepEqual(e.detail.response, response);
+          done();
+        });
+
+        const value = {
+          filter: 'test',
+          offset: 25,
+        };
+        element._paramsChanged(value);
       });
     });
   });

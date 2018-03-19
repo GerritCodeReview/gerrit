@@ -1048,8 +1048,34 @@
         return this.getChangeEditFiles(changeNum, patchRange).then(res =>
           this._normalizeChangeFilesResponse(res.files));
       }
-      return this.getChangeFiles(changeNum, patchRange).then(
+      return Promise.all([this.getChangeFiles(changeNum, patchRange), this.getDiffComments(changeNum)])
+          .then(changeFilesAndComments => {
+            const filePaths = changeFilesAndComments[0];
+            const comments = changeFilesAndComments[1];
+            this._appendCommentedFilePaths(comments, patchRange, filePaths);
+            return filePaths;
+          }).then(
           this._normalizeChangeFilesResponse.bind(this));
+    },
+
+    /**
+     * Append commented file paths to the file path map if the formers are not already in the map
+     * @param filesComments Comments per file path
+     * @param patchRange The patch range the comments should match
+     * @param filePaths The file paths map
+     * @private
+     */
+    _appendCommentedFilePaths(filesComments, patchRange, filePaths){
+      Object.keys(filesComments).forEach(filename => {
+        if (Object.keys(filePaths).indexOf(filename) !== -1) {
+          return;
+        }
+        const fileComments = filesComments[filename];
+        if (!fileComments.some(fileComment => fileComment.patch_set == patchRange.basePatchNum)) {
+          return;
+        }
+        filePaths[filename] = {status: 'U'};
+      });
     },
 
     /**

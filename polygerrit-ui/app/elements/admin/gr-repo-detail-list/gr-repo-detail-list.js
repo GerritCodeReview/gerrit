@@ -115,16 +115,19 @@
       this._loading = true;
       this._items = [];
       Polymer.dom.flush();
+      const errFn = response => {
+        this.fire('page-error', {response});
+      };
       if (detailType === DETAIL_TYPES.BRANCHES) {
         return this.$.restAPI.getRepoBranches(
-            filter, repo, itemsPerPage, offset) .then(items => {
+            filter, repo, itemsPerPage, offset, errFn).then(items => {
               if (!items) { return; }
               this._items = items;
               this._loading = false;
             });
       } else if (detailType === DETAIL_TYPES.TAGS) {
         return this.$.restAPI.getRepoTags(
-            filter, repo, itemsPerPage, offset) .then(items => {
+            filter, repo, itemsPerPage, offset, errFn).then(items => {
               if (!items) { return; }
               this._items = items;
               this._loading = false;

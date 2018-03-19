@@ -70,6 +70,20 @@ limitations under the License.
       assert.equal(element._diffLength(mock.diffResponse), 52);
     });
 
+    test('line limit with line_wrapping', () => {
+      element = fixture('basic');
+      element.prefs = {line_wrapping: true, line_length: 80, tab_size: 2};
+      flushAsynchronousOperations();
+      assert.equal(element.customStyle['--line-limit'], '80ch');
+    });
+
+    test('line limit without line_wrapping', () => {
+      element = fixture('basic');
+      element.prefs = {line_wrapping: false, line_length: 80, tab_size: 2};
+      flushAsynchronousOperations();
+      assert.isNotOk(element.customStyle['--line-limit']);
+    });
+
     suite('_get{PatchNum|IsParentComment}ByLineAndContent', () => {
       let lineEl;
       let contentEl;

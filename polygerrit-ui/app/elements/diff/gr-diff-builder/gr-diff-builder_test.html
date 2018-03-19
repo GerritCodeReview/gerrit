@@ -156,8 +156,18 @@ limitations under the License.
       const text = 'a'.repeat(51);
 
       const line = {text, highlights: []};
-      const result = builder._createTextEl(line).firstChild.innerHTML;
+      const result = builder._createTextEl(line).querySelector('.contentText')
+          .innerHTML;
       assert.equal(result, text);
+    });
+
+    test('line indicator is shown if line_wrapping is true', () => {
+      builder._prefs = {line_wrapping: true, tab_size: 4, line_length: 50};
+      const text = 'a'.repeat(51);
+
+      const line = {text, highlights: []};
+      const result = builder._createTextEl(line).querySelector('.lineLimit');
+      assert.isOk(result);
     });
 
     test('line_length applied if line_wrapping is false', () => {
@@ -166,8 +176,19 @@ limitations under the License.
 
       const line = {text, highlights: []};
       const expected = 'a'.repeat(50) + LINE_FEED_HTML + 'a';
-      const result = builder._createTextEl(line).firstChild.innerHTML;
+      const result = builder._createTextEl(line).querySelector('.contentText')
+          .innerHTML;
       assert.equal(result, expected);
+    });
+
+
+    test('line indicator is NOT shown if line_wrapping is FALSE', () => {
+      builder._prefs = {line_wrapping: false, tab_size: 4, line_length: 50};
+      const text = 'a'.repeat(51);
+
+      const line = {text, highlights: []};
+      const result = builder._createTextEl(line).querySelector('.lineLimit');
+      assert.isNotOk(result);
     });
 
     test('_createTextEl linewrap with tabs', () => {

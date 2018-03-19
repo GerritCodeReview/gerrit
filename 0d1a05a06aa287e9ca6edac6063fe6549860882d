@@ -70,6 +70,30 @@
       "revId": "0d1a05a06aa287e9ca6edac6063fe6549860882d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db00329d_f42a9bd9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-19T22:29:51Z",
+      "side": 1,
+      "message": "Yeah.. I updated to 1x30 to just make more sense :)",
+      "parentUuid": "5714c3c4_8b459f3c",
+      "range": {
+        "startLine": 250,
+        "startChar": 8,
+        "endLine": 251,
+        "endChar": 140
+      },
+      "revId": "0d1a05a06aa287e9ca6edac6063fe6549860882d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

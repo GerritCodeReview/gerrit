@@ -46,6 +46,30 @@
       "revId": "0d1a05a06aa287e9ca6edac6063fe6549860882d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5714c3c4_8b459f3c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-19T22:25:51Z",
+      "side": 1,
+      "message": "I just realized that the background is being applied to each line. For some reason I had thought it applied to the whole table only twice. I guess anything above 20 or so is unused in that case.\n\nStill, this seems to work fine.",
+      "parentUuid": "6b83628a_c161166d",
+      "range": {
+        "startLine": 250,
+        "startChar": 8,
+        "endLine": 251,
+        "endChar": 140
+      },
+      "revId": "0d1a05a06aa287e9ca6edac6063fe6549860882d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

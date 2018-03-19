@@ -81,7 +81,10 @@
     },
 
     _getPlugins(filter, pluginsPerPage, offset) {
-      return this.$.restAPI.getPlugins(filter, pluginsPerPage, offset)
+      const errFn = response => {
+        this.fire('page-error', {response});
+      };
+      return this.$.restAPI.getPlugins(filter, pluginsPerPage, offset, errFn)
           .then(plugins => {
             if (!plugins) {
               this._plugins = [];

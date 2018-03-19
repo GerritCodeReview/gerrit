@@ -239,6 +239,22 @@ limitations under the License.
         overflow: hidden;
         width: 200px;
       }
+      /** Support the line length indicator **/
+      .full-width td.content,
+      .full-width td.blank {
+        position: relative;
+        overflow: hidden;
+      }
+      .lineLimit {
+        width: var(--line-limit);
+        position: absolute;
+        height: 100%;
+        border-right: 1px solid #ddd;
+        z-index: 1;
+      }
+      .full-width .blank {
+        font-size: var(--font-size, var(--font-size-small));
+      }
     </style>
     <style include="gr-theme-default"></style>
     <div id="diffHeader" hidden$="[[_computeDiffHeaderHidden(_diffHeaderItems)]]">

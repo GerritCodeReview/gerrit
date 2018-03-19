@@ -23,7 +23,10 @@ limitations under the License.
     <style include="shared-styles">
       :host {
         display: block;
+        position: relative;
         white-space: normal;
+        /* Above the line length indicator */
+        z-index: 2;
       }
       gr-diff-comment-thread + gr-diff-comment-thread {
         margin-top: .2em;

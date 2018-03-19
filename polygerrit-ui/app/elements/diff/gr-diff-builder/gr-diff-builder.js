@@ -443,6 +443,11 @@
     const lineLimit =
         !this._prefs.line_wrapping ? this._prefs.line_length : Infinity;
 
+    if (lineLimit === Infinity) {
+      const lineLimitEl = this._createElement('span', 'lineLimit');
+      td.appendChild(lineLimitEl);
+    }
+
     const contentText =
         this._formatText(line.text, this._prefs.tab_size, lineLimit);
     if (opt_side) {

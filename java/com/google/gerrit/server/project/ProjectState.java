@@ -47,7 +47,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.git.ProjectLevelConfig;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.rules.PrologEnvironment;
 import com.google.gerrit.server.rules.RulesCache;

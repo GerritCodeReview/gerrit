@@ -31,7 +31,6 @@ import com.google.gerrit.server.config.VerboseSuperprojectUpdate;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateListener;
 import com.google.gerrit.server.update.RepoContext;
@@ -98,7 +97,6 @@ public class SubmoduleOp {
     private final PersonIdent myIdent;
     private final Config cfg;
     private final ProjectCache projectCache;
-    private final ProjectState.Factory projectStateFactory;
     private final BatchUpdate.Factory batchUpdateFactory;
 
     @Inject
@@ -107,27 +105,18 @@ public class SubmoduleOp {
         @GerritPersonIdent PersonIdent myIdent,
         @GerritServerConfig Config cfg,
         ProjectCache projectCache,
-        ProjectState.Factory projectStateFactory,
         BatchUpdate.Factory batchUpdateFactory) {
       this.gitmodulesFactory = gitmodulesFactory;
       this.myIdent = myIdent;
       this.cfg = cfg;
       this.projectCache = projectCache;
-      this.projectStateFactory = projectStateFactory;
       this.batchUpdateFactory = batchUpdateFactory;
     }
 
     public SubmoduleOp create(Set<Branch.NameKey> updatedBranches, MergeOpRepoManager orm)
         throws SubmoduleException {
       return new SubmoduleOp(
-          gitmodulesFactory,
-          myIdent,
-          cfg,
-          projectCache,
-          projectStateFactory,
-          batchUpdateFactory,
-          updatedBranches,
-          orm);
+          gitmodulesFactory, myIdent, cfg, projectCache, batchUpdateFactory, updatedBranches, orm);
     }
   }
 
@@ -136,7 +125,6 @@ public class SubmoduleOp {
   private final GitModules.Factory gitmodulesFactory;
   private final PersonIdent myIdent;
   private final ProjectCache projectCache;
-  private final ProjectState.Factory projectStateFactory;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final VerboseSuperprojectUpdate verboseSuperProject;
   private final boolean enableSuperProjectSubscriptions;
@@ -163,7 +151,6 @@ public class SubmoduleOp {
       PersonIdent myIdent,
       Config cfg,
       ProjectCache projectCache,
-      ProjectState.Factory projectStateFactory,
       BatchUpdate.Factory batchUpdateFactory,
       Set<Branch.NameKey> updatedBranches,
       MergeOpRepoManager orm)
@@ -171,7 +158,6 @@ public class SubmoduleOp {
     this.gitmodulesFactory = gitmodulesFactory;
     this.myIdent = myIdent;
     this.projectCache = projectCache;
-    this.projectStateFactory = projectStateFactory;
     this.batchUpdateFactory = batchUpdateFactory;
     this.verboseSuperProject =
         cfg.getEnum("submodule", null, "verboseSuperprojectUpdate", VerboseSuperprojectUpdate.TRUE);
@@ -335,8 +321,7 @@ public class SubmoduleOp {
     logDebug("Calculating possible superprojects for " + srcBranch);
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
     Project.NameKey srcProject = srcBranch.getParentKey();
-    ProjectConfig cfg = projectCache.get(srcProject).getConfig();
-    for (SubscribeSection s : projectStateFactory.create(cfg).getSubscribeSections(srcBranch)) {
+    for (SubscribeSection s : projectCache.get(srcProject).getSubscribeSections(srcBranch)) {
       logDebug("Checking subscribe section " + s);
       Collection<Branch.NameKey> branches = getDestinationBranches(srcBranch, s);
       for (Branch.NameKey targetBranch : branches) {

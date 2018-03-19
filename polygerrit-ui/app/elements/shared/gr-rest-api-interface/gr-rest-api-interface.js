@@ -1048,8 +1048,48 @@
         return this.getChangeEditFiles(changeNum, patchRange).then(res =>
           this._normalizeChangeFilesResponse(res.files));
       }
-      return this.getChangeFiles(changeNum, patchRange).then(
-          this._normalizeChangeFilesResponse.bind(this));
+      return Promise.all([
+        this.getChangeFiles(changeNum, patchRange),
+        this.getDiffComments(changeNum),
+      ]).then(changeFilesAndComments => {
+        const filePaths = changeFilesAndComments[0];
+        const comments = changeFilesAndComments[1];
+        this._appendCommentedFilePaths(comments, patchRange, filePaths);
+        return filePaths;
+      }).then(this._normalizeChangeFilesResponse.bind(this));
+    },
+
+    /**
+     * Append commented file paths to the file path map if the formers are not already in the map
+     * @param filesComments Comments per file path
+     * @param patchRange The patch range the comments should match
+     * @param filePaths The file paths map
+     * @private
+     */
+    _appendCommentedFilePaths(filesComments, patchRange, filePaths) {
+      Object.keys(filesComments).forEach(filename => {
+        if (Object.keys(filePaths).indexOf(filename) !== -1) {
+          return;
+        }
+        for (const fileComment of filesComments[filename]) {
+          if (!this._fileCommentMatchesPatchRange(fileComment, patchRange)) {
+            continue;
+          }
+          filePaths[filename] = {status: 'U'};
+          break;
+        }
+      });
+    },
+
+    /**
+     * @param fileComment The file comment to check
+     * @param patchRange The patch range to match
+     * @return {boolean} True if the file comment matches the provided patch range
+     * @private
+     */
+    _fileCommentMatchesPatchRange(fileComment, patchRange) {
+      return fileComment.patch_set == patchRange.patchNum
+          || fileComment.patch_set == patchRange.basePatchNum;
     },
 
     /**

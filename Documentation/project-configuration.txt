@@ -249,9 +249,7 @@ There are several ways to create a new branch in a project:
 
 To be able to create new branches the user must have the
 link:access-control.html#category_create[Create Reference] access
-right. In addition, project owners and Gerrit administrators can create
-new branches from the Web UI or via REST even without having the
-`Create Reference` access right.
+right.
 
 When using the Web UI, the REST endpoint or the SSH command it is only
 possible to create branches on commits that already exist in the
@@ -287,9 +285,7 @@ another method, by force pushing nothing to an existing branch:
 To be able to delete branches, the user must have the
 link:access-control.html#category_delete[Delete Reference] or the
 link:access-control.html#category_push[Push] access right with the
-`force` option. In addition, project owners and Gerrit administrators
-can delete branches from the Web UI or via REST even without having the
-`Force Push` access right.
+`force` option.
 
 [[default-branch]]
 === Default Branch

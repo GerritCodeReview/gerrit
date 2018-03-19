@@ -29,6 +29,7 @@
     D: 'Deleted',
     R: 'Renamed',
     W: 'Rewritten',
+    U: 'Unchanged'
   };
 
   const Defs = {};

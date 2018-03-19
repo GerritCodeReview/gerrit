@@ -141,7 +141,9 @@ public class MigrateToNoteDb extends SiteProgram {
           migrator.migrate();
         }
       }
-      gcAllUsers.run(new PrintWriter(System.out));
+      try (PrintWriter w = new PrintWriter(System.out, true)) {
+        gcAllUsers.run(w);
+      }
     } finally {
       stop();
     }

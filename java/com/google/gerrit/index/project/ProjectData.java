@@ -12,18 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index.project;
+package com.google.gerrit.index.project;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.gerrit.index.IndexCollection;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.project.ProjectData;
-import com.google.inject.Singleton;
 
-@Singleton
-public class ProjectIndexCollection
-    extends IndexCollection<Project.NameKey, ProjectData, ProjectIndex> {
+public class ProjectData {
+  private final Project project;
+  private final ImmutableList<Project.NameKey> ancestors;
 
-  @VisibleForTesting
-  public ProjectIndexCollection() {}
+  public ProjectData(Project project, Iterable<Project.NameKey> ancestors) {
+    this.project = project;
+    this.ancestors = ImmutableList.copyOf(ancestors);
+  }
+
+  public Project getProject() {
+    return project;
+  }
+
+  public ImmutableList<Project.NameKey> getAncestors() {
+    return ancestors;
+  }
 }

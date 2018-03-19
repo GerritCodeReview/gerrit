@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index.project;
+package com.google.gerrit.index.project;
 
 import static com.google.gerrit.index.SchemaUtil.schema;
 
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
-import com.google.gerrit.server.project.ProjectData;
 
 public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
 

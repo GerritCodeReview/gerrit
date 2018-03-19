@@ -14,12 +14,11 @@
 
 package com.google.gerrit.server.query.project;
 
-import com.google.gerrit.index.FieldDef;
-import com.google.gerrit.index.query.IndexPredicate;
+import com.google.gerrit.index.project.ProjectData;
+import com.google.gerrit.index.project.ProjectField;
+import com.google.gerrit.index.project.ProjectPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.index.project.ProjectField;
-import com.google.gerrit.server.project.ProjectData;
 import java.util.Locale;
 
 public class ProjectPredicates {
@@ -33,12 +32,6 @@ public class ProjectPredicates {
 
   public static Predicate<ProjectData> description(String description) {
     return new ProjectPredicate(ProjectField.DESCRIPTION, description);
-  }
-
-  static class ProjectPredicate extends IndexPredicate<ProjectData> {
-    ProjectPredicate(FieldDef<ProjectData, ?> def, String value) {
-      super(def, value);
-    }
   }
 
   private ProjectPredicates() {}

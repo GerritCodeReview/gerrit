@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexModule;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
-import com.google.gerrit.server.index.project.ProjectIndex;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;

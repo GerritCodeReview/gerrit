@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index.project;
+package com.google.gerrit.index.project;
 
 import static com.google.gerrit.index.FieldDef.exact;
 import static com.google.gerrit.index.FieldDef.fullText;
@@ -21,7 +21,6 @@ import static com.google.gerrit.index.FieldDef.prefix;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.SchemaUtil;
-import com.google.gerrit.server.project.ProjectData;
 
 /** Index schema for projects. */
 public class ProjectField {

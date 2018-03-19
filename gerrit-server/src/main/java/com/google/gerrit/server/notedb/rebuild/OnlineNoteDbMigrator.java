@@ -50,19 +50,22 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
     }
   }
 
-  private Provider<NoteDbMigrator.Builder> migratorBuilderProvider;
+  private final GcAllUsers gcAllUsers;
   private final OnlineUpgrader indexUpgrader;
+  private final Provider<NoteDbMigrator.Builder> migratorBuilderProvider;
   private final boolean upgradeIndex;
   private final boolean trial;
 
   @Inject
   OnlineNoteDbMigrator(
       @GerritServerConfig Config cfg,
-      Provider<NoteDbMigrator.Builder> migratorBuilderProvider,
+      GcAllUsers gcAllUsers,
       OnlineUpgrader indexUpgrader,
+      Provider<NoteDbMigrator.Builder> migratorBuilderProvider,
       @Named(TRIAL) boolean trial) {
-    this.migratorBuilderProvider = migratorBuilderProvider;
+    this.gcAllUsers = gcAllUsers;
     this.indexUpgrader = indexUpgrader;
+    this.migratorBuilderProvider = migratorBuilderProvider;
     this.upgradeIndex = VersionManager.getOnlineUpgrade(cfg);
     this.trial = trial || NoteDbMigrator.getTrialMode(cfg);
   }
@@ -88,6 +91,7 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
     } catch (Exception e) {
       log.error("Error in online NoteDb migration", e);
     }
+    gcAllUsers.runWithLogger();
     log.info("Online NoteDb migration completed in {}s", sw.elapsed(TimeUnit.SECONDS));
 
     if (upgradeIndex) {

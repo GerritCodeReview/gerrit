@@ -29,13 +29,16 @@ import com.google.gerrit.pgm.util.ThreadLimiter;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.index.DummyIndexModule;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
+import com.google.gerrit.server.notedb.rebuild.GcAllUsers;
 import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import org.kohsuke.args4j.Option;
@@ -99,6 +102,7 @@ public class MigrateToNoteDb extends SiteProgram {
   private LifecycleManager dbManager;
   private LifecycleManager sysManager;
 
+  @Inject private GcAllUsers gcAllUsers;
   @Inject private Provider<NoteDbMigrator.Builder> migratorBuilderProvider;
 
   @Override
@@ -137,6 +141,7 @@ public class MigrateToNoteDb extends SiteProgram {
           migrator.migrate();
         }
       }
+      gcAllUsers.run(new PrintWriter(System.out));
     } finally {
       stop();
     }
@@ -190,6 +195,7 @@ public class MigrateToNoteDb extends SiteProgram {
             install(dbInjector.getInstance(BatchProgramModule.class));
             install(new DummyIndexModule());
             factory(ChangeResource.Factory.class);
+            factory(GarbageCollection.Factory.class);
           }
         });
   }

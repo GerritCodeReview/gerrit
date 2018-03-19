@@ -239,6 +239,20 @@ limitations under the License.
         overflow: hidden;
         width: 200px;
       }
+      /** Since the line limit position is determined by charachter size, blank
+       lines also need to have the same font size as everything else */
+      .full-width .blank {
+        font-size: var(--font-size, var(--font-size-small));
+      }
+      /** Support the line length indicator **/
+      .full-width td.content,
+      .full-width td.blank {
+        /* Base 64 encoded 1x30px of #ddd */
+        background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAeAgMAAACQ+5xUAAAACVBMVEXd3d0AAAClpaWbWM6mAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAEElEQVQImWNgwAsakEgMAAAaPAEBM3eopQAAAABJRU5ErkJggg==')
+;
+        background-position: var(--line-limit) 0;
+        background-repeat: repeat-y;
+      }
     </style>
     <style include="gr-theme-default"></style>
     <div id="diffHeader" hidden$="[[_computeDiffHeaderHidden(_diffHeaderItems)]]">

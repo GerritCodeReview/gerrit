@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "75bf40ae_c7ec49a5",
+        "filename": "java/com/google/gerrit/common/data/LabelFunction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-20T12:04:41Z",
+      "side": 1,
+      "message": "Ok, great!\n\nSlightly worrying, though that we didn\u0027t have tests in place (prior to your change) that would catch this.",
+      "parentUuid": "7abc8c61_65f99a62",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 16
+      },
+      "revId": "23a781e2aa9efe18cafbea5a530b77af383e89f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9428e2dc_dbf2408c",
         "filename": "java/com/google/gerrit/common/data/LabelFunction.java",
         "patchSetId": 3

@@ -34,8 +34,8 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.group.db.testing.GroupTestUtil;
 import com.google.gerrit.server.update.RefUpdateUtil;
+import com.google.gerrit.testing.GitTestUtil;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gerrit.truth.ListSubject;
 import com.google.gerrit.truth.OptionalSubject;
@@ -572,7 +572,7 @@ public class GroupNameNotesTest {
   }
 
   private ImmutableList<CommitInfo> log() throws Exception {
-    return GroupTestUtil.log(repo, REFS_GROUPNAMES);
+    return GitTestUtil.log(repo, REFS_GROUPNAMES);
   }
 
   private String readNameNote(GroupReference g) throws Exception {

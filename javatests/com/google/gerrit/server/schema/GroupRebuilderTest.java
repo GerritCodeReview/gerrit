@@ -12,15 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.group.db;
+package com.google.gerrit.server.schema;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.assertThat;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_GROUPNAMES;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.reviewdb.client.Account;
@@ -30,23 +33,38 @@ import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.group.db.testing.GroupTestUtil;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.AllUsersNameProvider;
+import com.google.gerrit.server.group.db.AuditLogFormatter;
+import com.google.gerrit.server.group.db.AuditLogReader;
+import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.update.RefUpdateUtil;
+import com.google.gerrit.testing.GerritBaseTests;
+import com.google.gerrit.testing.GitTestUtil;
+import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.sql.Timestamp;
+import java.util.Optional;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GroupRebuilderTest extends AbstractGroupTest {
+public class GroupRebuilderTest extends GerritBaseTests {
+  private static final TimeZone TZ = TimeZone.getTimeZone("America/Los_Angeles");
+  private static final String SERVER_ID = "server-id";
+  private static final String SERVER_NAME = "Gerrit Server";
+  private static final String SERVER_EMAIL = "noreply@gerritcodereview.com";
+
   private AtomicInteger idCounter;
   private Repository repo;
   private GroupRebuilder rebuilder;
@@ -56,14 +74,14 @@ public class GroupRebuilderTest extends AbstractGroupTest {
   public void setUp() throws Exception {
     TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
     idCounter = new AtomicInteger();
-    repo = repoManager.createRepository(allUsersName);
+    AllUsersName allUsersName = new AllUsersName(AllUsersNameProvider.DEFAULT);
+    repo = new InMemoryRepositoryManager().createRepository(allUsersName);
     rebuilder =
         new GroupRebuilder(
             GroupRebuilderTest.newPersonIdent(),
             allUsersName,
             // Note that the expected name/email values in tests are not necessarily realistic,
-            // since they use these trivial name/email functions. GroupRebuilderIT checks the actual
-            // values.
+            // since they use these trivial name/email functions.
             getAuditLogFormatter());
     bundleFactory = new GroupBundle.Factory(new AuditLogReader(SERVER_ID));
   }
@@ -656,14 +674,74 @@ public class GroupRebuilderTest extends AbstractGroupTest {
   }
 
   private ImmutableList<CommitInfo> log(AccountGroup g) throws Exception {
-    return GroupTestUtil.log(repo, RefNames.refsGroups(g.getGroupUUID()));
+    return GitTestUtil.log(repo, RefNames.refsGroups(g.getGroupUUID()));
   }
 
   private ImmutableList<CommitInfo> logGroupNames() throws Exception {
-    return GroupTestUtil.log(repo, REFS_GROUPNAMES);
+    return GitTestUtil.log(repo, REFS_GROUPNAMES);
   }
 
   private static GroupBundle.Builder builder() {
     return GroupBundle.builder().source(GroupBundle.Source.REVIEW_DB);
+  }
+
+  private static PersonIdent newPersonIdent() {
+    return new PersonIdent(SERVER_NAME, SERVER_EMAIL, TimeUtil.nowTs(), TZ);
+  }
+
+  private static void assertServerCommit(CommitInfo commitInfo, String expectedMessage) {
+    assertCommit(commitInfo, expectedMessage, SERVER_NAME, SERVER_EMAIL);
+  }
+
+  private static void assertCommit(
+      CommitInfo commitInfo, String expectedMessage, String expectedName, String expectedEmail) {
+    assertThat(commitInfo).message().isEqualTo(expectedMessage);
+    assertThat(commitInfo).author().name().isEqualTo(expectedName);
+    assertThat(commitInfo).author().email().isEqualTo(expectedEmail);
+
+    // Committer should always be the server, regardless of author.
+    assertThat(commitInfo).committer().name().isEqualTo(SERVER_NAME);
+    assertThat(commitInfo).committer().email().isEqualTo(SERVER_EMAIL);
+    assertThat(commitInfo).committer().date().isEqualTo(commitInfo.author.date);
+    assertThat(commitInfo).committer().tz().isEqualTo(commitInfo.author.tz);
+  }
+
+  private static AuditLogFormatter getAuditLogFormatter() {
+    return AuditLogFormatter.create(
+        GroupRebuilderTest::getAccount, GroupRebuilderTest::getGroup, SERVER_ID);
+  }
+
+  private static Optional<Account> getAccount(Account.Id id) {
+    Account account = new Account(id, TimeUtil.nowTs());
+    account.setFullName("Account " + id);
+    return Optional.of(account);
+  }
+
+  private static Optional<GroupDescription.Basic> getGroup(AccountGroup.UUID uuid) {
+    GroupDescription.Basic group =
+        new GroupDescription.Basic() {
+          @Override
+          public AccountGroup.UUID getGroupUUID() {
+            return uuid;
+          }
+
+          @Override
+          public String getName() {
+            return "Group " + uuid;
+          }
+
+          @Nullable
+          @Override
+          public String getEmailAddress() {
+            return null;
+          }
+
+          @Nullable
+          @Override
+          public String getUrl() {
+            return null;
+          }
+        };
+    return Optional.of(group);
   }
 }

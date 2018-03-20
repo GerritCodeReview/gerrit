@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.group.db;
+package com.google.gerrit.server.schema;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableList.toImmutableList;
@@ -40,6 +40,8 @@ import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.group.db.AuditLogReader;
+import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -68,7 +70,7 @@ import org.slf4j.LoggerFactory;
  * instead.
  */
 @AutoValue
-public abstract class GroupBundle {
+abstract class GroupBundle {
   private static final Logger log = LoggerFactory.getLogger(GroupBundle.class);
 
   static {

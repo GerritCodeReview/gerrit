@@ -44,10 +44,6 @@ public class DisallowReadFromGroupsReviewDbWrapper extends ReviewDbWrapper {
     byIdAudits = new ByIdAudits(delegate.accountGroupByIdAud());
   }
 
-  public ReviewDb unsafeGetDelegate() {
-    return delegate;
-  }
-
   @Override
   public AccountGroupAccess accountGroups() {
     return groups;

@@ -41,10 +41,6 @@ public class DisallowReadFromChangesReviewDbWrapper extends ReviewDbWrapper {
     patchComments = new PatchLineComments(delegate.patchComments());
   }
 
-  public ReviewDb unsafeGetDelegate() {
-    return delegate;
-  }
-
   @Override
   public ChangeAccess changes() {
     return changes;

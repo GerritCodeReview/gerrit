@@ -47,7 +47,11 @@
     ],
 
     attached() {
-      this.$.restAPI.getProjectConfig(this.repoName).then(config => {
+      if (!this.repoName) { return Promise.resolve(); }
+
+      this.$.restAPI.getProjectConfig(this.repoName, false).then(config => {
+        if (!config) { return Promise.resolve(); }
+
         this._repoConfig = config;
       });
     },

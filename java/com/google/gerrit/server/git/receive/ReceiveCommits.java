@@ -561,6 +561,7 @@ class ReceiveCommits {
     commandProgress = progress.beginSubTask("refs", UNKNOWN);
 
     try {
+      parsePushOptions();
       parseCommands(commands);
     } catch (PermissionBackendException | NoSuchProjectException | IOException err) {
       for (ReceiveCommand cmd : actualCommands) {
@@ -811,8 +812,7 @@ class ReceiveCommits {
     return sb.append(":\n").append(error.get()).toString();
   }
 
-  private void parseCommands(Collection<ReceiveCommand> commands)
-      throws PermissionBackendException, NoSuchProjectException, IOException {
+  private void parsePushOptions() {
     List<String> optionList = rp.getPushOptions();
     if (optionList != null) {
       for (String option : optionList) {
@@ -824,7 +824,10 @@ class ReceiveCommits {
         }
       }
     }
+  }
 
+  private void parseCommands(Collection<ReceiveCommand> commands)
+      throws PermissionBackendException, NoSuchProjectException, IOException {
     logDebug("Parsing {} commands", commands.size());
     for (ReceiveCommand cmd : commands) {
       if (cmd.getResult() != NOT_ATTEMPTED) {

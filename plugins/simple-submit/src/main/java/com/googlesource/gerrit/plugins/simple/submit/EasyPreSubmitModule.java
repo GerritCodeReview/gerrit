@@ -16,15 +16,18 @@ package com.googlesource.gerrit.plugins.simple.submit;
 
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
+import com.googlesource.gerrit.plugins.simple.submit.config.ConfigServlet;
 import com.googlesource.gerrit.plugins.simple.submit.rules.CommitMessageRegexRule;
 import com.googlesource.gerrit.plugins.simple.submit.rules.NoUnresolvedCommentsRule;
 import com.googlesource.gerrit.plugins.simple.submit.rules.RequireApprovalRule;
@@ -35,9 +38,19 @@ public class EasyPreSubmitModule extends AbstractModule {
 
   @Override
   protected void configure() {
+    install(
+        new RestApiModule() {
+          @Override
+          protected void configure() {
+            get(ProjectResource.PROJECT_KIND, "simple-submit-rules").to(ConfigServlet.class);
+            post(ProjectResource.PROJECT_KIND, "simple-submit-rules").to(ConfigServlet.class);
+          }
+        });
+
     // Approved (+2) and verified by one user at least
     bind(ProjectConfigEntry.class)
-        .annotatedWith(Exports.named(Constants.APPROVERS_LIST))
+        .annotatedWith(
+            Exports.named(com.googlesource.gerrit.plugins.simple.submit.Constants.APPROVERS_LIST))
         .toInstance(
             new ProjectConfigEntry(
                 "Approvers",
@@ -47,12 +60,17 @@ public class EasyPreSubmitModule extends AbstractModule {
                 "Who can approve the changes?"));
 
     bind(ProjectConfigEntry.class)
-        .annotatedWith(Exports.named(Constants.APPROVAL_REQUIRED))
+        .annotatedWith(
+            Exports.named(
+                com.googlesource.gerrit.plugins.simple.submit.Constants.APPROVAL_REQUIRED))
         .toInstance(new ProjectConfigEntry("Require the change to be approved", false));
 
     // Author can approve/validate own
     bind(ProjectConfigEntry.class)
-        .annotatedWith(Exports.named(Constants.REQUIRE_NON_AUTHOR_APPROVAL))
+        .annotatedWith(
+            Exports.named(
+                com.googlesource.gerrit.plugins.simple.submit.Constants
+                    .REQUIRE_NON_AUTHOR_APPROVAL))
         .toInstance(
             new ProjectConfigEntry(
                 "Require non-author approval?",
@@ -66,7 +84,10 @@ public class EasyPreSubmitModule extends AbstractModule {
     //
     // No unresolved comments
     bind(ProjectConfigEntry.class)
-        .annotatedWith(Exports.named(Constants.BLOCK_IF_UNRESOLVED_COMMENTS))
+        .annotatedWith(
+            Exports.named(
+                com.googlesource.gerrit.plugins.simple.submit.Constants
+                    .BLOCK_IF_UNRESOLVED_COMMENTS))
         .toInstance(
             new ProjectConfigEntry("Block submission if comments are unresolved", true, ""));
 
@@ -79,7 +100,9 @@ public class EasyPreSubmitModule extends AbstractModule {
     //
     // Regex on the commit message (first line / contains a bug ID…)
     bind(ProjectConfigEntry.class)
-        .annotatedWith(Exports.named(Constants.COMMIT_MESSAGE_REGEX))
+        .annotatedWith(
+            Exports.named(
+                com.googlesource.gerrit.plugins.simple.submit.Constants.COMMIT_MESSAGE_REGEX))
         .toInstance(
             new ProjectConfigEntry(
                 "Commit message must match this regex (empty to disable)",
@@ -96,7 +119,8 @@ public class EasyPreSubmitModule extends AbstractModule {
     //
     // Require CI approval
     bind(ProjectConfigEntry.class)
-        .annotatedWith(Exports.named(Constants.CI_IS_MANDATORY))
+        .annotatedWith(
+            Exports.named(com.googlesource.gerrit.plugins.simple.submit.Constants.CI_IS_MANDATORY))
         .toInstance(
             new ProjectConfigEntry(
                 "Require CI approval", "", true, "Is the CI mandatory to submit the change?"));
@@ -104,7 +128,9 @@ public class EasyPreSubmitModule extends AbstractModule {
 
   public PluginConfig getConfig(ChangeData changeData) {
     try {
-      return pluginConfigFactory.getFromProjectConfig(changeData.project(), Constants.PLUGIN_NAME);
+      return pluginConfigFactory.getFromProjectConfig(
+          changeData.project(),
+          com.googlesource.gerrit.plugins.simple.submit.Constants.PLUGIN_NAME);
     } catch (NoSuchProjectException e) {
       e.printStackTrace();
       return null;

@@ -41,6 +41,8 @@ public class RequireApprovalRule implements SubmitRule {
       return Collections.emptyList();
     }
 
+
+
     // TODO: add code?
     SubmitRecord sr = new SubmitRecord();
     sr.status = Status.NOT_READY;

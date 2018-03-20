@@ -23,17 +23,14 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.re2j.Pattern;
 import com.googlesource.gerrit.plugins.simple.submit.Constants;
 import com.googlesource.gerrit.plugins.simple.submit.EasyPreSubmitModule;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.regex.Pattern;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CommitMessageRegexRule implements SubmitRule {
-  private static final Logger log = LoggerFactory.getLogger(CommitMessageRegexRule.class);
   @Inject private EasyPreSubmitModule plugin;
 
   @Override

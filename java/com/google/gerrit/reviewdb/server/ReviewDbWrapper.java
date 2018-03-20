@@ -44,6 +44,10 @@ public class ReviewDbWrapper implements ReviewDb {
     this.delegate = checkNotNull(delegate);
   }
 
+  public ReviewDb unsafeGetDelegate() {
+    return delegate;
+  }
+
   public boolean inTransaction() {
     return inTransaction;
   }

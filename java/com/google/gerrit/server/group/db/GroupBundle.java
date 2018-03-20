@@ -38,12 +38,18 @@ import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -111,20 +117,6 @@ public abstract class GroupBundle {
       this.auditLogReader = auditLogReader;
     }
 
-    public GroupBundle fromReviewDb(ReviewDb db, AccountGroup.Id id) throws OrmException {
-      AccountGroup group = db.accountGroups().get(id);
-      if (group == null) {
-        throw new OrmException("Group " + id + " not found");
-      }
-      return create(
-          Source.REVIEW_DB,
-          group,
-          db.accountGroupMembers().byGroup(id).toList(),
-          db.accountGroupMembersAudit().byGroup(id).toList(),
-          db.accountGroupById().byGroup(id).toList(),
-          db.accountGroupByIdAud().byGroup(id).toList());
-    }
-
     public GroupBundle fromNoteDb(Repository repo, AccountGroup.UUID uuid)
         throws ConfigInvalidException, IOException {
       GroupConfig groupConfig = GroupConfig.loadForGroup(repo, uuid);
@@ -160,6 +152,186 @@ public abstract class GroupBundle {
                       new AccountGroupById(new AccountGroupById.Key(groupId, subgroupUuid)))
               .collect(toImmutableSet()),
           auditLogReader.getSubgroupsAudit(repo, uuid));
+    }
+
+    public GroupBundle fromReviewDb(ReviewDb db, AccountGroup.Id groupId) throws OrmException {
+      JdbcSchema jdbcSchema = unwrapJbdcSchema(db);
+      AccountGroup group = readAccountGroupFromReviewDb(jdbcSchema, groupId);
+
+      return create(
+          Source.REVIEW_DB,
+          group,
+          readAccountGroupMembersFromReviewDb(jdbcSchema, groupId),
+          readAccountGroupMemberAuditsFromReviewDb(jdbcSchema, groupId),
+          readAccountGroupSubgroupsFromReviewDb(jdbcSchema, groupId),
+          readAccountGroupSubgroupAuditsFromReviewDb(jdbcSchema, groupId));
+    }
+
+    private static JdbcSchema unwrapJbdcSchema(ReviewDb db) {
+      if (db instanceof ReviewDbWrapper) {
+        return unwrapJbdcSchema(((ReviewDbWrapper) db).unsafeGetDelegate());
+      }
+      return (JdbcSchema) db;
+    }
+
+    private static AccountGroup readAccountGroupFromReviewDb(
+        JdbcSchema jdbcSchema, AccountGroup.Id groupId) throws OrmException {
+      try (Statement stmt = jdbcSchema.getConnection().createStatement();
+          ResultSet rs =
+              stmt.executeQuery(
+                  "SELECT group_uuid,"
+                      + " name,"
+                      + " created_on,"
+                      + " description,"
+                      + " owner_group_uuid,"
+                      + " visible_to_all"
+                      + " FROM account_groups"
+                      + " WHERE group_id = '"
+                      + groupId.get()
+                      + "'")) {
+        if (!rs.next()) {
+          throw new OrmException(String.format("Group %s not found", groupId));
+        }
+
+        AccountGroup.UUID groupUuid = new AccountGroup.UUID(rs.getString(1));
+        AccountGroup.NameKey groupName = new AccountGroup.NameKey(rs.getString(2));
+        Timestamp createdOn = rs.getTimestamp(3);
+        String description = rs.getString(4);
+        AccountGroup.UUID ownerGroupUuid = new AccountGroup.UUID(rs.getString(5));
+        boolean visibleToAll = rs.getBoolean(6);
+
+        AccountGroup group = new AccountGroup(groupName, groupId, groupUuid, createdOn);
+        group.setDescription(description);
+        group.setOwnerGroupUUID(ownerGroupUuid);
+        group.setVisibleToAll(visibleToAll);
+
+        if (rs.next()) {
+          throw new OrmException(String.format("Group UUID %s is ambiguous", groupUuid));
+        }
+
+        return group;
+      } catch (SQLException e) {
+        throw new OrmException(
+            String.format("Failed to read account group %s from ReviewDb", groupId.get()), e);
+      }
+    }
+
+    private static List<AccountGroupMember> readAccountGroupMembersFromReviewDb(
+        JdbcSchema jdbcSchema, AccountGroup.Id groupId) throws OrmException {
+      try (Statement stmt = jdbcSchema.getConnection().createStatement();
+          ResultSet rs =
+              stmt.executeQuery(
+                  "SELECT account_id"
+                      + " FROM account_group_members"
+                      + " WHERE group_id = '"
+                      + groupId.get()
+                      + "'")) {
+        List<AccountGroupMember> members = new ArrayList<>();
+        while (rs.next()) {
+          Account.Id accountId = new Account.Id(rs.getInt(1));
+          members.add(new AccountGroupMember(new AccountGroupMember.Key(accountId, groupId)));
+        }
+        return members;
+      } catch (SQLException e) {
+        throw new OrmException(
+            String.format(
+                "Failed to read members of account group %s from ReviewDb", groupId.get()),
+            e);
+      }
+    }
+
+    private static List<AccountGroupMemberAudit> readAccountGroupMemberAuditsFromReviewDb(
+        JdbcSchema jdbcSchema, AccountGroup.Id groupId) throws OrmException {
+      try (Statement stmt = jdbcSchema.getConnection().createStatement();
+          ResultSet rs =
+              stmt.executeQuery(
+                  "SELECT account_id, added_by, added_on, removed_by, removed_on"
+                      + " FROM account_group_members_audit"
+                      + " WHERE group_id = '"
+                      + groupId.get()
+                      + "'")) {
+        List<AccountGroupMemberAudit> audits = new ArrayList<>();
+        while (rs.next()) {
+          Account.Id accountId = new Account.Id(rs.getInt(1));
+
+          Account.Id addedBy = new Account.Id(rs.getInt(2));
+          Timestamp addedOn = rs.getTimestamp(3);
+
+          Timestamp removedOn = rs.getTimestamp(5);
+          Account.Id removedBy = removedOn != null ? new Account.Id(rs.getInt(4)) : null;
+
+          AccountGroupMemberAudit.Key key =
+              new AccountGroupMemberAudit.Key(accountId, groupId, addedOn);
+          AccountGroupMemberAudit audit = new AccountGroupMemberAudit(key, addedBy);
+          audit.removed(removedBy, removedOn);
+          audits.add(audit);
+        }
+        return audits;
+      } catch (SQLException e) {
+        throw new OrmException(
+            String.format(
+                "Failed to read member audits of account group %s from ReviewDb", groupId.get()),
+            e);
+      }
+    }
+
+    private static List<AccountGroupById> readAccountGroupSubgroupsFromReviewDb(
+        JdbcSchema jdbcSchema, AccountGroup.Id groupId) throws OrmException {
+      try (Statement stmt = jdbcSchema.getConnection().createStatement();
+          ResultSet rs =
+              stmt.executeQuery(
+                  "SELECT include_uuid"
+                      + " FROM account_group_by_id"
+                      + " WHERE group_id = '"
+                      + groupId.get()
+                      + "'")) {
+        List<AccountGroupById> subgroups = new ArrayList<>();
+        while (rs.next()) {
+          AccountGroup.UUID includedGroupUuid = new AccountGroup.UUID(rs.getString(1));
+          subgroups.add(new AccountGroupById(new AccountGroupById.Key(groupId, includedGroupUuid)));
+        }
+        return subgroups;
+      } catch (SQLException e) {
+        throw new OrmException(
+            String.format(
+                "Failed to read subgroups of account group %s from ReviewDb", groupId.get()),
+            e);
+      }
+    }
+
+    private static List<AccountGroupByIdAud> readAccountGroupSubgroupAuditsFromReviewDb(
+        JdbcSchema jdbcSchema, AccountGroup.Id groupId) throws OrmException {
+      try (Statement stmt = jdbcSchema.getConnection().createStatement();
+          ResultSet rs =
+              stmt.executeQuery(
+                  "SELECT include_uuid, added_by, added_on, removed_by, removed_on"
+                      + " FROM account_group_by_id_aud"
+                      + " WHERE group_id = '"
+                      + groupId.get()
+                      + "'")) {
+        List<AccountGroupByIdAud> audits = new ArrayList<>();
+        while (rs.next()) {
+          AccountGroup.UUID includedGroupUuid = new AccountGroup.UUID(rs.getString(1));
+
+          Account.Id addedBy = new Account.Id(rs.getInt(2));
+          Timestamp addedOn = rs.getTimestamp(3);
+
+          Timestamp removedOn = rs.getTimestamp(5);
+          Account.Id removedBy = removedOn != null ? new Account.Id(rs.getInt(4)) : null;
+
+          AccountGroupByIdAud.Key key =
+              new AccountGroupByIdAud.Key(groupId, includedGroupUuid, addedOn);
+          AccountGroupByIdAud audit = new AccountGroupByIdAud(key, addedBy);
+          audit.removed(removedBy, removedOn);
+          audits.add(audit);
+        }
+        return audits;
+      } catch (SQLException e) {
+        throw new OrmException(
+            String.format(
+                "Failed to read subgroup audits of account group %s from ReviewDb", groupId.get()),
+            e);
+      }
     }
   }
 

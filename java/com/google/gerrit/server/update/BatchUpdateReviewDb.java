@@ -37,10 +37,6 @@ public class BatchUpdateReviewDb extends ReviewDbWrapper {
     return ReviewDbUtil.unwrapDb(db);
   }
 
-  public ReviewDb unsafeGetDelegate() {
-    return delegate;
-  }
-
   @Override
   public ChangeAccess changes() {
     return changesWrapper;

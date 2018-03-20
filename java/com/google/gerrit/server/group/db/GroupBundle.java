@@ -154,10 +154,11 @@ public abstract class GroupBundle {
           auditLogReader.getSubgroupsAudit(repo, uuid));
     }
 
-    public static GroupBundle fromReviewDb(ReviewDb db, AccountGroup.Id groupId)
+    public static GroupBundle fromReviewDb(ReviewDb db, AccountGroup.UUID groupUuid)
         throws OrmException {
       JdbcSchema jdbcSchema = unwrapJbdcSchema(db);
-      AccountGroup group = readAccountGroupFromReviewDb(jdbcSchema, groupId);
+      AccountGroup group = readAccountGroupFromReviewDb(jdbcSchema, groupUuid);
+      AccountGroup.Id groupId = group.getId();
 
       return create(
           Source.REVIEW_DB,
@@ -176,25 +177,25 @@ public abstract class GroupBundle {
     }
 
     private static AccountGroup readAccountGroupFromReviewDb(
-        JdbcSchema jdbcSchema, AccountGroup.Id groupId) throws OrmException {
+        JdbcSchema jdbcSchema, AccountGroup.UUID groupUuid) throws OrmException {
       try (Statement stmt = jdbcSchema.getConnection().createStatement();
           ResultSet rs =
               stmt.executeQuery(
-                  "SELECT group_uuid,"
+                  "SELECT group_id,"
                       + " name,"
                       + " created_on,"
                       + " description,"
                       + " owner_group_uuid,"
                       + " visible_to_all"
                       + " FROM account_groups"
-                      + " WHERE group_id = '"
-                      + groupId.get()
+                      + " WHERE group_uuid = '"
+                      + groupUuid.get()
                       + "'")) {
         if (!rs.next()) {
-          throw new OrmException(String.format("Group %s not found", groupId));
+          throw new OrmException(String.format("Group %s not found", groupUuid));
         }
 
-        AccountGroup.UUID groupUuid = new AccountGroup.UUID(rs.getString(1));
+        AccountGroup.Id groupId = new AccountGroup.Id(rs.getInt(1));
         AccountGroup.NameKey groupName = new AccountGroup.NameKey(rs.getString(2));
         Timestamp createdOn = rs.getTimestamp(3);
         String description = rs.getString(4);
@@ -213,7 +214,7 @@ public abstract class GroupBundle {
         return group;
       } catch (SQLException e) {
         throw new OrmException(
-            String.format("Failed to read account group %s from ReviewDb", groupId.get()), e);
+            String.format("Failed to read account group %s from ReviewDb", groupUuid.get()), e);
       }
     }
 

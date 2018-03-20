@@ -63,6 +63,17 @@ public final class GerritLauncher {
     System.exit(mainImpl(argv));
   }
 
+  /**
+   * Invokes a proram.
+   *
+   * <p>Creates a new classloader to load and run the program class. To reuse a classloader across
+   * calls (e.g. from tests), use {@link #invokeProgram(ClassLoader, String[])}.
+   *
+   * @param argv arguments, as would be passed to {@code gerrit.war}. The first argument is the
+   *     program name.
+   * @return program return code.
+   * @throws Exception if any error occurs.
+   */
   public static int mainImpl(String[] argv) throws Exception {
     if (argv.length == 0) {
       File me;
@@ -163,7 +174,16 @@ public final class GerritLauncher {
     }
   }
 
-  private static int invokeProgram(ClassLoader loader, String[] origArgv) throws Exception {
+  /**
+   * Invokes a proram in the provided {@code ClassLoader}.
+   *
+   * @param loader classloader to load program class from.
+   * @param origArgv arguments, as would be passed to {@code gerrit.war}. The first argument is the
+   *     program name.
+   * @return program return code.
+   * @throws Exception if any error occurs.
+   */
+  public static int invokeProgram(ClassLoader loader, String[] origArgv) throws Exception {
     String name = origArgv[0];
     final String[] argv = new String[origArgv.length - 1];
     System.arraycopy(origArgv, 1, argv, 0, argv.length);

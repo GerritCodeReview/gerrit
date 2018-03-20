@@ -17,6 +17,8 @@ package com.google.gerrit.acceptance.pgm;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_GC_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_AUTO;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -152,12 +154,14 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
     assertAutoMigrateConfig(noteDbConfig, false);
 
     try (FileRepository repo = new FileRepository(allUsersDir)) {
-      try (Stream<Path> paths = Files.walk(repo.getObjectsDirectory().toPath())) {
-        assertThat(paths.filter(p -> !p.toString().contains("pack") && Files.isRegularFile(p)))
-            .named("loose object files in All-Users")
-            .isEmpty();
+      if (repo.getConfig().getInt(CONFIG_GC_SECTION, CONFIG_KEY_AUTO, -1) != 0) {
+        try (Stream<Path> paths = Files.walk(repo.getObjectsDirectory().toPath())) {
+          assertThat(paths.filter(p -> !p.toString().contains("pack") && Files.isRegularFile(p)))
+              .named("loose object files in All-Users")
+              .isEmpty();
+        }
+        assertThat(repo.getObjectDatabase().getPacks()).named("packfiles in All-Users").hasSize(1);
       }
-      assertThat(repo.getObjectDatabase().getPacks()).named("packfiles in All-Users").hasSize(1);
     }
   }
 

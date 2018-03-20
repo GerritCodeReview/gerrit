@@ -145,7 +145,7 @@ public abstract class InternalGroupUpdate {
      * #setMemberModification(MemberModification)} in order to combine multiple member additions,
      * deletions, or other modifications into one update.
      */
-    abstract MemberModification getMemberModification();
+    public abstract MemberModification getMemberModification();
 
     /** @see #getSubgroupModification() */
     public abstract Builder setSubgroupModification(SubgroupModification subgroupModification);
@@ -158,7 +158,7 @@ public abstract class InternalGroupUpdate {
      * #setSubgroupModification(SubgroupModification)} in order to combine multiple subgroup
      * additions, deletions, or other modifications into one update.
      */
-    abstract SubgroupModification getSubgroupModification();
+    public abstract SubgroupModification getSubgroupModification();
 
     /** @see #getUpdatedOn() */
     public abstract Builder setUpdatedOn(Timestamp timestamp);

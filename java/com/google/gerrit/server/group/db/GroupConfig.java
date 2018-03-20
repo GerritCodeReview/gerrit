@@ -228,7 +228,7 @@ public class GroupConfig extends VersionedMetaData {
    * which don't always necessarily have a name. Nowadays, we enforce that groups always have names.
    * When we remove the migration code, we can probably remove this method as well.
    */
-  void setAllowSaveEmptyName() {
+  public void setAllowSaveEmptyName() {
     this.allowSaveEmptyName = true;
   }
 
@@ -243,7 +243,7 @@ public class GroupConfig extends VersionedMetaData {
   }
 
   @Override
-  protected String getRefName() {
+  public String getRefName() {
     return ref;
   }
 

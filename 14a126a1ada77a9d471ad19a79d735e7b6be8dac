@@ -342,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "2c199149_a70f18b5",
+        "filename": "java/com/google/gerrit/server/rules/DefaultSubmitRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-20T10:08:09Z",
+      "side": 1,
+      "message": "OrmExceptions appear when we have a problem retrieving information from the database. Most of these are temporary, so having a RULE_ERROR is the better solution IMHO Users or cron jobs (like the job that reindexes stale changes) can just retry later.",
+      "parentUuid": "a9de08f8_4db1d1d6",
+      "range": {
+        "startLine": 79,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 37
+      },
+      "revId": "14a126a1ada77a9d471ad19a79d735e7b6be8dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96f6bbe4_8c8cdc51",
         "filename": "java/com/google/gerrit/server/rules/DefaultSubmitRule.java",
         "patchSetId": 2

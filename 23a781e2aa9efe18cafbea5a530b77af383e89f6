@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a60b1e4_cfe94b17",
+        "filename": "java/com/google/gerrit/common/data/LabelFunction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-20T10:08:09Z",
+      "side": 1,
+      "message": "Any with block docs say that it is not required. Am I missing something?\n\nhttps://gerrit-review.googlesource.com/Documentation/config-labels.html#label_function",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 16
+      },
+      "revId": "23a781e2aa9efe18cafbea5a530b77af383e89f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9428e2dc_dbf2408c",
+        "filename": "java/com/google/gerrit/common/data/LabelFunction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-20T10:08:09Z",
+      "side": 1,
+      "message": "please find a more descriptive name (single char variable names are only used in short-lived variables)",
+      "range": {
+        "startLine": 92,
+        "startChar": 23,
+        "endLine": 92,
+        "endChar": 24
+      },
+      "revId": "23a781e2aa9efe18cafbea5a530b77af383e89f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83dd2a5a_8e949edc",
+        "filename": "java/com/google/gerrit/server/rules/DefaultSubmitRule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-20T10:08:09Z",
+      "side": 1,
+      "message": "optional: remove\n\nGuice injected contstructors can be package-private",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 8
+      },
+      "revId": "23a781e2aa9efe18cafbea5a530b77af383e89f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61ab726e_c27d70dc",
+        "filename": "java/com/google/gerrit/server/rules/PrologRule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-20T10:08:09Z",
+      "side": 1,
+      "message": "We don\u0027t import inner classes.\n\nThis wasn\u0027t introduced by this change but it would be nice if you could just clean it up.",
+      "range": {
+        "startLine": 31,
+        "startChar": 16,
+        "endLine": 31,
+        "endChar": 32
+      },
+      "revId": "23a781e2aa9efe18cafbea5a530b77af383e89f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

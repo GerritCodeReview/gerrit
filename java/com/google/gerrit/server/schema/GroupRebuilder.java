@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.group.db;
+package com.google.gerrit.server.schema;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
@@ -35,6 +35,10 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
+import com.google.gerrit.server.group.db.AuditLogFormatter;
+import com.google.gerrit.server.group.db.GroupConfig;
+import com.google.gerrit.server.group.db.InternalGroupCreation;
+import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate.MemberModification;
 import com.google.gerrit.server.group.db.InternalGroupUpdate.SubgroupModification;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -54,7 +58,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
 /** Helper for rebuilding an entire group's NoteDb refs. */
-public class GroupRebuilder {
+class GroupRebuilder {
   private final PersonIdent serverIdent;
   private final AllUsersName allUsers;
 

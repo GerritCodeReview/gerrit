@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.group.db;
+package com.google.gerrit.server.schema;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -23,7 +23,8 @@ import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
-import com.google.gerrit.server.group.db.GroupBundle.Source;
+import com.google.gerrit.server.schema.GroupBundle;
+import com.google.gerrit.server.schema.GroupBundle.Source;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.TestTimeUtil;
 import java.sql.Timestamp;

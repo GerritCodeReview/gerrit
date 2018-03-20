@@ -424,10 +424,13 @@ messages conform to line length limits.
 
 As project owner you can administrate the branches of your project in
 the Gerrit Web UI under `Projects` > `List` > <your project> >
-`Branches`. In the Web UI both link:project-configuration.html#branch-creation[
-branch creation] and link:project-configuration.html#branch-deletion[branch
-deletion] are allowed for project owners without requiring any
-additional access rights.
+`Branches`. In the Web UI link:project-configuration.html#branch-creation[
+branch creation] is allowed if you have
+link:access-control.html#category_create[Create Reference] access right and
+link:project-configuration.html#branch-deletion[branch deletion] is allowed if
+you have the link:access-control.html#category_delete[Delete Reference] or the
+link:access-control.html#category_push[Push] access right with the `force`
+option.
 
 By setting `HEAD` on the project you can define its
 link:project-configuration.html#default-branch[default branch]. For convenience

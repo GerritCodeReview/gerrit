@@ -50,8 +50,8 @@
   <link rel="preload" href="{$staticResourcePath}/fonts/Roboto-Regular.woff" as="font" type="font/woff" crossorigin>{\n}
   <link rel="preload" href="{$staticResourcePath}/fonts/Roboto-Medium.woff2" as="font" type="font/woff2" crossorigin>{\n}
   <link rel="preload" href="{$staticResourcePath}/fonts/Roboto-Medium.woff" as="font" type="font/woff" crossorigin>{\n}
-  <link rel="stylesheet" href="{$staticResourcePath}/styles/fonts.css">{\n}
-  <link rel="stylesheet" href="{$staticResourcePath}/styles/main.css">{\n}
+  <link rel="stylesheet" href="{$staticResourcePath |blessStringAsTrustedResourceUrlForLegacy}/styles/fonts.css">{\n}
+  <link rel="stylesheet" href="{$staticResourcePath |blessStringAsTrustedResourceUrlForLegacy}/styles/main.css">{\n}
   <script src="{$staticResourcePath}/bower_components/webcomponentsjs/webcomponents-lite.js"></script>{\n}
   // Content between webcomponents-lite and the load of the main app element
   // run before polymer-resin is installed so may have security consequences.
@@ -60,7 +60,7 @@
   //
   // github.com/Polymer/polymer-resin/blob/master/getting-started.md#integrating
   <link rel="preload" href="{$staticResourcePath}/elements/gr-app.js" as="script" crossorigin="anonymous">{\n}
-  <link rel="import" href="{$staticResourcePath}/elements/gr-app.html">{\n}
+  <link rel="import" href="{$staticResourcePath |blessStringAsTrustedResourceUrlForLegacy}/elements/gr-app.html">{\n}
 
   <body unresolved>{\n}
   <gr-app id="app"></gr-app>{\n}

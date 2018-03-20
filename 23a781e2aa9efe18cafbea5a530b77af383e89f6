@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7abc8c61_65f99a62",
+        "filename": "java/com/google/gerrit/common/data/LabelFunction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-20T10:51:44Z",
+      "side": 1,
+      "message": "Done\n\"Any other value enables a submit\" is a bit unclear imo... the prolog code does what you\u0027re saying, though.",
+      "parentUuid": "5a60b1e4_cfe94b17",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 16
+      },
+      "revId": "23a781e2aa9efe18cafbea5a530b77af383e89f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9428e2dc_dbf2408c",
         "filename": "java/com/google/gerrit/common/data/LabelFunction.java",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "23a781e2aa9efe18cafbea5a530b77af383e89f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5a40d9e_8b1114ec",
+        "filename": "java/com/google/gerrit/common/data/LabelFunction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-20T10:51:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9428e2dc_dbf2408c",
+      "range": {
+        "startLine": 92,
+        "startChar": 23,
+        "endLine": 92,
+        "endChar": 24
+      },
+      "revId": "23a781e2aa9efe18cafbea5a530b77af383e89f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "74eb66f6_4f5bd6d6",
+        "filename": "java/com/google/gerrit/server/rules/DefaultSubmitRule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-20T10:51:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83dd2a5a_8e949edc",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 8
+      },
+      "revId": "23a781e2aa9efe18cafbea5a530b77af383e89f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61ab726e_c27d70dc",
         "filename": "java/com/google/gerrit/server/rules/PrologRule.java",
         "patchSetId": 3
@@ -91,6 +163,30 @@
       "revId": "23a781e2aa9efe18cafbea5a530b77af383e89f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "914eb452_c10dd7e7",
+        "filename": "java/com/google/gerrit/server/rules/PrologRule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-20T10:51:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61ab726e_c27d70dc",
+      "range": {
+        "startLine": 31,
+        "startChar": 16,
+        "endLine": 31,
+        "endChar": 32
+      },
+      "revId": "23a781e2aa9efe18cafbea5a530b77af383e89f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
